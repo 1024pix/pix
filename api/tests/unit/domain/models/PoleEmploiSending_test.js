@@ -1,15 +1,15 @@
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | PoleEmploiSending', () => {
+describe('Unit | Domain | Models | PoleEmploiSending', function() {
   let expectedPoleEmploiSending;
 
-  describe('buildForParticipationStarted', () => {
-    beforeEach(() => {
+  describe('buildForParticipationStarted', function() {
+    beforeEach(function() {
       expectedPoleEmploiSending = domainBuilder.buildPoleEmploiSending({ type: PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_START, payload: {} });
     });
 
-    it('should build a PoleEmploiSending', () => {
+    it('should build a PoleEmploiSending', function() {
       // when
       const poleEmploiSending = PoleEmploiSending.buildForParticipationStarted({});
 
@@ -17,7 +17,7 @@ describe('Unit | Domain | Models | PoleEmploiSending', () => {
       expect(poleEmploiSending).to.be.instanceOf(PoleEmploiSending);
     });
 
-    it('should build PoleEmploiSending with type CAMPAIGN_PARTICIPATION_START and given arguments', () => {
+    it('should build PoleEmploiSending with type CAMPAIGN_PARTICIPATION_START and given arguments', function() {
       // when
       const poleEmploiSending = PoleEmploiSending.buildForParticipationStarted({
         campaignParticipationId: expectedPoleEmploiSending.campaignParticipationId,
@@ -31,12 +31,12 @@ describe('Unit | Domain | Models | PoleEmploiSending', () => {
     });
   });
 
-  describe('buildForParticipationFinished', () => {
-    beforeEach(() => {
+  describe('buildForParticipationFinished', function() {
+    beforeEach(function() {
       expectedPoleEmploiSending = domainBuilder.buildPoleEmploiSending({ type: PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_COMPLETION, payload: {} });
     });
 
-    it('should build a PoleEmploiSending', () => {
+    it('should build a PoleEmploiSending', function() {
       // when
       const poleEmploiSending = PoleEmploiSending.buildForParticipationFinished({});
 
@@ -44,7 +44,7 @@ describe('Unit | Domain | Models | PoleEmploiSending', () => {
       expect(poleEmploiSending).to.be.instanceOf(PoleEmploiSending);
     });
 
-    it('should build PoleEmploiSending with type CAMPAIGN_PARTICIPATION_COMPLETION and given arguments', () => {
+    it('should build PoleEmploiSending with type CAMPAIGN_PARTICIPATION_COMPLETION and given arguments', function() {
       // when
       const poleEmploiSending = PoleEmploiSending.buildForParticipationFinished({
         campaignParticipationId: expectedPoleEmploiSending.campaignParticipationId,
@@ -58,12 +58,12 @@ describe('Unit | Domain | Models | PoleEmploiSending', () => {
     });
   });
 
-  describe('buildForParticipationShared', () => {
-    beforeEach(() => {
+  describe('buildForParticipationShared', function() {
+    beforeEach(function() {
       expectedPoleEmploiSending = domainBuilder.buildPoleEmploiSending({ type: PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_SHARING, payload: {} });
     });
 
-    it('should build a PoleEmploiSending', () => {
+    it('should build a PoleEmploiSending', function() {
       // when
       const poleEmploiSending = PoleEmploiSending.buildForParticipationShared({});
 
@@ -71,7 +71,7 @@ describe('Unit | Domain | Models | PoleEmploiSending', () => {
       expect(poleEmploiSending).to.be.instanceOf(PoleEmploiSending);
     });
 
-    it('should build PoleEmploiSending with type CAMPAIGN_PARTICIPATION_SHARING and given arguments', () => {
+    it('should build PoleEmploiSending with type CAMPAIGN_PARTICIPATION_SHARING and given arguments', function() {
       // when
       const poleEmploiSending = PoleEmploiSending.buildForParticipationShared({
         campaignParticipationId: expectedPoleEmploiSending.campaignParticipationId,

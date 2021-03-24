@@ -1,8 +1,8 @@
 const { expect, catchErr } = require('../../../test-helper');
 const { checkEventType } = require('../../../../lib/domain/events/check-event-type');
 
-describe('Unit | Domain | Events | check-event-type', () => {
-  it('throw with right message when event of wront type ', async () => {
+describe('Unit | Domain | Events | check-event-type', function() {
+  it('throw with right message when event of wront type ', async function() {
     // given
     const wrongTypeEvent = 'Event of wrong type';
 

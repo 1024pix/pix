@@ -4,9 +4,9 @@ const certificationAssessmentRepository = require('../../../../lib/infrastructur
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
 const _ = require('lodash');
 
-describe('Integration | Infrastructure | Repositories | certification-assessment-repository', () => {
+describe('Integration | Infrastructure | Repositories | certification-assessment-repository', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
     let certificationAssessmentId;
     let expectedCertificationCourseId;
@@ -15,9 +15,9 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     const expectedCreatedAt = new Date('2020-01-01T00:00:00Z');
     const expectedCompletedAt = new Date('2020-01-02T00:00:00Z');
 
-    context('when the certification assessment exists', () => {
+    context('when the certification assessment exists', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         const dbf = databaseBuilder.factory;
         expectedUserId = dbf.buildUser().id;
         expectedCertificationCourseId = dbf.buildCertificationCourse({
@@ -39,7 +39,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         return databaseBuilder.commit();
       });
 
-      it('should return the certification assessment with certification challenges and answers', async () => {
+      it('should return the certification assessment with certification challenges and answers', async function() {
         // when
         const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
 
@@ -56,8 +56,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       });
     });
 
-    context('when the assessment does not exist', () => {
-      it('should throw a NotFoundError', async () => {
+    context('when the assessment does not exist', function() {
+      it('should throw a NotFoundError', async function() {
         // when
         const error = await catchErr(certificationAssessmentRepository.get)(12345);
 
@@ -67,7 +67,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     });
   });
 
-  describe('#getByCertificationCourseId', () => {
+  describe('#getByCertificationCourseId', function() {
 
     let expectedCertificationAssessmentId;
     let certificationCourseId;
@@ -76,11 +76,11 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     const expectedCreatedAt = new Date('2020-01-01T00:00:00Z');
     const expectedCompletedAt = new Date('2020-01-02T00:00:00Z');
 
-    context('when the certification assessment exists', () => {
+    context('when the certification assessment exists', function() {
       let firstAnswerInTime;
       let secondAnswerInTime;
 
-      beforeEach(() => {
+      beforeEach(function() {
         const dbf = databaseBuilder.factory;
         expectedUserId = dbf.buildUser().id;
         certificationCourseId = dbf.buildCertificationCourse({
@@ -112,7 +112,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         return databaseBuilder.commit();
       });
 
-      it('should return the certification assessment with certification challenges and answers', async () => {
+      it('should return the certification assessment with certification challenges and answers', async function() {
         // when
         const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);
 
@@ -128,7 +128,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.certificationChallenges).to.have.length(2);
       });
 
-      it('should return the certification answers ordered by date', async () => {
+      it('should return the certification answers ordered by date', async function() {
         // when
         const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);
 
@@ -137,8 +137,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       });
     });
 
-    context('when the assessment does not exist', () => {
-      it('should throw a NotFoundError', async () => {
+    context('when the assessment does not exist', function() {
+      it('should throw a NotFoundError', async function() {
         // when
         const error = await catchErr(certificationAssessmentRepository.getByCertificationCourseId)(12345);
 

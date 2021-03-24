@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
+describe('Acceptance | Controller | users-controller-reset-scorecard', function() {
 
   let options;
   let server;
@@ -30,7 +30,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
       .orderBy('createdAt', 'DESC');
   }
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
 
@@ -43,18 +43,18 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
     server = await createServer();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('competence-evaluations').delete();
     await knex('knowledge-elements').delete();
     await knex('answers').delete();
     return knex('assessments').delete();
   });
 
-  describe('POST /users/{id}/competences/{id}/reset', () => {
+  describe('POST /users/{id}/competences/{id}/reset', function() {
 
-    describe('Resource access management', () => {
+    describe('Resource access management', function() {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -65,7 +65,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async () => {
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
         // given
         const otherUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -78,11 +78,11 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
       });
     });
 
-    describe('Precondition verification', () => {
+    describe('Precondition verification', function() {
 
       const competenceEvaluationId = 111;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         databaseBuilder.factory.buildCompetenceEvaluation({
@@ -100,7 +100,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         await databaseBuilder.commit();
       });
 
-      it('should respond with a 412 - precondition failed - if last knowledge element date is not old enough', async () => {
+      it('should respond with a 412 - precondition failed - if last knowledge element date is not old enough', async function() {
         // when
         const response = await server.inject(options);
 
@@ -109,7 +109,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
       });
     });
 
-    describe('Success case', () => {
+    describe('Success case', function() {
 
       let response;
       const competence = {
@@ -134,7 +134,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         competences: [competence],
       };
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         sinon.useFakeTimers({
@@ -183,7 +183,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         await databaseBuilder.commit();
       });
 
-      afterEach(async () => {
+      afterEach(async function() {
         await knex('knowledge-elements').delete();
         await knex('answers').delete();
         await knex('competence-evaluations').delete();
@@ -191,7 +191,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         await knex('campaign-participations').delete();
       });
 
-      it('should return 200 and the updated scorecard', async () => {
+      it('should return 200 and the updated scorecard', async function() {
         // given
         const expectedScorecardJSONApi = {
           data: {
@@ -244,7 +244,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         expect(response.result).to.deep.equal(expectedScorecardJSONApi);
       });
 
-      it('should have reset the competence evaluation', async () => {
+      it('should have reset the competence evaluation', async function() {
         // when
         response = await server.inject(options);
 
@@ -255,7 +255,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         expect(otherCompetenceEvaluation[0].status).to.equal('started');
       });
 
-      it('should have reset the assessment of campaign participation', async () => {
+      it('should have reset the assessment of campaign participation', async function() {
         // given
         const state = 'aborted';
 
@@ -267,7 +267,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         expect(campaignAssessments).to.have.lengthOf(1);
       });
 
-      it('should have reset the knowledge elements created from both competence evaluations and campaign', async () => {
+      it('should have reset the knowledge elements created from both competence evaluations and campaign', async function() {
         // when
         response = await server.inject(options);
 

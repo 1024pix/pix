@@ -3,11 +3,11 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const moment = require('moment');
 
-describe('Unit | Domain | Models | KnowledgeElement', () => {
+describe('Unit | Domain | Models | KnowledgeElement', function() {
 
-  describe('#isValidated', () => {
+  describe('#isValidated', function() {
 
-    it('should be true if status validated', () => {
+    it('should be true if status validated', function() {
       // given
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
         status: KnowledgeElement.StatusType.VALIDATED,
@@ -20,7 +20,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
       expect(isValidated).to.be.true;
     });
 
-    it('should be false if status not validated', () => {
+    it('should be false if status not validated', function() {
       // given
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
         status: KnowledgeElement.StatusType.INVALIDATED,
@@ -34,7 +34,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
     });
   });
 
-  describe('#isDirectlyValidated', () => {
+  describe('#isDirectlyValidated', function() {
 
     [
       {
@@ -58,7 +58,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
         expected: false,
       },
     ].forEach(({ status, source, expected }) => {
-      it(`should be ${expected} with ${status} status and ${source} source`, () => {
+      it(`should be ${expected} with ${status} status and ${source} source`, function() {
         // given
         const knowledgeElement = domainBuilder.buildKnowledgeElement({ status, source });
 
@@ -72,9 +72,9 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
 
   });
 
-  describe('#isInValidated', () => {
+  describe('#isInValidated', function() {
 
-    it('should be true if status invalidated', () => {
+    it('should be true if status invalidated', function() {
       // given
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
         status: KnowledgeElement.StatusType.INVALIDATED,
@@ -87,7 +87,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
       expect(isInvalidated).to.be.true;
     });
 
-    it('should be false if status not invalidated', () => {
+    it('should be false if status not invalidated', function() {
       // given
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
         status: KnowledgeElement.StatusType.VALIDATED,
@@ -101,11 +101,11 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
     });
   });
 
-  describe('#createKnowledgeElementsForAnswer', () => {
+  describe('#createKnowledgeElementsForAnswer', function() {
 
     const userId = 3;
 
-    context('when the challenge has one skill', () => {
+    context('when the challenge has one skill', function() {
 
       let challenge;
       let easierSkill;
@@ -116,7 +116,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
       let invalidAnswer;
       let validAnswer;
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         [muchEasierSkill, easierSkill, skill, harderSkill, muchHarderSkill] = domainBuilder.buildSkillCollection({
           minLevel: 1,
@@ -127,12 +127,12 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
         invalidAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.KO });
       });
 
-      context('and the skill is not in the target profile', () => {
+      context('and the skill is not in the target profile', function() {
 
         let otherSkill;
         let createdKnowledgeElements;
 
-        beforeEach(() => {
+        beforeEach(function() {
           // given
           otherSkill = domainBuilder.buildSkill();
 
@@ -147,18 +147,18 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
           });
         });
 
-        it('should not create any knowledge elements', () => {
+        it('should not create any knowledge elements', function() {
           // then
           expect(createdKnowledgeElements).to.deep.equal([]);
         });
       });
 
-      context('and the skill is in the target profil and is alone in it’s tube', () => {
+      context('and the skill is in the target profil and is alone in it’s tube', function() {
 
         let createdKnowledgeElements;
         let targetSkills;
 
-        beforeEach(() => {
+        beforeEach(function() {
           // given
           targetSkills = [skill];
 
@@ -173,7 +173,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
           });
         });
 
-        it('should create a knowledge element', () => {
+        it('should create a knowledge element', function() {
           // then
           const directKnowledgeElement = domainBuilder.buildKnowledgeElement({
             source: KnowledgeElement.SourceType.DIRECT,
@@ -191,20 +191,20 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
         });
       });
 
-      context('and the skill is in the target profil and has other skills in it’s tube', () => {
+      context('and the skill is in the target profil and has other skills in it’s tube', function() {
 
         let targetSkills;
 
-        beforeEach(() => {
+        beforeEach(function() {
           // given
           targetSkills = [muchEasierSkill, easierSkill, skill, harderSkill, muchHarderSkill];
         });
 
-        context('and the answer is correct', () => {
+        context('and the answer is correct', function() {
 
           let createdKnowledgeElements;
 
-          beforeEach(() => {
+          beforeEach(function() {
             // when
             createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
               answer: validAnswer,
@@ -217,7 +217,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             });
           });
 
-          it('should create one direct knowledge element and two inferred validated for easier skills', () => {
+          it('should create one direct knowledge element and two inferred validated for easier skills', function() {
             // then
             const directKnowledgeElement = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.DIRECT,
@@ -265,11 +265,11 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
           });
         });
 
-        context('and the answer is incorrect', () => {
+        context('and the answer is incorrect', function() {
 
           let createdKnowledgeElements;
 
-          beforeEach(() => {
+          beforeEach(function() {
             // when
             createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
               answer: invalidAnswer,
@@ -282,7 +282,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             });
           });
 
-          it('should create one direct knowledge element and two inferred invalidated for harder skills', () => {
+          it('should create one direct knowledge element and two inferred invalidated for harder skills', function() {
             // then
             const directKnowledgeElement = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.DIRECT,
@@ -329,7 +329,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
       });
     });
 
-    context('when the challenge has multiple skills', () => {
+    context('when the challenge has multiple skills', function() {
 
       let challenge;
       let easierSkillFromTube1;
@@ -350,7 +350,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
       let invalidAnswer;
       let validAnswer;
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         [muchEasierSkillFromTube1,
           easierSkillFromTube1,
@@ -385,11 +385,11 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
         invalidAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.KO });
       });
 
-      context('and the skills are alone in their tube but one of those skill is not in the target profile', () => {
+      context('and the skills are alone in their tube but one of those skill is not in the target profile', function() {
 
         let createdKnowledgeElements;
 
-        beforeEach(() => {
+        beforeEach(function() {
           // when
           createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
             answer: validAnswer,
@@ -401,7 +401,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
           });
         });
 
-        it('should create knowledge elements for the other skills that are in the target profile', () => {
+        it('should create knowledge elements for the other skills that are in the target profile', function() {
           // then
           const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
             source: KnowledgeElement.SourceType.DIRECT,
@@ -431,11 +431,11 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
         });
       });
 
-      context('and the skills has other skills in their tube', () => {
+      context('and the skills has other skills in their tube', function() {
 
         let targetSkills;
 
-        beforeEach(() => {
+        beforeEach(function() {
           targetSkills = [
             easierSkillFromTube1,
             easierSkillFromTube2,
@@ -455,11 +455,11 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
           ];
         });
 
-        context('and the answer is correct', () => {
+        context('and the answer is correct', function() {
 
           let createdKnowledgeElements;
 
-          beforeEach(() => {
+          beforeEach(function() {
             // when
             createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
               answer: validAnswer,
@@ -472,7 +472,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
           });
 
           it('should create the three direct knowledge elements' +
-            ' and the six inferred validated for easier skills', () => {
+            ' and the six inferred validated for easier skills', function() {
             const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.DIRECT,
               status: KnowledgeElement.StatusType.VALIDATED,
@@ -591,11 +591,11 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
           });
         });
 
-        context('and the answer is incorrect', () => {
+        context('and the answer is incorrect', function() {
 
           let createdKnowledgeElements;
 
-          beforeEach(() => {
+          beforeEach(function() {
             // when
             createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
               answer: invalidAnswer,
@@ -608,7 +608,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
           });
 
           it('should create the three direct knowledge elements' +
-            ' and the six inferred validated for harder skills', () => {
+            ' and the six inferred validated for harder skills', function() {
             const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.DIRECT,
               status: KnowledgeElement.StatusType.INVALIDATED,
@@ -729,9 +729,9 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
       });
     });
 
-    context('when some skills are already assessed', () => {
+    context('when some skills are already assessed', function() {
 
-      context('and the challenge has multiple skills', () => {
+      context('and the challenge has multiple skills', function() {
 
         let challenge;
         let easierSkillFromTube1;
@@ -751,7 +751,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
         let skillFromTube3;
         let validAnswer;
 
-        beforeEach(() => {
+        beforeEach(function() {
           // given
           [muchEasierSkillFromTube1,
             easierSkillFromTube1,
@@ -785,11 +785,11 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
           validAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.OK });
         });
 
-        context('and the skills has other skills in their tube', () => {
+        context('and the skills has other skills in their tube', function() {
 
           let targetSkills;
 
-          beforeEach(() => {
+          beforeEach(function() {
             targetSkills = [
               easierSkillFromTube1,
               easierSkillFromTube2,
@@ -809,11 +809,11 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             ];
           });
 
-          context('and the answer is correct', () => {
+          context('and the answer is correct', function() {
 
             let createdKnowledgeElements;
 
-            beforeEach(() => {
+            beforeEach(function() {
               // when
               createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
                 answer: validAnswer,
@@ -826,7 +826,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             });
 
             it('should create the three direct knowledge elements' +
-              ' and the three inferred validated for easier skills than are not evaluated', () => {
+              ' and the three inferred validated for easier skills than are not evaluated', function() {
               const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
                 source: KnowledgeElement.SourceType.DIRECT,
                 status: KnowledgeElement.StatusType.VALIDATED,
@@ -914,13 +914,13 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
     });
   });
 
-  describe('#computeDaysSinceLastKnowledgeElement', () => {
+  describe('#computeDaysSinceLastKnowledgeElement', function() {
 
     let testCurrentDate;
     let knowledgeElements;
     let daysSinceLastKnowledgeElement;
 
-    beforeEach(() => {
+    beforeEach(function() {
       testCurrentDate = new Date('2018-01-10T05:00:00Z');
       sinon.useFakeTimers(testCurrentDate.getTime());
     });
@@ -937,7 +937,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
       { daysBefore: 7, hoursBefore: 0, expectedDaysSinceLastKnowledgeElement: 7 },
       { daysBefore: 10, hoursBefore: 0, expectedDaysSinceLastKnowledgeElement: 10 },
     ].forEach(({ daysBefore, hoursBefore, expectedDaysSinceLastKnowledgeElement }) => {
-      it(`should return ${expectedDaysSinceLastKnowledgeElement} days when the last knowledge element is ${daysBefore} days and ${hoursBefore} hours old`, () => {
+      it(`should return ${expectedDaysSinceLastKnowledgeElement} days when the last knowledge element is ${daysBefore} days and ${hoursBefore} hours old`, function() {
         const knowledgeElementCreationDate = moment(testCurrentDate).subtract(daysBefore, 'day').subtract(hoursBefore, 'hour').toDate();
         const oldDate = moment(testCurrentDate).subtract(100, 'day').toDate();
 

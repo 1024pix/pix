@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const findAnswerByChallengeAndAssessment = require('../../../../lib/domain/usecases/find-answer-by-challenge-and-assessment');
 
-describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
+describe('Unit | UseCase | find-answer-by-challenge-and-assessment', function() {
 
   const challengeId = 'recChallenge';
   const assessmentId = 123;
@@ -9,7 +9,7 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
   const userId = 'userId';
   let answerRepository, assessmentRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     const answer = {
       id: answerId,
       assessmentId,
@@ -32,8 +32,8 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
     assessmentRepository.ownedByUser.withArgs({ id: assessmentId, userId }).resolves(assessment);
   });
 
-  context('when the assessmentid passed is not an integer', () => {
-    it('should get the answer', async () => {
+  context('when the assessmentid passed is not an integer', function() {
+    it('should get the answer', async function() {
       // when
       const result = await findAnswerByChallengeAndAssessment({ challengeId, assessmentId: 'salut', userId, answerRepository, assessmentRepository });
 
@@ -42,8 +42,8 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
     });
   });
 
-  context('when user asked for answer is the user of the assessment', () => {
-    it('should get the answer', async () => {
+  context('when user asked for answer is the user of the assessment', function() {
+    it('should get the answer', async function() {
 
       // when
       const resultAnswer = await findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId, answerRepository, assessmentRepository });
@@ -53,8 +53,8 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
     });
   });
 
-  context('when user asked for answer is not the user of the assessment', () => {
-    it('should return null', async () => {
+  context('when user asked for answer is not the user of the assessment', function() {
+    it('should return null', async function() {
       // when
       const result = await findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId: userId + 1, answerRepository, assessmentRepository });
 

@@ -5,15 +5,15 @@ const { mailing } = require('../../../../lib/config');
 
 const SendinblueProvider = require('../../../../lib/infrastructure/mailers/SendinblueProvider');
 
-describe('Unit | Class | SendinblueProvider', () => {
+describe('Unit | Class | SendinblueProvider', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     nock('https://api.sendinblue.com:443')
       .post('/v3/smtp/email')
       .reply();
   });
 
-  describe('#sendEmail', () => {
+  describe('#sendEmail', function() {
 
     const senderEmailAddress = 'no-reply@example.net';
     const userEmailAddress = 'user@example.net';
@@ -22,9 +22,9 @@ describe('Unit | Class | SendinblueProvider', () => {
     let stubbedSendinblueSMTPApi;
     let mailingProvider;
 
-    context('when mail sending is enabled', () => {
+    context('when mail sending is enabled', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(mailing, 'enabled').value(true);
         sinon.stub(mailing, 'provider').value('sendinblue');
 
@@ -37,9 +37,9 @@ describe('Unit | Class | SendinblueProvider', () => {
         mailingProvider = new SendinblueProvider();
       });
 
-      context('when email check succeeds', () => {
+      context('when email check succeeds', function() {
 
-        it('should call the given sendinblue api instance', async () => {
+        it('should call the given sendinblue api instance', async function() {
           // given
           const options = {
             from: senderEmailAddress, to: userEmailAddress,
@@ -70,9 +70,9 @@ describe('Unit | Class | SendinblueProvider', () => {
           expect(stubbedSendinblueSMTPApi.sendTransacEmail).to.have.been.calledWithExactly(expectedPayload);
         });
 
-        context('when tags property is given', () => {
+        context('when tags property is given', function() {
 
-          it('should add tags when it is not a empty array', async () => {
+          it('should add tags when it is not a empty array', async function() {
             // given
             const tags = ['TEST'];
 
@@ -106,7 +106,7 @@ describe('Unit | Class | SendinblueProvider', () => {
             expect(stubbedSendinblueSMTPApi.sendTransacEmail).to.have.been.calledWithExactly(expectedPayload);
           });
 
-          it('should not add tags when it is empty', async () => {
+          it('should not add tags when it is empty', async function() {
             // given
             const tags = null;
 

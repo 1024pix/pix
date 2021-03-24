@@ -12,11 +12,11 @@ function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedErro
 
 describe('Unit | Domain | Validators | certification-center-validator', function() {
 
-  describe('#validate', () => {
+  describe('#validate', function() {
 
-    context('when validation is successful', () => {
+    context('when validation is successful', function() {
 
-      it('should not throw any error', () => {
+      it('should not throw any error', function() {
         // given
         const certificationCenterCreationParams = { name: 'ACME', type: 'PRO' };
 
@@ -25,11 +25,11 @@ describe('Unit | Domain | Validators | certification-center-validator', function
       });
     });
 
-    context('when certification-center data validation fails', () => {
+    context('when certification-center data validation fails', function() {
 
-      context('on name attribute', () => {
+      context('on name attribute', function() {
 
-        it('should reject with error when name is missing', () => {
+        it('should reject with error when name is missing', function() {
           // given
           const expectedError = {
             attribute: 'name',
@@ -47,7 +47,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
           }
         });
 
-        it('should reject with error when name is longer than 255 characters', () => {
+        it('should reject with error when name is longer than 255 characters', function() {
           // given
           const expectedError = {
             attribute: 'name',
@@ -67,9 +67,9 @@ describe('Unit | Domain | Validators | certification-center-validator', function
 
       });
 
-      context('on type attribute', () => {
+      context('on type attribute', function() {
 
-        it('should reject with error when type is missing', () => {
+        it('should reject with error when type is missing', function() {
           // given
           const expectedError = [
             {
@@ -94,7 +94,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
           }
         });
 
-        it('should reject with error when type value is not SUP, SCO or PRO', () => {
+        it('should reject with error when type value is not SUP, SCO or PRO', function() {
           // given
           const expectedError = {
             attribute: 'type',
@@ -128,9 +128,9 @@ describe('Unit | Domain | Validators | certification-center-validator', function
 
       });
 
-      context('on externalId attribute', () => {
+      context('on externalId attribute', function() {
 
-        it('should reject with error when externalId is longer than 255 characters', () => {
+        it('should reject with error when externalId is longer than 255 characters', function() {
           // given
           const expectedError = [
             {
@@ -153,7 +153,7 @@ describe('Unit | Domain | Validators | certification-center-validator', function
         });
       });
 
-      it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
+      it('should reject with errors on all fields (but only once by field) when all fields are missing', function() {
         // given
         const certificationCenterCreationParams = { name: MISSING_VALUE, type: MISSING_VALUE };
 

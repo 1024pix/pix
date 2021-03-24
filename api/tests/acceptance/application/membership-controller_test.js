@@ -4,21 +4,21 @@ const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insert
 const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
 
-describe('Acceptance | Controller | membership-controller', () => {
+describe('Acceptance | Controller | membership-controller', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('POST /api/memberships', () => {
+  describe('POST /api/memberships', function() {
 
     let options;
     let userId;
     let organizationId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       userId = databaseBuilder.factory.buildUser().id;
       const adminUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
@@ -53,13 +53,13 @@ describe('Acceptance | Controller | membership-controller', () => {
       };
     });
 
-    context('Success cases', () => {
+    context('Success cases', function() {
 
-      afterEach(() => {
+      afterEach(function() {
         return knex('memberships').delete();
       });
 
-      it('should return the created membership', async () => {
+      it('should return the created membership', async function() {
         // given
         const expectedMembership = {
           data: {
@@ -86,9 +86,9 @@ describe('Acceptance | Controller | membership-controller', () => {
         expect(_.omit(response.result, ['included', 'data.id'])).to.deep.equal(expectedMembership);
       });
 
-      context('When a membership is disabled', () => {
+      context('When a membership is disabled', function() {
 
-        it('should be able to recreate it', async () => {
+        it('should be able to recreate it', async function() {
           // given
           databaseBuilder.factory.buildMembership({ userId, organizationId, disabledAt: new Date() });
           await databaseBuilder.commit();
@@ -101,9 +101,9 @@ describe('Acceptance | Controller | membership-controller', () => {
         });
       });
 
-      context('When a membership is not disabled', () => {
+      context('When a membership is not disabled', function() {
 
-        it('should not be able to recreate it', async () => {
+        it('should not be able to recreate it', async function() {
           // given
           databaseBuilder.factory.buildMembership({ userId, organizationId });
           await databaseBuilder.commit();
@@ -118,7 +118,7 @@ describe('Acceptance | Controller | membership-controller', () => {
     });
   });
 
-  describe('PATCH /api/memberships/{id}', () => {
+  describe('PATCH /api/memberships/{id}', function() {
 
     let options;
     let userId;
@@ -126,7 +126,7 @@ describe('Acceptance | Controller | membership-controller', () => {
     let membershipId;
     let newOrganizationRole;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       const adminUserId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildMembership({
@@ -176,9 +176,9 @@ describe('Acceptance | Controller | membership-controller', () => {
       };
     });
 
-    context('Success cases', () => {
+    context('Success cases', function() {
 
-      it('should return the updated membership', async () => {
+      it('should return the updated membership', async function() {
         // given
         const expectedMembership = {
           data: {
@@ -213,9 +213,9 @@ describe('Acceptance | Controller | membership-controller', () => {
       });
     });
 
-    context('Error cases', () => {
+    context('Error cases', function() {
 
-      it('should respond with a 403 if user is not admin of membership organization', async () => {
+      it('should respond with a 403 if user is not admin of membership organization', async function() {
         // given
         const notAdminUserId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildMembership({
@@ -234,7 +234,7 @@ describe('Acceptance | Controller | membership-controller', () => {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 400 if membership does not exist', async () => {
+      it('should respond with a 400 if membership does not exist', async function() {
         // given
         options.url = '/api/memberships/NOT_NUMERIC';
 
@@ -250,13 +250,13 @@ describe('Acceptance | Controller | membership-controller', () => {
     });
   });
 
-  describe('POST /api/memberships/{id}/disable', () => {
+  describe('POST /api/memberships/{id}/disable', function() {
 
     let options;
     let membershipId;
     let organizationId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       await insertUserWithRolePixMaster();
 
       organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -294,10 +294,10 @@ describe('Acceptance | Controller | membership-controller', () => {
       };
     });
 
-    context('Success cases', () => {
+    context('Success cases', function() {
 
-      context('When user is Pix Master', () => {
-        it('should return a 204', async () => {
+      context('When user is Pix Master', function() {
+        it('should return a 204', async function() {
           // when
           const response = await server.inject(options);
 
@@ -306,9 +306,9 @@ describe('Acceptance | Controller | membership-controller', () => {
         });
       });
 
-      context('When user is admin of the organization', () => {
+      context('When user is admin of the organization', function() {
 
-        beforeEach(async () => {
+        beforeEach(async function() {
           // given
           const organizationAdminUserId = databaseBuilder.factory.buildUser().id;
           databaseBuilder.factory.buildMembership({ userId: organizationAdminUserId, organizationId, organizationRole: Membership.roles.ADMIN });
@@ -317,7 +317,7 @@ describe('Acceptance | Controller | membership-controller', () => {
           await databaseBuilder.commit();
         });
 
-        it('should return a 204', async () => {
+        it('should return a 204', async function() {
           // when
           const response = await server.inject(options);
 
@@ -328,9 +328,9 @@ describe('Acceptance | Controller | membership-controller', () => {
 
     });
 
-    context('Error cases', () => {
+    context('Error cases', function() {
 
-      it('should respond with a 403 if user does not have the role PIX MASTER', async () => {
+      it('should respond with a 403 if user does not have the role PIX MASTER', async function() {
         // given
         const notPixMasterUserId = 1;
         options.headers.authorization = generateValidRequestAuthorizationHeader(notPixMasterUserId);
@@ -342,7 +342,7 @@ describe('Acceptance | Controller | membership-controller', () => {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 400 if membership does not exist', async () => {
+      it('should respond with a 400 if membership does not exist', async function() {
         // given
         const unknownMembershipId = 9999;
         options.url = `/api/memberships/${unknownMembershipId}/disable`;

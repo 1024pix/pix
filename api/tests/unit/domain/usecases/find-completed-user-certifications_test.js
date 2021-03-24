@@ -3,13 +3,13 @@ const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
 const findCompletedUserCertifications = require('../../../../lib/domain/usecases/find-completed-user-certifications');
 
-describe('Unit | UseCase | find-completed-user-certifications', () => {
+describe('Unit | UseCase | find-completed-user-certifications', function() {
 
   const certificationRepository = {};
   const cleaCertificationStatusRepository = {};
   const cleaCertificationStatus = 'someStatus';
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationRepository.findByUserId = sinon.stub();
     cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
   });

@@ -2,11 +2,11 @@ const { sinon, expect, hFake } = require('../../../test-helper');
 const certificationIssueReportController = require('../../../../lib/application/certification-issue-reports/certification-issue-report-controller');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | Controller | certification-issue-report-controller', () => {
+describe('Unit | Controller | certification-issue-report-controller', function() {
 
-  describe('#deleteCertificationIssueReport', () => {
+  describe('#deleteCertificationIssueReport', function() {
 
-    it('should proceed to deletion', async () => {
+    it('should proceed to deletion', async function() {
       // given
       const certificationIssueReportId = 456;
       const userId = 789;

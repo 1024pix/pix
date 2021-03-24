@@ -10,7 +10,7 @@ function assertScorecard(userScorecard, expectedUserScorecard) {
   expect(userScorecard.status).to.equal(expectedUserScorecard.status);
 }
 
-describe('Unit | UseCase | get-user-profile', () => {
+describe('Unit | UseCase | get-user-profile', function() {
 
   let competenceRepository;
   let knowledgeElementRepository;
@@ -18,24 +18,24 @@ describe('Unit | UseCase | get-user-profile', () => {
   const scorecard = { id: 'foo' };
   const locale = 'fr';
 
-  beforeEach(() => {
+  beforeEach(function() {
     competenceRepository = { listPixCompetencesOnly: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
     sinon.stub(Scorecard, 'buildFrom').returns(scorecard);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     sinon.restore();
   });
 
-  context('When user is authenticated', () => {
+  context('When user is authenticated', function() {
     const userId = 2;
     const earnedPixDefaultValue = 4;
 
-    context('And user asks for his own scorecards', () => {
+    context('And user asks for his own scorecards', function() {
 
-      it('should resolve', () => {
+      it('should resolve', function() {
         // given
         competenceRepository.listPixCompetencesOnly.withArgs({ locale: 'fr' }).resolves([]);
         knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({});
@@ -53,7 +53,7 @@ describe('Unit | UseCase | get-user-profile', () => {
         return expect(promise).to.be.fulfilled;
       });
 
-      it('should return related user scorecards and pix score', async () => {
+      it('should return related user scorecards and pix score', async function() {
         // given
         const earnedPixForCompetenceId1 = 8;
         const levelForCompetenceId1 = 1;

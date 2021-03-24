@@ -3,7 +3,7 @@ const getUserProfileSharedForCampaign = require('../../../../lib/domain/usecases
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const { NoCampaignParticipationForUserAndCampaign } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
+describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
 
   const sharedAt = new Date('2020-02-01');
   const userId = Symbol('user id');
@@ -13,20 +13,20 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
   let knowledgeElementRepository;
   let competenceRepository;
 
-  context('When user has shared its profile for the campaign', () => {
+  context('When user has shared its profile for the campaign', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
       knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
       competenceRepository = { listPixCompetencesOnly: sinon.stub() };
       sinon.stub(Scorecard, 'buildFrom');
     });
 
-    afterEach(() => {
+    afterEach(function() {
       sinon.restore();
     });
 
-    it('should return the shared profile for campaign', async () => {
+    it('should return the shared profile for campaign', async function() {
       const knowledgeElements = { 'competence1': [], 'competence2': [] };
       const competences = [{ id: 'competence1' }, { id: 'competence2' }];
       // given
@@ -64,8 +64,8 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
     });
   });
 
-  context('When user has not shared its profile', () => {
-    it('should throw an error', async () => {
+  context('When user has not shared its profile', function() {
+    it('should throw an error', async function() {
       // given
       campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ userId, campaignId }).resolves(null);
 

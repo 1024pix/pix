@@ -4,16 +4,16 @@ const organizationRepository = require('../../../../lib/infrastructure/repositor
 const Organization = require('../../../../lib/domain/models/Organization');
 const updateOrganizationInformation = require('../../../../lib/domain/usecases/update-organization-information');
 
-describe('Integration | UseCases | updateOrganizationInformation', () => {
+describe('Integration | UseCases | updateOrganizationInformation', function() {
 
   let organizationId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
     await databaseBuilder.commit();
   });
 
-  it('should allow to update the organization email', async () => {
+  it('should allow to update the organization email', async function() {
     // given
     const newEmail = 'sco.generic.newaccount@example.net';
 
@@ -25,7 +25,7 @@ describe('Integration | UseCases | updateOrganizationInformation', () => {
     expect(result.email).equal(newEmail);
   });
 
-  it('should allow to update the organization email with null value', async () => {
+  it('should allow to update the organization email with null value', async function() {
     // given
     const newEmail = null;
 
@@ -37,7 +37,7 @@ describe('Integration | UseCases | updateOrganizationInformation', () => {
     expect(result.email).equal(newEmail);
   });
 
-  it('should throw NotFoundError when organization identifier is not found ', async () => {
+  it('should throw NotFoundError when organization identifier is not found ', async function() {
     // given
     const newEmail = 'sco.generic.newaccount@example.net';
 

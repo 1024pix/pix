@@ -1,10 +1,10 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const { types } = require('../../../../lib/domain/models/Campaign');
 
-describe('Unit | Domain | Models | CampaignReport', () => {
+describe('Unit | Domain | Models | CampaignReport', function() {
 
-  describe('#isAssessment', () => {
-    it('should return true if the campaign is of type ASSESSMENT', () => {
+  describe('#isAssessment', function() {
+    it('should return true if the campaign is of type ASSESSMENT', function() {
       // given
       const campaignReport = domainBuilder.buildCampaignReport({ type: types.ASSESSMENT });
 
@@ -12,7 +12,7 @@ describe('Unit | Domain | Models | CampaignReport', () => {
       expect(campaignReport.isAssessment).to.be.true;
     });
 
-    it('should return false if the campaign is not of type ASSESSMENT', () => {
+    it('should return false if the campaign is not of type ASSESSMENT', function() {
       // given
       const campaignReport = domainBuilder.buildCampaignReport({ type: types.PROFILES_COLLECTION });
 
@@ -21,8 +21,8 @@ describe('Unit | Domain | Models | CampaignReport', () => {
     });
   });
 
-  describe('#isProfilesCollection', () => {
-    it('should return true if the campaign is of type PROFILES_COLLECTION', () => {
+  describe('#isProfilesCollection', function() {
+    it('should return true if the campaign is of type PROFILES_COLLECTION', function() {
       // given
       const campaignReport = domainBuilder.buildCampaignReport({ type: types.PROFILES_COLLECTION });
 
@@ -30,7 +30,7 @@ describe('Unit | Domain | Models | CampaignReport', () => {
       expect(campaignReport.isProfilesCollection).to.be.true;
     });
 
-    it('should return false if the campaign is not of type PROFILES_COLLECTION', () => {
+    it('should return false if the campaign is not of type PROFILES_COLLECTION', function() {
       // given
       const campaignReport = domainBuilder.buildCampaignReport({ type: types.ASSESSMENT });
 
@@ -39,8 +39,8 @@ describe('Unit | Domain | Models | CampaignReport', () => {
     });
   });
 
-  describe('#isArchived', () => {
-    it('should return true if the campaign is archived', () => {
+  describe('#isArchived', function() {
+    it('should return true if the campaign is archived', function() {
       // given
       const campaignReport = domainBuilder.buildCampaignReport({ archivedAt: new Date('2020-02-02') });
 
@@ -48,7 +48,7 @@ describe('Unit | Domain | Models | CampaignReport', () => {
       expect(campaignReport.isArchived).to.be.true;
     });
 
-    it('should return false if the campaign is not archived', () => {
+    it('should return false if the campaign is not archived', function() {
       // given
       const campaignReport = domainBuilder.buildCampaignReport({ archivedAt: null });
 

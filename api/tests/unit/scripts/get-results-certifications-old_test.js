@@ -2,9 +2,9 @@ const { expect } = require('chai');
 
 const { parseArgs, toCSVRow, buildRequestObject, findCompetence, HEADERS } = require('../../../scripts/get-results-certifications-old');
 
-describe('Get Result Certifications Script OLD', () => {
-  describe('parseArgs', () => {
-    it('should return an array', () => {
+describe('Get Result Certifications Script OLD', function() {
+  describe('parseArgs', function() {
+    it('should return an array', function() {
       // given
       const args = ['/usr/bin/node', '/path/to/script.js', 'http://localhost:3000', '1', '2', '3'];
       // when
@@ -15,9 +15,9 @@ describe('Get Result Certifications Script OLD', () => {
     });
   });
 
-  describe('buildRequestObject', () => {
+  describe('buildRequestObject', function() {
 
-    it('should take an id and return a request object', () => {
+    it('should take an id and return a request object', function() {
       // given
       const courseId = 12;
       const baseUrl = 'http://localhost:3000';
@@ -31,7 +31,7 @@ describe('Get Result Certifications Script OLD', () => {
       expect(result.headers).to.have.property('authorization', 'Bearer jwt.tokken');
     });
 
-    it('should add certificationId to API response when the object is transform after the request', () => {
+    it('should add certificationId to API response when the object is transform after the request', function() {
       // given
       const baseUrl = 'http://localhost:3000';
       const requestObject = buildRequestObject(baseUrl, '', 12);
@@ -42,8 +42,8 @@ describe('Get Result Certifications Script OLD', () => {
     });
   });
 
-  describe('toCSVRow', () => {
-    it('should normalize a JSON object', () => {
+  describe('toCSVRow', function() {
+    it('should normalize a JSON object', function() {
       // given
       const object = { competencesWithMark: [] };
       // when
@@ -52,7 +52,7 @@ describe('Get Result Certifications Script OLD', () => {
       expect(result).to.have.all.keys(HEADERS);
     });
 
-    it('should extract certificationId, date, and pix score', () => {
+    it('should extract certificationId, date, and pix score', function() {
       // given
       const object = {
         certificationId: '1337',
@@ -70,7 +70,7 @@ describe('Get Result Certifications Script OLD', () => {
       expect(result[HEADERS[3]]).to.equals(7331);
     });
 
-    it('should extract competences', () => {
+    it('should extract competences', function() {
       // given
       const object = { competencesWithMark: [] };
       // when
@@ -79,7 +79,7 @@ describe('Get Result Certifications Script OLD', () => {
       expect(result[HEADERS[4]]).to.equals('');
     });
 
-    it('should extract competences 1.1', () => {
+    it('should extract competences 1.1', function() {
       // given
       const object = {
         competencesWithMark: [
@@ -97,7 +97,7 @@ describe('Get Result Certifications Script OLD', () => {
       expect(result['1.1']).to.equals(9001);
     });
 
-    it('should extract all competences', () => {
+    it('should extract all competences', function() {
       // given
       const object = {
         competencesWithMark: [
@@ -124,8 +124,8 @@ describe('Get Result Certifications Script OLD', () => {
 
   });
 
-  describe('findCompetence', () => {
-    it('should return empty string when not found', () => {
+  describe('findCompetence', function() {
+    it('should return empty string when not found', function() {
       // given
       const profile = [];
       const competenceName = '1.1';
@@ -135,7 +135,7 @@ describe('Get Result Certifications Script OLD', () => {
       expect(result).to.be.equals('');
     });
 
-    it('should return competence obtainedLevel when found', () => {
+    it('should return competence obtainedLevel when found', function() {
       // given
       const profile = [{
         name: 'Sécuriser l\'environnement numérique',

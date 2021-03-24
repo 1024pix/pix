@@ -1,7 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participations', () => {
+describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participations', function() {
 
   let userId;
   let campaign;
@@ -9,13 +9,13 @@ describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participation
   let options;
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /users/:id/campaigns/:id/campaign-participations', () => {
+  describe('GET /users/:id/campaigns/:id/campaign-participations', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser().id;
       campaign = databaseBuilder.factory.buildCampaign();
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id });
@@ -29,7 +29,7 @@ describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participation
       return databaseBuilder.commit();
     });
 
-    it('should return campaign participation with 200 HTTP status code', async () => {
+    it('should return campaign participation with 200 HTTP status code', async function() {
       // when
       const response = await server.inject(options);
 

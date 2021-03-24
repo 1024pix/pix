@@ -3,10 +3,10 @@ const { EntityValidationError } = require('../../../lib/domain/errors');
 
 const { handle: errorManager } = require('../../../lib/application/error-manager');
 
-describe('Unit | Application | ErrorManager', () => {
+describe('Unit | Application | ErrorManager', function() {
 
-  describe('#handle', () => {
-    it('should translate EntityValidationError', async () => {
+  describe('#handle', function() {
+    it('should translate EntityValidationError', async function() {
       // given
       const request = {
         headers: {
@@ -38,7 +38,7 @@ describe('Unit | Application | ErrorManager', () => {
       });
     });
 
-    it('should translate EntityValidationError to french', async () => {
+    it('should translate EntityValidationError to french', async function() {
       // given
       const request = {
         headers: {
@@ -70,7 +70,7 @@ describe('Unit | Application | ErrorManager', () => {
       });
     });
 
-    it('should fallback to the message if the translation is not found', async () => {
+    it('should fallback to the message if the translation is not found', async function() {
       // given
       const request = {
         headers: {

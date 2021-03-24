@@ -6,11 +6,11 @@ const usecases = require('../../../../lib/domain/usecases');
 
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
-describe('Unit | Router | organization-router', () => {
+describe('Unit | Router | organization-router', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(usecases, 'findPendingOrganizationInvitations').resolves([]);
 
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
@@ -24,9 +24,9 @@ describe('Unit | Router | organization-router', () => {
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('GET /api/organizations', () => {
+  describe('GET /api/organizations', function() {
 
-    it('should return OK (200) when request is valid', async () => {
+    it('should return OK (200) when request is valid', async function() {
       // given
       const method = 'GET';
       const url = '/api/organizations?filter[id]=&filter[name]=DRA&filter[type]=SCO&page[number]=3&page[size]=25';
@@ -38,7 +38,7 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return BadRequest (400) when request is invalid', async () => {
+    it('should return BadRequest (400) when request is invalid', async function() {
       // given
       const method = 'GET';
       const idNotNumeric = 'foo';
@@ -52,13 +52,13 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
-  describe('POST /api/organizations/{id}/invitations', () => {
+  describe('POST /api/organizations/{id}/invitations', function() {
 
     const method = 'POST';
     const url = '/api/organizations/1/invitations';
     let payload;
 
-    beforeEach(() => {
+    beforeEach(function() {
       payload = {
         data: {
           type: 'organization-invitations',
@@ -69,7 +69,7 @@ describe('Unit | Router | organization-router', () => {
       };
     });
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request(method, url, payload);
 
@@ -77,7 +77,7 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should accept multiple emails', async () => {
+    it('should accept multiple emails', async function() {
       // given
       payload.data.attributes.email = 'user1@organization.org, user2@organization.org';
 
@@ -88,7 +88,7 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should reject request with HTTP code 400, when email is empty', async () => {
+    it('should reject request with HTTP code 400, when email is empty', async function() {
       // given
       payload.data.attributes.email = '';
 
@@ -99,7 +99,7 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should reject request with HTTP code 400, when input is not a email', async () => {
+    it('should reject request with HTTP code 400, when input is not a email', async function() {
       // given
       payload.data.attributes.email = 'azerty';
 
@@ -111,9 +111,9 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
-  describe('GET /api/organizations/{id}/invitations', () => {
+  describe('GET /api/organizations/{id}/invitations', function() {
 
-    it('should return an empty list when no organization is found', async () => {
+    it('should return an empty list when no organization is found', async function() {
       // given
       const method = 'GET';
       const url = '/api/organizations/1/invitations';
@@ -127,9 +127,9 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
-  describe('POST /api/organizations/{id}/schooling-registrations/import-csv', () => {
-    context('when the id not an integer', () => {
-      it('responds 400', async () => {
+  describe('POST /api/organizations/{id}/schooling-registrations/import-csv', function() {
+    context('when the id not an integer', function() {
+      it('responds 400', async function() {
         // given
         const method = 'POST';
         const url = '/api/organizations/qsdqsd/schooling-registrations/import-csv';
@@ -143,9 +143,9 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
-  describe('GET /api/organizations/{id}/schooling-registrations/csv-template', () => {
+  describe('GET /api/organizations/{id}/schooling-registrations/csv-template', function() {
 
-    it('should call the organization controller to csv template', async () => {
+    it('should call the organization controller to csv template', async function() {
       // given
       const method = 'GET';
       const url = '/api/organizations/1/schooling-registrations/csv-template?accessToken=token';
@@ -158,9 +158,9 @@ describe('Unit | Router | organization-router', () => {
       expect(organizationController.getSchoolingRegistrationsCsvTemplate).to.have.been.calledOnce;
     });
 
-    describe('When parameters are not valid', () => {
+    describe('When parameters are not valid', function() {
 
-      it('should throw an error when id is not a number', async () => {
+      it('should throw an error when id is not a number', async function() {
         // given
         const method = 'GET';
         const url = '/api/organizations/ABC/schooling-registrations/csv-template?accessToken=token';
@@ -172,7 +172,7 @@ describe('Unit | Router | organization-router', () => {
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should throw an error when id is null', async () => {
+      it('should throw an error when id is null', async function() {
         // given
         const method = 'GET';
         const url = '/api/organizations/null/schooling-registrations/csv-template?accessToken=token';
@@ -184,7 +184,7 @@ describe('Unit | Router | organization-router', () => {
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should throw an error when access token is not specified', async () => {
+      it('should throw an error when access token is not specified', async function() {
         // given
         const method = 'GET';
         const url = '/api/organizations/ABC/schooling-registrations/csv-template';
@@ -196,7 +196,7 @@ describe('Unit | Router | organization-router', () => {
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should throw an error when access token is null', async () => {
+      it('should throw an error when access token is null', async function() {
         // given
         const method = 'GET';
         const url = '/api/organizations/null/schooling-registrations/csv-template?accessToken=null';

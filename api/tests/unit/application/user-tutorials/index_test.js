@@ -10,11 +10,11 @@ function startServer() {
   return server.register(require('../../../../lib/application/user-tutorials'));
 }
 
-describe('Unit | Router | user-tutorials-router', () => {
+describe('Unit | Router | user-tutorials-router', function() {
 
-  describe('PUT /api/users/tutorials/{tutorialId}', () => {
+  describe('PUT /api/users/tutorials/{tutorialId}', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').
         callsFake((request, h) => {
           h.continue({ credentials: { accessToken: 'jwt.access.token' } });
@@ -24,7 +24,7 @@ describe('Unit | Router | user-tutorials-router', () => {
       startServer();
     });
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const options = {
         method: 'PUT',
@@ -40,9 +40,9 @@ describe('Unit | Router | user-tutorials-router', () => {
     });
   });
 
-  describe('GET /api/users/tutorials', () => {
+  describe('GET /api/users/tutorials', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').
         callsFake((request, h) => {
           h.continue({ credentials: { accessToken: 'jwt.access.token' } });
@@ -52,7 +52,7 @@ describe('Unit | Router | user-tutorials-router', () => {
       startServer();
     });
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const options = {
         method: 'GET',
@@ -68,9 +68,9 @@ describe('Unit | Router | user-tutorials-router', () => {
     });
   });
 
-  describe('DELETE /api/users/tutorials/{tutorialId}', () => {
+  describe('DELETE /api/users/tutorials/{tutorialId}', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').
         callsFake((request, h) => {
           h.continue({ credentials: { accessToken: 'jwt.access.token' } });
@@ -80,7 +80,7 @@ describe('Unit | Router | user-tutorials-router', () => {
       startServer();
     });
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const options = {
         method: 'DELETE',

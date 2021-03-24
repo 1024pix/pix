@@ -1,11 +1,11 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 
-describe('Unit | Serializer | organization-serializer', () => {
+describe('Unit | Serializer | organization-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should return a JSON API serialized organization', () => {
+    it('should return a JSON API serialized organization', function() {
       // given
       const organization = domainBuilder.buildOrganization({ email: 'sco.generic.account@example.net' });
       const meta = { some: 'meta' };
@@ -52,7 +52,7 @@ describe('Unit | Serializer | organization-serializer', () => {
       });
     });
 
-    it('should include serialized student data when organization has schoolingRegistration', () => {
+    it('should include serialized student data when organization has schoolingRegistration', function() {
       // given
       const organization = domainBuilder.buildOrganization.withSchoolingRegistrations();
 

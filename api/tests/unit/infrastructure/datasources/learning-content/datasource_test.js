@@ -4,9 +4,9 @@ const lcms = require('../../../../../lib/infrastructure/lcms');
 const LearningContentResourceNotFound = require('../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
-describe('Unit | Infrastructure | Datasource | Learning Content | datasource', () => {
+describe('Unit | Infrastructure | Datasource | Learning Content | datasource', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(cache, 'get');
   });
 
@@ -14,17 +14,17 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
     modelName: 'learningContentModel',
   });
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       cache.get.withArgs('LearningContent').callsFake((cacheKey, generator) => generator());
     });
 
-    context('(success cases)', () => {
+    context('(success cases)', function() {
 
       let learningContent;
 
-      beforeEach(() => {
+      beforeEach(function() {
         learningContent = {
           learningContentModel: [
             { id: 'rec1', property: 'value1' },
@@ -34,7 +34,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
         sinon.stub(lcms, 'getCurrentContent').resolves(learningContent);
       });
 
-      it('should fetch a single record from LCMS API (or its cached copy)', async () => {
+      it('should fetch a single record from LCMS API (or its cached copy)', async function() {
         // when
         const record = await someDatasource.get('rec1');
 
@@ -42,7 +42,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
         expect(record).to.deep.equal({ id: 'rec1', property: 'value1' });
       });
 
-      it('should correctly manage the `this` context', async () => {
+      it('should correctly manage the `this` context', async function() {
         // given
         const unboundGet = someDatasource.get;
 
@@ -53,7 +53,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
         expect(record).to.deep.equal({ id: 'rec1', property: 'value1' });
       });
 
-      it('should be cachable', async () => {
+      it('should be cachable', async function() {
         // when
         await someDatasource.get('rec1');
 
@@ -62,9 +62,9 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       });
     });
 
-    context('(error cases)', () => {
+    context('(error cases)', function() {
 
-      it('should throw an LearningContentResourceNotFound if record was not found', () => {
+      it('should throw an LearningContentResourceNotFound if record was not found', function() {
         // given
         const learningContent = {
           learningContentModel: [
@@ -81,7 +81,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
         return expect(promise).to.have.been.rejectedWith(LearningContentResourceNotFound);
       });
 
-      it('should dispatch error in case of generic error', () => {
+      it('should dispatch error in case of generic error', function() {
         // given
         const err = new Error();
         sinon.stub(lcms, 'getCurrentContent').rejects(err);
@@ -95,10 +95,10 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
     });
   });
 
-  describe('#list', () => {
+  describe('#list', function() {
     let learningContent;
 
-    beforeEach(() => {
+    beforeEach(function() {
       cache.get.withArgs('LearningContent').callsFake((cacheKey, generator) => generator());
 
       learningContent = {
@@ -110,7 +110,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       sinon.stub(lcms, 'getCurrentContent').resolves(learningContent);
     });
 
-    it('should fetch all the records of a given type from LCMS API (or its cached copy)', async () => {
+    it('should fetch all the records of a given type from LCMS API (or its cached copy)', async function() {
       // when
       const learningContentModelObjects = await someDatasource.list();
 
@@ -118,7 +118,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       expect(learningContentModelObjects).to.deep.equal(learningContent.learningContentModel);
     });
 
-    it('should correctly manage the `this` context', async () => {
+    it('should correctly manage the `this` context', async function() {
       // given
       const unboundList = someDatasource.list;
 
@@ -129,7 +129,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       expect(learningContentModelObjects).to.deep.equal(learningContent.learningContentModel);
     });
 
-    it('should be cachable', async () => {
+    it('should be cachable', async function() {
       // when
       await someDatasource.list();
 
@@ -138,11 +138,11 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
     });
   });
 
-  describe('#refreshLearningContentCacheRecords', () => {
+  describe('#refreshLearningContentCacheRecords', function() {
 
     let learningContent;
 
-    beforeEach(() => {
+    beforeEach(function() {
       cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
       sinon.stub(cache, 'set');
       learningContent = {
@@ -154,7 +154,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       sinon.stub(lcms, 'getCurrentContent').resolves(learningContent);
     });
 
-    it('should load all the learning content table content in the cache (and return them)', async () => {
+    it('should load all the learning content table content in the cache (and return them)', async function() {
       // when
       const results = await dataSource.refreshLearningContentCacheRecords();
 
@@ -162,7 +162,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       expect(results).to.equal(learningContent);
     });
 
-    it('should preload cache', async () => {
+    it('should preload cache', async function() {
       // when
       await dataSource.refreshLearningContentCacheRecords();
 
@@ -171,9 +171,9 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
     });
   });
 
-  describe('#refreshLearningContentCacheRecord', () => {
+  describe('#refreshLearningContentCacheRecord', function() {
 
-    it('should replace the record (identified with id) by given record and store or replace it in the cache', async () => {
+    it('should replace the record (identified with id) by given record and store or replace it in the cache', async function() {
       // given
       const record = { id: 'rec1', property: 'updatedValue' };
       const learningContent = {

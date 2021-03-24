@@ -6,13 +6,13 @@ const {
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-get-current-user', () => {
+describe('Acceptance | Controller | users-controller-get-current-user', function() {
 
   let options;
   let server;
   let user;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
 
     user = databaseBuilder.factory.buildUser();
@@ -27,9 +27,9 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
     return databaseBuilder.commit();
   });
 
-  describe('GET /users/me', () => {
+  describe('GET /users/me', function() {
 
-    it('should return found user with 200 HTTP status code', async () => {
+    it('should return found user with 200 HTTP status code', async function() {
       // given
       const expectedUserJSONApi = {
         data: {

@@ -40,25 +40,25 @@ const learningContent = [{
   }],
 }];
 
-describe('Acceptance | API | assessment-controller-get-next-challenge-for-competence-evaluation', () => {
+describe('Acceptance | API | assessment-controller-get-next-challenge-for-competence-evaluation', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
   });
 
-  describe('GET /api/assessments/:assessment_id/next', () => {
+  describe('GET /api/assessments/:assessment_id/next', function() {
 
     const assessmentId = 1;
     const userId = 1234;
 
-    context('When there is still challenges to answer', () => {
+    context('When there is still challenges to answer', function() {
       let clock;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         databaseBuilder.factory.buildUser({ id: userId });
         databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId, lastQuestionDate: new Date('2020-01-20') });
         const { id: answerId } = databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any good answer', result: 'ok' });
@@ -79,11 +79,11 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         });
       });
 
-      afterEach(async () => {
+      afterEach(async function() {
         clock.restore();
       });
 
-      it('should return the second challenge if the first answer is correct', async () => {
+      it('should return the second challenge if the first answer is correct', async function() {
         // given
         const options = {
           method: 'GET',
@@ -103,8 +103,8 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
       });
     });
 
-    context('When there is no more challenges to answer', () => {
-      beforeEach(async () => {
+    context('When there is no more challenges to answer', function() {
+      beforeEach(async function() {
         databaseBuilder.factory.buildUser({ id: userId });
         databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId });
         const { id: answerId1 } = databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any good answer', result: 'ok' });
@@ -138,7 +138,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         await databaseBuilder.commit();
       });
 
-      it('should finish the test if there is no next challenge', async () => {
+      it('should finish the test if there is no next challenge', async function() {
         // given
         const options = {
           method: 'GET',

@@ -4,7 +4,7 @@ const { FRENCH_SPOKEN } = require('../../../lib/domain/constants').LOCALE;
 
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | scorecard-controller', () => {
+describe('Acceptance | Controller | scorecard-controller', function() {
 
   let options;
   let server;
@@ -75,7 +75,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
     }],
   };
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     databaseBuilder.factory.buildUser({ id: userId });
     await databaseBuilder.commit();
@@ -83,7 +83,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
 
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('knowledge-elements').delete();
     await knex('answers').delete();
     await knex('competence-evaluations').delete();
@@ -93,9 +93,9 @@ describe('Acceptance | Controller | scorecard-controller', () => {
 
   let knowledgeElement;
 
-  describe('GET /scorecards/{id}', () => {
+  describe('GET /scorecards/{id}', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       options = {
         method: 'GET',
         url: `/api/scorecards/${userId}_${competenceId}`,
@@ -104,9 +104,9 @@ describe('Acceptance | Controller | scorecard-controller', () => {
       };
     });
 
-    context('Resource access management', () => {
+    context('Resource access management', function() {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', function() {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -120,9 +120,9 @@ describe('Acceptance | Controller | scorecard-controller', () => {
       });
     });
 
-    context('Success case', () => {
+    context('Success case', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
@@ -140,7 +140,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return 200', () => {
+      it('should return 200', function() {
         // when
         const promise = server.inject(options);
 
@@ -151,7 +151,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
 
       });
 
-      it('should return user\'s serialized scorecards', () => {
+      it('should return user\'s serialized scorecards', function() {
         // when
         const promise = server.inject(options);
 
@@ -207,9 +207,9 @@ describe('Acceptance | Controller | scorecard-controller', () => {
     });
   });
 
-  describe('GET /scorecards/{id}/tutorials', () => {
+  describe('GET /scorecards/{id}/tutorials', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       options = {
         method: 'GET',
         url: `/api/scorecards/${userId}_${competenceId}/tutorials`,
@@ -218,9 +218,9 @@ describe('Acceptance | Controller | scorecard-controller', () => {
       };
     });
 
-    context('Resource access management', () => {
+    context('Resource access management', function() {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -232,9 +232,9 @@ describe('Acceptance | Controller | scorecard-controller', () => {
       });
     });
 
-    context('Success case', () => {
+    context('Success case', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         databaseBuilder.factory.buildUserTutorial({ id: 10500, userId, tutorialId: tutorialWebId });
         await databaseBuilder.commit();
 
@@ -261,7 +261,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return 200', async () => {
+      it('should return 200', async function() {
         // given
 
         // when
@@ -271,7 +271,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return user\'s serialized tutorials', async () => {
+      it('should return user\'s serialized tutorials', async function() {
         // given
         const expectedTutorialsJSONApi = {
           'data': [
@@ -333,8 +333,8 @@ describe('Acceptance | Controller | scorecard-controller', () => {
         expect(response.result.included).to.deep.equal(expectedTutorialsJSONApi.included);
       });
 
-      context('when user resets competence', () => {
-        beforeEach(async () => {
+      context('when user resets competence', function() {
+        beforeEach(async function() {
           const options = {
             method: 'POST',
             url: `/api/users/${userId}/competences/${competenceId}/reset`,
@@ -347,7 +347,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
           await server.inject(options);
         });
 
-        it('should return an empty tutorial list', async () => {
+        it('should return an empty tutorial list', async function() {
           // given
           const expectedTutorialsJSONApi = {
             'data': [],

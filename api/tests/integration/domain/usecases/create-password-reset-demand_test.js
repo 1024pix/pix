@@ -10,22 +10,22 @@ const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const createPasswordResetDemand = require('../../../../lib/domain/usecases/create-password-reset-demand');
 
-describe('Integration | UseCases | create-password-reset-demand', () => {
+describe('Integration | UseCases | create-password-reset-demand', function() {
 
   const email = 'user@example.net';
   const locale = 'fr';
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     const userId = databaseBuilder.factory.buildUser({ email }).id;
     databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({ userId });
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await databaseBuilder.clean();
   });
 
-  it('should return a password reset demand', async () => {
+  it('should return a password reset demand', async function() {
     // when
     const result = await createPasswordResetDemand({
       email,
@@ -42,7 +42,7 @@ describe('Integration | UseCases | create-password-reset-demand', () => {
     expect(result.attributes.temporaryKey).to.be.ok;
   });
 
-  it('should throw UserNotFoundError if no user account exists with this email', async () => {
+  it('should throw UserNotFoundError if no user account exists with this email', async function() {
     // given
     const unknownEmail = 'unknown@example.net';
 

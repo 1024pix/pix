@@ -3,11 +3,11 @@ const { addTagsToOrganizations } = require('../../../scripts/add-tags-to-organiz
 const organizationTagRepository = require('../../../lib/infrastructure/repositories/organization-tag-repository');
 const Tag = require('../../../lib/domain/models/Tag');
 
-describe('Unit | Scripts | add-tags-to-organizations.js', () => {
+describe('Unit | Scripts | add-tags-to-organizations.js', function() {
 
-  context('When tag already exists for an organization', () => {
+  context('When tag already exists for an organization', function() {
 
-    it('should not throw an error', async () => {
+    it('should not throw an error', async function() {
       // given
       const tagsByName = new Map([['tagName', new Tag({ name: 'tagName' })]]);
       const checkedData = [{ organizationId: 1, tagName: 'tagName' }];

@@ -1,9 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/schooling-registration-dependent-user-serializer');
 
-describe('Unit | Serializer | JSONAPI | schooling-registration-dependent-user-serializer', () => {
+describe('Unit | Serializer | JSONAPI | schooling-registration-dependent-user-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
     const schoolingRegistrationWithUsernameAndPassword = domainBuilder.buildSchoolingRegistration();
     schoolingRegistrationWithUsernameAndPassword.username = 'john.harry0702';
@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | schooling-registration-dependent-user-se
       },
     };
 
-    it('should convert a schooling-registration-dependent-user object into JSON API data', () => {
+    it('should convert a schooling-registration-dependent-user object into JSON API data', function() {
       // when
       const json = serializer.serialize(schoolingRegistrationWithUsernameAndPassword);
 

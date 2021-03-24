@@ -2,16 +2,16 @@ const { expect, databaseBuilder, mockLearningContent, knex } = require('../../..
 const CampaignProfilesCollectionParticipationSummary = require('../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary');
 const campaignProfilesCollectionParticipationSummaryRepository = require('../../../../lib/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository');
 
-describe('Integration | Repository | Campaign Profiles Collection Participation Summary repository', () => {
+describe('Integration | Repository | Campaign Profiles Collection Participation Summary repository', function() {
 
-  describe('#findPaginatedByCampaignId', () => {
+  describe('#findPaginatedByCampaignId', function() {
 
     let campaignId, organizationId;
     let competences;
     let skills;
     const sharedAt = new Date('2018-05-06');
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const learningContentData = buildLearningContentData();
       competences = learningContentData.competences;
       skills = learningContentData.skills;
@@ -21,11 +21,11 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    it('should return empty array if no participant', async () => {
+    it('should return empty array if no participant', async function() {
       // when
       const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
 
@@ -33,7 +33,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       expect(results.data.length).to.equal(0);
     });
 
-    it('should return participant data summary for a not shared campaign participation', async () => {
+    it('should return participant data summary for a not shared campaign participation', async function() {
       // given
       const campaignParticipation = { id: 1, campaignId, isShared: false, sharedAt: null, participantExternalId: 'JeBu' };
       databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jérémy', lastName: 'bugietta' }, campaignParticipation, false);
@@ -54,7 +54,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       ]);
     });
 
-    it('should return participants data summary only for the given campaign id', async () => {
+    it('should return participants data summary only for the given campaign id', async function() {
       // given
       const campaignParticipation1 = { campaignId };
       databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Lise', lastName: 'Quesnel' }, campaignParticipation1, false);
@@ -71,7 +71,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       expect(names).exactlyContainInOrder(['Lise']);
     });
 
-    it('should return participants data summary ordered by last name then first name asc (including schooling registration data)', async () => {
+    it('should return participants data summary ordered by last name then first name asc (including schooling registration data)', async function() {
       // given
       const campaignParticipation = { campaignId };
       databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Jaja', lastName: 'Le raplapla', organizationId }, campaignParticipation, false);
@@ -88,10 +88,10 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       expect(names).exactlyContainInOrder(['Jaja', 'Jiji', 'Juju', 'Jojo']);
     });
 
-    describe('when a participant has shared the participation to the campaign', () => {
+    describe('when a participant has shared the participation to the campaign', function() {
       let campaignParticipation;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         const createdAt = new Date('2018-04-06T10:00:00Z');
         const userId = 999;
 
@@ -119,7 +119,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         await databaseBuilder.commit();
       });
 
-      it('should return the certification profile info and pix score', async () => {
+      it('should return the certification profile info and pix score', async function() {
         // when
         const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
 
@@ -131,9 +131,9 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       });
     });
 
-    describe('when there is a filter on division', () => {
+    describe('when there is a filter on division', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         const participation1 = {
           participantExternalId: 'Can\'t get Enough Of Your Love, Baby',
           campaignId,
@@ -161,7 +161,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         await databaseBuilder.commit();
       });
 
-      it('returns participations which have the correct division', async () => {
+      it('returns participations which have the correct division', async function() {
         // when
         const divisions = ['Barry', 'White'];
         const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId, undefined, { divisions });

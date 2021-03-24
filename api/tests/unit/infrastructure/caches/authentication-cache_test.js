@@ -1,9 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
 const authenticationCache = require('../../../../lib/infrastructure/caches/authentication-cache');
 
-describe('Unit | Infrastructure | Caches | AuthenticationCache', () => {
+describe('Unit | Infrastructure | Caches | AuthenticationCache', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     authenticationCache._cache = {
       get: sinon.stub(),
       set: sinon.stub(),
@@ -11,9 +11,9 @@ describe('Unit | Infrastructure | Caches | AuthenticationCache', () => {
     };
   });
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    it('should prefix key', async () => {
+    it('should prefix key', async function() {
       // given
       const key = 'my_key';
 
@@ -25,9 +25,9 @@ describe('Unit | Infrastructure | Caches | AuthenticationCache', () => {
     });
   });
 
-  describe('#set', () => {
+  describe('#set', function() {
 
-    it('should prefix key', async () => {
+    it('should prefix key', async function() {
       // given
       const key = 'my_key';
       const value = 'value';

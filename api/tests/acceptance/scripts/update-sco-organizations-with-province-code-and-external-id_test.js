@@ -1,11 +1,11 @@
 const { expect, sinon, nock } = require('../../test-helper');
 const script = require('../../../scripts/update-sco-organizations-with-province-code-and-external-id');
 
-describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and-external-id.js', () => {
+describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and-external-id.js', function() {
 
-  describe('#assertFileValidity', () => {
+  describe('#assertFileValidity', function() {
 
-    it('should throw an error when file does not exist', async () => {
+    it('should throw an error when file does not exist', async function() {
       // given
       const filePath = 'inexistant.file';
 
@@ -20,7 +20,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
       }
     });
 
-    it('should throw an error when file extension is not ".csv"', async () => {
+    it('should throw an error when file extension is not ".csv"', async function() {
       // given
       const filePath = `${__dirname}/file_with_bad_extension.html`;
 
@@ -35,7 +35,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
       }
     });
 
-    it('should return true if file is valid', async () => {
+    it('should return true if file is valid', async function() {
       // given
       const filePath = `${__dirname}/valid-organizations-test-file.csv`;
 
@@ -47,9 +47,9 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
     });
   });
 
-  describe('#convertCSVDataIntoOrganizations', () => {
+  describe('#convertCSVDataIntoOrganizations', function() {
 
-    it('should return an array of organizations (JSON) object', () => {
+    it('should return an array of organizations (JSON) object', function() {
       // given
       const csvParsingResult = {
         data: [{
@@ -85,11 +85,11 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
     });
   });
 
-  describe('#saveOrganizations', () => {
+  describe('#saveOrganizations', function() {
 
     let options;
 
-    beforeEach(() => {
+    beforeEach(function() {
       process.env.BASE_URL = 'http://localhost:3000';
       options = {
         accessToken: 'token-token',
@@ -97,7 +97,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
       };
     });
 
-    it('should not do any http request, when there is no organization', () => {
+    it('should not do any http request, when there is no organization', function() {
       // given
       options.organizations = [];
 
@@ -110,7 +110,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
       });
     });
 
-    it('should call PATCH /api/organizations/:id once, when there is an organization', async () => {
+    it('should call PATCH /api/organizations/:id once, when there is an organization', async function() {
       // given
       const expectedBody = {
         data: {
@@ -144,7 +144,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
       expect(nockStub.isDone()).to.equal(true);
     });
 
-    it('should call PATCH /api/organizations/:id three times, when there are three organizations', async () => {
+    it('should call PATCH /api/organizations/:id three times, when there are three organizations', async function() {
       // given
       const expectedBody1 = {
         data: {
@@ -222,7 +222,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
       expect(nockStub3.isDone()).to.equal(true);
     });
 
-    it('should call PATCH /api/organizations/:id three times, even when an error occur on an organization', async () => {
+    it('should call PATCH /api/organizations/:id three times, even when an error occur on an organization', async function() {
       // given
       const expectedBody1 = {
         data: {
@@ -303,7 +303,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
     });
 
     it('should return a promise resolving to an array of objects ' +
-      'containing the API error and relevant informations to find the csv row', async () => {
+      'containing the API error and relevant informations to find the csv row', async function() {
       // given
       const expectedBody1 = {
         data: {

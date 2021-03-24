@@ -12,19 +12,19 @@ describe('Unit | Router | certification-point-of-contact-router', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(certificationPointOfContactController, 'get').callsFake((request, h) => h.response().code(200));
     sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').returns('ok');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     sinon.restore();
   });
 
-  describe('GET /api/certification-point-of-contacts/{userId}', () => {
+  describe('GET /api/certification-point-of-contacts/{userId}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/certification-point-of-contacts/123');
 
@@ -32,7 +32,7 @@ describe('Unit | Router | certification-point-of-contact-router', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should call pre-handler', async () => {
+    it('should call pre-handler', async function() {
       // when
       await httpTestServer.request('GET', '/api/certification-point-of-contacts/123');
 

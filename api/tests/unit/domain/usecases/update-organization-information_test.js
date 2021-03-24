@@ -2,12 +2,12 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper
 const { updateOrganizationInformation } = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | update-organization-information', () => {
+describe('Unit | UseCase | update-organization-information', function() {
 
   let originalOrganization;
   let organizationRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     originalOrganization = domainBuilder.buildOrganization({
       name: 'Old name',
       type: 'SCO',
@@ -25,9 +25,9 @@ describe('Unit | UseCase | update-organization-information', () => {
     };
   });
 
-  context('when organization exists', () => {
+  context('when organization exists', function() {
 
-    it('should allow to update the organization name (only) if modified', async () => {
+    it('should allow to update the organization name (only) if modified', async function() {
       // given
       const newName = 'New name';
 
@@ -42,7 +42,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, name: newName });
     });
 
-    it('should allow to update the organization type (only) if modified', async () => {
+    it('should allow to update the organization type (only) if modified', async function() {
       // given
       const newType = 'PRO';
 
@@ -57,7 +57,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, type: newType });
     });
 
-    it('should allow to update the organization logo URL (only) if modified', async () => {
+    it('should allow to update the organization logo URL (only) if modified', async function() {
       // given
       const newLogoUrl = 'http://new.logo.url';
 
@@ -72,7 +72,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, logoUrl: newLogoUrl });
     });
 
-    it('should allow to update the organization external id (only) if modified', async () => {
+    it('should allow to update the organization external id (only) if modified', async function() {
       // given
       const externalId = '9752145V';
 
@@ -87,7 +87,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, externalId });
     });
 
-    it('should allow to update the organization external id with null value', async () => {
+    it('should allow to update the organization external id with null value', async function() {
       // given
       const externalId = null;
 
@@ -102,7 +102,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, externalId });
     });
 
-    it('should allow to update the organization province code (only) if modified', async () => {
+    it('should allow to update the organization province code (only) if modified', async function() {
       // given
       const provinceCode = '975';
 
@@ -117,7 +117,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, provinceCode });
     });
 
-    it('should allow to update the organization province code with null value', async () => {
+    it('should allow to update the organization province code with null value', async function() {
       // given
       const provinceCode = null;
 
@@ -132,7 +132,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, provinceCode });
     });
 
-    it('should allow to update the organization isManagingStudents (only) if modified', async () => {
+    it('should allow to update the organization isManagingStudents (only) if modified', async function() {
       // when
       await updateOrganizationInformation({
         id: originalOrganization.id,
@@ -144,7 +144,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, isManagingStudents: false });
     });
 
-    it('should allow to update the organization canCollectProfiles (only) if modified', async () => {
+    it('should allow to update the organization canCollectProfiles (only) if modified', async function() {
       // when
       await updateOrganizationInformation({
         id: originalOrganization.id,
@@ -156,7 +156,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, canCollectProfiles: false });
     });
 
-    it('should allow to update the organization email', async () => {
+    it('should allow to update the organization email', async function() {
       // given
       const newEmail = 'sco.generic.newaccount@example.net';
 
@@ -171,7 +171,7 @@ describe('Unit | UseCase | update-organization-information', () => {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, email: newEmail });
     });
 
-    it('should allow to update the organization credit', async () => {
+    it('should allow to update the organization credit', async function() {
       // given
       const newCredit = 100;
 
@@ -187,9 +187,9 @@ describe('Unit | UseCase | update-organization-information', () => {
     });
   });
 
-  context('when an error occurred', () => {
+  context('when an error occurred', function() {
 
-    it('should reject a NotFoundError (DomainError) when the organization does not exist', async () => {
+    it('should reject a NotFoundError (DomainError) when the organization does not exist', async function() {
       // given
       organizationRepository.get = sinon.stub().rejects(new NotFoundError('Not found organization'));
 

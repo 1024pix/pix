@@ -8,19 +8,19 @@ const moduleUnderTest = require('../../../../lib/application/feedbacks');
 
 const feedbackController = require('../../../../lib/application/feedbacks/feedback-controller');
 
-describe('Unit | Router | feedback-router', () => {
+describe('Unit | Router | feedback-router', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(feedbackController, 'save').returns('ok');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('POST /api/feedbacks', () => {
+  describe('POST /api/feedbacks', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('POST', '/api/feedbacks');
 

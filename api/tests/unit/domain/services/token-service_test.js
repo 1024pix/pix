@@ -8,11 +8,11 @@ const settings = require('../../../../lib/config');
 
 const tokenService = require('../../../../lib/domain/services/token-service');
 
-describe('Unit | Domain | Service | Token Service', () => {
+describe('Unit | Domain | Service | Token Service', function() {
 
-  describe('#createIdTokenForUserReconciliation', () => {
+  describe('#createIdTokenForUserReconciliation', function() {
 
-    it('should return a valid idToken with firstName, lastName, samlId', () => {
+    it('should return a valid idToken with firstName, lastName, samlId', function() {
       // given
       const externalUser = {
         firstName: 'Adèle',
@@ -34,9 +34,9 @@ describe('Unit | Domain | Service | Token Service', () => {
     });
   });
 
-  describe('#extractExternalUserFromIdToken', () => {
+  describe('#extractExternalUserFromIdToken', function() {
 
-    it('should return external user if the idToken is valid', async () => {
+    it('should return external user if the idToken is valid', async function() {
       // given
       const externalUser = {
         firstName: 'Saml',
@@ -53,7 +53,7 @@ describe('Unit | Domain | Service | Token Service', () => {
       expect(result).to.deep.equal(externalUser);
     });
 
-    it('should throw an InvalidExternalUserTokenError if the idToken is invalid', async () => {
+    it('should throw an InvalidExternalUserTokenError if the idToken is invalid', async function() {
       // given
       const idToken = 'WRONG_DATA';
 
@@ -66,9 +66,9 @@ describe('Unit | Domain | Service | Token Service', () => {
 
   });
 
-  describe('#extractUserId', () => {
+  describe('#extractUserId', function() {
 
-    it('should return userId if the accessToken is valid', () => {
+    it('should return userId if the accessToken is valid', function() {
       // given
       const userId = 123;
       const accessToken = tokenService.createAccessTokenFromUser(userId, 'pix');
@@ -80,7 +80,7 @@ describe('Unit | Domain | Service | Token Service', () => {
       expect(result).to.equal(123);
     });
 
-    it('should return null if the accessToken is invalid', () => {
+    it('should return null if the accessToken is invalid', function() {
       // given
       const accessToken = 'WRONG_DATA';
 
@@ -92,9 +92,9 @@ describe('Unit | Domain | Service | Token Service', () => {
     });
   });
 
-  describe('#extractUserIdForCampaignResults', () => {
+  describe('#extractUserIdForCampaignResults', function() {
 
-    it('should return userId if the accessToken is valid', () => {
+    it('should return userId if the accessToken is valid', function() {
       // given
       const userId = 123;
       const accessToken = tokenService.createTokenForCampaignResults(userId);
@@ -106,7 +106,7 @@ describe('Unit | Domain | Service | Token Service', () => {
       expect(result).to.equal(userId);
     });
 
-    it('should return null if the accessToken is invalid', () => {
+    it('should return null if the accessToken is invalid', function() {
       // given
       const accessToken = 'WRONG_DATA';
 
@@ -118,9 +118,9 @@ describe('Unit | Domain | Service | Token Service', () => {
     });
   });
 
-  describe('#decodeIfValid', () => {
+  describe('#decodeIfValid', function() {
 
-    it('should throw an Invalid token error, when token is not valid', async () => {
+    it('should throw an Invalid token error, when token is not valid', async function() {
       // given
       const token = 'eyJhbGciOiJIUzI1NiIsIgR5cCI6IkpXVCJ9.eyJ1c2VyX2lPIjoxMjMsImlhdCI6MTQ5OTA3Nzg2Mn0.FRAAoowTA8Bc6BOzD7wWh2viVN47VrPcGgLuHi_NmKw';
 
@@ -132,9 +132,9 @@ describe('Unit | Domain | Service | Token Service', () => {
     });
   });
 
-  describe('#extractSamlId', () => {
+  describe('#extractSamlId', function() {
 
-    it('should return samlId if the idToken is valid', () => {
+    it('should return samlId if the idToken is valid', function() {
       // given
       const expectedSamlId = 'SAMLID';
       const userAttributes = {
@@ -151,7 +151,7 @@ describe('Unit | Domain | Service | Token Service', () => {
       expect(samlId).to.equal(expectedSamlId);
     });
 
-    it('should return null if the idToken is invalid', () => {
+    it('should return null if the idToken is invalid', function() {
       // given
       const invalidIdToken = 'ABCD';
 
@@ -163,9 +163,9 @@ describe('Unit | Domain | Service | Token Service', () => {
     });
   });
 
-  describe('#extractSessionId', () => {
+  describe('#extractSessionId', function() {
 
-    it('should return the session id if the token is valid', () => {
+    it('should return the session id if the token is valid', function() {
       // given
       const token = jsonwebtoken.sign({
         session_id: 12345,
@@ -180,7 +180,7 @@ describe('Unit | Domain | Service | Token Service', () => {
       });
     });
 
-    it('should throw if session id or result recipient email is missing', async () => {
+    it('should throw if session id or result recipient email is missing', async function() {
       // given
       const invalidIdToken = jsonwebtoken.sign({
       }, settings.authentication.secret, { expiresIn: '30d' });
@@ -192,7 +192,7 @@ describe('Unit | Domain | Service | Token Service', () => {
       expect(error).to.be.an.instanceof(InvalidSessionResultError);
     });
 
-    it('should throw if token is expired', async () => {
+    it('should throw if token is expired', async function() {
       // given
       const invalidIdToken = jsonwebtoken.sign({
         session_id: 1234,
@@ -207,9 +207,9 @@ describe('Unit | Domain | Service | Token Service', () => {
     });
   });
 
-  describe('#extractResultRecipientEmailAndSessionId', () => {
+  describe('#extractResultRecipientEmailAndSessionId', function() {
 
-    it('should return the session id and result recipient email if the token is valid', () => {
+    it('should return the session id and result recipient email if the token is valid', function() {
       // given
       const token = jsonwebtoken.sign({
         result_recipient_email: 'recipientEmail@example.net',
@@ -226,7 +226,7 @@ describe('Unit | Domain | Service | Token Service', () => {
       });
     });
 
-    it('should throw if session id or result recipient email is missing', async () => {
+    it('should throw if session id or result recipient email is missing', async function() {
       // given
       const invalidIdToken = jsonwebtoken.sign({
         result_recipient_email: 'recipientEmail@example.net',
@@ -239,7 +239,7 @@ describe('Unit | Domain | Service | Token Service', () => {
       expect(error).to.be.an.instanceof(InvalidResultRecipientTokenError);
     });
 
-    it('should throw if token is expired', async () => {
+    it('should throw if token is expired', async function() {
       // given
       const invalidIdToken = jsonwebtoken.sign({
         result_recipient_email: 'recipientEmail@example.net',
@@ -255,7 +255,7 @@ describe('Unit | Domain | Service | Token Service', () => {
     });
   });
 
-  describe('#extractPayloadFromPoleEmploiIdToken', () => {
+  describe('#extractPayloadFromPoleEmploiIdToken', function() {
 
     const cert_priv = '-----BEGIN RSA PRIVATE KEY-----\nMIIEpQIBAAKCAQEAvzoCEC2rpSpJQaWZbUmlsDNwp83Jr4fi6KmBWIwnj1MZ6CUQ7rBasuLI8AcfX5/10scSfQNCsTLV2tMKQaHuvyrVfwY0dINk+nkqB74QcT2oCCH9XduJjDuwWA4xLqAKuF96FsIes52opEM50W7/W7DZCKXkC8fFPFj6QF5ZzApDw2Qsu3yMRmr7/W9uWeaTwfPx24YdY7Ah+fdLy3KN40vXv9c4xiSafVvnx9BwYL7H1Q8NiK9LGEN6+JSWfgckQCs6UUBOXSZdreNN9zbQCwyzee7bOJqXUDAuLcFARzPw1EsZAyjVtGCKIQ0/btqK+jFunT2NBC8RItanDZpptQIDAQABAoIBAQCsssO4Pra8hFMCgX7tr0x+tAYy1ewmpW8stiDFilYT33YPLKJ9HjHbSms0MwqHftwwTm8JDc/GXmW6qUui+I64gQOtIzpuW1fvyUtHEMSisI83QRMkF6fCSQm6jJ6oQAtOdZO6R/gYOPNb3gayeS8PbMilQcSRSwp6tNTVGyC33p43uUUKAKHnpvAwUSc61aVOtw2wkD062XzMhJjYpHm65i4V31AzXo8HF42NrAtZ8K/AuQZne5F/6F4QFVlMKzUoHkSUnTp60XZxX77GuyDeDmCgSc2J7xvR5o6VpjsHMo3ek0gJk5ZBnTgkHvnpbULCRxTmDfjeVPuev3NN2TBFAoGBAPxbqNEsXPOckGTvG3tUOAAkrK1hfW3TwvrW/7YXg1/6aNV4sklcvqn/40kCK0v9xJIv9FM/l0Nq+CMWcrb4sjLeGwHAa8ASfk6hKHbeiTFamA6FBkvQ//7GP5khD+y62RlWi9PmwJY21lEkn2mP99THxqvZjQiAVNiqlYdwiIc7AoGBAMH8f2Ay7Egc2KYRYU2qwa5E/Cljn/9sdvUnWM+gOzUXpc5sBi+/SUUQT8y/rY4AUVW6YaK7chG9YokZQq7ZwTCsYxTfxHK2pnG/tXjOxLFQKBwppQfJcFSRLbw0lMbQoZBkS+zb0ufZzxc2fJfXE+XeJxmKs0TS9ltQuJiSqCPPAoGBALEc84K7DBG+FGmCl1sbZKJVGwwknA90zCeYtadrIT0/VkxchWSPvxE5Ep+u8gxHcqrXFTdILjWW4chefOyF5ytkTrgQAI+xawxsdyXWUZtd5dJq8lxLtx9srD4gwjh3et8ZqtFx5kCHBCu29Fr2PA4OmBUMfrs0tlfKgV+pT2j5AoGBAKnA0Z5XMZlxVM0OTH3wvYhI6fk2Kx8TxY2Gnxsh9m3hgcD/mvJRjEaZnZto6PFoqcRBU4taSNnpRr7+kfH8sCht0k7D+l8AIutLffx3xHv9zvvGHZqQ1nHKkaEuyjqo+5kli6N8QjWNzsFbdvBQ0CLJoqGhVHsXuWnzW3Z4cBbVAoGAEtnwY1OJM7+R2u1CW0tTjqDlYU2hUNa9t1AbhyGdI2arYp+p+umAb5VoYLNsdvZhqjVFTrYNEuhTJFYCF7jAiZLYvYm0C99BqcJnJPl7JjWynoNHNKw39f6PIOE1rAmPE8Cfz/GFF5115ZKVlq+2BY8EKNxbCIy2d/vMEvisnXI=\n-----END RSA PRIVATE KEY-----';
 
@@ -270,7 +270,7 @@ describe('Unit | Domain | Service | Token Service', () => {
     const nonce = 'bb041272-d6e6-457c-99fb-ff1aa02217fd';
     const idIdentiteExterne = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
-    it('should return given_name, family_name, nonce, idIdentiteExterne', async () => {
+    it('should return given_name, family_name, nonce, idIdentiteExterne', async function() {
       // given
       const idToken = generateIdToken({
         given_name, family_name, nonce, idIdentiteExterne,
@@ -292,8 +292,8 @@ describe('Unit | Domain | Service | Token Service', () => {
 
   });
 
-  describe('#createCertificationResultsByRecipientEmailLinkToken', () => {
-    it('should return a valid token with sessionId and resultRecipientEmail', () => {
+  describe('#createCertificationResultsByRecipientEmailLinkToken', function() {
+    it('should return a valid token with sessionId and resultRecipientEmail', function() {
       // given
       const sessionId = 'abcd1234';
       const resultRecipientEmail = 'results@college-romain-rolland.edu';
@@ -312,8 +312,8 @@ describe('Unit | Domain | Service | Token Service', () => {
     });
   });
 
-  describe('#createCertificationResultsLinkToken', () => {
-    it('should return a valid token with sessionId and resultRecipientEmail', () => {
+  describe('#createCertificationResultsLinkToken', function() {
+    it('should return a valid token with sessionId and resultRecipientEmail', function() {
       // given
       const sessionId = 'abcd1234';
       const daysBeforeExpiration = 30;

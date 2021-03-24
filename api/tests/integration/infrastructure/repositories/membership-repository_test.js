@@ -5,25 +5,25 @@ const { MembershipCreationError, MembershipUpdateError } = require('../../../../
 const Membership = require('../../../../lib/domain/models/Membership');
 const Organization = require('../../../../lib/domain/models/Organization');
 
-describe('Integration | Infrastructure | Repository | membership-repository', () => {
+describe('Integration | Infrastructure | Repository | membership-repository', function() {
 
-  afterEach(() => {
+  afterEach(function() {
     return knex('memberships').delete();
   });
 
-  describe('#create', () => {
+  describe('#create', function() {
 
     let userId;
     let organizationId;
     const organizationRole = Membership.roles.ADMIN;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
     });
 
-    it('should add a new membership in database', async () => {
+    it('should add a new membership in database', async function() {
       // given
       const beforeNbMemberships = await knex('memberships').count('id as count');
 
@@ -35,7 +35,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       expect(parseInt(afterNbMemberships[0].count)).to.equal(parseInt(beforeNbMemberships[0].count + 1));
     });
 
-    it('should return a Membership domain model object', async () => {
+    it('should return a Membership domain model object', async function() {
       // when
       const membership = await membershipRepository.create(userId, organizationId, organizationRole);
 
@@ -44,9 +44,9 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       expect(membership.organizationRole).to.equal(Membership.roles.ADMIN);
     });
 
-    context('Error cases', () => {
+    context('Error cases', function() {
 
-      it('should throw a domain error when a membership already exist for user + organization', async () => {
+      it('should throw a domain error when a membership already exist for user + organization', async function() {
         // given
         await membershipRepository.create(userId, organizationId, organizationRole);
 
@@ -59,9 +59,9 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
     });
   });
 
-  describe('#findByOrganizationId', () => {
+  describe('#findByOrganizationId', function() {
 
-    it('should return all the memberships for a given organization ID with only required relationships', async () => {
+    it('should return all the memberships for a given organization ID with only required relationships', async function() {
       // given
       const organization_1 = databaseBuilder.factory.buildOrganization();
       const organization_2 = databaseBuilder.factory.buildOrganization();
@@ -85,7 +85,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       expect(_.map(memberships, 'user.id')).to.have.members([user_1.id, user_2.id]);
     });
 
-    it('should order memberships by id', async () => {
+    it('should order memberships by id', async function() {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -109,17 +109,17 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
     });
   });
 
-  describe('#findPaginatedFiltered', () => {
+  describe('#findPaginatedFiltered', function() {
     let organizationId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       return databaseBuilder.commit();
     });
 
-    context('when there are Memberships in the database', () => {
+    context('when there are Memberships in the database', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         const userId1 = databaseBuilder.factory.buildUser().id;
         const userId2 = databaseBuilder.factory.buildUser().id;
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -129,7 +129,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         return databaseBuilder.commit();
       });
 
-      it('should return an Array of Memberships', async () => {
+      it('should return an Array of Memberships', async function() {
         // given
         const filter = {};
         const page = { number: 1, size: 10 };
@@ -146,9 +146,9 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       });
     });
 
-    context('when there are lots of Memberships in the database', () => {
+    context('when there are lots of Memberships in the database', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         const userId1 = databaseBuilder.factory.buildUser().id;
         const userId2 = databaseBuilder.factory.buildUser().id;
         const userId3 = databaseBuilder.factory.buildUser().id;
@@ -158,7 +158,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         return databaseBuilder.commit();
       });
 
-      it('should return paginated matching Organizations', async () => {
+      it('should return paginated matching Organizations', async function() {
         // given
         const filter = {};
         const page = { number: 1, size: 2 };
@@ -173,9 +173,9 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       });
     });
 
-    context('when there are multiple Memberships matching the same "firstName" search pattern', () => {
+    context('when there are multiple Memberships matching the same "firstName" search pattern', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         const userId1 = databaseBuilder.factory.buildUser({ firstName: 'André' }).id;
         const userId2 = databaseBuilder.factory.buildUser({ firstName: 'Andréa' }).id;
         const userId3 = databaseBuilder.factory.buildUser({ firstName: 'Andranova' }).id;
@@ -185,7 +185,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         return databaseBuilder.commit();
       });
 
-      it('should return only Memberships matching "firstName" if given in filters', async () => {
+      it('should return only Memberships matching "firstName" if given in filters', async function() {
         // given
         const filter = { firstName: 'andré' };
         const page = { number: 1, size: 10 };
@@ -201,9 +201,9 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       });
     });
 
-    context('when there are multiple Memberships matching the same "lastName" search pattern', () => {
+    context('when there are multiple Memberships matching the same "lastName" search pattern', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         const userId1 = databaseBuilder.factory.buildUser({ lastName: 'André' }).id;
         const userId2 = databaseBuilder.factory.buildUser({ lastName: 'Andréa' }).id;
         const userId3 = databaseBuilder.factory.buildUser({ lastName: 'Andranova' }).id;
@@ -213,7 +213,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         return databaseBuilder.commit();
       });
 
-      it('should return only Memberships matching "firstName" if given in filters', async () => {
+      it('should return only Memberships matching "firstName" if given in filters', async function() {
         // given
         const filter = { lastName: 'andré' };
         const page = { number: 1, size: 10 };
@@ -229,9 +229,9 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       });
     });
 
-    context('when there are multiple Memberships matching the same "email" search pattern', () => {
+    context('when there are multiple Memberships matching the same "email" search pattern', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         const userId1 = databaseBuilder.factory.buildUser({ email: 'andre@example.net' }).id;
         const userId2 = databaseBuilder.factory.buildUser({ email: 'andrea@example.net' }).id;
         const userId3 = databaseBuilder.factory.buildUser({ email: 'andranova@example.net' }).id;
@@ -241,7 +241,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         return databaseBuilder.commit();
       });
 
-      it('should return only Memberships matching "firstName" if given in filters', async () => {
+      it('should return only Memberships matching "firstName" if given in filters', async function() {
         // given
         const filter = { email: 'andre' };
         const page = { number: 1, size: 10 };
@@ -257,9 +257,9 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       });
     });
 
-    context('when there are multiple Memberships matching the fields "firstName", "lastName" and "email" search pattern', () => {
+    context('when there are multiple Memberships matching the fields "firstName", "lastName" and "email" search pattern', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         // Matching memberships
         const userId1 = databaseBuilder.factory.buildUser({ firstName: 'firstName_ok_1', lastName: 'lastName_ok_1', email: 'email_ok_1@example.net' }).id;
         const userId2 = databaseBuilder.factory.buildUser({ firstName: 'firstName_ok_2', lastName: 'lastName_ok_2', email: 'email_ok_2@example.net' }).id;
@@ -277,7 +277,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         return databaseBuilder.commit();
       });
 
-      it('should return only Memberships matching "firstName" AND "lastName" AND "email" if given in filters', async () => {
+      it('should return only Memberships matching "firstName" AND "lastName" AND "email" if given in filters', async function() {
         // given
         const filter = { firstName: 'firstname_ok', lastName: 'lastname_ok', email: 'email_ok' };
         const page = { number: 1, size: 10 };
@@ -294,16 +294,16 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       });
     });
 
-    context('when there are filters that should be ignored', () => {
+    context('when there are filters that should be ignored', function() {
       let membershipId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         const userId = databaseBuilder.factory.buildUser().id;
         membershipId = databaseBuilder.factory.buildMembership({ organizationId, userId }).id;
         return databaseBuilder.commit();
       });
 
-      it('should ignore the filters and retrieve all organizations', async () => {
+      it('should ignore the filters and retrieve all organizations', async function() {
         // given
         const filter = { id: 999 };
         const page = { number: 1, size: 10 };
@@ -318,7 +318,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       });
     });
 
-    it('should return only active memberships', async () => {
+    it('should return only active memberships', async function() {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
 
@@ -345,11 +345,11 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
     });
   });
 
-  describe('#findByUserIdAndOrganizationId', () => {
+  describe('#findByUserIdAndOrganizationId', function() {
 
-    context('When organization is not required', () => {
+    context('When organization is not required', function() {
 
-      it('should retrieve membership with given useId and OrganizationId', async () => {
+      it('should retrieve membership with given useId and OrganizationId', async function() {
         // given
         const organization = databaseBuilder.factory.buildOrganization();
         const user1 = databaseBuilder.factory.buildUser();
@@ -370,7 +370,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         expect(memberships[0].id).to.equal(membership2.id);
       });
 
-      it('should retrieve only active membership', async () => {
+      it('should retrieve only active membership', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -386,7 +386,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         expect(foundMemberships).to.have.lengthOf(0);
       });
 
-      it('should retrieve membership and organization with tags', async () => {
+      it('should retrieve membership and organization with tags', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -404,9 +404,9 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       });
     });
 
-    context('When organization is required', () => {
+    context('When organization is required', function() {
 
-      it('should retrieve membership and organization with given userId and organizationId', async () => {
+      it('should retrieve membership and organization with given userId and organizationId', async function() {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -427,9 +427,9 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
     });
   });
 
-  describe('#findByUser', () => {
+  describe('#findByUser', function() {
 
-    it('should retrieve membership with given userId', async () => {
+    it('should retrieve membership with given userId', async function() {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
       const user1 = databaseBuilder.factory.buildUser();
@@ -451,7 +451,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       expect(memberships[0].id).to.equal(membership2.id);
     });
 
-    it('should retrieve membership with its organization', async () => {
+    it('should retrieve membership with its organization', async function() {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const userId = databaseBuilder.factory.buildUser().id;
@@ -469,7 +469,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       expect(organization).to.be.instanceOf(Organization);
     });
 
-    it('should retrieve only active membership', async () => {
+    it('should retrieve only active membership', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -486,12 +486,12 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
     });
   });
 
-  describe('#updateById', () => {
+  describe('#updateById', function() {
 
     let existingMembershipId;
     let updatedByUserId = null;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       updatedByUserId = databaseBuilder.factory.buildUser().id;
@@ -501,9 +501,9 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       await databaseBuilder.commit();
     });
 
-    context('When membership exist', () => {
+    context('When membership exist', function() {
 
-      it('should update membership attributes', async () => {
+      it('should update membership attributes', async function() {
         // given
         const membershipAttributes = { organizationRole: Membership.roles.ADMIN, updatedByUserId };
 
@@ -516,7 +516,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         expect(membership.updatedByUserId).to.equal(membershipAttributes.updatedByUserId);
       });
 
-      it('should update organization role with admin role', async () => {
+      it('should update organization role with admin role', async function() {
         // given
         const membershipAttributes = { organizationRole: Membership.roles.ADMIN };
 
@@ -528,7 +528,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         expect(membership.organizationRole).to.equal(membershipAttributes.organizationRole);
       });
 
-      it('should update organization role with member role', async () => {
+      it('should update organization role with member role', async function() {
         // given
         const organizationRole = Membership.roles.MEMBER;
         const membershipAttributes = { organizationRole };
@@ -539,7 +539,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         expect(membership.organizationRole).to.equal(organizationRole);
       });
 
-      it('should save the user identifier who changes the organization role ', async () => {
+      it('should save the user identifier who changes the organization role ', async function() {
         // given
         const membershipAttributes = { organizationRole: Membership.roles.ADMIN, updatedByUserId };
 
@@ -553,9 +553,9 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       });
     });
 
-    context('When membership does not exist', () => {
+    context('When membership does not exist', function() {
 
-      it('should throw MembershipUpdateError', async () => {
+      it('should throw MembershipUpdateError', async function() {
         // given
         const organizationRole = Membership.roles.ADMIN;
         const messageNotRowUpdated = 'No Rows Updated';

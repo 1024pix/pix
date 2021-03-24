@@ -13,21 +13,21 @@ const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/scho
 
 const schoolingRegistrationCsvColumns = COLUMNS.map((column) => column.label).join(';');
 
-describe('Acceptance | Application | organization-controller-import-schooling-registrations', () => {
+describe('Acceptance | Application | organization-controller-import-schooling-registrations', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('POST /api/organizations/{id}/schooling-registrations/import-siecle', () => {
+  describe('POST /api/organizations/{id}/schooling-registrations/import-siecle', function() {
 
     const externalId = 'UAI123ABC';
     let organizationId;
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const connectedUser = databaseBuilder.factory.buildUser();
       organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true, externalId }).id;
       databaseBuilder.factory.buildMembership({
@@ -46,14 +46,14 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
       };
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('schooling-registrations').delete();
     });
 
-    context('When a XML SIECLE file is loaded', () => {
+    context('When a XML SIECLE file is loaded', function() {
 
-      context('when no schoolingRegistration has been imported yet, and the file is well formatted', () => {
-        beforeEach(() => {
+      context('when no schoolingRegistration has been imported yet, and the file is well formatted', function() {
+        beforeEach(function() {
           const buffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
             '<BEE_ELEVES VERSION="2.1">' +
@@ -109,7 +109,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = buffer;
         });
 
-        it('should respond with a 204 - no content', async () => {
+        it('should respond with a 204 - no content', async function() {
           // when
           const response = await server.inject(options);
 
@@ -117,7 +117,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           expect(response.statusCode).to.equal(204);
         });
 
-        it('should create all schoolingRegistrations', async () => {
+        it('should create all schoolingRegistrations', async function() {
           // when
           await server.inject(options);
 
@@ -128,8 +128,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when some schoolingRegistrations data are not well formatted', () => {
-        beforeEach(() => {
+      context('when some schoolingRegistrations data are not well formatted', function() {
+        beforeEach(function() {
           // given
           const wellFormattedStudent =
             '<ELEVE ELEVE_ID="0001">' +
@@ -236,7 +236,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = malformedStudentsBuffer;
         });
 
-        it('should save well formatted schoolingRegistrations only', async () => {
+        it('should save well formatted schoolingRegistrations only', async function() {
           // when
           await server.inject(options);
 
@@ -247,8 +247,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when the schoolingRegistration has already been imported, but in another organization', () => {
-        beforeEach(async () => {
+      context('when the schoolingRegistration has already been imported, but in another organization', function() {
+        beforeEach(async function() {
           // given
           const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
           databaseBuilder.factory.buildSchoolingRegistration({ nationalStudentId: '00000000124', organizationId: otherOrganizationId });
@@ -289,7 +289,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = buffer;
         });
 
-        it('should save the schoolingRegistration in the current organization', async () => {
+        it('should save the schoolingRegistration in the current organization', async function() {
           // when
           const response = await server.inject(options);
 
@@ -300,8 +300,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when a schoolingRegistration is present twice in the file', () => {
-        beforeEach(async () => {
+      context('when a schoolingRegistration is present twice in the file', function() {
+        beforeEach(async function() {
           // given
           const schoolingRegistration1 =
             '<ELEVE ELEVE_ID="0001">' +
@@ -360,7 +360,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = bufferWithMalformedStudent;
         });
 
-        it('should not import any schoolingRegistration and return a 422', async () => {
+        it('should not import any schoolingRegistration and return a 422', async function() {
           // when
           const response = await server.inject(options);
 
@@ -372,8 +372,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when a schoolingRegistration cant be updated', () => {
-        beforeEach(async () => {
+      context('when a schoolingRegistration cant be updated', function() {
+        beforeEach(async function() {
           // given
           const schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing =
             '<ELEVE ELEVE_ID="0001">' +
@@ -459,7 +459,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await databaseBuilder.commit();
         });
 
-        it('should not update any schoolingRegistration and return a 400 - Bad Request', async () => {
+        it('should not update any schoolingRegistration and return a 400 - Bad Request', async function() {
           // when
           const response = await server.inject(options);
 
@@ -471,8 +471,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when a schoolingRegistration cant be updated but another could be created', () => {
-        beforeEach(async () => {
+      context('when a schoolingRegistration cant be updated but another could be created', function() {
+        beforeEach(async function() {
           // given
           const schoolingRegistrationThatCouldBeCreated =
             '<ELEVE ELEVE_ID="0001">' +
@@ -569,7 +569,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await databaseBuilder.commit();
         });
 
-        it('should not update and create anyone, and return a 400 - Bad Request', async () => {
+        it('should not update and create anyone, and return a 400 - Bad Request', async function() {
           // when
           const response = await server.inject(options);
 
@@ -581,8 +581,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when a schoolingRegistration cant be created but another could be updated', () => {
-        beforeEach(async () => {
+      context('when a schoolingRegistration cant be created but another could be updated', function() {
+        beforeEach(async function() {
           // given
           const schoolingRegistrationThatCantBeCreatedBecauseBirthdateIsMissing =
             '<ELEVE ELEVE_ID="0001">' +
@@ -679,7 +679,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await databaseBuilder.commit();
         });
 
-        it('should not update and create anyone, and return a 400 - Bad Request', async () => {
+        it('should not update and create anyone, and return a 400 - Bad Request', async function() {
           // when
           const response = await server.inject(options);
 
@@ -691,8 +691,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when a schoolingRegistration cant be imported', async() => {
-        beforeEach(() => {
+      context('when a schoolingRegistration cant be imported', async function() {
+        beforeEach(function() {
           // given
           const malformedStudentsBuffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
@@ -721,7 +721,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = malformedStudentsBuffer;
         });
 
-        it('should not import the schoolingRegistrations and return a 400 - Bad Request', async () => {
+        it('should not import the schoolingRegistrations and return a 400 - Bad Request', async function() {
           // when
           const response = await server.inject(options);
 
@@ -733,8 +733,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when file in not properly formatted', async() => {
-        beforeEach(() => {
+      context('when file in not properly formatted', async function() {
+        beforeEach(function() {
           // given
           const malformedBuffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
@@ -746,7 +746,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = malformedBuffer;
         });
 
-        it('should return a 422 - Unprocessable Entity', async () => {
+        it('should return a 422 - Unprocessable Entity', async function() {
           // when
           const response = await server.inject(options);
 
@@ -759,9 +759,9 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
       });
     });
 
-    context('When a CSV SIECLE file is loaded', () => {
-      context('SCO : when no schooling registration has been imported yet, and the file is well formatted', () => {
-        beforeEach(() => {
+    context('When a CSV SIECLE file is loaded', function() {
+      context('SCO : when no schooling registration has been imported yet, and the file is well formatted', function() {
+        beforeEach(function() {
           const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
           456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
@@ -772,7 +772,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = buffer;
         });
 
-        it('should respond with a 204 - no content', async () => {
+        it('should respond with a 204 - no content', async function() {
           // when
           const response = await server.inject(options);
 
@@ -780,7 +780,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           expect(response.statusCode).to.equal(204);
         });
 
-        it('should create all schoolingRegistrations', async () => {
+        it('should create all schoolingRegistrations', async function() {
           // when
           await server.inject(options);
 
@@ -791,8 +791,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('SCO AGRI - when no schooling registration has been imported yet, and the file is well formatted', () => {
-        beforeEach(async () => {
+      context('SCO AGRI - when no schooling registration has been imported yet, and the file is well formatted', function() {
+        beforeEach(async function() {
           const tag = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' });
           databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId: tag.id });
 
@@ -808,7 +808,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = buffer;
         });
 
-        it('should respond with a 204 - no content', async () => {
+        it('should respond with a 204 - no content', async function() {
           // when
           const response = await server.inject(options);
 
@@ -816,7 +816,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           expect(response.statusCode).to.equal(204);
         });
 
-        it('should create all schoolingRegistrations', async () => {
+        it('should create all schoolingRegistrations', async function() {
           // when
           await server.inject(options);
 
@@ -827,8 +827,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when some schooling registrations data are not well formatted', () => {
-        it('should not save any schooling registration with missing family name', async () => {
+      context('when some schooling registrations data are not well formatted', function() {
+        it('should not save any schooling registration with missing family name', async function() {
           // given
           const input = `${schoolingRegistrationCsvColumns}
            123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
@@ -850,7 +850,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           expect(response.result.errors[0].meta.field).to.equal('Nom de famille*');
         });
 
-        it('should not save any schooling registration with wrong birthCountryCode', async () => {
+        it('should not save any schooling registration with wrong birthCountryCode', async function() {
           const wrongData = 'FRANC';
           // given
           const input = `${schoolingRegistrationCsvColumns}
@@ -873,7 +873,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           expect(response.result.errors[0].meta.field).to.equal('Code pays naissance*');
         });
 
-        it('should not save any schooling registration with wrong birthCityCode', async () => {
+        it('should not save any schooling registration with wrong birthCityCode', async function() {
           const wrongData = 'A1234';
           // given
           const input = `${schoolingRegistrationCsvColumns}
@@ -897,8 +897,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when a schooling registration has the same national student id than an other one in the file', () => {
-        beforeEach(() => {
+      context('when a schooling registration has the same national student id than an other one in the file', function() {
+        beforeEach(function() {
           const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
           123F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
@@ -909,7 +909,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = buffer;
         });
 
-        it('should not import any schoolingRegistration and return a 412', async () => {
+        it('should not import any schoolingRegistration and return a 412', async function() {
           // when
           const response = await server.inject(options);
 
@@ -923,8 +923,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
       });
     });
 
-    context('Resource access management', () => {
-      beforeEach(() => {
+    context('Resource access management', function() {
+      beforeEach(function() {
         const buffer = iconv.encode(
           '<?xml version="1.0" encoding="ISO-8859-15"?>' +
           '<BEE_ELEVES VERSION="2.1">' +
@@ -935,13 +935,13 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         options.payload = buffer;
       });
 
-      context('when user is not authenticated', () => {
-        beforeEach(() => {
+      context('when user is not authenticated', function() {
+        beforeEach(function() {
           // given
           options.headers.authorization = 'invalid.access.token';
         });
 
-        it('should respond with a 401 - unauthorized access', async () => {
+        it('should respond with a 401 - unauthorized access', async function() {
           // when
           const response = await server.inject(options);
 
@@ -950,8 +950,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when user user does not belong to Organization', () => {
-        beforeEach(async () => {
+      context('when user user does not belong to Organization', function() {
+        beforeEach(async function() {
           // given
           const userId = databaseBuilder.factory.buildUser.withMembership().id;
           await databaseBuilder.commit();
@@ -959,7 +959,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
         });
 
-        it('should respond with a 403 - Forbidden access', async () => {
+        it('should respond with a 403 - Forbidden access', async function() {
           // when
           const response = await server.inject(options);
 
@@ -968,8 +968,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when Organization does not manage schoolingRegistrations', () => {
-        beforeEach(async () => {
+      context('when Organization does not manage schoolingRegistrations', function() {
+        beforeEach(async function() {
           // given
           const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
           const userId = databaseBuilder.factory.buildUser.withMembership({
@@ -982,7 +982,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle`;
         });
 
-        it('should respond with a 403 - Forbidden access', async () => {
+        it('should respond with a 403 - Forbidden access', async function() {
           // when
           const response = await server.inject(options);
 
@@ -991,8 +991,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when Organization is not a SCO organization', () => {
-        beforeEach(async () => {
+      context('when Organization is not a SCO organization', function() {
+        beforeEach(async function() {
           // given
           const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
           const userId = databaseBuilder.factory.buildUser.withMembership({
@@ -1005,7 +1005,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle`;
         });
 
-        it('should respond with a 403 - Forbidden access', async () => {
+        it('should respond with a 403 - Forbidden access', async function() {
           // when
           const response = await server.inject(options);
 
@@ -1014,8 +1014,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when user is not ADMIN', () => {
-        beforeEach(async () => {
+      context('when user is not ADMIN', function() {
+        beforeEach(async function() {
           // given
           const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
           const userId = databaseBuilder.factory.buildUser.withMembership({
@@ -1028,7 +1028,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle`;
         });
 
-        it('should respond with a 403 - Forbidden access', async () => {
+        it('should respond with a 403 - Forbidden access', async function() {
           // when
           const response = await server.inject(options);
 

@@ -1,10 +1,10 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | Target-Profile/TargetedTube', () => {
+describe('Unit | Domain | Models | Target-Profile/TargetedTube', function() {
 
-  describe('hasSkill', () => {
+  describe('hasSkill', function() {
 
-    it('should return true when the skill is in tube', () => {
+    it('should return true when the skill is in tube', function() {
       // given
       const skill = domainBuilder.buildTargetedSkill({ id: 'skillId', tubeId: 'tubeId' });
       const tube = domainBuilder.buildTargetedTube({ id: 'tubeId', skills: [skill] });
@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | Target-Profile/TargetedTube', () => {
       expect(isIncluded).to.be.true;
     });
 
-    it('should return false when the skill is not in tube', () => {
+    it('should return false when the skill is not in tube', function() {
       // given
       const tube = domainBuilder.buildTargetedTube({ id: 'tubeId', skills: [] });
 

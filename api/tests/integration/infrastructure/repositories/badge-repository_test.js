@@ -4,7 +4,7 @@ const Badge = require('../../../../lib/domain/models/Badge');
 const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
 const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartnerCompetence');
 
-describe('Integration | Repository | Badge', () => {
+describe('Integration | Repository | Badge', function() {
 
   let targetProfileWithPartnerCompetences;
   let targetProfileWithoutBadge;
@@ -19,7 +19,7 @@ describe('Integration | Repository | Badge', () => {
   let badgeCriterionForBadgeWithSameTargetProfile_1;
   let badgeCriterionForBadgeWithSameTargetProfile_2;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     targetProfileWithoutBadge = databaseBuilder.factory.buildTargetProfile();
     setupTargetProfileWithPartnerCompetences();
     setupTargetProfileWithSeveralBadges();
@@ -101,13 +101,13 @@ describe('Integration | Repository | Badge', () => {
     databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterionForBadgeWithSameTargetProfile_2, badgeId: badgeWithSameTargetProfile_2.id });
   }
 
-  afterEach(() => {
+  afterEach(function() {
     knex('badges').delete();
     knex('badge-criteria').delete();
     return knex('badge-partner-competences').delete();
   });
 
-  describe('#findByTargetProfileId', () => {
+  describe('#findByTargetProfileId', function() {
 
     it('should return two badges for same target profile', async function() {
       // given
@@ -135,7 +135,7 @@ describe('Integration | Repository | Badge', () => {
 
     });
 
-    it('should return the badge linked to the given target profile with related badge criteria and badge partner competences', async () => {
+    it('should return the badge linked to the given target profile with related badge criteria and badge partner competences', async function() {
       // given
       const targetProfileId = targetProfileWithPartnerCompetences.id;
 
@@ -166,7 +166,7 @@ describe('Integration | Repository | Badge', () => {
     });
   });
 
-  describe('#findByCampaignId', () => {
+  describe('#findByCampaignId', function() {
 
     it('should return two badges for same target profile', async function() {
       // given
@@ -195,7 +195,7 @@ describe('Integration | Repository | Badge', () => {
       });
     });
 
-    it('should return the badge linked to the given campaign with related badge criteria and badge partner competences', async () => {
+    it('should return the badge linked to the given campaign with related badge criteria and badge partner competences', async function() {
       // given
       const targetProfileId = targetProfileWithPartnerCompetences.id;
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
@@ -245,9 +245,9 @@ describe('Integration | Repository | Badge', () => {
 
   });
 
-  describe('#findByCampaignParticipationId', () => {
+  describe('#findByCampaignParticipationId', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildBadge({ targetProfileId, key: 'mille_feuilles' });
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
@@ -284,7 +284,7 @@ describe('Integration | Repository | Badge', () => {
 
     });
 
-    it('should return the badge linked to the target profile of the given campaign participation with related badge criteria and badge partner competences', async () => {
+    it('should return the badge linked to the target profile of the given campaign participation with related badge criteria and badge partner competences', async function() {
       // given
       const targetProfileId = targetProfileWithPartnerCompetences.id;
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;

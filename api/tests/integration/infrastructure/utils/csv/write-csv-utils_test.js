@@ -2,9 +2,9 @@ const { expect, catchErr } = require('../../../../test-helper');
 const { getCsvContent } = require('../../../../../lib/infrastructure/utils/csv/write-csv-utils');
 const { CsvParsingError } = require('../../../../../lib/domain/errors');
 
-describe('Integration | Infrastructure | Utils | csv | write-csv-utils', () => {
+describe('Integration | Infrastructure | Utils | csv | write-csv-utils', function() {
 
-  it('should return a csv content according to fileHeaders data', async () => {
+  it('should return a csv content according to fileHeaders data', async function() {
     // given
     const data = {
       'firstName': 'Julie',
@@ -29,7 +29,7 @@ describe('Integration | Infrastructure | Utils | csv | write-csv-utils', () => {
     expect(result).to.deep.equal(expectedResult);
   });
 
-  it('should throw an error if data is not json', async () => {
+  it('should throw an error if data is not json', async function() {
     // given
     const data = undefined;
 
@@ -40,7 +40,7 @@ describe('Integration | Infrastructure | Utils | csv | write-csv-utils', () => {
     expect(result).to.be.instanceOf(CsvParsingError);
   });
 
-  it('should throw an error if fileHeaders is not an array', async () => {
+  it('should throw an error if fileHeaders is not an array', async function() {
     // given
     const data = { 'firstName': 'Lili' };
     const fileHeaders = 1234;

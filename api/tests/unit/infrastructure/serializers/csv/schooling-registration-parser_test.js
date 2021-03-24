@@ -5,14 +5,14 @@ const { CsvImportError } = require('../../../../../lib/domain/errors');
 
 const schoolingRegistrationCsvColumns = SchoolingRegistrationParser.COLUMNS.map((column) => column.label).join(';');
 
-describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
-  context('when the header is not correctly formed', () => {
+describe('Unit | Infrastructure | SchoolingRegistrationParser', function() {
+  context('when the header is not correctly formed', function() {
     const organizationId = 123;
 
     const fieldList = ['Identifiant unique*', 'Nom de famille*', 'Date de naissance (jj/mm/aaaa)*', 'Code département naissance*', 'Code pays naissance*', 'Statut*', 'Code MEF*', 'Division*'];
     fieldList.forEach((field) => {
-      context(`when the ${field} column is missing`, () => {
-        it('should throw an CsvImportError', async () => {
+      context(`when the ${field} column is missing`, function() {
+        it('should throw an CsvImportError', async function() {
           let input = schoolingRegistrationCsvColumns.replace(`${field}`, '');
           input = input.replace(';;', ';');
           const encodedInput = iconv.encode(input, 'utf8');
@@ -25,8 +25,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
       });
     });
 
-    context('when the Premier prénom* column is missing', () => {
-      it('should throw an CsvImportError', async () => {
+    context('when the Premier prénom* column is missing', function() {
+      it('should throw an CsvImportError', async function() {
         const input = schoolingRegistrationCsvColumns.replace('Premier prénom*;', '');
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
@@ -38,9 +38,9 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
     });
   });
 
-  context('when the header is correctly formed', () => {
-    context('when there is no line', () => {
-      it('returns no registrations', () => {
+  context('when the header is correctly formed', function() {
+    context('when there is no line', function() {
+      it('returns no registrations', function() {
         const input = schoolingRegistrationCsvColumns;
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new SchoolingRegistrationParser(encodedInput, 123);
@@ -51,9 +51,9 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
       });
     });
 
-    context('when there are lines', () => {
-      context('when the data are correct', () => {
-        it('returns a schooling registration for each line', () => {
+    context('when there are lines', function() {
+      context('when the data are correct', function() {
+        it('returns a schooling registration for each line', function() {
           const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
           456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
@@ -65,7 +65,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           expect(registrations).to.have.lengthOf(2);
         });
 
-        it('returns schooling registrations for each line using the CSV column', () => {
+        it('returns schooling registrations for each line using the CSV column', function() {
           const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
           0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
@@ -111,8 +111,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
         });
       });
 
-      context('when the data are not correct', () => {
-        it('should throw an EntityValidationError with malformated National Apprentice Id', async () => {
+      context('when the data are not correct', function() {
+        it('should throw an EntityValidationError with malformated National Apprentice Id', async function() {
           //given
           const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;aaaaa;97422;;200;99100;AP;MEF1;Division 1;
@@ -127,7 +127,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           expect(error.meta).to.deep.equal({ line: 2, field: 'Identifiant unique*' });
         });
 
-        it('should throw an EntityValidationError with malformated birthCountryCode', async () => {
+        it('should throw an EntityValidationError with malformated birthCountryCode', async function() {
           //given
           const wrongData = 'FRANC';
           const input = `${schoolingRegistrationCsvColumns}
@@ -143,7 +143,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           expect(error.meta).to.deep.equal({ line: 2, field: 'Code pays naissance*' });
         });
 
-        it('should throw an EntityValidationError with malformated birthCityCode', async () => {
+        it('should throw an EntityValidationError with malformated birthCityCode', async function() {
           //given
           const wrongData = 'A1234';
           const input = `${schoolingRegistrationCsvColumns}
@@ -160,8 +160,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           expect(error.meta).to.deep.equal({ line: 2, field: 'Code commune naissance**' });
         });
 
-        context('When the organization is Agriculture and file contain status AP', () => {
-          it('should return schooling registration with nationalApprenticeId', () => {
+        context('When the organization is Agriculture and file contain status AP', function() {
+          it('should return schooling registration with nationalApprenticeId', function() {
             const input = `${schoolingRegistrationCsvColumns}
             0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
             `;
@@ -178,9 +178,9 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           });
         });
 
-        context('When csv has duplicates on national identifier', () => {
-          context('when organization is SCO', () => {
-            it('should throw an CsvImportError even with different status', async () => {
+        context('When csv has duplicates on national identifier', function() {
+          context('when organization is SCO', function() {
+            it('should throw an CsvImportError even with different status', async function() {
               const input = `${schoolingRegistrationCsvColumns}
               0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;ST;MEF1;Division 1;
               0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
@@ -197,10 +197,10 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
             });
           });
 
-          context('when organization is SCO Agriculture', () => {
+          context('when organization is SCO Agriculture', function() {
             const isAgriculture = true;
 
-            it('should not return error given nationalIdentifier with different status', () => {
+            it('should not return error given nationalIdentifier with different status', function() {
               const input = `${schoolingRegistrationCsvColumns}
               0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
               0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
@@ -224,7 +224,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
               });
             });
 
-            it('should throw an CsvImportError, with same status', async () => {
+            it('should throw an CsvImportError, with same status', async function() {
               const input = `${schoolingRegistrationCsvColumns}
               0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
               0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;

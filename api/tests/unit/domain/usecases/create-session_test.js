@@ -5,9 +5,9 @@ const sessionCodeService = require('../../../../lib/domain/services/session-code
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | create-session', () => {
+describe('Unit | UseCase | create-session', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
     const userId = 'userId';
     const certificationCenterId = 'certificationCenterId';
     const certificationCenterName = 'certificationCenterName';
@@ -19,13 +19,13 @@ describe('Unit | UseCase | create-session', () => {
     const userWithMemberships = { hasAccessToCertificationCenter: sinon.stub() };
     const accessCode = Symbol('accessCode');
 
-    context('when session is not valid', () => {
+    context('when session is not valid', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(sessionValidator, 'validate').throws();
       });
 
-      it('should throw an error', () => {
+      it('should throw an error', function() {
         const promise = createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
 
         // then
@@ -34,20 +34,20 @@ describe('Unit | UseCase | create-session', () => {
       });
     });
 
-    context('when session is valid', () => {
+    context('when session is valid', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(sessionValidator, 'validate').returns();
       });
 
-      context('when user has no certification center membership', () => {
+      context('when user has no certification center membership', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(false);
           userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
         });
 
-        it('should throw a Forbidden error', async () => {
+        it('should throw a Forbidden error', async function() {
           // when
           const error = await catchErr(createSession)({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
 
@@ -56,9 +56,9 @@ describe('Unit | UseCase | create-session', () => {
         });
       });
 
-      context('when user has certification center membership', () => {
+      context('when user has certification center membership', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
           userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
           sinon.stub(sessionCodeService, 'getNewSessionCode').resolves(accessCode);
@@ -66,7 +66,7 @@ describe('Unit | UseCase | create-session', () => {
           sessionRepository.save.resolves();
         });
 
-        it('should save the session with appropriate arguments', async () => {
+        it('should save the session with appropriate arguments', async function() {
           // when
           await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
 

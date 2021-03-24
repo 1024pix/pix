@@ -2,11 +2,11 @@ const { domainBuilder, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/student-certification-serializer');
 const StudentForEnrollment = require('../../../../../lib/domain/read-models/StudentForEnrollment');
 
-describe('Unit | Serializer | JSONAPI | student-certification-serializer', () => {
+describe('Unit | Serializer | JSONAPI | student-certification-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should convert a StudentEnrollmentReadmodel model object into JSON API data', () => {
+    it('should convert a StudentEnrollmentReadmodel model object into JSON API data', function() {
       // given
       const student = domainBuilder.buildSchoolingRegistration();
       const studentEnrollmentReadmodel = new StudentForEnrollment({

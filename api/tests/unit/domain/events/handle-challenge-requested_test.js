@@ -2,17 +2,17 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const { handleChallengeRequested } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const ChallengeRequested = require('../../../../lib/domain/events/ChallengeRequested');
 
-describe('Unit | Domain | Events | handle-challenge-requested', () => {
+describe('Unit | Domain | Events | handle-challenge-requested', function() {
 
-  describe('#handleChallengeRequested', () => {
+  describe('#handleChallengeRequested', function() {
     const now = new Date('2019-01-01T05:06:07Z');
     let clock;
 
-    beforeEach(() => {
+    beforeEach(function() {
       clock = sinon.useFakeTimers(now);
     });
 
-    afterEach(() => {
+    afterEach(function() {
       clock.restore();
     });
 
@@ -25,7 +25,7 @@ describe('Unit | Domain | Events | handle-challenge-requested', () => {
       assessmentRepository,
     };
 
-    it('fails when event is not of correct type', async () => {
+    it('fails when event is not of correct type', async function() {
       // given
       const event = 'not an event of the correct type';
       // when / then
@@ -37,7 +37,7 @@ describe('Unit | Domain | Events | handle-challenge-requested', () => {
       expect(error).not.to.be.null;
     });
 
-    it('updates assessment lastQuestionDate', async () => {
+    it('updates assessment lastQuestionDate', async function() {
       // given
       const event = new ChallengeRequested({ assessmentId: 'assessmentId' });
       const lastQuestionDate = new Date();

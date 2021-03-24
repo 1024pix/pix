@@ -5,15 +5,15 @@ const CertificationResult = require('../../../../lib/domain/models/Certification
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Badge = require('../../../../lib/domain/models/Badge');
 
-describe('Integration | Service | certification-service', () => {
-  describe('#getCertificationResult', () => {
+describe('Integration | Service | certification-service', function() {
+  describe('#getCertificationResult', function() {
     let certificationCourse;
     let assessment;
     let badge;
     const date = new Date();
     const hasAcquiredClea = true;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       certificationCourse = databaseBuilder.factory.buildCertificationCourse();
       assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id, type: Assessment.types.CERTIFICATION });
       badge = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA });
@@ -22,14 +22,14 @@ describe('Integration | Service | certification-service', () => {
       await databaseBuilder.commit();
     });
 
-    describe('when the certif status is not started', () => {
+    describe('when the certif status is not started', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id, createdAt: date });
         await databaseBuilder.commit();
       });
 
-      it('should return certification result', async () => {
+      it('should return certification result', async function() {
         // when
         const result = await getCertificationResult(certificationCourse.id);
 
@@ -42,9 +42,9 @@ describe('Integration | Service | certification-service', () => {
       });
     });
 
-    describe('when the certif status is started', () => {
+    describe('when the certif status is started', function() {
 
-      it('should return certification result with correct assessmentId', async () => {
+      it('should return certification result with correct assessmentId', async function() {
         // when
         const result = await getCertificationResult(certificationCourse.id);
 

@@ -1,16 +1,16 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const findCampaignParticipationsRelatedToUser = require('../../../../lib/domain/usecases/find-latest-ongoing-user-campaign-participations');
 
-describe('Unit | UseCase | find-latest-user-campaign-participations', () => {
+describe('Unit | UseCase | find-latest-user-campaign-participations', function() {
 
   let userId;
   const campaignParticipationRepository = { findLatestOngoingByUserId: () => undefined };
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(campaignParticipationRepository, 'findLatestOngoingByUserId');
   });
 
-  it('should call findLatestOngoingByUserId to find all campaign-participations', async () => {
+  it('should call findLatestOngoingByUserId to find all campaign-participations', async function() {
     // given
     userId = 1;
     campaignParticipationRepository.findLatestOngoingByUserId.resolves();
@@ -25,7 +25,7 @@ describe('Unit | UseCase | find-latest-user-campaign-participations', () => {
     expect(campaignParticipationRepository.findLatestOngoingByUserId).to.have.been.calledWith(userId);
   });
 
-  it('should return user with his campaign participations', async () => {
+  it('should return user with his campaign participations', async function() {
     // given
     const campaignParticipation1 = campaignParticipationRepository.findLatestOngoingByUserId.resolves(domainBuilder.buildCampaignParticipation({ userId }));
     const campaignParticipation2 = campaignParticipationRepository.findLatestOngoingByUserId.resolves(domainBuilder.buildCampaignParticipation({ userId }));

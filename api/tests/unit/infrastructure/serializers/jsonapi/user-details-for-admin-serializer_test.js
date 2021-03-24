@@ -1,11 +1,11 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 
-describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () => {
+describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should serialize user details for Pix Admin', () => {
+    it('should serialize user details for Pix Admin', function() {
       // given
       const modelObject = domainBuilder.buildUserDetailsForAdmin({
         schoolingRegistrations: [domainBuilder.buildSchoolingRegistrationForAdmin()],
@@ -57,11 +57,11 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
     });
   });
 
-  describe('#deserialize()', () => {
+  describe('#deserialize()', function() {
 
     let jsonUser;
 
-    beforeEach(() => {
+    beforeEach(function() {
       jsonUser = {
         data: {
           type: 'user',
@@ -74,7 +74,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
       };
     });
 
-    it('should convert JSON API data into a map object that contain attribute to patch', () => {
+    it('should convert JSON API data into a map object that contain attribute to patch', function() {
       // when
       const user = serializer.deserialize(jsonUser);
 

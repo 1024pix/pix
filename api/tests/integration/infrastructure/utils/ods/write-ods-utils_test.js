@@ -9,15 +9,15 @@ const {
   makeUpdatedOdsByContentXml, updateXmlRows, updateXmlSparseValues,
 } = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
 
-describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', () => {
+describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', function() {
 
   const GET_CONTENT_ODS_FILE_PATH = `${__dirname}/files/get-content-xml_test.ods`;
 
-  describe('makeUpdatedOdsByContentXml', () => {
+  describe('makeUpdatedOdsByContentXml', function() {
 
     let updatedOdsFilePath;
 
-    it('should return the edited ods file as a buffer', async () => {
+    it('should return the edited ods file as a buffer', async function() {
       // given
       updatedOdsFilePath = `${__dirname}/write-ods-utils-make-updated-ods-by-content-xml_test_tmp.ods`;
       const updatedStringifiedXml = '<xml>New xml</xml>';
@@ -33,12 +33,12 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', () => {
       expect(result).to.deep.equal(updatedStringifiedXml);
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await unlink(updatedOdsFilePath);
     });
   });
 
-  describe('#updateXmlSparseValues', () => {
+  describe('#updateXmlSparseValues', function() {
 
     const templateValues = [
       {
@@ -80,7 +80,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', () => {
       '<text:p>Some other value</text:p>' +
       '</xml>';
 
-    it('should transform an xml by replacing templatized cells and data to inject', () => {
+    it('should transform an xml by replacing templatized cells and data to inject', function() {
       // when
       const result = updateXmlSparseValues({
         stringifiedXml,
@@ -93,7 +93,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', () => {
     });
   });
 
-  describe('updateXmlRows', () => {
+  describe('updateXmlRows', function() {
 
     const rowMarkerPlaceholder = 'PROP_STRING';
 
@@ -178,7 +178,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', () => {
       '</some:element>' +
       '</xml>';
 
-    it('should transform an xml given a templatized row, a starting position and data to inject', () => {
+    it('should transform an xml given a templatized row, a starting position and data to inject', function() {
       // when
       const result = updateXmlRows({
         stringifiedXml,

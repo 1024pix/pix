@@ -3,7 +3,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 const { NO_EXAMINER_COMMENT } = require('../../../../../lib/domain/models/CertificationReport');
 
-describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
+describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
 
   describe('#deserialize', function() {
     let jsonCertificationCourse;
@@ -84,9 +84,9 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
     });
   });
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    context('the entry data is an array of certifications', () => {
+    context('the entry data is an array of certifications', function() {
 
       const receivedCertifications = [
         domainBuilder.buildPrivateCertificate({
@@ -127,7 +127,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
         ],
       };
 
-      it('should serialize user certifications to JSON', () => {
+      it('should serialize user certifications to JSON', function() {
         // when
         const serializedCertifications = serializer.serialize(receivedCertifications);
 
@@ -136,7 +136,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       });
     });
 
-    context('the entry data is one certification', () => {
+    context('the entry data is one certification', function() {
 
       const receivedCertificate = domainBuilder.buildPrivateCertificate({
         pixScore: 23,
@@ -174,7 +174,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           },
         };
 
-      it('should serialize user certifications to JSON', () => {
+      it('should serialize user certifications to JSON', function() {
         // when
         const serializedCertifications = serializer.serialize(receivedCertificate);
 
@@ -183,7 +183,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       });
     });
 
-    context('the entry data is one certification with a resultCompetenceTree set', () => {
+    context('the entry data is one certification with a resultCompetenceTree set', function() {
 
       const assessmentResultId = 1;
 
@@ -295,7 +295,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
         ],
       };
 
-      it('should serialize to JSON with included relationships', () => {
+      it('should serialize to JSON with included relationships', function() {
         // given
         const assessmentResult = domainBuilder.buildAssessmentResult({ id: assessmentResultId });
         const receivedCertificate = domainBuilder.buildPrivateCertificateWithCompetenceTree({
@@ -314,7 +314,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
     });
   });
 
-  describe('#serializeForSharing', () => {
+  describe('#serializeForSharing', function() {
 
     const assessmentResultId = 1;
 
@@ -424,7 +424,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       ],
     };
 
-    it('should serialize certification into JSON data without examinerComment', () => {
+    it('should serialize certification into JSON data without examinerComment', function() {
       // given
       const assessmentResult = domainBuilder.buildAssessmentResult({ id: assessmentResultId });
       const receivedCertificate = domainBuilder.buildPrivateCertificateWithCompetenceTree({
@@ -442,7 +442,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
     });
   });
 
-  describe('#serializeFromCertificationCourse', () => {
+  describe('#serializeFromCertificationCourse', function() {
 
     const jsonCertification = {
       data: {
@@ -467,7 +467,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       externalId: 'xenoverse2',
     };
 
-    it('should serialize', () => {
+    it('should serialize', function() {
       // when
       const serializedCertification = serializer.serializeFromCertificationCourse(certificationCourse);
       // then

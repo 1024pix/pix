@@ -2,11 +2,11 @@ const { expect, domainBuilder } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
 
-describe('Unit | Domain | Models | User', () => {
+describe('Unit | Domain | Models | User', function() {
 
-  describe('constructor', () => {
+  describe('constructor', function() {
 
-    it('should build a user from raw JSON', () => {
+    it('should build a user from raw JSON', function() {
       // given
       const rawData = {
         id: 1,
@@ -34,11 +34,11 @@ describe('Unit | Domain | Models | User', () => {
     });
   });
 
-  describe('the attribute "hasRolePixMaster"', () => {
+  describe('the attribute "hasRolePixMaster"', function() {
 
     let userRawDetails;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userRawDetails = {
         id: 1,
         firstName: 'Son',
@@ -50,7 +50,7 @@ describe('Unit | Domain | Models | User', () => {
       };
     });
 
-    it('should be true if user has role PixMaster ', () => {
+    it('should be true if user has role PixMaster ', function() {
       // given
       userRawDetails.pixRoles = [{
         name: 'PIX_MASTER',
@@ -64,7 +64,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(hasRole).to.be.true;
     });
 
-    it('should be false if user has not role PixMaster ', () => {
+    it('should be false if user has not role PixMaster ', function() {
       // given
       userRawDetails.pixRoles = [];
 
@@ -78,9 +78,9 @@ describe('Unit | Domain | Models | User', () => {
     });
   });
 
-  describe('isLinkedToOrganizations', () => {
+  describe('isLinkedToOrganizations', function() {
 
-    it('should be true if user has a role in an organization', () => {
+    it('should be true if user has a role in an organization', function() {
       // given
       const user = domainBuilder.buildUser({
         memberships: [domainBuilder.buildMembership()],
@@ -93,7 +93,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(isLinked).to.be.true;
     });
 
-    it('should be false is user has no role in no organization', () => {
+    it('should be false is user has no role in no organization', function() {
       // given
       const user = new User();
 
@@ -106,9 +106,9 @@ describe('Unit | Domain | Models | User', () => {
 
   });
 
-  describe('isLinkedToCertificationCenters', () => {
+  describe('isLinkedToCertificationCenters', function() {
 
-    it('should be true if user has a role in a certification center', () => {
+    it('should be true if user has a role in a certification center', function() {
       // given
       const user = domainBuilder.buildUser({
         certificationCenterMemberships: [domainBuilder.buildCertificationCenterMembership()],
@@ -121,7 +121,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(isLinked).to.be.true;
     });
 
-    it('should be false if user has no role in certification center', () => {
+    it('should be false if user has no role in certification center', function() {
       // given
       const user = new User();
 
@@ -133,9 +133,9 @@ describe('Unit | Domain | Models | User', () => {
     });
   });
 
-  describe('hasAccessToOrganization', () => {
+  describe('hasAccessToOrganization', function() {
 
-    it('should be false is user has no access to no organizations', () => {
+    it('should be false is user has no access to no organizations', function() {
       // given
       const user = new User();
       const organizationId = 12345;
@@ -147,7 +147,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(hasAccess).to.be.false;
     });
 
-    it('should be false is the user has access to many organizations, but not the one asked', () => {
+    it('should be false is the user has access to many organizations, but not the one asked', function() {
       // given
       const organizationId = 12345;
       const user = domainBuilder.buildUser();
@@ -162,7 +162,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(hasAccess).to.be.false;
     });
 
-    it('should be true if the user has an access to the given organizationId', () => {
+    it('should be true if the user has an access to the given organizationId', function() {
       // given
       const organizationId = 12345;
       const user = domainBuilder.buildUser();
@@ -176,9 +176,9 @@ describe('Unit | Domain | Models | User', () => {
     });
   });
 
-  describe('hasAccessToCertificationCenter', () => {
+  describe('hasAccessToCertificationCenter', function() {
 
-    it('should be false if user has no access to given certification center', () => {
+    it('should be false if user has no access to given certification center', function() {
       // given
       const user = new User();
       const certificationCenterId = 12345;
@@ -190,7 +190,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(hasAccess).to.be.false;
     });
 
-    it('should be false if user has access to many CertificationCenters, but not the given one', () => {
+    it('should be false if user has access to many CertificationCenters, but not the given one', function() {
       // given
       const certificationCenterId = 12345;
       const user = domainBuilder.buildUser();
@@ -205,7 +205,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(hasAccess).to.be.false;
     });
 
-    it('should be true if the user has an access to the given CertificationCenterId', () => {
+    it('should be true if the user has an access to the given CertificationCenterId', function() {
       // given
       const certificationCenterId = 12345;
       const user = domainBuilder.buildUser();
@@ -219,9 +219,9 @@ describe('Unit | Domain | Models | User', () => {
     });
   });
 
-  describe('#email', () => {
+  describe('#email', function() {
 
-    it('should normalize email', () => {
+    it('should normalize email', function() {
       // given
       const userData = {
         email: 'TESTMAIL@gmail.com',
@@ -234,7 +234,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(userObject.email).to.equal('testmail@gmail.com');
     });
 
-    it('should default email to undefined', () => {
+    it('should default email to undefined', function() {
       // given
       const userData = {
         firstName: 'Bob',

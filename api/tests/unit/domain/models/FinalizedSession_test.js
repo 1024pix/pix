@@ -4,10 +4,10 @@ const JuryCertificationSummary = require('../../../../lib/domain/read-models/Jur
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 
-describe('Unit | Domain | Models | FinalizedSession', () => {
+describe('Unit | Domain | Models | FinalizedSession', function() {
 
-  context('#isPublishable', () => {
-    it('is not publishable when session has an examiner global comment', () => {
+  context('#isPublishable', function() {
+    it('is not publishable when session has an examiner global comment', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -22,7 +22,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
-    it('is not publishable when at least one test end screen has not been seen', () => {
+    it('is not publishable when at least one test end screen has not been seen', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -37,7 +37,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
-    it('is not publishable when at least one issue report require action', () => {
+    it('is not publishable when at least one issue report require action', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -52,7 +52,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
-    it('is not publishable when at least one scoring error occurred', () => {
+    it('is not publishable when at least one scoring error occurred', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -68,7 +68,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
-    it('is not publishable when at least one assessment has not been completed', () => {
+    it('is not publishable when at least one assessment has not been completed', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -84,7 +84,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
-    it('is publishable when session has no global comment, no started or error status, no issue report requiring action and all end screen seen', () => {
+    it('is publishable when session has no global comment, no started or error status, no issue report requiring action and all end screen seen', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,

@@ -4,10 +4,10 @@ const Challenge = require('../../../../lib/domain/models/Challenge');
 const Validator = require('../../../../lib/domain/models/Validator');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 
-describe('Integration | Repository | challenge-repository', () => {
+describe('Integration | Repository | challenge-repository', function() {
 
-  describe('#get', () => {
-    it('should return the challenge with skills', async () => {
+  describe('#get', function() {
+    it('should return the challenge with skills', async function() {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const challenge = domainBuilder.buildChallenge({ id: 'recChallenge1', skills: [skill] });
@@ -27,7 +27,7 @@ describe('Integration | Repository | challenge-repository', () => {
       expect(_.omit(actualChallenge, 'validator')).to.deep.equal(_.omit(challenge, 'validator'));
     });
 
-    it('should setup the expected validator and solution', async () => {
+    it('should setup the expected validator and solution', async function() {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const challenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill] });
@@ -53,8 +53,8 @@ describe('Integration | Repository | challenge-repository', () => {
     });
   });
 
-  describe('#findValidated', () => {
-    it('should return only validated challenges with skills', async () => {
+  describe('#findValidated', function() {
+    it('should return only validated challenges with skills', async function() {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const validatedChallenge = domainBuilder.buildChallenge({ skills: [skill], status: 'validé' });
@@ -77,7 +77,7 @@ describe('Integration | Repository | challenge-repository', () => {
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
 
-    it('should setup the expected validator and solution on found challenges', async () => {
+    it('should setup the expected validator and solution on found challenges', async function() {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const validatedChallenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill], status: 'validé' });
@@ -102,8 +102,8 @@ describe('Integration | Repository | challenge-repository', () => {
     });
   });
 
-  describe('#findOperative', () => {
-    it('should return only operative challenges with skills', async () => {
+  describe('#findOperative', function() {
+    it('should return only operative challenges with skills', async function() {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const operativeChallenge = domainBuilder.buildChallenge({ skills: [skill], status: 'archivé' });
@@ -126,7 +126,7 @@ describe('Integration | Repository | challenge-repository', () => {
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
 
-    it('should setup the expected validator and solution on found challenges', async () => {
+    it('should setup the expected validator and solution on found challenges', async function() {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const operativeChallenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill], status: 'validé' });
@@ -151,8 +151,8 @@ describe('Integration | Repository | challenge-repository', () => {
     });
   });
 
-  describe('#findFrenchFranceOperative', () => {
-    it('should return only french france operative challenges with skills', async () => {
+  describe('#findFrenchFranceOperative', function() {
+    it('should return only french france operative challenges with skills', async function() {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const frfrOperativeChallenge = domainBuilder.buildChallenge({ skills: [skill], locales: ['fr-fr'] });
@@ -175,7 +175,7 @@ describe('Integration | Repository | challenge-repository', () => {
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
 
-    it('should setup the expected validator and solution on found challenges', async () => {
+    it('should setup the expected validator and solution on found challenges', async function() {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const frfrOperativeChallenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill], locales: ['fr-fr'] });
@@ -200,8 +200,8 @@ describe('Integration | Repository | challenge-repository', () => {
     });
   });
 
-  describe('#findValidatedByCompetenceId', () => {
-    it('should return only validated challenges with skills', async () => {
+  describe('#findValidatedByCompetenceId', function() {
+    it('should return only validated challenges with skills', async function() {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const competenceId = 'recCompetenceId';
@@ -227,7 +227,7 @@ describe('Integration | Repository | challenge-repository', () => {
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
 
-    it('should setup the expected validator and solution on found challenges', async () => {
+    it('should setup the expected validator and solution on found challenges', async function() {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const validatedChallenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill], status: 'validé' });
@@ -251,8 +251,8 @@ describe('Integration | Repository | challenge-repository', () => {
     });
   });
 
-  describe('#findOperativeBySkills', () => {
-    it('should return only operative challenges with skills', async () => {
+  describe('#findOperativeBySkills', function() {
+    it('should return only operative challenges with skills', async function() {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const anotherSkill = domainBuilder.buildSkill({ id: 'recAnotherSkill' });
@@ -281,7 +281,7 @@ describe('Integration | Repository | challenge-repository', () => {
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
 
-    it('should setup the expected validator and solution on found challenges', async () => {
+    it('should setup the expected validator and solution on found challenges', async function() {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const operativeChallenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill], status: 'validé' });

@@ -5,7 +5,7 @@ describe('Unit | Serializer | JSONAPI | password-reset-serializer', function() {
 
   describe('#serialize', function() {
 
-    it('should convert password-reset-object to JSON-API', () => {
+    it('should convert password-reset-object to JSON-API', function() {
       // given
       const passwordResetDemand = {
         id: '1',

@@ -2,10 +2,10 @@ const Tube = require('../../../../lib/domain/models/Tube');
 const Skill = require('../../../../lib/domain/models/Skill');
 const { expect } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | Tube', () => {
+describe('Unit | Domain | Models | Tube', function() {
 
-  describe('#constructor', () => {
-    it('should accept a list of skills as parameter', () => {
+  describe('#constructor', function() {
+    it('should accept a list of skills as parameter', function() {
       // given
       const skills = [new Skill({ name: '@web3' }), new Skill({ name: '@web2' })];
 
@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | Tube', () => {
       expect(tube.skills).to.equal(skills);
     });
 
-    it('should have a name from skills', () => {
+    it('should have a name from skills', function() {
       // given
       const skills = [new Skill({ name: '@web3' }), new Skill({ name: '@web2' })];
 
@@ -27,7 +27,7 @@ describe('Unit | Domain | Models | Tube', () => {
       expect(tube.name).to.equal('web');
     });
 
-    it('should have a name from constructor', () => {
+    it('should have a name from constructor', function() {
       // given
       const skills = [new Skill({ name: '@web3' })];
 
@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | Tube', () => {
       expect(tube.name).to.equal('tubeName');
     });
 
-    it('should not have a name when skills list is empty and name is not provided', () => {
+    it('should not have a name when skills list is empty and name is not provided', function() {
       // when
       const tube = new Tube();
 
@@ -46,7 +46,7 @@ describe('Unit | Domain | Models | Tube', () => {
       expect(tube.name).to.equal('');
     });
 
-    it('should create the tube without skills', () => {
+    it('should create the tube without skills', function() {
       // when
       const tube = new Tube({});
 
@@ -56,9 +56,9 @@ describe('Unit | Domain | Models | Tube', () => {
 
   });
 
-  describe('#getEasierThan()', () => {
+  describe('#getEasierThan()', function() {
 
-    it('should return the skill itself if it is alone within its tube', () => {
+    it('should return the skill itself if it is alone within its tube', function() {
       // given
       const skill = new Skill({ name: '@url1' });
       const skills = [skill];
@@ -87,7 +87,7 @@ describe('Unit | Domain | Models | Tube', () => {
     });
   });
 
-  describe('#getHarderThan()', () => {
+  describe('#getHarderThan()', function() {
 
     it('should return the skill itself if it is alone within its tube', function() {
       // given
@@ -118,8 +118,8 @@ describe('Unit | Domain | Models | Tube', () => {
     });
   });
 
-  describe('#addSkill()', () => {
-    it('should add skill to the list of skills', () => {
+  describe('#addSkill()', function() {
+    it('should add skill to the list of skills', function() {
       // given
       const skillWeb1 = new Skill({ name: '@web1' });
       const skillWeb2 = new Skill({ name: '@web2' });
@@ -132,7 +132,7 @@ describe('Unit | Domain | Models | Tube', () => {
       expect(tube.skills).to.be.deep.equal([skillWeb1, skillWeb2]);
     });
 
-    it('should not add skill if skill is already present to the list of skills', () => {
+    it('should not add skill if skill is already present to the list of skills', function() {
       // given
       const skillWeb1 = new Skill({ name: '@web1' });
       const tube = new Tube({ skills: [skillWeb1] });

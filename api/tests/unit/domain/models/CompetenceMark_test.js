@@ -2,11 +2,11 @@ const { catchErr, expect, domainBuilder } = require('../../../test-helper');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | Competence Mark', () => {
+describe('Unit | Domain | Models | Competence Mark', function() {
 
-  describe('constructor', () => {
+  describe('constructor', function() {
 
-    it('should build a Competence Mark from raw JSON', () => {
+    it('should build a Competence Mark from raw JSON', function() {
       // given
       const rawData = {
         level: 2,
@@ -26,9 +26,9 @@ describe('Unit | Domain | Models | Competence Mark', () => {
     });
   });
 
-  describe('validate', () => {
+  describe('validate', function() {
 
-    it('should return a resolved promise when the object is valid', () => {
+    it('should return a resolved promise when the object is valid', function() {
       // given
       const competenceMark = domainBuilder.buildCompetenceMark();
 
@@ -39,7 +39,7 @@ describe('Unit | Domain | Models | Competence Mark', () => {
       expect(valid).not.to.true;
     });
 
-    it('should return an error if level is > 8', async () => {
+    it('should return an error if level is > 8', async function() {
       // given
       const competenceMark = domainBuilder.buildCompetenceMark({ level: 10 });
 
@@ -50,7 +50,7 @@ describe('Unit | Domain | Models | Competence Mark', () => {
       expect(error.message).to.be.equal('ValidationError: "level" must be less than or equal to 8');
     });
 
-    it('should return an error if level is < -1', async () => {
+    it('should return an error if level is < -1', async function() {
       // given
       const competenceMark = domainBuilder.buildCompetenceMark({ level: -2 });
 
@@ -62,7 +62,7 @@ describe('Unit | Domain | Models | Competence Mark', () => {
       expect(error.message).to.be.equal('ValidationError: "level" must be greater than or equal to -1');
     });
 
-    it('should return an error if score > 64', async () => {
+    it('should return an error if score > 64', async function() {
       // when
       const competenceMark = domainBuilder.buildCompetenceMark({ score: 65 });
 

@@ -2,9 +2,9 @@ const HigherSchoolingRegistration = require('../../../../lib/domain/models/Highe
 const { expect, catchErr } = require('../../../test-helper');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
+describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
 
-  describe('#validate', () => {
+  describe('#validate', function() {
 
     const buildRegistration = (attributes) => new HigherSchoolingRegistration(attributes);
 
@@ -16,8 +16,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
       organizationId: 123,
     };
 
-    context('when all required fields are presents', () => {
-      it('is valid', async () => {
+    context('when all required fields are presents', function() {
+      it('is valid', async function() {
         try {
           new HigherSchoolingRegistration(validAttributes);
         } catch (e) {
@@ -27,7 +27,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
     });
 
     ['firstName', 'lastName', 'birthdate', 'studentNumber'].forEach((field) => {
-      it(`throw an error when ${field} is required`, async () => {
+      it(`throw an error when ${field} is required`, async function() {
         const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: undefined, isSupernumerary: false });
 
         expect(error.key).to.equal(field);
@@ -49,7 +49,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
       'group',
       'studyScheme',
     ].forEach((field) => {
-      it(`throw an error when string ${field} exceeds 255 characters`, async () => {
+      it(`throw an error when string ${field} exceeds 255 characters`, async function() {
         const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: '1'.repeat(256) });
 
         expect(error.key).to.equal(field);
@@ -72,7 +72,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
       'group',
       'studyScheme',
     ].forEach((field) => {
-      it(`throw an error when ${field} is not a string`, async () => {
+      it(`throw an error when ${field} is not a string`, async function() {
         const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: null });
 
         expect(error.key).to.equal(field);
@@ -80,23 +80,23 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
       });
     });
 
-    it('throw an error when organizationId is not an integer', async () => {
+    it('throw an error when organizationId is not an integer', async function() {
       const error = await catchErr(buildRegistration)({ ...validAttributes, organizationId: 12.5 });
 
       expect(error.key).to.equal('organizationId');
       expect(error.why).to.equal('not_an_integer');
     });
 
-    it('throw an error when isSupernumerary is not a boolean', async () => {
+    it('throw an error when isSupernumerary is not a boolean', async function() {
       const error = await catchErr(buildRegistration)({ ...validAttributes, isSupernumerary: 'saaaaluuuut' });
 
       expect(error.key).to.equal('isSupernumerary');
       expect(error.why).to.equal('not_a_boolean');
     });
 
-    context('when isSupernumerary is true', () => {
-      context('when student number is not present', () => {
-        it('is valid', async () => {
+    context('when isSupernumerary is true', function() {
+      context('when student number is not present', function() {
+        it('is valid', async function() {
           try {
             await buildRegistration({ ...validAttributes, studentNumber: null, isSupernumerary: true });
           } catch (e) {
@@ -105,8 +105,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
         });
       });
 
-      context('when student number is present', () => {
-        it('is valid', async () => {
+      context('when student number is present', function() {
+        it('is valid', async function() {
           try {
             await buildRegistration({ ...validAttributes, studentNumber: '1234', isSupernumerary: true });
           } catch (e) {
@@ -116,17 +116,17 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
       });
     });
 
-    context('when isSupernumerary is false', () => {
-      context('when student number is not present', () => {
-        it('throws an error', async () => {
+    context('when isSupernumerary is false', function() {
+      context('when student number is not present', function() {
+        it('throws an error', async function() {
           const error = await catchErr(buildRegistration)({ ...validAttributes, studentNumber: null, isSupernumerary: false });
 
           expect(error).to.be.instanceOf(EntityValidationError);
         });
       });
 
-      context('when student number is present', () => {
-        it('is valid', async () => {
+      context('when student number is present', function() {
+        it('is valid', async function() {
           try {
             await buildRegistration({ ...validAttributes, studentNumber: '1234', isSupernumerary: false });
           } catch (e) {
@@ -136,8 +136,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
       });
     });
 
-    context('when birthdate is not a date', () => {
-      it('throws an error', async () => {
+    context('when birthdate is not a date', function() {
+      it('throws an error', async function() {
         const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: null });
 
         expect(error.key).to.equal('birthdate');
@@ -145,8 +145,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
       });
     });
 
-    context('when birthdate has not a valid format', () => {
-      it('throws an error', async () => {
+    context('when birthdate has not a valid format', function() {
+      it('throws an error', async function() {
         const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: '2020/02/01' });
 
         expect(error.key).to.equal('birthdate');
@@ -154,8 +154,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
       });
     });
 
-    context('when birthdate is null', () => {
-      it('throws an error', async () => {
+    context('when birthdate is null', function() {
+      it('throws an error', async function() {
         const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: null });
 
         expect(error.key).to.equal('birthdate');
@@ -163,8 +163,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
       });
     });
 
-    context('when email is not correctly formed', () => {
-      it('throws an error', async () => {
+    context('when email is not correctly formed', function() {
+      it('throws an error', async function() {
         const error = await catchErr(buildRegistration)({ ...validAttributes, email: 'sdfsfsdf' });
 
         expect(error.key).to.equal('email');
@@ -172,8 +172,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
       });
     });
 
-    context('student number', () => {
-      context('when student number is not correctly formed', () => {
+    context('student number', function() {
+      context('when student number is not correctly formed', function() {
         [
           '#123457',
           '1 23457',
@@ -181,7 +181,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
           '1,23457E+11',
           'gégé',
         ].forEach((value) => {
-          it(`throw an error when student number is ${value}`, async () => {
+          it(`throw an error when student number is ${value}`, async function() {
             const error = await catchErr(buildRegistration)({ ...validAttributes, studentNumber: value });
 
             expect(error.why).to.equal('student_number_format');
@@ -190,14 +190,14 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
         });
       });
 
-      context('when student number is correctly formed', () => {
+      context('when student number is correctly formed', function() {
         [
           '123456',
           '1234aA',
           '1-a-B',
           '1_a_B',
         ].forEach((value) => {
-          it(`throw an error when student number is ${value}`, async () => {
+          it(`throw an error when student number is ${value}`, async function() {
             try {
               await buildRegistration({ ...validAttributes, studentNumber: value });
             } catch (e) {

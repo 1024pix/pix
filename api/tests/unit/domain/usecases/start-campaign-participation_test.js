@@ -5,7 +5,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
 const { AlreadyExistingCampaignParticipationError, ForbiddenAccess } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | start-campaign-participation', () => {
+describe('Unit | UseCase | start-campaign-participation', function() {
 
   const userId = 19837482;
   const campaignParticipation = domainBuilder.buildCampaignParticipation();
@@ -20,7 +20,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     domainTransaction,
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(campaignToJoinRepository, 'get');
     sinon.stub(campaignToJoinRepository, 'isCampaignJoinableByUser');
     sinon.stub(campaignParticipationRepository, 'save');
@@ -28,7 +28,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     sinon.stub(assessmentRepository, 'save');
   });
 
-  it('should throw a ForbiddenAccess if the campaign is not joinable by the user', async () => {
+  it('should throw a ForbiddenAccess if the campaign is not joinable by the user', async function() {
     // given
     const campaignToJoin = domainBuilder.buildCampaignToJoin({ id: campaignParticipation.campaignId });
     campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
@@ -41,7 +41,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     return expect(error).to.be.instanceOf(ForbiddenAccess);
   });
 
-  it('should throw an AlreadyExistingCampaignParticipationError if the user has already participated to the campaign', async () => {
+  it('should throw an AlreadyExistingCampaignParticipationError if the user has already participated to the campaign', async function() {
     // given
     const campaignToJoin = domainBuilder.buildCampaignToJoin({ id: campaignParticipation.campaignId, organizationIsManagingStudents: false });
     campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
@@ -58,7 +58,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     return expect(error).to.be.instanceOf(AlreadyExistingCampaignParticipationError);
   });
 
-  it('should return the saved campaign participation', async () => {
+  it('should return the saved campaign participation', async function() {
     // given
     const campaignToJoin = domainBuilder.buildCampaignToJoin({ id: campaignParticipation.campaignId, organizationIsManagingStudents: false });
     campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
@@ -81,7 +81,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     expect(actualSavedCampaignParticipation).to.deep.equal(savedCampaignParticipation);
   });
 
-  it('should return CampaignParticipationStarted event', async () => {
+  it('should return CampaignParticipationStarted event', async function() {
     // given
     const campaignParticipation = domainBuilder.buildCampaignParticipation();
     const campaignToJoin = domainBuilder.buildCampaignToJoin({
@@ -105,9 +105,9 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     expect(event).to.deep.equal(campaignParticipationStartedEvent);
   });
 
-  context('when campaign is of type ASSESSMENT', () => {
+  context('when campaign is of type ASSESSMENT', function() {
 
-    it('should create a campaign assessment', async () => {
+    it('should create a campaign assessment', async function() {
       // given
       const campaignToJoin = domainBuilder.buildCampaignToJoin({
         id: campaignParticipation.campaignId,
@@ -131,9 +131,9 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     });
   });
 
-  context('when campaign is of type PROFILES_COLLECTION', () => {
+  context('when campaign is of type PROFILES_COLLECTION', function() {
 
-    it('should not create a campaign assessment', async () => {
+    it('should not create a campaign assessment', async function() {
       // given
       const campaignToJoin = domainBuilder.buildCampaignToJoin({
         id: campaignParticipation.campaignId,

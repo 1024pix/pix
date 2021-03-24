@@ -1,12 +1,12 @@
 const { expect, sinon } = require('../../../test-helper');
 const getCertificationCourse = require('../../../../lib/domain/usecases/get-certification-course');
 
-describe('Unit | UseCase | get-certification-course', () => {
+describe('Unit | UseCase | get-certification-course', function() {
 
   let certificationCourse;
   let certificationCourseRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationCourse = {
       id: 'certification_course_id',
       userId: 'user_id',
@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-certification-course', () => {
     };
   });
 
-  it('should get the certificationCourse', async () => {
+  it('should get the certificationCourse', async function() {
     // given
     certificationCourseRepository.get.withArgs(certificationCourse.id).resolves(certificationCourse);
 
@@ -31,7 +31,7 @@ describe('Unit | UseCase | get-certification-course', () => {
     expect(actualCertificationCourse.id).to.equal(certificationCourse.id);
   });
 
-  it('should throw an error when the certification course is not linked to the user passed in parameter', () => {
+  it('should throw an error when the certification course is not linked to the user passed in parameter', function() {
     // given
     certificationCourseRepository.get.withArgs(certificationCourse.id).resolves(certificationCourse);
 
@@ -46,7 +46,7 @@ describe('Unit | UseCase | get-certification-course', () => {
     return expect(promise).to.be.rejected;
   });
 
-  it('should throw an error when the certification course could not be retrieved', () => {
+  it('should throw an error when the certification course could not be retrieved', function() {
     // given
     certificationCourseRepository.get.withArgs(certificationCourse.id).rejects();
 

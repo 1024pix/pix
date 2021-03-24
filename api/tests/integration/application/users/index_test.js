@@ -5,7 +5,7 @@ const userController = require('../../../../lib/application/users/user-controlle
 const moduleUnderTest = require('../../../../lib/application/users');
 const faker = require('faker');
 
-describe('Integration | Application | Users | Routes', () => {
+describe('Integration | Application | Users | Routes', function() {
 
   const methodGET = 'GET';
   const methodPATCH = 'PATCH';
@@ -14,7 +14,7 @@ describe('Integration | Application | Users | Routes', () => {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
 
@@ -26,9 +26,9 @@ describe('Integration | Application | Users | Routes', () => {
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('GET /api/admin/users/{id}', () => {
+  describe('GET /api/admin/users/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       const url = '/api/admin/users/123';
@@ -40,7 +40,7 @@ describe('Integration | Application | Users | Routes', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return BAD_REQUEST (400) when id in param is not a number"', async () => {
+    it('should return BAD_REQUEST (400) when id in param is not a number"', async function() {
 
       // given
       const url = '/api/admin/users/NOT_A_NUMBER';
@@ -52,7 +52,7 @@ describe('Integration | Application | Users | Routes', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return BAD_REQUEST (400) when id in param is out of range"', async () => {
+    it('should return BAD_REQUEST (400) when id in param is out of range"', async function() {
 
       // given
       const url = '/api/admin/users/0';
@@ -66,9 +66,9 @@ describe('Integration | Application | Users | Routes', () => {
 
   });
 
-  describe('POST /api/users/{userId}/competences/{competenceId}/reset', () => {
+  describe('POST /api/users/{userId}/competences/{competenceId}/reset', function() {
 
-    it('should return OK (200) when params are valid', async () => {
+    it('should return OK (200) when params are valid', async function() {
       // given
       securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => h.response(true));
       const url = '/api/users/123/competences/abcdefghijklmnop/reset';
@@ -80,7 +80,7 @@ describe('Integration | Application | Users | Routes', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return BAD_REQUEST (400) when competenceId parameter is invalid', async () => {
+    it('should return BAD_REQUEST (400) when competenceId parameter is invalid', async function() {
 
       // given
       const invalidCompetenceId = faker.random.alphaNumeric(256);
@@ -96,9 +96,9 @@ describe('Integration | Application | Users | Routes', () => {
 
   });
 
-  describe('PATCH /api/admin/users/{id}', () => {
+  describe('PATCH /api/admin/users/{id}', function() {
 
-    it('should update user when payload is valid', async () => {
+    it('should update user when payload is valid', async function() {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       const url = '/api/admin/users/123';
@@ -121,7 +121,7 @@ describe('Integration | Application | Users | Routes', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return bad request when firstName is missing', async () => {
+    it('should return bad request when firstName is missing', async function() {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       const url = '/api/admin/users/123';
@@ -145,7 +145,7 @@ describe('Integration | Application | Users | Routes', () => {
       expect(firstError.detail).to.equal('"data.attributes.first-name" is required');
     });
 
-    it('should return bad request when lastName is missing', async () => {
+    it('should return bad request when lastName is missing', async function() {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       const url = '/api/admin/users/123';
@@ -168,7 +168,7 @@ describe('Integration | Application | Users | Routes', () => {
       expect(firstError.detail).to.equal('"data.attributes.last-name" is required');
     });
 
-    it('should return a 400 when id in param is not a number"', async () => {
+    it('should return a 400 when id in param is not a number"', async function() {
       // given
       const url = '/api/admin/users/NOT_A_NUMBER';
 
@@ -180,11 +180,11 @@ describe('Integration | Application | Users | Routes', () => {
     });
   });
 
-  describe('PATCH /api/admin/users/{id}/dissociate', () => {
+  describe('PATCH /api/admin/users/{id}/dissociate', function() {
 
     const url = '/api/admin/users/1/dissociate';
 
-    it('should dissociate user', async () => {
+    it('should dissociate user', async function() {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
 
@@ -196,11 +196,11 @@ describe('Integration | Application | Users | Routes', () => {
     });
   });
 
-  describe('PATCH /api/users/{id}/email', () => {
+  describe('PATCH /api/users/{id}/email', function() {
 
     const url = '/api/users/1/email';
 
-    it('should return 422 if email is invalid', async () => {
+    it('should return 422 if email is invalid', async function() {
       // given
       const payload = {
         data: {
@@ -218,7 +218,7 @@ describe('Integration | Application | Users | Routes', () => {
       expect(response.statusCode).to.equal(422);
     });
 
-    it('should return 422 if type attribute is missing', async () => {
+    it('should return 422 if type attribute is missing', async function() {
       // given
       const payload = {
         data: {

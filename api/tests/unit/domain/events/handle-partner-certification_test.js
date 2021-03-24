@@ -3,7 +3,7 @@ const CertificationScoringCompleted = require('../../../../lib/domain/events/Cer
 const partnerCertificationRepository = require('../../../../lib/infrastructure/repositories/partner-certification-repository');
 const { handlePartnerCertifications } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-partner-certification', () => {
+describe('Unit | Domain | Events | handle-partner-certification', function() {
   const domainTransaction = Symbol('domainTransaction');
   const reproducibilityRate = Symbol('reproducibilityRate');
 
@@ -13,7 +13,7 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
     partnerCertificationRepository,
   };
 
-  it('fails when event is not of correct type', async () => {
+  it('fails when event is not of correct type', async function() {
     // given
     const event = 'not an event of the correct type';
     // when / then
@@ -25,12 +25,12 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
     expect(error).not.to.be.null;
   });
 
-  context('#handlePartnerCertifications', () => {
+  context('#handlePartnerCertifications', function() {
     const certificationCourseId = Symbol('certificationCourseId');
     const userId = Symbol('userId');
     const cleaCertification = {};
 
-    beforeEach(() => {
+    beforeEach(function() {
       event = new CertificationScoringCompleted({
         certificationCourseId,
         userId,
@@ -50,8 +50,8 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
 
     });
 
-    context('when certification is eligible', () => {
-      it('it should save a certif partner', async () => {
+    context('when certification is eligible', function() {
+      it('it should save a certif partner', async function() {
         // given
         cleaCertification.isEligible = () => true;
 
@@ -67,8 +67,8 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
         });
       });
     });
-    context('when certification is not eligible', () => {
-      it('it should not save a certif partner', async () => {
+    context('when certification is not eligible', function() {
+      it('it should not save a certif partner', async function() {
         // given
         cleaCertification.isEligible = () => false;
 

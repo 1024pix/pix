@@ -4,7 +4,7 @@ const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRe
 
 const { CampaignCodeError, NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | reconcile-schooling-registration', () => {
+describe('Unit | UseCase | reconcile-schooling-registration', function() {
 
   let campaignCode;
 
@@ -17,7 +17,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
   const organizationId = 1;
   const schoolingRegistrationId = 1;
 
-  beforeEach(() => {
+  beforeEach(function() {
     campaignCode = 'ABCD12';
     schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organizationId, id: schoolingRegistrationId });
     user = {
@@ -40,9 +40,9 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
     };
   });
 
-  context('When there is no campaign with the given code', () => {
+  context('When there is no campaign with the given code', function() {
 
-    it('should throw a campaign code error', async () => {
+    it('should throw a campaign code error', async function() {
       // given
       campaignRepository.getByCode.withArgs(campaignCode).resolves(null);
 
@@ -58,9 +58,9 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
     });
   });
 
-  context('When no schoolingRegistration found', () => {
+  context('When no schoolingRegistration found', function() {
 
-    it('should throw a Not Found error', async () => {
+    it('should throw a Not Found error', async function() {
       // given
       campaignRepository.getByCode.withArgs(campaignCode).resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.throws(new NotFoundError('Error message'));
@@ -79,9 +79,9 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
     });
   });
 
-  context('When student has already a reconciled account', () => {
+  context('When student has already a reconciled account', function() {
 
-    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async () => {
+    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function() {
       // given
       campaignRepository.getByCode.withArgs(campaignCode).resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
@@ -100,9 +100,9 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
     });
   });
 
-  context('When another student is already reconciled in the same organization and with the same user', () => {
+  context('When another student is already reconciled in the same organization and with the same user', function() {
 
-    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async () => {
+    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function() {
       // given
       schoolingRegistration.userId = user.id;
       schoolingRegistration.firstName = user.firstName;
@@ -135,9 +135,9 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
 
   });
 
-  context('When one schoolingRegistration matched on names', () => {
+  context('When one schoolingRegistration matched on names', function() {
 
-    it('should associate user with schoolingRegistration', async () => {
+    it('should associate user with schoolingRegistration', async function() {
       // given
       const withReconciliation = true;
       schoolingRegistration.userId = user.id;
@@ -167,9 +167,9 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
     });
   });
 
-  context('When withReconciliation is false', () => {
+  context('When withReconciliation is false', function() {
 
-    it('should not associate user with schoolingRegistration', async () => {
+    it('should not associate user with schoolingRegistration', async function() {
       // given
       const withReconciliation = false;
       schoolingRegistration.userId = user.id;

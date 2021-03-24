@@ -3,7 +3,7 @@ const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 
 describe('Event Choreography | Pole Emploi Participation Shared', function() {
-  it('Should trigger Pole Emploi participation shared handler on CampaignParticipationResultsShared event', async () => {
+  it('Should trigger Pole Emploi participation shared handler on CampaignParticipationResultsShared event', async function() {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
     const event = new CampaignParticipationResultsShared();

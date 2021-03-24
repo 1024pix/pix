@@ -10,11 +10,11 @@ const moduleUnderTest = require('../../../../lib/application/certifications');
 
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
 
-describe('Integration | Application | Route | Certifications', () => {
+describe('Integration | Application | Route | Certifications', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(certificationController, 'findUserCertifications').returns('ok');
     sinon.stub(certificationController, 'getCertification').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
@@ -22,9 +22,9 @@ describe('Integration | Application | Route | Certifications', () => {
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('GET /api/certifications', () => {
+  describe('GET /api/certifications', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/certifications');
 
@@ -33,9 +33,9 @@ describe('Integration | Application | Route | Certifications', () => {
     });
   });
 
-  describe('GET /api/certifications/:id', () => {
+  describe('GET /api/certifications/:id', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/certifications/1');
 

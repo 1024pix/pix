@@ -2,15 +2,15 @@ const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const finalizedSessionRepository = require('../../../../lib/infrastructure/repositories/finalized-session-repository');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
-describe('Integration | Repository | Finalized-session', () => {
+describe('Integration | Repository | Finalized-session', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('finalized-sessions').delete();
     });
 
-    it('saves a finalized session', async () => {
+    it('saves a finalized session', async function() {
       // given
       const finalizedSession = new FinalizedSession({
         sessionId: 1234,
@@ -40,13 +40,13 @@ describe('Integration | Repository | Finalized-session', () => {
     });
   });
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('finalized-sessions').delete();
     });
 
-    it('retrieves a finalized session', async () => {
+    it('retrieves a finalized session', async function() {
       // given
       const finalizedSession = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
       await databaseBuilder.commit();
@@ -68,13 +68,13 @@ describe('Integration | Repository | Finalized-session', () => {
     });
   });
 
-  describe('#updatePublishedAt', () => {
+  describe('#updatePublishedAt', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('finalized-sessions').delete();
     });
 
-    it('should update the publication date of a finalized session', async () => {
+    it('should update the publication date of a finalized session', async function() {
       // given
       const publishedAt = new Date('2021-01-01');
       const finalizedSession = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
@@ -91,7 +91,7 @@ describe('Integration | Repository | Finalized-session', () => {
       expect(actualPublishedAt).to.deep.equal(publishedAt);
     });
 
-    it('should not throw when trying to setup publishedAt date on non-existent finalized session', async () => {
+    it('should not throw when trying to setup publishedAt date on non-existent finalized session', async function() {
       // given
       databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
       await databaseBuilder.commit();
@@ -107,11 +107,11 @@ describe('Integration | Repository | Finalized-session', () => {
     });
   });
 
-  describe('#findFinalizedSessionsToPublish', () => {
+  describe('#findFinalizedSessionsToPublish', function() {
 
-    context('when there are publishable sessions', () => {
+    context('when there are publishable sessions', function() {
 
-      it('finds a list of publishable finalized session order by finalization date', async () => {
+      it('finds a list of publishable finalized session order by finalization date', async function() {
         // given
         const publishableFinalizedSession1 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2020-01-01') });
         const publishableFinalizedSession2 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2019-01-01') });
@@ -162,9 +162,9 @@ describe('Integration | Repository | Finalized-session', () => {
       });
     });
 
-    context('when there are no publishable sessions', () => {
+    context('when there are no publishable sessions', function() {
 
-      it('returns an empty array', async () => {
+      it('returns an empty array', async function() {
         // given / when
         const result = await finalizedSessionRepository.findFinalizedSessionsToPublish();
 
@@ -174,11 +174,11 @@ describe('Integration | Repository | Finalized-session', () => {
     });
   });
 
-  describe('#findFinalizedSessionsWithRequiredAction', () => {
+  describe('#findFinalizedSessionsWithRequiredAction', function() {
 
-    context('when there are finalized sessions with required action', () => {
+    context('when there are finalized sessions with required action', function() {
 
-      it('finds a list of finalized session with required action ordered by finalization date', async () => {
+      it('finds a list of finalized session with required action ordered by finalization date', async function() {
         // given
         const secondFinalizedSession = databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null, finalizedAt: new Date('2020-01-01') });
         const firstFinalizedSession = databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null, finalizedAt: new Date('2019-01-01') });
@@ -229,9 +229,9 @@ describe('Integration | Repository | Finalized-session', () => {
       });
     });
 
-    context('when there are no publishable sessions', () => {
+    context('when there are no publishable sessions', function() {
 
-      it('returns an empty array', async () => {
+      it('returns an empty array', async function() {
         // given / when
         const result = await finalizedSessionRepository.findFinalizedSessionsWithRequiredAction();
 
@@ -241,8 +241,8 @@ describe('Integration | Repository | Finalized-session', () => {
     });
   });
 
-  describe('#assignCertificationOfficer', () => {
-    it('should add the name to the finalized session', async () => {
+  describe('#assignCertificationOfficer', function() {
+    it('should add the name to the finalized session', async function() {
       // given
       const session = databaseBuilder.factory.buildFinalizedSession();
       const sessionId = session.sessionId;
@@ -260,9 +260,9 @@ describe('Integration | Repository | Finalized-session', () => {
         .to.deep.equal('Severus Snape');
     });
 
-    context('when sessionId does not exist', () => {
+    context('when sessionId does not exist', function() {
 
-      it('should not throw when trying to assign certification officer on non-existent finalized session', async () => {
+      it('should not throw when trying to assign certification officer on non-existent finalized session', async function() {
         // given
         const sessionId = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 }).sessionId;
         await databaseBuilder.commit();

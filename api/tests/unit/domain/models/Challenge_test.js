@@ -8,11 +8,11 @@ const ValidatorQROC = require('../../../../lib/domain/models/ValidatorQROC');
 const ValidatorQROCMDep = require('../../../../lib/domain/models/ValidatorQROCMDep');
 const ValidatorQROCMInd = require('../../../../lib/domain/models/ValidatorQROCMInd');
 
-describe('Unit | Domain | Models | Challenge', () => {
+describe('Unit | Domain | Models | Challenge', function() {
 
-  describe('#constructor', () => {
+  describe('#constructor', function() {
 
-    it('should construct a model Challenge from attributes', () => {
+    it('should construct a model Challenge from attributes', function() {
       // given
       const challengeRawData = {
         id: 'recwWzTquPlvIl4So',
@@ -49,9 +49,9 @@ describe('Unit | Domain | Models | Challenge', () => {
     });
   });
 
-  describe('#hasSkill', () => {
+  describe('#hasSkill', function() {
 
-    it('should return false when the skill is not known', () => {
+    it('should return false when the skill is not known', function() {
       // given
       const challenge = new Challenge();
 
@@ -62,7 +62,7 @@ describe('Unit | Domain | Models | Challenge', () => {
       expect(result).to.be.false;
     });
 
-    it('should return true when the skill is known', () => {
+    it('should return true when the skill is known', function() {
       // given
       const challenge = new Challenge();
       challenge.skills.push(new Skill('@recherche1'));
@@ -75,9 +75,9 @@ describe('Unit | Domain | Models | Challenge', () => {
     });
   });
 
-  describe('#addSkill', () => {
+  describe('#addSkill', function() {
 
-    it('should add a skill', () => {
+    it('should add a skill', function() {
       // given
       const skill = new Skill('@web3');
       const challenge = new Challenge();
@@ -185,7 +185,7 @@ describe('Unit | Domain | Models | Challenge', () => {
     });
   });
 
-  describe('static#createValidatorForChallengeType', () => {
+  describe('static#createValidatorForChallengeType', function() {
 
     const challengeTypeAndValidators = {
       'QCM': ValidatorQCM,
@@ -198,9 +198,9 @@ describe('Unit | Domain | Models | Challenge', () => {
 
     Object.entries(challengeTypeAndValidators).forEach(([challengeType, associatedValidatorClass]) => {
 
-      context(`when challenge of type: ${challengeType} exists`, () => {
+      context(`when challenge of type: ${challengeType} exists`, function() {
 
-        it('should return the associated validator class', () => {
+        it('should return the associated validator class', function() {
           // when
           const solution = 'some solution';
           const validator = Challenge.createValidatorForChallengeType({ challengeType, solution });

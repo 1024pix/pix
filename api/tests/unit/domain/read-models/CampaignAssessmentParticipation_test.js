@@ -2,11 +2,11 @@ const { expect } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
 
-describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
+describe('Unit | Domain | Models | CampaignAssessmentParticipation', function() {
 
-  describe('#validatedSkillsCount', () => {
-    context('when status is SHARED', () => {
-      it('should compute a validatedSkillsCount of 0', () => {
+  describe('#validatedSkillsCount', function() {
+    context('when status is SHARED', function() {
+      it('should compute a validatedSkillsCount of 0', function() {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           validatedSkillsCount: 0,
           isShared: true,
@@ -15,7 +15,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
         expect(campaignAssessmentParticipation.validatedSkillsCount).equal(0);
       });
 
-      it('should compute a validatedSkillsCount of 7', () => {
+      it('should compute a validatedSkillsCount of 7', function() {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           validatedSkillsCount: 7,
           isShared: true,
@@ -25,8 +25,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
       });
     });
 
-    context('when status is not SHARED', () => {
-      it('should compute a validatedSkillsCount of 7', () => {
+    context('when status is not SHARED', function() {
+      it('should compute a validatedSkillsCount of 7', function() {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           validatedSkillsCount: 7,
           isShared: false,
@@ -37,11 +37,11 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
     });
   });
 
-  describe('#masteryPercentage', () => {
+  describe('#masteryPercentage', function() {
 
-    context('when status is SHARED', () => {
-      context('when there are no skills in target profile', () => {
-        it('should compute a masteryPercentage of 0', () => {
+    context('when status is SHARED', function() {
+      context('when there are no skills in target profile', function() {
+        it('should compute a masteryPercentage of 0', function() {
           const targetedSkillsCount = 0;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
             targetedSkillsCount,
@@ -53,8 +53,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
         });
       });
 
-      context('when there are skills in target profile', () => {
-        it('should compute a masteryPercentage accordingly', () => {
+      context('when there are skills in target profile', function() {
+        it('should compute a masteryPercentage accordingly', function() {
           const targetedSkillsCount = 40;
           const validatedSkillsCount = 10;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
@@ -66,7 +66,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
           expect(campaignAssessmentParticipation.masteryPercentage).equal(25);
         });
 
-        it('should compute a masteryPercentage accordingly with rounded value', () => {
+        it('should compute a masteryPercentage accordingly with rounded value', function() {
           const targetedSkillsCount = 30;
           const validatedSkillsCount = 10;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
@@ -80,8 +80,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
       });
     });
 
-    context('when status is not SHARED', () => {
-      it('should return undefined', () => {
+    context('when status is not SHARED', function() {
+      it('should return undefined', function() {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           targetedSkillsCount: 1,
           validatedSkillsCount: 1,
@@ -93,11 +93,11 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
     });
   });
 
-  describe('#progression', () => {
+  describe('#progression', function() {
 
-    context('when state is STARTED', () => {
-      context('when testedSkillsCount = 0', () => {
-        it('should compute a progression of 0', () => {
+    context('when state is STARTED', function() {
+      context('when testedSkillsCount = 0', function() {
+        it('should compute a progression of 0', function() {
           const testedSkillsCount = 0;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
             state: Assessment.states.STARTED,
@@ -109,8 +109,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
         });
       });
 
-      context('when testedSkillsCount != 0', () => {
-        it('should compute a progression accordingly', () => {
+      context('when testedSkillsCount != 0', function() {
+        it('should compute a progression accordingly', function() {
           const targetedSkillsCount = 40;
           const testedSkillsCount = 10;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
@@ -122,7 +122,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
           expect(campaignAssessmentParticipation.progression).equal(25);
         });
 
-        it('should compute a progression accordingly with rounded value', () => {
+        it('should compute a progression accordingly with rounded value', function() {
           const targetedSkillsCount = 30;
           const testedSkillsCount = 10;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
@@ -136,8 +136,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
       });
     });
 
-    context('when state is COMPLETED', () => {
-      it('should return 100', () => {
+    context('when state is COMPLETED', function() {
+      it('should return 100', function() {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           assessmentState: Assessment.states.COMPLETED,
         });

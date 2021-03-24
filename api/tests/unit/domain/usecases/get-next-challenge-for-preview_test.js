@@ -3,11 +3,11 @@ const getNextChallengeForPreview = require('../../../../lib/domain/usecases/get-
 
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Use Cases | get-next-challenge-for-preview', () => {
+describe('Unit | Domain | Use Cases | get-next-challenge-for-preview', function() {
 
-  describe('#getNextChallengeForPreview', () => {
+  describe('#getNextChallengeForPreview', function() {
 
-    it('should trigger an AssessmentEndedError', () => {
+    it('should trigger an AssessmentEndedError', function() {
       // when
       const promise = getNextChallengeForPreview();
 

@@ -1,10 +1,10 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | Target-Profile/TargetedArea', () => {
+describe('Unit | Domain | Models | Target-Profile/TargetedArea', function() {
 
-  describe('hasCompetence', () => {
+  describe('hasCompetence', function() {
 
-    it('should return true when the competence is in area', () => {
+    it('should return true when the competence is in area', function() {
       // given
       const competence = domainBuilder.buildTargetedCompetence({ id: 'competenceId', areaId: 'areaId' });
       const area = domainBuilder.buildTargetedArea({ id: 'areaId', competences: [competence] });
@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | Target-Profile/TargetedArea', () => {
       expect(isIncluded).to.be.true;
     });
 
-    it('should return false when the skill is not in tube', () => {
+    it('should return false when the skill is not in tube', function() {
       // given
       const area = domainBuilder.buildTargetedArea({ id: 'areaId', competences: [] });
 

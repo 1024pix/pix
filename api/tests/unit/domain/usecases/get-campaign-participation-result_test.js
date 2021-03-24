@@ -2,7 +2,7 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper
 const getCampaignParticipationResult = require('../../../../lib/domain/usecases/get-campaign-participation-result');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-campaign-participation-result', () => {
+describe('Unit | UseCase | get-campaign-participation-result', function() {
 
   const campaignParticipationId = 1;
   const targetProfileId = 1;
@@ -24,7 +24,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
 
   let usecaseDependencies;
 
-  beforeEach(() => {
+  beforeEach(function() {
     campaignParticipationRepository = { get: sinon.stub() };
     targetProfileRepository = { getByCampaignId: sinon.stub() };
     badgeRepository = { findByTargetProfileId: sinon.stub().resolves([]) };
@@ -43,14 +43,14 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     };
   });
 
-  context('when user is the owner of the participation', () => {
-    beforeEach(() => {
+  context('when user is the owner of the participation', function() {
+    beforeEach(function() {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
       targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
     });
 
-    it('should get the campaignParticipationResult', async () => {
+    it('should get the campaignParticipationResult', async function() {
       // when
       const campaignParticipationResult = domainBuilder.buildCampaignParticipationResult();
 
@@ -61,7 +61,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       expect(actualCampaignParticipationResult).to.deep.equal(campaignParticipationResult);
     });
 
-    context('when a badge is available for the campaignParticipationResult', () => {
+    context('when a badge is available for the campaignParticipationResult', function() {
       const acquiredBadge = {
         id: Symbol('acquiredBadgeId'),
         key: 'ACQUIRED_BADGE',
@@ -79,7 +79,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
 
       context('when the campaign only have one badge', function() {
 
-        it('should assign badge acquisition to campaignParticipationResult', async () => {
+        it('should assign badge acquisition to campaignParticipationResult', async function() {
           // given
           const campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
             id: 'foo',
@@ -109,7 +109,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       });
 
       context('when the campaign only have two badges', function() {
-        it('should assign badges to campaignParticipationResult', async () => {
+        it('should assign badges to campaignParticipationResult', async function() {
           // given
           const campaignParticipationResult = domainBuilder.buildCampaignParticipationResult({
             id: 'foo',
@@ -140,8 +140,8 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     });
   });
 
-  context('when user is not the owner of the campaignParticipation', () => {
-    it('should throw an error', async () => {
+  context('when user is not the owner of the campaignParticipation', function() {
+    it('should throw an error', async function() {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId: 789 });
 

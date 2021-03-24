@@ -1,12 +1,12 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-tutorial-serializer');
 
-describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', () => {
+describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    context('when there is only user tutorial', () => {
-      it('should serialize', () => {
+    context('when there is only user tutorial', function() {
+      it('should serialize', function() {
         // given
         const userTutorial = {
           id: 'userTutorialId',
@@ -32,8 +32,8 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', () => {
     });
   });
 
-  context('when there is user tutorial and tutorial', () => {
-    it('should serialize', () => {
+  context('when there is user tutorial and tutorial', function() {
+    it('should serialize', function() {
       // given
       const userTutorial = {
         id: 'userTutorialId',

@@ -2,18 +2,18 @@ const { expect, sinon } = require('../../test-helper');
 
 const { ScriptQueryBuilder, ClientQueryAdapter, UserEraser } = require('../../../scripts/delete-user');
 
-describe('Delete User Script', () => {
+describe('Delete User Script', function() {
 
-  describe('ScriptQueryBuilder', () => {
+  describe('ScriptQueryBuilder', function() {
     let subject;
 
-    beforeEach(() => {
+    beforeEach(function() {
       subject = new ScriptQueryBuilder();
     });
 
-    describe('#count_certifications_from_user_id', () => {
+    describe('#count_certifications_from_user_id', function() {
 
-      it('should return the correct query', () => {
+      it('should return the correct query', function() {
         // given
         const userId = 213;
 
@@ -26,8 +26,8 @@ describe('Delete User Script', () => {
 
     });
 
-    describe('#get_user_id_from_email', () => {
-      it('should return the correct query', () => {
+    describe('#get_user_id_from_email', function() {
+      it('should return the correct query', function() {
         // given
         const email = 'jean.paul@pix.fr';
 
@@ -39,8 +39,8 @@ describe('Delete User Script', () => {
       });
     });
 
-    describe('#find_assessment_ids_from_user_id', () => {
-      it('should return the correct query', () => {
+    describe('#find_assessment_ids_from_user_id', function() {
+      it('should return the correct query', function() {
         // given
         const user_id = 123;
 
@@ -52,8 +52,8 @@ describe('Delete User Script', () => {
       });
     });
 
-    describe('#delete_feedbacks_from_assessment_ids', () => {
-      it('should return the correct query', () => {
+    describe('#delete_feedbacks_from_assessment_ids', function() {
+      it('should return the correct query', function() {
         // given
         const assessment_ids = [123];
 
@@ -64,7 +64,7 @@ describe('Delete User Script', () => {
         expect(query).to.equal('DELETE FROM feedbacks WHERE "assessmentId" IN (123)');
       });
 
-      it('should return the correct query with comma as separator when many assessment ids', () => {
+      it('should return the correct query with comma as separator when many assessment ids', function() {
         // given
         const assessment_ids = [123, 456];
 
@@ -75,7 +75,7 @@ describe('Delete User Script', () => {
         expect(query).to.equal('DELETE FROM feedbacks WHERE "assessmentId" IN (123,456)');
       });
 
-      it('should return neutral query when assessmentIds is an empty array', () => {
+      it('should return neutral query when assessmentIds is an empty array', function() {
         // given
         const assessment_ids = [];
 
@@ -84,8 +84,8 @@ describe('Delete User Script', () => {
       });
     });
 
-    describe('#delete_competence_marks_from_assessment_ids', () => {
-      it('should return the correct query', () => {
+    describe('#delete_competence_marks_from_assessment_ids', function() {
+      it('should return the correct query', function() {
         // given
         const assessment_ids = [123];
 
@@ -96,7 +96,7 @@ describe('Delete User Script', () => {
         expect(query).to.equal('DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (123) )');
       });
 
-      it('should return the correct query with comma as separator when many assessment ids', () => {
+      it('should return the correct query with comma as separator when many assessment ids', function() {
         // given
         const assessment_ids = [123, 456];
 
@@ -107,7 +107,7 @@ describe('Delete User Script', () => {
         expect(query).to.equal('DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (123,456) )');
       });
 
-      it('should return neutral query when assessmentIds is an empty array', () => {
+      it('should return neutral query when assessmentIds is an empty array', function() {
         // given
         const assessment_ids = [];
 
@@ -116,8 +116,8 @@ describe('Delete User Script', () => {
       });
     });
 
-    describe('#delete_assessment_results_from_assessment_ids', () => {
-      it('should return the correct query', () => {
+    describe('#delete_assessment_results_from_assessment_ids', function() {
+      it('should return the correct query', function() {
         // given
         const assessment_ids = [123];
 
@@ -128,7 +128,7 @@ describe('Delete User Script', () => {
         expect(query).to.equal('DELETE FROM "assessment-results" WHERE "assessmentId" IN (123)');
       });
 
-      it('should return the correct query with comma as separator when many assessment ids', () => {
+      it('should return the correct query with comma as separator when many assessment ids', function() {
         // given
         const assessment_ids = [123, 456];
 
@@ -139,7 +139,7 @@ describe('Delete User Script', () => {
         expect(query).to.equal('DELETE FROM "assessment-results" WHERE "assessmentId" IN (123,456)');
       });
 
-      it('should return neutral query when assessmentIds is an empty array', () => {
+      it('should return neutral query when assessmentIds is an empty array', function() {
         // given
         const assessment_ids = [];
 
@@ -148,8 +148,8 @@ describe('Delete User Script', () => {
       });
     });
 
-    describe('#delete_answers_from_assessment_ids', () => {
-      it('should return the correct query', () => {
+    describe('#delete_answers_from_assessment_ids', function() {
+      it('should return the correct query', function() {
         // given
         const assessment_ids = [123];
 
@@ -160,7 +160,7 @@ describe('Delete User Script', () => {
         expect(query).to.equal('DELETE FROM answers WHERE "assessmentId" IN (123)');
       });
 
-      it('should return the correct query with comma as separator when many assessment ids', () => {
+      it('should return the correct query with comma as separator when many assessment ids', function() {
         // given
         const assessment_ids = [123, 456];
 
@@ -171,7 +171,7 @@ describe('Delete User Script', () => {
         expect(query).to.equal('DELETE FROM answers WHERE "assessmentId" IN (123,456)');
       });
 
-      it('should return neutral query when assessmentIds is an empty array', () => {
+      it('should return neutral query when assessmentIds is an empty array', function() {
         // given
         const assessment_ids = [];
 
@@ -180,8 +180,8 @@ describe('Delete User Script', () => {
       });
     });
 
-    describe('#delete_assessment_ids_from_user_id', () => {
-      it('should return the correct query', () => {
+    describe('#delete_assessment_ids_from_user_id', function() {
+      it('should return the correct query', function() {
         // given
         const user_id = 123;
 
@@ -193,8 +193,8 @@ describe('Delete User Script', () => {
       });
     });
 
-    describe('#delete_user_from_user_id', () => {
-      it('should return the correct query', () => {
+    describe('#delete_user_from_user_id', function() {
+      it('should return the correct query', function() {
         // given
         const user_id = 123;
 
@@ -208,15 +208,15 @@ describe('Delete User Script', () => {
 
   });
 
-  describe('ClientQueryAdapter', () => {
+  describe('ClientQueryAdapter', function() {
     let subject;
 
-    beforeEach(() => {
+    beforeEach(function() {
       subject = new ClientQueryAdapter();
     });
 
-    describe('#unpack_user_id', () => {
-      it('should return the user id from result object', () => {
+    describe('#unpack_user_id', function() {
+      it('should return the user id from result object', function() {
         // given
         const queryResult = {
           rows: [
@@ -231,7 +231,7 @@ describe('Delete User Script', () => {
         expect(result).to.equal(1);
       });
 
-      it('should throw when result has no rows', () => {
+      it('should throw when result has no rows', function() {
         // given
         const queryResult = {
           rows: [],
@@ -242,8 +242,8 @@ describe('Delete User Script', () => {
       });
     });
 
-    describe('#unpack_assessment_ids', () => {
-      it('should return the assessment ids from result object', () => {
+    describe('#unpack_assessment_ids', function() {
+      it('should return the assessment ids from result object', function() {
         // given
         const queryResult = {
           rows: [
@@ -260,7 +260,7 @@ describe('Delete User Script', () => {
         expect(result).to.deep.equal([1, 2, 3]);
       });
 
-      it('should return empty array when result has no rows', () => {
+      it('should return empty array when result has no rows', function() {
         // given
         const queryResult = {
           rows: [],
@@ -276,12 +276,12 @@ describe('Delete User Script', () => {
     });
   });
 
-  describe('AssessmentEraser', () => {
+  describe('AssessmentEraser', function() {
     let subject;
     let queryBuilderMock;
     let clientStub;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const queryBuilder = new ScriptQueryBuilder();
       clientStub = { query_and_log: sinon.stub() };
 
@@ -290,9 +290,9 @@ describe('Delete User Script', () => {
       subject = new UserEraser(clientStub, queryBuilder, clientQueryAdapter);
     });
 
-    describe('#check_no_certification_done', () => {
+    describe('#check_no_certification_done', function() {
 
-      it('should count user\'s certifications', () => {
+      it('should count user\'s certifications', function() {
         // given
         const userId = 5186;
         subject.userId = userId;
@@ -311,7 +311,7 @@ describe('Delete User Script', () => {
         });
       });
 
-      it('should fail when user has already been certified', () => {
+      it('should fail when user has already been certified', function() {
         // given
         const userId = 5186;
         subject.userId = userId;
@@ -328,15 +328,15 @@ describe('Delete User Script', () => {
 
     });
 
-    describe('#delete_dependent_data_from_fetched_assessment_ids', () => {
+    describe('#delete_dependent_data_from_fetched_assessment_ids', function() {
 
       let consoleLog;
 
-      beforeEach(() => {
+      beforeEach(function() {
         consoleLog = sinon.stub(console, 'log');
       });
 
-      it('should delete feedbacks, answers, competence-marks and assessment-results', () => {
+      it('should delete feedbacks, answers, competence-marks and assessment-results', function() {
         // given
         const ids = [123, 456];
         subject.assessmentIds = ids;
@@ -355,7 +355,7 @@ describe('Delete User Script', () => {
         });
       });
 
-      it('should not try to delete anything when no ids given', () => {
+      it('should not try to delete anything when no ids given', function() {
         // given
         const ids = [];
         subject.assessmentIds = ids;

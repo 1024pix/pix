@@ -8,10 +8,10 @@ const CleaCertification = require('../../../../lib/domain/models/CleaCertificati
 describe('Integration | Repository | Partner Certification', function() {
   const PARTNER_CERTIFICATIONS_TABLE_NAME = 'partner-certifications';
 
-  describe('#save', () => {
+  describe('#save', function() {
     let partnerCertification;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
       partnerCertification = domainBuilder.buildCleaCertification({
         certificationCourseId,
@@ -21,13 +21,13 @@ describe('Integration | Repository | Partner Certification', function() {
       return databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex(PARTNER_CERTIFICATIONS_TABLE_NAME).delete();
       await knex('certification-courses').delete();
       await knex('badges').delete();
     });
 
-    it('should persist the certification partner in db', async () => {
+    it('should persist the certification partner in db', async function() {
       // given
       sinon.stub(partnerCertification, 'isAcquired').returns(true);
 
@@ -45,7 +45,7 @@ describe('Integration | Repository | Partner Certification', function() {
 
   });
 
-  describe('#buildCleaCertification', () => {
+  describe('#buildCleaCertification', function() {
     const pixValue = 5;
     const competenceId = 'recCompetence1';
     const reproducibilityRate = 13;
@@ -58,11 +58,11 @@ describe('Integration | Repository | Partner Certification', function() {
     };
     const learningContent = { skills: [skill] };
 
-    beforeEach(() => {
+    beforeEach(function() {
       mockLearningContent(learningContent);
     });
 
-    it('should successfully build a CleaCertification with no clea competenceMarks', async () => {
+    it('should successfully build a CleaCertification with no clea competenceMarks', async function() {
       // given
       const { userId } = await _setUpCleaCertificationWithBadge({ certificationCourseId, competenceId: 'otherCompetenceId', skill });
 
@@ -84,7 +84,7 @@ describe('Integration | Repository | Partner Certification', function() {
       expect(cleaCertification).to.deep.equal(expectedCleaCertification);
     });
 
-    it('should successfully build a CleaCertification with no competences for CleA', async () => {
+    it('should successfully build a CleaCertification with no competences for CleA', async function() {
       // given
       const { userId } = await _setUpNotExistingCleaCertification({ certificationCourseId, competenceId: 'otherCompetenceId' });
 
@@ -106,7 +106,7 @@ describe('Integration | Repository | Partner Certification', function() {
       expect(cleaCertification).to.deep.equal(expectedCleaCertification);
     });
 
-    it('should successfully build a CleaCertification with badge', async () => {
+    it('should successfully build a CleaCertification with badge', async function() {
       // given
 
       const { userId, competenceMark } = await _setUpCleaCertificationWithBadge({ certificationCourseId, competenceId, skill });
@@ -129,7 +129,7 @@ describe('Integration | Repository | Partner Certification', function() {
       expect(cleaCertification).to.deep.equal(expectedCleaCertification);
     });
 
-    it('should successfully build a cleaCertification without badge', async () => {
+    it('should successfully build a cleaCertification without badge', async function() {
       // given
       const { userId, competenceMark } = await _setUpCleaCertificationWithoutBadge({ certificationCourseId, competenceId, skill });
 

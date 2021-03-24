@@ -4,18 +4,18 @@ const campaignCodeGenerator = require('../../../../../lib/domain/services/campai
 
 describe('Unit | Domain | Services | campaign code generator', function() {
 
-  describe('#createCampaignCode', () => {
+  describe('#createCampaignCode', function() {
 
     const campaignRepository = {
       isCodeAvailable: () => undefined,
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(campaignRepository, 'isCodeAvailable');
       campaignRepository.isCodeAvailable.resolves(true);
     });
 
-    it('should create a code with a length of 9 characters', () => {
+    it('should create a code with a length of 9 characters', function() {
       // when
       const promise = campaignCodeGenerator.generate(campaignRepository);
 
@@ -25,7 +25,7 @@ describe('Unit | Domain | Services | campaign code generator', function() {
       });
     });
 
-    it('should create a code beginning with 6 letters', () => {
+    it('should create a code beginning with 6 letters', function() {
       // when
       const promise = campaignCodeGenerator.generate(campaignRepository);
 
@@ -36,7 +36,7 @@ describe('Unit | Domain | Services | campaign code generator', function() {
       });
     });
 
-    it('should create a code finishing with 3 numbers', () => {
+    it('should create a code finishing with 3 numbers', function() {
       // when
       const promise = campaignCodeGenerator.generate(campaignRepository);
 
@@ -47,7 +47,7 @@ describe('Unit | Domain | Services | campaign code generator', function() {
       });
     });
 
-    it('should not be already assigned', () => {
+    it('should not be already assigned', function() {
       // given
       campaignRepository.isCodeAvailable.onCall(0).resolves(false);
       campaignRepository.isCodeAvailable.onCall(1).resolves(true);
@@ -65,7 +65,7 @@ describe('Unit | Domain | Services | campaign code generator', function() {
 
     });
 
-    it('should not contains unreadable characters (I, l, 0)', () => {
+    it('should not contains unreadable characters (I, l, 0)', function() {
       sinon.spy(randomString, 'generate');
 
       // when
@@ -78,7 +78,7 @@ describe('Unit | Domain | Services | campaign code generator', function() {
       });
     });
 
-    it('should not contains unreadable numbers (O)', () => {
+    it('should not contains unreadable numbers (O)', function() {
       sinon.spy(randomString, 'generate');
 
       // when
@@ -91,7 +91,7 @@ describe('Unit | Domain | Services | campaign code generator', function() {
       });
     });
 
-    it('should returns different campaign code from a given list when batch insert campaigns', () => {
+    it('should returns different campaign code from a given list when batch insert campaigns', function() {
       sinon.stub(randomString, 'generate');
 
       const pendingCodeNumbers = '345';

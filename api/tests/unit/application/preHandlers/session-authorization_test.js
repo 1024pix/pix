@@ -3,11 +3,11 @@ const { NotFoundError } = require('../../../../lib/application/http-errors');
 const SessionAuthorization = require('../../../../lib/application/preHandlers/session-authorization');
 const sessionAuthorizationService = require('../../../../lib/domain/services/session-authorization-service');
 
-describe('Unit | Pre-handler | Session Authorization', () => {
+describe('Unit | Pre-handler | Session Authorization', function() {
   const userId = 1;
   const sessionId = 2;
 
-  describe('#verify', () => {
+  describe('#verify', function() {
     const request = {
       auth: { credentials: { accessToken: 'valid.access.token', userId } },
       params: {
@@ -15,13 +15,13 @@ describe('Unit | Pre-handler | Session Authorization', () => {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(sessionAuthorizationService, 'isAuthorizedToAccessSession');
     });
 
-    context('when user has access to session', () => {
+    context('when user has access to session', function() {
 
-      it('should reply with true', async () => {
+      it('should reply with true', async function() {
         // given
         sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(true);
 
@@ -33,9 +33,9 @@ describe('Unit | Pre-handler | Session Authorization', () => {
       });
     });
 
-    context('when user has no access to session', () => {
+    context('when user has no access to session', function() {
 
-      it('should throw a NotFoundError', async () => {
+      it('should throw a NotFoundError', async function() {
         // given
         sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(false);
 

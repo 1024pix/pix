@@ -4,10 +4,10 @@ const enrollStudentsToSession = require('../../../../lib/domain/usecases/enroll-
 const SCOCertificationCandidate = require('../../../../lib/domain/models/SCOCertificationCandidate');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | enroll-students-to-session', () => {
-  context('when referent is allowed to Pix Certif', () => {
+describe('Unit | UseCase | enroll-students-to-session', function() {
+  context('when referent is allowed to Pix Certif', function() {
 
-    it('enrolls n students to a session', async () => {
+    it('enrolls n students to a session', async function() {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
       const sessionId = session.id;
@@ -58,7 +58,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       expect(scoCertificationCandidateRepository.findBySessionId(anotherSessionId)).to.deep.equal(undefined);
     });
 
-    it('rejects enrollment if students do not belong to same organization as referent', async () => {
+    it('rejects enrollment if students do not belong to same organization as referent', async function() {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
 
@@ -94,7 +94,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       expect(error).to.be.instanceof(ForbiddenAccess);
     });
 
-    it('rejects enrollment if session does not belong to same certification center as referent', async () => {
+    it('rejects enrollment if session does not belong to same certification center as referent', async function() {
       // given
       const { session, certificationCenterMemberships } = _buildNonMatchingSessionAndCertificationCenterMembership();
       const referentId = Symbol('a referent id');
@@ -120,7 +120,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       expect(error).to.be.an.instanceOf(ForbiddenAccess);
     });
 
-    it('does nothing if no student ids is given as input', async () => {
+    it('does nothing if no student ids is given as input', async function() {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
       const sessionId = session.id;

@@ -2,9 +2,9 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const getSessionResultsByResultRecipientEmail = require('../../../../lib/domain/usecases/get-session-results-by-result-recipient-email');
 
-describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-email', () => {
+describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-email', function() {
 
-  it('Returns only the certification results of the candidates with a given result recipient email', async () => {
+  it('Returns only the certification results of the candidates with a given result recipient email', async function() {
     // given
     const { session, candidates } = buildSessionWithCandidates({
       sessionInfo: {

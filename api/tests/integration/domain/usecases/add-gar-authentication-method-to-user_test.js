@@ -6,14 +6,14 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 
 const { addGarAuthenticationMethodToUser } = require('../../../../lib/domain/usecases');
 
-describe('Integration | UseCases | add-gar-authentication-method-to-user', () => {
+describe('Integration | UseCases | add-gar-authentication-method-to-user', function() {
 
   const expectedSamlId = 'SAMLID';
 
   let externalUserToken;
   let userId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     const userAttributes = {
       firstName: 'firstName',
       lastName: 'lastName',
@@ -24,13 +24,13 @@ describe('Integration | UseCases | add-gar-authentication-method-to-user', () =>
     await databaseBuilder.commit();
   });
 
-  context('when user exists', () => {
+  context('when user exists', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('authentication-methods').delete();
     });
 
-    it('should create GAR authentication method for the user', async () => {
+    it('should create GAR authentication method for the user', async function() {
       // when
       await addGarAuthenticationMethodToUser({ userId, externalUserToken, expectedUserId: userId });
 
@@ -40,9 +40,9 @@ describe('Integration | UseCases | add-gar-authentication-method-to-user', () =>
     });
   });
 
-  context('when an error occurred', () => {
+  context('when an error occurred', function() {
 
-    it('should throw an InvalidExternalUserTokenError when externalUserToken is invalid', async () => {
+    it('should throw an InvalidExternalUserTokenError when externalUserToken is invalid', async function() {
       // given
       externalUserToken = 'INVALID_TOKEN';
 
@@ -54,7 +54,7 @@ describe('Integration | UseCases | add-gar-authentication-method-to-user', () =>
       expect(error.message).to.equal('Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.');
     });
 
-    it('should throw an InvalidUserAccount error when the authenticated user is not the expected one', async () => {
+    it('should throw an InvalidUserAccount error when the authenticated user is not the expected one', async function() {
       // given
       const notExpectedUserId = userId + 1;
 

@@ -3,7 +3,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const getPrivateCertificate = require('../../../../lib/domain/usecases/certificate/get-private-certificate');
 const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
 
-describe('Unit | UseCase | getPrivateCertificate', async () => {
+describe('Unit | UseCase | getPrivateCertificate', async function() {
 
   const userId = 2;
   const certificationId = '23';
@@ -37,19 +37,19 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
     verifyCertificateCodeService,
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationRepository.getPrivateCertificateByCertificationCourseId = sinon.stub();
     assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks = sinon.stub();
     competenceTreeRepository.get = sinon.stub();
     cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
   });
 
-  context('when the user is not owner of the certification', async () => {
+  context('when the user is not owner of the certification', async function() {
 
     const randomOtherUserId = 666;
     let certificate;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       certificate = domainBuilder.buildPrivateCertificate({
         userId: randomOtherUserId,
@@ -58,7 +58,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       certificationRepository.getPrivateCertificateByCertificationCourseId.resolves(certificate);
     });
 
-    it('Should throw an error if user is not the owner of the certificate', async () => {
+    it('Should throw an error if user is not the owner of the certificate', async function() {
       // given
       const error = await catchErr(getPrivateCertificate)({ certificationId, userId, ...dependencies });
 
@@ -67,14 +67,14 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
     });
   });
 
-  context('when the user is owner of the certification', async () => {
+  context('when the user is owner of the certification', async function() {
 
     const assessmentResultId = 123;
     let assessmentResult;
     let certificate;
     let competenceTree;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       certificate = domainBuilder.buildPrivateCertificate({
         userId,
@@ -90,7 +90,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       competenceTreeRepository.get.resolves(competenceTree);
     });
 
-    it('should get the certification from the repository', async () => {
+    it('should get the certification from the repository', async function() {
       // given
       certificationRepository.hasVerificationCode.withArgs(certificationId).resolves(true);
       const competenceTree = {
@@ -140,7 +140,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       });
     });
 
-    it('should save a certification code and return the filled certification', async () => {
+    it('should save a certification code and return the filled certification', async function() {
       // given
       certificationRepository.hasVerificationCode.withArgs(certificationId).resolves(false);
 
@@ -151,7 +151,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       expect(certificationRepository.saveVerificationCode).to.have.been.calledWith(certificationId, verificationCode);
     });
 
-    it('should return the certification with the resultCompetenceTree', async () => {
+    it('should return the certification with the resultCompetenceTree', async function() {
       const expectedResultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
         competenceTree,
         competenceMarks: assessmentResult.competenceMarks,
@@ -165,7 +165,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
 
     });
 
-    it('should set the included resultCompetenceTree id to certificationID-assessmentResultId', async () => {
+    it('should set the included resultCompetenceTree id to certificationID-assessmentResultId', async function() {
       const expectedId = `${certificationId}-${assessmentResult.id}`;
       const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
 
@@ -173,7 +173,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       expect(result.resultCompetenceTree.id).to.equal(expectedId);
     });
 
-    it('should set cleaCertificationStatus', async () => {
+    it('should set cleaCertificationStatus', async function() {
       const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
 
       expect(result.cleaCertificationStatus).to.equal(cleaCertificationStatus);

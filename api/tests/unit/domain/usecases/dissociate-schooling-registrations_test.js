@@ -2,12 +2,12 @@ const { expect, sinon } = require('../../../test-helper');
 
 const dissociateSchoolingRegistrations = require('../../../../lib/domain/usecases/dissociate-schooling-registrations');
 
-describe('Unit | UseCase | dissociate-schooling-registrations', () => {
+describe('Unit | UseCase | dissociate-schooling-registrations', function() {
 
   let schoolingRegistrationRepository;
   let userRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     schoolingRegistrationRepository = {
       findByUserIdAndSCOOrganization: sinon.stub(),
       dissociateUserFromSchoolingRegistrationIds: sinon.stub().resolves(),
@@ -17,9 +17,9 @@ describe('Unit | UseCase | dissociate-schooling-registrations', () => {
     };
   });
 
-  context('When user is not associated to SCO organizations', () => {
+  context('When user is not associated to SCO organizations', function() {
 
-    it('should not dissociate user', async () => {
+    it('should not dissociate user', async function() {
       // given
       const userId = 1;
       schoolingRegistrationRepository.findByUserIdAndSCOOrganization.resolves([]);
@@ -37,7 +37,7 @@ describe('Unit | UseCase | dissociate-schooling-registrations', () => {
     });
   });
 
-  it('should dissociate user from schooling registrations and return updated user', async () => {
+  it('should dissociate user from schooling registrations and return updated user', async function() {
     // given
     const userId = 1;
     const expectedSchoolingRegistration = { id: 1 };

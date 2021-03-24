@@ -3,7 +3,7 @@ const { computeCampaignAnalysis } = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | UseCase | compute-campaign-analysis', () => {
+describe('Unit | UseCase | compute-campaign-analysis', function() {
 
   let campaignRepository;
   let campaignAnalysisRepository;
@@ -14,15 +14,15 @@ describe('Unit | UseCase | compute-campaign-analysis', () => {
   const campaignId = 'someCampaignId';
   const locale = FRENCH_SPOKEN;
 
-  beforeEach(() => {
+  beforeEach(function() {
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     campaignAnalysisRepository = { getCampaignAnalysis: sinon.stub() };
     targetProfileWithLearningContentRepository = { getByCampaignId: sinon.stub() };
     tutorialRepository = { list: sinon.stub() };
   });
 
-  context('User has access to this result', () => {
-    it('should return the campaign analysis', async () => {
+  context('User has access to this result', function() {
+    it('should return the campaign analysis', async function() {
       // given
       const targetProfile = Symbol('targetProfile');
       const tutorials = Symbol('tutorials');
@@ -48,12 +48,12 @@ describe('Unit | UseCase | compute-campaign-analysis', () => {
     });
   });
 
-  context('User has not access to this result', () => {
-    beforeEach(() => {
+  context('User has not access to this result', function() {
+    beforeEach(function() {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 
-    it('it should throw an UserNotAuthorizedToAccessEntityError error', async () => {
+    it('it should throw an UserNotAuthorizedToAccessEntityError error', async function() {
       // when
       const result = await catchErr(computeCampaignAnalysis)({
         userId,

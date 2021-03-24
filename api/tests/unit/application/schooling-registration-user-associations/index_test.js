@@ -12,7 +12,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
   const organizationId = 2;
   const studentId = '1234';
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(schoolingRegistrationUserAssociationController, 'updateStudentNumber').returns('ok');
     sinon.stub(preHandler, 'checkUserIsAdminInSUPOrganizationManagingStudents');
 
@@ -21,18 +21,18 @@ describe('Unit | Application | Router | campaign-router ', function() {
     return server.register(route);
   });
 
-  describe('PATCH /api/organizations/id/schooling-registration-user-associations/studentId', () => {
+  describe('PATCH /api/organizations/id/schooling-registration-user-associations/studentId', function() {
 
-    context('when the user is authenticated', () => {
-      beforeEach(() => {
+    context('when the user is authenticated', function() {
+      beforeEach(function() {
         preHandler.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake((request, h) => h.response(true));
       });
 
-      afterEach(() => {
+      afterEach(function() {
         preHandler.checkUserIsAdminInSUPOrganizationManagingStudents.restore();
       });
 
-      it('should exist', async () => {
+      it('should exist', async function() {
         // given
         const options = {
           method: 'PATCH',
@@ -56,7 +56,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return a 422 status error when student-number parameter is not a string', async () => {
+      it('should return a 422 status error when student-number parameter is not a string', async function() {
         // given
         const options = {
           method: 'PATCH',
@@ -84,7 +84,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
         expect(payload.errors[0].detail).to.equal('Un des champs saisis n’est pas valide.');
       });
 
-      it('should return a 404 status error when organizationId parameter is not a number', async () => {
+      it('should return a 404 status error when organizationId parameter is not a number', async function() {
         // given
         const options = {
           method: 'PATCH',
@@ -112,7 +112,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
         expect(payload.errors[0].detail).to.equal('Ressource non trouvée');
       });
 
-      it('should return a 404 status error when studentId parameter is not a number', async () => {
+      it('should return a 404 status error when studentId parameter is not a number', async function() {
         // given
         const options = {
           method: 'PATCH',
@@ -142,16 +142,16 @@ describe('Unit | Application | Router | campaign-router ', function() {
 
     });
 
-    context('when the user is not authenticated', () => {
-      beforeEach(() => {
+    context('when the user is not authenticated', function() {
+      beforeEach(function() {
         preHandler.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake((request, h) => h.response().code(403).takeover());
       });
 
-      afterEach(() => {
+      afterEach(function() {
         preHandler.checkUserIsAdminInSUPOrganizationManagingStudents.restore();
       });
 
-      it('should return an error when the user is not authenticated', async () => {
+      it('should return an error when the user is not authenticated', async function() {
         // given
         const options = {
           method: 'PATCH',

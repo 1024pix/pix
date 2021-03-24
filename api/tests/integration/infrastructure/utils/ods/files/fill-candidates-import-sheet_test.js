@@ -9,7 +9,7 @@ const readOdsUtils = require('../../../../../../lib/infrastructure/utils/ods/rea
 const fillCandidatesImportSheet = require('../../../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet');
 
 const usecases = require('../../../../../../lib/domain/usecases');
-describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet', () => {
+describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet', function() {
 
   const expectedOdsFilePath = `${__dirname}/candidates_import_template.ods`;
   const actualOdsFilePath = `${__dirname}/candidates_import_template.tmp.ods`;
@@ -17,7 +17,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
   let userId;
   let sessionId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     const certificationCenterName = 'Centre de certification';
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: certificationCenterName }).id;
 
@@ -49,11 +49,11 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await unlink(actualOdsFilePath);
   });
 
-  it('should return an attendance sheet with session data, certification candidates data prefilled', async () => {
+  it('should return an attendance sheet with session data, certification candidates data prefilled', async function() {
     // when
     const session = await usecases.getSessionWithCandidates({ sessionId, userId });
     const updatedOdsFileBuffer = await fillCandidatesImportSheet(session);

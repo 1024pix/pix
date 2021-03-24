@@ -22,10 +22,10 @@ const SESSION_PROPS = [
   'assignedCertificationOfficerId',
 ];
 
-describe('Unit | Domain | Models | Session', () => {
+describe('Unit | Domain | Models | Session', function() {
   let session;
 
-  beforeEach(() => {
+  beforeEach(function() {
     session = new Session({
       id: 'id',
       accessCode: '',
@@ -48,18 +48,18 @@ describe('Unit | Domain | Models | Session', () => {
     });
   });
 
-  it('should create an object of the Session type', () => {
+  it('should create an object of the Session type', function() {
     expect(session).to.be.instanceOf(Session);
   });
 
-  it('should create a session with all the requires properties', () => {
+  it('should create a session with all the requires properties', function() {
     expect(_.keys(session)).to.have.deep.members(SESSION_PROPS);
   });
 
-  context('#areResultsFlaggedAsSent', () => {
-    context('when session resultsSentToPrescriberAt timestamp is defined', () => {
+  context('#areResultsFlaggedAsSent', function() {
+    context('when session resultsSentToPrescriberAt timestamp is defined', function() {
 
-      it('should return true', () => {
+      it('should return true', function() {
         // given
         session.resultsSentToPrescriberAt = new Date();
 
@@ -70,9 +70,9 @@ describe('Unit | Domain | Models | Session', () => {
         expect(areResultsFlaggedAsSent).to.be.true;
       });
     });
-    context('when session resultsSentToPrescriberAt timestamp is falsy', () => {
+    context('when session resultsSentToPrescriberAt timestamp is falsy', function() {
 
-      it('should return false', () => {
+      it('should return false', function() {
         // given
         session.resultsSentToPrescriberAt = null;
 
@@ -85,11 +85,11 @@ describe('Unit | Domain | Models | Session', () => {
     });
   });
 
-  context('#get status', () => {
+  context('#get status', function() {
 
-    context('when session publishedAt timestamp is defined', () => {
+    context('when session publishedAt timestamp is defined', function() {
 
-      it('should return PROCESSED', () => {
+      it('should return PROCESSED', function() {
         // given
         session.publishedAt = new Date();
 
@@ -101,11 +101,11 @@ describe('Unit | Domain | Models | Session', () => {
       });
     });
 
-    context('when session publishedAt timestamp is not defined', () => {
+    context('when session publishedAt timestamp is not defined', function() {
 
-      context('when session assignedCertificationOfficerId is defined', () => {
+      context('when session assignedCertificationOfficerId is defined', function() {
 
-        it('should return IN_PROCESS', () => {
+        it('should return IN_PROCESS', function() {
           // given
           session.assignedCertificationOfficerId = 123;
 
@@ -117,11 +117,11 @@ describe('Unit | Domain | Models | Session', () => {
         });
       });
 
-      context('when session assignedCertificationOfficerId is not defined', () => {
+      context('when session assignedCertificationOfficerId is not defined', function() {
 
-        context('when session finalizedAt timestamp is defined', () => {
+        context('when session finalizedAt timestamp is defined', function() {
 
-          it('should return FINALIZED', () => {
+          it('should return FINALIZED', function() {
             // given
             session.finalizedAt = new Date();
 
@@ -133,9 +133,9 @@ describe('Unit | Domain | Models | Session', () => {
           });
         });
 
-        context('when session finalizedAt timestamp is not defined', () => {
+        context('when session finalizedAt timestamp is not defined', function() {
 
-          it('should return CREATED', () => {
+          it('should return CREATED', function() {
             // when
             const status = session.status;
 
@@ -147,8 +147,8 @@ describe('Unit | Domain | Models | Session', () => {
     });
   });
 
-  context('#isPublished', () => {
-    it('returns true when the session is published', () => {
+  context('#isPublished', function() {
+    it('returns true when the session is published', function() {
       // given
       const session = domainBuilder.buildSession({ publishedAt: new Date() });
       // when
@@ -158,7 +158,7 @@ describe('Unit | Domain | Models | Session', () => {
       expect(isPublished).to.be.true;
     });
 
-    it('returns false when the session is not published', () => {
+    it('returns false when the session is not published', function() {
       // given
       const session = domainBuilder.buildSession({ publishedAt: null });
       // when

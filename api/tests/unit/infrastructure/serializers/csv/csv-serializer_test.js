@@ -2,11 +2,11 @@ const { expect, catchErr } = require('../../../../test-helper');
 
 const csvSerializer = require('../../../../../lib/infrastructure/serializers/csv/csv-serializer');
 
-describe('Unit | Serializer | CSV | csv-serializer', () => {
+describe('Unit | Serializer | CSV | csv-serializer', function() {
 
-  describe('#serializeLine', () => {
+  describe('#serializeLine', function() {
 
-    it('should quote strings', async () => {
+    it('should quote strings', async function() {
       // given
       const safeNumberAsString = '-123456';
       const csvExpected =
@@ -25,7 +25,7 @@ describe('Unit | Serializer | CSV | csv-serializer', () => {
       expect(csv).to.equal(csvExpected);
     });
 
-    it('should format numbers in French locale', async () => {
+    it('should format numbers in French locale', async function() {
       // given
       const csvExpected =
         '123;' +
@@ -41,7 +41,7 @@ describe('Unit | Serializer | CSV | csv-serializer', () => {
       expect(csv).to.equal(csvExpected);
     });
 
-    it('should escape formula-likes to prevent CSV injections', async () => {
+    it('should escape formula-likes to prevent CSV injections', async function() {
       // given
       const csvExpected =
         '"\'=formula-like";' +
@@ -61,22 +61,22 @@ describe('Unit | Serializer | CSV | csv-serializer', () => {
       expect(csv).to.equal(csvExpected);
     });
 
-    context('should throw exceptions invalid format', () => {
-      it('given object', async () => {
+    context('should throw exceptions invalid format', function() {
+      it('given object', async function() {
         // when
         const err = await catchErr(csvSerializer.serializeLine)([{}]);
         // then
         expect(err).to.be.an.instanceOf(Error);
       });
 
-      it('given null', async () => {
+      it('given null', async function() {
         // when
         const err = await catchErr(csvSerializer.serializeLine)([null]);
         // then
         expect(err).to.be.an.instanceOf(Error);
       });
 
-      it('given undefined', async () => {
+      it('given undefined', async function() {
         // when
         const err = await catchErr(csvSerializer.serializeLine)([undefined]);
         // then

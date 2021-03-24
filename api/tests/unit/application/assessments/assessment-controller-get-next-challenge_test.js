@@ -11,15 +11,15 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 const events = require('../../../../lib/domain/events');
 const ChallengeRequested = require('../../../../lib/domain/events/ChallengeRequested');
 
-describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
+describe('Unit | Controller | assessment-controller-get-next-challenge', function() {
 
-  describe('#getNextChallenge', () => {
+  describe('#getNextChallenge', function() {
     let assessmentWithoutScore;
     let assessmentWithScore;
     let scoredAsssessment;
     let transactionToBeExecuted;
 
-    beforeEach(() => {
+    beforeEach(function() {
 
       assessmentWithoutScore = new Assessment({
         id: 1,
@@ -56,11 +56,11 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
     // TODO: Que faire si l'assessment n'existe pas pas ?
 
-    describe('when the assessment is a preview', () => {
+    describe('when the assessment is a preview', function() {
 
       const PREVIEW_ASSESSMENT_ID = 245;
 
-      beforeEach(() => {
+      beforeEach(function() {
         assessmentRepository.get.resolves(new Assessment({
           id: 1,
           courseId: 'null2356871',
@@ -71,7 +71,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         }));
       });
 
-      it('should return a null data directly', async () => {
+      it('should return a null data directly', async function() {
         // when
         const response = await assessmentController.getNextChallenge({ params: { id: PREVIEW_ASSESSMENT_ID } });
 
@@ -80,17 +80,17 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
     });
 
-    describe('when the assessment is over', () => {
+    describe('when the assessment is over', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
         usecases.getNextChallengeForDemo.rejects(new AssessmentEndedError());
         assessmentRepository.get.resolves(assessmentWithoutScore);
         usecases.getAssessment.resolves(scoredAsssessment);
       });
 
-      context('when the assessment is a DEMO', () => {
-        it('should reply with no data', async () => {
+      context('when the assessment is a DEMO', function() {
+        it('should reply with no data', async function() {
           // when
           const response = await assessmentController.getNextChallenge({ params: { id: 7531 } });
 
@@ -100,13 +100,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
     });
 
-    describe('when the assessment is not over yet', () => {
+    describe('when the assessment is not over yet', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         assessmentRepository.get.resolves(assessmentWithoutScore);
       });
 
-      it('should not evaluate assessment score', async () => {
+      it('should not evaluate assessment score', async function() {
         // when
         await assessmentController.getNextChallenge({ params: { id: 7531 } });
 
@@ -123,7 +123,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         type: Assessment.types.CERTIFICATION,
       });
 
-      beforeEach(() => {
+      beforeEach(function() {
         assessmentRepository.get.resolves(certificationAssessment);
       });
 
@@ -141,7 +141,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         });
       });
 
-      it('should reply null data when unable to find the next challenge', async () => {
+      it('should reply null data when unable to find the next challenge', async function() {
         // given
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
 
@@ -153,7 +153,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
     });
 
-    describe('when the assessment is a campaign assessment', () => {
+    describe('when the assessment is a campaign assessment', function() {
 
       const defaultLocale = FRENCH_FRANCE;
       const assessment = new Assessment({
@@ -163,11 +163,11 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         type: 'CAMPAIGN',
       });
 
-      beforeEach(() => {
+      beforeEach(function() {
         assessmentRepository.get.resolves(assessment);
       });
 
-      it('should call the usecase getNextChallengeForCampaignAssessment with tryImproving at false when the query not exists', async () => {
+      it('should call the usecase getNextChallengeForCampaignAssessment with tryImproving at false when the query not exists', async function() {
         // when
         await assessmentController.getNextChallenge({ params: { id: 1 }, query: {} });
 
@@ -179,7 +179,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         });
       });
 
-      it('should call the usecase getNextChallengeForCampaignAssessment with the query tryImproving', async () => {
+      it('should call the usecase getNextChallengeForCampaignAssessment with the query tryImproving', async function() {
         // when
         await assessmentController.getNextChallenge({ params: { id: 1 }, query: { tryImproving: true } });
 
@@ -191,7 +191,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         });
       });
 
-      it('should call the usecase getNextChallengeForCampaignAssessment with the locale', async () => {
+      it('should call the usecase getNextChallengeForCampaignAssessment with the locale', async function() {
         // given
         const locale = FRENCH_SPOKEN;
 
@@ -212,7 +212,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
     });
 
-    describe('when the assessment is a competence evaluation assessment', () => {
+    describe('when the assessment is a competence evaluation assessment', function() {
       const userId = 1;
 
       const assessment = domainBuilder.buildAssessment({
@@ -222,11 +222,11 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         type: Assessment.types.COMPETENCE_EVALUATION,
       });
 
-      beforeEach(() => {
+      beforeEach(function() {
         assessmentRepository.get.resolves(assessment);
       });
 
-      it('should call the usecase getNextChallengeForCompetenceEvaluation', async () => {
+      it('should call the usecase getNextChallengeForCompetenceEvaluation', async function() {
         const locale = FRENCH_SPOKEN;
         const request = {
           params: { id: 1 },
@@ -247,8 +247,8 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
     });
 
-    describe('when asking for a challenge', () => {
-      it('should dispatch challenge requested', async () => {
+    describe('when asking for a challenge', function() {
+      it('should dispatch challenge requested', async function() {
         const domainTransaction = Symbol('domain transaction');
 
         const eventDispatcherStub = sinon.stub(events.eventDispatcher, 'dispatch');

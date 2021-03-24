@@ -31,18 +31,18 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
     targetProfileId: 44,
   };
 
-  describe('#validate', () => {
+  describe('#validate', function() {
 
     [campaignOfTypeAssessment, campaignOfTypeProfilesCollection].forEach((campaign) => {
 
-      context(`when campaign is of type ${campaign.type}`, () => {
-        context('when validation is successful', () => {
+      context(`when campaign is of type ${campaign.type}`, function() {
+        context('when validation is successful', function() {
 
-          it('should not throw any error', () => {
+          it('should not throw any error', function() {
             expect(campaignValidator.validate(campaign)).to.not.throw;
           });
 
-          it('should resolve when idPixLabel is null', () => {
+          it('should resolve when idPixLabel is null', function() {
             // when/then
             expect(campaignValidator.validate({
               ...campaign,
@@ -50,7 +50,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             })).to.not.throw;
           });
 
-          it('should resolve when title is null', () => {
+          it('should resolve when title is null', function() {
             // when/then
             expect(campaignValidator.validate({
               ...campaign,
@@ -58,7 +58,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             })).to.not.throw;
           });
 
-          it('should resolve when title is not provided', () => {
+          it('should resolve when title is not provided', function() {
             // when/then
             expect(campaignValidator.validate({
               ...campaign,
@@ -68,16 +68,16 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
         });
 
-        context('when campaign data validation fails', () => {
+        context('when campaign data validation fails', function() {
 
-          context('on name attribute', () => {
+          context('on name attribute', function() {
             // given
             const expectedError = {
               attribute: 'name',
               message: 'CAMPAIGN_NAME_IS_REQUIRED',
             };
 
-            it('should reject with error when name is missing', () => {
+            it('should reject with error when name is missing', function() {
               try {
                 // when
                 campaignValidator.validate({
@@ -91,7 +91,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
               }
             });
 
-            it('should reject with error when name is empty', () => {
+            it('should reject with error when name is empty', function() {
               try {
                 // when
                 campaignValidator.validate({
@@ -107,14 +107,14 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
           });
 
-          context('on creatorId attribute', () => {
+          context('on creatorId attribute', function() {
             // given
             const expectedError = {
               attribute: 'creatorId',
               message: 'MISSING_CREATOR',
             };
 
-            it('should reject with error when creatorId is missing', () => {
+            it('should reject with error when creatorId is missing', function() {
               try {
                 // when
                 campaignValidator.validate({
@@ -129,7 +129,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
               }
             });
 
-            it('should reject with error when creatorId is undefined', () => {
+            it('should reject with error when creatorId is undefined', function() {
               try {
                 // when
                 campaignValidator.validate({
@@ -146,14 +146,14 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
           });
 
-          context('on organizationId attribute', () => {
+          context('on organizationId attribute', function() {
             // given
             const expectedError = {
               attribute: 'organizationId',
               message: 'MISSING_ORGANIZATION',
             };
 
-            it('should reject with error when organizationId is missing', () => {
+            it('should reject with error when organizationId is missing', function() {
               try {
                 // when
                 campaignValidator.validate({
@@ -168,7 +168,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
               }
             });
 
-            it('should reject with error when organizationId is undefined', () => {
+            it('should reject with error when organizationId is undefined', function() {
               try {
                 // when
                 campaignValidator.validate({
@@ -185,8 +185,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
           });
 
-          context('on idPixLabel attribute', () => {
-            it('should reject with error when idPixLabel is empty', () => {
+          context('on idPixLabel attribute', function() {
+            it('should reject with error when idPixLabel is empty', function() {
               // given
               const expectedError = {
                 attribute: 'idPixLabel',
@@ -207,7 +207,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
               }
             });
 
-            it('should reject with error when idPixLabel length is under 3 characters', () => {
+            it('should reject with error when idPixLabel length is under 3 characters', function() {
               // given
               const expectedError = {
                 attribute: 'idPixLabel',
@@ -230,14 +230,14 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
           });
 
-          context('on type attribute', () => {
+          context('on type attribute', function() {
             // given
             const expectedError = {
               attribute: 'type',
               message: 'CAMPAIGN_PURPOSE_IS_REQUIRED',
             };
 
-            it('should reject with error when type is a wrong type', () => {
+            it('should reject with error when type is a wrong type', function() {
               try {
                 // when
                 campaignValidator.validate({
@@ -251,7 +251,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
               }
             });
 
-            it('should reject with error when type is undefined', () => {
+            it('should reject with error when type is undefined', function() {
               try {
                 // when
                 campaignValidator.validate({
@@ -266,7 +266,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             });
           });
 
-          it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
+          it('should reject with errors on all fields (but only once by field) when all fields are missing', function() {
             try {
               // when
               campaignValidator.validate({
@@ -283,8 +283,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             }
           });
 
-          context('more complex case', () => {
-            it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
+          context('more complex case', function() {
+            it('should reject with errors on all fields (but only once by field) when all fields are missing', function() {
               // given
               const campaign = {
                 name: MISSING_VALUE,
@@ -311,10 +311,10 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
       });
     });
 
-    context('on targetProfileId attribute', () => {
+    context('on targetProfileId attribute', function() {
 
-      context('when type is PROFILES_COLLECTION', () => {
-        it('should reject with error when targetProfileId is provide', () => {
+      context('when type is PROFILES_COLLECTION', function() {
+        it('should reject with error when targetProfileId is provide', function() {
           // given
           const expectedError = {
             attribute: 'targetProfileId',
@@ -335,7 +335,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           }
         });
 
-        it('should be valid with null as targetProfileId', () => {
+        it('should be valid with null as targetProfileId', function() {
           try {
             campaignValidator.validate({
               ...campaignOfTypeProfilesCollection,
@@ -346,7 +346,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           }
         });
 
-        it('should be valid when targetProfileId is not provided', () => {
+        it('should be valid when targetProfileId is not provided', function() {
           try {
             campaignValidator.validate({
               ...campaignOfTypeProfilesCollection,
@@ -359,8 +359,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
         });
       });
 
-      context('when type is ASSESSMENT', () => {
-        it('should reject with error when targetProfileId is missing', () => {
+      context('when type is ASSESSMENT', function() {
+        it('should reject with error when targetProfileId is missing', function() {
         // given
           const expectedError = {
             attribute: 'targetProfileId',
@@ -381,7 +381,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           }
         });
 
-        it('should reject with error when targetProfileId is undefined', () => {
+        it('should reject with error when targetProfileId is undefined', function() {
         // given
           const expectedError = {
             attribute: 'targetProfileId',
@@ -404,8 +404,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
       });
     });
 
-    context('when a title is provided', () => {
-      it('should reject with error when campaign type is PROFILES_COLLECTION', () => {
+    context('when a title is provided', function() {
+      it('should reject with error when campaign type is PROFILES_COLLECTION', function() {
         // given
         const expectedError = {
           attribute: 'title',
@@ -426,7 +426,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
         }
       });
 
-      it('should resolve when campaign type is ASSESSMENT', () => {
+      it('should resolve when campaign type is ASSESSMENT', function() {
         // given
         const campaign = {
           ...campaignOfTypeAssessment,

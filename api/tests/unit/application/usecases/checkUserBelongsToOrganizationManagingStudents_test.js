@@ -2,13 +2,13 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const usecase = require('../../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 
-describe('Unit | Application | Use Case | checkUserBelongsToOrganizationManagingStudents', () => {
+describe('Unit | Application | Use Case | checkUserBelongsToOrganizationManagingStudents', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
   });
 
-  it('should return true when user belongs to organization managing students', async () => {
+  it('should return true when user belongs to organization managing students', async function() {
     // given
     const userId = 1234;
 
@@ -23,7 +23,7 @@ describe('Unit | Application | Use Case | checkUserBelongsToOrganizationManaging
     expect(response).to.equal(true);
   });
 
-  it('should return false when organization does not manage students', async () => {
+  it('should return false when organization does not manage students', async function() {
     // given
     const userId = 1234;
 
@@ -38,7 +38,7 @@ describe('Unit | Application | Use Case | checkUserBelongsToOrganizationManaging
     expect(response).to.equal(false);
   });
 
-  it('should return false when user is not a member of organization', async () => {
+  it('should return false when user is not a member of organization', async function() {
     // given
     const userId = 1234;
 

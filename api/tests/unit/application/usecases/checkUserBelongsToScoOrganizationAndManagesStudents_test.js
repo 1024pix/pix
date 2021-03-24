@@ -2,15 +2,15 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const useCase = require('../../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 
-describe('Unit | Application | Use Case | checkUserBelongsToScoOrganizationAndManagesStudents', () => {
+describe('Unit | Application | Use Case | checkUserBelongsToScoOrganizationAndManagesStudents', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
   });
 
-  context('When user is in a SCO organization', () => {
+  context('When user is in a SCO organization', function() {
 
-    it('should return true', async () => {
+    it('should return true', async function() {
       // given
       const userId = 1234;
 
@@ -25,7 +25,7 @@ describe('Unit | Application | Use Case | checkUserBelongsToScoOrganizationAndMa
       expect(response).to.equal(true);
     });
 
-    it('should return true when there are several memberships', async () => {
+    it('should return true when there are several memberships', async function() {
       // given
       const userId = 1234;
 
@@ -42,9 +42,9 @@ describe('Unit | Application | Use Case | checkUserBelongsToScoOrganizationAndMa
     });
   });
 
-  context('When user is not in a SCO organization', () => {
+  context('When user is not in a SCO organization', function() {
 
-    it('should return false', async () => {
+    it('should return false', async function() {
       // given
       const userId = 1234;
       const organization = domainBuilder.buildOrganization({ type: 'PRO', isManagingStudents: true });
@@ -59,9 +59,9 @@ describe('Unit | Application | Use Case | checkUserBelongsToScoOrganizationAndMa
     });
   });
 
-  context('When user is in a SCO organization but does not manage students', () => {
+  context('When user is in a SCO organization but does not manage students', function() {
 
-    it('should return false', async () => {
+    it('should return false', async function() {
       // given
       const userId = 1234;
       const organization = domainBuilder.buildOrganization({ type: 'SCO', isManagingStudents: false });

@@ -8,20 +8,20 @@ const moduleUnderTest = require('../../../../lib/application/organization-invita
 
 const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
 
-describe('Unit | Router | organization-invitation-router', () => {
+describe('Unit | Router | organization-invitation-router', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(organizationInvitationController, 'acceptOrganizationInvitation').callsFake((request, h) => h.response().code(204));
     sinon.stub(organizationInvitationController, 'getOrganizationInvitation').callsFake((request, h) => h.response().code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('POST /api/organization-invitations/{id}/response', () => {
+  describe('POST /api/organization-invitations/{id}/response', function() {
 
-    it('should exists', async () => {
+    it('should exists', async function() {
       // given
       const method = 'POST';
       const url = '/api/organization-invitations/1/response';
@@ -44,11 +44,11 @@ describe('Unit | Router | organization-invitation-router', () => {
     });
   });
 
-  describe('GET /api/organization-invitations/{id}', () => {
+  describe('GET /api/organization-invitations/{id}', function() {
 
     const method = 'GET';
 
-    it('should exists', async () => {
+    it('should exists', async function() {
       // given
       const url = '/api/organization-invitations/1?code=DZWMP7L5UM';
 
@@ -59,7 +59,7 @@ describe('Unit | Router | organization-invitation-router', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return Bad Request Error when invitation identifier is not a number', async () => {
+    it('should return Bad Request Error when invitation identifier is not a number', async function() {
       // given
       const url = '/api/organization-invitations/XXXXXXXXXXXXXXXX15812?code=DZWMP7L5UM';
 

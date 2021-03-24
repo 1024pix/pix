@@ -1,11 +1,11 @@
 const { expect, nock } = require('../../test-helper');
 const script = require('../../../scripts/import-certifications-from-csv');
 
-describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
+describe('Acceptance | Scripts | import-certifications-from-csv.js', function() {
 
-  describe('#assertFileValidity', () => {
+  describe('#assertFileValidity', function() {
 
-    it('should throw an error when file does not exist', () => {
+    it('should throw an error when file does not exist', function() {
       // given
       const filePath = 'inexistant.file';
       const err = { code: 'ENOENT' };
@@ -21,7 +21,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       }
     });
 
-    it('should throw an error when file extension is not ".csv"', () => {
+    it('should throw an error when file extension is not ".csv"', function() {
       // given
       const filePath = `${__dirname}/file_with_bad_extension.html`;
       const err = { code: 'random error' };
@@ -37,7 +37,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       }
     });
 
-    it('should return true if file is valid', () => {
+    it('should return true if file is valid', function() {
       // given
       const filePath = `${__dirname}/valid-certifications-test-file.csv`;
       const err = {};
@@ -50,9 +50,9 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
     });
   });
 
-  describe('#convertCSVDataIntoCertifications', () => {
+  describe('#convertCSVDataIntoCertifications', function() {
 
-    it('should return an array of certifications (JSON) object', () => {
+    it('should return an array of certifications (JSON) object', function() {
       // given
       const csvParsingResult = {
         data: [{
@@ -112,11 +112,11 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
     });
   });
 
-  describe('#saveCertifications', () => {
+  describe('#saveCertifications', function() {
 
     let options;
 
-    beforeEach(() => {
+    beforeEach(function() {
       options = {
         baseUrl: 'http://localhost:3000',
         accessToken: 'coucou-je-suis-un-token',
@@ -124,7 +124,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       };
     });
 
-    it('should not do any http request, when there is no certification', () => {
+    it('should not do any http request, when there is no certification', function() {
       // given
       options.certifications = [];
 
@@ -137,7 +137,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       return promise;
     });
 
-    it('should call PATCH /api/certification-courses/:id once, when there is 1 certification', () => {
+    it('should call PATCH /api/certification-courses/:id once, when there is 1 certification', function() {
       // given
       const expectedBody = {
         data:
@@ -181,7 +181,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       });
     });
 
-    it('should call PATCH /api/certification-courses/:id three times, when there are three certifications', () => {
+    it('should call PATCH /api/certification-courses/:id three times, when there are three certifications', function() {
       // given
       const expectedBody1 = {
         data:
@@ -285,7 +285,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       });
     });
 
-    it('should call PATCH /api/certification-courses/:id three times, even when an error occur on a certification', () => {
+    it('should call PATCH /api/certification-courses/:id three times, even when an error occur on a certification', function() {
       // given
       const expectedBody1 = {
         data:
@@ -393,7 +393,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
     });
 
     it('should return a promise resolving to an array of objects ' +
-      'containing the API error and relevant informations to find the csv row', () => {
+      'containing the API error and relevant informations to find the csv row', function() {
       // given
       const expectedBody1 = {
         data:

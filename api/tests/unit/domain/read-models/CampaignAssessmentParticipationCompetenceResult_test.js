@@ -1,10 +1,10 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const CampaignAssessmentParticipationCompetenceResult = require('../../../../lib/domain/read-models/CampaignAssessmentParticipationCompetenceResult');
 
-describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResult', () => {
+describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResult', function() {
 
-  describe('constructor', () => {
-    it('should correctly initialize the competence data', () => {
+  describe('constructor', function() {
+    it('should correctly initialize the competence data', function() {
       const targetedCompetence = domainBuilder.buildTargetedCompetence({
         id: 'rec123',
         name: 'competence1',
@@ -24,7 +24,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResu
       expect(campaignAssessmentParticipationCompetenceResult.index).equal('1.1');
     });
 
-    it('should return the area color', () => {
+    it('should return the area color', function() {
       const targetedCompetence = domainBuilder.buildTargetedCompetence({
         id: 'rec123',
         areaId: 'area1',

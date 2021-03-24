@@ -1,22 +1,22 @@
 const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const tutorialEvaluationRepository = require('../../../../lib/infrastructure/repositories/tutorial-evaluation-repository');
 
-describe('Integration | Infrastructure | Repository | tutorialEvaluationRepository', () => {
+describe('Integration | Infrastructure | Repository | tutorialEvaluationRepository', function() {
   let userId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
   });
 
-  afterEach(() => {
+  afterEach(function() {
     knex('tutorial-evaluations').delete();
   });
 
-  describe('#addEvaluation', () => {
+  describe('#addEvaluation', function() {
     const tutorialId = 'tutorialId';
 
-    it('should store the tutorialId in the users list', async () => {
+    it('should store the tutorialId in the users list', async function() {
       // when
       await tutorialEvaluationRepository.addEvaluation({ userId, tutorialId });
 
@@ -25,7 +25,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
       expect(tutorialEvaluations).to.have.length(1);
     });
 
-    it('should return the created tutorial evaluation', async () => {
+    it('should return the created tutorial evaluation', async function() {
       // when
       const tutorialEvaluation = await tutorialEvaluationRepository.addEvaluation({ userId, tutorialId });
 
@@ -37,7 +37,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
     });
 
     context('when the tutorialId already exists in the user list', function() {
-      it('should not store the tutorialId', async () => {
+      it('should not store the tutorialId', async function() {
         // given
         databaseBuilder.factory.buildTutorialEvaluation({ tutorialId, userId });
         await databaseBuilder.commit();
@@ -56,10 +56,10 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
 
   });
 
-  describe('#find', () => {
+  describe('#find', function() {
 
     context('when user has evaluated some tutorials', function() {
-      it('should return tutorial-evaluations belonging to given user', async () => {
+      it('should return tutorial-evaluations belonging to given user', async function() {
         // given
         const tutorialId = 'recTutorial';
         databaseBuilder.factory.buildTutorialEvaluation({ tutorialId, userId });
@@ -76,7 +76,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
     });
 
     context('when user has not evaluated tutorial', function() {
-      it('should empty array', async () => {
+      it('should empty array', async function() {
         const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
 
         // then

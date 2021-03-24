@@ -3,13 +3,13 @@ const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Integration | Repository | Badge Acquisition', () => {
+describe('Integration | Repository | Badge Acquisition', function() {
 
   let badgeAcquisitionToCreate;
 
-  describe('#create', () => {
+  describe('#create', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const badgeId = databaseBuilder.factory.buildBadge({ key: 'éclair_au_chocolat' }).id;
       const userId = databaseBuilder.factory.buildUser().id;
 
@@ -18,13 +18,13 @@ describe('Integration | Repository | Badge Acquisition', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('badge-acquisitions').delete();
       await knex('authentication-methods').delete();
       await knex('users').delete();
     });
 
-    it('should persist the badge acquisition in db', async () => {
+    it('should persist the badge acquisition in db', async function() {
       // when
       const badgeAcquisitionIds = await DomainTransaction.execute(async (domainTransaction) => {
         return badgeAcquisitionRepository.create([badgeAcquisitionToCreate], domainTransaction);
@@ -37,11 +37,11 @@ describe('Integration | Repository | Badge Acquisition', () => {
     });
   });
 
-  describe('#getAcquiredBadgeIds', () => {
+  describe('#getAcquiredBadgeIds', function() {
     let userId;
     let badgeId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       badgeId = databaseBuilder.factory.buildBadge({ key: 'beignet_a_la_creme' }).id;
       userId = databaseBuilder.factory.buildUser().id;
 
@@ -49,7 +49,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       await databaseBuilder.commit();
     });
 
-    it('should check that the user has acquired the badge', async () => {
+    it('should check that the user has acquired the badge', async function() {
       // when
       const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [badgeId] });
 
@@ -57,7 +57,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       expect(acquiredBadgeIds).to.deep.equal([badgeId]);
     });
 
-    it('should check that the user has not acquired the badge', async () => {
+    it('should check that the user has not acquired the badge', async function() {
       // when
       const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [-1] });
 
@@ -66,7 +66,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
     });
   });
 
-  describe('#getCampaignAcquiredBadgesByUsers', () => {
+  describe('#getCampaignAcquiredBadgesByUsers', function() {
     let campaign;
     let user1;
     let user2;
@@ -74,7 +74,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
     let badge1;
     let badge2;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
       badge1 = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
@@ -90,7 +90,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return badge ids acquired by user for a campaign', async () => {
+    it('should return badge ids acquired by user for a campaign', async function() {
       // when
       const acquiredBadgeIdsByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({
         campaignId: campaign.id,

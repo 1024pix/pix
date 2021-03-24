@@ -5,20 +5,20 @@ const Membership = require('../../../../lib/domain/models/Membership');
 
 const updateMembership = require('../../../../lib/domain/usecases/update-membership');
 
-describe('Integration | UseCases | update-membership', () => {
+describe('Integration | UseCases | update-membership', function() {
 
   let userId;
   let updatedByUserId;
   let organizationId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
     updatedByUserId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
   });
 
-  it('should update membership', async () => {
+  it('should update membership', async function() {
     // given
     const membershipId = databaseBuilder.factory.buildMembership({
       organizationId, userId,

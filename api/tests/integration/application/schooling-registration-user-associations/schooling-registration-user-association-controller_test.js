@@ -5,22 +5,22 @@ const moduleUnderTest = require('../../../../lib/application/schooling-registrat
 const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Application | Schooling-registration-user-association | schooling-registration-user-association-controller', () => {
+describe('Integration | Application | Schooling-registration-user-association | schooling-registration-user-association-controller', function() {
 
   let sandbox;
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'generateUsername').rejects(new Error('not expected error'));
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     sandbox.restore();
   });
 
-  describe('#generateUsername', () => {
+  describe('#generateUsername', function() {
     const campaignCode = 'RESTRICTD';
     const payload = {
       data: {
@@ -33,11 +33,11 @@ describe('Integration | Application | Schooling-registration-user-association | 
       },
     };
 
-    context('Success cases', () => {
+    context('Success cases', function() {
 
       const student = domainBuilder.buildSchoolingRegistration();
 
-      it('should return an HTTP response with status code 200', async () => {
+      it('should return an HTTP response with status code 200', async function() {
         // given
         usecases.generateUsername.resolves([student]);
 
@@ -50,11 +50,11 @@ describe('Integration | Application | Schooling-registration-user-association | 
 
     });
 
-    context('Error cases', () => {
+    context('Error cases', function() {
 
-      context('when a NotFoundError is thrown', () => {
+      context('when a NotFoundError is thrown', function() {
 
-        it('should resolve a 404 HTTP response', async () => {
+        it('should resolve a 404 HTTP response', async function() {
           // given
           usecases.generateUsername.rejects(new NotFoundError());
 

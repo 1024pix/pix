@@ -26,19 +26,19 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
   return { userId, campaignParticipation };
 }
 
-describe('Integration | Repository | Campaign collective result repository', () => {
+describe('Integration | Repository | Campaign collective result repository', function() {
 
-  describe('#getCampaignCollectiveResults', () => {
+  describe('#getCampaignCollectiveResults', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    context('in a rich context close to reality', () => {
+    context('in a rich context close to reality', function() {
       let targetProfile;
       let campaignId;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         campaignId = databaseBuilder.factory.buildCampaign().id;
 
         // Competence A - nobody validated skills @url4 and @url5
@@ -86,13 +86,13 @@ describe('Integration | Repository | Campaign collective result repository', () 
         });
       });
 
-      context('when there is no participant', () => {
+      context('when there is no participant', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           return databaseBuilder.commit();
         });
 
-        it('should resolves a collective result synthesis with default values for all competences', async () => {
+        it('should resolves a collective result synthesis with default values for all competences', async function() {
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, targetProfile);
 
@@ -153,9 +153,9 @@ describe('Integration | Repository | Campaign collective result repository', () 
         });
       });
 
-      context('when there is a participant but she did not share its contribution', () => {
+      context('when there is a participant but she did not share its contribution', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
 
           const goliathId = databaseBuilder.factory.buildUser({ firstName: 'Goliath' }).id;
 
@@ -177,7 +177,7 @@ describe('Integration | Repository | Campaign collective result repository', () 
           return databaseBuilder.commit();
         });
 
-        it('should resolves a collective result synthesis with default values for all competences', async () => {
+        it('should resolves a collective result synthesis with default values for all competences', async function() {
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, targetProfile);
 
@@ -238,9 +238,9 @@ describe('Integration | Repository | Campaign collective result repository', () 
         });
       });
 
-      context('when there is a single participant who shared its contribution', () => {
+      context('when there is a single participant who shared its contribution', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           const longTimeAgo = new Date('2018-01-01');
           const beforeCampaignParticipationShareDate = new Date('2019-01-01');
           const userWithCampaignParticipationFred = _createUserWithSharedCampaignParticipation('Fred', campaignId, new Date());
@@ -265,7 +265,7 @@ describe('Integration | Repository | Campaign collective result repository', () 
           return databaseBuilder.commit();
         });
 
-        it('should resolves a collective result synthesis with its results as collective’s ones', async () => {
+        it('should resolves a collective result synthesis with its results as collective’s ones', async function() {
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, targetProfile);
 
@@ -285,9 +285,9 @@ describe('Integration | Repository | Campaign collective result repository', () 
         });
       });
 
-      context('when there are multiple participants who shared their participation', () => {
+      context('when there are multiple participants who shared their participation', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
 
           const longTimeAgo = new Date('2018-01-01');
           const campaignParticipationShareDate = new Date('2019-03-01');
@@ -391,7 +391,7 @@ describe('Integration | Repository | Campaign collective result repository', () 
           return databaseBuilder.commit();
         });
 
-        it('should return a correct aggregated synthesis of participants results', async () => {
+        it('should return a correct aggregated synthesis of participants results', async function() {
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, targetProfile);
 
@@ -411,9 +411,9 @@ describe('Integration | Repository | Campaign collective result repository', () 
         });
       });
 
-      context('when there are multiple participants with validated skills on old competences', () => {
+      context('when there are multiple participants with validated skills on old competences', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
 
           const campaignParticipationShareDate = new Date('2019-03-01');
           const beforeCampaignParticipationShareDate = new Date('2019-02-01');
@@ -443,7 +443,7 @@ describe('Integration | Repository | Campaign collective result repository', () 
           return databaseBuilder.commit();
         });
 
-        it('should return a correct average validated skills for the competence A', async () => {
+        it('should return a correct average validated skills for the competence A', async function() {
           // when
           const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, targetProfile);
 

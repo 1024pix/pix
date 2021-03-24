@@ -26,19 +26,19 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
   return { userId, campaignParticipation };
 }
 
-describe('Integration | Repository | Campaign analysis repository', () => {
+describe('Integration | Repository | Campaign analysis repository', function() {
 
-  describe('#getCampaignAnalysis', () => {
+  describe('#getCampaignAnalysis', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    context('in a rich context close to reality', () => {
+    context('in a rich context close to reality', function() {
       let targetProfile;
       let campaignId;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         campaignId = databaseBuilder.factory.buildCampaign().id;
 
         const url1 = domainBuilder.buildTargetedSkill({ id: 'recUrl1', tubeId: 'recTubeUrl', name: '@url1' });
@@ -61,7 +61,7 @@ describe('Integration | Repository | Campaign analysis repository', () => {
         return databaseBuilder.commit();
       });
 
-      it('should resolves an analysis with expected tube recommendations initialized correctly', async () => {
+      it('should resolves an analysis with expected tube recommendations initialized correctly', async function() {
         // when
         const tutorials = [];
         const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(campaignId, targetProfile, tutorials);
@@ -96,9 +96,9 @@ describe('Integration | Repository | Campaign analysis repository', () => {
         });
       });
 
-      context('when there is no participant', () => {
+      context('when there is no participant', function() {
 
-        it('should resolves an analysis with null average scores on recommendation', async () => {
+        it('should resolves an analysis with null average scores on recommendation', async function() {
           // when
           const tutorials = [];
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(campaignId, targetProfile, tutorials);
@@ -111,9 +111,9 @@ describe('Integration | Repository | Campaign analysis repository', () => {
         });
       });
 
-      context('when there is a participant but she did not share its contribution', () => {
+      context('when there is a participant but she did not share its contribution', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           const goliathId = databaseBuilder.factory.buildUser({ firstName: 'Goliath' }).id;
 
           databaseBuilder.factory.buildCampaignParticipation({
@@ -133,7 +133,7 @@ describe('Integration | Repository | Campaign analysis repository', () => {
           return databaseBuilder.commit();
         });
 
-        it('should resolves an analysis with null average scores', async () => {
+        it('should resolves an analysis with null average scores', async function() {
           // when
           const tutorials = [];
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(campaignId, targetProfile, tutorials);
@@ -146,9 +146,9 @@ describe('Integration | Repository | Campaign analysis repository', () => {
         });
       });
 
-      context('when there are participants who shared their contribution', () => {
+      context('when there are participants who shared their contribution', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           const beforeCampaignParticipationShareDate = new Date('2019-01-01');
           const shareDate = new Date('2019-01-02');
           const afterShareDate = new Date('2019-01-03');
@@ -177,7 +177,7 @@ describe('Integration | Repository | Campaign analysis repository', () => {
           return databaseBuilder.commit();
         });
 
-        it('should resolves an analysis based on participant score ignoring untargeted | non validated | outdated knowledge elements', async () => {
+        it('should resolves an analysis based on participant score ignoring untargeted | non validated | outdated knowledge elements', async function() {
           // when
           const tutorials = [];
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(campaignId, targetProfile, tutorials);
@@ -192,19 +192,19 @@ describe('Integration | Repository | Campaign analysis repository', () => {
     });
   });
 
-  describe('#getCampaignParticipationAnalysis', () => {
+  describe('#getCampaignParticipationAnalysis', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    context('in a rich context close to reality', () => {
+    context('in a rich context close to reality', function() {
       let targetProfile;
       let campaignId;
       let userId;
       let campaignParticipation;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         campaignId = databaseBuilder.factory.buildCampaign().id;
         const sharedAt = new Date('2020-04-01');
         const userWithCampaignParticipation = _createUserWithSharedCampaignParticipation('Fred', campaignId, sharedAt);
@@ -231,7 +231,7 @@ describe('Integration | Repository | Campaign analysis repository', () => {
         return databaseBuilder.commit();
       });
 
-      it('should resolves an analysis with expected tube recommendations initialized correctly', async () => {
+      it('should resolves an analysis with expected tube recommendations initialized correctly', async function() {
         // when
         const tutorials = [];
         const actualAnalysis = await campaignAnalysisRepository.getCampaignParticipationAnalysis(campaignId, campaignParticipation, targetProfile, tutorials);
@@ -266,9 +266,9 @@ describe('Integration | Repository | Campaign analysis repository', () => {
         });
       });
 
-      context('participation details', () => {
+      context('participation details', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           const beforeCampaignParticipationShareDate = new Date('2019-01-01');
 
           _.each([
@@ -284,7 +284,7 @@ describe('Integration | Repository | Campaign analysis repository', () => {
           return databaseBuilder.commit();
         });
 
-        it('should resolves an analysis based on participant score ignoring untargeted or non validated knowledge elements', async () => {
+        it('should resolves an analysis based on participant score ignoring untargeted or non validated knowledge elements', async function() {
           // when
           const tutorials = [];
           const actualAnalysis = await campaignAnalysisRepository.getCampaignParticipationAnalysis(campaignId, campaignParticipation, targetProfile, tutorials);

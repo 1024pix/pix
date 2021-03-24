@@ -1,14 +1,14 @@
 const PoleEmploiPayload = require('../../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload');
 const { expect, domainBuilder } = require('../../../../test-helper');
 
-describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', () => {
+describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', function() {
   let user;
   let campaign;
   let targetProfile;
   let assessment;
   let participation;
 
-  beforeEach(() => {
+  beforeEach(function() {
     user = domainBuilder.buildUser();
     targetProfile = domainBuilder.buildTargetProfile({ name: 'Diagnostic initial' });
     campaign = domainBuilder.buildCampaign.ofTypeAssessment({ targetProfileId: targetProfile.id });
@@ -16,9 +16,9 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
     participation = domainBuilder.buildCampaignParticipation({ campaign, userId: user.id, assessmentId: assessment.id });
   });
 
-  describe('buildForParticipationStarted', () => {
+  describe('buildForParticipationStarted', function() {
 
-    it('should build individu payload for a campaign participation started', () => {
+    it('should build individu payload for a campaign participation started', function() {
       // when
       const payload = PoleEmploiPayload.buildForParticipationStarted({
         user,
@@ -34,7 +34,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
       });
     });
 
-    it('should build campagne payload for a campaign participation started', () => {
+    it('should build campagne payload for a campaign participation started', function() {
       // when
       const payload = PoleEmploiPayload.buildForParticipationStarted({
         user,
@@ -56,7 +56,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
       });
     });
 
-    it('should build test payload for a campaign participation started', () => {
+    it('should build test payload for a campaign participation started', function() {
       // when
       const payload = PoleEmploiPayload.buildForParticipationStarted({
         user,
@@ -81,9 +81,9 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
     });
   });
 
-  describe('buildForParticipationFinished', () => {
+  describe('buildForParticipationFinished', function() {
 
-    it('should build individu payload for a campaign participation finished', () => {
+    it('should build individu payload for a campaign participation finished', function() {
       // when
       const payload = PoleEmploiPayload.buildForParticipationFinished({
         user,
@@ -100,7 +100,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
       });
     });
 
-    it('should build campagne payload for a campaign participation finished', () => {
+    it('should build campagne payload for a campaign participation finished', function() {
       // when
       const payload = PoleEmploiPayload.buildForParticipationFinished({
         user,
@@ -123,7 +123,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
       });
     });
 
-    it('should build test payload for a campaign participation finished', () => {
+    it('should build test payload for a campaign participation finished', function() {
       // when
       const payload = PoleEmploiPayload.buildForParticipationFinished({
         user,
@@ -149,9 +149,9 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
     });
   });
 
-  describe('buildForParticipationShared', () => {
+  describe('buildForParticipationShared', function() {
 
-    it('should build individu payload for a campaign participation shared', () => {
+    it('should build individu payload for a campaign participation shared', function() {
       // when
       const payload = PoleEmploiPayload.buildForParticipationShared({
         user,
@@ -168,7 +168,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
       });
     });
 
-    it('should build campagne payload for a campaign participation shared', () => {
+    it('should build campagne payload for a campaign participation shared', function() {
       // when
       const payload = PoleEmploiPayload.buildForParticipationShared({
         user,
@@ -191,7 +191,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
       });
     });
 
-    it('should build test payload for a campaign participation shared', () => {
+    it('should build test payload for a campaign participation shared', function() {
       // given
       const participationResult = domainBuilder.buildCampaignParticipationResult({
         totalSkillsCount: 10,
@@ -243,9 +243,9 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
     });
   });
 
-  describe('map different test types in the payload', () => {
+  describe('map different test types in the payload', function() {
 
-    it('should map test type with target profile name "Diagnostic initial"', () => {
+    it('should map test type with target profile name "Diagnostic initial"', function() {
       // given
       targetProfile = domainBuilder.buildTargetProfile({ name: 'Diagnostic initial' });
 
@@ -261,7 +261,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
       expect(payload.test.typeTest).equal('DI');
     });
 
-    it('should map test type with target profile name "Parcours complet"', () => {
+    it('should map test type with target profile name "Parcours complet"', function() {
       // given
       targetProfile = domainBuilder.buildTargetProfile({ name: 'Parcours complet' });
 
@@ -277,7 +277,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
       expect(payload.test.typeTest).equal('PC');
     });
 
-    it('should map test type with other target profile names ', () => {
+    it('should map test type with other target profile names ', function() {
       // given
       targetProfile = domainBuilder.buildTargetProfile({ name: 'Other' });
 

@@ -8,20 +8,20 @@ const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/scho
 
 const schoolingRegistrationCsvColumns = [...COLUMNS, { label: 'UAI*' }].map((column) => column.label).join(';');
 
-describe('Integration | Scripts | import-apprentices', () => {
+describe('Integration | Scripts | import-apprentices', function() {
   const fileSystem = {
     readFileSync: sinon.stub(),
   };
 
-  describe('#importApprentices', () => {
+  describe('#importApprentices', function() {
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('schooling-registrations').delete();
     });
 
-    context('when the header is correctly formed', () => {
-      context('when there is no line', () => {
-        it('create no registrations', async () => {
+    context('when the header is correctly formed', function() {
+      context('when there is no line', function() {
+        it('create no registrations', async function() {
           const input = schoolingRegistrationCsvColumns;
           const encodedInput = iconv.encode(input, 'utf8');
           fileSystem.readFileSync.withArgs('tmp.csv').returns(encodedInput);
@@ -32,8 +32,8 @@ describe('Integration | Scripts | import-apprentices', () => {
         });
       });
 
-      context('when there are lines', () => {
-        it('create registrations for the correct organization', async () => {
+      context('when there are lines', function() {
+        it('create registrations for the correct organization', async function() {
           const organization1 = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: '12345' });
           const organization2 = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: '54321' });
           await databaseBuilder.commit();
@@ -85,8 +85,8 @@ describe('Integration | Scripts | import-apprentices', () => {
           expect(registration2).to.include(registration2Attributes);
         });
 
-        context('when there is an error', () => {
-          it('throws a OrganizationNotFoundError when externalId not found', async () => {
+        context('when there is an error', function() {
+          it('throws a OrganizationNotFoundError when externalId not found', async function() {
             databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: '12345' });
             databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: '678910' });
 
@@ -105,7 +105,7 @@ describe('Integration | Scripts | import-apprentices', () => {
             expect(err).to.be.an.instanceOf(OrganizationNotFoundError);
           });
 
-          it('throws a CsvImportError', async () => {
+          it('throws a CsvImportError', async function() {
             databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: '12345' });
 
             await databaseBuilder.commit();
@@ -125,11 +125,11 @@ describe('Integration | Scripts | import-apprentices', () => {
         });
       });
     });
-    context('when the header is not correctly formed', () => {
+    context('when the header is not correctly formed', function() {
       const requiredColumns = [...COLUMNS, { label: 'UAI*' }].map((column) => column.label);
 
       requiredColumns.forEach((missingColumn) => {
-        it('throws a CsvImportError', async () => {
+        it('throws a CsvImportError', async function() {
           const input = requiredColumns.filter((column) => column != missingColumn).join(';');
 
           const encodedInput = iconv.encode(input, 'utf8');

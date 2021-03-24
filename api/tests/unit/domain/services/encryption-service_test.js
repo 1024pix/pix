@@ -4,13 +4,13 @@ const bcrypt = require('bcrypt');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const PasswordNotMatching = require('../../../../lib/domain/errors').PasswordNotMatching;
 
-describe('Unit | Service | Encryption', () => {
+describe('Unit | Service | Encryption', function() {
 
-  describe('#checkPassword', () => {
+  describe('#checkPassword', function() {
 
-    describe('when password and hash are matching', async() => {
+    describe('when password and hash are matching', async function() {
 
-      it('should resolve to undefined', async () => {
+      it('should resolve to undefined', async function() {
 
         // given
         const password = 'my-real-password';
@@ -29,9 +29,9 @@ describe('Unit | Service | Encryption', () => {
       });
     });
 
-    describe('when password and hash are not matching', async () => {
+    describe('when password and hash are not matching', async function() {
 
-      it('should reject a PasswordNotMatching error ', async () => {
+      it('should reject a PasswordNotMatching error ', async function() {
 
         // given
         const password = 'my-expected-password';
@@ -50,9 +50,9 @@ describe('Unit | Service | Encryption', () => {
 
     });
 
-    describe('when password is not supplied', async () => {
+    describe('when password is not supplied', async function() {
 
-      it('should reject, but not a PasswordNotMatching error ', async () => {
+      it('should reject, but not a PasswordNotMatching error ', async function() {
 
         // given
         const password = undefined;

@@ -4,11 +4,11 @@ const { buildCertificateForLS, buildReferentialOfCompetences, buildCertification
 const VALIDATED_CERTIFICATION = 'validated';
 const REJECTED_CERTIFICATION = 'rejected';
 
-describe('Unit | Serializer | JSONAPI | certification-ls-serializer', () => {
+describe('Unit | Serializer | JSONAPI | certification-ls-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    context('the entry data is one valid certification with a referential of competences', () => {
+    context('the entry data is one valid certification with a referential of competences', function() {
 
       const expectedJson = {
         'data': {
@@ -199,7 +199,7 @@ describe('Unit | Serializer | JSONAPI | certification-ls-serializer', () => {
         ],
       };
 
-      it('should serialize to certification result with a referential of competences', () => {
+      it('should serialize to certification result with a referential of competences', function() {
         // given
         const validCertification = buildCertificateForLS({ id: 1, status: VALIDATED_CERTIFICATION });
         const certificationsResults = buildCertificationsResults([validCertification]);
@@ -214,7 +214,7 @@ describe('Unit | Serializer | JSONAPI | certification-ls-serializer', () => {
 
     });
 
-    context('the entry data is one valid, one rejected certifications with a referential of competences', () => {
+    context('the entry data is one valid, one rejected certifications with a referential of competences', function() {
 
       const expectedJson = {
         'data': {
@@ -446,7 +446,7 @@ describe('Unit | Serializer | JSONAPI | certification-ls-serializer', () => {
         ],
       };
 
-      it('should serialize to certifications results with a referential of competences', () => {
+      it('should serialize to certifications results with a referential of competences', function() {
         // given
         const validCertification = buildCertificateForLS({ id: 1, status: VALIDATED_CERTIFICATION });
         const rejectedCertification = buildCertificateForLS({ id: 2, status: REJECTED_CERTIFICATION });
@@ -463,7 +463,7 @@ describe('Unit | Serializer | JSONAPI | certification-ls-serializer', () => {
 
     });
 
-    context('the entry data is a referential of competences only', () => {
+    context('the entry data is a referential of competences only', function() {
 
       const expectedJson = {
         'data': {
@@ -612,7 +612,7 @@ describe('Unit | Serializer | JSONAPI | certification-ls-serializer', () => {
         ],
       };
 
-      it('should serialize to empty certifications results with a referential of competences', () => {
+      it('should serialize to empty certifications results with a referential of competences', function() {
         // given
         const competences = buildReferentialOfCompetences();
         const certificationsResultsWithNoCertifications = buildCertificationsResults([], competences);

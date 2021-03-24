@@ -6,7 +6,7 @@ const { InvalidExternalUserTokenError, UnexpectedUserAccount } = require('../../
 
 const { addGarAuthenticationMethodToUser } = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | add-gar-authentication-method-to-user', () => {
+describe('Unit | UseCase | add-gar-authentication-method-to-user', function() {
 
   const authenticatedUserId = 10;
   const samlId = 'SAMLID';
@@ -18,7 +18,7 @@ describe('Unit | UseCase | add-gar-authentication-method-to-user', () => {
   let obfuscationService;
   let authenticationMethodRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     tokenService = { extractSamlId: sinon.stub().returns(samlId) };
     userRepository = {
       getBySamlId: sinon.stub(),
@@ -30,9 +30,9 @@ describe('Unit | UseCase | add-gar-authentication-method-to-user', () => {
     obfuscationService = { getUserAuthenticationMethodWithObfuscation: sinon.stub() };
   });
 
-  context('when user exists', () => {
+  context('when user exists', function() {
 
-    it('should create a GAR authentication method for the user', async () => {
+    it('should create a GAR authentication method for the user', async function() {
       // given
       userRepository.getBySamlId.resolves();
       authenticationMethodRepository.create.resolves();
@@ -54,9 +54,9 @@ describe('Unit | UseCase | add-gar-authentication-method-to-user', () => {
     });
   });
 
-  context('when an error occurred', () => {
+  context('when an error occurred', function() {
 
-    it('should throw an InvalidExternalUserTokenError when externalUserToken is invalid', async () => {
+    it('should throw an InvalidExternalUserTokenError when externalUserToken is invalid', async function() {
       // given
       tokenService.extractSamlId.returns(null);
 
@@ -70,7 +70,7 @@ describe('Unit | UseCase | add-gar-authentication-method-to-user', () => {
       expect(error.message).to.equal('Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.');
     });
 
-    it('should throw an UnexpectedUserAccount when the authenticated user does not match the expected one', async () => {
+    it('should throw an UnexpectedUserAccount when the authenticated user does not match the expected one', async function() {
       // given
       const unexpectedUserId = expectedUserId + 1;
       userRepository.getForObfuscation.returns(new User());

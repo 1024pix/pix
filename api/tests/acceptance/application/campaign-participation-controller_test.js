@@ -2,7 +2,7 @@ const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
 
-describe('Acceptance | API | Campaign Participations', () => {
+describe('Acceptance | API | Campaign Participations', function() {
 
   let server,
     options,
@@ -11,14 +11,14 @@ describe('Acceptance | API | Campaign Participations', () => {
     assessment,
     campaignParticipation;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     user = databaseBuilder.factory.buildUser();
   });
 
-  describe('GET /api/campaign-participations/{id}', () => {
+  describe('GET /api/campaign-participations/{id}', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       campaign = databaseBuilder.factory.buildCampaign();
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaign,
@@ -34,7 +34,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return the campaign-participation', async () => {
+    it('should return the campaign-participation', async function() {
       // given
       options = {
         method: 'GET',
@@ -87,9 +87,9 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
   });
 
-  describe('GET /api/campaign-participations?filter[assessmentId]={id}', () => {
+  describe('GET /api/campaign-participations?filter[assessmentId]={id}', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       campaign = databaseBuilder.factory.buildCampaign();
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         isShared: true,
@@ -105,9 +105,9 @@ describe('Acceptance | API | Campaign Participations', () => {
       await databaseBuilder.commit();
     });
 
-    context('when the user own the campaign participation', () => {
+    context('when the user own the campaign participation', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         options = {
           method: 'GET',
           url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}&include=campaign,user`,
@@ -115,7 +115,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         };
       });
 
-      it('should return the campaign-participation of the given assessmentId', () => {
+      it('should return the campaign-participation of the given assessmentId', function() {
         // given
         const expectedCampaignParticipation = [
           {
@@ -171,9 +171,9 @@ describe('Acceptance | API | Campaign Participations', () => {
 
     });
 
-    context('when the user doesnt own the campaign participation', () => {
+    context('when the user doesnt own the campaign participation', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         options = {
           method: 'GET',
           url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}`,
@@ -181,7 +181,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         };
       });
 
-      it('it should reply an unauthorized error', () => {
+      it('it should reply an unauthorized error', function() {
         // when
         const promise = server.inject(options);
 
@@ -192,9 +192,9 @@ describe('Acceptance | API | Campaign Participations', () => {
       });
     });
 
-    context('when the assessmentId is not an integer', () => {
+    context('when the assessmentId is not an integer', function() {
 
-      it('returns 404 when assessmentId is not an integer', async () => {
+      it('returns 404 when assessmentId is not an integer', async function() {
         const userId = databaseBuilder.factory.buildUser().id;
         const organization = databaseBuilder.factory.buildOrganization();
 
@@ -216,11 +216,11 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
   });
 
-  describe('PATCH /api/campaign-participations/{id}', () => {
+  describe('PATCH /api/campaign-participations/{id}', function() {
 
     let campaignParticipationId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       campaignParticipationId = 123111;
 
       const learningContent = [{
@@ -254,7 +254,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
     });
 
-    beforeEach(() => {
+    beforeEach(function() {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recAcquisWeb1' });
       const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
@@ -275,7 +275,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       return databaseBuilder.commit();
     });
 
-    it('shares the campaign participation', async () => {
+    it('shares the campaign participation', async function() {
       // when
       const response = await server.inject(options);
       const campaignParticipation = await knex('campaign-participations').first();
@@ -286,7 +286,7 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
   });
 
-  describe('POST /api/campaign-participations', () => {
+  describe('POST /api/campaign-participations', function() {
 
     let campaignId;
     const options = {
@@ -311,18 +311,18 @@ describe('Acceptance | API | Campaign Participations', () => {
       },
     };
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       options.headers = { authorization: generateValidRequestAuthorizationHeader(user.id) };
       campaignId = databaseBuilder.factory.buildCampaign({}).id;
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('assessments').delete();
       return knex('campaign-participations').delete();
     });
 
-    it('should return 201 and the campaign participation when it has been successfully created', async () => {
+    it('should return 201 and the campaign participation when it has been successfully created', async function() {
       // given
       options.payload.data.relationships.campaign.data.id = campaignId;
 
@@ -334,7 +334,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       expect(response.result.data.id).to.exist;
     });
 
-    it('should return 404 error if the campaign related to the participation does not exist', async () => {
+    it('should return 404 error if the campaign related to the participation does not exist', async function() {
       // given
       options.payload.data.relationships.campaign.data.id = null;
 
@@ -345,7 +345,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       expect(response.statusCode).to.equal(404);
     });
 
-    it('should return 412 error if the user has already participated to the campaign', async () => {
+    it('should return 412 error if the user has already participated to the campaign', async function() {
       // given
       options.payload.data.relationships.campaign.data.id = campaignId;
       databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, campaignId });
@@ -359,13 +359,13 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
   });
 
-  describe('PATCH /api/campaign-participations/{id}/begin-improvement', () => {
+  describe('PATCH /api/campaign-participations/{id}/begin-improvement', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('assessments').delete();
     });
 
-    it('should return 401 HTTP status code when user is not connected', async () => {
+    it('should return 401 HTTP status code when user is not connected', async function() {
       // given
       options = {
         method: 'PATCH',
@@ -379,7 +379,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       expect(response.statusCode).to.equal(401);
     });
 
-    it('should return 204 HTTP status code', async () => {
+    it('should return 204 HTTP status code', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, isShared: false }).id;
@@ -398,7 +398,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return 412 HTTP status code when user has already shared his results', async () => {
+    it('should return 412 HTTP status code when user has already shared his results', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, isShared: true }).id;
@@ -417,7 +417,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       expect(response.statusCode).to.equal(412);
     });
 
-    it('should return 403 HTTP status code when user is not the owner of the participation', async () => {
+    it('should return 403 HTTP status code when user is not the owner of the participation', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const anotherUserId = databaseBuilder.factory.buildUser().id;
@@ -440,12 +440,12 @@ describe('Acceptance | API | Campaign Participations', () => {
 
   describe('GET /api/campaigns/{campaignId}/profiles-collection-participations/{campaignParticipationId}', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       const learningObjects = learningContentBuilder.buildLearningContent([]);
       mockLearningContent(learningObjects);
     });
 
-    it('should return the campaign profile as JSONAPI', async () => {
+    it('should return the campaign profile as JSONAPI', async function() {
       const userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
 

@@ -1,20 +1,20 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | API | Progressions', () => {
+describe('Acceptance | API | Progressions', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /api/progressions/:id', () => {
+  describe('GET /api/progressions/:id', function() {
 
     let assessmentId;
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
 
       const learningContent = [{
         id: 'recArea1',
@@ -52,9 +52,9 @@ describe('Acceptance | API | Progressions', () => {
       await databaseBuilder.commit();
     });
 
-    context('without authorization token', () => {
+    context('without authorization token', function() {
 
-      it('should return 401 HTTP status code', () => {
+      it('should return 401 HTTP status code', function() {
         // given
         const progressionId = assessmentId;
         const options = {
@@ -75,10 +75,10 @@ describe('Acceptance | API | Progressions', () => {
       });
     });
 
-    context('with authorization token', () => {
+    context('with authorization token', function() {
 
-      context('when the assessment does not exists', () => {
-        it('should respond with a 404', () => {
+      context('when the assessment does not exists', function() {
+        it('should respond with a 404', function() {
           // given
           const progressionId = assessmentId + 1;
           const options = {
@@ -99,9 +99,9 @@ describe('Acceptance | API | Progressions', () => {
         });
       });
 
-      context('allowed to access the progression', () => {
+      context('allowed to access the progression', function() {
 
-        it('should respond with a 200', () => {
+        it('should respond with a 200', function() {
           // given
           const progressionId = assessmentId;
           const options = {

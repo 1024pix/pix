@@ -10,11 +10,11 @@ const moduleUnderTest = require('../../../../lib/application/authentication');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
-describe('Integration | Application | Route | AuthenticationRouter', () => {
+describe('Integration | Application | Route | AuthenticationRouter', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(authenticationController, 'authenticateUser').callsFake((request, h) => h.response({
       token_type: 'bearer',
       access_token: 'some-jwt-access-token',
@@ -26,7 +26,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     httpTestServer = new HttpTestServer(moduleUnderTest, true);
   });
 
-  describe('POST /api/token', () => {
+  describe('POST /api/token', function() {
 
     const method = 'POST';
     const url = '/api/token';
@@ -36,7 +36,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     let payload;
 
-    beforeEach(() => {
+    beforeEach(function() {
       payload = querystring.stringify({
         grant_type: 'password',
         username: 'user.username2453  ',
@@ -45,7 +45,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
     });
 
-    it('should return a response with HTTP status code 200 even if there is no scope in the request', async () => {
+    it('should return a response with HTTP status code 200 even if there is no scope in the request', async function() {
       // given
       payload = querystring.stringify({
         grant_type: 'password',
@@ -60,7 +60,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a 400 when grant type is not "password"', async () => {
+    it('should return a 400 when grant type is not "password"', async function() {
       // given
       payload = querystring.stringify({
         grant_type: 'authorization_code',
@@ -75,7 +75,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 when username is missing', async () => {
+    it('should return a 400 when username is missing', async function() {
       // given
       payload = querystring.stringify({
         grant_type: 'password',
@@ -89,7 +89,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 when password is missing', async () => {
+    it('should return a 400 when password is missing', async function() {
       // given
       payload = querystring.stringify({
         grant_type: 'password',
@@ -103,7 +103,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 when username is not an email', async () => {
+    it('should return a 400 when username is not an email', async function() {
       // given
       payload = querystring.stringify({
         grant_type: 'authorization_code',
@@ -118,7 +118,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', async () => {
+    it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', async function() {
       // given
       headers['content-type'] = 'text/html';
 
@@ -130,7 +130,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     });
   });
 
-  describe('POST /revoke', () => {
+  describe('POST /revoke', function() {
 
     const method = 'POST';
     const url = '/api/revoke';
@@ -140,14 +140,14 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     let payload;
 
-    beforeEach(() => {
+    beforeEach(function() {
       payload = querystring.stringify({
         token: 'jwt.access.token',
         token_type_hint: 'access_token',
       });
     });
 
-    it('should return a response with HTTP status code 204 when route handler (a.k.a. controller) is successful', async () => {
+    it('should return a response with HTTP status code 204 when route handler (a.k.a. controller) is successful', async function() {
       // when
       const response = await httpTestServer.request(method, url, payload, null, headers);
 
@@ -155,7 +155,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return a 400 when grant type is not "access_token" nor "refresh_token"', async () => {
+    it('should return a 400 when grant type is not "access_token" nor "refresh_token"', async function() {
       // given
       payload = querystring.stringify({
         token: 'jwt.access.token',
@@ -169,7 +169,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 when token is missing', async () => {
+    it('should return a 400 when token is missing', async function() {
       // given
       payload = querystring.stringify({
         token_type_hint: 'access_token',
@@ -182,7 +182,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a response with HTTP status code 204 even when token type hint is missing', async () => {
+    it('should return a response with HTTP status code 204 even when token type hint is missing', async function() {
       // given
       payload = querystring.stringify({
         token: 'jwt.access.token',
@@ -195,7 +195,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', async () => {
+    it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', async function() {
       // given
       headers['content-type'] = 'text/html';
 
@@ -207,14 +207,14 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     });
   });
 
-  describe('POST /api/token-from-external-user', () => {
+  describe('POST /api/token-from-external-user', function() {
 
     const method = 'POST';
     const url = '/api/token-from-external-user';
 
     let payload;
 
-    beforeEach(() => {
+    beforeEach(function() {
       payload = {
         data: {
           attributes: {
@@ -228,7 +228,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       };
     });
 
-    it('should return a 400 Bad Request if username is missing', async () => {
+    it('should return a 400 Bad Request if username is missing', async function() {
       // given
       payload.data.attributes.username = undefined;
 
@@ -239,7 +239,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 Bad Request if password is missing', async () => {
+    it('should return a 400 Bad Request if password is missing', async function() {
       // given
       payload.data.attributes.password = undefined;
 
@@ -250,7 +250,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 Bad Request if external-user-token is missing', async () => {
+    it('should return a 400 Bad Request if external-user-token is missing', async function() {
       // given
       payload.data.attributes['external-user-token'] = undefined;
 
@@ -261,7 +261,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 Bad Request if expected-user-id is missing', async () => {
+    it('should return a 400 Bad Request if expected-user-id is missing', async function() {
       // given
       payload.data.attributes['expected-user-id'] = undefined;
 
@@ -273,7 +273,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     });
   });
 
-  describe('POST /api/pole-emploi/token', () => {
+  describe('POST /api/pole-emploi/token', function() {
 
     const method = 'POST';
     const url = '/api/pole-emploi/token';
@@ -285,7 +285,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     let payload;
 
-    beforeEach(() => {
+    beforeEach(function() {
       headers['content-type'] = 'application/x-www-form-urlencoded';
 
       payload = querystring.stringify({
@@ -295,7 +295,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
     });
 
-    it('should return a response with HTTP status code 200', async () => {
+    it('should return a response with HTTP status code 200', async function() {
       // when
       const response = await httpTestServer.request(method, url, payload, null, headers);
 
@@ -303,7 +303,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 415 when headers content-type is wrong', async () => {
+    it('should return 415 when headers content-type is wrong', async function() {
       // given
       headers['content-type'] = 'application/json';
 
@@ -314,7 +314,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(415);
     });
 
-    it('should return 400 when payload is missing', async () => {
+    it('should return 400 when payload is missing', async function() {
       // given
       payload = undefined;
 
@@ -325,7 +325,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return 400 when code is missing', async () => {
+    it('should return 400 when code is missing', async function() {
       // given
       payload = querystring.stringify({
         client_id,
@@ -339,7 +339,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return 400 when client_id is missing', async () => {
+    it('should return 400 when client_id is missing', async function() {
       // given
       payload = querystring.stringify({
         code,
@@ -353,7 +353,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return 400 when redirect_uri is missing', async () => {
+    it('should return 400 when redirect_uri is missing', async function() {
       // given
       payload = querystring.stringify({
         code,
@@ -368,7 +368,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     });
   });
 
-  describe('POST /api/token/anonymous', () => {
+  describe('POST /api/token/anonymous', function() {
 
     const method = 'POST';
     const url = '/api/token/anonymous';
@@ -379,13 +379,13 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     let payload;
 
-    beforeEach(() => {
+    beforeEach(function() {
       payload = querystring.stringify({
         campaign_code: code,
       });
     });
 
-    it('should return a response with HTTP status code 200', async () => {
+    it('should return a response with HTTP status code 200', async function() {
       // when
       const response = await httpTestServer.request(method, url, payload, null, headers);
 
@@ -393,7 +393,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 when campaignCode is missing', async () => {
+    it('should return 400 when campaignCode is missing', async function() {
       // given
       payload = querystring.stringify({});
 

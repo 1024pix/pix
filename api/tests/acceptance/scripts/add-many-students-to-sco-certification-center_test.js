@@ -7,15 +7,15 @@ const { databaseBuilder } = require('../../test-helper');
 
 const { addManyStudentsToScoCertificationCenter } = require('../../../scripts/data-generation/add-many-students-to-sco-certification-center');
 
-describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.js', () => {
+describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.js', function() {
 
-  describe('#addManyStudentsToScoCertificationCenter', () => {
+  describe('#addManyStudentsToScoCertificationCenter', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('schooling-registrations').delete();
     });
 
-    it('should insert 2 sco certification centers', async () => {
+    it('should insert 2 sco certification centers', async function() {
       // given
       const numberOfSchoolingRegistrationToCreate = 3;
       databaseBuilder.factory.buildOrganization({

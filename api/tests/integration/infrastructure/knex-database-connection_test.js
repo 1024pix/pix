@@ -5,16 +5,16 @@ const knexDatabaseConnection = require('../../../db/knex-database-connection');
 const { UserNotFoundError } = require('../../../lib/domain/errors');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 
-describe('Integration | Infrastructure | knex-database-connection', () => {
+describe('Integration | Infrastructure | knex-database-connection', function() {
 
-  it('should connect to the database', async () => {
+  it('should connect to the database', async function() {
     // when
     const resultSet = await knexDatabaseConnection.knex.raw('SELECT 1 as value');
     // then
     expect(resultSet.rows || resultSet).to.deep.equal([{ value: 1 }]);
   });
 
-  it('should empty all tables', async () => {
+  it('should empty all tables', async function() {
     // given
     const { id } = databaseBuilder.factory.buildUser();
     await databaseBuilder.commit();

@@ -1,7 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | users-controller-is-certifiable', () => {
+describe('Acceptance | users-controller-is-certifiable', function() {
 
   let server;
   let options;
@@ -31,7 +31,7 @@ describe('Acceptance | users-controller-is-certifiable', () => {
     }],
   };
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     // create server
     server = await createServer();
 
@@ -51,11 +51,11 @@ describe('Acceptance | users-controller-is-certifiable', () => {
     return databaseBuilder.commit();
   });
 
-  describe('GET /users/:id/is-certifiable', () => {
+  describe('GET /users/:id/is-certifiable', function() {
 
-    describe('Resource access management', () => {
+    describe('Resource access management', function() {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -66,7 +66,7 @@ describe('Acceptance | users-controller-is-certifiable', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async () => {
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
         // given
         const otherUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -79,9 +79,9 @@ describe('Acceptance | users-controller-is-certifiable', () => {
       });
     });
 
-    describe('Success case', () => {
+    describe('Success case', function() {
 
-      it('should return a 200 status code response with JSON API serialized isCertifiable', () => {
+      it('should return a 200 status code response with JSON API serialized isCertifiable', function() {
         // given
         const expectedResponse = {
           data: {

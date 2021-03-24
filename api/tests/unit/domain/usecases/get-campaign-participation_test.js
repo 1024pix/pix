@@ -2,13 +2,13 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const getCampaignParticipation = require('../../../../lib/domain/usecases/get-campaign-participation');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-campaign-participation', () => {
+describe('Unit | UseCase | get-campaign-participation', function() {
 
   const options = {};
 
   let campaignParticipationRepository, campaignRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     campaignParticipationRepository = {
       get: sinon.stub(),
     };
@@ -17,8 +17,8 @@ describe('Unit | UseCase | get-campaign-participation', () => {
     };
   });
 
-  context('when user is the user of the campaignParticipation', () => {
-    it('should get the campaignParticipation', async () => {
+  context('when user is the user of the campaignParticipation', function() {
+    it('should get the campaignParticipation', async function() {
       // given
       const campaignParticipationId = 1;
       const userId = 1;
@@ -34,8 +34,8 @@ describe('Unit | UseCase | get-campaign-participation', () => {
     });
   });
 
-  context('when user is a member of the organization which is related to requested campaignParticipation', () => {
-    it('should get the campaignParticipation', async () => {
+  context('when user is a member of the organization which is related to requested campaignParticipation', function() {
+    it('should get the campaignParticipation', async function() {
       // given
       const campaignParticipationId = 1;
       const userId = 2;
@@ -51,8 +51,8 @@ describe('Unit | UseCase | get-campaign-participation', () => {
     });
   });
 
-  context('when user is neither the user of the campaignParticipation nor the organization', () => {
-    it('should not get the campaignParticipation', async () => {
+  context('when user is neither the user of the campaignParticipation nor the organization', function() {
+    it('should not get the campaignParticipation', async function() {
       // given
       const campaignParticipationId = 1;
       const userId = 2;

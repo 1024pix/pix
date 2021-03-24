@@ -2,11 +2,11 @@ const HigherSchoolingRegistrationSet = require('../../../../lib/domain/models/Hi
 const { expect, catchErr } = require('../../../test-helper');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', () => {
+describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
 
-  context('#addRegistration', () => {
-    context('when set has no registration', () => {
-      it('creates the first registration of the set', () => {
+  context('#addRegistration', function() {
+    context('when set has no registration', function() {
+      it('creates the first registration of the set', function() {
 
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
         const registrationAttributes = {
@@ -35,8 +35,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', () => {
       });
     });
 
-    context('when set has registrations', () => {
-      it('creates the a new registration for the set', () => {
+    context('when set has registrations', function() {
+      it('creates the a new registration for the set', function() {
 
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
         const registration1 = {
@@ -84,8 +84,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', () => {
       });
     });
 
-    context('when a registration is not valid', () => {
-      it('throws an error', async () => {
+    context('when a registration is not valid', function() {
+      it('throws an error', async function() {
 
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
         const registration = {
@@ -101,8 +101,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', () => {
       });
     });
 
-    context('when there is a registration with the same student number', () => {
-      it('throws an error', async () => {
+    context('when there is a registration with the same student number', function() {
+      it('throws an error', async function() {
 
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet();
         const registration1 = {

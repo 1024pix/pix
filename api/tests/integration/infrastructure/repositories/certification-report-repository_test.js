@@ -7,11 +7,11 @@ const { CertificationIssueReportCategories } = require('../../../../lib/domain/m
 
 describe('Integration | Repository | CertificationReport', function() {
 
-  describe('#findBySessionId', () => {
+  describe('#findBySessionId', function() {
 
     context('when there are some certification reports with the given session id', function() {
 
-      it('should fetch, alphabetically sorted, the certification reports with a specific session ID', async () => {
+      it('should fetch, alphabetically sorted, the certification reports with a specific session ID', async function() {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const certificationCourse1 = databaseBuilder.factory.buildCertificationCourse({ lastName: 'Abba', sessionId });
@@ -53,7 +53,7 @@ describe('Integration | Repository | CertificationReport', function() {
 
     context('when there is no certification reports with the given session ID', function() {
 
-      it('should return an empty array', async () => {
+      it('should return an empty array', async function() {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
 
@@ -66,22 +66,22 @@ describe('Integration | Repository | CertificationReport', function() {
     });
   });
 
-  describe('#finalizeAll', () => {
+  describe('#finalizeAll', function() {
     let sessionId;
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('certification-issue-reports').delete();
     });
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
 
       return databaseBuilder.commit();
     });
 
-    context('when reports are being successfully finalized', () => {
-      it('should finalize certification reports', async () => {
+    context('when reports are being successfully finalized', function() {
+      it('should finalize certification reports', async function() {
         const certificationCourseId1 = databaseBuilder.factory.buildCertificationCourse({
           sessionId,
           hasSeenEndTestScreen: false,
@@ -119,9 +119,9 @@ describe('Integration | Repository | CertificationReport', function() {
 
     });
 
-    context('when finalization fails', () => {
+    context('when finalization fails', function() {
 
-      it('should have left the Courses as they were and rollback updates if any', async () => {
+      it('should have left the Courses as they were and rollback updates if any', async function() {
         // given
         const certificationCourseId1 = databaseBuilder.factory.buildCertificationCourse({
           sessionId,

@@ -1,7 +1,7 @@
 const { mockLearningContent, databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
+describe('Acceptance | Controller | tutorial-evaluations-controller', function() {
 
   let server;
 
@@ -17,7 +17,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
     }],
   };
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     await databaseBuilder.factory.buildUser({
       id: 4444,
@@ -31,11 +31,11 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
     mockLearningContent(learningContent);
   });
 
-  describe('PUT /api/users/tutorials/{tutorialId}/evaluate', () => {
+  describe('PUT /api/users/tutorials/{tutorialId}/evaluate', function() {
 
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       options = {
         method: 'PUT',
         url: '/api/users/tutorials/tutorialId/evaluate',
@@ -45,12 +45,12 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
       };
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       return knex('tutorial-evaluations').delete();
     });
 
-    describe('nominal case', () => {
-      it('should respond with a 201', async () => {
+    describe('nominal case', function() {
+      it('should respond with a 201', async function() {
         // given
         const expectedResponse = {
           data: {
@@ -75,8 +75,8 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
       });
     });
 
-    describe('error cases', () => {
-      it('should respond with a 404 - not found when tutorialId does not exist', async () => {
+    describe('error cases', function() {
+      it('should respond with a 404 - not found when tutorialId does not exist', async function() {
         // given
         options.url = '/api/users/tutorials/badId/evaluate';
 
@@ -87,7 +87,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', () => {
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond with a 401 - not authenticated when user not connected', async () => {
+      it('should respond with a 401 - not authenticated when user not connected', async function() {
         // given
         options.headers = {};
 

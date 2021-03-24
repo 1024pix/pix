@@ -3,15 +3,15 @@ const createServer = require('../../../../server');
 const BookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
 const { FRENCH_FRANCE, ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Acceptance | Controller | answer-controller-save', () => {
+describe('Acceptance | Controller | answer-controller-save', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('POST /api/answers', () => {
+  describe('POST /api/answers', function() {
     let userId;
     let insertedAssessmentId;
     let postAnswersOptions;
@@ -20,7 +20,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
     const challengeId = 'a_challenge_id';
     const competenceId = 'recCompetence';
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const assessment = databaseBuilder.factory.buildAssessment({
         type: 'COMPETENCE_EVALUATION',
         competenceId: competenceId,
@@ -31,14 +31,14 @@ describe('Acceptance | Controller | answer-controller-save', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('knowledge-elements').delete();
       await knex('answers').delete();
     });
 
-    context('when the user is linked to the assessment', () => {
+    context('when the user is linked to the assessment', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         // given
         const learningContent = {
           areas: [{ id: 'recArea1', competenceIds: ['recCompetence'] }],
@@ -100,7 +100,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
       });
 
-      it('should return 201 HTTP status code', async () => {
+      it('should return 201 HTTP status code', async function() {
         // when
         const response = await server.inject(postAnswersOptions);
 
@@ -108,7 +108,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         expect(response.statusCode).to.equal(201);
       });
 
-      it('should return application/json', async () => {
+      it('should return application/json', async function() {
         // when
         const response = await server.inject(postAnswersOptions);
 
@@ -117,7 +117,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         expect(contentType).to.contain('application/json');
       });
 
-      it('should add a new answer into the database', async () => {
+      it('should add a new answer into the database', async function() {
         // when
         await server.inject(postAnswersOptions);
 
@@ -126,7 +126,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         expect(afterAnswersNumber).to.equal(1);
       });
 
-      it('should add a new answer with timeSpent into the database', async () => {
+      it('should add a new answer with timeSpent into the database', async function() {
         // when
         const response = await server.inject(postAnswersOptions);
 
@@ -138,7 +138,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         expect(model.get('timeSpent')).not.to.be.null;
       });
 
-      it('should return persisted answer', async () => {
+      it('should return persisted answer', async function() {
         // when
         const response = await server.inject(postAnswersOptions);
 
@@ -167,7 +167,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         { locale: FRENCH_FRANCE, expectedCompetenceName: 'Nom de la competence FR' },
         { locale: ENGLISH_SPOKEN, expectedCompetenceName: 'Nom de la competence EN' },
       ].forEach((testCase) => {
-        it(`should return competence name in locale=${testCase.locale} when user levelup`, async () => {
+        it(`should return competence name in locale=${testCase.locale} when user levelup`, async function() {
           // given
           databaseBuilder.factory.buildKnowledgeElement({
             earnedPix: 7,
@@ -189,8 +189,8 @@ describe('Acceptance | Controller | answer-controller-save', () => {
       });
     });
 
-    context('when user is not the user of the assessment', () => {
-      beforeEach(() => {
+    context('when user is not the user of the assessment', function() {
+      beforeEach(function() {
         // given
         postAnswersOptions = {
           method: 'POST',
@@ -224,7 +224,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         promise = server.inject(postAnswersOptions);
       });
 
-      it('should return 403 HTTP status code', async () => {
+      it('should return 403 HTTP status code', async function() {
         // when
         const response = await promise;
 
@@ -234,8 +234,8 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
     });
 
-    context('when the payload is empty', () => {
-      beforeEach(() => {
+    context('when the payload is empty', function() {
+      beforeEach(function() {
         postAnswersOptions = {
           method: 'POST',
           url: '/api/answers',
@@ -245,7 +245,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         promise = server.inject(postAnswersOptions);
       });
 
-      it('should return 400 HTTP status code', async () => {
+      it('should return 400 HTTP status code', async function() {
         // when
         const response = await promise;
 
@@ -255,9 +255,9 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
     });
 
-    context('when the answer is empty and timeout', () => {
+    context('when the answer is empty and timeout', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         const learningContent = {
           areas: [{ id: 'recArea1', competenceIds: ['recCompetence'] }],
@@ -318,7 +318,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         promise = server.inject(postAnswersOptions);
       });
 
-      it('should return 201 HTTP status code', async () => {
+      it('should return 201 HTTP status code', async function() {
         // when
         const response = await promise;
 

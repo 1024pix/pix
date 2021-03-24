@@ -129,7 +129,7 @@ const userCompetences = [
 
 describe('Unit | Service | Certification Result Service', function() {
 
-  describe('#getCertificationResult', () => {
+  describe('#getCertificationResult', function() {
     let certificationAssessment;
     const certificationAssessmentData = {
       id: 1,
@@ -192,10 +192,10 @@ describe('Unit | Service | Certification Result Service', function() {
       competenceWithMarks_4_4,
     ];
 
-    describe('Compute certification result for jury (continue on error)', () => {
+    describe('Compute certification result for jury (continue on error)', function() {
       const continueOnError = true;
 
-      beforeEach(() => {
+      beforeEach(function() {
         certificationAssessment = new CertificationAssessment({
           ...certificationAssessmentData,
           certificationAnswersByDate: wrongAnswersForAllChallenges(),
@@ -211,7 +211,7 @@ describe('Unit | Service | Certification Result Service', function() {
         }).resolves({ userCompetences });
       });
 
-      it('should get user profile', async () => {
+      it('should get user profile', async function() {
         // when
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -219,7 +219,7 @@ describe('Unit | Service | Certification Result Service', function() {
         sinon.assert.calledOnce(placementProfileService.getPlacementProfile);
       });
 
-      it('should retrieve validated challenges', async () => {
+      it('should retrieve validated challenges', async function() {
         // when
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -227,7 +227,7 @@ describe('Unit | Service | Certification Result Service', function() {
         sinon.assert.calledOnce(challengeRepository.findOperative);
       });
 
-      it('should retrieve competences list', async () => {
+      it('should retrieve competences list', async function() {
         // when
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -235,10 +235,10 @@ describe('Unit | Service | Certification Result Service', function() {
         sinon.assert.calledOnce(competenceRepository.listPixCompetencesOnly);
       });
 
-      context('when assessment is just started', () => {
+      context('when assessment is just started', function() {
         let startedCertificationAssessment;
 
-        beforeEach(() => {
+        beforeEach(function() {
           startedCertificationAssessment = new CertificationAssessment({
             ...certificationAssessment,
             completedAt: null,
@@ -246,7 +246,7 @@ describe('Unit | Service | Certification Result Service', function() {
           });
         });
 
-        it('should return totalScore = 0', async () => {
+        it('should return totalScore = 0', async function() {
           // when
           const result = await certificationResultService.getCertificationResult({
             certificationAssessment: startedCertificationAssessment,
@@ -258,7 +258,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
         });
 
-        it('should return list of competences with all certifiedLevel at -1', async () => {
+        it('should return list of competences with all certifiedLevel at -1', async function() {
           // when
           const result = await certificationResultService.getCertificationResult({
             certificationAssessment: startedCertificationAssessment,
@@ -270,9 +270,9 @@ describe('Unit | Service | Certification Result Service', function() {
         });
       });
 
-      context('when reproducibility rate is < 50%', () => {
+      context('when reproducibility rate is < 50%', function() {
 
-        it('should return totalScore = 0', async () => {
+        it('should return totalScore = 0', async function() {
           // when
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -280,7 +280,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.totalScore).to.equal(0);
         });
 
-        it('should return list of competences with all certifiedLevel at -1', async () => {
+        it('should return list of competences with all certifiedLevel at -1', async function() {
           // when
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -289,13 +289,13 @@ describe('Unit | Service | Certification Result Service', function() {
         });
       });
 
-      context('when reproducibility rate is between 80% and 100%', () => {
+      context('when reproducibility rate is between 80% and 100%', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           certificationAssessment.certificationAnswersByDate = correctAnswersForAllChallenges();
         });
 
-        it('should ignore answers with no matching challenge', async () => {
+        it('should ignore answers with no matching challenge', async function() {
           // when
           certificationAssessment.certificationChallenges = [];
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
@@ -304,7 +304,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.totalScore).to.equal(0);
         });
 
-        it('should return totalScore = all pix', async () => {
+        it('should return totalScore = all pix', async function() {
           // when
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -312,7 +312,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.totalScore).to.equal(totalPix);
         });
 
-        it('should return list of competences with all certifiedLevel equal to estimatedLevel', async () => {
+        it('should return list of competences with all certifiedLevel equal to estimatedLevel', async function() {
           // given
           const expectedCertifiedCompetences = [
             {
@@ -341,7 +341,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
 
-        it('should return totalScore = (all pix - one competence pix) when one competence is totally false', async () => {
+        it('should return totalScore = (all pix - one competence pix) when one competence is totally false', async function() {
           // given
           certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
 
@@ -352,7 +352,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.totalScore).to.equal(totalPix - pixForCompetence4);
         });
 
-        it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', async () => {
+        it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', async function() {
           // given
           certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
           const expectedCertifiedCompetences = [{
@@ -379,12 +379,12 @@ describe('Unit | Service | Certification Result Service', function() {
         });
       });
 
-      context('when reproducibility rate is between 50% and 80%', () => {
-        beforeEach(() => {
+      context('when reproducibility rate is between 50% and 80%', function() {
+        beforeEach(function() {
           certificationAssessment.certificationAnswersByDate = answersWithReproducibilityRateLessThan80();
         });
 
-        it('should return totalScore = all pix minus 8 for one competence with 1 error and minus all pix for others false competences', async () => {
+        it('should return totalScore = all pix minus 8 for one competence with 1 error and minus all pix for others false competences', async function() {
           // given
           const malusForFalseAnswer = 8;
           const expectedScore = totalPix - pixForCompetence3 - 2 * malusForFalseAnswer;
@@ -396,7 +396,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.totalScore).to.equal(expectedScore);
         });
 
-        it('should return list of competences with certifiedLevel less or equal to estimatedLevel', async () => {
+        it('should return list of competences with certifiedLevel less or equal to estimatedLevel', async function() {
           // given
           const malusForFalseAnswer = 8;
           const expectedCertifiedCompetences = [{
@@ -445,7 +445,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
 
-        it('should return a object contains information about competences and challenges', async () => {
+        it('should return a object contains information about competences and challenges', async function() {
           // given
           const malusForFalseAnswer = 8;
           const expectedCertifiedCompetences = [{
@@ -592,11 +592,11 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result).to.deep.equal(expectedResult);
         });
 
-        context('when one competence is evaluated with 3 challenges', () => {
+        context('when one competence is evaluated with 3 challenges', function() {
 
-          context('with one OK, one KO and one QROCM-dep OK', () => {
+          context('with one OK, one KO and one QROCM-dep OK', function() {
 
-            it('should return level obtained equal to level positioned minus one', async () => {
+            it('should return level obtained equal to level positioned minus one', async function() {
               // Given
               const positionedLevel = 2;
               const positionedScore = 20;
@@ -641,10 +641,10 @@ describe('Unit | Service | Certification Result Service', function() {
       });
     });
 
-    describe('Calculate certification result when assessment is completed (stop on error)', () => {
+    describe('Calculate certification result when assessment is completed (stop on error)', function() {
       const continueOnError = false;
 
-      beforeEach(() => {
+      beforeEach(function() {
         certificationAssessment.certificationAnswersByDate = wrongAnswersForAllChallenges();
         certificationAssessment.certificationChallenges = challenges;
         sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
@@ -656,7 +656,7 @@ describe('Unit | Service | Certification Result Service', function() {
         }).resolves({ userCompetences });
       });
 
-      it('should retrieve challenges list', async () => {
+      it('should retrieve challenges list', async function() {
         // when
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -664,7 +664,7 @@ describe('Unit | Service | Certification Result Service', function() {
         sinon.assert.calledOnce(challengeRepository.findOperative);
       });
 
-      it('should retrieve competences list', async () => {
+      it('should retrieve competences list', async function() {
         // when
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -672,9 +672,9 @@ describe('Unit | Service | Certification Result Service', function() {
         sinon.assert.calledOnce(competenceRepository.listPixCompetencesOnly);
       });
 
-      context('when reproducibility rate is < 50%', () => {
+      context('when reproducibility rate is < 50%', function() {
 
-        it('should return totalScore = 0', async () => {
+        it('should return totalScore = 0', async function() {
           // when
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -682,7 +682,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.totalScore).to.equal(0);
         });
 
-        it('should return list of competences with all certifiedLevel at -1', async () => {
+        it('should return list of competences with all certifiedLevel at -1', async function() {
           // given
           const expectedCertifiedCompetences = [{
             index: '1.1',
@@ -734,13 +734,13 @@ describe('Unit | Service | Certification Result Service', function() {
         });
       });
 
-      context('when reproducibility rate is between 80% and 100%', () => {
+      context('when reproducibility rate is between 80% and 100%', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           certificationAssessment.certificationAnswersByDate = correctAnswersForAllChallenges();
         });
 
-        it('should return totalScore = all pix', async () => {
+        it('should return totalScore = all pix', async function() {
           // when
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -748,7 +748,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.totalScore).to.equal(totalPix);
         });
 
-        it('should ignore answers with no matching challenge', async () => {
+        it('should ignore answers with no matching challenge', async function() {
           // given
           const answerNoMatchingChallenge = domainBuilder.buildAnswer({ challengeId: 'non_existing_challenge', result: 'ok' });
           certificationAssessment.certificationAnswersByDate = [...correctAnswersForAllChallenges(), answerNoMatchingChallenge ];
@@ -760,7 +760,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.listChallengesAndAnswers.length).to.equal(correctAnswersForAllChallenges().length);
         });
 
-        it('should return list of competences with all certifiedLevel equal to estimatedLevel', async () => {
+        it('should return list of competences with all certifiedLevel equal to estimatedLevel', async function() {
           // given
           const expectedCertifiedCompetences = [
             {
@@ -809,7 +809,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
 
-        it('should return totalScore = (all pix - one competence pix) when one competence is totally false', async () => {
+        it('should return totalScore = (all pix - one competence pix) when one competence is totally false', async function() {
           // given
           certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
 
@@ -820,7 +820,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.totalScore).to.equal(totalPix - pixForCompetence4);
         });
 
-        it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', async () => {
+        it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', async function() {
           // given
           certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
           const expectedCertifiedCompetences = [{
@@ -869,13 +869,13 @@ describe('Unit | Service | Certification Result Service', function() {
         });
       });
 
-      context('when reproducibility rate is between 50% and 80%', () => {
+      context('when reproducibility rate is between 50% and 80%', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           certificationAssessment.certificationAnswersByDate = answersWithReproducibilityRateLessThan80();
         });
 
-        it('should return totalScore = all pix minus 8 for one competence with 1 error and minus all pix for others false competences', async () => {
+        it('should return totalScore = all pix minus 8 for one competence with 1 error and minus all pix for others false competences', async function() {
           // given
           const malusForFalseAnswer = 8;
           const expectedScore = totalPix - pixForCompetence3 - 2 * malusForFalseAnswer;
@@ -887,7 +887,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.totalScore).to.equal(expectedScore);
         });
 
-        it('should return list of competences with certifiedLevel less or equal to estimatedLevel', async () => {
+        it('should return list of competences with certifiedLevel less or equal to estimatedLevel', async function() {
           // given
           const malusForFalseAnswer = 8;
           const expectedCertifiedCompetences = [{
@@ -937,8 +937,8 @@ describe('Unit | Service | Certification Result Service', function() {
 
       });
 
-      context('when challenges contains one QROCM-dep challenge to validate two skills', () => {
-        beforeEach(() => {
+      context('when challenges contains one QROCM-dep challenge to validate two skills', function() {
+        beforeEach(function() {
           const listChallengeComp5WithOneQROCMDEPChallengeAndAnother = _.map([
             { id: 'challenge_A_for_competence_5', competenceId: 'competence_5', type: 'QCM' },
             { id: 'challenge_B_for_competence_5', competenceId: 'competence_5', type: 'QROCM-dep' },
@@ -972,7 +972,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
         });
 
-        it('should compute the result as if QROCM-dep was two OK challenges', async () => {
+        it('should compute the result as if QROCM-dep was two OK challenges', async function() {
           // given
           const answers = _.map([
             ({ challengeId: 'challenge_A_for_competence_5', result: 'ok' }),
@@ -1010,7 +1010,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
 
-        it('should compute the result of QROCM-dep as only one OK because result is partially right', async () => {
+        it('should compute the result of QROCM-dep as only one OK because result is partially right', async function() {
           // given
           const answers = _.map([
             { challengeId: 'challenge_A_for_competence_5', result: 'ok' },
@@ -1049,10 +1049,10 @@ describe('Unit | Service | Certification Result Service', function() {
         });
       });
 
-      context('when there are challenges for non-certifiable competences', () => {
+      context('when there are challenges for non-certifiable competences', function() {
         let challenges;
 
-        beforeEach(() => {
+        beforeEach(function() {
           challenges = _.map([
             { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1' },
 
@@ -1070,7 +1070,7 @@ describe('Unit | Service | Certification Result Service', function() {
           certificationAssessment.certificationAnswersByDate = answers;
         });
 
-        it('should not include the extra challenges when computing reproducibility', async () => {
+        it('should not include the extra challenges when computing reproducibility', async function() {
           // when
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -1078,7 +1078,7 @@ describe('Unit | Service | Certification Result Service', function() {
           expect(result.percentageCorrectAnswers).to.equal(0);
         });
 
-        it('should not include the extra challenges in the result', async () => {
+        it('should not include the extra challenges in the result', async function() {
           // when
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
@@ -1093,11 +1093,11 @@ describe('Unit | Service | Certification Result Service', function() {
 
   });
 
-  describe('#computeAnswersSuccessRate', () => {
+  describe('#computeAnswersSuccessRate', function() {
 
-    context('when all answers are OK', () => {
+    context('when all answers are OK', function() {
 
-      it('should have a success rate of 100%', () => {
+      it('should have a success rate of 100%', function() {
         // given
         const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'ok' })];
 
@@ -1109,9 +1109,9 @@ describe('Unit | Service | Certification Result Service', function() {
       });
     });
 
-    context('when all answers are KO', () => {
+    context('when all answers are KO', function() {
 
-      it('should have a success rate of 0%', () => {
+      it('should have a success rate of 0%', function() {
         // given
         const answers = [new Answer({ result: 'ko' }), new Answer({ result: 'ko' })];
 
@@ -1123,9 +1123,9 @@ describe('Unit | Service | Certification Result Service', function() {
       });
     });
 
-    context('when the answers are a mixed of valid and wrong answers', () => {
+    context('when the answers are a mixed of valid and wrong answers', function() {
 
-      it('should have a success rate of 50% with 1W and 1R', () => {
+      it('should have a success rate of 50% with 1W and 1R', function() {
         // given
         const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'ko' })];
 
@@ -1136,7 +1136,7 @@ describe('Unit | Service | Certification Result Service', function() {
         expect(reproducibilityRate).to.equal(50);
       });
 
-      it('should have a success rate of 33.3% with 2W and 1R', () => {
+      it('should have a success rate of 33.3% with 2W and 1R', function() {
         // given
         const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'aband' }), new Answer({ result: 'ko' })];
 

@@ -2,17 +2,17 @@ const { expect, sinon } = require('../../test-helper');
 
 const { ScriptQueryBuilder, AssessmentEraser } = require('../../../scripts/delete-assessment');
 
-describe('Delete Assessment Script', () => {
-  describe('ScriptQueryBuilder', () => {
+describe('Delete Assessment Script', function() {
+  describe('ScriptQueryBuilder', function() {
     let subject;
 
-    beforeEach(() => {
+    beforeEach(function() {
       subject = new ScriptQueryBuilder();
     });
 
-    describe('#delete_assessment_from_id', () => {
+    describe('#delete_assessment_from_id', function() {
 
-      it('should return the correct query', () => {
+      it('should return the correct query', function() {
         // given
         const assessmentId = 213;
 
@@ -25,8 +25,8 @@ describe('Delete Assessment Script', () => {
 
     });
 
-    describe('#delete_assessment_results_from_assessment_ids', () => {
-      it('should return the correct query', () => {
+    describe('#delete_assessment_results_from_assessment_ids', function() {
+      it('should return the correct query', function() {
         // given
         const assessment_id = 123;
 
@@ -38,8 +38,8 @@ describe('Delete Assessment Script', () => {
       });
     });
 
-    describe('#delete_competence_marks_from_assessment_ids', () => {
-      it('should return the correct query', () => {
+    describe('#delete_competence_marks_from_assessment_ids', function() {
+      it('should return the correct query', function() {
         // given
         const assessment_id = 123;
 
@@ -51,8 +51,8 @@ describe('Delete Assessment Script', () => {
       });
     });
 
-    describe('#delete_feedbacks_from_assessment_ids', () => {
-      it('should return the correct query', () => {
+    describe('#delete_feedbacks_from_assessment_ids', function() {
+      it('should return the correct query', function() {
         // given
         const assessment_id = 123;
 
@@ -64,8 +64,8 @@ describe('Delete Assessment Script', () => {
       });
     });
 
-    describe('#delete_answers_from_assessment_ids', () => {
-      it('should return the correct query', () => {
+    describe('#delete_answers_from_assessment_ids', function() {
+      it('should return the correct query', function() {
         // given
         const assessment_id = 123;
 
@@ -78,14 +78,14 @@ describe('Delete Assessment Script', () => {
     });
   });
 
-  describe('AssessmentEraser', () => {
+  describe('AssessmentEraser', function() {
     let subject;
     let queryBuilder;
     let queryBuilderMock;
     let clientStub;
     const assessment_id = 1345;
 
-    beforeEach(() => {
+    beforeEach(function() {
       queryBuilder = new ScriptQueryBuilder();
       clientStub = { query_and_log: sinon.stub() };
 
@@ -93,9 +93,9 @@ describe('Delete Assessment Script', () => {
       subject = new AssessmentEraser(clientStub, queryBuilder, assessment_id);
     });
 
-    describe('#delete_dependent_data_from_assessment_id', () => {
+    describe('#delete_dependent_data_from_assessment_id', function() {
 
-      it('should reject an error when no assessment given', () => {
+      it('should reject an error when no assessment given', function() {
         // given
         const userEraserWithoutAssessment = new AssessmentEraser(clientStub, queryBuilder, null);
 
@@ -106,7 +106,7 @@ describe('Delete Assessment Script', () => {
         return expect(promise).to.be.rejectedWith(Error, 'Missing argument : an assessment id should be provided');
       });
 
-      it('should delete feedbacks, answers, competence-marks and assessment-results', () => {
+      it('should delete feedbacks, answers, competence-marks and assessment-results', function() {
         // when
         const promise = subject.delete_dependent_data_from_assessment_id();
 
@@ -122,9 +122,9 @@ describe('Delete Assessment Script', () => {
       });
     });
 
-    describe('#delete_assessment_from_id', () => {
+    describe('#delete_assessment_from_id', function() {
 
-      it('should return the correct query', () => {
+      it('should return the correct query', function() {
         // given
         queryBuilderMock.expects('delete_assessment_from_id').once().withArgs(assessment_id);
 

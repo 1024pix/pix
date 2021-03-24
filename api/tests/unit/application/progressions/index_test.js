@@ -8,11 +8,11 @@ const moduleUnderTest = require('../../../../lib/application/progressions');
 
 const progressionController = require('../../../../lib/application/progressions/progression-controller');
 
-describe('Unit | Router | progression-router', () => {
+describe('Unit | Router | progression-router', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(progressionController, 'get').callsFake((request, h) => h.response().code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
@@ -20,7 +20,7 @@ describe('Unit | Router | progression-router', () => {
 
   describe('GET /api/progressions/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/progressions/1');
 

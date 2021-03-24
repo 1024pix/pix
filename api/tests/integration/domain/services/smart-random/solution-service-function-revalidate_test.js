@@ -11,7 +11,7 @@ describe('Integration | Service | SolutionService', function() {
 
     let ko_answer, ok_answer, unimplemented_answer;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const assessmentId = databaseBuilder.factory.buildAssessment().id;
       ko_answer = domainBuilder.buildAnswer(
         { id: 1,
@@ -38,7 +38,7 @@ describe('Integration | Service | SolutionService', function() {
       return databaseBuilder.commit();
     });
 
-    it('If the answer is ko, resolve to the answer itself, with result corresponding to the matching', async () => {
+    it('If the answer is ko, resolve to the answer itself, with result corresponding to the matching', async function() {
 
       // given
       const MATCHING_RETURNS = { result: '#ANY_RESULT#', resultDetails: null };
@@ -58,7 +58,7 @@ describe('Integration | Service | SolutionService', function() {
 
     });
 
-    it('If the answer is ok, resolve to the answer itself, with result corresponding to the matching', async () => {
+    it('If the answer is ok, resolve to the answer itself, with result corresponding to the matching', async function() {
 
       // given
       const MATCHING_RETURNS = { result: '#ANY_RESULT#', resultDetails: null };
@@ -78,7 +78,7 @@ describe('Integration | Service | SolutionService', function() {
       expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS.result);
     });
 
-    it('If the answer is unimplemented, resolve to the answer itself, with result corresponding to the matching', async() => {
+    it('If the answer is unimplemented, resolve to the answer itself, with result corresponding to the matching', async function() {
 
       // given
       const MATCHING_RETURNS = { result: '#ANY_RESULT#', resultDetails: null };

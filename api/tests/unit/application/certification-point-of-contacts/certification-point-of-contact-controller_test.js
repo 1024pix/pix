@@ -2,15 +2,15 @@ const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const certificationPointOfContactController = require('../../../../lib/application/certification-point-of-contacts/certification-point-of-contact-controller');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | Controller | certifications-point-of-contact-controller', () => {
+describe('Unit | Controller | certifications-point-of-contact-controller', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getCertificationPointOfContact');
     });
 
-    it('should return a serialized CertificationReferent', async () => {
+    it('should return a serialized CertificationReferent', async function() {
       // given
       const userId = 123;
       const certificationCenter = { id: 1, name: 'Serre tiff', type: 'SCO', externalId: 'externalId', isRelatedOrganizationManagingStudents: false };

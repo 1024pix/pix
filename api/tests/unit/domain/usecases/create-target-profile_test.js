@@ -3,7 +3,7 @@ const { TargetProfileInvalidError } = require('../../../../lib/domain/errors');
 const { expect, catchErr, sinon } = require('../../../test-helper');
 const createTargetProfile = require('../../../../lib/domain/usecases/create-target-profile');
 
-describe('Unit | UseCase | create-target-profile', () => {
+describe('Unit | UseCase | create-target-profile', function() {
   let targetProfileRepositoryStub;
   let targetProfileWithLearningContentRepositoryStub;
 
@@ -13,7 +13,7 @@ describe('Unit | UseCase | create-target-profile', () => {
   const isPublic = false;
   const imageUrl = 'myurlsample';
 
-  beforeEach(() => {
+  beforeEach(function() {
     targetProfileRepositoryStub = {
       create: sinon.stub(),
     };
@@ -24,7 +24,7 @@ describe('Unit | UseCase | create-target-profile', () => {
 
   });
 
-  it('should create target profile with skills given data', async () => {
+  it('should create target profile with skills given data', async function() {
     const skillsId = ['skill1-tube1', 'skill3-tube1'];
     const targetProfile = Symbol('ok');
     //given
@@ -45,7 +45,7 @@ describe('Unit | UseCase | create-target-profile', () => {
     expect(result).to.equal(targetProfile);
   });
 
-  it('should return TargetProfileInvalidError given empty skills', async () => {
+  it('should return TargetProfileInvalidError given empty skills', async function() {
     const skillsId = [];
     //given
     const targetProfileData = {

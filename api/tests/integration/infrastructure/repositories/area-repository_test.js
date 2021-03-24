@@ -3,9 +3,9 @@ const { expect, mockLearningContent } = require('../../../test-helper');
 const Area = require('../../../../lib/domain/models/Area');
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
 
-describe('Integration | Repository | area-repository', () => {
+describe('Integration | Repository | area-repository', function() {
 
-  describe('#list', () => {
+  describe('#list', function() {
     const area0 = {
       id: 'recArea0',
       code: 'area0code',
@@ -27,11 +27,11 @@ describe('Integration | Repository | area-repository', () => {
 
     const learningContent = { areas: [area0, area1] };
 
-    beforeEach(() => {
+    beforeEach(function() {
       mockLearningContent(learningContent);
     });
 
-    it('should return all areas without fetching competences', async () => {
+    it('should return all areas without fetching competences', async function() {
       // when
       const areas = await areaRepository.list();
 
@@ -45,9 +45,9 @@ describe('Integration | Repository | area-repository', () => {
     });
   });
 
-  describe('#listWithPixCompetencesOnly', () => {
+  describe('#listWithPixCompetencesOnly', function() {
 
-    context('when there are areas that do not have pix competences', () => {
+    context('when there are areas that do not have pix competences', function() {
       const learningContent = {
         areas: [{
           id: 'recArea0',
@@ -61,11 +61,11 @@ describe('Integration | Repository | area-repository', () => {
         competences: [{ id: 'recCompetence0', origin: 'NotPix' }],
       };
 
-      beforeEach(() => {
+      beforeEach(function() {
         mockLearningContent(learningContent);
       });
 
-      it('should ignore the area', async () => {
+      it('should ignore the area', async function() {
         // when
         const areas = await areaRepository.listWithPixCompetencesOnly();
 
@@ -74,7 +74,7 @@ describe('Integration | Repository | area-repository', () => {
       });
     });
 
-    context('when there are areas that have pix competences', () => {
+    context('when there are areas that have pix competences', function() {
       const area0 = {
         id: 'recArea0',
         code: 'area0code',
@@ -105,11 +105,11 @@ describe('Integration | Repository | area-repository', () => {
         ],
       };
 
-      beforeEach(() => {
+      beforeEach(function() {
         mockLearningContent(learningContent);
       });
 
-      it('should return the areas with only pix competences in it', async () => {
+      it('should return the areas with only pix competences in it', async function() {
         // when
         const areas = await areaRepository.listWithPixCompetencesOnly();
 

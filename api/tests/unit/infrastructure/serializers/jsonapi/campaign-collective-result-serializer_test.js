@@ -2,11 +2,11 @@ const _ = require('lodash');
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 
-describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer', () => {
+describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should return a serialized JSON data object', () => {
+    it('should return a serialized JSON data object', function() {
       // given
       const campaignId = 123;
 

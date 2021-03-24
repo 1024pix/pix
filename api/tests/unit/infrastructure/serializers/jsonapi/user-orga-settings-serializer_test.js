@@ -2,11 +2,11 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer');
 const UserOrgaSettings = require('../../../../../lib/domain/models/UserOrgaSettings');
 
-describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', () => {
+describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should convert a UserOrgaSettings model object into JSON API data', () => {
+    it('should convert a UserOrgaSettings model object into JSON API data', function() {
       // given
       const userOrgaSettings = new UserOrgaSettings({
         id: 5,
@@ -100,7 +100,7 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', () => {
       expect(json).to.deep.equal(expectedSerializedUserOrgaSettings);
     });
 
-    it('should include "organization"', () => {
+    it('should include "organization"', function() {
       // given
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings();
 
@@ -120,7 +120,7 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', () => {
       });
     });
 
-    it('should include "user"', () => {
+    it('should include "user"', function() {
       // given
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings();
 
@@ -138,7 +138,7 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', () => {
       });
     });
 
-    it('should not force the add of campaigns and target profiles relation links if the UserOrgaSettings does not contain organization data', () => {
+    it('should not force the add of campaigns and target profiles relation links if the UserOrgaSettings does not contain organization data', function() {
       // given
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings();
       userOrgaSettings.currentOrganization = null;
@@ -150,7 +150,7 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', () => {
       expect(json.data.relationships.organization.data).to.be.null;
     });
 
-    it('should not force the add of user relation link if user is undefined', () => {
+    it('should not force the add of user relation link if user is undefined', function() {
       // given
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings();
       userOrgaSettings.user = undefined;

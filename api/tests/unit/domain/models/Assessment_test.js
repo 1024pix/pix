@@ -1,11 +1,11 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Unit | Domain | Models | Assessment', () => {
+describe('Unit | Domain | Models | Assessment', function() {
 
-  describe('#isCompleted', () => {
+  describe('#isCompleted', function() {
 
-    it('should return true when its state is completed', () => {
+    it('should return true when its state is completed', function() {
       // given
       const assessment = new Assessment({ state: 'completed' });
 
@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(isCompleted).to.be.true;
     });
 
-    it('should return false when its state is not completed', () => {
+    it('should return false when its state is not completed', function() {
       // given
       const assessment = new Assessment({ state: '' });
 
@@ -29,9 +29,9 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   });
 
-  describe('#setCompleted', () => {
+  describe('#setCompleted', function() {
 
-    it('should return the same object with state completed', () => {
+    it('should return the same object with state completed', function() {
       // given
       const assessment = new Assessment({ state: 'started', userId: 2 });
 
@@ -45,10 +45,10 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#validate', () => {
+  describe('#validate', function() {
     let assessment;
 
-    it('should return resolved promise when object is valid', () => {
+    it('should return resolved promise when object is valid', function() {
       // given
       assessment = new Assessment({ type: 'DEMO' });
 
@@ -59,7 +59,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       return expect(promise).to.be.fulfilled;
     });
 
-    it('should return rejected promise when Certification assessment has no userId', () => {
+    it('should return rejected promise when Certification assessment has no userId', function() {
       //given
       assessment = new Assessment({ type: 'CERTIFICATION' });
 
@@ -70,7 +70,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       return expect(promise).to.be.rejected;
     });
 
-    it('should return rejected promise when Competence evaluation assessment has no userId', () => {
+    it('should return rejected promise when Competence evaluation assessment has no userId', function() {
       //given
       assessment = new Assessment({ type: 'COMPETENCE_EVALUATION' });
 
@@ -81,7 +81,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       return expect(promise).to.be.rejected;
     });
 
-    it('should return rejected promise when Campaign assessment has no userId', () => {
+    it('should return rejected promise when Campaign assessment has no userId', function() {
       //given
       assessment = new Assessment({ type: 'CAMPAIGN' });
 
@@ -93,8 +93,8 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#isForCampaign', () => {
-    it('should return true when the assessment is for a CAMPAIGN', () => {
+  describe('#isForCampaign', function() {
+    it('should return true when the assessment is for a CAMPAIGN', function() {
       // given
       const assessment = new Assessment({ type: 'CAMPAIGN' });
 
@@ -105,7 +105,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(isForCampaign).to.be.true;
     });
 
-    it('should return false when the assessment is not a CAMPAIGN type', () => {
+    it('should return false when the assessment is not a CAMPAIGN type', function() {
       // given
       const assessment = new Assessment({ type: 'PLACEMENT' });
 
@@ -116,7 +116,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(isForCampaign).to.be.false;
     });
 
-    it('should return false when the assessment has no type', () => {
+    it('should return false when the assessment has no type', function() {
       // given
       const assessment = new Assessment({});
 
@@ -128,8 +128,8 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#isCertification', () => {
-    it('should return true when the assessment is a CERTIFICATION', () => {
+  describe('#isCertification', function() {
+    it('should return true when the assessment is a CERTIFICATION', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: 'CERTIFICATION' });
 
@@ -140,7 +140,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(isCertificationAssessment).to.be.true;
     });
 
-    it('should return false when the assessment is not a CERTIFICATION', () => {
+    it('should return false when the assessment is not a CERTIFICATION', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: 'PLACEMENT' });
 
@@ -151,7 +151,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(isCertificationAssessment).to.be.false;
     });
 
-    it('should return false when the assessment has no type', () => {
+    it('should return false when the assessment has no type', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: null });
 
@@ -163,9 +163,9 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#isPreview', () => {
+  describe('#isPreview', function() {
 
-    it('should return true when the assessment is a preview', () => {
+    it('should return true when the assessment is a preview', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.PREVIEW });
 
@@ -173,7 +173,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.isPreview()).to.be.true;
     });
 
-    it('should return false when the assessment is not a preview', () => {
+    it('should return false when the assessment is not a preview', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: 'otherType' });
 
@@ -182,9 +182,9 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#isDemo', () => {
+  describe('#isDemo', function() {
 
-    it('should return true when the assessment is a demo', () => {
+    it('should return true when the assessment is a demo', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.DEMO });
 
@@ -192,7 +192,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.isDemo()).to.be.true;
     });
 
-    it('should return false when the assessment is not a demo', () => {
+    it('should return false when the assessment is not a demo', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: 'otherType' });
 
@@ -201,9 +201,9 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#isCompetenceEvaluation', () => {
+  describe('#isCompetenceEvaluation', function() {
 
-    it('should return true when the assessment is a CompetenceEvaluation', () => {
+    it('should return true when the assessment is a CompetenceEvaluation', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.COMPETENCE_EVALUATION });
 
@@ -211,7 +211,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.isCompetenceEvaluation()).to.be.true;
     });
 
-    it('should return false when the assessment is not a CompetenceEvaluation', () => {
+    it('should return false when the assessment is not a CompetenceEvaluation', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CAMPAIGN });
 
@@ -219,7 +219,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.isCompetenceEvaluation()).to.be.false;
     });
 
-    it('should return false when the assessment has no type', () => {
+    it('should return false when the assessment has no type', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: null });
 
@@ -228,9 +228,9 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#hasKnowledgeElements', () => {
+  describe('#hasKnowledgeElements', function() {
 
-    it('should return true when the assessment is a CompetenceEvaluation', () => {
+    it('should return true when the assessment is a CompetenceEvaluation', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.COMPETENCE_EVALUATION });
 
@@ -238,7 +238,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.hasKnowledgeElements()).to.be.true;
     });
 
-    it('should return true when the assessment is a Campaign assessment', () => {
+    it('should return true when the assessment is a Campaign assessment', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CAMPAIGN });
 
@@ -246,7 +246,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.hasKnowledgeElements()).to.be.true;
     });
 
-    it('should return false when the assessment is not a CompetenceEvaluation nor Campaign', () => {
+    it('should return false when the assessment is not a CompetenceEvaluation nor Campaign', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CERTIFICATION });
 
@@ -254,7 +254,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.hasKnowledgeElements()).to.be.false;
     });
 
-    it('should return false when the assessment has no type', () => {
+    it('should return false when the assessment has no type', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ type: null });
 
@@ -263,9 +263,9 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#start', () => {
+  describe('#start', function() {
 
-    it('should set the status to "started"', () => {
+    it('should set the status to "started"', function() {
       // given
       const assessment = domainBuilder.buildAssessment({ status: undefined });
 
@@ -278,9 +278,9 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   });
 
-  describe('#createForCertificationCourse', () => {
+  describe('#createForCertificationCourse', function() {
 
-    it('should return a proper assessment for certification course', () => {
+    it('should return a proper assessment for certification course', function() {
       // given
       const userId = 123;
       const certificationCourseId = 456;
@@ -297,9 +297,9 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#createForCampaign', () => {
+  describe('#createForCampaign', function() {
 
-    it('should return a proper assessment for campaign', () => {
+    it('should return a proper assessment for campaign', function() {
       // given
       const userId = 123;
       const campaignParticipationId = 456;
@@ -317,9 +317,9 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#createImprovingForCampaign', () => {
+  describe('#createImprovingForCampaign', function() {
 
-    it('should return a proper improving assessment for campaign', () => {
+    it('should return a proper improving assessment for campaign', function() {
       // given
       const userId = 123;
       const campaignParticipationId = 456;
@@ -337,9 +337,9 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#createForCompetenceEvaluation', () => {
+  describe('#createForCompetenceEvaluation', function() {
 
-    it('should return a proper assessment for competence evaluation', () => {
+    it('should return a proper assessment for competence evaluation', function() {
       // given
       const userId = 123;
       const competenceId = 'rec123ABC';
@@ -357,9 +357,9 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#createImprovingForCompetenceEvaluation', () => {
+  describe('#createImprovingForCompetenceEvaluation', function() {
 
-    it('should return a proper improving assessment for competence evaluation', () => {
+    it('should return a proper improving assessment for competence evaluation', function() {
       // given
       const userId = 123;
       const competenceId = 'rec123ABC';

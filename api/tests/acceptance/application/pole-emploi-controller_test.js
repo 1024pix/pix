@@ -3,15 +3,15 @@ const createServer = require('../../../server');
 const authenticationCache = require('../../../lib/infrastructure/caches/authentication-cache');
 const jsonwebtoken = require('jsonwebtoken');
 
-describe('Acceptance | API | Pole Emploi Controller', () => {
+describe('Acceptance | API | Pole Emploi Controller', function() {
 
   let server, request;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('POST /api/certification-centers', () => {
+  describe('POST /api/certification-centers', function() {
 
     const userAuthenticationKey = 'userAuthenticationKey';
 
@@ -19,7 +19,7 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
     const lastName = 'lastName';
     const externalIdentifier = 'idIdentiteExterne';
 
-    beforeEach(() => {
+    beforeEach(function() {
       const idToken = jsonwebtoken.sign({
         'given_name': firstName,
         'family_name': lastName,
@@ -41,12 +41,12 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
       };
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('authentication-methods').delete();
       await knex('users').delete();
     });
 
-    it('should return 200 HTTP status', async () => {
+    it('should return 200 HTTP status', async function() {
       // when
       const response = await server.inject(request);
 

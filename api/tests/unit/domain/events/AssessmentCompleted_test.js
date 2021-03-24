@@ -1,10 +1,10 @@
 const { expect } = require('../../../test-helper');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
-describe('Unit | Domain | Events | AssessmentCompleted', () => {
+describe('Unit | Domain | Events | AssessmentCompleted', function() {
 
-  describe('#isCertificationType', () => {
-    it('should return true when assessment is of type certification', () => {
+  describe('#isCertificationType', function() {
+    it('should return true when assessment is of type certification', function() {
       // given
       const assessmentCompleted = new AssessmentCompleted({
         certificationCourseId: 123,
@@ -13,7 +13,7 @@ describe('Unit | Domain | Events | AssessmentCompleted', () => {
       // when / then
       expect(assessmentCompleted.isCertificationType).to.be.true;
     });
-    it('should return true when assessment is not of type certification', () => {
+    it('should return true when assessment is not of type certification', function() {
       // given
       const assessmentCompleted = new AssessmentCompleted({
         certificationCourseId: null,
@@ -24,8 +24,8 @@ describe('Unit | Domain | Events | AssessmentCompleted', () => {
     });
   });
 
-  describe('#isCampaignType', () => {
-    it('should return true when assessment is of type campaign', () => {
+  describe('#isCampaignType', function() {
+    it('should return true when assessment is of type campaign', function() {
       // given
       const assessmentCompleted = new AssessmentCompleted({
         campaignParticipationId: 123,
@@ -34,7 +34,7 @@ describe('Unit | Domain | Events | AssessmentCompleted', () => {
       // when / then
       expect(assessmentCompleted.isCampaignType).to.be.true;
     });
-    it('should return true when assessment is not of type campaign', () => {
+    it('should return true when assessment is not of type campaign', function() {
       // given
       const assessmentCompleted = new AssessmentCompleted({
         campaignParticipationId: null,

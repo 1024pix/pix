@@ -5,11 +5,11 @@ const { CertificationCandidatesImportError } = require('../../../../../lib/domai
 const { readFile } = require('fs').promises;
 const _ = require('lodash');
 
-describe('Integration | Services | extractCertificationCandidatesFromAttendanceSheet', () => {
+describe('Integration | Services | extractCertificationCandidatesFromAttendanceSheet', function() {
   let userId;
   let sessionId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
@@ -18,8 +18,8 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
     await databaseBuilder.commit();
   });
 
-  context('When attendance sheet is of version different than 1.4', () => {
-    it('should throw a CertificationCandidatesImportError', async () => {
+  context('When attendance sheet is of version different than 1.4', function() {
+    it('should throw a CertificationCandidatesImportError', async function() {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-3_extract_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
@@ -33,9 +33,9 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
     });
   });
 
-  context('When attendance sheet is of version 1.4', () => {
+  context('When attendance sheet is of version 1.4', function() {
 
-    it('should throw a CertificationCandidatesImportError if there is an error in the file', async () => {
+    it('should throw a CertificationCandidatesImportError if there is an error in the file', async function() {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-4_extract_mandatory_ko_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
@@ -48,7 +48,7 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
       expect(error.message).to.contain('Le champ “Prénom” est obligatoire.');
     });
 
-    it('should return extracted and validated certification candidates', async () => {
+    it('should return extracted and validated certification candidates', async function() {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet-1-4_extract_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);

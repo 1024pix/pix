@@ -4,13 +4,13 @@ const usecases = require('../../../../lib/domain/usecases');
 const toBePublishedSessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer');
 const withRequiredActionSessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/with-required-action-session-serializer');
 
-describe('Unit | Controller | finalized-session', () => {
+describe('Unit | Controller | finalized-session', function() {
   let request;
   const userId = 274939274;
 
-  describe('#findFinalizedSessionsToPublish', () => {
+  describe('#findFinalizedSessionsToPublish', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'findFinalizedSessionsToPublish').resolves();
       sinon.stub(toBePublishedSessionSerializer, 'serialize');
 
@@ -24,9 +24,9 @@ describe('Unit | Controller | finalized-session', () => {
       };
     });
 
-    context('When there are finalized publishable sessions', () => {
+    context('When there are finalized publishable sessions', function() {
 
-      it('should find finalized publishable sessions', async () => {
+      it('should find finalized publishable sessions', async function() {
         // given
         const foundFinalizedSessions = Symbol('foundSession');
         const serializedFinalizedSessions = Symbol('serializedSession');
@@ -43,11 +43,11 @@ describe('Unit | Controller | finalized-session', () => {
 
   });
 
-  describe('#findFinalizedSessionsWithRequiredAction', () => {
+  describe('#findFinalizedSessionsWithRequiredAction', function() {
 
-    context('When there are finalized sessions with required action', () => {
+    context('When there are finalized sessions with required action', function() {
 
-      it('should find finalized sessions with required action', async () => {
+      it('should find finalized sessions with required action', async function() {
         // given
         request = {
           payload: { },

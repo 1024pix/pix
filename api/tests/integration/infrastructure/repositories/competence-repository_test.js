@@ -4,10 +4,10 @@ const Area = require('../../../../lib/domain/models/Area');
 const Competence = require('../../../../lib/domain/models/Competence');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 
-describe('Integration | Repository | competence-repository', () => {
+describe('Integration | Repository | competence-repository', function() {
 
-  describe('#get', () => {
-    it('should return the competence with full area (minus name)', async () => {
+  describe('#get', function() {
+    it('should return the competence with full area (minus name)', async function() {
       // given
       const expectedArea = domainBuilder.buildArea();
       const expectedCompetence = domainBuilder.buildCompetence({ area: expectedArea });
@@ -36,7 +36,7 @@ describe('Integration | Repository | competence-repository', () => {
       expect(_.omit(competence.area, 'name')).to.deep.equal(_.omit(expectedCompetence.area, 'name'));
     });
 
-    it('should return the competence with appropriate translations', async () => {
+    it('should return the competence with appropriate translations', async function() {
       // given
       const locale = 'en';
       const expectedArea = domainBuilder.buildArea();
@@ -66,8 +66,8 @@ describe('Integration | Repository | competence-repository', () => {
     });
   });
 
-  describe('#getCompetenceName', () => {
-    it('should return the competence name with appropriate translations', async () => {
+  describe('#getCompetenceName', function() {
+    it('should return the competence name with appropriate translations', async function() {
       // given
       const locale = 'en';
       const expectedArea = domainBuilder.buildArea();
@@ -95,8 +95,8 @@ describe('Integration | Repository | competence-repository', () => {
     });
   });
 
-  describe('#getPixScoreByCompetence', () => {
-    it('should return the user pixScore by competence within date', async () => {
+  describe('#getPixScoreByCompetence', function() {
+    it('should return the user pixScore by competence within date', async function() {
       // given
       const competenceId1 = 'recCompetenceId1';
       const competenceId2 = 'recCompetenceId2';
@@ -114,8 +114,8 @@ describe('Integration | Repository | competence-repository', () => {
     });
   });
 
-  describe('#list', () => {
-    it('should return the competences', async () => {
+  describe('#list', function() {
+    it('should return the competences', async function() {
       // given
       const competence1 = domainBuilder.buildCompetence();
       const competence2 = domainBuilder.buildCompetence();
@@ -143,7 +143,7 @@ describe('Integration | Repository | competence-repository', () => {
       expect(competences).to.deep.include.members([competence1, competence2]);
     });
 
-    it('should return the competences with appropriate translations', async () => {
+    it('should return the competences with appropriate translations', async function() {
       // given
       const locale = 'en';
       const competence = domainBuilder.buildCompetence();
@@ -166,8 +166,8 @@ describe('Integration | Repository | competence-repository', () => {
     });
   });
 
-  describe('#listPixCompetencesOnly', () => {
-    it('should return the competences with only Pix as origin', async () => {
+  describe('#listPixCompetencesOnly', function() {
+    it('should return the competences with only Pix as origin', async function() {
       // given
       const pixCompetence = domainBuilder.buildCompetence({ origin: 'Pix' });
       const nonPixCompetence = domainBuilder.buildCompetence({ origin: 'Continuum Espace temps' });
@@ -196,7 +196,7 @@ describe('Integration | Repository | competence-repository', () => {
       expect(competences[0]).to.deep.equal(pixCompetence);
     });
 
-    it('should return the competences with appropriate translations', async () => {
+    it('should return the competences with appropriate translations', async function() {
       // given
       const locale = 'en';
       const competence = domainBuilder.buildCompetence({ origin: 'Pix' });

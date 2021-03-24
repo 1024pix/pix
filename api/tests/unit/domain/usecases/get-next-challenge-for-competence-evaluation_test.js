@@ -3,9 +3,9 @@ const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain
 const getNextChallengeForCompetenceEvaluation = require('../../../../lib/domain/usecases/get-next-challenge-for-competence-evaluation');
 const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
 
-describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluation', () => {
+describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluation', function() {
 
-  describe('#getNextChallengeForCompetenceEvaluation', () => {
+  describe('#getNextChallengeForCompetenceEvaluation', function() {
 
     let userId, assessmentId, competenceId,
       assessment, lastAnswer, challenges, targetSkills, locale,
@@ -14,7 +14,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       recentKnowledgeElements, actualComputedChallenge,
       challengeUrl21, challengeUrl22, improvementService;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
 
       userId = 'dummyUserId';
       competenceId = 'dummyCompetenceId';
@@ -50,9 +50,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       });
     });
 
-    context('when user is not related to assessment', () => {
+    context('when user is not related to assessment', function() {
       let requestErr;
-      beforeEach(async () => {
+      beforeEach(async function() {
         requestErr = await catchErr(getNextChallengeForCompetenceEvaluation)({
           assessment,
           userId: userId + 1,
@@ -65,13 +65,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           locale,
         });
       });
-      it('should throw a UserNotAuthorizedToAccessEntityError error', () => {
+      it('should throw a UserNotAuthorizedToAccessEntityError error', function() {
         expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
       });
     });
 
-    context('when user is related to assessment', () => {
-      beforeEach(async () => {
+    context('when user is related to assessment', function() {
+      beforeEach(async function() {
         actualComputedChallenge = await getNextChallengeForCompetenceEvaluation({
           assessment,
           userId,
@@ -84,19 +84,19 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           locale,
         });
       });
-      it('should have fetched the answers', () => {
+      it('should have fetched the answers', function() {
         expect(answerRepository.findByAssessment).to.have.been.calledWithExactly(assessmentId);
       });
 
-      it('should have fetched the most recent knowledge elements', () => {
+      it('should have fetched the most recent knowledge elements', function() {
         expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly({ userId });
       });
 
-      it('should have fetched the challenges', () => {
+      it('should have fetched the challenges', function() {
         expect(challengeRepository.findValidatedByCompetenceId).to.have.been.calledWithExactly(competenceId);
       });
 
-      it('should have fetched the next challenge with only most recent knowledge elements', () => {
+      it('should have fetched the next challenge with only most recent knowledge elements', function() {
         const allAnswers = [lastAnswer];
         expect(smartRandom.getPossibleSkillsForNextChallenge).to.have.been.calledWithExactly({
           allAnswers,
@@ -108,7 +108,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
         });
       });
 
-      it('should have returned the next challenge', () => {
+      it('should have returned the next challenge', function() {
         expect(actualComputedChallenge.id).to.equal(challengeUrl22.id);
       });
     });

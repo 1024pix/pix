@@ -9,7 +9,7 @@ const _ = require('lodash');
 describe('Integration | Infrastructure | Utils | Query Builder', function() {
   let competenceEvaluations;
 
-  beforeEach(() => {
+  beforeEach(function() {
     competenceEvaluations = _.sortBy(_.times(3, databaseBuilder.factory.buildCompetenceEvaluation), 'id');
 
     return databaseBuilder.commit();
@@ -18,7 +18,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
   describe('get', function() {
     let expectedCompetenceEvaluation;
 
-    beforeEach(() => {
+    beforeEach(function() {
       expectedCompetenceEvaluation = competenceEvaluations[0];
     });
 

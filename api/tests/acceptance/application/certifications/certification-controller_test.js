@@ -8,13 +8,13 @@ const {
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Acceptance | API | Certifications', () => {
+describe('Acceptance | API | Certifications', function() {
 
   let server, options;
   let userId;
   let session, certificationCourse, assessment, assessmentResult, badge;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
 
     userId = databaseBuilder.factory.buildUser().id;
@@ -116,9 +116,9 @@ describe('Acceptance | API | Certifications', () => {
     return databaseBuilder.commit();
   });
 
-  describe('GET /api/certifications', () => {
+  describe('GET /api/certifications', function() {
 
-    it('should return 200 HTTP status code', async () => {
+    it('should return 200 HTTP status code', async function() {
       options = {
         method: 'GET',
         url: '/api/certifications',
@@ -158,7 +158,7 @@ describe('Acceptance | API | Certifications', () => {
       ]);
     });
 
-    it('should return 401 HTTP status code if user is not authenticated', async () => {
+    it('should return 401 HTTP status code if user is not authenticated', async function() {
       // given
       const options = {
         method: 'GET',
@@ -173,9 +173,9 @@ describe('Acceptance | API | Certifications', () => {
     });
   });
 
-  describe('GET /api/certifications/:id', () => {
+  describe('GET /api/certifications/:id', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       databaseBuilder.factory.buildCompetenceMark({
         level: 3,
         score: 23,
@@ -187,7 +187,7 @@ describe('Acceptance | API | Certifications', () => {
       return databaseBuilder.commit();
     });
 
-    it('should return 200 HTTP status code and the certification with the result competence tree included', async () => {
+    it('should return 200 HTTP status code and the certification with the result competence tree included', async function() {
       // given
       options = {
         method: 'GET',
@@ -310,7 +310,7 @@ describe('Acceptance | API | Certifications', () => {
       expect(response.result).to.deep.equal(expectedBody);
     });
 
-    it('should return notFound 404 HTTP status code when user is not owner of the certification', async () => {
+    it('should return notFound 404 HTTP status code when user is not owner of the certification', async function() {
       // given
       const unauthenticatedUserId = userId + 1;
       options = {
@@ -327,9 +327,9 @@ describe('Acceptance | API | Certifications', () => {
     });
   });
 
-  describe('GET /api/shared-certifications', () => {
+  describe('GET /api/shared-certifications', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       databaseBuilder.factory.buildCompetenceMark({
         level: 3,
         score: 23,
@@ -341,9 +341,9 @@ describe('Acceptance | API | Certifications', () => {
       return databaseBuilder.commit();
     });
 
-    context('when the given verificationCode is correct', () => {
+    context('when the given verificationCode is correct', function() {
 
-      it('should return 200 HTTP status code and the certification', async () => {
+      it('should return 200 HTTP status code and the certification', async function() {
         // given
         const verificationCode = certificationCourse.verificationCode;
         options = {
@@ -466,9 +466,9 @@ describe('Acceptance | API | Certifications', () => {
       });
     });
 
-    context('when the given verificationCode is incorrect', () => {
+    context('when the given verificationCode is incorrect', function() {
 
-      it('should return 500 HTTP status code when param is missing', async () => {
+      it('should return 500 HTTP status code when param is missing', async function() {
         // given
         options = {
           method: 'POST',
@@ -483,7 +483,7 @@ describe('Acceptance | API | Certifications', () => {
         expect(response.statusCode).to.equal(500);
       });
 
-      it('should return notFound 404 HTTP status code when param is incorrect', async () => {
+      it('should return notFound 404 HTTP status code when param is incorrect', async function() {
         // given
         const verificationCode = 'P-WRONG-CODE';
         options = {
@@ -502,9 +502,9 @@ describe('Acceptance | API | Certifications', () => {
 
   });
 
-  describe('GET /api/attestation/pdf', () => {
+  describe('GET /api/attestation/pdf', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       databaseBuilder.factory.buildCompetenceMark({
         level: 3,
         score: 23,
@@ -516,8 +516,8 @@ describe('Acceptance | API | Certifications', () => {
       return databaseBuilder.commit();
     });
 
-    context('when user own the certification', () => {
-      it('should return 200 HTTP status code and the certification', async () => {
+    context('when user own the certification', function() {
+      it('should return 200 HTTP status code and the certification', async function() {
         // given
         options = {
           method: 'GET',

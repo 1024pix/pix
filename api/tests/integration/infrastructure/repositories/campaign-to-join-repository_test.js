@@ -3,11 +3,11 @@ const campaignToJoinRepository = require('../../../../lib/infrastructure/reposit
 const CampaignToJoin = require('../../../../lib/domain/read-models/CampaignToJoin');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Repository | CampaignToJoin', () => {
+describe('Integration | Repository | CampaignToJoin', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    it('should return the CampaignToJoin', async () => {
+    it('should return the CampaignToJoin', async function() {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const organization = databaseBuilder.factory.buildOrganization();
@@ -38,7 +38,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(actualCampaign.targetProfileImageUrl).to.deep.equal(targetProfile.imageUrl);
     });
 
-    it('should throw a NotFoundError when no campaign exists with given id', async () => {
+    it('should throw a NotFoundError when no campaign exists with given id', async function() {
       // given
       const existingId = databaseBuilder.factory.buildCampaign().id;
       await databaseBuilder.commit();
@@ -51,9 +51,9 @@ describe('Integration | Repository | CampaignToJoin', () => {
     });
   });
 
-  describe('#getByCode', () => {
+  describe('#getByCode', function() {
 
-    it('should return the CampaignToJoin by its code', async () => {
+    it('should return the CampaignToJoin by its code', async function() {
       // given
       const code = 'LAURA123';
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -86,8 +86,8 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(actualCampaign.isSimplifiedAccess).to.deep.equal(targetProfile.isSimplifiedAccess);
     });
 
-    context('when the organization of the campaign has the POLE EMPLOI tag', () => {
-      it('should return true for organizationIsPoleEmploi', async () => {
+    context('when the organization of the campaign has the POLE EMPLOI tag', function() {
+      it('should return true for organizationIsPoleEmploi', async function() {
         // given
         const code = 'LAURA456';
         const organization = databaseBuilder.factory.buildOrganization();
@@ -107,8 +107,8 @@ describe('Integration | Repository | CampaignToJoin', () => {
       });
     });
 
-    context('when the organization of the campaign does not have the POLE EMPLOI tag', () => {
-      it('should return false for organizationIsPoleEmploi', async () => {
+    context('when the organization of the campaign does not have the POLE EMPLOI tag', function() {
+      it('should return false for organizationIsPoleEmploi', async function() {
         // given
         const code = 'LAURA456';
         const organization = databaseBuilder.factory.buildOrganization();
@@ -124,7 +124,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       });
     });
 
-    it('should throw a NotFoundError when no campaign exists with given code', async () => {
+    it('should throw a NotFoundError when no campaign exists with given code', async function() {
       // given
       const code = 'LAURA123';
       databaseBuilder.factory.buildCampaign({ code });
@@ -138,9 +138,9 @@ describe('Integration | Repository | CampaignToJoin', () => {
     });
   });
 
-  describe('#isCampaignJoinableByUser', () => {
+  describe('#isCampaignJoinableByUser', function() {
 
-    it('should return false if the campaign is archived', async () => {
+    it('should return false if the campaign is archived', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignData = databaseBuilder.factory.buildCampaign({ archivedAt: new Date('2020-01-01') });
@@ -154,7 +154,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(canJoinCampaign).to.be.false;
     });
 
-    it('should return false if the campaign is restricted and the user does not have a corresponding schooling registration', async () => {
+    it('should return false if the campaign is restricted and the user does not have a corresponding schooling registration', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
@@ -173,7 +173,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(canJoinCampaign).to.be.false;
     });
 
-    it('should return true when the campaign is restricted and the user has a corresponding schooling registration', async () => {
+    it('should return true when the campaign is restricted and the user has a corresponding schooling registration', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;

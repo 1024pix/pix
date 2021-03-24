@@ -5,7 +5,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     const learningContent = [{
       id: '1. Information et données',
@@ -37,13 +37,13 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
     mockLearningContent(learningContentObjects);
   });
 
-  describe('(demo) GET /api/assessments/:assessment_id/next', () => {
+  describe('(demo) GET /api/assessments/:assessment_id/next', function() {
 
     const assessmentId = 1;
 
     context('when no challenge is answered', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: 'DEMO',
@@ -52,7 +52,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         return databaseBuilder.commit();
       });
 
-      it('should return 200 HTTP status code', () => {
+      it('should return 200 HTTP status code', function() {
         // given
         const options = {
           method: 'GET',
@@ -65,7 +65,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         });
       });
 
-      it('should return application/json', () => {
+      it('should return application/json', function() {
         // given
         const options = {
           method: 'GET',
@@ -82,7 +82,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         });
       });
 
-      it('should return the first challenge if none already answered', () => {
+      it('should return the first challenge if none already answered', function() {
         // given
         const options = {
           method: 'GET',
@@ -100,7 +100,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
     });
 
     context('when the first challenge is already answered', function() {
-      beforeEach(() => {
+      beforeEach(function() {
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: 'DEMO',
@@ -110,7 +110,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         return databaseBuilder.commit();
       });
 
-      it('should return the second challenge', async () => {
+      it('should return the second challenge', async function() {
         // given
         const options = {
           method: 'GET',
@@ -128,7 +128,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
     });
 
     context('when all challenges are answered', function() {
-      beforeEach(() => {
+      beforeEach(function() {
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: 'DEMO',
@@ -139,7 +139,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         return databaseBuilder.commit();
       });
 
-      it('should finish the test', async () => {
+      it('should finish the test', async function() {
         // given
         const options = {
           method: 'GET',

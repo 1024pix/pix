@@ -5,7 +5,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const { AlreadyRatedAssessmentError } = require('../../../../lib/domain/errors');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
-describe('Unit | UseCase | complete-assessment', () => {
+describe('Unit | UseCase | complete-assessment', function() {
   const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
   const assessmentRepository = {
     get: _.noop,
@@ -18,18 +18,18 @@ describe('Unit | UseCase | complete-assessment', () => {
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
 
-  beforeEach(() => {
+  beforeEach(function() {
     clock = sinon.useFakeTimers(now);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     clock.restore();
   });
 
-  context('when assessment is already completed', () => {
+  context('when assessment is already completed', function() {
     const assessmentId = 'assessmentId';
 
-    beforeEach(() => {
+    beforeEach(function() {
       const completedAssessment = domainBuilder.buildAssessment({
         id: assessmentId,
         state: 'completed',
@@ -37,7 +37,7 @@ describe('Unit | UseCase | complete-assessment', () => {
       sinon.stub(assessmentRepository, 'get').withArgs(assessmentId).resolves(completedAssessment);
     });
 
-    it('should return an AlreadyRatedAssessmentError', async () => {
+    it('should return an AlreadyRatedAssessmentError', async function() {
       // when
       const err = await catchErr(completeAssessment)({
         assessmentId,
@@ -54,7 +54,7 @@ describe('Unit | UseCase | complete-assessment', () => {
     });
   });
 
-  context('when assessment is not yet completed', () => {
+  context('when assessment is not yet completed', function() {
     [
       _buildCompetenceEvaluationAssessment(),
       _buildCampaignAssessment(),
@@ -62,14 +62,14 @@ describe('Unit | UseCase | complete-assessment', () => {
     ]
       .forEach((assessment) => {
 
-        context(`common behavior when assessment is of type ${assessment.type}`, () => {
+        context(`common behavior when assessment is of type ${assessment.type}`, function() {
 
-          beforeEach(() => {
+          beforeEach(function() {
             sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
             sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
           });
 
-          it('should complete the assessment', async () => {
+          it('should complete the assessment', async function() {
             // when
             await completeAssessment({
               assessmentId: assessment.id,
@@ -85,7 +85,7 @@ describe('Unit | UseCase | complete-assessment', () => {
             expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id, domainTransaction)).to.be.true;
           });
 
-          it('should return a AssessmentCompleted event', async () => {
+          it('should return a AssessmentCompleted event', async function() {
             // when
             const result = await completeAssessment({
               assessmentId: assessment.id,
@@ -105,8 +105,8 @@ describe('Unit | UseCase | complete-assessment', () => {
         });
       });
 
-    context('when assessment is of type CAMPAIGN', () => {
-      it('should return a AssessmentCompleted event with a userId and targetProfileId', async () => {
+    context('when assessment is of type CAMPAIGN', function() {
+      it('should return a AssessmentCompleted event with a userId and targetProfileId', async function() {
         const assessment = _buildCampaignAssessment();
 
         sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
@@ -127,8 +127,8 @@ describe('Unit | UseCase | complete-assessment', () => {
       });
     });
 
-    context('when assessment is of type CERTIFICATION', () => {
-      it('should return a AssessmentCompleted event with certification flag', async () => {
+    context('when assessment is of type CERTIFICATION', function() {
+      it('should return a AssessmentCompleted event with certification flag', async function() {
         const assessment = _buildCertificationAssessment();
 
         sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);

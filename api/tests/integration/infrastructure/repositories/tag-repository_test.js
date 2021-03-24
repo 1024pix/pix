@@ -3,15 +3,15 @@ const Tag = require('../../../../lib/domain/models/Tag');
 const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
 const tagRepository = require('../../../../lib/infrastructure/repositories/tag-repository');
 
-describe('Integration | Repository | TagRepository', () => {
+describe('Integration | Repository | TagRepository', function() {
 
-  describe('#create', () => {
+  describe('#create', function() {
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('tags').delete();
     });
 
-    it('should create a Tag', async () => {
+    it('should create a Tag', async function() {
       // given
       const tag = domainBuilder.buildTag({ name: 'A Tag' });
 
@@ -23,9 +23,9 @@ describe('Integration | Repository | TagRepository', () => {
       expect(createdTag.name).to.equal(tag.name);
     });
 
-    context('when a tag name already exist', () => {
+    context('when a tag name already exist', function() {
 
-      it('should throw an AlreadyExistingEntityError', async () => {
+      it('should throw an AlreadyExistingEntityError', async function() {
         // given
         const existingTag = databaseBuilder.factory.buildTag();
         await databaseBuilder.commit();
@@ -39,9 +39,9 @@ describe('Integration | Repository | TagRepository', () => {
     });
   });
 
-  describe('#findByName', () => {
+  describe('#findByName', function() {
 
-    it('should return the tag if it exists', async () => {
+    it('should return the tag if it exists', async function() {
       // given
       const tagName = 'A Tag';
       databaseBuilder.factory.buildTag({ name: tagName });
@@ -54,7 +54,7 @@ describe('Integration | Repository | TagRepository', () => {
       expect(result.name).to.equal(tagName);
     });
 
-    it('should return null if the tag doest not exist', async () => {
+    it('should return null if the tag doest not exist', async function() {
       // given
       const notExistingTagName = 'notExistingTagName';
 

@@ -6,11 +6,11 @@ const certificationChallengeRepository = require('../../../../lib/infrastructure
 
 describe('Integration | Repository | Certification Challenge', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
 
     let certificationChallenge;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
 
       certificationChallenge = domainBuilder.buildCertificationChallenge({ courseId: certificationCourseId });
@@ -18,11 +18,11 @@ describe('Integration | Repository | Certification Challenge', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('certification-challenges').delete();
     });
 
-    it('should return certification challenge object', async () => {
+    it('should return certification challenge object', async function() {
       const savedCertificationChallenge = await certificationChallengeRepository.save({ certificationChallenge });
 
       // then
@@ -32,12 +32,12 @@ describe('Integration | Repository | Certification Challenge', function() {
     });
   });
 
-  describe('#getNextNonAnsweredChallengeByCourseId', () => {
+  describe('#getNextNonAnsweredChallengeByCourseId', function() {
 
-    context('no non answered certification challenge', () => {
+    context('no non answered certification challenge', function() {
 
       let certificationCourseId, assessmentId;
-      before(async () => {
+      before(async function() {
         // given
         const userId = databaseBuilder.factory.buildUser({}).id;
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
@@ -71,12 +71,12 @@ describe('Integration | Repository | Certification Challenge', function() {
 
     });
 
-    context('there is some non answered certification challenge(s)', () => {
+    context('there is some non answered certification challenge(s)', function() {
 
       let certificationCourseId, assessmentId;
       const firstUnansweredChallengeId = 1;
 
-      before(async () => {
+      before(async function() {
         // given
         const userId = databaseBuilder.factory.buildUser({}).id;
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
@@ -120,7 +120,7 @@ describe('Integration | Repository | Certification Challenge', function() {
         await databaseBuilder.commit();
       });
 
-      it('should get challenges in the creation order', async () => {
+      it('should get challenges in the creation order', async function() {
         // when
         const nextCertificationChallenge = await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId(
           assessmentId, certificationCourseId,

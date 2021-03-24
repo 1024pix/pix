@@ -4,11 +4,11 @@ const fs = require('fs').promises;
 
 const { getPdfBuffer } = require('../../../../lib/infrastructure/utils/pdf/write-pdf-utils');
 
-describe('Unit | Utils | write-pdf-utils', () => {
+describe('Unit | Utils | write-pdf-utils', function() {
 
-  describe('#getPdfBuffer', () => {
+  describe('#getPdfBuffer', function() {
 
-    it('should return a Buffer', async () => {
+    it('should return a Buffer', async function() {
       // given
       const pdfUnit8arrayTemplateBuffer = new Uint8Array(8);
       const templatePath = 'path';

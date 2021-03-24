@@ -1,11 +1,11 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const campaignToJoinSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-to-join-serializer');
 
-describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', () => {
+describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function() {
 
-  describe('#serialize()', () => {
+  describe('#serialize()', function() {
 
-    it('should convert a CampaignToJoin model object into JSON API data', () => {
+    it('should convert a CampaignToJoin model object into JSON API data', function() {
       // given
       const campaignToJoin = domainBuilder.buildCampaignToJoin();
 

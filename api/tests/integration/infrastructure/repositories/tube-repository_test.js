@@ -2,10 +2,10 @@ const { expect, mockLearningContent } = require('../../../test-helper');
 const Tube = require('../../../../lib/domain/models/Tube');
 const tubeRepository = require('../../../../lib/infrastructure/repositories/tube-repository');
 
-describe('Integration | Repository | tube-repository', () => {
+describe('Integration | Repository | tube-repository', function() {
 
-  describe('#get', () => {
-    it('should return the tube', async () => {
+  describe('#get', function() {
+    it('should return the tube', async function() {
       // given
       const expectedTube = new Tube({
         id: 'recTube0',
@@ -38,8 +38,8 @@ describe('Integration | Repository | tube-repository', () => {
     });
   });
 
-  describe('#list', () => {
-    it('should return the tubes', async () => {
+  describe('#list', function() {
+    it('should return the tubes', async function() {
       // given
       const tube0 = new Tube({
         id: 'recTube0',
@@ -90,8 +90,8 @@ describe('Integration | Repository | tube-repository', () => {
     });
   });
 
-  describe('#findByNames', () => {
-    it('should return the tubes ordered by name', async () => {
+  describe('#findByNames', function() {
+    it('should return the tubes ordered by name', async function() {
       // given
       const tube0 = new Tube({
         id: 'recTube0',
@@ -142,9 +142,9 @@ describe('Integration | Repository | tube-repository', () => {
       expect(tubes[1]).to.deep.equal(tube1);
     });
 
-    context('when no locale is provided (using default locale)', () => {
+    context('when no locale is provided (using default locale)', function() {
 
-      it('should return the tubes with default locale translation', async () => {
+      it('should return the tubes with default locale translation', async function() {
         // given
         const expectedTube = new Tube({
           id: 'recTube0',
@@ -177,9 +177,9 @@ describe('Integration | Repository | tube-repository', () => {
       });
     });
 
-    context('when specifying a locale', () => {
+    context('when specifying a locale', function() {
 
-      it('should return the tubes with appropriate translation', async () => {
+      it('should return the tubes with appropriate translation', async function() {
         // given
         const expectedTube = new Tube({
           id: 'recTube0',

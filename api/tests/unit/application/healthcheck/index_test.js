@@ -12,7 +12,7 @@ describe('Unit | Router | HealthcheckRouter', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(healthcheckController, 'get').returns('ok');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);

@@ -2,9 +2,9 @@ const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const User = require('../../../../lib/domain/models/User');
 
-describe('Unit | UseCase | find-paginated-filtered-users', () => {
+describe('Unit | UseCase | find-paginated-filtered-users', function() {
 
-  it('should search users with filtering and pagination', async () => {
+  it('should search users with filtering and pagination', async function() {
     // given
     const filter = { email: 'gigi@example.net' };
     const page = { number: 1, size: 2 };

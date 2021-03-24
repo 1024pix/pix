@@ -3,24 +3,24 @@ const sessionAuthorizationService = require('../../../../lib/domain/services/ses
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-describe('Unit | Service | SessionAuthorizationService', () => {
+describe('Unit | Service | SessionAuthorizationService', function() {
 
-  describe('#isAuthorizedToAccessSession', () => {
+  describe('#isAuthorizedToAccessSession', function() {
     const userId = 'userId';
     const sessionId = 'sessionId';
 
-    it('should exist', () => {
+    it('should exist', function() {
       expect(sessionAuthorizationService.isAuthorizedToAccessSession).to.exist.and.to.be.a('function');
     });
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(userRepository, 'isPixMaster');
       sinon.stub(sessionRepository, 'doesUserHaveCertificationCenterMembershipForSession');
     });
 
-    context('when user has membership for session', () => {
+    context('when user has membership for session', function() {
 
-      it('should return', async () => {
+      it('should return', async function() {
         // given
         sessionRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, sessionId).returns(true);
 
@@ -32,15 +32,15 @@ describe('Unit | Service | SessionAuthorizationService', () => {
       });
     });
 
-    context('when user has no membership for session', () => {
+    context('when user has no membership for session', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         sessionRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, sessionId).returns(false);
       });
 
-      context('when user is PixMaster', () => {
+      context('when user is PixMaster', function() {
 
-        it('should return true', async () => {
+        it('should return true', async function() {
           // given
           userRepository.isPixMaster.withArgs(userId).resolves(true);
 
@@ -52,9 +52,9 @@ describe('Unit | Service | SessionAuthorizationService', () => {
         });
       });
 
-      context('when user is not PixMaster', () => {
+      context('when user is not PixMaster', function() {
 
-        it('should return false', async () => {
+        it('should return false', async function() {
           // given
           userRepository.isPixMaster.withArgs(userId).resolves(false);
 

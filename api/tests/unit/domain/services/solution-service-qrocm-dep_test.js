@@ -48,7 +48,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     ];
 
     failedCases.forEach((testCase) => {
-      it(`should return "ko" when ${testCase.when}`, () => {
+      it(`should return "ko" when ${testCase.when}`, function() {
         expect(service.match(testCase.answer, testCase.solution)).to.deep.equal(ANSWER_KO);
       });
     });

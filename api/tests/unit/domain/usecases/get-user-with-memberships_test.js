@@ -2,15 +2,15 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getUserWithMemberships = require('../../../../lib/domain/usecases/get-user-with-memberships');
 const User = require('../../../../lib/domain/models/User');
 
-describe('Unit | UseCase | get-user-with-memberships', () => {
+describe('Unit | UseCase | get-user-with-memberships', function() {
 
   let userRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     userRepository = { getWithMemberships: sinon.stub() };
   });
 
-  it('should return a User with its Memberships', async () => {
+  it('should return a User with its Memberships', async function() {
     // given
     const fetchedUser = domainBuilder.buildUser();
     userRepository.getWithMemberships.resolves(fetchedUser);

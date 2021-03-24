@@ -21,7 +21,7 @@ describe('Unit | Service | Validation Treatments', function() {
       expect(normalizeAndRemoveAccents('æ/œ')).to.equal('æ/œ');
     });
 
-    it('should return (a copy of) the given string unmodified if it contains no concerned characters', () => {
+    it('should return (a copy of) the given string unmodified if it contains no concerned characters', function() {
       expect(normalizeAndRemoveAccents('shi-foo-bar')).to.equal('shi-foo-bar');
     });
 
@@ -41,11 +41,11 @@ describe('Unit | Service | Validation Treatments', function() {
       });
     });
 
-    it('should return (a copy of) the given string unmodified if it contains no concerned characters', () => {
+    it('should return (a copy of) the given string unmodified if it contains no concerned characters', function() {
       expect(removeSpecialCharacters('shi foo bar')).to.equal('shi foo bar');
     });
 
-    it('should return the good result even for complex phrase', () => {
+    it('should return the good result even for complex phrase', function() {
       expect(removeSpecialCharacters('Th!!is., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation')).to.equal('This is an example of a string with punctuation');
     });
 
@@ -57,7 +57,7 @@ describe('Unit | Service | Validation Treatments', function() {
 
   describe('#applyPreTreatments', function() {
 
-    it('should return a copy of the given string with unbreakable spaces replaced by normal spaces', () => {
+    it('should return a copy of the given string with unbreakable spaces replaced by normal spaces', function() {
       // given
       const stringWithUnbreakableSpaces = ' Shi Foo-Bar ';
       const sameStringWithNormalSpaces = ' Shi Foo-Bar ';
@@ -74,27 +74,27 @@ describe('Unit | Service | Validation Treatments', function() {
    * #applyTreatments(string, enabledTreatments)
    */
 
-  describe('#applyTreatments', () => {
+  describe('#applyTreatments', function() {
 
     const input = ' Shi Foo-Bar ';
 
-    it('should return the given string without applying any treatment when the enabled treatments array is not defined', () => {
+    it('should return the given string without applying any treatment when the enabled treatments array is not defined', function() {
       expect(applyTreatments(input)).to.equal(input);
     });
 
-    it('should return the given string without applying any treatment when the enabled treatments array is empty', () => {
+    it('should return the given string without applying any treatment when the enabled treatments array is empty', function() {
       expect(applyTreatments(input, [])).to.equal(input);
     });
 
-    it('should return the given string without applying any treatment when the enabled treatments array does not contain "t1" nor "t2"', () => {
+    it('should return the given string without applying any treatment when the enabled treatments array does not contain "t1" nor "t2"', function() {
       expect(applyTreatments(input, ['t1000'])).to.equal(input);
     });
 
-    it('should return a string with "t1" applied if it is set as enabled treatment', () => {
+    it('should return a string with "t1" applied if it is set as enabled treatment', function() {
       expect(applyTreatments(input, ['t1'])).to.equal('shifoo-bar');
     });
 
-    it('should return a string with "t2" applied if it is set as enabled treatment', () => {
+    it('should return a string with "t2" applied if it is set as enabled treatment', function() {
       expect(applyTreatments(input, ['t2'])).to.equal(' Shi FooBar ');
     });
   });

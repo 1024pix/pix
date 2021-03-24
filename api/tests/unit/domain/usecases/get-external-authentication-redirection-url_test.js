@@ -2,7 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const User = require('../../../../lib/domain/models/User');
 const getExternalAuthenticationRedirectionUrl = require('../../../../lib/domain/usecases/get-external-authentication-redirection-url');
 
-describe('Unit | UseCase | get-external-authentication-redirection-url', () => {
+describe('Unit | UseCase | get-external-authentication-redirection-url', function() {
 
   const userAttributes = {
     'IDO': 'saml-id-for-adele',
@@ -13,7 +13,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', () => {
   let userRepository;
   let tokenService;
 
-  beforeEach(() => {
+  beforeEach(function() {
     userRepository = {
       create: () => {},
       getBySamlId: () => {},
@@ -42,14 +42,14 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', () => {
     },
   };
 
-  context('when user does not exist in database yet', () => {
+  context('when user does not exist in database yet', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(userRepository, 'getBySamlId').resolves(null);
       sinon.stub(userRepository, 'create').callsFake((user) => Promise.resolve(user));
     });
 
-    it('should return campaign url with external user token', async () => {
+    it('should return campaign url with external user token', async function() {
       // given
       const expectedUrl = '/campagnes?externalUser=external-user-token';
 
@@ -61,15 +61,15 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', () => {
     });
   });
 
-  context('when user already exists in database', () => {
+  context('when user already exists in database', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(userRepository, 'getBySamlId')
         .withArgs('saml-id-for-adele')
         .resolves(expectedUser);
     });
 
-    it('should return access token url', async () => {
+    it('should return access token url', async function() {
       // given
       const expectedUrl = '/?token=access-token&user-id=1';
 

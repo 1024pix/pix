@@ -10,15 +10,15 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 
-describe('Integration | Infrastructure | Repositories | assessment-repository', () => {
+describe('Integration | Infrastructure | Repositories | assessment-repository', function() {
 
-  describe('#getWithAnswersAndCampaignParticipation', () => {
+  describe('#getWithAnswersAndCampaignParticipation', function() {
 
     let assessmentId;
 
-    context('when the assessment exists', () => {
+    context('when the assessment exists', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         const dateOfFirstAnswer = moment.utc().subtract(2, 'minute').toDate();
         const dateOfSecondAnswer = moment.utc().subtract(1, 'minute').toDate();
         const dateOfThirdAnswer = moment.utc().toDate();
@@ -40,7 +40,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      it('should return the assessment with the answers sorted by creation date ', async () => {
+      it('should return the assessment with the answers sorted by creation date ', async function() {
         // when
         const assessment = await assessmentRepository.getWithAnswersAndCampaignParticipation(assessmentId);
 
@@ -57,8 +57,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       });
     });
 
-    context('when the assessment does not exist', () => {
-      it('should return null', async () => {
+    context('when the assessment does not exist', function() {
+      it('should return null', async function() {
         // when
         const assessment = await assessmentRepository.getWithAnswersAndCampaignParticipation(245);
 
@@ -68,18 +68,18 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#get', () => {
+  describe('#get', function() {
 
     let assessmentId;
 
-    context('when the assessment exists', () => {
+    context('when the assessment exists', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         assessmentId = databaseBuilder.factory.buildAssessment({ courseId: 'course_A' }).id;
         await databaseBuilder.commit();
       });
 
-      it('should return the assessment', async () => {
+      it('should return the assessment', async function() {
         // when
         const assessment = await assessmentRepository.get(assessmentId);
 
@@ -90,8 +90,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       });
     });
 
-    context('when the assessment does not exist', () => {
-      it('should return null', async () => {
+    context('when the assessment does not exist', function() {
+      it('should return null', async function() {
         // when
         const error = await catchErr(assessmentRepository.get)(245);
 
@@ -101,13 +101,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#getByAssessmentIdAndUserId', () => {
+  describe('#getByAssessmentIdAndUserId', function() {
 
-    describe('when userId is provided,', () => {
+    describe('when userId is provided,', function() {
       let userId;
       let assessmentId;
 
-      before(async () => {
+      before(async function() {
         userId = databaseBuilder.factory.buildUser({}).id;
         assessmentId = databaseBuilder.factory.buildAssessment({
           userId,
@@ -117,7 +117,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      it('should fetch relative assessment ', async () => {
+      it('should fetch relative assessment ', async function() {
         // when
         const assessment = await assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId);
 
@@ -128,11 +128,11 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       });
     });
 
-    describe('when userId is null,', () => {
+    describe('when userId is null,', function() {
       const userId = null;
       let assessmentId;
 
-      before(async () => {
+      before(async function() {
         assessmentId = databaseBuilder.factory.buildAssessment(
           {
             userId,
@@ -141,7 +141,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      it('should fetch relative assessment', async () => {
+      it('should fetch relative assessment', async function() {
         // when
         const assessment = await assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId);
 
@@ -154,7 +154,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   });
 
-  describe('#findLastCompletedAssessmentsForEachCompetenceByUser', () => {
+  describe('#findLastCompletedAssessmentsForEachCompetenceByUser', function() {
 
     let johnUserId;
     let laylaUserId;
@@ -185,7 +185,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     // TODO: test with malformed data, e.g.:
     // - completed assessments without an AssessmentResult
 
-    before(async () => {
+    before(async function() {
       johnUserId = databaseBuilder.factory.buildUser().id;
       laylaUserId = databaseBuilder.factory.buildUser().id;
 
@@ -284,7 +284,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
     });
 
-    it('should correctly query Assessment conditions', async () => {
+    it('should correctly query Assessment conditions', async function() {
       // given
       const expectedAssessments = [
         new Assessment({
@@ -313,13 +313,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#save', () => {
+  describe('#save', function() {
     let userId;
     let certificationCourseId;
     let assessmentToBeSaved;
     let assessmentReturned;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser().id;
       certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
 
@@ -333,11 +333,11 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('assessments').delete();
     });
 
-    it('should save new assessment if not already existing', async () => {
+    it('should save new assessment if not already existing', async function() {
       // when
       assessmentReturned = await assessmentRepository.save({ assessment: assessmentToBeSaved });
 
@@ -347,21 +347,21 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#getIdByCertificationCourseId', async () => {
+  describe('#getIdByCertificationCourseId', async function() {
 
     let userId;
     let certificationCourseId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser().id;
       certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
       return databaseBuilder.commit();
     });
 
-    context('When the assessment for this certificationCourseId exists', () => {
+    context('When the assessment for this certificationCourseId exists', function() {
       let assessmentId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         assessmentId = databaseBuilder.factory.buildAssessment({
           userId,
           certificationCourseId,
@@ -371,7 +371,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         return databaseBuilder.commit();
       });
 
-      it('should return the assessment for the given certificationCourseId', async () => {
+      it('should return the assessment for the given certificationCourseId', async function() {
 
         // when
         const returnedAssessmentId = await assessmentRepository.getIdByCertificationCourseId(certificationCourseId);
@@ -382,9 +382,9 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     });
 
-    context('When there are no assessment for this certification course id', () => {
+    context('When there are no assessment for this certification course id', function() {
 
-      it('should return null', async () => {
+      it('should return null', async function() {
         // when
         const assessment = await assessmentRepository.getIdByCertificationCourseId(1);
 
@@ -395,9 +395,9 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   });
 
-  describe('#getLatestByCampaignParticipationId', () => {
+  describe('#getLatestByCampaignParticipationId', function() {
 
-    it('should return assessment with campaignParticipation when it matches with campaignParticipationId', async () => {
+    it('should return assessment with campaignParticipation when it matches with campaignParticipationId', async function() {
       // given
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
       const otherCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
@@ -418,7 +418,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       expect(assessmentsReturned.campaignParticipation.id).to.equal(campaignParticipationId);
     });
 
-    it('should return the most recent assessment when there are several for the same campaignParticipation', async () => {
+    it('should return the most recent assessment when there are several for the same campaignParticipation', async function() {
       // given
       const oldDate = new Date('2020-01-01');
       const newDate = new Date('2020-02-01');
@@ -435,11 +435,11 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#findNotAbortedCampaignAssessmentsByUserId', () => {
+  describe('#findNotAbortedCampaignAssessmentsByUserId', function() {
     let assessmentId;
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAssessment({
         userId,
@@ -455,7 +455,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
     });
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         assessmentId,
@@ -464,7 +464,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
     });
 
-    it('should return the assessment with campaign when it matches with userId and ignore aborted assessments', async () => {
+    it('should return the assessment with campaign when it matches with userId and ignore aborted assessments', async function() {
       // when
       const assessmentsReturned = await assessmentRepository.findNotAbortedCampaignAssessmentsByUserId(userId);
 
@@ -475,19 +475,19 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#findLastCampaignAssessmentByUserIdAndCampaignCode', () => {
+  describe('#findLastCampaignAssessmentByUserIdAndCampaignCode', function() {
     let assessmentId;
     let userId;
     let campaign;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
 
       await databaseBuilder.commit();
     });
 
-    context('when assessment do have campaign', () => {
-      beforeEach(async () => {
+    context('when assessment do have campaign', function() {
+      beforeEach(async function() {
         campaign = databaseBuilder.factory.buildCampaign({
           name: 'Campagne',
           code: 'AZERTY',
@@ -506,7 +506,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      it('should return the assessment with campaign when asked', async () => {
+      it('should return the assessment with campaign when asked', async function() {
         // when
         const assessmentReturned = await assessmentRepository.findLastCampaignAssessmentByUserIdAndCampaignCode({
           userId,
@@ -520,7 +520,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessmentReturned.campaignParticipation.campaign.name).to.equal('Campagne');
       });
 
-      it('should return the assessment without campaign', async () => {
+      it('should return the assessment without campaign', async function() {
         // when
         const assessmentReturned = await assessmentRepository.findLastCampaignAssessmentByUserIdAndCampaignCode({
           userId,
@@ -534,7 +534,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessmentReturned.campaignParticipation).to.equal(undefined);
       });
 
-      it('should return null', async () => {
+      it('should return null', async function() {
         // when
         const assessmentReturned = await assessmentRepository.findLastCampaignAssessmentByUserIdAndCampaignCode({
           userId,
@@ -548,10 +548,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#completeByAssessmentId', () => {
+  describe('#completeByAssessmentId', function() {
     let assessmentId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const userId = databaseBuilder.factory.buildUser().id;
 
       assessmentId = databaseBuilder.factory.buildAssessment({
@@ -563,11 +563,11 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('assessments').delete();
     });
 
-    it('should complete an assessment if not already existing and commited', async () => {
+    it('should complete an assessment if not already existing and commited', async function() {
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
         await assessmentRepository.completeByAssessmentId(assessmentId, domainTransaction);
@@ -578,7 +578,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       expect(assessmentsInDb.state).to.equal(Assessment.states.COMPLETED);
     });
 
-    it('should not complete an assessment if not already existing but rolled back', async () => {
+    it('should not complete an assessment if not already existing but rolled back', async function() {
       // when
       await catchErr(async () => {
         await DomainTransaction.execute(async (domainTransaction) => {
@@ -593,20 +593,20 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#ownedByUser', () => {
+  describe('#ownedByUser', function() {
 
     let user;
     let userWithNoAssessment;
     let assessment;
 
-    beforeEach(() => {
+    beforeEach(function() {
       user = databaseBuilder.factory.buildUser();
       assessment = databaseBuilder.factory.buildAssessment({ userId: user.id });
       userWithNoAssessment = databaseBuilder.factory.buildUser();
       return databaseBuilder.commit();
     });
 
-    it('should resolve true if the given assessmentId belongs to the user', async () => {
+    it('should resolve true if the given assessmentId belongs to the user', async function() {
       // when
       const ownedByUser = await assessmentRepository.ownedByUser({ id: assessment.id, userId: user.id });
 
@@ -614,7 +614,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       expect(ownedByUser).to.be.true;
     });
 
-    it('should resolve false if the given assessmentId does not belong to the user', async () => {
+    it('should resolve false if the given assessmentId does not belong to the user', async function() {
       // when
       const ownedByUser = await assessmentRepository.ownedByUser({ id: assessment.id, userId: userWithNoAssessment.id });
 
@@ -622,7 +622,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       expect(ownedByUser).to.be.false;
     });
 
-    it('should resolve true if the given assessmentId does not belong to any user and no user is specified', async () => {
+    it('should resolve true if the given assessmentId does not belong to any user and no user is specified', async function() {
       // given
       const assessmentWithoutUser = databaseBuilder.factory.buildAssessment({ userId: null });
       await databaseBuilder.commit();
@@ -634,7 +634,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       expect(ownedByUser).to.be.true;
     });
 
-    it('should resolve false if no assessment exists for provided assessmentId', async () => {
+    it('should resolve false if no assessment exists for provided assessmentId', async function() {
       // when
       const ownedByUser = await assessmentRepository.ownedByUser({ id: 123456, userId: 123 });
 
@@ -643,8 +643,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#updateLastQuestionDate', () => {
-    it('should update lastQuestionDate', async () => {
+  describe('#updateLastQuestionDate', function() {
+    it('should update lastQuestionDate', async function() {
       // given
       const lastQuestionDate = new Date();
       const assessment = databaseBuilder.factory.buildAssessment({
@@ -660,8 +660,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
     });
 
-    context('when assessment does not exist', () => {
-      it('should return null', async () => {
+    context('when assessment does not exist', function() {
+      it('should return null', async function() {
         const lastQuestionDate = new Date();
         const notExistingAssessmentId = 1;
 

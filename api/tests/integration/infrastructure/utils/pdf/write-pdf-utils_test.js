@@ -2,11 +2,11 @@ const { expect } = require('../../../../test-helper');
 
 const { getPdfBuffer } = require('../../../../../lib/infrastructure/utils/pdf/write-pdf-utils');
 
-describe('Integration | Infrastructure | Utils | Pdf | write-Pdf-utils', () => {
+describe('Integration | Infrastructure | Utils | Pdf | write-Pdf-utils', function() {
 
-  describe('getPdfBuffer', () => {
+  describe('getPdfBuffer', function() {
 
-    it('should return the pdf file as a buffer', async () => {
+    it('should return the pdf file as a buffer', async function() {
       // given
       const templateFileName = 'attestation-pix-vierge-clea.pdf';
 

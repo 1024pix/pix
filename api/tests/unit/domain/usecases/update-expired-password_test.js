@@ -8,7 +8,7 @@ const {
 
 const updateExpiredPassword = require('../../../../lib/domain/usecases/update-expired-password');
 
-describe('Unit | UseCase | update-expired-password', () => {
+describe('Unit | UseCase | update-expired-password', function() {
 
   const username = 'firstName.lastName0511';
   const expiredPassword = 'Password01';
@@ -22,7 +22,7 @@ describe('Unit | UseCase | update-expired-password', () => {
   let encryptionService;
   let authenticationMethodRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     user = domainBuilder.buildUser({ username });
     const authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithRawPassword({
       userId: user.id,
@@ -46,7 +46,7 @@ describe('Unit | UseCase | update-expired-password', () => {
 
   });
 
-  it('should update user password with a hashed password', async () => {
+  it('should update user password with a hashed password', async function() {
     // when
     await updateExpiredPassword({
       expiredPassword,
@@ -67,9 +67,9 @@ describe('Unit | UseCase | update-expired-password', () => {
     });
   });
 
-  context('When credentials are invalid', () => {
+  context('When credentials are invalid', function() {
 
-    it('should throw UserNotFoundError when username is unknow', async () => {
+    it('should throw UserNotFoundError when username is unknow', async function() {
       // given
       authenticationService.getUserByUsernameAndPassword.rejects(new UserNotFoundError());
 
@@ -88,7 +88,7 @@ describe('Unit | UseCase | update-expired-password', () => {
       expect(error).to.be.instanceOf(UserNotFoundError);
     });
 
-    it('should throw PasswordNotMatching when expiredPassword is invalid', async () => {
+    it('should throw PasswordNotMatching when expiredPassword is invalid', async function() {
       // given
       authenticationService.getUserByUsernameAndPassword.rejects(new PasswordNotMatching());
 
@@ -108,9 +108,9 @@ describe('Unit | UseCase | update-expired-password', () => {
     });
   });
 
-  context('When changing password is not required', () => {
+  context('When changing password is not required', function() {
 
-    it('should throw ForbiddenAccess when shouldChangePassword is false', async () => {
+    it('should throw ForbiddenAccess when shouldChangePassword is false', async function() {
       // given
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithRawPassword({
         userId: user.id,

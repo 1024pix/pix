@@ -4,7 +4,7 @@ const lcms = require('../../../../../lib/infrastructure/lcms');
 const challengeDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
-describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatasource', () => {
+describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatasource', function() {
 
   const
     competence1 = { id: 'competence1' },
@@ -67,13 +67,13 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       locales: ['fr-fr'],
     };
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(cache, 'get').callsFake((key, generator) => generator());
   });
 
-  describe('#findOperativeBySkillIds', () => {
+  describe('#findOperativeBySkillIds', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(lcms, 'getCurrentContent').resolves({ 'challenges': [
         challenge_web1,
         challenge_web1_notValidated,
@@ -82,7 +82,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       ] });
     });
 
-    it('should resolve an array of matching Challenges from learning content', async () => {
+    it('should resolve an array of matching Challenges from learning content', async function() {
       // given
       const skillIds = ['skill-web1', 'skill-web2'];
 
@@ -98,11 +98,11 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     });
   });
 
-  describe('#findValidatedByCompetenceId', () => {
+  describe('#findValidatedByCompetenceId', function() {
 
     let result;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       sinon.stub(lcms, 'getCurrentContent').resolves({ 'challenges': [
         challenge_competence1,
@@ -115,16 +115,16 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       result = await challengeDatasource.findValidatedByCompetenceId(competence1.id);
     });
 
-    it('should resolve to an array of matching Challenges from learning content', () => {
+    it('should resolve to an array of matching Challenges from learning content', function() {
       // then
       expect(lcms.getCurrentContent).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal(['challenge-competence1']);
     });
   });
 
-  describe('#findOperative', () => {
+  describe('#findOperative', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(lcms, 'getCurrentContent').resolves({ 'challenges': [
         challenge_web1,
         challenge_web1_notValidated,
@@ -133,7 +133,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       ] });
     });
 
-    it('should resolve an array of matching Challenges from learning content', async () => {
+    it('should resolve an array of matching Challenges from learning content', async function() {
       // when
       const result = await challengeDatasource.findOperative();
 
@@ -147,9 +147,9 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     });
   });
 
-  describe('#findFrenchFranceOperative', () => {
+  describe('#findFrenchFranceOperative', function() {
 
-    it('should retrieve the operative Challenges of given locale only', async () => {
+    it('should retrieve the operative Challenges of given locale only', async function() {
       // given
       sinon.stub(lcms, 'getCurrentContent').resolves({ 'challenges': [
         challenge_web1,
@@ -169,9 +169,9 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     });
   });
 
-  describe('#findValidated', () => {
+  describe('#findValidated', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(lcms, 'getCurrentContent').resolves({ 'challenges': [
         challenge_web1,
         challenge_web1_notValidated,
@@ -180,7 +180,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       ] });
     });
 
-    it('should resolve an array of matching Challenges from learning content', async () => {
+    it('should resolve an array of matching Challenges from learning content', async function() {
       // when
       const result = await challengeDatasource.findValidated();
 

@@ -6,9 +6,9 @@ const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsFo
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const getUserDetailsForAdmin = require('../../../../lib/domain/usecases/get-user-details-for-admin');
 
-describe('Integration | UseCase | get-user-details-for-admin', () => {
+describe('Integration | UseCase | get-user-details-for-admin', function() {
 
-  it('should return user details for admin without schooling registration association, by user id', async () => {
+  it('should return user details for admin without schooling registration association, by user id', async function() {
     // given
     const user = databaseBuilder.factory.buildUser();
     const expectedUserDetailsForAdmin = domainBuilder.buildUserDetailsForAdmin(user);
@@ -23,7 +23,7 @@ describe('Integration | UseCase | get-user-details-for-admin', () => {
     expect(foundUserDetailsForAdmin).to.deep.equal(expectedUserDetailsForAdmin);
   });
 
-  it('should return user details for admin with schooling registration association, by user id', async () => {
+  it('should return user details for admin with schooling registration association, by user id', async function() {
     // given
     const userInDB = databaseBuilder.factory.buildUser();
     const firstOrganizationInDB = databaseBuilder.factory.buildOrganization({ type: 'SCO' });

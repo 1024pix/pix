@@ -4,22 +4,22 @@ const importCertificationCandidatesFromAttendanceSheet = require('../../../../li
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
 const certificationCandidatesOdsService = require('../../../../lib/domain/services/certification-candidates-ods-service');
 
-describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', () => {
+describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', function() {
 
-  describe('#importCertificationCandidatesFromAttendanceSheet', () => {
+  describe('#importCertificationCandidatesFromAttendanceSheet', function() {
     const sessionId = 'sessionId';
     const odsBuffer = 'buffer';
     const certificationCandidates = 'extractedCandidates';
 
-    context('when session contains already linked certification candidates', () => {
+    context('when session contains already linked certification candidates', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(certificationCandidateRepository, 'doesLinkedCertificationCandidateInSessionExist')
           .withArgs({ sessionId })
           .resolves(true);
       });
 
-      it('should throw a BadRequestError', async () => {
+      it('should throw a BadRequestError', async function() {
         // when
         const result = await catchErr(importCertificationCandidatesFromAttendanceSheet)({
           sessionId,
@@ -34,9 +34,9 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
 
     });
 
-    context('when session contains zero linked certification candidates', () => {
+    context('when session contains zero linked certification candidates', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(certificationCandidateRepository, 'doesLinkedCertificationCandidateInSessionExist')
           .withArgs({ sessionId })
           .resolves(false);

@@ -9,15 +9,15 @@ function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedErro
   expect(entityValidationErrors.invalidAttributes[0]).to.deep.equal(expectedError);
 }
 
-describe('Unit | Domain | Validators | password-validator', () => {
+describe('Unit | Domain | Validators | password-validator', function() {
 
   let password;
 
-  describe('#validate', () => {
+  describe('#validate', function() {
 
-    context('when validation is successful', () => {
+    context('when validation is successful', function() {
 
-      it('should not throw any error', () => {
+      it('should not throw any error', function() {
         // when
         password = 'Pix12345';
 
@@ -26,9 +26,9 @@ describe('Unit | Domain | Validators | password-validator', () => {
       });
     });
 
-    context('when validation fails', () => {
+    context('when validation fails', function() {
 
-      it('should reject with error on field "password" when password is missing', async () => {
+      it('should reject with error on field "password" when password is missing', async function() {
         // given
         password = '';
 
@@ -44,7 +44,7 @@ describe('Unit | Domain | Validators | password-validator', () => {
         _assertErrorMatchesWithExpectedOne(errors, expectedError);
       });
 
-      it('should reject with error on field "password" when password is invalid', async () => {
+      it('should reject with error on field "password" when password is invalid', async function() {
         // given
         password = 'invalid';
 
@@ -60,7 +60,7 @@ describe('Unit | Domain | Validators | password-validator', () => {
         _assertErrorMatchesWithExpectedOne(errors, expectedError);
       });
 
-      it('should reject with errors on password when password have a maximum length of 255', async () => {
+      it('should reject with errors on password when password have a maximum length of 255', async function() {
         // given
         password = 'Password1234'.repeat(22);
 

@@ -9,8 +9,8 @@ function startServer() {
   return new HttpTestServer(moduleUnderTest);
 }
 
-describe('Unit | Router | stages-router', () => {
-  beforeEach(() => {
+describe('Unit | Router | stages-router', function() {
+  beforeEach(function() {
     sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').callsFake((request, h) => {
       h.continue({ credentials: { accessToken: 'jwt.access.token' } });
     });
@@ -21,11 +21,11 @@ describe('Unit | Router | stages-router', () => {
     httpTestServer = startServer();
   });
 
-  describe('POST /api/admin/stages', () => {
+  describe('POST /api/admin/stages', function() {
 
     const method = 'POST';
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const url = '/api/admin/stages';
 
@@ -37,8 +37,8 @@ describe('Unit | Router | stages-router', () => {
     });
   });
 
-  describe('GET /api/admin/stages/:id', () => {
-    it('should exist', async () => {
+  describe('GET /api/admin/stages/:id', function() {
+    it('should exist', async function() {
       // given
       const method = 'GET';
       const url = '/api/admin/stages/34';
@@ -50,7 +50,7 @@ describe('Unit | Router | stages-router', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a 400 error when the id is not a number', async () => {
+    it('should return a 400 error when the id is not a number', async function() {
       // given
       const method = 'GET';
       const unknownId = 'abcd45';
@@ -64,8 +64,8 @@ describe('Unit | Router | stages-router', () => {
     });
   });
 
-  describe('PATCH /api/admin/stages/:id', () => {
-    it('should update the stage with attributes', async () => {
+  describe('PATCH /api/admin/stages/:id', function() {
+    it('should update the stage with attributes', async function() {
       // given
       const method = 'PATCH';
       const payload = { data: {
@@ -83,7 +83,7 @@ describe('Unit | Router | stages-router', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should update the stage even if there is null', async () => {
+    it('should update the stage even if there is null', async function() {
       // given
       const method = 'PATCH';
       const payload = { data: {
@@ -101,7 +101,7 @@ describe('Unit | Router | stages-router', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return a 400 error when the id is not a number', async () => {
+    it('should return a 400 error when the id is not a number', async function() {
       // given
       const method = 'PATCH';
       const unknownId = 'abcd45';
@@ -120,7 +120,7 @@ describe('Unit | Router | stages-router', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 error when payload is undefined', async () => {
+    it('should return a 400 error when payload is undefined', async function() {
       // given
       const method = 'PATCH';
       const payload = { data: {
@@ -138,7 +138,7 @@ describe('Unit | Router | stages-router', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 error when payload is empty strings', async () => {
+    it('should return a 400 error when payload is empty strings', async function() {
       // given
       const method = 'PATCH';
       const payload = { data: {

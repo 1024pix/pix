@@ -2,9 +2,9 @@ const { expect, domainBuilder, sinon } = require('../../../../test-helper');
 const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
 const scoringCertificationService = require('../../../../../lib/domain/services/scoring/scoring-certification-service');
 
-describe('Integration | Domain | services | scoring | scoring-certification-service', () => {
+describe('Integration | Domain | services | scoring | scoring-certification-service', function() {
 
-  describe('#calculateCertificationAssessmentScore', () => {
+  describe('#calculateCertificationAssessmentScore', function() {
 
     const courseId = 123;
     const assessmentId = 836;
@@ -46,7 +46,7 @@ describe('Integration | Domain | services | scoring | scoring-certification-serv
       expect(assessmentScore).to.deep.equal(expectedAssessmentScore);
     });
 
-    it('should ceil the level and the score to a maximum threshold', async () => {
+    it('should ceil the level and the score to a maximum threshold', async function() {
       // given
       const MAX_REACHABLE_LEVEL = 5;
       const MAX_REACHABLE_PIX = 40;

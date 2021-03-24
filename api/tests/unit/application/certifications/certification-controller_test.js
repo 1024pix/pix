@@ -5,9 +5,9 @@ const usecases = require('../../../../lib/domain/usecases');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
 
-describe('Unit | Controller | certifications-controller', () => {
+describe('Unit | Controller | certifications-controller', function() {
 
-  describe('#findUserCertifications', () => {
+  describe('#findUserCertifications', function() {
 
     const retrievedCertifications = [];
     const serializedCertifications = [];
@@ -15,12 +15,12 @@ describe('Unit | Controller | certifications-controller', () => {
 
     const request = { auth: { credentials: { userId } } };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'findCompletedUserCertifications');
       sinon.stub(certificationSerializer, 'serialize').returns(serializedCertifications);
     });
 
-    it('should return a serialized certifications array when use case return a array of Certifications', async () => {
+    it('should return a serialized certifications array when use case return a array of Certifications', async function() {
       // given
       usecases.findCompletedUserCertifications.resolves(retrievedCertifications);
 
@@ -34,7 +34,7 @@ describe('Unit | Controller | certifications-controller', () => {
     });
   });
 
-  describe('#getCertification', () => {
+  describe('#getCertification', function() {
 
     const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
     const serializedCertification = '{JSON}';
@@ -45,12 +45,12 @@ describe('Unit | Controller | certifications-controller', () => {
       params: { id: certification.id },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getPrivateCertificate');
       sinon.stub(certificationSerializer, 'serialize').returns(serializedCertification);
     });
 
-    it('should return a serialized certification when use case returns a certification', async () => {
+    it('should return a serialized certification when use case returns a certification', async function() {
       // given
       usecases.getPrivateCertificate.resolves(certification);
 
@@ -67,19 +67,19 @@ describe('Unit | Controller | certifications-controller', () => {
     });
   });
 
-  describe('#getCertificationByVerificationCode', () => {
+  describe('#getCertificationByVerificationCode', function() {
     const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
     const serializedCertification = '{JSON}';
 
     const verificationCode = 'P-123456BB';
     const request = { payload: { verificationCode } };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getShareableCertificate');
       sinon.stub(certificationSerializer, 'serializeForSharing');
     });
 
-    it('should return a serialized certification when use case returns a certification', async () => {
+    it('should return a serialized certification when use case returns a certification', async function() {
       // given
       usecases.getShareableCertificate.withArgs({ verificationCode }).resolves(certification);
       certificationSerializer.serializeForSharing.withArgs(certification).returns(serializedCertification);
@@ -92,7 +92,7 @@ describe('Unit | Controller | certifications-controller', () => {
     });
   });
 
-  describe('#getCertificationAttestation', () => {
+  describe('#getCertificationAttestation', function() {
 
     const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
     const attestationPDF = 'binary string';
@@ -104,11 +104,11 @@ describe('Unit | Controller | certifications-controller', () => {
       params: { id: certification.id },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getCertificationAttestation');
     });
 
-    it('should return binary attestation', async () => {
+    it('should return binary attestation', async function() {
       // given
       sinon.stub(certificationAttestationPdf, 'getCertificationAttestationPdfBuffer').resolves({ file: attestationPDF, fileName });
       usecases.getCertificationAttestation.resolves(certification);

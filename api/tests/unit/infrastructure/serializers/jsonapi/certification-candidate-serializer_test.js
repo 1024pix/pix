@@ -7,13 +7,13 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
 
   let certificationCandidate;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationCandidate = domainBuilder.buildCertificationCandidate({
       schoolingRegistrationId: 1,
     });
   });
 
-  describe('#serialize()', () => {
+  describe('#serialize()', function() {
 
     it('should convert a CertificationCandidate model object into JSON API data', function() {
       // given
@@ -47,7 +47,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
 
   });
 
-  describe('#deserialize()', () => {
+  describe('#deserialize()', function() {
 
     it('should convert JSON API data into a CertificationCandidate model object', async function() {
       // given

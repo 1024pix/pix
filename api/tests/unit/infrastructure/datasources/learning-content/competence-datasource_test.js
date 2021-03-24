@@ -3,13 +3,13 @@ const competenceDatasource = require('../../../../../lib/infrastructure/datasour
 const lcms = require('../../../../../lib/infrastructure/lcms');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
-describe('Unit | Infrastructure | Datasource | Learning Content | CompetenceDatasource', () => {
+describe('Unit | Infrastructure | Datasource | Learning Content | CompetenceDatasource', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(cache, 'get').callsFake((key, generator) => generator());
   });
 
-  describe('#findByRecordIds', () => {
+  describe('#findByRecordIds', function() {
 
     it('should return an array of matching competence data objects', async function() {
       // given

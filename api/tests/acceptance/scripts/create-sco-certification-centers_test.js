@@ -4,16 +4,16 @@ const BookshelfCertificationCenter = require('../../../lib/infrastructure/data/c
 
 const { createScoCertificationCenters } = require('../../../scripts/create-sco-certification-centers');
 
-describe('Acceptance | Scripts | create-sco-certification-centers.js', () => {
+describe('Acceptance | Scripts | create-sco-certification-centers.js', function() {
 
-  describe('#createScoCertificationCenters', () => {
+  describe('#createScoCertificationCenters', function() {
 
     const getNumberOfCertificationCenters = () => {
       return BookshelfCertificationCenter.count()
         .then((number) => parseInt(number, 10));
     };
 
-    it('should insert 2 sco certification centers', async () => {
+    it('should insert 2 sco certification centers', async function() {
       // given
       const certificationCenters = [
         { name: 'Collège Victor Hugo', externalId: '1234567A', type: 'SCO' },

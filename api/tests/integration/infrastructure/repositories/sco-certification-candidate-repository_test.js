@@ -4,21 +4,21 @@ const _ = require('lodash');
 
 describe('Integration | Repository | SCOCertificationCandidate', function() {
 
-  describe('#addNonEnrolledCandidatesToSession', () => {
+  describe('#addNonEnrolledCandidatesToSession', function() {
     let sessionId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
 
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('certification-candidates').delete();
     });
 
-    it('adds only the unenrolled candidates', async () => {
+    it('adds only the unenrolled candidates', async function() {
       // given
       const schoolingRegistrationId1 = databaseBuilder.factory.buildSchoolingRegistration().id;
       const schoolingRegistrationId2 = databaseBuilder.factory.buildSchoolingRegistration().id;
@@ -61,7 +61,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
       const expectedCandidates = candidatesToBeCompared(scoCandidates);
       expect(actualCandidates).to.deep.equal(expectedCandidates);
     });
-    it('does nothing when no candidate is given', async () => {
+    it('does nothing when no candidate is given', async function() {
       // when
       await scoCertificationCandidateRepository.addNonEnrolledCandidatesToSession({
         sessionId,
@@ -74,8 +74,8 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
     });
   });
 
-  describe('#findIdsByOrganizationIdAndDivision', async () => {
-    it('retrieves no candidates when no one belongs to organisation', async () => {
+  describe('#findIdsByOrganizationIdAndDivision', async function() {
+    it('retrieves no candidates when no one belongs to organisation', async function() {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -100,7 +100,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
       expect(candidatesIds).to.be.empty;
     });
 
-    it('retrieves the candidates that belong to the organisation and division', async () => {
+    it('retrieves the candidates that belong to the organisation and division', async function() {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -124,7 +124,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
       expect(candidatesIds).to.deep.equal([candidateId]);
     });
 
-    it('retrieves only the candidates that belongs to the given division', async () => {
+    it('retrieves only the candidates that belongs to the given division', async function() {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -156,7 +156,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
       expect(candidatesIds).to.deep.equal([candidateId]);
     });
 
-    it('retrieves candidates ordered by lastname and firstname', async () => {
+    it('retrieves candidates ordered by lastname and firstname', async function() {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;

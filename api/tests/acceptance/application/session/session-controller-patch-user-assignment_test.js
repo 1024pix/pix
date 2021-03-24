@@ -3,23 +3,23 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', () => {
+describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', function() {
   let server;
   const options = { method: 'PATCH' };
   let certificationOfficerId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  context('when user does not have the role PIX MASTER', () => {
+  context('when user does not have the role PIX MASTER', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       certificationOfficerId = databaseBuilder.factory.buildUser().id;
       return databaseBuilder.commit();
     });
 
-    it('should return a 403 error code', async () => {
+    it('should return a 403 error code', async function() {
       // given
       options.url = '/api/admin/sessions/12/certification-officer-assignment';
       options.headers = { authorization: generateValidRequestAuthorizationHeader(certificationOfficerId) };
@@ -33,18 +33,18 @@ describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', () =>
 
   });
 
-  context('when user has role PixMaster', () => {
+  context('when user has role PixMaster', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       certificationOfficerId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
       options.headers = { authorization: generateValidRequestAuthorizationHeader(certificationOfficerId) };
       return databaseBuilder.commit();
     });
 
-    context('when the session id has an invalid format', () => {
+    context('when the session id has an invalid format', function() {
 
-      it('should return a 400 error code', async () => {
+      it('should return a 400 error code', async function() {
         // given
         options.url = '/api/admin/sessions/test/certification-officer-assignment';
 
@@ -56,11 +56,11 @@ describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', () =>
       });
     });
 
-    context('when the session id is a number', () => {
+    context('when the session id is a number', function() {
 
-      context('when the session does not exist', () => {
+      context('when the session does not exist', function() {
 
-        it('should return a 404 error code', async () => {
+        it('should return a 404 error code', async function() {
           // given
           options.url = '/api/admin/sessions/1/certification-officer-assignment';
 
@@ -72,8 +72,8 @@ describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', () =>
         });
       });
 
-      context('when the session exists', () => {
-        it('should return a 200 status code', async () => {
+      context('when the session exists', function() {
+        it('should return a 200 status code', async function() {
           // given
           const sessionId = databaseBuilder.factory.buildSession().id;
           databaseBuilder.factory.buildFinalizedSession({

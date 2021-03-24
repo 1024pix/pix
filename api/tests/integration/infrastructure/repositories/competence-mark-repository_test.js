@@ -4,12 +4,12 @@ const _ = require('lodash');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
 
-describe('Integration | Repository | CompetenceMark', () => {
+describe('Integration | Repository | CompetenceMark', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
     let assessmentResultId;
     let competenceMark;
-    beforeEach(async () => {
+    beforeEach(async function() {
       assessmentResultId = await databaseBuilder.factory.buildAssessmentResult().id;
       await databaseBuilder.commit();
 
@@ -22,12 +22,12 @@ describe('Integration | Repository | CompetenceMark', () => {
       });
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('competence-marks').delete();
       await knex('assessment-results').delete();
     });
 
-    it('should persist the mark in db', async () => {
+    it('should persist the mark in db', async function() {
       // when
       await competenceMarkRepository.save(competenceMark);
 
@@ -37,7 +37,7 @@ describe('Integration | Repository | CompetenceMark', () => {
 
     });
 
-    it('should return the saved mark', async () => {
+    it('should return the saved mark', async function() {
       // given
       const mark = domainBuilder.buildCompetenceMark({
         score: 13,
@@ -56,10 +56,10 @@ describe('Integration | Repository | CompetenceMark', () => {
     });
   });
 
-  describe('#findByAssessmentResultId', () => {
+  describe('#findByAssessmentResultId', function() {
 
     let assessmentResultId, competenceMarkIds;
-    beforeEach(async () => {
+    beforeEach(async function() {
       assessmentResultId = databaseBuilder.factory.buildAssessmentResult({}).id;
       const anotherAssessmentResultId = databaseBuilder.factory.buildAssessmentResult({}).id;
       competenceMarkIds = _.map([
@@ -73,7 +73,7 @@ describe('Integration | Repository | CompetenceMark', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return all competence-marks for one assessmentResult', () => {
+    it('should return all competence-marks for one assessmentResult', function() {
       // when
       const promise = competenceMarkRepository.findByAssessmentResultId(assessmentResultId);
 

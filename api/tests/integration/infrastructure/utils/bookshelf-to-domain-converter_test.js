@@ -14,8 +14,8 @@ const BookshelfOrganization = require('../../../../lib/infrastructure/data/organ
 
 describe('Integration | Infrastructure | Utils | Bookshelf to domain converter', function() {
 
-  describe('buildDomainObject', () => {
-    it('should convert a Bookshelf object into a domain object', async () => {
+  describe('buildDomainObject', function() {
+    it('should convert a Bookshelf object into a domain object', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
@@ -27,7 +27,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       // then
       expect(domainObject).to.be.an.instanceOf(User);
     });
-    it('should populate the domain object with the matching Bookshelf properties', async () => {
+    it('should populate the domain object with the matching Bookshelf properties', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
@@ -41,7 +41,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
         expect(domainObject[property]).to.exist;
       }
     });
-    it('should honor the domain object constructor', async () => {
+    it('should honor the domain object constructor', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
@@ -55,11 +55,11 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
 
     });
 
-    it('should support has-one relationships', async () => {
+    it('should support has-one relationships', async function() {
       // TODO : Il n'y a pas d'exemple d'objet du Domain qui récupère un autre objet du Domain via hasOne.
     });
 
-    it('should support has-many relationships', async () => {
+    it('should support has-many relationships', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildMembership({ userId });
@@ -76,7 +76,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       expect(domainObject.memberships).to.be.instanceOf(Array);
       expect(domainObject.memberships[0]).to.be.instanceOf(Membership);
     });
-    it('should support belongs-to relationships', async () => {
+    it('should support belongs-to relationships', async function() {
       //given
       const campaignId = databaseBuilder.factory.buildCampaign().id;
       await databaseBuilder.commit();
@@ -91,7 +91,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       expect(domainObject.targetProfile).to.be.instanceOf(TargetProfile);
     });
 
-    it('should support belongs-to-many relationships', async () => {
+    it('should support belongs-to-many relationships', async function() {
       //given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildOrganizationTag({ organizationId });
@@ -110,7 +110,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       expect(domainObject.tags.length).to.equal(2);
     });
 
-    it('should support domain object relationship’s name not matching the corresponding Bookshelf class name', async () => {
+    it('should support domain object relationship’s name not matching the corresponding Bookshelf class name', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildKnowledgeElement({ userId });
@@ -127,7 +127,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       expect(domainObject.knowledgeElements).to.be.instanceOf(Array);
       expect(domainObject.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
     });
-    it('should support nested relationships', async () => {
+    it('should support nested relationships', async function() {
       // given
       const campaignId = databaseBuilder.factory.buildCampaign().id;
       const userId = databaseBuilder.factory.buildUser().id;

@@ -2,11 +2,11 @@ const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = req
 const createServer = require('../../../../server');
 const _ = require('lodash');
 
-describe('Acceptance | Controller | session-controller-get-certification-candidates', () => {
+describe('Acceptance | Controller | session-controller-get-certification-candidates', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
@@ -15,20 +15,20 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
     let userId;
     let certificationCenterId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       ({ id: sessionId, certificationCenterId } = databaseBuilder.factory.buildSession());
 
       return databaseBuilder.commit();
     });
 
-    context('when user has no access to session resources', () => {
+    context('when user has no access to session resources', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         userId = databaseBuilder.factory.buildUser().id;
         return databaseBuilder.commit();
       });
 
-      it('should return 404 HTTP status code (to keep opacity on whether forbidden or not found)', async () => {
+      it('should return 404 HTTP status code (to keep opacity on whether forbidden or not found)', async function() {
         // when
         const response = await server.inject({
           method: 'GET',
@@ -43,11 +43,11 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
 
     });
 
-    context('when user has access to session resources', () => {
+    context('when user has access to session resources', function() {
       let expectedCertificationCandidateAAttributes;
       let expectedCertificationCandidateBAttributes;
 
-      beforeEach(() => {
+      beforeEach(function() {
         const certificationCandidateA = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'A', sessionId });
         const certificationCandidateB = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'B', sessionId });
         _.times(5, databaseBuilder.factory.buildCertificationCandidate());
@@ -85,7 +85,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
         return databaseBuilder.commit();
       });
 
-      it('should return 200 HTTP status code', async () => {
+      it('should return 200 HTTP status code', async function() {
         // when
         const response = await server.inject({
           method: 'GET',
@@ -98,7 +98,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return the expected data', async () => {
+      it('should return the expected data', async function() {
         // when
         const response = await server.inject({
           method: 'GET',

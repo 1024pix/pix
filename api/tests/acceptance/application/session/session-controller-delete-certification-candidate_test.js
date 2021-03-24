@@ -1,21 +1,21 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | session-controller-delete-certification-candidate', () => {
+describe('Acceptance | Controller | session-controller-delete-certification-candidate', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('#deleteCertificationCandidate', () => {
+  describe('#deleteCertificationCandidate', function() {
     let sessionId;
     let userId;
     let certificationCandidateId;
     let options;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
@@ -30,15 +30,15 @@ describe('Acceptance | Controller | session-controller-delete-certification-cand
       return databaseBuilder.commit();
     });
 
-    context('when the candidate is linked', () => {
+    context('when the candidate is linked', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
         options.url = `/api/sessions/${sessionId}/certification-candidates/${certificationCandidateId}`;
         return databaseBuilder.commit();
       });
 
-      it('should return a 403 forbidden error', async () => {
+      it('should return a 403 forbidden error', async function() {
         // when
         const response = await server.inject(options);
 
@@ -48,15 +48,15 @@ describe('Acceptance | Controller | session-controller-delete-certification-cand
 
     });
 
-    context('when the candidate is not linked', () => {
+    context('when the candidate is not linked', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: null }).id;
         options.url = `/api/sessions/${sessionId}/certification-candidates/${certificationCandidateId}`;
         return databaseBuilder.commit();
       });
 
-      it('should return 204 status code', async () => {
+      it('should return 204 status code', async function() {
         // when
         const response = await server.inject(options);
 

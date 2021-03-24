@@ -8,12 +8,12 @@ const jurySessionRepository = require('../../../../lib/infrastructure/repositori
 
 describe('Integration | Repository | JurySession', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    context('when id of session exists', () => {
+    context('when id of session exists', function() {
       let sessionId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({
           firstName: 'Pix',
           lastName: 'Doe',
@@ -23,7 +23,7 @@ describe('Integration | Repository | JurySession', function() {
         return databaseBuilder.commit();
       });
 
-      it('should return the session', async () => {
+      it('should return the session', async function() {
         // when
         const expectedJurySession = await jurySessionRepository.get(sessionId);
 
@@ -34,9 +34,9 @@ describe('Integration | Repository | JurySession', function() {
 
     });
 
-    context('when id of session does not exist', () => {
+    context('when id of session does not exist', function() {
 
-      it('should throw a NotFoundError', async () => {
+      it('should throw a NotFoundError', async function() {
         // when
         const error = await catchErr(jurySessionRepository.get)(12345);
 
@@ -46,13 +46,13 @@ describe('Integration | Repository | JurySession', function() {
     });
   });
 
-  describe('#findPaginatedFiltered', () => {
+  describe('#findPaginatedFiltered', function() {
 
-    context('when there are Sessions in the database', () => {
+    context('when there are Sessions in the database', function() {
       let sessionWithCertificationOfficerId;
       let sessionWithoutCertificationCenterId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({
           firstName: 'Pix',
           lastName: 'Doe',
@@ -63,7 +63,7 @@ describe('Integration | Repository | JurySession', function() {
         return databaseBuilder.commit();
       });
 
-      it('should return an Array of Sessions', async () => {
+      it('should return an Array of Sessions', async function() {
         // given
         const filters = {};
         const page = { number: 1, size: 3 };
@@ -82,7 +82,7 @@ describe('Integration | Repository | JurySession', function() {
         expect(pagination).to.deep.equal(expectedPagination);
       });
 
-      it('should retrieve the assigned certification officer if there is one', async () => {
+      it('should retrieve the assigned certification officer if there is one', async function() {
         // given
         const filters = {};
         const page = { number: 1, size: 3 };
@@ -102,14 +102,14 @@ describe('Integration | Repository | JurySession', function() {
 
     });
 
-    context('when there are lots of Sessions (> 10) in the database', () => {
+    context('when there are lots of Sessions (> 10) in the database', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         _.times(12, databaseBuilder.factory.buildSession);
         return databaseBuilder.commit();
       });
 
-      it('should return paginated matching Sessions', async () => {
+      it('should return paginated matching Sessions', async function() {
         // given
         const filters = {};
         const page = { number: 1, size: 3 };
@@ -127,13 +127,13 @@ describe('Integration | Repository | JurySession', function() {
       });
     });
 
-    context('orders', () => {
+    context('orders', function() {
       let firstSessionId;
       let secondSessionId;
       let thirdSessionId;
       let fourthSessionId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         firstSessionId = databaseBuilder.factory.buildSession({
           finalizedAt: new Date('2020-01-01T00:00:00Z'),
           resultsSentToPrescriberAt: null,
@@ -154,7 +154,7 @@ describe('Integration | Repository | JurySession', function() {
         return databaseBuilder.commit();
       });
 
-      it('should order sessions by returning first finalized but not published, then neither of those, and finally the processed ones', async () => {
+      it('should order sessions by returning first finalized but not published, then neither of those, and finally the processed ones', async function() {
         // given
         const filters = {};
         const page = { number: 1, size: 10 };
@@ -173,18 +173,18 @@ describe('Integration | Repository | JurySession', function() {
       });
     });
 
-    context('filters', () => {
+    context('filters', function() {
 
-      context('when there are ignored filters', () => {
+      context('when there are ignored filters', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           databaseBuilder.factory.buildSession();
           databaseBuilder.factory.buildSession();
 
           return databaseBuilder.commit();
         });
 
-        it('should ignore the filters and retrieve all certificationCenters', async () => {
+        it('should ignore the filters and retrieve all certificationCenters', async function() {
           // given
           const filters = { foo: 1 };
           const page = { number: 1, size: 10 };
@@ -199,17 +199,17 @@ describe('Integration | Repository | JurySession', function() {
         });
       });
 
-      context('when there is a filter on the ID', () => {
+      context('when there is a filter on the ID', function() {
         let expectedSession;
 
-        beforeEach(() => {
+        beforeEach(function() {
           expectedSession = databaseBuilder.factory.buildSession({ id: 121 });
           databaseBuilder.factory.buildSession({ id: 333 });
 
           return databaseBuilder.commit();
         });
 
-        it('should apply the strict filter and return the appropriate results', async () => {
+        it('should apply the strict filter and return the appropriate results', async function() {
           // given
           const filters = { id: expectedSession.id };
           const page = { number: 1, size: 10 };
@@ -224,10 +224,10 @@ describe('Integration | Repository | JurySession', function() {
         });
       });
 
-      context('when there is a filter on the certificationCenterName', () => {
+      context('when there is a filter on the certificationCenterName', function() {
         let expectedSession;
 
-        beforeEach(() => {
+        beforeEach(function() {
           const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ name: 'Université des Laura en Folie !' });
           expectedSession = databaseBuilder.factory.buildSession({
             certificationCenter: certificationCenter.name,
@@ -238,7 +238,7 @@ describe('Integration | Repository | JurySession', function() {
           return databaseBuilder.commit();
         });
 
-        it('it should find sessions by part of their certification center name, in a case-insensitive way', async () => {
+        it('it should find sessions by part of their certification center name, in a case-insensitive way', async function() {
           // given
           const filters = { certificationCenterName: ' Des laURa' };
           const page = { number: 1, size: 10 };
@@ -254,12 +254,12 @@ describe('Integration | Repository | JurySession', function() {
         });
       });
 
-      context('when there is a filter on the certificationCenterType', () => {
+      context('when there is a filter on the certificationCenterType', function() {
         let expectedSCOSession;
         let expectedSUPSession;
         let expectedPROSession;
 
-        beforeEach(() => {
+        beforeEach(function() {
           const certificationCenterSCO = databaseBuilder.factory.buildCertificationCenter({ type: 'SCO' });
           expectedSCOSession = databaseBuilder.factory.buildSession({
             certificationCenter: certificationCenterSCO.name,
@@ -281,7 +281,7 @@ describe('Integration | Repository | JurySession', function() {
           return databaseBuilder.commit();
         });
 
-        it('it should find sessions by part of their certification type', async () => {
+        it('it should find sessions by part of their certification type', async function() {
           // given
           const filters = { certificationCenterType: 'SCO' };
           const page = { number: 1, size: 10 };
@@ -296,7 +296,7 @@ describe('Integration | Repository | JurySession', function() {
           expect(jurySessions).to.have.length(1);
         });
 
-        it('it should return all sessions if certification type filter is null', async () => {
+        it('it should return all sessions if certification type filter is null', async function() {
           // given
           const filters = { certificationCenterType: null };
           const page = { number: 1, size: 10 };
@@ -314,19 +314,19 @@ describe('Integration | Repository | JurySession', function() {
         });
       });
 
-      context('when there is a filter regarding session status', () => {
+      context('when there is a filter regarding session status', function() {
 
-        context('when there is a filter on created sessions', () => {
+        context('when there is a filter on created sessions', function() {
           let expectedSessionId;
 
-          beforeEach(() => {
+          beforeEach(function() {
             expectedSessionId = databaseBuilder.factory.buildSession({ finalizedAt: null, publishedAt: null }).id;
             databaseBuilder.factory.buildSession({ finalizedAt: new Date('2020-01-01T00:00:00Z') });
 
             return databaseBuilder.commit();
           });
 
-          it('should apply the strict filter and return the appropriate results', async () => {
+          it('should apply the strict filter and return the appropriate results', async function() {
             // given
             const filters = { status: statuses.CREATED };
             const page = { number: 1, size: 10 };
@@ -340,10 +340,10 @@ describe('Integration | Repository | JurySession', function() {
           });
         });
 
-        context('when there is a filter on finalized sessions', () => {
+        context('when there is a filter on finalized sessions', function() {
           let expectedSessionId;
 
-          beforeEach(() => {
+          beforeEach(function() {
             const someDate = new Date('2020-01-01T00:00:00Z');
             expectedSessionId = databaseBuilder.factory.buildSession({
               finalizedAt: someDate,
@@ -359,7 +359,7 @@ describe('Integration | Repository | JurySession', function() {
             return databaseBuilder.commit();
           });
 
-          it('should apply the strict filter and return the appropriate results', async () => {
+          it('should apply the strict filter and return the appropriate results', async function() {
             // given
             const filters = { status: statuses.FINALIZED };
             const page = { number: 1, size: 10 };
@@ -373,10 +373,10 @@ describe('Integration | Repository | JurySession', function() {
           });
         });
 
-        context('when there is a filter on in process sessions', () => {
+        context('when there is a filter on in process sessions', function() {
           let expectedSessionId;
 
-          beforeEach(() => {
+          beforeEach(function() {
             const someDate = new Date('2020-01-01T00:00:00Z');
             const assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
             expectedSessionId = databaseBuilder.factory.buildSession({
@@ -389,7 +389,7 @@ describe('Integration | Repository | JurySession', function() {
             return databaseBuilder.commit();
           });
 
-          it('should apply the strict filter and return the appropriate results', async () => {
+          it('should apply the strict filter and return the appropriate results', async function() {
             // given
             const filters = { status: statuses.IN_PROCESS };
             const page = { number: 1, size: 10 };
@@ -403,10 +403,10 @@ describe('Integration | Repository | JurySession', function() {
           });
         });
 
-        context('when there is a filter on published sessions', () => {
+        context('when there is a filter on published sessions', function() {
           let expectedSessionId;
 
-          beforeEach(() => {
+          beforeEach(function() {
             const someDate = new Date('2020-01-01T00:00:00Z');
             expectedSessionId = databaseBuilder.factory.buildSession({ publishedAt: someDate }).id;
             databaseBuilder.factory.buildSession({ publishedAt: null });
@@ -414,7 +414,7 @@ describe('Integration | Repository | JurySession', function() {
             return databaseBuilder.commit();
           });
 
-          it('should apply the strict filter and return the appropriate results', async () => {
+          it('should apply the strict filter and return the appropriate results', async function() {
             // given
             const filters = { status: statuses.PROCESSED };
             const page = { number: 1, size: 10 };
@@ -429,19 +429,19 @@ describe('Integration | Repository | JurySession', function() {
         });
       });
 
-      context('when there is a filter regarding resultsSentToPrescriberAt state', () => {
+      context('when there is a filter regarding resultsSentToPrescriberAt state', function() {
 
-        context('when there is a filter on sessions which results have been sent to prescriber', () => {
+        context('when there is a filter on sessions which results have been sent to prescriber', function() {
           let expectedSessionId;
 
-          beforeEach(() => {
+          beforeEach(function() {
             expectedSessionId = databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: new Date('2020-01-01T00:00:00Z') }).id;
             databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: null });
 
             return databaseBuilder.commit();
           });
 
-          it('should apply the strict filter and return the appropriate results', async () => {
+          it('should apply the strict filter and return the appropriate results', async function() {
             // given
             const filters = { resultsSentToPrescriberAt: true };
             const page = { number: 1, size: 10 };
@@ -455,17 +455,17 @@ describe('Integration | Repository | JurySession', function() {
           });
         });
 
-        context('when there is a filter on sessions which results have not been sent to prescriber', () => {
+        context('when there is a filter on sessions which results have not been sent to prescriber', function() {
           let expectedSessionId;
 
-          beforeEach(() => {
+          beforeEach(function() {
             databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: new Date('2020-01-01T00:00:00Z') });
             expectedSessionId = databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: null }).id;
 
             return databaseBuilder.commit();
           });
 
-          it('should apply the strict filter and return the appropriate results', async () => {
+          it('should apply the strict filter and return the appropriate results', async function() {
             // given
             const filters = { resultsSentToPrescriberAt: false };
             const page = { number: 1, size: 10 };
@@ -479,16 +479,16 @@ describe('Integration | Repository | JurySession', function() {
           });
         });
 
-        context('when there is no filter on whether session results has been sent to prescriber or not', () => {
+        context('when there is no filter on whether session results has been sent to prescriber or not', function() {
 
-          beforeEach(() => {
+          beforeEach(function() {
             databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: new Date('2020-01-01T00:00:00Z') });
             databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: null });
 
             return databaseBuilder.commit();
           });
 
-          it('should apply the strict filter and return the appropriate results', async () => {
+          it('should apply the strict filter and return the appropriate results', async function() {
             // given
             const filters = {};
             const page = { number: 1, size: 10 };
@@ -502,11 +502,11 @@ describe('Integration | Repository | JurySession', function() {
         });
       });
 
-      context('when there is a filter on the assigned certification officer', () => {
+      context('when there is a filter on the assigned certification officer', function() {
         let certificationOfficerToMatchId;
         let expectedSession;
 
-        beforeEach(() => {
+        beforeEach(function() {
           certificationOfficerToMatchId = databaseBuilder.factory.buildUser().id;
           const anotherCertificationOfficerId = databaseBuilder.factory.buildUser().id;
 
@@ -517,7 +517,7 @@ describe('Integration | Repository | JurySession', function() {
           return databaseBuilder.commit();
         });
 
-        it('should only return the session assigned to the given certification officer ', async () => {
+        it('should only return the session assigned to the given certification officer ', async function() {
           // given
           const filters = { assignedCertificationOfficerId: certificationOfficerToMatchId };
           const page = { number: 1, size: 10 };
@@ -535,18 +535,18 @@ describe('Integration | Repository | JurySession', function() {
     });
   });
 
-  describe('#assignCertificationOfficer', () => {
+  describe('#assignCertificationOfficer', function() {
     let sessionId;
     let assignedCertificationOfficerId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: null }).id;
       assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
 
       return databaseBuilder.commit();
     });
 
-    it('should return an updated Session domain object', async () => {
+    it('should return an updated Session domain object', async function() {
       // when
       const updatedSession = await jurySessionRepository.assignCertificationOfficer({
         id: sessionId,
@@ -560,9 +560,9 @@ describe('Integration | Repository | JurySession', function() {
       expect(updatedSession.status).to.deep.equal(statuses.IN_PROCESS);
     });
 
-    context('when assignedCertificationOfficerId provided does not exist', () => {
+    context('when assignedCertificationOfficerId provided does not exist', function() {
 
-      it('should return a Not found error', async () => {
+      it('should return a Not found error', async function() {
         // given
         const unknownUserId = assignedCertificationOfficerId + 1;
 
@@ -577,9 +577,9 @@ describe('Integration | Repository | JurySession', function() {
       });
     });
 
-    context('when sessionId does not exist', () => {
+    context('when sessionId does not exist', function() {
 
-      it('should return a Not found error', async () => {
+      it('should return a Not found error', async function() {
         // given
         const unknownSessionId = sessionId + 1;
 

@@ -2,11 +2,11 @@ const { expect, mockLearningContent, domainBuilder } = require('../../../test-he
 const Skill = require('../../../../lib/domain/models/Skill');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 
-describe('Integration | Repository | skill-repository', () => {
+describe('Integration | Repository | skill-repository', function() {
 
-  describe('#list', () => {
+  describe('#list', function() {
 
-    it('should resolve all skills', async () => {
+    it('should resolve all skills', async function() {
       // given
       const competenceId = 'recCompetenceId';
       const activeSkill = domainBuilder.buildSkill({ competenceId });
@@ -28,9 +28,9 @@ describe('Integration | Repository | skill-repository', () => {
     });
   });
 
-  describe('#findActiveByCompetenceId', () => {
+  describe('#findActiveByCompetenceId', function() {
 
-    it('should return all skills in the given competence', async () => {
+    it('should return all skills in the given competence', async function() {
       // given
       const competenceId = 'recCompetenceId';
       const activeSkill = domainBuilder.buildSkill({ competenceId });
@@ -54,9 +54,9 @@ describe('Integration | Repository | skill-repository', () => {
     });
   });
 
-  describe('#findOperativeByCompetenceId', () => {
+  describe('#findOperativeByCompetenceId', function() {
 
-    it('should resolve all skills for one competence', async () => {
+    it('should resolve all skills for one competence', async function() {
       // given
       const competenceId = 'recCompetenceId';
       const activeSkill = domainBuilder.buildSkill({ competenceId });
@@ -83,9 +83,9 @@ describe('Integration | Repository | skill-repository', () => {
     });
   });
 
-  describe('#findOperativeByIds', () => {
+  describe('#findOperativeByIds', function() {
 
-    it('should resolve all skills passed by ids', async () => {
+    it('should resolve all skills passed by ids', async function() {
       // given
       const competenceId = 'recCompetenceId';
       const activeSkill = domainBuilder.buildSkill({ competenceId });

@@ -7,9 +7,9 @@ const { BadRequestError } = require('../../../../lib/application/http-errors');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
-describe('Unit | Application | Controller | Authentication', () => {
+describe('Unit | Application | Controller | Authentication', function() {
 
-  describe('#authenticateUser', () => {
+  describe('#authenticateUser', function() {
 
     const accessToken = 'jwt.access.token';
 
@@ -20,7 +20,7 @@ describe('Unit | Application | Controller | Authentication', () => {
     const scope = 'pix-orga';
     const source = 'pix';
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
@@ -38,7 +38,7 @@ describe('Unit | Application | Controller | Authentication', () => {
     /**
      * @see https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/
      */
-    it('should return an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async () => {
+    it('should return an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async function() {
       // given
       sinon.stub(usecases, 'authenticateUser').withArgs({ username, password, scope, source }).resolves(accessToken);
 
@@ -61,7 +61,7 @@ describe('Unit | Application | Controller | Authentication', () => {
     });
   });
 
-  describe('#authenticateExternalUser', () => {
+  describe('#authenticateExternalUser', function() {
     let request;
     const accessToken = 'jwt.access.token';
     const user = {
@@ -69,7 +69,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       password: 'Pix123',
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         payload: {
           data: {
@@ -88,7 +88,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       sinon.stub(usecases, 'addGarAuthenticationMethodToUser').resolves();
     });
 
-    it('should check user credentials', async () => {
+    it('should check user credentials', async function() {
       // given
       const source = 'external';
       sinon.stub(usecases, 'authenticateUser').resolves(accessToken);
@@ -104,7 +104,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       });
     });
 
-    it('should update user samlId', async () => {
+    it('should update user samlId', async function() {
       // given
       sinon.stub(usecases, 'authenticateUser').resolves(accessToken);
 
@@ -119,7 +119,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       });
     });
 
-    it('should return an access token', async () => {
+    it('should return an access token', async function() {
       // given
       sinon.stub(usecases, 'authenticateUser').resolves(accessToken);
 
@@ -132,7 +132,7 @@ describe('Unit | Application | Controller | Authentication', () => {
     });
   });
 
-  describe('#authenticatePoleEmploiUser', () => {
+  describe('#authenticatePoleEmploiUser', function() {
 
     const code = 'ABCD';
     const client_id = 'CLIENT_ID';
@@ -140,7 +140,7 @@ describe('Unit | Application | Controller | Authentication', () => {
 
     let request;
 
-    beforeEach(() => {
+    beforeEach(function() {
       featureToggles.isPoleEmploiEnabled = true;
       request = {
         payload: {
@@ -153,7 +153,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       sinon.stub(usecases, 'authenticatePoleEmploiUser').resolves();
     });
 
-    it('should return 400 when feature is off', async () => {
+    it('should return 400 when feature is off', async function() {
       // given
       featureToggles.isPoleEmploiEnabled = false;
       const expectedErrorMessage = 'This feature is not enable!';
@@ -167,7 +167,7 @@ describe('Unit | Application | Controller | Authentication', () => {
 
     });
 
-    it('should call usecase with payload parameters', async () => {
+    it('should call usecase with payload parameters', async function() {
       // given
       const expectedParameters = {
         code,
@@ -183,7 +183,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       expect(usecases.authenticatePoleEmploiUser).to.have.been.calledWith(expectedParameters);
     });
 
-    it('should return http status code 200, access token and ID token', async () => {
+    it('should return http status code 200, access token and ID token', async function() {
       // given
       const expectedResult = {
         access_token: 'ACCESS TOKEN',
@@ -200,7 +200,7 @@ describe('Unit | Application | Controller | Authentication', () => {
     });
   });
 
-  describe('#authenticateApplicationLivretScolaire', () => {
+  describe('#authenticateApplicationLivretScolaire', function() {
 
     const access_token = 'jwt.access.token';
 
@@ -209,7 +209,7 @@ describe('Unit | Application | Controller | Authentication', () => {
     const client_secret = Symbol('clientSecret');
     const scope = Symbol('scope');
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
@@ -224,7 +224,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       sinon.stub(tokenService, 'extractClientId').returns(client_id);
     });
 
-    it('should return an OAuth 2 token response', async () => {
+    it('should return an OAuth 2 token response', async function() {
       // given
       sinon.stub(usecases, 'authenticateApplicationLivretScolaire')
         .withArgs({ clientId: client_id, clientSecret: client_secret, scope })

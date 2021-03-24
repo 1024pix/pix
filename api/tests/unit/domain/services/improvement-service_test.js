@@ -3,12 +3,12 @@ const _ = require('lodash');
 
 const improvementService = require('../../../../lib/domain/services/improvement-service');
 
-describe('Unit | Service | ImprovementService', () => {
+describe('Unit | Service | ImprovementService', function() {
 
-  describe('#filterKnowledgeElementsIfImproving', () => {
+  describe('#filterKnowledgeElementsIfImproving', function() {
 
-    context('when assessment is not improving', () => {
-      it('should return the same list of knowledge-elements if assessment is not improving', () => {
+    context('when assessment is not improving', function() {
+      it('should return the same list of knowledge-elements if assessment is not improving', function() {
         // given
         const assessment = domainBuilder.buildAssessment({ state: 'started', isImproving: false });
         const knowledgeElements = [domainBuilder.buildKnowledgeElement()];
@@ -20,9 +20,9 @@ describe('Unit | Service | ImprovementService', () => {
       });
     });
 
-    context('when assessment is improving', () => {
+    context('when assessment is improving', function() {
       let assessment, oldKnowledgeElementsValidated, oldKnowledgeElementsInvalidated, recentKnowledgeElements;
-      beforeEach(() => {
+      beforeEach(function() {
         const assessmentDate = '2020-07-30';
         const fiveDaysBeforeAssesmentDate = '2020-07-25';
         const fourDaysBeforeAssesmentDate = '2020-07-26';
@@ -49,7 +49,7 @@ describe('Unit | Service | ImprovementService', () => {
         ];
       });
 
-      it('should return the same list of knowledge-elements if assessment is not improving', () => {
+      it('should return the same list of knowledge-elements if assessment is not improving', function() {
         // given
         const knowledgeElements = _.concat(oldKnowledgeElementsValidated, oldKnowledgeElementsInvalidated, recentKnowledgeElements);
         // when

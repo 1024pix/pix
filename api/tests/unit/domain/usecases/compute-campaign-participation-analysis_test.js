@@ -3,7 +3,7 @@ const { computeCampaignParticipationAnalysis } = require('../../../../lib/domain
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
+describe('Unit | UseCase | compute-campaign-participation-analysis', function() {
 
   let campaignRepository;
   let campaignAnalysisRepository;
@@ -17,7 +17,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
   let campaignParticipation;
   const locale = FRENCH_SPOKEN;
 
-  beforeEach(() => {
+  beforeEach(function() {
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     campaignParticipationRepository = { get: sinon.stub() };
     campaignAnalysisRepository = { getCampaignParticipationAnalysis: sinon.stub() };
@@ -27,9 +27,9 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
     campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, isShared: true });
   });
 
-  context('User has access to this result', () => {
-    context('Participant has shared its results', () => {
-      it('should returns two CampaignTubeRecommendations but with two skills in the same tube', async () => {
+  context('User has access to this result', function() {
+    context('Participant has shared its results', function() {
+      it('should returns two CampaignTubeRecommendations but with two skills in the same tube', async function() {
         // given
         const targetProfile = Symbol('targetProfile');
         const tutorials = Symbol('tutorials');
@@ -59,8 +59,8 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
       });
     });
 
-    context('Participant has not shared its results', () => {
-      it('should returns null', async () => {
+    context('Participant has not shared its results', function() {
+      it('should returns null', async function() {
         // given
         campaignParticipation.userId = userId;
         campaignParticipation.isShared = false;
@@ -85,13 +85,13 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
     });
   });
 
-  context('User does not have access to this result', () => {
-    beforeEach(() => {
+  context('User does not have access to this result', function() {
+    beforeEach(function() {
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 
-    it('it should throw an UserNotAuthorizedToAccessEntityError error', async () => {
+    it('it should throw an UserNotAuthorizedToAccessEntityError error', async function() {
       // when
       const result = await catchErr(computeCampaignParticipationAnalysis)({
         userId,

@@ -4,14 +4,14 @@ const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult
 const forIn = require('lodash/forIn');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 
-describe('Unit | Domain | Models | JuryCertificationSummary', () => {
+describe('Unit | Domain | Models | JuryCertificationSummary', function() {
 
-  describe('#validate', () => {
+  describe('#validate', function() {
 
-    context('when a status is given', () => {
+    context('when a status is given', function() {
 
       forIn(AssessmentResult.status, (status, key) => {
-        it(`should returns "${status}" status`, () => {
+        it(`should returns "${status}" status`, function() {
           // when
           const juryCertificationSummary = new JuryCertificationSummary({ status });
 
@@ -21,9 +21,9 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
       });
     });
 
-    context('when no status is given', () => {
+    context('when no status is given', function() {
 
-      it('should return "started"', () => {
+      it('should return "started"', function() {
         // when
         const juryCertificationSummary = new JuryCertificationSummary({ status: null });
 
@@ -33,9 +33,9 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
     });
   });
 
-  describe('#isActionRequired', () => {
-    context('when at least one issue report requires action', () => {
-      it('should return true', () => {
+  describe('#isActionRequired', function() {
+    context('when at least one issue report requires action', function() {
+      it('should return true', function() {
         // given
         const juryCertificationSummary = new JuryCertificationSummary({ certificationIssueReports: [
           domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.FRAUD }),
@@ -48,9 +48,9 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
         expect(isRequired).to.be.true;
       });
 
-      context('when no issues require action', () => {
+      context('when no issues require action', function() {
 
-        it('should return false', () => {
+        it('should return false', function() {
           // given
           const juryCertificationSummary = new JuryCertificationSummary({ certificationIssueReports: [
             domainBuilder.buildCertificationIssueReport({
@@ -69,11 +69,11 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
     });
   });
 
-  describe('#hasScoringError', () => {
+  describe('#hasScoringError', function() {
 
-    context('when assessment result has a scoring error', () => {
+    context('when assessment result has a scoring error', function() {
 
-      it('should return true', () => {
+      it('should return true', function() {
         // given
         const juryCertificationSummary = new JuryCertificationSummary({ status: AssessmentResult.status.ERROR });
 
@@ -84,9 +84,9 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
         expect(hasScoringError).to.be.true;
       });
 
-      context('when assessment result doesn\'t have a scoring error', () => {
+      context('when assessment result doesn\'t have a scoring error', function() {
 
-        it('should return false', () => {
+        it('should return false', function() {
           // given
           const juryCertificationSummary = new JuryCertificationSummary({ status: AssessmentResult.status.VALIDATED });
 
@@ -100,11 +100,11 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
     });
   });
 
-  describe('#hasCompletedAssessment', () => {
+  describe('#hasCompletedAssessment', function() {
 
-    context('when assessment is completed', () => {
+    context('when assessment is completed', function() {
 
-      it('should return true', () => {
+      it('should return true', function() {
         // given
         const juryCertificationSummary = new JuryCertificationSummary({ status: AssessmentResult.status.REJECTED });
 
@@ -115,9 +115,9 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
         expect(hasCompletedAssessment).to.be.true;
       });
 
-      context('when assessment is not completed', () => {
+      context('when assessment is not completed', function() {
 
-        it('should return false', () => {
+        it('should return false', function() {
           // given
           const juryCertificationSummary = new JuryCertificationSummary({ status: null });
 

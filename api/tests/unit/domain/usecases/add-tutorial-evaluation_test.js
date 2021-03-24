@@ -2,7 +2,7 @@ const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper
 const addTutorialEvaluation = require('../../../../lib/domain/usecases/add-tutorial-evaluation');
 const LearningContentNotFoundError = require('../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound');
 
-describe('Unit | UseCase | add-tutorial-evaluation', () => {
+describe('Unit | UseCase | add-tutorial-evaluation', function() {
 
   let tutorialRepository;
   let tutorialEvaluationRepository;

@@ -4,27 +4,27 @@ const CampaignParticipationResultsShared = require('./../../../../lib/domain/eve
 
 describe('Unit | Domain | Events | compute-validated-skills-count', function() {
 
-  describe('eventType', () => {
-    it('returns the CampaignParticipationResultsShared', () => {
+  describe('eventType', function() {
+    it('returns the CampaignParticipationResultsShared', function() {
       const eventType = computeValidatedSkillsCount.eventType;
 
       expect(eventType).to.equals(CampaignParticipationResultsShared);
     });
   });
 
-  describe('.computeValidatedSkillsCount', () => {
+  describe('.computeValidatedSkillsCount', function() {
     let knowledgeElementRepository;
     let campaignParticipationRepository;
     let targetProfileWithLearningContentRepository;
 
-    beforeEach(() => {
+    beforeEach(function() {
       campaignParticipationRepository = { get: sinon.stub(), update: sinon.stub() };
       targetProfileWithLearningContentRepository = { getByCampaignId: sinon.stub() };
       knowledgeElementRepository = { countValidatedTargetedByCompetencesForOneUser: sinon.stub() };
     });
 
-    context('when the campaign is of type assessment', () => {
-      it('computes the validated skills count', async () => {
+    context('when the campaign is of type assessment', function() {
+      it('computes the validated skills count', async function() {
         const targetProfile = domainBuilder.buildTargetProfile();
         const campaign = domainBuilder.buildCampaign.ofTypeAssessment();
         const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: 1, campaignId: 2, userId: 3, campaign });
@@ -54,8 +54,8 @@ describe('Unit | Domain | Events | compute-validated-skills-count', function() {
       });
     });
 
-    context('when the campaign is of type profile collection', () => {
-      it('does not compute the validated skills count', async () => {
+    context('when the campaign is of type profile collection', function() {
+      it('does not compute the validated skills count', async function() {
         const targetProfile = domainBuilder.buildTargetProfile();
         const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection();
         const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: 1, campaignId: 2, userId: 3, campaign });

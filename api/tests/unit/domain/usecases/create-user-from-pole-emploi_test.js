@@ -6,7 +6,7 @@ const User = require('../../../../lib/domain/models/User');
 const authenticationCache = require('../../../../lib/infrastructure/caches/authentication-cache');
 const moment = require('moment');
 
-describe('Unit | UseCase | create-user-from-pole-emploi', () => {
+describe('Unit | UseCase | create-user-from-pole-emploi', function() {
 
   const domainTransaction = Symbol();
 
@@ -16,7 +16,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
   let authenticationMethodRepository;
   let authenticationService;
 
-  beforeEach(() => {
+  beforeEach(function() {
     clock = sinon.useFakeTimers(Date.now());
     DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
     authenticationCacheGetStub = sinon.stub(authenticationCache, 'get');
@@ -33,13 +33,13 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
     };
   });
 
-  afterEach(() => {
+  afterEach(function() {
     clock.restore();
   });
 
-  context('When there is no user with Pole Emploi authentication method', () => {
+  context('When there is no user with Pole Emploi authentication method', function() {
 
-    it('should create the user and the authentication method', async () => {
+    it('should create the user and the authentication method', async function() {
       // given
       const userId = 123;
       const authenticationKey = 'authenticationKey';
@@ -97,9 +97,9 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
     });
   });
 
-  context('When there is already a user with Pole Emploi authentication method', () => {
+  context('When there is already a user with Pole Emploi authentication method', function() {
 
-    it('should neither create the user nor the authentication method', async () => {
+    it('should neither create the user nor the authentication method', async function() {
       // given
       const userId = 123;
       const authenticationKey = 'authenticationKey';

@@ -3,11 +3,11 @@ const usecases = require('../../../../lib/domain/usecases');
 const stageSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/stage-serializer');
 const stagesController = require('../../../../lib/application/stages/stages-controller');
 
-describe('Unit | Controller | stages-controller', () => {
-  describe('#create', () => {
+describe('Unit | Controller | stages-controller', function() {
+  describe('#create', function() {
     const userId = '1';
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(stageSerializer, 'serialize');
       sinon.stub(stageSerializer, 'deserialize');
       sinon.stub(usecases, 'createStage');
@@ -42,10 +42,10 @@ describe('Unit | Controller | stages-controller', () => {
     });
   });
 
-  describe('#updateStage', () => {
+  describe('#updateStage', function() {
     let request;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'updateStage');
       request = {
         params: {
@@ -62,8 +62,8 @@ describe('Unit | Controller | stages-controller', () => {
       };
     });
 
-    context('successful case', () => {
-      it('should succeed', async () => {
+    context('successful case', function() {
+      it('should succeed', async function() {
         // when
         const response = await stagesController.updateStage(request, hFake);
 
@@ -74,10 +74,10 @@ describe('Unit | Controller | stages-controller', () => {
     });
   });
 
-  describe('#getStageDetails', () => {
+  describe('#getStageDetails', function() {
     let request;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getStageDetails');
       request = {
         params: {
@@ -86,8 +86,8 @@ describe('Unit | Controller | stages-controller', () => {
       };
     });
 
-    context('successful case', () => {
-      it('should succeed', async () => {
+    context('successful case', function() {
+      it('should succeed', async function() {
         // when
         stagesController.getStageDetails(request);
 

@@ -19,14 +19,14 @@ function duplicateChallengeOfSameDifficulty(challenge) {
   return _.assign(_.cloneDeep(challenge), { id: 'rec' + challengeId });
 }
 
-describe('Integration | Domain | Stategies | SmartRandom', () => {
+describe('Integration | Domain | Stategies | SmartRandom', function() {
   let challenges, targetSkills, knowledgeElements, lastAnswer, allAnswers, locale, web1, web2, web3, web4, web5,
     web6, web7, url2, url3, url4, url5, url6, rechInfo5, rechInfo7, info2, cnil1, cnil2, challengeWeb_1,
     challengeWeb_2, challengeWeb_2_3, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6, challengeWeb_7,
     challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6, challengeRechInfo_5,
     challengeRechInfo_7, challengeInfo_2_frAndEn, challengeCnil_1, challengeCnil_2;
 
-  beforeEach(() => {
+  beforeEach(function() {
     targetSkills = null;
     knowledgeElements = null;
     lastAnswer = null;
@@ -74,7 +74,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
   });
 
   describe('#getPossibleSkillsForNextChallenge', function() {
-    context('when it is the first question only', () => {
+    context('when it is the first question only', function() {
 
       it('should ideally start with an untimed, default starting level skill', function() {
         // given
@@ -197,7 +197,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
     });
 
-    context('when the difficulty must be adapted based on the answer to the previous question', () => {
+    context('when the difficulty must be adapted based on the answer to the previous question', function() {
 
       it('should end the test when the remaining challenges have been inferred to be too hard', function() {
         // given
@@ -479,7 +479,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
     });
 
-    context('when the next question added knowledge value is taken into account', () => {
+    context('when the next question added knowledge value is taken into account', function() {
 
       it('should end the test if the next challenges wont provide any additional knowledge on the user', function() {
         // given
@@ -552,8 +552,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
       });
     });
 
-    context('when knowledge elements contains skills no present in the target profile', () => {
-      it('should return correctly a next challenge', () => {
+    context('when knowledge elements contains skills no present in the target profile', function() {
+      it('should return correctly a next challenge', function() {
         // given
         targetSkills = [web1, web2, web3, url3];
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3];
@@ -602,8 +602,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
       });
     });
 
-    context('when skills is linked to another skills in challenge should have a better rewarding', () => {
-      it('should return correctly a next challenge', () => {
+    context('when skills is linked to another skills in challenge should have a better rewarding', function() {
+      it('should return correctly a next challenge', function() {
         // given
         targetSkills = [url2, web2, web3];
         challenges = [challengeWeb_2_3, challengeUrl_2];
@@ -638,7 +638,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
       });
     });
 
-    context('when one challenge has already been answered but its learning content has been updated', () => {
+    context('when one challenge has already been answered but its learning content has been updated', function() {
       it('should not be asked again and ask another challenge from same skill', function() {
         // given
         targetSkills = [web2];
@@ -690,7 +690,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
       });
     });
 
-    context('when one skill does not have challenge in the asked locale', () => {
+    context('when one skill does not have challenge in the asked locale', function() {
 
       it('should propose only skill with asked locale', function() {
         // given

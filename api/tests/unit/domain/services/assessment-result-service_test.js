@@ -8,9 +8,9 @@ const competenceMarkRepository = require('../../../../lib/infrastructure/reposit
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
-describe('Unit | Domain | Services | assessment-results', () => {
+describe('Unit | Domain | Services | assessment-results', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
 
     const assessmentResult = new AssessmentResult({
       assessmentId: 1,
@@ -37,12 +37,12 @@ describe('Unit | Domain | Services | assessment-results', () => {
       }),
     ];
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(assessmentResultRepository, 'save').resolves({ id: 1 });
       sinon.stub(competenceMarkRepository, 'save').resolves();
     });
 
-    it('should save the assessment results', async () => {
+    it('should save the assessment results', async function() {
       // when
       await service.save(assessmentResult, competenceMarks);
 
@@ -52,7 +52,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
 
     });
 
-    it('should save all competenceMarks', async () => {
+    it('should save all competenceMarks', async function() {
       // when
       await service.save(assessmentResult, competenceMarks);
 

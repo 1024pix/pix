@@ -1,14 +1,14 @@
 const { expect } = require('../../../test-helper');
 const databaseBuffer = require('../../../../db/database-builder/database-buffer');
 
-describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
-  afterEach(() => {
+describe('Unit | Tooling | DatabaseBuilder | database-buffer', function() {
+  afterEach(function() {
     databaseBuffer.objectsToInsert = [];
   });
 
-  describe('#pushInsertable', () => {
+  describe('#pushInsertable', function() {
 
-    it('should add an object to insert', () => {
+    it('should add an object to insert', function() {
       // given
       const tableName = 'someTableName';
       const values = { id: 123, a: 'aVal', b: 'bVal' };
@@ -22,7 +22,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
       ]);
     });
 
-    it('should add an object to insert with a custom id property', () => {
+    it('should add an object to insert with a custom id property', function() {
       // given
       const tableName = 'someTableName';
       const values = { sessionId: 123, a: 'aVal', b: 'bVal' };
@@ -36,7 +36,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
       ]);
     });
 
-    it('should return inserted values', () => {
+    it('should return inserted values', function() {
       // given
       const tableName = 'someTableName';
       const values = { id: 123, a: 'aVal', b: 'bVal' };
@@ -48,9 +48,9 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
       expect(expectedValues).to.deep.equal(values);
     });
 
-    context('when no id is provided but there is a custom id key', () => {
+    context('when no id is provided but there is a custom id key', function() {
 
-      it('should add an object to insert with a custom id property', () => {
+      it('should add an object to insert with a custom id property', function() {
         // given
         const tableName = 'someTableName';
         const values = { a: 'aVal', b: 'bVal' };
@@ -66,9 +66,9 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
       });
     });
 
-    context('when no id is provided along with the object', () => {
+    context('when no id is provided along with the object', function() {
 
-      it('should add an id property along with original properties in the values', () => {
+      it('should add an id property along with original properties in the values', function() {
         // given
         const tableName = 'someTableName';
         const values = { a: 'aVal', b: 'bVal' };
@@ -83,7 +83,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
         ]);
       });
 
-      it('should increment internal id counter', () => {
+      it('should increment internal id counter', function() {
         // given
         const tableName = 'someTableName';
         const values = { a: 'aVal', b: 'bVal' };
@@ -96,7 +96,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
         expect(incrementedId).to.equal(initialId + 1);
       });
 
-      it('should return inserted values with the id in it', () => {
+      it('should return inserted values with the id in it', function() {
         // given
         const tableName = 'someTableName';
         const values = { a: 'aVal', b: 'bVal' };
@@ -111,9 +111,9 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
     });
   });
 
-  describe('#purge', () => {
+  describe('#purge', function() {
 
-    it('should empty objectsToInsert array', () => {
+    it('should empty objectsToInsert array', function() {
       // given
       databaseBuffer.objectsToInsert = ['someValue'];
 
@@ -124,9 +124,9 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
       expect(databaseBuffer.objectsToInsert).to.be.empty;
     });
 
-    context('when no id is provided along with the object', () => {
+    context('when no id is provided along with the object', function() {
 
-      it('should add an id property along with original properties in the values', () => {
+      it('should add an id property along with original properties in the values', function() {
         // given
         const tableName = 'someTableName';
         const values = { a: 'aVal', b: 'bVal' };
@@ -141,7 +141,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
         ]);
       });
 
-      it('should increment internal id counter', () => {
+      it('should increment internal id counter', function() {
         // given
         const tableName = 'someTableName';
         const values = { a: 'aVal', b: 'bVal' };

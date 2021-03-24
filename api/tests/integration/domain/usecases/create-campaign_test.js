@@ -10,13 +10,13 @@ const createCampaign = require('../../../../lib/domain/usecases/create-campaign'
 
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
-describe('Integration | UseCases | create-campaign', () => {
+describe('Integration | UseCases | create-campaign', function() {
 
   let userId;
   let organizationId;
   let targetProfileId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     organizationId = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true }).id;
     userId = databaseBuilder.factory.buildUser().id;
 
@@ -35,11 +35,11 @@ describe('Integration | UseCases | create-campaign', () => {
     mockLearningContent(learningContent);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     return knex('campaigns').delete();
   });
 
-  it('should save a new campaign of type ASSESSMENT', async () => {
+  it('should save a new campaign of type ASSESSMENT', async function() {
     // given
     const campaign = { name: 'a name', type: Campaign.types.ASSESSMENT, title: 'a title', idPixLabel: 'id Pix label',
       customLandingPageText: 'Hello', creatorId: userId, organizationId, targetProfileId };
@@ -58,7 +58,7 @@ describe('Integration | UseCases | create-campaign', () => {
     expect('id').to.be.ok;
   });
 
-  it('should save a new campaign of type PROFILES_COLLECTION', async () => {
+  it('should save a new campaign of type PROFILES_COLLECTION', async function() {
     // given
     const campaign = { name: 'a name', type: Campaign.types.PROFILES_COLLECTION, idPixLabel: 'id Pix label',
       customLandingPageText: 'Hello', creatorId: userId, organizationId };

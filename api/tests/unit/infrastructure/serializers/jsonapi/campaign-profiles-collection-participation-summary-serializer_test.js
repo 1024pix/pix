@@ -2,9 +2,9 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer');
 const CampaignProfilesCollectionParticipationSummary = require('../../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary');
 
-describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participation-summary-serializer', () => {
-  describe('#serialize', () => {
-    it('should return a serialized JSON data object', () => {
+describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participation-summary-serializer', function() {
+  describe('#serialize', function() {
+    it('should return a serialized JSON data object', function() {
       const meta = { some: 'meta' };
       const participationSummary = new CampaignProfilesCollectionParticipationSummary({
         campaignParticipationId: '1',

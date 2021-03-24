@@ -1,26 +1,26 @@
 const { expect } = require('../../../test-helper');
 const { getCampaignUrl } = require('../../../../lib/infrastructure/utils/url-builder');
 
-describe('Unit | Utils | url-builder', () => {
+describe('Unit | Utils | url-builder', function() {
 
-  describe('#getCampaignUrl', () => {
+  describe('#getCampaignUrl', function() {
 
-    it('should return null if campaignCode is not defined', () => {
+    it('should return null if campaignCode is not defined', function() {
       expect(getCampaignUrl('fr', null)).to.be.null;
     });
 
-    describe('when campaignCode is defined', () => {
+    describe('when campaignCode is defined', function() {
       const campaignCode = 'AZERTY123';
 
-      it('should return campaignUrl with fr domain when locale is fr-fr', () => {
+      it('should return campaignUrl with fr domain when locale is fr-fr', function() {
         expect(getCampaignUrl('fr-fr', campaignCode)).to.be.equal(`https://app.pix.fr/campagnes/${campaignCode}`);
       });
 
-      it('should return campaignUrl with org domain when locale is fr', () => {
+      it('should return campaignUrl with org domain when locale is fr', function() {
         expect(getCampaignUrl('fr', campaignCode)).to.be.equal(`https://app.pix.org/campagnes/${campaignCode}/?lang=fr`);
       });
 
-      it('should return campaignUrl with org domain when locale is en', () => {
+      it('should return campaignUrl with org domain when locale is en', function() {
         expect(getCampaignUrl('en', campaignCode)).to.be.equal(`https://app.pix.org/campagnes/${campaignCode}/?lang=en`);
       });
     });

@@ -5,11 +5,11 @@ const { BadRequestError } = require('../../lib/application/http-errors');
 
 const { handleFailAction } = require('../../lib/validate');
 
-describe('Unit | Validate', () => {
+describe('Unit | Validate', function() {
 
   let expectedResponse;
 
-  beforeEach(() => {
+  beforeEach(function() {
     const { title: defaultTitle, status: defaultStatus } = new BadRequestError();
 
     expectedResponse = {
@@ -23,7 +23,7 @@ describe('Unit | Validate', () => {
     };
   });
 
-  it('should generate a response with BadRequest default error\'s title, status and statusCode', () => {
+  it('should generate a response with BadRequest default error\'s title, status and statusCode', function() {
     // given
     const error = undefined;
 
@@ -36,7 +36,7 @@ describe('Unit | Validate', () => {
       .deep.equal(expectedResponse);
   });
 
-  it('should generate a response with BadRequest default parameters and detail error message', () => {
+  it('should generate a response with BadRequest default parameters and detail error message', function() {
     // given
     const expectedErrorMessage = 'This is a specific error message';
     const error = {

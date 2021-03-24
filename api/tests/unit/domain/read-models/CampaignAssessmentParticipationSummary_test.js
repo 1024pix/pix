@@ -2,11 +2,11 @@ const { expect } = require('../../../test-helper');
 const CampaignAssessmentParticipationSummary = require('../../../../lib/domain/read-models/CampaignAssessmentParticipationSummary');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () => {
+describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', function() {
 
-  describe('#status', () => {
-    context('when isShared is true', () => {
-      it('returns SHARED as status', () => {
+  describe('#status', function() {
+    context('when isShared is true', function() {
+      it('returns SHARED as status', function() {
         const campaignAssessmentParticipationSummary = new CampaignAssessmentParticipationSummary({
           targetedSkillCount: 1,
           validatedTargetedSkillCount: 1,
@@ -17,9 +17,9 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
       });
     });
 
-    context('when isShared is false', () => {
-      context('when state is Assessment.states.COMPLETED', () => {
-        it('returns SHARED as status', () => {
+    context('when isShared is false', function() {
+      context('when state is Assessment.states.COMPLETED', function() {
+        it('returns SHARED as status', function() {
           const campaignAssessmentParticipationSummary = new CampaignAssessmentParticipationSummary({
             targetedSkillCount: 1,
             validatedTargetedSkillCount: 1,
@@ -30,8 +30,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
           expect(campaignAssessmentParticipationSummary.status).equal(CampaignAssessmentParticipationSummary.statuses.COMPLETED);
         });
 
-        context('when state is Assessment.states.ONGOING', () => {
-          it('returns SHARED as status', () => {
+        context('when state is Assessment.states.ONGOING', function() {
+          it('returns SHARED as status', function() {
             const campaignAssessmentParticipationSummary = new CampaignAssessmentParticipationSummary({
               targetedSkillCount: 1,
               validatedTargetedSkillCount: 1,
@@ -46,12 +46,12 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
     });
   });
 
-  describe('#masteryPercentage', () => {
+  describe('#masteryPercentage', function() {
 
-    context('when status is SHARED', () => {
-      context('when targetedSkillCount = 0', () => {
+    context('when status is SHARED', function() {
+      context('when targetedSkillCount = 0', function() {
 
-        it('should compute a masteryPercentage of 0', () => {
+        it('should compute a masteryPercentage of 0', function() {
           const targetedSkillCount = 0;
           const campaignAssessmentParticipationSummary = new CampaignAssessmentParticipationSummary({
             targetedSkillCount,
@@ -63,9 +63,9 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
         });
       });
 
-      context('when targetedSkillCount != 0', () => {
+      context('when targetedSkillCount != 0', function() {
 
-        it('should compute a masteryPercentage accordingly', () => {
+        it('should compute a masteryPercentage accordingly', function() {
           const targetedSkillCount = 40;
           const validatedSkillCount = 10;
           const campaignAssessmentParticipationSummary = new CampaignAssessmentParticipationSummary({
@@ -77,7 +77,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
           expect(campaignAssessmentParticipationSummary.masteryPercentage).equal(25);
         });
 
-        it('should compute a masteryPercentage accordingly with rounded value', () => {
+        it('should compute a masteryPercentage accordingly with rounded value', function() {
           const targetedSkillCount = 30;
           const validatedSkillCount = 10;
           const campaignAssessmentParticipationSummary = new CampaignAssessmentParticipationSummary({
@@ -91,8 +91,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationSummary', () =
       });
     });
 
-    context('when status is not SHARED', () => {
-      it('should compute a masteryPercentage accordingly', () => {
+    context('when status is not SHARED', function() {
+      it('should compute a masteryPercentage accordingly', function() {
         const campaignAssessmentParticipationSummary = new CampaignAssessmentParticipationSummary({
           status: CampaignAssessmentParticipationSummary.statuses.ONGOING,
           targetedSkillCount: 1,

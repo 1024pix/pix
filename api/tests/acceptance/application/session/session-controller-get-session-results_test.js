@@ -2,11 +2,11 @@ const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = req
 const createServer = require('../../../../server');
 const moment = require('moment');
 
-describe('Acceptance | Controller | session-controller-get-session-results', () => {
+describe('Acceptance | Controller | session-controller-get-session-results', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
@@ -14,16 +14,16 @@ describe('Acceptance | Controller | session-controller-get-session-results', () 
     let session;
     let sessionId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       session = databaseBuilder.factory.buildSession({ date: '2020/01/01', time: '12:00' });
       sessionId = session.id;
 
       return databaseBuilder.commit();
     });
 
-    context('when user has not the role PixMaster', () => {
+    context('when user has not the role PixMaster', function() {
 
-      it('should return 403 HTTP status code', async () => {
+      it('should return 403 HTTP status code', async function() {
         // when
         const response = await server.inject({
           method: 'GET',
@@ -37,7 +37,7 @@ describe('Acceptance | Controller | session-controller-get-session-results', () 
 
     });
 
-    context('when user has role PixMaster', () => {
+    context('when user has role PixMaster', function() {
       let pixMasterId;
       let certif1;
       let certif2;
@@ -46,7 +46,7 @@ describe('Acceptance | Controller | session-controller-get-session-results', () 
       const birthdate = moment(new Date('1996-01-01')).format('DD/MM/YYYY');
       const createdAt = moment(new Date('2020-01-01')).format('DD/MM/YYYY');
 
-      beforeEach(() => {
+      beforeEach(function() {
         const dbf = databaseBuilder.factory;
         pixMasterId = dbf.buildUser.withPixRolePixMaster().id;
 
@@ -71,7 +71,7 @@ describe('Acceptance | Controller | session-controller-get-session-results', () 
         return databaseBuilder.commit();
       });
 
-      it('should return 200 HTTP status code', async () => {
+      it('should return 200 HTTP status code', async function() {
         // when
         const response = await server.inject(request);
 
@@ -79,7 +79,7 @@ describe('Acceptance | Controller | session-controller-get-session-results', () 
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return the expected data', async () => {
+      it('should return the expected data', async function() {
         // when
         const response = await server.inject(request);
 
@@ -91,7 +91,7 @@ describe('Acceptance | Controller | session-controller-get-session-results', () 
         expect(response.payload).to.deep.equal(expectedResult);
       });
 
-      it('should return the correct fileName', async () => {
+      it('should return the correct fileName', async function() {
         // when
         const response = await server.inject(request);
 

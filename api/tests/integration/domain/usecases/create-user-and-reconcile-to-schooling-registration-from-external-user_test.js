@@ -17,11 +17,11 @@ const { CampaignCodeError, NotFoundError, ObjectValidationError, SchoolingRegist
 
 const createUserAndReconcileToSchoolingRegistrationByExternalUser = require('../../../../lib/domain/usecases/create-user-and-reconcile-to-schooling-registration-from-external-user');
 
-describe('Integration | UseCases | create-user-and-reconcile-to-schooling-registration-from-external-user', () => {
+describe('Integration | UseCases | create-user-and-reconcile-to-schooling-registration-from-external-user', function() {
 
-  context('When there is no campaign with the given code', () => {
+  context('When there is no campaign with the given code', function() {
 
-    it('should throw a campaign code error', async () => {
+    it('should throw a campaign code error', async function() {
       // when
       const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({ campaignCode: 'NOTEXIST', campaignRepository });
 
@@ -30,18 +30,18 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
     });
   });
 
-  context('When the token is invalid', () => {
+  context('When the token is invalid', function() {
 
     let campaignCode;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       campaignCode = databaseBuilder.factory.buildCampaign().code;
       await databaseBuilder.commit();
     });
 
-    context('When the firstName is empty', () => {
+    context('When the firstName is empty', function() {
 
-      it('should throw an ObjectValidationError', async () => {
+      it('should throw an ObjectValidationError', async function() {
         // given
         const externalUser = {
           lastName: 'Jackson',
@@ -63,9 +63,9 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       });
     });
 
-    context('When the lastName is empty', () => {
+    context('When the lastName is empty', function() {
 
-      it('should throw an ObjectValidationError', async () => {
+      it('should throw an ObjectValidationError', async function() {
         // given
         const externalUser = {
           firstName: 'Saml',
@@ -87,9 +87,9 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       });
     });
 
-    context('When the samlId is empty', () => {
+    context('When the samlId is empty', function() {
 
-      it('should throw an ObjectValidationError', async () => {
+      it('should throw an ObjectValidationError', async function() {
         // given
         const externalUser = {
           firstName: 'Saml',
@@ -113,12 +113,12 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
   });
 
-  context('When no schoolingRegistration is found', () => {
+  context('When no schoolingRegistration is found', function() {
 
     let campaignCode;
     let token;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       campaignCode = databaseBuilder.factory.buildCampaign().code;
       await databaseBuilder.commit();
       const externalUser = {
@@ -129,7 +129,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       token = tokenService.createIdTokenForUserReconciliation(externalUser);
     });
 
-    it('should throw a Not Found error', async () => {
+    it('should throw a Not Found error', async function() {
       // given
       const birthdate = '2008-01-01';
 
@@ -150,7 +150,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
     });
   });
 
-  context('When a schoolingRegistration match the token data and birthdate', () => {
+  context('When a schoolingRegistration match the token data and birthdate', function() {
 
     const firstName = 'Saml';
     const lastName = 'Jackson';
@@ -160,7 +160,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
     let organizationId;
     let token;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignCode = databaseBuilder.factory.buildCampaign({ organizationId }).code;
       await databaseBuilder.commit();
@@ -169,12 +169,12 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       token = tokenService.createIdTokenForUserReconciliation(externalUser);
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('authentication-methods').delete();
       await knex('schooling-registrations').delete();
     });
 
-    it('should create the external user, reconcile it and create GAR authentication method', async () => {
+    it('should create the external user, reconcile it and create GAR authentication method', async function() {
       // given
       const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ firstName, lastName, organizationId });
       schoolingRegistration.userId = undefined;
@@ -212,9 +212,9 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
     });
 
-    context('When the external user is already reconciled by another account without samlId authentication method', () => {
+    context('When the external user is already reconciled by another account without samlId authentication method', function() {
 
-      it('should throw a SchoolingRegistrationAlreadyLinkedToUserError', async () => {
+      it('should throw a SchoolingRegistrationAlreadyLinkedToUserError', async function() {
         // given
         const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ firstName, lastName, organizationId });
         await databaseBuilder.commit();
@@ -237,11 +237,11 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       });
     });
 
-    context('When the external user is already reconciled by another account with samlId authentication method', () => {
+    context('When the external user is already reconciled by another account with samlId authentication method', function() {
 
-      context('When reconciled in other organization', async () => {
+      context('When reconciled in other organization', async function() {
 
-        it('should update existing account with the new samlId', async () => {
+        it('should update existing account with the new samlId', async function() {
           // given
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ firstName, lastName, organizationId });
           const otherAccount = databaseBuilder.factory.buildUser(
@@ -291,9 +291,9 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         });
       });
 
-      context('When reconciled in the same organization', async () => {
+      context('When reconciled in the same organization', async function() {
 
-        it('should update existing account with the new samlId', async () => {
+        it('should update existing account with the new samlId', async function() {
           // given
           const birthdate = '10-10-2010';
           const otherAccount = databaseBuilder.factory.buildUser(
@@ -336,9 +336,9 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       });
     });
 
-    context('When the external user is already created', () => {
+    context('When the external user is already created', function() {
 
-      it('should return the already created user', async () => {
+      it('should return the already created user', async function() {
         // given
         const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ firstName, lastName, organizationId });
         schoolingRegistration.userId = undefined;

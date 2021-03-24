@@ -8,10 +8,10 @@ const i18n = getI18n();
 
 const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumns(i18n).columns.map((column) => column.label).join(';');
 
-describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
-  context('when the header is correctly formed', () => {
-    context('when there is no line', () => {
-      it('returns an empty HigherSchoolingRegistrationSet', () => {
+describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', function() {
+  context('when the header is correctly formed', function() {
+    context('when there is no line', function() {
+      it('returns an empty HigherSchoolingRegistrationSet', function() {
         const input = higherSchoolingRegistrationColumns;
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new HigherSchoolingRegistrationParser(encodedInput, 123, i18n);
@@ -21,8 +21,8 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
         expect(higherSchoolingRegistrationSet.registrations).to.be.empty;
       });
     });
-    context('when there are lines', () => {
-      it('returns a HigherSchoolingRegistrationSet with a schooling registration for each line', () => {
+    context('when there are lines', function() {
+      it('returns a HigherSchoolingRegistrationSet with a schooling registration for each line', function() {
         const input = `${higherSchoolingRegistrationColumns}
         Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
@@ -35,7 +35,7 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
         expect(registrations).to.have.lengthOf(2);
       });
 
-      it('returns a HigherSchoolingRegistrationSet with a schooling registration for each line using the CSV column', () => {
+      it('returns a HigherSchoolingRegistrationSet with a schooling registration for each line using the CSV column', function() {
         const input = `${higherSchoolingRegistrationColumns}
         Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
@@ -84,10 +84,10 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
     });
   });
 
-  context('When a column value does not match requirements', () => {
+  context('When a column value does not match requirements', function() {
     const organizationId = 123;
 
-    it('should throw an error if the student number is not unique', async () => {
+    it('should throw an error if the student number is not unique', async function() {
       const input = `${higherSchoolingRegistrationColumns}
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
@@ -100,7 +100,7 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
       expect(error.meta).to.deep.equal({ line: 3, field: 'Numéro étudiant' });
     });
 
-    it('should throw an error if the student number is has an incorrect  format', async () => {
+    it('should throw an error if the student number is has an incorrect  format', async function() {
       const input = `${higherSchoolingRegistrationColumns}
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123@;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1971;thebride@example.net;1234;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;

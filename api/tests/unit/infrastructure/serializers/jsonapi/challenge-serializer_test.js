@@ -56,9 +56,9 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
       });
     });
 
-    describe('field "competence"', () => {
+    describe('field "competence"', function() {
 
-      it('should be the the first associated to the challenge when it exists', () => {
+      it('should be the the first associated to the challenge when it exists', function() {
         // given
         const challenge = new Challenge();
         challenge.id = 1;
@@ -79,7 +79,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
         });
       });
 
-      it('should be null when no competence is associated to the challenge (ex: DEMO course)', () => {
+      it('should be null when no competence is associated to the challenge (ex: DEMO course)', function() {
         // given
         const challenge = new Challenge();
         challenge.id = 1;

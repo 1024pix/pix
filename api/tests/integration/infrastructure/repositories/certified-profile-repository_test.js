@@ -4,11 +4,11 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 const certifiedProfileRepository = require('../../../../lib/infrastructure/repositories/certified-profile-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Repository | Certified Profile', () => {
+describe('Integration | Repository | Certified Profile', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    it('should return certified profile fill with skills validated by the user before certification date', async () => {
+    it('should return certified profile fill with skills validated by the user before certification date', async function() {
       // given
       const learningContent = {
         areas: [{
@@ -128,7 +128,7 @@ describe('Integration | Repository | Certified Profile', () => {
       expect(certifiedProfile).to.deep.equal(expectedCertifiedProfile);
     });
 
-    it('should mark the certifiedSkill that were actually asked in certification test as it', async () => {
+    it('should mark the certifiedSkill that were actually asked in certification test as it', async function() {
       // given
       const learningContent = {
         areas: [{
@@ -218,7 +218,7 @@ describe('Integration | Repository | Certified Profile', () => {
       expect(certifiedSkill1_2_1_1.hasBeenAskedInCertif).to.be.false;
     });
 
-    it('should throw a NotFoundError when related certification course does not exists', async () => {
+    it('should throw a NotFoundError when related certification course does not exists', async function() {
       // when
       const error = await catchErr(certifiedProfileRepository.get)(123);
 
@@ -226,7 +226,7 @@ describe('Integration | Repository | Certified Profile', () => {
       expect(error).to.be.instanceOf(NotFoundError);
     });
 
-    it('should throw a NotFoundError when related certification course has no certification challenges', async () => {
+    it('should throw a NotFoundError when related certification course has no certification challenges', async function() {
       // given
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
       await databaseBuilder.commit();

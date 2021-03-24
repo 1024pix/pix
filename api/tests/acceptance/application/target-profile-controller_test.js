@@ -1,7 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | target-profile-controller', () => {
+describe('Acceptance | Controller | target-profile-controller', function() {
 
   let server;
 
@@ -36,14 +36,14 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     }],
   };
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('POST /api/admin/target-profiles', () => {
+  describe('POST /api/admin/target-profiles', function() {
     let user;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       mockLearningContent(learningContent);
 
       user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
@@ -51,12 +51,12 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('target-profiles_skills').delete();
       await knex('target-profiles').delete();
     });
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       const options = {
         method: 'POST',
         url: '/api/admin/target-profiles',
@@ -84,11 +84,11 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     });
   });
 
-  describe('GET /api/admin/target-profiles/{id}', () => {
+  describe('GET /api/admin/target-profiles/{id}', function() {
     let user;
     let targetProfileId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
 
       mockLearningContent(learningContent);
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
@@ -98,7 +98,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       const options = {
         method: 'GET',
         url: `/api/admin/target-profiles/${targetProfileId}`,
@@ -113,12 +113,12 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     });
   });
 
-  describe('GET /api/admin/target-profiles/{id}/organizations', () => {
+  describe('GET /api/admin/target-profiles/{id}/organizations', function() {
     let user;
     let targetProfileId;
     let organizationId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const learningContent = [{
         id: 'recArea0',
         competences: [{
@@ -136,7 +136,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       const options = {
         method: 'GET',
         url: `/api/admin/target-profiles/${targetProfileId}/organizations`,
@@ -153,17 +153,17 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     });
   });
 
-  describe('POST /api/admin/target-profiles/{id}/attach-organizations', () => {
+  describe('POST /api/admin/target-profiles/{id}/attach-organizations', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       mockLearningContent(learningContent);
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('target-profile-shares').delete();
     });
 
-    it('should return 204', async () => {
+    it('should return 204', async function() {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       const organization1 = databaseBuilder.factory.buildOrganization();
@@ -192,9 +192,9 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     });
   });
 
-  describe('PATCH /api/admin/target-profiles/{id}', () => {
+  describe('PATCH /api/admin/target-profiles/{id}', function() {
 
-    it('should return 204', async () => {
+    it('should return 204', async function() {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       await databaseBuilder.commit();
@@ -220,12 +220,12 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     });
   });
 
-  describe('GET /api/admin/target-profiles/{id}/badges', () => {
+  describe('GET /api/admin/target-profiles/{id}/badges', function() {
     let user;
     let targetProfileId;
     let badge;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const learningContent = [{
         id: 'recArea',
         competences: [{
@@ -251,7 +251,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       const options = {
         method: 'GET',
         url: `/api/admin/target-profiles/${targetProfileId}/badges`,
@@ -278,12 +278,12 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     });
   });
 
-  describe('GET /api/admin/target-profiles/{id}/stages', () => {
+  describe('GET /api/admin/target-profiles/{id}/stages', function() {
     let user;
     let targetProfileId;
     let stage;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const learningContent = [{
         id: 'recArea',
         competences: [{
@@ -309,7 +309,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       const options = {
         method: 'GET',
         url: `/api/admin/target-profiles/${targetProfileId}/stages`,

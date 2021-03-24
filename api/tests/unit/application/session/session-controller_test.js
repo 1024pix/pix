@@ -23,15 +23,15 @@ const { SessionPublicationBatchResult } = require('../../../../lib/domain/models
 const logger = require('../../../../lib/infrastructure/logger');
 const { SessionPublicationBatchError } = require('../../../../lib/application/http-errors');
 
-describe('Unit | Controller | sessionController', () => {
+describe('Unit | Controller | sessionController', function() {
 
   let request;
   let expectedSession;
   const userId = 274939274;
 
-  describe('#create', () => {
+  describe('#create', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       expectedSession = new Session({
         certificationCenter: 'Université de dressage de loutres',
         address: 'Nice',
@@ -70,7 +70,7 @@ describe('Unit | Controller | sessionController', () => {
       };
     });
 
-    it('should save the session', async () => {
+    it('should save the session', async function() {
       // when
       await sessionController.save(request, hFake);
 
@@ -78,7 +78,7 @@ describe('Unit | Controller | sessionController', () => {
       expect(usecases.createSession).to.have.been.calledWith({ userId, session: expectedSession });
     });
 
-    it('should return the saved session in JSON API', async () => {
+    it('should return the saved session in JSON API', async function() {
       // given
       const jsonApiSession = {
         data: {
@@ -107,7 +107,7 @@ describe('Unit | Controller | sessionController', () => {
   describe('#getJurySession', function() {
     const sessionId = 123;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getJurySession');
       sinon.stub(jurySessionSerializer, 'serialize');
       request = {
@@ -118,7 +118,7 @@ describe('Unit | Controller | sessionController', () => {
       };
     });
 
-    context('when session exists', () => {
+    context('when session exists', function() {
 
       it('should reply serialized session informations', async function() {
         // given
@@ -140,7 +140,7 @@ describe('Unit | Controller | sessionController', () => {
   describe('#get', function() {
     const sessionId = 123;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getSession');
       sinon.stub(sessionSerializer, 'serialize');
       request = {
@@ -151,7 +151,7 @@ describe('Unit | Controller | sessionController', () => {
       };
     });
 
-    context('when session exists', () => {
+    context('when session exists', function() {
 
       it('should reply serialized session informations', async function() {
         // given
@@ -170,10 +170,10 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#update', () => {
+  describe('#update', function() {
     let request, updatedSession, updateSessionArgs;
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId: 1 } },
         params: { id: 1 },
@@ -195,7 +195,7 @@ describe('Unit | Controller | sessionController', () => {
       sessionSerializer.deserialize.withArgs(request.payload).returns({});
     });
 
-    it('should return the updated session', async () => {
+    it('should return the updated session', async function() {
       // given
       usecases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
       sessionSerializer.serialize.withArgs(updatedSession).returns(updatedSession);
@@ -209,14 +209,14 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#getAttendanceSheet', () => {
+  describe('#getAttendanceSheet', function() {
     const tokenService = { extractUserId: _.noop };
     let request;
     const sessionId = 1;
     const odsBuffer = Buffer.alloc(5);
     const accessToken = 'ABC123';
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         params: { id: sessionId },
         payload: {},
@@ -229,7 +229,7 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(tokenService, 'extractUserId').withArgs(accessToken).returns(userId);
     });
 
-    it('should return the feuille d\'émargement', async () => {
+    it('should return the feuille d\'émargement', async function() {
       // given
       usecases.getAttendanceSheet.withArgs({ sessionId, userId }).resolves(odsBuffer);
 
@@ -246,12 +246,12 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#importCertificationCandidatesFromAttendanceSheet', () => {
+  describe('#importCertificationCandidatesFromAttendanceSheet', function() {
 
     const sessionId = 2;
     let request;
     const odsBuffer = 'File Buffer';
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       request = {
         params: { id: sessionId },
@@ -261,7 +261,7 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(usecases, 'importCertificationCandidatesFromAttendanceSheet').resolves();
     });
 
-    it('should call the usecase to import certification candidates', async () => {
+    it('should call the usecase to import certification candidates', async function() {
       // given
       usecases.importCertificationCandidatesFromAttendanceSheet.resolves();
 
@@ -276,13 +276,13 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#getCertificationCandidates', () => {
+  describe('#getCertificationCandidates', function() {
     let request;
     const sessionId = 1;
     const certificationCandidates = 'candidates';
     const certificationCandidatesJsonApi = 'candidatesJSONAPI';
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       request = {
         params: { id: sessionId },
@@ -291,7 +291,7 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(certificationCandidates).returns(certificationCandidatesJsonApi);
     });
 
-    it('should return certification candidates', async () => {
+    it('should return certification candidates', async function() {
       // when
       const response = await sessionController.getCertificationCandidates(request, hFake);
 
@@ -301,14 +301,14 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#addCertificationCandidate ', () => {
+  describe('#addCertificationCandidate ', function() {
     let request;
     const sessionId = 1;
     const certificationCandidate = 'candidate';
     const addedCertificationCandidate = 'addedCandidate';
     const certificationCandidateJsonApi = 'addedCandidateJSONApi';
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       request = {
         params: { id: sessionId },
@@ -321,7 +321,7 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(addedCertificationCandidate).returns(certificationCandidateJsonApi);
     });
 
-    it('should return the added certification candidate', async () => {
+    it('should return the added certification candidate', async function() {
       // when
       const response = await sessionController.addCertificationCandidate(request, hFake);
 
@@ -332,12 +332,12 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#deleteCertificationCandidate ', () => {
+  describe('#deleteCertificationCandidate ', function() {
     let request;
     const sessionId = 1;
     const certificationCandidateId = 1;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       request = {
         params: { id: sessionId, certificationCandidateId },
@@ -345,7 +345,7 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(usecases, 'deleteUnlinkedCertificationCandidate').withArgs({ certificationCandidateId }).resolves();
     });
 
-    it('should return 204 when deleting successfully the candidate', async () => {
+    it('should return 204 when deleting successfully the candidate', async function() {
       // when
       const response = await sessionController.deleteCertificationCandidate(request, hFake);
 
@@ -355,13 +355,13 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#getJuryCertificationSummaries ', () => {
+  describe('#getJuryCertificationSummaries ', function() {
     let request;
     const sessionId = 1;
     const juryCertificationSummaries = 'someSummaries';
     const juryCertificationSummariesJSONAPI = 'someSummariesJSONApi';
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       request = {
         params: { id: sessionId },
@@ -375,7 +375,7 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(juryCertificationSummarySerializer, 'serialize').withArgs(juryCertificationSummaries).returns(juryCertificationSummariesJSONAPI);
     });
 
-    it('should return jury certification summaries', async () => {
+    it('should return jury certification summaries', async function() {
       // when
       const response = await sessionController.getJuryCertificationSummaries(request, hFake);
 
@@ -385,13 +385,13 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#getSessionResults ', () => {
+  describe('#getSessionResults ', function() {
     let request;
     const session = { id: 1, date: '2020/01/01', time: '12:00' };
     const certificationResults = [];
     const fileName = `20200101_1200_resultats_session_${session.id}.csv`;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       request = {
         params: { id: session.id },
@@ -405,7 +405,7 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(usecases, 'getSessionResults').withArgs({ sessionId: session.id }).resolves(getSessionResultsReturn);
     });
 
-    it('should return csv content and fileName', async () => {
+    it('should return csv content and fileName', async function() {
       // when
       const response = await sessionController.getSessionResults(request, hFake);
 
@@ -417,9 +417,9 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#getSessionResultsByRecipientEmail ', () => {
+  describe('#getSessionResultsByRecipientEmail ', function() {
 
-    it('should return csv content and fileName', async () => {
+    it('should return csv content and fileName', async function() {
       // given
       const session = { id: 1, date: '2020/01/01', time: '12:00' };
       sinon.stub(tokenService, 'extractResultRecipientEmailAndSessionId')
@@ -448,9 +448,9 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#getSessionResultsToDownload ', () => {
+  describe('#getSessionResultsToDownload ', function() {
 
-    it('should return results to download', async () => {
+    it('should return results to download', async function() {
       // given
       const session = { id: 1, date: '2020/01/01', time: '12:00' };
       const sessionId = session.id;
@@ -481,13 +481,13 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#getCertificationReports', () => {
+  describe('#getCertificationReports', function() {
     let request;
     const sessionId = 1;
     const certificationReports = Symbol('some certification reports');
     const serializedCertificationReports = Symbol('some serialized certification reports');
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       request = {
         params: { id: sessionId },
@@ -496,7 +496,7 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(certificationReportSerializer, 'serialize').withArgs(certificationReports).returns(serializedCertificationReports);
     });
 
-    it('should return certification candidates', async () => {
+    it('should return certification candidates', async function() {
       // when
       const response = await sessionController.getCertificationReports(request, hFake);
 
@@ -506,7 +506,7 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#enrollStudentsToSession', () => {
+  describe('#enrollStudentsToSession', function() {
     let request;
     const sessionId = 1;
     const userId = 2;
@@ -516,7 +516,7 @@ describe('Unit | Controller | sessionController', () => {
     const studentList = [student1, student2];
     const serializedCertificationCandidate = Symbol('CertificationCandidates');
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       request = {
         params: { id: sessionId },
@@ -539,16 +539,16 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(certificationCandidateSerializer, 'serialize');
     });
 
-    context('when the user has access to session and there studentIds are corrects', () => {
+    context('when the user has access to session and there studentIds are corrects', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
         usecases.enrollStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
         usecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
         certificationCandidateSerializer.serialize.withArgs(studentList).returns(serializedCertificationCandidate);
       });
 
-      it('should return certificationCandidates', async () => {
+      it('should return certificationCandidates', async function() {
         // when
         const response = await sessionController.enrollStudentsToSession(request, hFake);
 
@@ -560,7 +560,7 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#createCandidateParticipation', () => {
+  describe('#createCandidateParticipation', function() {
     const sessionId = 1;
     const userId = 2;
     let firstName;
@@ -569,7 +569,7 @@ describe('Unit | Controller | sessionController', () => {
     const linkedCertificationCandidate = Symbol('candidate');
     const serializedCertificationCandidate = Symbol('sCandidate');
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       firstName = 'firstName';
       lastName = 'lastName';
@@ -578,7 +578,7 @@ describe('Unit | Controller | sessionController', () => {
         .returns(serializedCertificationCandidate);
     });
 
-    it('trims the firstname and lastname', async () => {
+    it('trims the firstname and lastname', async function() {
       // given
       firstName = 'firstName     ';
       lastName = 'lastName    ';
@@ -602,9 +602,9 @@ describe('Unit | Controller | sessionController', () => {
       expect(response).to.equal(serializedCertificationCandidate);
     });
 
-    context('when the participation already exists', () => {
+    context('when the participation already exists', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
           .withArgs({ userId, sessionId, firstName, lastName, birthdate })
           .resolves(new UserAlreadyLinkedToCertificationCandidate());
@@ -613,7 +613,7 @@ describe('Unit | Controller | sessionController', () => {
           .resolves(linkedCertificationCandidate);
       });
 
-      it('should return a certification candidate', async () => {
+      it('should return a certification candidate', async function() {
         // given
         const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
         // when
@@ -625,9 +625,9 @@ describe('Unit | Controller | sessionController', () => {
 
     });
 
-    context('when the participation is created', () => {
+    context('when the participation is created', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
           .withArgs({ userId, sessionId, firstName, lastName, birthdate })
           .resolves(new UserLinkedToCertificationCandidate());
@@ -636,7 +636,7 @@ describe('Unit | Controller | sessionController', () => {
           .resolves(linkedCertificationCandidate);
       });
 
-      it('should return a certification candidate', async () => {
+      it('should return a certification candidate', async function() {
         // given
         const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
 
@@ -652,7 +652,7 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#finalize', () => {
+  describe('#finalize', function() {
     let request;
     const sessionId = 1;
     const aCertificationReport = Symbol('a certficication report');
@@ -664,7 +664,7 @@ describe('Unit | Controller | sessionController', () => {
       },
     ];
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       request = {
         params: {
@@ -686,7 +686,7 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(sessionSerializer, 'serializeForFinalization').withArgs(updatedSession);
     });
 
-    it('should call the finalizeSession usecase with correct values', async () => {
+    it('should call the finalizeSession usecase with correct values', async function() {
       // when
       await sessionController.finalize(request);
 
@@ -699,12 +699,12 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#publish / #unpublish', () => {
+  describe('#publish / #unpublish', function() {
     const sessionId = 123;
     const session = Symbol('session');
     const serializedSession = Symbol('serializedSession');
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         params: {
           id: sessionId,
@@ -715,9 +715,9 @@ describe('Unit | Controller | sessionController', () => {
       };
     });
 
-    context('when publishing', () => {
+    context('when publishing', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         request.payload.data.attributes.toPublish = true;
         const usecaseResult = session;
         sinon.stub(usecases, 'publishSession').withArgs({
@@ -726,7 +726,7 @@ describe('Unit | Controller | sessionController', () => {
         sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
       });
 
-      it('should return the serialized session', async () => {
+      it('should return the serialized session', async function() {
         // when
         const response = await sessionController.publish(request);
 
@@ -736,9 +736,9 @@ describe('Unit | Controller | sessionController', () => {
 
     });
 
-    context('when unpublishing', () => {
+    context('when unpublishing', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         request.payload.data.attributes.toPublish = false;
         const usecaseResult = session;
         sinon.stub(usecases, 'unpublishSession').withArgs({
@@ -747,7 +747,7 @@ describe('Unit | Controller | sessionController', () => {
         sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
       });
 
-      it('should return the serialized session', async () => {
+      it('should return the serialized session', async function() {
         // when
         const response = await sessionController.unpublish(request);
 
@@ -757,8 +757,8 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#publishInBatch', () => {
-    it('returns 204 when no error occurred', async () => {
+  describe('#publishInBatch', function() {
+    it('returns 204 when no error occurred', async function() {
       // given
       const request = {
         payload: {
@@ -779,7 +779,7 @@ describe('Unit | Controller | sessionController', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('logs errors when errors occur', async () => {
+    it('logs errors when errors occur', async function() {
       // given
       const result = new SessionPublicationBatchResult('batchId');
       result.addPublicationError('sessionId1', new Error('an error'));
@@ -818,7 +818,7 @@ describe('Unit | Controller | sessionController', () => {
       });
     });
 
-    it('returns the serialized batch id', async () => {
+    it('returns the serialized batch id', async function() {
       // given
       const result = new SessionPublicationBatchResult('batchId');
       result.addPublicationError('sessionId1', new Error('an error'));
@@ -845,12 +845,12 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#flagResultsAsSentToPrescriber', () => {
+  describe('#flagResultsAsSentToPrescriber', function() {
     const sessionId = 123;
     const session = Symbol('session');
     const serializedSession = Symbol('serializedSession');
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         params: {
           id: sessionId,
@@ -858,15 +858,15 @@ describe('Unit | Controller | sessionController', () => {
       };
     });
 
-    context('when the session results were already flagged as sent', () => {
+    context('when the session results were already flagged as sent', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         const usecaseResult = { resultsFlaggedAsSent: false, session };
         sinon.stub(usecases, 'flagSessionResultsAsSentToPrescriber').withArgs({ sessionId }).resolves(usecaseResult);
         sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
       });
 
-      it('should return the serialized session', async () => {
+      it('should return the serialized session', async function() {
         // when
         const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake);
 
@@ -876,15 +876,15 @@ describe('Unit | Controller | sessionController', () => {
 
     });
 
-    context('when the session results were not flagged as sent', () => {
+    context('when the session results were not flagged as sent', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         const usecaseResult = { resultsFlaggedAsSent: true, session };
         sinon.stub(usecases, 'flagSessionResultsAsSentToPrescriber').withArgs({ sessionId }).resolves(usecaseResult);
         sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
       });
 
-      it('should return the serialized session with code 201', async () => {
+      it('should return the serialized session with code 201', async function() {
         // when
         const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake);
 
@@ -895,9 +895,9 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#findPaginatedFilteredJurySessions', () => {
+  describe('#findPaginatedFilteredJurySessions', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(sessionValidator, 'validateAndNormalizeFilters');
       sinon.stub(jurySessionRepository, 'findPaginatedFiltered');
@@ -905,7 +905,7 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
     });
 
-    it('should return the serialized jurySessions', async () => {
+    it('should return the serialized jurySessions', async function() {
       // given
       const currentUserId = 5;
       const request = { query: {} };
@@ -930,13 +930,13 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#assignCertificationOfficer', () => {
+  describe('#assignCertificationOfficer', function() {
     let request;
     const sessionId = 1;
     const session = Symbol('session');
     const sessionJsonApi = Symbol('someSessionSerialized');
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       request = {
         params: { id: sessionId },
@@ -953,7 +953,7 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(jurySessionSerializer, 'serialize').withArgs(session).returns(sessionJsonApi);
     });
 
-    it('should return updated session', async () => {
+    it('should return updated session', async function() {
       // when
       const response = await sessionController.assignCertificationOfficer(request, hFake);
 

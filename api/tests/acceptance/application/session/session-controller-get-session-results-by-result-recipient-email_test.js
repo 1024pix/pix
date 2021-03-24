@@ -3,13 +3,13 @@ const createServer = require('../../../../server');
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../../../lib/config');
 
-describe('Acceptance | Controller | session-controller-get-session-results-by-result-recipient-email', () => {
+describe('Acceptance | Controller | session-controller-get-session-results-by-result-recipient-email', function() {
 
   describe('GET /api/sessions/download-results/{token}', function() {
 
-    context('when a valid token is given', () => {
+    context('when a valid token is given', function() {
 
-      it('should return 200 HTTP status code', async () => {
+      it('should return 200 HTTP status code', async function() {
         // given
         const server = await createServer();
 

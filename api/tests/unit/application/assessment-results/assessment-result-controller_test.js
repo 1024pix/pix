@@ -6,9 +6,9 @@ const assessmentResultService = require('../../../../lib/domain/services/assessm
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
-describe('Unit | Controller | assessment-results', () => {
+describe('Unit | Controller | assessment-results', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
 
     const request = {
       payload: {
@@ -52,12 +52,12 @@ describe('Unit | Controller | assessment-results', () => {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
 
       sinon.stub(assessmentResultService, 'save').resolves();
     });
 
-    it('should return a Assessment Result and an Array of Competence Marks', async () => {
+    it('should return a Assessment Result and an Array of Competence Marks', async function() {
       // given
       const expectedAssessmentResult = new AssessmentResult({
         assessmentId: 2,

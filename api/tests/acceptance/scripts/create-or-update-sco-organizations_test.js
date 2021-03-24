@@ -3,11 +3,11 @@ const { expect, nock } = require('../../test-helper');
 const { checkData, createOrUpdateOrganizations } = require('../../../scripts/create-or-update-sco-organizations');
 const logoUrl = require('../../../scripts/logo/default-sco-organization-logo-base64');
 
-describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
+describe('Acceptance | Scripts | create-or-update-sco-organizations.js', function() {
 
-  describe('#createOrUpdateOrganizations', () => {
+  describe('#createOrUpdateOrganizations', function() {
 
-    it('should create or update organizations', async () => {
+    it('should create or update organizations', async function() {
       // given
       const accessToken = 'token';
 
@@ -99,9 +99,9 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
     });
   });
 
-  describe('#checkData', () => {
+  describe('#checkData', function() {
 
-    it('should keep all data', async () => {
+    it('should keep all data', async function() {
       // given
       const csvData = [
         ['a100', 'Lycée Charles De Gaulle'],
@@ -123,7 +123,7 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
       expect(result).to.deep.have.members(expectedResult);
     });
 
-    it('should keep only one data when a whole line is empty', async () => {
+    it('should keep only one data when a whole line is empty', async function() {
       // given
       const csvData = [
         ['a100', 'Lycée Charles De Gaulle'],
@@ -142,7 +142,7 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
       expect(result).to.deep.have.members(expectedResult);
     });
 
-    it('should keep only one data when an externalId is missing', async () => {
+    it('should keep only one data when an externalId is missing', async function() {
       // given
       const csvData = [
         ['a100', 'Lycée Charles De Gaulle'],
@@ -161,7 +161,7 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', () => {
       expect(result).to.deep.have.members(expectedResult);
     });
 
-    it('should keep only one data when name is missing', async () => {
+    it('should keep only one data when name is missing', async function() {
       // given
       const csvData = [
         ['a100', 'Lycée Charles De Gaulle'],

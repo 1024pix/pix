@@ -45,11 +45,11 @@ describe('Unit | Repository | correction-repository', function() {
     expectedLearningMoreTutorials[0].userTutorial = userTutorial3;
     expectedLearningMoreTutorials[0].tutorialEvaluation = tutorialEvaluation3;
 
-    context('normal challenge', () => {
+    context('normal challenge', function() {
 
       let challengeDataObject;
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         const skillDatas = [
           SkillLearningContentDataObjectFixture({
@@ -117,7 +117,7 @@ describe('Unit | Repository | correction-repository', function() {
       });
     });
 
-    context('duplicated tutorials', () => {
+    context('duplicated tutorials', function() {
 
       const expectedCorrection = new Correction({
         id: 'recwWzTquPlvIl4So',
@@ -130,7 +130,7 @@ describe('Unit | Repository | correction-repository', function() {
 
       let promise;
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         const challengeDataObject = ChallengeLearningContentDataObjectFixture({ skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'] });
         const skillDatas = [

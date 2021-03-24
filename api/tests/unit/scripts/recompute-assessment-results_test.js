@@ -1,15 +1,15 @@
 const { sinon, expect } = require('../../test-helper');
 const recomputeAssessments = require('../../../../api/scripts/recompute-assessment-results');
 
-describe('Unit | Scripts | recompute-assessment-results', () => {
+describe('Unit | Scripts | recompute-assessment-results', function() {
 
-  describe('#recomputeScore', () => {
+  describe('#recomputeScore', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(console, 'log');
     });
 
-    it('shoud call request with assessment informations', () => {
+    it('shoud call request with assessment informations', function() {
       // given
       const listOfAssessmentsToRecompute = [123, 987];
       const request = sinon.stub().resolves();

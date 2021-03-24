@@ -7,7 +7,7 @@ const validationErrorSerializer = require('../../../../lib/infrastructure/serial
 
 const updateUserPassword = require('../../../../lib/domain/usecases/update-user-password');
 
-describe('Unit | UseCase | update-user-password', () => {
+describe('Unit | UseCase | update-user-password', function() {
 
   const userId = 1;
   const user = new User({
@@ -22,7 +22,7 @@ describe('Unit | UseCase | update-user-password', () => {
   let authenticationMethodRepository;
   let userRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     encryptionService = {
       hashPassword: sinon.stub(),
     };
@@ -49,7 +49,7 @@ describe('Unit | UseCase | update-user-password', () => {
     userRepository.get.resolves(user);
   });
 
-  it('should get user by his id', async () => {
+  it('should get user by his id', async function() {
     // when
     await updateUserPassword({
       password,
@@ -65,7 +65,7 @@ describe('Unit | UseCase | update-user-password', () => {
     expect(userRepository.get).to.have.been.calledWith(userId);
   });
 
-  it('should throw a UserNotAuthorizedToUpdatePasswordError when user does not have an email', async () => {
+  it('should throw a UserNotAuthorizedToUpdatePasswordError when user does not have an email', async function() {
     // given
     userRepository.get.resolves({ email: undefined });
 
@@ -84,7 +84,7 @@ describe('Unit | UseCase | update-user-password', () => {
     expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
   });
 
-  it('should check if user has a current password reset demand', async () => {
+  it('should check if user has a current password reset demand', async function() {
     // when
     await updateUserPassword({
       password,
@@ -101,7 +101,7 @@ describe('Unit | UseCase | update-user-password', () => {
       .to.have.been.calledWith(user.email);
   });
 
-  it('should update user password with a hashed password', async () => {
+  it('should update user password with a hashed password', async function() {
     const hashedPassword = 'ABCD1234';
     encryptionService.hashPassword.resolves(hashedPassword);
 
@@ -124,7 +124,7 @@ describe('Unit | UseCase | update-user-password', () => {
     });
   });
 
-  it('should invalidate current password reset demand (mark as being used)', async () => {
+  it('should invalidate current password reset demand (mark as being used)', async function() {
     // when
     await updateUserPassword({
       password,
@@ -141,9 +141,9 @@ describe('Unit | UseCase | update-user-password', () => {
       .to.have.been.calledWith(user.email);
   });
 
-  describe('When user has not a current password reset demand', () => {
+  describe('When user has not a current password reset demand', function() {
 
-    it('should return PasswordResetDemandNotFoundError', async () => {
+    it('should return PasswordResetDemandNotFoundError', async function() {
       // given
       resetPasswordService.hasUserAPasswordResetDemandInProgress
         .withArgs(user.email, temporaryKey)

@@ -11,9 +11,9 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', () => {
+describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function() {
 
-  describe('#startWritingCampaignProfilesCollectionResultsToStream', () => {
+  describe('#startWritingCampaignProfilesCollectionResultsToStream', function() {
 
     let organization;
     let user;
@@ -28,7 +28,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
 
     const i18n = getI18n();
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
       const skillWeb1 = { id: 'recSkillWeb1', name: '@web1', competenceIds: ['recCompetence1'] };
@@ -119,9 +119,9 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       csvPromise = streamToPromise(writableStream);
     });
 
-    context('When the organization is PRO', () => {
+    context('When the organization is PRO', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         organization = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
@@ -147,7 +147,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         await databaseBuilder.commit();
       });
 
-      it('should return the complete line', async () => {
+      it('should return the complete line', async function() {
         // given
         const expectedCsvFirstCell = '\uFEFF"Nom de l\'organisation"';
         const expectedCsvSecondLine = `"${organization.name}";` +
@@ -190,9 +190,9 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       });
     });
 
-    context('When the organization is SCO and managing student', () => {
+    context('When the organization is SCO and managing student', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
@@ -220,7 +220,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         await databaseBuilder.commit();
       });
 
-      it('should return the complete line', async () => {
+      it('should return the complete line', async function() {
         // given
         const expectedCsvFirstCell = '\uFEFF"Nom de l\'organisation"';
         const expectedCsvSecondLine = `"${organization.name}";` +
@@ -264,9 +264,9 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       });
     });
 
-    context('When the organization is SUP and isManagingStudent', () => {
+    context('When the organization is SUP and isManagingStudent', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
@@ -294,7 +294,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         await databaseBuilder.commit();
       });
 
-      it('should return the complete line with student number', async () => {
+      it('should return the complete line with student number', async function() {
         // given
         const expectedCsvFirstCell = '\uFEFF"Nom de l\'organisation"';
         const expectedCsvSecondLine = `"${organization.name}";` +

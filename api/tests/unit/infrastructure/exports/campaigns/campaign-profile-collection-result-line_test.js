@@ -4,8 +4,8 @@ const CampaignProfileCollectionResultLine = require('../../../../../lib/infrastr
 const PlacementProfile = require('../../../../../lib/domain/models/PlacementProfile');
 const { getI18n } = require('../../../../tooling/i18n/i18n');
 
-describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', () => {
-  describe('#toCsvLine', () => {
+describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', function() {
+  describe('#toCsvLine', function() {
     let organization, campaign, competences;
 
     const translate = getI18n().__;
@@ -23,7 +23,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
       }],
     });
 
-    beforeEach(() => {
+    beforeEach(function() {
       const listSkills1 = domainBuilder.buildSkillCollection({ name: '@web', minLevel: 1, maxLevel: 5 });
       const listSkills2 = domainBuilder.buildSkillCollection({ name: '@url', minLevel: 1, maxLevel: 2 });
 
@@ -44,8 +44,8 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
       ];
     });
 
-    context('when user share his result', () => {
-      it('should return the complete line with 0 certifiable competence and non certifiable', async () => {
+    context('when user share his result', function() {
+      it('should return the complete line with 0 certifiable competence and non certifiable', async function() {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -88,7 +88,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
       });
 
-      it('should return the complete line with 5 certifiable competence', async () => {
+      it('should return the complete line with 5 certifiable competence', async function() {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
@@ -132,8 +132,8 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
       });
     });
 
-    context('when user has not share his result yet', () => {
-      it('should return the complete line with 5 certifiable competences', async () => {
+    context('when user has not share his result yet', function() {
+      it('should return the complete line with 5 certifiable competences', async function() {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
@@ -178,12 +178,12 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
       });
     });
 
-    context('When campaign has an idPixLabel', () => {
-      beforeEach(() => {
+    context('When campaign has an idPixLabel', function() {
+      beforeEach(function() {
         campaign.idPixLabel = 'Mail Pro';
       });
 
-      it('should return the line with a participant external id', () => {
+      it('should return the line with a participant external id', function() {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
@@ -229,13 +229,13 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
       });
     });
 
-    context('When organization is PRO', () => {
-      beforeEach(() => {
+    context('When organization is PRO', function() {
+      beforeEach(function() {
         organization.isPro = true;
         organization.isManagingStudents = false;
       });
 
-      it('should return the csv without student number or division information', () => {
+      it('should return the csv without student number or division information', function() {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -281,14 +281,14 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
       });
     });
 
-    context('When organization is SCO and managing students', () => {
-      beforeEach(() => {
+    context('When organization is SCO and managing students', function() {
+      beforeEach(function() {
         organization.isSco = true;
         organization.isManagingStudents = true;
       });
 
-      context('when the participant does not have a division', () => {
-        it('should return the csv with empty division', () => {
+      context('when the participant does not have a division', function() {
+        it('should return the csv with empty division', function() {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -334,8 +334,8 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
         });
       });
 
-      context('when the participant has a division', () => {
-        it('should return the csv with division information', () => {
+      context('when the participant has a division', function() {
+        it('should return the csv with division information', function() {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -382,13 +382,13 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
       });
     });
 
-    context('When organization is SCO and not managing students', () => {
-      beforeEach(() => {
+    context('When organization is SCO and not managing students', function() {
+      beforeEach(function() {
         organization.isSco = true;
         organization.isManagingStudents = false;
 
-        context('when the participant has a division', () => {
-          it('should return the line without division information', async () => {
+        context('when the participant has a division', function() {
+          it('should return the line without division information', async function() {
             //given
             sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
             sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
@@ -436,14 +436,14 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
       });
     });
 
-    context('When organization is SUP and managing students', () => {
-      beforeEach(() => {
+    context('When organization is SUP and managing students', function() {
+      beforeEach(function() {
         organization.isSup = true;
         organization.isManagingStudents = true;
       });
 
-      context('when the participant does not have a student number', () => {
-        it('should return the csv with empty student number', () => {
+      context('when the participant does not have a student number', function() {
+        it('should return the csv with empty student number', function() {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -489,8 +489,8 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
         });
       });
 
-      context('when the participant has a student number', () => {
-        it('should return the csv with student number information', () => {
+      context('when the participant has a student number', function() {
+        it('should return the csv with student number information', function() {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -537,13 +537,13 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
       });
     });
 
-    context('When organization is SUP and not managing students', () => {
-      beforeEach(() => {
+    context('When organization is SUP and not managing students', function() {
+      beforeEach(function() {
         organization.isSup = true;
         organization.isManagingStudents = false;
 
-        context('when the participant has a student number', () => {
-          it('should return the line without student number information', async () => {
+        context('when the participant has a student number', function() {
+          it('should return the line without student number information', async function() {
             //given
             sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
             sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);

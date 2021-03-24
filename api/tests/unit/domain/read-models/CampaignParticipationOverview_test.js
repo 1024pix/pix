@@ -4,10 +4,10 @@ const TargetProfileWithLearningContent = require('../../../../lib/domain/models/
 const CampaignParticipationOverview = require('../../../../lib/domain/read-models/CampaignParticipationOverview');
 const { expect } = require('../../../test-helper');
 
-describe('Unit | Domain | Read-Models | CampaignParticipationOverview', () => {
-  describe('constructor', () => {
+describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function() {
+  describe('constructor', function() {
 
-    it('should create CampaignParticipationOverview', () => {
+    it('should create CampaignParticipationOverview', function() {
       const targetProfile = new TargetProfileWithLearningContent({ id: 2, skills: [new Skill()] });
 
       // when
@@ -38,8 +38,8 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', () => {
     });
   });
 
-  describe('#masteryPercentage', () => {
-    it('should compute mastery percentage', () => {
+  describe('#masteryPercentage', function() {
+    it('should compute mastery percentage', function() {
       const targetProfile = new TargetProfileWithLearningContent({ skills: [new Skill(), new Skill()] });
 
       // when
@@ -53,7 +53,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', () => {
       expect(campaignParticipationOverview.masteryPercentage).to.equal(50);
     });
 
-    it('should return 0 if total skills count is zero', () => {
+    it('should return 0 if total skills count is zero', function() {
       const targetProfile = new TargetProfileWithLearningContent({ skills: [] });
 
       // when
@@ -67,7 +67,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', () => {
       expect(campaignParticipationOverview.masteryPercentage).to.equal(0);
     });
 
-    it('should return null the participation is not shared', () => {
+    it('should return null the participation is not shared', function() {
       const targetProfile = new TargetProfileWithLearningContent({ skills: [new Skill()] });
 
       // when
@@ -82,10 +82,10 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', () => {
     });
   });
 
-  describe('#validatedStagesCount', ()=> {
-    context('when the participation is shared', ()=> {
-      context('when the targetProfile has stages', () => {
-        it('should return validated stages count', ()=> {
+  describe('#validatedStagesCount', function() {
+    context('when the participation is shared', function() {
+      context('when the targetProfile has stages', function() {
+        it('should return validated stages count', function() {
           const stage1 = new Stage({
             threshold: 0,
           });
@@ -109,8 +109,8 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', () => {
         });
       });
 
-      context('when the targetProfile doesn\'t have stages', () => {
-        it('should return null', () => {
+      context('when the targetProfile doesn\'t have stages', function() {
+        it('should return null', function() {
           const targetProfile = new TargetProfileWithLearningContent();
           const campaignParticipationOverview = new CampaignParticipationOverview({
             isShared: true,
@@ -124,8 +124,8 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', () => {
       });
     });
 
-    context('when the participation is not shared', ()=> {
-      it('should return null', ()=> {
+    context('when the participation is not shared', function() {
+      it('should return null', function() {
         const stage1 = new Stage({
           threshold: 0,
         });
@@ -148,9 +148,9 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', () => {
     });
   });
 
-  describe('#totalStagesCount', ()=> {
-    context('the target profile has stages', () => {
-      it('should return the count of stages with a threshold over 0', ()=> {
+  describe('#totalStagesCount', function() {
+    context('the target profile has stages', function() {
+      it('should return the count of stages with a threshold over 0', function() {
         const stage1 = new Stage({
           threshold: 0,
         });
@@ -179,8 +179,8 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', () => {
       });
     });
 
-    context('target profile doesn\'t have stages', () => {
-      it('should return 0', ()=> {
+    context('target profile doesn\'t have stages', function() {
+      it('should return 0', function() {
         const targetProfileWithLearningContent = new TargetProfileWithLearningContent();
         const campaignParticipationOverview = new CampaignParticipationOverview({
           isShared: true,

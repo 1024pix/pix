@@ -5,11 +5,11 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
 const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Integration | Repository | tutorial-repository', () => {
+describe('Integration | Repository | tutorial-repository', function() {
 
-  describe('#findByRecordIdsForCurrentUser', () => {
+  describe('#findByRecordIdsForCurrentUser', function() {
 
-    it('should find tutorials by ids', async () => {
+    it('should find tutorials by ids', async function() {
       // given
       const tutorialsList = [{
         duration: '00:00:54',
@@ -38,7 +38,7 @@ describe('Integration | Repository | tutorial-repository', () => {
       expect(tutorials).to.deep.include.members(tutorialsList);
     });
 
-    it('should associate userTutorial when it exists for provided user', async () => {
+    it('should associate userTutorial when it exists for provided user', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const userTutorial = databaseBuilder.factory.buildUserTutorial({ userId, tutorialId: 'recTutorial0' });
@@ -62,7 +62,7 @@ describe('Integration | Repository | tutorial-repository', () => {
       expect(tutorials[0].userTutorial).to.deep.equal(userTutorial);
     });
 
-    it('should associate tutorialEvaluation when it exists for provided user', async () => {
+    it('should associate tutorialEvaluation when it exists for provided user', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const tutorialEvaluation = databaseBuilder.factory.buildTutorialEvaluation({ userId, tutorialId: 'recTutorial0' });
@@ -87,9 +87,9 @@ describe('Integration | Repository | tutorial-repository', () => {
     });
   });
 
-  describe('#findByRecordIds', () => {
+  describe('#findByRecordIds', function() {
 
-    it('should find tutorials by ids', async () => {
+    it('should find tutorials by ids', async function() {
       // given
       const tutorialsList = [{
         duration: '00:00:54',
@@ -119,11 +119,11 @@ describe('Integration | Repository | tutorial-repository', () => {
     });
   });
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    context('when tutorial does not exist', () => {
+    context('when tutorial does not exist', function() {
 
-      it('should throw a NotFoundError', async () => {
+      it('should throw a NotFoundError', async function() {
         // when
         const error = await catchErr(tutorialRepository.get)('recTutoImaginaire');
 
@@ -132,9 +132,9 @@ describe('Integration | Repository | tutorial-repository', () => {
       });
     });
 
-    context('when tutorial exists', () => {
+    context('when tutorial exists', function() {
 
-      it('should return the tutorial', async () => {
+      it('should return the tutorial', async function() {
         // given
         const tutorials = [{
           duration: '00:00:54',
@@ -156,9 +156,9 @@ describe('Integration | Repository | tutorial-repository', () => {
     });
   });
 
-  describe('#list', () => {
+  describe('#list', function() {
 
-    it('should return all tutorials according to default locale', async () => {
+    it('should return all tutorials according to default locale', async function() {
       // given
       const frenchTutorials = [{
         duration: '00:00:54',
@@ -199,7 +199,7 @@ describe('Integration | Repository | tutorial-repository', () => {
       expect(tutorials).to.deep.include.members(expectedTutorials);
     });
 
-    it('should return tutorials according to given locale', async () => {
+    it('should return tutorials according to given locale', async function() {
       // given
       const locale = ENGLISH_SPOKEN;
       const frenchTutorial = {
@@ -232,7 +232,7 @@ describe('Integration | Repository | tutorial-repository', () => {
       expect(tutorials[0]).to.deep.equal(expectedTutorial);
     });
 
-    it('should not break or return tutorials without locale', async () => {
+    it('should not break or return tutorials without locale', async function() {
       // given
       const locale = ENGLISH_SPOKEN;
       const tutorial = {

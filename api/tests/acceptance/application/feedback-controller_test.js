@@ -2,19 +2,19 @@ const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder }
 const createServer = require('../../../server');
 const Feedback = require('../../../lib/infrastructure/data/feedback');
 
-describe('Acceptance | Controller | feedback-controller', () => {
+describe('Acceptance | Controller | feedback-controller', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('POST /api/feedbacks', () => {
+  describe('POST /api/feedbacks', function() {
 
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const assessmentId = databaseBuilder.factory.buildAssessment({ userId: null, courseId: 'rec' }).id;
       await databaseBuilder.commit();
       options = {
@@ -46,11 +46,11 @@ describe('Acceptance | Controller | feedback-controller', () => {
       };
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('feedbacks').delete();
     });
 
-    it('should return 201 HTTP status code', () => {
+    it('should return 201 HTTP status code', function() {
       // when
       const promise = server.inject(options);
 
@@ -60,7 +60,7 @@ describe('Acceptance | Controller | feedback-controller', () => {
       });
     });
 
-    it('should return 201 HTTP status code when missing authorization header', () => {
+    it('should return 201 HTTP status code when missing authorization header', function() {
       // given
       options.headers = {};
 
@@ -73,7 +73,7 @@ describe('Acceptance | Controller | feedback-controller', () => {
       });
     });
 
-    it('should return application/json', () => {
+    it('should return application/json', function() {
       // when
       const promise = server.inject(options);
 
@@ -84,7 +84,7 @@ describe('Acceptance | Controller | feedback-controller', () => {
       });
     });
 
-    it('should add a new feedback into the database', () => {
+    it('should add a new feedback into the database', function() {
       // when
       const promise = server.inject(options);
 
@@ -96,7 +96,7 @@ describe('Acceptance | Controller | feedback-controller', () => {
       });
     });
 
-    it('should return persisted feedback', () => {
+    it('should return persisted feedback', function() {
       // when
       const promise = server.inject(options);
 

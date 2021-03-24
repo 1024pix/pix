@@ -1,11 +1,11 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | session-controller-get-certification-reports', () => {
+describe('Acceptance | Controller | session-controller-get-certification-reports', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
@@ -14,20 +14,20 @@ describe('Acceptance | Controller | session-controller-get-certification-reports
     let userId;
     let certificationCenterId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       ({ id: sessionId, certificationCenterId } = databaseBuilder.factory.buildSession());
 
       return databaseBuilder.commit();
     });
 
-    context('when user has no access to session resources', () => {
+    context('when user has no access to session resources', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         userId = databaseBuilder.factory.buildUser().id;
         return databaseBuilder.commit();
       });
 
-      it('should return 404 HTTP status code (to keep opacity on whether forbidden or not found)', async () => {
+      it('should return 404 HTTP status code (to keep opacity on whether forbidden or not found)', async function() {
         // when
         const response = await server.inject({
           method: 'GET',
@@ -42,9 +42,9 @@ describe('Acceptance | Controller | session-controller-get-certification-reports
 
     });
 
-    context('when user has access to session resources', () => {
+    context('when user has access to session resources', function() {
 
-      it('should return 200 HTTP status code', async () => {
+      it('should return 200 HTTP status code', async function() {
         // given
         userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });

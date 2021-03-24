@@ -2,15 +2,15 @@ const _ = require('lodash');
 const { expect, databaseBuilder, knex, domainBuilder } = require('../../../test-helper');
 const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
 
-describe('Integration | Repository | PoleEmploiSending', () => {
+describe('Integration | Repository | PoleEmploiSending', function() {
 
-  describe('#create', () => {
+  describe('#create', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('pole-emploi-sendings').delete();
     });
 
-    it('should save PoleEmploiSending', async () => {
+    it('should save PoleEmploiSending', async function() {
       // given
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
       await databaseBuilder.commit();

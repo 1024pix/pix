@@ -11,7 +11,7 @@ const sessionXmlService = require('../../../../lib/domain/services/session-xml-s
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
+describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function() {
 
   let result;
   const userId = 'dummyUserId';
@@ -92,8 +92,8 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
   const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
   const odsBuffer = Buffer.from('some ods file');
 
-  describe('getAttendanceSheet', () => {
-    beforeEach(async () => {
+  describe('getAttendanceSheet', function() {
+    beforeEach(async function() {
       // given
       sinon.stub(sessionRepository, 'getWithCertificationCandidates').resolves(sessionWithCandidates);
       sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
@@ -102,34 +102,34 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
       sinon.stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData').withArgs({ stringifiedXml: stringifiedSessionUpdatedXml, candidatesData: attendanceSheetCandidatesData, candidateTemplateValues: ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES }).returns(stringifiedSessionAndCandidatesUpdatedXml);
     });
 
-    context('user has access to the session', () => {
-      beforeEach(async () => {
+    context('user has access to the session', function() {
+      beforeEach(async function() {
         sinon.stub(sessionRepository, 'doesUserHaveCertificationCenterMembershipForSession').resolves(true);
         result = await getAttendanceSheet({ userId, sessionId, sessionRepository });
       });
       // then
-      it('should return the attendance sheet', () => {
+      it('should return the attendance sheet', function() {
         expect(result).to.deep.equal(odsBuffer);
       });
-      it('should have fetched the session with certification candidates', () => {
+      it('should have fetched the session with certification candidates', function() {
         expect(sessionRepository.getWithCertificationCandidates).to.have.been.calledWithExactly(sessionId);
       });
-      it('should have build an updated content.xml file from attendance sheet data', () => {
+      it('should have build an updated content.xml file from attendance sheet data', function() {
         expect(sessionXmlService.getUpdatedXmlWithSessionData).to.have.been.calledWithExactly({ stringifiedXml, sessionData: attendanceSheetSessionData, sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES });
       });
-      it('should have build an updated content.xml file from all attendance sheet candidates data', () => {
+      it('should have build an updated content.xml file from all attendance sheet candidates data', function() {
         expect(sessionXmlService.getUpdatedXmlWithCertificationCandidatesData).to.have.been.calledWith({ stringifiedXml: stringifiedSessionUpdatedXml, candidatesData: attendanceSheetCandidatesData, candidateTemplateValues: ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES });
       });
-      it('should have rebuild the ods zip with new content.xml file', () => {
+      it('should have rebuild the ods zip with new content.xml file', function() {
         expect(writeOdsUtils.makeUpdatedOdsByContentXml).to.have.been.calledWithExactly({ stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml, odsFilePath: sinon.match('attendance_sheet_template.ods') });
       });
-      it('should return something when user has access', async () => {
+      it('should return something when user has access', async function() {
         expect(result).to.deep.equal(odsBuffer);
       });
     });
 
-    context('user does not have access to the session', () => {
-      beforeEach(async () => {
+    context('user does not have access to the session', function() {
+      beforeEach(async function() {
         sinon.stub(sessionRepository, 'doesUserHaveCertificationCenterMembershipForSession').resolves(false);
         try {
           result = await getAttendanceSheet({ userId, sessionId, sessionRepository });
@@ -138,7 +138,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
         }
       });
 
-      it('should return an error when user does not have access', () => {
+      it('should return an error when user does not have access', function() {
         expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
       });
     });

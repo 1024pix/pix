@@ -5,7 +5,7 @@ const { UserNotAuthorizedToGetCampaignResultsError } = require('../../../../lib/
 const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', () => {
+describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function() {
   const campaignRepository = { get: () => undefined };
   const userRepository = { getWithMemberships: () => undefined };
   const targetProfileWithLearningContentRepository = { get: () => undefined };
@@ -18,12 +18,12 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
 
   const i18n = getI18n();
 
-  beforeEach(() => {
+  beforeEach(function() {
     writableStream = new PassThrough();
     csvPromise = streamToPromise(writableStream);
   });
 
-  it('should throw a UserNotAuthorizedToGetCampaignResultsError when user is not authorized', async () => {
+  it('should throw a UserNotAuthorizedToGetCampaignResultsError when user is not authorized', async function() {
     // given
     const notAuthorizedUser = domainBuilder.buildUser({ memberships: [] });
     const campaign = domainBuilder.buildCampaign();
@@ -54,7 +54,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     expect(err.message).to.equal(`User does not have an access to the organization ${campaign.organization.id}`);
   });
 
-  it('should return common parts of header with appropriate info', async () => {
+  it('should return common parts of header with appropriate info', async function() {
     // given
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ type: 'SUP' });
     const skill1_1_1 = domainBuilder.buildTargetedSkill({ id: 'skill1_1_1', tubeId: 'tube1', name: '@acquis1' });
@@ -125,7 +125,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     expect(csv).to.equal(csvExpected);
   });
 
-  it('should contains idPixLabel in header if any setup in campaign', async () => {
+  it('should contains idPixLabel in header if any setup in campaign', async function() {
     // given
     const idPixLabel = 'Numéro de carte bleue';
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ idPixLabel, type: 'SUP' });
@@ -178,7 +178,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     expect(csv).to.equal(csvExpected);
   });
 
-  it('should contains studentNumber header when organization is SUP and managing students', async () => {
+  it('should contains studentNumber header when organization is SUP and managing students', async function() {
     // given
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ isManagingStudents: true, type: 'SUP' });
     const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
@@ -230,7 +230,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     expect(csv).to.equal(csvExpected);
   });
 
-  it('should contains badges header when linked to target profile', async () => {
+  it('should contains badges header when linked to target profile', async function() {
     // given
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ type: 'PRO' });
     const badge1 = domainBuilder.buildBadge({ title: 'badge1' });
@@ -285,7 +285,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     expect(csv).to.equal(csvExpected);
   });
 
-  it('should hide skills names header when organization is SCO', async () => {
+  it('should hide skills names header when organization is SCO', async function() {
     // given
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ type: 'SCO' });
     const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
@@ -335,7 +335,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     expect(csv).to.equal(csvExpected);
   });
 
-  it('should display stages header when link to target profile', async () => {
+  it('should display stages header when link to target profile', async function() {
     // given
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ type: 'SCO' });
     const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
@@ -391,7 +391,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     expect(csv).to.equal(csvExpected);
   });
 
-  it('should display division header when organization is SCO and managing students', async () => {
+  it('should display division header when organization is SCO and managing students', async function() {
     // given
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ type: 'SCO', isManagingStudents: true });
     const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
@@ -442,7 +442,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     expect(csv).to.equal(csvExpected);
   });
 
-  it('should process result for each participation and add it to csv', async () => {
+  it('should process result for each participation and add it to csv', async function() {
     // given
     const { user: admin, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ type: 'SUP' });
     const badge = domainBuilder.buildBadge({ title: 'badge sup' });

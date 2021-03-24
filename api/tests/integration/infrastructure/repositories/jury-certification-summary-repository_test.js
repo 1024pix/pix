@@ -7,18 +7,18 @@ const juryCertificationSummaryRepository = require('../../../../lib/infrastructu
 
 describe('Integration | Repository | JuryCertificationSummary', function() {
 
-  describe('#findBySessionId', () => {
+  describe('#findBySessionId', function() {
 
-    context('when the session has no certifications', () => {
+    context('when the session has no certifications', function() {
       let sessionId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         sessionId = databaseBuilder.factory.buildSession().id;
 
         return databaseBuilder.commit();
       });
 
-      it('should return an empty array', async () => {
+      it('should return an empty array', async function() {
         // when
         const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
@@ -28,7 +28,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
 
     });
 
-    context('when the session has some certifications', () => {
+    context('when the session has some certifications', function() {
       let sessionId;
       let manyAsrCertification;
       let latestAssessmentResult;
@@ -37,7 +37,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       const description = 'Super candidat !';
       let certificationIssueReport;
 
-      beforeEach(() => {
+      beforeEach(function() {
         const dbf = databaseBuilder.factory;
         sessionId = dbf.buildSession().id;
         manyAsrCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
@@ -60,7 +60,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         return databaseBuilder.commit();
       });
 
-      it('should return an array of JuryCertificationSummary sorted by name', async () => {
+      it('should return an array of JuryCertificationSummary sorted by name', async function() {
         // when
         const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
@@ -91,9 +91,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         expect(juryCertificationSummaries[1].id).to.equal(startedCertification.id);
       });
 
-      context('when the certification has assessment-results', () => {
+      context('when the certification has assessment-results', function() {
 
-        it('should return JuryCertificationSummary based on their latest assessment result', async () => {
+        it('should return JuryCertificationSummary based on their latest assessment result', async function() {
           // when
           const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
@@ -109,9 +109,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         });
       });
 
-      context('when the certification has no assessment-result', () => {
+      context('when the certification has no assessment-result', function() {
 
-        it('should return all juryCertificationSummaries with status started', async () => {
+        it('should return all juryCertificationSummaries with status started', async function() {
           // when
           const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
@@ -126,8 +126,8 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
 
     });
 
-    context('when a summary has several issue reports', () => {
-      it('should return all issue reports', async () => {
+    context('when a summary has several issue reports', function() {
+      it('should return all issue reports', async function() {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;

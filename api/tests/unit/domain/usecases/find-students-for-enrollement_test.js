@@ -5,7 +5,7 @@ const StudentForEnrollment = require('../../../../lib/domain/read-models/Student
 
 const findStudentsForEnrollment = require('../../../../lib/domain/usecases/find-students-for-enrollment');
 
-describe('Unit | UseCase | find-students-for-enrollment', () => {
+describe('Unit | UseCase | find-students-for-enrollment', function() {
 
   const certificationCenterId = 1;
   const userId = 'userId';
@@ -22,7 +22,7 @@ describe('Unit | UseCase | find-students-for-enrollment', () => {
     findBySessionId: sinon.stub(),
   };
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     const externalId = 'AAA111';
     const certificationCenter = domainBuilder.buildCertificationCenter({ id: certificationCenterId, externalId });
     organization = domainBuilder.buildOrganization({ externalId });
@@ -31,9 +31,9 @@ describe('Unit | UseCase | find-students-for-enrollment', () => {
       .withArgs(certificationCenter.id).resolves(organization.id);
   });
 
-  describe('when user has access to certification center', () => {
-    describe('when there is no certification center for the organization ', () => {
-      it('should return an empty list of student', async () => {
+  describe('when user has access to certification center', function() {
+    describe('when there is no certification center for the organization ', function() {
+      it('should return an empty list of student', async function() {
         // given
         organizationRepository.getIdByCertificationCenterId.withArgs(certificationCenterId).rejects(new NotFoundError());
 
@@ -55,7 +55,7 @@ describe('Unit | UseCase | find-students-for-enrollment', () => {
       });
     });
 
-    it('should return all students, enrolled or enrollable, regarding a session', async () => {
+    it('should return all students, enrolled or enrollable, regarding a session', async function() {
       // given
       const sessionId = 3;
       const enrolledStudent = domainBuilder.buildSchoolingRegistration({ organization, division: '3A' });
@@ -91,9 +91,9 @@ describe('Unit | UseCase | find-students-for-enrollment', () => {
       });
     });
 
-    context('when the linked organization has no student', () => {
+    context('when the linked organization has no student', function() {
 
-      it('should return empty array', async () => {
+      it('should return empty array', async function() {
         // given
         schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision
           .withArgs({ page: { number: 1, size: 10 }, filter: {}, organizationId: organization.id }).resolves({

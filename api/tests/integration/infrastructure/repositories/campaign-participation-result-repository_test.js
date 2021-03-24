@@ -2,13 +2,13 @@ const { expect, databaseBuilder, mockLearningContent } = require('../../../test-
 const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
-describe('Integration | Repository | Campaign Participation Result', () => {
+describe('Integration | Repository | Campaign Participation Result', function() {
 
-  describe('#getByParticipationId', () => {
+  describe('#getByParticipationId', function() {
 
     let targetProfileId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill1' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill2' });
@@ -41,7 +41,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       return databaseBuilder.commit();
     });
 
-    it('use the most recent assessment to define if the participation is completed', async () => {
+    it('use the most recent assessment to define if the participation is completed', async function() {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -61,7 +61,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       });
     });
 
-    it('compute the number of skills, the number of skill tested and the number of skill validated', async () => {
+    it('compute the number of skills, the number of skill tested and the number of skill validated', async function() {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -115,7 +115,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       });
     });
 
-    it('computes the results for each competence assessed', async () => {
+    it('computes the results for each competence assessed', async function() {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -193,8 +193,8 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       ]);
     });
 
-    context('when there is no snapshot because the participant did not share his results', () => {
-      it('compute results by using knowledge elements', async () => {
+    context('when there is no snapshot because the participant did not share his results', function() {
+      it('compute results by using knowledge elements', async function() {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -242,8 +242,8 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       });
     });
 
-    context('when the target profile has some stages', () => {
-      it('returns the stage reached', async () => {
+    context('when the target profile has some stages', function() {
+      it('returns the stage reached', async function() {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -311,8 +311,8 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       });
     });
 
-    context('when the participation has badges', () => {
-      it('computes the results for each badge', async () => {
+    context('when the participation has badges', function() {
+      it('computes the results for each badge', async function() {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -376,8 +376,8 @@ describe('Integration | Repository | Campaign Participation Result', () => {
         });
       });
 
-      context('when the target profile has badge partner competences (CleaNumerique)', () => {
-        it('computes the buildBadgePartnerCompetence for each competence of badge', async () => {
+      context('when the target profile has badge partner competences (CleaNumerique)', function() {
+        it('computes the buildBadgePartnerCompetence for each competence of badge', async function() {
           const { id: userId } = databaseBuilder.factory.buildUser();
           const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
           const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({

@@ -2,32 +2,32 @@ const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = req
 const createServer = require('../../../../server');
 const Badge = require('../../../../lib/domain/models/Badge');
 
-describe('Acceptance | Controller | session-controller-get-jury-certification-summaries', () => {
+describe('Acceptance | Controller | session-controller-get-jury-certification-summaries', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
   describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function() {
     let sessionId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sessionId = databaseBuilder.factory.buildSession().id;
 
       return databaseBuilder.commit();
     });
 
-    context('when user has not the role PixMaster', () => {
+    context('when user has not the role PixMaster', function() {
       let userId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         userId = databaseBuilder.factory.buildUser().id;
         return databaseBuilder.commit();
       });
 
-      it('should return 403 HTTP status code', async () => {
+      it('should return 403 HTTP status code', async function() {
         // when
         const response = await server.inject({
           method: 'GET',
@@ -42,7 +42,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
 
     });
 
-    context('when user has role PixMaster', () => {
+    context('when user has role PixMaster', function() {
       let pixMasterId;
       let certif1;
       let certif2;
@@ -51,7 +51,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
       let expectedJuryCertifSumm2;
       let request;
 
-      beforeEach(() => {
+      beforeEach(function() {
         const dbf = databaseBuilder.factory;
         pixMasterId = dbf.buildUser.withPixRolePixMaster().id;
         sessionId = dbf.buildSession().id;
@@ -104,7 +104,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         return databaseBuilder.commit();
       });
 
-      it('should return 200 HTTP status code', async () => {
+      it('should return 200 HTTP status code', async function() {
         // when
         const response = await server.inject(request);
 
@@ -112,7 +112,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return the expected data', async () => {
+      it('should return the expected data', async function() {
         // when
         const response = await server.inject(request);
 

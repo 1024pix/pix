@@ -16,18 +16,18 @@ const {
   FRENCH_SPOKEN,
 } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | Service | MailService', () => {
+describe('Unit | Service | MailService', function() {
 
   const senderEmailAddress = 'ne-pas-repondre@pix.fr';
   const userEmailAddress = 'user@example.net';
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(mailer, 'sendEmail').resolves();
   });
 
-  describe('#sendAccountCreationEmail', () => {
+  describe('#sendAccountCreationEmail', function() {
 
-    it('should call sendEmail with from, to, subject, template', async () => {
+    it('should call sendEmail with from, to, subject, template', async function() {
       // given
       const locale = undefined;
 
@@ -47,11 +47,11 @@ describe('Unit | Service | MailService', () => {
       expect(options).to.include(expectedOptions);
     });
 
-    context('according to redirectionUrl', () => {
+    context('according to redirectionUrl', function() {
 
-      context('if redirectionUrl is provided', () => {
+      context('if redirectionUrl is provided', function() {
 
-        it('should call sendEmail with provided value', async () => {
+        it('should call sendEmail with provided value', async function() {
           // given
           const redirectionUrl = 'https://pix.fr';
           const locale = FRENCH_FRANCE;
@@ -66,14 +66,14 @@ describe('Unit | Service | MailService', () => {
       });
     });
 
-    context('according to locale', () => {
+    context('according to locale', function() {
 
       const translationsMapping = {
         fr: mainTranslationsMapping.fr['pix-account-creation-email'],
         en: mainTranslationsMapping.en['pix-account-creation-email'],
       };
 
-      context('should call sendEmail with localized variable options', () => {
+      context('should call sendEmail with localized variable options', function() {
         const testCases = [
           {
             locale: undefined,
@@ -138,7 +138,7 @@ describe('Unit | Service | MailService', () => {
         ];
 
         testCases.forEach((testCase) => {
-          it(`when locale is ${testCase.locale}`, async () => {
+          it(`when locale is ${testCase.locale}`, async function() {
             // when
             await mailService.sendAccountCreationEmail(userEmailAddress, testCase.locale);
 
@@ -152,9 +152,9 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#sendCertificationResultEmail', () => {
+  describe('#sendCertificationResultEmail', function() {
 
-    it('should use mailer to send an email with given options', async () => {
+    it('should use mailer to send an email with given options', async function() {
       // given
       sinon.stub(settings.domain, 'pixApp').value('https://pix.app');
       const sessionDate = '2020-10-03';
@@ -193,7 +193,7 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#sendResetPasswordDemandEmail', () => {
+  describe('#sendResetPasswordDemandEmail', function() {
 
     const from = senderEmailAddress;
     const to = userEmailAddress;
@@ -205,7 +205,7 @@ describe('Unit | Service | MailService', () => {
       en: mainTranslationsMapping.en['reset-password-demand-email'],
     };
 
-    context('according to locale', () => {
+    context('according to locale', function() {
 
       const testCases = [
         {
@@ -287,7 +287,7 @@ describe('Unit | Service | MailService', () => {
       ];
 
       testCases.forEach((testCase) => {
-        it(`should call mailer with ${testCase.expectedTranslationLanguage} translated texts if locale is ${testCase.locale}`, async () => {
+        it(`should call mailer with ${testCase.expectedTranslationLanguage} translated texts if locale is ${testCase.locale}`, async function() {
           // when
           await mailService.sendResetPasswordDemandEmail({
             email: userEmailAddress,
@@ -302,13 +302,13 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#sendOrganizationInvitationEmail', () => {
+  describe('#sendOrganizationInvitationEmail', function() {
 
     const organizationName = 'Organization Name';
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
 
-    it('should call sendEmail with from, to, organizationName', async () => {
+    it('should call sendEmail with from, to, organizationName', async function() {
       // given
       const locale = undefined;
 
@@ -332,11 +332,11 @@ describe('Unit | Service | MailService', () => {
       expect(options.variables.organizationName).to.equal(expectedOptions.variables.organizationName);
     });
 
-    context('according to tags', () => {
+    context('according to tags', function() {
 
-      context('When tags property is not provided', () => {
+      context('When tags property is not provided', function() {
 
-        it('should call mail provider with null tags', async () => {
+        it('should call mail provider with null tags', async function() {
           // given
           const tags = null;
 
@@ -351,9 +351,9 @@ describe('Unit | Service | MailService', () => {
         });
       });
 
-      context('When tags property is provided', () => {
+      context('When tags property is provided', function() {
 
-        it('should call mail provider with correct tags', async () => {
+        it('should call mail provider with correct tags', async function() {
           // given
           const tags = ['JOIN_ORGA'];
 
@@ -369,14 +369,14 @@ describe('Unit | Service | MailService', () => {
       });
     });
 
-    context('according to locale', () => {
+    context('according to locale', function() {
 
       const translationsMapping = {
         'fr': mainTranslationsMapping.fr['organization-invitation-email'],
         'en': mainTranslationsMapping.en['organization-invitation-email'],
       };
 
-      context('should call sendEmail with localized variable options', () => {
+      context('should call sendEmail with localized variable options', function() {
 
         const testCases = [
           {
@@ -442,7 +442,7 @@ describe('Unit | Service | MailService', () => {
         ];
 
         testCases.forEach((testCase) => {
-          it(`when locale is ${testCase.locale}`, async () => {
+          it(`when locale is ${testCase.locale}`, async function() {
             // when
             await mailService.sendOrganizationInvitationEmail({
               email: userEmailAddress, organizationName, organizationInvitationId, code, locale: testCase.locale,
@@ -459,7 +459,7 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#sendScoOrganizationInvitationEmail', () => {
+  describe('#sendScoOrganizationInvitationEmail', function() {
 
     const fromName = 'Pix Orga - Ne pas répondre';
 
@@ -475,7 +475,7 @@ describe('Unit | Service | MailService', () => {
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
 
-    it('should call mail provider with pix-orga url, organization-invitation id, code and null tags', async () => {
+    it('should call mail provider with pix-orga url, organization-invitation id, code and null tags', async function() {
       // given
       const expectedOptions = {
         from: senderEmailAddress,
@@ -507,9 +507,9 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#notifyEmailChange', () => {
+  describe('#notifyEmailChange', function() {
 
-    it('should call sendEmail with from, to, template, tags', async () => {
+    it('should call sendEmail with from, to, template, tags', async function() {
 
       // given
       const locale = FRENCH_FRANCE;
@@ -529,14 +529,14 @@ describe('Unit | Service | MailService', () => {
       expect(options).to.deep.include(expectedOptions);
     });
 
-    context('according to locale', () => {
+    context('according to locale', function() {
 
       const translationsMapping = {
         'fr': mainTranslationsMapping.fr['email-change-email'],
         'en': mainTranslationsMapping.en['email-change-email'],
       };
 
-      context('should call sendEmail with localized variable options', () => {
+      context('should call sendEmail with localized variable options', function() {
 
         const testCases = [
           {
@@ -575,7 +575,7 @@ describe('Unit | Service | MailService', () => {
         ];
 
         testCases.forEach((testCase) => {
-          it(`when locale is ${testCase.locale}`, async () => {
+          it(`when locale is ${testCase.locale}`, async function() {
 
             // when
             await mailService.notifyEmailChange({ email: userEmailAddress, locale: testCase.locale });

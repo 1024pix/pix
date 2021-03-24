@@ -2,9 +2,9 @@ const { expect, catchErr } = require('../../../test-helper');
 const { FileValidationError, SameNationalStudentIdInFileError, ObjectValidationError } = require('../../../../lib/domain/errors');
 const schoolingRegistrationsXmlService = require('../../../../lib/domain/services/schooling-registrations-xml-service');
 
-describe('Integration | Services | schooling-registrations-xml-service', () => {
+describe('Integration | Services | schooling-registrations-xml-service', function() {
 
-  describe('extractSchoolingRegistrationsInformationFromSIECLE', () => {
+  describe('extractSchoolingRegistrationsInformationFromSIECLE', function() {
 
     it('should parse two schoolingRegistrations information', async function() {
       // given
@@ -205,7 +205,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       expect(error.message).to.equal('L\'INE est obligatoire');
     });
 
-    context('when the file is zipped', () => {
+    context('when the file is zipped', function() {
       it('unzip the file', async function() {
         // given
         const organization = { externalId: '1237457A' };
@@ -234,7 +234,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
         expect(result).to.deep.equal(expectedSchoolingRegistrations);
       });
 
-      context('when the file is corrupted', () => {
+      context('when the file is corrupted', function() {
         it('throws an error', async function() {
           // given
           const organization = { externalId: '1237457A' };

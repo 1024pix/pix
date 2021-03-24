@@ -4,11 +4,11 @@ const moduleUnderTest = require('../../../../lib/application/passwords');
 
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 
-describe('Unit | Router | Password router', () => {
+describe('Unit | Router | Password router', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(passwordController, 'checkResetDemand');
     sinon.stub(passwordController, 'createResetDemand');
     sinon.stub(passwordController, 'updateExpiredPassword').callsFake((request, h) => h.response().created());
@@ -16,12 +16,12 @@ describe('Unit | Router | Password router', () => {
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('POST /api/password-reset-demands', () => {
+  describe('POST /api/password-reset-demands', function() {
 
     const method = 'POST';
     const url = '/api/password-reset-demands';
 
-    it('should return 200 http status code', async () => {
+    it('should return 200 http status code', async function() {
       // given
       passwordController.createResetDemand.returns('ok');
 
@@ -42,9 +42,9 @@ describe('Unit | Router | Password router', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    context('When payload has a bad format or no email is provided', () => {
+    context('When payload has a bad format or no email is provided', function() {
 
-      it('should return 400 http status code', async () => {
+      it('should return 400 http status code', async function() {
         // given
         const payload = {
           data: {
@@ -61,12 +61,12 @@ describe('Unit | Router | Password router', () => {
     });
   });
 
-  describe('GET /api/password-reset-demands/{temporaryKey}', () => {
+  describe('GET /api/password-reset-demands/{temporaryKey}', function() {
 
     const method = 'GET';
     const url = '/api/password-reset-demands/ABCDEF123';
 
-    it('should return 201 http status code', async () => {
+    it('should return 201 http status code', async function() {
       // given
       passwordController.checkResetDemand.resolves('ok');
 
@@ -78,12 +78,12 @@ describe('Unit | Router | Password router', () => {
     });
   });
 
-  describe('POST /api/expired-password-updates', () => {
+  describe('POST /api/expired-password-updates', function() {
 
     const method = 'POST';
     const url = '/api/expired-password-updates';
 
-    it('should return 201 http status code', async () => {
+    it('should return 201 http status code', async function() {
       // given
       const payload = {
         data: {
@@ -103,9 +103,9 @@ describe('Unit | Router | Password router', () => {
       expect(response.statusCode).to.equal(201);
     });
 
-    context('When the payload has the wrong format or no username or expiredPassword or newPassword is provided.', () => {
+    context('When the payload has the wrong format or no username or expiredPassword or newPassword is provided.', function() {
 
-      it('should return 400 http status code', async () => {
+      it('should return 400 http status code', async function() {
         // given
         const payload = {
           data: {

@@ -4,7 +4,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const { beginCampaignParticipationImprovement } = require('../../../../lib/domain/usecases');
 const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
+describe('Unit | Usecase | begin-campaign-participation-improvement', function() {
 
   const campaignParticipationRepository = {
     get: sinon.stub(),
@@ -15,7 +15,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
   };
   const dependencies = { campaignParticipationRepository, assessmentRepository };
 
-  it('should throw an error if the campaign participation is not linked to user', async () => {
+  it('should throw an error if the campaign participation is not linked to user', async function() {
     // given
     const userId = 1;
     const campaignParticipationId = 2;
@@ -31,7 +31,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
     expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
   });
 
-  it('should throw an error if the campaign participation is shared', async () => {
+  it('should throw an error if the campaign participation is shared', async function() {
     // given
     const userId = 1;
     const campaignParticipationId = 2;
@@ -47,7 +47,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
     expect(error).to.be.instanceOf(AlreadySharedCampaignParticipationError);
   });
 
-  it('should not start another assessment when the current assessment of the campaign is of improving type and still ongoing', async () => {
+  it('should not start another assessment when the current assessment of the campaign is of improving type and still ongoing', async function() {
     // given
     const userId = 1;
     const campaignParticipationId = 2;
@@ -67,7 +67,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
     expect(assessmentRepository.save).to.not.have.been.called;
   });
 
-  it('should create a campaign assessment with the campaignParticipationId and isImproving at true', async () => {
+  it('should create a campaign assessment with the campaignParticipationId and isImproving at true', async function() {
     // given
     const userId = 1;
     const campaignParticipationId = 2;

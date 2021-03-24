@@ -7,12 +7,12 @@ const {
 const deleteUnlinkedCertificationCandidate = require('../../../../lib/domain/usecases/delete-unlinked-certification-candidate');
 const { CertificationCandidateForbiddenDeletionError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | delete-unlinked-sertification-candidate', () => {
+describe('Unit | UseCase | delete-unlinked-sertification-candidate', function() {
 
   let certificationCandidateId;
   let certificationCandidateRepository;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     certificationCandidateId = 'dummy certification candidate id';
     certificationCandidateRepository = {
       isNotLinked: sinon.stub(),
@@ -20,14 +20,14 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', () => {
     };
   });
 
-  context('When the certification candidate is not linked to a user', () => {
+  context('When the certification candidate is not linked to a user', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       certificationCandidateRepository.isNotLinked.withArgs(certificationCandidateId).resolves(true);
       certificationCandidateRepository.delete.withArgs(certificationCandidateId).resolves(true);
     });
 
-    it('should delete the certification candidate', async () => {
+    it('should delete the certification candidate', async function() {
       // when
       const res = await deleteUnlinkedCertificationCandidate({
         certificationCandidateId,
@@ -40,13 +40,13 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', () => {
 
   });
 
-  context('When the certification candidate is linked to a user ', () => {
+  context('When the certification candidate is linked to a user ', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       certificationCandidateRepository.isNotLinked.withArgs(certificationCandidateId).resolves(false);
     });
 
-    it('should throw a forbidden deletion error', async () => {
+    it('should throw a forbidden deletion error', async function() {
       // when
       const err = await catchErr(deleteUnlinkedCertificationCandidate)({
         certificationCandidateId,

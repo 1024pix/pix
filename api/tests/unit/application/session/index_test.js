@@ -17,11 +17,11 @@ const sessionAuthorization = require('../../../../lib/application/preHandlers/se
 
 const moduleUnderTest = require('../../../../lib/application/sessions');
 
-describe('Unit | Application | Sessions | Routes', () => {
+describe('Unit | Application | Sessions | Routes', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(sessionAuthorization, 'verify').returns(null);
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
@@ -50,9 +50,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('GET /api/sessions/{id}', () => {
+  describe('GET /api/sessions/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/sessions/3');
 
@@ -61,9 +61,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('GET /api/admin/sessions/{id}', () => {
+  describe('GET /api/admin/sessions/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/admin/sessions/123');
 
@@ -72,9 +72,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('GET /api/admin/sessions', () => {
+  describe('GET /api/admin/sessions', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/admin/sessions');
 
@@ -83,9 +83,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('POST /api/session', () => {
+  describe('POST /api/session', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       /// when
       const response = await httpTestServer.request('POST', '/api/sessions');
 
@@ -94,9 +94,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('GET /api/sessions/{id}/attendance-sheet', () => {
+  describe('GET /api/sessions/{id}/attendance-sheet', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/sessions/1/attendance-sheet');
 
@@ -105,9 +105,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('PATCH /api/sessions/{id}', () => {
+  describe('PATCH /api/sessions/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('PATCH', '/api/sessions/1');
 
@@ -116,7 +116,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('POST /api/sessions/{id}/certification-candidates/import', () => {
+  describe('POST /api/sessions/{id}/certification-candidates/import', function() {
 
     const testFilePath = `${__dirname}/testFile_temp.ods`;
 
@@ -128,7 +128,7 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     let sessionId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       await writeFile(testFilePath, Buffer.alloc(0));
       const form = new FormData();
       const knownLength = await stat(testFilePath).size;
@@ -138,11 +138,11 @@ describe('Unit | Application | Sessions | Routes', () => {
       payload = await streamToPromise(form);
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await unlink(testFilePath);
     });
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sessionId = 3;
       url = `/api/sessions/${sessionId}/certification-candidates/import`;
@@ -154,9 +154,9 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    context('when session ID params is not a number', () => {
+    context('when session ID params is not a number', function() {
 
-      it('should return 400', async () => {
+      it('should return 400', async function() {
         // given
         sessionId = 'salut';
         url = `/api/sessions/${sessionId}/certification-candidates/import`;
@@ -169,9 +169,9 @@ describe('Unit | Application | Sessions | Routes', () => {
       });
     });
 
-    context('when session ID params is out of range for database integer (> 2147483647)', () => {
+    context('when session ID params is out of range for database integer (> 2147483647)', function() {
 
-      it('should return 400', async () => {
+      it('should return 400', async function() {
         // given
         sessionId = 9999999999;
         url = `/api/sessions/${sessionId}/certification-candidates/import`;
@@ -185,9 +185,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('GET /api/sessions/{id}/certification-candidates', () => {
+  describe('GET /api/sessions/{id}/certification-candidates', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/sessions/3/certification-candidates');
 
@@ -196,9 +196,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('POST /api/sessions/{id}/certification-candidates', () => {
+  describe('POST /api/sessions/{id}/certification-candidates', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('POST', '/api/sessions/3/certification-candidates');
 
@@ -207,9 +207,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('DELETE /api/sessions/{id}/certification-candidates/{certificationCandidateId}', () => {
+  describe('DELETE /api/sessions/{id}/certification-candidates/{certificationCandidateId}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('DELETE', '/api/sessions/3/certification-candidates/1');
 
@@ -218,9 +218,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('GET /api/admin/sessions/{id}/jury-certification-summaries', () => {
+  describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/admin/sessions/1/jury-certification-summaries');
 
@@ -229,9 +229,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('POST /api/sessions/{id}/candidate-participation', () => {
+  describe('POST /api/sessions/{id}/candidate-participation', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('POST', '/api/sessions/3/candidate-participation');
 
@@ -240,9 +240,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('PUT /api/sessions/{id}/finalization', () => {
+  describe('PUT /api/sessions/{id}/finalization', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('PUT', '/api/sessions/3/finalization');
 
@@ -251,9 +251,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('PATCH /api/admin/sessions/{id}/publish', () => {
+  describe('PATCH /api/admin/sessions/{id}/publish', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const payload = {
         data: {
@@ -270,9 +270,9 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(response.statusCode).to.equal(200);
     });
   });
-  describe('PATCH /api/admin/sessions/{id}/unpublish', () => {
+  describe('PATCH /api/admin/sessions/{id}/unpublish', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const payload = {
         data: {
@@ -290,9 +290,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('POST /api/admin/sessions/publish-in-batch', () => {
+  describe('POST /api/admin/sessions/publish-in-batch', function() {
 
-    it('is protected by a prehandler checking the Pix Master role', async () => {
+    it('is protected by a prehandler checking the Pix Master role', async function() {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
       const payload = {
@@ -310,7 +310,7 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should succeed with valid session ids', async () => {
+    it('should succeed with valid session ids', async function() {
       // given
       const payload = {
         data: {
@@ -327,7 +327,7 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should validate the session ids in payload', async () => {
+    it('should validate the session ids in payload', async function() {
       // given
       const payload = {
         data: {
@@ -345,9 +345,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('PUT /api/admin/sessions/{id}/results-sent-to-prescriber', () => {
+  describe('PUT /api/admin/sessions/{id}/results-sent-to-prescriber', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('PUT', '/api/admin/sessions/3/results-sent-to-prescriber');
 
@@ -356,9 +356,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', () => {
+  describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/certification-officer-assignment');
 
@@ -367,7 +367,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('id validation', () => {
+  describe('id validation', function() {
     [
       { condition: 'session ID params is not a number', request: { method: 'GET', url: '/api/sessions/salut' } },
       { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'GET', url: '/api/sessions/9999999999' } },
@@ -400,7 +400,7 @@ describe('Unit | Application | Sessions | Routes', () => {
       { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/admin/sessions/salut/certification-officer-assignment' } },
       { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/certification-officer-assignment' } },
     ].forEach(({ condition, request }) => {
-      it(`should return 400 when ${condition}`, async () => {
+      it(`should return 400 when ${condition}`, async function() {
         // when
         const response = await httpTestServer.request(request.method, request.url, request.payload || null);
 
@@ -410,8 +410,8 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('PUT /api/session/{id}/enroll-students-to-session', () => {
-    it('exists', async () => {
+  describe('PUT /api/session/{id}/enroll-students-to-session', function() {
+    it('exists', async function() {
       // when
       const response = await httpTestServer.request('PUT', '/api/sessions/3/enroll-students-to-session');
 
@@ -419,7 +419,7 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('validates the session id', async () => {
+    it('validates the session id', async function() {
       // when
       const response = await httpTestServer.request('PUT', '/api/sessions/invalidId/enroll-students-to-session');
 
@@ -427,7 +427,7 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('denies access if the session of the logged used is not authorized', async () => {
+    it('denies access if the session of the logged used is not authorized', async function() {
       // given
       sessionAuthorization.verify.throws(new NotFoundError());
 
@@ -439,15 +439,15 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('GET /api/admin/sessions/to-publish', () => {
-    it('exists', async () => {
+  describe('GET /api/admin/sessions/to-publish', function() {
+    it('exists', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
 
       // then
       expect(response.statusCode).to.equal(200);
     });
-    it('is protected by a prehandler checking the Pix Master role', async () => {
+    it('is protected by a prehandler checking the Pix Master role', async function() {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
 
@@ -459,8 +459,8 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('GET /api/admin/sessions/with-required-action', () => {
-    it('exists', async () => {
+  describe('GET /api/admin/sessions/with-required-action', function() {
+    it('exists', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/admin/sessions/with-required-action');
 
@@ -468,7 +468,7 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('is protected by a prehandler checking the Pix Master role', async () => {
+    it('is protected by a prehandler checking the Pix Master role', async function() {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
 

@@ -4,23 +4,23 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Pre-handler | User Verification', () => {
+describe('Unit | Pre-handler | User Verification', function() {
 
-  describe('#verifyById', () => {
+  describe('#verifyById', function() {
     const request = {
       params: {
         id: 7,
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(userRepository, 'get');
       sinon.stub(errorSerializer, 'serialize');
     });
 
-    describe('When user exist', () => {
+    describe('When user exist', function() {
 
-      it('should passthrough to handler', async () => {
+      it('should passthrough to handler', async function() {
         // given
         const userCount = 1;
         userRepository.get.resolves(userCount);
@@ -36,9 +36,9 @@ describe('Unit | Pre-handler | User Verification', () => {
 
     });
 
-    describe('When user doesn’t exist', async () => {
+    describe('When user doesn’t exist', async function() {
 
-      it('should reply 404 status with a serialized error and takeOver the request', async () => {
+      it('should reply 404 status with a serialized error and takeOver the request', async function() {
         // given
         userRepository.get.rejects(new UserNotFoundError());
         const serializedError = { serialized: 'error' };

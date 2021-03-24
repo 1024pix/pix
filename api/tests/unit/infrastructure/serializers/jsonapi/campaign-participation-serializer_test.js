@@ -75,7 +75,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
 
     let expectedSerializedCampaignParticipation;
 
-    beforeEach(() => {
+    beforeEach(function() {
       expectedSerializedCampaignParticipation = {
         data: {
           type: 'campaign-participations',

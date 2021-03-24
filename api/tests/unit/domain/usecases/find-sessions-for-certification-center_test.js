@@ -2,7 +2,7 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | find-sessions-for-certification-center', () => {
+describe('Unit | UseCase | find-sessions-for-certification-center', function() {
 
   const userId = 'userId';
   const certificationCenterId = 'certificationCenterId';
@@ -14,7 +14,7 @@ describe('Unit | UseCase | find-sessions-for-certification-center', () => {
     isMemberOfCertificationCenter: sinon.stub(),
   };
 
-  it('should return sessions of the certificationCenter', async () => {
+  it('should return sessions of the certificationCenter', async function() {
     // given
     certificationCenterMembershipRepository.isMemberOfCertificationCenter.withArgs(userId, certificationCenterId).resolves(true);
     sessionRepository.findByCertificationCenterId.withArgs(certificationCenterId).resolves(sessions);
@@ -26,7 +26,7 @@ describe('Unit | UseCase | find-sessions-for-certification-center', () => {
     expect(sessionsFound).to.be.deep.equal(sessions);
   });
 
-  it('should throw a forbidden error if user is not a member of the given certification center', async () => {
+  it('should throw a forbidden error if user is not a member of the given certification center', async function() {
     // given
     certificationCenterMembershipRepository.isMemberOfCertificationCenter.withArgs(userId, certificationCenterId).resolves(false);
     sessionRepository.findByCertificationCenterId.withArgs(certificationCenterId).resolves(sessions);

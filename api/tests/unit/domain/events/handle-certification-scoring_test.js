@@ -6,7 +6,7 @@ const { CertificationComputeError } = require('../../../../lib/domain/errors');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 
-describe('Unit | Domain | Events | handle-certification-scoring', () => {
+describe('Unit | Domain | Events | handle-certification-scoring', function() {
   const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
   const certificationAssessmentRepository = { get: _.noop };
   const assessmentResultRepository = { save: _.noop };
@@ -25,20 +25,20 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
     certificationAssessmentRepository,
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
     clock = sinon.useFakeTimers(now);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     clock.restore();
   });
 
-  context('when assessment is of type CERTIFICATION', () => {
+  context('when assessment is of type CERTIFICATION', function() {
     const assessmentId = Symbol('assessmentId');
     const userId = Symbol('userId');
     let certificationAssessment;
 
-    beforeEach(() => {
+    beforeEach(function() {
       event = new AssessmentCompleted({
         assessmentId,
         userId,
@@ -53,7 +53,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       sinon.stub(certificationAssessmentRepository, 'get').withArgs(assessmentId).resolves(certificationAssessment);
     });
 
-    it('fails when event is not of correct type', async () => {
+    it('fails when event is not of correct type', async function() {
       // given
       const event = 'not an event of the correct type';
       // when / then
@@ -65,16 +65,16 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       expect(error).not.to.be.null;
     });
 
-    context('when an error different from a compute error happens', () => {
+    context('when an error different from a compute error happens', function() {
       const otherError = new Error();
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(otherError);
         sinon.stub(AssessmentResult, 'BuildAlgoErrorResult');
         sinon.stub(assessmentResultRepository, 'save');
         sinon.stub(certificationCourseRepository, 'changeCompletionDate');
       });
 
-      it('should not save any results', async () => {
+      it('should not save any results', async function() {
         // when
         await catchErr(handleCertificationScoring)({
           event, ...dependencies,
@@ -87,17 +87,17 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       });
     });
 
-    context('when an error of type CertificationComputeError happens while scoring the assessment', () => {
+    context('when an error of type CertificationComputeError happens while scoring the assessment', function() {
       const errorAssessmentResult = Symbol('ErrorAssessmentResult');
       const computeError = new CertificationComputeError();
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(computeError);
         sinon.stub(AssessmentResult, 'BuildAlgoErrorResult').returns(errorAssessmentResult);
         sinon.stub(assessmentResultRepository, 'save').resolves();
         sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
       });
 
-      it('should call the scoring service with the right arguments', async () => {
+      it('should call the scoring service with the right arguments', async function() {
         // when
         await handleCertificationScoring({
           event,
@@ -111,7 +111,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         );
       });
 
-      it('should save the error result appropriately', async () => {
+      it('should save the error result appropriately', async function() {
         // when
         await handleCertificationScoring({
           event,
@@ -132,7 +132,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       });
     });
 
-    context('when scoring is successful', () => {
+    context('when scoring is successful', function() {
       const assessmentResult = Symbol('AssessmentResult');
       const assessmentResultId = 99;
       const competenceMarkData1 = domainBuilder.buildCompetenceMark({ assessmentResultId });
@@ -147,7 +147,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         percentageCorrectAnswers: 80,
       };
 
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(AssessmentResult, 'BuildStandardAssessmentResult').returns(assessmentResult);
         sinon.stub(assessmentResultRepository, 'save').resolves(savedAssessmentResult);
         sinon.stub(competenceMarkRepository, 'save').resolves();
@@ -155,7 +155,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').resolves(certificationAssessmentScore);
       });
 
-      it('should build and save an assessment result with the expected arguments', async () => {
+      it('should build and save an assessment result with the expected arguments', async function() {
         // when
         await handleCertificationScoring({
           event, ...dependencies, domainTransaction,
@@ -173,7 +173,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         );
       });
 
-      it('should return a CertificationScoringCompleted', async () => {
+      it('should return a CertificationScoringCompleted', async function() {
         // when
         const certificationScoringCompleted = await handleCertificationScoring({
           event, ...dependencies, domainTransaction,
@@ -188,7 +188,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         });
       });
 
-      it('should build and save as many competence marks as present in the certificationAssessmentScore', async () => {
+      it('should build and save as many competence marks as present in the certificationAssessmentScore', async function() {
         // when
         await handleCertificationScoring({
           event, ...dependencies, domainTransaction,
@@ -199,8 +199,8 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       });
     });
   });
-  context('when completed assessment is not of type CERTIFICATION', () => {
-    it('should not do anything', async () => {
+  context('when completed assessment is not of type CERTIFICATION', function() {
+    it('should not do anything', async function() {
       // given
       const event = new AssessmentCompleted(
         Symbol('an assessment Id'),

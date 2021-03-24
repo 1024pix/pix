@@ -3,13 +3,13 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 
 const Bookshelf = require('../../../../../lib/infrastructure/bookshelf');
 
-describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
+describe('Unit | Serializer | JSONAPI | validation-error-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
     let DummyObject;
 
-    before(() => {
+    before(function() {
       DummyObject = Bookshelf.Model.extend({
         validations: {
           email: [
@@ -23,7 +23,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       });
     });
 
-    it('should format a validation error into a JSON spec', () => {
+    it('should format a validation error into a JSON spec', function() {
       // given
       const invalidObject = new DummyObject({
         email: 'testThatIsNotAnEmail',
@@ -53,7 +53,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       });
     });
 
-    it('should format a validation error into a JSON:API spec with kebab-case on source pointer', () => {
+    it('should format a validation error into a JSON:API spec with kebab-case on source pointer', function() {
       // given
       const validationErrors = {
         data: {
@@ -81,7 +81,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       expect(formattedJSON).to.deep.equal(expectedFormattedJSON);
     });
 
-    it('should return several messages for one field if they exist', () => {
+    it('should return several messages for one field if they exist', function() {
       // given
       const validationErrors = {
         data: {
@@ -125,7 +125,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       expect(formattedJSON).to.deep.equal(expectedFormattedJSON);
     });
 
-    it('should format a validation error into a JSON spec when multiple errors', () => {
+    it('should format a validation error into a JSON spec when multiple errors', function() {
       // given
       const invalidObject = new DummyObject({
         email: 'test@example.net',
@@ -196,7 +196,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       expect(formattedJSON).to.deep.equal(expectJsonFormat);
     });
 
-    it('should format a validation error into a JSON spec when generic error', () => {
+    it('should format a validation error into a JSON spec when generic error', function() {
       // given
       const errors = {
         data: {

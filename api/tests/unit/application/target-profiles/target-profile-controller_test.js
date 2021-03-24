@@ -2,13 +2,13 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | Controller | target-profile-controller', () => {
+describe('Unit | Controller | target-profile-controller', function() {
 
-  describe('#updateTargetProfileName', () => {
+  describe('#updateTargetProfileName', function() {
 
     let request;
 
-    beforeEach(() => {
+    beforeEach(function() {
 
       sinon.stub(usecases, 'updateTargetProfileName');
 
@@ -26,9 +26,9 @@ describe('Unit | Controller | target-profile-controller', () => {
       };
     });
 
-    context('successful case', () => {
+    context('successful case', function() {
 
-      it('should succeed', async () => {
+      it('should succeed', async function() {
         // when
         const response = await targetProfileController.updateTargetProfile(request, hFake);
 
@@ -36,7 +36,7 @@ describe('Unit | Controller | target-profile-controller', () => {
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should update target profile name', async () => {
+      it('should update target profile name', async function() {
         // when
         await targetProfileController.updateTargetProfile(request, hFake);
 

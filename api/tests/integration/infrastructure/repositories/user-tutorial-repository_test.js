@@ -1,18 +1,18 @@
 const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
 
-describe('Integration | Infrastructure | Repository | userTutorialRepository', () => {
+describe('Integration | Infrastructure | Repository | userTutorialRepository', function() {
   let userId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
   });
 
-  describe('#addTutorial', () => {
+  describe('#addTutorial', function() {
     const tutorialId = 'tutorialId';
 
-    it('should store the tutorialId in the users list', async () => {
+    it('should store the tutorialId in the users list', async function() {
       // when
       await userTutorialRepository.addTutorial({ userId, tutorialId });
 
@@ -21,7 +21,7 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', (
       expect(userTutorials).to.have.length(1);
     });
 
-    it('should return the created user tutorial', async () => {
+    it('should return the created user tutorial', async function() {
       // when
       const userTutorial = await userTutorialRepository.addTutorial({ userId, tutorialId });
 
@@ -33,7 +33,7 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', (
     });
 
     context('when the tutorialId already exists in the user list', function() {
-      it('should not store the tutorialId', async () => {
+      it('should not store the tutorialId', async function() {
         // given
         databaseBuilder.factory.buildUserTutorial({ tutorialId, userId });
         await databaseBuilder.commit();
@@ -52,10 +52,10 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', (
 
   });
 
-  describe('#find', () => {
+  describe('#find', function() {
 
     context('when user has saved tutorials', function() {
-      it('should return user-tutorials belonging to given user', async () => {
+      it('should return user-tutorials belonging to given user', async function() {
         // given
         const tutorialId = 'recTutorial';
         databaseBuilder.factory.buildUserTutorial({ tutorialId, userId });
@@ -72,7 +72,7 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', (
     });
 
     context('when user has not saved tutorial', function() {
-      it('should empty array', async () => {
+      it('should empty array', async function() {
         const userTutorials = await userTutorialRepository.find({ userId });
 
         // then
@@ -82,10 +82,10 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', (
 
   });
 
-  describe('#removeFromUser', () => {
+  describe('#removeFromUser', function() {
     const tutorialId = 'tutorialId';
 
-    it('should delete the user tutorial', async () => {
+    it('should delete the user tutorial', async function() {
       // given
       databaseBuilder.factory.buildUserTutorial({ tutorialId, userId });
       await databaseBuilder.commit();
@@ -99,7 +99,7 @@ describe('Integration | Infrastructure | Repository | userTutorialRepository', (
     });
 
     context('when the tutorialId does not exist in the user list', function() {
-      it('should do nothing', async () => {
+      it('should do nothing', async function() {
         // when
         await userTutorialRepository.removeFromUser({ userId, tutorialId });
         const userTutorials = await knex('user_tutorials').where({ userId, tutorialId });

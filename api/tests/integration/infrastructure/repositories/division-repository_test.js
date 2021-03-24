@@ -1,9 +1,9 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const divisionRepository = require('../../../../lib/infrastructure/repositories/division-repository');
 
-describe('Integration | Repository | Division', () => {
-  describe('#findByCampaignId', () => {
-    it('returns the division from schooling registration associated to the given campaign', async () => {
+describe('Integration | Repository | Division', function() {
+  describe('#findByCampaignId', function() {
+    it('returns the division from schooling registration associated to the given campaign', async function() {
       const division1 = '6emeB';
       const division2 = '3emeA';
       const campaign = databaseBuilder.factory.buildCampaign();
@@ -17,8 +17,8 @@ describe('Integration | Repository | Division', () => {
       expect(divisions).to.deep.equal([{ name: '3emeA' }, { name: '6emeB' }]);
     });
 
-    context('when there are schooling registrations for another campaign of the same organization', () => {
-      it('returns the division from schooling registration associated to the given campaign', async () => {
+    context('when there are schooling registrations for another campaign of the same organization', function() {
+      it('returns the division from schooling registration associated to the given campaign', async function() {
         const division1 = '6emeB';
         const division2 = '3emeA';
         const campaign = databaseBuilder.factory.buildCampaign();
@@ -33,8 +33,8 @@ describe('Integration | Repository | Division', () => {
       });
     });
 
-    context('when a participant has schooling registrations for another organization', () => {
-      it('returns the division from schooling registration associated to organization of the given campaign', async () => {
+    context('when a participant has schooling registrations for another organization', function() {
+      it('returns the division from schooling registration associated to organization of the given campaign', async function() {
         const division1 = '4emeG';
         const division2 = '3emeC';
         const user = { id: 100001 };
@@ -52,8 +52,8 @@ describe('Integration | Repository | Division', () => {
       });
     });
 
-    context('when several participants have the same division', () => {
-      it('returns each division one time', async () => {
+    context('when several participants have the same division', function() {
+      it('returns each division one time', async function() {
         const division = '5eme1';
         const campaign = databaseBuilder.factory.buildCampaign();
 
@@ -68,8 +68,8 @@ describe('Integration | Repository | Division', () => {
     });
   });
 
-  describe('#findByOrganizationId', () => {
-    it('should return list of divisions from an organization ordered by name', async () => {
+  describe('#findByOrganizationId', function() {
+    it('should return list of divisions from an organization ordered by name', async function() {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -114,7 +114,7 @@ describe('Integration | Repository | Division', () => {
       ]);
     });
 
-    it('should omit old divisions', async () => {
+    it('should omit old divisions', async function() {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 

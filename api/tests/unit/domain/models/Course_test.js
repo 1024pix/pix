@@ -1,11 +1,11 @@
 const { expect } = require('../../../test-helper');
 const Course = require('../../../../lib/domain/models/Course');
 
-describe('Unit | Domain | Models | Course', () => {
+describe('Unit | Domain | Models | Course', function() {
 
-  describe('#nbChallenges', () => {
+  describe('#nbChallenges', function() {
 
-    it('should return the number of challenges', () => {
+    it('should return the number of challenges', function() {
       // given
       const challenges = [
         'firstChallenge',

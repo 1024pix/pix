@@ -1,21 +1,21 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-get-campaign-participation-overviews', () => {
+describe('Acceptance | Controller | users-controller-get-campaign-participation-overviews', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /users/1/campaign-participation-overviews', () => {
+  describe('GET /users/1/campaign-participation-overviews', function() {
 
     let userId;
     let options;
     let targetProfile;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const user = databaseBuilder.factory.buildUser();
       userId = user.id;
 
@@ -40,7 +40,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
       return databaseBuilder.commit();
     });
 
-    it('should return participation which match with filters', async () => {
+    it('should return participation which match with filters', async function() {
       // given
       const startedCampaignParticipation = databaseBuilder.factory.campaignParticipationOverviewFactory.buildOnGoing({
         userId,

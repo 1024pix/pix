@@ -1,13 +1,13 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-accept-pix-certif-terms-of-service', () => {
+describe('Acceptance | Controller | users-controller-accept-pix-certif-terms-of-service', function() {
 
   let server;
   let user;
   let options;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
 
     user = databaseBuilder.factory.buildUser({ pixCertifTermsOfServiceAccepted: false });
@@ -21,9 +21,9 @@ describe('Acceptance | Controller | users-controller-accept-pix-certif-terms-of-
     return databaseBuilder.commit();
   });
 
-  describe('Resource access management', () => {
+  describe('Resource access management', function() {
 
-    it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+    it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
       // given
       options.headers.authorization = 'invalid.access.token';
 
@@ -34,7 +34,7 @@ describe('Acceptance | Controller | users-controller-accept-pix-certif-terms-of-
       expect(response.statusCode).to.equal(401);
     });
 
-    it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async () => {
+    it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
       // given
       const otherUserId = 9999;
       options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -47,9 +47,9 @@ describe('Acceptance | Controller | users-controller-accept-pix-certif-terms-of-
     });
   });
 
-  describe('Success case', () => {
+  describe('Success case', function() {
 
-    it('should return the user with pixCertifTermsOfServiceAccepted', async () => {
+    it('should return the user with pixCertifTermsOfServiceAccepted', async function() {
       // when
       const response = await server.inject(options);
 

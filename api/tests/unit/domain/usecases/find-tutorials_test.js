@@ -4,7 +4,7 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const findTutorials = require('../../../../lib/domain/usecases/find-tutorials');
 
-describe('Unit | UseCase | find-tutorials', () => {
+describe('Unit | UseCase | find-tutorials', function() {
 
   let authenticatedUserId;
   let competenceId;
@@ -17,7 +17,7 @@ describe('Unit | UseCase | find-tutorials', () => {
   let userTutorialRepository;
   let locale;
 
-  beforeEach(() => {
+  beforeEach(function() {
     scorecardId = '1_recabC123';
     competenceId = 'recABc123';
     authenticatedUserId = 1;
@@ -29,19 +29,19 @@ describe('Unit | UseCase | find-tutorials', () => {
     locale = 'lang-country';
   });
 
-  afterEach(() => {
+  afterEach(function() {
     sinon.restore();
   });
 
-  context('When user is authenticated', () => {
+  context('When user is authenticated', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       parseIdStub.withArgs(scorecardId).returns({ competenceId, userId: authenticatedUserId });
     });
 
-    context('And user asks for tutorials belonging to his scorecard', () => {
+    context('And user asks for tutorials belonging to his scorecard', function() {
 
-      it('should resolve', () => {
+      it('should resolve', function() {
         // given
         knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves({});
 
@@ -60,10 +60,10 @@ describe('Unit | UseCase | find-tutorials', () => {
         return expect(result).to.be.fulfilled;
       });
 
-      context('when there is at least one invalidated knowledge element and two inferred knowledge element', () => {
+      context('when there is at least one invalidated knowledge element and two inferred knowledge element', function() {
         let expectedTutorialList;
 
-        beforeEach(async () => {
+        beforeEach(async function() {
           // given
           const userTutorial = { id: 1, userId: 'userId', tutorialId: 'tuto1' };
           const tutorial1 = domainBuilder.buildTutorial({ id: 'tuto1' });
@@ -166,7 +166,7 @@ describe('Unit | UseCase | find-tutorials', () => {
           tubeRepository.findByNames.withArgs({ tubeNames, locale }).returns(tubeList);
         });
 
-        it('should return the tutorials related to the scorecard', async () => {
+        it('should return the tutorials related to the scorecard', async function() {
           // when
           const result = await findTutorials({
             authenticatedUserId,
@@ -184,8 +184,8 @@ describe('Unit | UseCase | find-tutorials', () => {
 
       });
 
-      context('when there is no invalidated knowledge element', () => {
-        it('should return no tutorial', async () => {
+      context('when there is no invalidated knowledge element', function() {
+        it('should return no tutorial', async function() {
           // given
           const competenceId = 'recCompetenceWikipedia';
           const skill_1 = domainBuilder.buildSkill({ name: '@wikipédia1', competenceId: competenceId });
@@ -218,8 +218,8 @@ describe('Unit | UseCase | find-tutorials', () => {
 
     });
 
-    context('And user asks for a scorecard that do not belongs to him', () => {
-      it('should reject a "UserNotAuthorizedToAccessEntityError" domain error', () => {
+    context('And user asks for a scorecard that do not belongs to him', function() {
+      it('should reject a "UserNotAuthorizedToAccessEntityError" domain error', function() {
         // given
         const unauthorizedUserId = 42;
 

@@ -3,7 +3,7 @@ const _ = require('lodash');
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | Prescriber-controller', () => {
+describe('Acceptance | Controller | Prescriber-controller', function() {
 
   let user;
   let organization;
@@ -12,7 +12,7 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
   let options;
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
@@ -111,9 +111,9 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
     };
   }
 
-  describe('GET /api/prescription/prescribers/:id', () => {
+  describe('GET /api/prescription/prescribers/:id', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization({ credit: 5, isManagingStudents: true, canCollectProfiles: true });
       membership = databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
@@ -128,9 +128,9 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
       };
     });
 
-    describe('Resource access management', () => {
+    describe('Resource access management', function() {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -141,7 +141,7 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async () => {
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
         // given
         const otherUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -154,9 +154,9 @@ describe('Acceptance | Controller | Prescriber-controller', () => {
       });
     });
 
-    describe('Success case', () => {
+    describe('Success case', function() {
 
-      it('should 200 HTTP status code', async () => {
+      it('should 200 HTTP status code', async function() {
         // given
         const expectedPrescriber = createExpectedPrescriber({ user, membership, userOrgaSettingsId, organization });
 

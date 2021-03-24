@@ -11,23 +11,23 @@ const { AlreadyExistingMembershipError } = require('../../../../lib/domain/error
 
 const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
 
-describe('Integration | Repository | Certification Center Membership', () => {
+describe('Integration | Repository | Certification Center Membership', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
 
     let userId, certificationCenterId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser({}).id;
       certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('certification-center-memberships').delete();
     });
 
-    it('should add a new membership in database', async () => {
+    it('should add a new membership in database', async function() {
       // given
       const countCertificationCenterMembershipsBeforeCreate = await BookshelfCertificationCenterMembership.count();
 
@@ -39,7 +39,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
       expect(countCertificationCenterMembershipsAfterCreate).to.equal(countCertificationCenterMembershipsBeforeCreate + 1);
     });
 
-    it('should return the certification center membership', async () => {
+    it('should return the certification center membership', async function() {
       // when
       const createdCertificationCenterMembership = await certificationCenterMembershipRepository.save(userId, certificationCenterId);
 
@@ -47,14 +47,14 @@ describe('Integration | Repository | Certification Center Membership', () => {
       expect(createdCertificationCenterMembership).to.be.an.instanceOf(CertificationCenterMembership);
     });
 
-    context('Error cases', () => {
+    context('Error cases', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
         await databaseBuilder.commit();
       });
 
-      it('should throw an error when a membership already exist for user + certificationCenter', async () => {
+      it('should throw an error when a membership already exist for user + certificationCenter', async function() {
         // when
         const error = await catchErr(certificationCenterMembershipRepository.save)(userId, certificationCenterId);
 
@@ -64,11 +64,11 @@ describe('Integration | Repository | Certification Center Membership', () => {
     });
   });
 
-  describe('#findByUserId', () => {
+  describe('#findByUserId', function() {
 
     let userAsked, expectedCertificationCenter, expectedCertificationCenterMembership;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userAsked = databaseBuilder.factory.buildUser();
       const otherUser = databaseBuilder.factory.buildUser();
       expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
@@ -84,7 +84,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return certification center membership associated to the user', async () => {
+    it('should return certification center membership associated to the user', async function() {
       // when
       const certificationCenterMemberships = await certificationCenterMembershipRepository.findByUserId(userAsked.id);
 
@@ -102,19 +102,19 @@ describe('Integration | Repository | Certification Center Membership', () => {
     });
   });
 
-  describe('#findByCertificationCenterId', () => {
+  describe('#findByCertificationCenterId', function() {
 
     let certificationCenter;
     let certificationCenterMembership;
     let user;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       user = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
     });
 
-    it('should return certification center membership associated to the certification center', async () => {
+    it('should return certification center membership associated to the certification center', async function() {
       // given
       certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
         certificationCenterId: certificationCenter.id,
@@ -152,7 +152,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
         .to.deep.equal(expectedUser);
     });
 
-    it('should return certification center membership sorted by id', async () => {
+    it('should return certification center membership sorted by id', async function() {
       // given
       [30, 20, 10].forEach((id) => {
         databaseBuilder.factory.buildCertificationCenterMembership({
@@ -173,13 +173,13 @@ describe('Integration | Repository | Certification Center Membership', () => {
     });
   });
 
-  describe('#isMemberOfCertificationCenter', () => {
+  describe('#isMemberOfCertificationCenter', function() {
 
     let userId;
     let certificationCenterInId;
     let certificationCenterNotInId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       certificationCenterInId = databaseBuilder.factory.buildCertificationCenter().id;
       certificationCenterNotInId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -190,7 +190,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return false if user has no membership in given certification center', async () => {
+    it('should return false if user has no membership in given certification center', async function() {
       // when
       const hasMembership = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(userId, certificationCenterNotInId);
 
@@ -198,7 +198,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
       expect(hasMembership).to.be.false;
     });
 
-    it('should return true if user has membership in given certification center', async () => {
+    it('should return true if user has membership in given certification center', async function() {
       // when
       const hasMembership = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(userId, certificationCenterInId);
 
@@ -207,9 +207,9 @@ describe('Integration | Repository | Certification Center Membership', () => {
     });
   });
 
-  describe('#doesUserHaveMembershipToAnyCertificationCenter', () => {
+  describe('#doesUserHaveMembershipToAnyCertificationCenter', function() {
 
-    it('should return false if user has no membership to any certification center', async () => {
+    it('should return false if user has no membership to any certification center', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const someOtherUserId = databaseBuilder.factory.buildUser().id;
@@ -224,7 +224,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
       expect(hasMembership).to.be.false;
     });
 
-    it('should return true if user has membership in a certification center', async () => {
+    it('should return true if user has membership in a certification center', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;

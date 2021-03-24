@@ -4,19 +4,19 @@ const { UserNotMemberOfOrganizationError } = require('../../../../lib/domain/err
 const userOrgaSettingsRepository = require('../../../../lib/infrastructure/repositories/user-orga-settings-repository');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 
-describe('Unit | UseCase | create-or-update-user-orga-settings', () => {
+describe('Unit | UseCase | create-or-update-user-orga-settings', function() {
 
   const userId = 1;
   const organizationId = 3;
 
-  beforeEach(() => {
+  beforeEach(function() {
     membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
     userOrgaSettingsRepository.findOneByUserId = sinon.stub();
     sinon.stub(userOrgaSettingsRepository, 'update');
     sinon.stub(userOrgaSettingsRepository, 'create');
   });
 
-  it('should create the user orga settings if it doesn\'t exist', async () => {
+  it('should create the user orga settings if it doesn\'t exist', async function() {
     // given
     membershipRepository.findByUserIdAndOrganizationId.withArgs({ userId, organizationId }).resolves([{}]);
 
@@ -28,7 +28,7 @@ describe('Unit | UseCase | create-or-update-user-orga-settings', () => {
     expect(userOrgaSettingsRepository.create).to.have.been.calledWithExactly(userId, organizationId);
   });
 
-  it('should update the user orga settings if it already exists', async () => {
+  it('should update the user orga settings if it already exists', async function() {
     // given
     membershipRepository.findByUserIdAndOrganizationId.withArgs({ userId, organizationId }).resolves([{}]);
 
@@ -40,7 +40,7 @@ describe('Unit | UseCase | create-or-update-user-orga-settings', () => {
     expect(userOrgaSettingsRepository.update).to.have.been.calledWithExactly(userId, organizationId);
   });
 
-  it('should throw a UserNotMemberOfOrganizationError if user is not member of the organization', async () => {
+  it('should throw a UserNotMemberOfOrganizationError if user is not member of the organization', async function() {
     // given
     membershipRepository.findByUserIdAndOrganizationId.withArgs({ userId, organizationId }).resolves([]);
 

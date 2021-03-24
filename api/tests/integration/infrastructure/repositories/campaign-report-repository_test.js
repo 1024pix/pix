@@ -4,19 +4,19 @@ const CampaignReport = require('../../../../lib/domain/read-models/CampaignRepor
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
-describe('Integration | Repository | Campaign-Report', () => {
+describe('Integration | Repository | Campaign-Report', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
     let campaign;
     let targetProfileId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       campaign = databaseBuilder.factory.buildCampaign({ targetProfileId, archivedAt: new Date() });
       return databaseBuilder.commit();
     });
 
-    it('should return a CampaignReport by its id', async () => {
+    it('should return a CampaignReport by its id', async function() {
       // when
       const result = await campaignReportRepository.get(campaign.id);
 
@@ -25,7 +25,7 @@ describe('Integration | Repository | Campaign-Report', () => {
       expect(result).to.deep.include(_.pick(campaign, ['id', 'name', 'code', 'createdAt', 'archivedAt', 'targetProfileId', 'idPixLabel', 'title', 'type', 'customLandingPageText', 'creatorId', 'creatorLastName', 'creatorFirstName', 'targetProfileId', 'targetProfileName', 'targetProfileImageUrl', 'participationsCount', 'sharedParticipationsCount']));
     });
 
-    it('should throw a NotFoundError if campaign can not be found', async () => {
+    it('should throw a NotFoundError if campaign can not be found', async function() {
       // given
       const nonExistentId = 666;
 
@@ -37,12 +37,12 @@ describe('Integration | Repository | Campaign-Report', () => {
     });
   });
 
-  describe('#findPaginatedFilteredByOrganizationId', () => {
+  describe('#findPaginatedFilteredByOrganizationId', function() {
     let filter, page;
     let organizationId, targetProfileId, creatorId;
     let campaign;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
       targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
       creatorId = databaseBuilder.factory.buildUser({}).id;
@@ -52,9 +52,9 @@ describe('Integration | Repository | Campaign-Report', () => {
       page = { number: 1, size: 3 };
     });
 
-    context('when the given organization has no campaign', () => {
+    context('when the given organization has no campaign', function() {
 
-      it('should return an empty array', async () => {
+      it('should return an empty array', async function() {
         // given
         databaseBuilder.factory.buildCampaign({ organizationId });
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -69,9 +69,9 @@ describe('Integration | Repository | Campaign-Report', () => {
       });
     });
 
-    context('when the given organization has campaigns', () => {
+    context('when the given organization has campaigns', function() {
 
-      it('should return campaign with all attributes', async () => {
+      it('should return campaign with all attributes', async function() {
         // given
         campaign = databaseBuilder.factory.buildCampaign({
           name: 'campaign name',
@@ -90,7 +90,7 @@ describe('Integration | Repository | Campaign-Report', () => {
         expect(campaignsWithReports[0]).to.deep.include(_.pick(campaign, ['id', 'name', 'code', 'createdAt', 'archivedAt', 'targetProfileId', 'idPixLabel', 'title', 'type', 'customLandingPageText', 'creatorId', 'creatorLastName', 'creatorFirstName', 'targetProfileId', 'targetProfileName', 'targetProfileImageUrl', 'participationsCount', 'sharedParticipationsCount']));
       });
 
-      it('should return hasCampaign to true if the organization has one campaign at least', async () => {
+      it('should return hasCampaign to true if the organization has one campaign at least', async function() {
         // given
         const organizationId2 = databaseBuilder.factory.buildOrganization({}).id;
         databaseBuilder.factory.buildCampaign({
@@ -112,7 +112,7 @@ describe('Integration | Repository | Campaign-Report', () => {
         expect(meta.hasCampaigns).to.equal(true);
       });
 
-      it('should sort campaigns by descending creation date', async () => {
+      it('should sort campaigns by descending creation date', async function() {
         // given
         const createdAtInThePast = new Date('2010-07-30T09:35:45Z');
         const createdAtInThePresent = new Date('2020-07-30T09:35:45Z');
@@ -131,9 +131,9 @@ describe('Integration | Repository | Campaign-Report', () => {
         expect(_.map(campaignsWithReports, 'id')).to.deep.equal([campaignBInTheFutureId, campaignAInThePresentId, campaignBInThePastId]);
       });
 
-      context('when campaigns have participants', async () => {
+      context('when campaigns have participants', async function() {
 
-        it('should return correct participations count and shared participations count', async () => {
+        it('should return correct participations count and shared participations count', async function() {
           // given
           const campaign = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId });
           _.each([
@@ -154,9 +154,9 @@ describe('Integration | Repository | Campaign-Report', () => {
         });
       });
 
-      context('when campaigns do not have participants', async () => {
+      context('when campaigns do not have participants', async function() {
 
-        it('should return 0 as participations count and as shared participations count', async () => {
+        it('should return 0 as participations count and as shared participations count', async function() {
           // given
           campaign = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId });
           await databaseBuilder.commit();
@@ -169,9 +169,9 @@ describe('Integration | Repository | Campaign-Report', () => {
         });
       });
 
-      context('when some campaigns matched the archived filter', async () => {
+      context('when some campaigns matched the archived filter', async function() {
 
-        it('should be able to retrieve only campaigns that are archived', async () => {
+        it('should be able to retrieve only campaigns that are archived', async function() {
           // given
           organizationId = databaseBuilder.factory.buildOrganization().id;
           const archivedCampaign = databaseBuilder.factory.buildCampaign({ organizationId, archivedAt: new Date('2010-07-30T09:35:45Z') });
@@ -189,11 +189,11 @@ describe('Integration | Repository | Campaign-Report', () => {
         });
       });
 
-      context('when some campaigns names match the "name" search pattern', () => {
+      context('when some campaigns names match the "name" search pattern', function() {
         // given
         const filter = { name: 'matH' };
 
-        beforeEach(() => {
+        beforeEach(function() {
           _.each([
             { name: 'Maths L1' },
             { name: 'Maths L2' },
@@ -205,7 +205,7 @@ describe('Integration | Repository | Campaign-Report', () => {
           return databaseBuilder.commit();
         });
 
-        it('should return these campaigns only', async () => {
+        it('should return these campaigns only', async function() {
           // when
           const { models: actualCampaignsWithReports } = await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
@@ -214,11 +214,11 @@ describe('Integration | Repository | Campaign-Report', () => {
         });
       });
 
-      context('when some campaigns creator firstName match the given creatorName searched', () => {
+      context('when some campaigns creator firstName match the given creatorName searched', function() {
 
         let filter;
 
-        beforeEach(() => {
+        beforeEach(function() {
           const creator1 = databaseBuilder.factory.buildUser({ firstName: 'Robert' });
           const creator2 = databaseBuilder.factory.buildUser({ firstName: 'Bernard' });
 
@@ -235,18 +235,18 @@ describe('Integration | Repository | Campaign-Report', () => {
           return databaseBuilder.commit();
         });
 
-        it('should return the matching campaigns', async () => {
+        it('should return the matching campaigns', async function() {
           const { models: actualCampaignsWithReports } = await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
           expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
         });
       });
 
-      context('when some campaigns creator lastName match the given creatorName searched', () => {
+      context('when some campaigns creator lastName match the given creatorName searched', function() {
 
         let filter;
 
-        beforeEach(() => {
+        beforeEach(function() {
           const creator1 = databaseBuilder.factory.buildUser({ lastName: 'Redford' });
           const creator2 = databaseBuilder.factory.buildUser({ lastName: 'Menez' });
 
@@ -263,24 +263,24 @@ describe('Integration | Repository | Campaign-Report', () => {
           return databaseBuilder.commit();
         });
 
-        it('should return the matching campaigns', async () => {
+        it('should return the matching campaigns', async function() {
           const { models: actualCampaignsWithReports } = await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
           expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
         });
       });
 
-      context('when the given filter search property is not searchable', () => {
+      context('when the given filter search property is not searchable', function() {
         // given
         const filter = { code: 'FAKECODE' };
         const page = { number: 1, size: 10 };
 
-        beforeEach(() => {
+        beforeEach(function() {
           databaseBuilder.factory.buildCampaign({ organizationId });
           return databaseBuilder.commit();
         });
 
-        it('should ignore the filter and return all campaigns', async () => {
+        it('should ignore the filter and return all campaigns', async function() {
           // when
           const { models: actualCampaignsWithReports } = await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
@@ -289,17 +289,17 @@ describe('Integration | Repository | Campaign-Report', () => {
         });
       });
 
-      context('when campaigns amount exceed page size', () => {
+      context('when campaigns amount exceed page size', function() {
         // given
         let expectedPagination;
 
-        beforeEach(() => {
+        beforeEach(function() {
           _.times(4, () => databaseBuilder.factory.buildCampaign({ organizationId }));
           expectedPagination = { page: page.number, pageSize: page.size, pageCount: 2, rowCount: 4 };
           return databaseBuilder.commit();
         });
 
-        it('should return page size number of campaigns', async () => {
+        it('should return page size number of campaigns', async function() {
           // when
           const { models: campaignsWithReports, meta: pagination } = await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 

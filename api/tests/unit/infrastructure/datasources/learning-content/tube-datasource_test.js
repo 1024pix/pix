@@ -4,13 +4,13 @@ const lcms = require('../../../../../lib/infrastructure/lcms');
 const tubeDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/tube-datasource');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
-describe('Unit | Infrastructure | Datasource | Learning Content | TubeDatasource', () => {
+describe('Unit | Infrastructure | Datasource | Learning Content | TubeDatasource', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(cache, 'get').callsFake((key, generator) => generator());
   });
 
-  describe('#findByNames', () => {
+  describe('#findByNames', function() {
 
     it('should return an array of matching tube data objects', async function() {
       // given
@@ -36,7 +36,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | TubeDatasource
     });
   });
 
-  describe('#findByRecordIds', () => {
+  describe('#findByRecordIds', function() {
 
     it('should return an array of matching tube data objects', async function() {
       // given

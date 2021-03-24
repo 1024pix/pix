@@ -1,10 +1,10 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const findFinalizedSessionsWithRequiredAction = require('../../../../lib/domain/usecases/find-finalized-sessions-with-required-action');
 
-describe('Unit | UseCase | findFinalizedSessionsWithRequiredAction', () => {
-  context('when there are finalized sessions with required actions', () => {
+describe('Unit | UseCase | findFinalizedSessionsWithRequiredAction', function() {
+  context('when there are finalized sessions with required actions', function() {
 
-    it('should get a list of publishable sessions', async () => {
+    it('should get a list of publishable sessions', async function() {
       // given
       const finalizedSessionRepository = {
         findFinalizedSessionsWithRequiredAction: sinon.stub(),
@@ -23,9 +23,9 @@ describe('Unit | UseCase | findFinalizedSessionsWithRequiredAction', () => {
     });
   });
 
-  context('when there are no finalized sessions with required action', () => {
+  context('when there are no finalized sessions with required action', function() {
 
-    it('should get an empty array', async () => {
+    it('should get an empty array', async function() {
       // given
       const finalizedSessionRepository = {
         findFinalizedSessionsWithRequiredAction: sinon.stub(),

@@ -12,11 +12,11 @@ function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedErro
 
 describe('Unit | Domain | Validators | organization-validator', function() {
 
-  describe('#validate', () => {
+  describe('#validate', function() {
 
-    context('when validation is successful', () => {
+    context('when validation is successful', function() {
 
-      it('should not throw any error', () => {
+      it('should not throw any error', function() {
         // given
         const organizationCreationParams = { name: 'ACME', type: 'PRO' };
 
@@ -25,11 +25,11 @@ describe('Unit | Domain | Validators | organization-validator', function() {
       });
     });
 
-    context('when organization data validation fails', () => {
+    context('when organization data validation fails', function() {
 
-      context('on name attribute', () => {
+      context('on name attribute', function() {
 
-        it('should reject with error when name is missing', () => {
+        it('should reject with error when name is missing', function() {
           // given
           const expectedError = {
             attribute: 'name',
@@ -49,9 +49,9 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
       });
 
-      context('on type attribute', () => {
+      context('on type attribute', function() {
 
-        it('should reject with error when type is missing', () => {
+        it('should reject with error when type is missing', function() {
           // given
           const expectedError = [
             {
@@ -76,7 +76,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
           }
         });
 
-        it('should reject with error when type value is not SUP, SCO or PRO', () => {
+        it('should reject with error when type value is not SUP, SCO or PRO', function() {
           // given
           const expectedError = {
             attribute: 'type',
@@ -110,7 +110,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
       });
 
-      it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
+      it('should reject with errors on all fields (but only once by field) when all fields are missing', function() {
         // given
         const organizationCreationParams = { name: MISSING_VALUE, type: MISSING_VALUE };
 

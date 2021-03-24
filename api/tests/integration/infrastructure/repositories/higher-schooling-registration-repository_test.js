@@ -5,14 +5,14 @@ const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRe
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Integration | Infrastructure | Repository | higher-schooling-registration-repository', () => {
+describe('Integration | Infrastructure | Repository | higher-schooling-registration-repository', function() {
 
-  describe('#saveAndReconcile', () => {
-    afterEach(() => {
+  describe('#saveAndReconcile', function() {
+    afterEach(function() {
       return knex('schooling-registrations').delete();
     });
 
-    context('when there is no other schooling registration with the same student number in the organization', () => {
+    context('when there is no other schooling registration with the same student number in the organization', function() {
       it('should create higher schooling registration reconciled with user', async function() {
         //given
         const organization = databaseBuilder.factory.buildOrganization();
@@ -41,7 +41,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         expect(createdHigherSchoolingRegistration.userId).to.equal(userId);
       });
     });
-    context('when there is another schooling registration with the same student number in the organization', () => {
+    context('when there is another schooling registration with the same student number in the organization', function() {
       it('throws an error', async function() {
         //given
         const organization = databaseBuilder.factory.buildOrganization();
@@ -70,12 +70,12 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#findByOrganizationIdAndStudentNumber', () => {
+  describe('#findByOrganizationIdAndStudentNumber', function() {
 
     let organization;
     const studentNumber = '123A';
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
@@ -90,7 +90,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       await databaseBuilder.commit();
     });
 
-    it('should return found schoolingRegistrations with student number', async () => {
+    it('should return found schoolingRegistrations with student number', async function() {
       // when
       const result = await higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: organization.id, studentNumber });
 
@@ -98,7 +98,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       expect(result.length).to.be.equal(2);
     });
 
-    it('should return empty array when there is no schooling-registrations with the given student number', async () => {
+    it('should return empty array when there is no schooling-registrations with the given student number', async function() {
       // when
       const result = await higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: organization.id, studentNumber: '123B' });
 
@@ -106,7 +106,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       expect(result.length).to.be.equal(0);
     });
 
-    it('should return empty array when there is no schooling-registrations with the given organizationId', async () => {
+    it('should return empty array when there is no schooling-registrations with the given organizationId', async function() {
       // when
       const result = await higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: '999', studentNumber });
 
@@ -115,24 +115,24 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#findOneRegisteredByOrganizationIdAndUserData', () => {
+  describe('#findOneRegisteredByOrganizationIdAndUserData', function() {
 
     let organizationId;
     const studentNumber = '1234567';
     const birthdate = '2000-03-31';
 
-    beforeEach(() => {
+    beforeEach(function() {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       return databaseBuilder.commit();
     });
 
-    context('When there is no registered schooling registrations', () => {
-      beforeEach(async () => {
+    context('When there is no registered schooling registrations', function() {
+      beforeEach(async function() {
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId, isSupernumerary: true, studentNumber, birthdate });
         await databaseBuilder.commit();
       });
 
-      it('should return null', async () => {
+      it('should return null', async function() {
         // when
         const result = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } });
 
@@ -141,14 +141,14 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
-    context('When there is no schooling registrations for the organization', () => {
-      beforeEach(async () => {
+    context('When there is no schooling registrations for the organization', function() {
+      beforeEach(async function() {
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: otherOrganizationId, isSupernumerary: false, studentNumber, birthdate });
         await databaseBuilder.commit();
       });
 
-      it('should return null', async () => {
+      it('should return null', async function() {
         // when
         const result = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } });
 
@@ -157,13 +157,13 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
-    context('When there is no schooling registrations with given student number', () => {
-      beforeEach(async () => {
+    context('When there is no schooling registrations with given student number', function() {
+      beforeEach(async function() {
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber: '999', isSupernumerary: false, birthdate });
         await databaseBuilder.commit();
       });
 
-      it('should return null', async () => {
+      it('should return null', async function() {
         // when
         const result = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } });
 
@@ -172,13 +172,13 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
-    context('When there is no schooling registrations with given birthdate', () => {
-      beforeEach(async () => {
+    context('When there is no schooling registrations with given birthdate', function() {
+      beforeEach(async function() {
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, isSupernumerary: false, birthdate: '2000-03-30' });
         await databaseBuilder.commit();
       });
 
-      it('should return null', async () => {
+      it('should return null', async function() {
         // when
         const result = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } });
 
@@ -187,14 +187,14 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
-    context('When there is a matching schooling registrations with student number only', () => {
+    context('When there is a matching schooling registrations with student number only', function() {
       let expectedSchoolingRegistrationId;
-      beforeEach(async () => {
+      beforeEach(async function() {
         expectedSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, isSupernumerary: false, birthdate }).id;
         await databaseBuilder.commit();
       });
 
-      it('should return the schooling registration', async () => {
+      it('should return the schooling registration', async function() {
         // when
         const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { studentNumber } });
 
@@ -204,14 +204,14 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
-    context('When there is a matching schooling registrations with birthdate only', () => {
+    context('When there is a matching schooling registrations with birthdate only', function() {
       let expectedSchoolingRegistrationId;
-      beforeEach(async () => {
+      beforeEach(async function() {
         expectedSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, isSupernumerary: false, birthdate }).id;
         await databaseBuilder.commit();
       });
 
-      it('should return the schooling registration', async () => {
+      it('should return the schooling registration', async function() {
         // when
         const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate } });
 
@@ -221,14 +221,14 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
-    context('When there is a matching schooling registrations with student number and birthdate', () => {
+    context('When there is a matching schooling registrations with student number and birthdate', function() {
       let expectedSchoolingRegistrationId;
-      beforeEach(async () => {
+      beforeEach(async function() {
         expectedSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, isSupernumerary: false, birthdate }).id;
         await databaseBuilder.commit();
       });
 
-      it('should return the schooling registration', async () => {
+      it('should return the schooling registration', async function() {
         // when
         const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { studentNumber, birthdate } });
 
@@ -239,8 +239,8 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#updateStudentNumber', () => {
-    it('should update the student number', async () => {
+  describe('#updateStudentNumber', function() {
+    it('should update the student number', async function() {
       // given
       const id = databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: 12345 }).id;
       await databaseBuilder.commit();
@@ -252,9 +252,9 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#save', () => {
-    context('when there is a schooling registration for the given id', () => {
-      it('update the schooling-registration ', async () => {
+  describe('#save', function() {
+    context('when there is a schooling registration for the given id', function() {
+      it('update the schooling-registration ', async function() {
 
         const organization = databaseBuilder.factory.buildOrganization();
         const user = databaseBuilder.factory.buildUser();
@@ -294,8 +294,8 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
-    context('when there is no schooling registrations for the given id', () => {
-      it('throws an error', async () => {
+    context('when there is no schooling registrations for the given id', function() {
+      it('throws an error', async function() {
 
         const organization = databaseBuilder.factory.buildOrganization();
         const registrationAttributes = {
@@ -319,9 +319,9 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#saveNonSupernumerary', () => {
-    context('when there is a non supernumerary schooling registration for the given student number and organization id', () => {
-      it('update the schooling-registration ', async () => {
+  describe('#saveNonSupernumerary', function() {
+    context('when there is a non supernumerary schooling registration for the given student number and organization id', function() {
+      it('update the schooling-registration ', async function() {
 
         const organization = databaseBuilder.factory.buildOrganization();
         const user = databaseBuilder.factory.buildUser();
@@ -353,8 +353,8 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
-    context('when there is a supernumerary schooling registration for the given student number and organization id', () => {
-      it('throws an error ', async () => {
+    context('when there is a supernumerary schooling registration for the given student number and organization id', function() {
+      it('throws an error ', async function() {
 
         const organization = databaseBuilder.factory.buildOrganization();
         const user = databaseBuilder.factory.buildUser();
@@ -382,8 +382,8 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
-    context('when there is no schooling registrations for the given student number and organization id', () => {
-      it('throws an error', async () => {
+    context('when there is no schooling registrations for the given student number and organization id', function() {
+      it('throws an error', async function() {
 
         const organization = databaseBuilder.factory.buildOrganization();
         const registrationAttributes = {
@@ -407,13 +407,13 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#batchCreate', () => {
-    afterEach(() => {
+  describe('#batchCreate', function() {
+    afterEach(function() {
       return knex('schooling-registrations').delete();
     });
 
-    context('when there is no schooling registrations for the given organizationId and student number', () => {
-      it('creates the schooling-registration ', async () => {
+    context('when there is no schooling registrations for the given organizationId and student number', function() {
+      it('creates the schooling-registration ', async function() {
 
         const organization = databaseBuilder.factory.buildOrganization();
         const higherSchoolingRegistration1 = domainBuilder.buildHigherSchoolingRegistration({
@@ -446,8 +446,8 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         expect(results[1].studentNumber).to.equal('5');
       });
 
-      context('when there is schooling registrations for the given organizationId and student number', () => {
-        it('throws an error', async () => {
+      context('when there is schooling registrations for the given organizationId and student number', function() {
+        it('throws an error', async function() {
 
           const organization = databaseBuilder.factory.buildOrganization();
 
@@ -471,15 +471,15 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#findStudentNumbersNonSupernumerary', () => {
+  describe('#findStudentNumbersNonSupernumerary', function() {
     let organization;
     const studentNumber = '123A';
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organization = databaseBuilder.factory.buildOrganization();
     });
 
-    it('should return a student numbers array of non super numerary registrations for the organization', async () => {
+    it('should return a student numbers array of non super numerary registrations for the organization', async function() {
       // given
       databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
@@ -504,7 +504,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       expect(result).to.deep.equal([studentNumber]);
     });
 
-    it('should return an empty array if non super numerary registrations don’t exist for the organization', async () => {
+    it('should return an empty array if non super numerary registrations don’t exist for the organization', async function() {
       // given
       databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
@@ -525,14 +525,14 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#findSupernumerary', () => {
+  describe('#findSupernumerary', function() {
     let organization;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organization = databaseBuilder.factory.buildOrganization();
     });
 
-    it('should return a registration array of super numerary registrations for the organization', async () => {
+    it('should return a registration array of super numerary registrations for the organization', async function() {
       // given
       const registration = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
@@ -557,7 +557,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       expect(result).to.deep.equal([expectedRegistration]);
     });
 
-    it('should return an empty array of if super numerary registrations don’t exist for the organization', async () => {
+    it('should return an empty array of if super numerary registrations don’t exist for the organization', async function() {
       // given
       databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,

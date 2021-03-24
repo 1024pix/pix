@@ -3,15 +3,15 @@ const competenceTreeRepository = require('../../../../lib/infrastructure/reposit
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
 const CompetenceTree = require('../../../../lib/domain/models/CompetenceTree');
 
-describe('Unit | Repository | competence-tree-repository', () => {
+describe('Unit | Repository | competence-tree-repository', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(areaRepository, 'listWithPixCompetencesOnly');
   });
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    it('should return a competence tree populated with Areas and Competences', () => {
+    it('should return a competence tree populated with Areas and Competences', function() {
       // given
       const area = {
         id: 'recvoGdo7z2z7pXWa',

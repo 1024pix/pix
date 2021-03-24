@@ -36,22 +36,22 @@ const learningContent = [{
   }],
 }];
 
-describe('Acceptance | API | assessment-controller-get-next-challenge-locale-management', () => {
+describe('Acceptance | API | assessment-controller-get-next-challenge-locale-management', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /api/assessments/:assessment_id/next', () => {
+  describe('GET /api/assessments/:assessment_id/next', function() {
 
     const assessmentId = 1;
     const userId = 1234;
-    context('when assessment is a competence evaluation', () => {
+    context('when assessment is a competence evaluation', function() {
 
-      context('when there is one challenge in the accepted language (fr-fr)', () => {
-        beforeEach(async () => {
+      context('when there is one challenge in the accepted language (fr-fr)', function() {
+        beforeEach(async function() {
           const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
           mockLearningContent(learningContentObjects);
 
@@ -66,7 +66,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
           await databaseBuilder.commit();
         });
 
-        it('should return the challenge in the accepted language (fr-fr)', () => {
+        it('should return the challenge in the accepted language (fr-fr)', function() {
           // given
           const options = {
             method: 'GET',

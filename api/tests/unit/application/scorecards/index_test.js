@@ -10,11 +10,11 @@ function startServer() {
   return server.register(require('../../../../lib/application/scorecards'));
 }
 
-describe('Unit | Router | scorecard-router', () => {
+describe('Unit | Router | scorecard-router', function() {
 
-  describe('GET /api/scorecards/{id}', () => {
+  describe('GET /api/scorecards/{id}', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').callsFake((request, h) => {
         h.continue({ credentials: { accessToken: 'jwt.access.token' } });
       });
@@ -22,7 +22,7 @@ describe('Unit | Router | scorecard-router', () => {
       startServer();
     });
 
-    it('should exist', () => {
+    it('should exist', function() {
       // given
       const options = {
         method: 'GET',
@@ -39,9 +39,9 @@ describe('Unit | Router | scorecard-router', () => {
     });
   });
 
-  describe('GET /api/scorecards/{id}/tutorials', () => {
+  describe('GET /api/scorecards/{id}/tutorials', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').callsFake((request, h) => {
         h.continue({ credentials: { accessToken: 'jwt.access.token' } });
       });
@@ -49,7 +49,7 @@ describe('Unit | Router | scorecard-router', () => {
       startServer();
     });
 
-    it('should exist', () => {
+    it('should exist', function() {
       // given
       const options = {
         method: 'GET',

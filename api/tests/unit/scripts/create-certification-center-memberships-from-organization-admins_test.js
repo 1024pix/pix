@@ -2,11 +2,11 @@ const { expect } = require('../../test-helper');
 
 const { buildCertificationCenterMemberships } = require('../../../scripts/create-certification-center-memberships-from-organization-admins');
 
-describe('Unit | Scripts | create-certification-center-memberships-from-organization-admins.js', () => {
+describe('Unit | Scripts | create-certification-center-memberships-from-organization-admins.js', function() {
 
-  describe('#buildCertificationCenterMemberships', () => {
+  describe('#buildCertificationCenterMemberships', function() {
 
-    it('should build the list of certification center memberships', () => {
+    it('should build the list of certification center memberships', function() {
       // given
       const membershipUserIds = [1, 5];
       const certificationCenterId = 100;

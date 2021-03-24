@@ -2,17 +2,17 @@ const createServer = require('../../../../server');
 const Membership = require('../../../../lib/domain/models/Membership');
 const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
-describe('Acceptance | API | Campaign Participations | Analyses', () => {
+describe('Acceptance | API | Campaign Participations | Analyses', function() {
 
   let server, options, userId, organization, targetProfile, campaign, campaignParticipation;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /api/campaign-participations/{id}/analyses', () => {
+  describe('GET /api/campaign-participations/{id}/analyses', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
       organization = databaseBuilder.factory.buildOrganization();
 
@@ -75,7 +75,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', () => {
       mockLearningContent(learningContentObjects);
     });
 
-    it('should return the campaign participation analyses', async () => {
+    it('should return the campaign participation analyses', async function() {
       // given
       options = {
         method: 'GET',

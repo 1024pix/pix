@@ -2,11 +2,11 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 const moduleUnderTest = require('../../../../lib/application/healthcheck');
 const healthCheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
 
-describe('Integration | Application | Route | healthcheckRouter', () => {
+describe('Integration | Application | Route | healthcheckRouter', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(healthCheckController, 'get').callsFake((request, h) => h.response(true));
     sinon.stub(healthCheckController, 'checkDbStatus').callsFake((request, h) => h.response(true));
     sinon.stub(healthCheckController, 'checkRedisStatus').callsFake((request, h) => h.response(true));
@@ -14,9 +14,9 @@ describe('Integration | Application | Route | healthcheckRouter', () => {
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('GET /api', () => {
+  describe('GET /api', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const method = 'GET';
       const url = '/api';
@@ -30,9 +30,9 @@ describe('Integration | Application | Route | healthcheckRouter', () => {
     });
   });
 
-  describe('GET /api/healthcheck/db', () => {
+  describe('GET /api/healthcheck/db', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const method = 'GET';
       const url = '/api/healthcheck/db';
@@ -46,9 +46,9 @@ describe('Integration | Application | Route | healthcheckRouter', () => {
     });
   });
 
-  describe('GET /api/healthcheck/redis', () => {
+  describe('GET /api/healthcheck/redis', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const method = 'GET';
       const url = '/api/healthcheck/redis';
@@ -62,9 +62,9 @@ describe('Integration | Application | Route | healthcheckRouter', () => {
     });
   });
 
-  describe('GET /api/healthcheck/crash', () => {
+  describe('GET /api/healthcheck/crash', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const method = 'GET';
       const url = '/api/healthcheck/crash';

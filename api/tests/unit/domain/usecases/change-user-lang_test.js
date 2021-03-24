@@ -2,13 +2,13 @@ const { expect, sinon } = require('../../../test-helper');
 const changeUserLang = require('../../../../lib/domain/usecases/change-user-lang');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-describe('Unit | UseCase | change-user-lang', () => {
+describe('Unit | UseCase | change-user-lang', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(userRepository, 'updateUserAttributes');
   });
 
-  it('should modify user attributes to change lang', async () => {
+  it('should modify user attributes to change lang', async function() {
     // given
     const userId = Symbol('userId');
     const updatedUser = Symbol('updateduser');

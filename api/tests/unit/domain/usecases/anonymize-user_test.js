@@ -2,13 +2,13 @@ const { expect, sinon } = require('../../../test-helper');
 const anonymizeUser = require('../../../../lib/domain/usecases/anonymize-user');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-describe('Unit | UseCase | anonymize-user', () => {
+describe('Unit | UseCase | anonymize-user', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(userRepository, 'updateUserDetailsForAdministration').resolves();
   });
 
-  it('should anonymize user', async () => {
+  it('should anonymize user', async function() {
     // given
     const userId = 1;
     const expectedAnonymizedUser = {

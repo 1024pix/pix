@@ -23,7 +23,7 @@ describe('Unit | Router | answer-router', function() {
 
   describe('POST /api/answers', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const payload = {
         data: {
@@ -49,7 +49,7 @@ describe('Unit | Router | answer-router', function() {
 
   describe('GET /api/answers/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/answers/1');
 
@@ -60,7 +60,7 @@ describe('Unit | Router | answer-router', function() {
 
   describe('GET /api/answers?assessment=<assessment_id>&challenge=<challenge_id>', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/answers');
 
@@ -71,7 +71,7 @@ describe('Unit | Router | answer-router', function() {
 
   describe('PATCH /api/answers/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const result = await httpTestServer.request('PATCH', '/api/answers/1');
 

@@ -5,23 +5,23 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 
-describe('Unit | UseCase | save-certification-issue-report', () => {
+describe('Unit | UseCase | save-certification-issue-report', function() {
 
-  describe('#saveCertificationIssueReport', () => {
+  describe('#saveCertificationIssueReport', function() {
 
     let certificationCourseRepository;
     let certificationIssueReportRepository;
     let sessionAuthorizationService;
 
-    beforeEach(() => {
+    beforeEach(function() {
       certificationCourseRepository = { get: sinon.stub() };
       certificationIssueReportRepository = { save: sinon.stub() };
       sessionAuthorizationService = { isAuthorizedToAccessSession: sinon.stub() };
     });
 
-    context('when the user is not authorized', () => {
+    context('when the user is not authorized', function() {
 
-      it('should throw an error', async () => {
+      it('should throw an error', async function() {
         // given
         const sessionId = 1;
         const userId = 'not authorized user id';
@@ -45,9 +45,9 @@ describe('Unit | UseCase | save-certification-issue-report', () => {
       });
     });
 
-    context('when user is authorized', () => {
+    context('when user is authorized', function() {
 
-      it('should save the certification issue report', async () => {
+      it('should save the certification issue report', async function() {
         // given
         const sessionId = 1;
         const userId = 1;

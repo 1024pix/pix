@@ -7,7 +7,7 @@ const SchoolingRegistrationParser = require('../../../../lib/infrastructure/seri
 
 const fs = require('fs').promises;
 
-describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
+describe('Unit | UseCase | import-schooling-registrations-from-siecle', function() {
 
   const organizationUAI = '123ABC';
   const organizationId = 1234;
@@ -17,7 +17,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
   let organizationRepositoryStub;
   let payload = null;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(fs, 'unlink');
     sinon.stub(fs, 'readFile');
     sinon.stub(SchoolingRegistrationParser, 'buildParser');
@@ -30,23 +30,23 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
     };
     organizationRepositoryStub = { get: sinon.stub() };
   });
-  afterEach(() => {
+  afterEach(function() {
     sinon.restore();
   });
 
-  context('when extracted schoolingRegistrations informations can be imported', () => {
+  context('when extracted schoolingRegistrations informations can be imported', function() {
     let parser;
     payload = { path: 'file.csv' };
     const buffer = 'data';
 
-    beforeEach(() => {
+    beforeEach(function() {
       format = 'csv';
       parser = { parse: sinon.stub() };
       fs.readFile.withArgs(payload.path).resolves(buffer);
 
     });
-    context('when the format is CSV', () => {
-      it('should save these informations for SCO', async () => {
+    context('when the format is CSV', function() {
+      it('should save these informations for SCO', async function() {
         const organization = { isAgriculture: false, externalId: organizationUAI };
         organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
         SchoolingRegistrationParser.buildParser.withArgs(buffer, organizationId, organization.isAgriculture).returns(parser);
@@ -91,7 +91,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.have.been.called;
       });
 
-      it('should save these informations for SCO Agri', async () => {
+      it('should save these informations for SCO Agri', async function() {
         const organization = { isAgriculture: true, externalId: organizationUAI };
         organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
         SchoolingRegistrationParser.buildParser.withArgs(buffer, organizationId, organization.isAgriculture).returns(parser);
@@ -138,12 +138,12 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationAgriSchoolingRegistrations).to.have.been.calledWith([schoolingRegistration1, schoolingRegistration2], organizationId);
       });
     });
-    context('when the format is XML', async () => {
-      beforeEach(() => {
+    context('when the format is XML', async function() {
+      beforeEach(function() {
         format = 'xml';
       });
 
-      it('should save these informations', async () => {
+      it('should save these informations', async function() {
         // given
         payload = { path: 'file.xml' } ;
 
@@ -179,18 +179,18 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
     });
   });
 
-  context('when the import fails', () => {
+  context('when the import fails', function() {
 
     let result;
 
-    context('because there is no schooling registrations imported', () => {
-      beforeEach(() => {
+    context('because there is no schooling registrations imported', function() {
+      beforeEach(function() {
         // given
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
         schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE.returns([]);
       });
 
-      it('should throw a FileValidationError', async () => {
+      it('should throw a FileValidationError', async function() {
 
         const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
@@ -200,14 +200,14 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
       });
     });
 
-    context('because the file format is not valid', () => {
-      beforeEach(() => {
+    context('because the file format is not valid', function() {
+      beforeEach(function() {
         // given
         format = 'txt';
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
       });
 
-      it('should throw a FileValidationError', async () => {
+      it('should throw a FileValidationError', async function() {
         // when
         const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, organizationRepository: organizationRepositoryStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
@@ -217,8 +217,8 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
       });
     });
 
-    context('because a nationalStudentId appears twice in the file', () => {
-      beforeEach(async () => {
+    context('because a nationalStudentId appears twice in the file', function() {
+      beforeEach(async function() {
         // given
         const sameNationalStudentId = 'SAMEID456';
         const extractedStudentsInformations = [
@@ -232,7 +232,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
       });
 
-      it('should throw a SameNationalStudentIdInOrganizationError', async () => {
+      it('should throw a SameNationalStudentIdInOrganizationError', async function() {
         // given
         payload = { path: 'file.xml' } ;
 

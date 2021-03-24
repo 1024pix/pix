@@ -4,13 +4,13 @@ const Organization = require('../../../../lib/domain/models/Organization');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | create-organization', () => {
+describe('Unit | UseCase | create-organization', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(organizationCreationValidator, 'validate');
   });
 
-  context('Green cases', () => {
+  context('Green cases', function() {
 
     const name = 'ACME';
     const type = 'PRO';
@@ -18,14 +18,14 @@ describe('Unit | UseCase | create-organization', () => {
     const provinceCode = 'provinceCode';
     let organizationRepository;
 
-    beforeEach(() => {
+    beforeEach(function() {
       organizationCreationValidator.validate.returns();
 
       organizationRepository = { create: sinon.stub() };
       organizationRepository.create.resolves();
     });
 
-    it('should validate params (name + type)', async () => {
+    it('should validate params (name + type)', async function() {
       // when
       await createOrganization({ name, type, externalId, provinceCode, organizationRepository });
 
@@ -33,7 +33,7 @@ describe('Unit | UseCase | create-organization', () => {
       expect(organizationCreationValidator.validate).to.have.been.calledWithExactly({ name, type });
     });
 
-    it('should create a new Organization Entity into data repository', async () => {
+    it('should create a new Organization Entity into data repository', async function() {
       // given
       const expectedOrganization = new Organization({ name, type, externalId, provinceCode });
 
@@ -45,9 +45,9 @@ describe('Unit | UseCase | create-organization', () => {
     });
   });
 
-  context('Red cases', () => {
+  context('Red cases', function() {
 
-    it('should reject an EntityValidationError when params are not valid', async () => {
+    it('should reject an EntityValidationError when params are not valid', async function() {
       // given
       const name = 'ACME';
       const type = 'PRO';

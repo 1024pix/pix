@@ -2,11 +2,11 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
 const Membership = require('../../../../../lib/domain/models/Membership');
 
-describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
+describe('Unit | Serializer | JSONAPI | membership-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should convert a Membership model object into JSON API data', () => {
+    it('should convert a Membership model object into JSON API data', function() {
       // given
       const membership = new Membership({
         id: 5,
@@ -103,7 +103,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
       expect(json).to.deep.equal(expectedSerializedMembership);
     });
 
-    it('should include "organization"', () => {
+    it('should include "organization"', function() {
       // given
       const membership = domainBuilder.buildMembership();
 
@@ -123,7 +123,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
       });
     });
 
-    it('should include "user"', () => {
+    it('should include "user"', function() {
       // given
       const membership = domainBuilder.buildMembership();
 
@@ -141,7 +141,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
       });
     });
 
-    it('should not force the add of campaigns and target profiles relation links if the membership does not contain organization data', () => {
+    it('should not force the add of campaigns and target profiles relation links if the membership does not contain organization data', function() {
       // given
       const membership = domainBuilder.buildMembership();
       membership.organization = null;
@@ -156,7 +156,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
 
     });
 
-    it('should not force the add of user relation link if the user is undefined', () => {
+    it('should not force the add of user relation link if the user is undefined', function() {
       // given
       const membership = domainBuilder.buildMembership();
       membership.user = undefined;
@@ -171,11 +171,11 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
     });
   });
 
-  describe('#deserialize()', () => {
+  describe('#deserialize()', function() {
 
     let jsonMembership = null;
 
-    beforeEach(() => {
+    beforeEach(function() {
       jsonMembership = {
         data: {
           type: 'memberships',
@@ -187,7 +187,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
       };
     });
 
-    it('should convert JSON API data into a map object that contain attribute to patch', () => {
+    it('should convert JSON API data into a map object that contain attribute to patch', function() {
       // when
       const membershipAttributes = serializer.deserialize(jsonMembership);
 

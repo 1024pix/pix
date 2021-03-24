@@ -11,24 +11,24 @@ const _ = require('lodash');
 
 describe('Integration | Repository | CertificationCandidate', function() {
 
-  describe('#saveInSession', () => {
+  describe('#saveInSession', function() {
     let certificationCandidate;
     let sessionId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
 
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('certification-candidates').delete();
     });
 
-    context('when a proper candidate is being saved', () => {
+    context('when a proper candidate is being saved', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         certificationCandidate = domainBuilder.buildCertificationCandidate({
           firstName: 'Pix',
           lastName: 'Lover',
@@ -42,7 +42,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
         delete certificationCandidate.id;
       });
 
-      it('should save the Certification candidate in session', async () => {
+      it('should save the Certification candidate in session', async function() {
         // when
         await certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId });
 
@@ -53,8 +53,8 @@ describe('Integration | Repository | CertificationCandidate', function() {
         expect(firstCertificationCandidatesInSession.sessionId).to.equal(sessionId);
       });
 
-      context('when adding a new candidate', () => {
-        it('should add a single row in the table', async () => {
+      context('when adding a new candidate', function() {
+        it('should add a single row in the table', async function() {
           // given
           const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
 
@@ -68,14 +68,14 @@ describe('Integration | Repository | CertificationCandidate', function() {
         });
       });
 
-      context('when updating the candidate', () => {
+      context('when updating the candidate', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           certificationCandidate.id = databaseBuilder.factory.buildCertificationCandidate().id;
           return databaseBuilder.commit();
         });
 
-        it('should not add a row in the table', async () => {
+        it('should not add a row in the table', async function() {
           // given
           const nbCertifCandidatesBeforeSave = await BookshelfCertificationCandidate.count();
 
@@ -93,11 +93,11 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('linkToUser', () => {
+  describe('linkToUser', function() {
     let certificationCandidate;
     let userId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ userId: null });
       userId = databaseBuilder.factory.buildUser().id;
@@ -105,9 +105,9 @@ describe('Integration | Repository | CertificationCandidate', function() {
       return databaseBuilder.commit();
     });
 
-    context('when the user is not linked to any candidate in the same session', () => {
+    context('when the user is not linked to any candidate in the same session', function() {
 
-      it('should successfully link the candidate to the user', async () => {
+      it('should successfully link the candidate to the user', async function() {
         // when
         await certificationCandidateRepository.linkToUser({ id: certificationCandidate.id, userId });
 
@@ -118,14 +118,14 @@ describe('Integration | Repository | CertificationCandidate', function() {
       });
     });
 
-    context('when the user is already linked to a candidate in the same session', () => {
+    context('when the user is already linked to a candidate in the same session', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId: certificationCandidate.sessionId });
         return databaseBuilder.commit();
       });
 
-      it('should throw a CertificationCandidateMultipleUserLinksWithinSessionError', async () => {
+      it('should throw a CertificationCandidateMultipleUserLinksWithinSessionError', async function() {
         // when
         const result = await catchErr(certificationCandidateRepository.linkToUser)({ id: certificationCandidate.id, userId });
 
@@ -137,19 +137,19 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#delete', () => {
+  describe('#delete', function() {
 
-    context('when the record to delete is in the table', () => {
+    context('when the record to delete is in the table', function() {
       let certificationCandidateToDeleteId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         certificationCandidateToDeleteId = databaseBuilder.factory.buildCertificationCandidate().id;
         _.times(5, databaseBuilder.factory.buildCertificationCandidate);
         return databaseBuilder.commit();
       });
 
-      it('should return true when deletion goes well', async () => {
+      it('should return true when deletion goes well', async function() {
         // when
         const isDeleted = await certificationCandidateRepository.delete(certificationCandidateToDeleteId);
 
@@ -157,7 +157,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
         expect(isDeleted).to.be.true;
       });
 
-      it('should delete a single row in the table', async () => {
+      it('should delete a single row in the table', async function() {
         const nbCertifCandidatesBeforeDeletion = await BookshelfCertificationCandidate.count();
         // when
         await certificationCandidateRepository.delete(certificationCandidateToDeleteId);
@@ -169,9 +169,9 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
     });
 
-    context('when the record to delete is not in the table', () => {
+    context('when the record to delete is not in the table', function() {
 
-      it('should throw a CertificationCandidateDeletionError', async () => {
+      it('should throw a CertificationCandidateDeletionError', async function() {
         // when
         const result = await catchErr(certificationCandidateRepository.delete)(-1);
 
@@ -183,18 +183,18 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#isNotLinked', () => {
+  describe('#isNotLinked', function() {
 
-    context('when the candidate is linked', () => {
+    context('when the candidate is linked', function() {
       let certificationCandidateId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate().id;
         return databaseBuilder.commit();
       });
 
-      it('should return false', async () => {
+      it('should return false', async function() {
         // when
         const isNotLinked = await certificationCandidateRepository.isNotLinked(certificationCandidateId);
 
@@ -204,16 +204,16 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
     });
 
-    context('when the candidate is not linked', () => {
+    context('when the candidate is not linked', function() {
       let certificationCandidateToDeleteId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         certificationCandidateToDeleteId = databaseBuilder.factory.buildCertificationCandidate({ userId: null }).id;
         return databaseBuilder.commit();
       });
 
-      it('should return true', async () => {
+      it('should return true', async function() {
         // when
         const isNotLinked = await certificationCandidateRepository.isNotLinked(certificationCandidateToDeleteId);
 
@@ -225,10 +225,10 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#findBySessionIdWithCertificationCourse', () => {
+  describe('#findBySessionIdWithCertificationCourse', function() {
     let sessionId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
       const anotherSessionId = databaseBuilder.factory.buildSession().id;
@@ -248,7 +248,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
     context('when there are some certification candidates with the given session id', function() {
 
-      it('should fetch, alphabetically sorted, the certification candidates with a specific session ID', async () => {
+      it('should fetch, alphabetically sorted, the certification candidates with a specific session ID', async function() {
         // when
         const actualCandidates = await certificationCandidateRepository.findBySessionId(sessionId);
 
@@ -264,7 +264,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
     context('when there is no certification candidates with the given session ID', function() {
 
-      it('should return an empty array', async () => {
+      it('should return an empty array', async function() {
         // when
         const actualCandidates = await certificationCandidateRepository.findBySessionId(-1);
 
@@ -276,10 +276,10 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#findBySessionIdAndPersonalInfo', () => {
+  describe('#findBySessionIdAndPersonalInfo', function() {
     let sessionId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
       return databaseBuilder.commit();
@@ -289,7 +289,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
       let expectedCandidate;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         expectedCandidate = {
           lastName: 'Bideau',
           firstName: 'charlie',
@@ -306,7 +306,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
         return databaseBuilder.commit();
       });
 
-      it('should fetch the candidate ignoring case', async () => {
+      it('should fetch the candidate ignoring case', async function() {
         // when
         const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(expectedCandidate);
 
@@ -324,7 +324,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
       let onlyCandidateInBDD;
       let notMatchingCandidateInfo;
 
-      beforeEach(() => {
+      beforeEach(function() {
         onlyCandidateInBDD = {
           lastName: 'Bideau',
           firstName: 'Charlie',
@@ -343,7 +343,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
         return databaseBuilder.commit();
       });
 
-      it('should not find any candidate', async () => {
+      it('should not find any candidate', async function() {
         // when
         const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(notMatchingCandidateInfo);
 
@@ -357,7 +357,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
       let commonCandidateInfo;
 
-      beforeEach(() => {
+      beforeEach(function() {
         commonCandidateInfo = {
           lastName: 'Bideau',
           firstName: 'Charlie',
@@ -370,7 +370,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
         return databaseBuilder.commit();
       });
 
-      it('should find two candidates', async () => {
+      it('should find two candidates', async function() {
         // when
         const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(commonCandidateInfo);
 
@@ -384,12 +384,12 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#setSessionCandidates', () => {
+  describe('#setSessionCandidates', function() {
     let sessionId;
     let existingCertificationCandidateIds;
     let newCertificationCandidates;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
       existingCertificationCandidateIds = _.times(10, () => databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id);
@@ -402,13 +402,13 @@ describe('Integration | Repository | CertificationCandidate', function() {
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('certification-candidates').delete();
     });
 
     context('when there are some certification candidates to delete', function() {
 
-      it('should delete existing certification candidates in session', async () => {
+      it('should delete existing certification candidates in session', async function() {
         // when
         await certificationCandidateRepository.setSessionCandidates(sessionId, newCertificationCandidates);
 
@@ -419,7 +419,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
         expect(_.intersection(existingCertificationCandidateIds, actualIds)).to.be.empty;
       });
 
-      it('should save the new certification candidates', async () => {
+      it('should save the new certification candidates', async function() {
         // when
         await certificationCandidateRepository.setSessionCandidates(sessionId, newCertificationCandidates);
 
@@ -432,9 +432,9 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
     });
 
-    context('when delete succeeds and save fails', () => {
+    context('when delete succeeds and save fails', function() {
 
-      it('should rollback after save fails', async () => {
+      it('should rollback after save fails', async function() {
         // given
         newCertificationCandidates[0].sessionId = newCertificationCandidates[0].sessionId + 1;
 
@@ -454,11 +454,11 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#getBySessionIdAndUserId', () => {
+  describe('#getBySessionIdAndUserId', function() {
     let sessionId;
     let userId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
       userId = databaseBuilder.factory.buildUser().id;
@@ -468,7 +468,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
     context('when there is one certification candidate with the given session id and user id', function() {
 
-      it('should fetch the candidate', async () => {
+      it('should fetch the candidate', async function() {
         // when
         const actualCandidates = await certificationCandidateRepository.getBySessionIdAndUserId({ sessionId, userId });
 
@@ -481,7 +481,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
     context('when there is no certification candidate with the given session id and user id', function() {
 
-      it('should throw an error', async () => {
+      it('should throw an error', async function() {
         // when
         const result = await catchErr(certificationCandidateRepository.getBySessionIdAndUserId)({ sessionId: (sessionId + 1), userId: (userId + 1) });
 
@@ -493,11 +493,11 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#findOneBySessionIdAndUserId', () => {
+  describe('#findOneBySessionIdAndUserId', function() {
     let sessionId;
     let userId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
       userId = databaseBuilder.factory.buildUser().id;
@@ -507,7 +507,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
     context('when there is one certification candidate with the given session id and user id', function() {
 
-      it('should fetch the candidate', async () => {
+      it('should fetch the candidate', async function() {
         // when
         const actualCandidates = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId, userId });
 
@@ -520,7 +520,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
     context('when there is no certification candidate with the given session id and user id', function() {
 
-      it('should not find any candidate', async () => {
+      it('should not find any candidate', async function() {
         // when
         const actualCandidates = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId: (sessionId + 1), userId: (userId + 1) });
 
@@ -532,17 +532,17 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
   });
 
-  describe('#doesLinkedCertificationCandidateInSessionExist', () => {
+  describe('#doesLinkedCertificationCandidateInSessionExist', function() {
     let sessionId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sessionId = databaseBuilder.factory.buildSession().id;
       return databaseBuilder.commit();
     });
 
-    context('when there are candidates in the session that are already linked to a user', () => {
+    context('when there are candidates in the session that are already linked to a user', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
@@ -550,7 +550,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
         return databaseBuilder.commit();
       });
 
-      it('should return true', async () => {
+      it('should return true', async function() {
         // when
         const linkedCandidateExists = await certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist({ sessionId });
 
@@ -559,16 +559,16 @@ describe('Integration | Repository | CertificationCandidate', function() {
       });
     });
 
-    context('when there are no candidate in the session that are linked to any user', () => {
+    context('when there are no candidate in the session that are linked to any user', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: null });
         databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: null });
         return databaseBuilder.commit();
       });
 
-      it('should return false', async () => {
+      it('should return false', async function() {
         // when
         const linkedCandidateExists = await certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist({ sessionId });
 

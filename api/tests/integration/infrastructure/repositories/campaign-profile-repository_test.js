@@ -7,13 +7,13 @@ const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = require('../../../../lib/domain/consta
 describe('Integration | Repository | CampaignProfileRepository', function() {
   const locale = FRENCH_SPOKEN;
 
-  describe('#findProfile', () => {
-    context('campaign participation infos', () => {
-      beforeEach(() => {
+  describe('#findProfile', function() {
+    context('campaign participation infos', function() {
+      beforeEach(function() {
         mockLearningContent({ areas: [], competences: [], skills: [] });
       });
 
-      it('return the creation date, the sharing date and the participantExternalId', async () => {
+      it('return the creation date, the sharing date and the participantExternalId', async function() {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
         databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Freddy', lastName: 'Krugger' }, { campaignId }, false);
@@ -31,7 +31,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         expect(campaignProfile.sharedAt).to.deep.equal(new Date('2020-01-02'));
       });
 
-      it('return the campaignParticipationId and campaignId', async () => {
+      it('return the campaignParticipationId and campaignId', async function() {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
@@ -47,7 +47,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         expect(campaignProfile.campaignId).to.equal(campaignId);
       });
 
-      it('return the campaignParticipationId sharing status', async () => {
+      it('return the campaignParticipationId sharing status', async function() {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser(
@@ -64,12 +64,12 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
     });
 
-    context('user infos', () => {
-      beforeEach(() => {
+    context('user infos', function() {
+      beforeEach(function() {
         mockLearningContent({ areas: [], competences: [], skills: [] });
       });
 
-      it('return the first name and last name of the participant', async () => {
+      it('return the first name and last name of the participant', async function() {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
         databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Viggo', lastName: 'Tarasov' }, { campaignId }, false);
@@ -84,12 +84,12 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       });
     });
 
-    context('schooling registration infos', () => {
-      beforeEach(() => {
+    context('schooling registration infos', function() {
+      beforeEach(function() {
         mockLearningContent({ areas: [], competences: [], skills: [] });
       });
 
-      it('return the first name and last name of the schooling registration', async () => {
+      it('return the first name and last name of the schooling registration', async function() {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Greg', lastName: 'Duboire', organizationId }, { campaignId }).id;
@@ -102,8 +102,8 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       });
     });
 
-    context('certification infos', () => {
-      beforeEach(() => {
+    context('certification infos', function() {
+      beforeEach(function() {
         const learningContent = {
           areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
           competences: [
@@ -129,7 +129,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         mockLearningContent(learningContent);
       });
 
-      it('return the number of competences', async () => {
+      it('return the number of competences', async function() {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'John', lastName: 'Shaft' }, { campaignId, isShared: true }, false);
@@ -141,7 +141,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         expect(campaignProfile.competencesCount).to.equal(2);
       });
 
-      it('return the competences data according to given locale', async () => {
+      it('return the competences data according to given locale', async function() {
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'John', lastName: 'Shaft' }, { campaignId, isShared: true }, false);
@@ -154,7 +154,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         expect(competenceNames).to.have.members(['English1', 'English2']);
       });
 
-      it('return the number of competences certifiable', async () => {
+      it('return the number of competences certifiable', async function() {
         databaseBuilder.factory.buildCampaign().id;
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
@@ -176,7 +176,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         expect(campaignProfile.certifiableCompetencesCount).to.equal(1);
       });
 
-      it('return the total pix score limited to MAX_REACHABLE_PIX_BY_COMPETENCE', async () => {
+      it('return the total pix score limited to MAX_REACHABLE_PIX_BY_COMPETENCE', async function() {
         databaseBuilder.factory.buildCampaign().id;
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
@@ -204,7 +204,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         expect(campaignProfile.pixScore).to.equal(80);
       });
 
-      it('computes certification informations with knowledge elements acquired before the sharing date of the campaign participation', async () => {
+      it('computes certification informations with knowledge elements acquired before the sharing date of the campaign participation', async function() {
         databaseBuilder.factory.buildCampaign().id;
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
@@ -234,12 +234,12 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       });
     });
 
-    context('when there is no campaign-participation with the given id', () => {
-      beforeEach(() => {
+    context('when there is no campaign-participation with the given id', function() {
+      beforeEach(function() {
         mockLearningContent({ areas: [], competences: [], skills: [] });
       });
 
-      it('throws an NotFoundError error', async () => {
+      it('throws an NotFoundError error', async function() {
         const error = await catchErr(CampaignProfileRepository.findProfile)({ campaignId: 1, campaignParticipationId: 2, locale });
 
         expect(error).to.be.an.instanceof(NotFoundError);
@@ -247,12 +247,12 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       });
     });
 
-    context('when there is no campaign-participation with the given id for the given campaign', () => {
-      beforeEach(() => {
+    context('when there is no campaign-participation with the given id for the given campaign', function() {
+      beforeEach(function() {
         mockLearningContent({ areas: [], competences: [], skills: [] });
       });
 
-      it('throws an NotFoundError error', async () => {
+      it('throws an NotFoundError error', async function() {
         const campaignId = databaseBuilder.factory.buildCampaign({ id: 1 }).id;
 
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'John', lastName: 'Shaft' }, { id: 3, campaignId }, false).id;

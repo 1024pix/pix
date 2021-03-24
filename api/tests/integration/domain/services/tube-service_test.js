@@ -3,7 +3,7 @@ const Skill = require('../../../../lib/domain/models/Skill');
 const Tube = require('../../../../lib/domain/models/Tube');
 const { computeTubesFromSkills } = require('../../../../lib/domain/services/tube-service');
 
-describe('Integration | Domain | Services | TubeService', () => {
+describe('Integration | Domain | Services | TubeService', function() {
 
   describe('#computeTubesFromSkills', function() {
     it('should return an array of tubes when all challenges require only one skill', function() {

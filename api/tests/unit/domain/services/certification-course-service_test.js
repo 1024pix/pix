@@ -8,11 +8,11 @@ describe('Unit | Service | Certification Course Service', function() {
 
   let certificationCourseRepositoryUpdateStub;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationCourseRepositoryUpdateStub = sinon.stub(certificationCourseRepository, 'update');
   });
 
-  describe('#updatedCertifcationCourse', () => {
+  describe('#updatedCertifcationCourse', function() {
 
     const certificationCourse = new CertificationCourse({
       firstName: 'Freezer',
@@ -21,7 +21,7 @@ describe('Unit | Service | Certification Course Service', function() {
       birthdate: '1989-10-24',
     });
 
-    it('should save certification course', () => {
+    it('should save certification course', function() {
       // given
       certificationCourseRepositoryUpdateStub.resolves();
 
@@ -48,9 +48,9 @@ describe('Unit | Service | Certification Course Service', function() {
       });
     });
 
-    context('when save failed', () => {
+    context('when save failed', function() {
 
-      it('should return an error', () => {
+      it('should return an error', function() {
         // given
         certificationCourseRepositoryUpdateStub.rejects(new NotFoundError());
 

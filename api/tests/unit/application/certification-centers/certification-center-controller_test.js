@@ -5,11 +5,11 @@ const certificationCenterMembershipSerializer = require('../../../../lib/infrast
 
 const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
 
-describe('Unit | Controller | certifications-center-controller', () => {
+describe('Unit | Controller | certifications-center-controller', function() {
 
-  describe('#getStudents', () => {
+  describe('#getStudents', function() {
 
-    it('should return a paginated serialized list of students', async () => {
+    it('should return a paginated serialized list of students', async function() {
       // given
       const student = domainBuilder.buildSchoolingRegistration({ division: '3A' });
 
@@ -55,9 +55,9 @@ describe('Unit | Controller | certifications-center-controller', () => {
     });
   });
 
-  describe('#getDivisions', () => {
+  describe('#getDivisions', function() {
 
-    it('Should return a serialized list of divisions', async () => {
+    it('Should return a serialized list of divisions', async function() {
       // given
       const request = {
         auth: {
@@ -105,7 +105,7 @@ describe('Unit | Controller | certifications-center-controller', () => {
     });
   });
 
-  describe('#findCertificationCenterMembershipsByCertificationCenter', () => {
+  describe('#findCertificationCenterMembershipsByCertificationCenter', function() {
 
     const certificationCenterId = 1;
 
@@ -115,12 +115,12 @@ describe('Unit | Controller | certifications-center-controller', () => {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'findCertificationCenterMembershipsByCertificationCenter');
       sinon.stub(certificationCenterMembershipSerializer, 'serialize');
     });
 
-    it('should call usecase and serializer and return ok', async () => {
+    it('should call usecase and serializer and return ok', async function() {
       // given
       usecases.findCertificationCenterMembershipsByCertificationCenter.withArgs({
         certificationCenterId,
@@ -135,7 +135,7 @@ describe('Unit | Controller | certifications-center-controller', () => {
     });
   });
 
-  describe('#createCertificationCenterMembershipByEmail', () => {
+  describe('#createCertificationCenterMembershipByEmail', function() {
 
     const certificationCenterId = 1;
     const email = 'user@example.net';
@@ -145,7 +145,7 @@ describe('Unit | Controller | certifications-center-controller', () => {
       payload: { email },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'createCertificationCenterMembershipByEmail');
       sinon.stub(certificationCenterMembershipSerializer, 'serialize');
 
@@ -153,7 +153,7 @@ describe('Unit | Controller | certifications-center-controller', () => {
       certificationCenterMembershipSerializer.serialize.returns('ok');
     });
 
-    it('should call usecase and serializer and return 201 HTTP code', async () => {
+    it('should call usecase and serializer and return 201 HTTP code', async function() {
       // when
       const response = await certificationCenterController.createCertificationCenterMembershipByEmail(request, hFake);
 

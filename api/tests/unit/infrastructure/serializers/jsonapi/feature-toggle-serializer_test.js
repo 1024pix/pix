@@ -1,11 +1,11 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/feature-toggle-serializer');
 
-describe('Unit | Serializer | JSONAPI | feature-toggle-serializer', () => {
+describe('Unit | Serializer | JSONAPI | feature-toggle-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should convert feature-toggle object into JSON API data', () => {
+    it('should convert feature-toggle object into JSON API data', function() {
       // given
       const featureToggles = {
         someFeatureToggle: true,

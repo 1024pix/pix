@@ -5,7 +5,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Use Cases | get-progression', () => {
+describe('Unit | Domain | Use Cases | get-progression', function() {
 
   const progressionId = 'progression-1234';
   const assessmentId = 1234;
@@ -21,18 +21,18 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
 
   let sandbox;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sandbox = sinon.createSandbox();
     sandbox.stub(knowledgeElementRepository, 'findUniqByUserId').resolves([]);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     sandbox.restore();
   });
 
-  describe('#getProgression', () => {
+  describe('#getProgression', function() {
 
-    context('when the assessment exists and is campaign', () => {
+    context('when the assessment exists and is campaign', function() {
 
       const assessment = domainBuilder.buildAssessment({
         id: assessmentId,
@@ -46,13 +46,13 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
       });
       const targetProfile = domainBuilder.buildTargetProfile();
 
-      beforeEach(() => {
+      beforeEach(function() {
         sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').withArgs(assessment.id, userId).resolves(assessment);
         sandbox.stub(campaignParticipationRepository, 'get').withArgs(assessment.campaignParticipationId).resolves(campaignParticipation);
         sandbox.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaignParticipation.campaignId).resolves(targetProfile);
       });
 
-      it('should return the progression associated to the assessment', () => {
+      it('should return the progression associated to the assessment', function() {
         // given
         const expectedProgression = domainBuilder.buildProgression({
           id: progressionId,
@@ -80,9 +80,9 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
         });
       });
 
-      context('when the assessment is improving', () => {
+      context('when the assessment is improving', function() {
         let knowledgeElements, knowledgeElementsFiltered;
-        beforeEach(() => {
+        beforeEach(function() {
           assessment.state = 'improving';
           knowledgeElements = [
             domainBuilder.buildKnowledgeElement(),
@@ -95,7 +95,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
             .withArgs({ knowledgeElements, assessment }).returns(knowledgeElementsFiltered);
         });
 
-        it('should filter the knowledge elements', () => {
+        it('should filter the knowledge elements', function() {
           // when
           const promise = getProgression({
             userId,
@@ -116,7 +116,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           });
         });
 
-        it('should return the progression associated to the assessment', () => {
+        it('should return the progression associated to the assessment', function() {
           // given
           const expectedProgression = domainBuilder.buildProgression({
             id: progressionId,
@@ -148,7 +148,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
       });
     });
 
-    context('when the assessment exists and is competence evaluation', () => {
+    context('when the assessment exists and is competence evaluation', function() {
 
       const competenceEvaluationAssessment = domainBuilder.buildAssessment({
         id: assessmentId,
@@ -163,7 +163,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
       });
       const competenceSkills = [domainBuilder.buildSkill()];
 
-      beforeEach(() => {
+      beforeEach(function() {
         sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(competenceEvaluationAssessment);
         sandbox.stub(competenceEvaluationRepository, 'getByAssessmentId').resolves(competenceEvaluation);
         sandbox.stub(skillRepository, 'findActiveByCompetenceId').resolves(competenceSkills);
@@ -171,7 +171,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           .withArgs({ knowledgeElements: [], assessment: competenceEvaluationAssessment }).returns([]);
       });
 
-      it('should load the right assessment', () => {
+      it('should load the right assessment', function() {
         // when
         const promise = getProgression({
           userId,
@@ -191,7 +191,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
         });
       });
 
-      it('should return the progression associated to the assessment', () => {
+      it('should return the progression associated to the assessment', function() {
         // given
         const expectedProgression = domainBuilder.buildProgression({
           id: progressionId,
@@ -219,11 +219,11 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
         });
       });
 
-      context('when the assessment is improving', () => {
+      context('when the assessment is improving', function() {
 
         let knowledgeElements, knowledgeElementsFiltered;
 
-        beforeEach(() => {
+        beforeEach(function() {
           competenceEvaluationAssessment.state = 'improving';
           knowledgeElements = [
             domainBuilder.buildKnowledgeElement(),
@@ -236,7 +236,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
             .withArgs({ knowledgeElements, assessment: competenceEvaluationAssessment }).returns(knowledgeElementsFiltered);
         });
 
-        it('should filter the knowledge elements', async () => {
+        it('should filter the knowledge elements', async function() {
           // when
           await getProgression({
             userId,
@@ -256,7 +256,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
 
         });
 
-        it('should return the progression associated to the assessment', async () => {
+        it('should return the progression associated to the assessment', async function() {
           // given
           const expectedProgression = domainBuilder.buildProgression({
             id: progressionId,
@@ -284,7 +284,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
       });
     });
 
-    context('when the assessment does not exist', () => {
+    context('when the assessment does not exist', function() {
 
       const assessment = domainBuilder.buildAssessment({
         id: assessmentId,
@@ -292,11 +292,11 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
         type: Assessment.types.CAMPAIGN,
       });
 
-      beforeEach(() => {
+      beforeEach(function() {
         sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(assessment);
       });
 
-      it('should transfer the errors', () => {
+      it('should transfer the errors', function() {
         // given
         assessmentRepository.getByAssessmentIdAndUserId.rejects(new NotFoundError('No found Assessment for ID 1234'));
 

@@ -2,19 +2,19 @@ const { expect, sinon } = require('../../../test-helper');
 const { updateMembership } = require('../../../../lib/domain/usecases');
 const Membership = require('../../../../lib/domain/models/Membership');
 
-describe('Unit | UseCase | update-membership-attributes', () => {
+describe('Unit | UseCase | update-membership-attributes', function() {
 
   let membershipRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     membershipRepository = {
       updateById: sinon.stub().resolves(),
     };
   });
 
-  context('when membership exists', () => {
+  context('when membership exists', function() {
 
-    it('should update membership attributes', async () => {
+    it('should update membership attributes', async function() {
       // given
       const membershipId = 100;
       const organizationRole = Membership.roles.ADMIN;

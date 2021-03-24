@@ -4,14 +4,14 @@ const status = require('../../../../lib/domain/read-models/livret-scolaire/Certi
 
 const { buildOrganization, buildCertificationDataWithNoCompetenceMarks, buildValidatedPublishedCertificationData, buildRejectedPublishedCertificationData, buildErrorUnpublishedCertificationData } = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
 
-describe('Integration | Repository | Certification-ls ', () => {
+describe('Integration | Repository | Certification-ls ', function() {
 
   const pixScore = 400;
   const uai = '789567AA';
   const verificationCode = 'P-123498NN';
   const competenceMarks = [{ code: '1.1', level: 6 }, { code: '5.2', level: 4 }];
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('competence-marks').delete();
     await knex('partner-certifications').delete();
     await knex('assessment-results').delete();
@@ -20,9 +20,9 @@ describe('Integration | Repository | Certification-ls ', () => {
     return knex('sessions').delete();
   });
 
-  describe('#getCertificatesByOrganizationUAI', () => {
+  describe('#getCertificatesByOrganizationUAI', function() {
 
-    it('should return validated certification results for a given UAI', async () => {
+    it('should return validated certification results for a given UAI', async function() {
       const organizationId = buildOrganization(uai).id;
       const { schoolingRegistration, session, certificationCourse } = buildValidatedPublishedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks });
 
@@ -54,7 +54,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResults[0]).to.deep.equal(expected);
     });
 
-    it('should return rejected certification results for a given UAI', async () => {
+    it('should return rejected certification results for a given UAI', async function() {
       const organizationId = buildOrganization(uai).id;
       buildRejectedPublishedCertificationData({ organizationId, competenceMarks });
 
@@ -66,7 +66,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResult.competenceResults).to.be.empty;
     });
 
-    it('should return pending certification results for a given UAI', async () => {
+    it('should return pending certification results for a given UAI', async function() {
       const organizationId = buildOrganization(uai).id;
       buildErrorUnpublishedCertificationData({ organizationId });
 
@@ -78,7 +78,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResult.competenceResults).to.be.empty;
     });
 
-    it('should return no certification results if no competence-marks for a given UAI', async () => {
+    it('should return no certification results if no competence-marks for a given UAI', async function() {
       const organizationId = buildOrganization(uai).id;
       buildCertificationDataWithNoCompetenceMarks({ organizationId });
 

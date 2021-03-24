@@ -4,9 +4,9 @@ const redisMonitor = require('../../../../lib/infrastructure/utils/redis-monitor
 
 const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
 
-describe('Unit | Controller | healthcheckController', () => {
+describe('Unit | Controller | healthcheckController', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
     it('should reply with the API description', async function() {
       // when
@@ -22,13 +22,13 @@ describe('Unit | Controller | healthcheckController', () => {
     });
   });
 
-  describe('#checkDbStatus', () => {
+  describe('#checkDbStatus', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(knex, 'raw');
     });
 
-    it('should check if DB connection is successful', async () => {
+    it('should check if DB connection is successful', async function() {
       // given
       knex.raw.resolves();
 
@@ -40,7 +40,7 @@ describe('Unit | Controller | healthcheckController', () => {
       expect(response['message']).to.equal('Connection to database ok');
     });
 
-    it('should reply with a 503 error when the connection with the database is KO', () => {
+    it('should reply with a 503 error when the connection with the database is KO', function() {
       // given
       knex.raw.rejects();
 
@@ -52,13 +52,13 @@ describe('Unit | Controller | healthcheckController', () => {
     });
   });
 
-  describe('#checkRedisStatus', () => {
+  describe('#checkRedisStatus', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(redisMonitor, 'ping');
     });
 
-    it('should check if Redis connection is successful', async () => {
+    it('should check if Redis connection is successful', async function() {
       // given
       redisMonitor.ping.resolves();
 
@@ -70,7 +70,7 @@ describe('Unit | Controller | healthcheckController', () => {
       expect(response['message']).to.equal('Connection to Redis ok');
     });
 
-    it('should reply with a 503 error when the connection with Redis is KO', () => {
+    it('should reply with a 503 error when the connection with Redis is KO', function() {
       // given
       redisMonitor.ping.rejects();
 

@@ -32,12 +32,12 @@ function _computeExpectedColumnsIndex(campaign, organization, badges, stages) {
   };
 }
 
-describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
+describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function() {
   const translate = getI18n().__;
 
-  describe('#toCsvLine', () => {
+  describe('#toCsvLine', function() {
 
-    it('should return common info', () => {
+    it('should return common info', function() {
       // given
       const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
       const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -70,8 +70,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       expect(csvLine[cols.PARTICIPATION_PROGRESSION], 'participation progression').to.equal(0);
     });
 
-    context('on student number column', () => {
-      it('should write the student number when organization is of type SUP and campaign is restricted', () => {
+    context('on student number column', function() {
+      it('should write the student number when organization is of type SUP and campaign is restricted', function() {
         // given
         const organization = domainBuilder.buildOrganization({ type: 'SUP', isManagingStudents: true });
         const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -99,9 +99,9 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       });
     });
 
-    context('on external id column', () => {
+    context('on external id column', function() {
 
-      it('should write the participantExternalId when campaign has an idPixLabel', () => {
+      it('should write the participantExternalId when campaign has an idPixLabel', function() {
         // given
         const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
         const campaign = domainBuilder.buildCampaign({ idPixLabel: 'I Have One !' });
@@ -128,7 +128,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         expect(csvLine[cols.EXTERNAL_ID], 'external id').to.equal(campaignParticipationInfo.participantExternalId);
       });
 
-      it('should write the participantExternalId aside with the student number if student number is required', () => {
+      it('should write the participantExternalId aside with the student number if student number is required', function() {
         // given
         const organization = domainBuilder.buildOrganization({ type: 'SUP', isManagingStudents: true });
         const campaign = domainBuilder.buildCampaign({ idPixLabel: 'I Have One !' });
@@ -159,8 +159,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       });
     });
 
-    context('when participation is not shared', () => {
-      it('should show informations regarding a not shared participation', () => {
+    context('when participation is not shared', function() {
+      it('should show informations regarding a not shared participation', function() {
         // given
         const organization = domainBuilder.buildOrganization();
         const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -191,8 +191,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       });
     });
 
-    context('when participation is shared', () => {
-      it('should show informations regarding a shared participation', () => {
+    context('when participation is shared', function() {
+      it('should show informations regarding a shared participation', function() {
         // given
         const organization = domainBuilder.buildOrganization();
         const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -228,9 +228,9 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       });
     });
 
-    context('when organization type is not SCO', () => {
-      context('when participation is shared', () => {
-        it('should show details for each competence, area and skills', () => {
+    context('when organization type is not SCO', function() {
+      context('when participation is shared', function() {
+        it('should show details for each competence, area and skills', function() {
           // given
           const organization = domainBuilder.buildOrganization({ type: 'SUP' });
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -331,8 +331,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         });
       });
 
-      context('when participation is not shared', () => {
-        it('should show NA for each competence, area and skills', () => {
+      context('when participation is not shared', function() {
+        it('should show NA for each competence, area and skills', function() {
           // given
           const organization = domainBuilder.buildOrganization({ type: 'SUP' });
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -434,9 +434,9 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       });
     });
 
-    context('when organization type is SCO', () => {
-      context('when participation is shared', () => {
-        it('should show details for each competence and area but not skills', () => {
+    context('when organization type is SCO', function() {
+      context('when participation is shared', function() {
+        it('should show details for each competence and area but not skills', function() {
           // given
           const organization = domainBuilder.buildOrganization({ type: 'SCO' });
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -531,8 +531,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         });
       });
 
-      context('when participation is not shared', () => {
-        it('should show NA for each competence and area but not skills', () => {
+      context('when participation is not shared', function() {
+        it('should show NA for each competence and area but not skills', function() {
           // given
           const organization = domainBuilder.buildOrganization({ type: 'SCO' });
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -627,8 +627,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         });
       });
 
-      context('division', () => {
-        it('displays the division column', () => {
+      context('division', function() {
+        it('displays the division column', function() {
           const organization = domainBuilder.buildOrganization({ type: 'SCO', isManagingStudents: true });
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
           const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ createdAt: new Date('2020-01-01'), isCompleted: false, division: '4eme1' });
@@ -656,9 +656,9 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       });
     });
 
-    context('when campaign has bagdes', () => {
-      context('when participation is not shared', () => {
-        it('should not show badges acquired or not', () => {
+    context('when campaign has bagdes', function() {
+      context('when participation is not shared', function() {
+        it('should not show badges acquired or not', function() {
           // given
           const organization = domainBuilder.buildOrganization();
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -689,8 +689,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         });
       });
 
-      context('when participation is shared', () => {
-        it('should show badges acquired', () => {
+      context('when participation is shared', function() {
+        it('should show badges acquired', function() {
           // given
           const organization = domainBuilder.buildOrganization();
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -725,7 +725,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           expect(csvLine[cols.BADGE], 'badge').to.equal('Oui');
         });
 
-        it('should show badges not acquired', () => {
+        it('should show badges not acquired', function() {
           // given
           const organization = domainBuilder.buildOrganization();
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -762,10 +762,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       });
     });
 
-    context('when there are stages', () => {
-      context('when participation is shared', () => {
-        context('when some stages have been reached', () => {
-          it('tells highest stage reached', () => {
+    context('when there are stages', function() {
+      context('when participation is shared', function() {
+        context('when some stages have been reached', function() {
+          it('tells highest stage reached', function() {
             // given
             const organization = domainBuilder.buildOrganization();
             const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -827,8 +827,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           });
         });
 
-        context('when all stages have been reached', () => {
-          it('tells that last stage has been reached', () => {
+        context('when all stages have been reached', function() {
+          it('tells that last stage has been reached', function() {
             // given
             const organization = domainBuilder.buildOrganization();
             const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -891,8 +891,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         });
       });
 
-      context('when participation is not shared', () => {
-        it('gives NA as stage reached', () => {
+      context('when participation is not shared', function() {
+        it('gives NA as stage reached', function() {
           // given
           const organization = domainBuilder.buildOrganization();
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });

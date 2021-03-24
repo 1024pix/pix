@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const findPaginatedFilteredSchoolingRegistrations = require('../../../../lib/domain/usecases/find-paginated-filtered-schooling-registrations');
 
-describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', () => {
+describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', function() {
 
   const organizationId = 1;
   const userId = 2;

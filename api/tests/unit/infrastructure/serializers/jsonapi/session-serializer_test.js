@@ -10,7 +10,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     let modelSession;
     let expectedJsonApi;
 
-    beforeEach(() => {
+    beforeEach(function() {
       expectedJsonApi = {
         data: {
           type: 'sessions',
@@ -61,7 +61,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       });
     });
 
-    context('when session does not have a link to an existing certification center', () => {
+    context('when session does not have a link to an existing certification center', function() {
 
       it('should convert a Session model object into JSON API data', function() {
         // when
@@ -113,7 +113,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       jsonApiSession.data.attributes.date = '2017-01-20';
     });
 
@@ -135,7 +135,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     });
 
     EMPTY_BLANK_AND_NULL.forEach((examinerGlobalComment) => {
-      it(`should return no examiner comment if comment is "${examinerGlobalComment}"`, () => {
+      it(`should return no examiner comment if comment is "${examinerGlobalComment}"`, function() {
         // given
         jsonApiSession.data.attributes['examiner-global-comment'] = examinerGlobalComment;
 
@@ -148,7 +148,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     });
   });
 
-  describe('#serializeForFinalization()', () => {
+  describe('#serializeForFinalization()', function() {
 
     let modelSession;
     const expectedJsonApi = {

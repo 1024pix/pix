@@ -1,9 +1,9 @@
 const { sinon, expect, domainBuilder } = require('../../../../test-helper');
 const dataFetcher = require('../../../../../lib/domain/services/smart-random/data-fetcher');
 
-describe('Unit | Domain | services | smart-random | dataFetcher', () => {
+describe('Unit | Domain | services | smart-random | dataFetcher', function() {
 
-  describe('#fetchForCampaigns', () => {
+  describe('#fetchForCampaigns', function() {
 
     let answerRepository;
     let targetProfileRepository;
@@ -11,7 +11,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
     let knowledgeElementRepository;
     let improvementService;
 
-    beforeEach(() => {
+    beforeEach(function() {
       answerRepository = {
         findByAssessment: sinon.stub(),
       };
@@ -29,7 +29,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       };
     });
 
-    it('fetches answers, lastAnswer, targetsSkills challenges and knowledgeElements', async () => {
+    it('fetches answers, lastAnswer, targetsSkills challenges and knowledgeElements', async function() {
       // given
       const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ state: 'started', campaignParticipationId: 1 });
       const answer = domainBuilder.buildAnswer();
@@ -67,7 +67,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
 
   });
 
-  describe('#fetchForCompetenceEvaluations', () => {
+  describe('#fetchForCompetenceEvaluations', function() {
 
     let answerRepository;
     let challengeRepository;
@@ -80,7 +80,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
     let skills;
     let challenges;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       answerRepository = {
         findByAssessment: sinon.stub(),
       };
@@ -126,12 +126,12 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       });
     });
 
-    it('filter knowledge elements if assessment is an improving one', async () => {
+    it('filter knowledge elements if assessment is an improving one', async function() {
       // then
       expect(improvementService.filterKnowledgeElementsIfImproving).to.be.called;
     });
 
-    it('fetches answers, targetsSkills challenges and knowledgeElements', async () => {
+    it('fetches answers, targetsSkills challenges and knowledgeElements', async function() {
       // then
       expect(data.lastAnswer).to.deep.equal(answer);
       expect(data.allAnswers).to.deep.equal([answer]);

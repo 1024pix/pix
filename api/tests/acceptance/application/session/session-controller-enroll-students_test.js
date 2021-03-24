@@ -1,20 +1,20 @@
 const { sinon, expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | session-controller-enroll-students-to-session', () => {
+describe('Acceptance | Controller | session-controller-enroll-students-to-session', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('#enrollStudentsToSession', () => {
+  describe('#enrollStudentsToSession', function() {
     let options;
     let payload;
     let userId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser().id;
       options = {
         method: 'POST',
@@ -24,9 +24,9 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
       return databaseBuilder.commit();
     });
 
-    context('when user is not authenticated', () => {
+    context('when user is not authenticated', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         options = {
           method: 'PUT',
           url: '/api/sessions/1/enroll-students-to-session',
@@ -34,7 +34,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
         };
       });
 
-      it('should respond with a 401 - unauthorized access', async () => {
+      it('should respond with a 401 - unauthorized access', async function() {
 
         // when
         const response = await server.inject(options);
@@ -45,9 +45,9 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
 
     });
 
-    context('when session id is not an integer', () => {
+    context('when session id is not an integer', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         options = {
           method: 'PUT',
           url: '/api/sessions/2.1/enroll-students-to-session',
@@ -55,7 +55,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
         };
       });
 
-      it('should respond with a 400 - Bad Request', async () => {
+      it('should respond with a 400 - Bad Request', async function() {
 
         // when
         const response = await server.inject(options);
@@ -67,15 +67,15 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
 
     });
 
-    context('when user is authenticated', () => {
+    context('when user is authenticated', function() {
       let sessionId;
       let student;
 
-      afterEach(() => {
+      afterEach(function() {
         return knex('certification-candidates').delete();
       });
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         const { id: certificationCenterId, externalId } = databaseBuilder.factory.buildCertificationCenter();
 
         sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
@@ -103,7 +103,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
         };
       });
 
-      it('should respond with a 201', async () => {
+      it('should respond with a 201', async function() {
         // when
         const response = await server.inject(options);
 

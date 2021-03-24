@@ -13,7 +13,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(certificationCoursesController, 'getResult').returns('ok');
     sinon.stub(certificationCoursesController, 'update').returns('ok');
@@ -25,9 +25,9 @@ describe('Unit | Application | Certifications Course | Route', function() {
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('GET /api/admin/certifications/{id}/details', () => {
+  describe('GET /api/admin/certifications/{id}/details', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/admin/certifications/1234/details');
 
@@ -36,9 +36,9 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  describe('GET /api/admin/certifications/{id}/certified-profile', () => {
+  describe('GET /api/admin/certifications/{id}/certified-profile', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/admin/certifications/1234/certified-profile');
 
@@ -47,9 +47,9 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  describe('GET /api/admin/certifications/id', () => {
+  describe('GET /api/admin/certifications/id', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/admin/certifications/1234');
 
@@ -58,9 +58,9 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  context('when certification ID params is not a number', () => {
+  context('when certification ID params is not a number', function() {
 
-    it('should return 400', async () => {
+    it('should return 400', async function() {
 
       // when
       const response = await httpTestServer.request('GET', '/api/admin/certifications/1234*');
@@ -70,9 +70,9 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  context('when session ID params is out of range for database integer (> 2147483647)', () => {
+  context('when session ID params is out of range for database integer (> 2147483647)', function() {
 
-    it('should return 400', async () => {
+    it('should return 400', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/admin/certifications/2147483648');
 
@@ -82,9 +82,9 @@ describe('Unit | Application | Certifications Course | Route', function() {
   });
   //});
 
-  describe('PATCH /api/certification-courses/id', () => {
+  describe('PATCH /api/certification-courses/id', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('PATCH', '/api/certification-courses/1234');
 
@@ -93,9 +93,9 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  describe('POST /api/certification-courses', () => {
+  describe('POST /api/certification-courses', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('POST', '/api/certification-courses');
 
@@ -104,9 +104,9 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  describe('GET /api/certification-courses/{id}', () => {
+  describe('GET /api/certification-courses/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/certification-courses/1234');
 

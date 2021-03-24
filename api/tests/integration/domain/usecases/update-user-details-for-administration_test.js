@@ -7,17 +7,17 @@ const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsFo
 
 const updateUserDetailsForAdministration = require('../../../../lib/domain/usecases/update-user-details-for-administration');
 
-describe('Integration | UseCases | updateUserDetailsForAdministration', () => {
+describe('Integration | UseCases | updateUserDetailsForAdministration', function() {
 
   let userId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     userId = databaseBuilder.factory.buildUser({ email: 'email@example.net' }).id;
     databaseBuilder.factory.buildUser({ email: 'alreadyexist@example.net' });
     await databaseBuilder.commit();
   });
 
-  it('should update user email, firstname and lastname', async () => {
+  it('should update user email, firstname and lastname', async function() {
     // given
     const userToUpdate = {
       email: 'partial@example.net',
@@ -39,7 +39,7 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', () => {
     expect(result.lastName).equal(userToUpdate.lastName);
   });
 
-  it('should update user email only', async () => {
+  it('should update user email only', async function() {
     // given
     const userToUpdate = {
       email: 'partial@example.net',
@@ -56,7 +56,7 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', () => {
     expect(result.email).equal(userToUpdate.email);
   });
 
-  it('should update user and return it with its schooling registrations', async () => {
+  it('should update user and return it with its schooling registrations', async function() {
     // given
     let organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
     databaseBuilder.factory.buildSchoolingRegistration({ id: 1, userId, organizationId });
@@ -77,7 +77,7 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', () => {
     expect(result.email).to.equal(userDetailsForAdministration.email);
   });
 
-  it('should throw AlreadyRegisteredEmailError when email is already used by another user', async () => {
+  it('should throw AlreadyRegisteredEmailError when email is already used by another user', async function() {
     // given
     const userToUpdate = {
       email: 'alreadyEXIST@example.net',

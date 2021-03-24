@@ -19,7 +19,7 @@ describe('Unit | Router | challenge-router', function() {
       return server.register(route);
     });
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const options = { method: 'GET', url: '/api/challenges/challenge_id' };
 

@@ -4,13 +4,13 @@ const CertificationCenter = require('../../../../lib/domain/models/Certification
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
-describe('Integration | Repository | Certification Center', () => {
+describe('Integration | Repository | Certification Center', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    context('the certification is found', () => {
+    context('the certification is found', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         databaseBuilder.factory.buildCertificationCenter({
           id: 1,
           name: 'certificationCenterName',
@@ -21,7 +21,7 @@ describe('Integration | Repository | Certification Center', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return the certification of the given id with the right properties', async () => {
+      it('should return the certification of the given id with the right properties', async function() {
         // when
         const certificationCenter = await certificationCenterRepository.get(1);
 
@@ -34,9 +34,9 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('the certification center could not be found', () => {
+    context('the certification center could not be found', function() {
 
-      it('should throw a NotFound error', () => {
+      it('should throw a NotFound error', function() {
         // when
         const nonExistentId = 1;
         const promise = certificationCenterRepository.get(nonExistentId);
@@ -46,13 +46,13 @@ describe('Integration | Repository | Certification Center', () => {
     });
   });
 
-  describe('#save', () => {
+  describe('#save', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('certification-centers').delete();
     });
 
-    it('should save the given certification center', async () => {
+    it('should save the given certification center', async function() {
       // given
       const certificationCenter = new CertificationCenter({ name: 'CertificationCenterName' });
       // when
@@ -64,17 +64,17 @@ describe('Integration | Repository | Certification Center', () => {
     });
   });
 
-  describe('#findPaginatedFiltered', () => {
+  describe('#findPaginatedFiltered', function() {
 
-    context('when there are CertificationCenters in the database', () => {
+    context('when there are CertificationCenters in the database', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         _.times(3, databaseBuilder.factory.buildCertificationCenter);
 
         return databaseBuilder.commit();
       });
 
-      it('should return an Array of CertificationCenters', async () => {
+      it('should return an Array of CertificationCenters', async function() {
         // given
         const filter = {};
         const page = { number: 1, size: 10 };
@@ -92,14 +92,14 @@ describe('Integration | Repository | Certification Center', () => {
 
     });
 
-    context('when there are lots of CertificationCenters (> 10) in the database', () => {
+    context('when there are lots of CertificationCenters (> 10) in the database', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         _.times(12, databaseBuilder.factory.buildCertificationCenter);
         return databaseBuilder.commit();
       });
 
-      it('should return paginated matching CertificationCenters', async () => {
+      it('should return paginated matching CertificationCenters', async function() {
         // given
         const filter = {};
         const page = { number: 1, size: 3 };
@@ -114,9 +114,9 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('when there are multiple CertificationCenters matching the same "name" search pattern', () => {
+    context('when there are multiple CertificationCenters matching the same "name" search pattern', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         databaseBuilder.factory.buildCertificationCenter({ name: 'Dragon & co center' });
         databaseBuilder.factory.buildCertificationCenter({ name: 'Dragonades & co center' });
         databaseBuilder.factory.buildCertificationCenter({ name: 'Broca & co center' });
@@ -124,7 +124,7 @@ describe('Integration | Repository | Certification Center', () => {
         return databaseBuilder.commit();
       });
 
-      it('should return only CertificationCenters matching "name" if given in filters', async () => {
+      it('should return only CertificationCenters matching "name" if given in filters', async function() {
         // given
         const filter = { name: 'dra' };
         const page = { number: 1, size: 10 };
@@ -140,9 +140,9 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('when there are multiple CertificationCenters matching the same "type" search pattern', () => {
+    context('when there are multiple CertificationCenters matching the same "type" search pattern', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         databaseBuilder.factory.buildCertificationCenter({ type: 'PRO' });
         databaseBuilder.factory.buildCertificationCenter({ type: 'PRO' });
         databaseBuilder.factory.buildCertificationCenter({ type: 'SUP' });
@@ -150,7 +150,7 @@ describe('Integration | Repository | Certification Center', () => {
         return databaseBuilder.commit();
       });
 
-      it('should return only CertificationCenters matching "type" if given in filters', async () => {
+      it('should return only CertificationCenters matching "type" if given in filters', async function() {
         // given
         const filter = { type: 'S' };
         const page = { number: 1, size: 10 };
@@ -165,16 +165,16 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('when there are multiple CertificationCenters matching the same "externalId" search pattern', () => {
+    context('when there are multiple CertificationCenters matching the same "externalId" search pattern', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         databaseBuilder.factory.buildCertificationCenter({ externalId: 'AZH578' });
         databaseBuilder.factory.buildCertificationCenter({ externalId: 'BFR842' });
         databaseBuilder.factory.buildCertificationCenter({ externalId: 'AZH002' });
         return databaseBuilder.commit();
       });
 
-      it('should return only CertificationCenters matching "externalId" if given in filters', async () => {
+      it('should return only CertificationCenters matching "externalId" if given in filters', async function() {
         // given
         const filter = { externalId: 'AZ' };
         const page = { number: 1, size: 10 };
@@ -189,9 +189,9 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('when there are multiple CertificationCenters matching the fields "first name", "last name" and "email" search pattern', () => {
+    context('when there are multiple CertificationCenters matching the fields "first name", "last name" and "email" search pattern', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         // Matching users
         databaseBuilder.factory.buildCertificationCenter({ name: 'name_ok_1', type: 'SCO', externalId: 'c_ok_1' });
         databaseBuilder.factory.buildCertificationCenter({ name: 'name_ok_2', type: 'SCO', externalId: 'c_ok_2' });
@@ -205,7 +205,7 @@ describe('Integration | Repository | Certification Center', () => {
         return databaseBuilder.commit();
       });
 
-      it('should return only CertificationCenters matching "name" AND "type" AND "externalId" if given in filters', async () => {
+      it('should return only CertificationCenters matching "name" AND "type" AND "externalId" if given in filters', async function() {
         // given
         const filter = { name: 'name_ok', type: 'SCO', externalId: 'c_ok' };
         const page = { number: 1, size: 10 };
@@ -222,16 +222,16 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('when there are filters that should be ignored', () => {
+    context('when there are filters that should be ignored', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         databaseBuilder.factory.buildCertificationCenter({ id: 1 });
         databaseBuilder.factory.buildCertificationCenter({ id: 2 });
 
         return databaseBuilder.commit();
       });
 
-      it('should ignore the filters and retrieve all certificationCenters', async () => {
+      it('should ignore the filters and retrieve all certificationCenters', async function() {
         // given
         const filter = { foo: 1 };
         const page = { number: 1, size: 10 };

@@ -1,14 +1,14 @@
 const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | sessions-controller', () => {
+describe('Acceptance | Controller | sessions-controller', function() {
 
   let options;
   let server;
   let session;
   const examinerGlobalComment = 'It was a fine session my dear';
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     session = databaseBuilder.factory.buildSession();
     const report1 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id });
@@ -50,11 +50,11 @@ describe('Acceptance | Controller | sessions-controller', () => {
     return databaseBuilder.commit();
   });
 
-  describe('PUT /sessions/{id}/finalization', () => {
+  describe('PUT /sessions/{id}/finalization', function() {
 
-    describe('Resource access management', () => {
+    describe('Resource access management', function() {
 
-      it('should respond with a 401 Forbidden if the user is not authenticated', async () => {
+      it('should respond with a 401 Forbidden if the user is not authenticated', async function() {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -65,7 +65,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 404 NotFound the if user is not authorized (to keep opacity on whether forbidden or not found)', async () => {
+      it('should respond with a 404 NotFound the if user is not authorized (to keep opacity on whether forbidden or not found)', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
@@ -79,13 +79,13 @@ describe('Acceptance | Controller | sessions-controller', () => {
       });
     });
 
-    describe('Success case', () => {
+    describe('Success case', function() {
 
-      afterEach(() => {
+      afterEach(function() {
         return knex('certification-issue-reports').delete();
       });
 
-      it('should return the serialized updated session', async () => {
+      it('should return the serialized updated session', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId: session.certificationCenterId });

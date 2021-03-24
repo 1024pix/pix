@@ -3,12 +3,12 @@ const getCampaignAssessmentParticipation = require('../../../../lib/domain/useca
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
 
-describe('Unit | UseCase | get-campaign-assessment-participation', () => {
+describe('Unit | UseCase | get-campaign-assessment-participation', function() {
 
   let campaignRepository, campaignAssessmentParticipationRepository, badgeAcquisitionRepository;
   let userId, campaignId, campaignParticipationId;
 
-  beforeEach(() => {
+  beforeEach(function() {
     campaignRepository = {
       checkIfUserOrganizationHasAccessToCampaign: sinon.stub(),
     };
@@ -20,16 +20,16 @@ describe('Unit | UseCase | get-campaign-assessment-participation', () => {
     };
   });
 
-  context('when user has access to organization that owns campaign', () => {
+  context('when user has access to organization that owns campaign', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = domainBuilder.buildUser().id;
       campaignId = domainBuilder.buildCampaign().id;
       campaignParticipationId = domainBuilder.buildCampaignParticipation({ campaignId, userId }).id;
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
     });
 
-    it('should get the campaignAssessmentParticipation', async () => {
+    it('should get the campaignAssessmentParticipation', async function() {
       // given
       const participantId = domainBuilder.buildUser().id;
       const campaignAssessmentParticipation = new CampaignAssessmentParticipation({ userId: participantId });
@@ -43,7 +43,7 @@ describe('Unit | UseCase | get-campaign-assessment-participation', () => {
       expect(result).to.equal(campaignAssessmentParticipation);
     });
 
-    it('should set badges', async () => {
+    it('should set badges', async function() {
       // given
       const badges = Symbol('badges');
       const participantId = domainBuilder.buildUser().id;
@@ -59,15 +59,15 @@ describe('Unit | UseCase | get-campaign-assessment-participation', () => {
     });
   });
 
-  context('when user does not have access to organization that owns campaign', () => {
-    beforeEach(() => {
+  context('when user does not have access to organization that owns campaign', function() {
+    beforeEach(function() {
       userId = domainBuilder.buildUser().id;
       campaignId = domainBuilder.buildCampaign().id;
       campaignParticipationId = domainBuilder.buildCampaignParticipation({ campaignId, userId }).id;
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 
-    it('should throw UserNotAuthorizedToAccessEntityError', async () => {
+    it('should throw UserNotAuthorizedToAccessEntityError', async function() {
       // when
       const result = await catchErr(getCampaignAssessmentParticipation)({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationRepository, badgeAcquisitionRepository });
 

@@ -3,7 +3,7 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper
 const deleteCertificationIssueReport = require('../../../../lib/domain/usecases/delete-certification-issue-report');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | delete-certification-issue-report', () => {
+describe('Unit | UseCase | delete-certification-issue-report', function() {
 
   const certificationCourseRepository = { get: () => _.noop() };
   const certificationIssueReportRepository = {
@@ -16,7 +16,7 @@ describe('Unit | UseCase | delete-certification-issue-report', () => {
   const userId = 789;
   const sessionId = 159;
 
-  beforeEach(() => {
+  beforeEach(function() {
     const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ id: certificationIssueReportId });
     const certificationCourse = domainBuilder.buildCertificationCourse({
       id: certificationIssueReport.certificationCourseId,
@@ -31,7 +31,7 @@ describe('Unit | UseCase | delete-certification-issue-report', () => {
     sinon.stub(sessionAuthorizationService, 'isAuthorizedToAccessSession');
   });
 
-  it('should throw a ForbiddenAccess error when user is not allowed to delete certification issue report', async () => {
+  it('should throw a ForbiddenAccess error when user is not allowed to delete certification issue report', async function() {
     // given
     sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(false);
 
@@ -49,7 +49,7 @@ describe('Unit | UseCase | delete-certification-issue-report', () => {
     expect(error).to.be.instanceOf(ForbiddenAccess);
   });
 
-  it('should throw a ForbiddenAccess error when session is already finalized', async () => {
+  it('should throw a ForbiddenAccess error when session is already finalized', async function() {
     // given
     sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(true);
     sessionRepository.isFinalized.withArgs(sessionId).resolves(true);
@@ -68,7 +68,7 @@ describe('Unit | UseCase | delete-certification-issue-report', () => {
     expect(error).to.be.instanceOf(ForbiddenAccess);
   });
 
-  it('should return deletion result', async () => {
+  it('should return deletion result', async function() {
     // given
     const deletionResult = Symbol('someValue');
     sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(true);

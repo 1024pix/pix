@@ -27,17 +27,17 @@ function _buildAssessmentResult(pixScore) {
 
 describe('Unit | Service | Certification Service', function() {
 
-  describe('Certification Result computations', () => {
+  describe('Certification Result computations', function() {
     const certificationAssessment = Symbol('certificationAssessment');
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(certificationAssessmentRepository, 'getByCertificationCourseId').resolves(certificationAssessment);
       sinon.stub(certificationResultService, 'getCertificationResult').resolves();
     });
 
-    describe('#calculateCertificationResultByCertificationCourseId', () => {
+    describe('#calculateCertificationResultByCertificationCourseId', function() {
 
-      it('should call Certification Assessment Repository to get CertificationAssessment by CertificationCourseId', async () => {
+      it('should call Certification Assessment Repository to get CertificationAssessment by CertificationCourseId', async function() {
         // when
         await certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
@@ -46,7 +46,7 @@ describe('Unit | Service | Certification Service', function() {
         sinon.assert.calledWith(certificationAssessmentRepository.getByCertificationCourseId, 'course_id');
       });
 
-      it('should call CertificationResultService with appropriate arguments', async () => {
+      it('should call CertificationResultService with appropriate arguments', async function() {
         // when
         await certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
@@ -59,21 +59,21 @@ describe('Unit | Service | Certification Service', function() {
     });
   });
 
-  describe('#getCertificationResult', () => {
+  describe('#getCertificationResult', function() {
     const certificationCourseId = 1;
     const cleaCertificationStatus = 'someStatus';
     const assessmentId = Symbol('assessmentId');
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(cleaCertificationStatusRepository, 'getCleaCertificationStatus').resolves(cleaCertificationStatus);
       sinon.stub(assessmentRepository, 'getIdByCertificationCourseId')
         .withArgs(certificationCourseId).resolves(assessmentId);
     });
 
-    context('when certification is finished', () => {
+    context('when certification is finished', function() {
       let certificationCourse;
 
-      beforeEach(() => {
+      beforeEach(function() {
         certificationCourse = new CertificationCourse({
           id: certificationCourseId,
           createdAt: new Date('2017-12-23T15:23:12Z'),
@@ -96,7 +96,7 @@ describe('Unit | Service | Certification Service', function() {
           .withArgs({ certificationCourseId }).resolves({ ...assessmentResult, assessmentId });
       });
 
-      it('should return certification results with pix score, date and certified competences levels', async () => {
+      it('should return certification results with pix score, date and certified competences levels', async function() {
         // when
         const certification = await certificationService.getCertificationResult(certificationCourseId);
 
@@ -136,9 +136,9 @@ describe('Unit | Service | Certification Service', function() {
       });
     });
 
-    context('when certification is not finished', () => {
+    context('when certification is not finished', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(assessmentResultRepository, 'findLatestByCertificationCourseIdWithCompetenceMarks')
           .withArgs({ certificationCourseId }).resolves(null);
         sinon.stub(certificationCourseRepository, 'get').resolves(new CertificationCourse({
@@ -158,7 +158,7 @@ describe('Unit | Service | Certification Service', function() {
         }));
       });
 
-      it('should return certification results with state at started, empty marks and undefined for information not yet valid', () => {
+      it('should return certification results with state at started, empty marks and undefined for information not yet valid', function() {
         // given
         const certificationCourseId = 1;
 
@@ -178,7 +178,7 @@ describe('Unit | Service | Certification Service', function() {
         });
       });
 
-      it('should know certification version', async () => {
+      it('should know certification version', async function() {
         // given
         const certificationCourseId = 1;
 

@@ -2,7 +2,7 @@ const _ = require('lodash');
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profile', () => {
+describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profile', function() {
   const userId = 100;
   const competenceId = 'recAbe382T0e1337';
   const createdAt = new Date('2019-01-01');
@@ -30,14 +30,14 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
     }],
   };
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     databaseBuilder.clean();
   });
 
-  describe('GET /users/{userId}/campaigns/{campaignId}/profile', () => {
+  describe('GET /users/{userId}/campaigns/{campaignId}/profile', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
 
       mockLearningContent(learningContent);
 
@@ -61,8 +61,8 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
       return databaseBuilder.commit();
     });
 
-    describe('Success case', () => {
-      it('should return score cards for the shared profile with 200 HTTP status code', async () => {
+    describe('Success case', function() {
+      it('should return score cards for the shared profile with 200 HTTP status code', async function() {
         // when
         const response = await server.inject(options);
 

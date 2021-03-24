@@ -6,7 +6,7 @@ const { CertificationIssueReportCategories, CertificationIssueReportSubcategorie
 const SessionFinalized = require('../../../../lib/domain/events/SessionFinalized');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
-describe('Unit | Domain | Events | handle-session-finalized', () => {
+describe('Unit | Domain | Events | handle-session-finalized', function() {
 
   const juryCertificationSummaryRepository = { findBySessionId: sinon.stub() };
   const finalizedSessionRepository = { save: sinon.stub() };
@@ -16,7 +16,7 @@ describe('Unit | Domain | Events | handle-session-finalized', () => {
     finalizedSessionRepository,
   };
 
-  it('fails when event is not of correct type', async () => {
+  it('fails when event is not of correct type', async function() {
     // given
     const event = 'not an event of the correct type';
 
@@ -29,7 +29,7 @@ describe('Unit | Domain | Events | handle-session-finalized', () => {
     expect(error).not.to.be.null;
   });
 
-  it('saves a finalized session', async () => {
+  it('saves a finalized session', async function() {
     // given
     const event = new SessionFinalized({
       sessionId: 1234,

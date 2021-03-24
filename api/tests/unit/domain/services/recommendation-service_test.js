@@ -2,11 +2,11 @@ const { expect } = require('../../../test-helper');
 
 const recommendationService = require('./../../../../lib/domain/services/recommendation-service');
 
-describe('Unit | Service | Campaign Recommendation Service', () => {
-  describe('computeRecommendationScore', () => {
+describe('Unit | Service | Campaign Recommendation Service', function() {
+  describe('computeRecommendationScore', function() {
 
-    context('when no skill have been validated', () => {
-      it('should return the maximum number of points for difficulty when there is a skill with the maximum difficulty of the target profile', () => {
+    context('when no skill have been validated', function() {
+      it('should return the maximum number of points for difficulty when there is a skill with the maximum difficulty of the target profile', function() {
         // given
         const maxSkillLevelInTargetProfile = 6;
         const skills = [
@@ -23,7 +23,7 @@ describe('Unit | Service | Campaign Recommendation Service', () => {
         expect(score).to.equal(30);
       });
 
-      it('should return less than maximum number of points for difficulty when there is no skill with the maximum difficulty of the target profile', () => {
+      it('should return less than maximum number of points for difficulty when there is no skill with the maximum difficulty of the target profile', function() {
         // given
         const maxSkillLevelInTargetProfile = 6;
         const skills = [
@@ -39,8 +39,8 @@ describe('Unit | Service | Campaign Recommendation Service', () => {
       });
     });
 
-    context('when all skills have been validated', () => {
-      it('should return maximum number points', () => {
+    context('when all skills have been validated', function() {
+      it('should return maximum number points', function() {
         // given
         const maxSkillLevelInTargetProfile = 3;
         const skills = [
@@ -63,8 +63,8 @@ describe('Unit | Service | Campaign Recommendation Service', () => {
 
     });
 
-    context('when only some skills have been validated', () => {
-      it('should add more points when the next step is closer to the reached level', () => {
+    context('when only some skills have been validated', function() {
+      it('should add more points when the next step is closer to the reached level', function() {
         // given
         const maxSkillLevelInTargetProfile = 5;
         const skills = [
@@ -86,7 +86,7 @@ describe('Unit | Service | Campaign Recommendation Service', () => {
         expect(score).to.equal(75);
       });
 
-      it('should add less points when the next step is closer to the reached level', () => {
+      it('should add less points when the next step is closer to the reached level', function() {
         // given
         const maxSkillLevelInTargetProfile = 6;
         const skills = [

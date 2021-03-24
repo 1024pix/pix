@@ -2,9 +2,9 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const assignCertificationOfficerToJurySession = require('../../../../lib/domain/usecases/assign-certification-officer-to-jury-session');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | assign-certification-officer-to-session', () => {
-  context('when session id is not a number', () => {
-    it('should throw a NotFound error', async () => {
+describe('Unit | UseCase | assign-certification-officer-to-session', function() {
+  context('when session id is not a number', function() {
+    it('should throw a NotFound error', async function() {
       // given
       const jurySessionRepository = {
         assignCertificationOfficer: sinon.stub(),
@@ -24,9 +24,9 @@ describe('Unit | UseCase | assign-certification-officer-to-session', () => {
     });
   });
 
-  context('when session id is a number', () => {
-    context('when certificationOfficerId is not a number', () => {
-      it('should throw a NotFound error', async () => {
+  context('when session id is a number', function() {
+    context('when certificationOfficerId is not a number', function() {
+      it('should throw a NotFound error', async function() {
         // given
         const jurySessionRepository = {
           assignCertificationOfficer: sinon.stub(),
@@ -46,8 +46,8 @@ describe('Unit | UseCase | assign-certification-officer-to-session', () => {
       });
     });
 
-    context('when certificationOfficerId is a number', () => {
-      it('should return the session id after assigningUser to it', async () => {
+    context('when certificationOfficerId is a number', function() {
+      it('should return the session id after assigningUser to it', async function() {
         // given
         const returnedSessionId = Symbol('returnedSessionId');
         const sessionId = 1;

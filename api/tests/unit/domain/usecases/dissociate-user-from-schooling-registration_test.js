@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const usecases = require('../../../../lib/domain/usecases');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
+describe('Unit | UseCase | dissociate-user-from-schooling-registration', function() {
 
   let schoolingRegistrationRepositoryStub;
   let membershipRepositoryStub;
@@ -10,10 +10,10 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
   const organizationId = 1;
   const schoolingRegistrationId = 2;
 
-  context('when the user is an admin of the organization which manage the student', () => {
+  context('when the user is an admin of the organization which manage the student', function() {
     const userId = 12;
 
-    beforeEach(() => {
+    beforeEach(function() {
 
       schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organization: { id: organizationId }, id: schoolingRegistrationId });
 
@@ -24,7 +24,7 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
       membershipRepositoryStub = { findByUserIdAndOrganizationId: sinon.stub().withArgs({ userId, organizationId: 9, includeOrganization: true }).resolves([{ isAdmin: true }]) };
     });
 
-    it('should dissociate user from the schooling registration', async () => {
+    it('should dissociate user from the schooling registration', async function() {
 
       await usecases.dissociateUserFromSchoolingRegistration({
         userId,
@@ -40,10 +40,10 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
     });
   });
 
-  context('when the user is not a member of the organization which manages the student', () => {
+  context('when the user is not a member of the organization which manages the student', function() {
     const userId = 12;
 
-    beforeEach(() => {
+    beforeEach(function() {
 
       schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organization: { id: organizationId }, id: schoolingRegistrationId });
 
@@ -54,7 +54,7 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
       membershipRepositoryStub = { findByUserIdAndOrganizationId: sinon.stub().resolves([]) };
     });
 
-    it('throws a ForbiddenAccess error', async () => {
+    it('throws a ForbiddenAccess error', async function() {
 
       const error = await catchErr(usecases.dissociateUserFromSchoolingRegistration)({
         userId,
@@ -67,10 +67,10 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
     });
   });
 
-  context('when the user is not a admin of the organization which manages the student', () => {
+  context('when the user is not a admin of the organization which manages the student', function() {
     const userId = 1;
 
-    beforeEach(() => {
+    beforeEach(function() {
       schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organization: { id: organizationId }, id: schoolingRegistrationId });
 
       schoolingRegistrationRepositoryStub = {
@@ -80,7 +80,7 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
       membershipRepositoryStub = { findByUserIdAndOrganizationId: sinon.stub().resolves([{ idAdmin: false }]) };
     });
 
-    it('throws a ForbiddenAccess error', async () => {
+    it('throws a ForbiddenAccess error', async function() {
 
       const error = await catchErr(usecases.dissociateUserFromSchoolingRegistration)({
         userId,

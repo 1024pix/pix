@@ -1,22 +1,22 @@
 const { expect, sinon } = require('../../../test-helper');
 const BookshelfAssessmentResults = require('../../../../lib/infrastructure/data/assessment-result');
 
-describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
+describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
 
-  describe('validation', () => {
+  describe('validation', function() {
 
     let rawData;
 
-    beforeEach(() => {
+    beforeEach(function() {
       rawData = {
         emitter: '',
         status: null,
       };
     });
 
-    describe('the status field', () => {
+    describe('the status field', function() {
 
-      it('should only accept specific values', () => {
+      it('should only accept specific values', function() {
         // given
         rawData.status = 'not_a_correct_status';
         const certification = new BookshelfAssessmentResults(rawData);

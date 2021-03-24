@@ -5,11 +5,11 @@ const {
 } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | certification-issue-report-controller', () => {
+describe('Acceptance | Controller | certification-issue-report-controller', function() {
 
-  describe('DELETE /api/certification-issue-reports/{id}', () => {
+  describe('DELETE /api/certification-issue-reports/{id}', function() {
 
-    it('should return 204 HTTP status code', async () => {
+    it('should return 204 HTTP status code', async function() {
       // given
       const server = await createServer();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;

@@ -3,9 +3,9 @@ const pickChallengeService = require('../../../../lib/domain/services/pick-chall
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 const _ = require('lodash');
 
-describe('Unit | Service | PickChallengeService', () => {
+describe('Unit | Service | PickChallengeService', function() {
 
-  describe('#pickChallenge', () => {
+  describe('#pickChallenge', function() {
     const englishSpokenChallenge = domainBuilder.buildChallenge({ locales: [ENGLISH_SPOKEN] });
     const frenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
     const otherFrenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
@@ -15,9 +15,9 @@ describe('Unit | Service | PickChallengeService', () => {
 
     const randomSeed = 'some-random-seed';
 
-    context('when challenge in selected locale exists', () => {
+    context('when challenge in selected locale exists', function() {
 
-      it('should return challenge in selected locale', () => {
+      it('should return challenge in selected locale', function() {
         // given
         const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge, englishSpokenChallenge] }];
 
@@ -32,7 +32,7 @@ describe('Unit | Service | PickChallengeService', () => {
         expect(challenge).to.equal(englishSpokenChallenge);
       });
 
-      it('should always return the same challenge in selected locale', () => {
+      it('should always return the same challenge in selected locale', function() {
         // given
         const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge, otherFrenchSpokenChallenge] }];
 
@@ -51,9 +51,9 @@ describe('Unit | Service | PickChallengeService', () => {
 
     });
 
-    context('when there is no skills', () => {
+    context('when there is no skills', function() {
 
-      it('should return null', () => {
+      it('should return null', function() {
         // given
         const skills = [];
 
@@ -70,8 +70,8 @@ describe('Unit | Service | PickChallengeService', () => {
 
     });
 
-    context('when skills have validated and archived challenges', () => {
-      it('should return validated challenge', () => {
+    context('when skills have validated and archived challenges', function() {
+      it('should return validated challenge', function() {
         // given
         const skills = [{ challenges: [archivedChallenge, validatedChallenge] }];
 
@@ -87,8 +87,8 @@ describe('Unit | Service | PickChallengeService', () => {
       });
     });
 
-    context('when skills only have archived challenges', () => {
-      it('should return archived challenge', () => {
+    context('when skills only have archived challenges', function() {
+      it('should return archived challenge', function() {
         // given
         const skills = [{ challenges: [archivedChallenge] }];
 
@@ -104,8 +104,8 @@ describe('Unit | Service | PickChallengeService', () => {
       });
     });
 
-    context('when picking a lot of challenges', () => {
-      it('should return all challenges propose', ()=> {
+    context('when picking a lot of challenges', function() {
+      it('should return all challenges propose', function() {
         // given
         const challengeOneForSkillOne = domainBuilder.buildChallenge();
         const challengeTwoForSkillOne = domainBuilder.buildChallenge();

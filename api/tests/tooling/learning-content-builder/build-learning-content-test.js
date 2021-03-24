@@ -6,9 +6,9 @@ const skillDatasource = require('../../../lib/infrastructure/datasources/learnin
 const challengeDatasource = require('../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
 const courseDatasource = require('../../../lib/infrastructure/datasources/learning-content/course-datasource');
 
-describe('Integration | buildLearningContent', () => {
+describe('Integration | buildLearningContent', function() {
 
-  it('builds areas', async () => {
+  it('builds areas', async function() {
     // given
     const learningContent = [
       {
@@ -31,7 +31,7 @@ describe('Integration | buildLearningContent', () => {
     expect(areas[1].id).to.equal('recArea2');
   });
 
-  it('builds competences', async () => {
+  it('builds competences', async function() {
     // given
     const learningContent = [
       {
@@ -87,7 +87,7 @@ describe('Integration | buildLearningContent', () => {
     expect(competences[3].origin).to.deep.equal('Pix+');
   });
 
-  it('builds tubes', async () => {
+  it('builds tubes', async function() {
     // given
     const learningContent = [
       {
@@ -124,7 +124,7 @@ describe('Integration | buildLearningContent', () => {
     expect(tubes[1].competenceId).to.deep.equal('recArea1_Competence1');
   });
 
-  it('builds skills', async () => {
+  it('builds skills', async function() {
     // given
     const learningContent = [
       {
@@ -177,7 +177,7 @@ describe('Integration | buildLearningContent', () => {
     expect(skills[1].name).to.deep.equal('@accesDonnées2');
   });
 
-  it('builds challenges', async () => {
+  it('builds challenges', async function() {
     // given
     const learningContent = [
       {
@@ -227,7 +227,7 @@ describe('Integration | buildLearningContent', () => {
     expect(challenges[1].locales).to.deep.equal(['fr', 'fr-fr']);
   });
 
-  it('builds challenges | a single challenge is linked several skills', async() => {
+  it('builds challenges | a single challenge is linked several skills', async function() {
     // given
     const learningContent = [
       {
@@ -277,7 +277,7 @@ describe('Integration | buildLearningContent', () => {
     expect(challenges[0].status).to.deep.equal('validé');
   });
 
-  it('builds courses', async () => {
+  it('builds courses', async function() {
     // given
     const learningContent = [{
       competences: [],

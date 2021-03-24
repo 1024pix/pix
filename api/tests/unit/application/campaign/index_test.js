@@ -13,7 +13,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(campaignController, 'save').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignController, 'getByCode').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'getById').callsFake((request, h) => h.response('ok').code(200));
@@ -31,9 +31,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('POST /api/campaigns', () => {
+  describe('POST /api/campaigns', function() {
 
-    it('should return 201', async () => {
+    it('should return 201', async function() {
       // when
       const response = await httpTestServer.request('POST', '/api/campaigns');
 
@@ -42,9 +42,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns?filter[code=SOMECODE]', () => {
+  describe('GET /api/campaigns?filter[code=SOMECODE]', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       campaignController.getByCode.returns('ok');
 
@@ -55,7 +55,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 404 when controller throws a NotFound domain error', async () => {
+    it('should return 404 when controller throws a NotFound domain error', async function() {
       // given
       campaignController.getByCode.rejects(new NotFoundError());
 
@@ -67,9 +67,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}', () => {
+  describe('GET /api/campaigns/{id}', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/1');
 
@@ -77,7 +77,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/invalid');
 
@@ -86,9 +86,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/csv-assessment-results', () => {
+  describe('GET /api/campaigns/{id}/csv-assessment-results', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/1/csv-assessment-results');
 
@@ -96,7 +96,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/invalid/csv-assessment-results');
 
@@ -105,9 +105,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/csv-profiles-collection-results', () => {
+  describe('GET /api/campaigns/{id}/csv-profiles-collection-results', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/1/csv-profiles-collection-results');
 
@@ -115,7 +115,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/invalid/csv-profiles-collection-results');
 
@@ -124,9 +124,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('PATCH /api/campaigns/{id}', () => {
+  describe('PATCH /api/campaigns/{id}', function() {
 
-    it('should return 201', async () => {
+    it('should return 201', async function() {
       // when
       const response = await httpTestServer.request('PATCH', '/api/campaigns/1');
 
@@ -134,7 +134,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // when
       const response = await httpTestServer.request('PATCH', '/api/campaigns/invalid');
 
@@ -143,9 +143,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/collective-results', () => {
+  describe('GET /api/campaigns/{id}/collective-results', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/1/collective-results');
 
@@ -153,7 +153,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/invalid/collective-results');
 
@@ -162,9 +162,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/analyses', () => {
+  describe('GET /api/campaigns/{id}/analyses', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/1/analyses');
 
@@ -172,7 +172,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400', async () => {
+    it('should return 400', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/wrong_id/analyses');
 
@@ -181,9 +181,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('PUT /api/campaigns/{id}/archive', () => {
+  describe('PUT /api/campaigns/{id}/archive', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // when
       const response = await httpTestServer.request('PUT', '/api/campaigns/1/archive');
 
@@ -191,7 +191,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // when
       const response = await httpTestServer.request('PUT', '/api/campaigns/invalid/archive');
 
@@ -200,9 +200,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('DELETE /api/campaigns/{id}/archive', () => {
+  describe('DELETE /api/campaigns/{id}/archive', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // when
       const response = await httpTestServer.request('DELETE', '/api/campaigns/1/archive');
 
@@ -210,7 +210,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // when
       const response = await httpTestServer.request('DELETE', '/api/campaigns/invalid/archive');
 
@@ -219,9 +219,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/profiles-collection-participations', () => {
+  describe('GET /api/campaigns/{id}/profiles-collection-participations', function() {
 
-    it('should return 200 with empty query string', async () => {
+    it('should return 200 with empty query string', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations');
 
@@ -229,7 +229,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with pagination', async () => {
+    it('should return 200 with pagination', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?page[number]=1&page[size]=25');
 
@@ -237,7 +237,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of one element as division filter', async () => {
+    it('should return 200 with a string array of one element as division filter', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?filter[divisions][]="3EMEB"');
 
@@ -245,7 +245,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of several elements as division filter', async () => {
+    it('should return 200 with a string array of several elements as division filter', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?filter[divisions][]="3EMEB"&filter[divisions][]="3EMEA"');
 
@@ -253,7 +253,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 with unexpected filters', async () => {
+    it('should return 400 with unexpected filters', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?filter[unexpected][]=5');
 
@@ -261,7 +261,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a division filter which is not an array', async () => {
+    it('should return 400 with a division filter which is not an array', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?filter[divisions]="3EMEA"');
 
@@ -269,7 +269,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a page number which is not a number', async () => {
+    it('should return 400 with a page number which is not a number', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?page[number]=a');
 
@@ -277,7 +277,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a page size which is not a number', async () => {
+    it('should return 400 with a page size which is not a number', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?page[size]=a');
 
@@ -285,7 +285,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/invalid/profiles-collection-participations');
 
@@ -294,9 +294,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/assessment-participations', () => {
+  describe('GET /api/campaigns/{id}/assessment-participations', function() {
 
-    it('should return 200 with empty query string', async () => {
+    it('should return 200 with empty query string', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations');
 
@@ -304,7 +304,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with pagination', async () => {
+    it('should return 200 with pagination', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?page[number]=1&page[size]=25');
 
@@ -312,7 +312,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of one element as division filter', async () => {
+    it('should return 200 with a string array of one element as division filter', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[divisions][]="3EMEB"');
 
@@ -320,7 +320,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of several elements as division filter', async () => {
+    it('should return 200 with a string array of several elements as division filter', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[divisions][]="3EMEB"&filter[divisions][]="3EMEA"');
 
@@ -328,7 +328,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of one element as badge filter', async () => {
+    it('should return 200 with a string array of one element as badge filter', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[badges][]=114');
 
@@ -336,7 +336,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of several elements as badge filter', async () => {
+    it('should return 200 with a string array of several elements as badge filter', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[badges][]=114&filter[badges][]=115');
 
@@ -344,7 +344,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of one element as stage filter', async () => {
+    it('should return 200 with a string array of one element as stage filter', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[stages][]=114');
 
@@ -352,7 +352,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of several elements as stage filter', async () => {
+    it('should return 200 with a string array of several elements as stage filter', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[stages][]=114&filter[stages][]=115');
 
@@ -360,7 +360,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 with unexpected filters', async () => {
+    it('should return 400 with unexpected filters', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[unexpected][]=5');
 
@@ -368,7 +368,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a division filter which is not an array', async () => {
+    it('should return 400 with a division filter which is not an array', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[divisions]="3EMEA"');
 
@@ -376,7 +376,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a badge filter which is not an array', async () => {
+    it('should return 400 with a badge filter which is not an array', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[badges]=114');
 
@@ -384,7 +384,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a badge filter which is not a number', async () => {
+    it('should return 400 with a badge filter which is not a number', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[badges][]="truc"');
 
@@ -392,7 +392,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a stage filter which is not an array', async () => {
+    it('should return 400 with a stage filter which is not an array', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[stages]=114');
 
@@ -400,7 +400,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a stage filter which is not a number', async () => {
+    it('should return 400 with a stage filter which is not a number', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[stages][]="truc"');
 
@@ -408,7 +408,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a page number which is not a number', async () => {
+    it('should return 400 with a page number which is not a number', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?page[number]=a');
 
@@ -416,7 +416,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a page size which is not a number', async () => {
+    it('should return 400 with a page size which is not a number', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?page[size]=a');
 
@@ -424,7 +424,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/invalid/assessment-participations');
 
@@ -433,9 +433,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/divisions', () => {
+  describe('GET /api/campaigns/{id}/divisions', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/divisions');
 
@@ -443,7 +443,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/invalid/divisions');
 

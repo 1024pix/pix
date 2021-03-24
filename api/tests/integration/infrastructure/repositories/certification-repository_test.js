@@ -12,7 +12,7 @@ const verificationCode = 'P-123498NN';
 const notPublishedSessionVerificationCode = 'P-123498XX';
 const rejectedSessionVerificationCode = 'P-123498ZZ';
 
-describe('Integration | Repository | Certification ', () => {
+describe('Integration | Repository | Certification ', function() {
 
   const pixScore = 400;
 
@@ -33,7 +33,7 @@ describe('Integration | Repository | Certification ', () => {
   let certificationCenterId;
   let certificationCenter;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
 
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildBadge({ key: PARTNER_CLEA_KEY });
@@ -68,7 +68,7 @@ describe('Integration | Repository | Certification ', () => {
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('partner-certifications').delete();
     await knex('assessment-results').delete();
     await knex('assessments').delete();
@@ -76,9 +76,9 @@ describe('Integration | Repository | Certification ', () => {
     return knex('sessions').delete();
   });
 
-  describe('#getByCertificationCourseId', () => {
+  describe('#getByCertificationCourseId', function() {
 
-    it('should return a certification with needed informations', async () => {
+    it('should return a certification with needed informations', async function() {
       // when
       const certificate = await certificationRepository.getPrivateCertificateByCertificationCourseId({ id: completeCertificationCourse.id });
 
@@ -86,7 +86,7 @@ describe('Integration | Repository | Certification ', () => {
       expect(certificate).to.deep.equal(expectedCertification);
     });
 
-    it('should return a not found error when certification does not exist', async () => {
+    it('should return a not found error when certification does not exist', async function() {
       // when
       const result = await catchErr(certificationRepository.getPrivateCertificateByCertificationCourseId)({ id: -1 });
 
@@ -95,9 +95,9 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
-  describe('#hasVerificationCode', () => {
+  describe('#hasVerificationCode', function() {
 
-    it('should return false if certificate does not have a verificationCode', async () => {
+    it('should return false if certificate does not have a verificationCode', async function() {
       // given
       const { certificationCourse } = _buildValidatedPublishedCertificationData({ verificationCode: null, certificationCenterId, certificationCenter, userId, type, pixScore });
       await databaseBuilder.commit();
@@ -108,7 +108,7 @@ describe('Integration | Repository | Certification ', () => {
       expect(result).to.be.false;
     });
 
-    it('should return true if certificate has a verificationCode', async () => {
+    it('should return true if certificate has a verificationCode', async function() {
       // given
       const { certificationCourse } = _buildValidatedPublishedCertificationData({ verificationCode: 'P-888BBBDD', certificationCenterId, certificationCenter, userId, type, pixScore });
       await databaseBuilder.commit();
@@ -120,9 +120,9 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
-  describe('#saveVerificationCode', () => {
+  describe('#saveVerificationCode', function() {
 
-    it('should save verification code', async () => {
+    it('should save verification code', async function() {
       // given
       const { certificationCourse } = _buildValidatedPublishedCertificationData({ verificationCode: null, certificationCenterId, certificationCenter, userId, type, pixScore });
       await databaseBuilder.commit();
@@ -137,10 +137,10 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
-  describe('#findByUserId', () => {
+  describe('#findByUserId', function() {
     let expectedCertifications;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // Without assessment
       databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: completeSession.id });
       // Without assessment-result
@@ -172,7 +172,7 @@ describe('Integration | Repository | Certification ', () => {
       return databaseBuilder.commit();
     });
 
-    it('should return an array of Certifications with needed informations', async () => {
+    it('should return an array of Certifications with needed informations', async function() {
       // when
       const certifications = await certificationRepository.findByUserId(userId);
 
@@ -182,9 +182,9 @@ describe('Integration | Repository | Certification ', () => {
 
   });
 
-  describe('#publishCertificationCoursesBySessionId', () => {
+  describe('#publishCertificationCoursesBySessionId', function() {
 
-    it('should flag the specified certifications as published', async () => {
+    it('should flag the specified certifications as published', async function() {
       await certificationRepository.publishCertificationCoursesBySessionId(sessionLatestAssessmentRejected.id);
       await Promise.all(sessionLatestAssessmentRejectedCertifCourseIds.map(async (id) => {
         const certifCourse = await get(id);
@@ -192,7 +192,7 @@ describe('Integration | Repository | Certification ', () => {
       }));
     });
 
-    it('should not flag the specified certifications as published and be rejected', async () => {
+    it('should not flag the specified certifications as published and be rejected', async function() {
       const result = await catchErr(certificationRepository.publishCertificationCoursesBySessionId.bind(certificationRepository))(sessionWithStartedAndError.id);
       // then
       expect(result).to.be.instanceOf(CertificationCourseNotPublishableError);
@@ -200,7 +200,7 @@ describe('Integration | Repository | Certification ', () => {
       await Promise.all(sessionWithStartedAndErrorCertifCourseIds.map(async (id) => expect((await get(id)).isPublished).to.be.false));
     });
 
-    it('does nothing when there are no certification courses', async () => {
+    it('does nothing when there are no certification courses', async function() {
       // given
       const sessionWithNoCertificationCourses = databaseBuilder.factory.buildSession({
         certificationCenterId,
@@ -217,9 +217,9 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
-  describe('#unpublishCertificationCoursesBySessionId', () => {
+  describe('#unpublishCertificationCoursesBySessionId', function() {
 
-    it('should update the specified certifications', async () => {
+    it('should update the specified certifications', async function() {
       await certificationRepository.unpublishCertificationCoursesBySessionId(sessionWithPublishedCertificationCourses.id);
       await Promise.all(sessionWithPublishedCertificationCoursesCertifCourseIds.map(async (id) => {
         const certifCourse = await get(id);
@@ -228,10 +228,10 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
-  describe('#getCertificationByVerificationCode', () => {
+  describe('#getCertificationByVerificationCode', function() {
 
-    context('when verificationCode match', () => {
-      it('should return a certification when a correct verificationCode matches a correct pixScore', async () => {
+    context('when verificationCode match', function() {
+      it('should return a certification when a correct verificationCode matches a correct pixScore', async function() {
         // when
         const certificate = await certificationRepository.getShareableCertificateByVerificationCode({ verificationCode });
 
@@ -240,8 +240,8 @@ describe('Integration | Repository | Certification ', () => {
       });
     });
 
-    context('when verificationCode match a not published certificate', () => {
-      it('should throw an error', async () => {
+    context('when verificationCode match a not published certificate', function() {
+      it('should throw an error', async function() {
         // given
         _buildNotPublishedCertificationData({ verificationCode: notPublishedSessionVerificationCode, certificationCenterId, certificationCenter, userId, type, pixScore });
         await databaseBuilder.commit();
@@ -254,8 +254,8 @@ describe('Integration | Repository | Certification ', () => {
       });
     });
 
-    context('when verificationCode match an rejected certificate', () => {
-      it('should throw an error', async () => {
+    context('when verificationCode match an rejected certificate', function() {
+      it('should throw an error', async function() {
         // given
         _buildRejectedCertificationData({ verificationCode: rejectedSessionVerificationCode, certificationCenterId, certificationCenter, userId, type, pixScore });
         await databaseBuilder.commit();
@@ -267,8 +267,8 @@ describe('Integration | Repository | Certification ', () => {
       });
     });
 
-    context('when verificationCode does not match', () => {
-      it('should throw an error', async () => {
+    context('when verificationCode does not match', function() {
+      it('should throw an error', async function() {
         //given
         const wrongVerificationCode = 'P-BBBCCC$$';
 
@@ -281,9 +281,9 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
-  describe('#getCertificationAttestation', () => {
+  describe('#getCertificationAttestation', function() {
 
-    it('should return a certification attestation for a given certification', async () => {
+    it('should return a certification attestation for a given certification', async function() {
       // when
       const certificationAttestation = await certificationRepository.getCertificationAttestation({ id: completeCertificationCourse.id });
 

@@ -4,15 +4,15 @@ const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
 const organizationTagRepository = require('../../../../lib/infrastructure/repositories/organization-tag-repository');
 const omit = require('lodash/omit');
 
-describe('Integration | Repository | OrganizationTagRepository', () => {
+describe('Integration | Repository | OrganizationTagRepository', function() {
 
-  describe('#create', () => {
+  describe('#create', function() {
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('organization-tags').delete();
     });
 
-    it('should create an OrganizationTag', async () => {
+    it('should create an OrganizationTag', async function() {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const tagId = databaseBuilder.factory.buildTag().id;
@@ -27,9 +27,9 @@ describe('Integration | Repository | OrganizationTagRepository', () => {
       expect(omit(createdOrganizationTag, 'id')).to.deep.equal(omit(organizationTag, 'id'));
     });
 
-    context('when an organization tag already exist', () => {
+    context('when an organization tag already exist', function() {
 
-      it('should throw an AlreadyExistingEntityError', async () => {
+      it('should throw an AlreadyExistingEntityError', async function() {
         // given
         const existingOrganizationTag = databaseBuilder.factory.buildOrganizationTag();
         await databaseBuilder.commit();
@@ -46,9 +46,9 @@ describe('Integration | Repository | OrganizationTagRepository', () => {
     });
   });
 
-  describe('#isExistingByOrganizationIdAndTagId', () => {
+  describe('#isExistingByOrganizationIdAndTagId', function() {
 
-    it('should return true if organization tag exists', async () => {
+    it('should return true if organization tag exists', async function() {
       // given
       const existingOrganizationTag = databaseBuilder.factory.buildOrganizationTag();
       await databaseBuilder.commit();
@@ -63,7 +63,7 @@ describe('Integration | Repository | OrganizationTagRepository', () => {
       expect(isExisting).to.be.true;
     });
 
-    it('should return false if organization tag does not exist', async () => {
+    it('should return false if organization tag does not exist', async function() {
       // given
       const notExistingId = 1234;
 

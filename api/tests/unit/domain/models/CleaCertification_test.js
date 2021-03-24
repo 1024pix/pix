@@ -5,10 +5,10 @@ const { ObjectValidationError, NotEligibleCandidateError } = require('../../../.
 const GREEN_ZONE_REPRO = [80, 90, 100];
 const RED_ZONE_REPRO = [1, 50];
 
-describe('Unit | Domain | Models | CleaCertification', () => {
-  describe('constructor', () => {
+describe('Unit | Domain | Models | CleaCertification', function() {
+  describe('constructor', function() {
     let validArguments;
-    beforeEach(() => {
+    beforeEach(function() {
       validArguments = {
         certificationCourseId: 123,
         partnerKey: 'partnerKey',
@@ -19,12 +19,12 @@ describe('Unit | Domain | Models | CleaCertification', () => {
       };
     });
 
-    it('should successfully instantiate object when passing all valid arguments', () => {
+    it('should successfully instantiate object when passing all valid arguments', function() {
       // when
       expect(() => new CleaCertification(validArguments)).not.to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when hasAcquiredBadge is not valid', () => {
+    it('should throw an ObjectValidationError when hasAcquiredBadge is not valid', function() {
       // when
       expect(() => new CleaCertification({
         ...validArguments,
@@ -32,7 +32,7 @@ describe('Unit | Domain | Models | CleaCertification', () => {
       })).to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when reproducibilityRate is not valid', () => {
+    it('should throw an ObjectValidationError when reproducibilityRate is not valid', function() {
       // when
       expect(() => new CleaCertification({
         ...validArguments,
@@ -40,12 +40,12 @@ describe('Unit | Domain | Models | CleaCertification', () => {
       })).to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when cleaCompetenceMarks is not valid', () => {
+    it('should throw an ObjectValidationError when cleaCompetenceMarks is not valid', function() {
       // when
       expect(() => new CleaCertification({ ...validArguments, cleaCompetenceMarks: null })).to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when maxReachablePixByCompetenceForClea is not valid', () => {
+    it('should throw an ObjectValidationError when maxReachablePixByCompetenceForClea is not valid', function() {
       // when
       expect(() => new CleaCertification({
         ...validArguments,
@@ -54,9 +54,9 @@ describe('Unit | Domain | Models | CleaCertification', () => {
     });
   });
 
-  context('#isEligible', () => {
+  context('#isEligible', function() {
 
-    it('when user has badge it is eligible', async () => {
+    it('when user has badge it is eligible', async function() {
       // given
       const partnerCertification = await _buildCleaCertificationWithBadge();
 
@@ -67,7 +67,7 @@ describe('Unit | Domain | Models | CleaCertification', () => {
       expect(hasAcquiredCertif).to.be.true;
     });
 
-    it('when user does not have badge it is not eligible', async () => {
+    it('when user does not have badge it is not eligible', async function() {
       // given
       const partnerCertification = await _buildCleaCertificationWithoutBadge();
 
@@ -79,9 +79,9 @@ describe('Unit | Domain | Models | CleaCertification', () => {
     });
   });
 
-  context('#isAcquired', () => {
+  context('#isAcquired', function() {
 
-    it('throws when not eligible', async () => {
+    it('throws when not eligible', async function() {
       // given
       const partnerCertification = await _buildCleaCertificationWithoutBadge();
 
@@ -92,9 +92,9 @@ describe('Unit | Domain | Models | CleaCertification', () => {
       expect(error).to.be.instanceOf(NotEligibleCandidateError);
     });
 
-    context('reproducibility rate in green zone', () => {
+    context('reproducibility rate in green zone', function() {
       GREEN_ZONE_REPRO.forEach((reproducibilityRate) =>
-        it(`for ${reproducibilityRate} reproducibility rate, it should obtain certification`, async () => {
+        it(`for ${reproducibilityRate} reproducibility rate, it should obtain certification`, async function() {
           // given
           const partnerCertification = await _buildCleaCertificationWithReproducibilityRate(reproducibilityRate);
 
@@ -107,9 +107,9 @@ describe('Unit | Domain | Models | CleaCertification', () => {
       );
     });
 
-    context('reproducibility rate in grey zone', () => {
+    context('reproducibility rate in grey zone', function() {
 
-      it('for 70 reproducibility rate, it should obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore', async () => {
+      it('for 70 reproducibility rate, it should obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore', async function() {
         // given
         const partnerCertification = await _buildCleaCertificationInGreyZoneAndCertifiableCompetences();
 
@@ -120,7 +120,7 @@ describe('Unit | Domain | Models | CleaCertification', () => {
         expect(hasAcquiredCertif).to.be.true;
       });
 
-      it('for 70 reproducibility rate, it should not obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore', async () => {
+      it('for 70 reproducibility rate, it should not obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore', async function() {
         // given
         const partnerCertification = await _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences();
 
@@ -132,9 +132,9 @@ describe('Unit | Domain | Models | CleaCertification', () => {
       });
     });
 
-    context('reproducibility rate in red zone', () => {
+    context('reproducibility rate in red zone', function() {
       RED_ZONE_REPRO.forEach((reproducibilityRate) =>
-        it(`for ${reproducibilityRate} reproducibility rate, it should not obtain certification`, async () => {
+        it(`for ${reproducibilityRate} reproducibility rate, it should not obtain certification`, async function() {
           // given
           const partnerCertification = await _buildCleaCertificationWithReproducibilityRate(reproducibilityRate);
 

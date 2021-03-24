@@ -6,7 +6,7 @@ const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repos
 const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
-describe('Acceptance | Controller | assessment-controller-complete-assessment', () => {
+describe('Acceptance | Controller | assessment-controller-complete-assessment', function() {
 
   let options;
   let server;
@@ -174,7 +174,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     },
   ];
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
 
@@ -196,16 +196,16 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     };
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await cache.flushAll();
     return knex('assessment-results').delete();
   });
 
-  describe('PATCH /assessments/{id}/complete-assessment', () => {
+  describe('PATCH /assessments/{id}/complete-assessment', function() {
 
-    context('when user is not the owner of the assessment', () => {
+    context('when user is not the owner of the assessment', function() {
 
-      it('should return a 401 HTTP status code', async () => {
+      it('should return a 401 HTTP status code', async function() {
         // given
         options.headers.authorization = generateValidRequestAuthorizationHeader(user.id + 1);
 
@@ -218,9 +218,9 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
 
     });
 
-    context('when user is the owner of the assessment', () => {
+    context('when user is the owner of the assessment', function() {
 
-      it('should complete the assessment', async () => {
+      it('should complete the assessment', async function() {
         // when
         const response = await server.inject(options);
 
@@ -229,11 +229,11 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
       });
     });
 
-    context('when assessment belongs to a campaign', () => {
+    context('when assessment belongs to a campaign', function() {
 
       let badge, campaignUser;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         campaignUser = databaseBuilder.factory.buildUser({});
         const targetProfile = databaseBuilder.factory.buildTargetProfile();
         const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
@@ -272,7 +272,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         options.headers.authorization = generateValidRequestAuthorizationHeader(campaignUser.id);
       });
 
-      afterEach(async () => {
+      afterEach(async function() {
         await knex('badge-acquisitions').delete();
         await knex('badge-criteria').delete();
         await knex('badges').delete();
@@ -286,7 +286,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         await knex('target-profiles').delete();
       });
 
-      it('should create a badge when it is acquired', async () => {
+      it('should create a badge when it is acquired', async function() {
         // given
         await server.inject(options);
 
@@ -300,11 +300,11 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
 
     });
 
-    context('when assessment is of type certification', () => {
+    context('when assessment is of type certification', function() {
       let certifiableUserId;
       let certificationAssessmentId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         const limitDate = new Date('2020-01-01T00:00:00Z');
         certifiableUserId = databaseBuilder.factory.buildUser().id;
 
@@ -329,13 +329,13 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         return databaseBuilder.commit();
       });
 
-      afterEach(async () => {
+      afterEach(async function() {
         await knex('partner-certifications').delete();
         await knex('competence-marks').delete();
         await knex('assessment-results').delete();
       });
 
-      it('should complete the certification assessment', async () => {
+      it('should complete the certification assessment', async function() {
         // given
         options.url = `/api/assessments/${certificationAssessmentId}/complete-assessment`;
         options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);

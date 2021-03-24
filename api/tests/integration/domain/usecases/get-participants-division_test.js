@@ -2,9 +2,9 @@ const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
 const { getParticipantsDivision } = require('../../../../lib/domain/usecases/index');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
-describe('Integration | UseCase | get-participants-division', () => {
-  context('when the use has access to the campaign', () => {
-    it('returns the participants division', async () => {
+describe('Integration | UseCase | get-participants-division', function() {
+  context('when the use has access to the campaign', function() {
+    it('returns the participants division', async function() {
       const division = '3emeA';
       const campaign = databaseBuilder.factory.buildCampaign();
       const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
@@ -17,8 +17,8 @@ describe('Integration | UseCase | get-participants-division', () => {
     });
   });
 
-  context('when the use has not access to the campaign', () => {
-    it('throws an error', async () => {
+  context('when the use has not access to the campaign', function() {
+    it('throws an error', async function() {
 
       const division = '3emeA';
       const campaign = databaseBuilder.factory.buildCampaign();

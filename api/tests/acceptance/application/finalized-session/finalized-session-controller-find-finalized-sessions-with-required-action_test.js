@@ -3,13 +3,13 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-with-required-action', () => {
+describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-with-required-action', function() {
 
-  describe('GET /api/admin/sessions/with-required-action', () => {
+  describe('GET /api/admin/sessions/with-required-action', function() {
 
-    context('When user is authorized', () => {
+    context('When user is authorized', function() {
 
-      it('should return a 200 status code response with JSON API serialized', async () => {
+      it('should return a 200 status code response with JSON API serialized', async function() {
 
         await insertUserWithRolePixMaster();
 

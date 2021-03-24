@@ -10,11 +10,11 @@ const moduleUnderTest = require('../../../../lib/application/cache');
 
 const cacheController = require('../../../../lib/application/cache/cache-controller');
 
-describe('Unit | Router | cache-router', () => {
+describe('Unit | Router | cache-router', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(cacheController, 'refreshCacheEntries').callsFake((request, h) => h.response().code(204));
     sinon.stub(cacheController, 'refreshCacheEntry').callsFake((request, h) => h.response().code(204));
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
@@ -22,9 +22,9 @@ describe('Unit | Router | cache-router', () => {
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('PATCH /api/cache/{model}/{id}', () => {
+  describe('PATCH /api/cache/{model}/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const updatedRecord = { id: 'recId', param: 'updatedValue' };
       const response = await httpTestServer.request('PATCH', '/api/cache/table/recXYZ1234', updatedRecord);
@@ -34,9 +34,9 @@ describe('Unit | Router | cache-router', () => {
     });
   });
 
-  describe('PATCH /api/cache', () => {
+  describe('PATCH /api/cache', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('PATCH', '/api/cache');
 

@@ -2,20 +2,20 @@ const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const _ = require('lodash');
 const targetProfileShareRepository = require('../../../../lib/infrastructure/repositories/target-profile-share-repository');
 
-describe('Integration | Repository | Target-profile-share', () => {
+describe('Integration | Repository | Target-profile-share', function() {
 
-  describe('#addTargetProfilesToOrganization', () => {
+  describe('#addTargetProfilesToOrganization', function() {
 
     let organizationId;
     let targetProfileIdA;
     let targetProfileIdB;
     let targetProfileIdC;
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('target-profile-shares').delete();
     });
 
-    beforeEach(() => {
+    beforeEach(function() {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       targetProfileIdA = databaseBuilder.factory.buildTargetProfile().id;
       targetProfileIdB = databaseBuilder.factory.buildTargetProfile().id;

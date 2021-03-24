@@ -16,7 +16,7 @@ const challengeRepository = require('../../../../lib/infrastructure/repositories
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 
-describe('Unit | Service | Certification Challenge Service', () => {
+describe('Unit | Service | Certification Challenge Service', function() {
 
   const userId = 63731;
 
@@ -103,7 +103,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
   const challengeForSkillRequin5 = _createChallenge('challengeRecordIdNine', competenceRequin.id, [skillRequin5], '@requin5');
   const challengeForSkillRequin8 = _createChallenge('challengeRecordIdTen', competenceRequin.id, [skillRequin8], '@requin8');
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves([
       challengeForSkillCitation4,
       anotherChallengeForSkillCitation4,
@@ -123,12 +123,12 @@ describe('Unit | Service | Certification Challenge Service', () => {
     sinon.stub(skillRepository, 'findOperativeByIds').callsFake(findOperativeByIds);
   });
 
-  describe('#pickCertificationChallenges', () => {
+  describe('#pickCertificationChallenges', function() {
     let placementProfile;
     let userCompetence1;
     let userCompetence2;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userCompetence1 = new UserCompetence({
         id: 'competenceRecordIdOne',
         index: '1.1',
@@ -157,7 +157,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       sinon.stub(answerRepository, 'findChallengeIdsFromAnswerIds');
     });
 
-    it('should assign skill to related competence', async () => {
+    it('should assign skill to related competence', async function() {
       // given
       placementProfile.userCompetences = [new UserCompetence({
         ...userCompetence2,
@@ -182,9 +182,9 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal([expectedCertificationChallenge]);
     });
 
-    context('when competence level is less than 1', () => {
+    context('when competence level is less than 1', function() {
 
-      it('should select no challenge', async () => {
+      it('should select no challenge', async function() {
         // given
         const userCompetenceWithLowLevel = domainBuilder.buildUserCompetence({
           ...userCompetence1,
@@ -211,9 +211,9 @@ describe('Unit | Service | Certification Challenge Service', () => {
       });
     });
 
-    context('when no challenge validate the skill', () => {
+    context('when no challenge validate the skill', function() {
 
-      it('should not return the skill', async () => {
+      it('should not return the skill', async function() {
         // given
         placementProfile.userCompetences = [userCompetence2];
         knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: 'limitDate' })
@@ -229,9 +229,9 @@ describe('Unit | Service | Certification Challenge Service', () => {
       });
     });
 
-    context('when three challenges validate the same skill', () => {
+    context('when three challenges validate the same skill', function() {
 
-      it('should select an unanswered challenge', async () => {
+      it('should select an unanswered challenge', async function() {
         // given
         placementProfile.userCompetences = [
           new UserCompetence({
@@ -253,7 +253,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         expect(certificationChallenges[0].challengeId).to.be.oneOf(['challengeRecordIdTen', 'challengeRecordIdTwo']);
       });
 
-      it('should select a challenge for every skill', async () => {
+      it('should select a challenge for every skill', async function() {
         // given
         placementProfile.userCompetences = [
           new UserCompetence({
@@ -282,7 +282,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         expect(skillsForChallenges).to.deep.include.members(expectedSkills);
       });
 
-      it('should return at most one challenge per skill', async () => {
+      it('should return at most one challenge per skill', async function() {
         // given
         placementProfile.userCompetences = [
           new UserCompetence({
@@ -312,7 +312,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       });
     });
 
-    it('should group skills by competence', async () => {
+    it('should group skills by competence', async function() {
       // given
       placementProfile.userCompetences = [
         new UserCompetence({
@@ -353,7 +353,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
-    it('should sort in desc grouped skills by competence', async () => {
+    it('should sort in desc grouped skills by competence', async function() {
       // given
       placementProfile.userCompetences = [
         userCompetence1,
@@ -390,7 +390,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
-    it('should return the three most difficult skills sorted in desc grouped by competence', async () => {
+    it('should return the three most difficult skills sorted in desc grouped by competence', async function() {
       // given
       placementProfile.userCompetences = [
         new UserCompetence({
@@ -432,7 +432,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
-    it('should not add a skill twice', async () => {
+    it('should not add a skill twice', async function() {
       // given
       placementProfile.userCompetences = [
         userCompetence1,
@@ -459,7 +459,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal([_createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2)]);
     });
 
-    it('should not add a challenge twice', async () => {
+    it('should not add a challenge twice', async function() {
       // given
       const onlyOneChallengeForCitation4AndMoteur3 = [
         challengeForSkillCitation4AndMoteur3,
@@ -498,7 +498,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(_.map(certificationChallenges, 'challengeId')).to.deep.equal(['challengeRecordIdTwo']);
     });
 
-    it('should not assign skill, when the challenge id is not found', async () => {
+    it('should not assign skill, when the challenge id is not found', async function() {
       // given
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: 'limitDate' })
@@ -515,7 +515,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal([]);
     });
 
-    it('should not assign skill, when the competence is not found', async () => {
+    it('should not assign skill, when the competence is not found', async function() {
       // given
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: 'limitDate' })

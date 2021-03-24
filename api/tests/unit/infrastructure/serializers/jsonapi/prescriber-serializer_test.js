@@ -3,7 +3,7 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/prescriber-serializer');
 const Membership = require('../../../../../lib/domain/models/Membership');
 
-describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
+describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
 
   function createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField, field }) {
     return {
@@ -194,10 +194,10 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
     };
   }
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    context('when canCollectProfiles is true', () => {
-      it('should serialize prescriber with canCollectProfiles', () => {
+    context('when canCollectProfiles is true', function() {
+      it('should serialize prescriber with canCollectProfiles', function() {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -237,8 +237,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       });
     });
 
-    context('when isManagingStudents is true', () => {
-      it('should serialize prescriber with isManagingStudents', () => {
+    context('when isManagingStudents is true', function() {
+      it('should serialize prescriber with isManagingStudents', function() {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -278,8 +278,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       });
     });
 
-    context('when isAgriculture is true', () => {
-      it('should serialize prescriber with isAgriculture', () => {
+    context('when isAgriculture is true', function() {
+      it('should serialize prescriber with isAgriculture', function() {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -320,8 +320,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       });
     });
 
-    context('when isCFA is true', () => {
-      it('should serialize prescriber with isCFA', () => {
+    context('when isCFA is true', function() {
+      it('should serialize prescriber with isCFA', function() {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -362,8 +362,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       });
     });
 
-    context('when isAEFE is true', () => {
-      it('should serialize prescriber with isAEFE', () => {
+    context('when isAEFE is true', function() {
+      it('should serialize prescriber with isAEFE', function() {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -404,8 +404,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       });
     });
 
-    context('when isMLF is true', () => {
-      it('should serialize prescriber with isMLF', () => {
+    context('when isMLF is true', function() {
+      it('should serialize prescriber with isMLF', function() {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -446,8 +446,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       });
     });
 
-    context('when isMediationNumerique is true', () => {
-      it('should serialize prescriber with isMediationNumerique', () => {
+    context('when isMediationNumerique is true', function() {
+      it('should serialize prescriber with isMediationNumerique', function() {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -488,8 +488,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       });
     });
 
-    context('when all booleans are false', () => {
-      it('should serialize prescriber without these booleans', () => {
+    context('when all booleans are false', function() {
+      it('should serialize prescriber without these booleans', function() {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,

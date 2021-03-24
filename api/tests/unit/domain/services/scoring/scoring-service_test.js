@@ -7,11 +7,11 @@ const {
 
 const { expect, domainBuilder } = require('../../../../test-helper');
 
-describe('Unit | Service | Scoring Service', () => {
+describe('Unit | Service | Scoring Service', function() {
 
   describe('#calculateScoringInformationForCompetence', function() {
 
-    it('should return the information about pix score and level for given competence', () => {
+    it('should return the information about pix score and level for given competence', function() {
       // given
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({ earnedPix: 3.7 }),
@@ -33,7 +33,7 @@ describe('Unit | Service | Scoring Service', () => {
       expect(scoring).to.deep.equal(expectedScoring);
     });
 
-    it('should return the information about pix score and level for one competence blocked with max information', () => {
+    it('should return the information about pix score and level for one competence blocked with max information', function() {
       // given
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({ earnedPix: MAX_REACHABLE_PIX_BY_COMPETENCE }),
@@ -55,8 +55,8 @@ describe('Unit | Service | Scoring Service', () => {
       expect(scoring).to.be.deep.equal(expectedScoring);
     });
 
-    context('when we allow an excess in pix or level', () => {
-      it('should return the information about pix score and level for one competence blocked not blocked', () => {
+    context('when we allow an excess in pix or level', function() {
+      it('should return the information about pix score and level for one competence blocked not blocked', function() {
         // given
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({ earnedPix: MAX_REACHABLE_PIX_BY_COMPETENCE }),

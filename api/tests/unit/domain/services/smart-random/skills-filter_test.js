@@ -14,10 +14,10 @@ function setPlayableSkills(skills) {
   });
 }
 
-describe('Unit | Domain | services | smart-random | skillsFilter', () => {
+describe('Unit | Domain | services | smart-random | skillsFilter', function() {
 
-  describe('#getFilteredSkillsForFirstChallenge', () => {
-    it('should return a first skill possible', () => {
+  describe('#getFilteredSkillsForFirstChallenge', function() {
+    it('should return a first skill possible', function() {
       // given
       const skill1 = domainBuilder.buildSkill({ name: '@web3' });
       const targetProfile = new TargetProfile({ skills: [skill1] });
@@ -38,7 +38,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       expect(result).to.deep.equal([skill1]);
     });
 
-    it('should return a skill even if the only tube has a skill with difficulty > 3', () => {
+    it('should return a skill even if the only tube has a skill with difficulty > 3', function() {
       // given
       const skill1 = domainBuilder.buildSkill({ name: '@web4' });
       const targetProfile = new TargetProfile({ skills: [skill1] });
@@ -59,7 +59,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       expect(result).to.deep.equal([skill1]);
     });
 
-    it('should return a skill valid from a tubes with max level at 3 (HAPPY PATH)', () => {
+    it('should return a skill valid from a tubes with max level at 3 (HAPPY PATH)', function() {
       // given
       const skillTube1Level2 = domainBuilder.buildSkill({ name: '@web2' });
       const skillTube1Level4 = domainBuilder.buildSkill({ name: '@web4' });
@@ -85,7 +85,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       expect(result).to.deep.equal([skillFromEasyTubeLevel2]);
     });
 
-    it('should return non timed skills', () => {
+    it('should return non timed skills', function() {
       // given
       const skillTube1Level2Timed = domainBuilder.buildSkill({ name: '@web2' });
       skillTube1Level2Timed.timed = true;
@@ -109,7 +109,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       expect(result).to.deep.equal([skillTube2Level2]);
     });
 
-    it('should return timed skills if there is only timed skills', () => {
+    it('should return timed skills if there is only timed skills', function() {
       // given
       const skillTube1Level2Timed = domainBuilder.buildSkill({ name: '@web2' });
       skillTube1Level2Timed.timed = true;
@@ -160,7 +160,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
   });
 
   describe('#getFilteredSkillsForNextChallenge', function() {
-    describe('Verify rules : Skills not already tested', () => {
+    describe('Verify rules : Skills not already tested', function() {
 
       it('should not ask a question that targets a skill already assessed', function() {
         // given
@@ -187,8 +187,8 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       });
 
     });
-    describe('Verify rules : Not skill with timed challenge after timed challenge', () => {
-      it('should return a skill without timed challenge if last one was timed', () => {
+    describe('Verify rules : Not skill with timed challenge after timed challenge', function() {
+      it('should return a skill without timed challenge if last one was timed', function() {
         // given
         const skill1 = domainBuilder.buildSkill({ name: '@test2' });
         const skillWithoutTimedChallenge = domainBuilder.buildSkill({ name: '@url2' });
@@ -215,7 +215,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         expect(result).to.deep.equal([skillWithoutTimedChallenge]);
       });
 
-      it('should return a skill with timed challenges if last one was timed but we dont have not timed challenge', () => {
+      it('should return a skill with timed challenges if last one was timed but we dont have not timed challenge', function() {
         // given
         const [skill1, skill2, skill3] = domainBuilder.buildSkillCollection();
         skill1.timed = true;
@@ -241,8 +241,8 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         expect(result).to.have.members([skill2]);
       });
     });
-    describe('Verify rules : Remove skill too difficult', () => {
-      it('should return skills with level maximum of user level + 2', () => {
+    describe('Verify rules : Remove skill too difficult', function() {
+      it('should return skills with level maximum of user level + 2', function() {
         // given
         const [skill1, skill2, skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 6 });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] });
@@ -268,8 +268,8 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
         expect(result).to.deep.equal([skill3, skill4]);
       });
     });
-    describe('Verify rules : Focus on easy tubes first', () => {
-      it('should return skills from tubes of max level 3', () => {
+    describe('Verify rules : Focus on easy tubes first', function() {
+      it('should return skills from tubes of max level 3', function() {
         // given
         const [skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name: 'web', minLevel: 3, maxLevel: 6 });
         const [easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] = domainBuilder.buildSkillCollection({ name: 'url', minLevel: 1, maxLevel: 3 });
@@ -298,7 +298,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
 
       });
 
-      it('should return skills from all tubes if there is not easy tubes', () => {
+      it('should return skills from all tubes if there is not easy tubes', function() {
         // given
         const [skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name: 'web', minLevel: 3, maxLevel: 6 });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [ skill3, skill4, skill5, skill6] });

@@ -2,21 +2,21 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const getCertificationByVerificationCode = require('../../../../lib/domain/usecases/certificate/get-shareable-certificate');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-shareable-certificate', () => {
+describe('Unit | UseCase | get-shareable-certificate', function() {
 
   let certificationRepository;
   let assessmentResultRepository;
   let competenceTreeRepository;
   let cleaCertificationStatusRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationRepository = { getCertificationByVerificationCode: sinon.stub() };
     assessmentResultRepository = { findLatestByCertificationCourseIdWithCompetenceMarks: sinon.stub() };
     competenceTreeRepository = { get: sinon.stub() };
     cleaCertificationStatusRepository = { getCleaCertificationStatus: sinon.stub() };
   });
 
-  it('should return certification from verification code', async () => {
+  it('should return certification from verification code', async function() {
     // given
     const verificationCode = 'P-123456CC';
     const certificationCourseId = 1;
@@ -53,7 +53,7 @@ describe('Unit | UseCase | get-shareable-certificate', () => {
     expect(result).to.be.deep.equal(expectedCertification);
   });
 
-  it('should fail if verificationCode does not belong to any certificate', async () => {
+  it('should fail if verificationCode does not belong to any certificate', async function() {
     // given
     const verificationCode = 'P-123456OO';
     const thrownError = new NotFoundError();

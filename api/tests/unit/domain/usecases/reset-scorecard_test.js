@@ -3,7 +3,7 @@ const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const resetScorecard = require('../../../../lib/domain/usecases/reset-scorecard');
 const { CompetenceResetError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | reset-scorecard', () => {
+describe('Unit | UseCase | reset-scorecard', function() {
 
   let knowledgeElements;
 
@@ -19,7 +19,7 @@ describe('Unit | UseCase | reset-scorecard', () => {
   const scorecardService = {};
   let getRemainingDaysBeforeResetStub;
 
-  beforeEach(() => {
+  beforeEach(function() {
     competenceEvaluationRepository.existsByCompetenceIdAndUserId = sinon.stub();
     knowledgeElementRepository.findUniqByUserIdAndCompetenceId = sinon.stub();
     scorecardService.resetScorecard = sinon.stub();
@@ -33,8 +33,8 @@ describe('Unit | UseCase | reset-scorecard', () => {
     sinon.restore();
   });
 
-  context('when the user owns the competenceEvaluation', () => {
-    it('should reset the competenceEvaluation', async () => {
+  context('when the user owns the competenceEvaluation', function() {
+    it('should reset the competenceEvaluation', async function() {
       // given
       const shouldResetCompetenceEvaluation = true;
 
@@ -78,8 +78,8 @@ describe('Unit | UseCase | reset-scorecard', () => {
     });
   });
 
-  context('when there is no competenceEvaluation', () => {
-    it('should reset knowledge elements', async () => {
+  context('when there is no competenceEvaluation', function() {
+    it('should reset knowledge elements', async function() {
       // given
       const shouldResetCompetenceEvaluation = false;
 
@@ -108,8 +108,8 @@ describe('Unit | UseCase | reset-scorecard', () => {
     });
   });
 
-  context('when the remainingDaysBeforeReset is over 0', () => {
-    it('should throw a CompetenceResetError error', async () => {
+  context('when the remainingDaysBeforeReset is over 0', function() {
+    it('should throw a CompetenceResetError error', async function() {
       // given
       knowledgeElementRepository.findUniqByUserIdAndCompetenceId
         .withArgs({ userId, competenceId })
@@ -134,8 +134,8 @@ describe('Unit | UseCase | reset-scorecard', () => {
     });
   });
 
-  context('when there is no knowledge elements', () => {
-    it('should do nothing', async () => {
+  context('when there is no knowledge elements', function() {
+    it('should do nothing', async function() {
       // given
       knowledgeElementRepository.findUniqByUserIdAndCompetenceId
         .withArgs({ userId, competenceId })

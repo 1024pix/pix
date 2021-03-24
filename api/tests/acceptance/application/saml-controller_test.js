@@ -96,11 +96,11 @@ const spConfig = {
   encPrivateKey: testCertificatePrivateKey,
 };
 
-describe('Acceptance | Controller | saml-controller', () => {
+describe('Acceptance | Controller | saml-controller', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
 
     sinon.stub(settings.saml, 'spConfig').value(spConfig);
@@ -112,14 +112,14 @@ describe('Acceptance | Controller | saml-controller', () => {
     });
   });
 
-  describe('GET /api/saml/metadata.xml', () => {
+  describe('GET /api/saml/metadata.xml', function() {
 
     const options = {
       method: 'GET',
       url: '/api/saml/metadata.xml',
     };
 
-    it('should return SAML Service Provider metadata', async () => {
+    it('should return SAML Service Provider metadata', async function() {
       // when
       const response = await server.inject(options);
 
@@ -130,14 +130,14 @@ describe('Acceptance | Controller | saml-controller', () => {
     });
   });
 
-  describe('GET /api/saml/login', () => {
+  describe('GET /api/saml/login', function() {
 
     const options = {
       method: 'GET',
       url: '/api/saml/login',
     };
 
-    it('should redirect to IDP when login requested', async () => {
+    it('should redirect to IDP when login requested', async function() {
       // when
       const response = await server.inject(options);
 
@@ -147,7 +147,7 @@ describe('Acceptance | Controller | saml-controller', () => {
     });
   });
 
-  describe('POST /api/saml/assert', () => {
+  describe('POST /api/saml/assert', function() {
 
     // Uses samlify to create a valid SAML response
     async function buildLoginResponse(attributes) {
@@ -185,7 +185,7 @@ describe('Acceptance | Controller | saml-controller', () => {
     let options;
     let validSamlResponse;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       validSamlResponse = await buildLoginResponse({
         'IDO': samlId,
         'NOM': lastName,
@@ -201,7 +201,7 @@ describe('Acceptance | Controller | saml-controller', () => {
       };
     });
 
-    it('should return externalUser idToken if the user does not a have an account yet', async () => {
+    it('should return externalUser idToken if the user does not a have an account yet', async function() {
       // when
       const firstVisitResponse = await server.inject(options);
 
@@ -210,7 +210,7 @@ describe('Acceptance | Controller | saml-controller', () => {
       expect(firstVisitResponse.headers.location).to.match(/^\/campagnes\?externalUser=[-_a-zA-Z0-9.]+$/);
     });
 
-    it('should return an accessToken if the user already exists', async () => {
+    it('should return an accessToken if the user already exists', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser({
         firstName,

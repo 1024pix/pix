@@ -2,13 +2,13 @@ const { expect, domainBuilder, databaseBuilder } = require('../../../../test-hel
 const { getSessionCertificationResultsCsv, getDivisionCertificationResultsCsv } = require('../../../../../lib/infrastructure/utils/csv/certification-results');
 const { statuses: cleaStatuses } = require('../../../../../lib/infrastructure/repositories/clea-certification-status-repository');
 
-describe('Integration | Infrastructure | Utils | csv | certification-results', () => {
+describe('Integration | Infrastructure | Utils | csv | certification-results', function() {
 
-  describe('#getSessionCertificationResultsCsv', () => {
+  describe('#getSessionCertificationResultsCsv', function() {
 
-    describe('when no certification has passed clea', () => {
+    describe('when no certification has passed clea', function() {
 
-      it('should return correct csvContent without clea informations', async () => {
+      it('should return correct csvContent without clea informations', async function() {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
         const session = databaseBuilder.factory.buildSession({ certificationCenterId });
@@ -61,9 +61,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       });
     });
 
-    describe('when at least one candidate has passed CleA certification', () => {
+    describe('when at least one candidate has passed CleA certification', function() {
 
-      it('should return correct csvContent with the CleA information', async () => {
+      it('should return correct csvContent with the CleA information', async function() {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
         const session = databaseBuilder.factory.buildSession({ certificationCenterId });
@@ -118,9 +118,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
     });
   });
 
-  describe('#getDivisionCertificationResultsCsv', () => {
+  describe('#getDivisionCertificationResultsCsv', function() {
 
-    it('returns a csv without session informations', async () => {
+    it('returns a csv without session informations', async function() {
       // given
       const birthdate = new Date('1990-01-01');
       const createdAt = new Date('2020-01-01');

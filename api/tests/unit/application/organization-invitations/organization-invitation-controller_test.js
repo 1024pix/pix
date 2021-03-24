@@ -5,17 +5,17 @@ const organizationInvitationController = require('../../../../lib/application/or
 const usecases = require('../../../../lib/domain/usecases');
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 
-describe('Unit | Application | Organization-Invitations | organization-invitation-controller', () => {
+describe('Unit | Application | Organization-Invitations | organization-invitation-controller', function() {
 
   let request;
 
-  describe('#acceptOrganizationInvitation', () => {
+  describe('#acceptOrganizationInvitation', function() {
 
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
     const email = 'random@email.com';
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         params: { id: organizationInvitationId },
         payload: {
@@ -29,7 +29,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
       sinon.stub(usecases, 'acceptOrganizationInvitation');
     });
 
-    it('should call the usecase to accept invitation with organizationInvitationId and code', async () => {
+    it('should call the usecase to accept invitation with organizationInvitationId and code', async function() {
       // given
       usecases.acceptOrganizationInvitation.resolves();
 
@@ -42,12 +42,12 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
     });
   });
 
-  describe('#getOrganizationInvitation', () => {
+  describe('#getOrganizationInvitation', function() {
 
     const organizationInvitationId = 1;
     const organizationInvitationCode = 'ABCDEFGH01';
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         params: { id: organizationInvitationId },
         query: { code: organizationInvitationCode },
@@ -57,7 +57,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
       sinon.stub(organizationInvitationSerializer, 'serialize');
     });
 
-    it('should call the usecase to get invitation with organizationInvitationId, organizationInvitationCode', async () => {
+    it('should call the usecase to get invitation with organizationInvitationId, organizationInvitationCode', async function() {
       // given
       usecases.getOrganizationInvitation.resolves();
       organizationInvitationSerializer.serialize.returns();
@@ -70,7 +70,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
         organizationInvitationId, organizationInvitationCode });
     });
 
-    it('should throw a MissingQueryParamError when code is not defined', async () => {
+    it('should throw a MissingQueryParamError when code is not defined', async function() {
       // given
       request.query.code = undefined;
 

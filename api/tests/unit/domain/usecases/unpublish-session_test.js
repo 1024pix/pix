@@ -5,12 +5,12 @@ const {
 } = require('../../../test-helper');
 const unpublishSession = require('../../../../lib/domain/usecases/unpublish-session');
 
-describe('Unit | UseCase | unpublish-session', () => {
+describe('Unit | UseCase | unpublish-session', function() {
   let certificationRepository;
   let sessionRepository;
   let finalizedSessionRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationRepository = {
       unpublishCertificationCoursesBySessionId: sinon.stub(),
     };
@@ -24,7 +24,7 @@ describe('Unit | UseCase | unpublish-session', () => {
     sessionRepository.flagResultsAsSentToPrescriber = sinon.stub();
   });
 
-  it('should return the session', async () => {
+  it('should return the session', async function() {
     // given
     const sessionId = 123;
     const expectedSession = domainBuilder.buildSession({

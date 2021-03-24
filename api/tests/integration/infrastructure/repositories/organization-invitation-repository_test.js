@@ -6,24 +6,24 @@ const OrganizationInvitation = require('../../../../lib/domain/models/Organizati
 const organizationInvitationRepository = require('../../../../lib/infrastructure/repositories/organization-invitation-repository');
 const BookshelfOrganizationInvitation = require('../../../../lib/infrastructure/data/organization-invitation');
 
-describe('Integration | Repository | OrganizationInvitationRepository', () => {
+describe('Integration | Repository | OrganizationInvitationRepository', function() {
 
   const role = Membership.roles.ADMIN;
 
-  describe('#create', () => {
+  describe('#create', function() {
 
     let organizationId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('organization-invitations').delete();
     });
 
-    it('should save the organization invitation in db', async () => {
+    it('should save the organization invitation in db', async function() {
       // given
       const email = 'member@organization.org';
       const status = OrganizationInvitation.StatusType.PENDING;
@@ -42,16 +42,16 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
     });
   });
 
-  describe('#get', () => {
+  describe('#get', function() {
 
     let insertedOrganizationInvitation;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       insertedOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation();
       await databaseBuilder.commit();
     });
 
-    it('should get the organization-invitation from db', async () => {
+    it('should get the organization-invitation from db', async function() {
       // when
       const foundOrganizationInvitation = await organizationInvitationRepository.get(insertedOrganizationInvitation.id);
 
@@ -64,7 +64,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
 
     });
 
-    it('should return a rejection when organization-invitation id is not found', async () => {
+    it('should return a rejection when organization-invitation id is not found', async function() {
       // given
       const nonExistentId = 10083;
 
@@ -76,16 +76,16 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
     });
   });
 
-  describe('#getByIdAndCode', () => {
+  describe('#getByIdAndCode', function() {
 
     let insertedOrganizationInvitation;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       insertedOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation();
       await databaseBuilder.commit();
     });
 
-    it('should get the organization-invitation by id and code', async () => {
+    it('should get the organization-invitation by id and code', async function() {
       // given
       const { id, code } = insertedOrganizationInvitation;
 
@@ -101,7 +101,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
 
     });
 
-    it('should return a rejection when organization-invitation id and code are not found', async () => {
+    it('should return a rejection when organization-invitation id and code are not found', async function() {
       // given
       const nonExistentId = 10083;
       const nonExistentCode = 'ABCDEF';
@@ -117,16 +117,16 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
     });
   });
 
-  describe('#markAsAccepted', () => {
+  describe('#markAsAccepted', function() {
 
     let organizationInvitation;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation();
       await databaseBuilder.commit();
     });
 
-    it('should return an Organization-invitation domain object', async () => {
+    it('should return an Organization-invitation domain object', async function() {
       // when
       const organizationInvitationSaved = await organizationInvitationRepository.markAsAccepted(organizationInvitation.id);
 
@@ -134,7 +134,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       expect(organizationInvitationSaved).to.be.an.instanceof(OrganizationInvitation);
     });
 
-    it('should not add row in table organization-invitations', async () => {
+    it('should not add row in table organization-invitations', async function() {
       // given
       const nbOrganizationInvitationsBeforeUpdate = await BookshelfOrganizationInvitation.count();
 
@@ -146,7 +146,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       expect(nbOrganizationInvitationsAfterUpdate).to.equal(nbOrganizationInvitationsBeforeUpdate);
     });
 
-    it('should update model in database', async () => {
+    it('should update model in database', async function() {
       // given
       const statusAccepted = OrganizationInvitation.StatusType.ACCEPTED;
 
@@ -163,11 +163,11 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
     });
   });
 
-  describe('#findOnePendingByOrganizationIdAndEmail', () => {
+  describe('#findOnePendingByOrganizationIdAndEmail', function() {
 
     let organizationInvitation;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       databaseBuilder.factory.buildOrganizationInvitation({
         status: OrganizationInvitation.StatusType.ACCEPTED,
@@ -178,7 +178,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       await databaseBuilder.commit();
     });
 
-    it('should retrieve one pending organization-invitation with given organizationId and email', async () => {
+    it('should retrieve one pending organization-invitation with given organizationId and email', async function() {
 
       const { organizationId, email } = organizationInvitation;
 
@@ -189,7 +189,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       expect(_.omit(foundOrganizationInvitation, 'organizationName')).to.deep.equal(organizationInvitation);
     });
 
-    it('should retrieve one pending organization-invitation with given organizationId and case-insensitive email', async () => {
+    it('should retrieve one pending organization-invitation with given organizationId and case-insensitive email', async function() {
       const { organizationId, email } = organizationInvitation;
 
       const upperEmail = email.toUpperCase();
@@ -201,11 +201,11 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
     });
   });
 
-  describe('#findPendingByOrganizationId', () => {
+  describe('#findPendingByOrganizationId', function() {
 
     const organizationId = 6789;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       databaseBuilder.factory.buildOrganization({
         id: organizationId,
       });
@@ -224,7 +224,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       await databaseBuilder.commit();
     });
 
-    it('should find two of the three organization-invitations from db by organizationId', async () => {
+    it('should find two of the three organization-invitations from db by organizationId', async function() {
       // when
       const foundOrganizationInvitations = await organizationInvitationRepository.findPendingByOrganizationId({ organizationId });
 
@@ -232,7 +232,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       expect(foundOrganizationInvitations.length).to.equal(2);
     });
 
-    it('should return an empty array on no result', async () => {
+    it('should return an empty array on no result', async function() {
       // when
       const foundOrganizationInvitations = await organizationInvitationRepository.findPendingByOrganizationId({ organizationId: 2978 });
 
@@ -241,11 +241,11 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
     });
   });
 
-  describe('#updateModificationDate', () => {
+  describe('#updateModificationDate', function() {
 
     let organizationInvitation;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const organizationId = 2323;
       databaseBuilder.factory.buildOrganization({
         id: organizationId,
@@ -258,7 +258,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', () => {
       await databaseBuilder.commit();
     });
 
-    it('should update the modification date', async () => {
+    it('should update the modification date', async function() {
       // given
       const oldModificationDate = organizationInvitation.updatedAt;
 

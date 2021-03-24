@@ -4,7 +4,7 @@ const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsFo
 
 const updateUserDetailsForAdministration = require('../../../../lib/domain/usecases/update-user-details-for-administration');
 
-describe('Unit | UseCase | update-user-details-for-administration', () => {
+describe('Unit | UseCase | update-user-details-for-administration', function() {
 
   const userId = 1;
 
@@ -20,7 +20,7 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
 
   let userRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     userRepository = {
       isEmailAllowedToUseForCurrentUser: sinon.stub().returns(true),
       updateUserDetailsForAdministration: sinon.stub().resolves(),
@@ -28,7 +28,7 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
     };
   });
 
-  it('should update user email, firstName and lastName', async () => {
+  it('should update user email, firstName and lastName', async function() {
     // when
     const updatedUserDetailsForAdmin = await updateUserDetailsForAdministration({
       userId,

@@ -3,7 +3,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
 const getCertificationAttestation = require('../../../../lib/domain/usecases/certificate/get-certification-attestation');
 
-describe('Unit | UseCase | getCertificationAttestation', async () => {
+describe('Unit | UseCase | getCertificationAttestation', async function() {
 
   const userId = 2;
   const certificationId = '23';
@@ -14,7 +14,7 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
   let assessmentResult;
   const assessmentResultId = 1;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificate = domainBuilder.buildPrivateCertificate({
       userId,
       id: certificationId,
@@ -43,9 +43,9 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
     };
   });
 
-  context('when the user is not owner of the certification attestation', async () => {
+  context('when the user is not owner of the certification attestation', async function() {
 
-    it('should throw an error if user is not the owner of the certificate', async () => {
+    it('should throw an error if user is not the owner of the certificate', async function() {
       // given
       const randomOtherUserId = 666;
 
@@ -57,9 +57,9 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
     });
   });
 
-  context('when the user is owner of the certification attestation', async () => {
+  context('when the user is owner of the certification attestation', async function() {
 
-    it('should return the attestationPDF', async () => {
+    it('should return the attestationPDF', async function() {
       // given
       const expectedData = new CertificationAttestation({
         'birthdate': '1992-06-12',

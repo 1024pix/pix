@@ -7,7 +7,7 @@ function setLearningContent(learningContent) {
   mockLearningContent(learningObjects);
 }
 
-describe('computeValidatedSkillsCount', () => {
+describe('computeValidatedSkillsCount', function() {
   let competence1;
   let skill1;
   let skill2;
@@ -16,7 +16,7 @@ describe('computeValidatedSkillsCount', () => {
   let skill4;
   let skill5;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     skill1 = domainBuilder.buildSkill({ id: 'skill1Id' });
     skill2 = domainBuilder.buildSkill({ id: 'skill2Id' });
     skill3 = domainBuilder.buildSkill({ id: 'skill3Id' });
@@ -54,14 +54,14 @@ describe('computeValidatedSkillsCount', () => {
     sinon.stub(console, 'log');
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
 
     await knex('knowledge-element-snapshots').delete();
   });
 
-  context('when there are campaign participation on assessment campaign', () => {
-    context('when there is only one campaign participation', () => {
-      it('computes validated skills count for targeted skills', async () => {
+  context('when there are campaign participation on assessment campaign', function() {
+    context('when there is only one campaign participation', function() {
+      it('computes validated skills count for targeted skills', async function() {
         const user = databaseBuilder.factory.buildUser();
         const targetProfile = databaseBuilder.factory.buildTargetProfile();
         databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill1.id });
@@ -91,8 +91,8 @@ describe('computeValidatedSkillsCount', () => {
       });
     });
 
-    context('when there are several campaign participation', () => {
-      it('computes validated skills count for each participation', async () => {
+    context('when there are several campaign participation', function() {
+      it('computes validated skills count for each participation', async function() {
         const user1 = databaseBuilder.factory.buildUser({ id: 1 });
         const user2 = databaseBuilder.factory.buildUser({ id: 2 });
         const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -127,8 +127,8 @@ describe('computeValidatedSkillsCount', () => {
       });
     });
 
-    context('when there are campaign participation for the several campaigns', () => {
-      it('computes validated skills count for each participation', async () => {
+    context('when there are campaign participation for the several campaigns', function() {
+      it('computes validated skills count for each participation', async function() {
         const user1 = databaseBuilder.factory.buildUser({ id: 1 });
         const user2 = databaseBuilder.factory.buildUser({ id: 2 });
         const targetProfile1 = databaseBuilder.factory.buildTargetProfile();
@@ -165,8 +165,8 @@ describe('computeValidatedSkillsCount', () => {
       });
     });
 
-    context('when there are campaign participation with already validated skill count computed', () => {
-      it('does not compute validated skills count', async () => {
+    context('when there are campaign participation with already validated skill count computed', function() {
+      it('does not compute validated skills count', async function() {
         const user = databaseBuilder.factory.buildUser({ id: 1 });
         const targetProfile = databaseBuilder.factory.buildTargetProfile();
         databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill1.id });
@@ -192,8 +192,8 @@ describe('computeValidatedSkillsCount', () => {
       });
     });
 
-    context('when there are campaign participation not shared', () => {
-      it('does not compute validated skills count', async () => {
+    context('when there are campaign participation not shared', function() {
+      it('does not compute validated skills count', async function() {
         const user = databaseBuilder.factory.buildUser({ id: 1 });
         const targetProfile = databaseBuilder.factory.buildTargetProfile();
         databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill1.id });
@@ -221,8 +221,8 @@ describe('computeValidatedSkillsCount', () => {
 
   });
 
-  context('when there are campaign participation on profiles collection campaigns', () => {
-    it('does not compute validated skills count', async () => {
+  context('when there are campaign participation on profiles collection campaigns', function() {
+    it('does not compute validated skills count', async function() {
       const user = databaseBuilder.factory.buildUser({ id: 1 });
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill1.id });

@@ -6,7 +6,7 @@ const { EntityValidationError, UserNotAuthorizedToCreateCampaignError } = requir
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const _ = require('lodash');
 
-describe('Unit | UseCase | create-campaign', () => {
+describe('Unit | UseCase | create-campaign', function() {
 
   const availableCampaignCode = 'ABCDEF123';
   const targetProfileId = 12;
@@ -27,7 +27,7 @@ describe('Unit | UseCase | create-campaign', () => {
     organizationService.findAllTargetProfilesAvailableForOrganization.withArgs(organizationId).resolves([targetProfile]);
   }
 
-  beforeEach(() => {
+  beforeEach(function() {
     campaignToCreate = { creatorId, targetProfileId, organizationId };
     sinon.stub(campaignCodeGenerator, 'generate');
     sinon.stub(campaignRepository, 'create');
@@ -37,7 +37,7 @@ describe('Unit | UseCase | create-campaign', () => {
     sinon.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization');
   });
 
-  it('should throw an EntityValidationError if campaign is not valid', async () => {
+  it('should throw an EntityValidationError if campaign is not valid', async function() {
     // given
     campaignValidator.validate.throws(new EntityValidationError({ invalidAttributes: [] }));
 
@@ -48,7 +48,7 @@ describe('Unit | UseCase | create-campaign', () => {
     expect(error).to.be.instanceOf(EntityValidationError);
   });
 
-  it('should throw an error if user do not have an access to the campaign organization', async () => {
+  it('should throw an error if user do not have an access to the campaign organization', async function() {
     // given
     const organizationIdDifferentFromCampaign = 98437;
     campaignValidator.validate.returns();
@@ -62,7 +62,7 @@ describe('Unit | UseCase | create-campaign', () => {
     expect(error.message).to.equal(`User does not have an access to the organization ${campaignToCreate.organizationId}`);
   });
 
-  it('should throw an error if organization cannot collect profiles', async () => {
+  it('should throw an error if organization cannot collect profiles', async function() {
     // given
     const organization = domainBuilder.buildOrganization({ canCollectProfiles: false });
     organizationRepository.get.withArgs(organization.id).resolves(organization);
@@ -79,7 +79,7 @@ describe('Unit | UseCase | create-campaign', () => {
     expect(error.message).to.equal('Organization can not create campaign with type PROFILES_COLLECTION');
   });
 
-  it('should generate a new code to the campaign', async () => {
+  it('should generate a new code to the campaign', async function() {
     // given
     campaignValidator.validate.returns();
     _stubGetUserWithOrganizationsAccesses(campaignToCreate.organizationId);
@@ -93,7 +93,7 @@ describe('Unit | UseCase | create-campaign', () => {
     expect(campaignCodeGenerator.generate).to.have.been.called;
   });
 
-  it('should save the campaign with name, type, userId, organizationId and generated code', async () => {
+  it('should save the campaign with name, type, userId, organizationId and generated code', async function() {
     // given
     campaignValidator.validate.returns();
     _stubGetUserWithOrganizationsAccesses(campaignToCreate.organizationId);
@@ -112,7 +112,7 @@ describe('Unit | UseCase | create-campaign', () => {
     });
   });
 
-  it('should return the newly created campaign', async () => {
+  it('should return the newly created campaign', async function() {
     // given
     campaignValidator.validate.returns();
     _stubGetUserWithOrganizationsAccesses(campaignToCreate.organizationId);

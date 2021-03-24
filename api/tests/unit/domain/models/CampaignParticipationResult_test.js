@@ -5,9 +5,9 @@ const CampaignParticipationResult = require('../../../../lib/domain/models/Campa
 const CompetenceResult = require('../../../../lib/domain/models/CompetenceResult');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
-describe('Unit | Domain | Models | CampaignParticipationResult', () => {
+describe('Unit | Domain | Models | CampaignParticipationResult', function() {
 
-  describe('#buildFrom', () => {
+  describe('#buildFrom', function() {
 
     const campaignParticipationId = 'campaignParticipationId';
     const userId = 'userId';
@@ -52,7 +52,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
     };
 
     context('when no stage', function() {
-      it('should add pix competences to the campaign participation results', () => {
+      it('should add pix competences to the campaign participation results', function() {
         // when
         const campaignBadges = [];
         const acquiredBadgeIds = [];
@@ -103,14 +103,14 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
     });
 
     context('when stages', function() {
-      beforeEach(() => {
+      beforeEach(function() {
         targetProfile.stages = stages;
       });
-      afterEach(() => {
+      afterEach(function() {
         targetProfile.stages = null;
       });
 
-      it('when user has reached a stage', () => {
+      it('when user has reached a stage', function() {
         // when
         const campaignBadges = [];
         const acquiredBadgeIds = [];
@@ -166,7 +166,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
 
     context('when no badge', function() {
 
-      it('should add pix competences to the campaign participation results', () => {
+      it('should add pix competences to the campaign participation results', function() {
         // when
         const campaignBadges = [];
         const acquiredBadgeIds = [];
@@ -219,7 +219,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
 
     context('when single badge', function() {
 
-      it('should create campaign participation results', () => {
+      it('should create campaign participation results', function() {
         // given
         const yellowBadge = domainBuilder.buildBadge({
           id: 1,
@@ -330,7 +330,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
 
     context('when multiple badges', function() {
 
-      it('should create campaign participation results with partnerCompetenceResults from one badge', () => {
+      it('should create campaign participation results with partnerCompetenceResults from one badge', function() {
         // given
         const greenBadge = domainBuilder.buildBadge({
           id: 1,
@@ -472,7 +472,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         });
       });
 
-      it('should create campaign participation results with partnerCompetenceResults from two badge', () => {
+      it('should create campaign participation results with partnerCompetenceResults from two badge', function() {
         // given
         const greenBadge = domainBuilder.buildBadge({
           id: 1,
@@ -639,7 +639,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         });
       });
 
-      it('should not add partnerCompetenceResults to the campaign participation results', () => {
+      it('should not add partnerCompetenceResults to the campaign participation results', function() {
         // given
         const greenBadge = domainBuilder.buildBadge({
           id: 1,
@@ -761,7 +761,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
     });
   });
 
-  describe('#masteryPercentage', () => {
+  describe('#masteryPercentage', function() {
     it('should return the correct masteryPercentage when totalSkillsCount is different than 0', function() {
       // given
       const expectedMasteryPercentage = 50;
@@ -793,7 +793,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
     });
   });
 
-  describe('#progress', () => {
+  describe('#progress', function() {
     it('should return the percentage of progression for the campaign', function() {
       // when
       const campaignParticipationResult = new CampaignParticipationResult({

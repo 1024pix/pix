@@ -8,19 +8,19 @@ const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCom
 
 describe('Unit | Controller | assessment-controller', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
     const authenticatedUserId = '12';
     const locale = 'fr';
     const assessmentId = 104974;
 
     const assessment = { id: assessmentId, title: 'Ordinary Wizarding Level assessment' };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getAssessment').withArgs({ assessmentId, locale }).resolves(assessment);
       sinon.stub(assessmentSerializer, 'serialize').resolvesArg(0);
     });
 
-    it('should call the expected usecase', async () => {
+    it('should call the expected usecase', async function() {
       // given
       const request = {
         auth: {
@@ -42,7 +42,7 @@ describe('Unit | Controller | assessment-controller', function() {
     });
   });
 
-  describe('#findByFilters', () => {
+  describe('#findByFilters', function() {
     const assessments = [{ id: 1 }, { id: 2 }];
     const assessmentsInJSONAPI = [{
       id: 1,
@@ -56,7 +56,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
     const userId = 24504875;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'findCampaignAssessments');
       sinon.stub(assessmentSerializer, 'serialize');
     });
@@ -78,7 +78,7 @@ describe('Unit | Controller | assessment-controller', function() {
       expect(response).to.deep.equal(assessmentsInJSONAPI);
     });
 
-    context('GET assessments with campaignCode filter', () => {
+    context('GET assessments with campaignCode filter', function() {
 
       const request = {
         query: { 'filter[codeCampaign]': 'Code' },
@@ -101,14 +101,14 @@ describe('Unit | Controller | assessment-controller', function() {
     });
 
     //BUG
-    context('GET assessments with no valid filter', () => {
+    context('GET assessments with no valid filter', function() {
 
       const request = {
         query: { 'filter[type]': 'DEMO' },
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
-      it('should resolve []', async () => {
+      it('should resolve []', async function() {
         // given
         assessmentSerializer.serialize.withArgs([]).returns({ data: [] });
 
@@ -120,7 +120,7 @@ describe('Unit | Controller | assessment-controller', function() {
       });
     });
 
-    context('GET assessment with invalid token', () => {
+    context('GET assessment with invalid token', function() {
 
       const request = {
         query: { 'filter[type]': 'DEMO' },
@@ -137,13 +137,13 @@ describe('Unit | Controller | assessment-controller', function() {
     });
   });
 
-  describe('#completeAssessment', () => {
+  describe('#completeAssessment', function() {
     const assessmentId = 2;
     const assessmentCompletedEvent = new AssessmentCompleted();
     const domainTransaction = Symbol('domain transaction');
     let transactionToBeExecuted;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'completeAssessment');
       usecases.completeAssessment.resolves(assessmentCompletedEvent);
 
@@ -153,7 +153,7 @@ describe('Unit | Controller | assessment-controller', function() {
       });
     });
 
-    it('should call the completeAssessment use case', async () => {
+    it('should call the completeAssessment use case', async function() {
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
       await transactionToBeExecuted(domainTransaction);
@@ -162,7 +162,7 @@ describe('Unit | Controller | assessment-controller', function() {
       expect(usecases.completeAssessment).to.have.been.calledWithExactly({ domainTransaction, assessmentId });
     });
 
-    it('should dispatch the assessment completed event', async () => {
+    it('should dispatch the assessment completed event', async function() {
 
       // when
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
@@ -173,9 +173,9 @@ describe('Unit | Controller | assessment-controller', function() {
     });
   });
 
-  describe('#findCompetenceEvaluations', () => {
+  describe('#findCompetenceEvaluations', function() {
 
-    it('should return the competence evaluations', async () => {
+    it('should return the competence evaluations', async function() {
       // given
       const userId = 123;
       const assessmentId = 456;

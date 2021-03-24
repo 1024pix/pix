@@ -5,14 +5,14 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const campaignToJoinRepository = require('../../../../lib/infrastructure/repositories/campaign-to-join-repository');
 
-describe('Integration | UseCases | start-campaign-participation', () => {
+describe('Integration | UseCases | start-campaign-participation', function() {
 
   let userId;
   let organizationId;
   let targetProfileId;
   let campaignId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: false }).id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildMembership({
@@ -22,12 +22,12 @@ describe('Integration | UseCases | start-campaign-participation', () => {
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('assessments').delete();
     await knex('campaign-participations').delete();
   });
 
-  it('should save a campaign participation and its assessment when campaign is of type ASSESSMENT', async () => {
+  it('should save a campaign participation and its assessment when campaign is of type ASSESSMENT', async function() {
     // given
     campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', creatorId: userId, organizationId, targetProfileId }).id;
     await databaseBuilder.commit();
@@ -45,7 +45,7 @@ describe('Integration | UseCases | start-campaign-participation', () => {
     expect(assessments).to.have.lengthOf(1);
   });
 
-  it('should save only a campaign participation when campaign is of type PROFILES_COLLECTION', async () => {
+  it('should save only a campaign participation when campaign is of type PROFILES_COLLECTION', async function() {
     // given
     campaignId = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', creatorId: userId, organizationId, targetProfileId: null }).id;
     await databaseBuilder.commit();
@@ -63,7 +63,7 @@ describe('Integration | UseCases | start-campaign-participation', () => {
     expect(assessments).to.have.lengthOf(0);
   });
 
-  it('should throw an error and not create anything when something goes wrong within the transaction', async () => {
+  it('should throw an error and not create anything when something goes wrong within the transaction', async function() {
     // given
     campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', creatorId: userId, organizationId, targetProfileId }).id;
     await databaseBuilder.commit();

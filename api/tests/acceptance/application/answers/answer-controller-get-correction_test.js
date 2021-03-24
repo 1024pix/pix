@@ -2,11 +2,11 @@ const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLe
 const createServer = require('../../../../server');
 const { FRENCH_FRANCE } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Acceptance | Controller | answer-controller-get-correction', () => {
+describe('Acceptance | Controller | answer-controller-get-correction', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
@@ -16,7 +16,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
     let answer = null;
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       assessment = databaseBuilder.factory.buildAssessment({
         courseId: 'adaptive_course_id',
@@ -74,8 +74,8 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       mockLearningContent(learningContent);
     });
 
-    context('when Accept-Language header is specified', () => {
-      it('should return the answer correction with tutorials restricted to given language', async () => {
+    context('when Accept-Language header is specified', function() {
+      it('should return the answer correction with tutorials restricted to given language', async function() {
         // given
         const options = {
           method: 'GET',
@@ -130,7 +130,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       });
     });
 
-    it('should return 404 when user does not have access to this answer', async () => {
+    it('should return 404 when user does not have access to this answer', async function() {
       // given
       const options = {
         method: 'GET',
@@ -145,7 +145,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       expect(response.statusCode).to.equal(404);
     });
 
-    it('should return 404 when the answer id provided is not an integer', async () => {
+    it('should return 404 when the answer id provided is not an integer', async function() {
       // given
       const options = {
         method: 'GET',

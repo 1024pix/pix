@@ -10,20 +10,20 @@ const moduleUnderTest = require('../../../../lib/application/courses');
 
 const courseController = require('../../../../lib/application/courses/course-controller');
 
-describe('Unit | Router | course-router', () => {
+describe('Unit | Router | course-router', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(courseController, 'get').returns('ok');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('GET /api/courses/{id}', () => {
+  describe('GET /api/courses/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('GET', '/api/courses/course_id');
 

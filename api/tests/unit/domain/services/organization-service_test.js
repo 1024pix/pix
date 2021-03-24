@@ -7,9 +7,9 @@ const organizationService = require('../../../../lib/domain/services/organizatio
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 
-describe('Unit | Service | OrganizationService', () => {
+describe('Unit | Service | OrganizationService', function() {
 
-  describe('#findAllTargetProfilesAvailableForOrganization', () => {
+  describe('#findAllTargetProfilesAvailableForOrganization', function() {
 
     let organizationId;
     let targetProfilesOwnedByOrganization;
@@ -17,7 +17,7 @@ describe('Unit | Service | OrganizationService', () => {
     let targetProfileOrganizationCanUse;
     let publicTargetProfiles;
 
-    beforeEach(() => {
+    beforeEach(function() {
       organizationId = 1;
       targetProfilesOwnedByOrganization = [domainBuilder.buildTargetProfile({ organizationId, isPublic: false })];
       targetProfileSharesWithOrganization = [domainBuilder.buildTargetProfile({ isPublic: false })];
@@ -34,7 +34,7 @@ describe('Unit | Service | OrganizationService', () => {
       sinon.stub(organizationRepository, 'get').resolves(organization);
     });
 
-    it('should return an array of type target profile', async () => {
+    it('should return an array of type target profile', async function() {
       // when
       const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
 
@@ -43,7 +43,7 @@ describe('Unit | Service | OrganizationService', () => {
       expect(availableTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
     });
 
-    it('should return public profiles and profiles owned by or shared with anyOrganization', async () => {
+    it('should return public profiles and profiles owned by or shared with anyOrganization', async function() {
       // when
       const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
 
@@ -54,7 +54,7 @@ describe('Unit | Service | OrganizationService', () => {
       expect(availableTargetProfiles).to.include.deep.members(publicTargetProfiles);
     });
 
-    it('should not have duplicate in targetProfiles', async () => {
+    it('should not have duplicate in targetProfiles', async function() {
       // given
       targetProfileRepository.findAllTargetProfilesOrganizationCanUse.resolves(targetProfilesOwnedByOrganization);
 
@@ -65,7 +65,7 @@ describe('Unit | Service | OrganizationService', () => {
       expect(availableTargetProfiles.length).to.equal(2);
     });
 
-    it('should return a list ordered by private profile before public profile and alphabetically', async () => {
+    it('should return a list ordered by private profile before public profile and alphabetically', async function() {
       // given
       const targetProfilesOwnedByOrganization = [
         domainBuilder.buildTargetProfile({ name: 'C owned profile', organizationId, isPublic: false }),
@@ -101,7 +101,7 @@ describe('Unit | Service | OrganizationService', () => {
       expect(availableTargetProfiles[4][1].name).equal('W shared profile');
     });
 
-    it('should exclude targetProfileShares witch are outdated', async () => {
+    it('should exclude targetProfileShares witch are outdated', async function() {
       // given
       const targetProfiles = [
         domainBuilder.buildTargetProfile({ organizationId }),

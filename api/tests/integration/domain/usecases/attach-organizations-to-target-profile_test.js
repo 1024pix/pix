@@ -3,15 +3,15 @@ const attachOrganizationsToTargetProfile = require('../../../../lib/domain/useca
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 
-describe('Integration | UseCase | attach-organizations-to-target-profile', () => {
-  beforeEach(() => {
+describe('Integration | UseCase | attach-organizations-to-target-profile', function() {
+  beforeEach(function() {
     sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([]);
   });
-  afterEach(() => {
+  afterEach(function() {
     return knex('target-profile-shares').delete();
   });
-  describe('#attachOrganizationsToTargetProfile', () => {
-    it('attaches organization to target profile', async () => {
+  describe('#attachOrganizationsToTargetProfile', function() {
+    it('attaches organization to target profile', async function() {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const organization1 = databaseBuilder.factory.buildOrganization();
       const organization2 = databaseBuilder.factory.buildOrganization();

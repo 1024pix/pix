@@ -3,7 +3,7 @@ const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 
 describe('Event Choreography | Compute Validated Skills Count', function() {
-  it('Should trigger ComputeValidatedSkillsCount on CampaignParticipationResultsShared event', async () => {
+  it('Should trigger ComputeValidatedSkillsCount on CampaignParticipationResultsShared event', async function() {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
     const event = new CampaignParticipationResultsShared();

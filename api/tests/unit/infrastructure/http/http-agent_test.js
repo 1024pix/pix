@@ -2,15 +2,15 @@ const { expect, sinon } = require('../../../test-helper');
 const axios = require('axios');
 const { post } = require('../../../../lib/infrastructure/http/http-agent');
 
-describe('Unit | Infrastructure | http | http-agent', () => {
+describe('Unit | Infrastructure | http | http-agent', function() {
 
-  describe('#post', () => {
+  describe('#post', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       axios.post.restore();
     });
 
-    it('should return the response status and success from the http call when successful', async () => {
+    it('should return the response status and success from the http call when successful', async function() {
       // given
       const url = 'someUrl';
       const payload = 'somePayload';
@@ -32,7 +32,7 @@ describe('Unit | Infrastructure | http | http-agent', () => {
       });
     });
 
-    it('should return the error\'s response status and success from the http call when failed', async () => {
+    it('should return the error\'s response status and success from the http call when failed', async function() {
       // given
       const url = 'someUrl';
       const payload = 'somePayload';

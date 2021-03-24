@@ -10,11 +10,11 @@ function startServer() {
   return server.register(require('../../../../lib/application/tutorial-evaluations'));
 }
 
-describe('Unit | Router | tutorial-evaluations-router', () => {
+describe('Unit | Router | tutorial-evaluations-router', function() {
 
-  describe('PUT /api/users/tutorials/{tutorialId}/evaluate', () => {
+  describe('PUT /api/users/tutorials/{tutorialId}/evaluate', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').
         callsFake((request, h) => {
           h.continue({ credentials: { accessToken: 'jwt.access.token' } });
@@ -24,7 +24,7 @@ describe('Unit | Router | tutorial-evaluations-router', () => {
       startServer();
     });
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const options = {
         method: 'PUT',

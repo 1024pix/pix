@@ -2,7 +2,7 @@ const createServer = require('../../../server');
 const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const _ = require('lodash');
 
-describe('Acceptance | API | Campaign Participation Result', () => {
+describe('Acceptance | API | Campaign Participation Result', function() {
 
   const JAFFA_COLOR = 'jaffa';
   const EMERALD_COLOR = 'emerald';
@@ -17,7 +17,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
 
   let server, badge, badgePartnerCompetence, stage;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
 
     const oldDate = new Date('2018-02-03');
@@ -164,10 +164,10 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     await databaseBuilder.commit();
   });
 
-  describe('GET /api/campaign-participations/{id}/campaign-participation-result', () => {
+  describe('GET /api/campaign-participations/{id}/campaign-participation-result', function() {
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       options = {
         method: 'GET',
         url: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`,
@@ -175,7 +175,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       };
     });
 
-    it('should return the campaignParticipationResult of the campaignParticipation', async () => {
+    it('should return the campaignParticipationResult of the campaignParticipation', async function() {
       // given
       const expectedResponse = {
         data: {

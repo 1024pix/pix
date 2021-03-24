@@ -3,11 +3,11 @@ const CertificationAssessment = require('../../../../lib/domain/models/Certifica
 const { expect } = require('../../../test-helper');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | CertificationAssessment', () => {
+describe('Unit | Domain | Models | CertificationAssessment', function() {
 
-  describe('constructor', () => {
+  describe('constructor', function() {
     let validArguments;
-    beforeEach(() => {
+    beforeEach(function() {
       validArguments = {
         id: 123,
         userId: 123,
@@ -21,75 +21,75 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       };
     });
 
-    it('should successfully instantiate object when passing all valid arguments', () => {
+    it('should successfully instantiate object when passing all valid arguments', function() {
       // when
       expect(() => new CertificationAssessment(validArguments))
         .not.to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when id is not valid', () => {
+    it('should throw an ObjectValidationError when id is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, id: 'coucou' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when userId is not valid', () => {
+    it('should throw an ObjectValidationError when userId is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, userId: 'les zouzous' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when certificationCourseId is not valid', () => {
+    it('should throw an ObjectValidationError when certificationCourseId is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationCourseId: 'ça gaze ?' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when createdAt is not valid', () => {
+    it('should throw an ObjectValidationError when createdAt is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, createdAt: 'coucou' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when completed is not valid', () => {
+    it('should throw an ObjectValidationError when completed is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, completedAt: 'ça pétille !' }))
         .to.throw(ObjectValidationError);
     });
 
     _.forIn(CertificationAssessment.states, (value) => {
-      it(`should not throw an ObjectValidationError when state is ${value}`, () => {
+      it(`should not throw an ObjectValidationError when state is ${value}`, function() {
         // when
         expect(() => new CertificationAssessment({ ...validArguments, state: value }))
           .not.to.throw(ObjectValidationError);
       });
     });
 
-    it('should throw an ObjectValidationError when status is of unknown value', () => {
+    it('should throw an ObjectValidationError when status is of unknown value', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, state: 'aaa' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when isV2Certification is not valid', () => {
+    it('should throw an ObjectValidationError when isV2Certification is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, isV2Certification: 'glouglou' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when certificationChallenges is not valid', () => {
+    it('should throw an ObjectValidationError when certificationChallenges is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationChallenges: [] }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when certificationAnswersByDate is not valid', () => {
+    it('should throw an ObjectValidationError when certificationAnswersByDate is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationAnswersByDate: 'glouglou' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should be valid when certificationAnswersByDate has no answer', () => {
+    it('should be valid when certificationAnswersByDate has no answer', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationAnswersByDate: [] }))
         .not.to.throw(ObjectValidationError);

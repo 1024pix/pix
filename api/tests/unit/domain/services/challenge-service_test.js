@@ -11,7 +11,7 @@ function _buildAnswer(result) {
 
 describe('Unit | Service | ChallengeService', function() {
 
-  describe('#getRevalidationStatistics', () => {
+  describe('#getRevalidationStatistics', function() {
 
     [
       { case: 'ok', oppositeCase: 'ko' },

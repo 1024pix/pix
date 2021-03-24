@@ -3,7 +3,7 @@ const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const shareCampaignResult = require('../../../../lib/domain/usecases/share-campaign-result');
 
-describe('Unit | UseCase | share-campaign-result', () => {
+describe('Unit | UseCase | share-campaign-result', function() {
   const campaignParticipationRepository = {
     get: sinon.stub(),
     updateWithSnapshot: sinon.stub(),
@@ -12,8 +12,8 @@ describe('Unit | UseCase | share-campaign-result', () => {
   const userId = 123;
   const campaignParticipationId = 456;
 
-  context('when user is not the owner of the campaign participation', () => {
-    it('throws a UserNotAuthorizedToAccessEntityError error ', async () => {
+  context('when user is not the owner of the campaign participation', function() {
+    it('throws a UserNotAuthorizedToAccessEntityError error ', async function() {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId, { include: [ 'campaign' ] }).resolves({ userId: userId + 1 });
 
@@ -24,8 +24,8 @@ describe('Unit | UseCase | share-campaign-result', () => {
       expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
-  context('when user is the owner of the campaign participation', () => {
-    it('updates the campaign participation', async () => {
+  context('when user is the owner of the campaign participation', function() {
+    it('updates the campaign participation', async function() {
       // given
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId });
       sinon.stub(campaignParticipation, 'share');
@@ -39,7 +39,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
       expect(campaignParticipationRepository.updateWithSnapshot).to.have.been.calledWith(campaignParticipation);
     });
 
-    it('returns the CampaignParticipationResultsShared event', async () => {
+    it('returns the CampaignParticipationResultsShared event', async function() {
       // given
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId });
       sinon.stub(campaignParticipation, 'share');

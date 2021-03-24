@@ -2,28 +2,28 @@ const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = req
 const createServer = require('../../../../server');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Acceptance | API | assessment-controller-get', () => {
+describe('Acceptance | API | assessment-controller-get', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
   let userId;
   const courseId = 'courseId';
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     userId = databaseBuilder.factory.buildUser({}).id;
     await databaseBuilder.commit();
   });
 
-  describe('(no provided answer) GET /api/assessments/:id', () => {
+  describe('(no provided answer) GET /api/assessments/:id', function() {
 
     let options;
     let assessmentId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: null }).id;
       await databaseBuilder.commit();
       options = {
@@ -36,7 +36,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       };
     });
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', function() {
       // when
       const promise = server.inject(options);
 
@@ -46,7 +46,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       });
     });
 
-    it('should return application/json', () => {
+    it('should return application/json', function() {
       // when
       const promise = server.inject(options);
 
@@ -58,7 +58,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
     });
 
-    it('should return the expected assessment', () => {
+    it('should return the expected assessment', function() {
       // when
       const promise = server.inject(options);
 
@@ -95,12 +95,12 @@ describe('Acceptance | API | assessment-controller-get', () => {
     });
   });
 
-  describe('(when userId and assessmentId match) GET /api/assessments/:id', () => {
+  describe('(when userId and assessmentId match) GET /api/assessments/:id', function() {
 
     let assessmentId;
     let options;
 
-    beforeEach(async() => {
+    beforeEach(async function() {
       assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: null }).id;
       await databaseBuilder.commit();
       options = {
@@ -113,7 +113,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       };
     });
 
-    it('should return 200 HTTP status code, when userId provided is linked to assessment', () => {
+    it('should return 200 HTTP status code, when userId provided is linked to assessment', function() {
       // when
       const promise = server.inject(options);
 
@@ -125,10 +125,10 @@ describe('Acceptance | API | assessment-controller-get', () => {
     });
   });
 
-  describe('(answers provided, assessment completed) GET /api/assessments/:id', () => {
+  describe('(answers provided, assessment completed) GET /api/assessments/:id', function() {
     let assessmentId, answer1, answer2;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: 'completed' }).id;
 
       answer1 = databaseBuilder.factory.buildAnswer({ assessmentId });
@@ -137,7 +137,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', function() {
       const options = {
         method: 'GET',
         url: `/api/assessments/${assessmentId}`,
@@ -156,7 +156,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       });
     });
 
-    it('should return application/json', () => {
+    it('should return application/json', function() {
       const options = {
         method: 'GET',
         url: `/api/assessments/${assessmentId}`,
@@ -176,7 +176,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       });
     });
 
-    it('should return the expected assessment', () => {
+    it('should return the expected assessment', function() {
       // given
       const options = {
         method: 'GET',
@@ -225,10 +225,10 @@ describe('Acceptance | API | assessment-controller-get', () => {
     });
   });
 
-  describe('GET /api/assessments/', () => {
+  describe('GET /api/assessments/', function() {
     let assessmentId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const campaignId = databaseBuilder.factory.buildCampaign({ code: 'TESTCODE', name: 'CAMPAIGN TEST' }).id;
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
       assessmentId = databaseBuilder.factory.buildAssessment(
@@ -242,7 +242,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', function() {
       // given
       const options = {
         method: 'GET',
@@ -263,7 +263,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
     });
 
-    it('should return application/json', () => {
+    it('should return application/json', function() {
       // given
       const options = {
         method: 'GET',
@@ -284,7 +284,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       });
     });
 
-    it('should return an array of assessments, with code campaign', () => {
+    it('should return an array of assessments, with code campaign', function() {
       // given
       const options = {
         method: 'GET',
@@ -323,7 +323,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       });
     });
 
-    it('should return an empty array since no user is logged', () => {
+    it('should return an empty array since no user is logged', function() {
       // given
       const options = {
         method: 'GET',

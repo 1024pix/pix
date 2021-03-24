@@ -2,17 +2,17 @@ const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder }
 const createServer = require('../../../../server');
 const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
-describe('Acceptance | API | Assessments POST', () => {
+describe('Acceptance | API | Assessments POST', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('POST /api/assessments', () => {
+  describe('POST /api/assessments', function() {
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('assessments').delete();
       return knex('users').delete();
     });
@@ -20,7 +20,7 @@ describe('Acceptance | API | Assessments POST', () => {
     let options;
     let userId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser().id;
       options = {
         method: 'POST',
@@ -52,7 +52,7 @@ describe('Acceptance | API | Assessments POST', () => {
       return databaseBuilder.commit();
     });
 
-    it('should return 201 HTTP status code', () => {
+    it('should return 201 HTTP status code', function() {
       // when
       const promise = server.inject(options);
 
@@ -62,7 +62,7 @@ describe('Acceptance | API | Assessments POST', () => {
       });
     });
 
-    it('should return 201 HTTP status code when missing authorization header', () => {
+    it('should return 201 HTTP status code when missing authorization header', function() {
       // given
       options.headers = {};
 
@@ -75,7 +75,7 @@ describe('Acceptance | API | Assessments POST', () => {
       });
     });
 
-    it('should return application/json', () => {
+    it('should return application/json', function() {
       // when
       const promise = server.inject(options);
 
@@ -86,9 +86,9 @@ describe('Acceptance | API | Assessments POST', () => {
       });
     });
 
-    describe('when the user is authenticated', () => {
+    describe('when the user is authenticated', function() {
 
-      it('should save user_id in the database', () => {
+      it('should save user_id in the database', function() {
         // given
         options.payload.data.relationships.user.id = userId;
 
@@ -104,7 +104,7 @@ describe('Acceptance | API | Assessments POST', () => {
           });
       });
 
-      it('should add a new assessment into the database', () => {
+      it('should add a new assessment into the database', function() {
         // when
         const promise = server.inject(options);
 
@@ -117,7 +117,7 @@ describe('Acceptance | API | Assessments POST', () => {
         });
       });
 
-      it('should return persisted Assessment', () => {
+      it('should return persisted Assessment', function() {
         // when
         const promise = server.inject(options);
 
@@ -130,9 +130,9 @@ describe('Acceptance | API | Assessments POST', () => {
         });
       });
 
-      describe('when the user is not authenticated', () => {
+      describe('when the user is not authenticated', function() {
 
-        it('should persist the given course ID', () => {
+        it('should persist the given course ID', function() {
           // when
           const promise = server.inject(options);
 

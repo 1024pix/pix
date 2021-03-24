@@ -4,13 +4,13 @@ const lcms = require('../../../../../lib/infrastructure/lcms');
 const tutorialDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/tutorial-datasource');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
-describe('Unit | Infrastructure | Datasource | Learning Content | TutorialDatasource', () => {
+describe('Unit | Infrastructure | Datasource | Learning Content | TutorialDatasource', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(cache, 'get').callsFake((key, generator) => generator());
   });
 
-  describe('#findByRecordIds', () => {
+  describe('#findByRecordIds', function() {
 
     it('should return an array of tutorial data objects', function() {
       // given

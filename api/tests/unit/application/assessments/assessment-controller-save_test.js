@@ -5,11 +5,11 @@ const controller = require('../../../../lib/application/assessments/assessment-c
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Unit | Controller | assessment-controller-save', () => {
+describe('Unit | Controller | assessment-controller-save', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
 
-    context('when the assessment saved is a preview test', () => {
+    context('when the assessment saved is a preview test', function() {
       const request = {
         headers: {
           authorization: 'Bearer my-token',
@@ -33,7 +33,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         },
       };
 
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(assessmentRepository, 'save').resolves({});
       });
 

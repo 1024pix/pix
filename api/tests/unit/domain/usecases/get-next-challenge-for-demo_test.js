@@ -4,9 +4,9 @@ const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
 const getNextChallengeForDemo = require('../../../../lib/domain/usecases/get-next-challenge-for-demo');
 
-describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
+describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', function() {
 
-  describe('#get-next-challenge-for-demo', () => {
+  describe('#get-next-challenge-for-demo', function() {
 
     let courseRepository;
     let challengeRepository;
@@ -17,7 +17,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
     let firstChallenge;
     let secondChallenge;
 
-    beforeEach(() => {
+    beforeEach(function() {
       firstChallenge = domainBuilder.buildChallenge({ id: 'first_challenge', skills: ['@url2'] });
       secondChallenge = domainBuilder.buildChallenge({ id: 'second_challenge', skills: ['@cnil5'] });
       course = domainBuilder.buildCourse({ id: 18415, challenges: [firstChallenge.id, secondChallenge.id] });
@@ -30,7 +30,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
       challengeRepository.get.withArgs('second_challenge').resolves(secondChallenge);
     });
 
-    it('should return the first challenge if no answer exist', async () => {
+    it('should return the first challenge if no answer exist', async function() {
       // given
       answerRepository.findByAssessment.resolves([]);
 
@@ -41,7 +41,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
       expect(result).to.equal(firstChallenge);
     });
 
-    it('should return the second challenge if the first challenge is already answered', async () => {
+    it('should return the second challenge if the first challenge is already answered', async function() {
       // given
       const firstAnswer = domainBuilder.buildAnswer({ challengeId: firstChallenge.id, assessmentId: assessment.id });
       answerRepository.findByAssessment.resolves([firstAnswer]);
@@ -53,7 +53,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
       expect(result).to.equal(secondChallenge);
     });
 
-    it('should throw a AssessmentEndedError when there are no more challenges to ask', () => {
+    it('should throw a AssessmentEndedError when there are no more challenges to ask', function() {
       // given
       const firstAnswer = domainBuilder.buildAnswer({ challengeId: firstChallenge.id, assessmentId: assessment.id });
       const secondAnswer = domainBuilder.buildAnswer({ challengeId: secondChallenge.id, assessmentId: assessment.id });

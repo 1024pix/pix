@@ -14,9 +14,9 @@ const COMPETENCE_RESULT_ID = {
   SECOND: 2,
 };
 
-describe('Unit | Domain | Services | badge-criteria', () => {
+describe('Unit | Domain | Services | badge-criteria', function() {
 
-  describe('#areBadgeCriteriaFulfilled', () => {
+  describe('#areBadgeCriteriaFulfilled', function() {
 
     context('when there is multiple badge criteria to acquire one badge', function() {
       const badgeCriteria = [
@@ -39,7 +39,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
       ];
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-      it('should return true when all the badge criteria are fulfilled', async () => {
+      it('should return true when all the badge criteria are fulfilled', async function() {
         // given
         const validatedSkillsCount = {
           firstCompetenceResult: 9,
@@ -55,7 +55,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         expect(result).to.be.equal(true);
       });
 
-      it('should return false when no badge criterion is fulfilled', async () => {
+      it('should return false when no badge criterion is fulfilled', async function() {
         // given
         const validatedSkillsCount = {
           firstCompetenceResult: 1,
@@ -71,7 +71,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         expect(result).to.be.equal(false);
       });
 
-      it('should return false when at least one badge criterion is not fulfilled', async () => {
+      it('should return false when at least one badge criterion is not fulfilled', async function() {
         // given
         const validatedSkillsCount = {
           firstCompetenceResult: 9,
@@ -99,7 +99,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
       ];
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-      it('should return true when fulfilled', async () => {
+      it('should return true when fulfilled', async function() {
         // given
         const validatedSkillsCount = {
           firstCompetenceResult: 1,
@@ -115,7 +115,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         expect(result).to.be.equal(true);
       });
 
-      it('should return false when not fulfilled', async () => {
+      it('should return false when not fulfilled', async function() {
         // given
         const validatedSkillsCount = {
           firstCompetenceResult: 1,
@@ -143,7 +143,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-      it('should return true when fulfilled', async () => {
+      it('should return true when fulfilled', async function() {
         // given
         const validatedSkillsCount = {
           firstCompetenceResult: 4,
@@ -159,7 +159,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         expect(result).to.be.equal(true);
       });
 
-      it('should return false when not fulfilled', async () => {
+      it('should return false when not fulfilled', async function() {
         // given
         const validatedSkillsCount = {
           firstCompetenceResult: 3,
@@ -187,7 +187,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
       ];
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-      it('should return true when fulfilled', async () => {
+      it('should return true when fulfilled', async function() {
         // given
         const validatedSkillsCount = {
           firstCompetenceResult: 1,
@@ -203,7 +203,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         expect(result).to.be.equal(true);
       });
 
-      it('should return false when not fulfilled', async () => {
+      it('should return false when not fulfilled', async function() {
         // given
         const validatedSkillsCount = {
           firstCompetenceResult: 1,

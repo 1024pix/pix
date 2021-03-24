@@ -10,25 +10,25 @@ const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumn
 
 let server;
 
-describe('Acceptance | Application | organization-controller-import-higher-schooling-registrations', () => {
+describe('Acceptance | Application | organization-controller-import-higher-schooling-registrations', function() {
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  afterEach(() => {
+  afterEach(function() {
     return knex('schooling-registrations').delete();
   });
 
-  describe('POST organizations/:id/schooling-registrations/import-csv', () => {
+  describe('POST organizations/:id/schooling-registrations/import-csv', function() {
     let connectedUser;
-    beforeEach(async () => {
+    beforeEach(async function() {
       connectedUser = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
     });
 
-    context('when the user is an admin for an organization which managing student', () => {
-      it('create schooling-registrations for the given organization', async () => {
+    context('when the user is an admin for an organization which managing student', function() {
+      it('create schooling-registrations for the given organization', async function() {
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.ADMIN });
         await databaseBuilder.commit();
@@ -54,7 +54,7 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
 
       });
 
-      it('fails when the file payload is too large', async () => {
+      it('fails when the file payload is too large', async function() {
         const buffer = Buffer.alloc(1048576 * 11, 'B'); // > 10 Mo buffer
 
         const options = {
@@ -71,8 +71,8 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
       });
     });
 
-    context('when the user is not an admin for the organization which managing student', () => {
-      it('create schooling-registrations for the given organization', async () => {
+    context('when the user is not an admin for the organization which managing student', function() {
+      it('create schooling-registrations for the given organization', async function() {
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.MEMBER });
         await databaseBuilder.commit();
@@ -93,8 +93,8 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
       });
     });
 
-    context('when the user is an admin for the organization which managing student but the organization is not SUP', () => {
-      it('create schooling-registrations for the given organization', async () => {
+    context('when the user is an admin for the organization which managing student but the organization is not SUP', function() {
+      it('create schooling-registrations for the given organization', async function() {
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.ADMIN });
         await databaseBuilder.commit();

@@ -3,7 +3,7 @@ const createServer = require('../../../../server');
 
 const Membership = require('../../../../lib/domain/models/Membership');
 
-describe('Acceptance | Controller | users-controller-get-memberships', () => {
+describe('Acceptance | Controller | users-controller-get-memberships', function() {
 
   let userId;
   let organization;
@@ -12,13 +12,13 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
   const organizationRole = Membership.roles.MEMBER;
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /users/:id/memberships', () => {
+  describe('GET /users/:id/memberships', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
       membershipId = databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId, organizationRole }).id;
@@ -31,9 +31,9 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
       };
     });
 
-    describe('Resource access management', () => {
+    describe('Resource access management', function() {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -44,7 +44,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async () => {
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
         // given
         const otherUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -57,9 +57,9 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
       });
     });
 
-    describe('Success case', () => {
+    describe('Success case', function() {
 
-      it('should return found memberships with 200 HTTP status code', async () => {
+      it('should return found memberships with 200 HTTP status code', async function() {
         // when
         const response = await server.inject(options);
 

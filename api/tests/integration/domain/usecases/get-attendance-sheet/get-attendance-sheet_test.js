@@ -5,11 +5,11 @@ const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-o
 const sessionRepository = require('../../../../../lib/infrastructure/repositories/session-repository');
 const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
 
-describe('Integration | UseCases | getAttendanceSheet', () => {
+describe('Integration | UseCases | getAttendanceSheet', function() {
   let userId;
   let sessionId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     const certificationCenterName = 'Centre de certification';
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: certificationCenterName }).id;
 
@@ -44,11 +44,11 @@ describe('Integration | UseCases | getAttendanceSheet', () => {
   const expectedOdsFilePath = `${__dirname}/attendance_sheet_template_target.ods`;
   const actualOdsFilePath = `${__dirname}/attendance_sheet_template_actual.tmp.ods`;
 
-  afterEach(async () => {
+  afterEach(async function() {
     await unlink(actualOdsFilePath);
   });
 
-  it('should return an attendance sheet with session data, certification candidates data prefilled', async () => {
+  it('should return an attendance sheet with session data, certification candidates data prefilled', async function() {
     // when
     const updatedOdsFileBuffer = await getAttendanceSheet({ userId, sessionId, sessionRepository });
     await writeFile(actualOdsFilePath, updatedOdsFileBuffer);

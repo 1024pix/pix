@@ -4,19 +4,19 @@ const courseRepository = require('../../../../lib/infrastructure/repositories/co
 const logger = require('../../../../lib/infrastructure/logger');
 const { expect, sinon } = require('../../../test-helper');
 
-describe('Unit | Service | Course Service', () => {
+describe('Unit | Service | Course Service', function() {
 
   describe('#getCourse', function() {
 
     const userId = 1;
     const learningContentCourse = { id: 'recLearningContentId' };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(courseRepository, 'get');
       sinon.stub(logger, 'error');
     });
 
-    it('should call the course repository', () => {
+    it('should call the course repository', function() {
       // given
       const givenCourseId = 'recLearningContentId';
       courseRepository.get.resolves(learningContentCourse);
@@ -31,7 +31,7 @@ describe('Unit | Service | Course Service', () => {
       });
     });
 
-    context('when the course exists', () => {
+    context('when the course exists', function() {
 
       it('should return a Course from the repository', async function() {
         // given

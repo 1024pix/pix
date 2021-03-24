@@ -4,13 +4,13 @@ const OrganizationInvitation = require('../../../../lib/domain/models/Organizati
 const Membership = require('../../../../lib/domain/models/Membership');
 const { NotFoundError, AlreadyExistingOrganizationInvitationError, AlreadyExistingMembershipError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | accept-organization-invitation', () => {
+describe('Unit | UseCase | accept-organization-invitation', function() {
 
   let userRepository;
   let membershipRepository;
   let organizationInvitationRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     userRepository = {
       getByEmail: sinon.stub(),
     };
@@ -25,9 +25,9 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
     };
   });
 
-  context('when invitation with id and code does not exist', () => {
+  context('when invitation with id and code does not exist', function() {
 
-    it('should throw a NotFoundError', async () => {
+    it('should throw a NotFoundError', async function() {
       // given
       organizationInvitationRepository.getByIdAndCode.rejects(new NotFoundError());
 
@@ -43,9 +43,9 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
     });
   });
 
-  context('when invitation is already accepted', () => {
+  context('when invitation is already accepted', function() {
 
-    it('should throw an AlreadyExistingOrganizationInvitationError', async () => {
+    it('should throw an AlreadyExistingOrganizationInvitationError', async function() {
       // given
       const status = OrganizationInvitation.StatusType.ACCEPTED;
       const organizationInvitation = domainBuilder.buildOrganizationInvitation({ status });
@@ -62,13 +62,13 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
     });
   });
 
-  context('when invitation is not accepted yet', () => {
+  context('when invitation is not accepted yet', function() {
 
     const email = 'random@email.com';
     let pendingOrganizationInvitation;
     let userToInvite;
 
-    beforeEach(() => {
+    beforeEach(function() {
       pendingOrganizationInvitation = domainBuilder.buildOrganizationInvitation({
         status: OrganizationInvitation.StatusType.PENDING,
       });
@@ -78,9 +78,9 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
       userRepository.getByEmail.withArgs(email).resolves(userToInvite);
     });
 
-    context('when the user is the first one to join the organization', () => {
+    context('when the user is the first one to join the organization', function() {
 
-      it('should create a membership with ADMIN role', async () => {
+      it('should create a membership with ADMIN role', async function() {
         // given
         const { id: organizationInvitationId, organizationId, code } = pendingOrganizationInvitation;
         membershipRepository.findByOrganizationId.withArgs({ organizationId }).resolves([]);
@@ -97,9 +97,9 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
       });
     });
 
-    context('when the user is not the first one to join the organization', () => {
+    context('when the user is not the first one to join the organization', function() {
 
-      it('should create a membership with MEMBER role', async () => {
+      it('should create a membership with MEMBER role', async function() {
         // given
         const { id: organizationInvitationId, organizationId, code } = pendingOrganizationInvitation;
         membershipRepository.findByOrganizationId.withArgs({ organizationId }).resolves([{ user: { id: 2 } }]);
@@ -116,9 +116,9 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
       });
     });
 
-    context('when the role is already defined in the invitation', () => {
+    context('when the role is already defined in the invitation', function() {
 
-      it('should create a membership according to the invitation role', async () => {
+      it('should create a membership according to the invitation role', async function() {
         // given
         pendingOrganizationInvitation.role = Membership.roles.ADMIN;
         const { id: organizationInvitationId, organizationId, code, role } = pendingOrganizationInvitation;
@@ -137,18 +137,18 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
 
     });
 
-    context('when user already belongs to organization', () => {
+    context('when user already belongs to organization', function() {
 
       let membership;
 
-      beforeEach(() => {
+      beforeEach(function() {
         membership = domainBuilder.buildMembership({ user: userToInvite, organizationRole: Membership.roles.MEMBER });
         membershipRepository.findByOrganizationId.withArgs({
           organizationId: pendingOrganizationInvitation.organizationId,
         }).resolves([ membership ]);
       });
 
-      it('should throw an AlreadyExistingMembershipError', async () => {
+      it('should throw an AlreadyExistingMembershipError', async function() {
         // given
         const { id: organizationInvitationId, code } = pendingOrganizationInvitation;
 
@@ -162,9 +162,9 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
         expect(err).to.be.instanceOf(AlreadyExistingMembershipError);
       });
 
-      context('when the role is already defined in the invitation', () => {
+      context('when the role is already defined in the invitation', function() {
 
-        it('should update a membership according to the invitation role', async () => {
+        it('should update a membership according to the invitation role', async function() {
           // given
           pendingOrganizationInvitation.role = Membership.roles.ADMIN;
           const { id: organizationInvitationId, code } = pendingOrganizationInvitation;

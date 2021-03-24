@@ -2,9 +2,9 @@ const { expect, mockLearningContent } = require('../../../test-helper');
 const Solution = require('../../../../lib/domain/models/Solution');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
-describe('Integration | Repository | solution-repository', () => {
+describe('Integration | Repository | solution-repository', function() {
 
-  describe('#getByChallengeId', () => {
+  describe('#getByChallengeId', function() {
     const challenge = {
       id: 'recChallenge1',
       t1Status: 'Désactivé',
@@ -24,14 +24,14 @@ describe('Integration | Repository | solution-repository', () => {
       scoring: 'colombe',
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       const learningContent = {
         challenges: [challenge],
       };
       mockLearningContent(learningContent);
     });
 
-    it('should return the solution to the challenge', async () => {
+    it('should return the solution to the challenge', async function() {
       // when
       const solution = await solutionRepository.getByChallengeId('recChallenge1');
 
