@@ -13,14 +13,14 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Sco Student List', function(hooks) {
+module('Acceptance | Sco Student List', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let organizationId;
 
-  module('When prescriber is not logged in', function() {
+  module('When prescriber is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated prescriber', async function(assert) {
       // when
@@ -31,7 +31,7 @@ module('Acceptance | Sco Student List', function(hooks) {
     });
   });
 
-  module('When prescriber is logged in', function(hooks) {
+  module('When prescriber is logged in', (hooks) => {
 
     let user;
 
@@ -40,9 +40,9 @@ module('Acceptance | Sco Student List', function(hooks) {
       notificationMessagesService.clearAll();
     });
 
-    module('When organization is not managing students or is not SCO', function(hooks) {
+    module('When organization is not managing students or is not SCO', (hooks) => {
 
-      hooks.beforeEach(async function() {
+      hooks.beforeEach(async () => {
         user = createUserWithMembershipAndTermsOfServiceAccepted();
         createPrescriberByUser(user);
 
@@ -63,9 +63,9 @@ module('Acceptance | Sco Student List', function(hooks) {
       });
     });
 
-    module('When prescriber is looking for students', function(hooks) {
+    module('When prescriber is looking for students', (hooks) => {
 
-      hooks.beforeEach(async function() {
+      hooks.beforeEach(async () => {
         user = createUserManagingStudents();
         createPrescriberByUser(user);
 
@@ -124,9 +124,9 @@ module('Acceptance | Sco Student List', function(hooks) {
       });
     });
 
-    module('When organization is managing students', function(hooks) {
+    module('When organization is managing students', (hooks) => {
 
-      hooks.beforeEach(async function() {
+      hooks.beforeEach(async () => {
         user = createUserManagingStudents();
         createPrescriberByUser(user);
 
@@ -150,12 +150,12 @@ module('Acceptance | Sco Student List', function(hooks) {
         assert.equal(currentURL(), '/eleves');
       });
 
-      module('when student authenticated by username and email', async function(hooks) {
+      module('when student authenticated by username and email', async (hooks) => {
 
         const username = 'firstname.lastname0112';
         const email = 'firstname.lastname0112@example.net';
 
-        hooks.beforeEach(function() {
+        hooks.beforeEach(() => {
           server.create('student', {
             organizationId,
             firstName: 'FirstName',
@@ -205,9 +205,9 @@ module('Acceptance | Sco Student List', function(hooks) {
         });
       });
 
-      module('when student authenticated by GAR', async function(hooks) {
+      module('when student authenticated by GAR', async (hooks) => {
 
-        hooks.beforeEach(function() {
+        hooks.beforeEach(() => {
           server.create('student', {
             organizationId,
             isAuthenticatedFromGar: true,
@@ -245,9 +245,9 @@ module('Acceptance | Sco Student List', function(hooks) {
         });
       });
 
-      module('when student authenticated by GAR and username', async function(hooks) {
+      module('when student authenticated by GAR and username', async (hooks) => {
 
-        hooks.beforeEach(function() {
+        hooks.beforeEach(() => {
           server.create('student', {
             organizationId,
             isAuthenticatedFromGar: true,
@@ -297,9 +297,9 @@ module('Acceptance | Sco Student List', function(hooks) {
       });
     });
 
-    module('When admin uploads a file', function(hooks) {
+    module('When admin uploads a file', (hooks) => {
 
-      hooks.beforeEach(async function() {
+      hooks.beforeEach(async () => {
         user = createUserManagingStudents('ADMIN');
         createPrescriberByUser(user);
 

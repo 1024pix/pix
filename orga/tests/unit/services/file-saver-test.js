@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Service | file-saver', function(hooks) {
+module('Unit | Service | file-saver', (hooks) => {
   setupTest(hooks);
   let fileSaver;
 
@@ -10,7 +10,7 @@ module('Unit | Service | file-saver', function(hooks) {
     fileSaver = this.owner.lookup('service:file-saver');
   });
 
-  module('#save', function() {
+  module('#save', () => {
     const id = 123456;
     const url = `/attestation/${id}`;
     const token = 'mytoken';
@@ -29,7 +29,7 @@ module('Unit | Service | file-saver', function(hooks) {
       downloadFileForModernBrowsersStub = sinon.stub().returns();
     });
 
-    module('when response has a status 200', function() {
+    module('when response has a status 200', () => {
       test('should use fileName and fileContent from response', async function(assert) {
         // given
         const headers = { get: sinon.stub().withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`) };
@@ -53,7 +53,7 @@ module('Unit | Service | file-saver', function(hooks) {
       });
     });
 
-    module('when response has not a status 200', function() {
+    module('when response has not a status 200', () => {
       test('should throw', async function(assert) {
         // given
         const headers = { get: sinon.stub().withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`) };

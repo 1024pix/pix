@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import ENV from 'pix-orga/config/environment';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
+module('Unit | Controller | authenticated/sup-students/list', (hooks) => {
   setupTest(hooks);
   const currentUser = { organization: { id: 1 }, prescriber: { lang: 'fr' } };
   const session = { data: { authenticated: { access_token: 12345 } } };
@@ -16,7 +16,7 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
     controller.currentUser = currentUser;
   });
 
-  module('#importStudents', function() {
+  module('#importStudents', () => {
     test('it sends the chosen file to the API', async function(assert) {
       const importStudentsURL = `${ENV.APP.API_HOST}/api/organizations/${currentUser.organization.id}/schooling-registrations/import-csv`;
       const headers = { Authorization: `Bearer ${12345}`, 'Accept-Language': controller.currentUser.prescriber.lang };
@@ -29,10 +29,10 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
       assert.ok(file.uploadBinary.calledWith(importStudentsURL, { headers }));
     });
 
-    module('manage CSV import errors', function(hooks) {
+    module('manage CSV import errors', (hooks) => {
       let file;
 
-      hooks.beforeEach(function() {
+      hooks.beforeEach(() => {
         controller.session = session;
         controller.currentUser = currentUser;
         file = { uploadBinary: sinon.stub() };

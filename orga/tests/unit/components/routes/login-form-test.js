@@ -10,7 +10,7 @@ module('Unit | Component | Routes | login-form', (hooks) => {
 
   let component;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(() => {
     component = createGlimmerComponent('component:routes/login-form');
   });
 

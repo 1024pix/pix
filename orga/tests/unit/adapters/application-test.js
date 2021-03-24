@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Adapters | ApplicationAdapter', function(hooks) {
+module('Unit | Adapters | ApplicationAdapter', (hooks) => {
   setupTest(hooks);
 
   test('should specify /api as the root url', function(assert) {
@@ -13,7 +13,7 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
     assert.equal(applicationAdapter.namespace, 'api');
   });
 
-  module('get headers()', function() {
+  module('get headers()', () => {
 
     test('should add header with authentication token when the session is authenticated', function(assert) {
       // Given
@@ -74,7 +74,7 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
     });
   });
 
-  module('ajax()', function() {
+  module('ajax()', () => {
     test('should queue ajax calls', function(assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');

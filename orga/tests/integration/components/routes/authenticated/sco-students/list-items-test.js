@@ -7,7 +7,7 @@ import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/sco-students | list-items', function(hooks) {
+module('Integration | Component | routes/authenticated/sco-students | list-items', (hooks) => {
 
   setupIntlRenderingTest(hooks);
 
@@ -67,7 +67,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     assert.contains('01/02/2010');
   });
 
-  module('when user is filtering some users', function() {
+  module('when user is filtering some users', () => {
 
     test('it should trigger filtering with lastname', async function(assert) {
       // given
@@ -125,7 +125,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     });
   });
 
-  module('when user is not reconciled', function({ beforeEach }) {
+  module('when user is not reconciled', ({ beforeEach }) => {
 
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
@@ -150,7 +150,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     });
   });
 
-  module('when user is reconciled', function({ beforeEach }) {
+  module('when user is reconciled', ({ beforeEach }) => {
 
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
@@ -177,7 +177,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     });
   });
 
-  module('when user authentification method is username', function({ beforeEach }) {
+  module('when user authentification method is username', ({ beforeEach }) => {
 
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
@@ -203,7 +203,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
 
   });
 
-  module('when user authentification method is email', function({ beforeEach }) {
+  module('when user authentification method is email', ({ beforeEach }) => {
 
     beforeEach(function() {
       const store = this.owner.lookup('service:store');
@@ -229,7 +229,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
 
   });
 
-  module('when user authentification method is samlId', function({ beforeEach }) {
+  module('when user authentification method is samlId', ({ beforeEach }) => {
 
     beforeEach(function() {
       const store = this.owner.lookup('service:store');

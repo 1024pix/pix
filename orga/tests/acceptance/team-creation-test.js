@@ -13,7 +13,7 @@ import setupIntl from '../helpers/setup-intl';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Team Creation', function(hooks) {
+module('Acceptance | Team Creation', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -29,7 +29,7 @@ module('Acceptance | Team Creation', function(hooks) {
     assert.equal(currentURL(), '/connexion');
   });
 
-  module('When prescriber is logged in', function(hooks) {
+  module('When prescriber is logged in', (hooks) => {
 
     let organizationId;
     let user;
@@ -39,7 +39,7 @@ module('Acceptance | Team Creation', function(hooks) {
       notificationMessagesService.clearAll();
     });
 
-    module('When prescriber is a member', function(hooks) {
+    module('When prescriber is a member', (hooks) => {
 
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('MEMBER');
@@ -62,7 +62,7 @@ module('Acceptance | Team Creation', function(hooks) {
       });
     });
 
-    module('When prescriber is an admin', function(hooks) {
+    module('When prescriber is an admin', (hooks) => {
 
       let inputLabel;
       let cancelButton;

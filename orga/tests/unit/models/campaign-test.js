@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | campaign', function(hooks) {
+module('Unit | Model | campaign', (hooks) => {
   setupTest(hooks);
 
   test('it should return the right data in the campaign model', function(assert) {
@@ -14,7 +14,7 @@ module('Unit | Model | campaign', function(hooks) {
     assert.equal(model.code, 'ABC123');
   });
 
-  module('#urlToResult', function() {
+  module('#urlToResult', () => {
     test('it should construct the url to result of the campaign with type assessment', function(assert) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign', {
@@ -40,7 +40,7 @@ module('Unit | Model | campaign', function(hooks) {
     });
   });
 
-  module('#readableType', function(hooks) {
+  module('#readableType', (hooks) => {
     let store;
 
     hooks.beforeEach(function() {
@@ -64,7 +64,7 @@ module('Unit | Model | campaign', function(hooks) {
     });
   });
 
-  module('#hasStages', function() {
+  module('#hasStages', () => {
     test('returns true while campaign contains stages', function(assert) {
       const store = this.owner.lookup('service:store');
       const stage = store.createRecord('stage', { threshold: 45 });
@@ -85,7 +85,7 @@ module('Unit | Model | campaign', function(hooks) {
     });
   });
 
-  module('#hasBadges', function() {
+  module('#hasBadges', () => {
     test('returns true while campaign contains badges', function(assert) {
       const store = this.owner.lookup('service:store');
       const badge = store.createRecord('badge', { threshold: 45 });
@@ -106,7 +106,7 @@ module('Unit | Model | campaign', function(hooks) {
     });
   });
 
-  module('#creatorFullName', function() {
+  module('#creatorFullName', () => {
     test('it should return the fullname, combination of last and first name', function(assert) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign', { creatorFirstName: 'Jean-Baptiste', creatorLastName: 'Poquelin' });

@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 
-module('Unit | Model | campaign-collective-results', function(hooks) {
+module('Unit | Model | campaign-collective-results', (hooks) => {
   setupTest(hooks);
 
-  module('averageValidatedSkillsSum', function() {
+  module('averageValidatedSkillsSum', () => {
 
     test('it should return the sum of competences average validated skills', function(assert) {
       //given
@@ -35,7 +35,7 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
     });
   });
 
-  module('averageResult', function() {
+  module('averageResult', () => {
 
     test('it should return average result', function(assert) {
       //given
@@ -68,7 +68,7 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
     });
   });
 
-  module('totalSkills', function() {
+  module('totalSkills', () => {
 
     test('it should return total skills', function(assert) {
       //given
@@ -102,7 +102,7 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
 
   });
 
-  module('maxTotalSkillsCountInCompetences', function() {
+  module('maxTotalSkillsCountInCompetences', () => {
     test('it should return the highest value among the total skills counts', function(assert) {
       //given
       const store = this.owner.lookup('service:store');

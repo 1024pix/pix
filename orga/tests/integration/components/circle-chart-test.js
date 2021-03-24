@@ -3,10 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | circle-chart', function(hooks) {
+module('Integration | Component | circle-chart', (hooks) => {
   setupRenderingTest(hooks);
 
-  module('Component rendering', function() {
+  module('Component rendering', () => {
 
     test('should render component', async function(assert) {
       // when

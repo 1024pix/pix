@@ -3,10 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | progress-bar', function(hooks) {
+module('Integration | Component | progress-bar', (hooks) => {
   setupRenderingTest(hooks);
 
-  module('Component rendering', function() {
+  module('Component rendering', () => {
     test('should render the component with the given value', async function(assert) {
       // given
       this.set('value', 80);

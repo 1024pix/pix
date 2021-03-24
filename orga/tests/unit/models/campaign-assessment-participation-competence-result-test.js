@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | CampaignAssessmentParticipationCompetenceResult', function(hooks) {
+module('Unit | Model | CampaignAssessmentParticipationCompetenceResult', (hooks) => {
   setupTest(hooks);
 
-  module('totalSkillsCountPercentage', function() {
+  module('totalSkillsCountPercentage', () => {
 
     test('should retrieve 100 since the competence is the highest number of total skills count', function(assert) {
       const store = this.owner.lookup('service:store');
@@ -47,7 +47,7 @@ module('Unit | Model | CampaignAssessmentParticipationCompetenceResult', functio
     });
   });
 
-  module('validatedSkillsCountPercentage', function() {
+  module('validatedSkillsCountPercentage', () => {
 
     test('should retrieve 100 since the user has validated all the competence', function(assert) {
       const store = this.owner.lookup('service:store');

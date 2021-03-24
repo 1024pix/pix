@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Adapters | organization-invitation-response', function(hooks) {
+module('Unit | Adapters | organization-invitation-response', (hooks) => {
   setupTest(hooks);
 
   let adapter;
@@ -10,7 +10,7 @@ module('Unit | Adapters | organization-invitation-response', function(hooks) {
     adapter = this.owner.lookup('adapter:organization-invitation-response');
   });
 
-  module('#urlForCreateRecord', function() {
+  module('#urlForCreateRecord', () => {
 
     test('should build update url from organization-invitation-response id', async function(assert) {
       // given

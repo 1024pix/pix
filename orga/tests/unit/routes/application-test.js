@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-module('Unit | Route | application', function(hooks) {
+module('Unit | Route | application', (hooks) => {
   setupTest(hooks);
 
   let saveStub;
@@ -14,9 +14,9 @@ module('Unit | Route | application', function(hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  module('sessionAuthenticated', function(hooks) {
+  module('sessionAuthenticated', (hooks) => {
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       saveStub = sinon.stub().resolves();
       prescriber = store.createRecord('prescriber', { id: 1, lang: 'en' });
       prescriber.save = saveStub;
@@ -77,7 +77,7 @@ module('Unit | Route | application', function(hooks) {
     });
   });
 
-  module('beforeModel', function(hooks) {
+  module('beforeModel', (hooks) => {
 
     hooks.beforeEach(function() {
       saveStub = sinon.stub().resolves();

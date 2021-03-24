@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import Service from '@ember/service';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | previous-page-button', function(hooks) {
+module('Integration | Component | previous-page-button', (hooks) => {
   setupRenderingTest(hooks);
   let transitionToStub;
 
@@ -35,7 +35,7 @@ module('Integration | Component | previous-page-button', function(hooks) {
     assert.contains('Coucou');
   });
 
-  module('when clicked on', function() {
+  module('when clicked on', () => {
     test('it should transition to specified route with provided routeId param if any', async function(assert) {
       // given
       this.route = 'someRoute';

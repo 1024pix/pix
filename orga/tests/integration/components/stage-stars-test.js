@@ -3,7 +3,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | stage-stars', function(hooks) {
+module('Integration | Component | stage-stars', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   test('should render stars for given stages', async function(assert) {

@@ -9,11 +9,11 @@ import EmberObject from '@ember/object';
 import { triggerCopySuccess } from 'ember-cli-clipboard/test-support';
 import faker from 'faker';
 
-module('Integration | Component | manage-authentication-method-modal', function(hooks) {
+module('Integration | Component | manage-authentication-method-modal', (hooks) => {
 
   setupIntlRenderingTest(hooks);
 
-  module('When Student is not connected with GAR method', function(hooks) {
+  module('When Student is not connected with GAR method', (hooks) => {
 
     const username = 'john.doe0112';
     const email = 'john.doe0112@example.net';
@@ -46,7 +46,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
       this.display = true;
     });
 
-    module('When Student is connected with username method', function() {
+    module('When Student is connected with username method', () => {
 
       test('should render component with username field', async function(assert) {
         // when
@@ -78,7 +78,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
       });
     });
 
-    module('When Student is connected with email and username method', function() {
+    module('When Student is connected with email and username method', () => {
 
       test('should render component with email field', async function(assert) {
         // when
@@ -109,7 +109,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
       });
     });
 
-    module('When Student is connected with email only', function() {
+    module('When Student is connected with email only', () => {
 
       test('should render add username authentication method', async function(assert) {
         // when
@@ -122,7 +122,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
       });
     });
 
-    module('When password is generated', function() {
+    module('When password is generated', () => {
 
       let generatedPassword;
 
@@ -194,7 +194,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
     });
   });
 
-  module('When Student is connected with GAR method', function() {
+  module('When Student is connected with GAR method', () => {
 
     hooks.beforeEach(function() {
       this.studentGAR = EmberObject.create({

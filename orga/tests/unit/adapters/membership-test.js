@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Adapter | membership', function(hooks) {
+module('Unit | Adapter | membership', (hooks) => {
   setupTest(hooks);
 
   let adapter;
@@ -12,7 +12,7 @@ module('Unit | Adapter | membership', function(hooks) {
     sinon.stub(adapter, 'ajax').resolves();
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(() => {
     adapter.ajax.restore();
   });
 
@@ -27,9 +27,9 @@ module('Unit | Adapter | membership', function(hooks) {
     });
   });
 
-  module('#updateRecord', function() {
+  module('#updateRecord', () => {
 
-    module('when disabled adapter option is provided', function() {
+    module('when disabled adapter option is provided', () => {
 
       test('it should trigger a POST request to /memberships/{id}/disable', async function(assert) {
         // when

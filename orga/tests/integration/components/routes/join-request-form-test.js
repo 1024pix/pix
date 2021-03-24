@@ -4,17 +4,17 @@ import { render, triggerEvent } from '@ember/test-helpers';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/join-request-form', function(hooks) {
+module('Integration | Component | routes/join-request-form', (hooks) => {
   setupRenderingTest(hooks);
 
-  module('when are not fill correctly', function() {
+  module('when are not fill correctly', () => {
 
     const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
     const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
 
     [{ stringFilledIn: '' },
       { stringFilledIn: ' ' },
-    ].forEach(function({ stringFilledIn }) {
+    ].forEach(({ stringFilledIn }) => {
       test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
         // given
         await render(hbs`<Routes::JoinRequestForm />`);
@@ -30,7 +30,7 @@ module('Integration | Component | routes/join-request-form', function(hooks) {
 
     [{ stringFilledIn: '' },
       { stringFilledIn: ' ' },
-    ].forEach(function({ stringFilledIn }) {
+    ].forEach(({ stringFilledIn }) => {
       test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
         // given
         await render(hbs`<Routes::JoinRequestForm />`);

@@ -11,7 +11,7 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Participants', function(hooks) {
+module('Acceptance | Campaign Participants', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -40,7 +40,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
     });
   });
 
-  module('When prescriber arrives on participants page', function() {
+  module('When prescriber arrives on participants page', () => {
 
     test('it should display participant list with default settings for pagination', async function(assert) {
       // when
@@ -78,7 +78,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
     });
   });
 
-  module('When prescriber is already on participants page and changes pagination', function() {
+  module('When prescriber is already on participants page and changes pagination', () => {
 
     test('it should display participant list with updated page size', async function(assert) {
       // given

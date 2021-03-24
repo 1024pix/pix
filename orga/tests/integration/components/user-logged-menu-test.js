@@ -6,7 +6,7 @@ import Object from '@ember/object';
 import Service from '@ember/service';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-module('Integration | Component | user-logged-menu', function(hooks) {
+module('Integration | Component | user-logged-menu', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   let prescriber, organization, organization2, organization3;

@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | student', function(hooks) {
+module('Unit | Model | student', (hooks) => {
 
   setupTest(hooks);
-  module('#authenticationMethods', function() {
+  module('#authenticationMethods', () => {
 
-    module('when not reconciled', function() {
+    module('when not reconciled', () => {
       test('it should return empty message', function(assert) {
         // given
         const store = this.owner.lookup('service:store');
@@ -18,9 +18,9 @@ module('Unit | Model | student', function(hooks) {
       });
     });
 
-    module('when reconciled', function() {
+    module('when reconciled', () => {
 
-      module('single authentication method', function() {
+      module('single authentication method', () => {
         test('it should return Identifiant message key when identified by username', function(assert) {
           // given
           const store = this.owner.lookup('service:store');
@@ -65,7 +65,7 @@ module('Unit | Model | student', function(hooks) {
         });
       });
 
-      module('multiple authentication method', function() {
+      module('multiple authentication method', () => {
 
         test('it should return 2 message keys, excluding GAR', function(assert) {
           // given
@@ -91,7 +91,7 @@ module('Unit | Model | student', function(hooks) {
     });
   });
 
-  module('#isStudentAssociated', function(hooks) {
+  module('#isStudentAssociated', (hooks) => {
     let store;
     hooks.beforeEach(function() {
       store = this.owner.lookup('service:store');
@@ -122,7 +122,7 @@ module('Unit | Model | student', function(hooks) {
     });
   });
 
-  module('#displayAddUsernameAuthentication', function(hooks) {
+  module('#displayAddUsernameAuthentication', (hooks) => {
     let store;
     hooks.beforeEach(function() {
       store = this.owner.lookup('service:store');

@@ -3,7 +3,7 @@ import { click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/authenticated/campaign/analysis/tab', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/analysis/tab', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   let store;
@@ -35,8 +35,8 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tab', f
     this.set('campaignTubeRecommendations', [campaignTubeRecommendation_1, campaignTubeRecommendation_2]);
   });
 
-  module('when analysis is displayed', async function(hooks) {
-    hooks.beforeEach(async function() {
+  module('when analysis is displayed', async (hooks) => {
+    hooks.beforeEach(async () => {
       await render(hbs`<Routes::Authenticated::Campaign::Analysis::Tab
         @campaignTubeRecommendations={{campaignTubeRecommendations}}
         @displayAnalysis={{true}}

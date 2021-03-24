@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | recommendation-indicator', function(hooks) {
+module('Integration | Component | recommendation-indicator', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should display recommendation indicator with a level of 4 for value 0', async function(assert) {

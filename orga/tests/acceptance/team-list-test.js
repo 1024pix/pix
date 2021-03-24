@@ -12,14 +12,14 @@ import {
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import times from 'lodash/times';
 
-module('Acceptance | Team List', function(hooks) {
+module('Acceptance | Team List', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let user;
 
-  module('When prescriber is not logged in', function() {
+  module('When prescriber is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
@@ -30,9 +30,9 @@ module('Acceptance | Team List', function(hooks) {
     });
   });
 
-  module('When prescriber is logged in', function() {
+  module('When prescriber is logged in', () => {
 
-    module('When prescriber is a member', function(hooks) {
+    module('When prescriber is a member', (hooks) => {
 
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('MEMBER');
@@ -55,7 +55,7 @@ module('Acceptance | Team List', function(hooks) {
       });
     });
 
-    module('When prescriber is an admin', function(hooks) {
+    module('When prescriber is an admin', (hooks) => {
 
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('ADMIN');
@@ -87,7 +87,7 @@ module('Acceptance | Team List', function(hooks) {
     });
   });
 
-  module('When the prescriber comes back to this route', function(hooks) {
+  module('When the prescriber comes back to this route', (hooks) => {
 
     hooks.beforeEach(async () => {
       user = createUserMembershipWithRole('ADMIN');

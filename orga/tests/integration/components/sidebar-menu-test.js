@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 
-module('Integration | Component | sidebar-menu', function(hooks) {
+module('Integration | Component | sidebar-menu', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it should display documentation for a pro organization', async function(assert) {

@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | current-organization', function(hooks) {
+module('Integration | Component | current-organization', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it displays the name of the given organization', async function(assert) {

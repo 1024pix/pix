@@ -11,7 +11,7 @@ class CurrentUserStub extends Service {
   };
 }
 
-module('Integration | Component | organization-credit-info', function(hooks) {
+module('Integration | Component | organization-credit-info', (hooks) => {
   setupIntlRenderingTest(hooks);
   let currentUserStub;
 

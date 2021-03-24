@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Route | not-found', function(hooks) {
+module('Unit | Route | not-found', (hooks) => {
   setupTest(hooks);
 
   test('should redirect to application route', function(assert) {

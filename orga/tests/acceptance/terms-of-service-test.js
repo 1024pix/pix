@@ -10,7 +10,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 import { createPrescriberWithPixOrgaTermsOfService } from '../helpers/test-init';
 
-module('Acceptance | terms-of-service', function(hooks) {
+module('Acceptance | terms-of-service', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -26,7 +26,7 @@ module('Acceptance | terms-of-service', function(hooks) {
     assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
   });
 
-  module('When prescriber has not accepted terms of service yet', function(hooks) {
+  module('When prescriber has not accepted terms of service yet', (hooks) => {
 
     hooks.beforeEach(async () => {
       prescriber = createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServiceAccepted: false });
@@ -62,7 +62,7 @@ module('Acceptance | terms-of-service', function(hooks) {
     });
   });
 
-  module('When prescriber has already accepted terms of service', function(hooks) {
+  module('When prescriber has already accepted terms of service', (hooks) => {
 
     hooks.beforeEach(async () => {
       prescriber = createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServiceAccepted: true });

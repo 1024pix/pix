@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | campaignAssessmentParticipationResult', function(hooks) {
+module('Unit | Model | campaignAssessmentParticipationResult', (hooks) => {
   setupTest(hooks);
 
-  module('maxTotalSkillsCount', function() {
+  module('maxTotalSkillsCount', () => {
 
     test('should calculate max total skills', function(assert) {
       const store = this.owner.lookup('service:store');
@@ -29,7 +29,7 @@ module('Unit | Model | campaignAssessmentParticipationResult', function(hooks) {
     });
   });
 
-  module('sortedCompetenceResults', function() {
+  module('sortedCompetenceResults', () => {
 
     test('should sort competence results', function(assert) {
       const store = this.owner.lookup('service:store');

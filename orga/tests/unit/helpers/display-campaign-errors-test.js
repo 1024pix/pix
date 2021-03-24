@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Helper | display-campaign-errors', function(hooks) {
+module('Unit | Helper | display-campaign-errors', (hooks) => {
   setupTest(hooks);
   let helper;
   hooks.beforeEach(function() {
@@ -9,14 +9,14 @@ module('Unit | Helper | display-campaign-errors', function(hooks) {
     helper = this.owner.factoryFor('helper:display-campaign-errors').create();
   });
 
-  module('when there is an error', function() {
+  module('when there is an error', () => {
     test('it returns the intlKey corresponding to the name error message', function(assert) {
       const nameErrors = [{ attribute: 'name', message: 'CAMPAIGN_NAME_IS_REQUIRED' }];
       assert.equal(helper.compute([nameErrors]), 'Veuillez donner un nom à votre campagne.');
     });
   });
 
-  module('when there is no error', function() {
+  module('when there is no error', () => {
     test('it returns the intlKey corresponding to the type error message', function(assert) {
       const noError = [];
       assert.equal(helper.compute([noError]), null);

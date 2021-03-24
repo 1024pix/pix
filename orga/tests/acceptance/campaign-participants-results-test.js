@@ -10,7 +10,7 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Participants Results', function(hooks) {
+module('Acceptance | Campaign Participants Results', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -32,7 +32,7 @@ module('Acceptance | Campaign Participants Results', function(hooks) {
     });
   });
 
-  module('When prescriber arrives on participants page', function() {
+  module('When prescriber arrives on participants page', () => {
 
     test('it could click on user to go to details', async function(assert) {
       // when

@@ -14,7 +14,7 @@ const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
 const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
-module('Integration | Component | routes/register-form', function(hooks) {
+module('Integration | Component | routes/register-form', (hooks) => {
   setupRenderingTest(hooks);
 
   class SessionStub extends Service {}
@@ -34,7 +34,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
     assert.dom('.register-form').exists();
   });
 
-  module('successful cases', function() {
+  module('successful cases', () => {
 
     hooks.beforeEach(function() {
       this.owner.unregister('service:store');
@@ -80,13 +80,13 @@ module('Integration | Component | routes/register-form', function(hooks) {
     });
   });
 
-  module('errors management', function() {
+  module('errors management', () => {
 
     module('error display', () => {
 
       [{ stringFilledIn: '' },
         { stringFilledIn: ' ' },
-      ].forEach(function({ stringFilledIn }) {
+      ].forEach(({ stringFilledIn }) => {
         test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
           // given
           await render(hbs`<Routes::RegisterForm/>`);
@@ -103,7 +103,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
       [{ stringFilledIn: '' },
         { stringFilledIn: ' ' },
-      ].forEach(function({ stringFilledIn }) {
+      ].forEach(({ stringFilledIn }) => {
         test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
           // given
           await render(hbs`<Routes::RegisterForm/>`);
@@ -121,7 +121,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
       [{ stringFilledIn: ' ' },
         { stringFilledIn: 'a' },
         { stringFilledIn: 'shi.fu' },
-      ].forEach(function({ stringFilledIn }) {
+      ].forEach(({ stringFilledIn }) => {
 
         test(`it should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
           // given
@@ -141,7 +141,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         { stringFilledIn: 'password' },
         { stringFilledIn: 'password1' },
         { stringFilledIn: 'Password' },
-      ].forEach(function({ stringFilledIn }) {
+      ].forEach(({ stringFilledIn }) => {
 
         test(`it should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
           // given

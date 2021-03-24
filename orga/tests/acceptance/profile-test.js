@@ -10,7 +10,7 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Profile', function(hooks) {
+module('Acceptance | Campaign Profile', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);

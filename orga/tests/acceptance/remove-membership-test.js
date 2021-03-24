@@ -24,13 +24,13 @@ async function createAuthenticatedSession() {
   return user;
 }
 
-module('Acceptance | Remove membership', function(hooks) {
+module('Acceptance | Remove membership', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
   let user;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async () => {
     const adminUser = await createAuthenticatedSession();
     const organizationId = adminUser.memberships.models.firstObject.organizationId;
 

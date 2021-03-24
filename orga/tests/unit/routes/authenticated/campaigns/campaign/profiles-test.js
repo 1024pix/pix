@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/campaigns/campaign/profiles', function(hooks) {
+module('Unit | Route | authenticated/campaigns/campaign/profiles', (hooks) => {
   setupTest(hooks);
 
   let route;
@@ -11,11 +11,11 @@ module('Unit | Route | authenticated/campaigns/campaign/profiles', function(hook
     route = this.owner.lookup('route:authenticated/campaigns/campaign/profiles');
   });
 
-  module('fetchProfileSummaries', function(hooks) {
+  module('fetchProfileSummaries', (hooks) => {
     let store;
     let storeStub;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       storeStub = {
         query: sinon.stub(),
       };
@@ -23,7 +23,7 @@ module('Unit | Route | authenticated/campaigns/campaign/profiles', function(hook
       route.store = storeStub;
     });
 
-    hooks.afterEach(function() {
+    hooks.afterEach(() => {
       route.store = store;
     });
 
@@ -59,11 +59,11 @@ module('Unit | Route | authenticated/campaigns/campaign/profiles', function(hook
     });
   });
 
-  module('loading', function(hooks) {
+  module('loading', (hooks) => {
     let store;
     let storeStub;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       storeStub = {
         query: sinon.stub(),
       };
@@ -71,25 +71,25 @@ module('Unit | Route | authenticated/campaigns/campaign/profiles', function(hook
       route.store = storeStub;
     });
 
-    hooks.afterEach(function() {
+    hooks.afterEach(() => {
       route.store = store;
     });
 
-    module('when the transition comes from "authenticated.campaigns.campaign.profiles"', function() {
+    module('when the transition comes from "authenticated.campaigns.campaign.profiles"', () => {
       test('if returns false', function(assert) {
         const transition = { from: { name: 'authenticated.campaigns.campaign.profiles' } };
         assert.equal(route.loading(transition), false);
       });
     });
 
-    module('when the transition comes from somewhere else', function() {
+    module('when the transition comes from somewhere else', () => {
       test('if returns undefined', function(assert) {
         const transition = { from: { name: 'authenticated.campaigns.campaign' } };
         assert.equal(route.loading(transition), undefined);
       });
     });
 
-    module('when the transition has no from attribute', function() {
+    module('when the transition has no from attribute', () => {
       test('if keeps loading page', function(assert) {
         const transition = {};
         assert.equal(route.loading(transition), undefined);

@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Service | url', function(hooks) {
+module('Unit | Service | url', (hooks) => {
   setupTest(hooks);
 
-  module('#campaignsRootUrl', function() {
+  module('#campaignsRootUrl', () => {
 
     test('should get default campaigns root url when is defined', function(assert) {
       // given

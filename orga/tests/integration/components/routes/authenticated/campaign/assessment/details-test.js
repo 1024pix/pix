@@ -3,7 +3,7 @@ import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-renderi
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/assessment/details', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/assessment/details', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function() {
@@ -80,8 +80,8 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
     assert.dom(`a[href="/campagnes/${campaign.id}/evaluations/${campaignAssessmentParticipation.id}/analyse"]`).hasText('Analyse');
   });
 
-  module('is shared', function() {
-    module('when participant has shared results', function() {
+  module('is shared', () => {
+    module('when participant has shared results', () => {
       test('it displays the sharing date', async function(assert) {
         const campaignAssessmentParticipation = {
           isShared: true,
@@ -100,7 +100,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
       });
     });
 
-    module('when participant has not shared results', function() {
+    module('when participant has not shared results', () => {
       test('it does not displays the sharing date', async function(assert) {
         const campaignAssessmentParticipation = {
           isShared: false,
@@ -118,8 +118,8 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
     });
   });
 
-  module('identifiant', function() {
-    module('when the external id is present', function() {
+  module('identifiant', () => {
+    module('when the external id is present', () => {
       test('it displays the external id', async function(assert) {
         const campaignAssessmentParticipation = {
           participantExternalId: 'i12345',
@@ -137,7 +137,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
         assert.contains('i12345');
       });
     });
-    module('when the external id is not present', function() {
+    module('when the external id is not present', () => {
       test('it does not display the external id', async function(assert) {
         const campaignAssessmentParticipation = {
           participantExternalId: null,
@@ -156,8 +156,8 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
     });
   });
 
-  module('results information', function() {
-    module('when the participation is shared', function() {
+  module('results information', () => {
+    module('when the participation is shared', () => {
       test('it should not display campaign progression', async function(assert) {
         const campaignAssessmentParticipation = {
           progression: 100,
@@ -192,7 +192,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
         assert.dom('[aria-label="Résultat"]').containsText('45 / 50 ACQUIS');
       });
 
-      module('when the campaign has stages', function() {
+      module('when the campaign has stages', () => {
         test('it displays stages acquired', async function(assert) {
           const campaign = {
             hasStages: true,
@@ -212,7 +212,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
         });
       });
 
-      module('when the campaign has no stages', function() {
+      module('when the campaign has no stages', () => {
         test('it displays campaign participation mastery percentage', async function(assert) {
           const campaignAssessmentParticipation = {
             masteryPercentage: 65,
@@ -230,7 +230,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
         });
       });
 
-      module('when the campaign has badges', function() {
+      module('when the campaign has badges', () => {
         test('it displays badges acquired', async function(assert) {
           const campaign = { hasBadges: true };
           const campaignAssessmentParticipation = { isShared: true, badges: [{ id: 1, title: 'Les bases' }] };
@@ -244,7 +244,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
         });
       });
 
-      module('when the campaign has not badges', function() {
+      module('when the campaign has not badges', () => {
         test('it does not display badges acquired', async function(assert) {
           const campaign = { hasBadges: false };
           const campaignAssessmentParticipation = { isShared: true, badges: [{ id: 1, title: 'Les bases' }] };
@@ -258,7 +258,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
         });
       });
 
-      module('when the campaign has badges but the participant has not acquired one', function() {
+      module('when the campaign has badges but the participant has not acquired one', () => {
         test('it does not display badges', async function(assert) {
           const campaign = { hasBadges: true };
           const campaignAssessmentParticipation = { isShared: true, badges: [] };
@@ -273,7 +273,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
       });
     });
 
-    module('when the participation is not shared', function() {
+    module('when the participation is not shared', () => {
       test('it does not display results', async function(assert) {
         const campaignAssessmentParticipation = {
           isShared: false,

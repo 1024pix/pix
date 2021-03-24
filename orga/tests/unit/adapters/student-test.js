@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import ENV from 'pix-orga/config/environment';
 
-module('Unit | Adapters | student', function(hooks) {
+module('Unit | Adapters | student', (hooks) => {
   setupTest(hooks);
 
   let adapter;
@@ -25,7 +25,7 @@ module('Unit | Adapters | student', function(hooks) {
     });
   });
 
-  module('#dissociateUser', function() {
+  module('#dissociateUser', () => {
 
     test('it performs the request to dissociate user from student', async function(assert) {
       // given
@@ -47,7 +47,7 @@ module('Unit | Adapters | student', function(hooks) {
     });
   });
 
-  module('#updateRecord', function() {
+  module('#updateRecord', () => {
     test('it performs the request to update the student number', async function(assert) {
       // given
       const studentId = 10;

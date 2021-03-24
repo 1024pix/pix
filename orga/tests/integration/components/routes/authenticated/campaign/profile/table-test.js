@@ -3,10 +3,10 @@ import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-renderi
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/profile/table', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/profile/table', (hooks) => {
   setupIntlRenderingTest(hooks);
 
-  module('when profile is not shared', function() {
+  module('when profile is not shared', () => {
     test('it displays empty table message', async function(assert) {
       this.isShared = false;
       this.competences = [];
@@ -17,7 +17,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/table', 
     });
   });
 
-  module('when profile is shared', function() {
+  module('when profile is shared', () => {
     test('it displays area color as border', async function(assert) {
       this.competences = [{ name: 'name1', areaColor: 'jaffa' }];
       this.isShared = true;

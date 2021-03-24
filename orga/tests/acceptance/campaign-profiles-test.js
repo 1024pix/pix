@@ -8,7 +8,7 @@ import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUs
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Profiles', function(hooks) {
+module('Acceptance | Campaign Profiles', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -31,7 +31,7 @@ module('Acceptance | Campaign Profiles', function(hooks) {
     server.createList('campaign-profiles-collection-participation-summary', rowCount);
   });
 
-  module('When user arrives on profiles page', function() {
+  module('When user arrives on profiles page', () => {
 
     test('it should display profile list with default settings for pagination', async function(assert) {
       // when
@@ -58,7 +58,7 @@ module('Acceptance | Campaign Profiles', function(hooks) {
     });
   });
 
-  module('When user is already on profiles page and changes pagination', function() {
+  module('When user is already on profiles page and changes pagination', () => {
 
     test('it should display profile list with updated page size', async function(assert) {
       // given

@@ -1,15 +1,15 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/campaigns/campaign/assessments', function(hooks) {
+module('Unit | Controller | authenticated/campaigns/campaign/assessments', (hooks) => {
   setupTest(hooks);
   let controller;
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/campaigns/campaign/assessments');
   });
 
-  module('triggerFiltering', function() {
-    module('division filter', function() {
+  module('triggerFiltering', () => {
+    module('division filter', () => {
       test('update the division filter', function(assert) {
         // given
         controller.triggerFiltering({ divisions: ['6eme'] });
@@ -27,7 +27,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessments', funct
       });
     });
 
-    module('badge filter', function() {
+    module('badge filter', () => {
       test('update the badge filter', function(assert) {
         // given
         controller.triggerFiltering({ badges: ['badge1'] });
@@ -45,7 +45,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessments', funct
       });
     });
 
-    module('stage filter', function() {
+    module('stage filter', () => {
       test('update the stage filter', function(assert) {
         // given
         controller.triggerFiltering({ stages: ['stage1'] });
@@ -64,7 +64,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessments', funct
     });
   });
 
-  module('resetFiltering', function() {
+  module('resetFiltering', () => {
     test('reset the filters', function(assert) {
       //given
       controller.set('pageNumber', 1);

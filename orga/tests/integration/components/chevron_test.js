@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | chevron', function(hooks) {
+module('Integration | Component | chevron', (hooks) => {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {

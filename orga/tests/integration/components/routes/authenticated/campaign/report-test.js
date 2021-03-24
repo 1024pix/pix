@@ -10,7 +10,7 @@ class CurrentUserStub extends Service {
   }
 }
 
-module('Integration | Component | routes/authenticated/campaign/report', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/report', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   let store;
@@ -49,7 +49,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
     assert.contains('1234PixTest');
   });
 
-  module('When there is some results', function() {
+  module('When there is some results', () => {
     test('it should display campaign participants number', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
@@ -80,7 +80,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
     });
   });
 
-  module('When there is no results', function() {
+  module('When there is no results', () => {
     test('it should display "-" when no one participated', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
@@ -112,7 +112,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
     });
   });
 
-  module('Navigation', function() {
+  module('Navigation', () => {
 
     hooks.beforeEach(function() {
       this.owner.setupRouter();
@@ -130,7 +130,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       assert.dom('nav a[href="/campagnes/12"]').hasText('Détails');
     });
 
-    module('When campaign type is ASSESSMENT', function(hooks) {
+    module('When campaign type is ASSESSMENT', (hooks) => {
       hooks.beforeEach(async function() {
         const campaign = store.createRecord('campaign', {
           id: 13,
@@ -156,7 +156,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       });
     });
 
-    module('When campaign type is PROFILES_COLLECTION', function(hooks) {
+    module('When campaign type is PROFILES_COLLECTION', (hooks) => {
       hooks.beforeEach(async function() {
         // given
         const campaign = store.createRecord('campaign', {

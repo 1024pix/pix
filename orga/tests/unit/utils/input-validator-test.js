@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import InputValidator from 'pix-orga/utils/input-validator';
 
-module('Unit | Utils | input validator', function(hooks) {
+module('Unit | Utils | input validator', (hooks) => {
   setupTest(hooks);
 
   test('should have error when validation fails', function(assert) {

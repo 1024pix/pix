@@ -11,12 +11,12 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign List', function(hooks) {
+module('Acceptance | Campaign List', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When prescriber is not logged in', function() {
+  module('When prescriber is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated prescriber', async function(assert) {
       // when
@@ -27,7 +27,7 @@ module('Acceptance | Campaign List', function(hooks) {
     });
   });
 
-  module('When prescriber is logged in', function(hooks) {
+  module('When prescriber is logged in', (hooks) => {
 
     let user;
 
@@ -82,7 +82,7 @@ module('Acceptance | Campaign List', function(hooks) {
       assert.equal(currentURL(), '/campagnes/1');
     });
 
-    module('When using creator filter', function(hooks) {
+    module('When using creator filter', (hooks) => {
       let creator;
 
       hooks.beforeEach(async () => {

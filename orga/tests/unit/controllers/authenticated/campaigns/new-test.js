@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/campaigns/new', function(hooks) {
+module('Unit | Controller | authenticated/campaigns/new', (hooks) => {
   setupTest(hooks);
 
   test('it exists', function(assert) {

@@ -3,7 +3,7 @@ import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-renderi
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/collective-results/tab', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/collective-results/tab', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   let store;

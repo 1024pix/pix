@@ -6,7 +6,7 @@ import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/sup-students | list-items', function(hooks) {
+module('Integration | Component | routes/authenticated/sup-students | list-items', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function() {
@@ -21,7 +21,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
     assert.contains('Étudiants');
   });
 
-  module('when user is admin', function(hooks) {
+  module('when user is admin', (hooks) => {
     hooks.beforeEach(function() {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1 });
@@ -50,7 +50,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
     });
   });
 
-  module('when user is only member', function(hooks) {
+  module('when user is only member', (hooks) => {
     hooks.beforeEach(function() {
       class CurrentUserStub extends Service {
         isAdminInOrganization = false;
@@ -120,7 +120,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
     assert.contains('01/02/2010');
   });
 
-  module('when user is filtering some users', function() {
+  module('when user is filtering some users', () => {
     test('it should trigger filtering with lastname', async function(assert) {
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);

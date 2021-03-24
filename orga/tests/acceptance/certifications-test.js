@@ -5,7 +5,7 @@ import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserManagingStudents, createPrescriberByUser } from '../helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Certifications page', function(hooks) {
+module('Acceptance | Certifications page', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -22,12 +22,12 @@ module('Acceptance | Certifications page', function(hooks) {
     });
   });
 
-  module('When feature toggle for exporting certification results is enabled', function() {
+  module('When feature toggle for exporting certification results is enabled', () => {
     hooks.beforeEach(async () => {
       server.create('feature-toggle', { id: 0, isCertificationResultsInOrgaEnabled: true });
     });
 
-    module('When user arrives on certifications page', function() {
+    module('When user arrives on certifications page', () => {
 
       test('should show Certifications page', async function(assert) {
         // given / when

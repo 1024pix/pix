@@ -11,7 +11,7 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Sup Student List', function(hooks) {
+module('Acceptance | Sup Student List', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -22,8 +22,8 @@ module('Acceptance | Sup Student List', function(hooks) {
     notificationMessagesService.clearAll();
   });
 
-  module('When admin', function(hooks) {
-    hooks.beforeEach(async function() {
+  module('When admin', (hooks) => {
+    hooks.beforeEach(async () => {
       user = createUserManagingStudents('ADMIN', 'SUP');
       createPrescriberByUser(user);
 
@@ -35,7 +35,7 @@ module('Acceptance | Sup Student List', function(hooks) {
       });
     });
 
-    module('And uploads a file', function() {
+    module('And uploads a file', () => {
       test('it should display success message and reload students', async function(assert) {
         // given
         await visit('/etudiants');
@@ -68,7 +68,7 @@ module('Acceptance | Sup Student List', function(hooks) {
       });
     });
 
-    module('And edit the student number', function(hooks) {
+    module('And edit the student number', (hooks) => {
       hooks.beforeEach(() => {
         const { organizationId } = user.memberships.models.firstObject;
         server.create('student', {

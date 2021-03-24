@@ -4,11 +4,11 @@ import { resolve } from 'rsvp';
 import Object from '@ember/object';
 import Service from '@ember/service';
 
-module('Unit | Service | feature toggles', function(hooks) {
+module('Unit | Service | feature toggles', (hooks) => {
 
   setupTest(hooks);
 
-  module('feature toggles are loaded', function() {
+  module('feature toggles are loaded', () => {
 
     test('should load the feature toggles', async function(assert) {
       // Given

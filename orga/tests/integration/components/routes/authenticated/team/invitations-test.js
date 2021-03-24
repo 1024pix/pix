@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/authenticated/team | invitations', function(hooks) {
+module('Integration | Component | routes/authenticated/team | invitations', (hooks) => {
 
   setupIntlRenderingTest(hooks);
 

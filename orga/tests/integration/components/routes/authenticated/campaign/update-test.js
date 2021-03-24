@@ -6,7 +6,7 @@ import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/cli
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | routes/authenticated/campaign/update', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/update', (hooks) => {
 
   setupIntlRenderingTest(hooks);
 
@@ -37,7 +37,7 @@ module('Integration | Component | routes/authenticated/campaign/update', functio
     assert.deepEqual(this.campaign.title, 'New title');
   });
 
-  module('When campaign type is ASSESSMENT', function() {
+  module('When campaign type is ASSESSMENT', () => {
     test('it should display campaign title input', async function(assert) {
       this.campaign = EmberObject.create({ isTypeAssessment: true });
 
@@ -48,7 +48,7 @@ module('Integration | Component | routes/authenticated/campaign/update', functio
     });
   });
 
-  module('When campaign type is not ASSESSMENT', function() {
+  module('When campaign type is not ASSESSMENT', () => {
     test('it should not display campaign title input', async function(assert) {
       this.campaign = EmberObject.create({ isTypeAssessment: false });
 

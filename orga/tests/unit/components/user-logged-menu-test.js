@@ -8,7 +8,7 @@ module('Unit | Component | user-logged-menu', (hooks) => {
 
   let component;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(() => {
     component = createGlimmerComponent('component:user-logged-menu');
   });
 

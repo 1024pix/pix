@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-module('Integration | Component | routes/authenticated/campaign/profile/list', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/profile/list', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   const goToProfilePage = () => {};
@@ -15,7 +15,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
     store = this.owner.lookup('service:store');
   });
 
-  module('when there are profiles', function() {
+  module('when there are profiles', () => {
     test('it should display the profile list', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
@@ -129,7 +129,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
     });
   });
 
-  module('when there is no profile', function() {
+  module('when there is no profile', () => {
     test('it should the empty state', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
@@ -154,7 +154,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
     });
   });
 
-  module('when user works for a SCO organization which manages students', function() {
+  module('when user works for a SCO organization which manages students', () => {
     class CurrentUserStub extends Service {
       prescriber = { areNewYearSchoolingRegistrationsImported: false }
       isSCOManagingStudents = true;

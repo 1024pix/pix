@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { resolve } from 'rsvp';
 
-module('Unit | Adapters | prescriber', function(hooks) {
+module('Unit | Adapters | prescriber', (hooks) => {
   setupTest(hooks);
 
   let adapter;
@@ -13,7 +13,7 @@ module('Unit | Adapters | prescriber', function(hooks) {
     adapter.set('ajax', ajaxStub);
   });
 
-  module('#urlForQueryRecord', function() {
+  module('#urlForQueryRecord', () => {
 
     test('should add /prescription inside prescriber query record', function(assert) {
       // when
@@ -24,7 +24,7 @@ module('Unit | Adapters | prescriber', function(hooks) {
     });
   });
 
-  module('#urlForUpdateRecord', function() {
+  module('#urlForUpdateRecord', () => {
 
     test('it should redirect to pix-orga-terms-of-service-acceptance', async function(assert) {
       // when

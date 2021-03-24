@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import isPasswordValid from 'pix-orga/utils/password-validator';
 
-module('Unit | Utils | password validator', function(hooks) {
+module('Unit | Utils | password validator', (hooks) => {
   setupTest(hooks);
 
-  module('Validation rules', function() {
+  module('Validation rules', () => {
 
     test('should contain at least 8 characters:', function(assert) {
       assert.equal(isPasswordValid('Ab123456'), true);
@@ -29,7 +29,7 @@ module('Unit | Utils | password validator', function(hooks) {
 
   });
 
-  module('Invalid password', function() {
+  module('Invalid password', () => {
     [
       '',
       ' ',
@@ -43,14 +43,14 @@ module('Unit | Utils | password validator', function(hooks) {
       '+!@)-=`"#&1',
       '+!@)-=`"#&1A',
       '+!@)-=`"#&1a',
-    ].forEach(function(badPassword) {
+    ].forEach((badPassword) => {
       test(`should return false when password is invalid: ${badPassword}`, function(assert) {
         assert.equal(isPasswordValid(badPassword), false);
       });
     });
   });
 
-  module('Valid password', function() {
+  module('Valid password', () => {
     [
       'PIXBETa1',
       'PIXBETa12',
@@ -66,7 +66,7 @@ module('Unit | Utils | password validator', function(hooks) {
       '1234Password avec espace',
       '1A      a1',
       'Aà1      ',
-    ].forEach(function(validPassword) {
+    ].forEach((validPassword) => {
       test(`should return true if provided password is valid: ${validPassword}`, function(assert) {
         assert.equal(isPasswordValid(validPassword), true);
       });

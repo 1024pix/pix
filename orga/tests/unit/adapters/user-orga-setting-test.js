@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { resolve } from 'rsvp';
 import sinon from 'sinon';
 
-module('Unit | Adapters | user-orga-setting', function(hooks) {
+module('Unit | Adapters | user-orga-setting', (hooks) => {
   setupTest(hooks);
 
   let adapter;
@@ -15,7 +15,7 @@ module('Unit | Adapters | user-orga-setting', function(hooks) {
     adapter.set('ajax', ajaxStub);
   });
 
-  module('#urlForUpdateRecord', function() {
+  module('#urlForUpdateRecord', () => {
 
     test('it should build update url from user id', async function(assert) {
       // when
@@ -27,14 +27,14 @@ module('Unit | Adapters | user-orga-setting', function(hooks) {
     });
   });
 
-  module('#updateRecord', function() {
-    module('when userId adapterOption passed', function(hooks) {
+  module('#updateRecord', () => {
+    module('when userId adapterOption passed', (hooks) => {
 
-      hooks.beforeEach(function() {
+      hooks.beforeEach(() => {
         sinon.stub(adapter, 'ajax');
       });
 
-      hooks.afterEach(function() {
+      hooks.afterEach(() => {
         adapter.ajax.restore();
       });
 
@@ -58,7 +58,7 @@ module('Unit | Adapters | user-orga-setting', function(hooks) {
     });
   });
 
-  module('#urlForCreateRecord', function() {
+  module('#urlForCreateRecord', () => {
 
     test('it should build create url from user id', async function(assert) {
       // when
@@ -70,14 +70,14 @@ module('Unit | Adapters | user-orga-setting', function(hooks) {
     });
   });
 
-  module('#createRecord', function() {
-    module('when userId adapterOption passed', function(hooks) {
+  module('#createRecord', () => {
+    module('when userId adapterOption passed', (hooks) => {
 
-      hooks.beforeEach(function() {
+      hooks.beforeEach(() => {
         sinon.stub(adapter, 'ajax');
       });
 
-      hooks.afterEach(function() {
+      hooks.afterEach(() => {
         adapter.ajax.restore();
       });
 

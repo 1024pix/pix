@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/campaigns/campaign/assessments', function(hooks) {
+module('Unit | Route | authenticated/campaigns/campaign/assessments', (hooks) => {
   setupTest(hooks);
 
   let route;
@@ -11,11 +11,11 @@ module('Unit | Route | authenticated/campaigns/campaign/assessments', function(h
     route = this.owner.lookup('route:authenticated/campaigns/campaign/assessments');
   });
 
-  module('fetchSummaries', function(hooks) {
+  module('fetchSummaries', (hooks) => {
     let store;
     let storeStub;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       storeStub = {
         query: sinon.stub(),
       };
@@ -23,7 +23,7 @@ module('Unit | Route | authenticated/campaigns/campaign/assessments', function(h
       route.store = storeStub;
     });
 
-    hooks.afterEach(function() {
+    hooks.afterEach(() => {
       route.store = store;
     });
 

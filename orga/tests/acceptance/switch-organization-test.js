@@ -11,14 +11,14 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Switch Organization', function(hooks) {
+module('Acceptance | Switch Organization', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When connected prescriber is linked to only one organization', function(hooks) {
+  module('When connected prescriber is linked to only one organization', (hooks) => {
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
 
@@ -50,9 +50,9 @@ module('Acceptance | Switch Organization', function(hooks) {
     });
   });
 
-  module('When connected prescriber is linked to multiples organizations', function(hooks) {
+  module('When connected prescriber is linked to multiples organizations', (hooks) => {
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       const user = createUserWithMultipleMemberships();
       createPrescriberByUser(user);
 
@@ -76,7 +76,7 @@ module('Acceptance | Switch Organization', function(hooks) {
       assert.dom('.logged-user-menu-item__organization-externalId').hasText('(HEAVEN)');
     });
 
-    module('When prescriber click on an organization', function() {
+    module('When prescriber click on an organization', () => {
 
       test('should change main organization in summary', async function(assert) {
         // when
@@ -99,7 +99,7 @@ module('Acceptance | Switch Organization', function(hooks) {
         assert.dom('.logged-user-menu-item__organization-externalId').hasText('(EXTBRO)');
       });
 
-      module('When prescriber is on campaign page with pagination', function() {
+      module('When prescriber is on campaign page with pagination', () => {
 
         test('it should reset the queryParams when redirecting', async function(assert) {
           // given
@@ -114,7 +114,7 @@ module('Acceptance | Switch Organization', function(hooks) {
         });
       });
 
-      module('When user switch from a not managing student organization to a managing student organization', function() {
+      module('When user switch from a not managing student organization to a managing student organization', () => {
 
         test('it should display student menu item', async function(assert) {
           // when

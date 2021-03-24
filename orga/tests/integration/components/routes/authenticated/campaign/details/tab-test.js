@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 
-module('Integration | Component | routes/authenticated/campaign/details/tab', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/details/tab', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   let store;
@@ -17,8 +17,8 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
     this.owner.register('service:url', UrlStub);
   });
 
-  module('on TargetProfile display', function() {
-    module('when type is ASSESSMENT', function() {
+  module('on TargetProfile display', () => {
+    module('when type is ASSESSMENT', () => {
       test('it should display target profile related to campaign', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', {
@@ -36,7 +36,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
       });
     });
 
-    module('when type is PROFILES_COLLECTION', function() {
+    module('when type is PROFILES_COLLECTION', () => {
       test('it should not display target profile', async function(assert) {
         const campaign = store.createRecord('campaign', {
           type: 'PROFILES_COLLECTION',
@@ -53,8 +53,8 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
     });
   });
 
-  module('on idPixLabel display', function() {
-    module('when idPixLabel is set', function() {
+  module('on idPixLabel display', () => {
+    module('when idPixLabel is set', () => {
       test('it should display the idPixLabel', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', {
@@ -71,7 +71,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
       });
     });
 
-    module('when idPixLabel is not set', function() {
+    module('when idPixLabel is not set', () => {
       test('it should not display the idPixLabel', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', {
@@ -89,7 +89,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
     });
   });
 
-  module('on campaign url display', function() {
+  module('on campaign url display', () => {
     test('it should display the campaign url', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', { code: '1234' });
@@ -104,8 +104,8 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
     });
   });
 
-  module('on campaign title display', function() {
-    module('when type is ASSESSMENT', function() {
+  module('on campaign title display', () => {
+    module('when type is ASSESSMENT', () => {
       test('it should display the campaign title', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', {
@@ -123,7 +123,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
       });
     });
 
-    module('when type is PROFILES_COLLECTION', function() {
+    module('when type is PROFILES_COLLECTION', () => {
       test('it should not display the campaign title', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', {
@@ -141,7 +141,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
     });
   });
 
-  module('on Archived action display', function() {
+  module('on Archived action display', () => {
     test('it should display the button archived', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', { isArchived: false });
@@ -156,8 +156,8 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
     });
   });
 
-  module('on Modify action display', function() {
-    module('when the campaign is not archived', function() {
+  module('on Modify action display', () => {
+    module('when the campaign is not archived', () => {
       test('it should display the button modify', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', { isArchived: false });
@@ -172,7 +172,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
       });
     });
 
-    module('when the campaign is archived', function() {
+    module('when the campaign is archived', () => {
       test('it should not display the button modify', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', { isArchived: true });

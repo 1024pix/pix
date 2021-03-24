@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import setupIntl from '../../helpers/setup-intl';
 
-module('Unit | Service | Error messages', function(hooks) {
+module('Unit | Service | Error messages', (hooks) => {
   setupTest(hooks);
   setupIntl(hooks);
 

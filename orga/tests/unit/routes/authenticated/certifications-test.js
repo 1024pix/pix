@@ -5,10 +5,10 @@ import EmberObject from '@ember/object';
 
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/certifications', function(hooks) {
+module('Unit | Route | authenticated/certifications', (hooks) => {
   setupTest(hooks);
 
-  module('beforeModel', function() {
+  module('beforeModel', () => {
     test('should redirect to application when featureToggles.isCertificationResultsInOrgaEnabled is false', function(assert) {
       // given
       class CurrentUserStub extends Service {
@@ -135,7 +135,7 @@ module('Unit | Route | authenticated/certifications', function(hooks) {
     });
   });
 
-  module('#model', function() {
+  module('#model', () => {
 
     test('it should return a list of options based on organization divisions', async function(assert) {
       // given

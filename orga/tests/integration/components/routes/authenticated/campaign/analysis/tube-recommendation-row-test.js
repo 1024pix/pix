@@ -3,7 +3,7 @@ import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-renderi
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/analysis/tube-recommendation-row', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/analysis/tube-recommendation-row', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   let store;

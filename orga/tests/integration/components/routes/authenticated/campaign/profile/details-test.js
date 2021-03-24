@@ -3,7 +3,7 @@ import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-renderi
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/profile/details', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/profile/details', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   test('it displays user information', async function(assert) {
@@ -37,8 +37,8 @@ module('Integration | Component | routes/authenticated/campaign/profile/details'
     assert.contains('01 janv. 2020');
   });
 
-  module('is shared', function() {
-    module('when participant has shared results', function() {
+  module('is shared', () => {
+    module('when participant has shared results', () => {
       test('it displays the sharing date', async function(assert) {
         const campaignProfile = {
           isShared: true,
@@ -56,7 +56,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/details'
         assert.contains('02 janv. 2020');
       });
     });
-    module('when participant has not shared results', function() {
+    module('when participant has not shared results', () => {
       test('it does not displays the sharing date', async function(assert) {
         const campaignProfile = {
           isShared: false,
@@ -74,8 +74,8 @@ module('Integration | Component | routes/authenticated/campaign/profile/details'
     });
   });
 
-  module('identifiant', function() {
-    module('when the external id is present', function() {
+  module('identifiant', () => {
+    module('when the external id is present', () => {
       test('it displays the external id', async function(assert) {
         const campaignProfile = {
           externalId: 'i12345',
@@ -91,7 +91,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/details'
         assert.contains('i12345');
       });
     });
-    module('when the external id is not present', function() {
+    module('when the external id is not present', () => {
       test('it does not display the external id', async function(assert) {
         const campaignProfile = {
           externalId: null,
@@ -109,8 +109,8 @@ module('Integration | Component | routes/authenticated/campaign/profile/details'
     });
   });
 
-  module('certification info', function() {
-    module('when the  profile is shared', function() {
+  module('certification info', () => {
+    module('when the  profile is shared', () => {
       test('it displays the pix score', async function(assert) {
         const campaignProfile = {
           pixScore: '124',
@@ -158,8 +158,8 @@ module('Integration | Component | routes/authenticated/campaign/profile/details'
         assert.contains('2');
       });
 
-      module('certifiable badge', function() {
-        module('when the profile is certifiable', function() {
+      module('certifiable badge', () => {
+        module('when the profile is certifiable', () => {
           test('it displays certifiable', async function(assert) {
             const campaignProfile = {
               isCertifiable: true,
@@ -177,7 +177,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/details'
           });
         });
 
-        module('when the profile is not certifiable', function() {
+        module('when the profile is not certifiable', () => {
           test('it does not display certifiable', async function(assert) {
             const campaignProfile = {
               isCertifiable: false,
@@ -197,7 +197,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/details'
       });
     });
 
-    module('when the  profile is not shared', function() {
+    module('when the  profile is not shared', () => {
       test('it does not display the pix score', async function(assert) {
         const campaignProfile = {
           isShared: false,

@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Dropdown | icon-trigger', function(hooks) {
+module('Integration | Component | Dropdown | icon-trigger', (hooks) => {
 
   setupIntlRenderingTest(hooks);
 

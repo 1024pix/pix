@@ -4,11 +4,11 @@ import { reject, resolve } from 'rsvp';
 import Object from '@ember/object';
 import Service from '@ember/service';
 
-module('Unit | Service | current-user', function(hooks) {
+module('Unit | Service | current-user', (hooks) => {
 
   setupTest(hooks);
 
-  module('user is authenticated', function(hooks) {
+  module('user is authenticated', (hooks) => {
 
     let currentUserService;
     let connectedUser;
@@ -69,7 +69,7 @@ module('Unit | Service | current-user', function(hooks) {
       assert.equal(currentUserService.organization, organization);
     });
 
-    module('When member is not ADMIN', function() {
+    module('When member is not ADMIN', () => {
 
       test('should set isAdminInOrganization to false', async function(assert) {
         // given
@@ -86,7 +86,7 @@ module('Unit | Service | current-user', function(hooks) {
       });
     });
 
-    module('When member is ADMIN', function() {
+    module('When member is ADMIN', () => {
 
       test('should set isAdminInOrganization to true', async function(assert) {
         // given
@@ -103,7 +103,7 @@ module('Unit | Service | current-user', function(hooks) {
       });
     });
 
-    module('When member is part of SCO organization which is managing students', function() {
+    module('When member is part of SCO organization which is managing students', () => {
       test('should set isSCOManagingStudents to true', async function(assert) {
         // given
         const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: true, isSco: true });
@@ -133,7 +133,7 @@ module('Unit | Service | current-user', function(hooks) {
       });
     });
 
-    module('When member is part of SUP organization which is managing students', function() {
+    module('When member is part of SUP organization which is managing students', () => {
       test('should set isSCOManagingStudents to false', async function(assert) {
         // given
         const organization = Object.create({ id: 9, type: 'SUP', isManagingStudents: true, isSco: false, isSup: true });
@@ -163,7 +163,7 @@ module('Unit | Service | current-user', function(hooks) {
       });
     });
 
-    module('When member is part of PRO organization which is managing students', function() {
+    module('When member is part of PRO organization which is managing students', () => {
       test('should set isSCOManagingStudents to false with PRO organization', async function(assert) {
         // given
         const organization = Object.create({ id: 9, type: 'PRO', isManagingStudents: true, isPro: true, isSco: false });
@@ -193,7 +193,7 @@ module('Unit | Service | current-user', function(hooks) {
       });
     });
 
-    module('When organization does not manage students', function() {
+    module('When organization does not manage students', () => {
       test('should set isSCOManagingStudents to false when organization is SCO', async function(assert) {
         // given
         const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
@@ -223,7 +223,7 @@ module('Unit | Service | current-user', function(hooks) {
       });
     });
 
-    module('when user has userOrgaSettings', function() {
+    module('when user has userOrgaSettings', () => {
       test('should prefer organization from userOrgaSettings rather than first membership', async function(assert) {
         // given
         const organization1 = Object.create({ id: 9 });
@@ -243,7 +243,7 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 
-  module('user is not authenticated', function() {
+  module('user is not authenticated', () => {
 
     test('should do nothing', async function(assert) {
       // given
@@ -261,7 +261,7 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 
-  module('user is not a prescriber anymore', function() {
+  module('user is not a prescriber anymore', () => {
 
     test('should redirect to login because not a prescriber', async function(assert) {
       // given
@@ -286,7 +286,7 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 
-  module('user token is expired', function() {
+  module('user token is expired', () => {
 
     test('should redirect to login', async function(assert) {
       // given

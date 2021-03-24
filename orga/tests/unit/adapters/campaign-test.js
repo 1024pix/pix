@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import ENV from 'pix-orga/config/environment';
 
-module('Unit | Adapter | campaign', function(hooks) {
+module('Unit | Adapter | campaign', (hooks) => {
   setupTest(hooks);
 
   let adapter;
@@ -17,7 +17,7 @@ module('Unit | Adapter | campaign', function(hooks) {
     adapter.set('ajax', ajaxStub);
   });
 
-  module('archive', function() {
+  module('archive', () => {
     test('it should send a PUT request with a proper url', async function(assert) {
       // when
       await adapter.archive(model);
@@ -26,7 +26,7 @@ module('Unit | Adapter | campaign', function(hooks) {
     });
   });
 
-  module('unarchive', function() {
+  module('unarchive', () => {
     test('it should send a DELETE request with a proper url', async function(assert) {
       // when
       await adapter.unarchive(model);

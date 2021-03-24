@@ -14,13 +14,13 @@ import {
 } from '../helpers/test-init';
 import setupIntl from '../helpers/setup-intl';
 
-module('Acceptance | join', function(hooks) {
+module('Acceptance | join', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
 
-  module('When prescriber tries to go on join page', function() {
+  module('When prescriber tries to go on join page', () => {
 
     test('it should remain on join page when organization-invitation exists', async function(assert) {
       // given
@@ -67,9 +67,9 @@ module('Acceptance | join', function(hooks) {
     });
   });
 
-  module('Login', function() {
+  module('Login', () => {
 
-    module('When prescriber is logging in but has not accepted terms of service yet', function(hooks) {
+    module('When prescriber is logging in but has not accepted terms of service yet', (hooks) => {
 
       let user;
       let organizationInvitationId;
@@ -123,7 +123,7 @@ module('Acceptance | join', function(hooks) {
       });
     });
 
-    module('When prescriber is logging in and has accepted terms of service', function(hooks) {
+    module('When prescriber is logging in and has accepted terms of service', (hooks) => {
       let user;
       let organizationInvitationId;
       let code;
@@ -177,7 +177,7 @@ module('Acceptance | join', function(hooks) {
       });
     });
 
-    module('When prescriber is logging in but his credentials are invalid', function(hooks) {
+    module('When prescriber is logging in but his credentials are invalid', (hooks) => {
 
       let user;
       let organizationInvitationId;
@@ -215,7 +215,7 @@ module('Acceptance | join', function(hooks) {
       });
     });
 
-    module('When prescriber has already accepted organization-invitation or prescriber is already a member of the organization', function(hooks) {
+    module('When prescriber has already accepted organization-invitation or prescriber is already a member of the organization', (hooks) => {
 
       let user;
       let organizationInvitationId;
@@ -256,11 +256,11 @@ module('Acceptance | join', function(hooks) {
     });
   });
 
-  module('Register', function() {
+  module('Register', () => {
 
-    module('When prescriber is registering', function() {
+    module('When prescriber is registering', () => {
 
-      module('When a pending organization-invitation already exists', function(hooks) {
+      module('When a pending organization-invitation already exists', (hooks) => {
 
         let organizationId;
 
@@ -293,7 +293,7 @@ module('Acceptance | join', function(hooks) {
         });
       });
 
-      module('When prescriber already exist', function(hooks) {
+      module('When prescriber already exist', (hooks) => {
 
         let organizationId;
 

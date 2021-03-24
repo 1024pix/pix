@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/login-or-register', function(hooks) {
+module('Integration | Component | routes/login-or-register', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {

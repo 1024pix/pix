@@ -2,7 +2,7 @@ import { multiply } from 'pix-orga/helpers/multiply';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Helper | multiply', function(hooks) {
+module('Unit | Helper | multiply', (hooks) => {
   setupTest(hooks);
 
   module('multiply', () => {

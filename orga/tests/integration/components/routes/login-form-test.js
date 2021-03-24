@@ -12,7 +12,7 @@ import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/login-form', function(hooks) {
+module('Integration | Component | routes/login-form', (hooks) => {
 
   setupIntlRenderingTest(hooks);
 
@@ -50,9 +50,9 @@ module('Integration | Component | routes/login-form', function(hooks) {
     assert.dom('#login-form-error-message').doesNotExist();
   });
 
-  module('When there is no invitation', function(hooks) {
+  module('When there is no invitation', (hooks) => {
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       SessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
         this.authenticator = authenticator;
         this.email = email;
@@ -81,9 +81,9 @@ module('Integration | Component | routes/login-form', function(hooks) {
     });
   });
 
-  module('When there is an invitation', function(hooks) {
+  module('When there is an invitation', (hooks) => {
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       StoreStub.prototype.createRecord = () => {
         return EmberObject.create({
           save() {
@@ -165,7 +165,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
     assert.dom('login-form__information').doesNotExist();
   });
 
-  module('when password is hidden', function(hooks) {
+  module('when password is hidden', (hooks) => {
 
     let showButtonText;
 

@@ -5,7 +5,7 @@ import { render } from '@ember/test-helpers';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | dissociate-user-modal', function(hooks) {
+module('Integration | Component | dissociate-user-modal', (hooks) => {
 
   setupRenderingTest(hooks);
 
@@ -17,7 +17,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
     return render(hbs`<DissociateUserModal @refreshModel={{refreshModel}} @display={{display}} @close={{close}} @student={{student}}/>`);
   });
 
-  module('when the user is authenticated with an email', function() {
+  module('when the user is authenticated with an email', () => {
 
     test('it displays a message for user authentified by email', async function(assert) {
       this.set('student', { hasEmail: true, email: 'rocky.balboa@example.net', firstName: 'Rocky', lastName: 'Balboa' });
@@ -26,7 +26,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
     });
   });
 
-  module('when the user is authenticated with an username', function() {
+  module('when the user is authenticated with an username', () => {
 
     test('it displays a message for user authentified by username', async function(assert) {
       this.set('student', { hasUsername: true, username: 'appolo.creed', firstName: 'Appolo', lastName: 'Creed' });
@@ -35,7 +35,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
     });
   });
 
-  module('when the user is authenticated with GAR', function() {
+  module('when the user is authenticated with GAR', () => {
 
     test('it displays a message for user authentified with GAR', async function(assert) {
       this.set('student', { hasEmail: false, hasUsername: false, firstName: 'Ivan', lastName: 'Drago' });
@@ -44,7 +44,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
     });
   });
 
-  module('dissociate button', function() {
+  module('dissociate button', () => {
     let studentAdapter;
     let notifications;
 
@@ -57,7 +57,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
       sinon.stub(notifications, 'sendError');
     });
 
-    hooks.afterEach(function() {
+    hooks.afterEach(() => {
       studentAdapter.dissociateUser.restore();
     });
 

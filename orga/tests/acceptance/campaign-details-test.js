@@ -10,12 +10,12 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Details', function(hooks) {
+module('Acceptance | Campaign Details', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When prescriber is not logged in', function() {
+  module('When prescriber is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // given
@@ -29,7 +29,7 @@ module('Acceptance | Campaign Details', function(hooks) {
     });
   });
 
-  module('When prescriber is logged in', function(hooks) {
+  module('When prescriber is logged in', (hooks) => {
 
     hooks.beforeEach(async () => {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();

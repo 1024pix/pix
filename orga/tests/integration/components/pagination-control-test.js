@@ -17,7 +17,7 @@ function getMetaForPage({ pageNumber, rowCount = 50 }) {
   };
 }
 
-module('Integration | Component | pagination-control', function(hooks) {
+module('Integration | Component | pagination-control', (hooks) => {
   setupIntlRenderingTest(hooks);
   let replaceWithStub;
 
@@ -120,7 +120,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     assert.ok(replaceWithStub.calledWith({ queryParams: { pageSize: '10', pageNumber: 1 } }));
   });
 
-  module('When no results', function() {
+  module('When no results', () => {
     test('it should disable previous button and next button', async function(assert) {
       // given
       this.set('meta', getMetaForPage({ pageNumber: 1, rowCount: 0 }));

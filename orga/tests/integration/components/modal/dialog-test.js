@@ -5,10 +5,10 @@ import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | modal', function(hooks) {
+module('Integration | Component | modal', (hooks) => {
   setupIntlRenderingTest(hooks);
 
-  module('Component rendering', function() {
+  module('Component rendering', () => {
     let close;
 
     hooks.beforeEach(function() {

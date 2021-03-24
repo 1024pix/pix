@@ -2,7 +2,7 @@ import { percentage } from 'pix-orga/helpers/percentage';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Helper | percentage', function(hooks) {
+module('Unit | Helper | percentage', (hooks) => {
   setupTest(hooks);
 
   module('percentage', () => {

@@ -6,7 +6,7 @@ import Service from '@ember/service';
 import sinon from 'sinon';
 import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | routes/authenticated/campaign/participation-filters', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/participation-filters', (hooks) => {
   setupIntlRenderingTest(hooks);
   let store;
 
@@ -14,7 +14,7 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
     store = this.owner.lookup('service:store');
   });
 
-  module('when campaign does not need filters', function() {
+  module('when campaign does not need filters', () => {
     test('it should not display anything', async function(assert) {
       const campaign = store.createRecord('campaign', { id: 1 });
       this.set('campaign', campaign);
@@ -27,7 +27,7 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
     });
   });
 
-  module('when user works for a SCO organization which manages students', function() {
+  module('when user works for a SCO organization which manages students', () => {
     class CurrentUserStub extends Service {
       prescriber = { areNewYearSchoolingRegistrationsImported: false };
       isSCOManagingStudents = true;
@@ -82,7 +82,7 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
     });
   });
 
-  module('when user does not work for a SCO organization which manages students', function() {
+  module('when user does not work for a SCO organization which manages students', () => {
     class CurrentUserStub extends Service {
       prescriber = { areNewYearSchoolingRegistrationsImported: false };
       isSCOManagingStudents = false;
@@ -113,7 +113,7 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
       assert.notContains('d2');
     });
 
-    module('when campaign has badges and has type ASSESSMENT', function() {
+    module('when campaign has badges and has type ASSESSMENT', () => {
       test('it displays the badge filter', async function(assert) {
         // given
         const badge = store.createRecord('badge', { title: 'Les bases' });
@@ -153,7 +153,7 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
       });
     });
 
-    module('when the campaign has no badge', function() {
+    module('when the campaign has no badge', () => {
       test('should not displays the badge filter', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', {
@@ -171,7 +171,7 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
       });
     });
 
-    module('when the campaign has badge but is not assessment type', function() {
+    module('when the campaign has badge but is not assessment type', () => {
       test('it should not displays the badge filter', async function(assert) {
         // given
         const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
@@ -190,7 +190,7 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
       });
     });
 
-    module('when campaign has no stages', function() {
+    module('when campaign has no stages', () => {
       test('should not displays the stage filter', async function(assert) {
         // given
         const campaign = store.createRecord('campaign', {
@@ -208,7 +208,7 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
       });
     });
 
-    module('when the campaign has stage but is not assessment type', function() {
+    module('when the campaign has stage but is not assessment type', () => {
       test('it should not displays the stage filter', async function(assert) {
         // given
         const stage = store.createRecord('stage', { id: 'stage1' });
@@ -227,7 +227,7 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
       });
     });
 
-    module('when campaign has stages and has type ASSESSMENT', function() {
+    module('when campaign has stages and has type ASSESSMENT', () => {
       test('it displays the stage filter', async function(assert) {
         // given
         const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
@@ -266,7 +266,7 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
       });
     });
 
-    module('display number of filtered participants as Pix filter banner details', function() {
+    module('display number of filtered participants as Pix filter banner details', () => {
       test('it should display one filtered participant', async function(assert) {
         // given
         const badge = store.createRecord('badge');
@@ -312,7 +312,7 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
         assert.contains('2 participants');
       });
 
-      module('when there is a reset Filter button', function() {
+      module('when there is a reset Filter button', () => {
         test('it triggers the reset filters button when user has clicked', async function(assert) {
           //given
           const badge = store.createRecord('badge');

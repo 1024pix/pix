@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaigns/details/collective-results/success-indicator', function(hooks) {
+module('Integration | Component | routes/authenticated/campaigns/details/collective-results/success-indicator', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should display value', async function(assert) {

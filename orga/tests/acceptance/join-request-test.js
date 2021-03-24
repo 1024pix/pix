@@ -7,16 +7,16 @@ import Response from 'ember-cli-mirage/response';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | join-request', function(hooks) {
+module('Acceptance | join-request', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async () => {
     await visit('/demande-administration-sco');
   });
 
-  module('When user submits the join request form', function() {
+  module('When user submits the join request form', () => {
 
     test('it should fail if the uai does not belong to any organization', async function(assert) {
       // given

@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-module('Unit | Route | authenticated/campaigns/campaign', function(hooks) {
+module('Unit | Route | authenticated/campaigns/campaign', (hooks) => {
   setupTest(hooks);
 
   let route, params;

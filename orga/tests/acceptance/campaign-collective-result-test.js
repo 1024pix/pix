@@ -9,7 +9,7 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Collective Result', function(hooks) {
+module('Acceptance | Campaign Collective Result', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);

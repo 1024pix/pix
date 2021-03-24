@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 
-module('Unit | Model | organization-invitation-response', function(hooks) {
+module('Unit | Model | organization-invitation-response', (hooks) => {
   setupTest(hooks);
 
   test('it exists', function(assert) {

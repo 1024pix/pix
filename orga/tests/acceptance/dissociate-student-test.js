@@ -25,18 +25,18 @@ async function createAuthenticatedSession() {
 }
 
 const DASH_CHARACTER = '\u2013';
-module('Acceptance | Student List', function(hooks) {
+module('Acceptance | Student List', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
   let user;
   let organizationId;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async () => {
     user = await createAuthenticatedSession();
   });
 
-  module('when the student is dissociated from the user', function() {
+  module('when the student is dissociated from the user', () => {
 
     test('it does not display the action button', async function(assert) {
       organizationId = user.memberships.models.firstObject.organizationId;

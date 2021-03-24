@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Adapters | campaign-profile', function(hooks) {
+module('Unit | Adapters | campaign-profile', (hooks) => {
   setupTest(hooks);
 
   let adapter;

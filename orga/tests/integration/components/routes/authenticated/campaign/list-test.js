@@ -3,7 +3,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/authenticated/campaign/list', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/list', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function() {
@@ -11,7 +11,7 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
     this.set('triggerFilteringSpy', () => {});
   });
 
-  module('When there are no campaigns to display', function() {
+  module('When there are no campaigns to display', () => {
     test('it should display an empty list message', async function(assert) {
       // given
       const campaigns = [];
@@ -29,7 +29,7 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
     });
   });
 
-  module('When there are campaigns to display', function() {
+  module('When there are campaigns to display', () => {
     test('it should display a list of campaigns', async function(assert) {
       // given
       const campaigns = [

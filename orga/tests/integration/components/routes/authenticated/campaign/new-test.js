@@ -7,7 +7,7 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/authenticated/campaign/new', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/new', (hooks) => {
   setupIntlRenderingTest(hooks);
   let receivedCampaign;
 
@@ -37,7 +37,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     assert.dom('textarea').hasAttribute('maxLength', '350');
   });
 
-  module('when user cannot create campaign of type PROFILES_COLLECTION', function() {
+  module('when user cannot create campaign of type PROFILES_COLLECTION', () => {
 
     test('it should display fields for campaign title and target profile by default', async function(assert) {
       // given
@@ -64,7 +64,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     });
   });
 
-  module('when user choose to create a campaign of type ASSESSMENT', function() {
+  module('when user choose to create a campaign of type ASSESSMENT', () => {
 
     test('it should display fields for campaign title and target profile', async function(assert) {
       // given
@@ -104,7 +104,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     });
   });
 
-  module('when user‘s organization is SCO and is managing student and user is creating an assessment campaign', function() {
+  module('when user‘s organization is SCO and is managing student and user is creating an assessment campaign', () => {
 
     test('it should display comment for target profile selection', async function(assert) {
       // given
@@ -123,7 +123,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     });
   });
 
-  module('when user‘s organization is not (SCO and managing student) user is creating an assessment campaign', function() {
+  module('when user‘s organization is not (SCO and managing student) user is creating an assessment campaign', () => {
 
     test('it should not display comment for target profile selection', async function(assert) {
       // given
@@ -142,7 +142,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     });
   });
 
-  module('when user has not chosen yet to ask or not an external user ID', function() {
+  module('when user has not chosen yet to ask or not an external user ID', () => {
     test('it should not display gdpr footnote', async function(assert) {
       //given
       this.campaign = EmberObject.create({});
@@ -155,7 +155,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     });
   });
 
-  module('when user choose not to ask an external user ID', function() {
+  module('when user choose not to ask an external user ID', () => {
     test('it should not display gdpr footnote either', async function(assert) {
       //given
       this.campaign = EmberObject.create({});
@@ -169,7 +169,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     });
   });
 
-  module('when user choose to ask an external user ID', function() {
+  module('when user choose to ask an external user ID', () => {
     test('it should display gdpr footnote', async function(assert) {
       //given
       this.campaign = EmberObject.create({});
@@ -196,7 +196,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     assert.deepEqual(receivedCampaign.name, 'Ma campagne');
   });
 
-  module('when there are errors', function() {
+  module('when there are errors', () => {
     test('it should display errors messages when the name, the campaign purpose and the external user id fields are empty ', async function(assert) {
       // given
       class CurrentUserStub extends Service {

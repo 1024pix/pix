@@ -5,13 +5,13 @@ import hbs from 'htmlbars-inline-precompile';
 import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/authenticated/team | list-items | items', function(hooks) {
+module('Integration | Component | routes/authenticated/team | list-items | items', (hooks) => {
 
   setupIntlRenderingTest(hooks);
   let adminMembership;
   let memberMembership;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(() => {
     adminMembership = {
       id: 1,
       displayRole: 'Administrateur',
@@ -51,7 +51,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
     assert.dom('button[aria-label="Afficher les actions"]').exists;
   });
 
-  module('When edit organization role button is clicked', function() {
+  module('When edit organization role button is clicked', () => {
 
     test('it should show update and save button, and show the drop down to select role to update', async function(assert) {
       // given

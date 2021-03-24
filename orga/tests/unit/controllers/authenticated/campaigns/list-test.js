@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import ArrayProxy from '@ember/array/proxy';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
+module('Unit | Controller | authenticated/campaigns/list', (hooks) => {
   setupTest(hooks);
   let controller;
 
@@ -11,7 +11,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
     controller = this.owner.lookup('controller:authenticated/campaigns/list');
   });
 
-  module('#get displayNoCampaignPanel', function() {
+  module('#get displayNoCampaignPanel', () => {
 
     test('it should know when it should display "No campaign panel"', function(assert) {
       // given
@@ -43,7 +43,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
       assert.equal(displayNoCampaignPanel, false);
     });
 
-    module('when there is a filter on campaigns name that does not match any campaign', function() {
+    module('when there is a filter on campaigns name that does not match any campaign', () => {
       // given
       const filterName = 'Dog';
       const campaign1 = { name: 'Cat', createdAt: new Date('2018-08-07') };
@@ -65,9 +65,9 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
     });
   });
 
-  module('#get isArchived', function() {
+  module('#get isArchived', () => {
 
-    module('when status is archived', function() {
+    module('when status is archived', () => {
 
       test('it should returns true', function(assert) {
         // given
@@ -81,7 +81,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
       });
     });
 
-    module('when status is not archived', function() {
+    module('when status is not archived', () => {
 
       test('it should returns false', function(assert) {
         // given
@@ -96,7 +96,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
     });
   });
 
-  module('#action updateCampaignStatus', function() {
+  module('#action updateCampaignStatus', () => {
 
     test('it should update controller status field', function(assert) {
       // given
@@ -110,7 +110,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
     });
   });
 
-  module('#action goToCampaignPage', function() {
+  module('#action goToCampaignPage', () => {
 
     test('it should call transitionToRoute with appropriate arguments', function(assert) {
       // given

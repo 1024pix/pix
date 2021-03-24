@@ -12,7 +12,7 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Creation', function(hooks) {
+module('Acceptance | Campaign Creation', (hooks) => {
 
   let availableTargetProfiles;
 
@@ -33,7 +33,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
   module('when the prescriber is authenticated', (hooks) => {
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
 
@@ -91,7 +91,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
   module('when prescriber is authenticated and can collect profiles', (hooks) => {
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       const user = createUserThatCanCollectProfiles();
       createPrescriberByUser(user);
 

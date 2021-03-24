@@ -3,10 +3,10 @@ import sinon from 'sinon';
 import Service from '@ember/service';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Unit | Controller | authenticated/certifications', function(hooks) {
+module('Unit | Controller | authenticated/certifications', (hooks) => {
   setupIntlRenderingTest(hooks);
 
-  module('#onSelectDivision', function() {
+  module('#onSelectDivision', () => {
 
     test('should change the value of the selected division', async function(assert) {
       // given
@@ -32,7 +32,7 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
     });
   });
 
-  module('#downloadSessionResultFile', function() {
+  module('#downloadSessionResultFile', () => {
 
     test('should call the file-saver service with the right parameters', async function(assert) {
       // given

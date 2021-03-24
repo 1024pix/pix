@@ -4,12 +4,12 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 
-module('Integration | Component | information-banner', function(hooks) {
+module('Integration | Component | information-banner', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   module('Import Banner', () => {
-    module('when prescriber’s organization is of type SCO that manages students', function() {
-      module('when prescriber has not imported student yet', function() {
+    module('when prescriber’s organization is of type SCO that manages students', () => {
+      module('when prescriber has not imported student yet', () => {
         class CurrentUserStub extends Service {
           prescriber = { areNewYearSchoolingRegistrationsImported: false }
           isSCOManagingStudents = true;
@@ -29,7 +29,7 @@ module('Integration | Component | information-banner', function(hooks) {
         });
       });
 
-      module('when prescriber has already imported students', function() {
+      module('when prescriber has already imported students', () => {
         test('should not render the banner', async function(assert) {
           // given
           class CurrentUserStub extends Service {
@@ -47,7 +47,7 @@ module('Integration | Component | information-banner', function(hooks) {
       });
     });
 
-    module('when prescriber’s organization is not of type SCO that manages students', function() {
+    module('when prescriber’s organization is not of type SCO that manages students', () => {
 
       test('should not render the banner regardless of whether students have been imported or not', async function(assert) {
         // given
@@ -68,7 +68,7 @@ module('Integration | Component | information-banner', function(hooks) {
   });
 
   module('Campaign Banner', () => {
-    module('when prescriber’s organization is of type SCO that manages students', function() {
+    module('when prescriber’s organization is of type SCO that manages students', () => {
       test('should render the campaign banner for non agriculture', async function(assert) {
         // given
         class CurrentUserStub extends Service {
@@ -102,7 +102,7 @@ module('Integration | Component | information-banner', function(hooks) {
       });
     });
 
-    module('when prescriber’s organization is not of type SCO that manages students', function() {
+    module('when prescriber’s organization is not of type SCO that manages students', () => {
       test('should not display the campaign banner', async function(assert) {
         // given
         class CurrentUserStub extends Service {

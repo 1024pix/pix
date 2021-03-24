@@ -4,7 +4,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | Tables | header-sort', function(hooks) {
+module('Integration | Component | Tables | header-sort', (hooks) => {
   setupRenderingTest(hooks);
 
   let onSortStub;
@@ -22,7 +22,7 @@ module('Integration | Component | Tables | header-sort', function(hooks) {
     assert.contains('Header');
   });
 
-  module('When header sort is enabled', function() {
+  module('When header sort is enabled', () => {
     test('should display arrow', async function(assert) {
       // when
       await render(hbs`<Table::HeaderSort @isDisabled={{false}}>Header</Table::HeaderSort>`);
@@ -42,7 +42,7 @@ module('Integration | Component | Tables | header-sort', function(hooks) {
     });
   });
 
-  module('When header sort is disabled', function() {
+  module('When header sort is disabled', () => {
     test('should not display arrow', async function(assert) {
       // when
       await render(hbs`<Table::HeaderSort @isDisabled={{true}}>Header</Table::HeaderSort>`);

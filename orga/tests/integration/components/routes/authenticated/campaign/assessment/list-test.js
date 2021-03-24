@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/assessment/list', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/assessment/list', (hooks) => {
   setupIntlRenderingTest(hooks);
 
   let store;
@@ -14,7 +14,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     store = this.owner.lookup('service:store');
   });
 
-  module('when a participant has shared his results', function() {
+  module('when a participant has shared his results', () => {
     test('it should display the participant\'s results', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
@@ -71,7 +71,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     });
   });
 
-  module('when a participant has not shared his results yet', function() {
+  module('when a participant has not shared his results yet', () => {
     test('it should display that participant\'s results are pending', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
@@ -127,7 +127,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     });
   });
 
-  module('when a participant has not finished the assessment', function() {
+  module('when a participant has not finished the assessment', () => {
     test('it should display that participant\'s results are still ongoing', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
@@ -161,7 +161,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     });
   });
 
-  module('when the campaign asked for an external id', function() {
+  module('when the campaign asked for an external id', () => {
     test('it should display participant\'s results with external id', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
@@ -186,7 +186,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     });
   });
 
-  module('when nobody started the campaign yet', function() {
+  module('when nobody started the campaign yet', () => {
     test('it should display "waiting for participants"', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
@@ -209,7 +209,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     });
   });
 
-  module('when the campaign doesn‘t have badges', function() {
+  module('when the campaign doesn‘t have badges', () => {
     test('it should not display badge column', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
@@ -231,7 +231,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     });
   });
 
-  module('when the campaign has badges', function() {
+  module('when the campaign has badges', () => {
     test('it should display badge column', async function(assert) {
       // given
       const badge = store.createRecord('badge');
@@ -278,7 +278,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     });
   });
 
-  module('when the campaign has stages', function() {
+  module('when the campaign has stages', () => {
     test('it should display stars instead of mastery percentage in result column', async function(assert) {
       // given
       const stage = store.createRecord('stage', { threshold: 50 });
@@ -302,7 +302,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     });
   });
 
-  module('when user works for a SCO organization which manages students', function() {
+  module('when user works for a SCO organization which manages students', () => {
     class CurrentUserStub extends Service {
       prescriber = { areNewYearSchoolingRegistrationsImported: false }
       isSCOManagingStudents = true;

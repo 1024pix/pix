@@ -7,7 +7,7 @@ import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-lab
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | edit-student-number-modal', function(hooks) {
+module('Integration | Component | edit-student-number-modal', (hooks) => {
   setupIntlRenderingTest(hooks);
   let closeStub;
   let notificationsStub;
@@ -36,15 +36,15 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
     return render(hbs`<EditStudentNumberModal @display={{display}} @closeModal={{close}} @student={{this.student}} @onSaveStudentNumber={{onSaveStudentNumber}}/>`);
   });
 
-  module('when the edit student number modal is open', function() {
+  module('when the edit student number modal is open', () => {
 
-    module('when there is student number', function() {
+    module('when there is student number', () => {
       test('should render component with student number text', async function(assert) {
         assert.contains(`Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est : ${this.student.studentNumber}`);
       });
     });
 
-    module('when there is no student number yet', function() {
+    module('when there is no student number yet', () => {
       test('should not render component with student number text', async function(assert) {
         this.student.set('studentNumber', null);
         render(hbs`<EditStudentNumberModal @display={{display}} @closeModal={{close}} @student={{this.student}} @onSaveStudentNumber={{onSaveStudentNumber}}/>`);
@@ -61,7 +61,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
       assert.contains('Mettre à jour');
     });
 
-    module('When a student number is entered', function() {
+    module('When a student number is entered', () => {
 
       test('should have the update button enable', async function(assert) {
         // when
@@ -73,7 +73,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
       });
     });
 
-    module('when a student number is not entered yet', function() {
+    module('when a student number is not entered yet', () => {
 
       test('should have the update button disable', async function(assert) {
         // when
@@ -86,7 +86,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
       });
     });
 
-    module('when the update button is clicked and a good student number is entered', function() {
+    module('when the update button is clicked and a good student number is entered', () => {
       test('it display success notification', async function(assert) {
         // given
         onSaveStudentNumberStub.withArgs(123456).resolves();
@@ -102,7 +102,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
       });
     });
 
-    module('when the update button is clicked and a wrong student number is entered', function() {
+    module('when the update button is clicked and a wrong student number is entered', () => {
       test('it display error message', async function(assert) {
         // when
         await fillInByLabel('Nouveau numéro étudiant', ' ');
@@ -113,7 +113,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
       });
     });
 
-    module('when the update button is clicked with the student number and this student number already exist', function() {
+    module('when the update button is clicked with the student number and this student number already exist', () => {
       test('it display an error under student number input', async function(assert) {
         // given
         const error = {
@@ -133,7 +133,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
       });
     });
 
-    module('when the update button is clicked with the student number and this student number already exist', function() {
+    module('when the update button is clicked with the student number and this student number already exist', () => {
       test('it remove errors when submitting is a success', async function(assert) {
         // given
         const error = {
@@ -155,7 +155,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
       });
     });
 
-    module('when the close button is clicked', function() {
+    module('when the close button is clicked', () => {
       test('it remove errors and student number value', async function(assert) {
         // given
         const error = {
@@ -176,7 +176,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
       });
     });
 
-    module('when the cancel button is clicked', function() {
+    module('when the cancel button is clicked', () => {
       test('it remove errors and student number value too', async function(assert) {
         // given
         const error = {
@@ -198,7 +198,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
     });
   });
 
-  module('when the edit student number modal is not open', function() {
+  module('when the edit student number modal is not open', () => {
     test('should not render component', async function(assert) {
       // given
       this.set('display', false);

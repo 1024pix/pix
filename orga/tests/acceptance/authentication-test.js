@@ -18,12 +18,12 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | authentication', function(hooks) {
+module('Acceptance | authentication', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user is not logged in', function() {
+  module('When user is not logged in', () => {
 
     test('it should redirect user to login page', async function(assert) {
       // when
@@ -35,7 +35,7 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When prescriber is already logged in', function(hooks) {
+  module('When prescriber is already logged in', (hooks) => {
 
     hooks.beforeEach(async () => {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
@@ -59,7 +59,7 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When prescriber is logging in but has not accepted terms of service yet', function(hooks) {
+  module('When prescriber is logging in but has not accepted terms of service yet', (hooks) => {
 
     let user;
 
@@ -101,7 +101,7 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When user is logging in and has accepted terms of service', function(hooks) {
+  module('When user is logging in and has accepted terms of service', (hooks) => {
     let user;
 
     hooks.beforeEach(() => {
@@ -143,9 +143,9 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When prescriber is already authenticated', function() {
+  module('When prescriber is already authenticated', () => {
 
-    module('When the organization has not credits and prescriber is ADMIN', function(hooks) {
+    module('When the organization has not credits and prescriber is ADMIN', (hooks) => {
       hooks.beforeEach(async () => {
         const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates' }, 'ADMIN');
 
@@ -166,7 +166,7 @@ module('Acceptance | authentication', function(hooks) {
 
     });
 
-    module('When prescriber has already accepted terms of service', function(hooks) {
+    module('When prescriber has already accepted terms of service', (hooks) => {
 
       hooks.beforeEach(async () => {
         const user = createUserWithMembershipAndTermsOfServiceAccepted();
@@ -206,7 +206,7 @@ module('Acceptance | authentication', function(hooks) {
       });
     });
 
-    module('When prescriber is admin', function(hooks) {
+    module('When prescriber is admin', (hooks) => {
 
       hooks.beforeEach(async () => {
         const user = createUserMembershipWithRole('ADMIN');
@@ -244,7 +244,7 @@ module('Acceptance | authentication', function(hooks) {
         assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
       });
 
-      module('When the organization has credits and prescriber is ADMIN', function(hooks) {
+      module('When the organization has credits and prescriber is ADMIN', (hooks) => {
         hooks.beforeEach(async () => {
           const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates', credit: 10000 }, 'ADMIN');
 
@@ -265,7 +265,7 @@ module('Acceptance | authentication', function(hooks) {
 
       });
 
-      module('When prescriber belongs to an organization that is managing students', function(hooks) {
+      module('When prescriber belongs to an organization that is managing students', (hooks) => {
 
         hooks.beforeEach(async () => {
           const user = createUserManagingStudents('ADMIN');
@@ -305,7 +305,7 @@ module('Acceptance | authentication', function(hooks) {
           assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
         });
 
-        module('when feature toggle for exporting certification results is enabled', function() {
+        module('when feature toggle for exporting certification results is enabled', () => {
 
           test('should redirect to certifications page', async function(assert) {
             // given
@@ -322,7 +322,7 @@ module('Acceptance | authentication', function(hooks) {
           });
         });
 
-        module('when feature toggle for exporting certification results is not enabled', function() {
+        module('when feature toggle for exporting certification results is not enabled', () => {
 
           test('should not show Certifications menu', async function(assert) {
             // given
@@ -346,7 +346,7 @@ module('Acceptance | authentication', function(hooks) {
       });
     });
 
-    module('When user is member', function(hooks) {
+    module('When user is member', (hooks) => {
 
       hooks.beforeEach(async () => {
         const user = createUserMembershipWithRole('MEMBER');
@@ -370,7 +370,7 @@ module('Acceptance | authentication', function(hooks) {
         assert.dom('.sidebar-menu a:first-child ').hasClass('active');
       });
 
-      module('When the organization has credits and prescriber is MEMBER', function(hooks) {
+      module('When the organization has credits and prescriber is MEMBER', (hooks) => {
         hooks.beforeEach(async () => {
           const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates', credit: 10000 }, 'MEMBER');
 
@@ -391,7 +391,7 @@ module('Acceptance | authentication', function(hooks) {
 
       });
 
-      module('When user belongs to an organization that is managing students', function(hooks) {
+      module('When user belongs to an organization that is managing students', (hooks) => {
 
         hooks.beforeEach(async () => {
           const user = createUserManagingStudents('MEMBER');

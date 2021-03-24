@@ -8,7 +8,7 @@ import EmberObject from '@ember/object';
 import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import setupIntl from '../../../../../helpers/setup-intl';
 
-module('Integration | Component | routes/authenticated/team/new-item', function(hooks) {
+module('Integration | Component | routes/authenticated/team/new-item', (hooks) => {
 
   setupRenderingTest(hooks);
   setupIntl(hooks);

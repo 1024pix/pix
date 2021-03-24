@@ -3,10 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | pix-loader', function(hooks) {
+module('Integration | Component | pix-loader', (hooks) => {
   setupRenderingTest(hooks);
 
-  module('Component rendering', function() {
+  module('Component rendering', () => {
 
     test('should render component', async function(assert) {
       // when

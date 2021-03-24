@@ -2,14 +2,14 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/campaigns/campaign/profiles', function(hooks) {
+module('Unit | Controller | authenticated/campaigns/campaign/profiles', (hooks) => {
   setupTest(hooks);
   let controller;
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/campaigns/campaign/profiles');
   });
 
-  module('triggerFiltering', function() {
+  module('triggerFiltering', () => {
     test('update the divisions', function(assert) {
       const fetchCampaign = sinon.stub();
       controller.set('fetchCampaign', fetchCampaign);
@@ -23,7 +23,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/profiles', function
     });
   });
 
-  module('resetFiltering', function() {
+  module('resetFiltering', () => {
     test('reset the divisions', function(assert) {
       //given
       controller.set('pageNumber', 1);

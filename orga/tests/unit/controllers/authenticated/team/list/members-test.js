@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/team/list/members', function(hooks) {
+module('Unit | Controller | authenticated/team/list/members', (hooks) => {
   setupTest(hooks);
   const currentUser = { organization: { id: 1 } };
   let controller;

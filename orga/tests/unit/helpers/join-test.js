@@ -2,7 +2,7 @@ import { join } from 'pix-orga/helpers/join';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Helper | join', function(hooks) {
+module('Unit | Helper | join', (hooks) => {
   setupTest(hooks);
 
   module('join', () => {

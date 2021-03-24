@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | campaign-profile', function(hooks) {
+module('Unit | Model | campaign-profile', (hooks) => {
   setupTest(hooks);
 
   test('it should return the campaign-profile sorted competences', function(assert) {
