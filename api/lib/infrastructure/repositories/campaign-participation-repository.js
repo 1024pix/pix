@@ -80,9 +80,9 @@ module.exports = {
         ])
           .from('campaign-participations')
           .leftJoin('users', 'campaign-participations.userId', 'users.id')
-          .leftJoin('schooling-registrations', 'campaign-participations.userId', 'schooling-registrations.userId')
-          .leftJoin('campaigns', function() {
-            this.on({ 'campaign-participations.campaignId': 'campaigns.id' })
+          .innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
+          .leftJoin('schooling-registrations', function() {
+            this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' })
               .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
           })
           .where({ campaignId });

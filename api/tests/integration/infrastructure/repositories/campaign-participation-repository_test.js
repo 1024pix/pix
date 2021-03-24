@@ -307,6 +307,40 @@ describe('Integration | Repository | Campaign Participation', () => {
       });
     });
 
+    context('when a participant has several schooling-registrations for different organizations', () => {
+      let campaign;
+      let otherCampaign;
+
+      beforeEach(async () => {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        campaign = databaseBuilder.factory.buildCampaign({ organizationId });
+        otherCampaign = databaseBuilder.factory.buildCampaign({ organizationId });
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+        }).id;
+        const otherCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: otherCampaign.id,
+          userId,
+        }).id;
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        databaseBuilder.factory.buildAssessment({ otherCampaignParticipationId, userId });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId, division: '3eme' });
+        databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId: otherOrganizationId, division: '2nd' });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return the division of the school registration linked to the campaign', async () => {
+        const campaignParticipationInfos = await campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id);
+
+        expect(campaignParticipationInfos.length).to.equal(1);
+        expect(campaignParticipationInfos[0].division).to.equal('3eme');
+      });
+    });
+
     context('When sharedAt is null', () => {
 
       it('Should return null as shared date', async () => {
