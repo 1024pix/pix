@@ -23,8 +23,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
       it('should throw a CertificationCandidateByPersonalInfoNotFoundError', async () => {
         // given
-        const sessionRepository = _buildFakeSessionRepository()
-          .withIsSco({ args: sessionId, resolves: false });
         const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
           .withFindBySessionIdAndPersonalInfo({
             args: {
@@ -44,7 +42,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           lastName,
           birthdate,
           certificationCandidateRepository,
-          sessionRepository,
         });
 
         // then
@@ -56,8 +53,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
       it('should throw a CertificationCandidateByPersonalInfoTooManyMatchesError', async () => {
         // given
-        const sessionRepository = _buildFakeSessionRepository()
-          .withIsSco({ args: sessionId, resolves: false });
         const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
           .withFindBySessionIdAndPersonalInfo({
             args: {
@@ -77,7 +72,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           lastName,
           birthdate,
           certificationCandidateRepository,
-          sessionRepository,
         });
 
         // then
