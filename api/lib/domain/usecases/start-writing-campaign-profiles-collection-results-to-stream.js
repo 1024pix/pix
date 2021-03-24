@@ -34,7 +34,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   const [allPixCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
     competenceRepository.listPixCompetencesOnly(i18n.getLocale()),
     organizationRepository.get(campaign.organizationId),
-    campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id, campaign.type),
+    campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id),
   ]);
 
   const campaignProfilCollectionExport = new CampaignProfilCollectionExport(writableStream, organization, campaign, allPixCompetences, translate);
