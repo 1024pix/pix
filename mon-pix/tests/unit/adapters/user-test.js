@@ -93,7 +93,7 @@ describe('Unit | Adapters | user', function() {
 
   describe('#createRecord', () => {
 
-    context('when updateExpiredPassword is true', () => {
+    context('when updateExpiredPassword is true', function() {
 
       it('should call expired-password-updates ', async () => {
         // given
@@ -123,7 +123,7 @@ describe('Unit | Adapters | user', function() {
       });
     });
 
-    context('when campaignCode adapterOption is defined', () => {
+    context('when campaignCode adapterOption is defined', function() {
 
       it('should add campaign-code meta', async () => {
         // given

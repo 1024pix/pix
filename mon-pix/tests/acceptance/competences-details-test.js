@@ -65,7 +65,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       expect(currentURL()).to.equal('/competences');
     });
 
-    context('when the scorecard has 0 points because it was not started yet', () => {
+    context('when the scorecard has 0 points because it was not started yet', function() {
 
       it('should not display level or score', async () => {
         // given
@@ -88,7 +88,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       });
     });
 
-    context('when the scorecard has points', () => {
+    context('when the scorecard has points', function() {
 
       it('should display level and score', async () => {
         // when
@@ -119,7 +119,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
         expect(findAll('.tutorial-item')).to.have.lengthOf(nbTutos);
       });
 
-      context('when it has remaining some days before reset', () => {
+      context('when it has remaining some days before reset', function() {
 
         it('should display remaining days before reset', async () => {
           // when
@@ -131,7 +131,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
         });
       });
 
-      context('when it has no remaining days before reset', () => {
+      context('when it has no remaining days before reset', function() {
 
         it('should display reset button', async () => {
           // when
@@ -183,7 +183,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
 
       });
 
-      context('when it has remaining some days before improving', () => {
+      context('when it has remaining some days before improving', function() {
         it('should display remaining days before improving', async () => {
           // when
           await visit(`/competences/${scorecardWithRemainingDaysBeforeImproving.competenceId}/details`);
@@ -195,7 +195,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
         });
       });
 
-      context('when it has no remaining days before improving', () => {
+      context('when it has no remaining days before improving', function() {
         it('should display improving button', async () => {
           // when
           await visit(`/competences/${scorecardWithoutRemainingDaysBeforeImproving.competenceId}/details`);

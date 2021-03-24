@@ -44,9 +44,9 @@ describe('Unit | Component | routes/login-form', function() {
 
   describe('#authenticate', () => {
 
-    context('when user is a Pix user', () => {
+    context('when user is a Pix user', function() {
 
-      it('should not notify error when authentication succeeds', async () => {
+      it('should not notify error when authentication succeeds', async function() {
         // when
         await component.authenticate(eventStub);
 
@@ -55,7 +55,7 @@ describe('Unit | Component | routes/login-form', function() {
         expect(component.hasUpdateUserError).to.be.false;
       });
 
-      it('should notify error when authentication fails', async () => {
+      it('should notify error when authentication fails', async function() {
         // given
         sessionStub.authenticate.rejects(new Error());
 
@@ -67,7 +67,7 @@ describe('Unit | Component | routes/login-form', function() {
         expect(component.hasUpdateUserError).to.be.false;
       });
 
-      it('should redirect to update-expired-password if user should change password', async () => {
+      it('should redirect to update-expired-password if user should change password', async function() {
         // given
         const expectedRouteName = 'update-expired-password';
         const response = {
@@ -85,7 +85,7 @@ describe('Unit | Component | routes/login-form', function() {
       });
     });
 
-    context('when user is external with an existing token id', () => {
+    context('when user is external with an existing token id', function() {
 
       const externalUserToken = 'ABCD';
       const expectedUserId = 1;
@@ -95,7 +95,7 @@ describe('Unit | Component | routes/login-form', function() {
         sessionStub.get.withArgs('data.expectedUserId').returns(expectedUserId);
       });
 
-      it('should display an error message when update user authentication method fails', async () => {
+      it('should display an error message when update user authentication method fails', async function() {
         // given
         addGarAuthenticationMethodToUserStub.rejects(new Error());
 

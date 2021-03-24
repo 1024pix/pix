@@ -85,7 +85,7 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
 
   describe('get firstTitle', () => {
 
-    context('When user is not authenticated', () => {
+    context('When user is not authenticated', function() {
 
       it('should return the not connected first title', () => {
         // given
@@ -100,7 +100,7 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
       });
     });
 
-    context('When user is authenticated', () => {
+    context('When user is authenticated', function() {
 
       it('should return the connected first title with user firstName', () => {
         // given
@@ -115,7 +115,7 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
       });
     });
 
-    context('When user is anonymous', () => {
+    context('When user is anonymous', function() {
 
       it('should return the not connected first title', () => {
         // given

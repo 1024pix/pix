@@ -14,7 +14,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
   });
 
   describe('when card has "ARCHIVED" status', function() {
-    context('when the participation doesn\'t have a mastery percentage', ()=> {
+    context('when the participation doesn\'t have a mastery percentage', function() {
       it('should render explanatory text', async function() {
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
@@ -40,7 +40,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
       });
     });
 
-    context('when the participation has a mastery percentage', ()=> {
+    context('when the participation has a mastery percentage', function() {
       it('should render the result with percentage', async function() {
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
@@ -62,7 +62,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
       });
     });
 
-    context('when the campaign has stages', ()=> {
+    context('when the campaign has stages', function() {
       it('should render the result with stars', async function() {
         // given
         const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {

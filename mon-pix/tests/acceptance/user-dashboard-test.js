@@ -48,7 +48,7 @@ describe('Acceptance | User dashboard page', function() {
 
     describe('when user is doing a campaign of type assessment', function() {
 
-      context('when user has not completed the campaign', () => {
+      context('when user has not completed the campaign', function() {
         let uncompletedCampaign;
         let uncompletedCampaignParticipationOverview;
 
@@ -94,7 +94,7 @@ describe('Acceptance | User dashboard page', function() {
         });
       });
 
-      context('when user has completed the campaign but not shared his/her results', () => {
+      context('when user has completed the campaign but not shared his/her results', function() {
         let unsharedCampaign;
         let unsharedCampaignParticipationOverview;
 

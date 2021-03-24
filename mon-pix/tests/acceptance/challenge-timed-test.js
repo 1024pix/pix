@@ -12,7 +12,7 @@ describe('Acceptance | Timed challenge', () => {
   let timedChallenge;
   let notTimedChallenge;
 
-  context('Timed Challenge', () => {
+  context('Timed Challenge', function() {
 
     context('when asking for confirmation', function() {
 
@@ -34,7 +34,7 @@ describe('Acceptance | Timed challenge', () => {
       });
     });
 
-    context('when the confirmation button is clicked', () => {
+    context('when the confirmation button is clicked', function() {
 
       context('and the challenge has not been already answered', function() {
 
@@ -96,7 +96,7 @@ describe('Acceptance | Timed challenge', () => {
     });
   });
 
-  context('Not Timed Challenge', () => {
+  context('Not Timed Challenge', function() {
 
     beforeEach(() => {
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');

@@ -49,11 +49,11 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
 
   describe('#createRecord', () => {
 
-    context('when is for searchMatchingStudent', () => {
+    context('when is for searchMatchingStudent', function() {
 
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
-      beforeEach(() => {
+      beforeEach(function() {
         expectedUrl = 'http://localhost:3000/api/schooling-registration-user-associations/possibilities';
         expectedMethod = 'PUT';
         expectedData = {
@@ -95,10 +95,10 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
       });
     });
 
-    context('when tryReconciliation is true', () => {
+    context('when tryReconciliation is true', function() {
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
-      beforeEach(() => {
+      beforeEach(function() {
         expectedUrl = 'http://localhost:3000/api/schooling-registration-user-associations/auto';
         expectedMethod = 'POST';
         expectedData = {

@@ -13,7 +13,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function() {
 
   describe('#status', () => {
     context('when the campaign is not archived', function() {
-      context('when the assessment state is "started"', () => {
+      context('when the assessment state is "started"', function() {
         it('should return the status "ONGOING"', function() {
           // given
           const model = store.createRecord('campaign-participation-overview', {
@@ -24,7 +24,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function() {
         });
       });
 
-      context('when the assessment state is "completed" and the participation is not shared"', () => {
+      context('when the assessment state is "completed" and the participation is not shared"', function() {
         it('should return the status "TO_SHARE"', function() {
           // given
           const model = store.createRecord('campaign-participation-overview', {
@@ -37,7 +37,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function() {
         });
       });
 
-      context('when the assessment state is "completed" and the participation is shared"', () => {
+      context('when the assessment state is "completed" and the participation is shared"', function() {
         it('should return the status "ENDED"', function() {
           // given
           const model = store.createRecord('campaign-participation-overview', {
@@ -51,7 +51,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function() {
       });
     });
 
-    context('when the campaign is archived"', () => {
+    context('when the campaign is archived"', function() {
       it('should return the status "archived"', function() {
         // given
         const model = store.createRecord('campaign-participation-overview', {

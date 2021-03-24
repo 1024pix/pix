@@ -6,7 +6,7 @@ import { expect } from 'chai';
 describe('Unit | Route | fill-in-campaign-code', function() {
   setupTest();
 
-  context('#beforeModel', () => {
+  context('#beforeModel', function() {
 
     it('should store externalUser queryParam in session', function() {
       // given

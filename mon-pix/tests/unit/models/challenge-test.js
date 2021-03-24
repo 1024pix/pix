@@ -128,7 +128,7 @@ describe('Unit | Model | Challenge', function() {
 
     let embedOptions;
 
-    beforeEach(() => {
+    beforeEach(function() {
       embedOptions = {
         embedUrl: 'https://embed.url',
         embedTitle: 'Embed title',

@@ -29,7 +29,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
 
   describe('#submit', function() {
 
-    context('when user info are typed', () => {
+    context('when user info are typed', function() {
       beforeEach(function() {
         component.studentNumber = '123456';
         component.firstName = 'firstName';
@@ -64,7 +64,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sup', function() {
       });
     });
 
-    context('when student number is not typed but others attributes are', () => {
+    context('when student number is not typed but others attributes are', function() {
       beforeEach(function() {
         component.noStudentNumber = true;
         component.studentNumber = null;

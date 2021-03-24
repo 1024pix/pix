@@ -15,7 +15,7 @@ describe('Integration | Component | routes/campaigns/restricted/fill-in-particip
     this.set('onCancelStub', onCancelStub);
   });
 
-  context('when externalIdHelpImageUrl exists', () => {
+  context('when externalIdHelpImageUrl exists', function() {
     it('should display image help', async function() {
       // when
       const campaign = {
@@ -34,7 +34,7 @@ describe('Integration | Component | routes/campaigns/restricted/fill-in-particip
     });
   });
 
-  context('when externalIdHelpImageUrl does not exist', () => {
+  context('when externalIdHelpImageUrl does not exist', function() {
     it('should not display image help', async function() {
       // when
       const campaign = {

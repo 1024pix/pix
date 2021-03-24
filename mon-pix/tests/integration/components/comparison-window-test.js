@@ -134,7 +134,7 @@ describe('Integration | Component | comparison-window', function() {
       expect(find('.learning-more-panel__container')).to.exist;
     });
 
-    context('when the answer is OK', () => {
+    context('when the answer is OK', function() {
       it('should neither display “Bientot ici des tutos“ nor hints nor any tutorials', async function() {
         // given
         answer.setProperties({

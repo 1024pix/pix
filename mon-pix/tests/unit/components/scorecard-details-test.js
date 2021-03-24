@@ -182,7 +182,7 @@ describe('Unit | Component | scorecard-details ', function() {
   describe('#shouldWaitBeforeImproving', function() {
     let component, scorecard;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const competenceId = 'recCompetenceId';
       scorecard = EmberObject.create({ competenceId });
       component = createGlimmerComponent('component:competence-card-default', { scorecard });

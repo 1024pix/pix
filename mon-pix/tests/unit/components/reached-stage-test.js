@@ -17,7 +17,7 @@ describe('Unit | Component | reached-stage', function() {
     { starCount: 5, stageCount: 6, expectedAcquiredStarsCount: 4, expectedUnacquiredStarsCount: 1 },
     { starCount: 2, stageCount: 10, expectedAcquiredStarsCount: 1, expectedUnacquiredStarsCount: 8 },
   ].map(({ starCount, stageCount, expectedAcquiredStarsCount, expectedUnacquiredStarsCount }) => {
-    context(`starCount=${starCount} and stageCount=${stageCount}`, () => {
+    context(`starCount=${starCount} and stageCount=${stageCount}`, function() {
 
       beforeEach(function() {
         component = createGlimmerComponent('component:reached-stage', { starCount, stageCount });
@@ -44,11 +44,11 @@ describe('Unit | Component | reached-stage', function() {
     });
   });
 
-  context('has no acquired star', () => {
+  context('has no acquired star', function() {
     [
       { starCount: 1, stageCount: 3, expectedAcquiredStarsCount: 0, expectedUnacquiredStarsCount: 2 },
     ].map(({ starCount, stageCount, expectedAcquiredStarsCount, expectedUnacquiredStarsCount }) => {
-      context(`starCount=${starCount} and stageCount=${stageCount}`, () => {
+      context(`starCount=${starCount} and stageCount=${stageCount}`, function() {
 
         beforeEach(function() {
           component = createGlimmerComponent('component:reached-stage', { starCount, stageCount });
@@ -88,7 +88,7 @@ describe('Unit | Component | reached-stage', function() {
     });
   });
 
-  context('has acquired at least one star', () => {
+  context('has acquired at least one star', function() {
     [
       { starCount: 5, stageCount: 5, expectedAcquiredStarsCount: 4, expectedUnacquiredStarsCount: 0 },
       { starCount: 5, stageCount: 6, expectedAcquiredStarsCount: 4, expectedUnacquiredStarsCount: 1 },
@@ -96,7 +96,7 @@ describe('Unit | Component | reached-stage', function() {
       { starCount: 2, stageCount: 3, expectedAcquiredStarsCount: 1, expectedUnacquiredStarsCount: 1 },
       { starCount: 4, stageCount: 5, expectedAcquiredStarsCount: 3, expectedUnacquiredStarsCount: 1 },
     ].map(({ starCount, stageCount, expectedAcquiredStarsCount, expectedUnacquiredStarsCount }) => {
-      context(`starCount=${starCount} and stageCount=${stageCount}`, () => {
+      context(`starCount=${starCount} and stageCount=${stageCount}`, function() {
 
         beforeEach(function() {
           component = createGlimmerComponent('component:reached-stage', { starCount, stageCount });

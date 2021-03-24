@@ -81,7 +81,7 @@ describe('Unit | Component | feedback-panel', function() {
     let feedback;
     let store;
 
-    beforeEach(() => {
+    beforeEach(function() {
       feedback = {
         save: sinon.stub().resolves(null),
       };

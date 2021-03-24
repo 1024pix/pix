@@ -31,11 +31,11 @@ describe('Integration | Component | ChallengeStatement', function() {
     let clock;
     const februaryTheFifth = new Date(2017, 1, 5);
 
-    beforeEach(() => {
+    beforeEach(function() {
       clock = sinon.useFakeTimers(februaryTheFifth);
     });
 
-    afterEach(() => {
+    afterEach(function() {
       clock.restore();
     });
 

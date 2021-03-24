@@ -30,7 +30,7 @@ describe('Unit | Service | mail generator', function() {
       clock = sinon.useFakeTimers(februaryTheFifth);
     });
 
-    afterEach(() => {
+    afterEach(function() {
       clock.restore();
     });
 

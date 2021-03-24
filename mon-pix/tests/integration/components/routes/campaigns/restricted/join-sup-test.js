@@ -23,7 +23,7 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
     this.owner.register('service:store', storeStub);
   });
 
-  context('when the student number is typed', () => {
+  context('when the student number is typed', function() {
     it('should show user data form', async function() {
       // given
       this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
@@ -53,7 +53,7 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
     });
   });
 
-  context('when i want change the student number', () => {
+  context('when i want change the student number', function() {
     it('should be possible to edit student number when a mistake was done', async function() {
       // when
       this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
@@ -70,7 +70,7 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
     });
   });
 
-  context('when i don’t have a student number', () => {
+  context('when i don’t have a student number', function() {
     it('should display user data form', async function() {
       // when
       this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
