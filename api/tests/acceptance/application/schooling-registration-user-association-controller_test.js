@@ -1259,16 +1259,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
         const options = {
           method: 'DELETE',
-          url: '/api/schooling-registration-user-associations/',
+          url: `/api/schooling-registration-user-associations/${schoolingRegistration.id}`,
           headers: {
             authorization: authorizationToken,
-          },
-          payload: {
-            data: {
-              attributes: {
-                'schooling-registration-id': schoolingRegistration.id,
-              },
-            },
           },
         };
 
@@ -1292,16 +1285,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
         const options = {
           method: 'DELETE',
-          url: '/api/schooling-registration-user-associations/',
+          url: `/api/schooling-registration-user-associations/${schoolingRegistration.id}`,
           headers: {
             authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
-          },
-          payload: {
-            data: {
-              attributes: {
-                'schooling-registration-id': schoolingRegistration.id,
-              },
-            },
           },
         };
 
@@ -1324,16 +1310,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
       const options = {
         method: 'DELETE',
-        url: '/api/schooling-registration-user-associations/',
+        url: `/api/schooling-registration-user-associations/${schoolingRegistration.id}`,
         headers: {
           authorization: authorizationToken,
-        },
-        payload: {
-          data: {
-            attributes: {
-              'schooling-registration-id': schoolingRegistration.id,
-            },
-          },
         },
       };
 
