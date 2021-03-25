@@ -219,6 +219,14 @@
     font-family: $font-roboto;
     font-weight: $font-light;
     font-size: 1rem;
+
+    p {
+      font-weight: bold;
+    }
+
+    li:first-child {
+      margin-bottom: 12px;
+    }
   }
 }
 
