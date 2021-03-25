@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.36.0 (25/03/2021)
+
+- [#2767](https://github.com/1024pix/pix/pull/2767) [BUGFIX] Modifier la sauvegarde du temps sur l'assessment.
+- [#2760](https://github.com/1024pix/pix/pull/2760) [BUGFIX] Mauvaise classe dans l'export des résultats d'une campagne de collecte de profils (PIX-2366)
+- [#2763](https://github.com/1024pix/pix/pull/2763) [BUGFIX] Garder la langue quand je suis connecté en simplifié/anonyme.
+- [#2756](https://github.com/1024pix/pix/pull/2756) [TECH] Traduction du mot d'aide/erreur lors de la mauvaise saisie du numéro de session lors de l'accès à la certification sur PixApp (PIX-2394)
+- [#2753](https://github.com/1024pix/pix/pull/2753) [TECH] Ajout de traductions sur la page "Certifications" dans Pix-Orga (PIX-2391)
+- [#2740](https://github.com/1024pix/pix/pull/2740) [TECH] Mise à jour de la DB browserlist pour toutes les applications front (PIX-2383)
+- [#2709](https://github.com/1024pix/pix/pull/2709) [CLEANUP] Refactoring du scoring en vue de la neutralisation d'épreuve (Pix-2377)
+
 ## v3.35.0 (23/03/2021)
 
 - [#2738](https://github.com/1024pix/pix/pull/2738) [FEATURE] Traduire en anglais la page "Mon équipe / Invitations" dans Pix Orga (PIX-2225).
