@@ -50,7 +50,7 @@ export default Factory.extend({
     attachments: ['http://example_of_url'],
     'illustration-url': 'http://fakeimg.pl/350x200/?text=PictureOfQCM',
     proposals: '- *possibilite* 1, et/ou' +
-      '\n - [possibilite 2](data:test), et/ou' +
+      '\n - [possibilite 2](/test), et/ou' +
       '\n - ![possibilite 3](/images/pix-logo-blanc.svg), et/ou' +
       '\n - possibilite 4',
   }),
@@ -61,7 +61,7 @@ export default Factory.extend({
     attachments: ['file.docx', 'file.odt'],
     'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
     proposals: '- 1ere *possibilite*\n ' +
-      '- 2eme [possibilite](data:test)\n ' +
+      '- 2eme [possibilite](/test)\n ' +
       '- ![3eme possibilite](/images/pix-logo-blanc.svg)\n' +
       '- 4eme possibilite',
   }),

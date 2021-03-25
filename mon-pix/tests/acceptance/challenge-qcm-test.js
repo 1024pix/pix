@@ -29,11 +29,11 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       expect(findAll('input[type="checkbox"]')).to.have.lengthOf(4);
 
       const proposalsText = findAll('.proposal-text');
-      expect(proposalsText[0].innerHTML).to.equal('<p><em>possibilite</em> 1, et/ou</p>\n');
+      expect(proposalsText[0].innerHTML.trim()).to.equal('<p><em>possibilite</em> 1, et/ou</p>');
       expect(proposalsText[1].textContent.trim()).to.equal('possibilite 2, et/ou');
-      expect(proposalsText[1].innerHTML).to.equal('<p><a href="data:test" rel="noopener noreferrer" target="_blank">possibilite 2</a>, et/ou</p>\n');
+      expect(proposalsText[1].innerHTML.trim()).to.equal('<p><a href="/test" rel="noopener noreferrer" target="_blank">possibilite 2</a>, et/ou</p>');
       expect(proposalsText[2].textContent.trim()).to.equal(', et/ou');
-      expect(proposalsText[2].innerHTML).to.equal('<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3">, et/ou</p>\n');
+      expect(proposalsText[2].innerHTML.trim()).to.equal('<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3">, et/ou</p>');
       expect(proposalsText[3].textContent.trim()).to.equal('possibilite 4');
 
       expect(find('.alert')).to.not.exist;
