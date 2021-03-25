@@ -7,9 +7,6 @@ const usecases = require('../../../../lib/domain/usecases');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const events = require('../../../../lib/domain/events');
-const ChallengeRequested = require('../../../../lib/domain/events/ChallengeRequested');
 
 describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
@@ -17,7 +14,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     let assessmentWithoutScore;
     let assessmentWithScore;
     let scoredAsssessment;
-    let transactionToBeExecuted;
+    let updateLastQuestionDateStub;
 
     beforeEach(() => {
 
@@ -40,6 +37,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       };
 
       sinon.stub(assessmentRepository, 'get');
+      updateLastQuestionDateStub = sinon.stub(assessmentRepository, 'updateLastQuestionDate');
       sinon.stub(challengeRepository, 'get').resolves({});
 
       sinon.stub(usecases, 'getAssessment').resolves(scoredAsssessment);
@@ -48,10 +46,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       sinon.stub(usecases, 'getNextChallengeForCampaignAssessment').resolves();
       sinon.stub(usecases, 'getNextChallengeForCompetenceEvaluation').resolves();
       sinon.stub(certificationChallengeRepository, 'getNextNonAnsweredChallengeByCourseId').resolves();
-      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
-        transactionToBeExecuted = lambda;
-      });
-
     });
 
     // TODO: Que faire si l'assessment n'existe pas pas ?
@@ -245,30 +239,36 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
           locale,
         });
       });
-    });
 
-    describe('when asking for a challenge', () => {
-      it('should dispatch challenge requested', async () => {
-        const domainTransaction = Symbol('domain transaction');
+      describe('when asking for a challenge', () => {
+        const now = new Date('2019-01-01T05:06:07Z');
+        let clock;
 
-        const eventDispatcherStub = sinon.stub(events.eventDispatcher, 'dispatch');
+        beforeEach(() => {
+          clock = sinon.useFakeTimers(now);
+        });
 
-        const assessment = domainBuilder.buildAssessment();
-        assessmentRepository.get.resolves(assessment);
+        afterEach(() => {
+          clock.restore();
+        });
 
-        const challengeRequested = new ChallengeRequested({ assessmentId: assessment.id });
-        const request = {
-          params: { id: assessment.id },
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(assessment.userId),
-            'accept-language': FRENCH_SPOKEN,
-          },
-        };
+        it('should call assessmentRepository updateLastQuestionDate method with currentDate', async () => {
+          // given
+          const locale = FRENCH_SPOKEN;
+          const request = {
+            params: { id: 1 },
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(1),
+              'accept-language': locale,
+            },
+          };
 
-        await assessmentController.getNextChallenge(request);
-        await transactionToBeExecuted(domainTransaction);
+          // when
+          await assessmentController.getNextChallenge(request);
 
-        expect(eventDispatcherStub).to.have.been.calledWithExactly(challengeRequested, domainTransaction);
+          // then
+          expect(updateLastQuestionDateStub).to.be.calledWith({ id: request.params.id, lastQuestionDate: now });
+        });
       });
     });
   });

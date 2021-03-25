@@ -2,7 +2,6 @@ const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const { AssessmentEndedError } = require('../../domain/errors');
 const usecases = require('../../domain/usecases');
 const events = require('../../domain/events');
-const ChallengeRequested = require('../../domain/events/ChallengeRequested');
 const logger = require('../../infrastructure/logger');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
@@ -98,10 +97,7 @@ module.exports = {
 async function _getChallenge(assessment, request) {
   const locale = extractLocaleFromRequest(request);
 
-  await DomainTransaction.execute(async (domainTransaction) => {
-    const event = new ChallengeRequested({ assessmentId: assessment.id });
-    await events.eventDispatcher.dispatch(event, domainTransaction);
-  });
+  await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
 
   if (assessment.isPreview()) {
     return usecases.getNextChallengeForPreview({});
