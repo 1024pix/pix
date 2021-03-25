@@ -62,6 +62,7 @@
 
 .embed__simulator {
   height: 100%;
+  overflow: auto;
 
   &.blurred {
     filter: blur(5px);
