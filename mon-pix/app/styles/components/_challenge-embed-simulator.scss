@@ -61,7 +61,7 @@
 }
 
 .embed__simulator {
-  height: 100%;
+  height: calc(100% + 5px);
   overflow: auto;
 
   &.blurred {
@@ -73,7 +73,7 @@
   position: relative;
   border: none;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 5px);
 }
 
 .embed__reboot {
