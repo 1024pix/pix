@@ -13,7 +13,7 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
 const targetProfileWithLearningContentRepository = require('../../infrastructure/repositories/target-profile-with-learning-content-repository');
-const certifiableProfileForLearningContent = require('../../infrastructure/repositories/certifiable-profile-for-learning-content-repository');
+const certifiableProfileForLearningContentRepository = require('../../infrastructure/repositories/certifiable-profile-for-learning-content-repository');
 
 module.exports = {
 
@@ -51,7 +51,7 @@ module.exports = {
 
   async pickCertificationChallengesForPlus(targetProfileId, userId) {
     const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({ id: targetProfileId });
-    const certifiableProfile = await certifiableProfileForLearningContent.get({ id: userId, profileDate: new Date(), targetProfileWithLearningContent });
+    const certifiableProfile = await certifiableProfileForLearningContentRepository.get({ id: userId, profileDate: new Date(), targetProfileWithLearningContent });
     const allFrFrOperativeChallenges = await challengeRepository.findFrenchFranceOperative();
 
     const excludedOrigins = [PIX_ORIGIN];
