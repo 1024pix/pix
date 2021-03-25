@@ -771,7 +771,6 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // then
         expect(error).to.be.instanceof(SameNationalStudentIdInOrganizationError);
-        expect(error.message).to.equal('L’INE SAMEID123 est déjà présent pour cette organisation.');
       });
     });
 
@@ -1062,7 +1061,6 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // then
         expect(error).to.be.instanceof(SameNationalApprenticeIdInOrganizationError);
-        expect(error.message).to.equal('L’INA SAMEID123 est déjà présent pour cette organisation.');
       });
     });
 

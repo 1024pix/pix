@@ -5,6 +5,10 @@ const securityPreHandlers = require('../security-pre-handlers');
 const organizationController = require('./organization-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 
+const ERRORS = {
+  PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
+};
+
 exports.register = async (server) => {
   server.route([
     {
@@ -261,6 +265,9 @@ exports.register = async (server) => {
         payload: {
           maxBytes: 1048576 * 20, // 20MB
           output: 'file',
+          failAction: (request, h) => {
+            return sendJsonApiError(new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, { maxSize: '20' }), h);
+          },
         },
         handler: organizationController.importSchoolingRegistrationsFromSIECLE,
         notes: [
@@ -288,7 +295,7 @@ exports.register = async (server) => {
           maxBytes: 1048576 * 10, // 10MB
           parse: 'gunzip',
           failAction: (request, h) => {
-            return sendJsonApiError(new PayloadTooLargeError(), h);
+            return sendJsonApiError(new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, { maxSize: '10' }), h);
           },
         },
         handler: organizationController.importHigherSchoolingRegistrations,

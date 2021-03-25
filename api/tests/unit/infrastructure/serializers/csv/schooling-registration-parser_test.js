@@ -192,7 +192,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
               const error = await catchErr(parser.parse, parser)();
 
               //then
-              expect(error.code).to.equal('INA_UNIQUE');
+              expect(error.code).to.equal('IDENTIFIER_UNIQUE');
               expect(error.meta).to.deep.equal({ line: 3, field: 'Identifiant unique*' });
             });
           });
@@ -236,7 +236,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
               const error = await catchErr(parser.parse, parser)();
 
               //then
-              expect(error.code).to.equal('INA_UNIQUE');
+              expect(error.code).to.equal('IDENTIFIER_UNIQUE');
               expect(error.meta).to.deep.equal({ line: 3, field: 'Identifiant unique*' });
             });
           });

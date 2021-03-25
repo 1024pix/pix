@@ -10,7 +10,7 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
   let controller;
 
   hooks.beforeEach(function() {
-    controller = this.owner.lookup('service:intl').setLocale('fr');
+    this.owner.lookup('service:intl').setLocale('fr');
     controller = this.owner.lookup('controller:authenticated/sup-students/list');
     controller.send = sinon.stub();
     controller.currentUser = currentUser;

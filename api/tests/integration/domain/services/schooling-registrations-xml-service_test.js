@@ -1,5 +1,5 @@
 const { expect, catchErr } = require('../../../test-helper');
-const { FileValidationError, SameNationalStudentIdInFileError, ObjectValidationError } = require('../../../../lib/domain/errors');
+const { FileValidationError, SiecleXmlImportError } = require('../../../../lib/domain/errors');
 const schoolingRegistrationsXmlService = require('../../../../lib/domain/services/schooling-registrations-xml-service');
 
 describe('Integration | Services | schooling-registrations-xml-service', () => {
@@ -89,8 +89,8 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
       //then
-      expect(error).to.be.instanceof(FileValidationError);
-      expect(error.message).to.equal('L\'encodage du fichier n\'est pas supporté');
+      expect(error).to.be.instanceof(SiecleXmlImportError);
+      expect(error.code).to.equal('ENCODING_NOT_SUPPORTED');
     });
 
     it('should not parse schoolingRegistrations who are no longer in the school', async function() {
@@ -117,8 +117,8 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
       //then
-      expect(error).to.be.instanceof(FileValidationError);
-      expect(error.message).to.equal('Aucun étudiant n’a été importé. L’import n’est pas possible car l’UAI du fichier SIECLE ne correspond pas à celui de votre établissement. En cas de difficulté, contactez support.pix.fr.');
+      expect(error).to.be.instanceof(SiecleXmlImportError);
+      expect(error.code).to.equal('UAI_MISMATCHED');
     });
 
     it('should abort parsing and reject with not valid UAI error if UAI is missing', async function() {
@@ -131,8 +131,8 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
       //then
-      expect(error).to.be.instanceof(FileValidationError);
-      expect(error.message).to.equal('Aucun étudiant n’a été importé. L’import n’est pas possible car l’UAI du fichier SIECLE ne correspond pas à celui de votre établissement. En cas de difficulté, contactez support.pix.fr.');
+      expect(error).to.be.instanceof(SiecleXmlImportError);
+      expect(error.code).to.equal('UAI_MISMATCHED');
     });
 
     it('should abort parsing and reject with XML error if file is malformed while scanning for UAI', async function() {
@@ -146,7 +146,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
 
       //then
       expect(error).to.be.instanceof(FileValidationError);
-      expect(error.message).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
+      expect(error.code).to.equal('INVALID_FILE');
     });
 
     it('should abort parsing and reject with XML error if file is malformed while scanning students', async function() {
@@ -160,7 +160,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
 
       //then
       expect(error).to.be.instanceof(FileValidationError);
-      expect(error.message).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
+      expect(error.code).to.equal('INVALID_FILE');
     });
 
     it('should abort parsing and reject with duplicate national student id error', async function() {
@@ -173,8 +173,9 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
       //then
-      expect(error).to.be.instanceof(SameNationalStudentIdInFileError);
-      expect(error.message).to.equal('L’INE 00000000123 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
+      expect(error).to.be.instanceof(SiecleXmlImportError);
+      expect(error.code).to.equal('INE_UNIQUE');
+      expect(error.meta).to.deep.equal({ nationalStudentId: '00000000123' });
     });
 
     it('should abort parsing and reject with duplicate national student id error and tag not correctly closed', async function() {
@@ -187,8 +188,9 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
       //then
-      expect(error).to.be.instanceof(SameNationalStudentIdInFileError);
-      expect(error.message).to.equal('L’INE 00000000123 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
+      expect(error).to.be.instanceof(SiecleXmlImportError);
+      expect(error.code).to.equal('INE_UNIQUE');
+      expect(error.meta).to.deep.equal({ nationalStudentId: '00000000123' });
     });
 
     it('should abort parsing and reject with missing national student id error', async function() {
@@ -201,8 +203,8 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
       //then
-      expect(error).to.be.instanceof(ObjectValidationError);
-      expect(error.message).to.equal('L\'INE est obligatoire');
+      expect(error).to.be.instanceof(SiecleXmlImportError);
+      expect(error.code).to.equal('INE_REQUIRED');
     });
 
     context('when the file is zipped', () => {
@@ -245,8 +247,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
 
           //then
           expect(error).to.be.instanceof(FileValidationError);
-          expect(error.message).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
-
+          expect(error.code).to.equal('INVALID_FILE');
         });
       });
     });

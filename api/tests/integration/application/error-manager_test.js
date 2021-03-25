@@ -89,6 +89,13 @@ describe('Integration | API | Controller Error', () => {
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
 
+    it('responds Precondition Failed when a SiecleXmlImportError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.SiecleXmlImportError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+    });
+
     it('responds Precondition Failed when a TargetProfileInvalidError error occurs', async () => {
       routeHandler.throws(new DomainErrors.TargetProfileInvalidError());
       const response = await server.inject(options);
@@ -189,7 +196,15 @@ describe('Integration | API | Controller Error', () => {
       const response = await server.inject(options);
 
       expect(response.statusCode).to.equal(CONFLICT_ERROR);
-      expect(responseDetail(response)).to.equal('L’INE ABC123 est déjà présent pour cette organisation.');
+      expect(responseDetail(response)).to.equal('The INE ABC123 is already in use for this organization.');
+    });
+
+    it('responds Conflict when a SameNationalApprenticeIdInOrganizationError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.SameNationalApprenticeIdInOrganizationError('(ABC123)'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(CONFLICT_ERROR);
+      expect(responseDetail(response)).to.equal('The INA ABC123 is already in use for this organization.');
     });
   });
 
@@ -363,11 +378,11 @@ describe('Integration | API | Controller Error', () => {
     });
 
     it('responds Bad Request when a SchoolingRegistrationsCouldNotBeSavedError error occurs', async () => {
-      routeHandler.throws(new DomainErrors.SchoolingRegistrationsCouldNotBeSavedError('Une erreur est survenue durant le traitement.'));
+      routeHandler.throws(new DomainErrors.SchoolingRegistrationsCouldNotBeSavedError());
       const response = await server.inject(options);
 
       expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
-      expect(responseDetail(response)).to.equal('Une erreur est survenue durant le traitement.');
+      expect(responseDetail(response)).to.equal('An error occurred during process');
     });
 
     it('responds Bad Request when a WrongDateFormatError error occurs', async () => {
@@ -420,15 +435,7 @@ describe('Integration | API | Controller Error', () => {
       const response = await server.inject(options);
 
       expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
-      expect(responseDetail(response)).to.equal('Erreur, fichier non valide.');
-    });
-
-    it('responds Unprocessable Entity when a SameNationalStudentIdInFileError error occurs', async () => {
-      routeHandler.throws(new DomainErrors.SameNationalStudentIdInFileError('123'));
-      const response = await server.inject(options);
-
-      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
-      expect(responseDetail(response)).to.equal('L’INE 123 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
+      expect(responseDetail(response)).to.equal('An error occurred, file is invalid');
     });
 
     it('responds Unprocessable Entity when a UserNotMemberOfOrganizationError error occurs', async () => {

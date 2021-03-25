@@ -26,7 +26,7 @@ const COLUMNS = [
 
 const ERRORS = {
   INA_FORMAT: 'INA_FORMAT',
-  INA_UNIQUE: 'INA_UNIQUE',
+  IDENTIFIER_UNIQUE: 'IDENTIFIER_UNIQUE',
   INSEE_CODE_INVALID: 'INSEE_CODE_INVALID',
 };
 
@@ -82,7 +82,7 @@ class SchoolingRegistrationParser extends CsvRegistrationParser {
     }
 
     if (err.why === 'uniqueness' && err.key === 'nationalIdentifier') {
-      throw new CsvImportError(ERRORS.INA_UNIQUE, { line, field });
+      throw new CsvImportError(ERRORS.IDENTIFIER_UNIQUE, { line, field });
     }
 
     if (err.why === 'not_valid_insee_code') {
