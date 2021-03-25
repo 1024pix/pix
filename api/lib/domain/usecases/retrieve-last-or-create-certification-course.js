@@ -3,6 +3,7 @@ const Assessment = require('../models/Assessment');
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../errors');
 const { features } = require('../../config');
 const _ = require('lodash');
+const bluebird = require('bluebird');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   domainTransaction,
@@ -82,13 +83,9 @@ async function _findChallengesFromPixPlus({ userId, certifiableBadgesService, ce
   const hasCertifiableBadges = await certifiableBadgesService.hasCertifiableBadges(userId);
   if (hasCertifiableBadges) {
     const targetProfileIds = await certifiableBadgesService.getTargetProfileIdFromAcquiredCertifiableBadges(userId);
-    const challengesPixPlusByTargetProfileAndArea = await Promise.all(targetProfileIds
-      .map((targetProfileId) => certificationChallengesService.pickCertificationChallengesForPlus(targetProfileId, userId)));
-    let challengesFromPixPix = [];
-    challengesPixPlusByTargetProfileAndArea.forEach((challengesByArea) => {
-      challengesFromPixPix = challengesFromPixPix.concat(_.flatten(Object.values(challengesByArea)));
-    });
-    return challengesFromPixPix;
+    const challengesPixPlusByTargetProfiles = await bluebird.mapSeries(targetProfileIds,
+      (targetProfileId) => certificationChallengesService.pickCertificationChallengesForPixPlus(targetProfileId, userId));
+    return _.flatMap(challengesPixPlusByTargetProfiles);
   } else {
     return [];
   }

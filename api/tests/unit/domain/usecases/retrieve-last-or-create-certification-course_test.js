@@ -19,7 +19,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   const competenceRepository = { listPixCompetencesOnly: sinon.stub() };
   const certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
   const certificationChallengeRepository = { save: sinon.stub() };
-  const certificationChallengesService = { pickCertificationChallengesForPlus: sinon.stub(), pickCertificationChallenges: sinon.stub() };
+  const certificationChallengesService = { pickCertificationChallengesForPixPlus: sinon.stub(), pickCertificationChallenges: sinon.stub() };
   const certifiableBadgesService = { hasCertifiableBadges: sinon.stub(), getTargetProfileIdFromAcquiredCertifiableBadges: sinon.stub() };
   const certificationCourseRepository = {
     findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
@@ -316,11 +316,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               sinon.spy(CertificationCourse, 'from');
               certifiableBadgesService.hasCertifiableBadges.resolves(true);
               certifiableBadgesService.getTargetProfileIdFromAcquiredCertifiableBadges.resolves([11, 22]);
-              certificationChallengesService.pickCertificationChallengesForPlus
+              certificationChallengesService.pickCertificationChallengesForPixPlus
                 .withArgs(11, userId)
-                .resolves({ 'rec1': [challengePlus1], 'rec2': [challengePlus2] })
+                .resolves([challengePlus1, challengePlus2])
                 .withArgs(22, userId)
-                .resolves({ 'rec3': [challengePlus3] });
+                .resolves([challengePlus3]);
             });
 
             it('should save all the challenges from pix and pix plus', async function() {
@@ -353,11 +353,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               sinon.spy(CertificationCourse, 'from');
               certifiableBadgesService.hasCertifiableBadges.resolves(false);
               certifiableBadgesService.getTargetProfileIdFromAcquiredCertifiableBadges.resolves([11, 22]);
-              certificationChallengesService.pickCertificationChallengesForPlus
+              certificationChallengesService.pickCertificationChallengesForPixPlus
                 .withArgs(11, userId)
-                .resolves({ 'rec1': [challengePlus1], 'rec2': [challengePlus2] })
+                .resolves([challengePlus1, challengePlus2])
                 .withArgs(22, userId)
-                .resolves({ 'rec3': [challengePlus3] });
+                .resolves([challengePlus3]);
             });
 
             it('should save only the challenges from pix', async function() {
