@@ -186,16 +186,12 @@ exports.register = async function(server) {
 
     {
       method: 'DELETE',
-      path: '/api/schooling-registration-user-associations',
+      path: '/api/schooling-registration-user-associations/{id}',
       config: {
         handler: schoolingRegistrationUserAssociationController.dissociate,
         validate: {
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'schooling-registration-id': identifiersType.schoolingRegistrationId,
-              },
-            },
+          params: Joi.object({
+            id: identifiersType.schoolingRegistrationId,
           }),
         },
         notes: [

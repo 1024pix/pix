@@ -10,7 +10,7 @@ const schoolingRegistrationUserAssociationController = require('../../../../lib/
 
 const moduleUnderTest = require('../../../../lib/application/schooling-registration-user-associations');
 
-describe('Unit | Application | Router | campaign-router ', function() {
+describe('Unit | Application | Router | schooling-registration-user-associations-router', function() {
 
   const organizationId = 2;
   const studentId = '1234';
@@ -20,6 +20,8 @@ describe('Unit | Application | Router | campaign-router ', function() {
 
   beforeEach(() => {
     sinon.stub(preHandler, 'checkUserIsAdminInSUPOrganizationManagingStudents');
+
+    sinon.stub(schoolingRegistrationUserAssociationController, 'dissociate').returns('ok');
     sinon.stub(schoolingRegistrationUserAssociationController, 'updateStudentNumber').returns('ok');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
@@ -126,6 +128,39 @@ describe('Unit | Application | Router | campaign-router ', function() {
         // then
         expect(response.statusCode).to.equal(403);
       });
+    });
+  });
+
+  describe('DELETE /api/schooling-registration-user-associations/{id}', () => {
+
+    const method = 'DELETE';
+    const headers = {
+      authorization: generateValidRequestAuthorizationHeader(userId),
+    };
+    const payload = null;
+
+    let url;
+
+    it('should return a HTTP status code 200', async () => {
+      // given
+      url = '/api/schooling-registration-user-associations/1';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return a HTTP status code 400 if id parameter is not a number', async () => {
+      // given
+      url = '/api/schooling-registration-user-associations/ABC';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 
