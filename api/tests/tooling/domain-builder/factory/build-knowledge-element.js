@@ -53,6 +53,31 @@ buildKnowledgeElement.directlyValidated = function directlyValidated({
   });
 };
 
+buildKnowledgeElement.inferredValidated = function inferredValidated({
+  id = faker.random.number(),
+  earnedPix = 4,
+  createdAt,
+  // relationship Ids
+  answerId = faker.random.number(),
+  assessmentId = faker.random.number(),
+  skillId = `rec${faker.random.uuid()}`,
+  userId = faker.random.number(),
+  competenceId = `rec${faker.random.uuid()}`,
+} = {}) {
+  return new KnowledgeElement({
+    id,
+    source: KnowledgeElement.SourceType.INFERRED,
+    status: KnowledgeElement.StatusType.VALIDATED,
+    earnedPix,
+    createdAt,
+    answerId,
+    assessmentId,
+    skillId,
+    userId,
+    competenceId,
+  });
+};
+
 buildKnowledgeElement.directlyInvalidated = function directlyInvalidated({
   id = faker.random.number(),
   earnedPix = 4,

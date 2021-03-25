@@ -1,6 +1,9 @@
 const _ = require('lodash');
 
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const {
+  PIX_ORIGIN,
+} = require('../../../../lib/domain/constants');
 
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 const Challenge = require('../../../../lib/domain/models/Challenge');
@@ -15,6 +18,8 @@ const answerRepository = require('../../../../lib/infrastructure/repositories/an
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
+const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
+const certifiableProfileForLearningContentRepository = require('../../../../lib/infrastructure/repositories/certifiable-profile-for-learning-content-repository');
 
 describe('Unit | Service | Certification Challenge Service', () => {
 
@@ -103,32 +108,29 @@ describe('Unit | Service | Certification Challenge Service', () => {
   const challengeForSkillRequin5 = _createChallenge('challengeRecordIdNine', competenceRequin.id, [skillRequin5], '@requin5');
   const challengeForSkillRequin8 = _createChallenge('challengeRecordIdTen', competenceRequin.id, [skillRequin8], '@requin8');
 
-  beforeEach(() => {
-    sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves([
-      challengeForSkillCitation4,
-      anotherChallengeForSkillCitation4,
-      challengeForSkillCitation4AndMoteur3,
-      challengeForSkillCollaborer4,
-      challengeForSkillRecherche4,
-      challengeForSkillRemplir2,
-      challengeForSkillRemplir4,
-      challengeForSkillUrl3,
-      challengeForSkillWeb1,
-      challengeRecordWithoutSkills,
-      challengeForSkillRequin5,
-      challengeForSkillRequin8,
-      challengeForSkillKoala1,
-      challengeForSkillKoala2,
-    ]);
-    sinon.stub(skillRepository, 'findOperativeByIds').callsFake(findOperativeByIds);
-  });
-
   describe('#pickCertificationChallenges', () => {
     let placementProfile;
     let userCompetence1;
     let userCompetence2;
 
     beforeEach(() => {
+      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves([
+        challengeForSkillCitation4,
+        anotherChallengeForSkillCitation4,
+        challengeForSkillCitation4AndMoteur3,
+        challengeForSkillCollaborer4,
+        challengeForSkillRecherche4,
+        challengeForSkillRemplir2,
+        challengeForSkillRemplir4,
+        challengeForSkillUrl3,
+        challengeForSkillWeb1,
+        challengeRecordWithoutSkills,
+        challengeForSkillRequin5,
+        challengeForSkillRequin8,
+        challengeForSkillKoala1,
+        challengeForSkillKoala2,
+      ]);
+      sinon.stub(skillRepository, 'findOperativeByIds').callsFake(findOperativeByIds);
       userCompetence1 = new UserCompetence({
         id: 'competenceRecordIdOne',
         index: '1.1',
@@ -530,6 +532,764 @@ describe('Unit | Service | Certification Challenge Service', () => {
 
       // then
       expect(certificationChallenges).to.deep.equal([]);
+    });
+  });
+
+  describe('#pickCertificationChallengesForPlus', () => {
+    let targetProfileWithLearningContent;
+    let clock;
+    const now = new Date('2019-01-01T05:06:07Z');
+    function _createTargetedTubeWithSkills({ maxLevel, tubeName, tubeId, areaName }) {
+      const targetedSkills = [];
+      for (let i = 1; i <= maxLevel; ++i) {
+        targetedSkills.push(domainBuilder.buildTargetedSkill({
+          id: `${tubeName}${i}_id`,
+          name: `@${tubeName}${i}`,
+          tubeId,
+        }));
+      }
+
+      return domainBuilder.buildTargetedTube({
+        id: tubeId,
+        name: tubeName,
+        competenceId: `comp_${areaName}_id`,
+        skills: targetedSkills,
+      });
+    }
+    function _createTargetedAreaForTubes({ tubes, areaName, areaId, origin }) {
+      const targetedCompetence = domainBuilder.buildTargetedCompetence({
+        id: `comp_${areaName}_id`,
+        name: `comp_${areaName}`,
+        areaId,
+        tubes,
+        origin,
+      });
+
+      return domainBuilder.buildTargetedArea({
+        id: areaId,
+        name: areaName,
+        competences: [targetedCompetence],
+      });
+    }
+    function _createChallengeWithDecl(challengeBaseId, skills, countDecl) {
+      const challenges = [];
+
+      for (let i = 1; i <= countDecl; ++i) {
+        challenges.push(domainBuilder.buildChallenge({
+          id: `${challengeBaseId}_dec${i}`,
+          name: `${challengeBaseId}_dec${i}`,
+          skills,
+        }));
+      }
+      return challenges;
+    }
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers(now);
+      const targetedTube1Area1 = _createTargetedTubeWithSkills({ maxLevel: 5, tubeName: 'faireDesCourses', tubeId: 'faireDesCourses_id', areaName: 'reussirDehors' });
+      const targetedTube2Area1 = _createTargetedTubeWithSkills({ maxLevel: 4, tubeName: 'direBonjour', tubeId: 'direBonjour_id', areaName: 'reussirDehors' });
+      const targetedTube3Area1 = _createTargetedTubeWithSkills({ maxLevel: 5, tubeName: 'conduireUneVoiture', tubeId: 'conduireUneVoiture_id', areaName: 'reussirDehors' });
+      const targetedTube1Area2 = _createTargetedTubeWithSkills({ maxLevel: 3, tubeName: 'laverLesDents', tubeId: 'laverLesDents_id', areaName: 'faireBienDedans' });
+      const targetedTube2Area2 = _createTargetedTubeWithSkills({ maxLevel: 6, tubeName: 'faireSonLit', tubeId: 'faireSonLit_id', areaName: 'faireBienDedans' });
+      const targetedArea1 = _createTargetedAreaForTubes({
+        tubes: [targetedTube1Area1, targetedTube2Area1, targetedTube3Area1],
+        areaId: 'reussirDehors_id',
+        areaName: 'reussirDehors',
+        origin: 'PixPlusEpreuvesDeLaVie',
+      });
+      const targetedArea2 = _createTargetedAreaForTubes({
+        tubes: [targetedTube1Area2, targetedTube2Area2],
+        areaId: 'faireBienDedans_id',
+        areaName: 'faireBienDedans',
+        origin: 'PixPlusEpreuvesDeLaVie',
+      });
+
+      targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: _.flatMap([targetedTube1Area1, targetedTube2Area1, targetedTube3Area1, targetedTube1Area2, targetedTube2Area2], 'skills'),
+        tubes: [targetedTube1Area1, targetedTube2Area1, targetedTube3Area1, targetedTube1Area2, targetedTube2Area2],
+        competences: _.flatMap([targetedArea1, targetedArea2], 'competences'),
+        areas: [targetedArea1, targetedArea2],
+      });
+      sinon.stub(targetProfileWithLearningContentRepository, 'get')
+        .withArgs({ id: 123 })
+        .resolves(targetProfileWithLearningContent);
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it('should pick 4 challenges per area', async () => {
+      // given
+      // user knowledge elements and answers
+      const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 1,
+        skillId: 'faireDesCourses3_id',
+      });
+      const keFaireDesCoursesLvl4 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 2,
+        skillId: 'faireDesCourses4_id',
+      });
+      const keDireBonjourLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 3,
+        skillId: 'direBonjour2_id',
+      });
+      const keConduireUneVoitureLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 4,
+        skillId: 'conduireUneVoiture2_id',
+      });
+      const keLaverLesDentsLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 5,
+        skillId: 'laverLesDents2_id',
+      });
+      const keLaverLesDentsLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 6,
+        skillId: 'laverLesDents3_id',
+      });
+      const keFaireSonLitLvl4 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 7,
+        skillId: 'faireSonLit4_id',
+      });
+      const keFaireSonLitLvl6 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 8,
+        skillId: 'faireSonLit6_id',
+      });
+      const answerAndChallengeIdsByAnswerId = {
+        1: { id: 1, challengeId: 'ch_faireDesCourses3_dec1' },
+        2: { id: 2, challengeId: 'ch_faireDesCourses4_dec1' },
+        3: { id: 3, challengeId: 'ch_direBonjour2_dec1' },
+        4: { id: 4, challengeId: 'ch_conduireUneVoiture2_dec1' },
+        5: { id: 5, challengeId: 'ch_laverLesDents2_dec1' },
+        6: { id: 6, challengeId: 'ch_laverLesDents3_dec1' },
+        7: { id: 7, challengeId: 'ch_faireSonLit4_dec1' },
+        8: { id: 8, challengeId: 'ch_faireSonLit6_dec1' },
+      };
+      const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
+        userId: 456,
+        profileDate: now,
+        targetProfileWithLearningContent,
+        knowledgeElements: [keFaireDesCoursesLvl3, keFaireDesCoursesLvl4, keDireBonjourLvl2, keConduireUneVoitureLvl2, keLaverLesDentsLvl2, keLaverLesDentsLvl3, keFaireSonLitLvl4, keFaireSonLitLvl6],
+        answerAndChallengeIdsByAnswerId,
+      });
+      sinon.stub(certifiableProfileForLearningContentRepository, 'get')
+        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .resolves(certifiableProfile);
+      // challenges
+      let challenges = [];
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses3', [{ id: 'faireDesCourses3_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', [{ id: 'faireDesCourses4_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', [{ id: 'direBonjour2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_conduireUneVoiture2', [{ id: 'conduireUneVoiture2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
+      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+
+      // when
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPlus(123, 456);
+
+      // then
+      let expectedCertificationChallenges = [];
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses3_dec1', {
+        id: 'faireDesCourses3_id',
+        name: '@faireDesCourses3',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses4_dec1', {
+        id: 'faireDesCourses4_id',
+        name: '@faireDesCourses4',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_direBonjour2_dec1', {
+        id: 'direBonjour2_id',
+        name: '@direBonjour2',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_conduireUneVoiture2_dec1', {
+        id: 'conduireUneVoiture2_id',
+        name: '@conduireUneVoiture2',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents2_dec1', {
+        id: 'laverLesDents2_id',
+        name: '@laverLesDents2',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents3_dec1', {
+        id: 'laverLesDents3_id',
+        name: '@laverLesDents3',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit4_dec1', {
+        id: 'faireSonLit4_id',
+        name: '@faireSonLit4',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit6_dec1', {
+        id: 'faireSonLit6_id',
+        name: '@faireSonLit6',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
+      expect(certificationChallengesForPlus).to.have.length(8);
+    });
+
+    it('should preferably pick non answered challenges', async () => {
+      // given
+      // user knowledge elements and answers
+      const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 1,
+        skillId: 'faireDesCourses3_id',
+      });
+      const keFaireDesCoursesLvl4 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 2,
+        skillId: 'faireDesCourses4_id',
+      });
+      const keDireBonjourLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 3,
+        skillId: 'direBonjour2_id',
+      });
+      const keConduireUneVoitureLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 4,
+        skillId: 'conduireUneVoiture2_id',
+      });
+      const keLaverLesDentsLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 5,
+        skillId: 'laverLesDents2_id',
+      });
+      const keLaverLesDentsLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 6,
+        skillId: 'laverLesDents3_id',
+      });
+      const keFaireSonLitLvl4 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 7,
+        skillId: 'faireSonLit4_id',
+      });
+      const keFaireSonLitLvl6 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 8,
+        skillId: 'faireSonLit6_id',
+      });
+      const answerAndChallengeIdsByAnswerId = {
+        1: { id: 1, challengeId: 'ch_faireDesCourses3_dec1' },
+        2: { id: 2, challengeId: 'ch_faireDesCourses4_dec1' },
+        3: { id: 3, challengeId: 'ch_direBonjour2_dec1' },
+        4: { id: 4, challengeId: 'ch_conduireUneVoiture2_dec1' },
+        5: { id: 5, challengeId: 'ch_laverLesDents2_dec1' },
+        6: { id: 6, challengeId: 'ch_laverLesDents3_dec1' },
+        7: { id: 7, challengeId: 'ch_faireSonLit4_dec1' },
+        8: { id: 8, challengeId: 'ch_faireSonLit6_dec1' },
+      };
+      const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
+        userId: 456,
+        profileDate: now,
+        targetProfileWithLearningContent,
+        knowledgeElements: [keFaireDesCoursesLvl3, keFaireDesCoursesLvl4, keDireBonjourLvl2, keConduireUneVoitureLvl2, keLaverLesDentsLvl2, keLaverLesDentsLvl3, keFaireSonLitLvl4, keFaireSonLitLvl6],
+        answerAndChallengeIdsByAnswerId,
+      });
+      sinon.stub(certifiableProfileForLearningContentRepository, 'get')
+        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .resolves(certifiableProfile);
+      // challenges
+      let challenges = [];
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses3', [{ id: 'faireDesCourses3_id' }], 2));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', [{ id: 'faireDesCourses4_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', [{ id: 'direBonjour2_id' }], 2));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_conduireUneVoiture2', [{ id: 'conduireUneVoiture2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 2));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 2));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
+      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+
+      // when
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPlus(123, 456);
+
+      // then
+      let expectedCertificationChallenges = [];
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses3_dec2', {
+        id: 'faireDesCourses3_id',
+        name: '@faireDesCourses3',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses4_dec1', {
+        id: 'faireDesCourses4_id',
+        name: '@faireDesCourses4',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_direBonjour2_dec2', {
+        id: 'direBonjour2_id',
+        name: '@direBonjour2',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_conduireUneVoiture2_dec1', {
+        id: 'conduireUneVoiture2_id',
+        name: '@conduireUneVoiture2',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents2_dec2', {
+        id: 'laverLesDents2_id',
+        name: '@laverLesDents2',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents3_dec1', {
+        id: 'laverLesDents3_id',
+        name: '@laverLesDents3',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit4_dec2', {
+        id: 'faireSonLit4_id',
+        name: '@faireSonLit4',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit6_dec1', {
+        id: 'faireSonLit6_id',
+        name: '@faireSonLit6',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
+      expect(certificationChallengesForPlus).to.have.length(8);
+    });
+
+    it('should prioritize on hardest skill per area', async () => {
+      // given
+      // user knowledge elements and answers
+      const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 1,
+        skillId: 'faireDesCourses3_id',
+      });
+      const keFaireDesCoursesLvl4 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 2,
+        skillId: 'faireDesCourses4_id',
+      });
+      const keDireBonjourLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 3,
+        skillId: 'direBonjour2_id',
+      });
+      const keConduireUneVoitureLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 4,
+        skillId: 'conduireUneVoiture2_id',
+      });
+      const keLaverLesDentsLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 5,
+        skillId: 'laverLesDents2_id',
+      });
+      const keLaverLesDentsLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 6,
+        skillId: 'laverLesDents3_id',
+      });
+      const keFaireSonLitLvl4 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 7,
+        skillId: 'faireSonLit4_id',
+      });
+      const keFaireSonLitLvl5 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 8,
+        skillId: 'faireSonLit5_id',
+      });
+      const keFaireSonLitLvl6 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 9,
+        skillId: 'faireSonLit6_id',
+      });
+      const answerAndChallengeIdsByAnswerId = {
+        1: { id: 1, challengeId: 'ch_faireDesCourses3_dec1' },
+        2: { id: 2, challengeId: 'ch_faireDesCourses4_dec1' },
+        3: { id: 3, challengeId: 'ch_direBonjour2_dec1' },
+        4: { id: 4, challengeId: 'ch_conduireUneVoiture2_dec1' },
+        5: { id: 5, challengeId: 'ch_laverLesDents2_dec1' },
+        6: { id: 6, challengeId: 'ch_laverLesDents3_dec1' },
+        7: { id: 7, challengeId: 'ch_faireSonLit4_dec1' },
+        8: { id: 8, challengeId: 'ch_faireSonLit5_dec1' },
+        9: { id: 9, challengeId: 'ch_faireSonLit6_dec1' },
+      };
+      const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
+        userId: 456,
+        profileDate: now,
+        targetProfileWithLearningContent,
+        knowledgeElements: [keFaireDesCoursesLvl3, keFaireDesCoursesLvl4, keDireBonjourLvl2, keConduireUneVoitureLvl2, keLaverLesDentsLvl2, keLaverLesDentsLvl3, keFaireSonLitLvl4, keFaireSonLitLvl6, keFaireSonLitLvl5],
+        answerAndChallengeIdsByAnswerId,
+      });
+      sinon.stub(certifiableProfileForLearningContentRepository, 'get')
+        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .resolves(certifiableProfile);
+      // challenges
+      let challenges = [];
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses3', [{ id: 'faireDesCourses3_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', [{ id: 'faireDesCourses4_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', [{ id: 'direBonjour2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_conduireUneVoiture2', [{ id: 'conduireUneVoiture2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', [{ id: 'faireSonLit5_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
+      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+
+      // when
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPlus(123, 456);
+
+      // then
+      let expectedCertificationChallenges = [];
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses3_dec1', {
+        id: 'faireDesCourses3_id',
+        name: '@faireDesCourses3',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses4_dec1', {
+        id: 'faireDesCourses4_id',
+        name: '@faireDesCourses4',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_direBonjour2_dec1', {
+        id: 'direBonjour2_id',
+        name: '@direBonjour2',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_conduireUneVoiture2_dec1', {
+        id: 'conduireUneVoiture2_id',
+        name: '@conduireUneVoiture2',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents3_dec1', {
+        id: 'laverLesDents3_id',
+        name: '@laverLesDents3',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit4_dec1', {
+        id: 'faireSonLit4_id',
+        name: '@faireSonLit4',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit5_dec1', {
+        id: 'faireSonLit5_id',
+        name: '@faireSonLit5',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit6_dec1', {
+        id: 'faireSonLit6_id',
+        name: '@faireSonLit6',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
+      expect(certificationChallengesForPlus).to.have.length(8);
+    });
+
+    it('should exclude skill which origin is Pix', async () => {
+      // given
+      targetProfileWithLearningContent.getCompetence('comp_faireBienDedans_id').origin = PIX_ORIGIN;
+      // user knowledge elements and answers
+      const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 1,
+        skillId: 'faireDesCourses3_id',
+      });
+      const keFaireDesCoursesLvl4 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 2,
+        skillId: 'faireDesCourses4_id',
+      });
+      const keDireBonjourLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 3,
+        skillId: 'direBonjour2_id',
+      });
+      const keConduireUneVoitureLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 4,
+        skillId: 'conduireUneVoiture2_id',
+      });
+      const keLaverLesDentsLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 5,
+        skillId: 'laverLesDents2_id',
+      });
+      const keLaverLesDentsLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 6,
+        skillId: 'laverLesDents3_id',
+      });
+      const keFaireSonLitLvl4 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 7,
+        skillId: 'faireSonLit4_id',
+      });
+      const keFaireSonLitLvl5 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 8,
+        skillId: 'faireSonLit5_id',
+      });
+      const keFaireSonLitLvl6 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 9,
+        skillId: 'faireSonLit6_id',
+      });
+      const answerAndChallengeIdsByAnswerId = {
+        1: { id: 1, challengeId: 'ch_faireDesCourses3_dec1' },
+        2: { id: 2, challengeId: 'ch_faireDesCourses4_dec1' },
+        3: { id: 3, challengeId: 'ch_direBonjour2_dec1' },
+        4: { id: 4, challengeId: 'ch_conduireUneVoiture2_dec1' },
+        5: { id: 5, challengeId: 'ch_laverLesDents2_dec1' },
+        6: { id: 6, challengeId: 'ch_laverLesDents3_dec1' },
+        7: { id: 7, challengeId: 'ch_faireSonLit4_dec1' },
+        8: { id: 8, challengeId: 'ch_faireSonLit5_dec1' },
+        9: { id: 9, challengeId: 'ch_faireSonLit6_dec1' },
+      };
+      const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
+        userId: 456,
+        profileDate: now,
+        targetProfileWithLearningContent,
+        knowledgeElements: [keFaireDesCoursesLvl3, keFaireDesCoursesLvl4, keDireBonjourLvl2, keConduireUneVoitureLvl2, keLaverLesDentsLvl2, keLaverLesDentsLvl3, keFaireSonLitLvl4, keFaireSonLitLvl6, keFaireSonLitLvl5],
+        answerAndChallengeIdsByAnswerId,
+      });
+      sinon.stub(certifiableProfileForLearningContentRepository, 'get')
+        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .resolves(certifiableProfile);
+      // challenges
+      let challenges = [];
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses3', [{ id: 'faireDesCourses3_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', [{ id: 'faireDesCourses4_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', [{ id: 'direBonjour2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_conduireUneVoiture2', [{ id: 'conduireUneVoiture2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', [{ id: 'faireSonLit5_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
+      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+
+      // when
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPlus(123, 456);
+
+      // then
+      let expectedCertificationChallenges = [];
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses3_dec1', {
+        id: 'faireDesCourses3_id',
+        name: '@faireDesCourses3',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses4_dec1', {
+        id: 'faireDesCourses4_id',
+        name: '@faireDesCourses4',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_direBonjour2_dec1', {
+        id: 'direBonjour2_id',
+        name: '@direBonjour2',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_conduireUneVoiture2_dec1', {
+        id: 'conduireUneVoiture2_id',
+        name: '@conduireUneVoiture2',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
+      expect(certificationChallengesForPlus).to.have.length(4);
+    });
+
+    it('should avoid select the same challenge twice', async () => {
+      // given
+      // user knowledge elements and answers
+      const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 1,
+        skillId: 'faireDesCourses3_id',
+      });
+      const keFaireDesCoursesLvl4 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 2,
+        skillId: 'faireDesCourses4_id',
+      });
+      const keDireBonjourLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 3,
+        skillId: 'direBonjour2_id',
+      });
+      const keConduireUneVoitureLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 4,
+        skillId: 'conduireUneVoiture2_id',
+      });
+      const keLaverLesDentsLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 5,
+        skillId: 'laverLesDents2_id',
+      });
+      const keLaverLesDentsLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 6,
+        skillId: 'laverLesDents3_id',
+      });
+      const keFaireSonLitLvl4 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 7,
+        skillId: 'faireSonLit4_id',
+      });
+      const keFaireSonLitLvl6 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 8,
+        skillId: 'faireSonLit6_id',
+      });
+      const answerAndChallengeIdsByAnswerId = {
+        1: { id: 1, challengeId: 'ch_faireDesCourses3_dec1' },
+        2: { id: 2, challengeId: 'ch_faireDesCourses4_dec1' },
+        3: { id: 3, challengeId: 'ch_direBonjour2_dec1' },
+        4: { id: 4, challengeId: 'ch_conduireUneVoiture2_dec1' },
+        5: { id: 5, challengeId: 'ch_laverLesDents2_dec1' },
+        6: { id: 6, challengeId: 'ch_laverLesDents3_dec1' },
+        7: { id: 7, challengeId: 'ch_faireSonLit4_dec1' },
+        8: { id: 8, challengeId: 'ch_faireSonLit6_dec1' },
+      };
+      const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
+        userId: 456,
+        profileDate: now,
+        targetProfileWithLearningContent,
+        knowledgeElements: [keFaireDesCoursesLvl3, keFaireDesCoursesLvl4, keDireBonjourLvl2, keConduireUneVoitureLvl2, keLaverLesDentsLvl2, keLaverLesDentsLvl3, keFaireSonLitLvl4, keFaireSonLitLvl6],
+        answerAndChallengeIdsByAnswerId,
+      });
+      sinon.stub(certifiableProfileForLearningContentRepository, 'get')
+        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .resolves(certifiableProfile);
+      // challenges
+      let challenges = [];
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses3', [{ id: 'faireDesCourses3_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', [{ id: 'faireDesCourses4_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', [{ id: 'direBonjour2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_conduireUneVoiture2', [{ id: 'conduireUneVoiture2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit', [{ id: 'faireSonLit6_id' }, { id: 'faireSonLit4_id' }], 1));
+      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+
+      // when
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPlus(123, 456);
+
+      // then
+      let expectedCertificationChallenges = [];
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses3_dec1', {
+        id: 'faireDesCourses3_id',
+        name: '@faireDesCourses3',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses4_dec1', {
+        id: 'faireDesCourses4_id',
+        name: '@faireDesCourses4',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_direBonjour2_dec1', {
+        id: 'direBonjour2_id',
+        name: '@direBonjour2',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_conduireUneVoiture2_dec1', {
+        id: 'conduireUneVoiture2_id',
+        name: '@conduireUneVoiture2',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents2_dec1', {
+        id: 'laverLesDents2_id',
+        name: '@laverLesDents2',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents3_dec1', {
+        id: 'laverLesDents3_id',
+        name: '@laverLesDents3',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit_dec1', {
+        id: 'faireSonLit6_id',
+        name: '@faireSonLit6',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
+      expect(certificationChallengesForPlus).to.have.length(7);
+    });
+
+    it('should only consider directly validated skill', async () => {
+      // given
+      // user knowledge elements and answers
+      const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 1,
+        skillId: 'faireDesCourses3_id',
+      });
+      const keFaireDesCoursesLvl4 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 2,
+        skillId: 'faireDesCourses4_id',
+      });
+      const keDireBonjourLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 3,
+        skillId: 'direBonjour2_id',
+      });
+      const keConduireUneVoitureLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 4,
+        skillId: 'conduireUneVoiture2_id',
+      });
+      const keLaverLesDentsLvl2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 5,
+        skillId: 'laverLesDents2_id',
+      });
+      const keLaverLesDentsLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 6,
+        skillId: 'laverLesDents3_id',
+      });
+      const keFaireSonLitLvl4 = domainBuilder.buildKnowledgeElement.directlyInvalidated({
+        answerId: 7,
+        skillId: 'faireSonLit4_id',
+      });
+      const keFaireSonLitLvl6 = domainBuilder.buildKnowledgeElement.inferredValidated({
+        answerId: 8,
+        skillId: 'faireSonLit6_id',
+      });
+      const answerAndChallengeIdsByAnswerId = {
+        1: { id: 1, challengeId: 'ch_faireDesCourses3_dec1' },
+        2: { id: 2, challengeId: 'ch_faireDesCourses4_dec1' },
+        3: { id: 3, challengeId: 'ch_direBonjour2_dec1' },
+        4: { id: 4, challengeId: 'ch_conduireUneVoiture2_dec1' },
+        5: { id: 5, challengeId: 'ch_laverLesDents2_dec1' },
+        6: { id: 6, challengeId: 'ch_laverLesDents3_dec1' },
+        7: { id: 7, challengeId: 'ch_faireSonLit4_dec1' },
+        8: { id: 8, challengeId: 'ch_faireSonLit6_dec1' },
+      };
+      const certifiableProfile = domainBuilder.buildCertifiableProfileForLearningContent({
+        userId: 456,
+        profileDate: now,
+        targetProfileWithLearningContent,
+        knowledgeElements: [keFaireDesCoursesLvl3, keFaireDesCoursesLvl4, keDireBonjourLvl2, keConduireUneVoitureLvl2, keLaverLesDentsLvl2, keLaverLesDentsLvl3, keFaireSonLitLvl4, keFaireSonLitLvl6],
+        answerAndChallengeIdsByAnswerId,
+      });
+      sinon.stub(certifiableProfileForLearningContentRepository, 'get')
+        .withArgs({ id: 456, profileDate: now, targetProfileWithLearningContent })
+        .resolves(certifiableProfile);
+      // challenges
+      let challenges = [];
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses3', [{ id: 'faireDesCourses3_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireDesCourses4', [{ id: 'faireDesCourses4_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_direBonjour2', [{ id: 'direBonjour2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_conduireUneVoiture2', [{ id: 'conduireUneVoiture2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
+      challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
+      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+
+      // when
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPlus(123, 456);
+
+      // then
+      let expectedCertificationChallenges = [];
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses3_dec1', {
+        id: 'faireDesCourses3_id',
+        name: '@faireDesCourses3',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses4_dec1', {
+        id: 'faireDesCourses4_id',
+        name: '@faireDesCourses4',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_direBonjour2_dec1', {
+        id: 'direBonjour2_id',
+        name: '@direBonjour2',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_conduireUneVoiture2_dec1', {
+        id: 'conduireUneVoiture2_id',
+        name: '@conduireUneVoiture2',
+        competenceId: 'comp_reussirDehors_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents2_dec1', {
+        id: 'laverLesDents2_id',
+        name: '@laverLesDents2',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents3_dec1', {
+        id: 'laverLesDents3_id',
+        name: '@laverLesDents3',
+        competenceId: 'comp_faireBienDedans_id',
+      }));
+      expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
+      expect(certificationChallengesForPlus).to.have.length(6);
     });
   });
 });
