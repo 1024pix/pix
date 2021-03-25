@@ -119,7 +119,7 @@
             type="button"
             class="btn btn-danger"
             aria-label="Anonymiser"
-            {{on "click" this.toggleDisplayConfirm}}
+            {{on "click" this.toggleDisplayAnonymizeModal}}
           >
             Anonymiser cet utilisateur
           </button>
@@ -133,24 +133,6 @@
   <header class="page-section__header">
     <h2 class="page-section__title">Informations élèves SCO</h2>
   </header>
-  {{#if @user.schoolingRegistrations}}
-  <div class="schooling-registrations-buttons">
-    {{#if this.isLoading}}
-      <button type="button" disabled class="btn btn-danger">
-        <span class="loader-in-button">&nbsp;</span>
-      </button>
-    {{else}}
-      <button
-              type="button"
-              class="btn btn-danger"
-              data-test-dissociate
-        {{on "click" this.dissociate}}
-      >
-        Dissocier
-      </button>
-    {{/if}}
-  </div>
-  {{/if}}
 
   <div class="schooling-registrations-table content-text content-text--small">
     <table class="table-admin">
@@ -165,6 +147,7 @@
         <th class="table__column--wide">Nom de l'orga</th>
         <th>Date d'import</th>
         <th>Dernière MAJ</th>
+        <th>Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -179,10 +162,20 @@
           <td title="{{schoolingRegistration.organizationName}}">{{schoolingRegistration.organizationName}}</td>
           <td>{{format-date schoolingRegistration.createdAt}}</td>
           <td>{{format-date schoolingRegistration.updatedAt}}</td>
+          <td>
+            <PixButton
+                    @triggerAction={{fn this.toggleDisplayDissociateModal schoolingRegistration}}
+                    @border="squircle-small"
+                    class="btn btn-danger"
+                    data-test-dissociate-schooling-registration="{{schoolingRegistration.id}}"
+            >
+              Dissocier
+            </PixButton>
+          </td>
         </tr>
       {{else}}
         <tr>
-          <td colspan="9" class="table-admin-empty">Aucun résultat</td>
+          <td colspan="10" class="table-admin-empty">Aucun résultat</td>
         </tr>
       {{/each}}
       </tbody>
@@ -192,5 +185,14 @@
 
 <ConfirmPopup @message="Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible."
               @confirm={{this.anonymizeUser}}
-              @cancel={{this.toggleDisplayConfirm}}
-              @show={{this.displayConfirm}} />
+              @cancel={{this.toggleDisplayAnonymizeModal}}
+              @submitButtonType="danger"
+              @show={{this.displayAnonymizeModal}} />
+
+<ConfirmPopup @message="Êtes-vous sûr de vouloir dissocier cet élève ?"
+              @title="Confirmer la dissociation"
+              @submitTitle="Oui, je dissocie"
+              @submitButtonType="danger"
+              @confirm={{this.dissociate}}
+              @cancel={{this.toggleDisplayDissociateModal}}
+              @show={{this.displayDissociateModal}} />

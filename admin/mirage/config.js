@@ -179,14 +179,10 @@ export default function() {
     return schema.featureToggles.findOrCreateBy({ id: 0 });
   });
 
-  this.patch('/admin/users/:id/dissociate', (schema, request) => {
-    const userId = request.params.id;
-    const expectedUpdatedUser = {
-      schoolingRegistrations: [],
-    };
-
-    const user = schema.users.findBy({ id: userId });
-    return user.update(expectedUpdatedUser);
+  this.delete('/schooling-registration-user-associations/:id', (schema, request) => {
+    const schoolingRegistrationId = request.params.id;
+    schema.db.schoolingRegistrations.remove(schoolingRegistrationId);
+    return new Response(204);
   });
 
 }

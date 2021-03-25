@@ -1,8 +1,12 @@
 import { module, test } from 'qunit';
+import sinon from 'sinon';
+
 import { setupRenderingTest } from 'ember-qunit';
-import { click, find, render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
+
+import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | user-detail-personal-information', function(hooks) {
 
@@ -109,12 +113,11 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
         assert.dom('button[aria-label="Modifier"]').doesNotExist();
       });
-
     });
 
     module('user authentication', async function() {
 
-      test('should display user’s first name', async function (assert) {
+      test('should display user’s first name', async function(assert) {
         this.set('user', { firstName: 'John' });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -122,7 +125,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.dom('.user__first-name').hasText(this.user.firstName);
       });
 
-      test('should display user’s last name', async function (assert) {
+      test('should display user’s last name', async function(assert) {
         this.set('user', { lastName: 'Snow' });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -130,7 +133,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.dom('.user__last-name').hasText(this.user.lastName);
       });
 
-      test('should display user’s email', async function (assert) {
+      test('should display user’s email', async function(assert) {
         this.set('user', { email: 'john.snow@winterfell.got' });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -138,14 +141,13 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.dom('.user__email').hasText(this.user.email);
       });
 
-      test('should display user’s username', async function (assert) {
+      test('should display user’s username', async function(assert) {
         this.set('user', { username: 'kingofthenorth' });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         assert.dom('.user__username').hasText(this.user.username);
       });
-
 
       test('should display that user is authenticated from GAR', async function(assert) {
         this.set('user', { isAuthenticatedFromGAR: true });
@@ -162,12 +164,11 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
         assert.dom('.user__is-authenticated-from-gar').hasText('NON');
       });
-
     });
 
     module('terms of service', async function() {
 
-      test('should display "OUI" when user accepted Pix App terms of service', async function (assert) {
+      test('should display "OUI" when user accepted Pix App terms of service', async function(assert) {
         this.set('user', { cgu: true });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -175,7 +176,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.dom('.user__cgu').hasText('OUI');
       });
 
-      test('should display "NON" when user not accepted Pix App terms of service', async function (assert) {
+      test('should display "NON" when user not accepted Pix App terms of service', async function(assert) {
         this.set('user', { cgu: false });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -183,7 +184,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.dom('.user__cgu').hasText('NON');
       });
 
-      test('should display "OUI" when user accepted Pix Orga terms of service', async function (assert) {
+      test('should display "OUI" when user accepted Pix Orga terms of service', async function(assert) {
         this.set('user', { pixOrgaTermsOfServiceAccepted: true });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -191,7 +192,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.dom('.user__pix-orga-terms-of-service-accepted').hasText('OUI');
       });
 
-      test('should display "NON" when user not accepted Pix Orga terms of service', async function (assert) {
+      test('should display "NON" when user not accepted Pix Orga terms of service', async function(assert) {
         this.set('user', { pixOrgaTermsOfServiceAccepted: false });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -199,7 +200,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.dom('.user__pix-orga-terms-of-service-accepted').hasText('NON');
       });
 
-      test('should display "OUI" when user accepted Pix Certif terms of service', async function (assert) {
+      test('should display "OUI" when user accepted Pix Certif terms of service', async function(assert) {
         this.set('user', { pixCertifTermsOfServiceAccepted: true });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -207,32 +208,20 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.dom('.user__pix-certif-terms-of-service-accepted').hasText('OUI');
       });
 
-      test('should display "NON" when user not accepted Pix Certif terms of service', async function (assert) {
+      test('should display "NON" when user not accepted Pix Certif terms of service', async function(assert) {
         this.set('user', { pixCertifTermsOfServiceAccepted: false });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         assert.dom('.user__pix-certif-terms-of-service-accepted').hasText('NON');
       });
-
     });
 
     module('schooling registrations', async function() {
 
-      module('When user has no schoolingRegistrations', function () {
+      module('When user has no schoolingRegistrations', function() {
 
-        test('should not display dissociate button', async function (assert) {
-          // given
-          this.set('user', { schoolingRegistrations: [] });
-
-          // when
-          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-          // then
-          assert.dom('button[data-test-dissociate]').doesNotExist();
-        });
-
-        test('should display no result in schooling registrations table', async function (assert) {
+        test('should display no result in schooling registrations table', async function(assert) {
           // given
           this.set('user', { schoolingRegistrations: [] });
 
@@ -244,24 +233,9 @@ module('Integration | Component | user-detail-personal-information', function(ho
         });
       });
 
-      module('When user has schoolingRegistrations', function () {
+      module('When user has schoolingRegistrations', function() {
 
-        test('should display dissociate button', async function (assert) {
-          // given
-          this.set('user', { schoolingRegistrations: [{ id: 1 }] });
-          const expectedText = 'Dissocier';
-
-          // when
-          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-          // then
-          const foundButton = find('button[data-test-dissociate]');
-          assert.dom(foundButton).hasText(expectedText);
-        });
-
-
-
-        test('should display schooling registrations in table', async function (assert) {
+        test('should display schooling registrations in table', async function(assert) {
           // given
           this.set('user', { schoolingRegistrations: [{ id: 1 }, { id: 2 }] });
 
@@ -363,6 +337,92 @@ module('Integration | Component | user-detail-personal-information', function(ho
       await click('.modal-dialog .btn-secondary');
 
       assert.dom('.modal-dialog').doesNotExist();
+    });
+  });
+
+  module('when the administrator click on dissociate button', async function() {
+
+    test('should display dissociate confirm modal', async function(assert) {
+      // given
+      const destroyRecordStub = sinon.stub();
+      const schoolingRegistration = EmberObject.create({
+        id: 1,
+        firstName: 'John',
+        lastName: 'Harry',
+        destroyRecord: destroyRecordStub,
+      });
+      const user = EmberObject.create({
+        firstName: 'John',
+        lastName: 'Harry',
+        username: 'user.name0112',
+        isAuthenticatedFromGAR: false,
+        schoolingRegistrations: [schoolingRegistration],
+      });
+      this.set('user', user);
+
+      await render(hbs `<UserDetailPersonalInformation @user={{this.user}} />`);
+
+      // when
+      await click('button[data-test-dissociate-schooling-registration]');
+
+      // then
+      assert.contains('Confirmer la dissociation');
+    });
+
+    test('should close the modal on click on cancel button', async function(assert) {
+      // given
+      const destroyRecordStub = sinon.stub();
+      const schoolingRegistration = EmberObject.create({
+        id: 1,
+        firstName: 'John',
+        lastName: 'Harry',
+        destroyRecord: destroyRecordStub,
+      });
+      const user = EmberObject.create({
+        firstName: 'John',
+        lastName: 'Harry',
+        username: 'user.name0112',
+        isAuthenticatedFromGAR: false,
+        schoolingRegistrations: [schoolingRegistration],
+      });
+      this.set('user', user);
+
+      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+      await click('button[data-test-dissociate-schooling-registration]');
+
+      // when
+      await clickByLabel('Annuler');
+
+      assert.notContains('Confirmer la dissociation');
+      assert.notOk(destroyRecordStub.called);
+    });
+
+    test('should call destroyRecord on click on confirm button', async function(assert) {
+      // given
+      const destroyRecordStub = sinon.stub();
+      const schoolingRegistration = EmberObject.create({
+        id: 1,
+        firstName: 'John',
+        lastName: 'Harry',
+        destroyRecord: destroyRecordStub,
+      });
+      const user = EmberObject.create({
+        firstName: 'John',
+        lastName: 'Harry',
+        username: 'user.name0112',
+        isAuthenticatedFromGAR: false,
+        schoolingRegistrations: [schoolingRegistration],
+      });
+      this.set('user', user);
+
+      await render(hbs `<UserDetailPersonalInformation @user={{this.user}} />`);
+      await click('button[data-test-dissociate-schooling-registration]');
+
+      // when
+      await clickByLabel('Oui, je dissocie');
+
+      // then
+      assert.ok(destroyRecordStub.called);
     });
   });
 

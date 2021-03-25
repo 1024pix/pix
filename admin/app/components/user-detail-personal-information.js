@@ -67,10 +67,13 @@ class Form extends Object.extend(Validations) {
 export default class UserDetailPersonalInformationComponent extends Component {
 
   @tracked isEditionMode = false;
-  @tracked displayConfirm = false;
+  @tracked displayAnonymizeModal = false;
+  @tracked displayDissociateModal = false;
   @tracked isLoading = false;
 
   @service notifications;
+
+  schoolingRegistrationToDissociate = null;
 
   constructor() {
     super(...arguments);
@@ -94,18 +97,21 @@ export default class UserDetailPersonalInformationComponent extends Component {
   }
 
   @action
-  toggleDisplayConfirm(event) {
-    if (event) {
-      event.preventDefault();
-    }
-    this.displayConfirm = !this.displayConfirm;
+  toggleDisplayAnonymizeModal() {
+    this.displayAnonymizeModal = !this.displayAnonymizeModal;
+  }
+
+  @action
+  toggleDisplayDissociateModal(schoolingRegistration) {
+    this.schoolingRegistrationToDissociate = schoolingRegistration;
+    this.displayDissociateModal = !this.displayDissociateModal;
   }
 
   @action
   async anonymizeUser() {
     await this.args.user.save({ adapterOptions: { anonymizeUser: true } });
     await this.args.user.reload();
-    this.toggleDisplayConfirm();
+    this.toggleDisplayAnonymizeModal();
   }
 
   @action
@@ -138,17 +144,16 @@ export default class UserDetailPersonalInformationComponent extends Component {
   }
 
   @action
-  async dissociate(event) {
-    event.preventDefault();
-
+  async dissociate() {
     this.isLoading = true;
     try {
-      await this.args.user.save({ adapterOptions: { dissociate: true } });
+      await this.schoolingRegistrationToDissociate.destroyRecord();
       this.notifications.success(DISSOCIATE_SUCCESS_NOTIFICATION_MESSAGE);
     } catch (response) {
       const errorMessage = 'Une erreur est survenue !';
       this.notifications.error(errorMessage);
     } finally {
+      this.displayDissociateModal = false;
       this.isLoading = false;
     }
   }
