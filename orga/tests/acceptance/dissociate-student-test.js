@@ -46,7 +46,9 @@ module('Acceptance | Student List', function(hooks) {
         id: 1,
         firstName: 'Ellen Louise',
         lastName: 'Ripley',
-        email: 'ellen@ripley.com',
+        email: 'ellen@example.net',
+        username: 'ellen.ripley1234',
+        isAuthenticatedFromGAR: true,
       });
       // when
       await visit('/eleves');
