@@ -115,20 +115,20 @@ class NoCampaignParticipationForUserAndCampaign extends DomainError {
 }
 
 class SchoolingRegistrationsCouldNotBeSavedError extends DomainError {
-  constructor(message = 'Une erreur est survenue durant le traitement.') {
-    super(message);
+  constructor() {
+    super('An error occurred during process');
   }
 }
 
 class SameNationalStudentIdInOrganizationError extends DomainError {
   constructor(errorDetail) {
-    let message = 'Un INE est déjà présent pour cette organisation.';
+    let message = 'INE already in use for this organization.';
     let nationalStudentId;
     const regex = /([a-zA-Z0-9]+)\)/;
     if (errorDetail) {
       const regexMatches = errorDetail.match(regex);
       nationalStudentId = regexMatches[1];
-      message = `L’INE ${nationalStudentId} est déjà présent pour cette organisation.`;
+      message = `The INE ${nationalStudentId} is already in use for this organization.`;
     }
 
     super(message);
@@ -138,26 +138,17 @@ class SameNationalStudentIdInOrganizationError extends DomainError {
 
 class SameNationalApprenticeIdInOrganizationError extends DomainError {
   constructor(errorDetail) {
-    let message = 'Un INA est déjà présent pour cette organisation.';
+    let message = 'INA is already in use for this organization.';
     let nationalApprenticeId;
     const regex = /([a-zA-Z0-9]+)\)/;
     if (errorDetail) {
       const regexMatches = errorDetail.match(regex);
       nationalApprenticeId = regexMatches[1];
-      message = `L’INA ${nationalApprenticeId} est déjà présent pour cette organisation.`;
+      message = `The INA ${nationalApprenticeId} is already in use for this organization.`;
     }
 
     super(message);
     this.nationalApprenticeId = errorDetail ? nationalApprenticeId : null;
-  }
-}
-
-class SameNationalStudentIdInFileError extends DomainError {
-  constructor(nationalStudentId) {
-    const message = nationalStudentId ?
-      `L’INE ${nationalStudentId} est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.` :
-      'Un INE est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.';
-    super(message);
   }
 }
 
@@ -589,8 +580,10 @@ class UserNotMemberOfOrganizationError extends DomainError {
 }
 
 class FileValidationError extends DomainError {
-  constructor(message = 'Erreur, fichier non valide.') {
-    super(message);
+  constructor(code, meta) {
+    super('An error occurred, file is invalid');
+    this.code = code;
+    this.meta = meta;
   }
 }
 
@@ -731,6 +724,14 @@ class CsvImportError extends DomainError {
   }
 }
 
+class SiecleXmlImportError extends DomainError {
+  constructor(code, meta) {
+    super('An error occurred during Siecle XML import');
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 class NotImplementedError extends Error {
   constructor(message = 'Not implemented error.') {
     super(message);
@@ -804,7 +805,6 @@ module.exports = {
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   SameNationalApprenticeIdInOrganizationError,
-  SameNationalStudentIdInFileError,
   SameNationalStudentIdInOrganizationError,
   SchoolingRegistrationAlreadyLinkedToUserError,
   SchoolingRegistrationNotFound,
@@ -812,6 +812,7 @@ module.exports = {
   SendingEmailToResultRecipientError,
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
+  SiecleXmlImportError,
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
   UnexpectedUserAccount,

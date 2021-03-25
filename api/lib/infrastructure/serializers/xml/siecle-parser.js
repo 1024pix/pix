@@ -1,16 +1,18 @@
-const { FileValidationError } = require('../../../domain/errors');
+const { SiecleXmlImportError } = require('../../../domain/errors');
 const xml2js = require('xml2js');
 const saxPath = require('saxpath');
 const { isEmpty, isUndefined } = require('lodash');
 const SiecleFileStreamer = require('../../utils/xml/siecle-file-streamer');
+const XMLSchoolingRegistrationSet = require('./xml-schooling-registration-set');
+
+const ERRORS = {
+  UAI_MISMATCHED: 'UAI_MISMATCHED',
+};
 
 const NODE_ORGANIZATION_UAI = '/BEE_ELEVES/PARAMETRES/UAJ';
 const NODES_SCHOOLING_REGISTRATIONS = '/BEE_ELEVES/DONNEES/*/*';
 const ELEVE_ELEMENT = '<ELEVE';
 const STRUCTURE_ELEVE_ELEMENT = '<STRUCTURES_ELEVE';
-const UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI = 'Aucun étudiant n’a été importé. L’import n’est pas possible car l’UAI du fichier SIECLE ne correspond pas à celui de votre établissement. En cas de difficulté, contactez support.pix.fr.';
-
-const XMLSchoolingRegistrationSet = require('./xml-schooling-registration-set');
 
 class SiecleParser {
   constructor(organization, path) {
@@ -42,7 +44,7 @@ class SiecleParser {
         if (err) return reject(err);// Si j'enleve cette ligne les tests passent
         const UAIFromUserOrganization = this.organization.externalId;
         if (nodeData.UAJ !== UAIFromUserOrganization) {
-          reject(new FileValidationError(UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI));
+          reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
         } else {
           resolve();
         }
@@ -50,7 +52,7 @@ class SiecleParser {
     });
 
     stream.on('end', () => {
-      reject(new FileValidationError(UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI));
+      reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
     });
   }
 

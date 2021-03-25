@@ -19,16 +19,29 @@ const CSV_IMPORT_ERRORS = {
   FIELD_EMAIL_FORMAT: 'api-errors-messages.student-csv-import.field-email-format',
   FIELD_REQUIRED: 'api-errors-messages.student-csv-import.field-required',
   FIELD_BAD_VALUES: 'api-errors-messages.student-csv-import.field-bad-values',
+  IDENTIFIER_UNIQUE: 'api-errors-messages.student-csv-import.identifier-unique',
   INA_FORMAT: 'api-errors-messages.student-csv-import.ina-format',
-  INA_UNIQUE: 'api-errors-messages.student-csv-import.ina-unique',
   INSEE_CODE_INVALID: 'api-errors-messages.student-csv-import.insee-code-invalid',
+  PAYLOAD_TOO_LARGE: 'api-errors-messages.student-csv-import.payload-too-large',
   STUDENT_NUMBER_UNIQUE: 'api-errors-messages.student-csv-import.student-number-unique',
   STUDENT_NUMBER_FORMAT: 'api-errors-messages.student-csv-import.student-number-format',
+};
+
+const XML_IMPORT_ERRORS = {
+  EMPTY: 'api-errors-messages.student-xml-import.empty',
+  ENCODING_NOT_SUPPORTED: 'api-errors-messages.student-xml-import.encoding-not-supported',
+  INE_REQUIRED: 'api-errors-messages.student-xml-import.ine-required',
+  INE_UNIQUE: 'api-errors-messages.student-xml-import.ine-unique',
+  INVALID_FILE: 'api-errors-messages.student-xml-import.invalid-file',
+  INVALID_FILE_EXTENSION: 'api-errors-messages.student-xml-import.invalid-file-extension',
+  PAYLOAD_TOO_LARGE: 'api-errors-messages.student-xml-import.payload-too-large',
+  UAI_MISMATCHED: 'api-errors-messages.student-xml-import.uai-mismatched',
 };
 
 const ERROR_MESSAGES = {
   ...CAMPAIGN_CREATION_ERRORS,
   ...CSV_IMPORT_ERRORS,
+  ...XML_IMPORT_ERRORS,
 };
 
 export default class ErrorMessagesService extends Service {

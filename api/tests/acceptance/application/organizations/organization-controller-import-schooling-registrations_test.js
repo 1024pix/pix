@@ -360,15 +360,14 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = bufferWithMalformedStudent;
         });
 
-        it('should not import any schoolingRegistration and return a 422', async () => {
+        it('should not import any schoolingRegistration and return a 412', async () => {
           // when
           const response = await server.inject(options);
 
           // then
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
-          expect(response.statusCode).to.equal(422);
-          expect(response.result.errors[0].detail).to.equal('L’INE 00000000123 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
+          expect(response.statusCode).to.equal(412);
         });
       });
 
@@ -467,7 +466,6 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(_.map(schoolingRegistrations, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
           expect(response.statusCode).to.equal(400);
-          expect(response.result.errors[0].detail).to.equal('Une erreur est survenue durant le traitement.');
         });
       });
 
@@ -729,7 +727,6 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(400);
-          expect(response.result.errors[0].detail).to.equal('Une erreur est survenue durant le traitement.');
         });
       });
 
@@ -746,15 +743,31 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = malformedBuffer;
         });
 
-        it('should return a 422 - Unprocessable Entity', async () => {
+        it('should return a 412 - Precondition Failed', async () => {
           // when
           const response = await server.inject(options);
 
           // then
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
-          expect(response.statusCode).to.equal(422);
-          expect(response.result.errors[0].detail).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
+          expect(response.statusCode).to.equal(412);
+        });
+      });
+
+      context('when file is too large', async() => {
+        beforeEach(() => {
+          // given
+          options.payload = Buffer.alloc(1048576 * 21, 'B'); // > 20 Mo buffer
+        });
+
+        it('should return a 413 - Payload too large', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(413);
+          expect(response.result.errors[0].code).to.equal('PAYLOAD_TOO_LARGE');
+          expect(response.result.errors[0].meta.maxSize).to.equal('20');
         });
       });
     });
@@ -918,7 +931,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
-          expect(response.result.errors[0].code).to.equal('INA_UNIQUE');
+          expect(response.result.errors[0].code).to.equal('IDENTIFIER_UNIQUE');
         });
       });
     });

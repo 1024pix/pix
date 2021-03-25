@@ -67,6 +67,10 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.CsvImportError).to.exist;
   });
 
+  it('should export a SiecleXmlImportError', () => {
+    expect(errors.SiecleXmlImportError).to.exist;
+  });
+
   it('should export a AuthenticationMethodNotFoundError', () => {
     expect(errors.AuthenticationMethodNotFoundError).to.exist;
   });
@@ -77,7 +81,7 @@ describe('Unit | Domain | Errors', () => {
 
       it('should return a message with given nationalStudentId', () => {
         // given
-        const expectedErrorMessage = 'L’INE 123INE456 est déjà présent pour cette organisation.';
+        const expectedErrorMessage = 'The INE 123INE456 is already in use for this organization.';
         const errorMessage = 'Key ("organizationId", "nationalStudentId")=(ORGAID, 123INE456) already exists.';
 
         // when
@@ -103,7 +107,7 @@ describe('Unit | Domain | Errors', () => {
 
       it('should return a generic message', () => {
         // given
-        const expectedErrorMessage = 'Un INE est déjà présent pour cette organisation.';
+        const expectedErrorMessage = 'INE already in use for this organization.';
 
         // when
         const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInOrganizationError();
@@ -114,20 +118,31 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
-  describe('#SameNationalStudentIdInFileError', () => {
+  describe('#SameNationalApprenticeIdInOrganizationError', () => {
 
     context('When errorDetail is provided', () => {
 
-      it('should return a message with given nationalStudentId', () => {
+      it('should return a message with given nationalApprenticeId', () => {
         // given
-        const expectedErrorMessage = 'L’INE 123INE456 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.';
-        const nationalStudentId = '123INE456';
+        const expectedErrorMessage = 'The INA 123INA456 is already in use for this organization.';
+        const errorMessage = 'Key ("organizationId", "nationalApprenticeId")=(ORGAID, 123INA456) already exists.';
 
         // when
-        const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInFileError(nationalStudentId);
+        const sameNationalApprenticeIdInOrganizationError = new errors.SameNationalApprenticeIdInOrganizationError(errorMessage);
 
         // then
-        expect(sameNationalStudentIdInOrganizationError.message).to.equal(expectedErrorMessage);
+        expect(sameNationalApprenticeIdInOrganizationError.message).to.equal(expectedErrorMessage);
+      });
+
+      it('should set a nationalApprenticeId property', () => {
+        // given
+        const errorMessage = 'Key ("organizationId", "nationalApprenticeId")=(ORGAID, 123INA456) already exists.';
+
+        // when
+        const sameNationalApprenticeIdInOrganizationError = new errors.SameNationalApprenticeIdInOrganizationError(errorMessage);
+
+        // then
+        expect(sameNationalApprenticeIdInOrganizationError.nationalApprenticeId).to.equal('123INA456');
       });
     });
 
@@ -135,13 +150,13 @@ describe('Unit | Domain | Errors', () => {
 
       it('should return a generic message', () => {
         // given
-        const expectedErrorMessage = 'Un INE est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.';
+        const expectedErrorMessage = 'INA is already in use for this organization.';
 
         // when
-        const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInFileError();
+        const sameNationalApprenticeIdInOrganizationError = new errors.SameNationalApprenticeIdInOrganizationError();
 
         // then
-        expect(sameNationalStudentIdInOrganizationError.message).to.equal(expectedErrorMessage);
+        expect(sameNationalApprenticeIdInOrganizationError.message).to.equal(expectedErrorMessage);
       });
     });
   });
@@ -524,5 +539,9 @@ describe('Unit | Domain | Errors', () => {
 
   it('should export a UserAccountNotFoundForPoleEmploiError', () => {
     expect(errors.UserAccountNotFoundForPoleEmploiError).to.exist;
+  });
+
+  it('should export a SchoolingRegistrationsCouldNotBeSavedError', () => {
+    expect(errors.SchoolingRegistrationsCouldNotBeSavedError).to.exist;
   });
 });

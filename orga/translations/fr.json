@@ -25,11 +25,22 @@
       "field-required": "Ligne {line} : Le champ “{field}” est obligatoire.",
       "header-required": "La colonne “{field}” est obligatoire.",
       "header-unknown": "Les entêtes de colonnes doivent être identiques à celles du modèle.",
+      "identifier-unique": "Ligne {line} : Le champ “{field}” de cette ligne est présent plusieurs fois dans le fichier.",
       "ina-format": "Ligne {line} : Le champ “{field}” (INA) doit être de 10 chiffres suivis d’une lettre.",
-      "ina-unique": "Ligne {line} : Le champ “{field}” de cette ligne est présent plusieurs fois dans le fichier.",
       "insee-code-invalid": "Ligne {line} : Le champ “{field}” n'est pas au format INSEE.",
+      "payload-too-large": "La taille du fichier doit être inférieure à {maxSize}Mo.",
       "student-number-format": "Ligne {line} : Le champ “{field}” ne doit pas avoir de caractères spéciaux.",
       "student-number-unique": "Ligne {line} : Le champ “{field}” doit être unique au sein du fichier."
+    },
+    "student-xml-import": {
+      "empty": "Les élèves doivent posséder un INE ainsi qu'une classe.",
+      "encoding-not-supported": "Encodage du fichier non supporté.",
+      "ine-required": "Le champ INE est obligatoire pour chaque élève.",
+      "ine-unique": "L’INE {nationalStudentId} est présent plusieurs fois dans le fichier pour plusieurs élèves.",
+      "invalid-file": "Le fichier n’est pas conforme.",
+      "invalid-file-extension": "Extension {fileExtension} non supportée.",
+      "payload-too-large": "La taille du fichier doit être inférieure à {maxSize}Mo.",
+      "uai-mismatched": "L’UAI du fichier SIECLE ne correspond pas à celui de votre établissement."
     }
   },
   "banners": {
@@ -48,6 +59,7 @@
       "cancel": "Annuler",
       "close": "Fermer"
     },
+    "help-form": "https://support.pix.fr/support/tickets/new",
     "pagination": {
       "action": {
         "next": "Aller à la page suivante",
@@ -367,8 +379,8 @@
         "mediacentre": "Mediacentre"
       },
       "import": {
-        "error-wrapper": "<div>{message} Veuillez réessayer ou nous contacter via <a id=\"support-link\" href=\"https://support.pix.fr/support/tickets/new\">le formulaire du centre d'aide</a>.</div>",
-        "global-error": "Quelque chose s'est mal passé. Veuillez réessayer.",
+        "error-wrapper": "<div>Aucun élève n’a été importé.<br/><strong>{message}</strong><br/> Veuillez vérifier ou modifier votre fichier et l’importer à nouveau.</div>",
+        "global-error": "<div>Aucun élève n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">le formulaire du centre d’aide</a>.</div>",
         "global-success": "La liste a été importée avec succès."
       },
       "know-more": "En savoir plus",

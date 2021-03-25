@@ -1,5 +1,5 @@
 const { noop, isObject } = require('lodash');
-const { FileValidationError } = require('../../../domain/errors');
+const { FileValidationError, SiecleXmlImportError } = require('../../../domain/errors');
 const fs = require('fs');
 const readline = require('readline');
 const Stream = require('stream');
@@ -9,7 +9,10 @@ const iconv = require('iconv-lite');
 const sax = require('sax');
 const xmlEncoding = require('xml-buffer-tostring').xmlEncoding;
 
-const NO_STUDENTS_IMPORTED_FROM_INVALID_FILE = 'Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.';
+const ERRORS = {
+  INVALID_FILE: 'INVALID_FILE',
+  ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
+};
 
 const DEFAULT_FILE_ENCODING = 'UTF-8';
 const ZIP = 'application/zip';
@@ -47,7 +50,7 @@ function _unzippedStream(path) {
   zip.on('entry', (entry) => {
     zip.stream(entry, (err, stm) => {
       if (err) {
-        throw new FileValidationError(NO_STUDENTS_IMPORTED_FROM_INVALID_FILE);
+        throw new FileValidationError(ERRORS.INVALID_FILE);
       } else if (!entry.name.includes('/')) {
         stm.on('error', noop);
 
@@ -82,7 +85,7 @@ class SiecleFileStreamer {
     try {
       decodeStream = iconv.decodeStream(this.encoding);
     } catch (err) {
-      throw new FileValidationError('L\'encodage du fichier n\'est pas supporté');
+      throw new SiecleXmlImportError(ERRORS.ENCODING_NOT_SUPPORTED);
     }
     return this.stream.pipe(decodeStream).pipe(saxParser);
   }
@@ -138,7 +141,7 @@ class SiecleFileStreamer {
 
     return new Promise((resolve, reject) => {
       siecleFileStream.on('error', () => {
-        reject(new FileValidationError(NO_STUDENTS_IMPORTED_FROM_INVALID_FILE));
+        reject(new FileValidationError(ERRORS.INVALID_FILE));
       });
       callback(siecleFileStream, resolve, reject);
     });

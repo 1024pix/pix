@@ -25,11 +25,22 @@
       "field-required": "Row {line} : The field “{field}” is mandatory.",
       "header-required": "The “{field}” is mandatory.",
       "header-unknown": "Column headers must be identical to the ones on the template.",
+      "identifier-unique": "Row {line} : The field “{field}” of this row is repeated several times within the file.",
       "ina-format": "Row {line} : The field “{field}” (INA) must contain 10 numbers followed by 1 letter.",
-      "ina-unique": "Row {line} : The field “{field}” of this row is repeated several times within the file.",
       "insee-code-invalid": "Row {line} : The field “{field}” is not in the INSEE format.",
+      "payload-too-large": "The file must be less than {maxSize}MB.",
       "student-number-format": "Row {line} : The field “{field}” must not contain any special characters.",
       "student-number-unique": "Row {line} : The field “{field}” must be unique within the file."
+    },
+    "student-xml-import": {
+      "empty": "Each student must have an INE and a class.",
+      "encoding-not-supported": "File encoding not supported.",
+      "ine-required": "INE is mandatory for each student.",
+      "ine-unique": "The INE {nationalStudentId} is repeated several times within the file for several students.",
+      "invalid-file": "File does not match the requirements.",
+      "invalid-file-extension": "File with extension {fileExtension} not supported.",
+      "payload-too-large": "The file must be less than {maxSize}MB.",
+      "uai-mismatched": "The UAI of your SIECLE file does not match your school."
     }
   },
   "banners": {
@@ -48,6 +59,7 @@
       "cancel": "Cancel",
       "close": "Close"
     },
+    "help-form": "https://pix.org/en-gb/help-form",
     "pagination": {
       "action": {
         "next": "Go to next page",
@@ -367,8 +379,8 @@
         "mediacentre": "Mediacentre"
       },
       "import": {
-        "error-wrapper": "<div>{message} Please try again or contact us through <a id=\"support-link\" href=\"https://pix.org/en-gb/help-form\">the help form</a>.</div>",
-        "global-error": "Import has failed. Please edit your file and try to import it again.",
+        "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
+        "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/help-form\">the help form</a>.</div>",
         "global-success": "The list has been successfully imported."
       },
       "know-more": "Know more",

@@ -67,7 +67,9 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
         };
 
         const response = await server.inject(options);
-        expect(response.payload).to.equal('{"errors":[{"status":"413","title":"Payload too large","detail":"La taille du fichier doit être inférieure à 10Mo."}]}');
+        expect(response.statusCode).to.equal(413);
+        expect(response.result.errors[0].code).to.equal('PAYLOAD_TOO_LARGE');
+        expect(response.result.errors[0].meta.maxSize).to.equal('10');
       });
     });
 
