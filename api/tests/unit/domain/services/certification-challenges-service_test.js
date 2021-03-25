@@ -535,7 +535,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
     });
   });
 
-  describe('#pickCertificationChallengesForPlus', () => {
+  describe('#pickCertificationChallengesForPixPlus', () => {
     let targetProfileWithLearningContent;
     let clock;
     const now = new Date('2019-01-01T05:06:07Z');
@@ -687,7 +687,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPlus(123, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 456);
 
       // then
       let expectedCertificationChallenges = [];
@@ -803,7 +803,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPlus(123, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 456);
 
       // then
       let expectedCertificationChallenges = [];
@@ -925,7 +925,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPlus(123, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 456);
 
       // then
       let expectedCertificationChallenges = [];
@@ -1048,7 +1048,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPlus(123, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 456);
 
       // then
       let expectedCertificationChallenges = [];
@@ -1143,7 +1143,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPlus(123, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 456);
 
       // then
       let expectedCertificationChallenges = [];
@@ -1254,7 +1254,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPlus(123, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 456);
 
       // then
       let expectedCertificationChallenges = [];
