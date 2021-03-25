@@ -76,7 +76,7 @@ export default class ListController extends Controller {
     }
 
     errorResponse.body.errors.forEach((error) => {
-      if (error.status === '422' || error.status === '412' || error.status === '413') {
+      if (['422', '412', '413'].includes(error.status)) {
         const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
         return this.notifications.sendError(this.intl.t('pages.students-sco.import.error-wrapper', { message, htmlSafe: true }));
       }
