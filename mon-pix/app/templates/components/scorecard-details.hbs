@@ -86,7 +86,7 @@
         </LinkTo>
       {{/if}}
       {{#if this.displayResetButton}}
-        <button class="link link--underline scorecard-details__reset-button" {{on 'click' this.openModal}} type="button">
+        <button id="reset-button" class="link link--underline scorecard-details__reset-button" {{on 'click' this.openModal}} type="button">
           {{t 'pages.competence-details.actions.reset.label'}}
           <div class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name}}</div>
         </button>

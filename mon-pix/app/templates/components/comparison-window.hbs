@@ -1,6 +1,7 @@
 <PixModal
         @class="comparison-window-modal"
         @onClickOverlay={{@closeComparisonWindow}}
+        @originId="#button-comparision-answer-{{@answer.id}}"
         role="dialog">
 
   <button type="button" id="pix-modal__close-button" class="pix-modal__close-link" aria-label={{t "common.actions.close"}} {{on "click" @closeComparisonWindow}}>
