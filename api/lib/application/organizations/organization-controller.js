@@ -132,7 +132,7 @@ module.exports = {
     const organizationId = parseInt(request.params.id);
     const { format } = request.query;
 
-    await usecases.importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload: request.payload, format });
+    await usecases.importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload: request.payload, format, i18n: request.i18n });
     return h.response(null).code(204);
   },
 
@@ -168,6 +168,6 @@ module.exports = {
 
     return h.response(template)
       .header('Content-Type', 'text/csv;charset=utf-8')
-      .header('Content-Disposition', `attachment; filename=${request.i18n.__('higher-schooling-registration-csv.template-name')}.csv`);
+      .header('Content-Disposition', `attachment; filename=${request.i18n.__('csv-template.template-name')}.csv`);
   },
 };
