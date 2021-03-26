@@ -1,12 +1,12 @@
 import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
-import forEach from 'lodash/forEach';
 import keys from 'lodash/keys';
 import answersAsObject from 'mon-pix/utils/answers-as-object';
 import solutionsAsObject from 'mon-pix/utils/solution-as-object';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
 import resultDetailsAsObject from 'mon-pix/utils/result-details-as-object';
 import { inject as service } from '@ember/service';
+import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
 function _computeAnswerOutcome(inputFieldValue, resultDetail) {
   if (inputFieldValue === '') {
@@ -32,7 +32,7 @@ export default class QrocmIndSolutionPanel extends Component {
     return this.args.answer.result !== 'ok';
   }
 
-  get inputFields() {
+  get blocks() {
     if (!this.args.solution) {
       return undefined;
     }
@@ -42,27 +42,24 @@ export default class QrocmIndSolutionPanel extends Component {
     const solutions = solutionsAsObject(this.args.solution);
     const resultDetails = resultDetailsAsObject(this.args.answer.resultDetails);
 
-    const inputFields = [];
+    return proposalsAsBlocks(this.args.challenge.get('proposals'))
+      .map((block) => {
+        block.showText = block.text && !block.ariaLabel && !block.input;
+        const blockIsInputOrTextarea = !block.showText && !block.breakline;
 
-    forEach(labels, (label, labelKey) => {
-      const answerOutcome = _computeAnswerOutcome(answers[labelKey], resultDetails[labelKey]);
-      const inputClass = _computeInputClass(answerOutcome);
-
-      if (answers[labelKey] === '') {
-        answers[labelKey] = this.intl.t('pages.result-item.aband');
-      }
-
-      const inputField = {
-        label: labels[labelKey],
-        answer: answers[labelKey],
-        solution: solutions[labelKey][0],
-        emptyOrWrongAnswer: (answerOutcome === 'empty' || answerOutcome === 'ko'),
-        inputClass,
-      };
-      inputFields.push(inputField);
-    });
-
-    return inputFields;
+        if (blockIsInputOrTextarea) {
+          const answerOutcome = _computeAnswerOutcome(answers[block.input], resultDetails[block.input]);
+          const inputClass = _computeInputClass(answerOutcome);
+          if (answers[block.input] === '') {
+            answers[block.input] = this.intl.t('pages.result-item.aband');
+          }
+          block.inputClass = inputClass;
+          block.answer = answers[block.input];
+          block.solution = solutions[block.input][0];
+          block.emptyOrWrongAnswer = (answerOutcome === 'empty' || answerOutcome === 'ko');
+        }
+        return block;
+      });
   }
 }
 
