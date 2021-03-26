@@ -12,6 +12,7 @@ module.exports = {
     return BookshelfAssessment
       .where('id', id)
       .fetch({
+        require: false,
         withRelated: [
           {
             answers: function(query) {
@@ -27,7 +28,7 @@ module.exports = {
     try {
       const bookshelfAssessment = await BookshelfAssessment
         .where({ id })
-        .fetch({ require: true });
+        .fetch();
 
       return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfAssessment);
     } catch (err) {
@@ -52,7 +53,7 @@ module.exports = {
           .where('assessments.state', '=', 'completed')
           .orderBy('assessments.createdAt', 'desc');
       })
-      .fetch()
+      .fetch({ require: false })
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(_selectLastAssessmentForEachCompetence)
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
@@ -61,7 +62,7 @@ module.exports = {
   getByAssessmentIdAndUserId(assessmentId, userId) {
     return BookshelfAssessment
       .query({ where: { id: assessmentId }, andWhere: { userId } })
-      .fetch({ require: true })
+      .fetch()
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment))
       .catch((error) => {
         if (error instanceof BookshelfAssessment.NotFoundError) {
@@ -82,7 +83,7 @@ module.exports = {
   getIdByCertificationCourseId(certificationCourseId) {
     return BookshelfAssessment
       .where({ certificationCourseId, type: Assessment.types.CERTIFICATION })
-      .fetch({ columns: 'id' })
+      .fetch({ require: false, columns: 'id' })
       .then((result) => result ? result.attributes.id : null);
   },
 
@@ -93,7 +94,7 @@ module.exports = {
         qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
       })
       .orderBy('assessments.createdAt', 'DESC')
-      .fetch({ require: true, withRelated: ['campaignParticipation.campaign'] })
+      .fetch({ withRelated: ['campaignParticipation.campaign'] })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
@@ -113,7 +114,7 @@ module.exports = {
         qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
       })
       .orderBy('createdAt', 'desc')
-      .fetch({ required: false, withRelated: includeCampaign ? ['campaignParticipation', 'campaignParticipation.campaign'] : [] })
+      .fetch({ require: false, withRelated: includeCampaign ? ['campaignParticipation', 'campaignParticipation.campaign'] : [] })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
