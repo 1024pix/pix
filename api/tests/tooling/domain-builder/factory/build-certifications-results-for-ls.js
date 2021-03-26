@@ -7,11 +7,11 @@ const beforeCreatedDate = new Date('2020-04-18');
 const beforeBeforeCreatedDate = new Date('2020-04-17');
 const type = Assessment.types.CERTIFICATION;
 
-function _createUser() {
+function buildUser() {
   return databaseBuilder.factory.buildUser();
 }
 
-function _createSchoolingRegistration(userId, organizationId) {
+function buildSchoolingRegistration({ userId, organizationId }) {
   return databaseBuilder.factory.buildSchoolingRegistration(
     { userId, organizationId },
   );
@@ -25,40 +25,44 @@ function _createCertificationCenter() {
   return { certificationCenterId: id, certificationCenter: name };
 }
 
-function _buildCertificationData({ organizationId, isPublished, verificationCode }) {
-  const userId = _createUser().id;
-  const schoolingRegistration = _createSchoolingRegistration(userId, organizationId);
+function _buildCertificationData({ user, schoolingRegistration, isPublished, verificationCode }) {
   const {
     id: certificationCenterId,
     name: certificationCenter,
   } = _createCertificationCenter();
+
   const session = databaseBuilder.factory.buildSession({
     certificationCenterId,
     certificationCenter,
     publishedAt: new Date('2020-02-21T14:23:56Z'),
   });
 
+  databaseBuilder.factory.buildCertificationCandidate({
+    sessionId: session.id,
+    schoolingRegistrationId: schoolingRegistration.id,
+    userId: user.id,
+  });
+
   const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-    userId,
+    userId: user.id,
     sessionId: session.id,
     isPublished,
     verificationCode,
   });
 
   databaseBuilder.factory.buildCertificationCourse({
-    userId,
+    userId: user.id,
     sessionId: session.id,
     isPublished: false,
   });
 
   const assessment = databaseBuilder.factory.buildAssessment({
     certificationCourseId: certificationCourse.id,
-    userId,
+    userId: user.id,
     type,
   });
 
   return {
-    schoolingRegistration,
     session,
     certificationCourse,
     assessmentId: assessment.id,
@@ -92,23 +96,23 @@ function buildOrganization(uai) {
   return databaseBuilder.factory.buildOrganization({ externalId: uai });
 }
 
-function buildValidatedPublishedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks }) {
-  return _buildValidatedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks, isPublished: true });
+function buildValidatedPublishedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks }) {
+  return _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, isPublished: true });
 }
 
-function buildValidatedUnpublishedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks }) {
-  return _buildValidatedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks, isPublished: false });
+function buildValidatedUnpublishedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks }) {
+  return _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, isPublished: false });
 }
 
-function _buildValidatedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks, isPublished }) {
+function _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, isPublished }) {
   const certificationStatus = status.VALIDATED;
   const {
-    schoolingRegistration,
     session,
     certificationCourse,
     assessmentId,
   } = _buildCertificationData({
-    organizationId,
+    user,
+    schoolingRegistration,
     verificationCode,
     type,
     pixScore,
@@ -138,16 +142,15 @@ function _buildValidatedCertificationData({ organizationId, verificationCode, pi
   });
 
   return {
-    schoolingRegistration,
     session,
     certificationCourse,
   };
 }
 
-function buildRejectedPublishedCertificationData({ organizationId, competenceMarks }) {
+function buildRejectedPublishedCertificationData({ user, schoolingRegistration, competenceMarks }) {
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
-    organizationId,
+    user, schoolingRegistration,
     isPublished: true,
   });
 
@@ -159,10 +162,10 @@ function buildRejectedPublishedCertificationData({ organizationId, competenceMar
   });
 }
 
-function buildErrorUnpublishedCertificationData({ organizationId, competenceMarks }) {
+function buildErrorUnpublishedCertificationData({ user, schoolingRegistration, competenceMarks }) {
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
-    organizationId,
+    user, schoolingRegistration,
     isPublished: false,
   });
 
@@ -174,10 +177,10 @@ function buildErrorUnpublishedCertificationData({ organizationId, competenceMark
   });
 }
 
-function buildCertificationDataWithNoCompetenceMarks({ organizationId }) {
+function buildCertificationDataWithNoCompetenceMarks({ user, schoolingRegistration }) {
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
-    organizationId,
+    user, schoolingRegistration,
     isPublished: false,
   });
 
@@ -262,4 +265,6 @@ module.exports = {
   buildCertificationDataWithNoCompetenceMarks,
   mockLearningContentCompetences,
   buildOrganization,
+  buildUser,
+  buildSchoolingRegistration,
 };
