@@ -2,6 +2,8 @@ import Service, { inject as service } from '@ember/service';
 
 import ENV from 'pix-orga/config/environment';
 
+const FRENCH_DOMAIN_EXTENSION = 'fr';
+
 export default class Url extends Service {
 
   @service currentDomain;
@@ -11,6 +13,10 @@ export default class Url extends Service {
   pixAppUrlWithoutExtension = ENV.APP.PIX_APP_URL_WITHOUT_EXTENSION;
 
   definedHomeUrl = ENV.rootURL;
+
+  get isFrenchDomainExtension() {
+    return this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION;
+  }
 
   get campaignsRootUrl() {
     return this.definedCampaignsRootUrl
