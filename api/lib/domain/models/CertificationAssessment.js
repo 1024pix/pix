@@ -2,6 +2,7 @@ const Joi = require('joi')
   .extend(require('@joi/date'));
 const { validateEntity } = require('../validators/entity-validator');
 const { states } = require('./Assessment');
+const _ = require('lodash');
 
 const certificationAssessmentSchema = Joi.object({
   id: Joi.number().integer().required(),
@@ -39,6 +40,11 @@ class CertificationAssessment {
 
     validateEntity(certificationAssessmentSchema, this);
   }
+
+  getCertificationChallenge(challengeId) {
+    return _.find(this.certificationChallenges, { challengeId }) || null;
+  }
+
 }
 
 CertificationAssessment.states = states;

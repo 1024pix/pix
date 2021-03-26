@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | CertificationAssessment', () => {
@@ -93,6 +93,41 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationAnswersByDate: [] }))
         .not.to.throw(ObjectValidationError);
+    });
+  });
+
+  describe('#getCertificationChallenge', () => {
+
+    it('returns the challenge for the given challengeId', () => {
+      // given
+      const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec1234' });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec456' });
+
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [certificationChallenge1, certificationChallenge2],
+      });
+
+      // when
+      const certificationChallenge = certificationAssessment.getCertificationChallenge('rec1234');
+
+      // then
+      expect(certificationChallenge).to.deep.equal(certificationChallenge1);
+    });
+
+    it('returns null if no certification challenge exists for challengeId', () => {
+      // given
+      const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec1234' });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec456' });
+
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [certificationChallenge1, certificationChallenge2],
+      });
+
+      // when
+      const certificationChallenge = certificationAssessment.getCertificationChallenge('wrongId');
+
+      // then
+      expect(certificationChallenge).to.be.null;
     });
   });
 });
