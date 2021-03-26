@@ -9,7 +9,6 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'organizations',
   hasTimestamps: ['createdAt', 'updatedAt'],
-  requireFetch: false,
 
   targetProfileShares() {
     return this.hasMany('TargetProfileShare', 'organizationId');
