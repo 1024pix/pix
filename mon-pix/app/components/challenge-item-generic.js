@@ -49,6 +49,7 @@ export default class ChallengeItemGeneric extends Component {
   @action
   setChallengeAsTimedOut() {
     this.hasChallengeTimedOut = true;
+    this.args.timedoutChallenge();
   }
 
   @action
