@@ -56,6 +56,7 @@ export default class ListController extends Controller {
       await file.uploadBinary(`${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/import-siecle?format=${format}`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
+          'Accept-Language': this.currentUser.prescriber.lang,
         },
       });
       this.refresh();
