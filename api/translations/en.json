@@ -79,22 +79,6 @@
     "ACCEPT_CGU": "Please agree to the terms and conditions of use.",
     "FILL_USERNAME_OR_EMAIL": "Please enter an email address and/or a username."
   },
-  "higher-schooling-registration-csv": {
-    "birthdate": "Date of birth (DD/MM/YYYY)",
-    "department": "Department",
-    "diploma": "Degree",
-    "educational-team": "Teaching staff",
-    "email": "Email address",
-    "firstname": "First Name",
-    "group": "Group",
-    "lastname": "Last name",
-    "middle-name": "Middle name #1",
-    "preferred-lastname": "Preferred name",
-    "student-number": "Student number",
-    "study-scheme": "Status",
-    "template-name": "import-template",
-    "third-name": "Middle name #2"
-  },
   "organization-invitation-email": {
     "params": {
       "acceptInvitation": "Accept the invitation",
@@ -137,5 +121,39 @@
       "weCannotSendYourPassword": "Hello, for security reasons, we cannot send your password by email."
     },
     "subject": "Pix password reset request"
+  },
+  "csv-template": {
+    "higher-schooling-registrations": {
+      "birthdate": "Date of birth (DD/MM/YYYY)",
+      "department": "Department",
+      "diploma": "Degree",
+      "educational-team": "Teaching staff",
+      "email": "Email address",
+      "first-name": "First Name",
+      "group": "Group",
+      "last-name": "Last name",
+      "middle-name": "Middle name #1",
+      "preferred-lastname": "Preferred name",
+      "student-number": "Student number",
+      "study-scheme": "Status",
+      "third-name": "Middle name #2"
+    },
+    "schooling-registrations": {
+      "birthdate": "Date of birth (DD/MM/YYYY)*",
+      "birth-city": "Place of birth**",
+      "birth-city-code": "City of birth code**",
+      "birth-province-code": "Province of birth code*",
+      "birth-country-code": "Country code*",
+      "division": "Class*",
+      "first-name": "First name*",
+      "last-name": "Last name*",
+      "middle-name": "Middle name #1",
+      "mef-code": "MEF code*",
+      "national-identifier": "Unique identifier*",
+      "preferred-last-name": "Preferred name",
+      "status": "Status*",
+      "third-name": "Middle name #2"
+    },
+    "template-name": "import-template"
   }
 }
