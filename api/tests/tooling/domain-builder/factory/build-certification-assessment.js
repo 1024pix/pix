@@ -1,4 +1,5 @@
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
+const buildCertificationChallenge = require('./build-certification-challenge');
 
 module.exports = function buildCertificationAssessment(
   {
@@ -9,7 +10,7 @@ module.exports = function buildCertificationAssessment(
     completedAt = new Date('2020-01-01'),
     state = CertificationAssessment.states.STARTED,
     isV2Certification = true,
-    certificationChallenges = [],
+    certificationChallenges = [buildCertificationChallenge()],
     certificationAnswersByDate = [],
   } = {}) {
   return new CertificationAssessment({
