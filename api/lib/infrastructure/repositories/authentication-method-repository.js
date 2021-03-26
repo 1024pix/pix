@@ -203,7 +203,7 @@ module.exports = {
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
-      .fetch();
+      .fetch({ require: false });
     return Boolean(foundAuthenticationMethod);
   },
 

@@ -10,7 +10,6 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'authentication-methods',
   hasTimestamps: ['createdAt', 'updatedAt'],
-  requireFetch: false,
 
   user() {
     return this.belongsTo('User');
