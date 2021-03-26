@@ -8,7 +8,6 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'pole-emploi-sendings',
   hasTimestamps: ['createdAt'],
-  requireFetch: false,
 
   campaignParticipation() {
     return this.belongsTo('CampaignParticipation', 'campaignParticipationId');
