@@ -11,7 +11,7 @@ const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
 };
 
-module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, schoolingRegistrationsXmlService, schoolingRegistrationRepository, organizationRepository }) {
+module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, schoolingRegistrationsXmlService, schoolingRegistrationRepository, organizationRepository, i18n }) {
   let schoolingRegistrationData = [];
 
   const organization = await organizationRepository.get(organizationId);
@@ -22,7 +22,7 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
   } else if (format === 'csv') {
     const buffer = await fs.readFile(path);
 
-    const csvSiecleParser = SchoolingRegistrationParser.buildParser(buffer, organizationId, organization.isAgriculture);
+    const csvSiecleParser = SchoolingRegistrationParser.buildParser(buffer, organizationId, i18n, organization.isAgriculture);
     schoolingRegistrationData = csvSiecleParser.parse().registrations;
   } else {
     throw new FileValidationError('INVALID_FILE_EXTENSION', { fileExtension: format });
