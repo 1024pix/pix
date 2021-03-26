@@ -11,7 +11,8 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/api/bin/www"
+      "program": "${workspaceFolder}/api/bin/www",
+      "cwd": "${workspaceRoot}/api"
     },
     {
       "type": "node",
@@ -24,7 +25,8 @@
       "internalConsoleOptions": "neverOpen",
       "skipFiles": [
         "<node_internals>/**"
-      ]
+      ],
+      "cwd": "${workspaceRoot}/api"
     },
     {
       "type": "node",
