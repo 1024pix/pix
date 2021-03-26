@@ -1,9 +1,9 @@
-<PixModal @containerClass="join-error-modal" @onClickOverlay={{@closeModal}}>
+<PixModal @containerClass="join-error-modal" @onClickOverlay={{@closeModal}} role="dialog">
   <div class="join-error-modal__header">
     <div class="join-error-modal-header__title">
       <h1 class="join-error-modal-header-title__text">{{t 'pages.join.sco.login-information-title'}}</h1>
     </div>
-    <button class="join-error-modal-header__close" type="button" aria-label={{t "common.actions.close"}} {{on 'click' @closeModal}}>
+    <button id="pix-modal__close-button" class="join-error-modal-header__close" type="button" aria-label={{t "common.actions.close"}} {{on 'click' @closeModal}}>
       <img src="/images/icons/icon-croix.svg" alt={{t 'common.actions.close'}} class="join-error-modal-header-close__icon">
     </button>
   </div>
