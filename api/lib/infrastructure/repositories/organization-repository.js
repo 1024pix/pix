@@ -101,16 +101,15 @@ module.exports = {
   },
 
   async getScoOrganizationByExternalId(externalId) {
-    return BookshelfOrganization
+    const organizationBookshelf = await BookshelfOrganization
       .query((qb) => qb.where({ type: Organization.types.SCO })
-        .whereRaw('LOWER("externalId") = ? ', externalId.toLowerCase()))
-      .fetch()
-      .then((organization) => {
-        if (organization) {
-          return _toDomain(organization);
-        }
-        throw new NotFoundError(`Could not find organization for externalId ${externalId}.`);
-      });
+        .whereRaw('LOWER("externalId") = ?', externalId.toLowerCase()))
+      .fetch();
+
+    if (organizationBookshelf) {
+      return _toDomain(organizationBookshelf);
+    }
+    throw new NotFoundError(`Could not find organization for externalId ${externalId}.`);
   },
 
   findByExternalIdsFetchingIdsOnly(externalIds) {

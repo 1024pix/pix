@@ -1,4 +1,4 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const certificationCenterRepository = require('../../../../lib/infrastructure/repositories/certification-center-repository');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -36,12 +36,13 @@ describe('Integration | Repository | Certification Center', () => {
 
     context('the certification center could not be found', () => {
 
-      it('should throw a NotFound error', () => {
+      it('should throw a NotFound error', async () => {
         // when
         const nonExistentId = 1;
-        const promise = certificationCenterRepository.get(nonExistentId);
+        const error = await catchErr(certificationCenterRepository.get)(nonExistentId);
+
         // then
-        return expect(promise).to.have.been.rejectedWith(NotFoundError);
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });
@@ -84,10 +85,10 @@ describe('Integration | Repository | Certification Center', () => {
         await databaseBuilder.commit();
 
         // when
-        const promise = certificationCenterRepository.getBySessionId(8);
+        const error = await catchErr(certificationCenterRepository.getBySessionId)(8);
 
         // then
-        return expect(promise).to.have.been.rejectedWith(NotFoundError);
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });
@@ -101,8 +102,10 @@ describe('Integration | Repository | Certification Center', () => {
     it('should save the given certification center', async () => {
       // given
       const certificationCenter = new CertificationCenter({ name: 'CertificationCenterName' });
+
       // when
       const savedCertificationCenter = await certificationCenterRepository.save(certificationCenter);
+
       // then
       expect(savedCertificationCenter).to.be.instanceof(CertificationCenter);
       expect(savedCertificationCenter.id).to.exist;
