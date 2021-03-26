@@ -14,6 +14,7 @@ module.exports = function() {
       'copy',
       'exclamation-circle',
       'exclamation-triangle',
+      'external-link-alt',
       'eye',
       'eye-slash',
       'hourglass-end',

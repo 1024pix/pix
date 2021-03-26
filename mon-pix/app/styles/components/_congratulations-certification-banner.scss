@@ -7,7 +7,7 @@
   box-sizing: border-box;
   height: 194px;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
 }
@@ -30,13 +30,29 @@
   }
 }
 
-.congratulations-banner__message {
+@mixin textBannerStyle {
   color: $grey-10;
   font-weight: $font-normal;
   font-family: $font-open-sans;
-  font-size: 1.5rem;
   line-height: 2rem;
   text-align: center;
+}
+
+.congratulations-banner__message {
+  @include textBannerStyle();
+
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.congratulations-banner__link {
+  @include textBannerStyle();
+
+  font-size: 0.875rem;
+
+  &__icon {
+    margin: auto 5px;
+  }
 }
 
 @include device-is('mobile') {
