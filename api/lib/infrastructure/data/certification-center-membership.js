@@ -8,7 +8,6 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'certification-center-memberships',
   hasTimestamps: ['createdAt', null],
-  requireFetch: false,
 
   user() {
     return this.belongsTo('User', 'userId');
