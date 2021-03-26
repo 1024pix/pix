@@ -64,7 +64,7 @@ module.exports = {
         qb.where('assessments.certificationCourseId', '=', certificationCourseId);
       })
       .orderBy('createdAt', 'desc')
-      .fetch({ withRelated: ['competenceMarks'] });
+      .fetch({ require: false, withRelated: ['competenceMarks'] });
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, latestAssessmentResultBookshelf);
   },
