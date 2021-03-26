@@ -6,7 +6,7 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const { buildOrganization, buildValidatedPublishedCertificationData, mockLearningContentCompetences } = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
+const { buildOrganization, buildValidatedPublishedCertificationData, mockLearningContentCompetences, buildUser, buildSchoolingRegistration } = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
 
 describe('Acceptance | API | Certifications', () => {
 
@@ -200,9 +200,12 @@ describe('Acceptance | API | Certifications', () => {
 
         // given
         server = await createServer();
-        const { schoolingRegistration, session, certificationCourse }
+        const user = buildUser();
+        const schoolingRegistration = buildSchoolingRegistration({ userId: user.id, organizationId });
+        const { session, certificationCourse }
           = buildValidatedPublishedCertificationData({
-            organizationId,
+            user,
+            schoolingRegistration,
             verificationCode,
             type,
             pixScore,
