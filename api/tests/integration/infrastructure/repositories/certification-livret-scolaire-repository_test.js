@@ -2,7 +2,14 @@ const certificationLsRepository = require('../../../../lib/infrastructure/reposi
 const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const status = require('../../../../lib/domain/read-models/livret-scolaire/CertificateStatus');
 
-const { buildOrganization, buildCertificationDataWithNoCompetenceMarks, buildValidatedPublishedCertificationData, buildRejectedPublishedCertificationData, buildErrorUnpublishedCertificationData } = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
+const {
+  buildOrganization,
+  buildCertificationDataWithNoCompetenceMarks,
+  buildValidatedPublishedCertificationData,
+  buildValidatedUnpublishedCertificationData,
+  buildRejectedPublishedCertificationData,
+  buildErrorUnpublishedCertificationData,
+} = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
 
 describe('Integration | Repository | Certification-ls ', () => {
 
@@ -23,6 +30,7 @@ describe('Integration | Repository | Certification-ls ', () => {
   describe('#getCertificatesByOrganizationUAI', () => {
 
     it('should return validated certification results for a given UAI', async () => {
+      // given
       const organizationId = buildOrganization(uai).id;
       const { schoolingRegistration, session, certificationCourse } = buildValidatedPublishedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks });
 
@@ -49,42 +57,72 @@ describe('Integration | Repository | Certification-ls ', () => {
         ],
       };
 
+      // when
       const certificationResults = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
-      expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0]).to.deep.equal(expected);
+
+      // then
+      expect(certificationResults).to.deep.equal([expected]);
     });
 
     it('should return rejected certification results for a given UAI', async () => {
+      // given
       const organizationId = buildOrganization(uai).id;
       buildRejectedPublishedCertificationData({ organizationId, competenceMarks });
 
       await databaseBuilder.commit();
 
+      // when
       const [certificationResult] = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
+
+      // then
       expect(certificationResult.status).to.equal(status.REJECTED);
       expect(certificationResult.pixScore).to.equal(0);
       expect(certificationResult.competenceResults).to.be.empty;
     });
 
-    it('should return pending certification results for a given UAI', async () => {
+    it('should return pending (error) certification results for a given UAI', async () => {
+      // given
       const organizationId = buildOrganization(uai).id;
       buildErrorUnpublishedCertificationData({ organizationId });
 
       await databaseBuilder.commit();
 
+      // when
       const [certificationResult] = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
+
+      // then
+      expect(certificationResult.status).to.equal(status.PENDING);
+      expect(certificationResult.pixScore).to.equal(0);
+      expect(certificationResult.competenceResults).to.be.empty;
+    });
+
+    it('should return pending (validated) certification results for a given UAI', async () => {
+      // given
+      const organizationId = buildOrganization(uai).id;
+      buildValidatedUnpublishedCertificationData({ organizationId });
+
+      await databaseBuilder.commit();
+
+      // when
+      const [certificationResult] = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
+
+      // then
       expect(certificationResult.status).to.equal(status.PENDING);
       expect(certificationResult.pixScore).to.equal(0);
       expect(certificationResult.competenceResults).to.be.empty;
     });
 
     it('should return no certification results if no competence-marks for a given UAI', async () => {
+      // given
       const organizationId = buildOrganization(uai).id;
       buildCertificationDataWithNoCompetenceMarks({ organizationId });
 
       await databaseBuilder.commit();
 
+      // when
       const certificationResult = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
+
+      // then
       expect(certificationResult).to.be.empty;
     });
   });

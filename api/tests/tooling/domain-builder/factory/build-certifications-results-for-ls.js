@@ -92,7 +92,15 @@ function buildOrganization(uai) {
   return databaseBuilder.factory.buildOrganization({ externalId: uai });
 }
 
-const buildValidatedPublishedCertificationData = function({ organizationId, verificationCode, pixScore, competenceMarks }) {
+function buildValidatedPublishedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks }) {
+  return _buildValidatedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks, isPublished: true });
+}
+
+function buildValidatedUnpublishedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks }) {
+  return _buildValidatedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks, isPublished: false });
+}
+
+function _buildValidatedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks, isPublished }) {
   const certificationStatus = status.VALIDATED;
   const {
     schoolingRegistration,
@@ -104,7 +112,7 @@ const buildValidatedPublishedCertificationData = function({ organizationId, veri
     verificationCode,
     type,
     pixScore,
-    isPublished: true,
+    isPublished,
   });
 
   _createAssessmentResultWithCompetenceMarks({
@@ -134,9 +142,9 @@ const buildValidatedPublishedCertificationData = function({ organizationId, veri
     session,
     certificationCourse,
   };
-};
+}
 
-const buildRejectedPublishedCertificationData = function({ organizationId }) {
+function buildRejectedPublishedCertificationData({ organizationId, competenceMarks }) {
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
     organizationId,
@@ -147,11 +155,11 @@ const buildRejectedPublishedCertificationData = function({ organizationId }) {
     assessmentId,
     status: certificationStatus,
     createdAt: createdDate,
+    competenceMarks,
   });
+}
 
-};
-
-const buildErrorUnpublishedCertificationData = function({ organizationId }) {
+function buildErrorUnpublishedCertificationData({ organizationId, competenceMarks }) {
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
     organizationId,
@@ -162,11 +170,11 @@ const buildErrorUnpublishedCertificationData = function({ organizationId }) {
     assessmentId,
     status: certificationStatus,
     createdAt: createdDate,
+    competenceMarks,
   });
+}
 
-};
-
-const buildCertificationDataWithNoCompetenceMarks = function({ organizationId }) {
+function buildCertificationDataWithNoCompetenceMarks({ organizationId }) {
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
     organizationId,
@@ -178,7 +186,7 @@ const buildCertificationDataWithNoCompetenceMarks = function({ organizationId })
     status: certificationStatus,
     createdAt: beforeBeforeCreatedDate,
   });
-};
+}
 
 function mockLearningContentCompetences() {
 
@@ -248,6 +256,7 @@ function mockLearningContentCompetences() {
 
 module.exports = {
   buildValidatedPublishedCertificationData,
+  buildValidatedUnpublishedCertificationData,
   buildRejectedPublishedCertificationData,
   buildErrorUnpublishedCertificationData,
   buildCertificationDataWithNoCompetenceMarks,
