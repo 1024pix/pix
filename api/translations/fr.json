@@ -89,7 +89,19 @@
   "entity-validation-errors": {
     "STAGE_THRESHOLD_IS_REQUIRED": "Le seuil du palier est obligatoire",
     "STAGE_TITLE_IS_REQUIRED": "Le titre du palier est obligatoire",
-    "TARGET_PROFILE_IS_REQUIRED": "Le profil cible est obligatoire"
+    "TARGET_PROFILE_IS_REQUIRED": "Le profil cible est obligatoire",
+    "ALREADY_REGISTERED_EMAIL": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
+    "WRONG_EMAIL_FORMAT": "Le format de l'adresse e-mail est incorrect.",
+    "MAX_SIZE_EMAIL": "Votre adresse e-mail ne doit pas dépasser les 255 caractères.",
+    "MAX_SIZE_LAST_NAME": "Votre nom ne doit pas dépasser les 255 caractères.",
+    "MAX_SIZE_FIRST_NAME": "Votre prénom ne doit pas dépasser les 255 caractères.",
+    "EMPTY_EMAIL": "Votre adresse e-mail n’est pas renseignée.",
+    "EMPTY_LAST_NAME": "Votre nom n’est pas renseignée.",
+    "EMPTY_FIRST_NAME": "Votre prénom n’est pas renseigné.",
+    "EMPTY_USERNAME": "Votre identifiant n’est pas renseigné.",
+    "EMPTY_INPUT": "Aucun champ n'est renseigné.",
+    "ACCEPT_CGU": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
+    "FILL_USERNAME_OR_EMAIL": "Vous devez renseigner une adresse e-mail et/ou un identifiant."
   },
   "higher-schooling-registration-csv": {
     "birthdate": "Date de naissance (jj/mm/aaaa)",
