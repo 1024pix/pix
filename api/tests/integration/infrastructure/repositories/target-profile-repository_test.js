@@ -571,7 +571,7 @@ describe('Integration | Repository | Target-profile', () => {
     });
   });
 
-  describe('#updateName', () => {
+  describe('#update', () => {
 
     it('should update the target profile name', async () => {
       // given
@@ -580,14 +580,28 @@ describe('Integration | Repository | Target-profile', () => {
 
       // when
       targetProfile.name = 'Karam';
-      await targetProfileRepository.updateName(targetProfile);
+      await targetProfileRepository.update(targetProfile);
 
       // then
       const { name } = await knex('target-profiles').select('name').where('id', targetProfile.id).first();
       expect(name).to.equal(targetProfile.name);
     });
 
-    it('should not update the target profile name and throw an error', async () => {
+    it('should outdate the target profile', async () => {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ outdated: true });
+      await databaseBuilder.commit();
+
+      // when
+      targetProfile.outdate = true;
+      await targetProfileRepository.update(targetProfile);
+
+      // then
+      const { outdated } = await knex('target-profiles').select('outdated').where('id', targetProfile.id).first();
+      expect(outdated).to.equal(targetProfile.outdated);
+    });
+
+    it('should not update the target profile and throw an error while id not existing', async () => {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ name: 'Arthur' });
       await databaseBuilder.commit();
@@ -595,20 +609,20 @@ describe('Integration | Repository | Target-profile', () => {
       // when
       targetProfile.id = 999999;
       targetProfile.name = 'Karam';
-      const error = await catchErr(targetProfileRepository.updateName)(targetProfile);
+      const error = await catchErr(targetProfileRepository.update)(targetProfile);
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
     });
 
-    it('should not update the target profile name for an unknown error', async () => {
+    it('should not update the target profile name for an database error', async () => {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ name: 'Arthur' });
       await databaseBuilder.commit();
 
       // when
       targetProfile.name = null;
-      const error = await catchErr(targetProfileRepository.updateName)(targetProfile);
+      const error = await catchErr(targetProfileRepository.update)(targetProfile);
 
       // then
       expect(error).to.be.instanceOf(ObjectValidationError);

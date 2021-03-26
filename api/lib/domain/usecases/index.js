@@ -112,6 +112,7 @@ module.exports = injectDependencies({
   attachTargetProfilesToOrganization: require('./attach-target-profiles-to-organization'),
   attachOrganizationsToTargetProfile: require('./attach-organizations-to-target-profile'),
   archiveCampaign: require('./archive-campaign'),
+  outdateTargetProfile: require('./outdate-target-profile'),
   assignCertificationOfficerToJurySession: require('./assign-certification-officer-to-jury-session'),
   authenticateAnonymousUser: require('./authenticate-anonymous-user'),
   authenticatePoleEmploiUser: require('./authenticate-pole-emploi-user'),

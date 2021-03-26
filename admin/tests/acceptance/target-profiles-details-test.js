@@ -1,8 +1,9 @@
+import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { currentURL, click, visit, fillIn } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Target Profile Details', function(hooks) {
@@ -52,7 +53,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
       assert.contains('Profil Cible Fantastix');
       assert.dom('section').containsText('ID : 1');
       assert.dom('section').containsText('Public : Oui');
-      assert.dom('section').containsText('Archivé : Non');
+      assert.dom('section').containsText('Obsolète : Non');
       assert.dom('section').containsText('Organisation de référence : 456');
     });
 
@@ -114,10 +115,40 @@ module('Acceptance | Target Profile Details', function(hooks) {
 
       // when
       await visit('/target-profiles/1');
-      await click('button[type=button]');
+      await clickByLabel('Editer');
 
       // then
       assert.dom('Editer').doesNotExist();
+
+    });
+
+    test('it should outdate target profile', async function(assert) {
+      // given
+      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
+
+      // when
+      await visit('/target-profiles/1');
+      await clickByLabel('Marquer comme obsolète');
+
+      await clickByLabel('Oui, marquer comme obsolète');
+
+      // then
+      assert.dom('section').containsText('Obsolète : Oui');
+
+    });
+
+    test('it should not outdate target profile', async function(assert) {
+      // given
+      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
+
+      // when
+      await visit('/target-profiles/1');
+      await clickByLabel('Marquer comme obsolète');
+
+      await clickByLabel('Non, annuler');
+
+      // then
+      assert.dom('section').containsText('Obsolète : Non');
 
     });
 
@@ -136,6 +167,5 @@ module('Acceptance | Target Profile Details', function(hooks) {
       assert.contains('Profil Cible Fantastix Edited');
       assert.dom('Enregistrer').doesNotExist();
     });
-
   });
 });

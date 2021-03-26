@@ -151,14 +151,22 @@ module.exports = {
     return attachedOrganizations.some((e) => e);
   },
 
-  async updateName(targetProfile) {
+  async update(targetProfile) {
+    const editedAttributes = _.pick(targetProfile, [
+      'name',
+      'outdated',
+    ]);
+
     try {
-      await new BookshelfTargetProfile({ id: targetProfile.id })
-        .save({ name: targetProfile.name }, { patch: true });
+      const bookshelfTargetProfile = await BookshelfTargetProfile.where({ id: targetProfile.id })
+        .save(editedAttributes, { patch: true });
+
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfTargetProfile, bookshelfTargetProfile);
     } catch (error) {
       if (error instanceof BookshelfTargetProfile.NoRowsUpdatedError) {
         throw new NotFoundError(`Le profil cible avec l'id ${targetProfile.id} n'existe pas`);
       }
+
       throw new ObjectValidationError;
     }
   },
