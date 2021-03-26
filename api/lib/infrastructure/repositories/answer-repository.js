@@ -42,7 +42,7 @@ module.exports = {
 
   get(answerId) {
     return BookshelfAnswer.where('id', answerId)
-      .fetch({ require: true })
+      .fetch()
       .then(_toDomain)
       .catch((error) => {
         if (error instanceof BookshelfAnswer.NotFoundError) {
@@ -62,7 +62,7 @@ module.exports = {
   findByChallengeAndAssessment({ challengeId, assessmentId }) {
     return BookshelfAnswer
       .where({ challengeId, assessmentId })
-      .fetch()
+      .fetch({ require: false })
       .then(_toDomain);
   },
 
@@ -78,7 +78,7 @@ module.exports = {
     return BookshelfAnswer
       .where({ assessmentId })
       .orderBy('createdAt', 'desc')
-      .fetch()
+      .fetch({ require: false })
       .then(_toDomain);
   },
 
