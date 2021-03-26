@@ -102,7 +102,7 @@ module.exports = {
   async hasVerificationCode(id) {
     const certification = await CertificationCourseBookshelf
       .where({ id })
-      .fetch({ columns: 'verificationCode' });
+      .fetch({ require: false, columns: 'verificationCode' });
 
     return Boolean(certification.attributes.verificationCode);
   },
