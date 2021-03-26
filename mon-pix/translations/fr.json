@@ -161,7 +161,11 @@
         "certification-joiner": {
             "title": "Rejoindre une session de certification",
             "congratulation-banner": {
-                "message": "Bravo {fullName},'<br>'votre profil est certifiable."
+                "message": "Bravo {fullName},'<br>'votre profil est certifiable.",
+                "link": {
+                    "text": "Comment se certifier ?",
+                    "url": "https://support.pix.fr/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"
+                }
             },
             "first-title": "Rejoindre une session",
             "form": {
