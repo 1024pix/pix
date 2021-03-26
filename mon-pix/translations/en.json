@@ -249,6 +249,7 @@
         },
         "challenge": {
             "title": "Question {stepNumber} of {totalChallengeNumber}",
+            "timed-out-title": "Timed out - Question {stepNumber} of {totalChallengeNumber}",
             "actions": {
                 "continue": "Continue",
                 "validate": "Validate",
