@@ -30,8 +30,8 @@ module.exports = {
       .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
       .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
       .modify(_filterMostRecentAssessments)
-      .whereRaw('LOWER("organizations"."externalId") = LOWER(?)', uai)
-      .andWhereRaw('"last-assessment-results".id is null')
+      .whereNull('last-assessment-results')
+      .andWhereRaw('LOWER("organizations"."externalId") = LOWER(?)', uai)
       .orderBy('lastName', 'ASC')
       .orderBy('firstName', 'ASC');
 
