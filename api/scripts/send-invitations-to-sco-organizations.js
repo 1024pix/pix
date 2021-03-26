@@ -17,7 +17,7 @@ const TAGS = ['JOIN_ORGA'];
 async function getOrganizationByExternalId(externalId) {
   return BookshelfOrganization
     .where({ externalId })
-    .fetch({ require: true })
+    .fetch()
     .then((organization) => bookshelfToDomainConverter.buildDomainObject(BookshelfOrganization, organization))
     .catch((err) => {
       if (err instanceof BookshelfOrganization.NotFoundError) {
