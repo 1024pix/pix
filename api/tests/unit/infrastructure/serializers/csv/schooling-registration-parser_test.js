@@ -2,8 +2,11 @@ const iconv = require('iconv-lite');
 const { expect, catchErr } = require('../../../../test-helper');
 const SchoolingRegistrationParser = require('../../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
 const { CsvImportError } = require('../../../../../lib/domain/errors');
+const SchoolingRegistrationColumns = require('../../../../../lib/infrastructure/serializers/csv/schooling-registration-columns');
+const { getI18n } = require('../../../../tooling/i18n/i18n');
+const i18n = getI18n();
 
-const schoolingRegistrationCsvColumns = SchoolingRegistrationParser.COLUMNS.map((column) => column.label).join(';');
+const schoolingRegistrationCsvColumns = new SchoolingRegistrationColumns(i18n).columns.map((column) => column.label).join(';');
 
 describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
   context('when the header is not correctly formed', () => {
@@ -16,7 +19,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           let input = schoolingRegistrationCsvColumns.replace(`${field}`, '');
           input = input.replace(';;', ';');
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
+          const parser = new SchoolingRegistrationParser(encodedInput, organizationId, i18n);
 
           const error = await catchErr(parser.parse, parser)();
 
@@ -29,7 +32,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
       it('should throw an CsvImportError', async () => {
         const input = schoolingRegistrationCsvColumns.replace('Premier prénom*;', '');
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
+        const parser = new SchoolingRegistrationParser(encodedInput, organizationId, i18n);
 
         const error = await catchErr(parser.parse, parser)();
 
@@ -43,7 +46,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
       it('returns no registrations', () => {
         const input = schoolingRegistrationCsvColumns;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new SchoolingRegistrationParser(encodedInput, 123);
+        const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
 
         const { registrations } = parser.parse();
 
@@ -59,7 +62,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, 456);
+          const parser = new SchoolingRegistrationParser(encodedInput, 456, i18n);
 
           const { registrations } = parser.parse();
           expect(registrations).to.have.lengthOf(2);
@@ -72,7 +75,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           `;
           const organizationId = 789;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
+          const parser = new SchoolingRegistrationParser(encodedInput, organizationId, i18n);
 
           const { registrations } = parser.parse();
           expect(registrations[0]).to.includes({
@@ -118,7 +121,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;aaaaa;97422;;200;99100;AP;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, 123);
+          const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
 
           const error = await catchErr(parser.parse, parser)();
 
@@ -134,7 +137,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1980;97422;;200;${wrongData};ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, 123);
+          const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
 
           const error = await catchErr(parser.parse, parser)();
 
@@ -150,7 +153,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1980;${wrongData};;974;99100;ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, 123);
+          const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
 
           const error = await catchErr(parser.parse, parser)();
 
@@ -167,7 +170,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
             `;
             const organizationId = 789;
             const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new SchoolingRegistrationParser(encodedInput, organizationId, true);
+            const parser = new SchoolingRegistrationParser(encodedInput, organizationId, i18n, true);
 
             const { registrations } = parser.parse();
             expect(registrations[0]).to.includes({
@@ -187,7 +190,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
               `;
 
               const encodedInput = iconv.encode(input, 'utf8');
-              const parser = new SchoolingRegistrationParser(encodedInput, 123);
+              const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
 
               const error = await catchErr(parser.parse, parser)();
 
@@ -207,7 +210,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
               `;
               const organizationId = 789;
               const encodedInput = iconv.encode(input, 'utf8');
-              const parser = new SchoolingRegistrationParser(encodedInput, organizationId, isAgriculture);
+              const parser = new SchoolingRegistrationParser(encodedInput, organizationId, i18n, isAgriculture);
 
               const { registrations } = parser.parse();
 
@@ -231,7 +234,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
               `;
 
               const encodedInput = iconv.encode(input, 'utf8');
-              const parser = new SchoolingRegistrationParser(encodedInput, 123, isAgriculture);
+              const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n, isAgriculture);
 
               const error = await catchErr(parser.parse, parser)();
 
