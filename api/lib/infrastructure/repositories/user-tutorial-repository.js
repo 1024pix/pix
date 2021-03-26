@@ -2,7 +2,7 @@ const BookshelfUserTutorials = require('../data/user-tutorials');
 
 module.exports = {
   async addTutorial({ userId, tutorialId }) {
-    const userTutorial = await BookshelfUserTutorials.where({ userId, tutorialId }).fetch();
+    const userTutorial = await BookshelfUserTutorials.where({ userId, tutorialId }).fetch({ require: false });
     if (userTutorial) {
       return _toDomain(userTutorial);
     }
