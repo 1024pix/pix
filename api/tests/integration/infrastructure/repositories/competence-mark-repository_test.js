@@ -73,17 +73,15 @@ describe('Integration | Repository | CompetenceMark', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return all competence-marks for one assessmentResult', () => {
+    it('should return all competence-marks for one assessmentResult', async () => {
       // when
-      const promise = competenceMarkRepository.findByAssessmentResultId(assessmentResultId);
+      const competenceMarks = await competenceMarkRepository.findByAssessmentResultId(assessmentResultId);
 
       // then
-      return promise.then((competenceMarks) => {
-        const sortedCompetenceMarks = _.sortBy(competenceMarks, [(mark) => { return mark.id; }]);
-        expect(sortedCompetenceMarks[0].id).to.equal(competenceMarkIds[0]);
-        expect(sortedCompetenceMarks[1].id).to.equal(competenceMarkIds[2]);
-        expect(sortedCompetenceMarks.length).to.equal(2);
-      });
+      const sortedCompetenceMarks = _.sortBy(competenceMarks, [(mark) => { return mark.id; }]);
+      expect(sortedCompetenceMarks[0].id).to.equal(competenceMarkIds[0]);
+      expect(sortedCompetenceMarks[1].id).to.equal(competenceMarkIds[2]);
+      expect(sortedCompetenceMarks.length).to.equal(2);
     });
   });
 
