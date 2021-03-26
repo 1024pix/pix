@@ -129,14 +129,4 @@ module.exports = {
     publishedSession = await publishedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, publishedSession);
   },
-
-  async isSco(sessionId) {
-    const session = await BookshelfSession
-      .where({ 'sessions.id': sessionId, 'certification-centers.type': 'SCO' })
-      .query((qb) => {
-        qb.innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId');
-      })
-      .fetch({ columns: 'sessions.id' });
-    return Boolean(session);
-  },
 };

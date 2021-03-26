@@ -75,6 +75,10 @@ class Organization {
   get isMediationNumerique() {
     return Boolean(this.tags.find((tag) => this.isPro && tag.name === Tag.MEDIATION_NUMERIQUE));
   }
+
+  get isScoAndManagingStudents() {
+    return this.isSco && this.isManagingStudents;
+  }
 }
 
 Organization.types = types;

@@ -452,39 +452,4 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#isSco', () => {
-    it('should be true when the certification center is of type SCO', async () => {
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
-        type: 'SCO',
-      });
-      const session = databaseBuilder.factory.buildSession({
-        certificationCenterId: certificationCenter.id,
-      });
-
-      await databaseBuilder.commit();
-
-      const result = await sessionRepository.isSco(session.id);
-
-      expect(result).to.be.true;
-    });
-
-    it('should be false when the certification center is not of type SCO', async () => {
-      // given
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
-        type: 'PRO',
-      });
-      const session = databaseBuilder.factory.buildSession({
-        certificationCenterId: certificationCenter.id,
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const result = await sessionRepository.isSco(session.id);
-
-      // then
-      expect(result).to.be.false;
-    });
-  });
-
 });

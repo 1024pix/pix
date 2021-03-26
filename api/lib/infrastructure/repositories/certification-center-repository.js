@@ -34,35 +34,46 @@ function _setSearchFiltersForQueryBuilder(filters, qb) {
 
 module.exports = {
 
-  get(id) {
-    return BookshelfCertificationCenter
+  async get(id) {
+    const certificationCenterBookshelf = await BookshelfCertificationCenter
       .where({ id })
-      .fetch()
-      .then((certificationCenter) => {
-        if (certificationCenter) {
-          return _toDomain(certificationCenter);
-        }
-        throw new NotFoundError(`Certification center with id: ${id} not found`);
-      });
+      .fetch();
+
+    if (certificationCenterBookshelf) {
+      return _toDomain(certificationCenterBookshelf);
+    }
+    throw new NotFoundError(`Certification center with id: ${id} not found`);
   },
 
-  save(certificationCenter) {
+  async getBySessionId(sessionId) {
+    const certificationCenterBookshelf = await BookshelfCertificationCenter
+      .where({ 'sessions.id': sessionId })
+      .query((qb) => {
+        qb.innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id');
+      })
+      .fetch();
+
+    if (certificationCenterBookshelf) {
+      return _toDomain(certificationCenterBookshelf);
+    }
+    throw new NotFoundError(`Could not find certification center for sessionId ${sessionId}.`);
+  },
+
+  async save(certificationCenter) {
     const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt']);
-    return new BookshelfCertificationCenter(cleanedCertificationCenter)
-      .save()
-      .then(_toDomain);
+    const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter)
+      .save();
+    return _toDomain(certificationCenterBookshelf);
   },
 
-  findPaginatedFiltered({ filter, page }) {
-    return BookshelfCertificationCenter
+  async findPaginatedFiltered({ filter, page }) {
+    const certificationCenterBookshelf = await BookshelfCertificationCenter
       .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
       .fetchPage({
         page: page.number,
         pageSize: page.size,
-      })
-      .then(({ models, pagination }) => ({
-        models: models.map(_toDomain),
-        pagination,
-      }));
+      });
+    const { models, pagination } = certificationCenterBookshelf;
+    return { models: models.map(_toDomain), pagination };
   },
 };
