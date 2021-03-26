@@ -50,6 +50,7 @@ module.exports = {
   buildOrganizationInvitation: require('./build-organization-invitation'),
   buildOrganizationTag: require('./build-organization-tag'),
   buildPixRole: require('./build-pix-role'),
+  buildPlacementProfile: require('./build-placement-profile'),
   buildPoleEmploiSending: require('./build-pole-emploi-sending'),
   buildPrescriber: require('./build-prescriber'),
   buildPrivateCertificate: require('./build-private-certificate'),
