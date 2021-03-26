@@ -51,7 +51,7 @@ module.exports = {
   async isNotLinked(certificationCandidateId) {
     const notLinkedCandidate = await CertificationCandidateBookshelf
       .where({ id: certificationCandidateId, userId: null })
-      .fetch({ columns: ['id'] });
+      .fetch({ require: false, columns: ['id'] });
 
     return !!notLinkedCandidate;
   },
@@ -59,7 +59,7 @@ module.exports = {
   getBySessionIdAndUserId({ sessionId, userId }) {
     return CertificationCandidateBookshelf
       .where({ sessionId, userId })
-      .fetch({ require: true })
+      .fetch()
       .then((result) => bookshelfToDomainConverter.buildDomainObject(CertificationCandidateBookshelf, result))
       .catch((error) => {
         if (error instanceof CertificationCandidateBookshelf.NotFoundError) {
@@ -125,7 +125,7 @@ module.exports = {
       .query({
         where: { sessionId },
         whereNotNull: 'userId',
-      }).fetch({ columns: 'id' });
+      }).fetch({ require: false, columns: 'id' });
 
     return anyLinkedCandidateInSession !== null;
   },

@@ -9,7 +9,6 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'certification-candidates',
   hasTimestamps: ['createdAt'],
-  requireFetch: false,
 
   session() {
     return this.belongsTo('Session', 'sessionId');
