@@ -13,7 +13,7 @@ module.exports = {
   async get({ sessionId }) {
     const bookshelfFinalizedSession = await FinalizedSessionBookshelf
       .where({ sessionId })
-      .fetch({ require: true });
+      .fetch();
 
     return bookshelfToDomainConverter.buildDomainObject(FinalizedSessionBookshelf, bookshelfFinalizedSession);
   },
