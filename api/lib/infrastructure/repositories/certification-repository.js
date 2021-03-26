@@ -33,7 +33,7 @@ async function _getLatestAssessmentResult(certificationCourseId) {
       qb.where('assessments.certificationCourseId', '=', certificationCourseId);
     })
     .orderBy('createdAt', 'desc')
-    .fetch({ require: true });
+    .fetch();
 
   return bookshelfToDomainConverter.buildDomainObject(AssessmentResultBookshelf, latestAssessmentResultBookshelf);
 }

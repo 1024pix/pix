@@ -9,7 +9,6 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'assessment-results',
   hasTimestamps: ['createdAt', null],
-  requireFetch: false,
 
   validations: {
     status: [
