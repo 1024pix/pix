@@ -65,4 +65,27 @@ module('Integration | Component | hello', function(hooks) {
 });
 ```
 
+De même, pour tout autre texte traduit par un autre biais :
+```js
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
+import { setupIntl, t } from 'ember-intl/test-support';
+
+module('Unit | Service | Error messages', function(hooks) {
+  setupRenderingTest(hooks);
+  setupIntl(hooks);
+
+  test('should return the message when error code is found', function(assert) {
+    // given
+    const errorMessages = this.owner.lookup('service:errorMessages');
+    
+    // when
+    const message = errorMessages.getErrorMessage('CAMPAIGN_NAME_IS_REQUIRED');
+    
+    // then
+    assert.equal(message, t('api-errors-messages.campaign-creation.name-required'));
+  });
+});
+```
+
 
