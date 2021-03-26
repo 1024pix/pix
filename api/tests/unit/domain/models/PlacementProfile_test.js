@@ -130,4 +130,31 @@ describe('Unit | Domain | Models | PlacementProfile', () => {
     });
   });
 
+  describe('#getUserCompetence', () => {
+
+    it('returns the userCompetence if exists', () => {
+      const userCompetence1 = new UserCompetence({ id: 'rec123' });
+      const userCompetence2 = new UserCompetence({ id: 'rec456' });
+      const placementProfile = new PlacementProfile({
+        userCompetences: [userCompetence1, userCompetence2],
+      });
+
+      const userCompetence = placementProfile.getUserCompetence('rec123');
+
+      expect(userCompetence).to.deep.equal(userCompetence1);
+    });
+
+    it('returns null if doesn\'t exist', () => {
+      const userCompetence1 = new UserCompetence({ id: 'rec123' });
+      const userCompetence2 = new UserCompetence({ id: 'rec456' });
+      const placementProfile = new PlacementProfile({
+        userCompetences: [userCompetence1, userCompetence2],
+      });
+
+      const userCompetence = placementProfile.getUserCompetence('wrongId');
+
+      expect(userCompetence).to.be.null;
+    });
+  });
+
 });
