@@ -18,6 +18,7 @@ export default ModalDialog.extend({
     this._super(...arguments);
     document.querySelector('#modal-overlays').classList.add('active');
     document.body.classList.add('centered-modal-showing');
+    document.querySelector('#pix-modal__close-button').focus();
   },
 
   willDestroyElement() {
