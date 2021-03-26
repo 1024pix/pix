@@ -49,7 +49,7 @@ export default class ChallengeItemGeneric extends Component {
   @action
   setChallengeAsTimedOut() {
     this.hasChallengeTimedOut = true;
-    this.args.timedoutChallenge();
+    this.args.timeoutChallenge();
   }
 
   @action
@@ -68,7 +68,10 @@ export default class ChallengeItemGeneric extends Component {
       this.isValidateButtonEnabled = false;
 
       return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout())
-        .finally(() => this.isValidateButtonEnabled = true);
+        .finally(() => {
+          this.isValidateButtonEnabled = true;
+          this.args.finishChallenge();
+        });
     }
   }
 
@@ -84,7 +87,10 @@ export default class ChallengeItemGeneric extends Component {
       this.isSkipButtonEnabled = false;
 
       return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout())
-        .finally(() => this.isSkipButtonEnabled = true);
+        .finally(() => {
+          this.isSkipButtonEnabled = true;
+          this.args.finishChallenge();
+        });
     }
   }
 
