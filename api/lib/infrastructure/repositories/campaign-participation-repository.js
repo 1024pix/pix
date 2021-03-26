@@ -51,6 +51,7 @@ module.exports = {
       options.include = ['assessments'];
     }
 
+    options.require = false;
     const campaignParticipation = await queryBuilder.get(BookshelfCampaignParticipation, id, options, false);
 
     return _toDomain(campaignParticipation);
@@ -110,7 +111,7 @@ module.exports = {
   findOneByCampaignIdAndUserId({ campaignId, userId }) {
     return BookshelfCampaignParticipation
       .where({ campaignId, userId })
-      .fetch()
+      .fetch({ require: false })
       .then((campaignParticipation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation));
   },
 
@@ -124,7 +125,7 @@ module.exports = {
         qb.where('assessments.id', '=', assessmentId);
       })
       .fetch({
-        required: false,
+        require: false,
         withRelated: ['campaign.targetProfile.skillIds', 'assessments'],
       })
       .then(_convertToDomainWithSkills);
