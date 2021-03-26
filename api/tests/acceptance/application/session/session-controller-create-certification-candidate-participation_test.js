@@ -72,7 +72,9 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
       let sessionId;
 
       beforeEach(() => {
-        sessionId = databaseBuilder.factory.buildSession().id;
+        databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false, externalId: '123456' });
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ type: 'SCO', externalId: '123456' }).id;
+        sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
         payload = {
           data: {
             attributes: {

@@ -100,6 +100,18 @@ module.exports = {
     throw new NotFoundError(`Not found organization for certification center id ${certificationCenterId}`);
   },
 
+  async getScoOrganizationByExternalId(externalId) {
+    const organizationBookshelf = await BookshelfOrganization
+      .query((qb) => qb.where({ type: Organization.types.SCO })
+        .whereRaw('LOWER("externalId") = ?', externalId.toLowerCase()))
+      .fetch();
+
+    if (organizationBookshelf) {
+      return _toDomain(organizationBookshelf);
+    }
+    throw new NotFoundError(`Could not find organization for externalId ${externalId}.`);
+  },
+
   findByExternalIdsFetchingIdsOnly(externalIds) {
     return BookshelfOrganization
       .where('externalId', 'in', externalIds)
