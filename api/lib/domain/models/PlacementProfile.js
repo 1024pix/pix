@@ -32,6 +32,10 @@ class PlacementProfile {
   getPixScore() {
     return _.sumBy(this.userCompetences, 'pixScore');
   }
+
+  getUserCompetence(competenceId) {
+    return _.find(this.userCompetences, { id: competenceId }) || null;
+  }
 }
 
 module.exports = PlacementProfile;
