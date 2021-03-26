@@ -1,4 +1,8 @@
-## Utilisation de transitionTo
+# Ember
+
+## Général
+
+### Utilisation de transitionTo
 
 Éviter les `transistionTo` dans le hook `model()`. Privilégier leur utilisation dans l’`afterModel()`, une fois que le modèle est chargé.
 
@@ -28,6 +32,36 @@ export default Route.extend({
       return this.transitionTo('board');
     }
   }
+});
+```
+
+## Tests
+
+### Tester le texte traduit par EmberIntl
+
+Afin d'être complètement agnostique de la locale de l'environnement de test, on privilégiera le fait de tester les textes traduits en passant
+par le `helper` `t` fourni par `ember-intl/test-support`. Ainsi, on s'affranchira de la contrainte de langue et on se concentrera plutôt
+sur la clé de traduction attendue sur un test donné ([procédé documenté dans la doc EmberIntl](https://ember-intl.github.io/ember-intl/versions/master/docs/guide/testing#t-key-options-)).
+
+Pour tester les textes traduits dans les templates :
+```js
+import { module, test } from 'qunit';
+import { render } from '@ember/test-helpers';
+import hbs from 'htmlbars-inline-precompile';
+import { setupRenderingTest } from 'ember-qunit';
+import { setupIntl, t } from 'ember-intl/test-support';
+
+module('Integration | Component | hello', function(hooks) {
+  setupRenderingTest(hooks);
+  setupIntl(hooks);
+  
+  test('it should display a welcome message', async function (assert) {
+    // when
+    await render(hbs`<Hello/>`);
+
+    // then
+    assert.dom().hasText(t('pages.hello.welcome-message'));
+  });
 });
 ```
 
