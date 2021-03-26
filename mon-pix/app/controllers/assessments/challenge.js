@@ -4,6 +4,8 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 import { action } from '@ember/object';
+const defaultPageTitle = 'pages.challenge.title';
+const timedOutPageTitle = 'pages.challenge.timed-out-title';
 
 export default class ChallengeController extends Controller {
   queryParams = ['newLevel', 'competenceLeveled'];
@@ -11,7 +13,7 @@ export default class ChallengeController extends Controller {
   @service currentUser;
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
-  @tracked challengeTitle = 'pages.challenge.title';
+  @tracked challengeTitle = defaultPageTitle;
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -25,8 +27,13 @@ export default class ChallengeController extends Controller {
   }
 
   @action
-  timedoutChallenge() {
-    this.challengeTitle = 'pages.challenge.timed-out-title';
+  timeoutChallenge() {
+    this.challengeTitle = timedOutPageTitle;
+  }
+
+  @action
+  finishChallenge() {
+    this.challengeTitle = defaultPageTitle;
   }
 
   get displayHomeLink() {
