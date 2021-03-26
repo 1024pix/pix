@@ -132,7 +132,7 @@ describe('Unit | UseCase | create-user', () => {
         const expectedValidationError = new EntityValidationError({
           invalidAttributes: [{
             attribute: 'email',
-            message: 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
+            message: 'ALREADY_REGISTERED_EMAIL',
           }],
         });
 
