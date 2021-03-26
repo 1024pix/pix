@@ -36,7 +36,7 @@ module.exports = {
   get(id) {
     return BookshelfOrganizationInvitation
       .where({ id })
-      .fetch({ require: true })
+      .fetch()
       .then(_toDomain)
       .catch((err) => _checkNotFoundError(err, id));
   },
@@ -44,7 +44,7 @@ module.exports = {
   getByIdAndCode({ id, code }) {
     return BookshelfOrganizationInvitation
       .where({ id, code })
-      .fetch({ require: true })
+      .fetch()
       .then(_toDomain)
       .catch((error) => _checkNotFoundErrorWithCode({ error, id, code }));
   },
@@ -71,7 +71,7 @@ module.exports = {
       .query((qb) =>
         qb.where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
           .whereRaw('LOWER("email") = ?', `${email.toLowerCase()}`))
-      .fetch({ required: false })
+      .fetch({ require: false })
       .then(_toDomain);
   },
 
