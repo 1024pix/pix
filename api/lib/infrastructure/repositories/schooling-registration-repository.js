@@ -299,7 +299,7 @@ module.exports = {
   findOneByUserIdAndOrganizationId({ userId, organizationId }) {
     return BookshelfSchoolingRegistration
       .where({ userId, organizationId })
-      .fetch()
+      .fetch({ require: false })
       .then((schoolingRegistration) => bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration));
   },
 
@@ -314,7 +314,7 @@ module.exports = {
   get(schoolingRegistrationId) {
     return BookshelfSchoolingRegistration
       .where({ id: schoolingRegistrationId })
-      .fetch({ require: true })
+      .fetch()
       .then((schoolingRegistration) => bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration))
       .catch((err) => {
         if (err instanceof BookshelfSchoolingRegistration.NotFoundError) {
