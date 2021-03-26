@@ -343,6 +343,9 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
             isAgriculture = true;
             isCFA = true;
             organization = {};
+            prescriber = {
+              lang: 'fr',
+            };
           }
 
           this.set('importStudentsSpy', () => {});
