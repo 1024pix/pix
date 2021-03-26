@@ -9,9 +9,11 @@ const createServer = require('../../../../server');
 require('events').EventEmitter.defaultMaxListeners = 60;
 
 const Membership = require('../../../../lib/domain/models/Membership');
-const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
+const SchoolingRegistrationColumns = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-columns');
+const { getI18n } = require('../../../tooling/i18n/i18n');
+const i18n = getI18n();
 
-const schoolingRegistrationCsvColumns = COLUMNS.map((column) => column.label).join(';');
+const schoolingRegistrationCsvColumns = new SchoolingRegistrationColumns(i18n).columns.map((column) => column.label).join(';');
 
 describe('Acceptance | Application | organization-controller-import-schooling-registrations', () => {
 

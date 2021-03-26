@@ -555,6 +555,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         params: { id: organizationId.toString() },
         query: { format },
         payload: { path: 'path-to-file' },
+        i18n,
       };
 
       sinon.stub(usecases, 'importSchoolingRegistrationsFromSIECLEFormat');
@@ -568,7 +569,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       await organizationController.importSchoolingRegistrationsFromSIECLE(request, hFake);
 
       // then
-      expect(usecases.importSchoolingRegistrationsFromSIECLEFormat).to.have.been.calledWith({ organizationId, payload, format });
+      expect(usecases.importSchoolingRegistrationsFromSIECLEFormat).to.have.been.calledWith({ organizationId, payload, format, i18n });
     });
   });
 
