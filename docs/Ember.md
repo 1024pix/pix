@@ -88,4 +88,28 @@ module('Unit | Service | Error messages', function(hooks) {
 });
 ```
 
+Enfin, si vraiment on souhaite tester une traduction spécifique, il faut alors spécifier la locale lors du setup de test :
+```js
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
+import { setupIntl, t } from 'ember-intl/test-support';
+
+module('Unit | Service | Error messages', function(hooks) {
+  setupRenderingTest(hooks);
+  setupIntl(hooks, 'fr-fr');
+
+  test('should return the message when error code is found', function(assert) {
+    // given
+    const errorMessages = this.owner.lookup('service:errorMessages');
+    
+    // when
+    const message = errorMessages.getErrorMessage('CAMPAIGN_NAME_IS_REQUIRED');
+    
+    // then
+    assert.equal(message, 'Le nom de la campagne est obligatoire');
+  });
+});
+```
+*Note: La pratique n'est pas recommandée sauf exception*
+
 
