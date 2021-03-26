@@ -45,7 +45,7 @@ module.exports = {
     try {
       const prescriberFromDB = await BookshelfUser
         .where({ id: userId })
-        .fetch({ require: true,
+        .fetch({
           columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang'],
           withRelated: [
             { 'memberships': (qb) => qb.where({ disabledAt: null }).orderBy('id') },
