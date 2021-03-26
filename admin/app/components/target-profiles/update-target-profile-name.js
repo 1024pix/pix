@@ -1,9 +1,9 @@
-import Component from '@glimmer/component';
 import Object, { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
-import { validator, buildValidations } from 'ember-cp-validations';
+import { buildValidations, validator } from 'ember-cp-validations';
+import Component from '@glimmer/component';
 import { getOwner } from '@ember/application';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 const Validations = buildValidations({
   name: {

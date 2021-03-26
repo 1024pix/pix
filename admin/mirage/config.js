@@ -1,18 +1,20 @@
-import { Response } from 'ember-cli-mirage';
-import { createMembership } from './handlers/memberships';
 import {
-  attachTargetProfiles,
   attachTargetProfileToOrganizations,
-  getOrganizationTargetProfiles,
+  attachTargetProfiles,
   findPaginatedTargetProfileOrganizations,
-  updateTargetProfileName,
   findTargetProfileBadges,
   findTargetProfileStages,
+  getOrganizationTargetProfiles,
+  outdate,
+  updateTargetProfileName,
 } from './handlers/target-profiles';
-import { getJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
+
+import { Response } from 'ember-cli-mirage';
+import { createMembership } from './handlers/memberships';
+import { createStage } from './handlers/stages';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
 import { findPaginatedOrganizationMemberships } from './handlers/organizations';
-import { createStage } from './handlers/stages';
+import { getJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
 
 export default function() {
   this.logging = true;
@@ -94,12 +96,12 @@ export default function() {
   this.post('/admin/target-profiles');
   this.get('/admin/target-profiles');
   this.get('/admin/target-profiles/:id');
-  this.patch('/admin/target-profiles/:id');
   this.get('/admin/target-profiles/:id/organizations', findPaginatedTargetProfileOrganizations);
   this.post('/admin/target-profiles/:id/attach-organizations', attachTargetProfileToOrganizations);
   this.get('/admin/target-profiles/:id/badges', findTargetProfileBadges);
   this.get('/admin/target-profiles/:id/stages', findTargetProfileStages);
   this.patch('/admin/target-profiles/:id', updateTargetProfileName);
+  this.put('/admin/target-profiles/:id/outdate', outdate);
 
   this.post('/admin/stages', createStage);
 

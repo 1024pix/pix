@@ -74,6 +74,14 @@ function updateTargetProfileName(schema, request) {
   return new Response(204);
 }
 
+function outdate(schema, request) {
+  const id = request.params.id;
+
+  const targetProfile = schema.targetProfiles.find(id);
+  targetProfile.update({ outdated: true });
+  return new Response(204);
+}
+
 export {
   attachTargetProfiles,
   attachTargetProfileToOrganizations,
@@ -82,4 +90,5 @@ export {
   findTargetProfileBadges,
   findTargetProfileStages,
   updateTargetProfileName,
+  outdate,
 };

@@ -28,4 +28,12 @@ export default class TargetProfile extends Model {
       this.reload();
     },
   });
+
+  outdate = memberAction({
+    path: 'outdate',
+    type: 'put',
+    after() {
+      this.reload();
+    },
+  });
 }
