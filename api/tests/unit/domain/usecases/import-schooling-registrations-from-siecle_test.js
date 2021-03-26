@@ -7,6 +7,9 @@ const SchoolingRegistrationParser = require('../../../../lib/infrastructure/seri
 
 const fs = require('fs').promises;
 
+const { getI18n } = require('../../../tooling/i18n/i18n');
+const i18n = getI18n();
+
 describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
   const organizationUAI = '123ABC';
@@ -49,7 +52,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
       it('should save these informations for SCO', async () => {
         const organization = { isAgriculture: false, externalId: organizationUAI };
         organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
-        SchoolingRegistrationParser.buildParser.withArgs(buffer, organizationId, organization.isAgriculture).returns(parser);
+        SchoolingRegistrationParser.buildParser.withArgs(buffer, organizationId, i18n, organization.isAgriculture).returns(parser);
 
         const schoolingRegistration1 = new SchoolingRegistration({
           id: undefined,
@@ -86,7 +89,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
         parser.parse.returns({ registrations: [schoolingRegistration1, schoolingRegistration2] });
 
-        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, i18n });
 
         expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.have.been.called;
       });
@@ -94,7 +97,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
       it('should save these informations for SCO Agri', async () => {
         const organization = { isAgriculture: true, externalId: organizationUAI };
         organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
-        SchoolingRegistrationParser.buildParser.withArgs(buffer, organizationId, organization.isAgriculture).returns(parser);
+        SchoolingRegistrationParser.buildParser.withArgs(buffer, organizationId, i18n, organization.isAgriculture).returns(parser);
 
         // given
         const schoolingRegistration1 = new SchoolingRegistration({
@@ -133,7 +136,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         parser.parse.returns({ registrations: [schoolingRegistration1, schoolingRegistration2] });
 
         // when
-        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, i18n });
 
         expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationAgriSchoolingRegistrations).to.have.been.calledWith([schoolingRegistration1, schoolingRegistration2], organizationId);
       });

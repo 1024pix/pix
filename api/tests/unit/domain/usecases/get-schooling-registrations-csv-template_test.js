@@ -19,7 +19,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
       sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId').resolves([membership]);
 
       // when
-      const result = await getSchoolingRegistrationsCsvTemplate({ userId, organizationId, membershipRepository, i18n });
+      const result = await getSchoolingRegistrationsCsvTemplate({ userId, organizationId, i18n, membershipRepository });
 
       // then
       const csvExpected = '\uFEFF"Premier prénom";' +
@@ -74,7 +74,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
       sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId').resolves([membership]);
 
       // when
-      const result = await getSchoolingRegistrationsCsvTemplate({ userId, organizationId, membershipRepository });
+      const result = await getSchoolingRegistrationsCsvTemplate({ userId, organizationId, membershipRepository, i18n });
 
       // then
       const csvExpected = '\uFEFF"Identifiant unique*";' +

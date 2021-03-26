@@ -1,7 +1,7 @@
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 const { UserNotAuthorizedToAccessEntityError } = require('../errors');
 const HigherSchoolingRegistrationColumns = require('../../infrastructure/serializers/csv/higher-schooling-registration-columns');
-const SchoolingRegistrationParser = require('../../infrastructure/serializers/csv/schooling-registration-parser');
+const SchoolingRegistrationColumns = require('../../infrastructure/serializers/csv/schooling-registration-columns');
 
 module.exports = async function getSchoolingRegistrationsCsvTemplate({
   userId,
@@ -22,12 +22,11 @@ module.exports = async function getSchoolingRegistrationsCsvTemplate({
     header = _getCsvColumns(new HigherSchoolingRegistrationColumns(i18n).columns);
 
   } else if (isSco && isAgriculture) {
-    header = _getCsvColumns(SchoolingRegistrationParser.COLUMNS);
+    header = _getCsvColumns(new SchoolingRegistrationColumns(i18n).columns);
   } else {
     throw new UserNotAuthorizedToAccessEntityError('User organization is not allowed to download csv template.');
   }
 
-  //Create HEADER of CSV
   return _createHeaderOfCSV(header);
 };
 
