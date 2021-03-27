@@ -2,9 +2,9 @@ const { databaseBuilder, learningContentBuilder, mockLearningContent } = require
 const { status } = require('../../../../lib/domain/models/AssessmentResult');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-const createdDate = new Date('2020-04-19');
-const beforeCreatedDate = new Date('2020-04-18');
-const beforeBeforeCreatedDate = new Date('2020-04-17');
+const assessmentCreatedDate = new Date('2020-04-19');
+const assessmentBeforeCreatedDate = new Date('2020-04-18');
+const assessmentBeforeBeforeCreatedDate = new Date('2020-04-17');
 const type = Assessment.types.CERTIFICATION;
 
 function buildUser() {
@@ -25,7 +25,7 @@ function _createCertificationCenter() {
   return { certificationCenterId: id, certificationCenter: name };
 }
 
-function _buildCertificationData({ user, schoolingRegistration, isPublished, verificationCode }) {
+function _buildCertificationData({ user, schoolingRegistration, certificationCreatedDate, isPublished, verificationCode }) {
   const {
     id: certificationCenterId,
     name: certificationCenter,
@@ -34,30 +34,42 @@ function _buildCertificationData({ user, schoolingRegistration, isPublished, ver
   const session = databaseBuilder.factory.buildSession({
     certificationCenterId,
     certificationCenter,
-    publishedAt: new Date('2020-02-21T14:23:56Z'),
   });
 
   databaseBuilder.factory.buildCertificationCandidate({
     sessionId: session.id,
     schoolingRegistrationId: schoolingRegistration.id,
+    firstName: schoolingRegistration.firstName,
+    lastName: schoolingRegistration.lastName,
+    birthdate: schoolingRegistration.birthdate,
     userId: user.id,
   });
 
   const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
     userId: user.id,
+    firstName: schoolingRegistration.firstName,
+    lastName: schoolingRegistration.lastName,
+    birthdate: schoolingRegistration.birthdate,
     sessionId: session.id,
     isPublished,
+    createdAt: certificationCreatedDate || new Date(),
     verificationCode,
   });
 
   databaseBuilder.factory.buildCertificationCourse({
     userId: user.id,
+    firstName: schoolingRegistration.firstName,
+    lastName: schoolingRegistration.lastName,
+    birthdate: schoolingRegistration.birthdate,
     sessionId: session.id,
     isPublished: false,
   });
 
   const assessment = databaseBuilder.factory.buildAssessment({
     certificationCourseId: certificationCourse.id,
+    firstName: schoolingRegistration.firstName,
+    lastName: schoolingRegistration.lastName,
+    birthdate: schoolingRegistration.birthdate,
     userId: user.id,
     type,
   });
@@ -96,15 +108,15 @@ function buildOrganization(uai) {
   return databaseBuilder.factory.buildOrganization({ externalId: uai });
 }
 
-function buildValidatedPublishedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks }) {
-  return _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, isPublished: true });
+function buildValidatedPublishedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, certificationCreatedDate }) {
+  return _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, certificationCreatedDate, competenceMarks, isPublished: true });
 }
 
-function buildValidatedUnpublishedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks }) {
-  return _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, isPublished: false });
+function buildValidatedUnpublishedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, certificationCreatedDate }) {
+  return _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, certificationCreatedDate, competenceMarks, isPublished: false });
 }
 
-function _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, isPublished }) {
+function _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, certificationCreatedDate, isPublished }) {
   const certificationStatus = status.VALIDATED;
   const {
     session,
@@ -117,13 +129,14 @@ function _buildValidatedCertificationData({ user, schoolingRegistration, verific
     type,
     pixScore,
     isPublished,
+    certificationCreatedDate,
   });
 
   _createAssessmentResultWithCompetenceMarks({
     assessmentId,
     pixScore,
     status: certificationStatus,
-    createdAt: createdDate,
+    createdAt: assessmentCreatedDate,
     competenceMarks,
   });
 
@@ -131,14 +144,14 @@ function _buildValidatedCertificationData({ user, schoolingRegistration, verific
     assessmentId,
     pixScore,
     status: certificationStatus,
-    createdAt: beforeCreatedDate,
+    createdAt: assessmentBeforeCreatedDate,
   });
 
   databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore,
     status: certificationStatus,
-    createdAt: beforeBeforeCreatedDate,
+    createdAt: assessmentBeforeBeforeCreatedDate,
   });
 
   return {
@@ -147,17 +160,18 @@ function _buildValidatedCertificationData({ user, schoolingRegistration, verific
   };
 }
 
-function buildRejectedPublishedCertificationData({ user, schoolingRegistration, competenceMarks }) {
+function buildRejectedPublishedCertificationData({ user, schoolingRegistration, competenceMarks, certificationCreationDate }) {
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
     user, schoolingRegistration,
     isPublished: true,
+    createdAt: certificationCreationDate,
   });
 
   _createAssessmentResultWithCompetenceMarks({
     assessmentId,
     status: certificationStatus,
-    createdAt: createdDate,
+    createdAt: assessmentCreatedDate,
     competenceMarks,
   });
 }
@@ -172,7 +186,7 @@ function buildErrorUnpublishedCertificationData({ user, schoolingRegistration, c
   _createAssessmentResultWithCompetenceMarks({
     assessmentId,
     status: certificationStatus,
-    createdAt: createdDate,
+    createdAt: assessmentCreatedDate,
     competenceMarks,
   });
 }
@@ -181,13 +195,13 @@ function buildCertificationDataWithNoCompetenceMarks({ user, schoolingRegistrati
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
     user, schoolingRegistration,
-    isPublished: false,
+    publicationDate: null,
   });
 
   databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     status: certificationStatus,
-    createdAt: beforeBeforeCreatedDate,
+    createdAt: assessmentBeforeBeforeCreatedDate,
   });
 }
 
