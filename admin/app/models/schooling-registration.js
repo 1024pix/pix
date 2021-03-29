@@ -1,4 +1,4 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class SchoolingRegistration extends Model {
 
@@ -11,4 +11,6 @@ export default class SchoolingRegistration extends Model {
   @attr() organizationName;
   @attr() createdAt;
   @attr() updatedAt;
+
+  @belongsTo('user') user;
 }
