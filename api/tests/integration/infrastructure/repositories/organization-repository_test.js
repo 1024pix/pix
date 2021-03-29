@@ -51,6 +51,26 @@ describe('Integration | Repository | Organization', function() {
       expect(organizationSaved.externalId).to.equal(organization.externalId);
       expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
     });
+
+    it('should insert default value for canCollectProfiles (false), credit (0) when not defined', async () => {
+
+      // given
+      const organization = new Organization({
+        name: 'organization',
+        externalId: 'b400',
+        type: 'PRO',
+      });
+
+      // when
+      const organizationSaved = await organizationRepository.create(organization);
+
+      // then
+      expect(organizationSaved.canCollectProfiles).to.equal(Organization.defaultValues['canCollectProfiles']);
+      expect(organizationSaved.credit).to.equal(Organization.defaultValues['credit']);
+      expect(organizationSaved.email).to.be.null;
+
+    });
+
   });
 
   describe('#update', () => {
@@ -874,7 +894,11 @@ describe('Integration | Repository | Organization', function() {
     });
   });
 
-  describe('#batchCreate', () => {
+  describe('#batchCreateProOrganizations', () => {
+
+    afterEach(async () => {
+      await knex('organizations').delete();
+    });
 
     it('should add rows in the table "organizations"', async () => {
       // given
@@ -882,7 +906,7 @@ describe('Integration | Repository | Organization', function() {
       const organization2 = domainBuilder.buildOrganization();
 
       // when
-      await organizationRepository.batchCreate([organization1, organization2]);
+      await organizationRepository.batchCreateProOrganizations([organization1, organization2]);
 
       // then
       const foundOrganizations = await knex('organizations').select();
