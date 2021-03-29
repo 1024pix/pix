@@ -873,4 +873,21 @@ describe('Integration | Repository | Organization', function() {
       });
     });
   });
+
+  describe('#batchCreate', () => {
+
+    it('should add rows in the table "organizations"', async () => {
+      // given
+      const organization1 = domainBuilder.buildOrganization();
+      const organization2 = domainBuilder.buildOrganization();
+
+      // when
+      await organizationRepository.batchCreate([organization1, organization2]);
+
+      // then
+      const foundOrganizations = await knex('organizations').select();
+      expect(foundOrganizations.length).to.equal(2);
+    });
+
+  });
 });
