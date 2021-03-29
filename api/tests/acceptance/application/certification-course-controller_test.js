@@ -14,44 +14,56 @@ describe('Acceptance | API | Certification Course', () => {
 
   describe('GET /api/admin/certifications/{id}/details', () => {
 
-    let options;
+    it('Should respond with a status 200', async () => {
 
-    beforeEach(() => {
-      options = {
+      // given
+      await insertUserWithRolePixMaster();
+      const options = {
         method: 'GET',
         url: '/api/admin/certifications/1234/details',
-        headers: {},
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(),
+        },
       };
-    });
 
-    describe('Resource access management', () => {
+      const learningContent = [{
+        id: '1. Information et données',
+        competences: [{
+          id: 'competence_id',
+          tubes: [{
+            id: 'recTube1',
+            skills: [{
+              challenges: [
+                { id: 'k_challenge_id' },
+              ],
+            }],
+          }],
+        }],
+      }];
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
-        // given
-        options.headers.authorization = 'invalid.access.token';
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
 
-        // when
-        const promise = server.inject(options);
+      databaseBuilder.factory.buildCertificationCourse({ id: 1234, isV2Certification: true });
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: 1234, competenceId: 'competence_id' }).id;
+      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
+      databaseBuilder.factory.buildCompetenceMark({ assessmentResultId, competenceId: 'competence_id' });
 
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+      databaseBuilder.factory.buildCertificationChallenge({
+        courseId: 1234,
+        competenceId: 'competence_id',
+        challengeId: 'k_challenge_id',
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
-        // given
-        const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+      databaseBuilder.factory.buildAnswer({ challengeId: 'k_challenge_id', assessmentId });
 
-        // when
-        const promise = server.inject(options);
+      await databaseBuilder.commit();
 
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
-      });
+      // when
+      const result = await server.inject(options);
+
+      // then
+      expect(result.statusCode).to.equal(200);
     });
   });
 
