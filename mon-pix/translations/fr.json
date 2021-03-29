@@ -249,6 +249,7 @@
         },
         "challenge": {
             "title": "Épreuve {stepNumber} sur {totalChallengeNumber}",
+            "timed-out-title": "Temps écoulé - Épreuve {stepNumber} sur {totalChallengeNumber}",
             "actions": {
                 "continue": "Poursuivre",
                 "validate": "Je valide",
