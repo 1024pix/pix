@@ -60,6 +60,7 @@
       "close": "Close"
     },
     "help-form": "https://pix.org/en-gb/help-form",
+    "loading": "Loading",
     "pagination": {
       "action": {
         "next": "Go to next page",
