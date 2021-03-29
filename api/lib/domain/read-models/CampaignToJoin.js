@@ -21,6 +21,9 @@ class CampaignToJoin {
     targetProfileName,
     targetProfileImageUrl,
     targetProfileIsSimplifiedAccess,
+    customResultPageText,
+    customResultPageButtonText,
+    customResultPageButtonUrl,
   } = {}) {
     this.id = id;
     this.code = code;
@@ -41,6 +44,9 @@ class CampaignToJoin {
     this.organizationIsPoleEmploi = organizationIsPoleEmploi;
     this.targetProfileName = targetProfileName;
     this.targetProfileImageUrl = targetProfileImageUrl;
+    this.customResultPageText = customResultPageText;
+    this.customResultPageButtonText = customResultPageButtonText;
+    this.customResultPageButtonUrl = customResultPageButtonUrl;
   }
 
   get isAssessment() {
