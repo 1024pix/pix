@@ -85,7 +85,8 @@
       "team": "Team"
     },
     "user-logged-menu": {
-      "logout": "Log out"
+      "logout": "Log out",
+      "summary": "User summary"
     }
   },
   "pages": {
