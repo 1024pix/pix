@@ -283,7 +283,8 @@
         "filter": {
           "by-creator": "Rechercher un créateur",
           "by-name": "Rechercher une campagne"
-        }
+        },
+        "row-title": "Campagne"
       }
     },
     "campaign-modification": {
