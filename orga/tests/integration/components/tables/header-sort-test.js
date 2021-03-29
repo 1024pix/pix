@@ -33,7 +33,7 @@ module('Integration | Component | Tables | header-sort', function(hooks) {
 
     test('should inverse arrow on click', async function(assert) {
       // when
-      await render(hbs`<Table::HeaderSort @isDisabled={{false}} @onSort={{this.onSort}}>Header</Table::HeaderSort>`);
+      await render(hbs`<Table::HeaderSort @isDisabled={{false}} @onSort={{this.onSort}} @ariaLabel="Trier par pertinence">Header</Table::HeaderSort>`);
       await click('[aria-label="Trier par pertinence"]');
 
       // then
@@ -45,7 +45,7 @@ module('Integration | Component | Tables | header-sort', function(hooks) {
   module('When header sort is disabled', function() {
     test('should not display arrow', async function(assert) {
       // when
-      await render(hbs`<Table::HeaderSort @isDisabled={{true}}>Header</Table::HeaderSort>`);
+      await render(hbs`<Table::HeaderSort @isDisabled={{true}} @ariaLabel="Trier par pertinence">Header</Table::HeaderSort>`);
 
       // then
       assert.dom('[aria-label="Trier par pertinence"]').doesNotExist();
