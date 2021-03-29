@@ -49,6 +49,22 @@ export default class SkillReview extends Component {
     return this.args.model.campaignParticipation.campaignParticipationResult.get('stageCount');
   }
 
+  get showOrganizationMessage() {
+    return Boolean(this.args.model.campaignParticipation.campaign.get('customResultPageText'));
+  }
+
+  get customResultPageDescription() {
+    return this.args.model.campaignParticipation.campaign.get('customResultPageText');
+  }
+
+  get organizationLogoUrl() {
+    return this.args.model.campaignParticipation.campaign.get('organizationLogoUrl');
+  }
+
+  get organizationName() {
+    return this.args.model.campaignParticipation.campaign.get('organizationName');
+  }
+
   @action
   shareCampaignParticipation() {
     this.displayErrorMessage = false;
