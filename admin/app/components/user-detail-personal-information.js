@@ -81,7 +81,7 @@ export default class UserDetailPersonalInformationComponent extends Component {
   }
 
   get canAdministratorModifyUserDetails() {
-    return !((this.args.user.username !== null) || this.args.user.isAuthenticatedFromGAR);
+    return !(this.args.user.username !== null);
   }
 
   get externalURL() {
