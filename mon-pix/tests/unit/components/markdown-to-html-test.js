@@ -50,4 +50,19 @@ describe('Unit | Component | markdown-to-html', function() {
     const expectedHtml = `<p>${html}</p>`;
     expect(component.html.string).to.equal(expectedHtml);
   });
+
+  describe('when extensions are passed in arguments', () => {
+    it('should use this', () => {
+      // given
+      const markdown = '# Title 1\nCeci est un paragraphe.\n![img](/images.png)';
+      const extensions = 'remove-paragraph-tags';
+
+      // when
+      component = createGlimmerComponent('component:markdown-to-html', { markdown, extensions });
+
+      // then
+      const expectedHtml = '<h1>Title 1</h1>\nCeci est un paragraphe.\n<img src="/images.png" alt="img" />';
+      expect(component.html.string).to.equal(expectedHtml);
+    });
+  });
 });
