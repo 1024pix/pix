@@ -1,48 +1,65 @@
-{{!-- template-lint-disable no-triple-curlies --}}
 <div class="qrocm-solution-panel rounded-panel">
   <div class="rounded-panel__row correction-qrocm__text">
-    {{#each this.inputFields as |field|}}
-      {{{field.label}}}
+    {{#each this.blocks as |block|}}
+      {{#if block.showText}}
+        <MarkdownToHtml @markdown={{block.text}}
+                        @extensions="remove-paragraph-tags"
+                        class="correction-qrocm-text__label" />
+      {{/if}}
 
-      {{#if (eq @challenge.format 'paragraphe')}}
-        <textarea class="correction-qrocm__answer correction-qrocm__answer--paragraph {{field.inputClass}}"
-                  rows="5"
-                  value="{{field.answer}}"
-                  id="{{field.label}}"
-                  disabled>
-        </textarea>
-        {{#if field.emptyOrWrongAnswer}}
-            <div class="correction-qrocm__solution">
-                <img class="correction-qrocm__solution-img" src="/images/icons/comparison-window/icon-arrow-right.svg" alt="" role="none">
-                <div class="correction-qrocm__solution-text">{{field.solution}}</div>
-            </div>
+      {{#if block.input}}
+        {{#if block.text}}
+          <label for="{{block.input}}">
+            <MarkdownToHtml @markdown={{block.text}}
+                            @extensions="remove-paragraph-tags"
+                            class="correction-qrocm-text__label" />
+          </label>
         {{/if}}
-      {{else if (eq @challenge.format 'phrase')}}
-        <input value="{{field.answer}}"
-               size="{{get-qroc-input-size @challenge.format}}"
-               class="correction-qrocm__answer correction-qrocm__answer--sentence {{field.inputClass}}"
-               id="{{field.label}}"
-               disabled>
-        {{#if field.emptyOrWrongAnswer}}
-          <div class="correction-qrocm__solution">
-            <img class="correction-qrocm__solution-img" src="/images/icons/comparison-window/icon-arrow-right.svg" alt="" role="none">
-            <div class="correction-qrocm__solution-text">{{field.solution}}</div>
-          </div>
-        {{/if}}
-      {{else}}
-        <div class="correction-qrocm__answer-wrapper">
-          <input value="{{field.answer}}"
+
+        {{#if (eq @challenge.format 'paragraphe')}}
+          <textarea class="correction-qrocm__answer correction-qrocm__answer--paragraph {{block.inputClass}}"
+                    rows="5"
+                    value="{{block.answer}}"
+                    id="{{block.input}}"
+                    disabled>
+          </textarea>
+          {{#if block.emptyOrWrongAnswer}}
+              <div class="correction-qrocm__solution">
+                  <img class="correction-qrocm__solution-img" src="/images/icons/comparison-window/icon-arrow-right.svg" alt="" role="none">
+                  <div class="correction-qrocm__solution-text">{{block.solution}}</div>
+              </div>
+          {{/if}}
+        {{else if (eq @challenge.format 'phrase')}}
+          <input value="{{block.answer}}"
                  size="{{get-qroc-input-size @challenge.format}}"
-                 class="correction-qrocm__answer correction-qrocm__answer--input {{field.inputClass}}"
-                 id="{{field.label}}"
+                 class="correction-qrocm__answer correction-qrocm__answer--sentence {{block.inputClass}}"
+                 id="{{block.input}}"
                  disabled>
-          {{#if field.emptyOrWrongAnswer}}
+          {{#if block.emptyOrWrongAnswer}}
             <div class="correction-qrocm__solution">
               <img class="correction-qrocm__solution-img" src="/images/icons/comparison-window/icon-arrow-right.svg" alt="" role="none">
-              <div class="correction-qrocm__solution-text">{{field.solution}}</div>
+              <div class="correction-qrocm__solution-text">{{block.solution}}</div>
             </div>
           {{/if}}
-        </div>
+        {{else}}
+          <div class="correction-qrocm__answer-wrapper">
+            <input value="{{block.answer}}"
+                   size="{{get-qroc-input-size @challenge.format}}"
+                   class="correction-qrocm__answer correction-qrocm__answer--input {{block.inputClass}}"
+                   id="{{block.input}}"
+                   disabled>
+            {{#if block.emptyOrWrongAnswer}}
+              <div class="correction-qrocm__solution">
+                <img class="correction-qrocm__solution-img" src="/images/icons/comparison-window/icon-arrow-right.svg" alt="" role="none">
+                <div class="correction-qrocm__solution-text">{{block.solution}}</div>
+              </div>
+            {{/if}}
+          </div>
+        {{/if}}
+      {{/if}}
+
+      {{#if block.breakline}}
+        <br>
       {{/if}}
 
     {{/each}}

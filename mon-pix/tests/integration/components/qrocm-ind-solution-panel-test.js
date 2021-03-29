@@ -23,7 +23,7 @@ describe('Integration | Component | QROCm ind solution panel', function() {
   const assessment = EmberObject.create({ id: 'assessment_id' });
   const challenge = EmberObject.create({
     id: 'challenge_id',
-    proposals: 'blabla : ${key1}\nCarte mémoire (SD) : ${key2}\nanswer : ${key3}',
+    proposals: '**blabla** : ${key1}\nCarte mémoire (SD) : ${key2}\nanswer : ${key3}',
     format: 'petit',
   });
   const answer = EmberObject.create({
@@ -57,6 +57,11 @@ describe('Integration | Component | QROCm ind solution panel', function() {
           @answer={{this.answer}}
           @solution={{this.solution}}
           @challenge={{this.challenge}} />`);
+      });
+
+      it('should dqrocm-ind-solution-panel-test.jsisplay the labels', function() {
+        const labels = findAll('.correction-qrocm-text__label');
+        expect(labels.length).to.equal(3);
       });
 
       describe('When the answer is correct', function() {
