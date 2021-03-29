@@ -534,8 +534,12 @@
         "dashboard": {
             "title": "Accueil",
             "campaigns": {
-                "resume": "<h2>N'oubliez pas de finaliser votre envoi de profil !</h2>",
+                "resume": {
+                    "action": "Continuer",
+                    "text": "<h2>N'oubliez pas de finaliser votre envoi de profil !</h2>"
+                },
                 "subtitle": "Continuez vos parcours de test en cours ou envoyez vos résultats",
+                "tests-link": "Tous mes parcours",
                 "title": "Parcours"
             },
             "empty-dashboard" : {
@@ -753,7 +757,7 @@
             "actions": {
                 "continue": "Continuez votre expérience Pix"
             },
-            "explanation": "Vous avez déjà envoyé le profil ci-dessous à l'organisation {organization}'<br>'le {date,date,LL} à {hour,time,hhmm}"
+            "explanation": "Vous avez déjà envoyé le profil ci-dessous à l'organisation {organization}'<br>'le {date} à {hour,time,hhmm}"
         },
         "reset-password": {
             "actions": {

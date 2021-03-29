@@ -14,26 +14,26 @@ describe('Unit | Service | intl-date-formatter', function() {
     intlDateFormatter = this.owner.lookup('service:intl-date-formatter');
   });
 
-  it('format "2020-01-01" date string to human-readable "1 janvier 2020"', function() {
+  it('format "2020-01-01" date string to ISO', function() {
     // given
     const dateString = '2020-01-01';
 
     // when
-    const formattedHumanReadableString = intlDateFormatter.formatDateStringToString(dateString);
+    const date = intlDateFormatter.formatDateStringToISO(dateString);
 
     // then
-    expect(formattedHumanReadableString).to.equal('1 janvier 2020');
+    expect(date).to.deep.equal(new Date(dateString));
   });
 
-  it('format "2020-12-31" date string to human-readable "31 décembre 2020"', function() {
+  it('format "2020-12-31" date string to ISO', function() {
     // given
     const dateString = '2020-12-31';
 
     // when
-    const formattedHumanReadableString = intlDateFormatter.formatDateStringToString(dateString);
+    const date = intlDateFormatter.formatDateStringToISO(dateString);
 
     // then
-    expect(formattedHumanReadableString).to.equal('31 décembre 2020');
+    expect(date).to.deep.equal(new Date(dateString));
   });
 
   it('throws when the input date does not comply with the "YYYY-MM-DD" format', function() {
@@ -41,7 +41,7 @@ describe('Unit | Service | intl-date-formatter', function() {
     const dateStringWithInvertedDayAndMonth = '2020-31-12';
 
     // when / then
-    expect(() => intlDateFormatter.formatDateStringToString(dateStringWithInvertedDayAndMonth))
+    expect(() => intlDateFormatter.formatDateStringToISO(dateStringWithInvertedDayAndMonth))
       .to.throw();
   });
 });
