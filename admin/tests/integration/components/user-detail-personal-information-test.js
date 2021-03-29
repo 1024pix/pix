@@ -14,100 +14,39 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
   module('When the administrator click on user details', async function() {
 
-    module('update button', async function() {
-
-      test('should display the update button when user is connected by email only', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: 'john.harry@example.net',
-          username: null,
-          isAuthenticatedFromGAR: false,
-        });
+    module('update button', async function() {test('should display the update button when user is connected by email only', async function(assert) {
+      this.set('user', {
+        firstName: 'John',
+        lastName: 'Harry',
+        email: 'john.harry@example.net',
+        username: null,
+      });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         assert.dom('button[aria-label="Modifier"]').exists();
       });
 
-      test('should not display the update button when user is connected from GAR only', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: null,
-          username: null,
-          isAuthenticatedFromGAR: true,
-        });
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        assert.dom('button[aria-label="Modifier"]').doesNotExist();
-      });
-
       test('should not display the update button when user is connected with username only', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: null,
-          username: 'john.harry2018',
-          isAuthenticatedFromGAR: false,
-        });
+      this.set('user', {
+        firstName: 'John',
+        lastName: 'Harry',
+        email: null,
+        username: 'john.harry2018',
+      });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         assert.dom('button[aria-label="Modifier"]').doesNotExist();
       });
 
-      test('should not display the update button when user is connected with username and email', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: 'john.harry@example.net',
-          username: 'john.harry2018',
-          isAuthenticatedFromGAR: false,
-        });
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        assert.dom('button[aria-label="Modifier"]').doesNotExist();
+    test('should not display the update button when user is connected with username and email', async function(assert) {
+      this.set('user', {
+        firstName: 'John',
+        lastName: 'Harry',
+        email: 'john.harry@example.net',
+        username: 'john.harry2018',
       });
-
-      test('should not display the update button when user is connected with email and GAR', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: 'john.harry@example.net',
-          username: null,
-          isAuthenticatedFromGAR: true,
-        });
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        assert.dom('button[aria-label="Modifier"]').doesNotExist();
-      });
-
-      test('should not display the update button when user is connected with username and GAR', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: null,
-          username: 'john.harry2018',
-          isAuthenticatedFromGAR: true,
-        });
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        assert.dom('button[aria-label="Modifier"]').doesNotExist();
-      });
-
-      test('should not display the update button when user is connected with username, email and GAR', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: 'john.harry@example.net',
-          username: 'john.harry2018',
-          isAuthenticatedFromGAR: true,
-        });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
@@ -258,7 +197,6 @@ module('Integration | Component | user-detail-personal-information', function(ho
         firstName: 'John',
         email: 'john.harry@gmail.com',
         username: null,
-        isAuthenticatedFromGAR: false,
       });
     });
 
@@ -268,7 +206,6 @@ module('Integration | Component | user-detail-personal-information', function(ho
         lastName: 'Harry',
         email: 'john.harry@example.net',
         username: null,
-        isAuthenticatedFromGAR: false,
       });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -315,7 +252,6 @@ module('Integration | Component | user-detail-personal-information', function(ho
         firstName: 'John',
         email: 'john.harry@gmail.com',
         username: null,
-        isAuthenticatedFromGAR: false,
       });
     });
 
