@@ -49,10 +49,12 @@ describe('Acceptance | Controller | users-controller-dissociate-schooling-regist
           'cgu': user.cgu,
           'pix-orga-terms-of-service-accepted': user.pixOrgaTermsOfServiceAccepted,
           'pix-certif-terms-of-service-accepted': user.pixCertifTermsOfServiceAccepted,
-          'is-authenticated-from-gar': false,
         },
         'relationships': {
           'schooling-registrations': {
+            'data': [],
+          },
+          'authentication-methods': {
             'data': [],
           },
         },
