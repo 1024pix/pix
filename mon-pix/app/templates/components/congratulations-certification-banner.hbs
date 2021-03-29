@@ -1,6 +1,18 @@
-<div class="congratulations-banner" >
-  <button aria-label={{t 'common.actions.close'}} class="icon-button congratulations-banner__icon" {{on 'click' @closeBanner}} type="button">
-    <FaIcon @icon="times"></FaIcon>
+<div class="congratulations-banner">
+  <button aria-label={{t 'common.actions.close' }} class="icon-button congratulations-banner__icon" {{on 'click'
+    @closeBanner}} type="button">
+    <FaIcon @icon="times"/>
   </button>
-  <p class="congratulations-banner__message">{{t "pages.certification-joiner.congratulation-banner.message" fullName=@fullName htmlSafe=true}}</p>
+  <p class="congratulations-banner__message">
+    {{t "pages.certification-joiner.congratulation-banner.message"
+    fullName=@fullName htmlSafe=true}}
+  </p>
+  <a href={{t "pages.certification-joiner.congratulation-banner.link.url" }}
+    class="congratulations-banner__link"
+    target="_blank"
+    rel="noopener noreferrer">
+    <FaIcon @icon="arrow-right" class="congratulations-banner__link__icon" />
+    {{t "pages.certification-joiner.congratulation-banner.link.text" }}
+    <FaIcon @icon="external-link-alt" class="congratulations-banner__link__icon" />
+  </a>
 </div>
