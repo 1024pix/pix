@@ -83,7 +83,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([{
             badgeId,
             userId: event.userId,
-            campaignParticipationId: campaignParticipationResult.id,
+            campaignParticipationId: event.campaignParticipationId,
           }], domainTransaction);
         });
 
@@ -146,7 +146,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([{
             badgeId: badge1.id,
             userId: event.userId,
-            campaignParticipationId: campaignParticipationResult.id,
+            campaignParticipationId: event.campaignParticipationId,
           }], domainTransaction);
         });
 
@@ -164,8 +164,8 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
           // then
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([
-            { badgeId: badge1.id, userId: event.userId, campaignParticipationId: campaignParticipationResult.id },
-            { badgeId: badge2.id, userId: event.userId, campaignParticipationId: campaignParticipationResult.id },
+            { badgeId: badge1.id, userId: event.userId, campaignParticipationId: event.campaignParticipationId },
+            { badgeId: badge2.id, userId: event.userId, campaignParticipationId: event.campaignParticipationId },
           ], domainTransaction);
         });
       });
