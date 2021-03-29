@@ -138,7 +138,6 @@
       }
     },
     "campaign-individual-results": {
-      "campaign-name": "Name of the campaign",
       "shared-date": "Sent on",
       "start-date": "Started on"
     },
@@ -165,6 +164,7 @@
           "stages": "Success rate"
         }
       },
+      "name": "Name of the campaign",
       "participations-count": "Participants",
       "shared-participations-count": "Profiles submitted",
       "tab": {
