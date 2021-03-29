@@ -138,7 +138,6 @@
       }
     },
     "campaign-individual-results": {
-      "campaign-name": "Nom de la campagne",
       "shared-date": "Envoyé le",
       "start-date": "Commencé le"
     },
@@ -165,6 +164,7 @@
           "stages": "Paliers"
         }
       },
+      "name": "Nom de la campagne",
       "participations-count": "Participants",
       "shared-participations-count": "Profils reçus",
       "tab": {
