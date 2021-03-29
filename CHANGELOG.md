@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.37.0 (29/03/2021)
+
+- [#2777](https://github.com/1024pix/pix/pull/2777) [FEATURE] A11Y- Ajout d'un aria-label hidden pour ne pas tenter de lire le svg du cercle (PIX-1883).
+- [#2765](https://github.com/1024pix/pix/pull/2765) [FEATURE] Ajout de sous-catégories de signalements pour les liens (PIX-1640).
+- [#2755](https://github.com/1024pix/pix/pull/2755) [FEATURE] Ajout du markdown sur le champ réponses des QROC (PIX-2291).
+- [#2761](https://github.com/1024pix/pix/pull/2761) [FEATURE] Masquer le lien de récupération d'espace Orga sur la page de connexion Pix Orga pour pix.org (PIX-2398).
+- [#2744](https://github.com/1024pix/pix/pull/2744) [FEATURE] Permettre dans pix Admin de marquer comme obsolète un profil cible (Pix-2309).
+- [#2736](https://github.com/1024pix/pix/pull/2736) [FEATURE] Traduction des erreurs de l'import XML SIECLE (Pix-2313).
+- [#2754](https://github.com/1024pix/pix/pull/2754) [BUGFIX] Permettre aux étudiants faisant partie d'une orga SCO non isManagingStudents d'entrer en certif (PIX-2388)
+- [#2752](https://github.com/1024pix/pix/pull/2752) [BUGFIX] Mettre le score à 0 pour un certificat validé non publié (PIX-2396)
+- [#2739](https://github.com/1024pix/pix/pull/2739) [TECH] Réparer la configuration de débogage VSCode.
+
 ## v3.36.0 (25/03/2021)
 
 - [#2767](https://github.com/1024pix/pix/pull/2767) [BUGFIX] Modifier la sauvegarde du temps sur l'assessment.
