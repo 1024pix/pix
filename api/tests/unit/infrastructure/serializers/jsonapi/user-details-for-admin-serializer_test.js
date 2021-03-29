@@ -9,6 +9,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
       // given
       const modelObject = domainBuilder.buildUserDetailsForAdmin({
         schoolingRegistrations: [domainBuilder.buildSchoolingRegistrationForAdmin()],
+        authenticationMethods: [{ id: 1, identityProvider: 'PIX' }],
       });
 
       // when
@@ -25,13 +26,18 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
             'cgu': modelObject.cgu,
             'pix-orga-terms-of-service-accepted': modelObject.pixOrgaTermsOfServiceAccepted,
             'pix-certif-terms-of-service-accepted': modelObject.pixCertifTermsOfServiceAccepted,
-            'is-authenticated-from-gar': modelObject.isAuthenticatedFromGAR,
           },
           relationships: {
             'schooling-registrations': {
               'data': [{
                 'id': `${modelObject.schoolingRegistrations[0].id}`,
                 'type': 'schoolingRegistrations',
+              }],
+            },
+            'authentication-methods': {
+              'data': [{
+                'id': `${modelObject.authenticationMethods[0].id}`,
+                'type': 'authenticationMethods',
               }],
             },
           },
@@ -52,6 +58,13 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
           },
           'id': `${modelObject.schoolingRegistrations[0].id}`,
           'type': 'schoolingRegistrations',
+        },
+        {
+          attributes: {
+            'identity-provider': modelObject.authenticationMethods[0].identityProvider,
+          },
+          'id': `${modelObject.authenticationMethods[0].id}`,
+          'type': 'authenticationMethods',
         }],
       });
     });
