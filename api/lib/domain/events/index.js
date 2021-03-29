@@ -43,7 +43,6 @@ const handlersToBeInjected = {
   handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
   computeValidatedSkillsCount: require('./compute-validated-skills-count'),
   handleSessionFinalized: require('./handle-session-finalized'),
-  handleChallengeRequested: require('./handle-challenge-requested'),
 };
 
 function buildEventDispatcher(handlersStubs) {
