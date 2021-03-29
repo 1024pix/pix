@@ -577,39 +577,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(result).to.be.instanceOf(UserNotFoundError);
     });
 
-    context('when user is authenticated from GAR', () => {
-
-      it('should return the "isAuthenticatedFromGAR" property to true', async () => {
-        // given
-        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
-        await databaseBuilder.commit();
-
-        // when
-        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
-
-        // then
-        expect(userDetailsForAdmin).to.be.an.instanceOf(UserDetailsForAdmin);
-        expect(userDetailsForAdmin.cgu).to.be.true;
-      });
-    });
-
-    context('when user is not authenticated from GAR', () => {
-
-      it('should return the "isAuthenticatedFromGAR" property to false', async () => {
-        // given
-        const userInDB = databaseBuilder.factory.buildUser({ ...userToInsert });
-        await databaseBuilder.commit();
-
-        // when
-        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
-
-        // then
-        expect(userDetailsForAdmin).to.be.an.instanceOf(UserDetailsForAdmin);
-        expect(userDetailsForAdmin.isAuthenticatedFromGAR).to.be.false;
-      });
-
-    });
-
     context('when user has schoolingRegistrations from SCO organization', () => {
 
       it('should return the user with his schoolingRegistrations', async () => {
@@ -669,6 +636,23 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
         // then
         expect(userDetailsForAdmin.schoolingRegistrations.length).to.equal(0);
+      });
+    });
+
+    context('when user has authentication methods', () => {
+
+      it('should return the user with his authentication methods', async () => {
+        // given
+        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+        databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.PIX, userId: userInDB.id });
+        databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, userId: userInDB.id });
+        await databaseBuilder.commit();
+
+        // when
+        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+        // then
+        expect(userDetailsForAdmin.authenticationMethods.length).to.equal(2);
       });
     });
   });
