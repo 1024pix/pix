@@ -1,4 +1,4 @@
-<tr aria-label="{{t 'pages.campaign-review.tube-recommendations.subject'}}">
+<tr aria-label="{{t 'pages.campaign-review.table.row-title'}}">
   <td class="competences-col__name">
     <div class="competences-col-name-wrapper">
       <span class="competences-col__border {{if this.isOpen " competences-col__border--top"}}
@@ -19,7 +19,7 @@
   </td>
   <td class="table__column--right">
     {{#if (gt @tubeRecommendation.tutorials.length 0)}}
-      <Chevron @isOpen={{this.isOpen}} @toggleParent={{this.toggleTutorialsSection}} @ariaLabel={{t 'pages.campaign-review.tube-recommendations.show-tutorial'}} />
+      <Chevron @isOpen={{this.isOpen}} @toggleParent={{this.toggleTutorialsSection}} @ariaLabel={{t 'pages.campaign-review.table.column.tutorial.aria-label'}} />
     {{/if}}
   </td>
 </tr>
@@ -33,17 +33,17 @@
         {{@tubeRecommendation.tubeDescription}}
       </div>
       <h3 class="tube-recommendation-tutorial__title">
-        {{t 'pages.campaign-review.tube-recommendations.recommended-tutorial' count=@tubeRecommendation.tutorials.length}}
+        {{t 'pages.campaign-review.sub-table.title' count=@tubeRecommendation.tutorials.length}}
       </h3>
       <table class="tube-recommendation-tutorial-table">
         <tbody>
           {{#each @tubeRecommendation.tutorials as |tutorial|}}
-            <tr aria-label={{t 'pages.campaign-review.tube-recommendations.name'}} class="table__row--small">
+            <tr aria-label={{t 'pages.campaign-review.sub-table.row-title'}} class="table__row--small">
               <td class="tube-recommendation-tutorial-table__row">
                 <a href={{tutorial.link}} class="link" target="_blank" rel="noopener noreferrer">{{tutorial.title}}</a>
                 <span class="tube-recommendation-tutorial-table__details">
                   <strong>·</strong>
-                  {{t 'pages.campaign-review.tube-recommendations.tutorial-source' source=tutorial.source}}
+                  {{t 'pages.campaign-review.sub-table.column.source.value' source=tutorial.source}}
                   <strong>·</strong>
                   <span class="tube-recommendation-tutorial-table__format">{{tutorial.format}}</span>
                   <strong>·</strong>

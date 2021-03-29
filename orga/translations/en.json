@@ -297,21 +297,34 @@
     },
     "campaign-review": {
       "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following subjects, sorted by relevance ({bubble}).",
-      "header": {
-        "title": "Review by subject",
-        "relevance": "Relevance",
-        "subjects": "Subjects ({count, plural, =0 {-} other {{count}}})"
+      "sub-table": {
+        "column": {
+          "source": {
+            "value": "By {source}"
+          }
+        },
+        "row-title": "Tutorial",
+        "title": "{count, plural, =1 {1 tutorial} other{{count} tutorials}} recommended by the Pix community"
       },
-      "title": "Recommendations of subjects to focus on",
-      "tube-recommendations": {
-        "name": "Tutorial",
-        "recommended-tutorial": "{count, plural, =1 {1 tutorial} other{{count} tutorials}} recommended by the Pix community",
-        "show-tutorial": "Show all tutorials",
-        "subject": "Subject",
-        "tutorial-source": "By {source}",
-        "tutorial-total": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
+      "table": {
+        "column": {
+          "subjects": "Subjects ({count, plural, =0 {-} other {{count}}})",
+          "relevance": "Relevance",
+          "tutorial-count": {
+            "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
+          },
+          "tutorial": {
+            "aria-label": "Show all tutorials"
+          }
+        },
+        "empty": "Waiting results",
+        "row-title": "Subject",
+        "sort": {
+          "relevance": "Sort by relevance"
+        },
+        "title": "Review by subject"
       },
-      "waiting-results": "Waiting results"
+      "title": "Recommendations of subjects to focus on"
     },
     "certifications": {
       "description": "Please select the class for which you would like to export the certification results in a csv file.",
