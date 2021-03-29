@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.38.0 (29/03/2021)
+
+- [#2779](https://github.com/1024pix/pix/pull/2779) [FEATURE] Ajouter un lien vers la FAQ "Comment se certifier" sur le bandeau "Bravo vous êtes certifiable" (PIX-2400)
+- [#2749](https://github.com/1024pix/pix/pull/2749) [FEATURE] Ajout d'un bouton vers "Tous mes parcours" depuis la page du tableau de bord de Pix App (PIX-2335).
+- [#2759](https://github.com/1024pix/pix/pull/2759) [FEATURE] Ajout du markdown sur le champ réponses des QROCm (PIX-2292).
+- [#2776](https://github.com/1024pix/pix/pull/2776) [FEATURE] Changer le titre de la page quand l'épreuve timée est terminée (PIX-2283).
+- [#2768](https://github.com/1024pix/pix/pull/2768) [TECH] Ajout de champs pour la personnalisation de la page de fin de parcours (PIX-2326)
+- [#2782](https://github.com/1024pix/pix/pull/2782) [CLEANUP] Suppression du domain event ChallengeRequested (PIX-2410)
+- [#2770](https://github.com/1024pix/pix/pull/2770) [FEAT] Ajout d'avertissements sur la modale de remise à zéro (PIX-2365).
+
 ## v3.37.0 (29/03/2021)
 
 - [#2777](https://github.com/1024pix/pix/pull/2777) [FEATURE] A11Y- Ajout d'un aria-label hidden pour ne pas tenter de lire le svg du cercle (PIX-1883).
