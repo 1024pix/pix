@@ -6,6 +6,11 @@ const types = {
   PRO: 'PRO',
 };
 
+const defaultValues = {
+  credit: 0,
+  canCollectProfiles: false,
+};
+
 class Organization {
 
   constructor({
@@ -16,8 +21,8 @@ class Organization {
     externalId,
     provinceCode,
     isManagingStudents,
-    credit,
-    canCollectProfiles,
+    credit = defaultValues.credit,
+    canCollectProfiles = defaultValues.canCollectProfiles,
     email,
     targetProfileShares = [],
     students = [],
@@ -82,4 +87,5 @@ class Organization {
 }
 
 Organization.types = types;
+Organization.defaultValues = defaultValues;
 module.exports = Organization;
