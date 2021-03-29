@@ -22,6 +22,9 @@ class Campaign {
     targetProfile,
     creator,
     organization,
+    customResultPageText,
+    customResultPageButtonText,
+    customResultPageButtonUrl,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -38,6 +41,10 @@ class Campaign {
     this.targetProfile = targetProfile;
     this.creator = creator;
     this.organization = organization;
+    this.customResultPageText = customResultPageText;
+    this.customResultPageButtonText = customResultPageButtonText;
+    this.customResultPageButtonUrl = customResultPageButtonUrl;
+
   }
 
   get organizationId() {
