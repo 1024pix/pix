@@ -501,7 +501,11 @@
                         "important-message": "Your Pix { earnedPix } will be deleted.",
                         "important-message-above-level-one": "Your level { level } and your Pix { earnedPix } will be deleted.",
                         "title": "Skill reset",
-                        "warning": "NB If you have a personalised test in progress, you might be asked some questions again."
+                        "warning": {
+                            "header": "NB: ",
+                            "ongoing-assessment": "If you have a personalised test in progress, you might be asked some questions again.",
+                            "certification": "If you are planning to certify your profile and results, this could affect your certification."
+                        }
                     }
                 },
                 "start": {

@@ -501,7 +501,11 @@
                         "important-message": "Vos { earnedPix } Pix vont être supprimés.",
                         "important-message-above-level-one": "Votre niveau { level } et vos { earnedPix } Pix vont être supprimés.",
                         "title": "Remise à zéro de la compétence",
-                        "warning": "Attention : si vous avez un parcours d’évaluation en cours, certaines questions pourront vous être reposées."
+                        "warning": {
+                            "header": "Attention : ",
+                            "ongoing-assessment": "si vous avez un parcours d’évaluation en cours, certaines questions pourront vous être reposées.",
+                            "certification": "si vous souhaitez faire certifier votre profil et vos différents résultats, cela pourrait altérer votre certification."
+                        }
                     }
                 },
                 "start": {
