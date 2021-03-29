@@ -85,7 +85,8 @@
       "team": "Équipe"
     },
     "user-logged-menu": {
-      "logout": "Se déconnecter"
+      "logout": "Se déconnecter",
+      "summary": "Résumé utilisateur"
     }
   },
   "pages": {
