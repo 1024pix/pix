@@ -1,6 +1,3 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -9,6 +6,7 @@ import pick from 'lodash/pick';
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 describe('Unit | Component | signup-form', function() {
 
@@ -17,16 +15,17 @@ describe('Unit | Component | signup-form', function() {
   let component;
 
   beforeEach(function() {
-    this.owner.register('service:session', Service.extend({
-      attemptedTransition: {
+    class SessionStub extends Service {
+      attemptedTransition = {
         from: {
           parent: {
-            params: {},
+            params: sinon.stub().resolves(),
           },
         },
-      },
-    }));
-    component = this.owner.lookup('component:signup-form');
+      }
+    }
+    this.owner.register('service:session', SessionStub);
+    component = createGlimmerComponent('component:signup-form');
   });
 
   describe('#signup', () => {
@@ -40,7 +39,7 @@ describe('Unit | Component | signup-form', function() {
         password: 'Pix12345',
         save: sinon.stub().resolves(),
       });
-      component.set('user', userWithSpaces);
+      component.args.user = userWithSpaces;
 
       const expectedUser = {
         firstName: userWithSpaces.firstName.trim(),
@@ -49,10 +48,10 @@ describe('Unit | Component | signup-form', function() {
       };
 
       // when
-      component.send('signup');
+      component.signup();
 
       // then
-      const user = component.get('user');
+      const user = component.args.user;
       expect(pick(user, ['firstName', 'lastName', 'email'])).to.deep.equal(expectedUser);
     });
 
@@ -65,13 +64,13 @@ describe('Unit | Component | signup-form', function() {
         password: 'Pix12345',
         save: sinon.stub().resolves(),
       });
-      component.set('user', userWithSpaces);
+      component.args.user = userWithSpaces;
 
       const campaignCode = 'AZERTY123';
       component.session.attemptedTransition.from.parent.params.code = campaignCode;
 
       // when
-      component.send('signup');
+      component.signup();
 
       // then
       sinon.assert.calledWith(userWithSpaces.save, { adapterOptions: { campaignCode } });
