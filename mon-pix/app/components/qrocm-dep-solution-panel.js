@@ -5,6 +5,7 @@ import labelsAsObject from 'mon-pix/utils/labels-as-object';
 import keys from 'lodash/keys';
 import jsyaml from 'js-yaml';
 import { inject as service } from '@ember/service';
+import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
 const classByResultValue = {
   ok: 'correction-qroc-box-answer--correct',
@@ -16,19 +17,19 @@ const classByResultValue = {
 export default class QrocmDepSolutionPanel extends Component {
   @service intl;
 
-  get inputFields() {
+  get blocks() {
     const escapedProposals = this.args.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
     const labels = labelsAsObject(htmlSafe(escapedProposals).string);
     const answers = answersAsObject(this.args.answer.value, keys(labels));
 
-    return Object.keys(labels).map((key) => {
-      const answerIsEmpty = answers[key] === '';
-
-      return {
-        label: labels[key],
-        answer: answerIsEmpty ? this.intl.t('pages.result-item.aband') : answers[key],
-        inputClass: answerIsEmpty ? classByResultValue['aband'] : this.inputClass,
-      };
+    return proposalsAsBlocks(this.args.challenge.get('proposals')).map((block) => {
+      const isLineBreak = block.breakline;
+      if (!isLineBreak) {
+        const answerIsEmpty = answers[block.input] === '';
+        block.answer = answerIsEmpty ? this.intl.t('pages.result-item.aband') : answers[block.input];
+        block.inputClass = answerIsEmpty ? classByResultValue['aband'] : this.inputClass;
+      }
+      return block;
     });
   }
 
@@ -44,16 +45,20 @@ export default class QrocmDepSolutionPanel extends Component {
     if (this.args.solutionToDisplay) {
       return this.args.solutionToDisplay;
     }
-    const inputFieldsCount = this.inputFields.length;
+    const answersCount = this._inputCount;
     const solutions = jsyaml.safeLoad(this.args.solution);
     const solutionsKeys = Object.keys(solutions);
 
-    const expectedAnswers = solutionsKeys.slice(0, inputFieldsCount).map((key) => {
+    const expectedAnswers = solutionsKeys.slice(0, answersCount).map((key) => {
       return solutions[key][0];
     });
 
-    return inputFieldsCount === solutionsKeys.length ?
+    return answersCount === solutionsKeys.length ?
       `${expectedAnswers.slice(0, -1).join(', ')} et ${expectedAnswers.slice(-1)}` :
       `${expectedAnswers.join(' ou ')} ou ...`;
+  }
+
+  get _inputCount() {
+    return this.blocks.filter((block) => block.input && !block.breakline).length;
   }
 }

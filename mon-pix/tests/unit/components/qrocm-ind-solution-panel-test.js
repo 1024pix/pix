@@ -10,7 +10,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
   setupTest();
   setupIntl();
 
-  describe('#inputFields', function() {
+  describe('#blocks', function() {
 
     let challenge;
     let answer;
@@ -28,18 +28,29 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       answer = { value: 'smiley1: \':)\' smiley2: \':(\'', resultDetails: 'smiley1: true\nsmiley2: true' };
       solution = 'smiley1: \n - :-)\n - :)\n - :-D\n - :D\n - :))\n\nsmiley2:\n - :-(\n - :(\n - :((';
 
-      const expectedFieldsData = [{
-        label: 'content : ',
+      const expectedBlocksData = [{
+        input: 'smiley1',
+        text: 'content :',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--correct',
         answer: ':)',
         solution: ':-)',
         emptyOrWrongAnswer: false,
-        inputClass: 'correction-qroc-box-answer--correct',
+        placeholder: undefined,
       }, {
-        label: '<br>triste : ',
+        breakline: true,
+        showText: undefined,
+      }, {
+        input: 'smiley2',
+        text: 'triste :',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--correct',
         answer: ':(',
         solution: ':-(',
         emptyOrWrongAnswer: false,
-        inputClass: 'correction-qroc-box-answer--correct',
+        placeholder: undefined,
       }];
 
       //When
@@ -50,7 +61,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       });
 
       //Then
-      expect(component.inputFields).to.be.deep.equal(expectedFieldsData);
+      expect(component.blocks).to.be.deep.equal(expectedBlocksData);
     });
 
     it('should return an array with data to display (case when there is wrong answers)', function() {
@@ -59,17 +70,28 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       answer = { value: 'num1: \'1\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
       solution = 'num1: \n - 2\n\nnum2:\n - 1';
       const result = [{
-        label: 'Clé USB : ',
+        input: 'num1',
+        text: 'Clé USB :',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--wrong',
         answer: '1',
         solution: '2',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--wrong',
+        placeholder: undefined,
       }, {
-        label: '<br>Carte mémoire (SD) : ',
+        breakline: true,
+        showText: undefined,
+      }, {
+        input: 'num2',
+        text: 'Carte mémoire (SD) :',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--wrong',
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--wrong',
+        placeholder: undefined,
       }];
 
       //When
@@ -80,7 +102,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       });
 
       //Then
-      expect(component.inputFields).to.be.deep.equal(result);
+      expect(component.blocks).to.be.deep.equal(result);
     });
 
     it('should return an array with data to display (case when there is some empty answer)', function() {
@@ -90,17 +112,28 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       solution = 'num1: \n - 2\n\nnum2:\n - 1';
 
       const result = [{
-        label: 'Clé USB : ',
+        input: 'num1',
+        text: 'Clé USB :',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--aband',
         answer: 'Pas de réponse',
         solution: '2',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--aband',
+        placeholder: undefined,
       }, {
-        label: '<br>Carte mémoire (SD) : ',
+        breakline: true,
+        showText: undefined,
+      }, {
+        input: 'num2',
+        text: 'Carte mémoire (SD) :',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--wrong',
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--wrong',
+        placeholder: undefined,
       }];
 
       //When
@@ -111,54 +144,41 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       });
 
       //Then
-      expect(component.inputFields).to.be.deep.equal(result);
+      expect(component.blocks).to.be.deep.equal(result);
     });
 
     it('should return an array with data to display (proposals contains a dash ("-"))', function() {
       // given
-      challenge = EmberObject.create({ proposals: '- alain@pix.fr : ${num1}\n\n- leonie@pix.fr : ${num2}\n\n- Programme_Pix.pdf : ${num3}\n\n- lucie@pix.fr : ${num4}\n\n- Programme du festival Pix : ${num5}\n\n- jeremy@pix.fr : ${num6}' });
+      challenge = EmberObject.create({ proposals: '- alain@pix.fr : ${num1}\n\n- leonie@pix.fr : ${num2}' });
       answer = {
-        value: 'num1: \'1\' num2: \'2\' num3: \'3\' num4: \'4\' num5: \'5\' num6: \'6\'',
-        resultDetails: 'num1: false\nnum2: false\nnum3: false\nnum4: false\nnum5: true\nnum6: false',
+        value: 'num1: \'1\' num2: \'2\'',
+        resultDetails: 'num1: false\nnum2: false',
       };
-      solution = 'num1: \n - 2\n\nnum2:\n - 3\n - 4\n\nnum3:\n - 6\n\nnum4:\n - 1\n\nnum5:\n - 5\n\nnum6:\n - 2';
+      solution = 'num1: \n - 2\n\nnum2:\n - 3';
 
       const result = [{
-        label: '- alain@pix.fr : ',
+        input: 'num1',
+        text: '- alain@pix.fr :',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--wrong',
         answer: '1',
         solution: '2',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--wrong',
+        placeholder: undefined,
       }, {
-        label: '<br>- leonie@pix.fr : ',
+        breakline: true,
+        showText: undefined,
+      }, {
+        input: 'num2',
+        text: '- leonie@pix.fr :',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--wrong',
         answer: '2',
         solution: '3',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--wrong',
-      }, {
-        label: '<br>- Programme_Pix.pdf : ',
-        answer: '3',
-        solution: '6',
-        emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--wrong',
-      }, {
-        label: '<br>- lucie@pix.fr : ',
-        answer: '4',
-        solution: '1',
-        emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--wrong',
-      }, {
-        label: '<br>- Programme du festival Pix : ',
-        answer: '5',
-        solution: '5',
-        emptyOrWrongAnswer: false,
-        inputClass: 'correction-qroc-box-answer--correct',
-      }, {
-        label: '<br>- jeremy@pix.fr : ',
-        answer: '6',
-        solution: '2',
-        emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--wrong',
+        placeholder: undefined,
       }];
 
       //When
@@ -169,7 +189,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       });
 
       //Then
-      expect(component.inputFields).to.be.deep.equal(result);
+      expect(component.blocks).to.be.deep.equal(result);
     });
 
     it('should return an array with data to display (proposals are questions)', function() {
@@ -179,17 +199,28 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       solution = 'Num1:\n - 1\n\nNum2:\n - 6';
 
       const result = [{
-        label: '- Combien le dossier "projet PIX" contient-il de dossiers ? ',
+        input: 'Num1',
+        text: '- Combien le dossier "projet PIX" contient-il de dossiers ?',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--wrong',
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--wrong',
+        placeholder: undefined,
       }, {
-        label: '<br>- Combien le dossier "images" contient-il de fichiers ? ',
+        breakline: true,
+        showText: undefined,
+      }, {
+        input: 'Num2',
+        text: '- Combien le dossier "images" contient-il de fichiers ?',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--wrong',
         answer: '3',
         solution: '6',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--wrong',
+        placeholder: undefined,
       }];
 
       //When
@@ -200,7 +231,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       });
 
       //Then
-      expect(component.inputFields).to.be.deep.equal(result);
+      expect(component.blocks).to.be.deep.equal(result);
     });
 
     it('it should return "Pas de réponse" in each answer if the question was passed', function() {
@@ -210,17 +241,28 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       solution = 'num1: \n - 2\n\nnum2:\n - 1';
 
       const result = [{
-        label: 'Clé USB : ',
+        input: 'num1',
+        text: 'Clé USB :',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--aband',
         answer: 'Pas de réponse',
         solution: '2',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--aband',
+        placeholder: undefined,
       }, {
-        label: '<br>Carte mémoire (SD) : ',
+        breakline: true,
+        showText: undefined,
+      }, {
+        input: 'num2',
+        text: 'Carte mémoire (SD) :',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--aband',
         answer: 'Pas de réponse',
         solution: '1',
         emptyOrWrongAnswer: true,
-        inputClass: 'correction-qroc-box-answer--aband',
+        placeholder: undefined,
       }];
 
       //When
@@ -231,7 +273,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       });
 
       //Then
-      expect(component.inputFields).to.be.deep.equal(result);
+      expect(component.blocks).to.be.deep.equal(result);
     });
 
     /**
@@ -245,11 +287,15 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       solution = 'num1: \n - 2';
 
       const result = [{
-        label: 'Clé USB : ',
+        input: 'num1',
+        text: 'Clé USB :',
+        ariaLabel: null,
+        showText: false,
+        inputClass: 'correction-qroc-box-answer--correct',
         answer: '2',
         solution: '2',
         emptyOrWrongAnswer: false,
-        inputClass: 'correction-qroc-box-answer--correct',
+        placeholder: undefined,
       }];
 
       //When
@@ -260,7 +306,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       });
 
       //Then
-      expect(component.inputFields).to.be.deep.equal(result);
+      expect(component.blocks).to.be.deep.equal(result);
     });
 
   });

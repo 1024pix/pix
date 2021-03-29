@@ -10,7 +10,7 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
   setupTest();
   setupIntl();
 
-  describe('#inputFields', function() {
+  describe('#blocks', function() {
 
     it('should return an array with data to display', function() {
       //Given
@@ -19,21 +19,29 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
 
       const component = createGlimmerComponent('component:qrocm-dep-solution-panel', { challenge, answer });
 
-      const expectedFieldsData = [{
-        label: 'content : ',
-        answer: ':)',
+      const expectedBlocksData = [{
+        input: 'smiley1',
+        text: 'content :',
+        ariaLabel: null,
         inputClass: '',
+        answer: ':)',
+        placeholder: undefined,
       }, {
-        label: '<br>triste : ',
-        answer: 'Pas de réponse',
+        breakline: true,
+      }, {
+        input: 'smiley2',
+        text: 'triste :',
+        ariaLabel: null,
         inputClass: 'correction-qroc-box-answer--aband',
+        answer: 'Pas de réponse',
+        placeholder: undefined,
       }];
 
       //when
-      const inputFields = component.inputFields;
+      const blocks = component.blocks;
 
       //Then
-      expect(inputFields).to.be.deep.equal(expectedFieldsData);
+      expect(blocks).to.be.deep.equal(expectedBlocksData);
     });
 
   });
@@ -71,7 +79,6 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
       const component = createGlimmerComponent('component:qrocm-dep-solution-panel', {
         challenge,
         answer: { result: 'ko' },
-        inputFields: [1, 2],
         solution: 'groupe 1:\n- horizontalité\n- organisation plate\ngroupe 2:\n- cadre',
       });
 
@@ -88,7 +95,6 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
       const component = createGlimmerComponent('component:qrocm-dep-solution-panel', {
         challenge,
         answer: { result: 'ko' },
-        inputFields: [1, 2],
         solution: 'groupe 1:\n- tag\n- slogan\ngroupe 2:\n- marche\n- sitting\ngroupe 3:\n- masque',
       });
 
