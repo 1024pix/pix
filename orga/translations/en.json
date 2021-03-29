@@ -513,7 +513,6 @@
       },
       "edit-student-number-modal": {
         "actions": {
-          "cancel": "Cancel",
           "update": "Update"
         },
         "form": {
@@ -551,43 +550,6 @@
       },
       "title": "Students"
     },
-    "team-items": {
-      "row": {
-        "aria-label": "Member"
-      },
-      "actions": {
-        "edit-organization-membership-role": {
-          "aria-label": "Change role",
-          "label": "Change role"
-        },
-        "remove-membership": {
-          "aria-label": "Remove the member",
-          "label": "Remove"
-        }
-      },
-      "select-input": {
-        "placeholder": "Select a role",
-        "aria-label": "Select a role",
-        "options": {
-          "admin-label": "Administrator",
-          "member-label": "Member"
-        }
-      },
-      "save-button": "Save",
-      "cancel-button": {
-        "aria-label": "Cancel"
-      },
-      "remove-membership-modal": {
-        "title": "Are you sure you want to remove this member?",
-        "message": "will no longer have access to this Pix Orga workspace.<br>The campaigns created by this member will still be accessible to the rest of the team.",
-        "cancel-button": "Cancel",
-        "remove-button": "Yes, remove the member"
-      },
-      "notifications": {
-        "success": "{memberFirstName} {memberLastName} has successfully been removed from your Pix Orga team.",
-        "error": "An error occurred while removing this member."
-      }
-    },
     "team-list": {
       "title": "My team",
       "add-member-button": "Invite a member",
@@ -597,13 +559,38 @@
       }
     },
     "team-members": {
+      "actions": {
+        "edit-organization-membership-role": "Change role",
+        "manage": "Manage",
+        "remove-membership": "Remove",
+        "save": "Save",
+        "select-role": {
+          "label": "Select a role",
+          "options": {
+            "admin": "Administrator",
+            "member": "Member"
+          }
+        }
+      },
+      "remove-membership-modal": {
+        "actions": {
+          "remove": "Yes, remove the member"
+        },
+        "title": "Are you sure you want to remove this member?",
+        "message": "{memberFirstName} {memberLastName} will no longer have access to this Pix Orga workspace.<br>The campaigns created by this member will still be accessible to the rest of the team."
+      },
+      "notifications": {
+        "success": "{memberFirstName} {memberLastName} has successfully been removed from your Pix Orga team.",
+        "error": "An error occurred while removing this member."
+      },
       "table": {
         "column": {
           "first-name": "First name",
           "last-name": "Last name",
           "organization-membership-role": "Role"
         },
-        "empty": "No members yet"
+        "empty": "No members yet",
+        "row-title": "Member"
       }
     },
     "team-invitations": {
@@ -635,11 +622,7 @@
     },
     "team-new-item": {
       "input-label": "Email address(es)",
-      "cancel-button": "Cancel",
       "invite-button": "Invite"
     }
-  },
-  "dropdown": {
-    "arial-label": "Manage"
   }
 }

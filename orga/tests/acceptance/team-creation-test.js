@@ -83,7 +83,7 @@ module('Acceptance | Team Creation', function(hooks) {
 
         inputLabel = this.intl.t('pages.team-new-item.input-label');
         inviteButton = this.intl.t('pages.team-new-item.invite-button');
-        cancelButton = this.intl.t('pages.team-new-item.cancel-button');
+        cancelButton = this.intl.t('common.actions.cancel');
       });
 
       test('it should be accessible', async function(assert) {
@@ -96,7 +96,7 @@ module('Acceptance | Team Creation', function(hooks) {
 
       test('it should allow to invite a prescriber and redirect to team page', async function(assert) {
         // given
-        const ariaLabelMember = this.intl.t('pages.team-items.row.aria-label');
+        const ariaLabelMember = this.intl.t('pages.team-members.table.row-title');
 
         const code = 'ABCDEFGH01';
         server.create('user', {
