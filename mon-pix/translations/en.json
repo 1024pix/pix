@@ -161,7 +161,11 @@
         "certification-joiner": {
             "title": "Join a certification session",
             "congratulation-banner": {
-                "message": "Well done, {fullName},'<br>'your profile can now be certified."
+                "message": "Well done, {fullName},'<br>'your profile can now be certified.",
+                "link": {
+                    "text": "How do I certify my digital skills?",
+                    "url": "https://support.pix.fr/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"
+                }
             },
             "first-title": "Join a session",
             "form": {
