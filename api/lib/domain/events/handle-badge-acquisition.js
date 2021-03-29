@@ -23,7 +23,7 @@ const handleBadgeAcquisition = async function({
       return {
         badgeId: badge.id,
         userId: event.userId,
-        campaignParticipationId: campaignParticipationResult.id,
+        campaignParticipationId: event.campaignParticipationId,
       };
     });
 
