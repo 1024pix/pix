@@ -6,7 +6,7 @@
       <h1>{{t "pages.certificate.title"}}</h1>
 
       <p class="user-certifications-detail-header__info-certificate--grey">
-        {{t "pages.certificate.issued-on"}} {{format-date @certification.deliveredAt format="LL"}}
+        {{t "pages.certificate.issued-on"}} {{moment-format @certification.deliveredAt 'D MMMM YYYY'}}
       </p>
       <p class="user-certifications-detail-header__info-certificate--grey">
         {{t "pages.certificate.validity"}}
@@ -15,9 +15,9 @@
       <p>{{@certification.fullName}}</p>
       <p>
         {{#if @certification.birthplace}}
-          {{t "pages.certificate.candidate-birth-complete" birthdate=birthdate birthplace=@certification.birthplace}}
+          {{t "pages.certificate.candidate-birth-complete" birthdate=(moment-format birthdate 'D MMMM YYYY') birthplace=@certification.birthplace}}
         {{else}}
-          {{t "pages.certificate.candidate-birth" birthdate=birthdate}}
+          {{t "pages.certificate.candidate-birth" birthdate=(moment-format birthdate 'D MMMM YYYY')}}
         {{/if}}
       </p>
 
@@ -25,7 +25,7 @@
         <p>{{t "pages.certificate.certification-center"}} {{@certification.certificationCenter}}</p>
       {{/if}}
 
-      <p>{{t "pages.certificate.exam-date"}} {{format-date @certification.date format="LL"}}</p>
+      <p>{{t "pages.certificate.exam-date"}} {{moment-format @certification.date 'D MMMM YYYY'}}</p>
 
     </div>
   </div>

@@ -534,9 +534,13 @@
         "dashboard": {
             "title": "Homepage",
             "campaigns": {
-                "resume": "<h2>Don’t forget to submit your results!</h2>",
-                "subtitle": "Continue your personalised test or send your results",
-                "title": "Campaigns"
+                "resume": {
+                    "action": "Resume",
+                    "text": "<h2>Don’t forget to submit your results!</h2>"
+                },
+                "subtitle": "Resume your personalised tests or submit your results",
+                "tests-link": "All my personalised tests",
+                "title": "Personalised tests"
             },
             "empty-dashboard" : {
                 "link-to-competences": "See my skills",
@@ -753,7 +757,7 @@
             "actions": {
                 "continue": "Continue my Pix experience"
             },
-            "explanation": "You already submitted the profile below to the organisation {organization}'<br>'on {date,date,LL} at {hour,time,hhmm}"
+            "explanation": "You already submitted the profile below to the organisation {organization}'<br>'on {date} at {hour,time,hhmm}"
         },
         "reset-password": {
             "actions": {

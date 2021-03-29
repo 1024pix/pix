@@ -12,7 +12,7 @@ export default class UserCertificationsDetailHeader extends Component {
   @tracked tooltipText = this.intl.t('pages.certificate.verification-code.copy');
 
   get birthdate() {
-    return this.intlDateFormatter.formatDateStringToString(this.args.certification.birthdate);
+    return this.intlDateFormatter.formatDateStringToISO(this.args.certification.birthdate);
   }
 
   @action

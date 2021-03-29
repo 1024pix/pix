@@ -9,7 +9,7 @@
     <strong class="campaign-participation-overview-card-header__subtitle">{{@model.campaignTitle}}</strong>
     <time class="campaign-participation-overview-card-header__date"
           datetime="{{@model.createdAt}}">
-      {{t 'pages.campaign-participation-overview.card.started-at' date=(format-date @model.createdAt)}}
+      {{t 'pages.campaign-participation-overview.card.started-at' date=(moment-format @model.createdAt 'DD/MM/YYYY')}}
     </time>
   </header>
   <section class="campaign-participation-overview-card-content">
