@@ -21,6 +21,10 @@ module.exports = function buildCampaign({
   organizationId,
   creatorId,
   targetProfileId,
+  customResultPageText,
+  customResultPageButtonText,
+  customResultPageButtonUrl,
+
 } = {}) {
 
   if (type === Campaign.types.ASSESSMENT) {
@@ -46,6 +50,9 @@ module.exports = function buildCampaign({
     organizationId,
     creatorId,
     targetProfileId,
+    customResultPageText,
+    customResultPageButtonText,
+    customResultPageButtonUrl,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'campaigns',
