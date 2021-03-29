@@ -283,7 +283,8 @@
         "filter": {
           "by-creator": "Search a creator",
           "by-name": "Search a campaign"
-        }
+        },
+        "row-title": "Campaign"
       }
     },
     "campaign-modification": {

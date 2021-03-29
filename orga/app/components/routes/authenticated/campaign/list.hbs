@@ -43,7 +43,7 @@
 
         <tbody>
         {{#each @campaigns as |campaign|}}
-          <tr aria-label="Campagne" role="button" {{on 'click' (fn @goToCampaignPage campaign.id)}} class="tr--clickable">
+          <tr aria-label={{t 'pages.campaigns-list.table.row-title'}} role="button" {{on 'click' (fn @goToCampaignPage campaign.id)}} class="tr--clickable">
             <td>{{campaign.name}}</td>
             <td class="table__column--truncated">{{campaign.creatorFullName}}</td>
             <td>{{moment-format campaign.createdAt 'DD/MM/YYYY' allow-empty=true}}</td>
