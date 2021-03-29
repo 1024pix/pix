@@ -60,6 +60,7 @@
       "close": "Fermer"
     },
     "help-form": "https://support.pix.fr/support/tickets/new",
+    "loading": "Chargement en cours",
     "pagination": {
       "action": {
         "next": "Aller à la page suivante",
