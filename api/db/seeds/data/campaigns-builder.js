@@ -107,6 +107,19 @@ function _buildCampaignForSup(databaseBuilder) {
     customLandingPageText: null,
     idPixLabel: null,
   });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 12396,
+    name: 'Sup - Campagne d\'évaluation #2 Pix+ Droit',
+    code: 'DROIT5678',
+    type: 'ASSESSMENT',
+    organizationId: SUP_UNIVERSITY_ID,
+    creatorId: 7,
+    targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
+    title: null,
+    customLandingPageText: null,
+    idPixLabel: null,
+  });
 }
 
 function _buildCampaignForPro(databaseBuilder) {
