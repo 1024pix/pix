@@ -1,6 +1,4 @@
-const faker = require('faker');
-const moment = require('moment');
-const { chunk, sample, sampleSize, random, map } = require('lodash');
+const _ = require('lodash');
 const { knex } = require('../../db/knex-database-connection');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
@@ -147,8 +145,8 @@ function _validateAndNormalizeArgs(commandLineArgs) {
 async function _createTargetProfile({ profileType }) {
   console.log('Création du profil cible...');
   const competences = await competenceRepository.listPixCompetencesOnly();
-  const competencesInProfile = profileType === 'light' ? [sample(competences)]
-    : profileType === 'medium' ? sampleSize(competences, Math.round(competences.length / 2))
+  const competencesInProfile = profileType === 'light' ? [_.sample(competences)]
+    : profileType === 'medium' ? _.sampleSize(competences, Math.round(competences.length / 2))
       : competences;
   const [targetProfileId] = await knex('target-profiles')
     .returning('id')
@@ -243,6 +241,11 @@ async function _createSchoolingRegistrations({ userIds, organizationId, uniqId, 
 }
 
 function _buildBaseSchoolingRegistration({ userId, organizationId, identifier }) {
+  const birthdates = [
+    '2001-01-05',
+    '2002-11-15',
+    '1995-06-25',
+  ];
   return {
     organizationId,
     userId,
@@ -251,7 +254,7 @@ function _buildBaseSchoolingRegistration({ userId, organizationId, identifier })
     preferredLastName: `preferredLastName${identifier}`,
     middleName: `middleName${identifier}`,
     thirdName: `thirdName${identifier}`,
-    birthdate: moment(faker.date.past(2, '2009-12-31')).format('YYYY-MM-DD'),
+    birthdate: birthdates[_.random(0, 2)],
     birthCity: `birthCity${identifier}`,
     birthCityCode: `birthCityCode${identifier}`,
     birthCountryCode: `birthCountryCode${identifier}`,
@@ -265,7 +268,7 @@ function _buildSCOSchoolingRegistration({ userId, organizationId, identifier }) 
     ..._buildBaseSchoolingRegistration({ userId, organizationId, identifier }),
     status: 'ST',
     nationalStudentId: `INE_${organizationId}_${identifier}`,
-    division: divisions[random(0, 3)],
+    division: divisions[_.random(0, 3)],
   };
 }
 
@@ -275,9 +278,9 @@ function _buildSUPSchoolingRegistration({ userId, organizationId, identifier }) 
   return {
     ..._buildBaseSchoolingRegistration({ userId, organizationId, identifier }),
     studentNumber: `NUMETU_${organizationId}_${identifier}`,
-    isSupernumerary: random(0, 1) === 1,
-    diploma: diplomas[random(0, 3)],
-    group: groups[random(0, 3)],
+    isSupernumerary: _.random(0, 1) === 1,
+    diploma: diplomas[_.random(0, 3)],
+    group: groups[_.random(0, 3)],
   };
 }
 
@@ -365,7 +368,7 @@ async function _createAnswersAndKnowledgeElements({ targetProfile, userAndAssess
   console.log('\t\tOK');
 
   console.log('\t\tInsertion en base de données...');
-  const chunkedKnowledgeElements = chunk(knowledgeElementData.flat(), _getChunkSize(knowledgeElementData[0][0]));
+  const chunkedKnowledgeElements = _.chunk(knowledgeElementData.flat(), _getChunkSize(knowledgeElementData[0][0]));
   let totalKeCount = 0;
   for (const chunk of chunkedKnowledgeElements) {
     await trx('knowledge-elements').insert(chunk);
@@ -379,7 +382,7 @@ async function _createAnswersAndKnowledgeElements({ targetProfile, userAndAssess
 
 async function _createBadgeAcquisitions({ targetProfile, userAndCampaignParticipationIds, trx }) {
   const badges = await trx.select('id').from('badges').where({ targetProfileId: targetProfile.id });
-  const badgeIds = map(badges, 'id');
+  const badgeIds = _.map(badges, 'id');
   if (badgeIds.length === 0) {
     console.log(`\tAucun badge pour le profil cible ${targetProfile.id} - ${targetProfile.name}`);
     return;
@@ -387,7 +390,7 @@ async function _createBadgeAcquisitions({ targetProfile, userAndCampaignParticip
   const badgeAcquisitionData = [];
   for (const userAndCampaignParticipationId of userAndCampaignParticipationIds) {
     for (const badgeId of badgeIds) {
-      const haveBadge = random(0, 1) === 1;
+      const haveBadge = _.random(0, 1) === 1;
       if (haveBadge) {
         badgeAcquisitionData.push({
           userId: userAndCampaignParticipationId.userId,
