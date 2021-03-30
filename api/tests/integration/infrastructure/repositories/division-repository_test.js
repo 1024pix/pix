@@ -68,7 +68,7 @@ describe('Integration | Repository | Division', () => {
     });
   });
 
-  describe('#findByOrganizationId', () => {
+  describe('#findByOrganizationIdForCurrentSchoolYear', () => {
     it('should return list of divisions from an organization ordered by name', async () => {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
@@ -101,7 +101,7 @@ describe('Integration | Repository | Division', () => {
       await databaseBuilder.commit();
 
       // when
-      const divisions = await divisionRepository.findByOrganizationId({ organizationId: organization.id });
+      const divisions = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({ organizationId: organization.id });
 
       // then
       expect(divisions).to.have.lengthOf(5);
@@ -137,7 +137,7 @@ describe('Integration | Repository | Division', () => {
       await databaseBuilder.commit();
 
       // when
-      const divisions = await divisionRepository.findByOrganizationId({ organizationId: organization.id });
+      const divisions = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({ organizationId: organization.id });
 
       // then
       expect(divisions).to.deep.equal([{ name: '5A' }]);

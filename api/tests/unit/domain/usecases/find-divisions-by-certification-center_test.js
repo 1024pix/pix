@@ -11,7 +11,7 @@ describe('Unit | UseCase | find-divisions-by-certification-center', () => {
     getIdByCertificationCenterId: sinon.stub(),
   };
   const divisionRepository = {
-    findByOrganizationId: sinon.stub(),
+    findByOrganizationIdForCurrentSchoolYear: sinon.stub(),
   };
 
   beforeEach(async () => {
@@ -27,7 +27,7 @@ describe('Unit | UseCase | find-divisions-by-certification-center', () => {
 
     it('should return all divisions', async () => {
       // given
-      divisionRepository.findByOrganizationId
+      divisionRepository.findByOrganizationIdForCurrentSchoolYear
         .withArgs({ organizationId: organization.id })
         .resolves([{ name: '3a' }, { name: '3b' }, { name: '5c' }]);
 
