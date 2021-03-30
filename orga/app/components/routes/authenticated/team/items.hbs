@@ -7,9 +7,10 @@
     {{#if (not-eq @membership.user.id this.currentUser.prescriber.id) }}
       <td class="zone-edit-role">
         <Dropdown::IconTrigger
-                @icon="ellipsis-v"
-                @dropdownButtonClass="zone-edit-role__dropdown-button"
-                @dropdownContentClass="zone-edit-role__dropdown-content"
+          @icon="ellipsis-v"
+          @dropdownButtonClass="zone-edit-role__dropdown-button"
+          @dropdownContentClass="zone-edit-role__dropdown-content"
+          @ariaLabel={{t "pages.team-members.actions.show-actions"}}
         >
           <Dropdown::Item
                   @onClick={{fn this.editRoleOfMember @membership}}

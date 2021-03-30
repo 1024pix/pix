@@ -424,7 +424,8 @@
           "file-type-separator": " ou ",
           "label": "Importer ({types})"
         },
-        "manage-account": "Gérer le compte"
+        "manage-account": "Gérer le compte",
+        "show-actions": "Afficher les actions"
       },
       "agri-tooltip": "Quelques informations concernant l’import :<ul><li>Pour vos élèves : utiliser l’export FREGATA vers Pix et cliquer sur le bouton importer.</li><li>Pour vos apprentis : Pix importe tous les apprentis fin novembre au sein de votre espace Pix Orga. Les ajouts ponctuels d’apprentis se feront à partir de décembre, pour cela consulter la documentation Pix Orga et utiliser le modèle fourni.</li></ul>",
       "connection-types": {
@@ -507,7 +508,8 @@
       "actions": {
         "download-template": "Télécharger le modèle",
         "edit-student-number": "Éditer le numéro étudiant",
-        "import-file": "Importer (.csv)"
+        "import-file": "Importer (.csv)",
+        "show-actions": "Afficher les actions"
       },
       "edit-student-number-modal": {
         "actions": {
