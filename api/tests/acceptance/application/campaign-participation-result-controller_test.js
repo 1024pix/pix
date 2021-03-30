@@ -183,7 +183,6 @@ describe('Acceptance | API | Campaign Participation Result', () => {
           id: campaignParticipation.id.toString(),
           attributes: {
             'mastery-percentage': 38,
-            'progress': 1,
             'total-skills-count': 8,
             'tested-skills-count': 5,
             'validated-skills-count': 3,
@@ -220,7 +219,6 @@ describe('Acceptance | API | Campaign Participation Result', () => {
         included: [{
           attributes: {
             'area-color': 'emerald',
-            index: undefined,
             'mastery-percentage': 38,
             name: 'Pix Emploi',
             'tested-skills-count': 5,
