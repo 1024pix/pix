@@ -4,6 +4,7 @@ module.exports = function buildBadgeAcquisition({
   id,
   badgeId,
   userId,
+  campaignParticipationId,
 } = {}) {
 
   return databaseBuffer.pushInsertable({
@@ -12,6 +13,7 @@ module.exports = function buildBadgeAcquisition({
       id,
       badgeId,
       userId,
+      campaignParticipationId,
     },
   });
 };

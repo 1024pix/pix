@@ -83,6 +83,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([{
             badgeId,
             userId: event.userId,
+            campaignParticipationId: event.campaignParticipationId,
           }], domainTransaction);
         });
 
@@ -142,7 +143,11 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
           // then
-          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([{ badgeId: badge1.id, userId: event.userId }], domainTransaction);
+          expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([{
+            badgeId: badge1.id,
+            userId: event.userId,
+            campaignParticipationId: event.campaignParticipationId,
+          }], domainTransaction);
         });
 
         it('should create two badges when both badges requirements are fulfilled', async () => {
@@ -159,8 +164,8 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
           // then
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([
-            { badgeId: badge1.id, userId: event.userId },
-            { badgeId: badge2.id, userId: event.userId },
+            { badgeId: badge1.id, userId: event.userId, campaignParticipationId: event.campaignParticipationId },
+            { badgeId: badge2.id, userId: event.userId, campaignParticipationId: event.campaignParticipationId },
           ], domainTransaction);
         });
       });
