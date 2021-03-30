@@ -8,11 +8,11 @@
 
   <nav class="navbar list-team-page__tabs">
     <LinkTo @route="authenticated.team.list.members" class="navbar-item">
-      {{t 'pages.team-list.tabs.member'}} ({{@model.memberships.meta.rowCount}})
+      {{t 'pages.team-list.tabs.member' count=@model.memberships.meta.rowCount}}
     </LinkTo>
 
     <LinkTo @route="authenticated.team.list.invitations" class="navbar-item">
-      {{t 'pages.team-list.tabs.invitation'}} ({{@model.organization.organizationInvitations.length}})
+      {{t 'pages.team-list.tabs.invitation' count=@model.organization.organizationInvitations.length}}
     </LinkTo>
   </nav>
 
