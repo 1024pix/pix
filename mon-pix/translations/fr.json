@@ -81,7 +81,7 @@
                 "evaluate": {
                     "title": "Mesurer vos compétences numériques avec des tests ludiques sur différents thèmes comme :",
                     "complement": "Le service public d’évaluation et de certification des compétences numériques Pix permet d’évaluer son niveau dans 5 grands domaines de compétences, qui couvrent l’ensemble des usages actuels du numérique.",
-                    "list": "'<ul><li>'rechercher de l’information sur internet,'</li><li>'rédiger des documents,'</li><li>'communiquer et collaborer en ligne,'</li><li>'sécuriser son environnement de travail,'</li><li>'etc.'</li></ul>'",
+                    "list": "'<ul class=\"campaign-landing-page__details__text article-list\" data=\"/images/icons/icon-reload.svg\"><li>'rechercher de l’information sur internet,'</li><li>'rédiger des documents,'</li><li>'communiquer et collaborer en ligne,'</li><li>'sécuriser son environnement de travail,'</li><li>'etc.'</li></ul>'",
                     "more-info": {
                         "link": "https://pix.fr/competences",
                         "label": "En savoir plus."
