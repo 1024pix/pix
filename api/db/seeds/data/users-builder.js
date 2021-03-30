@@ -56,6 +56,18 @@ function usersBuilder({ databaseBuilder }) {
     userId: userWithSamlId.id,
   });
 
+  const userFromPoleEmploi = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Paul',
+    lastName: 'Amplois',
+    email: null,
+    rawPassword: 'Password123',
+    cgu: false,
+  });
+
+  databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+    userId: userFromPoleEmploi.id,
+  });
+
   const userWithLastTermsOfServiceValidated = {
     firstName: 'lasttermsofservice',
     lastName: 'validated',
