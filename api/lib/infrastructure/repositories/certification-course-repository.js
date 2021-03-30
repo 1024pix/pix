@@ -38,7 +38,7 @@ module.exports = {
     try {
       const certificationCourseBookshelf = await CertificationCourseBookshelf
         .where({ id })
-        .fetch({ require: true, withRelated: ['assessment', 'challenges', 'certificationIssueReports'] });
+        .fetch({ withRelated: ['assessment', 'challenges', 'certificationIssueReports'] });
       return bookshelfToDomainConverter.buildDomainObject(CertificationCourseBookshelf, certificationCourseBookshelf);
     } catch (bookshelfError) {
       if (bookshelfError instanceof CertificationCourseBookshelf.NotFoundError) {
@@ -64,7 +64,7 @@ module.exports = {
     const certificationCourse = await CertificationCourseBookshelf
       .where({ userId, sessionId })
       .orderBy('createdAt', 'desc')
-      .fetch({ withRelated: ['assessment', 'challenges'], transacting: domainTransaction.knexTransaction });
+      .fetch({ require: false, withRelated: ['assessment', 'challenges'], transacting: domainTransaction.knexTransaction });
     return _toDomain(certificationCourse);
   },
 

@@ -4,7 +4,6 @@ const Campaign = require('../../domain/models/Campaign');
 const Assessment = require('../../domain/models/Assessment');
 const Skill = require('../../domain/models/Skill');
 const User = require('../../domain/models/User');
-const queryBuilder = require('../utils/query-builder');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
 const knowledgeElementRepository = require('./knowledge-element-repository');
@@ -46,13 +45,14 @@ module.exports = {
 
   async get(id, options = {}) {
     if (options.include) {
-      options.include = _.union(options.include, ['assessments']);
+      options.withRelated = _.union(options.include, ['assessments']);
     } else {
-      options.include = ['assessments'];
+      options.withRelated = ['assessments'];
     }
 
-    const campaignParticipation = await queryBuilder.get(BookshelfCampaignParticipation, id, options, false);
-
+    const campaignParticipation = await BookshelfCampaignParticipation
+      .where({ id })
+      .fetch({ ...options, require: false });
     return _toDomain(campaignParticipation);
   },
 
@@ -110,7 +110,7 @@ module.exports = {
   findOneByCampaignIdAndUserId({ campaignId, userId }) {
     return BookshelfCampaignParticipation
       .where({ campaignId, userId })
-      .fetch()
+      .fetch({ require: false })
       .then((campaignParticipation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation));
   },
 
@@ -124,7 +124,7 @@ module.exports = {
         qb.where('assessments.id', '=', assessmentId);
       })
       .fetch({
-        required: false,
+        require: false,
         withRelated: ['campaign.targetProfile.skillIds', 'assessments'],
       })
       .then(_convertToDomainWithSkills);

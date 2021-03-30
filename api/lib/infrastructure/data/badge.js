@@ -9,7 +9,6 @@ const modelName = 'Badge';
 module.exports = Bookshelf.model(modelName, {
 
   tableName: 'badges',
-  requireFetch: false,
 
   targetProfile() {
     return this.belongsTo('TargetProfile', 'targetProfileId');

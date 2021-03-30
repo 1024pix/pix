@@ -72,7 +72,6 @@ module.exports = {
     return BookshelfOrganization
       .where({ id })
       .fetch({
-        require: true,
         withRelated: [
           'targetProfileShares.targetProfile',
           'tags',
@@ -93,7 +92,7 @@ module.exports = {
         qb.join('certification-centers', 'certification-centers.externalId', 'organizations.externalId');
         qb.where('certification-centers.id', '=', certificationCenterId);
       })
-      .fetch({ columns: ['organizations.id'] });
+      .fetch({ require: false, columns: ['organizations.id'] });
 
     const id = _.get(bookshelfOrganization, 'attributes.id');
     if (id) return id;
@@ -104,7 +103,7 @@ module.exports = {
     const organizationBookshelf = await BookshelfOrganization
       .query((qb) => qb.where({ type: Organization.types.SCO })
         .whereRaw('LOWER("externalId") = ?', externalId.toLowerCase()))
-      .fetch();
+      .fetch({ require: false });
 
     if (organizationBookshelf) {
       return _toDomain(organizationBookshelf);

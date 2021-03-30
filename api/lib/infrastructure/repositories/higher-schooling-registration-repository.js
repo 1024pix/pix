@@ -115,7 +115,7 @@ module.exports = {
         if (birthdate) qb.where('birthdate', birthdate);
         if (studentNumber) qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
       })
-      .fetch();
+      .fetch({ require: false });
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
   },

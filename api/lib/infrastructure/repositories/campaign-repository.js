@@ -8,7 +8,7 @@ module.exports = {
   isCodeAvailable(code) {
     return BookshelfCampaign
       .where({ code })
-      .fetch()
+      .fetch({ require: false })
       .then((campaign) => {
         if (campaign) {
           return false;
@@ -28,7 +28,6 @@ module.exports = {
     const bookshelfCampaign = await BookshelfCampaign
       .where({ id })
       .fetch({
-        require: true,
         withRelated: ['creator', 'organization', 'targetProfile'],
       })
       .catch((err) => {
@@ -76,7 +75,7 @@ module.exports = {
           qb.innerJoin('memberships', 'memberships.organizationId', 'campaigns.organizationId');
           qb.innerJoin('organizations', 'organizations.id', 'campaigns.organizationId');
         })
-        .fetch({ require: true });
+        .fetch();
     } catch (e) {
       return false;
     }
@@ -86,7 +85,7 @@ module.exports = {
   async checkIfCampaignIsArchived(campaignId) {
     const bookshelfCampaign = await BookshelfCampaign
       .where({ id: campaignId })
-      .fetch({ require: true });
+      .fetch();
 
     const campaign = bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
     return campaign.isArchived();

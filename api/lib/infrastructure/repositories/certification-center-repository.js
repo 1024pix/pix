@@ -37,7 +37,7 @@ module.exports = {
   async get(id) {
     const certificationCenterBookshelf = await BookshelfCertificationCenter
       .where({ id })
-      .fetch();
+      .fetch({ require: false });
 
     if (certificationCenterBookshelf) {
       return _toDomain(certificationCenterBookshelf);
@@ -51,7 +51,7 @@ module.exports = {
       .query((qb) => {
         qb.innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id');
       })
-      .fetch();
+      .fetch({ require: false });
 
     if (certificationCenterBookshelf) {
       return _toDomain(certificationCenterBookshelf);

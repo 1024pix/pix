@@ -33,7 +33,7 @@ async function _getLatestAssessmentResult(certificationCourseId) {
       qb.where('assessments.certificationCourseId', '=', certificationCourseId);
     })
     .orderBy('createdAt', 'desc')
-    .fetch({ require: true });
+    .fetch();
 
   return bookshelfToDomainConverter.buildDomainObject(AssessmentResultBookshelf, latestAssessmentResultBookshelf);
 }
@@ -102,7 +102,7 @@ module.exports = {
   async hasVerificationCode(id) {
     const certification = await CertificationCourseBookshelf
       .where({ id })
-      .fetch({ columns: 'verificationCode' });
+      .fetch({ require: false, columns: 'verificationCode' });
 
     return Boolean(certification.attributes.verificationCode);
   },

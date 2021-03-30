@@ -34,7 +34,7 @@ module.exports = {
       .where({ courseId })
       .query((knex) => knex.whereNotIn('challengeId', answeredChallengeIds))
       .orderBy('id', 'asc')
-      .fetch();
+      .fetch({ require: false });
 
     if (certificationChallenge === null) {
       logger.trace(logContext, 'no found challenges');

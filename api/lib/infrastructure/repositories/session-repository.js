@@ -17,7 +17,7 @@ module.exports = {
   async isSessionCodeAvailable(accessCode) {
     const sessionWithAccessCode = await BookshelfSession
       .where({ accessCode })
-      .fetch({});
+      .fetch({ require: false });
 
     return !sessionWithAccessCode;
   },
@@ -28,7 +28,7 @@ module.exports = {
         qb.where({ id });
         qb.whereRaw('?? IS NOT NULL', ['finalizedAt']);
       })
-      .fetch({ columns: 'id' });
+      .fetch({ require: false, columns: 'id' });
     return Boolean(session);
   },
 
@@ -36,7 +36,7 @@ module.exports = {
     try {
       const session = await BookshelfSession
         .where({ id: idSession })
-        .fetch({ require: true });
+        .fetch();
       return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, session);
     } catch (err) {
       if (err instanceof BookshelfSession.NotFoundError) {
@@ -50,7 +50,7 @@ module.exports = {
     try {
       const session = await BookshelfSession
         .where({ id: idSession })
-        .fetch({ require: true, withRelated: [
+        .fetch({ withRelated: [
           {
             'certificationCandidates': function(qb) {
               qb.select(Bookshelf.knex.raw('*'));
@@ -105,7 +105,7 @@ module.exports = {
         qb.innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId');
         qb.innerJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id');
       })
-      .fetch({ columns: 'sessions.id' });
+      .fetch({ require: false, columns: 'sessions.id' });
     return Boolean(session);
   },
 

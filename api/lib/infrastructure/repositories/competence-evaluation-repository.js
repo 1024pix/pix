@@ -36,7 +36,7 @@ module.exports = {
   getByAssessmentId(assessmentId) {
     return BookshelfCompetenceEvaluation
       .where({ assessmentId })
-      .fetch({ require: true, withRelated: ['assessment'] })
+      .fetch({ withRelated: ['assessment'] })
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
       .catch((bookshelfError) => {
         if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {
@@ -49,7 +49,7 @@ module.exports = {
   getByCompetenceIdAndUserId({ competenceId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     return BookshelfCompetenceEvaluation
       .where({ competenceId, userId })
-      .fetch({ require: true, withRelated: ['assessment'], transacting: domainTransaction.knexTransaction })
+      .fetch({ withRelated: ['assessment'], transacting: domainTransaction.knexTransaction })
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
       .catch((bookshelfError) => {
         if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {

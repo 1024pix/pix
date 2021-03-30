@@ -9,7 +9,6 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'knowledge-elements',
   hasTimestamps: ['createdAt', null],
-  requireFetch: false,
 
   assessment() {
     return this.belongsTo('Assessment', 'assessmentId');

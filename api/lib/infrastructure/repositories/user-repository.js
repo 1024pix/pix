@@ -31,7 +31,7 @@ module.exports = {
       .query((qb) => {
         qb.where('email', 'ILIKE', email);
       })
-      .fetch({ require: true })
+      .fetch()
       .then((bookshelfUser) => {
         return bookshelfUser.toDomainEntity();
       })
@@ -47,6 +47,7 @@ module.exports = {
     return BookshelfUser
       .query((qb) => qb.where({ email: username.toLowerCase() }).orWhere({ 'username': username }))
       .fetch({
+        require: false,
         withRelated: [
           { 'memberships': (qb) => qb.where({ disabledAt: null }) },
           'memberships.organization',
@@ -66,7 +67,7 @@ module.exports = {
   get(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({ require: true })
+      .fetch()
       .then((user) => bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
@@ -79,7 +80,7 @@ module.exports = {
   getForObfuscation(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({ require: true, columns: ['id', 'email', 'username'] })
+      .fetch({ columns: ['id', 'email', 'username'] })
       .then((userAuthenticationMethods) => _toUserAuthenticationMethods(userAuthenticationMethods))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
@@ -92,7 +93,7 @@ module.exports = {
   getUserDetailsForAdmin(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({ require: true,
+      .fetch({
         columns: ['id', 'firstName', 'lastName', 'email', 'username', 'cgu', 'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted'],
         withRelated: [{
           schoolingRegistrations: (query) => { query
@@ -129,6 +130,7 @@ module.exports = {
     return BookshelfUser
       .where({ id: userId })
       .fetch({
+        require: false,
         withRelated: [
           { 'memberships': (qb) => qb.where({ disabledAt: null }) },
           'memberships.organization',
@@ -146,7 +148,6 @@ module.exports = {
     return BookshelfUser
       .where({ id: userId })
       .fetch({
-        require: true,
         withRelated: [
           'certificationCenterMemberships.certificationCenter',
         ],
@@ -169,7 +170,7 @@ module.exports = {
             .andOnVal('authentication-methods.externalIdentifier', samlId);
         });
       })
-      .fetch({ withRelated: 'authenticationMethods' });
+      .fetch({ require: false, withRelated: 'authenticationMethods' });
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
@@ -183,7 +184,7 @@ module.exports = {
   isEmailAvailable(email) {
     return BookshelfUser
       .query((qb) => qb.where('email', 'ILIKE', email))
-      .fetch()
+      .fetch({ require: false })
       .then((user) => {
         if (user) {
           return Promise.reject(new AlreadyRegisteredEmailError());
@@ -197,7 +198,7 @@ module.exports = {
     const userFound = await BookshelfUser
       .where('id', '!=', userId)
       .where({ email: email.toLowerCase() })
-      .fetch();
+      .fetch({ require: false });
     if (userFound) {
       throw new AlreadyRegisteredEmailError();
     }
@@ -209,7 +210,7 @@ module.exports = {
   isUserExistingByEmail(email) {
     return BookshelfUser
       .where({ email: email.toLowerCase() })
-      .fetch({ require: true })
+      .fetch()
       .then(() => true)
       .catch(() => {
         throw new UserNotFoundError();
@@ -247,7 +248,7 @@ module.exports = {
       const updatedUser = await BookshelfUser
         .where({ id })
         .save(userAttributes, { patch: true, method: 'update' });
-      await updatedUser.related('authenticationMethods').fetch();
+      await updatedUser.related('authenticationMethods').fetch({ require: false });
       return _toUserDetailsForAdminDomain(updatedUser);
     } catch (err) {
       if (err instanceof BookshelfUser.NoRowsUpdatedError) {
@@ -264,24 +265,24 @@ module.exports = {
         qb.innerJoin('users_pix_roles', 'users_pix_roles.user_id', 'users.id');
         qb.where({ 'users_pix_roles.pix_role_id': PIX_MASTER_ROLE_ID });
       })
-      .fetch({ columns: 'users.id' });
+      .fetch({ require: false, columns: 'users.id' });
     return Boolean(user);
   },
 
   async updateHasSeenAssessmentInstructionsToTrue(id) {
-    const user = await BookshelfUser.where({ id }).fetch();
+    const user = await BookshelfUser.where({ id }).fetch({ require: false });
     await user.save({ 'hasSeenAssessmentInstructions': true }, { patch: true, method: 'update' });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async updateHasSeenNewDashboardInfoToTrue(id) {
-    const user = await BookshelfUser.where({ id }).fetch();
+    const user = await BookshelfUser.where({ id }).fetch({ require: false });
     await user.save({ 'hasSeenNewDashboardInfo': true }, { patch: true, method: 'update' });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async acceptPixLastTermsOfService(id) {
-    const user = await BookshelfUser.where({ id }).fetch();
+    const user = await BookshelfUser.where({ id }).fetch({ require: false });
     await user.save({
       'lastTermsOfServiceValidatedAt': moment().toDate(),
       'mustValidateTermsOfService': false,
@@ -290,13 +291,13 @@ module.exports = {
   },
 
   async updatePixOrgaTermsOfServiceAcceptedToTrue(id) {
-    const user = await BookshelfUser.where({ id }).fetch();
+    const user = await BookshelfUser.where({ id }).fetch({ require: false });
     await user.save({ 'pixOrgaTermsOfServiceAccepted': true }, { patch: true, method: 'update' });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async updatePixCertifTermsOfServiceAcceptedToTrue(id) {
-    const user = await BookshelfUser.where({ id }).fetch();
+    const user = await BookshelfUser.where({ id }).fetch({ require: false });
     await user.save({ 'pixCertifTermsOfServiceAccepted': true }, { patch: true, method: 'update' });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
@@ -304,7 +305,7 @@ module.exports = {
   async isUsernameAvailable(username) {
     const foundUser = await BookshelfUser
       .where({ username })
-      .fetch();
+      .fetch({ require: false });
     if (foundUser) {
       throw new AlreadyRegisteredUsernameError();
     }
@@ -372,7 +373,7 @@ module.exports = {
             .andOnVal('authentication-methods.externalIdentifier', externalIdentityId);
         });
       })
-      .fetch({ withRelated: 'authenticationMethods' });
+      .fetch({ require: false, withRelated: 'authenticationMethods' });
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 };
