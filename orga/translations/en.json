@@ -554,8 +554,8 @@
       "title": "My team",
       "add-member-button": "Invite a member",
       "tabs": {
-        "member": "Members",
-        "invitation": "Invitations"
+        "member": "Members ({count, plural, =0 {-} other {{count}}})",
+        "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})"
       }
     },
     "team-members": {
