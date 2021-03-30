@@ -89,13 +89,15 @@ describe('Integration | Repository | OrganizationTagRepository', () => {
       const organizationId1 = databaseBuilder.factory.buildOrganization().id;
       const organizationId2 = databaseBuilder.factory.buildOrganization().id;
 
-      const tagId1 = databaseBuilder.factory.buildTag().id;
-      const tagId2 = databaseBuilder.factory.buildTag().id;
+      const tagId1 = databaseBuilder.factory.buildTag({ name: 'tag1' }).id;
+      const tagId2 = databaseBuilder.factory.buildTag({ name: 'tag2' }).id;
 
       await databaseBuilder.commit();
 
       const organizationTag1 = domainBuilder.buildOrganizationTag({ organizationId: organizationId1, tagId: tagId1 });
       const organizationTag2 = domainBuilder.buildOrganizationTag({ organizationId: organizationId2, tagId: tagId2 });
+      organizationTag1.id = undefined;
+      organizationTag2.id = undefined;
 
       // when
       await organizationTagRepository.batchCreate([organizationTag1, organizationTag2]);
@@ -104,7 +106,5 @@ describe('Integration | Repository | OrganizationTagRepository', () => {
       const foundOrganizations = await knex('organization-tags').select();
       expect(foundOrganizations.length).to.equal(2);
     });
-
   });
-
 });
