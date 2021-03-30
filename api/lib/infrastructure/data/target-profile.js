@@ -11,7 +11,6 @@ module.exports = Bookshelf.model(modelName, {
 
   tableName: 'target-profiles',
   hasTimestamps: ['createdAt', null],
-  requireFetch: false,
 
   skillIds() {
     return this.hasMany('TargetProfileSkill', 'targetProfileId');

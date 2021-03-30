@@ -15,7 +15,7 @@ module.exports = {
     try {
       const certificationIssueReport = await CertificationIssueReportBookshelf
         .where({ id })
-        .fetch({ require: true });
+        .fetch();
       return bookshelfToDomainConverter.buildDomainObject(CertificationIssueReportBookshelf, certificationIssueReport);
     } catch (err) {
       if (err instanceof CertificationIssueReportBookshelf.NotFoundError) {

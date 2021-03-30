@@ -40,7 +40,7 @@ module.exports = {
   async get(id) {
     const targetProfileBookshelf = await BookshelfTargetProfile
       .where({ id })
-      .fetch({ withRelated: ['skillIds'] });
+      .fetch({ require: false, withRelated: ['skillIds'] });
 
     if (!targetProfileBookshelf) {
       throw new NotFoundError(`Le profil cible avec l'id ${id} n'existe pas`);
@@ -57,7 +57,7 @@ module.exports = {
       })
       .where({ 'campaigns.id': campaignId })
       .fetch({
-        require: true, withRelated: [
+        withRelated: [
           'skillIds', {
             stages: function(query) {
               query.orderBy('threshold', 'ASC');
@@ -77,7 +77,7 @@ module.exports = {
       })
       .where({ 'campaign-participations.id': campaignParticipationId })
       .fetch({
-        require: true, withRelated: [
+        withRelated: [
           'skillIds', {
             stages: function(query) {
               query.orderBy('threshold', 'ASC');

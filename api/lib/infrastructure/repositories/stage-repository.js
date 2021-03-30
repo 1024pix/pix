@@ -49,7 +49,7 @@ module.exports = {
   async get(id) {
     const bookshelfStage = await BookshelfStage
       .where('id', id)
-      .fetch({ require: true })
+      .fetch()
       .catch((err) => {
         if (err instanceof BookshelfStage.NotFoundError) {
           throw new NotFoundError(`Not found stage for ID ${id}`);

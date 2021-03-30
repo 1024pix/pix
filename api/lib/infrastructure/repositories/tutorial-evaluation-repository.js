@@ -2,7 +2,7 @@ const BookshelfTutorialEvaluation = require('../data/tutorial-evaluation');
 
 module.exports = {
   async addEvaluation({ userId, tutorialId }) {
-    const foundTutorialEvaluation = await BookshelfTutorialEvaluation.where({ userId, tutorialId }).fetch();
+    const foundTutorialEvaluation = await BookshelfTutorialEvaluation.where({ userId, tutorialId }).fetch({ require: false });
     if (foundTutorialEvaluation) {
       return _toDomain(foundTutorialEvaluation);
     }

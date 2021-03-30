@@ -15,7 +15,7 @@ module.exports = {
     const response = await PartnerCertificationBookshelf.query((qb) => {
       qb.where({ certificationCourseId, partnerKey: Badge.keys.PIX_EMPLOI_CLEA });
     })
-      .fetch({ required: false, columns: ['acquired'] });
+      .fetch({ require: false, columns: ['acquired'] });
 
     if (response) {
       return response.attributes.acquired ? statuses.ACQUIRED : statuses.REJECTED;
