@@ -424,7 +424,8 @@
           "file-type-separator": " or ",
           "label": "Import ({types})"
         },
-        "manage-account": "Manage the account"
+        "manage-account": "Manage the account",
+        "show-actions": "Show actions"
       },
       "agri-tooltip": "Some information about import:<ul><li>For your students: use the FREGATA export towards Pix and click on the import button.</li><li>For your trainees: Pix imports all trainees at the end of November into your Pix Orga workspace. From December on, you will be able to add trainees from time to time. To do so, consult the Pix Orga documentation and use the template provided.</li></ul>",
       "connection-types": {
@@ -507,7 +508,8 @@
       "actions": {
         "download-template": "Download the template",
         "edit-student-number": "Edit the student number",
-        "import-file": "Import (.csv)"
+        "import-file": "Import (.csv)",
+        "show-actions": "Show actions"
       },
       "edit-student-number-modal": {
         "actions": {
