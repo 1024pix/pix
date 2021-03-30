@@ -14,6 +14,7 @@ module.exports = {
 
   refreshCacheEntry(request) {
     const updatedRecord = request.payload;
+    console.log(updatedRecord);
     const recordId = request.params.id;
     const datasource = LearningContentDatasources[_.findKey(LearningContentDatasources, { modelName: request.params.model })];
     return datasource.refreshLearningContentCacheRecord(recordId, updatedRecord)
