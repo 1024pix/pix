@@ -1,8 +1,8 @@
 const { Serializer } = require('jsonapi-serializer');
-
 module.exports = {
   serialize(results) {
     return new Serializer('campaign-participation-results', {
+      transform,
       attributes: [
         'masteryPercentage',
         'totalSkillsCount',
@@ -11,7 +11,6 @@ module.exports = {
         'isCompleted',
         'campaignParticipationBadges',
         'competenceResults',
-        'progress',
         'reachedStage',
         'stageCount',
       ],
@@ -29,7 +28,6 @@ module.exports = {
         ],
         partnerCompetenceResults: {
           ref: 'id',
-          typeKeyForModel: 'resultCompetences',
           included: true,
           attributes: [
             'name',
@@ -69,3 +67,17 @@ module.exports = {
     }).serialize(results);
   },
 };
+
+function transform(record) {
+  return {
+    ...record,
+    campaignParticipationBadges: record.badgeResults.map(mapBadgeResult),
+  };
+}
+
+function mapBadgeResult(badgeResult) {
+  return {
+    ...badgeResult,
+    partnerCompetenceResults: badgeResult.partnerCompetenceResults.map((partnerCompetenceResult) => { return { ...partnerCompetenceResult, areaColor: partnerCompetenceResult.color }; }),
+  };
+}
