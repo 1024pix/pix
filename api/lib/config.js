@@ -124,6 +124,7 @@ module.exports = (function() {
     },
 
     featureToggles: {
+      isAprilFoolEnabled: isFeatureEnabled(process.env.FT_IS_APRIL_FOOL_ENABLED),
       isPoleEmploiEnabled: isFeatureEnabled(process.env.IS_POLE_EMPLOI_ENABLED),
       isCertificationResultsInOrgaEnabled: isFeatureEnabled(process.env.FT_IS_CERTIFICATION_RESULTS_IN_ORGA_ENABLED),
     },
