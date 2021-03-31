@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
 import { schedule } from '@ember/runloop';
+import isNumber from 'lodash/isNumber';
 
 export default class CertificationDetailsController extends Controller {
   juryRate = false;
@@ -17,6 +18,10 @@ export default class CertificationDetailsController extends Controller {
   @alias('details.percentageCorrectAnswers') rate;
   @alias('details.totalScore') score;
   @alias('model') details;
+
+  get shouldDisplayJuryScore() {
+    return isNumber(this.juryScore);
+  }
 
   @action
   onUpdateRate() {
