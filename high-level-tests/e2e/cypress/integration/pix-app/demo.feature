@@ -7,6 +7,7 @@ Fonctionnalité: Demo
     Alors je suis redirigé vers une page d'épreuve
     Et le titre sur l'épreuve est "Démo essentiels"
     Lorsque je vois l'épreuve "Combien font 2 + 2 ?"
+    Alors l'accessibilité de la page est correcte
     Et je clique sur "Je passe"
     Et je vois l'épreuve "Quel mot est synonyme de « regarder » ?"
     Et je choisis la réponse "radio_3"
