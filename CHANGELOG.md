@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.39.0 (31/03/2021)
+
+- [#2748](https://github.com/1024pix/pix/pull/2748) [FEATURE] Script de création d'organisations PRO en masse depuis un fichier CSV (PIX-2278).
+- [#2778](https://github.com/1024pix/pix/pull/2778) [FEATURE] Gérer le focus des PixModal lors de l'entrée et la sortie (PIX-1870).
+- [#2758](https://github.com/1024pix/pix/pull/2758) [FEATURE] Traduire en anglais la double mire dans Pix Orga (PIX-2227).
+- [#2766](https://github.com/1024pix/pix/pull/2766) [FEATURE] Ajouter l'id de campaign-participation au modèle badge-acquisition (PIX-2287).
+- [#2771](https://github.com/1024pix/pix/pull/2771) [FEATURE] Mettre une favicon unique pour chaque plateforme Pix (PIX-2330).
+- [#2724](https://github.com/1024pix/pix/pull/2724) [TECH] Ajout de test d'accessibilité dans nos tests E2E.
+- [#2774](https://github.com/1024pix/pix/pull/2774) [TECH] Retirer la configuration Bookshelf qui servait de rétrocompatibilité sur le comportement par défaut de fetch() (PIX-2420)
+- [#2773](https://github.com/1024pix/pix/pull/2773) [DOCS] Proposition de bonnes pratiques autour du testing de textes traduits sur les applications front Ember (PIX-2418)
+- [#2786](https://github.com/1024pix/pix/pull/2786) Bump y18n from 4.0.0 to 4.0.1 in /api
+
 ## v3.38.0 (29/03/2021)
 
 - [#2779](https://github.com/1024pix/pix/pull/2779) [FEATURE] Ajouter un lien vers la FAQ "Comment se certifier" sur le bandeau "Bravo vous êtes certifiable" (PIX-2400)
