@@ -1,9 +1,8 @@
 const databaseBuffer = require('../database-buffer');
-const faker = require('faker');
 
 module.exports = function buildTag({
-  id,
-  name = faker.random.words(),
+  id = databaseBuffer.getNextId(),
+  name = 'Tag',
 } = {}) {
 
   const values = {

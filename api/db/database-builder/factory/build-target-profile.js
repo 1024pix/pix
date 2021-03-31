@@ -1,16 +1,15 @@
-const faker = require('faker');
 const buildOrganization = require('./build-organization');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildTargetProfile({
-  id,
-  name = faker.name.jobTitle(),
+  id = databaseBuffer.getNextId(),
+  name = 'Remplir un tableur',
   imageUrl = null,
-  isPublic = faker.random.boolean(),
+  isPublic = true,
   isSimplifiedAccess = false,
   ownerOrganizationId,
-  createdAt = faker.date.recent(),
+  createdAt = new Date('2020-01-01'),
   outdated = false,
 } = {}) {
 

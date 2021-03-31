@@ -38,9 +38,12 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
       schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        firstName: 'france',
+        lastName: 'gall',
+        birthdate: '2001-01-01',
         organizationId: organization.id,
         userId: null,
-        studentNumber: '123A',
+        nationalStudentId: 'francegall123',
       });
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
 
@@ -457,7 +460,14 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       };
 
       organization = databaseBuilder.factory.buildOrganization({ identityProvider: 'SCO' });
-      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
+      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        firstName: 'josé',
+        lastName: 'bové',
+        birthdate: '2020-01-01',
+        nationalStudentId: 'josébové123',
+        organizationId: organization.id,
+        userId: null,
+      });
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
       await databaseBuilder.commit();
     });
@@ -497,24 +507,22 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
         it('should replace the existing user samlId already reconciled in the other organization with the authenticated user samlId', async () => {
           // given
-          const user = databaseBuilder.factory.buildUser(
-            {
-              firstName: schoolingRegistration.firstName,
-              lastName: schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
-            });
+          const user = databaseBuilder.factory.buildUser({
+            firstName: schoolingRegistration.firstName,
+            lastName: schoolingRegistration.lastName,
+            birthdate: schoolingRegistration.birthdate,
+          });
           databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: user.id });
 
           const otherOrganization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
-          databaseBuilder.factory.buildSchoolingRegistration(
-            {
-              organizationId: otherOrganization.id,
-              firstName: schoolingRegistration.firstName,
-              lastName: schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
-              nationalStudentId: schoolingRegistration.nationalStudentId,
-              userId: user.id,
-            });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            organizationId: otherOrganization.id,
+            firstName: schoolingRegistration.firstName,
+            lastName: schoolingRegistration.lastName,
+            birthdate: schoolingRegistration.birthdate,
+            nationalStudentId: schoolingRegistration.nationalStudentId,
+            userId: user.id,
+          });
           await databaseBuilder.commit();
 
           const externalUser = {
@@ -748,9 +756,16 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
     beforeEach(async () => {
       organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
-      campaignCode = databaseBuilder.factory.buildCampaign({ organizationId: organization.id }).code;
+      campaignCode = databaseBuilder.factory.buildCampaign({ organizationId: organization.id, code: 'YUTR789' }).code;
       user = databaseBuilder.factory.buildUser();
-      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: user.id });
+      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        firstName: 'josé',
+        lastName: 'bové',
+        birthdate: '2020-01-01',
+        nationalStudentId: 'josébové123',
+        organizationId: organization.id,
+        userId: user.id,
+      });
       await databaseBuilder.commit();
       options = {
         method: 'GET',
@@ -803,7 +818,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
       it('should return a data null', async () => {
         // given
-        const userWithoutStudent = databaseBuilder.factory.buildUser();
+        const userWithoutStudent = databaseBuilder.factory.buildUser({
+          firstName: 'jack',
+          lastName: 'black',
+        });
         await databaseBuilder.commit();
 
         options = {
@@ -824,7 +842,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
       it('should return a data null', async () => {
         // given
-        const otherCampaignCode = databaseBuilder.factory.buildCampaign().code;
+        const otherCampaignCode = databaseBuilder.factory.buildCampaign({ code: 'ABCDE123' }).code;
         await databaseBuilder.commit();
         options = {
           method: 'GET',
@@ -863,6 +881,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         firstName: user.firstName,
         lastName: user.lastName,
         userId: null,
+        nationalStudentId: 'nsi123ABC',
       });
       await databaseBuilder.commit();
 
@@ -1017,6 +1036,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           });
 
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'Sam',
+            lastName: 'Lebrave',
+            birthdate: '2015-10-10',
+            nationalStudentId: 'samlebrave',
             organizationId: organization.id,
             userId: null,
           });
@@ -1060,6 +1083,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             lastName: user.lastName,
             organizationId: organization.id,
             userId: user.id,
+            nationalStudentId: 'coucoucloclo',
           });
           await databaseBuilder.commit();
 

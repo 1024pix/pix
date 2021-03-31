@@ -1,6 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Acceptance | API | assessment-controller-get', () => {
 
@@ -24,7 +25,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
     let assessmentId;
 
     beforeEach(async () => {
-      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: null }).id;
+      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: Assessment.states.STARTED, type: Assessment.types.PREVIEW }).id;
       await databaseBuilder.commit();
       options = {
         method: 'GET',
@@ -36,62 +37,55 @@ describe('Acceptance | API | assessment-controller-get', () => {
       };
     });
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should return application/json', () => {
+    it('should return application/json', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
-      });
-
+      const contentType = response.headers['content-type'];
+      expect(contentType).to.contain('application/json');
     });
 
-    it('should return the expected assessment', () => {
+    it('should return the expected assessment', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        const expectedAssessment = {
-          'type': 'assessments',
-          'id': assessmentId.toString(),
-          'attributes': {
-            'state': null,
-            'title': '',
-            'type': null,
-            'certification-number': null,
-            'competence-id': 'recCompetenceId',
-          },
-          'relationships': {
-            'course': {
-              data: {
-                id: 'courseId',
-                type: 'courses',
-              },
-            },
-            'answers': {
-              'data': [],
-              links: {
-                related: `/api/answers?assessmentId=${assessmentId}`,
-              },
+      const expectedAssessment = {
+        'type': 'assessments',
+        'id': assessmentId.toString(),
+        'attributes': {
+          'state': Assessment.states.STARTED,
+          'title': 'Preview',
+          'type': Assessment.types.PREVIEW,
+          'certification-number': null,
+          'competence-id': 'recCompetenceId',
+        },
+        'relationships': {
+          'course': {
+            data: {
+              id: 'courseId',
+              type: 'courses',
             },
           },
-        };
-        const assessment = response.result.data;
-        expect(assessment).to.deep.equal(expectedAssessment);
-      });
+          'answers': {
+            'data': [],
+            links: {
+              related: `/api/answers?assessmentId=${assessmentId}`,
+            },
+          },
+        },
+      };
+      const assessment = response.result.data;
+      expect(assessment).to.deep.equal(expectedAssessment);
     });
   });
 
@@ -101,7 +95,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
     let options;
 
     beforeEach(async() => {
-      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: null }).id;
+      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, type: Assessment.types.PREVIEW }).id;
       await databaseBuilder.commit();
       options = {
         headers: {
@@ -113,15 +107,12 @@ describe('Acceptance | API | assessment-controller-get', () => {
       };
     });
 
-    it('should return 200 HTTP status code, when userId provided is linked to assessment', () => {
+    it('should return 200 HTTP status code, when userId provided is linked to assessment', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
   });
 
@@ -129,7 +120,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
     let assessmentId, answer1, answer2;
 
     beforeEach(async () => {
-      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: 'completed' }).id;
+      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: Assessment.states.COMPLETED, type: Assessment.types.PREVIEW }).id;
 
       answer1 = databaseBuilder.factory.buildAnswer({ assessmentId });
       answer2 = databaseBuilder.factory.buildAnswer({ assessmentId });
@@ -137,7 +128,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', async () => {
       const options = {
         method: 'GET',
         url: `/api/assessments/${assessmentId}`,
@@ -148,15 +139,13 @@ describe('Acceptance | API | assessment-controller-get', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should return application/json', () => {
+    it('should return application/json', async () => {
       const options = {
         method: 'GET',
         url: `/api/assessments/${assessmentId}`,
@@ -167,16 +156,14 @@ describe('Acceptance | API | assessment-controller-get', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
-      });
+      const contentType = response.headers['content-type'];
+      expect(contentType).to.contain('application/json');
     });
 
-    it('should return the expected assessment', () => {
+    it('should return the expected assessment', async () => {
       // given
       const options = {
         method: 'GET',
@@ -188,40 +175,38 @@ describe('Acceptance | API | assessment-controller-get', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        const expectedAssessment = {
-          'type': 'assessments',
-          'id': assessmentId.toString(),
-          'attributes': {
-            'state': 'completed',
-            'title': '',
-            'type': null,
-            'certification-number': null,
-            'competence-id': 'recCompetenceId',
+      const expectedAssessment = {
+        'type': 'assessments',
+        'id': assessmentId.toString(),
+        'attributes': {
+          'state': 'completed',
+          'title': 'Preview',
+          'type': Assessment.types.PREVIEW,
+          'certification-number': null,
+          'competence-id': 'recCompetenceId',
+        },
+        'relationships': {
+          'course': { 'data': { 'type': 'courses', 'id': courseId } },
+          'answers': {
+            'data': [
+              {
+                type: 'answers',
+                id: answer1.id.toString(),
+              },
+              {
+                type: 'answers',
+                id: answer2.id.toString(),
+              },
+            ],
           },
-          'relationships': {
-            'course': { 'data': { 'type': 'courses', 'id': courseId } },
-            'answers': {
-              'data': [
-                {
-                  type: 'answers',
-                  id: answer1.id.toString(),
-                },
-                {
-                  type: 'answers',
-                  id: answer2.id.toString(),
-                },
-              ],
-            },
-          },
-        };
-        const assessment = response.result.data;
-        expect(assessment.attributes).to.deep.equal(expectedAssessment.attributes);
-        expect(assessment.relationships.answers.data).to.have.deep.members(expectedAssessment.relationships.answers.data);
-      });
+        },
+      };
+      const assessment = response.result.data;
+      expect(assessment.attributes).to.deep.equal(expectedAssessment.attributes);
+      expect(assessment.relationships.answers.data).to.have.deep.members(expectedAssessment.relationships.answers.data);
     });
   });
 
@@ -242,7 +227,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', async () => {
       // given
       const options = {
         method: 'GET',
@@ -254,16 +239,13 @@ describe('Acceptance | API | assessment-controller-get', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
-
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should return application/json', () => {
+    it('should return application/json', async () => {
       // given
       const options = {
         method: 'GET',
@@ -275,16 +257,14 @@ describe('Acceptance | API | assessment-controller-get', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
-      });
+      const contentType = response.headers['content-type'];
+      expect(contentType).to.contain('application/json');
     });
 
-    it('should return an array of assessments, with code campaign', () => {
+    it('should return an array of assessments, with code campaign', async () => {
       // given
       const options = {
         method: 'GET',
@@ -313,30 +293,26 @@ describe('Acceptance | API | assessment-controller-get', () => {
         },
       };
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.result.data).to.be.an('array');
-        const assessment = response.result.data[0];
-        expect(assessment.attributes).to.deep.equal(expectedFirstAssessment.attributes);
-      });
+      expect(response.result.data).to.be.an('array');
+      const assessment = response.result.data[0];
+      expect(assessment.attributes).to.deep.equal(expectedFirstAssessment.attributes);
     });
 
-    it('should return an empty array since no user is logged', () => {
+    it('should return an empty array since no user is logged', async () => {
       // given
       const options = {
         method: 'GET',
         url: '/api/assessments?filter[codeCampaign]=TESTCODE',
       };
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.result.data).to.be.an('array');
-        expect(response.result.data).to.be.empty;
-      });
+      expect(response.result.data).to.be.an('array');
+      expect(response.result.data).to.be.empty;
     });
   });
 });

@@ -2,19 +2,16 @@ const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEv
 const buildAssessment = require('./build-assessment');
 const buildUser = require('./build-user');
 
-const faker = require('faker');
-
-module.exports = function buildCompetenceEvaluation(
-  {
-    id = 1,
-    assessmentId,
-    assessment,
-    status = 'started',
-    userId = buildUser().id,
-    competenceId = 'recsvLz0W2ShyfD63',
-    createdAt = faker.date.recent(),
-    updatedAt = faker.date.recent(),
-  } = {}) {
+module.exports = function buildCompetenceEvaluation({
+  id = 1,
+  assessmentId,
+  assessment,
+  status = 'started',
+  userId = buildUser().id,
+  competenceId = 'recsvLz0W2ShyfD63',
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-02-01'),
+} = {}) {
 
   if (assessment && !assessmentId) {
     assessmentId = assessment.id;

@@ -1,4 +1,3 @@
-const faker = require('faker');
 const jwt = require('jsonwebtoken');
 
 const {
@@ -110,7 +109,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         userId,
         assessmentId: assessment.id,
         competenceId: 'recCompetence1',
-        createdAt: faker.date.past(10, campaignParticipation.sharedAt),
+        createdAt: new Date('2017-12-01'),
       });
 
       await databaseBuilder.commit();

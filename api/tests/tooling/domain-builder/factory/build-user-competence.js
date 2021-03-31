@@ -1,18 +1,15 @@
-const faker = require('faker');
-
 const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 const buildArea = require('./build-area');
 
 module.exports = function buildUserCompetence({
-  id = faker.random.uuid(),
-  index = `${faker.random.number()}.${faker.random.number()}`,
-  name = faker.random.word(),
+  id = 'recUserComp',
+  index = '1.1',
+  name = 'name',
   area = buildArea(),
   pixScore = 42,
   estimatedLevel = 1,
 } = {}) {
-
-  const userCompetence = new UserCompetence({
+  return new UserCompetence({
     id,
     index,
     name,
@@ -20,5 +17,4 @@ module.exports = function buildUserCompetence({
     pixScore,
     estimatedLevel,
   });
-  return userCompetence;
 };

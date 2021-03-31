@@ -1,6 +1,5 @@
 const { expect } = require('../../../test-helper');
 const { userId, competenceId } = require('../../../../lib/domain/types/identifiers-type');
-const faker = require('faker');
 
 describe('Unit | Domain | Type | identifier-types', () => {
 
@@ -78,7 +77,7 @@ describe('Unit | Domain | Type | identifier-types', () => {
 
       it('should reject when too large', async () => {
         // given
-        const tooLargeString = faker.random.alphaNumeric(256);
+        const tooLargeString = 'A'.repeat(256);
 
         // when
         const { error } = competenceId.validate(tooLargeString);

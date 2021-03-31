@@ -1,17 +1,16 @@
-const faker = require('faker');
 const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
 
 module.exports = function buildSchoolingRegistrationForAdmin({
-  id = faker.random.number(),
-  firstName = faker.name.firstName(),
-  lastName = faker.name.lastName(),
-  birthdate = faker.date.past(),
-  division = faker.random.word(),
-  organizationId = faker.random.number(),
-  organizationExternalId = faker.random.word(),
-  organizationName = faker.random.word(),
-  createdAt = faker.date.recent(),
-  updatedAt = faker.date.recent(),
+  id = 123,
+  firstName = 'Super',
+  lastName = 'Yvette',
+  birthdate = '1959-01-05',
+  division = '3eme',
+  organizationId = 456,
+  organizationExternalId = 'externalId',
+  organizationName = 'name',
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-01-01'),
 } = {}) {
   return new SchoolingRegistrationForAdmin({
     id,

@@ -1,10 +1,9 @@
-const faker = require('faker');
 const Stage = require('../../../../lib/domain/models/Stage');
 
 module.exports = function buildStage({
-  id = faker.random.uuid(),
-  title = faker.company.catchPhrase(),
-  message = faker.company.catchPhrase(),
+  id = 123,
+  title = 'Courage',
+  message = 'Insister',
   threshold = 1,
   prescriberTitle,
   prescriberDescription,

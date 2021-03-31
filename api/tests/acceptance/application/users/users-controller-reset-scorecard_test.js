@@ -95,6 +95,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
           id: 1,
           userId,
           competenceId,
+          createdAt: new Date(),
         });
 
         await databaseBuilder.commit();

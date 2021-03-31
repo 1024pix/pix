@@ -1,9 +1,7 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const userController = require('../../../../lib/application/users/user-controller');
 const moduleUnderTest = require('../../../../lib/application/users');
-const faker = require('faker');
 
 describe('Integration | Application | Users | Routes', () => {
 
@@ -83,7 +81,7 @@ describe('Integration | Application | Users | Routes', () => {
     it('should return BAD_REQUEST (400) when competenceId parameter is invalid', async () => {
 
       // given
-      const invalidCompetenceId = faker.random.alphaNumeric(256);
+      const invalidCompetenceId = 'A'.repeat(256);
       securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => h.response(true));
       const url = `/api/users/123/competences/${invalidCompetenceId}/reset`;
 

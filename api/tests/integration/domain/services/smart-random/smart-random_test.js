@@ -34,23 +34,23 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     locale = 'fr';
 
     // Acquis (skills)
-    web1 = domainBuilder.buildSkill({ name: '@web1' });
-    web2 = domainBuilder.buildSkill({ name: '@web2' });
-    web3 = domainBuilder.buildSkill({ name: '@web3' });
-    web4 = domainBuilder.buildSkill({ name: '@web4' });
-    web5 = domainBuilder.buildSkill({ name: '@web5' });
-    web6 = domainBuilder.buildSkill({ name: '@web6' });
-    web7 = domainBuilder.buildSkill({ name: '@web7' });
-    url2 = domainBuilder.buildSkill({ name: '@url2' });
-    url3 = domainBuilder.buildSkill({ name: '@url3' });
-    url4 = domainBuilder.buildSkill({ name: '@url4' });
-    url5 = domainBuilder.buildSkill({ name: '@url5' });
-    url6 = domainBuilder.buildSkill({ name: '@url6' });
-    rechInfo5 = domainBuilder.buildSkill({ name: '@rechInfo5' });
-    rechInfo7 = domainBuilder.buildSkill({ name: '@rechInfo7' });
-    info2 = domainBuilder.buildSkill({ name: '@info2' });
-    cnil1 = domainBuilder.buildSkill({ name: '@cnil1' });
-    cnil2 = domainBuilder.buildSkill({ name: '@cnil2' });
+    web1 = domainBuilder.buildSkill({ id: 'rec01', name: '@web1' });
+    web2 = domainBuilder.buildSkill({ id: 'rec02', name: '@web2' });
+    web3 = domainBuilder.buildSkill({ id: 'rec03', name: '@web3' });
+    web4 = domainBuilder.buildSkill({ id: 'rec04', name: '@web4' });
+    web5 = domainBuilder.buildSkill({ id: 'rec05', name: '@web5' });
+    web6 = domainBuilder.buildSkill({ id: 'rec06', name: '@web6' });
+    web7 = domainBuilder.buildSkill({ id: 'rec07', name: '@web7' });
+    url2 = domainBuilder.buildSkill({ id: 'rec08', name: '@url2' });
+    url3 = domainBuilder.buildSkill({ id: 'rec09', name: '@url3' });
+    url4 = domainBuilder.buildSkill({ id: 'rec10', name: '@url4' });
+    url5 = domainBuilder.buildSkill({ id: 'rec11', name: '@url5' });
+    url6 = domainBuilder.buildSkill({ id: 'rec12', name: '@url6' });
+    rechInfo5 = domainBuilder.buildSkill({ id: 'rec13', name: '@rechInfo5' });
+    rechInfo7 = domainBuilder.buildSkill({ id: 'rec14', name: '@rechInfo7' });
+    info2 = domainBuilder.buildSkill({ id: 'rec15', name: '@info2' });
+    cnil1 = domainBuilder.buildSkill({ id: 'rec16', name: '@cnil1' });
+    cnil2 = domainBuilder.buildSkill({ id: 'rec17', name: '@cnil2' });
 
     // Challenges
     challengeWeb_1 = domainBuilder.buildChallenge({ id: 'recweb1', skills: [web1], locales: ['fr'] });

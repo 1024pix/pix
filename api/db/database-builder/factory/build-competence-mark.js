@@ -1,17 +1,16 @@
-const faker = require('faker');
 const buildAssessmentResult = require('./build-assessment-result');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildCompetenceMark({
-  id,
-  level = faker.random.number() % 8,
-  score = faker.random.number() % 64,
-  area_code = faker.random.number().toString(),
-  competence_code = `${faker.random.number()}_${faker.random.number()}`,
-  competenceId = `rec${faker.random.uuid()}`,
+  id = databaseBuffer.getNextId(),
+  level = 5,
+  score = 42,
+  area_code = '1',
+  competence_code = '1.1',
+  competenceId = 'recABC123',
   assessmentResultId,
-  createdAt = faker.date.past(),
+  createdAt = new Date('2020-01-01'),
 } = {}) {
 
   assessmentResultId = _.isUndefined(assessmentResultId) ? buildAssessmentResult().id : assessmentResultId;

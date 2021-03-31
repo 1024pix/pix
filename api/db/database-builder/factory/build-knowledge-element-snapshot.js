@@ -1,13 +1,12 @@
-const faker = require('faker');
 const buildKnowledgeElement = require('./build-knowledge-element');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildKnowledgeElementSnapshot({
-  id,
+  id = databaseBuffer.getNextId(),
   userId,
-  snappedAt = faker.date.recent(),
+  snappedAt = new Date('2020-01-01'),
   snapshot,
 } = {}) {
 
