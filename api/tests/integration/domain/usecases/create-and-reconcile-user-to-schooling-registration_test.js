@@ -175,7 +175,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
             invalidAttributes: [
               {
                 attribute: 'email',
-                message: 'Votre adresse e-mail n’est pas renseignée.',
+                message: 'EMPTY_EMAIL',
               },
               {
                 attribute: 'password',

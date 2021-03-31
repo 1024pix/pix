@@ -20,6 +20,12 @@ module('Acceptance | join', function(hooks) {
   setupMirage(hooks);
   setupIntl(hooks);
 
+  let loginOrRegisterButton;
+
+  hooks.beforeEach(function() {
+    loginOrRegisterButton = this.intl.t('pages.login-or-register.login-form.button');
+  });
+
   module('When prescriber tries to go on join page', function() {
 
     test('it should remain on join page when organization-invitation exists', async function(assert) {
@@ -67,7 +73,17 @@ module('Acceptance | join', function(hooks) {
     });
   });
 
-  module('Login', function() {
+  module('Login', function(hooks) {
+
+    let emailInputLabel;
+    let passwordInputLabel;
+    let loginButton;
+
+    hooks.beforeEach(function() {
+      emailInputLabel = this.intl.t('pages.login-form.email');
+      passwordInputLabel = this.intl.t('pages.login-form.password');
+      loginButton = this.intl.t('pages.login-form.login');
+    });
 
     module('When prescriber is logging in but has not accepted terms of service yet', function(hooks) {
 
@@ -91,12 +107,12 @@ module('Acceptance | join', function(hooks) {
       test('it should redirect user to the terms-of-service page', async function(assert) {
         // given
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel('Se connecter');
-        await fillInByLabel('Adresse e-mail', user.email);
-        await fillInByLabel('Mot de passe', 'secret');
+        await clickByLabel(loginOrRegisterButton);
+        await fillInByLabel(emailInputLabel, user.email);
+        await fillInByLabel(passwordInputLabel, 'secret');
 
         // when
-        await clickByLabel('Je me connecte');
+        await clickByLabel(loginButton);
 
         // then
         assert.equal(currentURL(), '/cgu');
@@ -108,12 +124,12 @@ module('Acceptance | join', function(hooks) {
         server.create('campaign');
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel('Se connecter');
-        await fillInByLabel('Adresse e-mail', user.email);
-        await fillInByLabel('Mot de passe', 'secret');
+        await clickByLabel(loginOrRegisterButton);
+        await fillInByLabel(emailInputLabel, user.email);
+        await fillInByLabel(passwordInputLabel, 'secret');
 
         // when
-        await clickByLabel('Je me connecte');
+        await clickByLabel(loginButton);
 
         // then
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
@@ -146,12 +162,12 @@ module('Acceptance | join', function(hooks) {
         server.create('campaign');
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel('Se connecter');
-        await fillInByLabel('Adresse e-mail', user.email);
-        await fillInByLabel('Mot de passe', 'secret');
+        await clickByLabel(loginOrRegisterButton);
+        await fillInByLabel(emailInputLabel, user.email);
+        await fillInByLabel(passwordInputLabel, 'secret');
 
         // when
-        await clickByLabel('Je me connecte');
+        await clickByLabel(loginButton);
 
         // then
         assert.equal(currentURL(), '/campagnes');
@@ -163,12 +179,12 @@ module('Acceptance | join', function(hooks) {
         server.create('campaign');
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel('Se connecter');
-        await fillInByLabel('Adresse e-mail', user.email);
-        await fillInByLabel('Mot de passe', 'secret');
+        await clickByLabel(loginOrRegisterButton);
+        await fillInByLabel(emailInputLabel, user.email);
+        await fillInByLabel(passwordInputLabel, 'secret');
 
         // when
-        await clickByLabel('Je me connecte');
+        await clickByLabel(loginButton);
 
         // then
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
@@ -200,12 +216,12 @@ module('Acceptance | join', function(hooks) {
         }, 401);
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel('Se connecter');
-        await fillInByLabel('Adresse e-mail', user.email);
-        await fillInByLabel('Mot de passe', 'fakepassword');
+        await clickByLabel(loginOrRegisterButton);
+        await fillInByLabel(emailInputLabel, user.email);
+        await fillInByLabel(passwordInputLabel, 'fakepassword');
 
         // when
-        await clickByLabel('Je me connecte');
+        await clickByLabel(loginButton);
 
         // then
         assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
@@ -242,12 +258,12 @@ module('Acceptance | join', function(hooks) {
           }],
         }, 412);
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel('Se connecter');
-        await fillInByLabel('Adresse e-mail', user.email);
-        await fillInByLabel('Mot de passe', 'secret');
+        await clickByLabel(loginOrRegisterButton);
+        await fillInByLabel(emailInputLabel, user.email);
+        await fillInByLabel(passwordInputLabel, 'secret');
 
         // when
-        await clickByLabel('Je me connecte');
+        await clickByLabel(loginButton);
 
         // then
         assert.equal(currentURL(), '/cgu');
@@ -256,7 +272,23 @@ module('Acceptance | join', function(hooks) {
     });
   });
 
-  module('Register', function() {
+  module('Register', function(hooks) {
+
+    let firstNameInputLabel;
+    let lastNameInputLabel;
+    let emailInputLabel;
+    let passwordInputLabel;
+    let cguAriaLabel;
+    let registerButtonLabel;
+
+    hooks.beforeEach(function() {
+      firstNameInputLabel = this.intl.t('pages.login-or-register.register-form.fields.first-name.label');
+      lastNameInputLabel = this.intl.t('pages.login-or-register.register-form.fields.last-name.label');
+      emailInputLabel = this.intl.t('pages.login-or-register.register-form.fields.email.label');
+      passwordInputLabel = this.intl.t('pages.login-or-register.register-form.fields.password.label');
+      cguAriaLabel = this.intl.t('pages.login-or-register.register-form.fields.cgu.aria-label');
+      registerButtonLabel = this.intl.t('pages.login-or-register.register-form.fields.button.label');
+    });
 
     module('When prescriber is registering', function() {
 
@@ -276,14 +308,14 @@ module('Acceptance | join', function(hooks) {
           }).id;
 
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-          await fillInByLabel('Prénom', 'pix');
-          await fillInByLabel('Nom', 'pix');
-          await fillInByLabel('Adresse e-mail', 'shi@fu.me');
-          await fillInByLabel('Mot de passe', 'Password4register');
-          await clickByLabel('Accepter les conditions d\'utilisation de Pix');
+          await fillInByLabel(firstNameInputLabel, 'pix');
+          await fillInByLabel(lastNameInputLabel, 'pix');
+          await fillInByLabel(emailInputLabel, 'shi@fu.me');
+          await fillInByLabel(passwordInputLabel, 'Password4register');
+          await clickByLabel(cguAriaLabel);
 
           // when
-          await clickByLabel('Je m\'inscris');
+          await clickByLabel(registerButtonLabel);
 
           // then
           assert.equal(currentURL(), '/cgu');
@@ -317,14 +349,14 @@ module('Acceptance | join', function(hooks) {
           }, 422);
 
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-          await fillInByLabel('Prénom', 'pix');
-          await fillInByLabel('Nom', 'pix');
-          await fillInByLabel('Adresse e-mail', 'alreadyUser@organization.org');
-          await fillInByLabel('Mot de passe', 'Password4register');
-          await clickByLabel('Accepter les conditions d\'utilisation de Pix');
+          await fillInByLabel(firstNameInputLabel, 'pix');
+          await fillInByLabel(lastNameInputLabel, 'pix');
+          await fillInByLabel(emailInputLabel, 'alreadyUser@organization.org');
+          await fillInByLabel(passwordInputLabel, 'Password4register');
+          await clickByLabel(cguAriaLabel);
 
           // when
-          await clickByLabel('Je m\'inscris');
+          await clickByLabel(registerButtonLabel);
 
           // then
           assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);

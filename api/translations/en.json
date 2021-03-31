@@ -65,7 +65,19 @@
   "entity-validation-errors": {
     "STAGE_THRESHOLD_IS_REQUIRED": "The stage threshold is required",
     "STAGE_TITLE_IS_REQUIRED": "The stage title is required",
-    "TARGET_PROFILE_IS_REQUIRED": "The target profile is required"
+    "TARGET_PROFILE_IS_REQUIRED": "The target profile is required",
+    "ALREADY_REGISTERED_EMAIL": "This email address is already registered, please log in.",
+    "WRONG_EMAIL_FORMAT": "The email address format is invalid.",
+    "MAX_SIZE_EMAIL": "Your email address must not exceed 255 characters.",
+    "MAX_SIZE_LAST_NAME": "Your last name must not exceed 255 characters.",
+    "MAX_SIZE_FIRST_NAME": "Your first name must not exceed 255 characters.",
+    "EMPTY_EMAIL": "Please enter an email address.",
+    "EMPTY_LAST_NAME": "Please enter a last name.",
+    "EMPTY_FIRST_NAME": "Please enter a first name.",
+    "EMPTY_USERNAME": "Please enter a username.",
+    "EMPTY_INPUT": "Please fill out the fields.",
+    "ACCEPT_CGU": "Please agree to the terms and conditions of use.",
+    "FILL_USERNAME_OR_EMAIL": "Please enter an email address and/or a username."
   },
   "higher-schooling-registration-csv": {
     "birthdate": "Date of birth (DD/MM/YYYY)",

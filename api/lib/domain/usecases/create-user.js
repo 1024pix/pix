@@ -9,7 +9,7 @@ const passwordValidator = require('../validators/password-validator');
 const { getCampaignUrl } = require('../../infrastructure/utils/url-builder');
 
 function _manageEmailAvailabilityError(error) {
-  return _manageError(error, AlreadyRegisteredEmailError, 'email', 'Cette adresse e-mail est déjà enregistrée, connectez-vous.');
+  return _manageError(error, AlreadyRegisteredEmailError, 'email', 'ALREADY_REGISTERED_EMAIL');
 }
 
 function _manageError(error, errorType, attribute, message) {
