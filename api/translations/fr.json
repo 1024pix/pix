@@ -1,28 +1,4 @@
 {
-  "campaign": {
-    "common": {
-      "no": "Non",
-      "not-available": "NA",
-      "yes": "Oui"
-    },
-    "profiles-collection": {
-      "campaign-id": "ID Campagne",
-      "campaign-name": "Nom de la campagne",
-      "certifiable-skills": "Nombre de compétences certifiables",
-      "file-name": "Resultats-{{name}}-{{id}}-{{date}}.csv",
-      "is-certifiable": "Certifiable (O/N)",
-      "is-sent": "Envoi (O/N)",
-      "organization-name": "Nom de l'organisation",
-      "participant-division": "Classe",
-      "participant-firstname": "Prénom du Participant",
-      "participant-lastname": "Nom du Participant",
-      "participant-student-number": "Numéro Étudiant",
-      "pix-score": "Nombre de pix total",
-      "sent-on": "Date de l'envoi",
-      "skill-level": "Niveau pour la compétence {{name}}",
-      "skill-ranking": "Nombre de pix pour la compétence {{name}}"
-    }
-  },
   "campaign-export": {
     "assessment": {
       "competence-area": {
@@ -103,22 +79,6 @@
     "ACCEPT_CGU": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
     "FILL_USERNAME_OR_EMAIL": "Vous devez renseigner une adresse e-mail et/ou un identifiant."
   },
-  "higher-schooling-registration-csv": {
-    "birthdate": "Date de naissance (jj/mm/aaaa)",
-    "department": "Composante",
-    "diploma": "Diplôme",
-    "educational-team": "Équipe pédagogique",
-    "email": "Email",
-    "firstname": "Premier prénom",
-    "group": "Groupe",
-    "lastname": "Nom de famille",
-    "middle-name": "Deuxième prénom",
-    "preferred-lastname": "Nom d'usage",
-    "student-number": "Numéro étudiant",
-    "study-scheme": "Régime",
-    "template-name": "modele-import",
-    "third-name": "Troisième prénom"
-  },
   "organization-invitation-email": {
     "params": {
       "acceptInvitation": "Accepter l’invitation",
@@ -161,5 +121,39 @@
       "weCannotSendYourPassword": "Bonjour, pour des raisons de sécurité, nous ne vous envoyons pas votre mot de passe par e-mail."
     },
     "subject": "Demande de réinitialisation de mot de passe Pix"
+  },
+  "csv-template": {
+    "higher-schooling-registrations": {
+      "birthdate": "Date de naissance (jj/mm/aaaa)",
+      "department": "Composante",
+      "diploma": "Diplôme",
+      "educational-team": "Équipe pédagogique",
+      "email": "Email",
+      "first-name": "Premier prénom",
+      "group": "Groupe",
+      "last-name": "Nom de famille",
+      "middle-name": "Deuxième prénom",
+      "preferred-lastname": "Nom d'usage",
+      "student-number": "Numéro étudiant",
+      "study-scheme": "Régime",
+      "third-name": "Troisième prénom"
+    },
+    "schooling-registrations": {
+      "birthdate": "Date de naissance (jj/mm/aaaa)*",
+      "birth-city": "Libellé commune naissance**",
+      "birth-city-code": "Code commune naissance**",
+      "birth-province-code": "Code département naissance*",
+      "birth-country-code": "Code pays naissance*",
+      "division": "Division*",
+      "first-name": "Premier prénom*",
+      "last-name": "Nom de famille*",
+      "middle-name": "Deuxième prénom",
+      "mef-code": "Code MEF*",
+      "national-identifier": "Identifiant unique*",
+      "preferred-last-name": "Nom d'usage",
+      "status": "Statut*",
+      "third-name": "Troisième prénom"
+    },
+    "template-name": "modele-import"
   }
 }

@@ -4,9 +4,13 @@ const importApprentices = require('../../../../scripts/prod/import-apprentices')
 const iconv = require('iconv-lite');
 const { CsvImportError, OrganizationNotFoundError } = require('../../../../lib/domain/errors');
 
-const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
+const SchoolingRegistrationColumns = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-columns');
 
-const schoolingRegistrationCsvColumns = [...COLUMNS, { label: 'UAI*' }].map((column) => column.label).join(';');
+const { getI18n } = require('../../../tooling/i18n/i18n');
+const i18n = getI18n();
+
+const columns = new SchoolingRegistrationColumns(i18n).columns;
+const schoolingRegistrationCsvColumns = [...columns, { label: 'UAI*' }].map((column) => column.label).join(';');
 
 describe('Integration | Scripts | import-apprentices', () => {
   const fileSystem = {
@@ -126,7 +130,8 @@ describe('Integration | Scripts | import-apprentices', () => {
       });
     });
     context('when the header is not correctly formed', () => {
-      const requiredColumns = [...COLUMNS, { label: 'UAI*' }].map((column) => column.label);
+      const columns = new SchoolingRegistrationColumns(i18n).columns;
+      const requiredColumns = [...columns, { label: 'UAI*' }].map((column) => column.label);
 
       requiredColumns.forEach((missingColumn) => {
         it('throws a CsvImportError', async () => {
