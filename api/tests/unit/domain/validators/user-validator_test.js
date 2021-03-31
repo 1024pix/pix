@@ -44,7 +44,7 @@ describe('Unit | Domain | Validators | user-validator', () => {
           // given
           const expectedError = {
             attribute: undefined,
-            message: 'Aucun champ n\'est renseigné.',
+            message: 'EMPTY_INPUT',
           };
 
           // when
@@ -61,7 +61,7 @@ describe('Unit | Domain | Validators | user-validator', () => {
           // given
           const expectedError = {
             attribute: 'firstName',
-            message: 'Votre prénom n’est pas renseigné.',
+            message: 'EMPTY_FIRST_NAME',
           };
           user.firstName = MISSING_VALUE;
 
@@ -79,7 +79,7 @@ describe('Unit | Domain | Validators | user-validator', () => {
           // given
           const expectedError = {
             attribute: 'lastName',
-            message: 'Votre nom n’est pas renseigné.',
+            message: 'EMPTY_LAST_NAME',
           };
           user.lastName = MISSING_VALUE;
 
@@ -97,7 +97,7 @@ describe('Unit | Domain | Validators | user-validator', () => {
           // given
           const expectedError = {
             attribute: 'cgu',
-            message: 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
+            message: 'ACCEPT_CGU',
           };
           user.cgu = 'false';
 
@@ -115,7 +115,7 @@ describe('Unit | Domain | Validators | user-validator', () => {
           // given
           const expectedError = {
             attribute: 'email',
-            message: 'Votre adresse e-mail n’est pas renseignée.',
+            message: 'EMPTY_EMAIL',
           };
           user.email = MISSING_VALUE;
 
@@ -133,7 +133,7 @@ describe('Unit | Domain | Validators | user-validator', () => {
           // given
           const expectedError = {
             attribute: 'email',
-            message: 'Le format de l\'adresse e-mail est incorrect.',
+            message: 'WRONG_EMAIL_FORMAT',
           };
           user.email = 'invalid_email';
 
@@ -151,7 +151,7 @@ describe('Unit | Domain | Validators | user-validator', () => {
           // given
           const expectedError = {
             attribute: undefined,
-            message: 'Vous devez renseigner une adresse e-mail et/ou un identifiant.',
+            message: 'FILL_USERNAME_OR_EMAIL',
           };
 
           user.email = undefined;
@@ -183,15 +183,15 @@ describe('Unit | Domain | Validators | user-validator', () => {
           // given
           const expectedFirstNameError = {
             attribute: 'firstName',
-            message: 'Votre prénom ne doit pas dépasser les 255 caractères.',
+            message: 'MAX_SIZE_FIRST_NAME',
           };
           const expectedLastNameError = {
             attribute: 'lastName',
-            message: 'Votre nom ne doit pas dépasser les 255 caractères.',
+            message: 'MAX_SIZE_LAST_NAME',
           };
           const expectedMaxLengthEmailError = {
             attribute: 'email',
-            message: 'Votre adresse e-mail ne doit pas dépasser les 255 caractères.',
+            message: 'MAX_SIZE_EMAIL',
           };
 
           user = {
@@ -271,7 +271,7 @@ describe('Unit | Domain | Validators | user-validator', () => {
           // given
           const expectedError = {
             attribute: undefined,
-            message: 'Aucun champ n\'est renseigné.',
+            message: 'EMPTY_INPUT',
           };
 
           // when
@@ -288,7 +288,7 @@ describe('Unit | Domain | Validators | user-validator', () => {
           // given
           const expectedError = {
             attribute: 'firstName',
-            message: 'Votre prénom n’est pas renseigné.',
+            message: 'EMPTY_FIRST_NAME',
           };
           user.firstName = MISSING_VALUE;
 
@@ -306,7 +306,7 @@ describe('Unit | Domain | Validators | user-validator', () => {
           // given
           const expectedError = {
             attribute: 'lastName',
-            message: 'Votre nom n’est pas renseigné.',
+            message: 'EMPTY_LAST_NAME',
           };
           user.lastName = MISSING_VALUE;
 
@@ -324,7 +324,7 @@ describe('Unit | Domain | Validators | user-validator', () => {
           // given
           const expectedError = {
             attribute: 'username',
-            message: 'Votre identifiant n’est pas renseigné.',
+            message: 'EMPTY_USERNAME',
           };
           user.username = MISSING_VALUE;
 

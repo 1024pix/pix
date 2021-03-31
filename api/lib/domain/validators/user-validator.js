@@ -9,30 +9,30 @@ const userValidationJoiSchema = Joi.object({
     .required()
     .max(255)
     .messages({
-      'string.empty': 'Votre prénom n’est pas renseigné.',
-      'string.max': 'Votre prénom ne doit pas dépasser les 255 caractères.',
+      'string.empty': 'EMPTY_FIRST_NAME',
+      'string.max': 'MAX_SIZE_FIRST_NAME',
     }),
 
   lastName: Joi.string()
     .required()
     .max(255)
     .messages({
-      'string.empty': 'Votre nom n’est pas renseigné.',
-      'string.max': 'Votre nom ne doit pas dépasser les 255 caractères.',
+      'string.empty': 'EMPTY_LAST_NAME',
+      'string.max': 'MAX_SIZE_LAST_NAME',
     }),
 
   email: Joi.string()
     .max(255)
     .email({ ignoreLength: true })
     .messages({
-      'string.empty': 'Votre adresse e-mail n’est pas renseignée.',
-      'string.max': 'Votre adresse e-mail ne doit pas dépasser les 255 caractères.',
-      'string.email': 'Le format de l\'adresse e-mail est incorrect.',
+      'string.empty': 'EMPTY_EMAIL',
+      'string.max': 'MAX_SIZE_EMAIL',
+      'string.email': 'WRONG_EMAIL_FORMAT',
     }),
 
   username: Joi.string()
     .messages({
-      'string.empty': 'Votre identifiant n’est pas renseigné.',
+      'string.empty': 'EMPTY_USERNAME',
     }),
 
   cgu: Joi.boolean()
@@ -43,8 +43,8 @@ const userValidationJoiSchema = Joi.object({
     })
     .valid(true)
     .messages({
-      'boolean.base': 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
-      'any.only': 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
+      'boolean.base': 'ACCEPT_CGU',
+      'any.only': 'ACCEPT_CGU',
     }),
 
   mustValidateTermsOfService: Joi.boolean(),
@@ -54,8 +54,8 @@ const userValidationJoiSchema = Joi.object({
 }).xor('username', 'email')
   .required()
   .messages({
-    'any.required': 'Aucun champ n\'est renseigné.',
-    'object.missing': 'Vous devez renseigner une adresse e-mail et/ou un identifiant.',
+    'any.required': 'EMPTY_INPUT',
+    'object.missing': 'FILL_USERNAME_OR_EMAIL',
   });
 
 module.exports = {
