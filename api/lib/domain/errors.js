@@ -48,6 +48,12 @@ class AuthenticationMethodNotFoundError extends DomainError {
   }
 }
 
+class OrganizationAlreadyExistError extends DomainError {
+  constructor(message = 'L\'organisation existe déjà.') {
+    super(message);
+  }
+}
+
 class OrganizationNotFoundError extends DomainError {
   constructor(message = 'Organisation non trouvée.') {
     super(message);
@@ -625,6 +631,12 @@ class TargetProfileInvalidError extends DomainError {
   }
 }
 
+class OrganizationTagNotFound extends DomainError {
+  constructor(message = 'Le tag de l’organization n’existe pas.') {
+    super(message);
+  }
+}
+
 class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
   constructor(message = 'Cet utilisateur est déjà lié à un candidat de certification au sein de cette session.') {
     super(message);
@@ -800,6 +812,8 @@ module.exports = {
   NotFoundError,
   NotImplementedError,
   ObjectValidationError,
+  OrganizationTagNotFound,
+  OrganizationAlreadyExistError,
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
   PasswordNotMatching,

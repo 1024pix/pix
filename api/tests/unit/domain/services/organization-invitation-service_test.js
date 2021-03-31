@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
-const { createOrganizationInvitation, createScoOrganizationInvitation } = require('../../../../lib/domain/services/organization-invitation-service');
+const { createOrganizationInvitation, createScoOrganizationInvitation, createProOrganizationInvitation } = require('../../../../lib/domain/services/organization-invitation-service');
 
 describe('Unit | Service | Organization-Invitation Service', () => {
 
@@ -184,6 +184,71 @@ describe('Unit | Service | Organization-Invitation Service', () => {
         };
 
         expect(mailService.sendScoOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+      });
+
+      it('should update organization-invitation modification date', () => {
+        // then
+        expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(organizationInvitationId);
+      });
+    });
+  });
+
+  describe('#createProOrganizationInvitation', () => {
+
+    context('when organization-invitation does not exist', () => {
+
+      beforeEach(() => {
+        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves(null);
+        organizationInvitationRepository.create.withArgs({
+          organizationId, email: userEmailAddress, code: sinon.match.string,
+        }).resolves({ id: organizationInvitationId, code });
+      });
+
+      it('should create a new organization-invitation and send an email with organizationId, name, email, code, locale and tags', async () => {
+        // given
+        const tags = ['JOIN_ORGA'];
+        const locale = 'fr-fr';
+
+        const expectedParameters = {
+          email: userEmailAddress, name: organizationName, organizationInvitationId, code, locale, tags,
+        };
+
+        // when
+        await createProOrganizationInvitation({
+          organizationRepository, organizationInvitationRepository, organizationId, name: organizationName, email: userEmailAddress, locale, tags,
+        });
+
+        // then
+        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+      });
+
+    });
+
+    context('when an organization-invitation with pending status already exists', () => {
+
+      const isPending = true;
+      const tags = undefined;
+      const locale = 'fr-fr';
+
+      beforeEach(async () => {
+        // given
+        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail.resolves({
+          id: organizationInvitationId, isPending, code,
+        });
+
+        // when
+        await createProOrganizationInvitation({
+          organizationRepository, organizationInvitationRepository, organizationId, name: organizationName, email: userEmailAddress, locale, tags,
+        });
+      });
+
+      it('should re-send an email with same code', async () => {
+        // then
+        const expectedParameters = {
+          email: userEmailAddress, name: organizationName, organizationInvitationId, code, locale, tags,
+        };
+
+        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
       });
 
       it('should update organization-invitation modification date', () => {
