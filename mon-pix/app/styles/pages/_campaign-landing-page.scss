@@ -120,6 +120,15 @@
     font-size: 1.375rem;
     font-weight: $font-light;
     text-align: center;
+
+    &::after {
+      content: "";
+      position: relative;
+      height: 15px;
+      width: 100px;
+      border-bottom: 2px solid $blue;
+      margin: 35px auto;
+    }
   }
 
   .article-title {
@@ -146,14 +155,6 @@
   .complement {
     width: 80%;
   }
-}
-
-.campaign-landing-page__details__line {
-  box-sizing: border-box;
-  width: 100px;
-  border: 1px solid $blue;
-  border-radius: 5px;
-  margin: 35px auto;
 }
 
 .campaign-landing-page__details__measure__container {
