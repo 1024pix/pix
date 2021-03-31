@@ -57,8 +57,7 @@ module.exports = function(environment) {
     },
 
     googleFonts: [
-      'Raleway',
-      'Open+Sans',
+      'Roboto:300,400,500,600',
     ],
 
     // Set or update content security policies
