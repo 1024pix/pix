@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/sco-students/list', function(hooks) {
   setupTest(hooks);
-  const currentUser = { organization: { id: 1 } };
+  const currentUser = { organization: { id: 1 }, prescriber: { lang: 'fr' } };
   const session = { data: { authenticated: { access_token: 12345 } } };
   let controller;
 
@@ -21,7 +21,7 @@ module('Unit | Controller | authenticated/sco-students/list', function(hooks) {
 
       test('it sends the chosen csv file to the API', async function(assert) {
         const importStudentsURL = `${ENV.APP.API_HOST}/api/organizations/${currentUser.organization.id}/schooling-registrations/import-siecle?format=csv`;
-        const headers = { Authorization: `Bearer ${12345}` };
+        const headers = { Authorization: `Bearer ${12345}`, 'Accept-Language': currentUser.prescriber.lang };
         const file = { uploadBinary: sinon.spy() };
 
         currentUser.isAgriculture = true;
@@ -36,7 +36,7 @@ module('Unit | Controller | authenticated/sco-students/list', function(hooks) {
 
       test('it sends the chosen xml file to the API', async function(assert) {
         const importStudentsURL = `${ENV.APP.API_HOST}/api/organizations/${currentUser.organization.id}/schooling-registrations/import-siecle?format=xml`;
-        const headers = { Authorization: `Bearer ${12345}` };
+        const headers = { Authorization: `Bearer ${12345}`, 'Accept-Language': currentUser.prescriber.lang };
         const file = { uploadBinary: sinon.spy() };
 
         currentUser.isAgriculture = false;
