@@ -33,6 +33,30 @@ const createOrganizationInvitation = async ({
   return organizationInvitation;
 };
 
+const createProOrganizationInvitation = async ({
+  organizationInvitationRepository, organizationId, email, locale, tags, name,
+}) => {
+  let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email });
+
+  if (!organizationInvitation) {
+    const code = _generateCode();
+    organizationInvitation = await organizationInvitationRepository.create({ organizationId, email, code });
+  }
+
+  await mailService.sendOrganizationInvitationEmail({
+    email,
+    name,
+    organizationInvitationId: organizationInvitation.id,
+    code: organizationInvitation.code,
+    locale,
+    tags,
+  });
+
+  await organizationInvitationRepository.updateModificationDate(organizationInvitation.id);
+
+  return organizationInvitation;
+};
+
 const createScoOrganizationInvitation = async ({
   organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email, locale, tags,
 }) => {
@@ -65,4 +89,5 @@ const createScoOrganizationInvitation = async ({
 module.exports = {
   createOrganizationInvitation,
   createScoOrganizationInvitation,
+  createProOrganizationInvitation,
 };

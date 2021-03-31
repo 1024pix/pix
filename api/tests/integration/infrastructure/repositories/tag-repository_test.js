@@ -5,11 +5,11 @@ const tagRepository = require('../../../../lib/infrastructure/repositories/tag-r
 
 describe('Integration | Repository | TagRepository', () => {
 
-  describe('#create', () => {
+  afterEach(async () => {
+    await knex('tags').delete();
+  });
 
-    afterEach(async () => {
-      await knex('tags').delete();
-    });
+  describe('#create', () => {
 
     it('should create a Tag', async () => {
       // given
@@ -63,6 +63,34 @@ describe('Integration | Repository | TagRepository', () => {
 
       // then
       expect(result).to.be.null;
+    });
+  });
+
+  describe('#findAll', () => {
+
+    it('should return all the tags', async () => {
+      // given
+      const tagNameA = 'PUBLIC';
+      databaseBuilder.factory.buildTag({ id: 100000, name: tagNameA });
+      const tagNameB = 'PRIVE';
+      databaseBuilder.factory.buildTag({ id: 100001, name: tagNameB });
+      await databaseBuilder.commit();
+      const expectedResult = [
+        {
+          'id': 100000,
+          'name': 'PUBLIC',
+        },
+        {
+          'id': 100001,
+          'name': 'PRIVE',
+        },
+      ];
+
+      // when
+      const result = await tagRepository.findAll();
+
+      // then
+      expect(result).to.be.deep.equal(expectedResult);
     });
   });
 

@@ -1,8 +1,10 @@
 const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
+const Bookshelf = require('../bookshelf');
 const BookshelfOrganization = require('../data/organization');
 const Organization = require('../../domain/models/Organization');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const DomainTransaction = require('../DomainTransaction');
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
@@ -56,6 +58,11 @@ module.exports = {
     return new BookshelfOrganization()
       .save(organizationRawData)
       .then(_toDomain);
+  },
+
+  async batchCreateProOrganizations(organizations, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const organizationsRawData = organizations.map((organization) => _.pick(organization, ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'email', 'isManagingStudents', 'canCollectProfiles', 'credit']));
+    return Bookshelf.knex.batchInsert('organizations', organizationsRawData).transacting(domainTransaction.knexTransaction).returning(['id', 'externalId', 'email', 'name']);
   },
 
   update(organization) {

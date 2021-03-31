@@ -45,6 +45,20 @@ describe('Unit | Domain | Models | Organization', () => {
       expect(organization.targetProfileShares.length).to.equal(1);
     });
 
+    it('should build an Organization with default values for credit, canCollectProfiles when not specified', () => {
+      // given
+      const rawData = {
+        id: 1,
+        name: 'Lycée Jean Rostand',
+        type: 'SCO',
+      };
+      // when
+      const organization = new Organization(rawData);
+      // then
+      expect(organization.credit).to.equal(0);
+      expect(organization.canCollectProfiles).to.equal(false);
+    });
+
   });
 
   describe('get#isSco', () => {

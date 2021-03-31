@@ -78,4 +78,33 @@ describe('Integration | Repository | OrganizationTagRepository', () => {
     });
   });
 
+  describe('#batchCreate', () => {
+
+    afterEach(async () => {
+      await knex('organization-tags').delete();
+    });
+
+    it('should add rows in the table "organizations-tags"', async () => {
+      // given
+      const organizationId1 = databaseBuilder.factory.buildOrganization().id;
+      const organizationId2 = databaseBuilder.factory.buildOrganization().id;
+
+      const tagId1 = databaseBuilder.factory.buildTag().id;
+      const tagId2 = databaseBuilder.factory.buildTag().id;
+
+      await databaseBuilder.commit();
+
+      const organizationTag1 = domainBuilder.buildOrganizationTag({ organizationId: organizationId1, tagId: tagId1 });
+      const organizationTag2 = domainBuilder.buildOrganizationTag({ organizationId: organizationId2, tagId: tagId2 });
+
+      // when
+      await organizationTagRepository.batchCreate([organizationTag1, organizationTag2]);
+
+      // then
+      const foundOrganizations = await knex('organization-tags').select();
+      expect(foundOrganizations.length).to.equal(2);
+    });
+
+  });
+
 });
