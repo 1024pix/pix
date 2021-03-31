@@ -71,7 +71,6 @@
     "ember-cli-mirage": "^1.1.8",
     "ember-cli-moment-shim": "^3.8.0",
     "ember-cli-sass": "^10.0.1",
-    "ember-cli-showdown": "^4.5.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.1",
     "ember-cli-test-loader": "^3.0.0",
@@ -115,7 +114,8 @@
     "sass": "^1.30.0",
     "showdown": "^1.9.1",
     "stylelint": "^13.8.0",
-    "stylelint-config-standard": "^20.0.0"
+    "stylelint-config-standard": "^20.0.0",
+    "xss": "^1.0.8"
   },
   "dependencies": {}
 }
