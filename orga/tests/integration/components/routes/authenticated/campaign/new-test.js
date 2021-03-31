@@ -5,10 +5,12 @@ import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/cli
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
+import { setupRenderingTest } from 'ember-qunit';
+import { setupIntl, t } from 'ember-intl/test-support';
 
 module('Integration | Component | routes/authenticated/campaign/new', function(hooks) {
-  setupIntlRenderingTest(hooks);
+  setupRenderingTest(hooks);
+  setupIntl(hooks);
   let receivedCampaign;
 
   hooks.beforeEach(function() {
@@ -31,7 +33,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
     // then
-    assert.contains('Nom de la campagne');
+    assert.contains(t('pages.campaign-creation.name.label'));
     assert.dom('button[type="submit"]').exists();
     assert.dom('input[type=text]').hasAttribute('maxLength', '255');
     assert.dom('textarea').hasAttribute('maxLength', '350');
@@ -47,8 +49,8 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
-      assert.contains('Titre du parcours');
-      assert.contains('Que souhaitez-vous tester ?');
+      assert.contains(t('pages.campaign-creation.test-title.label'));
+      assert.contains(t('pages.campaign-creation.target-profiles-list.label'));
     });
 
     test('it should not contain field to select campaign type', async function(assert) {
@@ -59,8 +61,8 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
-      assert.notContains('Évaluer les participants');
-      assert.notContains('Collecter les profils Pix des participants');
+      assert.notContains(t('pages.campaign-creation.purpose.assessment'));
+      assert.notContains(t('pages.campaign-creation.purpose.profiles-collection'));
     });
   });
 
@@ -76,11 +78,11 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
-      await clickByLabel('Évaluer les participants');
+      await clickByLabel(t('pages.campaign-creation.purpose.assessment'));
 
       // then
-      assert.contains('Titre du parcours');
-      assert.contains('Que souhaitez-vous tester ?');
+      assert.contains(t('pages.campaign-creation.test-title.label'));
+      assert.contains(t('pages.campaign-creation.purpose.label'));
     });
   });
 
@@ -96,11 +98,11 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
-      await clickByLabel('Collecter les profils Pix des participants');
+      await clickByLabel(t('pages.campaign-creation.purpose.profiles-collection'));
 
       // then
-      assert.notContains('Titre du parcours');
-      assert.notContains('Que souhaitez-vous tester ?');
+      assert.notContains(t('pages.campaign-creation.test-title.label'));
+      assert.notContains(t('pages.campaign-creation.target-profiles-list.label'));
     });
   });
 
@@ -119,7 +121,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
-      assert.dom('a[href="https://cloud.pix.fr/s/3joGMGYWSpmHg5w"]').hasText('la documentation correspondante');
+      assert.contains(t('pages.campaign-creation.target-profile-informations'));
     });
   });
 
@@ -138,7 +140,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
-      assert.dom('a[href="https://cloud.pix.fr/s/3joGMGYWSpmHg5w"]').doesNotExist();
+      assert.notContains(t('pages.campaign-creation.target-profile-informations'));
     });
   });
 
@@ -151,7 +153,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
-      assert.notContains('* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.');
+      assert.notContains(t('pages.campaign-creation.legal-warning'));
     });
   });
 
@@ -162,10 +164,10 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
-      await clickByLabel('No');
+      await clickByLabel(t('pages.campaign-creation.no'));
 
       // then
-      assert.notContains('* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.');
+      assert.notContains(t('pages.campaign-creation.legal-warning'));
     });
   });
 
@@ -176,10 +178,10 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
-      await clickByLabel('Oui');
+      await clickByLabel(t('pages.campaign-creation.yes'));
 
       // then
-      assert.contains('* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.');
+      assert.contains(t('pages.campaign-creation.legal-warning'));
     });
   });
 
@@ -187,10 +189,10 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     // given
     this.campaign = EmberObject.create({});
     await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
-    await fillInByLabel('Nom de la campagne', 'Ma campagne');
+    await fillInByLabel(t('pages.campaign-creation.name.label'), 'Ma campagne');
 
     // when
-    await clickByLabel('Créer la campagne');
+    await clickByLabel(t('pages.campaign-creation.actions.create'));
 
     // then
     assert.deepEqual(receivedCampaign.name, 'Ma campagne');
@@ -225,12 +227,12 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
-      await clickByLabel('Oui');
+      await clickByLabel(t('pages.campaign-creation.yes'));
 
       // then
-      assert.contains('Veuillez donner un nom à votre campagne.');
-      assert.contains('Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.');
-      assert.contains('Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.');
+      assert.contains(t('api-errors-messages.campaign-creation.name-required'));
+      assert.contains(t('api-errors-messages.campaign-creation.purpose-required'));
+      assert.contains(t('api-errors-messages.campaign-creation.external-user-id-required'));
     });
 
     test('it should display errors messages when the target profile field is empty', async function(assert) {
@@ -249,7 +251,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
-      assert.contains('Veuillez sélectionner un profil cible pour votre campagne.');
+      assert.contains(t('api-errors-messages.campaign-creation.target-profile-required'));
     });
   });
 });
