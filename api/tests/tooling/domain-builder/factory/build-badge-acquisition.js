@@ -1,13 +1,11 @@
 const BadgeAcquisition = require('../../../../lib/domain/models/BadgeAcquisition');
-const faker = require('faker');
 
-module.exports = function buildBadgeAcquisition(
-  {
-    id = faker.random.number(),
-    userId = faker.random.number(),
-    badgeId = faker.lorem.number(),
-    campaignParticipationId = faker.random.number(),
-  } = {}) {
+module.exports = function buildBadgeAcquisition({
+  id = 123,
+  userId = 456,
+  badgeId = 789,
+  campaignParticipationId = 159,
+} = {}) {
 
   return new BadgeAcquisition({
     id,

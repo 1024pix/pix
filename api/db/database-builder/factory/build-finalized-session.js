@@ -1,14 +1,12 @@
-const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
-const moment = require('moment');
 
 module.exports = function buildFinalizedSession({
-  sessionId = faker.random.number(),
-  certificationCenterName = faker.random.word(),
-  finalizedAt = faker.date.recent(),
-  isPublishable = faker.random.boolean(),
-  time = '09:10:45',
-  date = moment(faker.date.recent()).format('YYYY-MM-DD'),
+  sessionId = databaseBuffer.getNextId(),
+  certificationCenterName = 'Centre de certif PIX',
+  finalizedAt = new Date('2020-01-01'),
+  isPublishable = true,
+  time = '10:00:00',
+  date = '2019-12-25',
   publishedAt = null,
   assignedCertificationOfficerName = null,
 } = {}) {
@@ -27,6 +25,5 @@ module.exports = function buildFinalizedSession({
   return databaseBuffer.pushInsertable({
     tableName: 'finalized-sessions',
     values,
-    customIdKey: 'sessionId',
   });
 };

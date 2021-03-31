@@ -1,31 +1,25 @@
-const faker = require('faker');
-const moment = require('moment');
 const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
 
-module.exports = function buildCertificationCandidate(
-  {
-    id = faker.random.number(),
-    // attributes
-    firstName = faker.name.firstName(),
-    lastName = faker.name.lastName(),
-    birthCity = faker.address.city(),
-    birthProvinceCode = faker.random.alphaNumeric(3),
-    birthCountry = faker.address.country(),
-    email = faker.internet.exampleEmail(),
-    resultRecipientEmail = faker.internet.exampleEmail(),
-    birthdate = moment(faker.date.past(10)).format('YYYY-MM-DD'),
-    extraTimePercentage = 0.3,
-    externalId = faker.random.uuid(),
-    hasSeendEndTestScreen = false,
-    createdAt = faker.date.past(1),
-    // includes
-    // references
-    sessionId = faker.random.number(),
-    userId = faker.random.number(),
-    schoolingRegistrationId,
-  } = {}) {
+module.exports = function buildCertificationCandidate({
+  id = 123,
+  firstName = 'Poison',
+  lastName = 'Ivy',
+  birthCity = 'Perpignan',
+  birthProvinceCode = '66',
+  birthCountry = 'France',
+  email = 'poison.ivy@example.net',
+  resultRecipientEmail = 'napoleon@example.net',
+  birthdate = '1990-05-06',
+  extraTimePercentage = 0.3,
+  externalId = 'externalId',
+  hasSeendEndTestScreen = false,
+  createdAt = new Date('2020-01-01'),
+  sessionId = 456,
+  userId = 789,
+  schoolingRegistrationId,
+} = {}) {
 
-  const certificationCandidate = new CertificationCandidate({
+  return new CertificationCandidate({
     id,
     firstName,
     lastName,
@@ -43,6 +37,4 @@ module.exports = function buildCertificationCandidate(
     userId,
     schoolingRegistrationId,
   });
-
-  return certificationCandidate;
 };

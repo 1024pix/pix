@@ -1,5 +1,4 @@
 const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
-const faker = require('faker');
 const bcrypt = require('bcrypt');
 const settings = require('../../../../lib/config');
 
@@ -14,9 +13,9 @@ const Tag = require('../../../../lib/domain/models/Tag');
 describe('Integration | Infrastructure | Repository | Prescriber', () => {
 
   const userToInsert = {
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    email: faker.internet.exampleEmail().toLowerCase(),
+    firstName: 'estelle',
+    lastName: 'popopo',
+    email: 'estelle.popopo@example.net',
     lang: 'someSuperCoolLanguage',
     /* eslint-disable-next-line no-sync */
     password: bcrypt.hashSync('A124B2C3#!', 1),

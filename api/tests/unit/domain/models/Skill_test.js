@@ -78,8 +78,8 @@ describe('Unit | Domain | Models | Skill', () => {
 
     it('should return false if two skills have the same name but different ids', () => {
       // given
-      const skill = domainBuilder.buildSkill({ name: '@skill1' });
-      const otherSkill = domainBuilder.buildSkill({ name: '@skill1' });
+      const skill = domainBuilder.buildSkill({ id: 'recID1', name: '@skill1' });
+      const otherSkill = domainBuilder.buildSkill({ id: 'recID2', name: '@skill1' });
       // when
       const result = Skill.areEqualById(skill, otherSkill);
       // then

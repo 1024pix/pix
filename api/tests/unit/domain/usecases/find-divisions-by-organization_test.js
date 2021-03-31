@@ -9,10 +9,10 @@ describe('Unit | UseCase | find-divisions-by-organization', () => {
     it('should return all divisions', async () => {
       // given
       const divisionRepository = {
-        findByOrganizationId: sinon.stub(),
+        findByOrganizationIdForCurrentSchoolYear: sinon.stub(),
       };
       const organizationId = 1234;
-      divisionRepository.findByOrganizationId
+      divisionRepository.findByOrganizationIdForCurrentSchoolYear
         .withArgs({ organizationId })
         .resolves([{ name: '3a' }, { name: '3b' }, { name: '5c' }]);
 

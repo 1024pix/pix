@@ -199,12 +199,12 @@ function _buildMatchingReferentOrganisationAndSchoolingRegistrations(studentIds)
 }
 
 function _buildNonMatchingReferentOrganisationAndSchoolingRegistrations(studentIds) {
-  const organizationForStudents = domainBuilder.buildOrganization();
+  const organizationForStudents = domainBuilder.buildOrganization({ id: 123 });
   const schoolingRegistrations = studentIds.map((id) => {
     return domainBuilder.buildSchoolingRegistration({ id, organization: organizationForStudents });
   });
 
-  const organizationForReferent = domainBuilder.buildOrganization();
+  const organizationForReferent = domainBuilder.buildOrganization({ id: 456 });
   return { organizationForReferent, schoolingRegistrations };
 }
 

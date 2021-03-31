@@ -346,8 +346,8 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
     context('when there is a filter on badges', () => {
       it('returns participants which have one badge', async () => {
         campaign = databaseBuilder.factory.buildAssessmentCampaign({});
-        const badge1 = databaseBuilder.factory.buildBadge({ targetProfileId: campaign.targetProfileId });
-        const badge2 = databaseBuilder.factory.buildBadge({ targetProfileId: campaign.targetProfileId });
+        const badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: campaign.targetProfileId });
+        const badge2 = databaseBuilder.factory.buildBadge({ key: 'badge2', targetProfileId: campaign.targetProfileId });
 
         const participation1 = { participantExternalId: 'The good', campaignId: campaign.id };
         const assessment1 = databaseBuilder.factory.buildAssessmentFromParticipation(participation1, { id: 1 });
@@ -370,8 +370,8 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
 
       it('returns participants which have several badges', async () => {
         campaign = databaseBuilder.factory.buildAssessmentCampaign({});
-        const badge1 = databaseBuilder.factory.buildBadge({ targetProfileId: campaign.targetProfileId });
-        const badge2 = databaseBuilder.factory.buildBadge({ targetProfileId: campaign.targetProfileId });
+        const badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: campaign.targetProfileId });
+        const badge2 = databaseBuilder.factory.buildBadge({ key: 'badge2', targetProfileId: campaign.targetProfileId });
 
         const participation1 = { participantExternalId: 'The good', campaignId: campaign.id };
         const assessment1 = databaseBuilder.factory.buildAssessmentFromParticipation(participation1, { id: 1 });

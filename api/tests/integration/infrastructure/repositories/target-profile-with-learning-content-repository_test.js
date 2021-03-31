@@ -6,18 +6,23 @@ const { NotFoundError, TargetProfileInvalidError } = require('../../../../lib/do
 
 async function _buildDomainAndDatabaseBadge(key, targetProfileId) {
   const badgeCriterion1 = domainBuilder.buildBadgeCriterion();
+  badgeCriterion1.id = undefined;
   const badgeCriterion2 = domainBuilder.buildBadgeCriterion();
+  badgeCriterion2.id = undefined;
   const badgePartnerCompetence1 = domainBuilder.buildBadgePartnerCompetence({ color: 'someColor' });
+  badgePartnerCompetence1.id = undefined;
   const badgePartnerCompetence2 = domainBuilder.buildBadgePartnerCompetence();
+  badgePartnerCompetence2.id = undefined;
   const badge = domainBuilder.buildBadge({ key, targetProfileId });
+  badge.id = undefined;
   badge.badgeCriteria = [badgeCriterion1, badgeCriterion2];
   badge.badgePartnerCompetences = [badgePartnerCompetence1, badgePartnerCompetence2];
 
-  badge.id = databaseBuilder.factory.buildBadge({ ...badge, id: null }).id;
-  badgeCriterion1.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion1, badgeId: badge.id, id: null }).id;
-  badgeCriterion2.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion2, badgeId: badge.id, id: null }).id;
-  badgePartnerCompetence1.id = databaseBuilder.factory.buildBadgePartnerCompetence({ ...badgePartnerCompetence1, badgeId: badge.id, id: null }).id;
-  badgePartnerCompetence2.id = databaseBuilder.factory.buildBadgePartnerCompetence({ ...badgePartnerCompetence2, badgeId: badge.id, id: null }).id;
+  badge.id = databaseBuilder.factory.buildBadge({ ...badge }).id;
+  badgeCriterion1.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion1, badgeId: badge.id }).id;
+  badgeCriterion2.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion2, badgeId: badge.id }).id;
+  badgePartnerCompetence1.id = databaseBuilder.factory.buildBadgePartnerCompetence({ ...badgePartnerCompetence1, badgeId: badge.id }).id;
+  badgePartnerCompetence2.id = databaseBuilder.factory.buildBadgePartnerCompetence({ ...badgePartnerCompetence2, badgeId: badge.id }).id;
   await databaseBuilder.commit();
 
   return badge;
@@ -25,8 +30,9 @@ async function _buildDomainAndDatabaseBadge(key, targetProfileId) {
 
 async function buildDomainAndDatabaseStage(targetProfileId) {
   const stage = domainBuilder.buildStage();
+  stage.id = undefined;
 
-  stage.id = databaseBuilder.factory.buildStage({ ...stage, id: null, targetProfileId }).id;
+  stage.id = databaseBuilder.factory.buildStage({ ...stage, targetProfileId }).id;
   await databaseBuilder.commit();
 
   return stage;

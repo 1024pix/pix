@@ -1,23 +1,21 @@
-const faker = require('faker');
 const _ = require('lodash');
-const moment = require('moment');
 const buildSession = require('./build-session');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildCertificationCandidate({
-  id,
-  firstName = faker.name.firstName(),
-  lastName = faker.name.lastName(),
-  birthCity = faker.address.city(),
-  birthProvinceCode = faker.random.alphaNumeric(3),
-  birthCountry = faker.address.country(),
-  email = faker.internet.exampleEmail(),
-  birthdate = moment(faker.date.past(30)).format('YYYY-MM-DD'),
-  resultRecipientEmail = faker.internet.exampleEmail(),
+  id = databaseBuffer.getNextId(),
+  firstName = 'first-name',
+  lastName = 'last-name',
+  birthCity = 'Perpignan',
+  birthProvinceCode = '66',
+  birthCountry = 'France',
+  email = 'somemail@example.net',
+  birthdate = '2000-01-04',
+  resultRecipientEmail = 'somerecipientmail@example.net',
   sessionId,
-  externalId = faker.random.uuid(),
-  createdAt = faker.date.past(),
+  externalId = 'externalId',
+  createdAt = new Date('2020-01-01'),
   extraTimePercentage = 0.3,
   userId,
   schoolingRegistrationId,

@@ -4,7 +4,8 @@ const buildOrganization = require('./build-organization');
 const buildCampaignParticipation = require('./build-campaign-participation');
 const buildCampaign = require('./build-campaign');
 
-module.exports = function buildCampaignParticipationElementsForOverview({ userId,
+module.exports = function buildCampaignParticipationElementsForOverview({
+  userId,
   index,
   lastAssessmentState,
   campaignParticipationCreatedAt,

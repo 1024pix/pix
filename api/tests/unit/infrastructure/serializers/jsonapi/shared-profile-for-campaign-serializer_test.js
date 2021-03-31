@@ -17,8 +17,8 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
       color: '2',
     };
     const expectedScorecards = [
-      domainBuilder.buildUserScorecard({ area: area1 }),
-      domainBuilder.buildUserScorecard({ area: area2 }),
+      domainBuilder.buildUserScorecard({ id: 'rec1', area: area1 }),
+      domainBuilder.buildUserScorecard({ id: 'rec2', area: area2 }),
     ];
 
     const profileSharedForCampaign = new SharedProfileForCampaign({

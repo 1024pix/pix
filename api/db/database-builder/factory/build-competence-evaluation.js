@@ -1,4 +1,3 @@
-const faker = require('faker');
 const buildAssessment = require('./build-assessment');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
@@ -6,12 +5,12 @@ const CompetenceEvaluation = require('../../../lib/domain/models/CompetenceEvalu
 const _ = require('lodash');
 
 module.exports = function buildCompetenceEvaluation({
-  id,
+  id = databaseBuffer.getNextId(),
   assessmentId,
-  competenceId = `recABC${faker.random.number}`,
+  competenceId = 'recABC123',
   status = CompetenceEvaluation.statuses.STARTED,
-  createdAt = faker.date.past(),
-  updatedAt = new Date(),
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-01-02'),
   userId,
 } = {}) {
 

@@ -8,7 +8,7 @@ module.exports = function BuildSkillCollection({
   const collection = [];
 
   for (let i = minLevel; i <= maxLevel; i += 1) {
-    collection.push(buildSkill({ name: `${name}${i}` }));
+    collection.push(buildSkill({ id: `rec${name}${i}`, name: `${name}${i}` }));
   }
 
   return collection;

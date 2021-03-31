@@ -15,7 +15,7 @@ async function findByCampaignId(campaignId) {
   return divisions.map(({ division }) => _toDomain(division));
 }
 
-async function findByOrganizationId({ organizationId }) {
+async function findByOrganizationIdForCurrentSchoolYear({ organizationId }) {
   const BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-08-15';
   const divisionRows = await knex('schooling-registrations')
     .distinct('division')
@@ -32,5 +32,5 @@ function _toDomain(division) {
 
 module.exports = {
   findByCampaignId,
-  findByOrganizationId,
+  findByOrganizationIdForCurrentSchoolYear,
 };

@@ -188,11 +188,13 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         });
         databaseBuilder.factory.buildKnowledgeElement({ userId: user.id,
           earnedPix: 1024,
+          skillId: 'rec12',
           competenceId: 'rec1',
           createdAt: new Date('2020-01-01'),
         });
         databaseBuilder.factory.buildKnowledgeElement({ userId: user.id,
           earnedPix: 1024,
+          skillId: 'rec22',
           competenceId: 'rec2',
           createdAt: new Date('2020-01-01'),
         });

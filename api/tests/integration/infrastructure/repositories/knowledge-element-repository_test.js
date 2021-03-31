@@ -183,15 +183,15 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       otherCompetenceId = '4';
 
       wantedKnowledgeElements = _.map([
-        { id: 1, status: 'validated', userId, competenceId },
-        { id: 2, status: 'invalidated', userId, competenceId },
+        { id: 1, status: 'validated', userId, competenceId, skillId: 'rec1' },
+        { id: 2, status: 'invalidated', userId, competenceId, skillId: 'rec2' },
       ], (ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
 
       _.each([
-        { id: 3, status: 'invalidated', userId, competenceId: otherCompetenceId },
-        { id: 4, status: 'validated', userId: otherUserId, competenceId },
-        { id: 5, status: 'validated', userId: otherUserId, competenceId: otherCompetenceId },
-        { id: 6, status: 'validated', userId, competenceId: null },
+        { id: 3, status: 'invalidated', userId, competenceId: otherCompetenceId, skillId: 'rec3' },
+        { id: 4, status: 'validated', userId: otherUserId, competenceId, skillId: 'rec4' },
+        { id: 5, status: 'validated', userId: otherUserId, competenceId: otherCompetenceId, skillId: 'rec5' },
+        { id: 6, status: 'validated', userId, competenceId: null, skillId: 'rec6' },
       ], (ke) => {
         databaseBuilder.factory.buildKnowledgeElement(ke);
       });
@@ -720,12 +720,12 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       const competence2 = 'competenceId2';
       const dateUserId1 = new Date('2020-01-03');
       const dateUserId2 = new Date('2019-01-03');
-      const knowledgeElement1_1 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId1, createdAt: new Date('2020-01-01') });
-      const knowledgeElement1_2 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId1, createdAt: new Date('2020-01-02') });
-      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId1, createdAt: new Date('2021-01-02') });
-      const knowledgeElement2_1 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId2, createdAt: new Date('2019-01-01') });
-      const knowledgeElement2_2 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence2, userId: userId2, createdAt: new Date('2019-01-02') });
-      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId2, createdAt: new Date('2020-01-02') });
+      const knowledgeElement1_1 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId1, createdAt: new Date('2020-01-01'), skillId: 'rec1' });
+      const knowledgeElement1_2 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId1, createdAt: new Date('2020-01-02'), skillId: 'rec2' });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId1, createdAt: new Date('2021-01-02'), skillId: 'rec3' });
+      const knowledgeElement2_1 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId2, createdAt: new Date('2019-01-01'), skillId: 'rec4' });
+      const knowledgeElement2_2 = databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence2, userId: userId2, createdAt: new Date('2019-01-02'), skillId: 'rec5' });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1, userId: userId2, createdAt: new Date('2020-01-02'), skillId: 'rec6' });
       await databaseBuilder.commit();
 
       // when
@@ -1647,12 +1647,12 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       // given
       const dateUserId1 = new Date('2020-01-03');
       const dateUserId2 = new Date('2019-01-03');
-      const user1knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2020-01-01') });
-      const user1knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2020-01-02') });
-      databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2021-01-02') });
-      const user2knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId2, createdAt: new Date('2019-01-01') });
-      const user2knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId2, createdAt: new Date('2019-01-02') });
-      databaseBuilder.factory.buildKnowledgeElement({ userId: userId2, createdAt: new Date('2020-01-02') });
+      const user1knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2020-01-01'), skillId: 'rec1' });
+      const user1knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2020-01-02'), skillId: 'rec2' });
+      databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2021-01-02'), skillId: 'rec3' });
+      const user2knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId2, createdAt: new Date('2019-01-01'), skillId: 'rec4' });
+      const user2knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId2, createdAt: new Date('2019-01-02'), skillId: 'rec5' });
+      databaseBuilder.factory.buildKnowledgeElement({ userId: userId2, createdAt: new Date('2020-01-02'), skillId: 'rec6' });
       await databaseBuilder.commit();
 
       // when

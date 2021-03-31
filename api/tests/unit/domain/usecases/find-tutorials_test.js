@@ -111,14 +111,14 @@ describe('Unit | UseCase | find-tutorials', () => {
 
           tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: inferredTutorialIdList, userId: authenticatedUserId }).returns([inferredTutorial]);
 
-          const skill_1 = domainBuilder.buildSkill({ name: '@wikipédia1', tutorialIds: tutorialIdList1, competenceId: competenceId });
-          const skill_2 = domainBuilder.buildSkill({ name: '@wikipédia2', tutorialIds: tutorialIdList1, competenceId: competenceId });
-          const skill_3 = domainBuilder.buildSkill({ name: '@wikipédia3', tutorialIds: tutorialIdList1, competenceId: competenceId });
-          const skill_4 = domainBuilder.buildSkill({ name: '@url1', competenceId: competenceId });
-          const skill_5 = domainBuilder.buildSkill({ name: '@url2', competenceId: competenceId });
-          const skill_6 = domainBuilder.buildSkill({ name: '@recherche1', tutorialIds: inferredTutorialIdList, competenceId: competenceId });
-          const skill_7 = domainBuilder.buildSkill({ name: '@recherche2', tutorialIds: inferredTutorialIdList, competenceId: competenceId });
-          const skill_8 = domainBuilder.buildSkill({ name: '@recherche3', tutorialIds: tutorialIdList2, competenceId: competenceId });
+          const skill_1 = domainBuilder.buildSkill({ id: 'rec1', name: '@wikipédia1', tutorialIds: tutorialIdList1, competenceId: competenceId });
+          const skill_2 = domainBuilder.buildSkill({ id: 'rec2', name: '@wikipédia2', tutorialIds: tutorialIdList1, competenceId: competenceId });
+          const skill_3 = domainBuilder.buildSkill({ id: 'rec3', name: '@wikipédia3', tutorialIds: tutorialIdList1, competenceId: competenceId });
+          const skill_4 = domainBuilder.buildSkill({ id: 'rec4', name: '@url1', competenceId: competenceId });
+          const skill_5 = domainBuilder.buildSkill({ id: 'rec5', name: '@url2', competenceId: competenceId });
+          const skill_6 = domainBuilder.buildSkill({ id: 'rec6', name: '@recherche1', tutorialIds: inferredTutorialIdList, competenceId: competenceId });
+          const skill_7 = domainBuilder.buildSkill({ id: 'rec7', name: '@recherche2', tutorialIds: inferredTutorialIdList, competenceId: competenceId });
+          const skill_8 = domainBuilder.buildSkill({ id: 'rec8', name: '@recherche3', tutorialIds: tutorialIdList2, competenceId: competenceId });
 
           const knowledgeElementList = [
             domainBuilder.buildKnowledgeElement({ skillId: skill_3.id, competenceId: skill_3.competenceId, status: KnowledgeElement.StatusType.INVALIDATED }),
@@ -152,11 +152,13 @@ describe('Unit | UseCase | find-tutorials', () => {
           const tubeNames = ['@wikipédia', '@recherche'];
           const tubeList = [
             domainBuilder.buildTube({
+              id: 'recTube1',
               name: tubeNames[0],
               practicalTitle: 'Practical Title wikipédia',
               practicalDescription: 'Practical Description wikipédia',
             }),
             domainBuilder.buildTube({
+              id: 'recTube2',
               name: tubeNames[1],
               practicalTitle: 'Practical Title recherche',
               practicalDescription: 'Practical Description recherche',
