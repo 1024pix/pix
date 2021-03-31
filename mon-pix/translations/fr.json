@@ -753,6 +753,10 @@
             "total-score-helper": {
                 "title": "Pourquoi 1024 pix ?",
                 "explanation": "C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.'<br>'Aujourd’hui, '<span class=\"hexagon-score-information__text--strong\">'le maximum est de {maxReachablePixCount} pix'</span>', correspondant au niveau {maxReachableLevel}."
+            },
+            "april-fool-helper": {
+                "title": "Pourquoi mon score descend !?",
+                "explanation": "Poisson d'avril ! Pour retrouver son score d'origine il suffit de cliquer."
             }
         },
         "profile-already-shared": {

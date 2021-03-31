@@ -31,6 +31,12 @@ describe('Integration | Component | Dashboard | Content', function() {
     }
   }
 
+  class FeatureTogglesSub extends Service {
+    featureToggles = {
+      isAprilFoolEnabled: false,
+    };
+  }
+
   it('should render component', async function() {
     // given
     this.owner.register('service:currentUser', CurrentUserStub);
@@ -50,6 +56,7 @@ describe('Integration | Component | Dashboard | Content', function() {
   describe('campaign-participation-overview rendering', function() {
     beforeEach(function() {
       this.owner.register('service:currentUser', CurrentUserStub);
+      this.owner.register('service:featureToggles', FeatureTogglesSub);
     });
 
     it('should render campaign participation when there is at least one campaign participation overviews', async function() {
@@ -115,6 +122,7 @@ describe('Integration | Component | Dashboard | Content', function() {
   describe('recommended competence-card rendering', function() {
     beforeEach(function() {
       this.owner.register('service:currentUser', CurrentUserStub);
+      this.owner.register('service:featureToggles', FeatureTogglesSub);
     });
 
     it('should render competence-card when there is at least one competence-card not started', async function() {
@@ -175,6 +183,7 @@ describe('Integration | Component | Dashboard | Content', function() {
   describe('started competence-card rendering', function() {
     beforeEach(function() {
       this.owner.register('service:currentUser', CurrentUserStub);
+      this.owner.register('service:featureToggles', FeatureTogglesSub);
     });
 
     it('should render competence-card when there is at least one competence-card started', async function() {
@@ -237,6 +246,7 @@ describe('Integration | Component | Dashboard | Content', function() {
     it('should display NewInformation on dashboard if user has not close it before', async function() {
       // given
       this.owner.register('service:currentUser', CurrentUserStub);
+      this.owner.register('service:featureToggles', FeatureTogglesSub);
       this.set('model', {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
@@ -318,6 +328,7 @@ describe('Integration | Component | Dashboard | Content', function() {
     it('should display Empty Dashboard Information if user has nothing to do', async function() {
       // given
       this.owner.register('service:currentUser', CurrentUserStub);
+      this.owner.register('service:featureToggles', FeatureTogglesSub);
       this.set('model', {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
@@ -334,6 +345,7 @@ describe('Integration | Component | Dashboard | Content', function() {
     it('should not display Empty Dashboard Information on dashboard if user has competence to continue', async function() {
       // given
       this.owner.register('service:currentUser', HasSeenNewDashboardInformationCurrentUserStub);
+      this.owner.register('service:featureToggles', FeatureTogglesSub);
       this.set('model', {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
@@ -356,6 +368,7 @@ describe('Integration | Component | Dashboard | Content', function() {
     it('should display user score', async function() {
       // given
       this.owner.register('service:currentUser', CurrentUserStub);
+      this.owner.register('service:featureToggles', FeatureTogglesSub);
       this.set('model', {
         campaignParticipationOverviews: [],
         campaignParticipations: [],

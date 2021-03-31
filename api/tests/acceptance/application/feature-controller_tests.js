@@ -23,6 +23,7 @@ describe('Acceptance | Controller | feature-toggle-controller', () => {
         data: {
           id: '0',
           attributes: {
+            'is-april-fool-enabled': false,
             'is-pole-emploi-enabled': false,
             'is-certification-results-in-orga-enabled': false,
           },
