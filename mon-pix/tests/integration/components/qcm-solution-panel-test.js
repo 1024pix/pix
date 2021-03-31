@@ -36,7 +36,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
       before(function() {
         challenge = EmberObject.create({
           id: 'challenge_id',
-          proposals: '-*possibilite* 1\n-[possibilite 2](data:test)\n- ![possibilite 3](/images/pix-logo-blanc.svg)\n- yon',
+          proposals: '-*possibilite* 1\n-[possibilite 2](/test)\n- ![possibilite 3](/images/pix-logo-blanc.svg)\n- yon',
           type: 'QCM',
         });
 
@@ -120,8 +120,8 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         expect(labels[1].getAttribute('data-checked')).to.equal('yes');
         expect(findAll('input[type=checkbox]')[1].getAttribute('disabled')).to.equal('disabled');
         expect(labels[1].getAttribute('data-goodness')).to.equal('good');
-        expect(labels[1].innerHTML).to.equal(
-          '<p><a href="data:test" rel="noopener noreferrer" target="_blank">possibilite 2</a></p>\n',
+        expect(labels[1].innerHTML.trim()).to.equal(
+          '<p><a href="/test" rel="noopener noreferrer" target="_blank">possibilite 2</a></p>',
         );
       });
 
@@ -139,7 +139,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
 
         expect(labels[0].getAttribute('data-checked')).to.equal('no');
         expect(labels[0].getAttribute('data-goodness')).to.equal('bad');
-        expect(labels[0].innerHTML).to.equal('<p><em>possibilite</em> 1</p>\n');
+        expect(labels[0].innerHTML.trim()).to.equal('<p><em>possibilite</em> 1</p>');
       });
 
       it('should display at least one of the correct answers as not ticked', async function() {
@@ -158,8 +158,8 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
 
         expect(labels[2].getAttribute('data-checked')).to.equal('no');
         expect(labels[2].getAttribute('data-goodness')).to.equal('good');
-        expect(labels[2].innerHTML).to.equal(
-          '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3"></p>\n',
+        expect(labels[2].innerHTML.trim()).to.equal(
+          '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3"></p>',
         );
       });
 
