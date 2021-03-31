@@ -23,6 +23,11 @@ describe('Integration | Component | Profile-content', function() {
           },
         },
       }));
+      this.owner.register('service:featureToggles', Service.extend({
+        featureToggles: {
+          isAprilFoolEnabled: false,
+        },
+      }));
 
       model = {
         profile: {
