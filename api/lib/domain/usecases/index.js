@@ -247,6 +247,7 @@ module.exports = injectDependencies({
   reconcileUserToOrganization: require('./reconcile-user-to-organization'),
   rememberUserHasSeenAssessmentInstructions: require('./remember-user-has-seen-assessment-instructions'),
   rememberUserHasSeenNewDashboardInfo: require('./remember-user-has-seen-new-dashboard-info'),
+  removeAuthenticationMethod: require('./remove-authentication-method'),
   resetScorecard: require('./reset-scorecard'),
   retrieveLastOrCreateCertificationCourse: require('./retrieve-last-or-create-certification-course'),
   saveCertificationCenter: require('./save-certification-center'),

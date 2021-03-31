@@ -425,4 +425,69 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
+  describe('POST /api/admin/users/{id}/remove-authentication', () => {
+
+    beforeEach(() => {
+      sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      httpTestServer = startServer();
+    });
+
+    ['GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI']
+      .forEach((type) => {
+        it(`should return 200 when type is ${type}`, async () => {
+          // given
+          const url = '/api/admin/users/1/remove-authentication';
+          const payload = {
+            data: {
+              attributes: {
+                type,
+              },
+            },
+          };
+
+          // when
+          const result = await httpTestServer.request('POST', url, payload);
+
+          // then
+          expect(result.statusCode).to.equal(200);
+        });
+      });
+
+    it('should return 400 when id is not a number', async () => {
+      // given
+      const url = '/api/admin/users/wrongId/remove-authentication';
+      const payload = {
+        data: {
+          attributes: {
+            type: 'EMAIL',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('POST', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when type is not GAR or EMAIL or USERNAME or POLE_EMPLOI', async () => {
+      // given
+      const url = '/api/admin/users/1/remove-authentication';
+      const payload = {
+        data: {
+          attributes: {
+            type: 'INVALID',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('POST', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+  });
 });

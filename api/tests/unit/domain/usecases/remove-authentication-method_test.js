@@ -46,7 +46,7 @@ describe('Unit | UseCase | remove-authentication-method', () => {
       await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
 
       // then
-      expect(userRepository.updateEmail).to.have.been.calledWith(user.id, null);
+      expect(userRepository.updateEmail).to.have.been.calledWith({ id: user.id, email: null });
     });
 
     context('When user does not have a username', () => {
