@@ -1,6 +1,7 @@
 import { click, fillIn, visit } from '@ember/test-helpers';
-import { module, test, setupApplicationTest } from 'ember-qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { module, test } from 'qunit';
 import { createAuthenticateSession } from '../../../helpers/test-init';
 
 module('Acceptance | authenticated/targets-profile/target-profile/organizations', function(hooks) {
