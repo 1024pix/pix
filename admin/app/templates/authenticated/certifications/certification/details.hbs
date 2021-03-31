@@ -19,7 +19,7 @@
             <div class="col">Score :</div>
             <div class="col certificate">{{this.score}}</div>
           </div>
-          {{#if this.juryScore includeZero=true}}
+          {{#if this.shouldDisplayJuryScore}}
             <div class="row jury">
               <div class="col">Score corrigé :</div>
               <div class="col jury">{{this.juryScore}}</div>

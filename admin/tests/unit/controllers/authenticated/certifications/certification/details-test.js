@@ -61,4 +61,44 @@ module('Unit | Controller | authenticated/certifications/certification/details',
     // 3 jury scores + 2 obtained scores
     assert.equal(controller.get('juryScore'), 12 * 3 + 26 * 2);
   });
+
+  module('#shouldDisplayJuryScore', function() {
+
+    test('it returns true if the jury score is 0', function(assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/certifications/certification/details');
+      controller.set('juryScore', 0);
+
+      // when
+      const shouldDisplayJuryScore = controller.shouldDisplayJuryScore;
+
+      // then
+      assert.equal(shouldDisplayJuryScore, true);
+    });
+
+    test('it returns true if the jury score is a number', function(assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/certifications/certification/details');
+      controller.set('juryScore', 3);
+
+      // when
+      const shouldDisplayJuryScore = controller.shouldDisplayJuryScore;
+
+      // then
+      assert.equal(shouldDisplayJuryScore, true);
+    });
+
+    test('it returns false if the jury score is not a number', function(assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/certifications/certification/details');
+      controller.set('juryScore', null);
+
+      // when
+      const shouldDisplayJuryScore = controller.shouldDisplayJuryScore;
+
+      // then
+      assert.equal(shouldDisplayJuryScore, false);
+    });
+
+  });
 });
