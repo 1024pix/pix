@@ -66,12 +66,14 @@
 
   &--grey {
     background: $grey-15;
+    border: 2px solid $grey-40;
     color: $grey-80;
 
     &:hover,
     &:active,
     &:focus {
       background-color: $grey-20;
+      border: 2px solid $grey-80;
     }
   }
 
@@ -87,13 +89,14 @@
   }
 
   &--red {
-    background: $dark-error;
+    background: $red;
     color: $white;
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $dark-error;
+      background-color: $red-hover;
+      border: 2px solid $yellow;
     }
   }
 

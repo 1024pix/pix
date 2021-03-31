@@ -86,7 +86,7 @@
         </LinkTo>
       {{/if}}
       {{#if this.displayResetButton}}
-        <button class="link link--underline scorecard-details__reset-button" {{on 'click' this.openModal}} type="button">
+        <button id="reset-button" class="link link--underline scorecard-details__reset-button" {{on 'click' this.openModal}} type="button">
           {{t 'pages.competence-details.actions.reset.label'}}
           <div class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name}}</div>
         </button>
@@ -120,8 +120,12 @@
   {{/if}}
 </div>
 {{#if this.showResetModal}}
-  <PixModal @containerClass="scorecard-details__reset-modal pix-modal-dialog--wide" @onClickOverlay={{this.closeModal}}>
-    <button class="pix-modal__close-link" type="button" aria-label="{{t 'common.actions.close'}}" {{on 'click' this.closeModal}}>
+  <PixModal
+          @containerClass="scorecard-details__reset-modal pix-modal-dialog--wide"
+          @onClickOverlay={{this.closeModal}}
+          @originId="#reset-button"
+          role="dialog">
+    <button id="pix-modal__close-button" class="pix-modal__close-link" type="button" aria-label="{{t 'common.actions.close'}}" {{on 'click' this.closeModal}}>
       <span>{{t 'common.actions.close'}}</span>
       <FaIcon @icon="times-circle" class="logged-user-menu__icon"></FaIcon>
     </button>

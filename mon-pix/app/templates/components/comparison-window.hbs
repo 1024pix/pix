@@ -1,6 +1,10 @@
-<PixModal @class="comparison-window-modal" @onClickOverlay={{@closeComparisonWindow}}>
+<PixModal
+        @class="comparison-window-modal"
+        @onClickOverlay={{@closeComparisonWindow}}
+        @originId="#button-comparision-answer-{{@answer.id}}"
+        role="dialog">
 
-  <button type="button" class="pix-modal__close-link" aria-label={{t "common.actions.close"}} {{on "click" @closeComparisonWindow}}>
+  <button type="button" id="pix-modal__close-button" class="pix-modal__close-link" aria-label={{t "common.actions.close"}} {{on "click" @closeComparisonWindow}}>
     <span>{{t "common.actions.close"}}</span>
     <FaIcon @icon="times-circle" class="logged-user-menu__icon" aria-hidden="true"></FaIcon>
   </button>

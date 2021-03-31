@@ -11,7 +11,7 @@
 
     <div class="result-item__correction">
       {{#if this.validationImplementedForChallengeType}}
-        <button {{on 'click' (fn @openAnswerDetails @answer)}} class="result-item__correction-button link js-correct-answer" type="button">
+        <button {{on 'click' (fn @openAnswerDetails @answer)}} id="button-comparision-answer-{{@answer.id}}" class="result-item__correction-button link js-correct-answer" type="button">
           {{t 'pages.result-item.actions.see-answers-and-tutorials.label'}}
         </button>
       {{/if}}
