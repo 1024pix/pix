@@ -234,4 +234,11 @@ module.exports = {
     return userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
   },
 
+  async removeAuthenticationMethod(request, h) {
+    const userId = parseInt(request.params.id);
+    const type = request.payload.data.attributes.type;
+    await usecases.removeAuthenticationMethod({ userId, type });
+    return h.response().code(204);
+  },
+
 };

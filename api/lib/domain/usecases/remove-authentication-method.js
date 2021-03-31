@@ -10,19 +10,19 @@ module.exports = async function removeAuthenticationMethod({
   const user = await userRepository.get(userId);
 
   if (type === 'EMAIL') {
-    await userRepository.updateEmail(userId, null);
 
     if (!user.username) {
       await _removeAuthenticationMethod(userId, AuthenticationMethod.identityProviders.PIX, authenticationMethodRepository);
     }
+    await userRepository.updateEmail({ id: userId, email: null });
   }
 
   if (type === 'USERNAME') {
-    await userRepository.updateUsername({ id: userId, username: null });
 
     if (!user.email) {
       await _removeAuthenticationMethod(userId, AuthenticationMethod.identityProviders.PIX, authenticationMethodRepository);
     }
+    await userRepository.updateUsername({ id: userId, username: null });
   }
 
   if (type === 'GAR') {
