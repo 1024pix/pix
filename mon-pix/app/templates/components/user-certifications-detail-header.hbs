@@ -15,9 +15,9 @@
       <p>{{@certification.fullName}}</p>
       <p>
         {{#if @certification.birthplace}}
-          {{t "pages.certificate.candidate-birth-complete" birthdate=(moment-format birthdate 'D MMMM YYYY') birthplace=@certification.birthplace}}
+          {{t "pages.certificate.candidate-birth-complete" birthdate=(moment-format birthdateMidnightLocalTime 'D MMMM YYYY') birthplace=@certification.birthplace}}
         {{else}}
-          {{t "pages.certificate.candidate-birth" birthdate=(moment-format birthdate 'D MMMM YYYY')}}
+          {{t "pages.certificate.candidate-birth" birthdate=(moment-format birthdateMidnightLocalTime 'D MMMM YYYY')}}
         {{/if}}
       </p>
 
