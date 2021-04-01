@@ -15,8 +15,8 @@ module('Acceptance | Campaign Profiles', function(hooks) {
 
   let user;
 
-  const pageSize = 10;
-  const rowCount = 50;
+  const pageSize = 25;
+  const rowCount = 100;
   hooks.beforeEach(async () => {
     user = createUserWithMembershipAndTermsOfServiceAccepted();
     createPrescriberByUser(user);
@@ -39,13 +39,13 @@ module('Acceptance | Campaign Profiles', function(hooks) {
 
       // then
       assert.dom('table tbody tr').exists({ count: pageSize });
-      assert.contains('Page 1 / 5');
+      assert.contains('Page 1 / 4');
       assert.dom('.page-size option:checked').hasText(pageSize.toString());
     });
 
     test('it should display profile list with settings in url for pagination', async function(assert) {
       // given
-      const changedPageSize = 25;
+      const changedPageSize = 50;
       const changedPageNumber = 2;
 
       // when
@@ -62,7 +62,7 @@ module('Acceptance | Campaign Profiles', function(hooks) {
 
     test('it should display profile list with updated page size', async function(assert) {
       // given
-      const changedPageSize = 25;
+      const changedPageSize = 50;
 
       // when
       await visit('/campagnes/1/profils');
@@ -76,7 +76,7 @@ module('Acceptance | Campaign Profiles', function(hooks) {
 
     test('it should change profile list page when user clicks on next page', async function(assert) {
       // given
-      const changedPageSize = 25;
+      const changedPageSize = 10;
 
       await visit('/campagnes/1/profils');
       await fillInByLabel('Sélectionner une pagination', changedPageSize);
@@ -86,14 +86,14 @@ module('Acceptance | Campaign Profiles', function(hooks) {
       await clickByLabel('Aller à la page suivante');
 
       // then
-      assert.contains('Page 2 / 2');
+      assert.contains('Page 2 / 10');
       assert.dom('table tbody').doesNotContainText(someElementFromPage1);
     });
 
     test('it should go back to first page when user changes page size', async function(assert) {
       // given
-      const changedPageSize = 25;
-      const startPage = 3;
+      const changedPageSize = 50;
+      const startPage = 2;
 
       // when
       await visit(`/campagnes/1/profils?pageNumber=${startPage}`);
@@ -106,4 +106,3 @@ module('Acceptance | Campaign Profiles', function(hooks) {
     });
   });
 });
-
