@@ -100,38 +100,31 @@ describe('Acceptance | API | Certification Course', () => {
         return databaseBuilder.commit();
       });
 
-      it('should return 200 HTTP status code', () => {
+      it('should return 200 HTTP status code', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
       });
 
-      it('should return application/json', () => {
+      it('should return application/json', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          const contentType = response.headers['content-type'];
-          expect(contentType).to.contain('application/json');
-        });
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
       });
 
-      it('should retrieve the certification total pix score and certified competences levels', () => {
+      it('should retrieve the certification total pix score and certified competences levels', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          // then
-          const result = response.result.data;
-          expect(result.attributes['competences-with-mark']).to.have.lengthOf(0);
-          expect(result.attributes['status']).to.equal('started');
-        });
+        const result = response.result.data;
+        expect(result.attributes['competences-with-mark']).to.have.lengthOf(0);
+        expect(result.attributes['status']).to.equal('started');
       });
 
     });
@@ -183,59 +176,52 @@ describe('Acceptance | API | Certification Course', () => {
         return databaseBuilder.commit();
       });
 
-      it('should return 200 HTTP status code', () => {
+      it('should return 200 HTTP status code', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
       });
 
-      it('should return application/json', () => {
+      it('should return application/json', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          const contentType = response.headers['content-type'];
-          expect(contentType).to.contain('application/json');
-        });
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
       });
 
-      it('should retrieve the certification total pix score and certified competences levels', () => {
+      it('should retrieve the certification total pix score and certified competences levels', async () => {
         // given
         const expectedCreatedAt = new Date('2017-12-21T15:44:38Z');
         const expectedResultCreatedAt = new Date('2017-12-21T16:44:38Z');
         const expectedCompletedAt = new Date('2017-12-21T15:48:38Z');
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          // then
-          const result = response.result.data;
+        const result = response.result.data;
 
-          expect(result.attributes['pix-score']).to.equal(42);
-          expect(result.attributes['created-at']).to.deep.equal(expectedCreatedAt);
-          expect(result.attributes['result-created-at']).to.deep.equal(expectedResultCreatedAt);
-          expect(result.attributes['completed-at']).to.deep.equal(expectedCompletedAt);
-          expect(result.attributes['is-published']).to.not.be.ok;
-          expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
+        expect(result.attributes['pix-score']).to.equal(42);
+        expect(result.attributes['created-at']).to.deep.equal(expectedCreatedAt);
+        expect(result.attributes['result-created-at']).to.deep.equal(expectedResultCreatedAt);
+        expect(result.attributes['completed-at']).to.deep.equal(expectedCompletedAt);
+        expect(result.attributes['is-published']).to.not.be.ok;
+        expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
 
-          const firstCertifiedCompetence = result.attributes['competences-with-mark'][0];
-          expect(firstCertifiedCompetence.level).to.equal(2);
-          expect(firstCertifiedCompetence.competence_code).to.equal('4.3');
+        const firstCertifiedCompetence = result.attributes['competences-with-mark'][0];
+        expect(firstCertifiedCompetence.level).to.equal(2);
+        expect(firstCertifiedCompetence.competence_code).to.equal('4.3');
 
-          const secondCertifiedCompetence = result.attributes['competences-with-mark'][1];
-          expect(secondCertifiedCompetence.level).to.equal(4);
-          expect(secondCertifiedCompetence.competence_code).to.equal('2.1');
-        });
+        const secondCertifiedCompetence = result.attributes['competences-with-mark'][1];
+        expect(secondCertifiedCompetence.level).to.equal(4);
+        expect(secondCertifiedCompetence.competence_code).to.equal('2.1');
       });
 
-      it('should return 404 HTTP status code if certification not found', () => {
+      it('should return 404 HTTP status code if certification not found', async () => {
         // given
         const options = {
           method: 'GET',
@@ -244,41 +230,35 @@ describe('Acceptance | API | Certification Course', () => {
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(404);
-        });
+        expect(response.statusCode).to.equal(404);
       });
 
       describe('Resource access management', () => {
 
-        it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
           // given
           options.headers.authorization = 'invalid.access.token';
 
           // when
-          const promise = server.inject(options);
+          const response = await server.inject(options);
 
           // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(401);
-          });
+          expect(response.statusCode).to.equal(401);
         });
 
-        it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+        it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
           // given
           const nonPixMAsterUserId = 9999;
           options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
           // when
-          const promise = server.inject(options);
+          const response = await server.inject(options);
 
           // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(403);
-          });
+          expect(response.statusCode).to.equal(403);
         });
 
       });
