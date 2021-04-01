@@ -586,4 +586,36 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(result).to.be.undefined;
     });
   });
+
+  describe('#findByUserId', () => {
+
+    it('should return the user\'s authentication methods', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAuthenticationMethod({
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+        externalIdentifier: 'externalIdentifier',
+        userId });
+      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({ userId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await authenticationMethodRepository.findByUserId({ userId });
+
+      // then
+      expect(result.length).to.equal(2);
+    });
+
+    it('should return an empty array if user has no authentication methods', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      // when
+      const result = await authenticationMethodRepository.findByUserId({ userId });
+
+      // then
+      expect(result.length).to.equal(0);
+    });
+  });
 });
