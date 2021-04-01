@@ -1,8 +1,11 @@
 const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const AssessmentResultReadModel = require('../../../../lib/domain/read-models/AssessmentResult');
 const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../../../lib/domain/errors');
+const Assessment = require('../../../../lib/domain/models/Assessment');
+const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
 describe('Integration | Repository | AssessmentResult', function() {
 
@@ -153,6 +156,137 @@ describe('Integration | Repository | AssessmentResult', function() {
 
       // then
       expect(mostRecentAssessmentResult).to.be.null;
+    });
+  });
+
+  describe('#getAssessmentResultReadModel', () => {
+
+    describe('when the given certification course id is correct', () => {
+
+      it('should return assessment results', async () => {
+        // given
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+        const juryId = databaseBuilder.factory.buildUser().id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
+        const assessmentResultDTO = {
+          pixScore: 500,
+          status: AssessmentResult.status.VALIDATED,
+          emitter: 'PIX_ALGO',
+          commentForJury: 'Un commentaire pour le jury',
+          commentForCandidate: 'Un commentaire pour le candidat',
+          commentForOrganization: 'Un commentaire pour l\'organization',
+          juryId,
+          createdAt: new Date('2019-02-01T00:00:00Z'),
+        };
+        const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
+          ...assessmentResultDTO,
+          assessmentId,
+        }).id;
+        const competenceMark1 = databaseBuilder.factory.buildCompetenceMark({ assessmentResultId });
+        const competenceMark2 = databaseBuilder.factory.buildCompetenceMark({ assessmentResultId });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await assessmentResultRepository.getAssessmentResultReadModel({ certificationCourseId });
+
+        // then
+        const expectedAssessmentResult = {
+          assessmentId,
+          status: assessmentResultDTO.status,
+          commentForCandidate: assessmentResultDTO.commentForCandidate,
+          commentForOrganization: assessmentResultDTO.commentForOrganization,
+          commentForJury: assessmentResultDTO.commentForJury,
+          juryId: assessmentResultDTO.juryId,
+          pixScore: assessmentResultDTO.pixScore,
+          competencesWithMark: [{
+            id: competenceMark1.id,
+            area_code: competenceMark1.area_code,
+            competence_code: competenceMark1.competence_code,
+            competenceId: competenceMark1.competenceId,
+            level: competenceMark1.level,
+            score: competenceMark1.score,
+            assessmentResultId: competenceMark1.assessmentResultId,
+          }, {
+            id: competenceMark2.id,
+            area_code: competenceMark2.area_code,
+            competence_code: competenceMark2.competence_code,
+            competenceId: competenceMark2.competenceId,
+            level: competenceMark2.level,
+            score: competenceMark2.score,
+            assessmentResultId: competenceMark2.assessmentResultId,
+          }],
+        };
+        expect(result).to.be.instanceOf(AssessmentResultReadModel);
+        expect(result.competencesWithMark[0]).to.be.instanceOf(CompetenceMark);
+        expect(result).to.deep.equal(expectedAssessmentResult);
+      });
+
+      it('should return last assessment result', async () => {
+        // given
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
+
+        const firstAssessementResultCreatedAt = new Date('2019-02-01T00:00:00Z');
+        databaseBuilder.factory.buildAssessmentResult({
+          assessmentId,
+          createdAt: firstAssessementResultCreatedAt,
+          pixScore: 50,
+        }).id;
+
+        const secondAssessmentResultCreatedAt = new Date('2020-02-01T00:00:00Z');
+        databaseBuilder.factory.buildAssessmentResult({
+          assessmentId,
+          createdAt: secondAssessmentResultCreatedAt,
+          pixScore: 600,
+        }).id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await assessmentResultRepository.getAssessmentResultReadModel({ certificationCourseId });
+
+        // then
+        expect(result.pixScore).to.equal(600);
+      });
+    });
+
+    describe('when the given certification course id is incorrect', () => {
+
+      describe('when no assessment was found', () => {
+
+        it('should build an started assessment result', async () => {
+          // given
+          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+          await databaseBuilder.commit();
+
+          // when
+          const result = await assessmentResultRepository.getAssessmentResultReadModel({ certificationCourseId });
+
+          // then
+          expect(result).to.be.instanceOf(AssessmentResultReadModel);
+          expect(result.status).to.be.equal(Assessment.states.STARTED);
+          expect(result.assessmentId).to.be.null;
+        });
+      });
+
+      describe('when no assessment-result  was found', () => {
+
+        it('should build an started assessment result', async () => {
+          // given
+          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+          const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
+          await databaseBuilder.commit();
+
+          // when
+          const result = await assessmentResultRepository.getAssessmentResultReadModel({ certificationCourseId });
+
+          // then
+          expect(result).to.be.instanceOf(AssessmentResultReadModel);
+          expect(result.status).to.be.equal(Assessment.states.STARTED);
+          expect(result.assessmentId).to.be.equal(assessmentId);
+        });
+      });
     });
   });
 });
