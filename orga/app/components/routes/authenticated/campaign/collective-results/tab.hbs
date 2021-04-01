@@ -17,7 +17,7 @@
 
   <div class="participant-content participant-results-content">
     <div aria-label={{t 'pages.campaign-collective-results.average'}} class="participant-results-content__score">
-      <div class="content-text content-text--big content-text--bold">{{t 'pages.campaign-collective-results.table.column.results'}}</div>
+      <div class="content-text content-text--big content-text--bold">{{t 'pages.campaign-collective-results.result'}}</div>
       <div class="participant-results-content__circle-chart">
         <CircleChart @value={{@campaignCollectiveResult.averageResult}}>
           <span class="participant-results-content__circle-chart-value">
@@ -36,7 +36,7 @@
     <thead>
     <tr>
       <th class="table__column--wide">{{this.campaignCollectiveResultLabel}}</th>
-      <th class="table__column--wide">{{t 'pages.campaign-collective-results.table.column.results'}}</th>
+      <th class="table__column--wide">{{t 'pages.campaign-collective-results.table.column.results.label'}}</th>
       <th class="table__column--small">{{t 'pages.campaign-collective-results.table.column.validated-items'}}</th>
       <th class="table__column--small">{{t 'pages.campaign-collective-results.table.column.tested-items'}}</th>
     </tr>
@@ -53,10 +53,11 @@
               {{competenceResult.competenceName}}
             </span>
           </td>
-          <td>
-            <ProgressionGauge @total={{competenceResult.totalSkillsCountPercentage}} @value={{competenceResult.validatedSkillsPercentage}}>
-              {{competenceResult.validatedSkillsPercentage}}%
-            </ProgressionGauge>
+          <td class="competences-col__gauge">
+            <PixProgressGauge
+              @value={{competenceResult.validatedSkillsPercentage}}
+              @tooltipText={{t 'pages.campaign-collective-results.table.column.results.tooltip' result=competenceResult.validatedSkillsPercentage competence=competenceResult.competenceName htmlSafe=true}}
+            />
           </td>
           <td>{{competenceResult.roundedAverageValidatedSkills}}</td>
           <td>{{competenceResult.targetedSkillsCount}}</td>

@@ -112,8 +112,7 @@
           "competences": "Skills ({count, plural, =0 {-} other {{count}}})",
           "results": {
             "label": "Results",
-            "explanation-begin": "This participant has validated ",
-            "explanation-end": " of the skill {competence}."
+            "tooltip": "<span class=\"sr-only\">This participant has validated</span> {result} % <span class=\"sr-only\">of the skill {competence}.</span>"
           },
           "totalSkills": "Items tested",
           "validatedSkills": "Items successfully completed"
@@ -176,10 +175,14 @@
     },
     "campaign-collective-results": {
       "average": "Average results",
+      "result": "Result",
       "table": {
         "column": {
           "competences": "Skills ({count})",
-          "results": "Results",
+          "results": {
+            "label": "Results",
+            "tooltip": "<span class=\"sr-only\">Participants have validated</span> {result} % <span class=\"sr-only\">of the skill {competence}.</span>"
+          },
           "tested-items": "Items tested",
           "validated-items": "Items successfully completed"
         },
