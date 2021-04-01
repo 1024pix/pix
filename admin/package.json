@@ -40,7 +40,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@glimmer/component": "^1.0.3",
     "babel-eslint": "^10.1.0",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^4.6.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-ajax": "^5.0.0",
     "ember-api-actions": "^0.2.9",
