@@ -61,6 +61,7 @@
 }
 
 .embed__simulator {
+  -webkit-overflow-scrolling: touch;
   height: calc(100% + 5px);
   overflow: auto;
 
