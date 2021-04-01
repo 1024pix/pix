@@ -200,6 +200,7 @@ module.exports = injectDependencies({
   getCertificationCenter: require('./get-certification-center'),
   getCertificationCourse: require('./get-certification-course'),
   getCertificationDetails: require('./get-certification-details'),
+  getCertificationResultInformation: require('./get-certification-result-information'),
   getCertificationsResultsForLS: require('./certificate/get-certifications-results-for-ls'),
   getCertificationPointOfContact: require('./get-certification-point-of-contact'),
   getCorrectionForAnswer: require('./get-correction-for-answer'),
