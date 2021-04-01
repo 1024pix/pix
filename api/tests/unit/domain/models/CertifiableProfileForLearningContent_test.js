@@ -34,7 +34,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
     });
   });
 
-  describe('#getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId', () => {
+  describe('#getOrderedCertifiableSkillsByAreaId', () => {
     let targetProfileWithLearningContent;
 
     beforeEach(() => {
@@ -155,7 +155,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
       });
 
       // when
-      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId = certifiableProfile.getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId();
+      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId = certifiableProfile.getOrderedCertifiableSkillsByAreaId();
 
       // then
       expect(directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId).to.deep.equal({
@@ -202,7 +202,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
       });
 
       // when
-      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId = certifiableProfile.getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId();
+      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId = certifiableProfile.getOrderedCertifiableSkillsByAreaId();
 
       // then
       expect(directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId).to.deep.equal({
@@ -250,7 +250,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
 
       // when
       const excludedOrigins = ['Origin2'];
-      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId = certifiableProfile.getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId(excludedOrigins);
+      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId = certifiableProfile.getOrderedCertifiableSkillsByAreaId(excludedOrigins);
 
       // then
       expect(directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId).to.deep.equal({
@@ -260,7 +260,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
     });
   });
 
-  describe('#getAlreadyDirectlyValidatedAnsweredChallengeIds', () => {
+  describe('#getAlreadyAnsweredChallengeIds', () => {
 
     it('should return list of uniq challenge ids answered on directly validated skills in the profile', () => {
       // given
@@ -332,7 +332,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
       });
 
       // when
-      const uniqDirectlyValidatedChallengeIds = certifiableProfile.getAlreadyDirectlyValidatedAnsweredChallengeIds();
+      const uniqDirectlyValidatedChallengeIds = certifiableProfile.getAlreadyAnsweredChallengeIds();
 
       // then
       expect(uniqDirectlyValidatedChallengeIds).to.include.members(['chalA', 'chalB']);

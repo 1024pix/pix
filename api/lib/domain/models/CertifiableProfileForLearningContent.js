@@ -9,7 +9,7 @@ class CertifiableProfileForLearningContent {
   }) {
     this.skillResults = [];
     for (const knowledgeElement of knowledgeElements) {
-      const targetedSkill = targetProfileWithLearningContent.getSkill(knowledgeElement.skillId);
+      const targetedSkill = targetProfileWithLearningContent.findSkill(knowledgeElement.skillId);
       if (targetedSkill) {
         this.skillResults.push(new SkillResult({
           skillId: targetedSkill.id,
@@ -29,7 +29,7 @@ class CertifiableProfileForLearningContent {
     const skillResultsByCompetenceId = {};
     const skillResultsGroupedByTubeId = _.groupBy(this.skillResults, 'tubeId');
     for (const [tubeId, skillResults] of Object.entries(skillResultsGroupedByTubeId)) {
-      const targetedTube = targetProfileWithLearningContent.getTube(tubeId);
+      const targetedTube = targetProfileWithLearningContent.findTube(tubeId);
       if (!skillResultsByCompetenceId[targetedTube.competenceId]) skillResultsByCompetenceId[targetedTube.competenceId] = [];
       skillResultsByCompetenceId[targetedTube.competenceId] = [...skillResultsByCompetenceId[targetedTube.competenceId], ...skillResults];
     }
@@ -56,27 +56,34 @@ class CertifiableProfileForLearningContent {
     }
   }
 
-  getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId(excludedOrigins = []) {
+  getOrderedCertifiableSkillsByAreaId(excludedOrigins = []) {
     const skillIdsByAreaId = {};
     for (const resultByArea of this.resultsByArea) {
-      const directlyValidatedSkillsInArea = _.flatMap(resultByArea.resultsByCompetence, (resultByCompetence) => {
-        if (resultByCompetence.isNotInOrigins(excludedOrigins)) {
-          return resultByCompetence.getDirectlyValidatedSkills();
-        }
-        return [];
-      });
-
-      const directlyValidatedSkillsOrderedByDecreasingDifficultyInArea = _(directlyValidatedSkillsInArea)
-        .sortBy('difficulty')
-        .reverse()
-        .value();
-      skillIdsByAreaId[resultByArea.areaId] = _.map(directlyValidatedSkillsOrderedByDecreasingDifficultyInArea, 'skillId');
+      const certifiableSkillsForArea = this._getCertifiableSkillsForArea(resultByArea, excludedOrigins);
+      const certifiableOrderedSkillsInArea = this._orderSkillsByDecreasingDifficulty(certifiableSkillsForArea);
+      skillIdsByAreaId[resultByArea.areaId] = _.map(certifiableOrderedSkillsInArea, 'skillId');
     }
 
     return skillIdsByAreaId;
   }
 
-  getAlreadyDirectlyValidatedAnsweredChallengeIds() {
+  _getCertifiableSkillsForArea(resultByArea, excludedOrigins) {
+    return _.flatMap(resultByArea.resultsByCompetence, (resultByCompetence) => {
+      if (resultByCompetence.isNotInOrigins(excludedOrigins)) {
+        return resultByCompetence.getDirectlyValidatedSkills();
+      }
+      return [];
+    });
+  }
+
+  _orderSkillsByDecreasingDifficulty(skills) {
+    return _(skills)
+      .sortBy('difficulty')
+      .reverse()
+      .value();
+  }
+
+  getAlreadyAnsweredChallengeIds() {
     return _(this.skillResults)
       .filter('isDirectlyValidated')
       .map('challengeId')
