@@ -76,7 +76,15 @@ async function _startNewCertification({
   const challengesForPixPlusCertification = await _findChallengesFromPixPlus({ userId, certifiableBadgesService, certificationChallengesService });
   const challengesForCertification = challengesForPixCertification.concat(challengesForPixPlusCertification);
 
-  return _createCertificationCourse(certificationCandidateRepository, certificationCourseRepository, assessmentRepository, userId, sessionId, challengesForCertification, domainTransaction);
+  return _createCertificationCourse({
+    certificationCandidateRepository,
+    certificationCourseRepository,
+    assessmentRepository,
+    userId,
+    sessionId,
+    certificationChallenges: challengesForCertification,
+    domainTransaction,
+  });
 }
 
 async function _findChallengesFromPixPlus({ userId, certifiableBadgesService, certificationChallengesService }) {
@@ -109,7 +117,7 @@ async function _createPixCertification(placementProfileService, certificationCha
   return certificationChallengesService.pickCertificationChallenges(placementProfile);
 }
 
-async function _createCertificationCourse(certificationCandidateRepository, certificationCourseRepository, assessmentRepository, userId, sessionId, certificationChallenges, domainTransaction) {
+async function _createCertificationCourse({ certificationCandidateRepository, certificationCourseRepository, assessmentRepository, userId, sessionId, certificationChallenges, domainTransaction }) {
   const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
   const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: certificationChallenges, maxReachableLevelOnCertificationDate: features.maxReachableLevel });
 
