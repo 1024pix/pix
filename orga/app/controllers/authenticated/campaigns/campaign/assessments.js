@@ -6,7 +6,7 @@ export default class AssessmentsController extends Controller {
   queryParams = ['pageNumber', 'pageSize', 'divisions', 'badges', 'stages'];
 
   @tracked pageNumber = 1;
-  @tracked pageSize = 10;
+  @tracked pageSize = 25;
   @tracked divisions = [];
   @tracked badges = [];
   @tracked stages = [];

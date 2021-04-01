@@ -16,8 +16,8 @@ module('Acceptance | Campaign Participants', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  const pageSize = 10;
-  const rowCount = 50;
+  const pageSize = 25;
+  const rowCount = 100;
 
   hooks.beforeEach(async () => {
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
@@ -28,9 +28,9 @@ module('Acceptance | Campaign Participants', function(hooks) {
     server.create('campaign-assessment-participation-summary', { id: 1, lastName: 'AAAAAAAA_IAM_FIRST' });
     server.createList('campaign-assessment-participation', rowCount, { campaignId: 1 });
     server.createList('campaign-assessment-participation-result', rowCount, { campaignId: 1 });
-    server.createList('campaign-assessment-participation-summary', 20, 'completed');
-    server.createList('campaign-assessment-participation-summary', 10, 'ongoing');
-    server.createList('campaign-assessment-participation-summary', 19, 'shared');
+    server.createList('campaign-assessment-participation-summary', 50, 'completed');
+    server.createList('campaign-assessment-participation-summary', 20, 'ongoing');
+    server.createList('campaign-assessment-participation-summary', 29, 'shared');
 
     await authenticateSession({
       user_id: user.id,
@@ -48,13 +48,13 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
       // then
       assert.dom('table tbody tr').exists({ count: pageSize });
-      assert.contains('Page 1 / 5');
+      assert.contains('Page 1 / 4');
       assert.dom('.page-size option:checked').hasText(pageSize.toString());
     });
 
     test('it should display participant list with settings in url for pagination', async function(assert) {
       // given
-      const changedPageSize = 25;
+      const changedPageSize = 50;
       const changedPageNumber = 2;
 
       // when
@@ -82,7 +82,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
     test('it should display participant list with updated page size', async function(assert) {
       // given
-      const changedPageSize = 25;
+      const changedPageSize = 50;
 
       // when
       await visit('/campagnes/1/evaluations');
@@ -96,7 +96,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
     test('it should change participant list page when user clicks on next page', async function(assert) {
       // given
-      const changedPageSize = 25;
+      const changedPageSize = 10;
 
       await visit('/campagnes/1/evaluations');
       await fillInByLabel('Sélectionner une pagination', changedPageSize);
@@ -106,13 +106,13 @@ module('Acceptance | Campaign Participants', function(hooks) {
       await clickByLabel('Aller à la page suivante');
 
       // then
-      assert.contains('Page 2 / 2');
+      assert.contains('Page 2 / 10');
       assert.dom('table tbody').doesNotContainText(someElementFromPage1);
     });
 
     test('it should go back to first page when user changes page size', async function(assert) {
       // given
-      const changedPageSize = 25;
+      const changedPageSize = 50;
       const startPage = 3;
 
       // when
