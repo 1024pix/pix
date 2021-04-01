@@ -81,7 +81,7 @@
                 "evaluate": {
                     "title": "Assess your digital skills with fun tests on different subjects, such as:",
                     "complement": "The Pix public service for the assessment and certification of digital skills enables assessment of your level in 5 major skill areas covering current uses of digital technology.",
-                    "list": "'<ul><li>'finding information on the internet,'</li><li>'producing documents,'</li><li>'communicating and collaborating online,'</li><li>'securing your work environment,'</li><li>'etc.'</li></ul>'",
+                    "list": "'<ul class=\"campaign-landing-page__details__text article-list\"><li>'finding information on the internet,'</li><li>'producing documents,'</li><li>'communicating and collaborating online,'</li><li>'securing your work environment,'</li><li>'etc.'</li></ul>'",
                     "more-info": {
                         "link": "https://pix.org/en-gb/skills-assessed-by-pix",
                         "label": "Find out more."
