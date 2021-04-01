@@ -101,7 +101,7 @@
     "query-string": "^7.0.0",
     "qunit": "^2.14.0",
     "qunit-dom": "^1.6.0",
-    "sass": "^1.27.0"
+    "sass": "^1.32.8"
   },
   "ember": {
     "edition": "octane"
