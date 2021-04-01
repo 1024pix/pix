@@ -33,17 +33,20 @@ module.exports = {
 
     let certificationChallenges = [];
     for (const userCompetence of certifiableUserCompetencesWithOrderedSkills) {
-      const certificationChallengesForCompetence = [];
+      let certificationChallengesForCompetence = [];
       for (const skill of userCompetence.skills) {
         if (certificationChallengesForCompetence.length >= MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION) break;
-        const alreadySelectedChallengeIds = [
-          ..._.map(certificationChallenges, 'challengeId'),
-          ..._.map(certificationChallengesForCompetence, 'challengeId'),
-        ];
-        const certificationChallenge = _pickCertificationChallengeForSkill(skill, userCompetence.id, allFrFrOperativeChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds);
-        if (certificationChallenge) certificationChallengesForCompetence.push(certificationChallenge);
+
+        certificationChallengesForCompetence = _expandCertificationChallengesByGroup({
+          certificationChallenges,
+          certificationChallengesForThisGroup: certificationChallengesForCompetence,
+          skill,
+          competenceId: userCompetence.id,
+          allChallenges: allFrFrOperativeChallenges,
+          alreadyAnsweredChallengeIds,
+        });
       }
-      certificationChallenges = [...certificationChallenges, ...certificationChallengesForCompetence];
+      certificationChallenges = certificationChallenges.concat(certificationChallengesForCompetence);
     }
 
     return certificationChallenges;
@@ -60,17 +63,21 @@ module.exports = {
     let certificationChallenges = [];
 
     for (const skillIds of Object.values(skillIdsByArea)) {
-      const certificationChallengesForArea = [];
+      let certificationChallengesForArea = [];
       for (const skillId of skillIds) {
         if (certificationChallengesForArea.length >= MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS) break;
-        const alreadySelectedChallengeIds = [
-          ..._.map(certificationChallenges, 'challengeId'),
-          ..._.map(certificationChallengesForArea, 'challengeId'),
-        ];
+
         const skill = targetProfileWithLearningContent.findSkill(skillId);
         const competenceId = targetProfileWithLearningContent.getCompetenceIdOfSkill(skillId);
-        const certificationChallenge = _pickCertificationChallengeForSkill(skill, competenceId, allFrFrOperativeChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds);
-        if (certificationChallenge) certificationChallengesForArea.push(certificationChallenge);
+
+        certificationChallengesForArea = _expandCertificationChallengesByGroup({
+          certificationChallenges,
+          certificationChallengesForThisGroup: certificationChallengesForArea,
+          skill,
+          competenceId,
+          allChallenges: allFrFrOperativeChallenges,
+          alreadyAnsweredChallengeIds,
+        });
       }
       certificationChallenges = certificationChallenges.concat(certificationChallengesForArea);
     }
@@ -79,7 +86,17 @@ module.exports = {
   },
 };
 
-function _pickCertificationChallengeForSkill(skill, competenceId, allChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds) {
+function _expandCertificationChallengesByGroup({ certificationChallenges, certificationChallengesForThisGroup, skill, competenceId, allChallenges, alreadyAnsweredChallengeIds }) {
+  const alreadySelectedChallengeIds = [
+    ..._.map(certificationChallenges, 'challengeId'),
+    ..._.map(certificationChallengesForThisGroup, 'challengeId'),
+  ];
+  const certificationChallenge = _pickCertificationChallengeForSkill({ skill, competenceId, allChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds });
+  if (certificationChallenge) certificationChallengesForThisGroup.push(certificationChallenge);
+  return certificationChallengesForThisGroup;
+}
+
+function _pickCertificationChallengeForSkill({ skill, competenceId, allChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds }) {
   const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allChallenges, skill });
   const unansweredChallenges = _.filter(challengesToValidateCurrentSkill, (challenge) => !alreadyAnsweredChallengeIds.includes(challenge.id));
 
