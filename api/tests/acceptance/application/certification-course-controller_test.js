@@ -196,7 +196,6 @@ describe('Acceptance | API | Certification Course', () => {
       it('should retrieve the certification total pix score and certified competences levels', async () => {
         // given
         const expectedCreatedAt = new Date('2017-12-21T15:44:38Z');
-        const expectedResultCreatedAt = new Date('2017-12-21T16:44:38Z');
         const expectedCompletedAt = new Date('2017-12-21T15:48:38Z');
 
         // when
@@ -207,7 +206,6 @@ describe('Acceptance | API | Certification Course', () => {
 
         expect(result.attributes['pix-score']).to.equal(42);
         expect(result.attributes['created-at']).to.deep.equal(expectedCreatedAt);
-        expect(result.attributes['result-created-at']).to.deep.equal(expectedResultCreatedAt);
         expect(result.attributes['completed-at']).to.deep.equal(expectedCompletedAt);
         expect(result.attributes['is-published']).to.not.be.ok;
         expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
