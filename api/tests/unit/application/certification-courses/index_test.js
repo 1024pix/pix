@@ -15,7 +15,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
 
   beforeEach(() => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sinon.stub(certificationCoursesController, 'getResult').returns('ok');
+    sinon.stub(certificationCoursesController, 'getCertificationResultInformation').returns('ok');
     sinon.stub(certificationCoursesController, 'update').returns('ok');
     sinon.stub(certificationCoursesController, 'computeResult').returns('ok');
     sinon.stub(certificationCoursesController, 'save').returns('ok');

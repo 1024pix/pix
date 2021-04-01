@@ -23,7 +23,7 @@ module.exports = {
     return certificationDetailsSerializer.serialize(certificationDetails);
   },
 
-  async getResult(request) {
+  async getCertificationResultInformation(request) {
     const certificationCourseId = request.params.id;
     const certificationResultInformation = await usecases.getCertificationResultInformation({ certificationCourseId });
     return certificationResultInformationSerializer.serialize(certificationResultInformation);
