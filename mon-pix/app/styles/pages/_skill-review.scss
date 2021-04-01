@@ -87,28 +87,36 @@
 
 .skill-review-competence {
 
-  &__bullet {
-    font-size: 1.125rem;
-    margin-right: 12px;
+  &__border {
+    padding: 0.5rem 0;
+    margin-right: 1rem;
+    border-style: solid;
+    border-width: 1.5px;
+    border-radius: 1.5px;
 
     &--jaffa {
       color: $information-light;
+      background: $information-light;
     }
 
     &--emerald {
       color: $content-light;
+      background: $content-light;
     }
 
     &--cerulean {
       color: $communication-light;
+      background: $communication-light;
     }
 
     &--wild-strawberry {
       color: $security-light;
+      background: $security-light;
     }
 
     &--butterfly-bush {
       color: $environment-light;
+      background: $environment-light;
     }
   }
 }
