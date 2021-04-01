@@ -55,8 +55,8 @@ module.exports = {
     const allFrFrOperativeChallenges = await challengeRepository.findFrenchFranceOperative();
 
     const excludedOrigins = [PIX_ORIGIN];
-    const skillIdsByArea = certifiableProfile.getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId(excludedOrigins);
-    const alreadyAnsweredChallengeIds = certifiableProfile.getAlreadyDirectlyValidatedAnsweredChallengeIds();
+    const skillIdsByArea = certifiableProfile.getOrderedCertifiableSkillsByAreaId(excludedOrigins);
+    const alreadyAnsweredChallengeIds = certifiableProfile.getAlreadyAnsweredChallengeIds();
     let certificationChallenges = [];
 
     for (const skillIds of Object.values(skillIdsByArea)) {
@@ -67,7 +67,7 @@ module.exports = {
           ..._.map(certificationChallenges, 'challengeId'),
           ..._.map(certificationChallengesForArea, 'challengeId'),
         ];
-        const skill = targetProfileWithLearningContent.getSkill(skillId);
+        const skill = targetProfileWithLearningContent.findSkill(skillId);
         const competenceId = targetProfileWithLearningContent.getCompetenceIdOfSkill(skillId);
         const certificationChallenge = _pickCertificationChallengeForSkill(skill, competenceId, allFrFrOperativeChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds);
         if (certificationChallenge) certificationChallengesForArea.push(certificationChallenge);
