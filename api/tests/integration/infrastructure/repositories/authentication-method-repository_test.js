@@ -564,4 +564,26 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
+  describe('#removeByUserIdAndIdentityProvider', () => {
+
+    it('should remove the authentication method by userId and identityProvider', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const identityProvider = AuthenticationMethod.identityProviders.GAR;
+
+      databaseBuilder.factory.buildAuthenticationMethod({
+        identityProvider,
+        externalIdentifier: 'externalIdentifier',
+        userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await authenticationMethodRepository.removeByUserIdAndIdentityProvider({ userId, identityProvider });
+
+      // then
+      const result = await knex('authentication-methods').where({ userId, identityProvider }).first();
+      expect(result).to.be.undefined;
+    });
+  });
 });
