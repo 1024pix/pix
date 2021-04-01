@@ -285,7 +285,6 @@ function _logSessionBatchPublicationErrors(result) {
     logger.warn({
       batchId: result.batchId,
       sessionId,
-      message: sessionAndError[sessionId].message,
-    });
+    }, sessionAndError[sessionId].message);
   }
 }
