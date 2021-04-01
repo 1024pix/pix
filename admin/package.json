@@ -89,7 +89,7 @@
     "eslint-plugin-ember": "^10.2.0",
     "eslint-plugin-mocha": "^8.1.0",
     "eslint-plugin-node": "^11.1.0",
-    "faker": "^5.1.0",
+    "faker": "^5.5.2",
     "file-saver": "^2.0.2",
     "json2csv": "^4.5.4",
     "loader.js": "^4.7.0",
