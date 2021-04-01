@@ -231,4 +231,7 @@ module.exports = {
       });
   },
 
+  async removeByUserIdAndIdentityProvider({ userId, identityProvider }) {
+    return BookshelfAuthenticationMethod.where({ userId, identityProvider }).destroy({ require: true });
+  },
 };
