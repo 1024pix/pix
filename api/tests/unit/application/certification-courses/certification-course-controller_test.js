@@ -135,7 +135,7 @@ describe('Unit | Controller | certification-course-controller', () => {
     });
   });
 
-  describe('#getResult', () => {
+  describe('#getCertificationResultInformation', () => {
 
     it('should return certification result', async () => {
       // given
@@ -156,7 +156,7 @@ describe('Unit | Controller | certification-course-controller', () => {
         .resolves(certificationResultInformationSerialized);
 
       // when
-      const result = await certificationCourseController.getResult(request, hFake);
+      const result = await certificationCourseController.getCertificationResultInformation(request, hFake);
 
       // then
       expect(result).to.deep.equal(certificationResultInformationSerialized);
