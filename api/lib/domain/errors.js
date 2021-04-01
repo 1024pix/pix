@@ -681,6 +681,12 @@ class UserNotAuthorizedToUpdatePasswordError extends DomainError {
   }
 }
 
+class UserNotAuthorizedToRemoveAuthenticationMethod extends DomainError {
+  constructor(message = 'L\'utilisateur n\'est pas autorisé à supprimer cette méthode de connexion.') {
+    super(message);
+  }
+}
+
 class SchoolingRegistrationNotFound extends NotFoundError {
   constructor(message = 'Aucune inscription d‘élève n‘a été trouvée.') {
     super(message);
@@ -842,6 +848,7 @@ module.exports = {
   UserNotAuthorizedToGenerateUsernamePasswordError,
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToGetCertificationCoursesError,
+  UserNotAuthorizedToRemoveAuthenticationMethod,
   UserNotAuthorizedToUpdateCampaignError,
   UserNotAuthorizedToUpdatePasswordError,
   UserNotAuthorizedToUpdateResourceError,
