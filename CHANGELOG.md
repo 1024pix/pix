@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v3.40.0 (01/04/2021)
+
+- [#2791](https://github.com/1024pix/pix/pull/2791) [FEATURE] Amélioration de l'a11y sur la page de présentation de campagne (PIX-1879).
+- [#2780](https://github.com/1024pix/pix/pull/2780) [FEATURE][i18n] Ajout de l'internationalisation dans le modèle d'import SCO AGRI CFA (PIX-2310).
+- [#2798](https://github.com/1024pix/pix/pull/2798) [BUGFIX] Ajout de tag autorisé dans le markdown to html.
+- [#2795](https://github.com/1024pix/pix/pull/2795) [TECH] Mise à jour des dépendances Ember de pix-admin 3.23.1 --> 3.25.3
+- [#2785](https://github.com/1024pix/pix/pull/2785) [TECH] Retirer faker de l'API (PIX-2166)
+- [#2794](https://github.com/1024pix/pix/pull/2794) <°)))><
+
 ## v3.39.0 (31/03/2021)
 
 - [#2748](https://github.com/1024pix/pix/pull/2748) [FEATURE] Script de création d'organisations PRO en masse depuis un fichier CSV (PIX-2278).
