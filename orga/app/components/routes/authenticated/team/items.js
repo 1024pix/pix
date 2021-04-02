@@ -3,8 +3,8 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-const ARIA_LABEL_MEMBER_TRANSLATION = 'pages.team-items.select-input.options.member-label';
-const ARIA_LABEL_ADMIN_TRANSLATION = 'pages.team-items.select-input.options.admin-label';
+const ARIA_LABEL_MEMBER_TRANSLATION = 'pages.team-members.actions.select-role.options.member';
+const ARIA_LABEL_ADMIN_TRANSLATION = 'pages.team-members.actions.select-role.options.admin';
 
 export default class Items extends Component {
 

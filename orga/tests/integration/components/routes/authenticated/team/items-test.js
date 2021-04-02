@@ -48,7 +48,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
     assert.contains('La Terreur');
     assert.contains('Gigi');
     assert.contains('Administrateur');
-    assert.dom('button[aria-label="Afficher les actions"]').exists;
+    assert.dom('button[aria-label="Gérer"]').exists;
   });
 
   module('When edit organization role button is clicked', function() {
@@ -60,7 +60,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
 
       // when
-      await clickByLabel('Afficher les actions');
+      await clickByLabel('Gérer');
       await clickByLabel('Modifier le rôle');
 
       // then
@@ -75,7 +75,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
 
       await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
 
-      await clickByLabel('Afficher les actions');
+      await clickByLabel('Gérer');
       await clickByLabel('Modifier le rôle');
 
       // when
@@ -91,7 +91,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       this.set('membership', memberMembership);
 
       await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
-      await clickByLabel('Afficher les actions');
+      await clickByLabel('Gérer');
       await clickByLabel('Modifier le rôle');
 
       // when
@@ -108,7 +108,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       this.set('membership', adminMembership);
 
       await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
-      await clickByLabel('Afficher les actions');
+      await clickByLabel('Gérer');
       await clickByLabel('Modifier le rôle');
 
       // when
@@ -136,7 +136,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
 
       // when
       await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}} @removeMembership={{removeMembership}} />`);
-      await clickByLabel('Afficher les actions');
+      await clickByLabel('Gérer');
       await clickByLabel('Supprimer');
     });
 

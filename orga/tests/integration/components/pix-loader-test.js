@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | pix-loader', function(hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('Component rendering', function() {
 
@@ -13,7 +13,7 @@ module('Integration | Component | pix-loader', function(hooks) {
       await render(hbs`<PixLoader />`);
 
       // then
-      assert.dom('.app-loader__text').containsText('En cours de chargement...');
+      assert.contains('Chargement en cours');
     });
   });
 });

@@ -60,6 +60,7 @@
       "close": "Close"
     },
     "help-form": "https://pix.org/en-gb/help-form",
+    "loading": "Loading",
     "pagination": {
       "action": {
         "next": "Go to next page",
@@ -84,7 +85,8 @@
       "team": "Team"
     },
     "user-logged-menu": {
-      "logout": "Log out"
+      "logout": "Log out",
+      "summary": "User summary"
     }
   },
   "pages": {
@@ -136,7 +138,6 @@
       }
     },
     "campaign-individual-results": {
-      "campaign-name": "Name of the campaign",
       "shared-date": "Sent on",
       "start-date": "Started on"
     },
@@ -163,6 +164,7 @@
           "stages": "Success rate"
         }
       },
+      "name": "Name of the campaign",
       "participations-count": "Participants",
       "shared-participations-count": "Profiles submitted",
       "tab": {
@@ -281,7 +283,8 @@
         "filter": {
           "by-creator": "Search a creator",
           "by-name": "Search a campaign"
-        }
+        },
+        "row-title": "Campaign"
       }
     },
     "campaign-modification": {
@@ -295,21 +298,34 @@
     },
     "campaign-review": {
       "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following subjects, sorted by relevance ({bubble}).",
-      "header": {
-        "title": "Review by subject",
-        "relevance": "Relevance",
-        "subjects": "Subjects ({count, plural, =0 {-} other {{count}}})"
+      "sub-table": {
+        "column": {
+          "source": {
+            "value": "By {source}"
+          }
+        },
+        "row-title": "Tutorial",
+        "title": "{count, plural, =1 {1 tutorial} other{{count} tutorials}} recommended by the Pix community"
       },
-      "title": "Recommendations of subjects to focus on",
-      "tube-recommendations": {
-        "name": "Tutorial",
-        "recommended-tutorial": "{count, plural, =1 {1 tutorial} other{{count} tutorials}} recommended by the Pix community",
-        "show-tutorial": "Show all tutorials",
-        "subject": "Subject",
-        "tutorial-source": "By {source}",
-        "tutorial-total": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
+      "table": {
+        "column": {
+          "subjects": "Subjects ({count, plural, =0 {-} other {{count}}})",
+          "relevance": "Relevance",
+          "tutorial-count": {
+            "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
+          },
+          "tutorial": {
+            "aria-label": "Show all tutorials"
+          }
+        },
+        "empty": "Waiting results",
+        "row-title": "Subject",
+        "sort": {
+          "relevance": "Sort by relevance"
+        },
+        "title": "Review by subject"
       },
-      "waiting-results": "Waiting results"
+      "title": "Recommendations of subjects to focus on"
     },
     "certifications": {
       "description": "Please select the class for which you would like to export the certification results in a csv file.",
@@ -408,7 +424,8 @@
           "file-type-separator": " or ",
           "label": "Import ({types})"
         },
-        "manage-account": "Manage the account"
+        "manage-account": "Manage the account",
+        "show-actions": "Show actions"
       },
       "agri-tooltip": "Some information about import:<ul><li>For your students: use the FREGATA export towards Pix and click on the import button.</li><li>For your trainees: Pix imports all trainees at the end of November into your Pix Orga workspace. From December on, you will be able to add trainees from time to time. To do so, consult the Pix Orga documentation and use the template provided.</li></ul>",
       "connection-types": {
@@ -491,11 +508,11 @@
       "actions": {
         "download-template": "Download the template",
         "edit-student-number": "Edit the student number",
-        "import-file": "Import (.csv)"
+        "import-file": "Import (.csv)",
+        "show-actions": "Show actions"
       },
       "edit-student-number-modal": {
         "actions": {
-          "cancel": "Cancel",
           "update": "Update"
         },
         "form": {
@@ -533,59 +550,47 @@
       },
       "title": "Students"
     },
-    "team-items": {
-      "row": {
-        "aria-label": "Member"
-      },
-      "actions": {
-        "edit-organization-membership-role": {
-          "aria-label": "Change role",
-          "label": "Change role"
-        },
-        "remove-membership": {
-          "aria-label": "Remove the member",
-          "label": "Remove"
-        }
-      },
-      "select-input": {
-        "placeholder": "Select a role",
-        "aria-label": "Select a role",
-        "options": {
-          "admin-label": "Administrator",
-          "member-label": "Member"
-        }
-      },
-      "save-button": "Save",
-      "cancel-button": {
-        "aria-label": "Cancel"
-      },
-      "remove-membership-modal": {
-        "title": "Are you sure you want to remove this member?",
-        "message": "will no longer have access to this Pix Orga workspace.<br>The campaigns created by this member will still be accessible to the rest of the team.",
-        "cancel-button": "Cancel",
-        "remove-button": "Yes, remove the member"
-      },
-      "notifications": {
-        "success": "{memberFirstName} {memberLastName} has successfully been removed from your Pix Orga team.",
-        "error": "An error occurred while removing this member."
-      }
-    },
     "team-list": {
       "title": "My team",
       "add-member-button": "Invite a member",
       "tabs": {
-        "member": "Members",
-        "invitation": "Invitations"
+        "member": "Members ({count, plural, =0 {-} other {{count}}})",
+        "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})"
       }
     },
     "team-members": {
+      "actions": {
+        "edit-organization-membership-role": "Change role",
+        "manage": "Manage",
+        "remove-membership": "Remove",
+        "save": "Save",
+        "select-role": {
+          "label": "Select a role",
+          "options": {
+            "admin": "Administrator",
+            "member": "Member"
+          }
+        }
+      },
+      "remove-membership-modal": {
+        "actions": {
+          "remove": "Yes, remove the member"
+        },
+        "title": "Are you sure you want to remove this member?",
+        "message": "{memberFirstName} {memberLastName} will no longer have access to this Pix Orga workspace.<br>The campaigns created by this member will still be accessible to the rest of the team."
+      },
+      "notifications": {
+        "success": "{memberFirstName} {memberLastName} has successfully been removed from your Pix Orga team.",
+        "error": "An error occurred while removing this member."
+      },
       "table": {
         "column": {
           "first-name": "First name",
           "last-name": "Last name",
           "organization-membership-role": "Role"
         },
-        "empty": "No members yet"
+        "empty": "No members yet",
+        "row-title": "Member"
       }
     },
     "team-invitations": {
@@ -617,11 +622,7 @@
     },
     "team-new-item": {
       "input-label": "Email address(es)",
-      "cancel-button": "Cancel",
       "invite-button": "Invite"
     }
-  },
-  "dropdown": {
-    "arial-label": "Manage"
   }
 }

@@ -1,5 +1,5 @@
 <div class="dropdown logged-user-summary content-text content-text--small">
-  <a href="#" aria-label="Résumé utilisateur" class="link logged-user-summary__link" {{on 'click' this.toggleUserMenu}} aria-haspopup="listbox" aria-expanded="{{this.isMenuOpen}}">
+  <a href="#" aria-label={{t 'navigation.user-logged-menu.summary'}} class="link logged-user-summary__link" {{on 'click' this.toggleUserMenu}} aria-haspopup="listbox" aria-expanded="{{this.isMenuOpen}}">
     <div>
       <div class="logged-user-summary__name">{{this.currentUser.prescriber.firstName}} {{this.currentUser.prescriber.lastName}}</div>
       <div class="logged-user-summary__organization">{{this.organizationNameAndExternalId}}</div>
@@ -12,7 +12,7 @@
   </a>
 </div>
 
-<Dropdown::Content @display={{this.isMenuOpen}} @close={{this.closeMenu}} class="logged-user-menu" aria-label="Menu utilisateur">
+<Dropdown::Content @display={{this.isMenuOpen}} @close={{this.closeMenu}} class="logged-user-menu">
   {{#each this.eligibleOrganizations as |organization|}}
     <Dropdown::Item @onClick={{fn this.onOrganizationChange organization}} title="{{organization.name}}" class="logged-user-menu-item">
       <span class="logged-user-menu-item__organization-name">{{organization.name}}</span>

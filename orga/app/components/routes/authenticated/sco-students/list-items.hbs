@@ -85,6 +85,7 @@
                   @icon="ellipsis-v"
                   @dropdownButtonClass="list-students-page__dropdown-button"
                   @dropdownContentClass="list-students-page__dropdown-content"
+                  @ariaLabel={{t "pages.students-sco.actions.show-actions"}}
                 >
                   <Dropdown::Item @onClick={{fn this.openAuthenticationMethodModal student}}>
                     {{t "pages.students-sco.actions.manage-account"}}

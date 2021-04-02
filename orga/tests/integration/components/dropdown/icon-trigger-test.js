@@ -10,7 +10,7 @@ module('Integration | Component | Dropdown | icon-trigger', function(hooks) {
 
   test('should display actions menu', async function(assert) {
     // when
-    await render(hbs`<Dropdown::IconTrigger/>`);
+    await render(hbs`<Dropdown::IconTrigger @ariaLabel="Afficher les actions"/>`);
 
     // then
     assert.dom('[aria-label="Afficher les actions"]').exists();
@@ -18,20 +18,20 @@ module('Integration | Component | Dropdown | icon-trigger', function(hooks) {
 
   test('should display actions on click', async function(assert) {
     // when
-    await render(hbs`<Dropdown::IconTrigger/>`);
+    await render(hbs`<Dropdown::IconTrigger @ariaLabel="Afficher les actions">Something</Dropdown::IconTrigger>`);
     await clickByLabel('Afficher les actions');
 
     // then
-    assert.dom('[aria-label="Actions"]').exists();
+    assert.contains('Something');
   });
 
   test('should hide actions on click again', async function(assert) {
     // when
-    await render(hbs`<Dropdown::IconTrigger/>`);
+    await render(hbs`<Dropdown::IconTrigger @ariaLabel="Afficher les actions">Something</Dropdown::IconTrigger>`);
     await clickByLabel('Afficher les actions');
     await clickByLabel('Afficher les actions');
 
     // then
-    assert.dom('[aria-label="Actions"]').doesNotExist();
+    assert.notContains('Something');
   });
 });

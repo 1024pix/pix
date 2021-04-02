@@ -6,12 +6,19 @@
 
 <div class="panel panel--light-shadow content-text content-text--small campaign-details-table">
 
-  <table aria-label={{t 'pages.campaign-review.header.title'}}>
+  <table aria-label={{t 'pages.campaign-review.table.title'}}>
     <thead>
       <tr>
-        <Table::Header @size="wide">{{t 'pages.campaign-review.header.subjects' count=this.sortedRecommendations.length}}</Table::Header>
-        <Table::HeaderSort @size="small" @align="center" @onSort={{this.sortRecommendationOrder}} @isDisabled={{not
-          @displayAnalysis}}>{{t 'pages.campaign-review.header.relevance'}} </Table::HeaderSort>
+        <Table::Header @size="wide">{{t 'pages.campaign-review.table.column.subjects' count=this.sortedRecommendations.length}}</Table::Header>
+        <Table::HeaderSort
+          @size="small"
+          @align="center"
+          @onSort={{this.sortRecommendationOrder}}
+          @isDisabled={{not @displayAnalysis}}
+          @ariaLabel={{t 'pages.campaign-review.table.sort.relevance'}}
+        >
+          {{t 'pages.campaign-review.table.column.relevance'}}
+        </Table::HeaderSort>
         <Table::Header @size="small" @align="center" />
         <Table::Header @size="small" />
       </tr>
@@ -27,7 +34,7 @@
 
   </table>
 
-  {{#unless @displayAnalysis }}
-    <div class="table__empty content-text">{{t 'pages.campaign-review.waiting-results'}}</div>
+  {{#unless @displayAnalysis}}
+    <div class="table__empty content-text">{{t 'pages.campaign-review.table.empty'}}</div>
   {{/unless}}
 </div>

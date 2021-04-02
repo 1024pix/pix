@@ -59,6 +59,7 @@
                   @icon="ellipsis-v"
                   @dropdownButtonClass="list-students-page__dropdown-button"
                   @dropdownContentClass="list-students-page__dropdown-content"
+                  @ariaLabel={{t "pages.students-sup.actions.show-actions"}}
                 >
                   <Dropdown::Item @onClick={{fn this.openEditStudentNumberModal student}}>
                     {{t "pages.students-sup.actions.edit-student-number"}}
