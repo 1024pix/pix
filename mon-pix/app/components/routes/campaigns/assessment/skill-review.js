@@ -53,7 +53,7 @@ export default class SkillReview extends Component {
     return Boolean(this.args.model.campaignParticipation.campaign.get('customResultPageText'));
   }
 
-  get customResultPageDescription() {
+  get organizationMessageText() {
     return this.args.model.campaignParticipation.campaign.get('customResultPageText');
   }
 

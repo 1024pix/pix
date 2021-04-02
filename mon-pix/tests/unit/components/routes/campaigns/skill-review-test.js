@@ -166,4 +166,70 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
 
   });
 
+  describe('#showOrganizationMessage', function() {
+
+    it('should return true when the campaign has a customResultPageText', function() {
+      // given
+      component.args.model.campaignParticipation.campaign.customResultPageText = 'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.';
+
+      // when
+      const result = component.showOrganizationMessage;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when the campaign has no customResultPageText ', function() {
+      // given
+      component.args.model.campaignParticipation.campaign.customResultPageText = null;
+
+      // when
+      const result = component.showOrganizationMessage;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('#organizationMessageText', function() {
+
+    it('should return the text of the message organization', function() {
+      // given
+      component.args.model.campaignParticipation.campaign.customResultPageText = 'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.';
+
+      // when
+      const result = component.organizationMessageText;
+
+      // then
+      expect(result).to.equal('Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.');
+    });
+  });
+
+  describe('#organizationLogoUrl', function() {
+
+    it('should return the logo of the organization', function() {
+      // given
+      component.args.model.campaignParticipation.campaign.organizationLogoUrl = 'www.logo-example.net';
+
+      // when
+      const result = component.organizationLogoUrl;
+
+      // then
+      expect(result).to.equal('www.logo-example.net');
+    });
+  });
+
+  describe('#organizationName', function() {
+
+    it('should return the name of the organization', function() {
+      // given
+      component.args.model.campaignParticipation.campaign.organizationName = 'Amazing Orga';
+
+      // when
+      const name = component.organizationName;
+
+      // then
+      expect(name).to.equal('Amazing Orga');
+    });
+  });
 });
