@@ -1,9 +1,12 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
+import { inject as service } from '@ember/service';
 
 export default class CertificationDetails extends JSONAPISerializer {
 
+  @service featureToggles;
+
   normalizeFindRecordResponse(store, primaryModelClass, payload, id) {
-    if (!payload.data) {
+    if (!this.featureToggles.featureToggles.isNeutralizationAutoEnabled && !payload.data) {
       payload.data = {
         attributes: {
           competencesWithMark: payload.competencesWithMark,
@@ -17,13 +20,16 @@ export default class CertificationDetails extends JSONAPISerializer {
         },
         type: 'certificationDetails',
       };
+      payload.data.id = id;
     }
-    payload.data.id = id;
     return this.normalizeSingleResponse(...arguments);
   }
 
   keyForAttribute(key) {
-    return key;
+    if (!this.featureToggles.featureToggles.isNeutralizationAutoEnabled) {
+      return key;
+    }
+    return super.keyForAttribute(...arguments);
   }
 
   modelNameFromPayloadKey() {

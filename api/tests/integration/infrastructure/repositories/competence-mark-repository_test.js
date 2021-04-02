@@ -73,17 +73,45 @@ describe('Integration | Repository | CompetenceMark', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return all competence-marks for one assessmentResult', () => {
+    it('should return all competence-marks for one assessmentResult', async () => {
       // when
-      const promise = competenceMarkRepository.findByAssessmentResultId(assessmentResultId);
+      const competenceMarks = await competenceMarkRepository.findByAssessmentResultId(assessmentResultId);
 
       // then
-      return promise.then((competenceMarks) => {
-        const sortedCompetenceMarks = _.sortBy(competenceMarks, [(mark) => { return mark.id; }]);
-        expect(sortedCompetenceMarks[0].id).to.equal(competenceMarkIds[0]);
-        expect(sortedCompetenceMarks[1].id).to.equal(competenceMarkIds[2]);
-        expect(sortedCompetenceMarks.length).to.equal(2);
+      const sortedCompetenceMarks = _.sortBy(competenceMarks, [(mark) => { return mark.id; }]);
+      expect(sortedCompetenceMarks[0].id).to.equal(competenceMarkIds[0]);
+      expect(sortedCompetenceMarks[1].id).to.equal(competenceMarkIds[2]);
+      expect(sortedCompetenceMarks.length).to.equal(2);
+    });
+  });
+
+  describe('#findByCertificationCourseId', () => {
+
+    it('should return all competence-marks for one certificationCourseId', async () => {
+
+      // given
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({}).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
+      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
+      const anotherAssessmentResultId = databaseBuilder.factory.buildAssessmentResult({}).id;
+      const competenceMarkIds = _.map([
+        { score: 13, level: 2, area_code: '4', competence_code: '4.2', assessmentResultId },
+        { score: 10, level: 1, area_code: '3', competence_code: '3.1', assessmentResultId: anotherAssessmentResultId },
+        { score: 24, level: 3, area_code: '3', competence_code: '3.1', assessmentResultId },
+      ], (mark) => {
+        return databaseBuilder.factory.buildCompetenceMark(mark).id;
       });
+      await databaseBuilder.commit();
+
+      // when
+      const competenceMarks = await competenceMarkRepository.findByCertificationCourseId(certificationCourseId);
+
+      // then
+      const sortedCompetenceMarks = _.sortBy(competenceMarks, [(mark) => { return mark.id; }]);
+      expect(sortedCompetenceMarks[0]).to.be.instanceOf(CompetenceMark);
+      expect(sortedCompetenceMarks[0].id).to.equal(competenceMarkIds[0]);
+      expect(sortedCompetenceMarks[1].id).to.equal(competenceMarkIds[2]);
+      expect(sortedCompetenceMarks.length).to.equal(2);
     });
   });
 });

@@ -175,6 +175,10 @@ export default function() {
     return user.update(expectedUpdatedUser);
   });
 
+  this.get('feature-toggles', (schema) => {
+    return schema.featureToggles.findOrCreateBy({ id: 0 });
+  });
+
   this.patch('/admin/users/:id/dissociate', (schema, request) => {
     const userId = request.params.id;
     const expectedUpdatedUser = {

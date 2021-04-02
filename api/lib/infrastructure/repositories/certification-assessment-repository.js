@@ -8,7 +8,8 @@ const { NotFoundError } = require('../../domain/errors');
 
 async function _getCertificationChallenges(certificationCourseId) {
   const certificationChallengeRows = await knex('certification-challenges')
-    .where({ courseId: certificationCourseId });
+    .where({ courseId: certificationCourseId })
+    .orderBy('id', 'asc');
 
   return _.map(certificationChallengeRows, (certificationChallengeRow) => new CertificationChallenge({
     ...certificationChallengeRow,
