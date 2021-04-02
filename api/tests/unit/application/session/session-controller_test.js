@@ -808,14 +808,12 @@ describe('Unit | Controller | sessionController', () => {
       expect(logger.warn).to.have.been.calledWithExactly({
         batchId: 'batchId',
         sessionId: 'sessionId1',
-        message: 'an error',
-      });
+      }, 'an error');
 
       expect(logger.warn).to.have.been.calledWithExactly({
         batchId: 'batchId',
         sessionId: 'sessionId2',
-        message: 'another error',
-      });
+      }, 'another error');
     });
 
     it('returns the serialized batch id', async () => {
