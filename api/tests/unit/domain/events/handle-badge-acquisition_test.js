@@ -1,42 +1,49 @@
-const _ = require('lodash');
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { handleBadgeAcquisition } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
+const BadgeResults = require('../../../../lib/domain/models/BadgeResults');
 
 describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
   describe('#handleBadgeAcquisition', () => {
-    const badgeRepository = {
-      findByCampaignParticipationId: _.noop,
-    };
-    const badgeAcquisitionRepository = {
-      create: _.noop,
-    };
-    const campaignParticipationResultRepository = {
-      getByParticipationId: _.noop,
-    };
-    const badgeCriteriaService = {
-      areBadgeCriteriaFulfilled: _.noop,
-    };
+    let dependencies;
+    let badgeRepository;
+    let badgeAcquisitionRepository;
+    let knowledgeElementRepository;
+    let skillRepository;
+    let badgeCriteriaService;
 
-    const dependencies = {
-      badgeAcquisitionRepository,
-      badgeRepository,
-      campaignParticipationResultRepository,
-      badgeCriteriaService,
-    };
+    beforeEach(() => {
+      sinon.stub(BadgeResults, 'build');
+      badgeRepository = { findByCampaignParticipationId: sinon.stub() };
+      badgeAcquisitionRepository = { create: sinon.stub() };
+      knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+      skillRepository = { assessedDuringCampaignParticipation: sinon.stub() };
+      badgeCriteriaService = { areBadgeCriteriaFulfilled: sinon.stub() };
+
+      dependencies = {
+        badgeAcquisitionRepository,
+        badgeRepository,
+        knowledgeElementRepository,
+        skillRepository,
+        badgeCriteriaService,
+      };
+    });
+
+    afterEach(() => {
+      sinon.restore();
+    });
 
     it('fails when event is not of correct type', async () => {
       // given
       const event = 'not an event of the correct type';
       // when / then
-      const error = await catchErr(handleBadgeAcquisition)(
-        { event, ...dependencies },
-      );
+      const error = await catchErr(handleBadgeAcquisition)({ event, ...dependencies });
 
       // then
       expect(error).not.to.be.null;
     });
+
     context('when the assessment belongs to a campaign', () => {
 
       const event = new AssessmentCompleted({
@@ -49,29 +56,24 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         let badge;
         const badgeId = Symbol('badgeId');
         const campaignParticipationResult = Symbol('campaignParticipationResult');
+        const badgeResults = Symbol('BadgeResults');
 
         beforeEach(() => {
-          sinon.stub(badgeRepository, 'findByCampaignParticipationId');
-          badge = {
-            id: badgeId,
-            badgeCriteria: Symbol('badgeCriteria'),
-          };
-          badgeRepository.findByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves([badge]);
+          badge = { id: badgeId, badgeCriteria: Symbol('badgeCriteria') };
+          const badges = [badge];
+          const knowledgeElements = [domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: 'validated' })];
+          const skills = ['skillId1', 'skillId2'];
 
-          sinon.stub(badgeAcquisitionRepository, 'create');
-
-          sinon.stub(campaignParticipationResultRepository, 'getByParticipationId');
-          campaignParticipationResultRepository.getByParticipationId.withArgs(event.campaignParticipationId, [badge], []).resolves(
-            campaignParticipationResult,
-          );
-
-          sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
+          badgeRepository.findByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves(badges);
+          knowledgeElementRepository.findUniqByUserId.withArgs({ userId: event.userId }).resolves(knowledgeElements);
+          skillRepository.assessedDuringCampaignParticipation.withArgs(event.campaignParticipationId).resolves(skills);
+          BadgeResults.build.withArgs(badges, skills, knowledgeElements).returns(badgeResults);
         });
 
         it('should create a badge when badge requirements are fulfilled', async () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ campaignParticipationResult, badge })
+            .withArgs({ campaignParticipationResult: badgeResults, badge })
             .returns(true);
 
           // when
@@ -103,38 +105,28 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         let badge1, badge2;
         const badgeId_1 = Symbol('badgeId_1');
         const badgeId_2 = Symbol('badgeId_2');
-
-        const campaignParticipationResult = Symbol('campaignParticipationResult');
+        const badgeResults = Symbol('BadgeResults');
 
         beforeEach(() => {
-          sinon.stub(badgeRepository, 'findByCampaignParticipationId');
-          badge1 = {
-            id: badgeId_1,
-            badgeCriteria: Symbol('badgeCriteria'),
-          };
-          badge2 = {
-            id: badgeId_2,
-            badgeCriteria: Symbol('badgeCriteria'),
-          };
-          badgeRepository.findByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves([badge1, badge2]);
+          badge1 = { id: badgeId_1, badgeCriteria: Symbol('badgeCriteria') };
+          badge2 = { id: badgeId_2, badgeCriteria: Symbol('badgeCriteria') };
+          const badges = [badge1, badge2];
+          const knowledgeElements = [domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: 'validated' })];
+          const skills = ['skillId1', 'skillId2'];
 
-          sinon.stub(badgeAcquisitionRepository, 'create');
-
-          sinon.stub(campaignParticipationResultRepository, 'getByParticipationId');
-          campaignParticipationResultRepository.getByParticipationId.withArgs(event.campaignParticipationId, [badge1, badge2], []).resolves(
-            campaignParticipationResult,
-          );
-
-          sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
+          badgeRepository.findByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves(badges);
+          knowledgeElementRepository.findUniqByUserId.withArgs({ userId: event.userId }).resolves(knowledgeElements);
+          skillRepository.assessedDuringCampaignParticipation.withArgs(event.campaignParticipationId).resolves(skills);
+          BadgeResults.build.withArgs(badges, skills, knowledgeElements).returns(badgeResults);
         });
 
         it('should create one badge when only one badge requirements are fulfilled', async () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ campaignParticipationResult, badge: badge1 })
+            .withArgs({ campaignParticipationResult: badgeResults, badge: badge1 })
             .returns(true);
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ campaignParticipationResult, badge: badge2 })
+            .withArgs({ campaignParticipationResult: badgeResults, badge: badge2 })
             .returns(false);
 
           // when
@@ -151,10 +143,10 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         it('should create two badges when both badges requirements are fulfilled', async () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ campaignParticipationResult, badge: badge1 })
+            .withArgs({ campaignParticipationResult: badgeResults, badge: badge1 })
             .returns(true);
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ campaignParticipationResult, badge: badge2 })
+            .withArgs({ campaignParticipationResult: badgeResults, badge: badge2 })
             .returns(true);
 
           // when
@@ -174,10 +166,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           const userId = 42;
           const campaignParticipationId = 78;
           const event = new AssessmentCompleted({ userId, campaignParticipationId });
-          sinon.stub(badgeRepository, 'findByCampaignParticipationId');
           badgeRepository.findByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves([]);
-
-          sinon.stub(badgeAcquisitionRepository, 'create');
 
           // when
           await handleBadgeAcquisition({ event, ...dependencies });
@@ -192,7 +181,6 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
     context('when the assessment does not belong to a campaign', () => {
       it('should not create a badge', async () => {
         // given
-        sinon.stub(badgeAcquisitionRepository, 'create');
 
         const userId = 42;
         const event = new AssessmentCompleted({ userId });
@@ -204,6 +192,5 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         expect(badgeAcquisitionRepository.create).to.not.have.been.called;
       });
     });
-
   });
 });
