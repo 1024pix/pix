@@ -376,13 +376,13 @@ async function _createAndCompleteCampaignParticipation({ user, campaign, badge, 
     campaignParticipationId: campaignParticipation.id,
   });
   const anyDateBeforeCampaignParticipation = new Date(campaignParticipation.sharedAt.getTime() - 60 * 1000);
-
+  const skillId = `recSkill0_${campaign.id}`;
   databaseBuilder.factory.buildTargetProfileSkill({
     targetProfileId: campaign.targetProfileId,
-    skillId: 'recSkill0_0',
+    skillId,
   });
   databaseBuilder.factory.buildKnowledgeElement({
-    skillId: 'recSkill0_0',
+    skillId,
     assessmentId: campaignAssessment.id,
     userId: user.id,
     competenceId: 'recCompetence0',
