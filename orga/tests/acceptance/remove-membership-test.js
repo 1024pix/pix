@@ -41,7 +41,7 @@ module('Acceptance | Remove membership', function(hooks) {
   test('should remove the membership', async (assert) => {
     // given
     await visit('/equipe');
-    await clickByLabel('Afficher les actions');
+    await clickByLabel('Gérer');
     await clickByLabel('Supprimer');
 
     // when

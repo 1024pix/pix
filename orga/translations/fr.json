@@ -60,6 +60,7 @@
       "close": "Fermer"
     },
     "help-form": "https://support.pix.fr/support/tickets/new",
+    "loading": "Chargement en cours",
     "pagination": {
       "action": {
         "next": "Aller à la page suivante",
@@ -84,7 +85,8 @@
       "team": "Équipe"
     },
     "user-logged-menu": {
-      "logout": "Se déconnecter"
+      "logout": "Se déconnecter",
+      "summary": "Résumé utilisateur"
     }
   },
   "pages": {
@@ -136,7 +138,6 @@
       }
     },
     "campaign-individual-results": {
-      "campaign-name": "Nom de la campagne",
       "shared-date": "Envoyé le",
       "start-date": "Commencé le"
     },
@@ -163,6 +164,7 @@
           "stages": "Paliers"
         }
       },
+      "name": "Nom de la campagne",
       "participations-count": "Participants",
       "shared-participations-count": "Profils reçus",
       "tab": {
@@ -281,7 +283,8 @@
         "filter": {
           "by-creator": "Rechercher un créateur",
           "by-name": "Rechercher une campagne"
-        }
+        },
+        "row-title": "Campagne"
       }
     },
     "campaign-modification": {
@@ -295,21 +298,34 @@
     },
     "campaign-review": {
       "description": "En fonction du référentiel testé et des résultats de la campagne, Pix vous recommande ces sujets à travailler, classés par degré de pertinence ({bubble}).",
-      "header": {
-        "title": "Analyse par sujet",
-        "relevance": "Pertinence",
-        "subjects": "Sujets ({count, plural, =0 {-} other {{count}}})"
+      "sub-table": {
+        "column": {
+          "source": {
+            "value": "Par {source}"
+          }
+        },
+        "row-title": "Tutoriel",
+        "title": "{count, plural, =1 {1 tuto recommandé} other{{count} tutos recommandés}} par la communauté Pix"
       },
-      "title": "Recommandation de sujets à travailler",
-      "tube-recommendations": {
-        "name": "Tutoriel",
-        "recommended-tutorial": "{count, plural, =1 {1 tuto recommandé} other{{count} tutos recommandés}} par la communauté Pix",
-        "show-tutorial": "Afficher la liste des tutos",
-        "subject": "Sujet",
-        "tutorial-source": "Par {source}",
-        "tutorial-total": "{count, plural, =1 {1 tuto} other {{count} tutos}}"
+      "table": {
+        "column": {
+          "subjects": "Sujets ({count, plural, =0 {-} other {{count}}})",
+          "relevance": "Pertinence",
+          "tutorial-count": {
+            "value": "{count, plural, =1 {1 tuto} other {{count} tutos}}"
+          },
+          "tutorial": {
+            "aria-label": "Afficher la liste des tutos"
+          }
+        },
+        "empty": "En attente de résultats",
+        "row-title": "Sujet",
+        "sort": {
+          "relevance": "Trier par pertinence"
+        },
+        "title": "Analyse par sujet"
       },
-      "waiting-results": "En attente de résultats"
+      "title": "Recommandation de sujets à travailler"
     },
     "certifications": {
       "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.<br> Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.",
@@ -408,7 +424,8 @@
           "file-type-separator": " ou ",
           "label": "Importer ({types})"
         },
-        "manage-account": "Gérer le compte"
+        "manage-account": "Gérer le compte",
+        "show-actions": "Afficher les actions"
       },
       "agri-tooltip": "Quelques informations concernant l’import :<ul><li>Pour vos élèves : utiliser l’export FREGATA vers Pix et cliquer sur le bouton importer.</li><li>Pour vos apprentis : Pix importe tous les apprentis fin novembre au sein de votre espace Pix Orga. Les ajouts ponctuels d’apprentis se feront à partir de décembre, pour cela consulter la documentation Pix Orga et utiliser le modèle fourni.</li></ul>",
       "connection-types": {
@@ -491,11 +508,11 @@
       "actions": {
         "download-template": "Télécharger le modèle",
         "edit-student-number": "Éditer le numéro étudiant",
-        "import-file": "Importer (.csv)"
+        "import-file": "Importer (.csv)",
+        "show-actions": "Afficher les actions"
       },
       "edit-student-number-modal": {
         "actions": {
-          "cancel": "Annuler",
           "update": "Mettre à jour"
         },
         "form": {
@@ -533,59 +550,47 @@
       },
       "title": "Étudiants"
     },
-    "team-items": {
-      "row": {
-        "aria-label": "Membre"
-      },
-      "actions": {
-        "edit-organization-membership-role": {
-          "aria-label": "Modifier le rôle",
-          "label": "Modifier le rôle"
-        },
-        "remove-membership": {
-          "aria-label": "Supprimer le membre",
-          "label": "Supprimer"
-        }
-      },
-      "select-input": {
-        "placeholder": "Sélectionner un rôle",
-        "aria-label": "Sélectionner un rôle",
-        "options": {
-          "admin-label": "Administrateur",
-          "member-label": "Membre"
-        }
-      },
-      "save-button": "Enregistrer",
-      "cancel-button": {
-        "aria-label": "Annuler"
-      },
-      "remove-membership-modal": {
-        "title": "Confirmez-vous la suppression ?",
-        "message": "n'aura plus accès à cet espace Pix Orga.<br>Ses campagnes restent accessibles au reste de l'équipe.",
-        "cancel-button": "Annuler",
-        "remove-button": "Oui, supprimer le membre"
-      },
-      "notifications": {
-        "success": "{memberFirstName} {memberLastName} a été supprimé avec succès de votre équipe Pix Orga.",
-        "error": "Une erreur est survenue lors de la désactivation du membre."
-      }
-    },
     "team-list": {
       "title": "Mon équipe",
       "add-member-button": "Inviter un membre",
       "tabs": {
-        "member": "Membres",
-        "invitation": "Invitations"
+        "member": "Membres ({count, plural, =0 {-} other {{count}}})",
+        "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})"
       }
     },
     "team-members": {
+      "actions": {
+        "edit-organization-membership-role": "Modifier le rôle",
+        "manage": "Gérer",
+        "remove-membership": "Supprimer",
+        "save": "Enregistrer",
+        "select-role": {
+          "label": "Sélectionner un rôle",
+          "options": {
+            "admin": "Administrateur",
+            "member": "Membre"
+          }
+        }
+      },
+      "remove-membership-modal": {
+        "actions": {
+          "remove": "Oui, supprimer le membre"
+        },
+        "title": "Confirmez-vous la suppression ?",
+        "message": "{memberFirstName} {memberLastName} n'aura plus accès à cet espace Pix Orga.<br>Ses campagnes restent accessibles au reste de l'équipe."
+      },
+      "notifications": {
+        "success": "{memberFirstName} {memberLastName} a été supprimé avec succès de votre équipe Pix Orga.",
+        "error": "Une erreur est survenue lors de la désactivation du membre."
+      },
       "table": {
         "column": {
           "first-name":"Prénom",
           "last-name":"Nom",
           "organization-membership-role":"Rôle"
         },
-        "empty": "En attente de membres"
+        "empty": "En attente de membres",
+        "row-title": "Membre"
       }
     },
     "team-invitations": {
@@ -617,11 +622,7 @@
     },
     "team-new-item": {
       "input-label": "Adresse(s) e-mail",
-      "cancel-button": "Annuler",
       "invite-button": "Inviter"
     }
-  },
-  "dropdown": {
-    "arial-label": "Afficher les actions"
   }
 }

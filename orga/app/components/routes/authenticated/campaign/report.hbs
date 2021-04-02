@@ -3,8 +3,8 @@
     <div class="campaign-details-header__headline">
       <PreviousPageButton
         @route="authenticated.campaigns"
-        @backButtonAriaLabel="Retour"
-        aria-label="Nom de la campagne"
+        @backButtonAriaLabel={{t 'common.actions.back'}}
+        aria-label={{t 'pages.campaign.name'}}
       >
         {{@campaign.name}}
       </PreviousPageButton>

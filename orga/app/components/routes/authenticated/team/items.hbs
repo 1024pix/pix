@@ -1,4 +1,4 @@
-<tr aria-label="{{t 'pages.team-items.row.aria-label'}}">
+<tr aria-label="{{t 'pages.team-members.table.row-title'}}">
   <td>{{@membership.user.lastName}}</td>
   <td>{{@membership.user.firstName}}</td>
 
@@ -7,19 +7,16 @@
     {{#if (not-eq @membership.user.id this.currentUser.prescriber.id) }}
       <td class="zone-edit-role">
         <Dropdown::IconTrigger
-                @icon="ellipsis-v"
-                @dropdownButtonClass="zone-edit-role__dropdown-button"
-                @dropdownContentClass="zone-edit-role__dropdown-content"
+          @icon="ellipsis-v"
+          @dropdownButtonClass="zone-edit-role__dropdown-button"
+          @dropdownContentClass="zone-edit-role__dropdown-content"
+          @ariaLabel={{t "pages.team-members.actions.manage"}}
         >
-          <Dropdown::Item
-                  @onClick={{fn this.editRoleOfMember @membership}}
-                  aria-label="{{t 'pages.team-items.actions.edit-organization-membership-role.aria-label'}}">
-            {{t 'pages.team-items.actions.edit-organization-membership-role.label'}}
+          <Dropdown::Item @onClick={{fn this.editRoleOfMember @membership}}>
+            {{t 'pages.team-members.actions.edit-organization-membership-role'}}
           </Dropdown::Item>
-          <Dropdown::Item
-                  @onClick={{fn this.displayRemoveMembershipModal @membership}}
-                  aria-label="{{t 'pages.team-items.actions.remove-membership.aria-label'}}">
-            {{t 'pages.team-items.actions.remove-membership.label'}}
+          <Dropdown::Item @onClick={{fn this.displayRemoveMembershipModal @membership}}>
+            {{t 'pages.team-members.actions.remove-membership'}}
           </Dropdown::Item>
         </Dropdown::IconTrigger>
       </td>
@@ -36,20 +33,20 @@
                 @onChange={{this.setRoleSelection}}
                 @options={{this.organizationRoles}}
                 @selectedOption={{@membership.organizationRole}}
-                @placeholder="{{t 'pages.team-items.select-input.placeholder'}}"
-                @ariaLabel="{{t 'pages.team-items.select-input.aria-label'}}"
+                @placeholder="{{t 'pages.team-members.actions.select-role.label'}}"
+                @ariaLabel="{{t 'pages.team-members.actions.select-role.label'}}"
         />
       </div>
     </td>
     <td>
       <div class="zone-save-cancel-role">
         <button id='save-organization-role' type="button" class="button button--thin" {{on 'click' (fn this.updateRoleOfMember @membership)}}>
-          {{t 'pages.team-items.save-button'}}
+          {{t 'pages.team-members.actions.save'}}
         </button>
         <PixIconButton
                 @icon="times"
                 id='cancel-update-organization-role'
-                aria-label="{{t 'pages.team-items.cancel-button.aria-label'}}"
+                aria-label="{{t 'common.actions.cancel'}}"
                 @triggerAction={{this.cancelUpdateRoleOfMember}}
                 @withBackground={{false}}
                 @color="dark-grey"
@@ -61,17 +58,17 @@
 
 <Modal::Dialog
         class="remove-membership-modal"
-        @title="{{t 'pages.team-items.remove-membership-modal.title'}}"
+        @title="{{t 'pages.team-members.remove-membership-modal.title'}}"
         @display={{this.isRemoveMembershipModalDisplayed}}
         @close={{this.closeRemoveMembershipModal}}
         @additionalContainerClass="modal-dialog__large">
   <Modal::Body class="remove-membership-modal__content">
     <p class="content-text">
-      {{@membership.user.firstName}} {{@membership.user.lastName}} {{t 'pages.team-items.remove-membership-modal.message' htmlSafe=true}}
+      {{t 'pages.team-members.remove-membership-modal.message' memberFirstName=@membership.user.firstName memberLastName=@membership.user.lastName htmlSafe=true}}
     </p>
   </Modal::Body>
   <Modal::Footer class="remove-membership-modal__actions">
-    <button type="button" class="button button--grey button--regular" {{on 'click' this.closeRemoveMembershipModal}}>{{t 'pages.team-items.remove-membership-modal.cancel-button'}}</button>
-    <button type="button" class="button button--red" data-test-modal-remove-button {{on 'click' this.onRemoveButtonClicked}}>{{t 'pages.team-items.remove-membership-modal.remove-button'}}</button>
+    <button type="button" class="button button--grey button--regular" {{on 'click' this.closeRemoveMembershipModal}}>{{t 'common.actions.cancel'}}</button>
+    <button type="button" class="button button--red" data-test-modal-remove-button {{on 'click' this.onRemoveButtonClicked}}>{{t 'pages.team-members.remove-membership-modal.actions.remove'}}</button>
   </Modal::Footer>
 </Modal::Dialog>
