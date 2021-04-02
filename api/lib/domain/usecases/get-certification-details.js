@@ -6,7 +6,7 @@ module.exports = async function getCertificationDetails({
   certificationAssessmentRepository,
   placementProfileService,
 }) {
-  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);
+  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
 
   const competenceMarks = await competenceMarkRepository.findByCertificationCourseId(certificationCourseId);
 

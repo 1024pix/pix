@@ -6,7 +6,7 @@ const cleaCertificationStatusRepository = require('../../infrastructure/reposito
 const certificationResultService = require('./certification-result-service');
 
 async function calculateCertificationResultByCertificationCourseId(certificationCourseId) {
-  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);
+  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
   return certificationResultService.getCertificationResult({ certificationAssessment, continueOnError: true });
 }
 

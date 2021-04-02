@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const DomainTransaction = require('../DomainTransaction');
 const CertificationAssessment = require('../../domain/models/CertificationAssessment');
 const CertificationChallenge = require('../../domain/models/CertificationChallenge');
 const Answer = require('../../domain/models/Answer');
@@ -6,8 +7,8 @@ const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-
 const { knex } = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
 
-async function _getCertificationChallenges(certificationCourseId) {
-  const certificationChallengeRows = await knex('certification-challenges')
+async function _getCertificationChallenges(certificationCourseId, knexConn) {
+  const certificationChallengeRows = await knexConn('certification-challenges')
     .where({ courseId: certificationCourseId })
     .orderBy('id', 'asc');
 
@@ -17,8 +18,8 @@ async function _getCertificationChallenges(certificationCourseId) {
   }));
 }
 
-async function _getCertificationAnswersByDate(certificationAssessmentId) {
-  const answerRows = await knex('answers')
+async function _getCertificationAnswersByDate(certificationAssessmentId, knexConn) {
+  const answerRows = await knexConn('answers')
     .where({ assessmentId: certificationAssessmentId })
     .orderBy('createdAt');
 
@@ -47,8 +48,8 @@ module.exports = {
     if (!certificationAssessmentRows[0]) {
       throw new NotFoundError(`L'assessment de certification ${id} n'existe pas ou son accès est restreint`);
     }
-    const certificationChallenges = await _getCertificationChallenges(certificationAssessmentRows[0].certificationCourseId);
-    const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRows[0].id);
+    const certificationChallenges = await _getCertificationChallenges(certificationAssessmentRows[0].certificationCourseId, knex);
+    const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRows[0].id, knex);
 
     return new CertificationAssessment({
       ...certificationAssessmentRows[0],
@@ -57,8 +58,9 @@ module.exports = {
     });
   },
 
-  async getByCertificationCourseId(certificationCourseId) {
-    const certificationAssessmentRows = await knex('assessments')
+  async getByCertificationCourseId({ certificationCourseId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const certificationAssessmentRow = await knexConn('assessments')
       .join('certification-courses', 'certification-courses.id', 'assessments.certificationCourseId')
       .select({
         id: 'assessments.id',
@@ -70,15 +72,15 @@ module.exports = {
         state: 'assessments.state',
       })
       .where('assessments.certificationCourseId', '=', certificationCourseId)
-      .limit(1);
-    if (!certificationAssessmentRows[0]) {
+      .first();
+    if (!certificationAssessmentRow) {
       throw new NotFoundError(`L'assessment de certification avec un certificationCourseId de ${certificationCourseId} n'existe pas ou son accès est restreint`);
     }
-    const certificationChallenges = await _getCertificationChallenges(certificationAssessmentRows[0].certificationCourseId);
-    const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRows[0].id);
+    const certificationChallenges = await _getCertificationChallenges(certificationAssessmentRow.certificationCourseId, knexConn);
+    const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRow.id, knexConn);
 
     return new CertificationAssessment({
-      ...certificationAssessmentRows[0],
+      ...certificationAssessmentRow,
       certificationChallenges,
       certificationAnswersByDate,
     });

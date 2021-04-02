@@ -37,7 +37,7 @@ describe('Unit | UseCase | get-certification-details', () => {
     });
 
     certificationAssessmentRepository.getByCertificationCourseId
-      .withArgs(certificationCourseId)
+      .withArgs({ certificationCourseId })
       .resolves(certificationAssessment);
 
     placementProfileService.getPlacementProfile

@@ -117,7 +117,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
       it('should return the certification assessment with certification challenges and answers', async () => {
         // when
-        const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);
+        const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
 
         // then
         expect(certificationAssessment).to.be.an.instanceOf(CertificationAssessment);
@@ -133,7 +133,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
       it('should return the certification answers ordered by date', async () => {
         // when
-        const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);
+        const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
 
         // then
         expect(_.map(certificationAssessment.certificationAnswersByDate, 'id')).to.deep.equal([firstAnswerInTime, secondAnswerInTime]);
@@ -141,7 +141,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
       it('should return the certification challenges ordered by id', async () => {
         // when
-        const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);
+        const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
 
         // then
         expect(_.map(certificationAssessment.certificationChallenges, 'id')).to.deep.equal([secondChallengeId, firstChallengeId]);
@@ -151,7 +151,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     context('when the assessment does not exist', () => {
       it('should throw a NotFoundError', async () => {
         // when
-        const error = await catchErr(certificationAssessmentRepository.getByCertificationCourseId)(12345);
+        const error = await catchErr(certificationAssessmentRepository.getByCertificationCourseId)({ certificationCourseId: 12345 });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
