@@ -892,7 +892,7 @@
                 "try-again": "Je retente"
             },
             "already-shared": "Merci, vos résultats ont bien été envoyés !",
-            "archived": "Ce parcours a été archivé par l'organisateur.'<br>' L'envoi des résultats n'est plus possible mais ils sont bien pris en compte dans votre parcours.",
+            "archived": "Ce parcours a été archivé par l'organisateur.'<br>' L'envoi des résultats n'est plus possible.",
             "badges-title": "Vos résultats thématiques",
             "details": {
                 "header-skill": "Compétences testées",
