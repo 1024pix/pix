@@ -132,7 +132,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
         // then
         expect(find('.badge-acquired-card')).to.exist;
-        expect(find('.skill-review-result__badge-subtitle')).to.exist;
+        expect(find('.skill-review-result-detail__badge-subtitle')).to.exist;
       });
 
       it('should not display the Pix emploi badge when badge is not acquired', async function() {
