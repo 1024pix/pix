@@ -9,6 +9,7 @@ module.exports = function buildBadge({
   message = 'message',
   title = 'title',
   key = 'key',
+  isCertifiable = false,
   targetProfileId = 456,
   badgeCriteria = [
     buildBadgeCriterion(),
@@ -25,6 +26,7 @@ module.exports = function buildBadge({
     message,
     title,
     key,
+    isCertifiable,
     targetProfileId,
     badgeCriteria,
     badgePartnerCompetences,

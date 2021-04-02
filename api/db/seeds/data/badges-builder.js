@@ -4,11 +4,17 @@ const TOOLS_BADGE_ID = 112;
 const MANIP_BADGE_ID = 113;
 const PRO_BASICS_BADGE_ID = 114;
 const PRO_TOOLS_BADGE_ID = 115;
-const PIX_DROIT_BADGE_ID = 116;
-const PIX_DROIT_BADGE_PARTNER_COMPETENCE_1 = '78954665';
-const PIX_DROIT_BADGE_PARTNER_COMPETENCE_2 = '13654984';
-const PIX_DROIT_BADGE_PARTNER_COMPETENCE_3 = '14089753';
-const PIX_DROIT_BADGE_PARTNER_COMPETENCE_4 = '09873856';
+const PIX_DROIT_MAITRE_BADGE_ID = 116;
+const PIX_DROIT_EXPERT_BADGE_ID = 117;
+const PIX_DROIT_BADGE_PARTNER_COMPETENCE_PIX_M = '78954665';
+const PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_M = '13654984';
+const PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_7_M = '14089753';
+const PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_10_M = '09873856';
+const PIX_DROIT_BADGE_PARTNER_COMPETENCE_PIX_E = '78954666';
+const PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_E = '13654985';
+const PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_7_E = '14089754';
+const PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_10_E = '09873857';
+
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 const Badge = require('../../../lib/domain/models/Badge');
 const {
@@ -141,41 +147,84 @@ function _createProfessionalToolsBadge(databaseBuilder) {
 
 function _createPixDroitBadge(databaseBuilder) {
   const skillIdsForPix = [
-    'recMOy4S8XnaWblYI', 'recPG9ftlGZLiF0O6', 'recH1pcEWLBUCqXTm', 'recIDXphXbneOrbux', 'recclxUSbi0fvIWpd',
-    'recLCYATl7TGrkZLh', 'rectL2ZZeWPc7yezp', 'recndXqXiv4pv2Ukp', 'recVv1eoSLW7yFgXv', 'recVywppdS4hGEekR',
+    'recybd8jWDNiFpbgq', 'rec4Gvnh9kV1NeMsw', 'rectLj7NPg5JcSIqN', 'rec22kidf1QiHbWwE', 'rec9qal2FLjWysrfu',
+    'rec1xAgCoZux1Lxq8', 'rec50IhKadDxbvjES', 'recfQIxf8y4Nrs6M1', 'recPgkHUdzk0HPGt1', 'reclX9KELFBQeVKoC',
+    'recJLroTYxcfbczfW', 'reczOCGv8pz976Acl', 'recOrdJPMeAtA9Zse', 'recdmDASRPMTzOmVc', 'recJKLhRCjl9zizHr',
+    'rec1vRwGybfjq1Adm', 'rec1BJ9Z7bZRX2zkY', 'recPrXhP0X07OdHXe', 'recVSLpyP7v5vVn9M', 'rec7QdcMIhYfmkgq9',
+    'recIkcTpbNZy9YetV', 'recmMMVns3LEFkHeO', 'recfRe4luCCP8GoVA', 'recZbsu9i7LtYnEmx', 'recYLE9xXQelhycvQ',
+    'recSt4BLhSGpuu8cn', 'rec0y0EK2ko8YmmKB', 'recJYhsVsioiOFycp', 'recDUnCktq5wj7pZt', 'recagUd44RPEWti0X',
+    'recrvTvLTUXEcUIV1', 'recQdr7rbPZ3Kh6Ef', 'recLhYgOVFwOmQSLn', 'rec9IR04aOpn5aSCP', 'recJGN6S3MmTZVa5O',
+    'recnaom17JAkKT32Q', 'recINswt85utqO5KJ', 'recUvHMSCCrhtSWS6', 'recdgeyLSVKUpyJF0', 'recfSZlSomGI9PQjn',
+    'recg4t3r8Cs7RPKXY', 'recsBYc8s5lDrQDMx', 'rec5JQfWV9brlT8hO', 'recF6K3wLUiBSJCE6', 'recPG9ftlGZLiF0O6',
+    'recH1pcEWLBUCqXTm', 'rec4973AsptLwKr5f', 'recPGDVdX0LSOWQQC', 'rec0tk8dZWOzSQbaQ', 'recKbNbM8G7mKaloD',
+    'recpdpemRXuzV9r10', 'recZ6RUx2zcIaRAIC', 'recdnFCH9mBrDW06P', 'recUDrhjEYqmfahRX', 'recTR73NgMRmrKRhT',
+    'rec3Oe2Z980n3Rdn7', 'recLIyfyDB8US3I6a', 'recL0AotZshb9quhR', 'recrOwaV2PTt1N0i5', 'recI4zS51by3N7Ryi',
+    'recrV8JAEsieJOAch', 'receMEAc7Jf2hYll6', 'rec5YCXgs5gMvQHAF', 'recbZos82xPmwuIKC', 'recwKS00LVuYSdCvD',
+    'reciVXqruKqnV4haA', 'recGpbqIcGoTPpgSk', 'recaTPKUCD6uAS0li', 'recicaqEeoJUtXT6j', 'recKWLJSisAK7f0Cy',
   ];
 
-  const skillIdsForPixDroitDomain1 = [
-    'recZnnTU4WUP6KwwX', 'rececWx6MmPhufxXk', 'recAFoEonOOChXe9t', 'recaMBgjv3EZnAlWO', 'recXDYAkqqIDCDePc',
-    'recwOLZ8bzMQK9NF9', 'recR1SlS7sWoquhoC', 'recPGDVdX0LSOWQQC', 'rec0tk8dZWOzSQbaQ', 'recmoanUlDOyXexPF',
+  const skillIdsForPixDroitDomain7 = [
+    'recVsrqKyTLbbDHr', 'rec1ToyUy6NRAYfsI', 'rec1EDXVReB5W6WXj', 'rec2fBbtPc8wp4KWt', 'rec1ZqFC2J4vnqMKs',
+    'rec1a0hrfPTy6Gf0t', 'recOiY1HuWVhoapW', 'rec2Q7Diqgtnz763e', 'recZKD07u0mLyujW', 'rec2N9CictMeBt1WF',
+    'rec1EXVl5Brzto10O', 'rec2vtVFViYBr0AiN', 'recNZPgcaDXajM0t', 'rec2h26SD99HTor6U', 'rec2D9DXaRKoWIi2B',
+    'rec1yUM0b5yqbJJL2', 'rec1lD19Cd9ABRiRw', 'rec1t5bLr4yky63Ta', 'rec1XGR9DqVYKdYJx', 'rec1rFg4UP2tcoari',
+    'rec1NArKsOVyN4EIk', 'recU2zsmTHLjPpk9', 'rec17oEfeJmMCUaqx', 'rec2LAaXB2PVhBtCB', 'rec1diQTFWvp6w30t',
+    'rec1UWIIBNSkSeCuL', 'rec2K9f6ZD7lxHv6j', 'recR9RgdSfG6xdcY', 'rec1HP8ydLGZQiNe3', 'rec2yo32jQUEUwaLF',
+    'rec1SfkJCdp3sz9FV', 'recVx1cQZCLOcFw4', 'rec29RWcyhULv9vqH', 'rec1489VTqc86A08u', 'recZGo5NepCfhvVn',
+    'rec1kB9mwJ5OgSVac',
   ];
 
-  const skillIdsForPixDroitDomain2 = [
-    'recKbNbM8G7mKaloD', 'recEdU3ZJrHxWOLcb', 'recfktfO0ROu1OifX', 'rec7WOXWi5ClE8BxH', 'recHo6D1spbDR9C2N',
-    'recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx', 'rec7EvARki1b9t574', 'rec6IWrDOSaoX4aLn', 'recI4zS51by3N7Ryi',
+  const skillIdsForPixDroitDomain10 = [
+    'rec2N7a2V25EtOo65', 'rec2LKsFxZKznouzf', 'rec2l9DgRkwGLvypz', 'rec1hhx0ZAHDp7lbi', 'rec2HxQXDWViDqMIF',
+    'rec1WxB9xO0evkNZZ', 'rec17iburXjTGJ16I', 'rec2zRrGzUzcBGlTZ', 'rec1EIYS194JJkxvT', 'rec2Q8JYqSOHR5tXB',
+    'rec1q8EaC5p5YgH9t', 'recZZwBpFqbIrBcG', 'rec1HP5Zo3EjjkYMC', 'rec2bl04yHvkQalXp', 'rec176fBLAoLGgCik',
+    'rec2CGYVbOHJHfd3s', 'rec2UAabDUGTNPznB', 'rec2X9IfrJH2Bci4D', 'rec1742UQ2u18EvGi', 'rec1qwmvF5buKTbDr',
+    'rec1KUfQxRCM55gbC', 'rec2ooiMuIq0oUsnn', 'rec1gdjCWdJiacCjO', 'rec1euSl6Lvv6BRAj', 'rec23O6wwhi16ykUU',
+    'rec1bF7RyberJkxo8', 'rec2hdo5JKqc6W1LW', 'rec1MqaeSWF6ctGCI', 'rec1OZXpvNXccAlXH', 'rec1fP6bwoBfuSSt9',
+    'rec2Xa4FvWvA1u4EN', 'rec2Upsw0XxepV3aT', 'rec2szR4revLYvA81', 'rec2IHbKRAIatbLhR', 'rec1a3qGSOGR8ASKy',
+    'rec1Zj99pTKMJxI3b', 'rec1acCPu874VEndo', 'rec1jatQpmAIRF3zV', 'rec2owv7heER5tzB1', 'rec1iSqZ8hUYHc6k7',
+    'rec29zwatZLQvMPhb', 'rec2fkqn6Wg67b2ZA', 'rec2Kmgfh3rhMSLoS', 'rec25uNcX1RvqZmX8', 'rec2gX9NnuZdWH1ev',
+    'rec1rwutpqz9BA6uT', 'rec1kiqls8JYsVM7c', 'rec2NlK1kc6Lk5JE8', 'rec2jFSnBm3kgrLhw', 'rec1NM5bUvOaEISj7',
+    'rec2BoKMAoj65OQYc', 'rec1XXxlxvnKAzx5d',
   ];
 
-  const skillIdsForPixDroit = skillIdsForPixDroitDomain1.concat(skillIdsForPixDroitDomain2);
+  const skillIdsForPixDroit = skillIdsForPixDroitDomain7.concat(skillIdsForPixDroitDomain10);
 
   const targetProfileSkillIdsForPixDroitBadge = [
     skillIdsForPix,
     skillIdsForPixDroit,
-    skillIdsForPixDroitDomain1,
-    skillIdsForPixDroitDomain2,
+    skillIdsForPixDroitDomain7,
+    skillIdsForPixDroitDomain10,
   ];
 
-  const pixDroitBadge = databaseBuilder.factory.buildBadge({
-    id: PIX_DROIT_BADGE_ID,
-    altMessage: 'Vous avez validé le badge Pix+ Droit',
-    title: 'Pix+ Droit',
+  const pixDroitMasterBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_DROIT_MAITRE_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Droit MAITRE',
+    title: 'Pix+ Droit Maitre',
     imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/socle-de-base.svg',
-    key: 'Droit',
-    message: 'Bravo !',
+    key: 'PIX_DROIT_MAITRE_CERTIF',
+    message: 'avez validé le badge Pix+ Droit MAITRE',
+    isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
   });
 
-  _associatePixDroitBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForPixDroitBadge, pixDroitBadge);
-  _associatePixDroitBadgeCriteria(databaseBuilder, pixDroitBadge);
+  const pixDroitExpertBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_DROIT_EXPERT_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Droit EXPERT (et MAITRE)',
+    title: 'Pix+ Droit EXPERT (et MAITRE)',
+    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/socle-de-base.svg',
+    key: 'PIX_DROIT_EXPERT_CERTIF',
+    message: 'avez validé le badge Pix+ Droit EXPERT (et MAITRE)',
+    isCertifiable: true,
+    targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
+  });
+
+  _associatePixDroitMasterBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForPixDroitBadge, pixDroitMasterBadge);
+  _associatePixDroitMasterBadgeCriteria(databaseBuilder, pixDroitMasterBadge);
+
+  _associatePixDroitExpertBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForPixDroitBadge, pixDroitExpertBadge);
+  _associatePixDroitExpertBadgeCriteria(databaseBuilder, pixDroitExpertBadge);
+
 }
 
 function _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
@@ -222,9 +271,9 @@ function _associateBadgeCriteria(databaseBuilder, badge) {
   });
 }
 
-function _associatePixDroitBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
+function _associatePixDroitMasterBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
   databaseBuilder.factory.buildBadgePartnerCompetence({
-    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_1,
+    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_PIX_M,
     name: 'Acquis du référentiel Pix',
     color: null,
     skillIds: targetProfileSkillIds[0].map((id) => id),
@@ -232,7 +281,7 @@ function _associatePixDroitBadgePartnerCompetences(databaseBuilder, targetProfil
   });
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
-    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_2,
+    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_M,
     name: 'Acquis Pix+ Droit',
     color: null,
     skillIds: targetProfileSkillIds[1].map((id) => id),
@@ -240,40 +289,95 @@ function _associatePixDroitBadgePartnerCompetences(databaseBuilder, targetProfil
   });
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
-    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_3,
-    name: 'Domaine Pix+ Droit #1',
+    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_7_M,
+    name: 'Domaine Pix+ Droit Domaine 7',
     color: null,
     skillIds: targetProfileSkillIds[2].map((id) => id),
     badgeId: badge.id,
   });
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
-    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_4,
-    name: 'Domaine Pix+ Droit #2',
+    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_10_M,
+    name: 'Domaine Pix+ Droit Domaine 10',
     color: null,
     skillIds: targetProfileSkillIds[3].map((id) => id),
     badgeId: badge.id,
   });
 }
 
-function _associatePixDroitBadgeCriteria(databaseBuilder, badge) {
+function _associatePixDroitExpertBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
+  databaseBuilder.factory.buildBadgePartnerCompetence({
+    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_PIX_E,
+    name: 'Acquis du référentiel Pix',
+    color: null,
+    skillIds: targetProfileSkillIds[0].map((id) => id),
+    badgeId: badge.id,
+  });
+
+  databaseBuilder.factory.buildBadgePartnerCompetence({
+    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_E,
+    name: 'Acquis Pix+ Droit',
+    color: null,
+    skillIds: targetProfileSkillIds[1].map((id) => id),
+    badgeId: badge.id,
+  });
+
+  databaseBuilder.factory.buildBadgePartnerCompetence({
+    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_7_E,
+    name: 'Domaine Pix+ Droit Domaine 7',
+    color: null,
+    skillIds: targetProfileSkillIds[2].map((id) => id),
+    badgeId: badge.id,
+  });
+
+  databaseBuilder.factory.buildBadgePartnerCompetence({
+    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_10_E,
+    name: 'Domaine Pix+ Droit Domaine 10',
+    color: null,
+    skillIds: targetProfileSkillIds[3].map((id) => id),
+    badgeId: badge.id,
+  });
+}
+
+function _associatePixDroitMasterBadgeCriteria(databaseBuilder, badge) {
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
     threshold: 70,
     badgeId: badge.id,
-    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_1],
+    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_PIX_M],
   });
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
     threshold: 60,
     badgeId: badge.id,
-    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_2],
+    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_M],
   });
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
     threshold: 40,
     badgeId: badge.id,
-    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_3, PIX_DROIT_BADGE_PARTNER_COMPETENCE_4],
+    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_7_M, PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_10_M],
+  });
+}
+
+function _associatePixDroitExpertBadgeCriteria(databaseBuilder, badge) {
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    threshold: 70,
+    badgeId: badge.id,
+    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_PIX_E],
+  });
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    threshold: 80,
+    badgeId: badge.id,
+    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_E],
+  });
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    threshold: 40,
+    badgeId: badge.id,
+    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_7_E, PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_10_E],
   });
 }
 
@@ -285,5 +389,6 @@ module.exports = {
   MANIP_BADGE_ID,
   PRO_BASICS_BADGE_ID,
   PRO_TOOLS_BADGE_ID,
-  PIX_DROIT_BADGE_ID,
+  PIX_DROIT_MAITRE_BADGE_ID,
+  PIX_DROIT_EXPERT_BADGE_ID,
 };

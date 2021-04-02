@@ -2,6 +2,8 @@ const CertificationCourse = require('../models/CertificationCourse');
 const Assessment = require('../models/Assessment');
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../errors');
 const { features } = require('../../config');
+const _ = require('lodash');
+const bluebird = require('bluebird');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   domainTransaction,
@@ -9,6 +11,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   sessionId,
   userId,
   assessmentRepository,
+  certifiableBadgesService,
   competenceRepository,
   certificationCandidateRepository,
   certificationCourseRepository,
@@ -38,6 +41,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     sessionId,
     userId,
     assessmentRepository,
+    certifiableBadgesService,
     competenceRepository,
     certificationCandidateRepository,
     certificationCourseRepository,
@@ -46,31 +50,18 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   });
 };
 
-async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction) {
-  return await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
-    userId,
-    sessionId,
-    domainTransaction,
-  });
-}
-
 async function _startNewCertification({
   domainTransaction,
   sessionId,
   userId,
   assessmentRepository,
+  certifiableBadgesService,
   certificationCandidateRepository,
   certificationCourseRepository,
   certificationChallengesService,
   placementProfileService,
 }) {
-  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
-
-  if (!placementProfile.isCertifiable()) {
-    throw new UserNotAuthorizedToCertifyError();
-  }
-
-  const newCertificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+  const challengesForPixCertification = await _createPixCertification(placementProfileService, certificationChallengesService, userId);
 
   // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
   // In case the simultaneous call finished earlier than the current one, we want to return its result
@@ -82,8 +73,53 @@ async function _startNewCertification({
     };
   }
 
+  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({ userId, certifiableBadgesService, certificationChallengesService });
+  const challengesForCertification = challengesForPixCertification.concat(challengesForPixPlusCertification);
+
+  return _createCertificationCourse({
+    certificationCandidateRepository,
+    certificationCourseRepository,
+    assessmentRepository,
+    userId,
+    sessionId,
+    certificationChallenges: challengesForCertification,
+    domainTransaction,
+  });
+}
+
+async function _findChallengesFromPixPlus({ userId, certifiableBadgesService, certificationChallengesService }) {
+  const hasCertifiableBadges = await certifiableBadgesService.hasCertifiableBadges(userId);
+  if (hasCertifiableBadges) {
+    const targetProfileIds = await certifiableBadgesService.getTargetProfileIdFromAcquiredCertifiableBadges(userId);
+    const challengesPixPlusByTargetProfiles = await bluebird.mapSeries(targetProfileIds,
+      (targetProfileId) => certificationChallengesService.pickCertificationChallengesForPixPlus(targetProfileId, userId));
+    return _.flatMap(challengesPixPlusByTargetProfiles);
+  } else {
+    return [];
+  }
+}
+
+async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction) {
+  return certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
+    userId,
+    sessionId,
+    domainTransaction,
+  });
+}
+
+async function _createPixCertification(placementProfileService, certificationChallengesService, userId) {
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
+
+  if (!placementProfile.isCertifiable()) {
+    throw new UserNotAuthorizedToCertifyError();
+  }
+
+  return certificationChallengesService.pickCertificationChallenges(placementProfile);
+}
+
+async function _createCertificationCourse({ certificationCandidateRepository, certificationCourseRepository, assessmentRepository, userId, sessionId, certificationChallenges, domainTransaction }) {
   const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
-  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: newCertificationChallenges, maxReachableLevelOnCertificationDate: features.maxReachableLevel });
+  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: certificationChallenges, maxReachableLevelOnCertificationDate: features.maxReachableLevel });
 
   const savedCertificationCourse = await certificationCourseRepository.save({
     certificationCourse: newCertificationCourse,

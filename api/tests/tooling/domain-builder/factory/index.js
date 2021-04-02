@@ -26,6 +26,7 @@ module.exports = {
   buildCertificationCourse: require('./build-certification-course'),
   buildCertificationDetails: require('./build-certification-details'),
   buildCertificationPointOfContact: require('./build-certification-point-of-contact'),
+  buildCertifiableProfileForLearningContent: require('./build-certifiable-profile-for-learning-content'),
   buildCertificationReport: require('./build-certification-report'),
   buildCertifiedArea: require('./build-certified-area'),
   buildCertifiedCompetence: require('./build-certified-competence'),
