@@ -25,6 +25,25 @@ export default class UserAdapter extends ApplicationAdapter {
       return this.ajax(url, 'POST');
     }
 
+    if (snapshot.adapterOptions && snapshot.adapterOptions.dissociate) {
+      const url = this.urlForUpdateRecord(snapshot.id) + '/dissociate';
+      return this.ajax(url, 'PATCH');
+    }
+
+    if (snapshot.adapterOptions && snapshot.adapterOptions.removeAuthenticationMethod) {
+      const payload = {
+        data: {
+          data: {
+            attributes: {
+              type: snapshot.adapterOptions.type,
+            },
+          },
+        },
+      };
+      const url = this.urlForUpdateRecord(snapshot.id) + '/remove-authentication';
+      return this.ajax(url, 'POST', payload);
+    }
+
     return super.updateRecord(...arguments);
   }
 
