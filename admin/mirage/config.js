@@ -177,6 +177,22 @@ export default function() {
     return user.update(expectedUpdatedUser);
   });
 
+  this.post('/admin/users/:id/remove-authentication', (schema, request) => {
+    const userId = request.params.id;
+    const params = JSON.parse(request.requestBody);
+    const type = params.data.attributes.type;
+
+    if (type === 'EMAIL') {
+      const authenticationMethod = schema.authenticationMethods.findBy({ identityProvider: 'PIX' });
+      authenticationMethod.destroy();
+
+      const user = schema.users.findBy({ id: userId });
+      user.update({ email: null });
+    }
+
+    return new Response(204);
+  });
+
   this.get('feature-toggles', (schema) => {
     return schema.featureToggles.findOrCreateBy({ id: 0 });
   });
