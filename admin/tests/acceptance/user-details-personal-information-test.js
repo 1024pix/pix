@@ -15,6 +15,8 @@ module('Acceptance | User details personal information', function(hooks) {
 
   hooks.beforeEach(async function() {
     const schoolingRegistration = this.server.create('schooling-registration', { firstName: 'John' });
+    const pixAuthenticationMethod = this.server.create('authentication-method', { identityProvider: 'PIX' });
+    const garAuthenticationMethod = this.server.create('authentication-method', { identityProvider: 'GAR' });
     user = this.server.create('user', {
       'first-name': 'john',
       'last-name': 'harry',
@@ -22,6 +24,7 @@ module('Acceptance | User details personal information', function(hooks) {
       'is-authenticated-from-gar': false,
     });
     user.schoolingRegistrations = [schoolingRegistration];
+    user.authenticationMethods = [pixAuthenticationMethod, garAuthenticationMethod];
     user.save();
     await createAuthenticateSession({ userId: user.id });
   });
@@ -93,6 +96,22 @@ module('Acceptance | User details personal information', function(hooks) {
       // then
       assert.equal(currentURL(), `/users/${user.id}`);
       assert.notContains(organizationName);
+    });
+  });
+
+  module('when administrator click on remove authentication method button', function() {
+
+    test('should not display remove link and display unchecked icon', async function(assert) {
+      // given
+      await visit(`/users/${user.id}`);
+
+      // when
+      await click('button[data-test-remove-email]');
+      await click('.modal-dialog .btn-primary');
+
+      // then
+      assert.dom('div[data-test-email] > div > svg').hasClass('user-authentication-method-item__uncheck');
+      assert.dom('div[data-test-email] > div > button[data-test-remove-email]').notExists;
     });
   });
 
