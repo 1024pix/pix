@@ -185,6 +185,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
           userId: event.userId,
           certificationCourseId: certificationAssessment.certificationCourseId,
           reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
+          isValidated: false,
         });
       });
 
