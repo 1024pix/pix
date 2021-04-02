@@ -49,6 +49,91 @@ describe('Unit | Controller | certification-course-controller', () => {
     });
   });
 
+  describe('#getCertificationDetails', () => {
+
+    it('should return a serialized certification details', async () => {
+      // given
+      sinon.stub(usecases, 'getCertificationDetails');
+      const certificationCourseId = 1234;
+      const request = {
+        params: {
+          id: certificationCourseId,
+        },
+      };
+
+      usecases.getCertificationDetails
+        .withArgs({ certificationCourseId })
+        .resolves(domainBuilder.buildCertificationDetails({
+          competencesWithMark: [
+            {
+              areaCode: '1',
+              id: 'recComp1',
+              index: '1.1',
+              name: 'Manger des fruits',
+              obtainedLevel: 1,
+              obtainedScore: 5,
+              positionedLevel: 3,
+              positionedScore: 45,
+            },
+          ],
+          createdAt: '12-02-2000',
+          completedAt: '15-02-2000',
+          id: 456,
+          listChallengesAndAnswers: [
+            {
+              challengeId: 'rec123',
+              competence: '1.1',
+              result: 'ok',
+              skill: 'manger une mangue',
+              value: 'prout',
+            },
+          ],
+          percentageCorrectAnswers: 100,
+          status: 'started',
+          totalScore: 5,
+          userId: 123,
+        }));
+
+      // when
+      const result = await certificationCourseController.getCertificationDetails(request);
+
+      // then
+      expect(result.data).to.deep.equal({
+        'id': '456',
+        'type': 'certification-details',
+        'attributes': {
+          'user-id': 123,
+          'created-at': '12-02-2000',
+          'completed-at': '15-02-2000',
+          'status': 'started',
+          'total-score': 5,
+          'percentage-correct-answers': 100,
+          'competences-with-mark': [
+            {
+              areaCode: '1',
+              'id': 'recComp1',
+              'index': '1.1',
+              'name': 'Manger des fruits',
+              obtainedLevel: 1,
+              obtainedScore: 5,
+              positionedLevel: 3,
+              positionedScore: 45,
+            },
+          ],
+          'list-challenges-and-answers': [
+            {
+              challengeId: 'rec123',
+              'competence': '1.1',
+              'result': 'ok',
+              'skill': 'manger une mangue',
+              'value': 'prout',
+            },
+          ],
+        },
+      });
+    });
+  });
+
   describe('#getResult', () => {
     const certificationCourseId = 1;
     const request = {

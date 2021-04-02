@@ -79,6 +79,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     context('when the certification assessment exists', () => {
       let firstAnswerInTime;
       let secondAnswerInTime;
+      let firstChallengeId;
+      let secondChallengeId;
 
       beforeEach(() => {
         const dbf = databaseBuilder.factory;
@@ -106,8 +108,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           createdAt: new Date('2020-06-24T00:00:00Z'),
         }).id;
 
-        dbf.buildCertificationChallenge({ courseId: certificationCourseId });
-        dbf.buildCertificationChallenge({ courseId: certificationCourseId });
+        secondChallengeId = dbf.buildCertificationChallenge({ courseId: certificationCourseId, id: 123 }).id;
+        firstChallengeId = dbf.buildCertificationChallenge({ courseId: certificationCourseId, id: 456 }).id;
 
         return databaseBuilder.commit();
       });
@@ -134,6 +136,14 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
         // then
         expect(_.map(certificationAssessment.certificationAnswersByDate, 'id')).to.deep.equal([firstAnswerInTime, secondAnswerInTime]);
+      });
+
+      it('should return the certification challenges ordered by id', async () => {
+        // when
+        const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);
+
+        // then
+        expect(_.map(certificationAssessment.certificationChallenges, 'id')).to.deep.equal([secondChallengeId, firstChallengeId]);
       });
     });
 

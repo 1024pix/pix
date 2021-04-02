@@ -1,5 +1,6 @@
 const { expect, databaseBuilder, knex, learningContentBuilder, mockLearningContent, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
 const createServer = require('../../../server');
+const config = require('../../../lib/config');
 
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const Assessment = require('../../../lib/domain/models/Assessment');
@@ -12,45 +13,66 @@ describe('Acceptance | API | Certification Course', () => {
     server = await createServer();
   });
 
-  describe('GET /api/admin/certifications/{id}/details', () => {
+  describe('when FT_IS_NEUTRALIZATION_AUTO_ENABLED toggle is enabled ', () => {
 
-    let options;
+    describe('GET /api/admin/certifications/{id}/details', () => {
 
-    beforeEach(() => {
-      options = {
-        method: 'GET',
-        url: '/api/admin/certifications/1234/details',
-        headers: {},
-      };
-    });
-
-    describe('Resource access management', () => {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
-        // given
-        options.headers.authorization = 'invalid.access.token';
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+      afterEach(function() {
+        config.featureToggles.isNeutralizationAutoEnabled = false;
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+      it('Should respond with a status 200', async () => {
+
+        config.featureToggles.isNeutralizationAutoEnabled = true;
+
         // given
-        const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+        await insertUserWithRolePixMaster();
+        const options = {
+          method: 'GET',
+          url: '/api/admin/certifications/1234/details',
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(),
+          },
+        };
+
+        const learningContent = [{
+          id: '1. Information et données',
+          competences: [{
+            id: 'competence_id',
+            tubes: [{
+              id: 'recTube1',
+              skills: [{
+                challenges: [
+                  { id: 'k_challenge_id' },
+                ],
+              }],
+            }],
+          }],
+        }];
+
+        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        mockLearningContent(learningContentObjects);
+
+        databaseBuilder.factory.buildCertificationCourse({ id: 1234, isV2Certification: true });
+        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: 1234, competenceId: 'competence_id' }).id;
+        const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
+        databaseBuilder.factory.buildCompetenceMark({ assessmentResultId, competenceId: 'competence_id' });
+
+        databaseBuilder.factory.buildCertificationChallenge({
+          courseId: 1234,
+          competenceId: 'competence_id',
+          challengeId: 'k_challenge_id',
+        });
+
+        databaseBuilder.factory.buildAnswer({ challengeId: 'k_challenge_id', assessmentId });
+
+        await databaseBuilder.commit();
 
         // when
-        const promise = server.inject(options);
+        const result = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
+        expect(result.statusCode).to.equal(200);
       });
     });
   });
