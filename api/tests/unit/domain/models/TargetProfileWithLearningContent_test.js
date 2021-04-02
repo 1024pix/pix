@@ -187,6 +187,60 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
+  describe('findSkill', () => {
+
+    it('should return the skill when its in the target profile', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'sk1' });
+      const skill2 = domainBuilder.buildTargetedSkill({ id: 'sk2' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [skill1, skill2] });
+
+      // when
+      const actualSkill = targetProfile.findSkill('sk2');
+
+      // then
+      expect(actualSkill).to.deep.equal(skill2);
+    });
+
+    it('should return null if skill not in target profile', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [] });
+
+      // when
+      const actualSkill = targetProfile.findSkill('sk2');
+
+      // then
+      expect(actualSkill).to.be.null;
+    });
+  });
+
+  describe('findTube', () => {
+
+    it('should return the tube when its in the target profile', () => {
+      // given
+      const tube1 = domainBuilder.buildTargetedSkill({ id: 'tube1' });
+      const tube2 = domainBuilder.buildTargetedSkill({ id: 'tube2' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ tubes: [tube1, tube2] });
+
+      // when
+      const actualTube = targetProfile.findTube('tube2');
+
+      // then
+      expect(actualTube).to.deep.equal(tube2);
+    });
+
+    it('should return null if tube not in target profile', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ tubes: [] });
+
+      // when
+      const actualTube = targetProfile.findTube('tube2');
+
+      // then
+      expect(actualTube).to.be.null;
+    });
+  });
+
   describe('getCompetence', () => {
 
     it('should return the competence when its in the target profile', () => {

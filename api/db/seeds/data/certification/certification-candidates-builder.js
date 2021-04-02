@@ -6,6 +6,7 @@ const {
   NO_PROBLEM_FINALIZED_SESSION_ID,
   PROBLEMS_FINALIZED_SESSION_ID,
   PUBLISHED_SESSION_ID,
+  PIX_DROIT_SESSION_ID,
 } = require('./certification-sessions-builder');
 const {
   CERTIF_SUCCESS_USER_ID,
@@ -27,6 +28,8 @@ const CANDIDATE_DATA_SUCCESS = { firstName: 'anne', lastName: 'success', birthda
 const CANDIDATE_DATA_FAILURE = { firstName: 'anne', lastName: 'failure', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: 'destinaire-des-resulats@example.net' };
 const CANDIDATE_DATA_MISSING = { firstName: 'anne', lastName: 'missing', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: null };
 const CANDIDATE_DATA_STARTED = { firstName: 'AnneNormale5', lastName: 'Certif5', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: null };
+const CANDIDATE_DROIT_1 = { firstName: 'Nicky', lastName: 'Larson', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: null };
+const CANDIDATE_DROIT_2 = { firstName: 'Saul', lastName: 'Goodman', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: null };
 
 function certificationCandidatesBuilder({ databaseBuilder }) {
 
@@ -69,6 +72,12 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
   sessionId = PUBLISHED_SESSION_ID;
   databaseBuilder.factory.buildCertificationCandidate({ id: SUCCESS_CANDIDATE_IN_PUBLISHED_SESSION_ID, ...candidateDataSuccessWithUser, sessionId });
   databaseBuilder.factory.buildCertificationCandidate({ id: FAILURE_CANDIDATE_IN_PUBLISHED_SESSION_ID, ...candidateDataFailureWithUser, sessionId });
+
+  // Candidates for Pix+Droit certification
+  sessionId = PIX_DROIT_SESSION_ID;
+  databaseBuilder.factory.buildCertificationCandidate({ ...CANDIDATE_DROIT_1, sessionId, userId: null });
+  databaseBuilder.factory.buildCertificationCandidate({ ...CANDIDATE_DROIT_2, sessionId, userId: null });
+
 }
 
 module.exports = {

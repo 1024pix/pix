@@ -2,6 +2,8 @@ const _ = require('lodash');
 const CertificationChallenge = require('../models/CertificationChallenge');
 const {
   MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION,
+  MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS,
+  PIX_ORIGIN,
 } = require('../constants');
 
 const KnowledgeElement = require('../models/KnowledgeElement');
@@ -10,6 +12,8 @@ const Challenge = require('../models/Challenge');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
+const targetProfileWithLearningContentRepository = require('../../infrastructure/repositories/target-profile-with-learning-content-repository');
+const certifiableProfileForLearningContentRepository = require('../../infrastructure/repositories/certifiable-profile-for-learning-content-repository');
 
 module.exports = {
 
@@ -27,45 +31,87 @@ module.exports = {
       UserCompetence.orderSkillsOfCompetenceByDifficulty(placementProfile.userCompetences)
         .filter((uc) => uc.isCertifiable());
 
-    let certificationChallengesByCompetence = {};
-    certifiableUserCompetencesWithOrderedSkills.forEach((userCompetence) => {
-      userCompetence.skills.forEach((skill) => {
-        if (!_hasCompetenceEnoughCertificationChallenges(userCompetence.id, certificationChallengesByCompetence)) {
-          const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allFrFrOperativeChallenges, skill });
-          const unansweredChallenges = _.filter(challengesToValidateCurrentSkill, (challenge) => !alreadyAnsweredChallengeIds.includes(challenge.id));
+    let certificationChallenges = [];
+    for (const userCompetence of certifiableUserCompetencesWithOrderedSkills) {
+      let certificationChallengesForCompetence = [];
+      for (const skill of userCompetence.skills) {
+        if (certificationChallengesForCompetence.length >= MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION) break;
 
-          const challengesPoolToPickChallengeFrom = _.isEmpty(unansweredChallenges) ? challengesToValidateCurrentSkill : unansweredChallenges;
-          if (_.isEmpty(challengesPoolToPickChallengeFrom)) {
-            return;
-          }
-          const challenge = _.sample(challengesPoolToPickChallengeFrom);
+        certificationChallengesForCompetence = _expandCertificationChallengesByGroup({
+          certificationChallenges,
+          certificationChallengesForThisGroup: certificationChallengesForCompetence,
+          skill,
+          competenceId: userCompetence.id,
+          allChallenges: allFrFrOperativeChallenges,
+          alreadyAnsweredChallengeIds,
+        });
+      }
+      certificationChallenges = certificationChallenges.concat(certificationChallengesForCompetence);
+    }
 
-          const certificationChallenge = new CertificationChallenge({
-            challengeId: challenge.id,
-            competenceId: userCompetence.id,
-            associatedSkillName: skill.name,
-            associatedSkillId: skill.id,
-          });
-          certificationChallengesByCompetence = _addUniqueCertificationChallengeForCompetence(certificationChallengesByCompetence, certificationChallenge);
-        }
-      });
-    });
+    return certificationChallenges;
+  },
 
-    return _.flatten(Object.values(certificationChallengesByCompetence));
+  async pickCertificationChallengesForPixPlus(targetProfileId, userId) {
+    const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({ id: targetProfileId });
+    const certifiableProfile = await certifiableProfileForLearningContentRepository.get({ id: userId, profileDate: new Date(), targetProfileWithLearningContent });
+    const allFrFrOperativeChallenges = await challengeRepository.findFrenchFranceOperative();
+
+    const excludedOrigins = [PIX_ORIGIN];
+    const skillIdsByArea = certifiableProfile.getOrderedCertifiableSkillsByAreaId(excludedOrigins);
+    const alreadyAnsweredChallengeIds = certifiableProfile.getAlreadyAnsweredChallengeIds();
+    let certificationChallenges = [];
+
+    for (const skillIds of Object.values(skillIdsByArea)) {
+      let certificationChallengesForArea = [];
+      for (const skillId of skillIds) {
+        if (certificationChallengesForArea.length >= MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS) break;
+
+        const skill = targetProfileWithLearningContent.findSkill(skillId);
+        const competenceId = targetProfileWithLearningContent.getCompetenceIdOfSkill(skillId);
+
+        certificationChallengesForArea = _expandCertificationChallengesByGroup({
+          certificationChallenges,
+          certificationChallengesForThisGroup: certificationChallengesForArea,
+          skill,
+          competenceId,
+          allChallenges: allFrFrOperativeChallenges,
+          alreadyAnsweredChallengeIds,
+        });
+      }
+      certificationChallenges = certificationChallenges.concat(certificationChallengesForArea);
+    }
+
+    return certificationChallenges;
   },
 };
 
-function _hasCompetenceEnoughCertificationChallenges(competenceId, certificationChallengesByCompetence) {
-  const certificationChallengesForGivenCompetence = certificationChallengesByCompetence[competenceId] || [];
-  return certificationChallengesForGivenCompetence.length >= MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION;
+function _expandCertificationChallengesByGroup({ certificationChallenges, certificationChallengesForThisGroup, skill, competenceId, allChallenges, alreadyAnsweredChallengeIds }) {
+  const alreadySelectedChallengeIds = [
+    ..._.map(certificationChallenges, 'challengeId'),
+    ..._.map(certificationChallengesForThisGroup, 'challengeId'),
+  ];
+  const certificationChallenge = _pickCertificationChallengeForSkill({ skill, competenceId, allChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds });
+  if (certificationChallenge) certificationChallengesForThisGroup.push(certificationChallenge);
+  return certificationChallengesForThisGroup;
 }
 
-function _addUniqueCertificationChallengeForCompetence(certificationChallengesByCompetence, certificationChallenge) {
-  const mutatedCertificationChallengesByCompetence = _.cloneDeep(certificationChallengesByCompetence);
-  const certificationChallengesForGivenCompetence = mutatedCertificationChallengesByCompetence[certificationChallenge.competenceId] || [];
-  if (!_.some(certificationChallengesForGivenCompetence, { challengeId: certificationChallenge.challengeId })) {
-    certificationChallengesForGivenCompetence.push(certificationChallenge);
+function _pickCertificationChallengeForSkill({ skill, competenceId, allChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds }) {
+  const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allChallenges, skill });
+  const unansweredChallenges = _.filter(challengesToValidateCurrentSkill, (challenge) => !alreadyAnsweredChallengeIds.includes(challenge.id));
+
+  const challengesPoolToPickChallengeFrom = _.isEmpty(unansweredChallenges) ? challengesToValidateCurrentSkill : unansweredChallenges;
+  if (_.isEmpty(challengesPoolToPickChallengeFrom)) {
+    return;
   }
-  mutatedCertificationChallengesByCompetence[certificationChallenge.competenceId] = certificationChallengesForGivenCompetence;
-  return mutatedCertificationChallengesByCompetence;
+  const challenge = _.sample(challengesPoolToPickChallengeFrom);
+
+  if (alreadySelectedChallengeIds.includes(challenge.id)) return;
+
+  return new CertificationChallenge({
+    challengeId: challenge.id,
+    competenceId,
+    associatedSkillName: skill.name,
+    associatedSkillId: skill.id,
+  });
 }

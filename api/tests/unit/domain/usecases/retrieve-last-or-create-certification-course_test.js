@@ -3,7 +3,7 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../../../../lib/domain/errors');
 const retrieveLastOrCreateCertificationCourse = require('../../../../lib/domain/usecases/retrieve-last-or-create-certification-course');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
+const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const _ = require('lodash');
 
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => {
@@ -19,6 +19,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   const competenceRepository = { listPixCompetencesOnly: sinon.stub() };
   const certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
   const certificationChallengeRepository = { save: sinon.stub() };
+  const certificationChallengesService = { pickCertificationChallengesForPixPlus: sinon.stub(), pickCertificationChallenges: sinon.stub() };
+  const certifiableBadgesService = { hasCertifiableBadges: sinon.stub(), getTargetProfileIdFromAcquiredCertifiableBadges: sinon.stub() };
   const certificationCourseRepository = {
     findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
     save: sinon.stub(),
@@ -36,13 +38,13 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     certificationChallengeRepository,
     certificationCourseRepository,
     sessionRepository,
+    certifiableBadgesService,
     certificationChallengesService,
     placementProfileService,
   };
 
   beforeEach(() => {
     clock = sinon.useFakeTimers(now);
-    sinon.stub(certificationChallengesService, 'pickCertificationChallenges');
   });
 
   afterEach(() => {
@@ -155,8 +157,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         const skill1 = domainBuilder.buildSkill();
         const skill2 = domainBuilder.buildSkill();
-        const challenge1 = domainBuilder.buildChallenge();
-        const challenge2 = domainBuilder.buildChallenge();
+        const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
+        const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
 
         beforeEach(() => {
           // TODO : use the domainBuilder to instanciate userCompetences
@@ -304,6 +306,81 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             // then
             expect(assessmentRepository.save).to.have.been.calledWith({ assessment: sinon.match(mockAssessment), domainTransaction });
           });
+
+          context('when user has certifiable badges with pix plus', async function() {
+            const challengePlus1 = domainBuilder.buildChallenge({ id: 'challenge-pixplus1' });
+            const challengePlus2 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
+            const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
+
+            beforeEach(() => {
+              sinon.spy(CertificationCourse, 'from');
+              certifiableBadgesService.hasCertifiableBadges.resolves(true);
+              certifiableBadgesService.getTargetProfileIdFromAcquiredCertifiableBadges.resolves([11, 22]);
+              certificationChallengesService.pickCertificationChallengesForPixPlus
+                .withArgs(11, userId)
+                .resolves([challengePlus1, challengePlus2])
+                .withArgs(22, userId)
+                .resolves([challengePlus3]);
+            });
+
+            it('should save all the challenges from pix and pix plus', async function() {
+              // given
+              const expectedChallenges = [challenge1, challenge2, challengePlus1, challengePlus2, challengePlus3];
+              // when
+              await retrieveLastOrCreateCertificationCourse({
+                sessionId,
+                accessCode,
+                userId,
+                ...parameters,
+              });
+
+              // then
+              expect(CertificationCourse.from).to.have.been.calledWith({
+                certificationCandidate: foundCertificationCandidate,
+                challenges: expectedChallenges,
+                maxReachableLevelOnCertificationDate: 5,
+              });
+            });
+
+          });
+
+          context('when user has no certifiable badges with pix plus', async function() {
+            const challengePlus1 = domainBuilder.buildChallenge({ id: 'challenge-pixplus1' });
+            const challengePlus2 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
+            const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
+
+            beforeEach(() => {
+              sinon.spy(CertificationCourse, 'from');
+              certifiableBadgesService.hasCertifiableBadges.resolves(false);
+              certifiableBadgesService.getTargetProfileIdFromAcquiredCertifiableBadges.resolves([11, 22]);
+              certificationChallengesService.pickCertificationChallengesForPixPlus
+                .withArgs(11, userId)
+                .resolves([challengePlus1, challengePlus2])
+                .withArgs(22, userId)
+                .resolves([challengePlus3]);
+            });
+
+            it('should save only the challenges from pix', async function() {
+              // given
+              const expectedChallenges = [challenge1, challenge2];
+              // when
+              await retrieveLastOrCreateCertificationCourse({
+                sessionId,
+                accessCode,
+                userId,
+                ...parameters,
+              });
+
+              // then
+              expect(CertificationCourse.from).to.have.been.calledWith({
+                certificationCandidate: foundCertificationCandidate,
+                challenges: expectedChallenges,
+                maxReachableLevelOnCertificationDate: 5,
+              });
+            });
+
+          });
+
         });
       });
     });

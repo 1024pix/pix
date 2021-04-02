@@ -5,6 +5,7 @@ const buildTargetedCompetence = function buildTargetedCompetence({
   id = 'someCompetenceId',
   name = 'someName',
   index = 'someIndex',
+  origin = 'Pix',
   areaId = 'someAreaId',
   tubes = [buildTargetedTube()],
 } = {}) {
@@ -12,6 +13,7 @@ const buildTargetedCompetence = function buildTargetedCompetence({
     id,
     name,
     index,
+    origin,
     areaId,
     tubes,
   });
