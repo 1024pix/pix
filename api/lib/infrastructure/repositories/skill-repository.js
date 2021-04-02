@@ -1,5 +1,7 @@
 const Skill = require('../../domain/models/Skill');
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
+const { knex } = require('../bookshelf');
+const _ = require('lodash');
 
 function _toDomain(skillData) {
   return new Skill({
@@ -33,4 +35,19 @@ module.exports = {
     const skillDatas = await skillDatasource.findOperativeByRecordIds(skillIds);
     return skillDatas.map(_toDomain);
   },
+
+  async assessedDuringCampaignParticipation(campaignParticipationId) {
+    const skillIds = await _getTargetProfileSkillIds(campaignParticipationId);
+    const operativeSkill = await skillDatasource.findOperativeByRecordIds(skillIds);
+    return operativeSkill.map(({ id }) => id);
+  },
 };
+
+function _getTargetProfileSkillIds(campaignParticipationId) {
+  return knex('target-profiles_skills')
+    .select(['skillId'])
+    .innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles_skills.targetProfileId')
+    .innerJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
+    .where({ 'campaign-participations.id': campaignParticipationId })
+    .then((skills) => _.map(skills, 'skillId'));
+}

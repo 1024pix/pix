@@ -1,4 +1,4 @@
-const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
+const { expect, mockLearningContent, domainBuilder, databaseBuilder } = require('../../../test-helper');
 const Skill = require('../../../../lib/domain/models/Skill');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 
@@ -106,6 +106,41 @@ describe('Integration | Repository | skill-repository', () => {
       expect(skills).to.have.lengthOf(2);
       expect(skills[0]).to.be.instanceof(Skill);
       expect(skills).to.deep.include.members([activeSkill, archivedSkill]);
+    });
+  });
+
+  describe('#assessedDuringCampaignParticipation', () => {
+
+    beforeEach(() => {
+      const learningContent = {
+        skills: [
+          { id: 'skill1', status: 'actif' },
+          { id: 'skill2', status: 'archivé' },
+          { id: 'skill3', status: 'périmé' },
+          { id: 'skill4', status: 'actif' },
+        ],
+      };
+      mockLearningContent(learningContent);
+    });
+
+    it('returns the id of skills associated to the given target profile', async () => {
+      // given
+      const { id: campaign1Id, targetProfileId: targetProfile1Id } = databaseBuilder.factory.buildCampaign();
+      const { id: campaign2Id, targetProfileId: targetProfile2Id } = databaseBuilder.factory.buildCampaign();
+      const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign1Id });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign2Id });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile1Id, skillId: 'skill1' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile1Id, skillId: 'skill2' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile1Id, skillId: 'skill3' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile2Id, skillId: 'skill4' });
+
+      await databaseBuilder.commit();
+
+      // when
+      const skills = await skillRepository.assessedDuringCampaignParticipation(campaignParticipationId);
+
+      // then
+      expect(skills).to.exactlyContain(['skill1', 'skill2']);
     });
   });
 });
