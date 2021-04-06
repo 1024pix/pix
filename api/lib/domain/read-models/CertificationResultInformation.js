@@ -77,7 +77,7 @@ class CertificationResultInformation {
       commentForJury: assessmentResult.commentForJury,
       juryId: assessmentResult.juryId,
       pixScore: assessmentResult.pixScore,
-      competencesWithMark: assessmentResult.competencesWithMark,
+      competencesWithMark: assessmentResult.competenceMarks,
     });
   }
 }
