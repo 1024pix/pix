@@ -65,7 +65,8 @@
               </a>
             {{else}}
               <CampaignShareButton
-                      @isShared={{@model.campaignParticipation.isShared}}
+                      @isShared={{this.isShared}}
+                      @displayPixLink={{this.displayPixLink}}
                       @shareCampaignParticipation={{this.shareCampaignParticipation}}
               />
             {{/if}}
@@ -75,8 +76,7 @@
     </div>
   </PixBlock>
 {{/if}}
-
-{{#if this.showOrganizationMessage}}
+{{#if this.displayOrganizationCustomMessage}}
   <PixBlock class="skill-review__organization-message">
       {{#if this.organizationLogoUrl}}
         <div class="skill-review-organization-message__logo">
@@ -86,9 +86,14 @@
       <div class="skill-review-organization-message__content">
         <p class="skill-review-organization-message__title">{{t 'pages.skill-review.organization-message'}}</p>
         <p class="skill-review-organization-message__organization-name">{{this.organizationName}}</p>
-        <div class="skill-review-organization-message__text">
-          <p>{{this.organizationMessageText}}</p>
-        </div>
+        {{#if this.showOrganizationMessage}}
+          <div class="skill-review-organization-message__text">
+            <p>{{this.organizationMessage}}</p>
+          </div>
+        {{/if}}
+        {{#if this.showOrganizationButton}}
+          <a class="skill-review-organization-message__link" target="_blank" rel="noopener noreferrer" href={{this.customButtonUrl}}>{{this.customButtonText}}<FaIcon @icon='external-link-alt' aria-hidden="true"></FaIcon></a>
+        {{/if}}
       </div>
   </PixBlock>
 {{/if}}

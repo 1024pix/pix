@@ -49,11 +49,23 @@ export default class SkillReview extends Component {
     return this.args.model.campaignParticipation.campaignParticipationResult.get('stageCount');
   }
 
-  get showOrganizationMessage() {
-    return Boolean(this.args.model.campaignParticipation.campaign.get('customResultPageText'));
+  get isShared() {
+    return this.args.model.campaignParticipation.get('isShared');
   }
 
-  get organizationMessageText() {
+  get displayPixLink() {
+    return !this.showOrganizationButton;
+  }
+
+  get displayOrganizationCustomMessage() {
+    return Boolean((this.showOrganizationMessage || this.showOrganizationButton) && this.isShared);
+  }
+
+  get showOrganizationMessage() {
+    return Boolean(this.organizationMessage);
+  }
+
+  get organizationMessage() {
     return this.args.model.campaignParticipation.campaign.get('customResultPageText');
   }
 
@@ -63,6 +75,18 @@ export default class SkillReview extends Component {
 
   get organizationName() {
     return this.args.model.campaignParticipation.campaign.get('organizationName');
+  }
+
+  get showOrganizationButton() {
+    return Boolean(this.customButtonText && this.customButtonUrl);
+  }
+
+  get customButtonUrl() {
+    return this.args.model.campaignParticipation.campaign.get('customResultPageButtonUrl');
+  }
+
+  get customButtonText() {
+    return this.args.model.campaignParticipation.campaign.get('customResultPageButtonText');
   }
 
   @action

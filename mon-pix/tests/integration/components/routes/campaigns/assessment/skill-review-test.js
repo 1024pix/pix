@@ -36,9 +36,9 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         const campaign = {
           campaignParticipation: {
             id: 8654,
-            isShared: false,
             save: sinon.stub().rejects(),
             set: sinon.stub().resolves(),
+            get: sinon.stub(),
             rollbackAttributes: sinon.stub(),
             campaignParticipationResult: {
               masteryPercentage: 90,
@@ -50,7 +50,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             },
           },
         };
-
+        campaign.campaignParticipation.get.withArgs('isShared').returns(false);
         this.set('campaign', campaign);
         this.set('assessmentId', 'BADGES123');
         this.set('acquiredBadges', null);
@@ -71,9 +71,9 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         const campaign = {
           campaignParticipation: {
             id: 8654,
-            isShared: false,
             save: sinon.stub().rejects(),
             set: sinon.stub().resolves(),
+            get: sinon.stub(),
             rollbackAttributes: sinon.stub(),
             campaignParticipationResult: {
               masteryPercentage: 90,
@@ -88,6 +88,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             },
           },
         };
+        campaign.campaignParticipation.get.withArgs('isShared').returns(false);
 
         this.set('campaign', campaign);
         this.set('assessmentId', 'BADGES123');
@@ -115,9 +116,9 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       const campaignParticipation = {
         campaignParticipation: {
           id: 8654,
-          isShared: false,
           save: sinon.stub().rejects(),
           set: sinon.stub().resolves(),
+          get: sinon.stub(),
           rollbackAttributes: sinon.stub(),
           campaign: {
             isForAbsoluteNovice: true,
@@ -133,6 +134,8 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           },
         },
       };
+
+      campaignParticipation.campaignParticipation.get.withArgs('isShared').returns(false);
 
       this.set('campaignParticipation', campaignParticipation);
       this.set('assessmentId', 'BADGES123');
@@ -161,60 +164,104 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
   });
 
   describe('The block of the organisation message', function() {
-    context('when the organization has a message', function() {
-      context('when the organization has a logo', function() {
-        beforeEach(async function() {
-          // Given
-          const campaignParticipation = {
-            campaignParticipation: {
-              campaignParticipationResult: {
-                get: sinon.stub().returns([]),
-              },
-              campaign: {
-                customResultPageText: 'Bravo !',
-                organizationLogoUrl: 'www.logo-example.com',
-                organizationName: 'Dragon & Co',
+    context('When the camapaign is shared', function() {
+      context('when the organization has a message', function() {
+        context('when the organization has a logo', function() {
+          beforeEach(async function() {
+            // Given
+            const campaignParticipation = {
+              campaignParticipation: {
                 get: sinon.stub(),
+                campaignParticipationResult: {
+                  get: sinon.stub().returns([]),
+                },
+                campaign: {
+                  customResultPageText: 'Bravo !',
+                  organizationLogoUrl: 'www.logo-example.com',
+                  organizationName: 'Dragon & Co',
+                  get: sinon.stub(),
+                },
               },
-            },
-          };
-          campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(['Bravo !']);
-          campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(['www.logo-example.com']);
-          campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
-          this.set('campaignParticipation', campaignParticipation);
-          // When
-          await render(hbs`<Routes::Campaigns::Assessment::SkillReview
-              @model={{campaignParticipation}}/>`);
-        });
-        it('should display the block for the message', function() {
-          // Then
-          expect(contains('Message de votre organisation')).to.exist;
-          expect(contains('Dragon & Co')).to.exist;
+            };
+            campaignParticipation.campaignParticipation.get.withArgs('isShared').returns(true);
+            campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(['Bravo !']);
+            campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(['www.logo-example.com']);
+            campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+            this.set('campaignParticipation', campaignParticipation);
+            // When
+            await render(hbs`<Routes::Campaigns::Assessment::SkillReview
+                @model={{campaignParticipation}}/>`);
+          });
+          it('should display the block for the message', function() {
+            // Then
+            expect(contains('Message de votre organisation')).to.exist;
+            expect(contains('Dragon & Co')).to.exist;
+          });
+
+          it('should show the logo of the organization ', function() {
+            // Then
+            expect(find('[src="www.logo-example.com"]')).to.exist;
+          });
         });
 
-        it('should show the logo of the organization ', function() {
-          // Then
-          expect(find('[src="www.logo-example.com"]')).to.exist;
+        context('when the organization has no logo', function() {
+          beforeEach(async function() {
+            // Given
+            const campaignParticipation = {
+              campaignParticipation: {
+                get: sinon.stub(),
+                campaignParticipationResult: {
+                  get: sinon.stub().returns([]),
+                },
+                campaign: {
+                  customResultPageText: 'Bravo !',
+                  organizationLogoUrl: null,
+                  organizationName: 'Dragon & Co',
+                  get: sinon.stub(),
+                },
+              },
+            };
+            campaignParticipation.campaignParticipation.get.withArgs('isShared').returns(true);
+            campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(['Bravo !']);
+            campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(null);
+            campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+            this.set('campaignParticipation', campaignParticipation);
+            // When
+            await render(hbs`<Routes::Campaigns::Assessment::SkillReview
+                @model={{campaignParticipation}}/>`);
+          });
+
+          it('should display the block for the message', function() {
+            // Then
+            expect(contains('Dragon & Co')).to.exist;
+            expect(contains('Message de votre organisation')).to.exist;
+          });
+
+          it('should not display the logo of the organization ', function() {
+            // Then
+            expect(find('[src="www.logo-example.com"]')).to.not.exist;
+          });
         });
       });
-
-      context('when the organization has no logo', function() {
+      context('when the organization has no message', function() {
         beforeEach(async function() {
           // Given
           const campaignParticipation = {
             campaignParticipation: {
+              get: sinon.stub(),
               campaignParticipationResult: {
                 get: sinon.stub().returns([]),
               },
               campaign: {
-                customResultPageText: 'Bravo !',
+                customResultPageText: null,
                 organizationLogoUrl: null,
                 organizationName: 'Dragon & Co',
                 get: sinon.stub(),
               },
             },
           };
-          campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(['Bravo !']);
+          campaignParticipation.campaignParticipation.get.withArgs('isShared').returns(true);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(null);
           campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(null);
           campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
           this.set('campaignParticipation', campaignParticipation);
@@ -223,37 +270,135 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
               @model={{campaignParticipation}}/>`);
         });
 
-        it('should display the block for the message', function() {
+        it('should not display the block for the message', function() {
           // Then
-          expect(contains('Dragon & Co')).to.exist;
-          expect(contains('Message de votre organisation')).to.exist;
+          expect(contains('Message de votre organisation')).to.not.exist;
+        });
+      });
+
+      context('when the organization has a customResultPageButtonUrl and a customResultPageButtonText', function() {
+        beforeEach(async function() {
+          // Given
+          const campaignParticipation = {
+            campaignParticipation: {
+              get: sinon.stub(),
+              campaignParticipationResult: {
+                get: sinon.stub().returns([]),
+              },
+              campaign: {
+                organizationName: 'Dragon & Co',
+                customResultPageButtonUrl: 'www.my-url.net',
+                customResultPageButtonText: 'Next step',
+                get: sinon.stub(),
+              },
+            },
+          };
+          campaignParticipation.campaignParticipation.get.withArgs('isShared').returns(true);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageButtonUrl').returns(['www.my-url.net']);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageButtonText').returns(['Next step']);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+          this.set('campaignParticipation', campaignParticipation);
+          // When
+          await render(hbs`<Routes::Campaigns::Assessment::SkillReview
+              @model={{campaignParticipation}}/>`);
         });
 
-        it('should not display the div for the logo of the organization ', function() {
+        it('should display the button', function() {
           // Then
-          expect(find('[src="www.logo-example.com"]')).to.not.exist;
+          expect(find('[href="www.my-url.net"]')).to.exist;
+          expect(find('[target="_blank"]')).to.exist;
+          expect(contains('Next step')).to.exist;
+        });
+      });
+
+      context('when the organization only has a customResultPageButtonUrl', function() {
+        beforeEach(async function() {
+          // Given
+          const campaignParticipation = {
+            campaignParticipation: {
+              get: sinon.stub(),
+              campaignParticipationResult: {
+                get: sinon.stub().returns([]),
+              },
+              campaign: {
+                organizationName: 'Dragon & Co',
+                customResultPageButtonUrl: 'www.my-url.net',
+                customResultPageButtonText: null,
+                get: sinon.stub(),
+              },
+            },
+          };
+          campaignParticipation.campaignParticipation.get.withArgs('isShared').returns(true);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageButtonUrl').returns(['www.my-url.net']);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageButtonText').returns(null);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+          this.set('campaignParticipation', campaignParticipation);
+          // When
+          await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{campaignParticipation}}/>`);
+        });
+
+        it('should not display the button', function() {
+          // Then
+          expect(find('[href="www.my-url.net"]')).to.not.exist;
+          expect(contains('Next step')).to.not.exist;
+        });
+      });
+
+      context('when the organization has neither a message nor a button', function() {
+        beforeEach(async function() {
+          // Given
+          const campaignParticipation = {
+            campaignParticipation: {
+              get: sinon.stub(),
+              campaignParticipationResult: {
+                get: sinon.stub().returns([]),
+              },
+              campaign: {
+                customResultPageText: null,
+                organizationLogoUrl: null,
+                customResultPageButtonUrl: null,
+                customResultPageButtonText: null,
+                organizationName: 'Dragon & Co',
+                get: sinon.stub(),
+              },
+            },
+          };
+          campaignParticipation.campaignParticipation.get.withArgs('isShared').returns(true);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(null);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(null);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageButtonUrl').returns(null);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageButtonText').returns(null);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+          this.set('campaignParticipation', campaignParticipation);
+          // When
+          await render(hbs`<Routes::Campaigns::Assessment::SkillReview
+              @model={{campaignParticipation}}/>`);
+        });
+
+        it('should not display the block for the message', function() {
+          // Then
+          expect(contains('Message de votre organisation')).to.not.exist;
         });
       });
     });
-
-    context('when the organization has no message', function() {
+    context('when the campaign is not shared and the organization has a message or a button', function() {
       beforeEach(async function() {
         // Given
         const campaignParticipation = {
           campaignParticipation: {
+            get: sinon.stub(),
             campaignParticipationResult: {
               get: sinon.stub().returns([]),
             },
             campaign: {
-              customResultPageText: null,
-              organizationLogoUrl: null,
+              customResultPageText: 'Bravo !',
               organizationName: 'Dragon & Co',
               get: sinon.stub(),
             },
           },
         };
-        campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(null);
-        campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(null);
+        campaignParticipation.campaignParticipation.get.withArgs('isShared').returns(false);
+        campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(['Bravo !']);
         campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
         this.set('campaignParticipation', campaignParticipation);
         // When
@@ -262,7 +407,9 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       });
 
       it('should not display the block for the message', function() {
+        // debugger
         // Then
+        expect(contains('J\'envoie mes résultats')).to.exist;
         expect(contains('Message de votre organisation')).to.not.exist;
       });
     });
