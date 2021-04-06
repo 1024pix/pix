@@ -31,6 +31,7 @@ async function computeValidatedSkillsCount(concurrency) {
 async function _updateCampaignParticipations(campaign) {
   const validatedSkillsByParticipationId = await _validatedSkillsCountByUser(campaign);
 
+  // eslint-disable-next-line knex/avoid-injections
   await knex.raw(`UPDATE "campaign-participations"
   SET "validatedSkillsCount" = "participationSkillCounts"."validatedSkillsCount"
   FROM (VALUES ${_toSQLValues(validatedSkillsByParticipationId)}) AS "participationSkillCounts"(id, "validatedSkillsCount")

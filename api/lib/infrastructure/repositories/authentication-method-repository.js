@@ -23,6 +23,7 @@ function _toDomainEntity(bookshelfAuthenticationMethod) {
     updatedAt: attributes.updatedAt,
   });
 }
+
 function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationComplement) {
   if (identityProvider === AuthenticationMethod.identityProviders.PIX) {
     return new AuthenticationMethod.PixAuthenticationComplement(bookshelfAuthenticationComplement);
@@ -34,6 +35,7 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
 
   return undefined;
 }
+
 module.exports = {
 
   async create({
@@ -59,7 +61,8 @@ module.exports = {
       })
       .save(
         {
-          authenticationComplement: Bookshelf.knex.raw(`jsonb_set("authenticationComplement", '{password}', '"${hashedPassword}"')`),
+          // eslint-disable-next-line quotes
+          authenticationComplement: Bookshelf.knex.raw(`jsonb_set("authenticationComplement", '{password}', ?)`, `"${hashedPassword}"`),
         },
         { patch: true, method: 'update' },
       )
@@ -215,7 +218,7 @@ module.exports = {
       })
       .save(
         {
-          authenticationComplement: Bookshelf.knex.raw(`jsonb_set("authenticationComplement", '{shouldChangePassword}', '${shouldChangePassword}')`),
+          authenticationComplement: Bookshelf.knex.raw('jsonb_set("authenticationComplement", \'{shouldChangePassword}\', ?)', shouldChangePassword),
         },
         { patch: true, method: 'update' },
       )
