@@ -11,6 +11,7 @@ const implementationType = {
 
 const answerId = implementationType.positiveInteger32bits;
 const assessmentId = implementationType.positiveInteger32bits;
+const badgeId = implementationType.positiveInteger32bits;
 const campaignId = implementationType.positiveInteger32bits;
 const campaignParticipationId = implementationType.positiveInteger32bits;
 const certificationCandidateId = implementationType.positiveInteger32bits;
@@ -35,6 +36,7 @@ const userOrgaSettingsId = implementationType.positiveInteger32bits;
 module.exports = {
   answerId,
   assessmentId,
+  badgeId,
   campaignId,
   campaignParticipationId,
   certificationCandidateId,
