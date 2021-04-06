@@ -10,22 +10,6 @@
   }
 }
 
-.april-fool {
-  animation: fool infinite linear 20s;
-  z-index: 500;
-}
-
-@keyframes fool {
-
-  from {
-    filter: hue-rotate(0deg);
-  }
-
-  to {
-    filter: hue-rotate(360deg);
-  }
-}
-
 @mixin hexagon-score-title {
   color: $grey-100;
   font-family: $font-roboto;
