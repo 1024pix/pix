@@ -84,7 +84,7 @@
     "eslint-plugin-mocha": "^8.1.0",
     "faker": "^5.5.2",
     "loader.js": "^4.7.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "p-queue": "^6.3.0",
     "pix-ui": "git://github.com/1024pix/pix-ui.git#v2.0.3",
     "qunit-dom": "^1.6.0",
