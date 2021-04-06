@@ -34,6 +34,19 @@ describe('Unit | Utility | proposals as blocks', function() {
       ],
     },
     {
+      data: '${annee#19XX§Année de construction}',
+      expected: [
+        { input: 'annee', text: null, placeholder: '19XX', ariaLabel: 'Année de construction', type: 'input' },
+      ],
+    },
+    {
+      data: 'Et ta réponse est : ${annee#19XX§Année de construction}',
+      expected: [
+        { text: 'Et ta réponse est : ', input: null, placeholder: null, ariaLabel: null, type: 'text' },
+        { input: 'annee', text: null, placeholder: '19XX', ariaLabel: 'Année de construction', type: 'input' },
+      ],
+    },
+    {
       data: 'Test: ${test#1 ou 2}',
       expected: [
         { text: 'Test: ', input: 'test', placeholder: '1 ou 2', ariaLabel: null, type: 'input' },
@@ -78,7 +91,7 @@ describe('Unit | Utility | proposals as blocks', function() {
     {
       data: '- line ${plop}',
       expected: [
-        { text: '- line ', input: 'plop', placeholder: null, ariaLabel: null , type: 'input'},
+        { text: '- line ', input: 'plop', placeholder: null, ariaLabel: null, type: 'input' },
       ],
     },
   ];
