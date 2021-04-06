@@ -82,7 +82,7 @@
     "eslint": "^7.23.0",
     "eslint-plugin-ember": "^10.0.2",
     "eslint-plugin-mocha": "^8.1.0",
-    "faker": "^5.1.0",
+    "faker": "^5.5.2",
     "loader.js": "^4.7.0",
     "lodash": "^4.17.15",
     "p-queue": "^6.3.0",
