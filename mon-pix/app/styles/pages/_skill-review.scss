@@ -67,12 +67,13 @@
   }
 
   &__begin-improvement {
-    border-top: 1px dashed $grey-22;
+    border-bottom: 1px dashed $grey-22;
     padding: 30px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 30px;
   }
 
   &__explain-text {
@@ -197,6 +198,22 @@
 
     p {
       margin: 0;
+    }
+  }
+
+  &__link {
+    background-color: $blue;
+    border-radius: 4px;
+    color: $white;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.875rem;
+    margin-top: 4px;
+    cursor: pointer;
+
+    svg {
+      margin-left: 8px;
     }
   }
 }

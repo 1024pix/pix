@@ -191,14 +191,14 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
   });
 
-  describe('#organizationMessageText', function() {
+  describe('#organizationMessage', function() {
 
     it('should return the text of the message organization', function() {
       // given
       component.args.model.campaignParticipation.campaign.customResultPageText = 'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.';
 
       // when
-      const result = component.organizationMessageText;
+      const result = component.organizationMessage;
 
       // then
       expect(result).to.equal('Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.');
@@ -230,6 +230,123 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
 
       // then
       expect(name).to.equal('Amazing Orga');
+    });
+  });
+
+  describe('#showOrganizationButton', function() {
+
+    it('should return true when the organization has a customResultPageButtonText and a customResultPageButtonUrl', async function() {
+      // given
+      component.args.model.campaignParticipation.campaign.customResultPageButtonText = 'Go to the next step';
+      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'www.my-url.net';
+
+      // when
+      const result = await component.showOrganizationButton;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when the organization has no a customResultPageButtonText ', function() {
+      // given
+      component.args.model.campaignParticipation.campaign.customResultPageButtonText = null;
+      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'www.my-url.net';
+
+      // when
+      const result = component.showOrganizationButton;
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return false when the organization has noa customResultPageButtonUrl', function() {
+      // given
+      component.args.model.campaignParticipation.campaign.customResultPageButtonText = 'Next step';
+      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = null;
+
+      // when
+      const result = component.showOrganizationButton;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('#customButtonUrl', function() {
+
+    it('should return the url of the custom button', function() {
+      // given
+      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'www.my-url.net';
+
+      // when
+      const url = component.customButtonUrl;
+
+      // then
+      expect(url).to.equal('www.my-url.net');
+    });
+  });
+
+  describe('#customButtonText', function() {
+
+    it('should return the text of the custom button', function() {
+      // given
+      component.args.model.campaignParticipation.campaign.customResultPageButtonText = 'Next step';
+
+      // when
+      const url = component.customButtonText;
+
+      // then
+      expect(url).to.equal('Next step');
+    });
+  });
+
+  describe('#isShared', function() {
+
+    it('should return the value of isShared', function() {
+      // given
+      component.args.model.campaignParticipation.isShared = true;
+
+      // when
+      const result = component.isShared;
+
+      // then
+      expect(result).to.be.true;
+    });
+  });
+
+  describe('#displayPixLink', function() {
+
+    it('should return false when there are customResultPageButtonText and customResultPageButtonUrl', function() {
+      // given
+      component.args.model.campaignParticipation.campaign.customResultPageButtonText = 'Next step';
+      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'www.my-url.net';
+      // when
+      const result = component.displayPixLink;
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return true when customResultPageButtonText or customResultPageButtonUrl is empty', function() {
+      // given
+      component.args.model.campaignParticipation.campaign.customResultPageButtonText = null;
+      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'www.my-url.net';
+      // when
+      const result = component.displayPixLink;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return true when customResultPageButtonText and customResultPageButtonUrl are empty', function() {
+      // given
+      component.args.model.campaignParticipation.campaign.customResultPageButtonText = null;
+      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = null;
+      // when
+      const result = component.displayPixLink;
+
+      // then
+      expect(result).to.be.true;
     });
   });
 });
