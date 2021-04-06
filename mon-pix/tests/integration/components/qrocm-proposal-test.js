@@ -92,10 +92,6 @@ describe('Integration | Component | QROCm proposal', function() {
     [
       { proposals: '${input}', expectedAriaLabel: ['Réponse 1'] },
       { proposals: '${rep1}, ${rep2} ${rep3}', expectedAriaLabel: ['Réponse 1', 'Réponse 2', 'Réponse 3'] },
-      { proposals: 'Réponses :↵${rep1}\n${rep2}', expectedAriaLabel: ['Réponse 1', 'Réponse 2'] },
-      { proposals: 'Vidéo : ${video#.ex1} ${video2#.ex2}\nImage : ${image} ${image2}', expectedAriaLabel: ['Réponse 1', 'Réponse 2', 'Réponse 3', 'Réponse 4'] },
-      { proposals: 'Le protocole ${https} assure que la communication entre l\'ordinateur d\'Adèle et le serveur de la banque est ${sécurisée}.', expectedAriaLabel: ['Réponse 1', 'Réponse 2'] },
-      { proposals: '- ${NumA} Il classe les pages trouvées pour les présenter\n- ${NumB} Il sélectionne  les pages correspondant aux mots', expectedAriaLabel: ['Réponse 1', 'Réponse 2'] },
     ].forEach((data) => {
       describe(`Component aria-label accessibility when proposal is ${data.proposals}`, function() {
 
@@ -118,7 +114,7 @@ describe('Integration | Component | QROCm proposal', function() {
           // then
           expect(allInputElements.length).to.be.equal(data.expectedAriaLabel.length);
           allInputElements.forEach((element, index) => {
-            expect(element.getAttribute('aria-label')).to.equal(data.expectedAriaLabel[index]);
+            expect(element.getAttribute('aria-label')).to.contains(data.expectedAriaLabel[index]);
           });
         });
 
