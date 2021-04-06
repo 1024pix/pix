@@ -2,7 +2,6 @@ const { expect, sinon, hFake } = require('../../test-helper');
 
 const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
 const tokenService = require('../../../lib/domain/services/token-service');
-const checkUserIsAuthenticatedUseCase = require('../../../lib/application/usecases/checkUserIsAuthenticated');
 const checkUserHasRolePixMasterUseCase = require('../../../lib/application/usecases/checkUserHasRolePixMaster');
 const checkUserIsAdminInOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents');
@@ -12,93 +11,6 @@ const checkUserBelongsToOrganizationUseCase = require('../../../lib/application/
 const config = require('../../../lib/config');
 
 describe('Unit | Application | SecurityPreHandlers', () => {
-
-  describe('#checkUserIsAuthenticated', () => {
-
-    beforeEach(() => {
-      sinon.stub(tokenService, 'extractTokenFromAuthChain');
-      sinon.stub(checkUserIsAuthenticatedUseCase, 'execute');
-    });
-
-    context('Successful case', () => {
-
-      const accessToken = 'valid.access.token';
-      const authorizationHeader = `Bearer ${accessToken}`;
-      const request = { headers: { authorization: authorizationHeader }, auth: {} };
-
-      beforeEach(() => {
-        tokenService.extractTokenFromAuthChain.returns('valid.access.token');
-        checkUserIsAuthenticatedUseCase.execute.resolves({ user_id: 1234 });
-      });
-
-      it('should allow access to resource - with "credentials" property filled with access_token - when the request contains the authorization header with a valid JWT access token', async () => {
-        // given
-
-        // when
-        const response = await securityPreHandlers.checkUserIsAuthenticated(request, hFake);
-
-        // then
-        expect(response.authenticated).to.deep.equal({ credentials: { accessToken, userId: 1234 } });
-      });
-
-    });
-
-    context('Error cases', () => {
-      let request;
-
-      beforeEach(() => {
-        request = { headers: {}, auth: {} };
-      });
-
-      it('should disallow access to resource when access token is missing', async () => {
-        // given
-        tokenService.extractTokenFromAuthChain.returns(null);
-
-        // when
-        const response = await securityPreHandlers.checkUserIsAuthenticated(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-        expect(response.isTakeOver).to.be.true;
-      });
-
-      it('should disallow access to resource when access token is wrong', async () => {
-        // given
-        request.headers.authorization = 'Bearer wrong.access.token';
-        checkUserIsAuthenticatedUseCase.execute.resolves(false);
-
-        // when
-        const response = await securityPreHandlers.checkUserIsAuthenticated(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-        expect(response.isTakeOver).to.be.true;
-      });
-
-      it('should disallow access to resource when use case throws an error', async () => {
-        // given
-        request.headers.authorization = 'Bearer valid.access.token';
-        checkUserIsAuthenticatedUseCase.execute.rejects(new Error('Some error'));
-
-        // when
-        const response = await securityPreHandlers.checkUserIsAuthenticated(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-        expect(response.isTakeOver).to.be.true;
-      });
-
-      it('should return an error object if auth mode is optional and there is no authorization header', async () => {
-        // given
-        request.auth.mode = 'optional';
-        request.headers.authorization = undefined;
-
-        const error = await securityPreHandlers.checkUserIsAuthenticated(request, hFake);
-
-        expect(error.output.statusCode).to.equal(401);
-      });
-    });
-  });
 
   describe('#checkUserHasRolePixMaster', () => {
     let hasRolePixMasterStub;

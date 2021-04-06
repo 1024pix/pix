@@ -19,32 +19,6 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
     server = await createServer();
   });
 
-  describe('#checkUserIsAuthenticated', () => {
-
-    it('should disallow access resource with well formed JSON API error', async () => {
-      // given
-      const options = {
-        method: 'POST',
-        url: '/api/organizations',
-        payload: {},
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      const jsonApiError = {
-        errors: [{
-          code: 401,
-          title: 'Unauthorized access',
-          detail: 'Missing or invalid access token in request authorization headers.',
-        }],
-      };
-      expect(response.statusCode).to.equal(401);
-      expect(response.result).to.deep.equal(jsonApiError);
-    });
-  });
-
   describe('#checkUserHasRolePixMaster', () => {
 
     it('should return a well formed JSON API error when user is not authorized', async () => {

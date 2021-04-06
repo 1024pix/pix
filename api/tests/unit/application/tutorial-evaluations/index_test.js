@@ -1,6 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('@hapi/hapi');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const tutorialEvaluationsController = require('../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller');
 
 let server;
@@ -15,10 +14,6 @@ describe('Unit | Router | tutorial-evaluations-router', () => {
   describe('PUT /api/users/tutorials/{tutorialId}/evaluate', () => {
 
     beforeEach(() => {
-      sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').
-        callsFake((request, h) => {
-          h.continue({ credentials: { accessToken: 'jwt.access.token' } });
-        });
       sinon.stub(tutorialEvaluationsController, 'evaluate').
         callsFake((request, h) => h.response().code(204));
       startServer();

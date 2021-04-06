@@ -1,5 +1,4 @@
 import Service, { inject as service } from '@ember/service';
-import get from 'lodash/get';
 
 export default class CurrentUserService extends Service {
   @service session;
@@ -17,9 +16,8 @@ export default class CurrentUserService extends Service {
         this._user = await this.store.queryRecord('user', { me: true });
       }
       catch (error) {
-        if (get(error, 'errors[0].code') === 401) {
-          return this.session.invalidate();
-        }
+        this._user = null;
+        return this.session.invalidate();
       }
     }
   }

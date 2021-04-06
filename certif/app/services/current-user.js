@@ -1,6 +1,5 @@
 import Service, { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import get from 'lodash/get';
 
 export default class CurrentUserService extends Service {
   @service session;
@@ -20,9 +19,8 @@ export default class CurrentUserService extends Service {
       try {
         this.certificationPointOfContact = await this.store.findRecord('certification-point-of-contact', this.session.data.authenticated.user_id, { include: 'certificationCenters' });
       } catch (error) {
-        if (get(error, 'errors[0].code') === 401) {
-          return this.session.invalidate();
-        }
+        this.certificationPointOfContact = null;
+        return this.session.invalidate();
       }
     }
   }

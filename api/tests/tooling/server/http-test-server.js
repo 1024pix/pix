@@ -37,8 +37,8 @@ class HttpTestServer {
     });
 
     if (enableAuthentication) {
-      this.hapiServer.auth.scheme('jwt-access-token', security.scheme);
-      this.hapiServer.auth.strategy('default', 'jwt-access-token');
+      this.hapiServer.auth.scheme('jwt-scheme', security.scheme);
+      this.hapiServer.auth.strategy('default', 'jwt-scheme');
       this.hapiServer.auth.default('default');
     }
     this.hapiServer.register(Inert);
