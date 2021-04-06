@@ -317,4 +317,25 @@ describe('Integration | Repository | Badge', () => {
       expect(badges.length).to.equal(0);
     });
   });
+
+  describe('#get', () => {
+    let badge;
+
+    beforeEach(async () => {
+      badge = databaseBuilder.factory.buildBadge({
+        id: 1,
+        altMessage: 'You won the Toto badge!',
+        imageUrl: 'data:,',
+        message: 'Congrats, you won the Toto badge!',
+        key: 'TOTO2',
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should return a badge', async () => {
+      const myBadge = await badgeRepository.get(badge.id);
+
+      expect(myBadge.id).to.equal(1);
+    });
+  });
 });
