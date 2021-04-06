@@ -91,7 +91,7 @@
     "pix-ui": "git://github.com/1024pix/pix-ui.git#v3.3.0",
     "query-string": "^7.0.0",
     "qunit-dom": "^1.6.0",
-    "sass": "^1.27.0"
+    "sass": "^1.32.8"
   },
   "dependencies": {}
 }
