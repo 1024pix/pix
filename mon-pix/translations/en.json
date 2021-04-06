@@ -892,7 +892,7 @@
                 "try-again": "Try again"
             },
             "already-shared": "Thank you, your results have been submitted!",
-            "archived": "This personalised test has been archived by the organiser.'<br>' It is no longer to possible to submit results, but they have been taken into account for your personalised test.",
+            "archived": "This personalised test has been archived by the organiser.'<br>' It is no longer possible to submit results.",
             "badges-title": "Your thematic results",
             "details": {
                 "header-skill": "Skills tested",
