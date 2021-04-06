@@ -30,7 +30,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       expect(findAll('.challenge-response__proposal')[0].disabled).to.be.false;
       expect(findAll('.challenge-response__proposal')[1].disabled).to.be.false;
       expect(find('div[data-test="qrocm-label-0"]').innerHTML).to.contains('Station <strong>1</strong> :');
-      expect(find('div[data-test="qrocm-label-2"]').innerHTML).to.contains('Station <em>2</em> :');
+      expect(find('div[data-test="qrocm-label-1"]').innerHTML).to.contains('Station <em>2</em> :');
 
       expect(find('.alert')).to.not.exist;
     });
@@ -88,7 +88,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
     it('should set the input text with previous answers and propose to continue', async () => {
       // then
       expect(find('div[data-test="qrocm-label-0"]').innerHTML).to.contains('Station <strong>1</strong> :');
-      expect(find('div[data-test="qrocm-label-2"]').innerHTML).to.contains('Station <em>2</em> :');
+      expect(find('div[data-test="qrocm-label-1"]').innerHTML).to.contains('Station <em>2</em> :');
       expect(findAll('.challenge-response__proposal')[0].value).to.equal('Republique');
       expect(findAll('.challenge-response__proposal')[1].value).to.equal('Chatelet');
 

@@ -30,27 +30,26 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
 
       const expectedBlocksData = [{
         input: 'smiley1',
-        text: 'content :',
+        text: 'content : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--correct',
         answer: ':)',
         solution: ':-)',
         emptyOrWrongAnswer: false,
-        placeholder: undefined,
-      }, {
-        breakline: true,
-        showText: undefined,
+        placeholder: null,
+        type: 'input',
       }, {
         input: 'smiley2',
-        text: 'triste :',
+        text: '<br/>\n\ntriste : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--correct',
         answer: ':(',
         solution: ':-(',
         emptyOrWrongAnswer: false,
-        placeholder: undefined,
+        placeholder: null,
+        type: 'input',
       }];
 
       //When
@@ -71,27 +70,26 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
       solution = 'num1: \n - 2\n\nnum2:\n - 1';
       const result = [{
         input: 'num1',
-        text: 'Clé USB :',
+        text: 'Clé USB : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
         answer: '1',
         solution: '2',
         emptyOrWrongAnswer: true,
-        placeholder: undefined,
-      }, {
-        breakline: true,
-        showText: undefined,
+        placeholder: null,
+        type: 'input',
       }, {
         input: 'num2',
-        text: 'Carte mémoire (SD) :',
+        text: '<br/>\n\nCarte mémoire (SD) : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
-        placeholder: undefined,
+        placeholder: null,
+        type: 'input',
       }];
 
       //When
@@ -113,27 +111,26 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
 
       const result = [{
         input: 'num1',
-        text: 'Clé USB :',
+        text: 'Clé USB : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--aband',
         answer: 'Pas de réponse',
         solution: '2',
         emptyOrWrongAnswer: true,
-        placeholder: undefined,
-      }, {
-        breakline: true,
-        showText: undefined,
+        placeholder: null,
+        type: 'input',
       }, {
         input: 'num2',
-        text: 'Carte mémoire (SD) :',
+        text: '<br/>\n\nCarte mémoire (SD) : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
-        placeholder: undefined,
+        placeholder: null,
+        type: 'input',
       }];
 
       //When
@@ -158,27 +155,26 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
 
       const result = [{
         input: 'num1',
-        text: '- alain@pix.fr :',
+        text: '- alain@pix.fr : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
         answer: '1',
         solution: '2',
         emptyOrWrongAnswer: true,
-        placeholder: undefined,
-      }, {
-        breakline: true,
-        showText: undefined,
+        placeholder: null,
+        type: 'input',
       }, {
         input: 'num2',
-        text: '- leonie@pix.fr :',
+        text: '<br/>\n\n- leonie@pix.fr : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
         answer: '2',
         solution: '3',
         emptyOrWrongAnswer: true,
-        placeholder: undefined,
+        placeholder: null,
+        type: 'input',
       }];
 
       //When
@@ -200,27 +196,26 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
 
       const result = [{
         input: 'Num1',
-        text: '- Combien le dossier "projet PIX" contient-il de dossiers ?',
+        text: '- Combien le dossier "projet PIX" contient-il de dossiers ? ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
-        placeholder: undefined,
-      }, {
-        breakline: true,
-        showText: undefined,
+        placeholder: null,
+        type: 'input',
       }, {
         input: 'Num2',
-        text: '- Combien le dossier "images" contient-il de fichiers ?',
+        text: '<br/>\n\n- Combien le dossier "images" contient-il de fichiers ? ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
         answer: '3',
         solution: '6',
         emptyOrWrongAnswer: true,
-        placeholder: undefined,
+        placeholder: null,
+        type: 'input',
       }];
 
       //When
@@ -242,27 +237,26 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
 
       const result = [{
         input: 'num1',
-        text: 'Clé USB :',
+        text: 'Clé USB : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--aband',
         answer: 'Pas de réponse',
         solution: '2',
         emptyOrWrongAnswer: true,
-        placeholder: undefined,
-      }, {
-        breakline: true,
-        showText: undefined,
+        placeholder: null,
+        type: 'input',
       }, {
         input: 'num2',
-        text: 'Carte mémoire (SD) :',
+        text: '<br/>\n\nCarte mémoire (SD) : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--aband',
         answer: 'Pas de réponse',
         solution: '1',
         emptyOrWrongAnswer: true,
-        placeholder: undefined,
+        placeholder: null,
+        type: 'input',
       }];
 
       //When
@@ -288,14 +282,15 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
 
       const result = [{
         input: 'num1',
-        text: 'Clé USB :',
+        text: 'Clé USB : ',
         ariaLabel: null,
+        type: 'input',
         showText: false,
         inputClass: 'correction-qroc-box-answer--correct',
         answer: '2',
         solution: '2',
         emptyOrWrongAnswer: false,
-        placeholder: undefined,
+        placeholder: null,
       }];
 
       //When

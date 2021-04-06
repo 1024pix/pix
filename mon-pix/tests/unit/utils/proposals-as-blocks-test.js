@@ -12,70 +12,73 @@ describe('Unit | Utility | proposals as blocks', function() {
     {
       data: 'Text',
       expected: [
-        { text: 'Text', input: undefined, placeholder: undefined, ariaLabel: null },
+        { text: 'Text', input: null, placeholder: null, ariaLabel: null, type: 'text' },
+      ],
+    },
+    {
+      data: '\nTexte avec des \n retours à la ligne \n',
+      expected: [
+        { text: '<br/>\nTexte avec des \n retours à la ligne \n<br/>', input: null, placeholder: null, ariaLabel: null, type: 'text' },
       ],
     },
     {
       data: '${qroc}',
       expected: [
-        { input: 'qroc', text: undefined, placeholder: undefined, ariaLabel: 'Réponse 1' },
+        { input: 'qroc', text: null, placeholder: null, ariaLabel: 'Réponse 1', type: 'input' },
       ],
     },
     {
-      data: 'Test: ${test}',
+      data: '${annee#19XX}',
       expected: [
-        { text: 'Test:', input: 'test', placeholder: undefined, ariaLabel: null },
+        { input: 'annee', text: null, placeholder: '19XX', ariaLabel: 'Réponse 1', type: 'input' },
+      ],
+    },
+    {
+      data: 'Test: ${test#1 ou 2}',
+      expected: [
+        { text: 'Test: ', input: 'test', placeholder: '1 ou 2', ariaLabel: null, type: 'input' },
       ],
     },
     {
       data: 'Test: ${test} (kilometres)',
       expected: [
-        { text: 'Test:', input: 'test', placeholder: undefined, ariaLabel: null },
-        { text: '(kilometres)', input: undefined, placeholder: undefined, ariaLabel: null },
+        { text: 'Test: ', input: 'test', placeholder: null, ariaLabel: null, type: 'input' },
+        { text: ' (kilometres)', input: null, placeholder: null, ariaLabel: null, type: 'text' },
       ],
     },
     {
       data: '${plop}, ${plop} ${plop}',
       expected: [
-        { input: 'plop', text: undefined, placeholder: undefined, ariaLabel: 'Réponse 1' },
-        { input: undefined, text: ',', placeholder: undefined, ariaLabel: null },
-        { input: 'plop', text: undefined, placeholder: undefined, ariaLabel: 'Réponse 2' },
-        { input: 'plop', text: undefined, placeholder: undefined, ariaLabel: 'Réponse 3' },
-      ],
-    },
-    {
-      data: '${plop#var}',
-      expected: [
-        { input: 'plop', placeholder: 'var', text: undefined, ariaLabel: 'Réponse 1' },
+        { input: 'plop', text: null, placeholder: null, ariaLabel: 'Réponse 1', type: 'input' },
+        { input: null, text: ', ', placeholder: null, ariaLabel: null, type: 'text' },
+        { input: 'plop', text: null, placeholder: null, ariaLabel: 'Réponse 2', type: 'input' },
+        { input: null, text: ' ', placeholder: null, ariaLabel: null, type: 'text' },
+        { input: 'plop', text: null, placeholder: null, ariaLabel: 'Réponse 3', type: 'input' },
       ],
     },
     {
       data: 'line1\nline2',
       expected: [
-        { text: 'line1', input: undefined, placeholder: undefined, ariaLabel: null },
-        { breakline: true },
-        { text: 'line2', input: undefined, placeholder: undefined, ariaLabel: null },
+        { text: 'line1\nline2', input: null, placeholder: null, ariaLabel: null, type: 'text' },
       ],
     },
     {
       data: 'line1\r\nline2',
       expected: [
-        { text: 'line1', input: undefined, placeholder: undefined, ariaLabel: null },
-        { breakline: true },
-        { text: 'line2', input: undefined, placeholder: undefined, ariaLabel: null },
+        { text: 'line1\r\nline2', input: null, placeholder: null, ariaLabel: null, type: 'text' },
       ],
     },
     {
       data: '- ${plop}',
       expected: [
-        { text: '-', input: undefined, placeholder: undefined, ariaLabel: null },
-        { text: undefined, input: 'plop', placeholder: undefined, ariaLabel: 'Réponse 1' },
+        { text: '- ', input: null, placeholder: null, ariaLabel: null, type: 'text' },
+        { text: null, input: 'plop', placeholder: null, ariaLabel: 'Réponse 1', type: 'input' },
       ],
     },
     {
       data: '- line ${plop}',
       expected: [
-        { text: '- line', input: 'plop', placeholder: undefined, ariaLabel: null },
+        { text: '- line ', input: 'plop', placeholder: null, ariaLabel: null , type: 'input'},
       ],
     },
   ];
