@@ -1,13 +1,14 @@
 const { expect } = require('../../../test-helper');
 const CertificationResultInformation = require('../../../../lib/domain/read-models/CertificationResultInformation');
 const GeneralCertificationInformation = require('../../../../lib/domain/read-models/GeneralCertificationInformation');
-const AssessmentResult = require('../../../../lib/domain/read-models/AssessmentResult');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const cleaCertificationStatusRepository = require('../../../../lib/infrastructure/repositories/clea-certification-status-repository');
 
 describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
 
   describe('#from', () => {
-    it('should return true if the campaign is of type ASSESSMENT', () => {
+
+    it('should return an instance of CertificationResultInformation', () => {
       // given
       const generalCertificationInformation = new GeneralCertificationInformation({
         certificationCourseId: 123,
@@ -23,14 +24,17 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
         certificationIssueReports: [],
       });
       const assessmentResult = new AssessmentResult({
+        id: 11,
         assessmentId: 124,
         status: 'validated',
         commentForCandidate: null,
         commentForOrganization: null,
         commentForJury: null,
+        createdAt: new Date('2020-01-01T10:00:00Z'),
+        emitter: 'PIX_ALGO',
         juryId: 1,
         pixScore: 555,
-        competencesWithMark: [],
+        competenceMarks: [],
       });
       const cleaCertificationStatus = cleaCertificationStatusRepository.statuses.NOT_PASSED;
 
@@ -44,7 +48,14 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
       // then
       const expectedCertificationResultInformation = {
         ...generalCertificationInformation,
-        ...assessmentResult,
+        status: assessmentResult.status,
+        assessmentId: assessmentResult.assessmentId,
+        commentForCandidate: assessmentResult.commentForCandidate,
+        commentForOrganization: assessmentResult.commentForOrganization,
+        commentForJury: assessmentResult.commentForJury,
+        juryId: assessmentResult.juryId,
+        pixScore: assessmentResult.pixScore,
+        competencesWithMark: assessmentResult.competenceMarks,
         cleaCertificationStatus,
       };
       expect(certificationResultInformation).to.be.instanceOf(CertificationResultInformation);

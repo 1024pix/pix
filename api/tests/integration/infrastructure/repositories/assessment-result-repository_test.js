@@ -1,7 +1,6 @@
 const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const AssessmentResultReadModel = require('../../../../lib/domain/read-models/AssessmentResult');
 const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -159,16 +158,17 @@ describe('Integration | Repository | AssessmentResult', function() {
     });
   });
 
-  describe('#getAssessmentResultReadModel', () => {
+  describe('#get', () => {
 
     describe('when the given certification course id is correct', () => {
 
-      it('should return assessment results', async () => {
+      it('should return assessment result', async () => {
         // given
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
         const juryId = databaseBuilder.factory.buildUser().id;
         const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
         const assessmentResultDTO = {
+          id: 123,
           pixScore: 500,
           status: AssessmentResult.status.VALIDATED,
           emitter: 'PIX_ALGO',
@@ -188,10 +188,11 @@ describe('Integration | Repository | AssessmentResult', function() {
         await databaseBuilder.commit();
 
         // when
-        const result = await assessmentResultRepository.getAssessmentResultReadModel({ certificationCourseId });
+        const result = await assessmentResultRepository.get({ certificationCourseId });
 
         // then
         const expectedAssessmentResult = {
+          id: assessmentResultDTO.id,
           assessmentId,
           status: assessmentResultDTO.status,
           commentForCandidate: assessmentResultDTO.commentForCandidate,
@@ -199,7 +200,9 @@ describe('Integration | Repository | AssessmentResult', function() {
           commentForJury: assessmentResultDTO.commentForJury,
           juryId: assessmentResultDTO.juryId,
           pixScore: assessmentResultDTO.pixScore,
-          competencesWithMark: [{
+          createdAt: assessmentResultDTO.createdAt,
+          emitter: assessmentResultDTO.emitter,
+          competenceMarks: [{
             id: competenceMark1.id,
             area_code: competenceMark1.area_code,
             competence_code: competenceMark1.competence_code,
@@ -217,8 +220,8 @@ describe('Integration | Repository | AssessmentResult', function() {
             assessmentResultId: competenceMark2.assessmentResultId,
           }],
         };
-        expect(result).to.be.instanceOf(AssessmentResultReadModel);
-        expect(result.competencesWithMark[0]).to.be.instanceOf(CompetenceMark);
+        expect(result).to.be.instanceOf(AssessmentResult);
+        expect(result.competenceMarks[0]).to.be.instanceOf(CompetenceMark);
         expect(result).to.deep.equal(expectedAssessmentResult);
       });
 
@@ -244,7 +247,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         await databaseBuilder.commit();
 
         // when
-        const result = await assessmentResultRepository.getAssessmentResultReadModel({ certificationCourseId });
+        const result = await assessmentResultRepository.get({ certificationCourseId });
 
         // then
         expect(result.pixScore).to.equal(600);
@@ -261,10 +264,10 @@ describe('Integration | Repository | AssessmentResult', function() {
           await databaseBuilder.commit();
 
           // when
-          const result = await assessmentResultRepository.getAssessmentResultReadModel({ certificationCourseId });
+          const result = await assessmentResultRepository.get({ certificationCourseId });
 
           // then
-          expect(result).to.be.instanceOf(AssessmentResultReadModel);
+          expect(result).to.be.instanceOf(AssessmentResult);
           expect(result.status).to.be.equal(Assessment.states.STARTED);
           expect(result.assessmentId).to.be.null;
         });
@@ -279,10 +282,10 @@ describe('Integration | Repository | AssessmentResult', function() {
           await databaseBuilder.commit();
 
           // when
-          const result = await assessmentResultRepository.getAssessmentResultReadModel({ certificationCourseId });
+          const result = await assessmentResultRepository.get({ certificationCourseId });
 
           // then
-          expect(result).to.be.instanceOf(AssessmentResultReadModel);
+          expect(result).to.be.instanceOf(AssessmentResult);
           expect(result.status).to.be.equal(Assessment.states.STARTED);
           expect(result.assessmentId).to.be.equal(assessmentId);
         });

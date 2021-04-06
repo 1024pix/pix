@@ -9,12 +9,13 @@ module.exports = {
   async get({ certificationCourseId }) {
     const certificationCourseDTO = await knex('certification-courses')
       .where({ id: certificationCourseId })
+      .orderBy('createdAt')
       .first();
 
-    const certificationIssueReportsDTO = await knex('certification-issue-reports')
-      .where({ certificationCourseId });
-
     if (certificationCourseDTO) {
+      const certificationIssueReportsDTO = await knex('certification-issue-reports')
+        .where({ certificationCourseId });
+
       return _toDomain({ certificationCourseDTO, certificationIssueReportsDTO });
     }
     throw new NotFoundError(`Certification course of id ${certificationCourseId} does not exist.`);

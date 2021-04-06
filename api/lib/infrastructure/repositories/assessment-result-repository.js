@@ -4,23 +4,26 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const { knex } = require('../bookshelf');
 const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../domain/errors');
 const DomainTransaction = require('../DomainTransaction');
-const AssessmentResult = require('../../domain/read-models/AssessmentResult');
+const AssessmentResult = require('../../domain/models/AssessmentResult');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 
-function _toReadModelDomain({ assessmentResultDTO, competencesMarksDTO }) {
+function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   const competenceMarks = competencesMarksDTO.map(
     (competenceMark) => new CompetenceMark(competenceMark),
   );
 
   return new AssessmentResult({
+    id: assessmentResultDTO.id,
     assessmentId: assessmentResultDTO.assessmentId,
     status: assessmentResultDTO.status,
     commentForCandidate: assessmentResultDTO.commentForCandidate,
     commentForOrganization: assessmentResultDTO.commentForOrganization,
     commentForJury: assessmentResultDTO.commentForJury,
+    createdAt: assessmentResultDTO.createdAt,
+    emitter: assessmentResultDTO.emitter,
     juryId: assessmentResultDTO.juryId,
     pixScore: assessmentResultDTO.pixScore,
-    competencesWithMark: competenceMarks,
+    competenceMarks: competenceMarks,
   });
 }
 
@@ -89,7 +92,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, latestAssessmentResultBookshelf);
   },
 
-  async getAssessmentResultReadModel({ certificationCourseId }) {
+  async get({ certificationCourseId }) {
     const assessment = await knex('assessments')
       .select('id')
       .where({ certificationCourseId })
@@ -110,7 +113,7 @@ module.exports = {
           .select('*')
           .where('assessmentResultId', '=', latestAssessmentResult.id);
 
-        return _toReadModelDomain({
+        return _toDomain({
           assessmentResultDTO: latestAssessmentResult,
           competencesMarksDTO,
         });

@@ -14,9 +14,9 @@ describe('Unit | Usecase | get-certification-result-information', () => {
     generalCertificationInformationRepository.get
       .withArgs({ certificationCourseId }).resolves(generalCertificationInformation);
 
-    const assessmentResultRepository = { getAssessmentResultReadModel: sinon.stub() };
+    const assessmentResultRepository = { get: sinon.stub() };
     const assessmentResult = {};
-    assessmentResultRepository.getAssessmentResultReadModel
+    assessmentResultRepository.get
       .withArgs({ certificationCourseId }).resolves(assessmentResult);
 
     const cleaCertificationStatusRepository = { getCleaCertificationStatus: sinon.stub() };
