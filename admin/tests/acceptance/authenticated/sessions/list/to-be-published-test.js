@@ -28,7 +28,8 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
 
     hooks.beforeEach(async () => {
       // given
-      await createAuthenticateSession({ userId: 1 });
+      const { id: userId } = server.create('user');
+      await createAuthenticateSession({ userId });
     });
 
     test('visiting /sessions/list/to-be-published', async function(assert) {

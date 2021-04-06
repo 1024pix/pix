@@ -73,7 +73,7 @@ export default Route.extend(ApplicationRouteMixin, {
 
   async _handleLocale(localeFromQueryParam = null) {
 
-    const isUserConnected = this.session.isAuthenticated;
+    const isUserLoaded = !!this.currentUser.user;
     const domain = this.currentDomain.getExtension();
     const defaultLocale = 'fr';
 
@@ -82,7 +82,7 @@ export default Route.extend(ApplicationRouteMixin, {
       return;
     }
 
-    if (isUserConnected) {
+    if (isUserLoaded) {
       if (localeFromQueryParam) {
         this.currentUser.user.lang = localeFromQueryParam;
         try {

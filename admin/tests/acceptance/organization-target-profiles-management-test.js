@@ -9,7 +9,8 @@ module('Acceptance | organization target profiles management', function(hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async function() {
-    await createAuthenticateSession({ userId: 1 });
+    const user = server.create('user');
+    await createAuthenticateSession({ userId: user.id });
   });
 
   test('should display organization target profiles', async function(assert) {

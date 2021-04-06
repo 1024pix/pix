@@ -24,7 +24,8 @@ module('Acceptance | authenticated/sessions/list/with required action', function
 
     hooks.beforeEach(async () => {
       // given
-      await createAuthenticateSession({ userId: 1 });
+      const { id: userId } = server.create('user');
+      await createAuthenticateSession({ userId });
     });
 
     test('visiting /sessions/list/with-required-action', async function(assert) {

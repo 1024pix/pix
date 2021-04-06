@@ -23,7 +23,8 @@ module('Acceptance | User List', function(hooks) {
   module('When user is logged in', function(hooks) {
 
     hooks.beforeEach(async () => {
-      await createAuthenticateSession({ userId: 1 });
+      const user = server.create('user');
+      await createAuthenticateSession({ userId: user.id });
     });
 
     test('it should be accessible for an authenticated user', async function(assert) {
@@ -36,13 +37,14 @@ module('Acceptance | User List', function(hooks) {
 
     test('it should list the users', async function(assert) {
       // given
-      server.createList('user', 12);
+      const nbUser = 12;
+      server.createList('user', nbUser);
 
       // when
       await visit('/users/list');
 
       // then
-      assert.dom('.user-list .table-admin tbody tr').exists({ count: 12 });
+      assert.dom('.user-list .table-admin tbody tr').exists({ count: nbUser + 1 });
     });
 
     test('it should display the current filter when users are filtered', async function(assert) {

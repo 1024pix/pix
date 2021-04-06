@@ -20,7 +20,6 @@ Fonctionnalité: Connexion - Déconnexion
     Alors je suis redirigé vers la page "/connexion"
 
   Scénario: Je suis connecté et ma session expire puis je rejoins une nouvelle page
-    Étant donné que je vais sur Pix
     Lorsque je suis connecté avec un compte dont le token expire bientôt
     Alors je suis redirigé vers la page d'accueil de "Daenerys"
     Lorsque j'attends 3000 ms
