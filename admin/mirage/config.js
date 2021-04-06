@@ -11,6 +11,7 @@ import {
 
 import { Response } from 'ember-cli-mirage';
 import { createMembership } from './handlers/memberships';
+import { getBadge } from './handlers/badges';
 import { createStage } from './handlers/stages';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
 import { findPaginatedOrganizationMemberships } from './handlers/organizations';
@@ -93,6 +94,7 @@ export default function() {
   this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
   this.get('/organizations/:id/target-profiles', getOrganizationTargetProfiles);
   this.post('/organizations/:id/target-profiles', attachTargetProfiles);
+  this.get('/admin/badges/:id', getBadge);
   this.post('/admin/target-profiles');
   this.get('/admin/target-profiles');
   this.get('/admin/target-profiles/:id');
