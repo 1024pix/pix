@@ -25,8 +25,8 @@ async function _retrieveUserIds() {
     FROM "users"
     JOIN "certification-courses" ON "certification-courses"."userId" = "users"."id"
     ORDER BY "users"."id" DESC
-    LIMIT ${USER_COUNT};
-  `);
+    LIMIT ?;
+  `, USER_COUNT);
   return _.map(result.rows, 'id');
 }
 

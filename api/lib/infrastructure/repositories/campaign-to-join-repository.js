@@ -41,9 +41,10 @@ module.exports = {
         'targetProfileImageUrl': 'target-profiles.imageUrl',
         'targetProfileIsSimplifiedAccess': 'target-profiles.isSimplifiedAccess',
       })
-      .select(knex.raw('EXISTS(SELECT true FROM "organization-tags" ' +
-        'JOIN tags ON "organization-tags"."tagId" = "tags".id ' +
-        'WHERE "tags"."name" = \'POLE EMPLOI\' AND "organization-tags"."organizationId" = "organizations".id) as "organizationIsPoleEmploi"'))
+      // eslint-disable-next-line no-restricted-syntax
+      .select(knex.raw(`EXISTS(SELECT true FROM "organization-tags"
+        JOIN tags ON "organization-tags"."tagId" = "tags".id
+        WHERE "tags"."name" = 'POLE EMPLOI' AND "organization-tags"."organizationId" = "organizations".id) as "organizationIsPoleEmploi"`))
       .join('organizations', 'organizations.id', 'campaigns.organizationId')
       .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
       .leftJoin('organization-tags', 'organization-tags.organizationId', 'organizations.id')

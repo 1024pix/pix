@@ -41,7 +41,7 @@ function _findByUserId({ userId }) {
         organizationName: 'organizations.name',
         assessmentState: 'assessments.state',
         assessmentCreatedAt: 'assessments.createdAt',
-        participationState: knex.raw(_computeCampaignParticipationState()),
+        participationState: _computeCampaignParticipationState(),
       })
         .from('campaign-participations')
         .innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
@@ -58,13 +58,14 @@ function _findByUserId({ userId }) {
 }
 
 function _computeCampaignParticipationState() {
-  return `
+  // eslint-disable-next-line no-restricted-syntax
+  return knex.raw(`
   CASE
     WHEN campaigns."archivedAt" IS NOT NULL THEN 'ARCHIVED'
-    WHEN assessments.state = '${Assessment.states.STARTED}' THEN 'ONGOING'
+    WHEN assessments.state = ? THEN 'ONGOING'
     WHEN "isShared" IS true THEN 'ENDED'
     ELSE 'TO_SHARE'
-  END`;
+  END`, Assessment.states.STARTED) ;
 }
 
 function _filterMostRecentAssessments(queryBuilder) {

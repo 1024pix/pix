@@ -84,6 +84,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-sorted": "^0.2.0",
     "eslint": "^7.22.0",
+    "eslint-plugin-knex": "^0.1.5",
     "eslint-plugin-mocha": "^8.1.0",
     "mocha": "^8.3.2",
     "mocha-junit-reporter": "^2.0.0",
