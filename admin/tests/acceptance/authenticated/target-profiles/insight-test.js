@@ -1,4 +1,4 @@
-import { click, fillIn, findAll, visit } from '@ember/test-helpers';
+import { click, currentURL, fillIn, findAll, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
@@ -17,8 +17,8 @@ module('Acceptance | authenticated/targets-profile/target-profile/insight', func
     await createAuthenticateSession({ userId: currentUser.id });
 
     targetProfile = this.server.create('target-profile', { name: 'Profil cible du ghetto' });
-    this.server.create('badge', { title: 'My badge' });
-    this.server.create('badge', { title: 'My badge 2' });
+    this.server.create('badge', { id: 100, title: 'My badge' });
+    this.server.create('badge', { id: 101, title: 'My badge 2' });
 
     this.server.create('stage', { title: 'My stage' });
   });
@@ -28,6 +28,14 @@ module('Acceptance | authenticated/targets-profile/target-profile/insight', func
 
     assert.contains('My badge');
     assert.contains('My stage');
+  });
+
+  test('should be able to see the details of a badge', async function(assert) {
+    await visit(`/target-profiles/${targetProfile.id}/insight`);
+
+    await click('.insight__section:nth-child(1) a');
+
+    assert.equal(currentURL(), '/badges/100');
   });
 
   test('should be able to add a new stage', async function(assert) {
