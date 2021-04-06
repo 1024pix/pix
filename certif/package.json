@@ -79,7 +79,7 @@
     "ember-sinon": "^5.0.0",
     "ember-source": "^3.26.1",
     "ember-truth-helpers": "^3.0.0",
-    "eslint": "^7.15.0",
+    "eslint": "^7.23.0",
     "eslint-plugin-ember": "^10.0.2",
     "eslint-plugin-mocha": "^8.0.0",
     "faker": "^5.1.0",
