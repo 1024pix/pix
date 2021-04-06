@@ -52,7 +52,11 @@ server {
     # Files in /assets/ are hash-suffixed, so it's safe to cache them indefinitely
     expires max;
   }
-
+ 
+  location /images/ {
+    expires 24h;
+  }
+ 
   location / {
     # Fall back to index.html for routes that don't match an existing file
     try_files $uri /index.html;
