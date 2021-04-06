@@ -46,9 +46,8 @@ export default class ProfilesRoute extends Route {
   resetController(controller, isExiting) {
     if (isExiting) {
       controller.pageNumber = 1;
-      controller.pageSize = 10;
+      controller.pageSize = 25;
       controller.divisions = [];
     }
   }
 }
-
