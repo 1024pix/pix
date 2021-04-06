@@ -48,7 +48,11 @@
             "test": "Votre test est en cours de chargement"
         },
         "or": "ou",
-        "pix": "pix"
+        "pix": "pix",
+        "skip-links": {
+            "skip-to-content": "Aller au contenu",
+            "skip-to-footer": "Aller au bas de page"
+        }
     },
     "pages": {
         "assessment-banner": {
