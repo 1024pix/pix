@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v3.41.0 (07/04/2021)
+
+- [#2788](https://github.com/1024pix/pix/pull/2788) [FEATURE] Afficher les méthodes de connexion d'un utilisateur sur Pix Admin (PIX-2425).
+- [#2814](https://github.com/1024pix/pix/pull/2814) [FEATURE] Ajout d'une page de détails des résultats thématique dans l'admin (PIX-2446)
+- [#2792](https://github.com/1024pix/pix/pull/2792) [FEATURE] Permettre de dissocier un utilisateur d'une seule inscription scolaire dans Pix Admin (PIX-2356).
+- [#2805](https://github.com/1024pix/pix/pull/2805) [FEATURE] Monter la limite du numéro d'épreuve de 48 à 64 lors de la finalisation de session pour inclure les épreuves Pix+ Droit (PIX-2368)
+- [#2804](https://github.com/1024pix/pix/pull/2804) [FEATURE] Changement de la pagination à 25 par défaut au lieu de 10 dans la liste des participants sur Pix Orga (PIX-2428).
+- [#2808](https://github.com/1024pix/pix/pull/2808) [FEATURE] Changement de wording dans la page de l'envoi des résultats d'une campagne archivée sur Mon-Pix (2429).
+- [#2789](https://github.com/1024pix/pix/pull/2789) [FEATURE] Traduction de phrases oubliées sur Pix Orga (Pix-2426).
+- [#2730](https://github.com/1024pix/pix/pull/2730) [FEATURE] Ajouter les épreuves Pix+ Droit lors du choix des épreuves à l'élaboration d'un test de certif (PIX-2259)
+- [#2784](https://github.com/1024pix/pix/pull/2784) [FEATURE] Changer la puce de couleur par une barre de couleur pour les compétences (PIX-2337)
+- [#2816](https://github.com/1024pix/pix/pull/2816) [BUGFIX] Restoration de l'icône svg icon-reload.svg.
+- [#2769](https://github.com/1024pix/pix/pull/2769) [BUGFIX] Empecher l'embed de dépasser de l'iframe
+- [#2800](https://github.com/1024pix/pix/pull/2800) [TECH] Montée de version des dépendances de Pix Admin (PR-XXX).
+- [#2693](https://github.com/1024pix/pix/pull/2693) [TECH] Refacto de la gestion des token via Hapi (PIX-2408).
+- [#2797](https://github.com/1024pix/pix/pull/2797) [TECH] Parser les date only (comme les date d'anniversaire) en heure locale sans offset.
+- [#2775](https://github.com/1024pix/pix/pull/2775) [TECH] Prévenir les injections SQL dans l'API.
+- [#2809](https://github.com/1024pix/pix/pull/2809) [TECH] Supprimer <°)))><
+- [#2781](https://github.com/1024pix/pix/pull/2781) [TECH] Empêcher le re-scoring lors de la récupération des détails de certification sur Admin (PIX-2419)
+- [#2815](https://github.com/1024pix/pix/pull/2815) [APP] Afficher le message d'une organisation à la fin d'un parcours (PIX-2328)
+- [#2783](https://github.com/1024pix/pix/pull/2783) [APP] Utilisation du composant `PixProgressGauge` dans Pix App et Pix Orga (Pix-2333) 
+- [#2802](https://github.com/1024pix/pix/pull/2802) [INFRA] Uniformise un champs de message d'erreur dans un log
+- [#2790](https://github.com/1024pix/pix/pull/2790) chore(deps): bump y18n from 4.0.0 to 4.0.1 in /mon-pix
+
 ## v3.40.0 (01/04/2021)
 
 - [#2791](https://github.com/1024pix/pix/pull/2791) [FEATURE] Amélioration de l'a11y sur la page de présentation de campagne (PIX-1879).
