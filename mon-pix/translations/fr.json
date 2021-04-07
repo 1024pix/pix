@@ -327,7 +327,7 @@
                                 },
                                 "embed-not-displayed": {
                                     "label": "Le simulateur / l’application ne s’affiche pas",
-                                    "solution": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' à côté de la barre d’adresse. Attendez un peu, le simulateur va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?"
+                                    "solution": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' à côté de la barre d’adresse. Attendez un peu, le simulateur va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?"
                                 },
                                 "embed-other": "Le simulateur / l’application a un autre problème",
                                 "link-unauthorized": {
@@ -340,7 +340,7 @@
                                 "other-difficulty": "J’ai un autre problème",
                                 "picture-not-displayed": {
                                     "label": "L'image ne s'affiche pas",
-                                    "solution": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' à côté de la barre d’adresse. Attendez un peu, l'image va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?"
+                                    "solution": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' à côté de la barre d’adresse. Attendez un peu, l'image va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?"
                                 },
                                 "picture-other":  "L'image a un autre problème",
                                 "question-improvement": "Je souhaite proposer une amélioration de la question",
