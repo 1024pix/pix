@@ -76,12 +76,6 @@
               <span class="attibute__label">Identifiant : </span>
               <span class="attribute__value user__username">{{@user.username}}</span>
             </div>
-            <div class="attribute authenticated-from-gar">
-              <span class="attibute__label">Connecté via le GAR : </span>
-              <span class="attribute__value user__is-authenticated-from-gar">
-                {{if @user.isAuthenticatedFromGAR 'OUI''NON'}}
-              </span>
-            </div>
             <br>
             <div class="attribute cgu">
               <span class="attibute__label">CGU Pix App validé : </span>
@@ -127,6 +121,42 @@
       </div>
     </form>
   {{/if}}
+</section>
+
+<section class="page-section mb_10 user-authentication-method">
+  <h2 class="page-section__title user-authentication-method__title">Méthodes de connexion</h2>
+  <div class="user-authentication-method__item" data-test-email>
+    <span>Adresse e-mail</span>
+    {{#if @user.hasEmailAuthenticationMethod}}
+      <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
+    {{else}}
+      <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+    {{/if}}
+  </div>
+  <div class="user-authentication-method__item" data-test-username>
+    <span>Identifiant</span>
+    {{#if @user.hasUsernameAuthenticationMethod}}
+      <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
+    {{else}}
+      <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+    {{/if}}
+  </div>
+  <div class="user-authentication-method__item" data-test-pole-emploi>
+    <span>Pôle Emploi</span>
+    {{#if @user.hasPoleEmploiAuthenticationMethod}}
+      <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
+    {{else}}
+      <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+    {{/if}}
+  </div>
+  <div class="user-authentication-method__item" data-test-mediacentre>
+    <span>Médiacentre</span>
+    {{#if @user.hasGARAuthenticationMethod}}
+      <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
+    {{else}}
+      <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+    {{/if}}
+  </div>
 </section>
 
 <section class="page-section mb_10">

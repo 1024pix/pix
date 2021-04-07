@@ -8,13 +8,18 @@ module.exports = {
       attributes: [
         'firstName', 'lastName', 'email', 'username', 'cgu',
         'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted',
-        'isAuthenticatedFromGAR', 'schoolingRegistrations',
+        'schoolingRegistrations', 'authenticationMethods',
       ],
       schoolingRegistrations: {
         ref: 'id',
         includes: true,
         attributes: ['firstName', 'lastName', 'birthdate', 'division', 'organizationId', 'organizationExternalId',
           'organizationName', 'createdAt', 'updatedAt'],
+      },
+      authenticationMethods: {
+        ref: 'id',
+        includes: true,
+        attributes: ['identityProvider'],
       },
     }).serialize(usersDetailsForAdmin);
   },

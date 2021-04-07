@@ -391,14 +391,9 @@ function _toUserDetailsForAdminDomain(bookshelfUser) {
     cgu: rawUserDetailsForAdmin.cgu,
     pixOrgaTermsOfServiceAccepted: rawUserDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted: rawUserDetailsForAdmin.pixCertifTermsOfServiceAccepted,
-    isAuthenticatedFromGAR: _isUserAuthenticatedFromGAR(bookshelfUser),
     schoolingRegistrations: _toSchoolingRegistrationsForAdmin(rawUserDetailsForAdmin.schoolingRegistrations),
+    authenticationMethods: rawUserDetailsForAdmin.authenticationMethods,
   });
-}
-
-function _isUserAuthenticatedFromGAR(bookshelfUser) {
-  const authenticationMethods = bookshelfUser.related('authenticationMethods').toJSON();
-  return authenticationMethods.some((authenticationMethod) => authenticationMethod.identityProvider === AuthenticationMethod.identityProviders.GAR);
 }
 
 function _toSchoolingRegistrationsForAdmin(schoolingRegistrations) {

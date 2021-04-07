@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, knex } = require('../../../test-helper');
 
 const createServer = require('../../../../server');
 
@@ -113,6 +113,7 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
           },
         },
       };
+      const authenticationMethod = await knex('authentication-methods').where({ userId: user.id }).first();
 
       // when
       const response = await server.inject(options);
@@ -130,16 +131,32 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
               'cgu': user.cgu,
               'pix-certif-terms-of-service-accepted': user.pixCertifTermsOfServiceAccepted,
               'pix-orga-terms-of-service-accepted': user.pixOrgaTermsOfServiceAccepted,
-              'is-authenticated-from-gar': false,
             },
             'relationships': {
               'schooling-registrations': {
                 'data': [],
               },
+              'authentication-methods': {
+                'data': [
+                  {
+                    'id': `${authenticationMethod.id}`,
+                    'type': 'authenticationMethods',
+                  },
+                ],
+              },
             },
             'id': '1234',
             'type': 'users',
           },
+          'included': [
+            {
+              'attributes': {
+                'identity-provider': `${authenticationMethod.identityProvider}`,
+              },
+              'id': `${authenticationMethod.id}`,
+              'type': 'authenticationMethods',
+            },
+          ],
         },
       );
     });
