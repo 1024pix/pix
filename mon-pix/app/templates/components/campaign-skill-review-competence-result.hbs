@@ -1,4 +1,4 @@
-<table class="default-table">
+<table class="default-table skill-review-competence__table">
   <thead>
   <tr>
     <th scope="col">{{t 'pages.skill-review.details.header-skill'}}</th>
@@ -15,10 +15,9 @@
           <span>{{partnerCompetence.name}}</span>
         </th>
         <td>
-          <ProgressionGauge @total={{partnerCompetence.totalSkillsCountPercentage}}
-                            @value={{partnerCompetence.masteryPercentage}}>
-            {{partnerCompetence.masteryPercentage}}%
-          </ProgressionGauge>
+          <PixProgressGauge
+            @value={{partnerCompetence.masteryPercentage}}
+            @tooltipText="{{partnerCompetence.masteryPercentage}}%" />
         </td>
       </tr>
     {{/each}}
@@ -30,10 +29,9 @@
           <span>{{competence.name}}</span>
         </th>
         <td>
-          <ProgressionGauge @total={{competence.totalSkillsCountPercentage}}
-                            @value={{competence.masteryPercentage}}>
-            {{competence.masteryPercentage}}%
-          </ProgressionGauge>
+          <PixProgressGauge
+            @value={{competence.masteryPercentage}}
+            @tooltipText="{{competence.masteryPercentage}}%" />
         </td>
       </tr>
     {{/each}}

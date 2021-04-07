@@ -46,7 +46,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/resul
     // then
     assert.dom('[aria-label="Résultats par compétence"]').exists({ count: 1 });
     assert.dom('[aria-label="Résultats par compétence"]').containsText('Compétence 1');
-    assert.dom('[aria-label="Résultats par compétence"]').containsText('50%');
+    assert.dom('[aria-label="Résultats par compétence"]').containsText('50 %');
     assert.dom('[aria-label="Résultats par compétence"]').containsText('5');
     assert.dom('[aria-label="Résultats par compétence"]').containsText('10');
   });

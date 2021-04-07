@@ -19,10 +19,11 @@
               {{competenceResult.name}}
             </span>
           </td>
-          <td>
-            <ProgressionGauge @total={{competenceResult.totalSkillsCountPercentage}} @value={{competenceResult.validatedSkillsCountPercentage}}>
-              <span class="sr-only">{{t 'pages.assessment-individual-results.table.column.results.explanation-begin'}}</span>{{competenceResult.validatedSkillsCountPercentage}}%<span class="sr-only">{{t 'pages.assessment-individual-results.table.column.results.explanation-end' competence=competenceResult.name}}</span>
-            </ProgressionGauge>
+          <td class="competences-col__gauge">
+            <PixProgressGauge
+              @value={{competenceResult.validatedSkillsCountPercentage}}
+              @tooltipText={{t 'pages.assessment-individual-results.table.column.results.tooltip' result=competenceResult.validatedSkillsCountPercentage competence=competenceResult.name htmlSafe=true}}
+            />
           </td>
           <td>{{competenceResult.validatedSkillsCount}}</td>
           <td>{{competenceResult.targetedSkillsCount}}</td>

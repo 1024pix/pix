@@ -10,11 +10,12 @@
     <div class="checkpoint__header">
       {{#if this.shouldDisplayAnswers}}
         <div class="checkpoint-progression-gauge-wrapper">
-          <ProgressionGauge @total={{100}} @value={{this.completionPercentage}} @progressionClass="progression-gauge--white progression-gauge--tooltip-left">
-            {{t 'pages.checkpoint.completion-percentage.label' completionPercentage=this.completionPercentage htmlSafe=true}}
-          </ProgressionGauge>
-
-          <p class="checkpoint-caption">{{t 'pages.checkpoint.completion-percentage.caption'}}</p>
+            <PixProgressGauge 
+              @value={{this.completionPercentage}} 
+              @isArrowLeft="true"
+              @color="white" 
+              @subtitle={{t 'pages.checkpoint.completion-percentage.caption'}}
+              @tooltipText={{t 'pages.checkpoint.completion-percentage.label' completionPercentage=this.completionPercentage htmlSafe=true}} />
 
         </div>
         <div class="checkpoint__continue-wrapper">
