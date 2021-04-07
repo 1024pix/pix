@@ -293,7 +293,6 @@ describe('Acceptance | User dashboard page', function() {
       it('should not render any new-information banner', async function() {
         // given
         user = server.create('user', 'withEmail', 'hasSeenNewDashboardInfo');
-        console.log(user);
 
         // when
         await authenticateByEmail(user);

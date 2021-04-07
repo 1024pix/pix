@@ -21,20 +21,22 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
 
       const expectedBlocksData = [{
         input: 'smiley1',
-        text: 'content :',
+        text: 'content : ',
         ariaLabel: null,
+        autoAriaLabel: false,
         inputClass: '',
         answer: ':)',
-        placeholder: undefined,
-      }, {
-        breakline: true,
+        placeholder: null,
+        type: 'input',
       }, {
         input: 'smiley2',
-        text: 'triste :',
+        text: '<br/>\n\ntriste : ',
         ariaLabel: null,
+        autoAriaLabel: false,
         inputClass: 'correction-qroc-box-answer--aband',
         answer: 'Pas de réponse',
-        placeholder: undefined,
+        placeholder: null,
+        type: 'input',
       }];
 
       //when

@@ -24,49 +24,49 @@ describe('Unit | Utility | proposals as blocks', function() {
     {
       data: '${qroc}',
       expected: [
-        { input: 'qroc', text: null, placeholder: null, ariaLabel: 'Réponse 1', type: 'input' },
+        { input: 'qroc', text: null, placeholder: null, ariaLabel: '1', type: 'input', autoAriaLabel: true },
       ],
     },
     {
       data: '${annee#19XX}',
       expected: [
-        { input: 'annee', text: null, placeholder: '19XX', ariaLabel: 'Réponse 1', type: 'input' },
+        { input: 'annee', text: null, placeholder: '19XX', ariaLabel: '1', type: 'input', autoAriaLabel: true },
       ],
     },
     {
       data: '${annee#19XX§Année de construction}',
       expected: [
-        { input: 'annee', text: null, placeholder: '19XX', ariaLabel: 'Année de construction', type: 'input' },
+        { input: 'annee', text: null, placeholder: '19XX', ariaLabel: 'Année de construction', type: 'input', autoAriaLabel: false },
       ],
     },
     {
       data: 'Et ta réponse est : ${annee#19XX§Année de construction}',
       expected: [
         { text: 'Et ta réponse est : ', input: null, placeholder: null, ariaLabel: null, type: 'text' },
-        { input: 'annee', text: null, placeholder: '19XX', ariaLabel: 'Année de construction', type: 'input' },
+        { input: 'annee', text: null, placeholder: '19XX', ariaLabel: 'Année de construction', type: 'input', autoAriaLabel: false },
       ],
     },
     {
       data: 'Test: ${test#1 ou 2}',
       expected: [
-        { text: 'Test: ', input: 'test', placeholder: '1 ou 2', ariaLabel: null, type: 'input' },
+        { text: 'Test: ', input: 'test', placeholder: '1 ou 2', ariaLabel: null, type: 'input', autoAriaLabel: false },
       ],
     },
     {
       data: 'Test: ${test} (kilometres)',
       expected: [
-        { text: 'Test: ', input: 'test', placeholder: null, ariaLabel: null, type: 'input' },
+        { text: 'Test: ', input: 'test', placeholder: null, ariaLabel: null, type: 'input', autoAriaLabel: false },
         { text: ' (kilometres)', input: null, placeholder: null, ariaLabel: null, type: 'text' },
       ],
     },
     {
       data: '${plop}, ${plop} ${plop}',
       expected: [
-        { input: 'plop', text: null, placeholder: null, ariaLabel: 'Réponse 1', type: 'input' },
+        { input: 'plop', text: null, placeholder: null, ariaLabel: '1', type: 'input', autoAriaLabel: true },
         { input: null, text: ', ', placeholder: null, ariaLabel: null, type: 'text' },
-        { input: 'plop', text: null, placeholder: null, ariaLabel: 'Réponse 2', type: 'input' },
+        { input: 'plop', text: null, placeholder: null, ariaLabel: '2', type: 'input', autoAriaLabel: true },
         { input: null, text: ' ', placeholder: null, ariaLabel: null, type: 'text' },
-        { input: 'plop', text: null, placeholder: null, ariaLabel: 'Réponse 3', type: 'input' },
+        { input: 'plop', text: null, placeholder: null, ariaLabel: '3', type: 'input', autoAriaLabel: true },
       ],
     },
     {
@@ -85,13 +85,13 @@ describe('Unit | Utility | proposals as blocks', function() {
       data: '- ${plop}',
       expected: [
         { text: '- ', input: null, placeholder: null, ariaLabel: null, type: 'text' },
-        { text: null, input: 'plop', placeholder: null, ariaLabel: 'Réponse 1', type: 'input' },
+        { text: null, input: 'plop', placeholder: null, ariaLabel: '1', type: 'input', autoAriaLabel: true },
       ],
     },
     {
       data: '- line ${plop}',
       expected: [
-        { text: '- line ', input: 'plop', placeholder: null, ariaLabel: null, type: 'input' },
+        { text: '- line ', input: 'plop', placeholder: null, ariaLabel: null, type: 'input', autoAriaLabel: false },
       ],
     },
   ];

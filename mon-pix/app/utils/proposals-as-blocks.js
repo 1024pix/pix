@@ -83,7 +83,7 @@ class InputBlock {
     this._input = inputText;
     this._placeholder = null;
     this._text = null;
-    this._ariaLabel = 'Réponse ' + inputIndex;
+    this._ariaLabel = inputIndex.toString();
     this._autoAriaLabel = true;
     this._type = 'input';
   }
@@ -127,6 +127,10 @@ class InputBlock {
     this._text = text;
   }
 
+  setAutoAriaLabel(boolean) {
+    this._autoAriaLabel = boolean;
+  }
+
   get() {
     return {
       input: this._input,
@@ -134,6 +138,7 @@ class InputBlock {
       placeholder: this._placeholder,
       ariaLabel: this._ariaLabel,
       type: this._type,
+      autoAriaLabel: this._autoAriaLabel,
     };
   }
 }
@@ -166,6 +171,7 @@ class ChallengeResponseTemplate {
         && this._detailledTemplate[index - 1].text.length > MINIMUM_SIZE_FOR_LABEL) {
         this._detailledTemplate[index].setText(this._detailledTemplate[index - 1].text);
         this._detailledTemplate[index].removeAriaLabel();
+        this._detailledTemplate[index].setAutoAriaLabel(false);
         this._detailledTemplate[index - 1].removeType();
       }
     }
