@@ -9,8 +9,8 @@ class UserDetailsForAdmin {
     email,
     pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted,
-    isAuthenticatedFromGAR,
     schoolingRegistrations,
+    authenticationMethods,
   } = {}) {
     this.id = id;
     this.cgu = cgu;
@@ -18,10 +18,10 @@ class UserDetailsForAdmin {
     this.lastName = lastName;
     this.username = username;
     this.email = email;
-    this.isAuthenticatedFromGAR = isAuthenticatedFromGAR;
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.schoolingRegistrations = schoolingRegistrations;
+    this.authenticationMethods = authenticationMethods;
   }
 }
 

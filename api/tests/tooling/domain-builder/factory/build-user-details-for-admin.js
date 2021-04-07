@@ -11,11 +11,12 @@ module.exports = function buildUserDetailsForAdmin({
   pixOrgaTermsOfServiceAccepted = false,
   isAuthenticatedFromGAR = false,
   schoolingRegistrations = [],
+  authenticationMethods = [],
 } = {}) {
 
   return new UserDetailsForAdmin({
     id, firstName, lastName, email, username,
     cgu, pixOrgaTermsOfServiceAccepted, pixCertifTermsOfServiceAccepted,
-    isAuthenticatedFromGAR, schoolingRegistrations,
+    isAuthenticatedFromGAR, schoolingRegistrations, authenticationMethods,
   });
 };

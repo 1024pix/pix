@@ -15,3 +15,32 @@
 .schooling-registrations-table {
   margin-top: 20px;
 }
+
+.user-authentication-method {
+
+  &__title {
+    font-size: 18px;
+    padding: 4px 0 12px 0;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px;
+    margin: 5px 0;
+    color: $grey-40;
+  }
+
+  .user-authentication-method-item {
+
+    &__check {
+      color: $success;
+    }
+
+    &__uncheck {
+      color: $grey-30;
+    }
+
+  }
+}

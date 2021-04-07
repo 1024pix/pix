@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
-import sinon from 'sinon';
-
 import { setupRenderingTest } from 'ember-qunit';
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
+import sinon from 'sinon';
 
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
@@ -22,26 +21,11 @@ module('Integration | Component | user-detail-personal-information', function(ho
           lastName: 'Harry',
           email: 'john.harry@example.net',
           username: null,
-          isAuthenticatedFromGAR: false,
         });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         assert.dom('button[aria-label="Modifier"]').exists();
-      });
-
-      test('should not display the update button when user is connected from GAR only', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: null,
-          username: null,
-          isAuthenticatedFromGAR: true,
-        });
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        assert.dom('button[aria-label="Modifier"]').doesNotExist();
       });
 
       test('should not display the update button when user is connected with username only', async function(assert) {
@@ -50,7 +34,6 @@ module('Integration | Component | user-detail-personal-information', function(ho
           lastName: 'Harry',
           email: null,
           username: 'john.harry2018',
-          isAuthenticatedFromGAR: false,
         });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -64,49 +47,6 @@ module('Integration | Component | user-detail-personal-information', function(ho
           lastName: 'Harry',
           email: 'john.harry@example.net',
           username: 'john.harry2018',
-          isAuthenticatedFromGAR: false,
-        });
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        assert.dom('button[aria-label="Modifier"]').doesNotExist();
-      });
-
-      test('should not display the update button when user is connected with email and GAR', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: 'john.harry@example.net',
-          username: null,
-          isAuthenticatedFromGAR: true,
-        });
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        assert.dom('button[aria-label="Modifier"]').doesNotExist();
-      });
-
-      test('should not display the update button when user is connected with username and GAR', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: null,
-          username: 'john.harry2018',
-          isAuthenticatedFromGAR: true,
-        });
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        assert.dom('button[aria-label="Modifier"]').doesNotExist();
-      });
-
-      test('should not display the update button when user is connected with username, email and GAR', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: 'john.harry@example.net',
-          username: 'john.harry2018',
-          isAuthenticatedFromGAR: true,
         });
 
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -147,22 +87,6 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         assert.dom('.user__username').hasText(this.user.username);
-      });
-
-      test('should display that user is authenticated from GAR', async function(assert) {
-        this.set('user', { isAuthenticatedFromGAR: true });
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        assert.dom('.user__is-authenticated-from-gar').hasText('OUI');
-      });
-
-      test('should display that user is not authenticated from GAR', async function(assert) {
-        this.set('user', { isAuthenticatedFromGAR: false });
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        assert.dom('.user__is-authenticated-from-gar').hasText('NON');
       });
     });
 
@@ -246,6 +170,57 @@ module('Integration | Component | user-detail-personal-information', function(ho
         });
       });
     });
+
+    module('authentication methods', function() {
+
+      module('When user has authentication methods', function() {
+
+        test('should display user’s email authentication method', async function(assert) {
+          // given
+          this.set('user', { hasEmailAuthenticationMethod: true });
+
+          // when
+          await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+          // then
+          assert.dom('div[data-test-email] > svg').hasClass('user-authentication-method-item__check');
+        });
+
+        test('should display user’s username authentication method', async function(assert) {
+          // given
+          this.set('user', { hasUsernameAuthenticationMethod: true });
+
+          // when
+          await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+          // then
+          assert.dom('div[data-test-username] > svg').hasClass('user-authentication-method-item__check');
+        });
+
+        test('should display user’s Pole Emploi authentication method', async function(assert) {
+          // given
+          this.set('user', { hasPoleEmploiAuthenticationMethod: true });
+
+          // when
+          await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+          // then
+          assert.dom('div[data-test-pole-emploi] > svg').hasClass('user-authentication-method-item__check');
+        });
+
+        test('should display user’s GAR authentication method', async function(assert) {
+          // given
+          this.set('user', { hasGARAuthenticationMethod: true });
+
+          // when
+          await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+          // then
+          assert.dom('div[data-test-mediacentre] > svg').hasClass('user-authentication-method-item__check');
+        });
+      });
+
+    });
   });
 
   module('When the administrator click to update user details', async function() {
@@ -258,7 +233,6 @@ module('Integration | Component | user-detail-personal-information', function(ho
         firstName: 'John',
         email: 'john.harry@gmail.com',
         username: null,
-        isAuthenticatedFromGAR: false,
       });
     });
 
@@ -268,7 +242,6 @@ module('Integration | Component | user-detail-personal-information', function(ho
         lastName: 'Harry',
         email: 'john.harry@example.net',
         username: null,
-        isAuthenticatedFromGAR: false,
       });
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -315,7 +288,6 @@ module('Integration | Component | user-detail-personal-information', function(ho
         firstName: 'John',
         email: 'john.harry@gmail.com',
         username: null,
-        isAuthenticatedFromGAR: false,
       });
     });
 
