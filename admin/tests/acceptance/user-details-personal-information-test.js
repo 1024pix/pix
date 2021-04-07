@@ -4,6 +4,8 @@ import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+
 module('Acceptance | User details personal information', function(hooks) {
 
   setupApplicationTest(hooks);
@@ -61,7 +63,7 @@ module('Acceptance | User details personal information', function(hooks) {
       await click('button[aria-label="Anonymiser"]');
 
       // when
-      await click('.modal-dialog .btn-primary');
+      await clickByLabel('Confirmer');
 
       // then
       assert.contains(`prenom_${user.id}`);
@@ -72,15 +74,25 @@ module('Acceptance | User details personal information', function(hooks) {
 
   module('when administrator click on dissociate button', function() {
 
-    test('should not display dissociate button after', async function(assert) {
+    test('should not display registration any more', async function(assert) {
       // given
+      const organizationName = 'Organisation_to_dissociate_of';
+      const schoolingRegistrationToDissociate = this.server.create('schooling-registration', {
+        id: 10,
+        organizationName,
+      });
+      user.schoolingRegistrations.models.push(schoolingRegistrationToDissociate);
+      user.save();
+
       await visit(`/users/${user.id}`);
+      await click('button[data-test-dissociate-schooling-registration="10"]');
 
       // when
-      await click('button[data-test-dissociate]');
+      await clickByLabel('Oui, je dissocie');
 
       // then
-      assert.dom('button[data-test-dissociate]').doesNotExist();
+      assert.equal(currentURL(), `/users/${user.id}`);
+      assert.notContains(organizationName);
     });
   });
 

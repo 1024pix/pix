@@ -294,11 +294,12 @@ export default function() {
     return schema.campaignAssessmentParticipationResults.findBy({ ...request.params });
   });
 
-  this.delete('/schooling-registration-user-associations', (schema, request) => {
-    const requestBody = JSON.parse(request.requestBody);
+  this.delete('/schooling-registration-user-associations/:id', (schema, request) => {
+    const studentId = request.params.id;
 
-    const student = schema.students.find(requestBody.data.attributes['schooling-registration-id']);
-    return student.update({ email: null });
+    const student = schema.students.find(studentId);
+    return student.update({ email: null, username: null, isAuthenticatedFromGAR: false });
+
   });
 
   this.get('feature-toggles', (schema) => {

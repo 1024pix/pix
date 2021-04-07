@@ -29,21 +29,14 @@ module('Unit | Adapters | student', function(hooks) {
 
     test('it performs the request to dissociate user from student', async function(assert) {
       // given
-      const model = { id: 12345 };
-      const data = {
-        data: {
-          attributes: {
-            'schooling-registration-id': model.id,
-          },
-        },
-      };
-      const url = `${ENV.APP.API_HOST}/api/schooling-registration-user-associations`;
+      const student = { id: 12345 };
+      const url = `${ENV.APP.API_HOST}/api/schooling-registration-user-associations/${student.id}`;
 
       // when
-      await adapter.dissociateUser(model);
+      await adapter.dissociateUser(student);
 
       // then
-      assert.ok(ajaxStub.calledWith(url, 'DELETE', { data }));
+      assert.ok(ajaxStub.calledWith(url, 'DELETE'));
     });
   });
 
