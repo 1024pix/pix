@@ -266,6 +266,9 @@
                 "skip": "Skip"
             },
             "already-answered": "You have already answered this question",
+            "answer-input": {
+                "numbered-label": "Answer {number}"
+            },
             "certification": {
                 "title": "Certification {certificationNumber}",
                 "banner": {

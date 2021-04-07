@@ -38,6 +38,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         solution: ':-)',
         emptyOrWrongAnswer: false,
         placeholder: null,
+        autoAriaLabel: false,
         type: 'input',
       }, {
         input: 'smiley2',
@@ -48,6 +49,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         answer: ':(',
         solution: ':-(',
         emptyOrWrongAnswer: false,
+        autoAriaLabel: false,
         placeholder: null,
         type: 'input',
       }];
@@ -77,6 +79,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         answer: '1',
         solution: '2',
         emptyOrWrongAnswer: true,
+        autoAriaLabel: false,
         placeholder: null,
         type: 'input',
       }, {
@@ -88,6 +91,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
+        autoAriaLabel: false,
         placeholder: null,
         type: 'input',
       }];
@@ -118,6 +122,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         answer: 'Pas de réponse',
         solution: '2',
         emptyOrWrongAnswer: true,
+        autoAriaLabel: false,
         placeholder: null,
         type: 'input',
       }, {
@@ -129,6 +134,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
+        autoAriaLabel: false,
         placeholder: null,
         type: 'input',
       }];
@@ -162,6 +168,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         answer: '1',
         solution: '2',
         emptyOrWrongAnswer: true,
+        autoAriaLabel: false,
         placeholder: null,
         type: 'input',
       }, {
@@ -173,6 +180,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         answer: '2',
         solution: '3',
         emptyOrWrongAnswer: true,
+        autoAriaLabel: false,
         placeholder: null,
         type: 'input',
       }];
@@ -203,6 +211,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
+        autoAriaLabel: false,
         placeholder: null,
         type: 'input',
       }, {
@@ -214,6 +223,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         answer: '3',
         solution: '6',
         emptyOrWrongAnswer: true,
+        autoAriaLabel: false,
         placeholder: null,
         type: 'input',
       }];
@@ -244,6 +254,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         answer: 'Pas de réponse',
         solution: '2',
         emptyOrWrongAnswer: true,
+        autoAriaLabel: false,
         placeholder: null,
         type: 'input',
       }, {
@@ -255,6 +266,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         answer: 'Pas de réponse',
         solution: '1',
         emptyOrWrongAnswer: true,
+        autoAriaLabel: false,
         placeholder: null,
         type: 'input',
       }];
@@ -290,6 +302,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         answer: '2',
         solution: '2',
         emptyOrWrongAnswer: false,
+        autoAriaLabel: false,
         placeholder: null,
       }];
 
