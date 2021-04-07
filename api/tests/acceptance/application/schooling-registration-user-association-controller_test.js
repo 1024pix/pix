@@ -1,6 +1,7 @@
 const {
   databaseBuilder,
   expect,
+  insertUserWithRolePixMaster,
   generateValidRequestAuthorizationHeader,
   generateIdTokenForExternalUser,
   knex,
@@ -1244,37 +1245,60 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
   describe('DELETE /api/schooling-registration-user-associations', () => {
 
-    it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async () => {
-      const organization = databaseBuilder.factory.buildOrganization();
-      const user = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.ADMIN });
-      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id });
+    context('When user is admin of the organization', () => {
 
-      const authorizationToken = generateValidRequestAuthorizationHeader(user.id);
+      it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async () => {
+        const organization = databaseBuilder.factory.buildOrganization();
+        const user = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.ADMIN });
+        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id });
 
-      await databaseBuilder.commit();
+        const authorizationToken = generateValidRequestAuthorizationHeader(user.id);
 
-      const options = {
-        method: 'DELETE',
-        url: '/api/schooling-registration-user-associations/',
-        headers: {
-          authorization: authorizationToken,
-        },
-        payload: {
-          data: {
-            attributes: {
-              'schooling-registration-id': schoolingRegistration.id,
-            },
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'DELETE',
+          url: `/api/schooling-registration-user-associations/${schoolingRegistration.id}`,
+          headers: {
+            authorization: authorizationToken,
           },
-        },
-      };
+        };
 
-      const response = await server.inject(options);
+        const response = await server.inject(options);
 
-      expect(response.statusCode).to.equal(204);
+        expect(response.statusCode).to.equal(204);
+      });
+
     });
 
-    it('should return an 403 status when user is not admin of the organization', async () => {
+    context('When user has the role pixMaster', () => {
+
+      it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async () => {
+        const organization = databaseBuilder.factory.buildOrganization();
+        const pixMaster = await insertUserWithRolePixMaster();
+        const user = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.ADMIN });
+        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id });
+
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'DELETE',
+          url: `/api/schooling-registration-user-associations/${schoolingRegistration.id}`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
+          },
+        };
+
+        const response = await server.inject(options);
+
+        expect(response.statusCode).to.equal(204);
+      });
+
+    });
+
+    it('should return an 403 status when user is neither admin of the organization nor has role pix master', async () => {
       const organization = databaseBuilder.factory.buildOrganization();
       const user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.MEMBER });
@@ -1286,16 +1310,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
       const options = {
         method: 'DELETE',
-        url: '/api/schooling-registration-user-associations/',
+        url: `/api/schooling-registration-user-associations/${schoolingRegistration.id}`,
         headers: {
           authorization: authorizationToken,
-        },
-        payload: {
-          data: {
-            attributes: {
-              'schooling-registration-id': schoolingRegistration.id,
-            },
-          },
         },
       };
 
