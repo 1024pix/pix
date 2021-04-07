@@ -1125,7 +1125,8 @@
             "eula": "Terms and conditions",
             "help-center": "Help center",
             "link-a11y": "https://pix.org/en-gb/accessibility",
-            "link-help-center": "https://pix.org/en-gb/faq-pix"
+            "link-help-center": "https://pix.org/en-gb/faq-pix",
+            "sitemap": "Site map"
         },
         "main": {
             "code": "I have a code",
