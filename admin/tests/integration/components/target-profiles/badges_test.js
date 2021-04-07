@@ -31,6 +31,7 @@ module('Integration | Component | TargetProfiles::Badges', function(hooks) {
     assert.contains('Key');
     assert.contains('Nom');
     assert.contains('Message');
+    assert.contains('Actions');
     assert.dom('tbody tr').exists({ count: 1 });
     assert.equal(find('tbody tr td:first-child').textContent, '1');
     assert.dom('tbody tr td:nth-child(2) img').exists();
@@ -39,6 +40,7 @@ module('Integration | Component | TargetProfiles::Badges', function(hooks) {
     assert.equal(find('tbody tr td:nth-child(3)').textContent, 'My key');
     assert.equal(find('tbody tr td:nth-child(4)').textContent, 'My title');
     assert.equal(find('tbody tr td:nth-child(5)').textContent, 'My message');
+    assert.equal(find('tbody tr td:nth-child(6)').textContent, 'Voir détail');
     assert.notContains('Aucun résultat thématique associé');
   });
 
