@@ -136,7 +136,7 @@
         <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
       {{/if}}
     </div>
-    {{#if @user.hasEmailAuthenticationMethod}}
+    {{#if (and @user.hasEmailAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
               class="user-authentication-method__remove-button"
               @type="button"
@@ -155,7 +155,7 @@
         <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
       {{/if}}
     </div>
-    {{#if @user.hasUsernameAuthenticationMethod}}
+    {{#if (and @user.hasUsernameAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
               class="user-authentication-method__remove-button"
               @type="button"
@@ -174,7 +174,7 @@
         <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
       {{/if}}
     </div>
-    {{#if @user.hasPoleEmploiAuthenticationMethod}}
+    {{#if (and @user.hasPoleEmploiAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
               class="user-authentication-method__remove-button"
               @type="button"
@@ -193,7 +193,7 @@
         <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
       {{/if}}
     </div>
-    {{#if @user.hasGARAuthenticationMethod}}
+    {{#if (and @user.hasGARAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
               class="user-authentication-method__remove-button"
               @type="button"

@@ -38,4 +38,13 @@ export default class User extends Model {
   get hasGARAuthenticationMethod() {
     return this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'GAR');
   }
+
+  get hasOnlyOneAuthenticationMethod() {
+    return [
+      this.hasEmailAuthenticationMethod,
+      this.hasUsernameAuthenticationMethod,
+      this.hasGARAuthenticationMethod,
+      this.hasPoleEmploiAuthenticationMethod,
+    ].filter((hasAuthenticationMethod) => hasAuthenticationMethod).length === 1;
+  }
 }
