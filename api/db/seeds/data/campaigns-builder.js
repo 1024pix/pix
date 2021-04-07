@@ -134,6 +134,7 @@ function _buildCampaignForPro(databaseBuilder) {
     idPixLabel: 'identifiant entreprise',
     title: null,
     customLandingPageText: null,
+    customResultPageText: 'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.',
   });
 
   databaseBuilder.factory.buildCampaign({

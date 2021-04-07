@@ -22,12 +22,31 @@
     align-items: center;
   }
 
-  &__result-container {
+  &__result-detail-container,
+  &__result-abstract-container,
+  &__organization-message {
     padding: 40px 10px;
-    margin-top: -160px;
+    box-shadow: 0 7px 14px 0 rgba($grey-200, 0.1), 0 3px 6px 0 rgba(black, 0.1);
 
     @include device-is('tablet') {
       padding: 32px 48px;
+    }
+  }
+
+  &__result-abstract-container {
+    margin-top: -160px;
+  }
+
+  &__organization-message {
+    border-radius: 5px;
+    display: flex;
+    padding: 24px;
+    flex-direction: column;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+      border-radius: 32px 0 32px 32px;
+      padding: 32px;
     }
   }
 
@@ -137,9 +156,54 @@
   }
 }
 
-.skill-review-result {
+.skill-review-organization-message {
 
-  &__abstract {
+  &__logo {
+    text-align: center;
+    margin-bottom: 16px;
+
+    img {
+      width: 118px;
+    }
+
+    @include device-is('tablet') {
+      min-width: 118px;
+      margin-right: 32px;
+      margin-bottom: 0;
+    }
+  }
+
+  &__title {
+    color: $grey-60;
+    font-family: $font-open-sans;
+    font-size: 1rem;
+    font-weight: $font-bold;
+    margin: 0;
+  }
+
+  &__organization-name {
+    color: $grey-90;
+    font-size: 1.5rem;
+    font-family: $font-open-sans;
+    font-weight: $font-normal;
+    margin: 8px 0;
+  }
+
+  &__text {
+    color: $grey-90;
+    font-family: $font-roboto;
+    font-size: 1rem;
+    line-height: 1.625rem;
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.skill-review-result-abstract {
+
+  &__text {
     text-align: center;
     text-transform: none;
     margin: 16px 0;
@@ -162,6 +226,36 @@
     }
   }
 
+  &__share-container {
+    padding: 16px 40px 32px 40px;
+    text-align: center;
+
+    &--left {
+      text-align: center;
+
+      @include device-is('tablet') {
+        text-align: left;
+      }
+    }
+  }
+}
+
+.badge-acquired-container {
+  border-bottom: 1px dashed $grey-22;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+}
+
+.skill-review-result-detail {
+
+  &__badge-container {
+    padding: 40px 10px;
+
+    @include device-is('tablet') {
+      padding: 32px 48px;
+    }
+  }
+
   &__badge-subtitle {
     color: $grey-100;
     font-family: $font-open-sans;
@@ -173,11 +267,6 @@
     @include device-is('tablet') {
       text-align: left;
     }
-  }
-
-  &__content {
-    border-top: 1px dashed $grey-22;
-    margin-top: 24px;
   }
 
   &__information {
@@ -192,30 +281,16 @@
     }
   }
 
-  &__share-container {
-    padding: 16px 40px 32px 40px;
-    text-align: center;
-
-    &--left {
-      text-align: center;
-
-      @include device-is('tablet') {
-        text-align: left;
-      }
-    }
-  }
-
   &__table-header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     text-align: center;
-    padding: 0;
+    margin-bottom: 32px;
 
     @include device-is('tablet') {
       flex-direction: row;
-      padding: 20px 0;
     }
   }
 
@@ -224,15 +299,15 @@
     font-family: $font-open-sans;
     font-size: 1.5rem;
     font-weight: $font-normal;
-    margin: 28px 0 24px;
+    margin-bottom: 32px;
   }
 }
 
 .skill-review-share {
 
   &__stage-congrats {
-    padding: 20px 40px 0 40px;
     text-align: center;
+    padding: 20px 40px 0 40px;
 
     @include device-is('tablet') {
       text-align: left;
