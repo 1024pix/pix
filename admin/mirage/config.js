@@ -113,6 +113,11 @@ export default function() {
     return schema.certifiedProfiles.find(id);
   });
 
+  this.get('/admin/certifications/:id/details', (schema, request) => {
+    const id = request.params.id;
+    return schema.certificationDetails.find(id);
+  });
+
   this.get('/admin/sessions/:id/generate-results-download-link', { sessionResultsLink: 'http://link-to-results.fr' });
 
   this.post('/organizations/:id/invitations', (schema, request) => {
