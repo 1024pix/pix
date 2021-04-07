@@ -82,6 +82,10 @@ Router.map(function() {
       this.route('stage', { path: '/:stage_id' });
     });
 
+    this.route('badges', function() {
+      this.route('badge', { path: '/:badge_id' });
+    });
+
     this.route('tools');
   });
 });

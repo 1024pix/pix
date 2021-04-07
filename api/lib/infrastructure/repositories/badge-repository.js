@@ -42,4 +42,10 @@ module.exports = {
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
   },
 
+  async get(id) {
+    const bookshelfBadge = await BookshelfBadge
+      .where('id', id)
+      .fetch();
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
+  },
 };

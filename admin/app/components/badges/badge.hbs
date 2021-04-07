@@ -1,0 +1,25 @@
+<header class="page-header">
+  <div class="page-title">
+    <p>Résultat Thématique<span class="wire">&nbsp;>&nbsp;</span>{{@model.id}}</p>
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section mb_10">
+    <div class="page-section__header">
+      <h1 class="page-section__title">{{@model.name}}</h1>
+    </div>
+    <div class="page-section__details badge-data">
+      <div class="badge-data__image">
+        <img src={{@model.imageUrl}} alt="" role="presentation" width="90px"/><br>
+      </div>
+      <div class="page-section__details">
+        ID : {{@model.id}}<br>
+        Title : {{@model.title}}<br>
+        Key : {{@model.key}}<br>
+        Message : {{@model.message}}<br>
+        Message alternatif : {{@model.altMessage}}<br>
+      </div>
+    </div>
+  </section>
+</main>

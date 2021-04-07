@@ -9,6 +9,7 @@
             <th class="badges-table__key">Key</th>
             <th class="badges-table__name">Nom</th>
             <th>Message</th>
+            <th class="badges-table__actions">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -19,6 +20,7 @@
               <td>{{badge.key}}</td>
               <td>{{badge.title}}</td>
               <td>{{badge.message}}</td>
+              <td><LinkTo @route="authenticated.badges.badge" @model={{badge}} class="btn btn-outline-default btn-thin">Voir détail</LinkTo></td>
             </tr>
           {{/each}}
         </tbody>
