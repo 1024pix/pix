@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render } from '@ember/test-helpers';
+import { click, find, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -218,6 +218,20 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
           // then
           assert.dom('div[data-test-mediacentre] > div > svg').hasClass('user-authentication-method-item__check');
+        });
+
+        module('When user has only one authentication method', function() {
+
+          test('it should not display a remove authentication method link', async function(assert) {
+            // given
+            this.set('user', { hasOnlyOneAuthenticationMethod: true });
+
+            // when
+            await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+            // then
+            assert.notOk(find('.user-authentication-method__remove-button'));
+          });
         });
       });
     });
