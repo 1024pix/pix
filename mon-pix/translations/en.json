@@ -886,6 +886,18 @@
                 "link": "log into your account"
             }
         },
+        "sitemap": {
+            "title": "Site map",
+            "accessibility": {
+                "title": "Accessibility",
+                "help": "Help page to answer your questions about Pix's accessibility"
+            },
+            "cgu": {
+                "policy": "Personal Data Protection Policy",
+                "subcontractors": "List of recipient processors of Pix users’ personal data"
+            },
+            "resources": "Further information"
+        },
         "skill-review": {
             "title": "Result",
             "abstract": "You have mastered '<strong>'{percentage}%'</strong><br>' of the skills tested.",

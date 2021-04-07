@@ -1,0 +1,108 @@
+<main class="sitemap">
+  <h1 class="sitemap__title">{{t 'pages.sitemap.title'}}</h1>
+
+  <ul class="sitemap__items">
+    <li class="sitemap-items__link">
+      <LinkTo @route="user-dashboard">
+        {{t 'navigation.main.dashboard'}}
+      </LinkTo>
+    </li>
+
+    <li class="sitemap-items__link">
+      <LinkTo @route="profile">{{t 'navigation.main.skills'}}</LinkTo>
+      <ul class="sitemap-items-link-skills">
+        {{#each @model.scorecards as |scorecard|}}
+          <li class="sitemap-items-link-skills__skill">
+            <LinkTo @route="competences.details" @model={{scorecard.competenceId}}>
+              {{scorecard.name}}
+            </LinkTo>
+          </li>
+        {{/each}}
+      </ul>
+    </li>
+
+    <li class="sitemap-items__link">
+      <LinkTo @route="certifications">
+        {{t 'navigation.main.start-certification'}}
+      </LinkTo>
+    </li>
+
+    <li class="sitemap-items__link">
+      <LinkTo @route="user-tutorials">
+        {{t 'navigation.main.tutorials'}}
+      </LinkTo>
+    </li>
+
+    <li class="sitemap-items__link">
+      <LinkTo @route="fill-in-campaign-code">
+        {{t 'navigation.main.code'}}
+      </LinkTo>
+    </li>
+
+    <li class="sitemap-items__link">
+      <LinkTo @route="user-account">
+        {{t 'navigation.user.account'}}
+      </LinkTo>
+    </li>
+
+    <li class="sitemap-items__link">
+      <LinkTo @route="user-tests">
+        {{t 'navigation.user.tests'}}
+      </LinkTo>
+    </li>
+
+    <li class="sitemap-items__link">
+      <LinkTo @route="user-certifications">
+        {{t 'navigation.user.certifications'}}
+      </LinkTo>
+    </li>
+
+    <li class="sitemap-items__link">
+      <a href="{{this.supportHomeUrl}}" target="_blank" rel="noopener noreferrer">
+        {{t 'navigation.main.help'}}
+        <FaIcon @icon='external-link-alt' aria-hidden="true"></FaIcon>
+      </a>
+    </li>
+
+    <li class="sitemap-items__link sitemap-items__link--title">{{t 'pages.sitemap.resources'}}
+      <ul class="sitemap-items-link__resources">
+        <li class="sitemap-items-link-resources__resource">
+          <a href={{this.accessibilityUrl}} target="_blank" rel="noopener noreferrer">{{t
+                  'pages.sitemap.accessibility.title'}}</a>
+          <ul>
+            <li>
+              <a href={{this.accessibilityHelpUrl}} target="_blank"
+                 rel="noopener noreferrer"
+                 data-test-resource-link>
+                {{t 'pages.sitemap.accessibility.help'}}
+                <FaIcon @icon='external-link-alt' aria-hidden="true"></FaIcon>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="sitemap-items-link-resources__resource">
+          <a href={{this.cguUrl}} target="_blank" rel="noopener noreferrer">
+            {{t 'navigation.footer.eula'}}
+          </a>
+        </li>
+
+        <li class="sitemap-items-link-resources__resource">
+          <a href={{this.dataProtectionPolicyUrl}} target="_blank" rel="noopener noreferrer">
+            {{t 'pages.sitemap.cgu.policy'}}
+          </a>
+          <ul>
+            <li>
+              <a href={{this.dataProtectionPolicyUrl}} target="_blank"
+                 rel="noopener noreferrer"
+                 data-test-resource-link>{{t
+                    'pages.sitemap.cgu.subcontractors'}}
+                <FaIcon @icon='external-link-alt' aria-hidden="true"></FaIcon>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</main>

@@ -886,6 +886,18 @@
                 "link": "connectez-vous à votre compte"
             }
         },
+        "sitemap": {
+            "title": "Plan du site",
+            "accessibility": {
+                "title": "Accessibilité",
+                "help": "Aide pour répondre à vos questions sur l'accessibilité sur Pix"
+            },
+            "cgu": {
+                "policy": "Politique de protection des données",
+                "subcontractors": "Liste des sous-traitants"
+            },
+            "resources": "Ressources"
+        },
         "skill-review": {
             "title": "Résultat",
             "abstract": "Vous maîtrisez '<strong>'{percentage}%'</strong><br>' des compétences testées.",
