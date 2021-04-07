@@ -18,6 +18,9 @@ export default class Campaign extends Model {
   @attr('boolean') organizationIsPoleEmploi;
   @attr('string') targetProfileName;
   @attr('string') targetProfileImageUrl;
+  @attr('string') customResultPageText;
+  @attr('string') customResultPageButtonText;
+  @attr('string') customResultPageButtonUrl;
 
   get isAssessment() {
     return this.type === 'ASSESSMENT';

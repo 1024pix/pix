@@ -3,11 +3,10 @@
   <AssessmentBanner @title={{@model.assessment.title}} @displayHomeLink={{false}} />
 </div>
 
-<PixBlock @shadow="heavy" class="skill-review__result-container">
-  {{#if @model.campaignParticipation.campaign.isArchived}}
-
+{{#if @model.campaignParticipation.campaign.isArchived}}
+  <PixBlock class="skill-review__result-abstract-container">
     <div class="skill-review__campaign-archived">
-      <img class="skill-review__campaign-archived-image " src="{{this.rootURL}}/images/illustrations/fat-bee.svg" alt="" role="none">
+      <img class="skill-review__campaign-archived-image" src="{{this.rootURL}}/images/illustrations/fat-bee.svg" alt="" role="none">
       <p class="skill-review__campaign-archived-text">
         {{t 'pages.skill-review.archived' htmlSafe=true}}
       </p>
@@ -15,8 +14,9 @@
         {{t 'pages.skill-review.actions.continue'}}
       </LinkTo>
     </div>
-
-  {{else}}
+  </PixBlock>
+{{else}}
+  <PixBlock class="skill-review__result-abstract-container">
     <div class="skill-review__result-and-action">
       <h2 class="sr-only">{{t 'pages.skill-review.abstract-title'}}</h2>
       {{#if this.showStages}}
@@ -40,13 +40,13 @@
             </div>
           </div>
         {{else}}
-          <p class="rounded-panel-title skill-review-result__abstract">
+          <p class="rounded-panel-title skill-review-result-abstract__text">
             {{t 'pages.skill-review.abstract' percentage=@model.campaignParticipation.campaignParticipationResult.masteryPercentage htmlSafe=true}}
           </p>
         {{/if}}
         <h2 class="sr-only">{{t 'pages.skill-review.send-title'}}</h2>
 
-        <div class="skill-review-result__share-container {{if this.showStages "skill-review-result__share-container--left"}}">
+        <div class="skill-review-result-abstract__share-container {{if this.showStages "skill-review-result-abstract__share-container--left"}}">
           {{#if this.displayErrorMessage}}
             <div class="skill-review-share__error-container">
               <div class="skill-review-share-error__message" aria-live="polite">
@@ -73,37 +73,57 @@
         </div>
       </div>
     </div>
+  </PixBlock>
+{{/if}}
 
-    {{#if this.showBadges}}
-      {{#unless this.hideBadgesTitle}}
-        <h2 class="skill-review-result__badge-subtitle">
-          {{t 'pages.skill-review.badges-title'}}
-        </h2>
-      {{/unless}}
-      <div class="badge-acquired-container">
-        {{#each this.acquiredBadges as |badge|}}
-          <BadgeAcquiredCard
-                  @title={{badge.title}}
-                  @message={{badge.message}}
-                  @imageUrl={{badge.imageUrl}}
-                  @altMessage={{badge.altMessage}}
-          />
-        {{/each}}
+{{#if this.showOrganizationMessage}}
+  <PixBlock class="skill-review__organization-message">
+      {{#if this.organizationLogoUrl}}
+        <div class="skill-review-organization-message__logo">
+          <img class="logo" src={{this.organizationLogoUrl}} alt="{{this.organizationName}}">
+        </div>
+      {{/if}}
+      <div class="skill-review-organization-message__content">
+        <p class="skill-review-organization-message__title">{{t 'pages.skill-review.organization-message'}}</p>
+        <p class="skill-review-organization-message__organization-name">{{this.organizationName}}</p>
+        <div class="skill-review-organization-message__text">
+          <p>{{this.organizationMessageText}}</p>
+        </div>
       </div>
-    {{/if}}
+  </PixBlock>
+{{/if}}
 
-    {{#if @model.displayImprovementButton}}
-      <SkillReviewTryAgain
-              @campaignParticipation={{@model.campaignParticipation}}
-              @improvementCampaignParticipation={{this.improvementCampaignParticipation}}/>
-    {{/if}}
+<PixBlock @shadow="heavy" class="skill-review__result-detail-container">
+  {{#if this.showBadges}}
+    {{#unless this.hideBadgesTitle}}
+      <h2 class="skill-review-result-detail__badge-subtitle">
+        {{t 'pages.skill-review.badges-title'}}
+      </h2>
+    {{/unless}}
+    <div class="badge-acquired-container">
+      {{#each this.acquiredBadges as |badge|}}
+        <BadgeAcquiredCard
+                @title={{badge.title}}
+                @message={{badge.message}}
+                @imageUrl={{badge.imageUrl}}
+                @altMessage={{badge.altMessage}}
+        />
+      {{/each}}
+    </div>
   {{/if}}
+
+  {{#if @model.displayImprovementButton}}
+    <SkillReviewTryAgain
+            @campaignParticipation={{@model.campaignParticipation}}
+            @improvementCampaignParticipation={{this.improvementCampaignParticipation}}/>
+  {{/if}}
+
 
   {{#unless @model.campaignParticipation.campaign.isForAbsoluteNovice}}
 
-    <main class="skill-review-result__content">
-    <div class="skill-review-result__table-header">
-      <h2 class="skill-review-result__subtitle">
+  <main class="skill-review-result-detail__content">
+    <div class="skill-review-result-detail__table-header">
+      <h2 class="skill-review-result-detail__subtitle">
         {{t 'pages.skill-review.details.title'}}
       </h2>
       <CircleChart @value={{@model.campaignParticipation.campaignParticipationResult.masteryPercentage}}>
@@ -120,7 +140,7 @@
     />
   </main>
 
-  <div class="skill-review-result__information">
+  <div class="skill-review-result-detail__information">
     <FaIcon @icon='info-circle' class='skill-review-information__info-icon' aria-hidden="true"/>
     <div class="skill-review-information__text">
       {{t 'pages.skill-review.information'}}

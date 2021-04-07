@@ -903,6 +903,7 @@
             },
             "information": "If you have already completed personalised tests on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",
             "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
+            "organization-message" : "Message of your organization",
             "send-results": "Don't forget to submit your results.",
             "send-status": {
                 "in-progress": "Results are being shared..."

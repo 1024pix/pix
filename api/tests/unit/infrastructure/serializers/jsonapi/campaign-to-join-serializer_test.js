@@ -35,6 +35,9 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', () => {
             'organization-logo-url': campaignToJoin.organizationLogoUrl,
             'target-profile-name': campaignToJoin.targetProfileName,
             'target-profile-image-url': campaignToJoin.targetProfileImageUrl,
+            'custom-result-page-text': campaignToJoin.customResultPageText,
+            'custom-result-page-button-text': campaignToJoin.customResultPageButtonText,
+            'custom-result-page-button-url': campaignToJoin.customResultPageButtonUrl,
           },
         },
       });

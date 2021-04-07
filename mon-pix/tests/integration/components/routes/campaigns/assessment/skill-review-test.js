@@ -1,6 +1,6 @@
 import { describe, beforeEach } from 'mocha';
 import { expect } from 'chai';
-
+import { contains } from '../../../../../helpers/contains';
 import { click, find, render } from '@ember/test-helpers';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
@@ -83,6 +83,9 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
               stageCount: 2,
               get: sinon.stub().returns([]),
             },
+            campaign: {
+              get: sinon.stub().returns([]),
+            },
           },
         };
 
@@ -118,6 +121,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           rollbackAttributes: sinon.stub(),
           campaign: {
             isForAbsoluteNovice: true,
+            get: sinon.stub().returns([]),
           },
           campaignParticipationResult: {
             masteryPercentage: 90,
@@ -154,5 +158,113 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       expect(find('.skill-review-result__information')).to.not.exist;
     });
 
+  });
+
+  describe('The block of the organisation message', function() {
+    context('when the organization has a message', function() {
+      context('when the organization has a logo', function() {
+        beforeEach(async function() {
+          // Given
+          const campaignParticipation = {
+            campaignParticipation: {
+              campaignParticipationResult: {
+                get: sinon.stub().returns([]),
+              },
+              campaign: {
+                customResultPageText: 'Bravo !',
+                organizationLogoUrl: 'www.logo-example.com',
+                organizationName: 'Dragon & Co',
+                get: sinon.stub(),
+              },
+            },
+          };
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(['Bravo !']);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(['www.logo-example.com']);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+          this.set('campaignParticipation', campaignParticipation);
+          // When
+          await render(hbs`<Routes::Campaigns::Assessment::SkillReview
+              @model={{campaignParticipation}}/>`);
+        });
+        it('should display the block for the message', function() {
+          // Then
+          expect(contains('Message de votre organisation')).to.exist;
+          expect(contains('Dragon & Co')).to.exist;
+        });
+
+        it('should show the logo of the organization ', function() {
+          // Then
+          expect(find('[src="www.logo-example.com"]')).to.exist;
+        });
+      });
+
+      context('when the organization has no logo', function() {
+        beforeEach(async function() {
+          // Given
+          const campaignParticipation = {
+            campaignParticipation: {
+              campaignParticipationResult: {
+                get: sinon.stub().returns([]),
+              },
+              campaign: {
+                customResultPageText: 'Bravo !',
+                organizationLogoUrl: null,
+                organizationName: 'Dragon & Co',
+                get: sinon.stub(),
+              },
+            },
+          };
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(['Bravo !']);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(null);
+          campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+          this.set('campaignParticipation', campaignParticipation);
+          // When
+          await render(hbs`<Routes::Campaigns::Assessment::SkillReview
+              @model={{campaignParticipation}}/>`);
+        });
+
+        it('should display the block for the message', function() {
+          // Then
+          expect(contains('Dragon & Co')).to.exist;
+          expect(contains('Message de votre organisation')).to.exist;
+        });
+
+        it('should not display the div for the logo of the organization ', function() {
+          // Then
+          expect(find('[src="www.logo-example.com"]')).to.not.exist;
+        });
+      });
+    });
+
+    context('when the organization has no message', function() {
+      beforeEach(async function() {
+        // Given
+        const campaignParticipation = {
+          campaignParticipation: {
+            campaignParticipationResult: {
+              get: sinon.stub().returns([]),
+            },
+            campaign: {
+              customResultPageText: null,
+              organizationLogoUrl: null,
+              organizationName: 'Dragon & Co',
+              get: sinon.stub(),
+            },
+          },
+        };
+        campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(null);
+        campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(null);
+        campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+        this.set('campaignParticipation', campaignParticipation);
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview
+            @model={{campaignParticipation}}/>`);
+      });
+
+      it('should not display the block for the message', function() {
+        // Then
+        expect(contains('Message de votre organisation')).to.not.exist;
+      });
+    });
   });
 });
