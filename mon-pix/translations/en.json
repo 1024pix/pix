@@ -327,7 +327,7 @@
                                 },
                                 "embed-not-displayed": {
                                     "label": "I cannot see the simulator/app",
-                                    "solution": "Your internet connection may not be strong enough.'<br>'Refresh the page by clicking on the refresh button'<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' next to the address bar. Wait a little while, the simulator might display. '<br><br>'If it doesn’t, you can try again later or from another location with a better connection."
+                                    "solution": "Your internet connection may not be strong enough.'<br>'Refresh the page by clicking on the refresh button'<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' next to the address bar. Wait a little while, the simulator might display. '<br><br>'If it doesn’t, you can try again later or from another location with a better connection."
                                 },
                                 "embed-other": "There is another problem with the simulator/app",
                                 "link-unauthorized": {
@@ -340,7 +340,7 @@
                                 "other-difficulty": "I have another problem",
                                 "picture-not-displayed": {
                                     "label": "The picture isn't displayed.",
-                                    "solution": "Your internet connexion may be too slow.'<br>'Reload the page by clicking on the refresh button '<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' next to the address bar. Wait for a bit, the picture may be displayed. '<br><br>'If this isn't the case, please try again later or from somewhere with a better connection."
+                                    "solution": "Your internet connexion may be too slow.'<br>'Reload the page by clicking on the refresh button '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' next to the address bar. Wait for a bit, the picture may be displayed. '<br><br>'If this isn't the case, please try again later or from somewhere with a better connection."
                                 },
                                 "picture-other": "There is another problem with the image.",
                                 "question-improvement": "I want to suggest an improvement to the question",
