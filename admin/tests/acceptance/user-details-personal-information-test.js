@@ -11,26 +11,28 @@ module('Acceptance | User details personal information', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let user = null;
-
-  hooks.beforeEach(async function() {
-    const schoolingRegistration = this.server.create('schooling-registration', { firstName: 'John' });
-    const pixAuthenticationMethod = this.server.create('authentication-method', { identityProvider: 'PIX' });
-    const garAuthenticationMethod = this.server.create('authentication-method', { identityProvider: 'GAR' });
-    user = this.server.create('user', {
+  async function buildAndAuthenticateUser(server, { email, username }) {
+    const schoolingRegistration = server.create('schooling-registration', { firstName: 'John' });
+    const pixAuthenticationMethod = server.create('authentication-method', { identityProvider: 'PIX' });
+    const garAuthenticationMethod = server.create('authentication-method', { identityProvider: 'GAR' });
+    const user = server.create('user', {
       'first-name': 'john',
       'last-name': 'harry',
-      username: null,
+      email,
+      username,
       'is-authenticated-from-gar': false,
     });
     user.schoolingRegistrations = [schoolingRegistration];
     user.authenticationMethods = [pixAuthenticationMethod, garAuthenticationMethod];
     user.save();
     await createAuthenticateSession({ userId: user.id });
-  });
+
+    return user;
+  }
 
   test('visiting /users/:id', async function(assert) {
     // when
+    const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
     await visit(`/users/${user.id}`);
 
     // then
@@ -41,6 +43,7 @@ module('Acceptance | User details personal information', function(hooks) {
 
     test('should update user firstName, lastName and email', async function(assert) {
       // given
+      const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       await visit(`/users/${user.id}`);
       await clickByLabel('Modifier');
 
@@ -59,16 +62,7 @@ module('Acceptance | User details personal information', function(hooks) {
 
     test('should update user firstName, lastName and username', async function(assert) {
       // given
-      const schoolingRegistration = this.server.create('schooling-registration', { firstName: 'John' });
-      user = this.server.create('user', {
-        'first-name': 'john',
-        'last-name': 'harry',
-        username: 'john.hary0101',
-      });
-      user.schoolingRegistrations = [schoolingRegistration];
-      user.save();
-      await createAuthenticateSession({ userId: user.id });
-
+      const user = await buildAndAuthenticateUser(this.server, { email: null, username: 'john.harry0101' });
       await visit(`/users/${user.id}`);
       await clickByLabel('Modifier');
 
@@ -90,6 +84,7 @@ module('Acceptance | User details personal information', function(hooks) {
 
     test('should anonymize the user', async function(assert) {
       // given
+      const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       await visit(`/users/${user.id}`);
       await clickByLabel('Anonymiser cet utilisateur');
 
@@ -107,6 +102,7 @@ module('Acceptance | User details personal information', function(hooks) {
 
     test('should not display registration any more', async function(assert) {
       // given
+      const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       const organizationName = 'Organisation_to_dissociate_of';
       const schoolingRegistrationToDissociate = this.server.create('schooling-registration', {
         id: 10,
@@ -131,6 +127,7 @@ module('Acceptance | User details personal information', function(hooks) {
 
     test('should not display remove link and display unchecked icon', async function(assert) {
       // given
+      const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       await visit(`/users/${user.id}`);
 
       // when
