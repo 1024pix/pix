@@ -15,10 +15,11 @@
       </div>
       <div class="page-section__details">
         ID : {{@model.id}}<br>
-        Title : {{@model.title}}<br>
+        Titre : {{@model.title}}<br>
         Key : {{@model.key}}<br>
         Message : {{@model.message}}<br>
         Message alternatif : {{@model.altMessage}}<br>
+        <PixTag @color={{this.isCertifiableColor}}>{{this.isCertifiableText}}</PixTag><br>
       </div>
     </div>
   </section>

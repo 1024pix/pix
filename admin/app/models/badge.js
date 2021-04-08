@@ -8,4 +8,5 @@ export default class Badge extends Model {
   @attr() message;
   @attr() imageUrl;
   @attr() altMessage;
+  @attr() isCertifiable;
 }
