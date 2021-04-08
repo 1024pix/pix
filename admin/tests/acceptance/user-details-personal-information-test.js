@@ -56,6 +56,34 @@ module('Acceptance | User details personal information', function(hooks) {
       assert.dom('.user__last-name').hasText('doe');
       assert.dom('.user__email').hasText('john.doe@example.net');
     });
+
+    test('should update user firstName, lastName and username', async function(assert) {
+      // given
+      const schoolingRegistration = this.server.create('schooling-registration', { firstName: 'John' });
+      user = this.server.create('user', {
+        'first-name': 'john',
+        'last-name': 'harry',
+        username: 'john.hary0101',
+      });
+      user.schoolingRegistrations = [schoolingRegistration];
+      user.save();
+      await createAuthenticateSession({ userId: user.id });
+
+      await visit(`/users/${user.id}`);
+      await clickByLabel('Modifier');
+
+      // when
+      await fillIn('#firstName', 'john');
+      await fillIn('#lastName', 'doe');
+      await fillIn('#username', 'john.doe0101');
+
+      await clickByLabel('Editer');
+
+      // then
+      assert.dom('.user__first-name').hasText('john');
+      assert.dom('.user__last-name').hasText('doe');
+      assert.dom('.user__username').hasText('john.doe0101');
+    });
   });
 
   module('when administrator click on anonymize button and confirm modal', function() {
