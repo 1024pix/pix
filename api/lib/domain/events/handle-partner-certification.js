@@ -5,7 +5,6 @@ const eventType = CertificationScoringCompleted;
 
 async function handlePartnerCertifications({
   event,
-  domainTransaction,
   partnerCertificationRepository,
 }) {
   checkEventType(event, eventType);
@@ -13,11 +12,10 @@ async function handlePartnerCertifications({
     certificationCourseId: event.certificationCourseId,
     userId: event.userId,
     reproducibilityRate: event.reproducibilityRate,
-    domainTransaction,
   });
 
   if (partnerCertification.isEligible()) {
-    await partnerCertificationRepository.save({ partnerCertification, domainTransaction });
+    await partnerCertificationRepository.save({ partnerCertification });
   }
 }
 

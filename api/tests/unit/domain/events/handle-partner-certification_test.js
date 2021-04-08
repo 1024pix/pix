@@ -4,7 +4,6 @@ const partnerCertificationRepository = require('../../../../lib/infrastructure/r
 const { handlePartnerCertifications } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-partner-certification', () => {
-  const domainTransaction = Symbol('domainTransaction');
   const reproducibilityRate = Symbol('reproducibilityRate');
 
   let event;
@@ -18,7 +17,7 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
     const event = 'not an event of the correct type';
     // when / then
     const error = await catchErr(handlePartnerCertifications)(
-      { event, ...dependencies, domainTransaction },
+      { event, ...dependencies },
     );
 
     // then
@@ -45,7 +44,6 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
         certificationCourseId,
         userId,
         reproducibilityRate,
-        domainTransaction,
       }).resolves(cleaCertification);
 
     });
@@ -57,13 +55,12 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
 
         // when
         await handlePartnerCertifications({
-          event, ...dependencies, domainTransaction,
+          event, ...dependencies,
         });
 
         // then
         expect(partnerCertificationRepository.save).to.have.been.calledWithMatch({
           partnerCertification: cleaCertification,
-          domainTransaction,
         });
       });
     });
@@ -74,7 +71,7 @@ describe('Unit | Domain | Events | handle-partner-certification', () => {
 
         // when
         await handlePartnerCertifications({
-          event, ...dependencies, domainTransaction,
+          event, ...dependencies,
         });
 
         // then

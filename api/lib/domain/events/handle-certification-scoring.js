@@ -11,7 +11,6 @@ const { checkEventType } = require('./check-event-type');
 const eventType = AssessmentCompleted;
 
 async function handleCertificationScoring({
-  domainTransaction,
   event,
   assessmentResultRepository,
   badgeAcquisitionRepository,
@@ -26,7 +25,6 @@ async function handleCertificationScoring({
     const certificationAssessment = await certificationAssessmentRepository.get(event.assessmentId);
     return _calculateCertificationScore({
       certificationAssessment,
-      domainTransaction,
       assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
@@ -40,7 +38,6 @@ async function handleCertificationScoring({
 
 async function _calculateCertificationScore({
   certificationAssessment,
-  domainTransaction,
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
@@ -51,7 +48,6 @@ async function _calculateCertificationScore({
     await _saveResult({
       certificationAssessmentScore,
       certificationAssessment,
-      domainTransaction,
       assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
@@ -68,7 +64,6 @@ async function _calculateCertificationScore({
     }
     await _saveResultAfterCertificationComputeError({
       certificationAssessment,
-      domainTransaction,
       assessmentResultRepository,
       certificationCourseRepository,
       certificationComputeError: error,
@@ -79,7 +74,6 @@ async function _calculateCertificationScore({
 async function _saveResult({
   certificationAssessment,
   certificationAssessmentScore,
-  domainTransaction,
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
@@ -88,32 +82,30 @@ async function _saveResult({
     certificationAssessment,
     certificationAssessmentScore,
     assessmentResultRepository,
-    domainTransaction,
   });
 
   await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
     const competenceMarkDomain = new CompetenceMark({ ...competenceMark, ...{ assessmentResultId: assessmentResult.id } });
-    return competenceMarkRepository.save(competenceMarkDomain, domainTransaction);
+    return competenceMarkRepository.save(competenceMarkDomain);
   });
 
-  return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date(), domainTransaction);
+  return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date());
 }
 
-function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, domainTransaction }) {
+function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository }) {
   const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(certificationAssessmentScore.nbPix, certificationAssessmentScore.status, certificationAssessment.id);
-  return assessmentResultRepository.save(assessmentResult, domainTransaction);
+  return assessmentResultRepository.save(assessmentResult);
 }
 
 async function _saveResultAfterCertificationComputeError({
   certificationAssessment,
-  domainTransaction,
   assessmentResultRepository,
   certificationCourseRepository,
   certificationComputeError,
 }) {
   const assessmentResult = AssessmentResult.BuildAlgoErrorResult(certificationComputeError, certificationAssessment.id);
   await assessmentResultRepository.save(assessmentResult);
-  return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date(), domainTransaction);
+  return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date());
 }
 handleCertificationScoring.eventType = eventType;
 module.exports = handleCertificationScoring;
