@@ -268,7 +268,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
 
       // when
-      await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+      await render(hbs`<UserDetailPersonalInformation @user={{this.user}} />`);
       await clickByLabel('Modifier');
 
       // then
@@ -276,7 +276,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('button[aria-label="Annuler"]').exists();
     });
 
-    test('should display user’s first name,last name and email in edit mode', async function(assert) {
+    test('should display user’s first name and last name in edit mode', async function(assert) {
       // given
       this.set('user', user);
 
@@ -287,7 +287,73 @@ module('Integration | Component | user-detail-personal-information', function(ho
       // then
       assert.dom('.user-edit-form__first-name').hasValue(this.user.firstName);
       assert.dom('.user-edit-form__last-name').hasValue(this.user.lastName);
-      assert.dom('.user-edit-form__email').hasValue(this.user.email);
+    });
+
+    module('when user has an email only', function() {
+
+      test('should display user’s email in edit mode', async function(assert) {
+        // given
+        this.set('user', user);
+
+        // when
+        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+        await clickByLabel('Modifier');
+
+        // then
+        assert.dom('.user-edit-form__email').hasValue(this.user.email);
+      });
+
+      test('should not display username in edit mode', async function(assert) {
+        // given
+        this.set('user', user);
+
+        // when
+        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
+        await clickByLabel('Modifier');
+
+        // then
+        assert.dom('.user-edit-form__username').doesNotExist();
+      });
+
+    });
+
+    module('when user has a username only', function() {
+
+      test('should display user’s username in edit mode', async function(assert) {
+        // given
+        const user = EmberObject.create({
+          lastName: 'Harry',
+          firstName: 'John',
+          email: null,
+          username: 'user.name1212',
+        });
+        this.set('user', user);
+
+        // when
+        await render(hbs `<UserDetailPersonalInformation @user={{this.user}} />`);
+        await clickByLabel('Modifier');
+
+        // then
+        assert.dom('.user-edit-form__username').hasValue(this.user.username);
+      });
+
+      test('should not display email', async function(assert) {
+        // given
+        const user = EmberObject.create({
+          lastName: 'Harry',
+          firstName: 'John',
+          email: null,
+          username: 'user.name1212',
+        });
+        this.set('user', user);
+
+        // when
+        await render(hbs `<UserDetailPersonalInformation @user={{this.user}} />`);
+        await clickByLabel('Modifier');
+
+        // then
+        assert.dom('.user-edit-form__email').doesNotExist();
+      });
     });
 
     test('should not display user’s terms of service', async function(assert) {
