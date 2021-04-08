@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v3.41.1 (08/04/2021)
+
+- [#2825](https://github.com/1024pix/pix/pull/2825) [BUGFIX] Le mésusage de la DomainTransaction provoque des deadlocks dans le flux de complétion d'asssessment (PIX-2457)
+
 ## v3.41.0 (07/04/2021)
 
 - [#2788](https://github.com/1024pix/pix/pull/2788) [FEATURE] Afficher les méthodes de connexion d'un utilisateur sur Pix Admin (PIX-2425).
