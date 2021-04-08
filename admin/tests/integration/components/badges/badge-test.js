@@ -17,6 +17,10 @@ module('Integration | Component | Badges::Badge', function(hooks) {
       key: 'ma clef',
       altMessage: 'mon message alternatif',
       isCertifiable: true,
+      badgeCriteria: [
+        { id: 1, scope: 'CampaignParticipation', threshold: 85 },
+      ],
+      badgePartnerCompetences: [],
     };
 
     this.set('badge', badge);
@@ -36,6 +40,7 @@ module('Integration | Component | Badges::Badge', function(hooks) {
     assert.ok(detailsContent.match(badge.altMessage), 'altMessage');
     assert.ok(detailsContent.match('Certifiable'), 'Certifiable');
     assert.dom('.page-section__details img').exists();
-    assert.dom('.page-section__details img').hasAttribute('src', 'data:,');
+    assert.contains('85');
+    assert.contains('CampaignParticipation');
   });
 });

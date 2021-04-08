@@ -16,7 +16,18 @@ module('Acceptance | authenticated/badges/badge', function(hooks) {
     currentUser = server.create('user');
     await createAuthenticateSession({ userId: currentUser.id });
 
-    badge = this.server.create('badge', { id: 1, title: 'My badge' });
+    const criterion = this.server.create('badge-criterion', {
+      id: 1,
+      scope: 'CampaignParticipation',
+      threshold: 20,
+    });
+    badge = this.server.create('badge', {
+      id: 1,
+      title: 'My badge',
+      badgeCriteria: [
+        criterion,
+      ],
+    });
   });
 
   test('should display the badge', async function(assert) {
@@ -24,5 +35,6 @@ module('Acceptance | authenticated/badges/badge', function(hooks) {
 
     const badgeElement = find('.page-section__details');
     assert.ok(badgeElement.textContent.match(badge.title));
+    assert.contains('20');
   });
 });
