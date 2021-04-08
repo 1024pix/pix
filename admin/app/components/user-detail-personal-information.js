@@ -90,8 +90,8 @@ export default class UserDetailPersonalInformationComponent extends Component {
     this.form = Form.create(getOwner(this).ownerInjection());
   }
 
-  get canAdministratorModifyUserDetails() {
-    return !(this.args.user.username !== null);
+  get canAdministratorAnonymizeUser() {
+    return this.args.user.email;
   }
 
   get externalURL() {

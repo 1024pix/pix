@@ -16,43 +16,20 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
     module('update button', async function() {
 
-      test('should display the update button when user is connected by email only', async function(assert) {
+      test('should display the update button', async function(assert) {
+        //given
         this.set('user', {
           firstName: 'John',
           lastName: 'Harry',
           email: 'john.harry@example.net',
-          username: null,
+          username: 'john.harry0102',
         });
 
+        //when
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-        assert.dom('button[aria-label="Modifier"]').exists();
-      });
-
-      test('should not display the update button when user is connected with username only', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: null,
-          username: 'john.harry2018',
-        });
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        assert.dom('button[aria-label="Modifier"]').doesNotExist();
-      });
-
-      test('should not display the update button when user is connected with username and email', async function(assert) {
-        this.set('user', {
-          firstName: 'John',
-          lastName: 'Harry',
-          email: 'john.harry@example.net',
-          username: 'john.harry2018',
-        });
-
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        assert.dom('button[aria-label="Modifier"]').doesNotExist();
+        //then
+        assert.contains('Modifier');
       });
     });
 

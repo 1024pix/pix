@@ -100,7 +100,6 @@
         </div>
       </section>
       <div class="col-md-4">
-        {{#if this.canAdministratorModifyUserDetails}}
           <button
                   type="button"
                   class="btn btn-outline-default"
@@ -109,6 +108,7 @@
           >
             Modifier
           </button>
+        {{#if this.canAdministratorAnonymizeUser}}
           <button
                   type="button"
                   class="btn btn-danger"
