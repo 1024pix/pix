@@ -9,7 +9,6 @@ const challengeSerializer = require('../../infrastructure/serializers/jsonapi/ch
 const competenceEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest, extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
 
@@ -76,10 +75,8 @@ module.exports = {
   async completeAssessment(request) {
     const assessmentId = parseInt(request.params.id);
 
-    await DomainTransaction.execute(async (domainTransaction) => {
-      const event = await usecases.completeAssessment({ domainTransaction, assessmentId });
-      await events.eventDispatcher.dispatch(event, domainTransaction);
-    });
+    const event = await usecases.completeAssessment({ assessmentId });
+    await events.eventDispatcher.dispatch(event);
 
     return null;
   },

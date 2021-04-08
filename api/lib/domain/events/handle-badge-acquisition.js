@@ -5,7 +5,6 @@ const { checkEventType } = require('./check-event-type');
 const eventType = AssessmentCompleted;
 
 const handleBadgeAcquisition = async function({
-  domainTransaction,
   event,
   badgeCriteriaService,
   badgeAcquisitionRepository,
@@ -28,7 +27,7 @@ const handleBadgeAcquisition = async function({
     });
 
     if (!_.isEmpty(badgesAcquisitionToCreate)) {
-      await badgeAcquisitionRepository.create(badgesAcquisitionToCreate, domainTransaction);
+      await badgeAcquisitionRepository.create(badgesAcquisitionToCreate);
     }
   }
 };

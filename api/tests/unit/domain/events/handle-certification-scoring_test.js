@@ -12,7 +12,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
   const assessmentResultRepository = { save: _.noop };
   const certificationCourseRepository = { changeCompletionDate: _.noop, getCreationDate: _.noop };
   const competenceMarkRepository = { save: _.noop };
-  const domainTransaction = {};
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
   let event;
@@ -58,7 +57,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       const event = 'not an event of the correct type';
       // when / then
       const error = await catchErr(handleCertificationScoring)(
-        { event, ...dependencies, domainTransaction },
+        { event, ...dependencies },
       );
 
       // then
@@ -102,7 +101,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         await handleCertificationScoring({
           event,
           ...dependencies,
-          domainTransaction,
         });
 
         // then
@@ -116,7 +114,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         await handleCertificationScoring({
           event,
           ...dependencies,
-          domainTransaction,
         });
 
         // then
@@ -127,7 +124,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
           errorAssessmentResult,
         );
         expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-          certificationAssessment.certificationCourseId, now, domainTransaction,
+          certificationAssessment.certificationCourseId, now,
         );
       });
     });
@@ -158,7 +155,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       it('should build and save an assessment result with the expected arguments', async () => {
         // when
         await handleCertificationScoring({
-          event, ...dependencies, domainTransaction,
+          event, ...dependencies,
         });
 
         // then
@@ -167,16 +164,16 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
           certificationAssessmentScore.status,
           certificationAssessment.id,
         );
-        expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult, domainTransaction);
+        expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult);
         expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-          certificationAssessment.certificationCourseId, now, domainTransaction,
+          certificationAssessment.certificationCourseId, now,
         );
       });
 
       it('should return a CertificationScoringCompleted', async () => {
         // when
         const certificationScoringCompleted = await handleCertificationScoring({
-          event, ...dependencies, domainTransaction,
+          event, ...dependencies,
         });
 
         // then
@@ -191,7 +188,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       it('should build and save as many competence marks as present in the certificationAssessmentScore', async () => {
         // when
         await handleCertificationScoring({
-          event, ...dependencies, domainTransaction,
+          event, ...dependencies,
         });
 
         // then
@@ -212,7 +209,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
       // when
       const certificationScoringCompleted = await handleCertificationScoring({
-        event, ...dependencies, domainTransaction,
+        event, ...dependencies,
       });
 
       expect(certificationScoringCompleted).to.be.null;
