@@ -30,7 +30,23 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
           },
           id: '1',
           type: 'badges',
+          relationships: {
+            'badge-criteria': {
+              'data': [{
+                id: '1',
+                type: 'badge-criterion',
+              }],
+            },
+          },
         },
+        included: [{
+          attributes: {
+            scope: 'CampaignParticipation',
+            threshold: 40,
+          },
+          id: '1',
+          type: 'badge-criterion',
+        }],
       };
 
       // when
