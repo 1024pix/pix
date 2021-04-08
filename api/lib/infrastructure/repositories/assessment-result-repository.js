@@ -3,6 +3,7 @@ const BookshelfAssessmentResult = require('../data/assessment-result');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
 const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../domain/errors');
+const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
   async save({
@@ -15,7 +16,7 @@ module.exports = {
     id,
     juryId,
     assessmentId,
-  }, domainTransaction = {}) {
+  }, domainTransaction = DomainTransaction.emptyTransaction()) {
     if (_.isNil(assessmentId)) {
       throw new MissingAssessmentId();
     }
