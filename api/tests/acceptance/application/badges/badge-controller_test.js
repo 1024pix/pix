@@ -3,7 +3,7 @@ const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insert
 
 describe('Acceptance | API | Badges', () => {
 
-  let server, options, userId, badge;
+  let server, options, userId, badge, badgeCriterion;
 
   beforeEach(async () => {
     server = await createServer();
@@ -23,6 +23,7 @@ describe('Acceptance | API | Badges', () => {
         key: 'clef du badge',
         isCertifiable: false,
       });
+      badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
 
       await databaseBuilder.commit();
     });
@@ -46,7 +47,23 @@ describe('Acceptance | API | Badges', () => {
             title: 'titre du badge',
             key: 'clef du badge',
           },
+          relationships: {
+            'badge-criteria': {
+              data: [{
+                id: badgeCriterion.id.toString(),
+                type: 'badge-criterion',
+              }],
+            },
+          },
         },
+        included: [{
+          type: 'badge-criterion',
+          id: badgeCriterion.id.toString(),
+          attributes: {
+            scope: 'CampaignParticipation',
+            threshold: 50,
+          },
+        }],
       };
 
       // when
