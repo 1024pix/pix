@@ -6,9 +6,9 @@ const DomainTransaction = require('../DomainTransaction');
 module.exports = {
 
   async create(badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction()) {
-    const results = await Bookshelf.knex('badge-acquisitions')
-      .insert(badgeAcquisitionsToCreate, 'id')
-      .transacting(domainTransaction.knexTransaction);
+    const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
+    const results = await knexConn('badge-acquisitions')
+      .insert(badgeAcquisitionsToCreate, 'id');
     return results;
   },
 
