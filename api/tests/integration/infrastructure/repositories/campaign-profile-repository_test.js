@@ -90,12 +90,26 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       });
 
       it('return the first name and last name of the schooling registration', async () => {
-        const campaignId = databaseBuilder.factory.buildCampaign().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Greg', lastName: 'Duboire', organizationId }, { campaignId }).id;
         await databaseBuilder.commit();
 
         const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId, locale });
+
+        expect(campaignProfile.firstName).to.equal('Greg');
+        expect(campaignProfile.lastName).to.equal('Duboire');
+      });
+
+      it('return the first name and last name of the current schooling registration', async () => {
+        const oldOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const campaignParticipationCreated = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Greg', lastName: 'Duboire', organizationId }, { campaignId });
+        databaseBuilder.factory.buildSchoolingRegistration({ firstName: 'Gregoire', lastName: 'Dub', organizationId: oldOrganizationId, userId: campaignParticipationCreated.userId });
+        await databaseBuilder.commit();
+
+        const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId: campaignParticipationCreated.id, locale });
 
         expect(campaignProfile.firstName).to.equal('Greg');
         expect(campaignProfile.lastName).to.equal('Duboire');
