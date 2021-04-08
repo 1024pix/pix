@@ -42,14 +42,14 @@ module('Acceptance | User details personal information', function(hooks) {
     test('should update user firstName, lastName and email', async function(assert) {
       // given
       await visit(`/users/${user.id}`);
-      await click('button[aria-label="Modifier"]');
+      await clickByLabel('Modifier');
 
       // when
       await fillIn('#firstName', 'john');
       await fillIn('#lastName', 'doe');
       await fillIn('#email', 'john.doe@example.net');
 
-      await click('button[aria-label="Editer"]');
+      await clickByLabel('Editer');
 
       // then
       assert.dom('.user__first-name').hasText('john');
@@ -63,7 +63,7 @@ module('Acceptance | User details personal information', function(hooks) {
     test('should anonymize the user', async function(assert) {
       // given
       await visit(`/users/${user.id}`);
-      await click('button[aria-label="Anonymiser"]');
+      await clickByLabel('Anonymiser cet utilisateur');
 
       // when
       await clickByLabel('Confirmer');

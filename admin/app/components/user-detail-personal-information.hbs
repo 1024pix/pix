@@ -101,18 +101,16 @@
       </section>
       <div class="col-md-4">
           <button
-                  type="button"
-                  class="btn btn-outline-default"
-                  aria-label="Modifier"
+            type="button"
+            class="btn btn-outline-default"
             {{on "click" this.changeEditionMode}}
           >
             Modifier
           </button>
         {{#if this.canAdministratorAnonymizeUser}}
           <button
-                  type="button"
-                  class="btn btn-danger"
-                  aria-label="Anonymiser"
+            type="button"
+            class="btn btn-danger"
             {{on "click" this.toggleDisplayAnonymizeModal}}
           >
             Anonymiser cet utilisateur

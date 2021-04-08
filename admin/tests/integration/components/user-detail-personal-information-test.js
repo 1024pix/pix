@@ -269,7 +269,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       // when
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-      await click('button[aria-label="Modifier"]');
+      await clickByLabel('Modifier');
 
       // then
       assert.dom('button[aria-label="Editer"]').exists();
@@ -282,7 +282,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       // when
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-      await click('button[aria-label="Modifier"]');
+      await clickByLabel('Modifier');
 
       // then
       assert.dom('.user-edit-form__first-name').hasValue(this.user.firstName);
@@ -296,7 +296,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       // when
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-      await click('button[aria-label="Modifier"]');
+      await clickByLabel('Modifier');
 
       // then
       assert.dom('.user__cgu').doesNotExist();
@@ -324,7 +324,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
       // when
-      await click('button[aria-label="Anonymiser"]');
+      await clickByLabel('Anonymiser cet utilisateur');
 
       // then
       assert.dom('.modal-dialog').exists();
@@ -335,7 +335,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       // given
       this.set('user', user);
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-      await click('button[aria-label="Anonymiser"]');
+      await clickByLabel('Anonymiser cet utilisateur');
 
       // when
       await click('.modal-dialog .btn-secondary');
