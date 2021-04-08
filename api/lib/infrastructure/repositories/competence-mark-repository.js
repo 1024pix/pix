@@ -1,13 +1,14 @@
 const BookshelfCompetenceMark = require('../data/competence-mark');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 const { knex } = require('../bookshelf');
+const DomainTransaction = require('../DomainTransaction');
 
 function _toDomain(competenceMark) {
   return new CompetenceMark(competenceMark);
 }
 
 module.exports = {
-  async save(competenceMark, domainTransaction = {}) {
+  async save(competenceMark, domainTransaction = DomainTransaction.emptyTransaction()) {
     await competenceMark.validate();
     const savedCompetenceMark = await new BookshelfCompetenceMark(competenceMark)
       .save(null, { transacting: domainTransaction.knexTransaction });

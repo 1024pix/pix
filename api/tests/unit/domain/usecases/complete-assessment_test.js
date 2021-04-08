@@ -11,7 +11,6 @@ describe('Unit | UseCase | complete-assessment', () => {
     get: _.noop,
     completeByAssessmentId: _.noop,
   };
-  const domainTransaction = Symbol('domainTransaction');
   const assessmentResultRepository = { save: _.noop };
   const certificationCourseRepository = { changeCompletionDate: _.noop };
   const competenceMarkRepository = { save: _.noop };
@@ -46,7 +45,6 @@ describe('Unit | UseCase | complete-assessment', () => {
         certificationCourseRepository,
         competenceMarkRepository,
         scoringCertificationService,
-        domainTransaction,
       });
 
       // then
@@ -78,11 +76,10 @@ describe('Unit | UseCase | complete-assessment', () => {
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
-              domainTransaction,
             });
 
             // then
-            expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id, domainTransaction)).to.be.true;
+            expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id)).to.be.true;
           });
 
           it('should return a AssessmentCompleted event', async () => {
@@ -94,7 +91,6 @@ describe('Unit | UseCase | complete-assessment', () => {
               certificationCourseRepository,
               competenceMarkRepository,
               scoringCertificationService,
-              domainTransaction,
             });
 
             // then
@@ -119,7 +115,6 @@ describe('Unit | UseCase | complete-assessment', () => {
           certificationCourseRepository,
           competenceMarkRepository,
           scoringCertificationService,
-          domainTransaction,
         });
 
         // then
@@ -141,7 +136,6 @@ describe('Unit | UseCase | complete-assessment', () => {
           certificationCourseRepository,
           competenceMarkRepository,
           scoringCertificationService,
-          domainTransaction,
         });
 
         // then
