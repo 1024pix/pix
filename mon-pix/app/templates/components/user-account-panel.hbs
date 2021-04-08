@@ -1,17 +1,23 @@
 <PixBlock>
   <div class="user-account-panel__item">
-    <span class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.first-name'}}</span>
-    <span class="user-account-panel-item__value" data-test-firstName>{{@user.firstName}}</span>
+    <div class="user-account-panel-item__text">
+      <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.first-name'}}</p>
+      <p class="user-account-panel-item__value" data-test-firstName>{{@user.firstName}}</p>
+    </div>
   </div>
   <div class="user-account-panel__item">
-    <span class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.last-name'}}</span>
-    <span class="user-account-panel-item__value" data-test-lastName>{{@user.lastName}}</span>
+    <div class="user-account-panel-item__text">
+      <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.last-name'}}</p>
+      <p class="user-account-panel-item__value" data-test-lastName>{{@user.lastName}}</p>
+    </div>
   </div>
 
   {{#if this.displayEmail}}
   <div class="user-account-panel__item">
-    <span class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.email'}}</span>
-    <span class="user-account-panel-item__value" data-test-email>{{@user.email}}</span>
+    <div class="user-account-panel-item__text">
+      <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.email'}}</p>
+      <p class="user-account-panel-item__value" data-test-email>{{@user.email}}</p>
+    </div>
       <PixButton
               class="user-account-panel-item__button"
               @triggerAction={{@enableEmailEditionMode}}
@@ -23,13 +29,15 @@
 
   {{#if this.displayUsername}}
   <div class="user-account-panel__item">
-    <span class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.username'}}</span>
-    <span class="user-account-panel-item__value" data-test-username>{{@user.username}}</span>
+    <div class="user-account-panel-item__text">
+      <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.username'}}</p>
+      <p class="user-account-panel-item__value" data-test-username>{{@user.username}}</p>
+    </div>
   </div>
   {{/if}}
   {{#if this.displayLanguageSwitch}}
-    <div class="user-account-panel__item">
-      <span class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.lang'}}</span>
+    <div class="user-account-panel__item user-account-panel-item__text">
+        <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.lang'}}</p>
         <div class="user-account-panel-item__select">
           <PixSelect
             class="user-account-panel-item__value"

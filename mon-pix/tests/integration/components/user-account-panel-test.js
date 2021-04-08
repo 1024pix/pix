@@ -5,6 +5,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
+import { contains } from '../../helpers/contains';
 
 describe('Integration | Component | User account panel', () => {
 
@@ -32,11 +33,11 @@ describe('Integration | Component | User account panel', () => {
     await render(hbs`<UserAccountPanel @user={{this.user}} />`);
 
     // then
-    expect(find('span[data-test-firstName]').textContent).to.include(user.firstName);
-    expect(find('span[data-test-lastName]').textContent).to.include(user.lastName);
-    expect(find('span[data-test-email]').textContent).to.include(user.email);
-    expect(find('span[data-test-username]').textContent).to.include(user.username);
-    expect(find('select[data-test-lang] > option[selected]').textContent).to.include('Français');
+    expect(contains(user.firstName)).to.exist;
+    expect(contains(user.lastName)).to.exist;
+    expect(contains(user.email)).to.exist;
+    expect(contains(user.username)).to.exist;
+    expect(contains('Français')).to.exist;
   });
 
   it('should call Enable Email Edition method', async function() {
@@ -92,7 +93,7 @@ describe('Integration | Component | User account panel', () => {
       await render(hbs`<UserAccountPanel @user={{this.user}} />`);
 
       // then
-      expect(find('span[data-test-username]')).to.not.exist;
+      expect(find('p[data-test-username]')).to.not.exist;
     });
   });
 
