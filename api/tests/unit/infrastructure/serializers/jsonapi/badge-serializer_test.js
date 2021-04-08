@@ -15,6 +15,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
         key: 'BANANA',
         title: 'Banana',
         targetProfileId: '1',
+        isCertifiable: false,
       });
 
       const expectedSerializedBadge = {
@@ -22,6 +23,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
           attributes: {
             'alt-message': 'You won a banana badge',
             'image-url': '/img/banana.svg',
+            'is-certifiable': false,
             message: 'Congrats, you won a banana badge',
             title: 'Banana',
             key: 'BANANA',

@@ -4,7 +4,7 @@ module.exports = {
   serialize(badge = {}) {
     return new Serializer('badge', {
       ref: 'id',
-      attributes: ['altMessage', 'imageUrl', 'message', 'key', 'title'],
+      attributes: ['altMessage', 'imageUrl', 'message', 'key', 'title', 'isCertifiable'],
     }).serialize(badge);
   },
 };
