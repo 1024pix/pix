@@ -21,7 +21,7 @@ class CertifiedLevel {
       numberOfNeutralizedAnswers,
     });
     if (!rule) {
-      return CertifiedLevel.uncertify(); // TODO : should not be possible, throw instead ?
+      throw new Error('Règle de calcul de niveau certifié manquante.');
     } else {
       return rule.apply({ reproducibilityRate, estimatedLevel });
     }
@@ -270,7 +270,7 @@ class Rule14 extends Rule {
     super({
       numberOfChallengesAnswered: 2,
       numberOfCorrectAnswers: 0,
-      numberOfNeutralizedAnswers: 1,
+      numberOfNeutralizedAnswers: 0,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
       actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
       actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
