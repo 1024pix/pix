@@ -135,6 +135,8 @@ function _buildCampaignForPro(databaseBuilder) {
     title: null,
     customLandingPageText: null,
     customResultPageText: 'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.',
+    customResultPageButtonUrl: 'https://pix.fr/',
+    customResultPageButtonText: 'Voir Pix !',
   });
 
   databaseBuilder.factory.buildCampaign({
