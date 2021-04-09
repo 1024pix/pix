@@ -39,10 +39,12 @@ module.exports = {
     juryId,
     assessmentId,
   }, domainTransaction = DomainTransaction.emptyTransaction()) {
+
     if (_.isNil(assessmentId)) {
       throw new MissingAssessmentId();
     }
     try {
+      const transacting = domainTransaction && domainTransaction.knexTransaction;
       const savedAssessmentResultBookshelf = await new BookshelfAssessmentResult({
         pixScore,
         status,
@@ -54,7 +56,7 @@ module.exports = {
         juryId,
         assessmentId,
       })
-        .save(null, { require: true, transacting: domainTransaction.knexTransaction });
+        .save(null, { require: true, transacting });
 
       return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, savedAssessmentResultBookshelf);
     } catch (error) {

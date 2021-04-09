@@ -9,9 +9,10 @@ function _toDomain(competenceMark) {
 
 module.exports = {
   async save(competenceMark, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const transacting = domainTransaction && domainTransaction.knexTransaction;
     await competenceMark.validate();
     const savedCompetenceMark = await new BookshelfCompetenceMark(competenceMark)
-      .save(null, { transacting: domainTransaction.knexTransaction });
+      .save(null, { transacting });
     return savedCompetenceMark.toDomainEntity();
   },
 

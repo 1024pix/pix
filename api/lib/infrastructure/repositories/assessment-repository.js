@@ -124,7 +124,7 @@ module.exports = {
   },
 
   completeByAssessmentId(assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    return this._updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED }, domainTransaction.knexTransaction);
+    return this._updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED }, domainTransaction);
   },
 
   async ownedByUser({ id, userId = null }) {
@@ -140,10 +140,12 @@ module.exports = {
     return assessment.userId === userId;
   },
 
-  async _updateStateById({ id, state }, knexTransaction) {
+  async _updateStateById({ id, state }, domainTransaction) {
+    const transacting = domainTransaction && domainTransaction.knexTransaction;
+
     const assessment = await BookshelfAssessment
       .where({ id })
-      .save({ state }, { require: true, patch: true, transacting: knexTransaction });
+      .save({ state }, { require: true, patch: true, transacting });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment);
   },
 
