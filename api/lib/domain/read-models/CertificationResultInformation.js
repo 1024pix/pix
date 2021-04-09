@@ -24,7 +24,7 @@ class CertificationResultInformation {
       commentForJury,
       juryId,
       pixScore,
-      competencesWithMark,
+      competenceMarks,
     } = {}) {
     this.certificationCourseId = certificationCourseId;
 
@@ -49,7 +49,7 @@ class CertificationResultInformation {
     this.commentForJury = commentForJury;
     this.juryId = juryId;
     this.pixScore = pixScore;
-    this.competencesWithMark = competencesWithMark;
+    this.competenceMarks = competenceMarks;
   }
 
   static from({
@@ -77,7 +77,7 @@ class CertificationResultInformation {
       commentForJury: assessmentResult.commentForJury,
       juryId: assessmentResult.juryId,
       pixScore: assessmentResult.pixScore,
-      competencesWithMark: assessmentResult.competenceMarks,
+      competenceMarks: assessmentResult.competenceMarks,
     });
   }
 }

@@ -13,7 +13,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
       const certificationCourseId = 123;
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ certificationCourseId });
       const certificationIssueReports = [ certificationIssueReport ];
-      const competencesWithMark = [ domainBuilder.buildCompetenceMark() ];
+      const competenceMarks = [ domainBuilder.buildCompetenceMark() ];
       const certificationResultInformationDTO = {
         certificationCourseId,
         sessionId: 11,
@@ -34,7 +34,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
         commentForJury: null,
         juryId: 1,
         pixScore: 555,
-        competencesWithMark,
+        competenceMarks,
       };
       const certificationResultInformation = new CertificationResultInformation(certificationResultInformationDTO);
 
@@ -64,7 +64,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
             'comment-for-organization': certificationResultInformationDTO.commentForOrganization,
             'jury-id': certificationResultInformationDTO.juryId,
             'pix-score': certificationResultInformationDTO.pixScore,
-            'competences-with-mark': certificationResultInformationDTO.competencesWithMark,
+            'competences-with-mark': certificationResultInformationDTO.competenceMarks,
           },
           relationships: {
             'certification-issue-reports': {
