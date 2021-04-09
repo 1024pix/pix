@@ -10,7 +10,7 @@ module('Unit |  Component | Badges | badge', function(hooks) {
     test('returns color and text when is certifiable', function(assert) {
       const component = createComponent('component:badges/badge');
       component.args = {
-        model: { isCertifiable: true },
+        badge: { isCertifiable: true },
       };
 
       assert.equal(component.isCertifiableColor, 'green');
@@ -20,7 +20,7 @@ module('Unit |  Component | Badges | badge', function(hooks) {
     test('returns color and text when is not certifiable', function(assert) {
       const component = createComponent('component:badges/badge');
       component.args = {
-        model: { isCertifiable: false },
+        badge: { isCertifiable: false },
       };
 
       assert.equal(component.isCertifiableColor, 'yellow');
