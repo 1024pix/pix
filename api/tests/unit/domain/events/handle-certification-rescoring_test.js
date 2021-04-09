@@ -58,8 +58,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       .withArgs(assessmentResultToBeSaved)
       .resolves(savedAssessmentResult);
 
-    const domainTransaction = Symbol('domain transaction');
-
     const dependendencies = {
       assessmentResultRepository,
       certificationAssessmentRepository,
@@ -72,15 +70,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       {
         ...dependendencies,
         event,
-        domainTransaction,
       });
 
     // then
     expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResultToBeSaved);
     competenceMarkData1.assessmentResultId = savedAssessmentResult.id;
     competenceMarkData2.assessmentResultId = savedAssessmentResult.id;
-    expect(competenceMarkRepository.save).to.have.been.calledWithExactly(competenceMarkData1, domainTransaction);
-    expect(competenceMarkRepository.save).to.have.been.calledWithExactly(competenceMarkData2, domainTransaction);
+    expect(competenceMarkRepository.save).to.have.been.calledWithExactly(competenceMarkData1);
+    expect(competenceMarkRepository.save).to.have.been.calledWithExactly(competenceMarkData2);
   });
 
   it('computes and persists the assessment result in error when computation fails', async () => {
@@ -124,8 +121,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       .withArgs(assessmentResultToBeSaved)
       .resolves(savedAssessmentResult);
 
-    const domainTransaction = Symbol('domain transaction');
-
     const dependendencies = {
       assessmentResultRepository,
       certificationAssessmentRepository,
@@ -138,7 +133,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       {
         ...dependendencies,
         event,
-        domainTransaction,
       });
 
     // then
