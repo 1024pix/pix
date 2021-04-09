@@ -6,6 +6,7 @@ const {
 
 module.exports = async function completeAssessment({
   assessmentId,
+  domainTransaction,
   assessmentRepository,
 }) {
   const assessment = await assessmentRepository.get(assessmentId);
@@ -14,7 +15,7 @@ module.exports = async function completeAssessment({
     throw new AlreadyRatedAssessmentError();
   }
 
-  await assessmentRepository.completeByAssessmentId(assessmentId);
+  await assessmentRepository.completeByAssessmentId(assessmentId, domainTransaction);
 
   return new AssessmentCompleted({
     assessmentId: assessment.id,

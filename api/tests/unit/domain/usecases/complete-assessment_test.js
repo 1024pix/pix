@@ -14,6 +14,7 @@ describe('Unit | UseCase | complete-assessment', () => {
   const assessmentResultRepository = { save: _.noop };
   const certificationCourseRepository = { changeCompletionDate: _.noop };
   const competenceMarkRepository = { save: _.noop };
+  const domainTransaction = Symbol('domainTransaction');
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
 
@@ -71,6 +72,7 @@ describe('Unit | UseCase | complete-assessment', () => {
             // when
             await completeAssessment({
               assessmentId: assessment.id,
+              domainTransaction,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
@@ -79,13 +81,14 @@ describe('Unit | UseCase | complete-assessment', () => {
             });
 
             // then
-            expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id)).to.be.true;
+            expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id, domainTransaction)).to.be.true;
           });
 
           it('should return a AssessmentCompleted event', async () => {
             // when
             const result = await completeAssessment({
               assessmentId: assessment.id,
+              domainTransaction,
               assessmentRepository,
               assessmentResultRepository,
               certificationCourseRepository,
@@ -110,6 +113,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const result = await completeAssessment({
           assessmentId: assessment.id,
+          domainTransaction,
           assessmentRepository,
           assessmentResultRepository,
           certificationCourseRepository,
@@ -131,6 +135,7 @@ describe('Unit | UseCase | complete-assessment', () => {
         // when
         const result = await completeAssessment({
           assessmentId: assessment.id,
+          domainTransaction,
           assessmentRepository,
           assessmentResultRepository,
           certificationCourseRepository,
