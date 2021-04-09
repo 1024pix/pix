@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v3.42.0 (09/04/2021)
+
+- [#2806](https://github.com/1024pix/pix/pull/2806) [FEATURE] Restreindre l'accès d'un utilisateur anonyme lors d'une campagne à accès simplifiée (Pix-2363).
+- [#2821](https://github.com/1024pix/pix/pull/2821) [FEATURE] Afficher le bouton personnalisé dans la page de fin de parcours (Pix-2327)
+- [#2799](https://github.com/1024pix/pix/pull/2799) [FEATURE] renvoyer la derniere certification pour le livret scolaire (pix-2421)
+- [#2823](https://github.com/1024pix/pix/pull/2823) [BUGFIX] Affichage de la bonne identité dans le détail d'un participant à une campagne de collecte de profils (PIX-2427).
+
 ## v3.41.1 (08/04/2021)
 
 - [#2825](https://github.com/1024pix/pix/pull/2825) [BUGFIX] Le mésusage de la DomainTransaction provoque des deadlocks dans le flux de complétion d'asssessment (PIX-2457)
