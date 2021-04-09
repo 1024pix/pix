@@ -68,7 +68,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       const otherError = new Error();
       beforeEach(() => {
         sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(otherError);
-        sinon.stub(AssessmentResult, 'BuildAlgoErrorResult');
+        sinon.stub(AssessmentResult, 'buildAlgoErrorResult');
         sinon.stub(assessmentResultRepository, 'save');
         sinon.stub(certificationCourseRepository, 'changeCompletionDate');
       });
@@ -80,7 +80,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         });
 
         // then
-        expect(AssessmentResult.BuildAlgoErrorResult).to.not.have.been.called;
+        expect(AssessmentResult.buildAlgoErrorResult).to.not.have.been.called;
         expect(assessmentResultRepository.save).to.not.have.been.called;
         expect(certificationCourseRepository.changeCompletionDate).to.not.have.been.called;
       });
@@ -91,7 +91,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       const computeError = new CertificationComputeError();
       beforeEach(() => {
         sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(computeError);
-        sinon.stub(AssessmentResult, 'BuildAlgoErrorResult').returns(errorAssessmentResult);
+        sinon.stub(AssessmentResult, 'buildAlgoErrorResult').returns(errorAssessmentResult);
         sinon.stub(assessmentResultRepository, 'save').resolves();
         sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
       });
@@ -117,7 +117,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         });
 
         // then
-        expect(AssessmentResult.BuildAlgoErrorResult).to.have.been.calledWithExactly(
+        expect(AssessmentResult.buildAlgoErrorResult).to.have.been.calledWithExactly(
           computeError, certificationAssessment.id,
         );
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(
@@ -145,7 +145,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       };
 
       beforeEach(() => {
-        sinon.stub(AssessmentResult, 'BuildStandardAssessmentResult').returns(assessmentResult);
+        sinon.stub(AssessmentResult, 'buildStandardAssessmentResult').returns(assessmentResult);
         sinon.stub(assessmentResultRepository, 'save').resolves(savedAssessmentResult);
         sinon.stub(competenceMarkRepository, 'save').resolves();
         sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
@@ -159,7 +159,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         });
 
         // then
-        expect(AssessmentResult.BuildStandardAssessmentResult).to.have.been.calledWithExactly(
+        expect(AssessmentResult.buildStandardAssessmentResult).to.have.been.calledWithExactly(
           certificationAssessmentScore.nbPix,
           certificationAssessmentScore.status,
           certificationAssessment.id,
