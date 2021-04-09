@@ -844,10 +844,9 @@
             },
             "or":"OR",
             "pole-emploi": {
-                "title": "",
+                "title": "Sign-in with pôle Emploi",
                 "link": {
-                    "title": "Pôle Emploi",
-                    "img": "picture Pôle Emploi"
+                    "img": "pôle emploi connect"
                 }
             }
         },
