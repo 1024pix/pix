@@ -70,7 +70,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
     });
   });
 
-  describe('#deserialize()', () => {
+  describe('#deserialize', () => {
 
     let jsonUser;
 
@@ -82,6 +82,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
             'first-name': 'Luke',
             'last-name': 'Skywalker',
             email: 'lskywalker@deathstar.empire',
+            username: 'luke.skywalker1212',
           },
         },
       };
@@ -95,6 +96,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', () =
       expect(user.firstName).to.equal('Luke');
       expect(user.lastName).to.equal('Skywalker');
       expect(user.email).to.equal('lskywalker@deathstar.empire');
+      expect(user.username).to.equal('luke.skywalker1212');
     });
   });
 
