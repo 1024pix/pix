@@ -34,7 +34,7 @@ class AssessmentResult {
     this.juryId = juryId;
   }
 
-  static BuildAlgoErrorResult(error, assessmentId) {
+  static buildAlgoErrorResult(error, assessmentId) {
     return new AssessmentResult({
       emitter: 'PIX-ALGO',
       commentForJury: error.message,
@@ -44,7 +44,7 @@ class AssessmentResult {
     });
   }
 
-  static BuildStandardAssessmentResult(pixScore, status, assessmentId) {
+  static buildStandardAssessmentResult(pixScore, status, assessmentId) {
     return new AssessmentResult({
       emitter: 'PIX-ALGO',
       commentForJury: 'Computed',
