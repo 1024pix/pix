@@ -1,22 +1,23 @@
 {{#if @isShared}}
-  <div class="skill-review-share__thanks">
-    {{t 'pages.skill-review.already-shared'}}
-  </div>
-  <LinkTo @route="index" class="skill-review-share__back-to-home link">
-    <FaIcon @icon='arrow-right' aria-hidden="true"></FaIcon>
-    {{t 'pages.skill-review.actions.continue'}}
-  </LinkTo>
+  {{#if @displayPixLink}}
+    <div class="skill-review-share__thanks">
+      {{t 'pages.skill-review.already-shared'}}
+    </div>
+    <LinkTo @route="index" class="skill-review-share__back-to-home link">
+      <FaIcon @icon='arrow-right' aria-hidden="true"></FaIcon>
+      {{t 'pages.skill-review.actions.continue'}}
+    </LinkTo>
+  {{/if}}
 {{else}}
+  <PixButton
+          class="button button--green button--round skill-review-share__button"
+          aria-hidden="true"
+          @triggerAction={{@shareCampaignParticipation}}
+          @loading-color="white">
+    {{t 'pages.skill-review.actions.send'}}
+  </PixButton>
 
-      <PixButton
-              class="button button--green button--round skill-review-share__button"
-              aria-hidden="true"
-              @triggerAction={{@shareCampaignParticipation}}
-              @loading-color="white">
-        {{t 'pages.skill-review.actions.send'}}
-      </PixButton>
-
-      <p class="skill-review-share__legal">
-      {{t 'pages.skill-review.send-results'}}
-    </p>
+  <p class="skill-review-share__legal">
+  {{t 'pages.skill-review.send-results'}}
+</p>
 {{/if}}
