@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
+import { clickByLabel } from '../../helpers/click-by-label';
 
 import {
   click, fillIn, find, findAll,
@@ -663,11 +664,11 @@ describe('Integration | Component | SignupForm', function() {
       await render(hbs `<SignupForm @user={{this.user}} @authenticateUser={{action this.authenticateUser}} />`);
 
       // when
-      click('.button');
-      await waitUntil(() => find('.loader-in-button'));
+      //click('.button');
+      await clickByLabel('Je m\'inscris');
 
       // then
-      await settled();
+      await waitUntil(() => find('.loader-in-button'));
     });
   });
 
