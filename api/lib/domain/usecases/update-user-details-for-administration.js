@@ -3,7 +3,9 @@ module.exports = async function updateUserDetailsForAdministration({
   userDetailsForAdministration,
   userRepository,
 }) {
-  await userRepository.isEmailAllowedToUseForCurrentUser(userId, userDetailsForAdministration.email);
+  if (userDetailsForAdministration.email) {
+    await userRepository.isEmailAllowedToUseForCurrentUser(userId, userDetailsForAdministration.email);
+  }
 
   await userRepository.updateUserDetailsForAdministration(userId, userDetailsForAdministration);
 
