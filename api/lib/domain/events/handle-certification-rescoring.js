@@ -73,7 +73,7 @@ async function _saveResult({
   });
 
   await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
-    const competenceMarkDomain = new CompetenceMark({ ...competenceMark, ...{ assessmentResultId: assessmentResult.id } });
+    const competenceMarkDomain = new CompetenceMark({ ...competenceMark, assessmentResultId: assessmentResult.id });
     return competenceMarkRepository.save(competenceMarkDomain);
   });
 }
