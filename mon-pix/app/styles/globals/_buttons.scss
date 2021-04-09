@@ -162,6 +162,17 @@
     }
   }
 
+  &--border-focus {
+    border: 2px solid transparent;
+
+    &:focus,
+    &:hover,
+    &:focus-within {
+      border: 2px solid white;
+      box-shadow: 0 0 0 2pt $blue;
+    }
+  }
+
   @include device-is('tablet') {
     padding: 14px 20px;
   }
