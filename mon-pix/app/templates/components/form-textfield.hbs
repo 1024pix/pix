@@ -13,22 +13,20 @@
          @focus-out={{action onValidate textfieldName}}
          class="form-textfield__input {{inputValidationStatus}}"
          autocomplete={{autocomplete}}
-         aria-describedby="validationMessage"
+         aria-describedby="validationMessage-{{textfieldName}}"
          required={{require}}
          disabled={{disabled}} />
     <div class="form-textfield__icon">
       {{#if isPassword}}
-          <button type="button" aria-label={{t 'common.form.visible-password'}} class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
             {{#if isPasswordVisible}}
-                <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>
-                  <FaIcon @icon="eye" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
-                </div>
+            <button type="button" aria-label={{t 'common.form.invisible-password'}} class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
+              <FaIcon @icon="eye" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
+            </button>
             {{else}}
-                <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>
-                  <FaIcon @icon="eye-slash" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
-                </div>
+            <button type="button" aria-label={{t 'common.form.visible-password'}} class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
+              <FaIcon @icon="eye-slash" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
+            </button>
             {{/if}}
-          </button>
       {{/if}}
       {{#if hasIcon}}
         {{#if (eq validationStatus 'error') }}
