@@ -17,7 +17,7 @@ class CertificationChallenge {
     this.isNeutralized = isNeutralized;
   }
 
-  static new({
+  static create({
     associatedSkillName,
     associatedSkillId,
     challengeId,
