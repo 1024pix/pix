@@ -92,7 +92,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, latestAssessmentResultBookshelf);
   },
 
-  async get({ certificationCourseId }) {
+  async getByCertificationCourseId({ certificationCourseId }) {
     const assessment = await knex('assessments')
       .select('id')
       .where({ certificationCourseId })
@@ -103,15 +103,13 @@ module.exports = {
       const assessmentId = assessment.id;
 
       const latestAssessmentResult = await knex('assessment-results')
-        .select('assessment-results.*')
         .where({ assessmentId })
         .orderBy('createdAt', 'desc')
         .first();
 
       if (latestAssessmentResult) {
         const competencesMarksDTO = await knex('competence-marks')
-          .select('*')
-          .where('assessmentResultId', '=', latestAssessmentResult.id);
+          .where({ assessmentResultId: latestAssessmentResult.id });
 
         return _toDomain({
           assessmentResultDTO: latestAssessmentResult,

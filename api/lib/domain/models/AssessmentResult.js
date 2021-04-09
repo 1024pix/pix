@@ -56,17 +56,8 @@ class AssessmentResult {
 
   static buildStartedAssessmentResult({ assessmentId }) {
     return new AssessmentResult({
-      id: null,
       assessmentId,
       status: Assessment.states.STARTED,
-      commentForCandidate: null,
-      commentForOrganization: null,
-      commentForJury: null,
-      createdAt: null,
-      emitter: null,
-      juryId: null,
-      pixScore: null,
-      competenceMarks: [],
     });
   }
 }
