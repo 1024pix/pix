@@ -22,4 +22,12 @@ export default class Footer extends Component {
   get dataProtectionPolicyUrl() {
     return this.url.dataProtectionPolicyUrl;
   }
+
+  get accessibilityUrl() {
+    return this.url.accessibilityUrl;
+  }
+
+  get helpCenterUrl() {
+    return this.url.helpCenterUrl;
+  }
 }

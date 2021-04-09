@@ -37,7 +37,7 @@ describe('Acceptance | Footer', function() {
       await visit('/');
 
       // then
-      expect(find('.footer-navigation__item:nth-child(1)').getAttribute('href')).to.equal('https://pix.fr/aide');
+      expect(find('.footer-navigation__item:nth-child(1)').getAttribute('href')).to.contains('/aide');
     });
 
     it('should contain link to pix.fr/accessibilite', async function() {
@@ -45,7 +45,7 @@ describe('Acceptance | Footer', function() {
       await visit('/');
 
       // then
-      expect(find('.footer-navigation__item:nth-child(2)').getAttribute('href')).to.equal('https://pix.fr/accessibilite');
+      expect(find('.footer-navigation__item:nth-child(2)').getAttribute('href')).to.contains('/accessibilite');
     });
   });
 });
