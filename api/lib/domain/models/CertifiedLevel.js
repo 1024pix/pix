@@ -75,7 +75,7 @@ class Rule {
     this.actionWhenReproducibilityBelow70 = actionWhenReproducibilityBelow70;
   }
 
-  isAppliable({
+  isApplicable({
     numberOfChallengesAnswered,
     numberOfCorrectAnswers,
     numberOfNeutralizedAnswers,
@@ -370,7 +370,7 @@ const _rules = {
     numberOfCorrectAnswers,
     numberOfNeutralizedAnswers,
   }) {
-    return this.rules.find((rule) => rule.isAppliable({
+    return this.rules.find((rule) => rule.isApplicable({
       numberOfChallengesAnswered,
       numberOfCorrectAnswers,
       numberOfNeutralizedAnswers,
