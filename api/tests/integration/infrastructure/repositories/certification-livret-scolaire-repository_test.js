@@ -3,6 +3,8 @@ const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const status = require('../../../../lib/domain/read-models/livret-scolaire/CertificateStatus');
 
 const {
+  buildUser,
+  buildSchoolingRegistration,
   buildOrganization,
   buildCertificationDataWithNoCompetenceMarks,
   buildValidatedPublishedCertificationData,
@@ -16,10 +18,15 @@ describe('Integration | Repository | Certification-ls ', () => {
   const pixScore = 400;
   const uai = '789567AA';
   const verificationCode = 'P-123498NN';
-  const competenceMarks = [{ code: '1.1', level: 6 }, { code: '5.2', level: 4 }];
+  const competenceMarks = [{
+    code: '1.1', level: 6,
+  }, {
+    code: '5.2', level: 4,
+  }];
 
   afterEach(async () => {
     await knex('competence-marks').delete();
+    await knex('certification-candidates').delete();
     await knex('partner-certifications').delete();
     await knex('assessment-results').delete();
     await knex('assessments').delete();
@@ -32,7 +39,15 @@ describe('Integration | Repository | Certification-ls ', () => {
     it('should return validated certification results for a given UAI', async () => {
       // given
       const organizationId = buildOrganization(uai).id;
-      const { schoolingRegistration, session, certificationCourse } = buildValidatedPublishedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks });
+      const user = buildUser();
+      const schoolingRegistration = buildSchoolingRegistration({
+        userId: user.id, organizationId,
+      });
+      const { session, certificationCourse } = buildValidatedPublishedCertificationData(
+        {
+          user, schoolingRegistration, verificationCode, pixScore, competenceMarks,
+        },
+      );
 
       await databaseBuilder.commit();
 
@@ -51,8 +66,12 @@ describe('Integration | Repository | Certification-ls ', () => {
         status: status.VALIDATED,
         pixScore,
         competenceResults: [
-          { competenceId: '1.1', level: 6 },
-          { competenceId: '5.2', level: 4 },
+          {
+            competenceId: '1.1', level: 6,
+          },
+          {
+            competenceId: '5.2', level: 4,
+          },
 
         ],
       };
@@ -67,7 +86,13 @@ describe('Integration | Repository | Certification-ls ', () => {
     it('should return rejected certification results for a given UAI', async () => {
       // given
       const organizationId = buildOrganization(uai).id;
-      buildRejectedPublishedCertificationData({ organizationId, competenceMarks });
+      const user = buildUser();
+      const schoolingRegistration = buildSchoolingRegistration({
+        userId: user.id, organizationId,
+      });
+      buildRejectedPublishedCertificationData({
+        user, schoolingRegistration, competenceMarks,
+      });
 
       await databaseBuilder.commit();
 
@@ -83,7 +108,13 @@ describe('Integration | Repository | Certification-ls ', () => {
     it('should return pending (error) certification results for a given UAI', async () => {
       // given
       const organizationId = buildOrganization(uai).id;
-      buildErrorUnpublishedCertificationData({ organizationId });
+      const user = buildUser();
+      const schoolingRegistration = buildSchoolingRegistration({
+        userId: user.id, organizationId,
+      });
+      buildErrorUnpublishedCertificationData({
+        user, schoolingRegistration,
+      });
 
       await databaseBuilder.commit();
 
@@ -96,10 +127,43 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResult.competenceResults).to.be.empty;
     });
 
+    it('should return certification from student even if this certification was from another other organisation', async () => {
+      // given
+      const organizationId = buildOrganization(uai).id;
+      const user = buildUser();
+      buildSchoolingRegistration({
+        userId: user.id, organizationId,
+      });
+      const formerOrganizationId = buildOrganization().id;
+      const formerSchoolingRegistration = buildSchoolingRegistration({
+        userId: user.id, formerOrganizationId,
+      });
+
+      buildValidatedPublishedCertificationData({
+        user, schoolingRegistration: formerSchoolingRegistration, verificationCode, pixScore, competenceMarks,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const [certificationResult] = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
+
+      // then
+      expect(certificationResult.status).to.equal(status.VALIDATED);
+      expect(certificationResult.pixScore).not.to.equal(0);
+      expect(certificationResult.competenceResults).not.to.be.empty;
+    });
+
     it('should return pending (validated) certification results for a given UAI', async () => {
       // given
       const organizationId = buildOrganization(uai).id;
-      buildValidatedUnpublishedCertificationData({ organizationId });
+      const user = buildUser();
+      const schoolingRegistration = buildSchoolingRegistration({
+        userId: user.id, organizationId,
+      });
+      buildValidatedUnpublishedCertificationData({
+        user, schoolingRegistration,
+      });
 
       await databaseBuilder.commit();
 
@@ -115,7 +179,13 @@ describe('Integration | Repository | Certification-ls ', () => {
     it('should return no certification results if no competence-marks for a given UAI', async () => {
       // given
       const organizationId = buildOrganization(uai).id;
-      buildCertificationDataWithNoCompetenceMarks({ organizationId });
+      const user = buildUser();
+      const schoolingRegistration = buildSchoolingRegistration({
+        userId: user.id, organizationId,
+      });
+      buildCertificationDataWithNoCompetenceMarks({
+        user, schoolingRegistration,
+      });
 
       await databaseBuilder.commit();
 
@@ -125,7 +195,41 @@ describe('Integration | Repository | Certification-ls ', () => {
       // then
       expect(certificationResult).to.be.empty;
     });
-  });
 
+    it('should return only the last certification', async () => {
+      // given
+      const organizationId = buildOrganization(uai).id;
+      const user = buildUser();
+      const schoolingRegistration = buildSchoolingRegistration({
+        userId: user.id, organizationId,
+      });
+      buildValidatedPublishedCertificationData({
+        user,
+        schoolingRegistration,
+        certificationCreatedDate: new Date('2020-02-20T14:23:56Z'),
+      });
+
+      const { certificationCourse: lastCertificationCourse } = buildValidatedPublishedCertificationData({
+        user,
+        schoolingRegistration,
+        certificationCreatedDate: new Date('2020-02-22T14:23:56Z'),
+      });
+
+      buildValidatedPublishedCertificationData({
+        user,
+        schoolingRegistration,
+        certificationCreatedDate: new Date('2020-02-21T14:23:56Z'),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const certificationResults = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
+
+      // then
+      expect(certificationResults).to.have.length(1);
+      expect(certificationResults[0].id).to.equal(lastCertificationCourse.id);
+    });
+  });
 });
 
