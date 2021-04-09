@@ -19,7 +19,7 @@ class Stage {
   }
 
   getMinSkillsCountToReachStage(totalSkills) {
-    return Math.ceil(totalSkills * (this.threshold / 100));
+    return Math.floor(totalSkills * (this.threshold / 100));
   }
 }
 
