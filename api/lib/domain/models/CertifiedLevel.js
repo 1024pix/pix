@@ -27,7 +27,7 @@ class CertifiedLevel {
     }
   }
 
-  static uncertify() {
+  static invalidate() {
     return new CertifiedLevel({ value: UNCERTIFIED_LEVEL, status: statuses.UNCERTIFIED });
   }
 
@@ -141,9 +141,9 @@ class Rule4 extends Rule {
       numberOfChallengesAnswered: 3,
       numberOfCorrectAnswers: 1,
       numberOfNeutralizedAnswers: 0,
-      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.invalidate,
     });
   }
 }
@@ -156,7 +156,7 @@ class Rule5 extends Rule {
       numberOfNeutralizedAnswers: 1,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
       actionWhenReproducibilityBetween70And80: CertifiedLevel.downgrade,
-      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+      actionWhenReproducibilityBelow70: CertifiedLevel.invalidate,
     });
   }
 }
@@ -180,9 +180,9 @@ class Rule7 extends Rule {
       numberOfChallengesAnswered: 3,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 0,
-      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.invalidate,
     });
   }
 }
@@ -193,9 +193,9 @@ class Rule8 extends Rule {
       numberOfChallengesAnswered: 3,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 1,
-      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.invalidate,
     });
   }
 }
@@ -206,9 +206,9 @@ class Rule9 extends Rule {
       numberOfChallengesAnswered: 3,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 2,
-      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.invalidate,
     });
   }
 }
@@ -219,9 +219,9 @@ class Rule10 extends Rule {
       numberOfChallengesAnswered: 3,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 3,
-      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.invalidate,
     });
   }
 }
@@ -247,7 +247,7 @@ class Rule12 extends Rule {
       numberOfNeutralizedAnswers: 0,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
       actionWhenReproducibilityBetween70And80: CertifiedLevel.downgrade,
-      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+      actionWhenReproducibilityBelow70: CertifiedLevel.invalidate,
     });
   }
 }
@@ -271,9 +271,9 @@ class Rule14 extends Rule {
       numberOfChallengesAnswered: 2,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 0,
-      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.invalidate,
     });
   }
 }
@@ -284,9 +284,9 @@ class Rule15 extends Rule {
       numberOfChallengesAnswered: 2,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 1,
-      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.invalidate,
     });
   }
 }
@@ -297,9 +297,9 @@ class Rule16 extends Rule {
       numberOfChallengesAnswered: 2,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 2,
-      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.invalidate,
     });
   }
 }
@@ -323,9 +323,9 @@ class Rule18 extends Rule {
       numberOfChallengesAnswered: 1,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 1,
-      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.invalidate,
     });
   }
 }
@@ -336,9 +336,9 @@ class Rule19 extends Rule {
       numberOfChallengesAnswered: 1,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 0,
-      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
-      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.invalidate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.invalidate,
     });
   }
 }
