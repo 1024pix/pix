@@ -154,6 +154,14 @@ describe('Integration | API | Controller Error', () => {
       expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
       expect(responseDetail(response)).to.equal('Aucun résultat de certification pour cette classe.');
     });
+
+    it('responds Not Found when a ChallengeToBeNeutralizedNotFoundError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.ChallengeToBeNeutralizedNotFoundError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
+      expect(responseDetail(response)).to.equal('La question à neutraliser n\'a pas été posée lors du test de certification');
+    });
   });
 
   context('409 Conflict', () => {

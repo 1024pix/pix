@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
 const { expect, domainBuilder } = require('../../../test-helper');
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
+const { ObjectValidationError, ChallengeToBeNeutralizedNotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | CertificationAssessment', () => {
 
@@ -136,7 +136,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
 
     it('neutralizes the challenge when the challenge was asked', () => {
       // given
-      const challengeToBeNeutralized = domainBuilder.buildCertificationChallenge({ isNeutralized: false });
+      const challengeToBeNeutralized = domainBuilder.buildCertificationChallenge({ challengeId: 'rec1', isNeutralized: false });
 
       const certificationAssessment = new CertificationAssessment({
         id: 123,
@@ -148,8 +148,8 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
         isV2Certification: true,
         certificationChallenges: [
           challengeToBeNeutralized,
-          domainBuilder.buildCertificationChallenge({ isNeutralized: false }),
-          domainBuilder.buildCertificationChallenge({ isNeutralized: false }),
+          domainBuilder.buildCertificationChallenge({ challengeId: 'rec2', isNeutralized: false }),
+          domainBuilder.buildCertificationChallenge({ challengeId: 'rec3', isNeutralized: false }),
         ],
         certificationAnswersByDate: ['answer'],
       });
@@ -161,6 +161,30 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(certificationAssessment.certificationChallenges[0].isNeutralized).to.be.true;
       expect(certificationAssessment.certificationChallenges[1].isNeutralized).to.be.false;
       expect(certificationAssessment.certificationChallenges[2].isNeutralized).to.be.false;
+    });
+
+    it('throws when the challenge was not asked', async () => {
+      // given
+      const challengeNotAskedToBeNeutralized = domainBuilder.buildCertificationChallenge({ challengeId: 'rec1', isNeutralized: false });
+
+      const certificationAssessment = new CertificationAssessment({
+        id: 123,
+        userId: 123,
+        certificationCourseId: 123,
+        createdAt: new Date('2020-01-01'),
+        completedAt: new Date('2020-01-01'),
+        state: CertificationAssessment.states.STARTED,
+        isV2Certification: true,
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallenge({ challengeId: 'rec2', isNeutralized: false }),
+          domainBuilder.buildCertificationChallenge({ challengeId: 'rec3', isNeutralized: false }),
+        ],
+        certificationAnswersByDate: ['answer'],
+      });
+
+      // when / then
+      expect(() => { certificationAssessment.neutralizeChallengeByRecId(challengeNotAskedToBeNeutralized.challengeId); })
+        .to.throw(ChallengeToBeNeutralizedNotFoundError);
     });
   });
 });

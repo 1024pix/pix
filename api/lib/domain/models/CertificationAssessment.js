@@ -3,6 +3,7 @@ const Joi = require('joi')
 const { validateEntity } = require('../validators/entity-validator');
 const { states } = require('./Assessment');
 const _ = require('lodash');
+const { ChallengeToBeNeutralizedNotFoundError } = require('../errors');
 
 const certificationAssessmentSchema = Joi.object({
   id: Joi.number().integer().required(),
@@ -17,6 +18,7 @@ const certificationAssessmentSchema = Joi.object({
 });
 
 class CertificationAssessment {
+
   constructor({
     id,
     userId,
@@ -46,9 +48,11 @@ class CertificationAssessment {
   }
 
   neutralizeChallengeByRecId(recId) {
-    const challengeToBeNeutralized = _.find(this.certificationChallenges, { challengeId : recId});
-    if (challengeToBeNeutralized) { // TODO : throw if not found ?
+    const challengeToBeNeutralized = _.find(this.certificationChallenges, { challengeId: recId });
+    if (challengeToBeNeutralized) {
       challengeToBeNeutralized.neutralize();
+    } else {
+      throw new ChallengeToBeNeutralizedNotFoundError();
     }
   }
 }
