@@ -22,6 +22,7 @@ module.exports = function buildCertificationCourse({
   challenges = [],
   userId = 456,
   sessionId = 789,
+  isCancelled = false,
 } = {}) {
 
   const certificationIssueReports = [];
@@ -56,5 +57,6 @@ module.exports = function buildCertificationCourse({
     challenges,
     sessionId,
     userId,
+    isCancelled,
   });
 };
