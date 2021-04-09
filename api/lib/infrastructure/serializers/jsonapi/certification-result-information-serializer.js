@@ -8,6 +8,7 @@ module.exports = {
         return {
           id: certificationResultInformation.certificationCourseId,
           ...certificationResultInformation,
+          competencesWithMark: certificationResultInformation.competenceMarks,
         };
       },
       attributes: [

@@ -55,7 +55,7 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
         commentForJury: assessmentResult.commentForJury,
         juryId: assessmentResult.juryId,
         pixScore: assessmentResult.pixScore,
-        competencesWithMark: assessmentResult.competenceMarks,
+        competenceMarks: assessmentResult.competenceMarks,
         cleaCertificationStatus,
       };
       expect(certificationResultInformation).to.be.instanceOf(CertificationResultInformation);
