@@ -3,6 +3,7 @@ const certificationCourseController = require('../../../../lib/application/certi
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
+const certificationResultInformationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-information-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 const certifiedProfileRepository = require('../../../../lib/infrastructure/repositories/certified-profile-repository');
 const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
@@ -134,25 +135,31 @@ describe('Unit | Controller | certification-course-controller', () => {
     });
   });
 
-  describe('#getResult', () => {
-    const certificationCourseId = 1;
-    const request = {
-      params: {
-        id: certificationCourseId,
-      },
-    };
+  describe('#getCertificationResultInformation', () => {
 
-    beforeEach(() => {
-      sinon.stub(certificationService, 'getCertificationResult').resolves({});
-    });
+    it('should return certification result', async () => {
+      // given
+      const certificationCourseId = 1;
+      const request = {
+        params: {
+          id: certificationCourseId,
+        },
+      };
 
-    it('should call certification-service to get certification result from database', async () => {
+      const certificationResultInformation = Symbol('aCertifResultInfo');
+      sinon.stub(usecases, 'getCertificationResultInformation')
+        .withArgs({ certificationCourseId }).resolves(certificationResultInformation);
+
+      const certificationResultInformationSerialized = Symbol('a full certification results');
+      sinon.stub(certificationResultInformationSerializer, 'serialize')
+        .withArgs(certificationResultInformation)
+        .resolves(certificationResultInformationSerialized);
+
       // when
-      await certificationCourseController.getResult(request, hFake);
+      const result = await certificationCourseController.getCertificationResultInformation(request, hFake);
 
       // then
-      sinon.assert.calledOnce(certificationService.getCertificationResult);
-      sinon.assert.calledWith(certificationService.getCertificationResult, certificationCourseId);
+      expect(result).to.deep.equal(certificationResultInformationSerialized);
     });
   });
 

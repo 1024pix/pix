@@ -1,3 +1,5 @@
+const Assessment = require('./Assessment');
+
 const status = {
   REJECTED: 'rejected',
   VALIDATED: 'validated',
@@ -49,6 +51,13 @@ class AssessmentResult {
       pixScore: pixScore,
       status,
       assessmentId,
+    });
+  }
+
+  static buildStartedAssessmentResult({ assessmentId }) {
+    return new AssessmentResult({
+      assessmentId,
+      status: Assessment.states.STARTED,
     });
   }
 }

@@ -2,18 +2,12 @@ const CertificationResult = require('../models/CertificationResult');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const certificationAssessmentRepository = require('../../../lib/infrastructure/repositories/certification-assessment-repository');
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
-const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const cleaCertificationStatusRepository = require('../../infrastructure/repositories/clea-certification-status-repository');
 const certificationResultService = require('./certification-result-service');
 
 async function calculateCertificationResultByCertificationCourseId(certificationCourseId) {
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);
   return certificationResultService.getCertificationResult({ certificationAssessment, continueOnError: true });
-}
-
-async function getCertificationResult(certificationCourseId) {
-  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
-  return getCertificationResultByCertifCourse({ certificationCourse });
 }
 
 async function getCertificationResultByCertifCourse({ certificationCourse }) {
@@ -44,6 +38,5 @@ async function getCertificationResultByCertifCourse({ certificationCourse }) {
 
 module.exports = {
   calculateCertificationResultByCertificationCourseId,
-  getCertificationResult,
   getCertificationResultByCertifCourse,
 };

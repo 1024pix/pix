@@ -1,8 +1,8 @@
 const certificationService = require('../../domain/services/certification-service');
 const certificationCourseService = require('../../domain/services/certification-course-service');
 const certificationDetailsSerializer = require('../../infrastructure/serializers/jsonapi/certification-details-serializer');
-const certificationResultSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-serializer');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
+const certificationResultInformationSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-information-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const certifiedProfileRepository = require('../../infrastructure/repositories/certified-profile-repository');
 const certifiedProfileSerializer = require('../../infrastructure/serializers/jsonapi/certified-profile-serializer');
@@ -23,10 +23,10 @@ module.exports = {
     return certificationDetailsSerializer.serialize(certificationDetails);
   },
 
-  async getResult(request) {
+  async getCertificationResultInformation(request) {
     const certificationCourseId = request.params.id;
-    const certificationResult = await certificationService.getCertificationResult(certificationCourseId);
-    return certificationResultSerializer.serialize(certificationResult);
+    const certificationResultInformation = await usecases.getCertificationResultInformation({ certificationCourseId });
+    return certificationResultInformationSerializer.serialize(certificationResultInformation);
   },
 
   async update(request) {

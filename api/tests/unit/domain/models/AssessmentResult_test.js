@@ -1,5 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const BookshelfAssessmentResults = require('../../../../lib/infrastructure/data/assessment-result');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
 
@@ -34,6 +36,34 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
             expect(status).to.exist.and.to.deep.equal(['Le status de la certification n\'est pas valide']);
           });
       });
+    });
+  });
+
+  describe('#buildStartedAssessmentResult', () => {
+
+    it('should return true if the campaign is of type ASSESSMENT', () => {
+      // given
+      const assessmentId = 123;
+
+      // when
+      const result = AssessmentResult.buildStartedAssessmentResult({ assessmentId });
+
+      // then
+      const startedAssessmentResult = {
+        id: undefined,
+        assessmentId,
+        status: Assessment.states.STARTED,
+        commentForCandidate: undefined,
+        commentForOrganization: undefined,
+        commentForJury: undefined,
+        createdAt: undefined,
+        emitter: undefined,
+        juryId: undefined,
+        pixScore: undefined,
+        competenceMarks: [],
+      };
+      expect(result).to.be.instanceOf(AssessmentResult);
+      expect(result).to.deep.equal(startedAssessmentResult);
     });
   });
 });
