@@ -10,7 +10,6 @@ const { checkEventType } = require('./check-event-type');
 const eventType = ChallengeNeutralized;
 
 async function handleCertificationRescoring({
-  domainTransaction,
   event,
   assessmentResultRepository,
   certificationAssessmentRepository,
@@ -22,7 +21,6 @@ async function handleCertificationRescoring({
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(event.certificationCourseId);
   await _calculateCertificationScore({
     certificationAssessment,
-    domainTransaction,
     assessmentResultRepository,
     competenceMarkRepository,
     scoringCertificationService,
@@ -33,7 +31,6 @@ async function handleCertificationRescoring({
 
 async function _calculateCertificationScore({
   certificationAssessment,
-  domainTransaction,
   assessmentResultRepository,
   competenceMarkRepository,
   scoringCertificationService,
@@ -44,7 +41,6 @@ async function _calculateCertificationScore({
     await _saveResult({
       certificationAssessmentScore,
       certificationAssessment,
-      domainTransaction,
       assessmentResultRepository,
       competenceMarkRepository,
       juryId,
@@ -65,7 +61,6 @@ async function _calculateCertificationScore({
 async function _saveResult({
   certificationAssessment,
   certificationAssessmentScore,
-  domainTransaction,
   assessmentResultRepository,
   competenceMarkRepository,
   juryId,
@@ -74,19 +69,18 @@ async function _saveResult({
     certificationAssessment,
     certificationAssessmentScore,
     assessmentResultRepository,
-    domainTransaction,
     juryId,
   });
 
   await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
     const competenceMarkDomain = new CompetenceMark({ ...competenceMark, ...{ assessmentResultId: assessmentResult.id } });
-    return competenceMarkRepository.save(competenceMarkDomain, domainTransaction);
+    return competenceMarkRepository.save(competenceMarkDomain);
   });
 }
 
-function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, domainTransaction, juryId }) {
+function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, juryId }) {
   const assessmentResult = AssessmentResult.buildStandardAssessmentResult(certificationAssessmentScore.nbPix, certificationAssessmentScore.status, certificationAssessment.id, juryId);
-  return assessmentResultRepository.save(assessmentResult, domainTransaction);
+  return assessmentResultRepository.save(assessmentResult);
 }
 
 async function _saveResultAfterCertificationComputeError({
