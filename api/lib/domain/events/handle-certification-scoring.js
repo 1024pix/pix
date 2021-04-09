@@ -13,6 +13,7 @@ const EMITTER = 'PIX-ALGO';
 
 async function handleCertificationScoring({
   event,
+  domainTransaction,
   assessmentResultRepository,
   badgeAcquisitionRepository,
   certificationAssessmentRepository,
@@ -26,6 +27,7 @@ async function handleCertificationScoring({
     const certificationAssessment = await certificationAssessmentRepository.get(event.assessmentId);
     return _calculateCertificationScore({
       certificationAssessment,
+      domainTransaction,
       assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
@@ -39,6 +41,7 @@ async function handleCertificationScoring({
 
 async function _calculateCertificationScore({
   certificationAssessment,
+  domainTransaction,
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
@@ -49,6 +52,7 @@ async function _calculateCertificationScore({
     await _saveResult({
       certificationAssessmentScore,
       certificationAssessment,
+      domainTransaction,
       assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
@@ -66,6 +70,7 @@ async function _calculateCertificationScore({
     }
     await _saveResultAfterCertificationComputeError({
       certificationAssessment,
+      domainTransaction,
       assessmentResultRepository,
       certificationCourseRepository,
       certificationComputeError: error,
@@ -76,6 +81,7 @@ async function _calculateCertificationScore({
 async function _saveResult({
   certificationAssessment,
   certificationAssessmentScore,
+  domainTransaction,
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
@@ -83,29 +89,36 @@ async function _saveResult({
   const assessmentResult = await _createAssessmentResult({
     certificationAssessment,
     certificationAssessmentScore,
+    domainTransaction,
     assessmentResultRepository,
   });
 
   await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
     const competenceMarkDomain = new CompetenceMark({ ...competenceMark, ...{ assessmentResultId: assessmentResult.id } });
-    return competenceMarkRepository.save(competenceMarkDomain);
+    return competenceMarkRepository.save(competenceMarkDomain, domainTransaction);
   });
 
-  return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date());
+  return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date(), domainTransaction);
 }
 
-function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository }) {
+function _createAssessmentResult({
+  certificationAssessment,
+  certificationAssessmentScore,
+  domainTransaction,
+  assessmentResultRepository,
+}) {
   const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
     emitter: EMITTER,
   });
-  return assessmentResultRepository.save(assessmentResult);
+  return assessmentResultRepository.save(assessmentResult, domainTransaction);
 }
 
 async function _saveResultAfterCertificationComputeError({
   certificationAssessment,
+  domainTransaction,
   assessmentResultRepository,
   certificationCourseRepository,
   certificationComputeError,
@@ -115,8 +128,8 @@ async function _saveResultAfterCertificationComputeError({
     assessmentId: certificationAssessment.id,
     emitter: EMITTER,
   });
-  await assessmentResultRepository.save(assessmentResult);
-  return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date());
+  await assessmentResultRepository.save(assessmentResult, domainTransaction);
+  return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date(), domainTransaction);
 }
 handleCertificationScoring.eventType = eventType;
 module.exports = handleCertificationScoring;

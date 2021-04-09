@@ -6,6 +6,7 @@ const eventType = AssessmentCompleted;
 
 const handleBadgeAcquisition = async function({
   event,
+  domainTransaction,
   badgeCriteriaService,
   badgeAcquisitionRepository,
   badgeRepository,
@@ -27,7 +28,7 @@ const handleBadgeAcquisition = async function({
     });
 
     if (!_.isEmpty(badgesAcquisitionToCreate)) {
-      await badgeAcquisitionRepository.create(badgesAcquisitionToCreate);
+      await badgeAcquisitionRepository.create(badgesAcquisitionToCreate, domainTransaction);
     }
   }
 };

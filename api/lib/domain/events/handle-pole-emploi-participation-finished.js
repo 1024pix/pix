@@ -7,6 +7,7 @@ const eventType = AssessmentCompleted;
 
 async function handlePoleEmploiParticipationFinished({
   event,
+  domainTransaction,
   assessmentRepository,
   campaignParticipationRepository,
   campaignRepository,
@@ -49,7 +50,7 @@ async function handlePoleEmploiParticipationFinished({
       responseCode: response.code,
     });
 
-    return poleEmploiSendingRepository.create({ poleEmploiSending });
+    return poleEmploiSendingRepository.create({ poleEmploiSending, domainTransaction });
   }
 }
 

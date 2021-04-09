@@ -123,6 +123,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         // given
 
         const expectedResponse = { isSuccessful: 'someValue', code: 'someCode' };
+        const domainTransaction = Symbol('domainTransaction');
         poleEmploiNotifier.notify.withArgs(userId, expectedResults).resolves(expectedResponse);
         const poleEmploiSending = Symbol('Pole emploi sending');
         sinon.stub(PoleEmploiSending, 'buildForParticipationFinished').withArgs({
@@ -135,11 +136,12 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         // when
         await handlePoleEmploiParticipationFinished({
           event,
+          domainTransaction,
           ...dependencies,
         });
 
         // then
-        expect(poleEmploiSendingRepository.create).to.have.been.calledWith({ poleEmploiSending });
+        expect(poleEmploiSendingRepository.create).to.have.been.calledWith({ poleEmploiSending, domainTransaction });
       });
 
     });

@@ -6,6 +6,7 @@ const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCom
 describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
   describe('#handleBadgeAcquisition', () => {
+    const domainTransaction = Symbol('a DomainTransaction');
     const badgeRepository = {
       findByCampaignParticipationId: _.noop,
     };
@@ -75,14 +76,14 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
             .returns(true);
 
           // when
-          await handleBadgeAcquisition({ event, ...dependencies });
+          await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
           // then
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([{
             badgeId,
             userId: event.userId,
             campaignParticipationId: event.campaignParticipationId,
-          }]);
+          }], domainTransaction);
         });
 
         it('should not create a badge when badge requirements are not fulfilled', async () => {
@@ -90,8 +91,9 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ campaignParticipationResult, badge })
             .returns(false);
+
           // when
-          await handleBadgeAcquisition({ event, ...dependencies });
+          await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
@@ -138,14 +140,14 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
             .returns(false);
 
           // when
-          await handleBadgeAcquisition({ event, ...dependencies });
+          await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
           // then
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([{
             badgeId: badge1.id,
             userId: event.userId,
             campaignParticipationId: event.campaignParticipationId,
-          }]);
+          }], domainTransaction);
         });
 
         it('should create two badges when both badges requirements are fulfilled', async () => {
@@ -158,13 +160,13 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
             .returns(true);
 
           // when
-          await handleBadgeAcquisition({ event, ...dependencies });
+          await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
           // then
           expect(badgeAcquisitionRepository.create).to.have.been.calledWithExactly([
             { badgeId: badge1.id, userId: event.userId, campaignParticipationId: event.campaignParticipationId },
             { badgeId: badge2.id, userId: event.userId, campaignParticipationId: event.campaignParticipationId },
-          ]);
+          ], domainTransaction);
         });
       });
 
@@ -180,11 +182,10 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           sinon.stub(badgeAcquisitionRepository, 'create');
 
           // when
-          await handleBadgeAcquisition({ event, ...dependencies });
+          await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
           // then
           expect(badgeAcquisitionRepository.create).to.not.have.been.called;
-
         });
       });
     });
@@ -198,7 +199,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         const event = new AssessmentCompleted({ userId });
 
         // when
-        await handleBadgeAcquisition({ event, ...dependencies });
+        await handleBadgeAcquisition({ event, ...dependencies, domainTransaction });
 
         // then
         expect(badgeAcquisitionRepository.create).to.not.have.been.called;

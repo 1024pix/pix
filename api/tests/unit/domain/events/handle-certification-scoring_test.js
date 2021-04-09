@@ -7,12 +7,15 @@ const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCom
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 
 describe('Unit | Domain | Events | handle-certification-scoring', () => {
+
   const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
   const certificationAssessmentRepository = { get: _.noop };
   const assessmentResultRepository = { save: _.noop };
   const certificationCourseRepository = { changeCompletionDate: _.noop, getCreationDate: _.noop };
   const competenceMarkRepository = { save: _.noop };
   const now = new Date('2019-01-01T05:06:07Z');
+  const domainTransaction = {};
+
   let clock;
   let event;
 
@@ -33,8 +36,10 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
   });
 
   context('when assessment is of type CERTIFICATION', () => {
+
     const assessmentId = Symbol('assessmentId');
     const userId = Symbol('userId');
+
     let certificationAssessment;
 
     beforeEach(() => {
@@ -57,7 +62,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       const event = 'not an event of the correct type';
       // when / then
       const error = await catchErr(handleCertificationScoring)(
-        { event, ...dependencies },
+        { event, ...dependencies, domainTransaction },
       );
 
       // then
@@ -65,7 +70,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
     });
 
     context('when an error different from a compute error happens', () => {
+
       const otherError = new Error();
+
       beforeEach(() => {
         sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(otherError);
         sinon.stub(AssessmentResult, 'buildAlgoErrorResult');
@@ -76,7 +83,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       it('should not save any results', async () => {
         // when
         await catchErr(handleCertificationScoring)({
-          event, ...dependencies,
+          event, ...dependencies, domainTransaction,
         });
 
         // then
@@ -87,8 +94,10 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
     });
 
     context('when an error of type CertificationComputeError happens while scoring the assessment', () => {
+
       const errorAssessmentResult = Symbol('ErrorAssessmentResult');
       const computeError = new CertificationComputeError();
+
       beforeEach(() => {
         sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(computeError);
         sinon.stub(AssessmentResult, 'buildAlgoErrorResult').returns(errorAssessmentResult);
@@ -101,6 +110,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         await handleCertificationScoring({
           event,
           ...dependencies,
+          domainTransaction,
         });
 
         // then
@@ -114,6 +124,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         await handleCertificationScoring({
           event,
           ...dependencies,
+          domainTransaction,
         });
 
         // then
@@ -124,14 +135,16 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         });
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(
           errorAssessmentResult,
+          domainTransaction,
         );
         expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-          certificationAssessment.certificationCourseId, now,
+          certificationAssessment.certificationCourseId, now, domainTransaction,
         );
       });
     });
 
     context('when scoring is successful', () => {
+
       const assessmentResult = Symbol('AssessmentResult');
       const assessmentResultId = 99;
       const competenceMarkData1 = domainBuilder.buildCompetenceMark({ assessmentResultId });
@@ -157,7 +170,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       it('should build and save an assessment result with the expected arguments', async () => {
         // when
         await handleCertificationScoring({
-          event, ...dependencies,
+          event, ...dependencies, domainTransaction,
         });
 
         // then
@@ -167,16 +180,16 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
           assessmentId: certificationAssessment.id,
           emitter: 'PIX-ALGO',
         });
-        expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult);
+        expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult, domainTransaction);
         expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-          certificationAssessment.certificationCourseId, now,
+          certificationAssessment.certificationCourseId, now, domainTransaction,
         );
       });
 
       it('should return a CertificationScoringCompleted', async () => {
         // when
         const certificationScoringCompleted = await handleCertificationScoring({
-          event, ...dependencies,
+          event, ...dependencies, domainTransaction,
         });
 
         // then
@@ -192,7 +205,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       it('should build and save as many competence marks as present in the certificationAssessmentScore', async () => {
         // when
         await handleCertificationScoring({
-          event, ...dependencies,
+          event, ...dependencies, domainTransaction,
         });
 
         // then
@@ -200,7 +213,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       });
     });
   });
+
   context('when completed assessment is not of type CERTIFICATION', () => {
+
     it('should not do anything', async () => {
       // given
       const event = new AssessmentCompleted(
@@ -213,11 +228,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
       // when
       const certificationScoringCompleted = await handleCertificationScoring({
-        event, ...dependencies,
+        event, ...dependencies, domainTransaction,
       });
 
+      // then
       expect(certificationScoringCompleted).to.be.null;
     });
-
   });
 });
