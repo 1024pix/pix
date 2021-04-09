@@ -40,6 +40,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
   });
 
   describe('#buildStartedAssessmentResult', () => {
+
     it('should return true if the campaign is of type ASSESSMENT', () => {
       // given
       const assessmentId = 123;
@@ -49,16 +50,16 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
 
       // then
       const startedAssessmentResult = {
-        id: null,
+        id: undefined,
         assessmentId,
         status: Assessment.states.STARTED,
-        commentForCandidate: null,
-        commentForOrganization: null,
-        commentForJury: null,
-        createdAt: null,
-        emitter: null,
-        juryId: null,
-        pixScore: null,
+        commentForCandidate: undefined,
+        commentForOrganization: undefined,
+        commentForJury: undefined,
+        createdAt: undefined,
+        emitter: undefined,
+        juryId: undefined,
+        pixScore: undefined,
         competenceMarks: [],
       };
       expect(result).to.be.instanceOf(AssessmentResult);

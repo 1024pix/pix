@@ -158,7 +158,7 @@ describe('Integration | Repository | AssessmentResult', function() {
     });
   });
 
-  describe('#get', () => {
+  describe('#getByCertificationCourseId', () => {
 
     describe('when the given certification course id is correct', () => {
 
@@ -188,7 +188,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         await databaseBuilder.commit();
 
         // when
-        const result = await assessmentResultRepository.get({ certificationCourseId });
+        const result = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
 
         // then
         const expectedAssessmentResult = {
@@ -230,6 +230,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
         const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
 
+        const pixScore = 600;
         const firstAssessementResultCreatedAt = new Date('2019-02-01T00:00:00Z');
         databaseBuilder.factory.buildAssessmentResult({
           assessmentId,
@@ -241,16 +242,16 @@ describe('Integration | Repository | AssessmentResult', function() {
         databaseBuilder.factory.buildAssessmentResult({
           assessmentId,
           createdAt: secondAssessmentResultCreatedAt,
-          pixScore: 600,
+          pixScore,
         }).id;
 
         await databaseBuilder.commit();
 
         // when
-        const result = await assessmentResultRepository.get({ certificationCourseId });
+        const result = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
 
         // then
-        expect(result.pixScore).to.equal(600);
+        expect(result.pixScore).to.equal(pixScore);
       });
     });
 
@@ -264,7 +265,7 @@ describe('Integration | Repository | AssessmentResult', function() {
           await databaseBuilder.commit();
 
           // when
-          const result = await assessmentResultRepository.get({ certificationCourseId });
+          const result = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
 
           // then
           expect(result).to.be.instanceOf(AssessmentResult);
@@ -282,7 +283,7 @@ describe('Integration | Repository | AssessmentResult', function() {
           await databaseBuilder.commit();
 
           // when
-          const result = await assessmentResultRepository.get({ certificationCourseId });
+          const result = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
 
           // then
           expect(result).to.be.instanceOf(AssessmentResult);
