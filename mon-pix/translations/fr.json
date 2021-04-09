@@ -846,8 +846,7 @@
             "pole-emploi": {
                 "title": "Se connecter avec pôle emploi",
                 "link": {
-                    "title": "Pôle Emploi",
-                    "img": "image Pôle Emploi"
+                    "img": "pôle Emploi connect"
                 }
             }
         },

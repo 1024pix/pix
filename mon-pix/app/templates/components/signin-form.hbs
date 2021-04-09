@@ -52,12 +52,10 @@
 
     {{#if this.displayPoleEmploiButton}}
     <div class="sign-form-body__bottom-decoration">
-      <hr>
       <span>{{t 'pages.sign-in.or'}}</span>
-      <hr>
     </div>
 
-      <LinkTo @route="login-pe"class="sign-form-body__pe-connect-link"  aria-label="{{t 'pages.sign-in.pole-emploi.link.title'}}">
+      <LinkTo @route="login-pe"class="sign-form-body__pe-connect-link" data-test-pole-emploi>
         <img class="icon-pe-connect-hover" src="{{this.rootURL}}/images/logo/pe-connect-logo.svg"
            alt="{{t 'pages.sign-in.pole-emploi.link.img'}}"
         />
