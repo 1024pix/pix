@@ -20,6 +20,7 @@ module.exports = function buildCertificationCourse({
   userId,
   sessionId,
   maxReachableLevelOnCertificationDate = 5,
+  isCancelled = false,
 } = {}) {
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -41,6 +42,7 @@ module.exports = function buildCertificationCourse({
     userId,
     sessionId,
     maxReachableLevelOnCertificationDate,
+    isCancelled,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-courses',
