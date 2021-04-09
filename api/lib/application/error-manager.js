@@ -76,6 +76,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.ChallengeAlreadyAnsweredError) {
     return new HttpErrors.ConflictError('This challenge has already been answered.');
   }
+  if (error instanceof DomainErrors.ChallengeToBeNeutralizedNotFoundError) {
+    return new HttpErrors.NotFoundError(error.message);
+  }
   if (error instanceof DomainErrors.NotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
   }
