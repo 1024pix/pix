@@ -69,7 +69,7 @@ function _getCompetenceWithFailedLevel(listCompetences) {
       id: competence.id,
       positionedLevel: competence.estimatedLevel,
       positionedScore: competence.pixScore,
-      obtainedLevel: CertifiedLevel.uncertify().value,
+      obtainedLevel: CertifiedLevel.invalidate().value,
       obtainedScore: 0,
     };
   });
