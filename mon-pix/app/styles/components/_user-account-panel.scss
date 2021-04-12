@@ -20,10 +20,25 @@
     min-width: 200px;
     display: flex;
     align-items: center;
+    margin: 0;
+
+    @include device-is('mobile') {
+      padding-bottom: 10px;
+    }
   }
 
   &__value {
     color: $grey-50;
+    margin: 0;
+  }
+
+  &__text {
+    display: flex;
+
+    @include device-is('mobile') {
+      flex-direction: column;
+      padding-left: 10px;
+    }
   }
 
   &__button {
