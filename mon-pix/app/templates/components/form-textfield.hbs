@@ -1,6 +1,6 @@
 {{!-- template-lint-disable no-implicit-this no-action no-curly-component-invocation --}}
 <label for="{{textfieldName}}" class="form-textfield__label">
-  {{#if require}}<abbr title="{{t 'common.form.mandatory'}}" class="mandatory-mark">*</abbr> {{/if}}
+  {{#unless hideRequired}}{{#if require}}<abbr title="{{t 'common.form.mandatory'}}" class="mandatory-mark">*</abbr> {{/if}}{{/unless}}
   {{label}}
     <br><span class="form-textfield__help">{{help}}</span>
 </label>

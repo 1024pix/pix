@@ -24,7 +24,7 @@
   {{/if}}
 
   <form {{on "submit" this.signup}} class="sign-form__body">
-    <span class="sign-form-body__instruction">{{t 'common.form.mandatory-fields' htmlSafe=true}}</span>
+    <p class="sign-form-body__instruction">{{t 'common.form.mandatory-all-fields' htmlSafe=true}}</p>
 
     <fieldset>
       <legend class="sr-only">{{t 'pages.sign-up.fields.legend'}}</legend>
@@ -36,6 +36,7 @@
                      @validationStatus={{this.validation.firstName.status}}
                      @validationMessage={{this.validation.firstName.message}}
                      @autocomplete="given-name"
+                     @hideRequired={{true}}
                      @require={{true}} />
     </div>
 
@@ -47,6 +48,7 @@
                      @validationStatus={{this.validation.lastName.status}}
                      @validationMessage={{this.validation.lastName.message}}
                      @autocomplete="family-name"
+                     @hideRequired={{true}}
                      @require={{true}} />
     </div>
 
@@ -59,6 +61,7 @@
                      @inputBindingValue={{@user.email}}
                      @validationMessage={{this.validation.email.message}}
                      @autocomplete="email"
+                     @hideRequired={{true}}
                      @require={{true}} />
     </div>
 
@@ -71,6 +74,7 @@
                      @inputBindingValue={{@user.password}}
                      @validationMessage={{this.validation.password.message}}
                      @autocomplete="new-password"
+                     @hideRequired={{true}}
                      @require={{true}} />
     </div>
 

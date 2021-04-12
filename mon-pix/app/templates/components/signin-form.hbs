@@ -20,6 +20,7 @@
   {{/if}}
 
   <form {{on 'submit' this.signin}} class="sign-form__body">
+    <p class="sign-form-body__instruction">{{t 'common.form.mandatory-all-fields' htmlSafe=true}}</p>
 
     <fieldset>
       <legend class="sr-only">{{t 'pages.sign-in.fields.legend'}}</legend>
@@ -29,6 +30,7 @@
                        @validationStatus="default"
                        @inputBindingValue={{this.username}}
                        @autocomplete="username"
+                       @hideRequired={{true}}
                        @require={{true}} />
       </div>
 
@@ -38,6 +40,7 @@
                        @validationStatus="default"
                        @inputBindingValue={{this.password}}
                        @autocomplete="current-password"
+                       @hideRequired={{true}}
                        @require={{true}} />
       </div>
     </fieldset>

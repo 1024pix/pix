@@ -37,6 +37,7 @@
             "error": "erreur",
             "invisible-password": "cacher le mot de passe",
             "mandatory": "obligatoire",
+            "mandatory-all-fields": "Tous les champs sont obligatoires.",
             "mandatory-fields": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires",
             "success": "correct",
             "visible-password": "afficher le mot de passe"
@@ -858,7 +859,7 @@
             "fields": {
                 "cgu": {
                     "error": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
-                    "label": "'<abbr title=\"obligatoire\">'*'</abbr>' J'accepte les ",
+                    "label": "J'accepte les ",
                     "cgu": "conditions d'utilisation de Pix"
                 },
                 "email": {

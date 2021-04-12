@@ -37,6 +37,7 @@
             "error": "error",
             "invisible-password": "Hide password",
             "mandatory": "required",
+            "mandatory-all-fields": "All fields are required.",
             "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required",
             "success": "success",
             "visible-password": "Show password"
@@ -858,7 +859,7 @@
             "fields": {
                 "cgu": {
                     "error": "You must agree to the Pix terms of use to create an account.",
-                    "label": "'<abbr title=\"required\">'*'</abbr>' I agree to the ",
+                    "label": "I agree to the ",
                     "cgu": "Pix terms of use"
                 },
                 "email": {
