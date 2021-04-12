@@ -23,16 +23,18 @@ export default class CertificationDetails extends Model {
       answer.order = count;
       count++;
     });
-    let competences = competenceData.reduce((accumulator, value) => {
-      accumulator[value.index] = value;
+
+    let competences = competenceData.reduce((accumulator, competence) => {
+      accumulator[competence.index] = competence;
       return accumulator;
     }, {});
-    competences = answers.reduce((accumulator, value) => {
-      if (accumulator[value.competence]) {
-        if (!accumulator[value.competence].answers) {
-          accumulator[value.competence].answers = [];
+
+    competences = answers.reduce((accumulator, answer) => {
+      if (accumulator[answer.competence]) {
+        if (!accumulator[answer.competence].answers) {
+          accumulator[answer.competence].answers = [];
         }
-        accumulator[value.competence].answers.push(value);
+        accumulator[answer.competence].answers.push(answer);
       }
       return accumulator;
     }, competences);
