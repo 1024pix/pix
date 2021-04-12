@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { contains } from '../../helpers/contains';
+import { contains } from '../../../helpers/contains';
 
-describe('Integration | Component | Sitemap', function() {
+describe('Integration | Component | Content', function() {
 
   setupIntlRenderingTest();
 
@@ -28,7 +28,7 @@ describe('Integration | Component | Sitemap', function() {
 
   it('should display the sitemap menu with expected elements', async function() {
     // when
-    await render(hbs`<Sitemap />`);
+    await render(hbs`<Sitemap::Content />`);
 
     // then
     expect(findAll('.sitemap-items__link')).to.have.lengthOf(10);
@@ -55,7 +55,7 @@ describe('Integration | Component | Sitemap', function() {
     this.set('model', model);
 
     // when
-    await render(hbs`<Sitemap @model={{this.model}}/>`);
+    await render(hbs`<Sitemap::Content @model={{this.model}}/>`);
 
     // then
     expect(findAll('.sitemap-items-link-skills__skill')).to.have.lengthOf(2);

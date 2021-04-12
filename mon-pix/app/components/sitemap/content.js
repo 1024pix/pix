@@ -1,7 +1,7 @@
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 
-export default class Sitemap extends Component {
+export default class Content extends Component {
   @service url;
   @service intl;
   @service currentDomain;
