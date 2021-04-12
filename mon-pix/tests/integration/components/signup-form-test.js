@@ -28,7 +28,7 @@ const CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
 const CHECKBOX_CGU_INPUT = '#pix-cgu';
 const CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
 
-const CGU_LINK = '.signup-form__cgu .link';
+const CGU_LINK = '.signup-form__cgu-label .link';
 
 const SUBMIT_BUTTON_CONTAINER = '.sign-form-body__bottom-button';
 const SUBMIT_BUTTON = '.button';
@@ -101,7 +101,7 @@ describe('Integration | Component | SignupForm', function() {
     it('should have link to Pix\'s CGU', function() {
       const cguText = this.intl.t('pages.sign-up.fields.cgu.label', { cguUrl: 'https://pix.localhost/conditions-generales-d-utilisation' });
 
-      expect(find('.signup-form__cgu').innerHTML).to.contains(cguText);
+      expect(find('.signup-form__cgu-label').innerHTML).to.contains(cguText);
       expect(findAll(CGU_LINK)).to.have.length(1);
     });
 

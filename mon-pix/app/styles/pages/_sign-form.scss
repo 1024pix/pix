@@ -149,7 +149,7 @@
     width: 100%;
     text-align: center;
     border-bottom: 1.5px solid $grey-20;
-    line-height: 0.1em;
+    line-height: 0.1rem;
     margin: 30px 0 40px;
 
     @include device-is('mobile') {
@@ -180,7 +180,7 @@
     &:hover,
     &:focus-within {
       border: 2px solid white;
-      box-shadow: 0 0 0 2pt $pole-emploi;
+      box-shadow: 0 0 0 2px $pole-emploi;
     }
 
     img {
