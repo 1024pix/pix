@@ -34,22 +34,40 @@
                           "user-edit-form__last-name form-control"}}
                @value={{this.form.lastName}} />
       </div>
-      <div class="form-field col-md-4">
-        <label for="email" class="form-field__label">
-          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> E-mail :
-        </label>
-        {{#if (v-get this.form 'email' 'isInvalid')}}
-          <div class="form-field__error" aria-label="Message d'erreur du champ email">
-            {{v-get this.form 'email' 'message'}}
-          </div>
-        {{/if}}
-        <Input id="email"
-               @type="email"
-               class={{if (v-get this.form 'email' 'isInvalid') "user-edit-form__email form-control is-invalid"
-                          "user-edit-form__email form-control"}}
-               @value={{this.form.email}} />
-      </div>
-
+      {{#if @user.email}}
+        <div class="form-field col-md-4">
+          <label for="email" class="form-field__label">
+            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> E-mail :
+          </label>
+          {{#if (v-get this.form 'email' 'isInvalid')}}
+            <div class="form-field__error" aria-label="Message d'erreur du champ email">
+              {{v-get this.form 'email' 'message'}}
+            </div>
+          {{/if}}
+          <Input id="email"
+                 @type="email"
+                 class={{if (v-get this.form 'email' 'isInvalid') "user-edit-form__email form-control is-invalid"
+                            "user-edit-form__email form-control"}}
+                 @value={{this.form.email}} />
+        </div>
+      {{/if}}
+      {{#if @user.username}}
+        <div class="form-field col-md-4">
+          <label for="username" class="form-field__label">
+            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Identifiant :
+          </label>
+          {{#if (v-get this.form 'username' 'isInvalid')}}
+            <div class="form-field__error" aria-label="Message d'erreur du champ identifiant">
+              {{v-get this.form 'username' 'message'}}
+            </div>
+          {{/if}}
+          <Input id="username"
+                 @type="text"
+                 class={{if (v-get this.form 'username' 'isInvalid') "user-edit-form__username form-control is-invalid"
+                            "user-edit-form__username form-control"}}
+                 @value={{this.form.username}} />
+        </div>
+      {{/if}}
       <div class="col-md-4">
         <button type="button" class="btn btn-outline-default" aria-label="Annuler" {{on "click" this.cancelEdit}}>Annuler</button>
         <button type="submit" class="btn btn-success" aria-label="Editer">Editer</button>
@@ -100,19 +118,17 @@
         </div>
       </section>
       <div class="col-md-4">
-        {{#if this.canAdministratorModifyUserDetails}}
           <button
-                  type="button"
-                  class="btn btn-outline-default"
-                  aria-label="Modifier"
+            type="button"
+            class="btn btn-outline-default"
             {{on "click" this.changeEditionMode}}
           >
             Modifier
           </button>
+        {{#if this.canAdministratorAnonymizeUser}}
           <button
-                  type="button"
-                  class="btn btn-danger"
-                  aria-label="Anonymiser"
+            type="button"
+            class="btn btn-danger"
             {{on "click" this.toggleDisplayAnonymizeModal}}
           >
             Anonymiser cet utilisateur

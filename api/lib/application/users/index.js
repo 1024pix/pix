@@ -96,6 +96,7 @@ exports.register = async function(server) {
                 'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 email: Joi.string().email().allow(null).optional(),
+                username: Joi.string().allow(null).optional(),
               },
             },
           }),
