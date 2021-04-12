@@ -34,18 +34,16 @@
     .page-section {
       background: $white;
       border-radius: 5px;
-      padding: 20px;
+      padding: 32px;
 
       .page-section__header {
         display: flex;
-        justify-content: space-between;
         align-items: center;
         margin-bottom: 20px;
 
         .page-section__title {
-          font-size: 1.4rem;
-          display: inline-block;
-          margin-bottom: 0;
+          font-size: 1.2rem;
+          font-weight: 600;
         }
       }
     }

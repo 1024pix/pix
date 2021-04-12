@@ -77,4 +77,27 @@ module('Unit | Model | user', function(hooks) {
       assert.equal(user.hasGARAuthenticationMethod, true);
     });
   });
+
+  module('hasOnlyOneAuthenticationMethod', function() {
+
+    test('it should return true when user has only one authentication method', function(assert) {
+      // given
+      const authenticationMethod = store.createRecord('authentication-method', { identityProvider: 'GAR' });
+      const user = store.createRecord('user', { authenticationMethods: [authenticationMethod] });
+
+      // then
+      assert.equal(user.hasOnlyOneAuthenticationMethod, true);
+    });
+
+    test('it should return false when user has more than one authentication method', function(assert) {
+      // given
+      const garAuthenticationMethod = store.createRecord('authentication-method', { identityProvider: 'GAR' });
+      const poleEmploiAuthenticationMethod = store.createRecord('authentication-method', { identityProvider: 'POLE_EMPLOI' });
+      const user = store.createRecord('user', { authenticationMethods: [garAuthenticationMethod, poleEmploiAuthenticationMethod] });
+
+      // then
+      assert.equal(user.hasOnlyOneAuthenticationMethod, false);
+    });
+
+  });
 });

@@ -18,21 +18,29 @@
 
 .user-authentication-method {
 
-  &__title {
-    font-size: 18px;
-    padding: 4px 0 12px 0;
-  }
-
   &__item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 150px;
-    margin: 5px 0;
+    margin: 8px 0;
     color: $grey-40;
   }
 
+  &__remove-button {
+    background-color: transparent;
+    color: red;
+    font-size: 0.75rem;
+    border: none;
+    padding: 0 0 0 10px;
+  }
+
   .user-authentication-method-item {
+
+    &__label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 175px;
+    }
 
     &__check {
       color: $success;

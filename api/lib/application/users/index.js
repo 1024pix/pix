@@ -111,6 +111,36 @@ exports.register = async function(server) {
       },
     },
     {
+      method: 'POST',
+      path: '/api/admin/users/{id}/remove-authentication',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                type: Joi.string().valid('GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI').required(),
+              },
+            },
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        handler: userController.removeAuthenticationMethod,
+        notes: [
+          '- Permet à un administrateur de supprimer une méthode de connexion',
+        ],
+        tags: ['api', 'administration', 'user'],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/users/{id}/memberships',
       config: {

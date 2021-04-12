@@ -2,6 +2,7 @@ const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const usecases = require('../../../../lib/domain/usecases');
+const { UserNotAuthorizedToRemoveAuthenticationMethod } = require('../../../../lib/domain/errors');
 
 const moduleUnderTest = require('../../../../lib/application/users');
 
@@ -19,6 +20,7 @@ describe('Integration | Application | Users | user-controller', () => {
     sandbox.stub(usecases, 'getUserProfileSharedForCampaign');
     sandbox.stub(usecases, 'addGarAuthenticationMethodToUser');
     sandbox.stub(usecases, 'dissociateSchoolingRegistrations');
+    sandbox.stub(usecases, 'removeAuthenticationMethod');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -135,6 +137,63 @@ describe('Integration | Application | Users | user-controller', () => {
 
         // when
         const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
+
+  describe('#removeAuthenticationMethod', () => {
+
+    const method = 'POST';
+    const url = '/api/admin/users/1/remove-authentication';
+    const payload = {
+      data: {
+        attributes: {
+          type: 'EMAIL',
+        },
+      },
+    };
+
+    beforeEach(() => {
+      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+    });
+
+    context('Success cases', () => {
+
+      it('should return a HTTP response with status code 204', async () => {
+        // given
+        usecases.removeAuthenticationMethod.resolves();
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+    context('Error cases', () => {
+
+      it('should return a 403 HTTP response when when user is not allowed to access resource', async () => {
+        // given
+        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
+          return Promise.resolve(h.response().code(403).takeover());
+        });
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('should return a 403 HTTP response when the usecase throw a UserNotAuthorizedToRemoveAuthenticationMethod', async () => {
+        // given
+        usecases.removeAuthenticationMethod.throws(new UserNotAuthorizedToRemoveAuthenticationMethod());
+        // when
+        const response = await httpTestServer.request(method, url, payload);
 
         // then
         expect(response.statusCode).to.equal(403);

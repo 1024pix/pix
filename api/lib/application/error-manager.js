@@ -103,6 +103,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToGenerateUsernamePasswordError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
+  if (error instanceof DomainErrors.UserNotAuthorizedToRemoveAuthenticationMethod) {
+    return new HttpErrors.ForbiddenError(error.message);
+  }
   if (error instanceof DomainErrors.CertificationCandidateAlreadyLinkedToUserError) {
     return new HttpErrors.ForbiddenError('Le candidat de certification est déjà lié à un utilisateur.');
   }

@@ -6,6 +6,6 @@
   </div>
 </header>
 
-<main class="page-body" id="organizations-get-page">
-  <UserDetailPersonalInformation @user={{@model}}/>
+<main class="page-body">
+  <UserDetailPersonalInformation @user={{@model}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>
 </main>
