@@ -874,6 +874,7 @@
                     "error": "You have not entered your last name.",
                     "label": "Last name"
                 },
+                "legend": "Mandatory fields for sign up",
                 "password": {
                     "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
                     "help": "(at least 8 characters, including one uppercase letter, one lowercase letter and one number)",

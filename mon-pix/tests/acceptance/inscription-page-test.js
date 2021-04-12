@@ -12,7 +12,7 @@ describe('Acceptance | Page | Inscription', function() {
   it('should contain a link to "Terms of service" page', async function() {
     await visit('/inscription');
 
-    expect(find('.signup-form__cgu .link')).to.exist;
+    expect(find('.signup-form__cgu-label .link')).to.exist;
   });
 
 });

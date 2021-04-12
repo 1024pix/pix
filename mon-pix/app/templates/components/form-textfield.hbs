@@ -1,4 +1,4 @@
-{{!-- template-lint-disable no-implicit-this no-action no-curly-component-invocation no-nested-interactive --}}
+{{!-- template-lint-disable no-implicit-this no-action no-curly-component-invocation --}}
 <label for="{{textfieldName}}" class="form-textfield__label">
   {{#if require}}<abbr title="{{t 'common.form.mandatory'}}" class="mandatory-mark">*</abbr> {{/if}}
   {{label}}
@@ -38,5 +38,5 @@
     </div>
 </div>
 
-<div id="validationMessage-{{textfieldName}}" class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" role="alert">{{#if displayMessage}}{{validationMessage}}{{/if}}</div>
+<div id="validationMessage-{{textfieldName}}" class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" aria-live="polite">{{#if displayMessage}}{{validationMessage}}{{/if}}</div>
 

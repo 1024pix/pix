@@ -874,6 +874,7 @@
                     "error": "Votre nom n’est pas renseigné.",
                     "label": "Nom"
                 },
+                "legend": "Information nécessaire pour l'inscription",
                 "password": {
                     "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
                     "help": "(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)",
