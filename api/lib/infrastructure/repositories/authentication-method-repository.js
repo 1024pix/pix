@@ -231,4 +231,15 @@ module.exports = {
       });
   },
 
+  async removeByUserIdAndIdentityProvider({ userId, identityProvider }) {
+    return BookshelfAuthenticationMethod.where({ userId, identityProvider }).destroy({ require: true });
+  },
+
+  async findByUserId({ userId }) {
+    const bookshelfAuthenticationMethods = await BookshelfAuthenticationMethod
+      .where({ userId })
+      .fetchAll();
+
+    return bookshelfAuthenticationMethods.map((bookshelfAuthenticationMethod) => _toDomainEntity(bookshelfAuthenticationMethod));
+  },
 };

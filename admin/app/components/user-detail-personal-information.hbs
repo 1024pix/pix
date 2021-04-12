@@ -102,17 +102,17 @@
       <div class="col-md-4">
         {{#if this.canAdministratorModifyUserDetails}}
           <button
-            type="button"
-            class="btn btn-outline-default"
-            aria-label="Modifier"
+                  type="button"
+                  class="btn btn-outline-default"
+                  aria-label="Modifier"
             {{on "click" this.changeEditionMode}}
           >
             Modifier
           </button>
           <button
-            type="button"
-            class="btn btn-danger"
-            aria-label="Anonymiser"
+                  type="button"
+                  class="btn btn-danger"
+                  aria-label="Anonymiser"
             {{on "click" this.toggleDisplayAnonymizeModal}}
           >
             Anonymiser cet utilisateur
@@ -124,37 +124,83 @@
 </section>
 
 <section class="page-section mb_10 user-authentication-method">
-  <h2 class="page-section__title user-authentication-method__title">Méthodes de connexion</h2>
+  <header class="page-section__header">
+    <h2 class="page-section__title">Méthodes de connexion</h2>
+  </header>
   <div class="user-authentication-method__item" data-test-email>
-    <span>Adresse e-mail</span>
-    {{#if @user.hasEmailAuthenticationMethod}}
-      <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
-    {{else}}
-      <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+    <div class="user-authentication-method-item__label">
+      <span>Adresse e-mail</span>
+      {{#if @user.hasEmailAuthenticationMethod}}
+        <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
+      {{else}}
+        <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+      {{/if}}
+    </div>
+    {{#if (and @user.hasEmailAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+      <PixButton
+              class="user-authentication-method__remove-button"
+              @type="button"
+              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'EMAIL'}}
+              data-test-remove-email>
+        SUPPRIMER
+      </PixButton>
     {{/if}}
   </div>
   <div class="user-authentication-method__item" data-test-username>
-    <span>Identifiant</span>
-    {{#if @user.hasUsernameAuthenticationMethod}}
-      <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
-    {{else}}
-      <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+    <div class="user-authentication-method-item__label">
+      <span>Identifiant</span>
+      {{#if @user.hasUsernameAuthenticationMethod}}
+        <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
+      {{else}}
+        <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+      {{/if}}
+    </div>
+    {{#if (and @user.hasUsernameAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+      <PixButton
+              class="user-authentication-method__remove-button"
+              @type="button"
+              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'USERNAME'}}
+              data-test-remove-username>
+        SUPPRIMER
+      </PixButton>
     {{/if}}
   </div>
   <div class="user-authentication-method__item" data-test-pole-emploi>
-    <span>Pôle Emploi</span>
-    {{#if @user.hasPoleEmploiAuthenticationMethod}}
-      <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
-    {{else}}
-      <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+    <div class="user-authentication-method-item__label">
+      <span>Pôle Emploi</span>
+      {{#if @user.hasPoleEmploiAuthenticationMethod}}
+        <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
+      {{else}}
+        <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+      {{/if}}
+    </div>
+    {{#if (and @user.hasPoleEmploiAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+      <PixButton
+              class="user-authentication-method__remove-button"
+              @type="button"
+              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'POLE_EMPLOI'}}
+              data-test-remove-pole-emploi>
+        SUPPRIMER
+      </PixButton>
     {{/if}}
   </div>
   <div class="user-authentication-method__item" data-test-mediacentre>
-    <span>Médiacentre</span>
-    {{#if @user.hasGARAuthenticationMethod}}
-      <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
-    {{else}}
-      <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+    <div class="user-authentication-method-item__label">
+      <span>Médiacentre</span>
+      {{#if @user.hasGARAuthenticationMethod}}
+        <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
+      {{else}}
+        <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+      {{/if}}
+    </div>
+    {{#if (and @user.hasGARAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+      <PixButton
+              class="user-authentication-method__remove-button"
+              @type="button"
+              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'GAR'}}
+              data-test-remove-mediacentre>
+        SUPPRIMER
+      </PixButton>
     {{/if}}
   </div>
 </section>
@@ -226,3 +272,10 @@
               @confirm={{this.dissociate}}
               @cancel={{this.toggleDisplayDissociateModal}}
               @show={{this.displayDissociateModal}} />
+
+<ConfirmPopup @message="Suppression de la méthode de connexion suivante : {{this.translatedType}}"
+              @title="Confirmer la suppression"
+              @submitTitle="Oui, je supprime"
+              @confirm={{this.removeAuthenticationMethod}}
+              @cancel={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+              @show={{this.displayRemoveAuthenticationMethodModal}} />

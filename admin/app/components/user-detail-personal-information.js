@@ -4,10 +4,18 @@ import Object, { action } from '@ember/object';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { getOwner } from '@ember/application';
 import { inject as service } from '@ember/service';
+import get from 'lodash/get';
 
 import ENV from 'pix-admin/config/environment';
 
 const DISSOCIATE_SUCCESS_NOTIFICATION_MESSAGE = 'La dissociation a bien été effectuée.';
+
+const typesLabel = {
+  EMAIL: 'Adresse e-mail',
+  USERNAME: 'Identifiant',
+  POLE_EMPLOI: 'Pôle Emploi',
+  GAR: 'Médiacentre',
+};
 
 const Validations = buildValidations({
   firstName: {
@@ -69,7 +77,9 @@ export default class UserDetailPersonalInformationComponent extends Component {
   @tracked isEditionMode = false;
   @tracked displayAnonymizeModal = false;
   @tracked displayDissociateModal = false;
+  @tracked displayRemoveAuthenticationMethodModal = false;
   @tracked isLoading = false;
+  @tracked authenticationMethodType = null;
 
   @service notifications;
 
@@ -89,6 +99,10 @@ export default class UserDetailPersonalInformationComponent extends Component {
     return urlDashboardPrefix && (urlDashboardPrefix + this.args.user.id);
   }
 
+  get translatedType() {
+    return typesLabel[this.authenticationMethodType];
+  }
+
   @action
   changeEditionMode(event) {
     event.preventDefault();
@@ -105,6 +119,12 @@ export default class UserDetailPersonalInformationComponent extends Component {
   toggleDisplayDissociateModal(schoolingRegistration) {
     this.schoolingRegistrationToDissociate = schoolingRegistration;
     this.displayDissociateModal = !this.displayDissociateModal;
+  }
+
+  @action
+  toggleDisplayRemoveAuthenticationMethodModal(type) {
+    this.authenticationMethodType = type;
+    this.displayRemoveAuthenticationMethodModal = !this.displayRemoveAuthenticationMethodModal;
   }
 
   @action
@@ -155,6 +175,23 @@ export default class UserDetailPersonalInformationComponent extends Component {
     } finally {
       this.displayDissociateModal = false;
       this.isLoading = false;
+    }
+  }
+
+  @action
+  async removeAuthenticationMethod() {
+    this.isLoading = true;
+    try {
+      await this.args.removeAuthenticationMethod(this.authenticationMethodType);
+    } catch (response) {
+      let errorMessage = 'Une erreur est survenue !';
+      if (get(response, 'errors[0].status') === '403') {
+        errorMessage = 'Vous ne pouvez pas supprimer la dernière méthode de connexion de cet utilisateur';
+      }
+      this.notifications.error(errorMessage);
+    } finally {
+      this.isLoading = false;
+      this.toggleDisplayRemoveAuthenticationMethodModal(null);
     }
   }
 
