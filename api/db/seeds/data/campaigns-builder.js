@@ -150,6 +150,15 @@ function _buildCampaignForPro(databaseBuilder) {
     creatorId: 2,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     idPixLabel: null,
+    customResultPageButtonUrl: 'https://pix.fr/',
+    customResultPageButtonText: 'Voir Pix ! Avec du markdown ',
+    customResultPageText: `---
+__Plus d'infos :)__
+
+- __[Pix](https://pix.fr)__ - Allez sur mon pix !
+- __[Google](https://google.fr/)__ - Faites des recherches sur google.
+
+---`,
   });
 
   databaseBuilder.factory.buildCampaign({
