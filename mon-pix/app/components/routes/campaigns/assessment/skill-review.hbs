@@ -88,7 +88,7 @@
         <p class="skill-review-organization-message__organization-name">{{this.organizationName}}</p>
         {{#if this.showOrganizationMessage}}
           <div class="skill-review-organization-message__text">
-            <p>{{this.organizationMessage}}</p>
+            <MarkdownToHtml @markdown={{this.organizationMessage}}/>
           </div>
         {{/if}}
         {{#if this.showOrganizationButton}}
