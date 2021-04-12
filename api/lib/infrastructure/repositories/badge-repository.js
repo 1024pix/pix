@@ -46,7 +46,7 @@ module.exports = {
     const bookshelfBadge = await BookshelfBadge
       .where('id', id)
       .fetch({
-        withRelated: ['badgeCriteria'],
+        withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
       });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
   },
