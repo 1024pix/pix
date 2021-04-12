@@ -1,4 +1,5 @@
 const axios = require('axios');
+const logger = require('../logger');
 
 class HttpResponse {
   constructor({
@@ -24,10 +25,24 @@ module.exports = {
         isSuccessful: true,
       });
     } catch (httpErr) {
+      const isSuccessful = false;
+
+      let code;
+      let data;
+
+      if (httpErr.response) {
+        code = httpErr.response.status;
+        data = httpErr.response.data;
+      } else {
+        code = '500';
+        data = null;
+      }
+
+      logger.error({ err: httpErr }, `Error while post ${url}`);
       return new HttpResponse({
-        code: httpErr.response.status,
-        data: httpErr.response.data,
-        isSuccessful: false,
+        code,
+        data,
+        isSuccessful,
       });
     }
   },
