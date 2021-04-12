@@ -1,4 +1,3 @@
-import { describe, beforeEach } from 'mocha';
 import { expect } from 'chai';
 import { contains } from '../../../../../helpers/contains';
 import { click, find, render } from '@ember/test-helpers';
@@ -407,7 +406,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       });
 
       it('should not display the block for the message', function() {
-        // debugger
+
         // Then
         expect(contains('J\'envoie mes résultats')).to.exist;
         expect(contains('Message de votre organisation')).to.not.exist;
