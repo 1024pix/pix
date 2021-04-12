@@ -30,12 +30,23 @@
     </div>
 
 
-    <div class="page-section__details">
-      <ul>
-      {{#each @badge.badgeCriteria as |criterion|}}
-        <li><span>{{criterion.scope}}</span> <span>{{criterion.threshold}}</span></li>
-      {{/each}}
-      </ul>
+    <div class="page-section__details table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th>Périmètre</th>
+            <th>Seuil</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each @badge.badgeCriteria as |criterion|}}
+            <tr>
+              <td>{{criterion.scope}}</td>
+              <td>{{criterion.threshold}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
     </div>
   </section>
 </main>
