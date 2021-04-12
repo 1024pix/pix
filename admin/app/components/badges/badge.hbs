@@ -47,6 +47,11 @@
           {{/each}}
         </tbody>
       </table>
+      <ul>
+      {{#each @badge.badgePartnerCompetences as |badgePartnerCompetence|}}
+        <li>{{badgePartnerCompetence.name}}</li>
+      {{/each}}
+      </ul>
     </div>
   </section>
 </main>

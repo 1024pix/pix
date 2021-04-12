@@ -21,11 +21,20 @@ module('Acceptance | authenticated/badges/badge', function(hooks) {
       scope: 'CampaignParticipation',
       threshold: 20,
     });
+
+    const badgePartnerCompetence = this.server.create('badge-partner-competence', {
+      id: 1,
+      name: 'Internet for dummies',
+    });
+
     badge = this.server.create('badge', {
       id: 1,
       title: 'My badge',
       badgeCriteria: [
         criterion,
+      ],
+      badgePartnerCompetences: [
+        badgePartnerCompetence,
       ],
     });
   });
@@ -36,5 +45,7 @@ module('Acceptance | authenticated/badges/badge', function(hooks) {
     const badgeElement = find('.page-section__details');
     assert.ok(badgeElement.textContent.match(badge.title));
     assert.contains('20');
+    assert.contains('Internet for dummies');
   });
+
 });
