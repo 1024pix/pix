@@ -11,6 +11,16 @@
           <h1 class="user-account-banner__title">{{t 'pages.user-account.title'}}</h1>
         </div>
       </div>
+
+      <nav>
+        <LinkTo @route="user-account.personal-information">
+          Informations personnelles
+        </LinkTo>
+        <LinkTo @route="user-account.connection-methods">
+          Méthodes de connexion
+        </LinkTo>
+      </nav>
+
       {{#if this.isEmailEditionMode}}
       <div class="user-account__update-email">
         <UserAccountUpdateEmail
