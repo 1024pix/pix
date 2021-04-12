@@ -17,6 +17,7 @@ import Service from '@ember/service';
 
 import ENV from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import { contains } from '../../helpers/contains';
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
@@ -65,35 +66,6 @@ describe('Integration | Component | signin form', function() {
 
       // then
       expect(document.querySelector('a.sign-form-body__forgotten-password-link')).to.exist;
-    });
-
-    it('should not display a Pole emploi button when Pole emploi connection is disabled', async function() {
-      // given
-      const linkTitle = this.intl.t('pages.sign-in.pole-emploi.link.title');
-
-      // when
-      await render(hbs `<SigninForm />`);
-
-      // then
-      expect(find(`a[aria-label="${linkTitle}"]`)).not.to.exist;
-    });
-
-    it('should display a Pole emploi button when Pole emploi connection is enabled', async function() {
-      // given
-      const linkTitle = this.intl.t('pages.sign-in.pole-emploi.link.title');
-
-      const featureTogglesStub = Service.extend({
-        featureToggles: {
-          isPoleEmploiEnabled: true,
-        },
-      });
-      this.owner.register('service:featureToggles', featureTogglesStub);
-
-      // when
-      await render(hbs `<SigninForm />`);
-
-      // then
-      expect(find(`a[aria-label="${linkTitle}"]`)).to.exist;
     });
 
     it('should not display any error by default', async function() {
@@ -150,6 +122,74 @@ describe('Integration | Component | signin form', function() {
         // then
         expect(document.querySelector('div.sign-form__notification-message--error')).to.exist;
         expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE));
+      });
+    });
+
+    context('when domain is pix.org', function() {
+
+      it('should not display Pole Emploi button', async function() {
+        // given
+        const linkText = this.intl.t('pages.sign-in.pole-emploi.title');
+
+        class UrlServiceStub extends Service {
+          get isFrenchDomainExtension() {
+            return false;
+          }
+        }
+        const featureTogglesStub = Service.extend({
+          featureToggles: {
+            isPoleEmploiEnabled: true,
+          },
+        });
+
+        this.owner.register('service:featureToggles', featureTogglesStub);
+        this.owner.register('service:url', UrlServiceStub);
+
+        // when
+        await render(hbs `<SigninForm />`);
+
+        // then
+        expect(contains(linkText)).not.exist;
+      });
+    });
+
+    context('when domain is pix.fr', function() {
+
+      let linkText ;
+
+      beforeEach(function() {
+        class UrlServiceStub extends Service {
+          get isFrenchDomainExtension() {
+            return true;
+          }
+        }
+        this.owner.register('service:url', UrlServiceStub);
+
+        linkText = this.intl.t('pages.sign-in.pole-emploi.title');
+      });
+
+      it('should not display a Pole emploi button when Pole emploi connection is disabled', async function() {
+        // when
+        await render(hbs `<SigninForm />`);
+
+        // then
+        expect(contains(linkText)).not.exist;
+      });
+
+      it('should display a Pole emploi button when Pole emploi connection is enabled', async function() {
+        // given
+        const featureTogglesStub = Service.extend({
+          featureToggles: {
+            isPoleEmploiEnabled: true,
+          },
+        });
+        this.owner.register('service:featureToggles', featureTogglesStub);
+
+        // when
+        await render(hbs `<SigninForm />`);
+
+        // then
+        expect(contains(linkText)).to.exist;
       });
     });
   });

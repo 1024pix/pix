@@ -18,12 +18,12 @@ export default class SigninForm extends Component {
   username = '';
   password = '';
 
-  get isPoleEmploiEnabled() {
-    return this.featureToggles.featureToggles.isPoleEmploiEnabled;
-  }
-
   get homeUrl() {
     return this.url.homeUrl;
+  }
+
+  get displayPoleEmploiButton() {
+    return this.url.isFrenchDomainExtension && this.featureToggles.featureToggles.isPoleEmploiEnabled;
   }
 
   @action
