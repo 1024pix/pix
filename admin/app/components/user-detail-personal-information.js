@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import Object, { action } from '@ember/object';
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
+import Object, { action, computed } from '@ember/object';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { getOwner } from '@ember/application';
 import { inject as service } from '@ember/service';
@@ -52,15 +53,34 @@ const Validations = buildValidations({
         presence: true,
         ignoreBlank: true,
         message: 'L\'e-mail ne peut pas être vide.',
+        disabled: computed.none('model.email'),
       }),
       validator('length', {
         max: 255,
         message: 'La longueur de l\'email ne doit pas excéder 255 caractères.',
+        disabled: computed.none('model.email'),
       }),
       validator('format', {
         ignoreBlank: true,
         type: 'email',
         message: 'L\'e-mail n\'a pas le bon format.',
+        disabled: computed.none('model.email'),
+      }),
+    ],
+  },
+  username: {
+    validators: [
+      validator('presence', {
+        presence: true,
+        ignoreBlank: true,
+        message: 'L\'identifiant ne peut pas être vide.',
+        disabled: computed.none('model.username'),
+      }),
+      validator('length', {
+        min: 1,
+        max: 255,
+        message: 'La longueur du nom ne doit pas excéder 255 caractères.',
+        disabled: computed.none('model.username'),
       }),
     ],
   },
@@ -70,6 +90,7 @@ class Form extends Object.extend(Validations) {
   @tracked firstName;
   @tracked lastName;
   @tracked email;
+  @tracked username;
 }
 
 export default class UserDetailPersonalInformationComponent extends Component {
@@ -90,8 +111,8 @@ export default class UserDetailPersonalInformationComponent extends Component {
     this.form = Form.create(getOwner(this).ownerInjection());
   }
 
-  get canAdministratorModifyUserDetails() {
-    return !(this.args.user.username !== null);
+  get canAdministratorAnonymizeUser() {
+    return this.args.user.email;
   }
 
   get externalURL() {
@@ -151,6 +172,7 @@ export default class UserDetailPersonalInformationComponent extends Component {
     this.args.user.firstName = this.form.firstName.trim();
     this.args.user.lastName = this.form.lastName.trim();
     this.args.user.email = !this.form.email ? null : this.form.email.trim();
+    this.args.user.username = !this.form.username ? null : this.form.username.trim();
 
     try {
       await this.args.user.save();
@@ -199,5 +221,6 @@ export default class UserDetailPersonalInformationComponent extends Component {
     this.form.firstName = this.args.user.firstName;
     this.form.lastName = this.args.user.lastName;
     this.form.email = this.args.user.email;
+    this.form.username = this.args.user.username;
   }
 }

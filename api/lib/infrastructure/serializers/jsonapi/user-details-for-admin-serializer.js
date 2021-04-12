@@ -29,6 +29,7 @@ module.exports = {
       firstName: json.data.attributes['first-name'],
       lastName: json.data.attributes['last-name'],
       email: json.data.attributes.email,
+      username: json.data.attributes.username,
     });
   },
 };
