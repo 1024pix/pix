@@ -1,6 +1,6 @@
 const { sinon, expect } = require('../../../test-helper');
 const campaignParticipationResultController = require('../../../../lib/application/campaign-participation-results/campaign-participation-result-controller');
-const campaignParticipationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-result-serializer');
+const participantResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/participant-result-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 
 describe('Unit | Controller | campaign-participation-result-controller', () => {
@@ -11,18 +11,18 @@ describe('Unit | Controller | campaign-participation-result-controller', () => {
     const locale = 'fr';
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getCampaignParticipationResult');
-      sinon.stub(campaignParticipationResultSerializer, 'serialize');
+      sinon.stub(usecases, 'getParticipantResult');
+      sinon.stub(participantResultSerializer, 'serialize');
     });
 
     it('should return ok', async () => {
       // given
-      usecases.getCampaignParticipationResult.withArgs({
+      usecases.getParticipantResult.withArgs({
         campaignParticipationId,
         userId,
         locale,
       }).resolves({});
-      campaignParticipationResultSerializer.serialize.withArgs({}).returns('ok');
+      participantResultSerializer.serialize.withArgs({}).returns('ok');
 
       // when
       const response = await campaignParticipationResultController.get({
