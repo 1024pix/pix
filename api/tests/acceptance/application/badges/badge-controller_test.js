@@ -40,6 +40,7 @@ describe('Acceptance | API | Badges', () => {
           id: badge.id.toString(),
           attributes: {
             'alt-message': 'Message alternatif',
+            'is-certifiable': false,
             'image-url': 'url_image',
             message: 'Bravo',
             title: 'titre du badge',

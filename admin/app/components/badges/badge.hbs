@@ -1,24 +1,25 @@
 <header class="page-header">
   <div class="page-title">
-    <p>Résultat Thématique<span class="wire">&nbsp;>&nbsp;</span>{{@model.id}}</p>
+    <p>Résultat Thématique<span class="wire">&nbsp;>&nbsp;</span>{{@badge.id}}</p>
   </div>
 </header>
 
 <main class="page-body">
   <section class="page-section mb_10">
     <div class="page-section__header">
-      <h1 class="page-section__title">{{@model.name}}</h1>
+      <h1 class="page-section__title">{{@badge.name}}</h1>
     </div>
     <div class="page-section__details badge-data">
       <div class="badge-data__image">
-        <img src={{@model.imageUrl}} alt="" role="presentation" width="90px"/><br>
+        <img src={{@badge.imageUrl}} alt="" role="presentation" width="90px"/><br>
       </div>
       <div class="page-section__details">
-        ID : {{@model.id}}<br>
-        Title : {{@model.title}}<br>
-        Key : {{@model.key}}<br>
-        Message : {{@model.message}}<br>
-        Message alternatif : {{@model.altMessage}}<br>
+        ID : {{@badge.id}}<br>
+        Titre : {{@badge.title}}<br>
+        Clé : {{@badge.key}}<br>
+        Message : {{@badge.message}}<br>
+        Message alternatif : {{@badge.altMessage}}<br>
+        <PixTag @color={{this.isCertifiableColor}} class="badge-data__tags">{{this.isCertifiableText}}</PixTag><br>
       </div>
     </div>
   </section>
