@@ -56,6 +56,18 @@
       flex-direction: row;
       align-items: center;
     }
+
+    &-list {
+      list-style: none;
+      display: flex;
+      padding: 0;
+
+      li {
+        align-self: center;
+        display: inline;
+        padding: 0;
+      }
+    }
   }
 
   &__copyrights {

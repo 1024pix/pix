@@ -40,7 +40,9 @@
   background-color: $white;
   width: 100%;
 
-  &:hover {
+  &:hover,
+  &:focus,
+  &:focus-within {
     border: 2px solid $light-blue;
   }
 
