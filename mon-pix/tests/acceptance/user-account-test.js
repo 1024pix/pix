@@ -5,6 +5,8 @@ import { expect } from 'chai';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { contains } from '../helpers/contains';
+import { clickByLabel } from '../helpers/click-by-label';
 
 describe('Acceptance | User account page', function() {
   setupApplicationTest();
@@ -25,25 +27,22 @@ describe('Acceptance | User account page', function() {
 
     let user;
 
-    beforeEach(function() {
+    beforeEach(async function() {
       user = server.create('user', 'withEmail');
+      await authenticateByEmail(user);
     });
 
     it('should display my account page', async function() {
-      // given
-      await authenticateByEmail(user);
-
       // when
       await visit('/mon-compte');
 
       // then
-      expect(currentURL()).to.equal('/mon-compte');
+      expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
     });
 
     it('should be able to edit the email', async function() {
       // given
       const newEmail = 'new-email@example.net';
-      await authenticateByEmail(user);
       await visit('/mon-compte');
 
       // when
@@ -55,6 +54,40 @@ describe('Acceptance | User account page', function() {
 
       // then
       expect(user.email).to.equal(newEmail);
+    });
+
+    describe('My account menu', function() {
+
+      it('should display my account menu', async function() {
+        // when
+        await visit('/mon-compte');
+
+        // then
+        expect(contains('Informations personnelles')).to.exist;
+        expect(contains('Méthodes de connexion')).to.exist;
+      });
+
+      it('should display personal information on click on "Informations personnelles"', async function() {
+        // given
+        await visit('/mon-compte');
+
+        // when
+        await clickByLabel('Informations personnelles');
+
+        // then
+        expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
+      });
+
+      it('should display connection methods on click on "Méthodes de connexion"', async function() {
+        // given
+        await visit('/mon-compte');
+
+        // when
+        await clickByLabel('Méthodes de connexion');
+
+        // then
+        expect(currentURL()).to.equal('/mon-compte/methodes-de-connexion');
+      });
     });
   });
 });

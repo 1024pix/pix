@@ -28,10 +28,14 @@ Router.map(function() {
 
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
-  this.route('user-account', { path: '/mon-compte' });
   this.route('user-tutorials', { path: '/mes-tutos' });
   this.route('user-dashboard', { path: '/accueil' });
   this.route('user-tests', { path: '/mes-parcours' });
+
+  this.route('user-account', { path: '/mon-compte' }, function() {
+    this.route('personal-information', { path: '/informations-personnelles' });
+    this.route('connection-methods', { path: '/methodes-de-connexion' });
+  });
 
   this.route('assessments', { path: '/assessments/:assessment_id' }, function() {
     this.route('resume');

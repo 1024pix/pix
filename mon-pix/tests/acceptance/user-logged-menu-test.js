@@ -58,7 +58,7 @@ describe('Acceptance | User account', function() {
       await clickByLabel('Mon compte');
 
       // then
-      expect(currentURL()).to.equal('/mon-compte');
+      expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
     });
   });
 });
