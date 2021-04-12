@@ -329,6 +329,8 @@ describe('Integration | Repository | Badge', () => {
         message: 'Congrats, you won the Toto badge!',
         key: 'TOTO2',
       });
+      databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
+      databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badge.id });
       await databaseBuilder.commit();
     });
 
@@ -336,6 +338,13 @@ describe('Integration | Repository | Badge', () => {
       const myBadge = await badgeRepository.get(badge.id);
 
       expect(myBadge.id).to.equal(1);
+    });
+
+    it('should return a badge with badgeCriteria and badgePartnerCompetences', async () => {
+      const myBadge = await badgeRepository.get(badge.id);
+
+      expect(myBadge.badgeCriteria.length).to.equal(1);
+      expect(myBadge.badgePartnerCompetences.length).to.equal(1);
     });
   });
 });

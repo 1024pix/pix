@@ -37,16 +37,41 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
                 type: 'badge-criterion',
               }],
             },
+            'badge-partner-competences': {
+              'data': [{
+                id: '1',
+                type: 'badge-partner-competence',
+              }, {
+                id: '2',
+                type: 'badge-partner-competence',
+              }],
+            },
           },
         },
-        included: [{
-          attributes: {
-            scope: 'CampaignParticipation',
-            threshold: 40,
+        included: [
+          {
+            attributes: {
+              scope: 'CampaignParticipation',
+              threshold: 40,
+            },
+            id: '1',
+            type: 'badge-criterion',
           },
-          id: '1',
-          type: 'badge-criterion',
-        }],
+          {
+            attributes: {
+              name: 'name',
+            },
+            id: '1',
+            type: 'badge-partner-competence',
+          },
+          {
+            attributes: {
+              name: 'name',
+            },
+            id: '2',
+            type: 'badge-partner-competence',
+          },
+        ],
       };
 
       // when

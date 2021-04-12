@@ -16,7 +16,7 @@ module.exports = function buildBadge({
   ],
   badgePartnerCompetences = [
     buildBadgePartnerCompetence(),
-    buildBadgePartnerCompetence(),
+    buildBadgePartnerCompetence({ id: 2 }),
   ],
 } = {}) {
   return new Badge({
