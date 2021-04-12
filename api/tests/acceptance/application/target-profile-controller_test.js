@@ -296,6 +296,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
         id: badge.id.toString(),
         attributes: {
           'alt-message': badge.altMessage,
+          'is-certifiable': false,
           'image-url': badge.imageUrl,
           'key': badge.key,
           'message': badge.message,

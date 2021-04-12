@@ -16,6 +16,7 @@ module('Integration | Component | Badges::Badge', function(hooks) {
       imageUrl: 'data:,',
       key: 'ma clef',
       altMessage: 'mon message alternatif',
+      isCertifiable: true,
     };
 
     this.set('badge', badge);
@@ -23,7 +24,7 @@ module('Integration | Component | Badges::Badge', function(hooks) {
 
   test('should render all details about the badge', async function(assert) {
     //when
-    await render(hbs`<Badges::Badge @model={{this.badge}} />`);
+    await render(hbs`<Badges::Badge @badge={{this.badge}} />`);
 
     //then
     assert.dom('.page-section__details').exists();
@@ -33,6 +34,7 @@ module('Integration | Component | Badges::Badge', function(hooks) {
     assert.ok(detailsContent.match(badge.message), 'message');
     assert.ok(detailsContent.match(badge.id), 'id');
     assert.ok(detailsContent.match(badge.altMessage), 'altMessage');
+    assert.ok(detailsContent.match('Certifiable'), 'Certifiable');
     assert.dom('.page-section__details img').exists();
     assert.dom('.page-section__details img').hasAttribute('src', 'data:,');
   });
