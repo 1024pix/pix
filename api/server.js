@@ -32,7 +32,7 @@ const setupServer = async () => {
   return server;
 };
 
-const createServer = async function() {
+const createServer = async function () {
 
   const serverConfiguration = {
     compression: false,
@@ -58,12 +58,12 @@ const createServer = async function() {
   return new Hapi.server(serverConfiguration);
 };
 
-const loadConfiguration = function() {
+const loadConfiguration = function () {
   validateEnvironmentVariables();
   config = require('./lib/config');
 };
 
-const setupErrorHandling = function(server) {
+const setupErrorHandling = function (server) {
 
   server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
 };
@@ -76,12 +76,12 @@ const setupAuthentication = function(server) {
   server.auth.default(authentication.defaultStrategy);
 };
 
-const setupRoutesAndPlugins = async function(server) {
+const setupRoutesAndPlugins = async function (server) {
   const configuration = [].concat(plugins, routes);
   await server.register(configuration);
 };
 
-const setupOpenApiSpecification = async function(server) {
+const setupOpenApiSpecification = async function (server) {
   for (const swaggerRegisterArgs of swaggers) {
     await server.register(...swaggerRegisterArgs);
   }
