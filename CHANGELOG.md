@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.43.0 (13/04/2021)
+
+- [#2836](https://github.com/1024pix/pix/pull/2836) [FEATURE] Affiche les critères d'un résultat thématique dans Pix Admin.
+- [#2833](https://github.com/1024pix/pix/pull/2833) [FEATURE] À la fin de l'url donnée par l'organisation, ajouter le seuil du palier atteint par le participant (Pix-2329)
+- [#2824](https://github.com/1024pix/pix/pull/2824) [FEATURE] Autoriser l'affichage du MarkDown sur le message de description en fin de parcours (PIX-2331).
+- [#2829](https://github.com/1024pix/pix/pull/2829) [FEATURE] Permettre la modification de l'identifiant d'un utilisateur dans Pix Admin (PIX-2102). 
+- [#2827](https://github.com/1024pix/pix/pull/2827) [FEATURE] Corriger l'affichage mobile de la page "Mon Compte" sur Pix App (PIX-2319).
+- [#2822](https://github.com/1024pix/pix/pull/2822) [FEATURE] Affichage de l'information certifiable sur les badges dans l'admin
+- [#2807](https://github.com/1024pix/pix/pull/2807) [FEATURE] Supprimer une méthode de connexion d'un utilisateur dans Pix Admin (PIX-2103).
+- [#2838](https://github.com/1024pix/pix/pull/2838) [BUGFIX] Amélioration des erreurs lors d'un appel Pôle emploi avec Axios (PIX-2460).
+- [#2715](https://github.com/1024pix/pix/pull/2715) [TECH] Créer un repository pour l'affichage des résultats à une campagne d'évaluation d'un participant (PIX-2390).
+- [#2839](https://github.com/1024pix/pix/pull/2839) Mise à jour de wording
+- [#2828](https://github.com/1024pix/pix/pull/2828) [INFRA] Renommage de deux méthodes statiques pour les faire ressembler aux autres
+- [#2801](https://github.com/1024pix/pix/pull/2801) [CLEANUP] Refacto du certification-result PART-1 (PIX-2348)
+
 ## v3.42.0 (09/04/2021)
 
 - [#2806](https://github.com/1024pix/pix/pull/2806) [FEATURE] Restreindre l'accès d'un utilisateur anonyme lors d'une campagne à accès simplifiée (Pix-2363).
