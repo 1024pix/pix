@@ -118,7 +118,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
         // then
         expect(AssessmentResult.buildAlgoErrorResult).to.have.been.calledWithExactly(
-          computeError, certificationAssessment.id,
+          { error: computeError, assessmentId: certificationAssessment.id }
         );
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(
           errorAssessmentResult,
@@ -159,11 +159,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         });
 
         // then
-        expect(AssessmentResult.buildStandardAssessmentResult).to.have.been.calledWithExactly(
-          certificationAssessmentScore.nbPix,
-          certificationAssessmentScore.status,
-          certificationAssessment.id,
-        );
+        expect(AssessmentResult.buildStandardAssessmentResult).to.have.been.calledWithExactly({
+          pixScore: certificationAssessmentScore.nbPix,
+          status: certificationAssessmentScore.status,
+          assessmentId: certificationAssessment.id,
+        });
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult);
         expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
           certificationAssessment.certificationCourseId, now,

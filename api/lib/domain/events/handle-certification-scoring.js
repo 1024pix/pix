@@ -93,7 +93,11 @@ async function _saveResult({
 }
 
 function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository }) {
-  const assessmentResult = AssessmentResult.buildStandardAssessmentResult(certificationAssessmentScore.nbPix, certificationAssessmentScore.status, certificationAssessment.id);
+  const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
+    pixScore: certificationAssessmentScore.nbPix,
+    status: certificationAssessmentScore.status,
+    assessmentId: certificationAssessment.id
+  });
   return assessmentResultRepository.save(assessmentResult);
 }
 
@@ -103,7 +107,10 @@ async function _saveResultAfterCertificationComputeError({
   certificationCourseRepository,
   certificationComputeError,
 }) {
-  const assessmentResult = AssessmentResult.buildAlgoErrorResult(certificationComputeError, certificationAssessment.id);
+  const assessmentResult = AssessmentResult.buildAlgoErrorResult({
+    error: certificationComputeError,
+    assessmentId: certificationAssessment.id,
+  });
   await assessmentResultRepository.save(assessmentResult);
   return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date());
 }

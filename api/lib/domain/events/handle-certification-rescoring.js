@@ -79,7 +79,12 @@ async function _saveResult({
 }
 
 function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, juryId }) {
-  const assessmentResult = AssessmentResult.buildStandardAssessmentResult(certificationAssessmentScore.nbPix, certificationAssessmentScore.status, certificationAssessment.id, juryId);
+  const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
+    pixScore: certificationAssessmentScore.nbPix,
+    status: certificationAssessmentScore.status,
+    assessmentId: certificationAssessment.id,
+    juryId
+  });
   return assessmentResultRepository.save(assessmentResult);
 }
 
@@ -89,7 +94,11 @@ async function _saveResultAfterCertificationComputeError({
   certificationComputeError,
   juryId,
 }) {
-  const assessmentResult = AssessmentResult.buildAlgoErrorResult(certificationComputeError, certificationAssessment.id, juryId);
+  const assessmentResult = AssessmentResult.buildAlgoErrorResult({
+    error: certificationComputeError,
+    assessmentId: certificationAssessment.id,
+    juryId
+  });
   await assessmentResultRepository.save(assessmentResult);
 }
 
