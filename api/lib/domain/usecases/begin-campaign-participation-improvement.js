@@ -10,7 +10,7 @@ module.exports = async function beginCampaignParticipationImprovement({
   assessmentRepository,
   campaignParticipationRepository,
 }) {
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, {});
+  const campaignParticipation = await campaignParticipationRepository.get({ id: campaignParticipationId, options: {} });
   if (campaignParticipation.userId !== userId) {
     throw new UserNotAuthorizedToAccessEntityError();
   }

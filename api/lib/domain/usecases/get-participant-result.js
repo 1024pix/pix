@@ -14,7 +14,7 @@ module.exports = async function getParticipantResult({
 };
 
 async function _checkCampaignParticipationIsOwnedByUser(campaignParticipationRepository, campaignParticipationId, userId) {
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
+  const campaignParticipation = await campaignParticipationRepository.get({ id: campaignParticipationId });
   if (campaignParticipation.userId !== userId) {
     throw new UserNotAuthorizedToAccessEntityError();
   }

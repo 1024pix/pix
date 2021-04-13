@@ -35,7 +35,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
         const tutorials = Symbol('tutorials');
         const campaignParticipationAnalysis = Symbol('analysis');
         campaignParticipation.userId = userId;
-        campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+        campaignParticipationRepository.get.withArgs({ id: campaignParticipationId }).resolves(campaignParticipation);
         campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
         targetProfileWithLearningContentRepository.getByCampaignId.withArgs({ campaignId, locale }).resolves(targetProfile);
         tutorialRepository.list.withArgs({ locale }).resolves(tutorials);
@@ -64,7 +64,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
         // given
         campaignParticipation.userId = userId;
         campaignParticipation.isShared = false;
-        campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+        campaignParticipationRepository.get.withArgs({ id: campaignParticipationId }).resolves(campaignParticipation);
         campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
 
         // when
@@ -87,7 +87,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
 
   context('User does not have access to this result', () => {
     beforeEach(() => {
-      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+      campaignParticipationRepository.get.withArgs({ id: campaignParticipationId }).resolves(campaignParticipation);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 
@@ -108,5 +108,4 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
       expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
-
 });

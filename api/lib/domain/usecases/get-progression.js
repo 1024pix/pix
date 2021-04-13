@@ -1,17 +1,16 @@
 const Progression = require('../../../lib/domain/models/Progression');
 
-module.exports = async function getProgression(
-  {
-    progressionId,
-    userId,
-    assessmentRepository,
-    competenceEvaluationRepository,
-    campaignParticipationRepository,
-    knowledgeElementRepository,
-    skillRepository,
-    targetProfileRepository,
-    improvementService,
-  }) {
+module.exports = async function getProgression({
+  progressionId,
+  userId,
+  assessmentRepository,
+  competenceEvaluationRepository,
+  campaignParticipationRepository,
+  knowledgeElementRepository,
+  skillRepository,
+  targetProfileRepository,
+  improvementService,
+}) {
 
   const assessmentId = Progression.getAssessmentIdFromId(progressionId);
 
@@ -19,7 +18,7 @@ module.exports = async function getProgression(
   let progression;
 
   if (assessment.isForCampaign()) {
-    const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
+    const campaignParticipation = await campaignParticipationRepository.get({ id: assessment.campaignParticipationId });
     const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
     const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: campaignParticipation.sharedAt });
 

@@ -48,7 +48,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
 
       beforeEach(() => {
         sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').withArgs(assessment.id, userId).resolves(assessment);
-        sandbox.stub(campaignParticipationRepository, 'get').withArgs(assessment.campaignParticipationId).resolves(campaignParticipation);
+        sandbox.stub(campaignParticipationRepository, 'get').withArgs({ id: assessment.campaignParticipationId }).resolves(campaignParticipation);
         sandbox.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaignParticipation.campaignId).resolves(targetProfile);
       });
 
@@ -81,7 +81,9 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
       });
 
       context('when the assessment is improving', () => {
+
         let knowledgeElements, knowledgeElementsFiltered;
+
         beforeEach(() => {
           assessment.state = 'improving';
           knowledgeElements = [

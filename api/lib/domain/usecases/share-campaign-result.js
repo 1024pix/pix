@@ -6,7 +6,7 @@ module.exports = async function shareCampaignResult({
   campaignParticipationId,
   campaignParticipationRepository,
 }) {
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, { include: ['campaign'] });
+  const campaignParticipation = await campaignParticipationRepository.get({ id: campaignParticipationId, options: { include: ['campaign'] } });
 
   _checkUserIsOwnerOfCampaignParticipation(campaignParticipation, userId);
 

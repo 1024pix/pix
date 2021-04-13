@@ -18,12 +18,13 @@ describe('Unit | UseCase | get-campaign-participation', () => {
   });
 
   context('when user is the user of the campaignParticipation', () => {
+
     it('should get the campaignParticipation', async () => {
       // given
       const campaignParticipationId = 1;
       const userId = 1;
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId });
-      campaignParticipationRepository.get.withArgs(campaignParticipationId, options).resolves(campaignParticipation);
+      campaignParticipationRepository.get.withArgs({ id: campaignParticipationId, options }).resolves(campaignParticipation);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignParticipation.campaignId, userId).resolves(false);
 
       // when
@@ -35,12 +36,13 @@ describe('Unit | UseCase | get-campaign-participation', () => {
   });
 
   context('when user is a member of the organization which is related to requested campaignParticipation', () => {
+
     it('should get the campaignParticipation', async () => {
       // given
       const campaignParticipationId = 1;
       const userId = 2;
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId: 1 });
-      campaignParticipationRepository.get.withArgs(campaignParticipationId, options).resolves(campaignParticipation);
+      campaignParticipationRepository.get.withArgs({ id: campaignParticipationId, options }).resolves(campaignParticipation);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignParticipation.campaignId, userId).resolves(true);
 
       // when
@@ -52,12 +54,13 @@ describe('Unit | UseCase | get-campaign-participation', () => {
   });
 
   context('when user is neither the user of the campaignParticipation nor the organization', () => {
+
     it('should not get the campaignParticipation', async () => {
       // given
       const campaignParticipationId = 1;
       const userId = 2;
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId: 1 });
-      campaignParticipationRepository.get.withArgs(campaignParticipationId, options).resolves(campaignParticipation);
+      campaignParticipationRepository.get.withArgs({ id: campaignParticipationId, options }).resolves(campaignParticipation);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignParticipation.campaignId, userId).resolves(false);
 
       // when
@@ -65,8 +68,6 @@ describe('Unit | UseCase | get-campaign-participation', () => {
 
       // then
       expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
-
     });
   });
-
 });

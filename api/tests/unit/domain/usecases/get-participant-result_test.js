@@ -7,6 +7,7 @@ describe('Unit | UseCase | get-participant-result', () => {
   let campaignParticipationRepository;
   let participantResultRepository;
   let dependencies;
+
   beforeEach(() => {
     campaignParticipationRepository = { get: sinon.stub() };
     participantResultRepository = { getByParticipationId: sinon.stub() };
@@ -14,6 +15,7 @@ describe('Unit | UseCase | get-participant-result', () => {
   });
 
   context('when user is the owner of the participation', () => {
+
     it('should get the participant result', async () => {
       const userId = 123;
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: 12, userId });
@@ -21,7 +23,7 @@ describe('Unit | UseCase | get-participant-result', () => {
       const locale = 'FR';
       const participantResult = Symbol();
 
-      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+      campaignParticipationRepository.get.withArgs({ id: campaignParticipationId }).resolves(campaignParticipation);
       participantResultRepository.getByParticipationId.withArgs(campaignParticipationId, locale).resolves(participantResult);
 
       const actualCampaignParticipationResult = await getParticipantResult({
@@ -36,12 +38,13 @@ describe('Unit | UseCase | get-participant-result', () => {
   });
 
   context('when user is not the owner of the campaignParticipation', () => {
+
     it('should throw an error', async () => {
       const userId = 123;
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: 12, userId: 456 });
       const { id: campaignParticipationId } = campaignParticipation;
       const locale = 'FR';
-      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+      campaignParticipationRepository.get.withArgs({ id: campaignParticipationId }).resolves(campaignParticipation);
 
       const result = await catchErr(getParticipantResult)({
         userId,

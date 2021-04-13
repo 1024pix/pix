@@ -21,7 +21,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
     const campaignParticipationId = 2;
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ userId: userId + 1, id: campaignParticipationId });
     campaignParticipationRepository.get
-      .withArgs(campaignParticipationId, {})
+      .withArgs({ id: campaignParticipationId, options: {} })
       .resolves(campaignParticipation);
 
     // when
@@ -37,7 +37,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
     const campaignParticipationId = 2;
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ userId, id: campaignParticipationId, isShared: true });
     campaignParticipationRepository.get
-      .withArgs(campaignParticipationId, {})
+      .withArgs({ id: campaignParticipationId, options: {} })
       .resolves(campaignParticipation);
 
     // when
@@ -53,7 +53,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
     const campaignParticipationId = 2;
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ userId, id: campaignParticipationId, isShared: false });
     campaignParticipationRepository.get
-      .withArgs(campaignParticipationId, {})
+      .withArgs({ id: campaignParticipationId, options: {} })
       .resolves(campaignParticipation);
     const ongoingAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
     assessmentRepository.getLatestByCampaignParticipationId
@@ -73,7 +73,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
     const campaignParticipationId = 2;
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ userId, id: campaignParticipationId, isShared: false });
     campaignParticipationRepository.get
-      .withArgs(campaignParticipationId, {})
+      .withArgs({ id: campaignParticipationId, options: {} })
       .resolves(campaignParticipation);
     const latestAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
     latestAssessment.state = Assessment.states.COMPLETED;

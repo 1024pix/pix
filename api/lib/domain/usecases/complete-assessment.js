@@ -9,7 +9,7 @@ module.exports = async function completeAssessment({
   domainTransaction,
   assessmentRepository,
 }) {
-  const assessment = await assessmentRepository.get(assessmentId);
+  const assessment = await assessmentRepository.get(assessmentId, domainTransaction);
 
   if (assessment.isCompleted()) {
     throw new AlreadyRatedAssessmentError();

@@ -7,7 +7,7 @@ module.exports = async function getCampaignParticipation({
   options,
   userId,
 }) {
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, options);
+  const campaignParticipation = await campaignParticipationRepository.get({ id: campaignParticipationId, options });
 
   const userIsCampaignOrganizationMember = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignParticipation.campaignId, userId);
 

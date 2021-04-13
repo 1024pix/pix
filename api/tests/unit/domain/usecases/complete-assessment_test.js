@@ -6,16 +6,14 @@ const { AlreadyRatedAssessmentError } = require('../../../../lib/domain/errors')
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
 describe('Unit | UseCase | complete-assessment', () => {
-  const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
+
   const assessmentRepository = {
     get: _.noop,
     completeByAssessmentId: _.noop,
   };
-  const assessmentResultRepository = { save: _.noop };
-  const certificationCourseRepository = { changeCompletionDate: _.noop };
-  const competenceMarkRepository = { save: _.noop };
   const domainTransaction = Symbol('domainTransaction');
   const now = new Date('2019-01-01T05:06:07Z');
+
   let clock;
 
   beforeEach(() => {
@@ -27,6 +25,7 @@ describe('Unit | UseCase | complete-assessment', () => {
   });
 
   context('when assessment is already completed', () => {
+
     const assessmentId = 'assessmentId';
 
     beforeEach(() => {
@@ -41,11 +40,8 @@ describe('Unit | UseCase | complete-assessment', () => {
       // when
       const err = await catchErr(completeAssessment)({
         assessmentId,
+        domainTransaction,
         assessmentRepository,
-        assessmentResultRepository,
-        certificationCourseRepository,
-        competenceMarkRepository,
-        scoringCertificationService,
       });
 
       // then
@@ -74,10 +70,6 @@ describe('Unit | UseCase | complete-assessment', () => {
               assessmentId: assessment.id,
               domainTransaction,
               assessmentRepository,
-              assessmentResultRepository,
-              certificationCourseRepository,
-              competenceMarkRepository,
-              scoringCertificationService,
             });
 
             // then
@@ -90,10 +82,6 @@ describe('Unit | UseCase | complete-assessment', () => {
               assessmentId: assessment.id,
               domainTransaction,
               assessmentRepository,
-              assessmentResultRepository,
-              certificationCourseRepository,
-              competenceMarkRepository,
-              scoringCertificationService,
             });
 
             // then
@@ -105,20 +93,19 @@ describe('Unit | UseCase | complete-assessment', () => {
       });
 
     context('when assessment is of type CAMPAIGN', () => {
+
       it('should return a AssessmentCompleted event with a userId and targetProfileId', async () => {
+        // given
         const assessment = _buildCampaignAssessment();
 
         sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
+
         // when
         const result = await completeAssessment({
           assessmentId: assessment.id,
           domainTransaction,
           assessmentRepository,
-          assessmentResultRepository,
-          certificationCourseRepository,
-          competenceMarkRepository,
-          scoringCertificationService,
         });
 
         // then
@@ -127,20 +114,19 @@ describe('Unit | UseCase | complete-assessment', () => {
     });
 
     context('when assessment is of type CERTIFICATION', () => {
+
       it('should return a AssessmentCompleted event with certification flag', async () => {
+        // given
         const assessment = _buildCertificationAssessment();
 
         sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
+
         // when
         const result = await completeAssessment({
           assessmentId: assessment.id,
           domainTransaction,
           assessmentRepository,
-          assessmentResultRepository,
-          certificationCourseRepository,
-          competenceMarkRepository,
-          scoringCertificationService,
         });
 
         // then
