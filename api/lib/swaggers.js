@@ -39,7 +39,7 @@ function _buildSwaggerArgs(swaggerOptions)
   }, {
     routes: { prefix: '/' + swaggerOptions.routeTag },
   }];
-};
+}
 
 const swaggers = [ swaggerOptionsAuthorizationServer, swaggerOptionsLivretScolaire, swaggerOptionsIn ].map(_buildSwaggerArgs);
 

@@ -7,7 +7,7 @@ const preResponseUtils = require('./lib/application/pre-response-utils');
 const routes = require('./lib/routes');
 const plugins = require('./lib/plugins');
 const swaggers = require('./lib/swaggers');
-const security = require('./lib/infrastructure/security');
+const authentication = require('./lib/infrastructure/authentication');
 
 const { handleFailAction } = require('./lib/validate');
 
@@ -30,7 +30,7 @@ const setupServer = async () => {
   return server;
 };
 
-const createServer = async function () {
+const createServer = async function() {
 
   const serverConfiguration = {
     compression: false,
@@ -56,30 +56,30 @@ const createServer = async function () {
   return new Hapi.server(serverConfiguration);
 };
 
-const loadConfiguration = function () {
+const loadConfiguration = function() {
   validateEnvironmentVariables();
   config = require('./lib/config');
 };
 
-const setupErrorHandling = function (server) {
+const setupErrorHandling = function(server) {
 
   server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
 };
 
 const setupAuthentication = function(server) {
-  server.auth.scheme(security.schemeName, security.scheme);
-  security.strategies.map((strategy) => {
-    server.auth.strategy(strategy.name, security.schemeName, strategy.configuration);
+  server.auth.scheme(authentication.schemeName, authentication.scheme);
+  authentication.strategies.map((strategy) => {
+    server.auth.strategy(strategy.name, authentication.schemeName, strategy.configuration);
   });
-  server.auth.default(security.defaultStrategy);
+  server.auth.default(authentication.defaultStrategy);
 };
 
-const setupRoutesAndPlugins = async function (server) {
+const setupRoutesAndPlugins = async function(server) {
   const configuration = [].concat(plugins, routes);
   await server.register(configuration);
 };
 
-const setupOpenApiSpecification = async function (server) {
+const setupOpenApiSpecification = async function(server) {
   for (const swaggerRegisterArgs of swaggers) {
     await server.register(...swaggerRegisterArgs);
   }
