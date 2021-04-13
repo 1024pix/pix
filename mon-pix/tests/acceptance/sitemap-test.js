@@ -24,13 +24,13 @@ describe('Acceptance | Sitemap', function() {
 
     it('should contain a link to pix.fr/accessibilite', async function() {
       // then
-      const accessibilityLink = findAll('.sitemap-items-link-resources__resource > a')[0];
+      const accessibilityLink = findAll('.sitemap-content-items-link-resources__resource > a')[0];
       expect(accessibilityLink.getAttribute('href')).to.contains('/accessibilite');
     });
 
     it('should contain a link to pix.fr/conditions-generales-d-utilisation', async function() {
       // then
-      const cguLink = findAll('.sitemap-items-link-resources__resource > a')[1];
+      const cguLink = findAll('.sitemap-content-items-link-resources__resource > a')[1];
       expect(cguLink.getAttribute('href')).to.contains('/conditions-generales-d-utilisation');
     });
 
