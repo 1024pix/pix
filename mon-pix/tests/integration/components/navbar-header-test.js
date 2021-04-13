@@ -8,6 +8,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setBreakpoint } from 'ember-responsive/test-support';
+import { contains } from '../../helpers/contains';
 
 describe('Integration | Component | navbar-header', function() {
 
@@ -22,6 +23,11 @@ describe('Integration | Component | navbar-header', function() {
     it('should be rendered in desktop mode', function() {
       // then
       expect(find('.navbar-desktop-header__container')).to.exist;
+    });
+
+    it('should render skip links', async function() {
+      expect(contains(this.intl.t('common.skip-links.skip-to-content'))).to.exist;
+      expect(contains(this.intl.t('common.skip-links.skip-to-footer'))).to.exist;
     });
   });
 
@@ -53,6 +59,13 @@ describe('Integration | Component | navbar-header', function() {
       // then
       expect(find('.navbar-mobile-header__container')).to.exist;
       expect(find('.navbar-mobile-header__burger-icon')).to.not.exist;
+    });
+
+    it('should render skip links', async function() {
+      await render(hbs`<NavbarHeader/>`);
+
+      expect(contains(this.intl.t('common.skip-links.skip-to-content'))).to.exist;
+      expect(contains(this.intl.t('common.skip-links.skip-to-footer'))).to.exist;
     });
   });
 });

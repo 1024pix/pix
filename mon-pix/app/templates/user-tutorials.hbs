@@ -3,41 +3,45 @@
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
     <NavbarHeader @burger={{burger}} />
-    <header role="banner" class="background-banner">
-      <div class="user-tutorials-banner">
-        <img src="{{rootURL}}/images/background/tutorials-banner.svg" class="user-tutorials-banner__icon" role="none" alt=""/>
-        <h3 class="user-tutorials-banner__title">{{t 'pages.user-tutorials.title'}}</h3>
-        <p class="user-tutorials-banner__description">
-          {{t 'pages.user-tutorials.description'}}
-        </p>
-      </div>
-    </header>
-    {{#if this.model}}
-      <article aria-label={{t 'pages.user-tutorials.label'}} class="user-tutorials-content">
-        <h3 class="user-tutorials-content__title">{{t 'pages.user-tutorials.list.title'}}</h3>
-        <div>
-          {{#each this.model as |userTutorial|}}
-            <TutorialItem @tutorial={{userTutorial.tutorial}} />
-          {{/each}}
-        </div>
-      </article>
-    {{else}}
-      <article aria-label={{t 'pages.user-tutorials.label'}} class="rounded-panel user-tutorials-no-tutorial">
-        <div class="user-tutorials-no-tutorial__illustration">
-          <img src="{{rootURL}}/{{t 'pages.user-tutorials.empty-list-info.image-link'}}"
-               role="none"
+    <main id="main">
+      <header role="banner" class="background-banner">
+        <div class="user-tutorials-banner">
+          <img src="{{rootURL}}/images/background/tutorials-banner.svg" class="user-tutorials-banner__icon" role="none"
                alt=""/>
-        </div>
-        <div class="user-tutorials-no-tutorial__instructions">
-          <h4 class="user-tutorials-no-tutorial-instructions__title">{{t 'pages.user-tutorials.empty-list-info.title'}}</h4>
-          <p class="user-tutorials-no-tutorial-instructions__description">
-            {{t 'pages.user-tutorials.empty-list-info.description.part1'}}
-            <FaIcon @prefix="far" @icon='bookmark'></FaIcon>
-            {{t 'pages.user-tutorials.empty-list-info.description.part2'}}
+          <h3 class="user-tutorials-banner__title">{{t 'pages.user-tutorials.title'}}</h3>
+          <p class="user-tutorials-banner__description">
+            {{t 'pages.user-tutorials.description'}}
           </p>
         </div>
-      </article>
-    {{/if}}
-    <Footer />
+      </header>
+      {{#if this.model}}
+        <article aria-label={{t 'pages.user-tutorials.label'}} class="user-tutorials-content">
+          <h3 class="user-tutorials-content__title">{{t 'pages.user-tutorials.list.title'}}</h3>
+          <div>
+            {{#each this.model as |userTutorial|}}
+              <TutorialItem @tutorial={{userTutorial.tutorial}} />
+            {{/each}}
+          </div>
+        </article>
+      {{else}}
+        <article aria-label={{t 'pages.user-tutorials.label'}} class="rounded-panel user-tutorials-no-tutorial">
+          <div class="user-tutorials-no-tutorial__illustration">
+            <img src="{{rootURL}}/{{t 'pages.user-tutorials.empty-list-info.image-link'}}"
+                 role="none"
+                 alt=""/>
+          </div>
+          <div class="user-tutorials-no-tutorial__instructions">
+            <h4 class="user-tutorials-no-tutorial-instructions__title">{{t
+                    'pages.user-tutorials.empty-list-info.title'}}</h4>
+            <p class="user-tutorials-no-tutorial-instructions__description">
+              {{t 'pages.user-tutorials.empty-list-info.description.part1'}}
+              <FaIcon @prefix="far" @icon='bookmark'></FaIcon>
+              {{t 'pages.user-tutorials.empty-list-info.description.part2'}}
+            </p>
+          </div>
+        </article>
+      {{/if}}
+    </main>
+    <Footer/>
   </burger.outlet>
 </BurgerMenu>

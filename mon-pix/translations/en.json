@@ -48,7 +48,11 @@
             "test": "Your test is loading"
         },
         "or": "or",
-        "pix": "pix"
+        "pix": "pix",
+        "skip-links": {
+            "skip-to-content": "Skip to main content",
+            "skip-to-footer": "Skip to footer"
+        }
     },
     "pages": {
         "assessment-banner": {
