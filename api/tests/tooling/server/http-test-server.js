@@ -1,7 +1,7 @@
 const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
 
-const security = require('../../../lib/infrastructure/security');
+const security = require('../../../lib/infrastructure/authentication');
 
 const preResponseUtils = require('../../../lib/application/pre-response-utils');
 const { handleFailAction } = require('../../../lib/validate');
