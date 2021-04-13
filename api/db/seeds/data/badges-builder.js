@@ -6,14 +6,6 @@ const PRO_BASICS_BADGE_ID = 114;
 const PRO_TOOLS_BADGE_ID = 115;
 const PIX_DROIT_MAITRE_BADGE_ID = 116;
 const PIX_DROIT_EXPERT_BADGE_ID = 117;
-const PIX_DROIT_BADGE_PARTNER_COMPETENCE_PIX_M = '78954665';
-const PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_M = '13654984';
-const PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_7_M = '14089753';
-const PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_10_M = '09873856';
-const PIX_DROIT_BADGE_PARTNER_COMPETENCE_PIX_E = '78954666';
-const PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_E = '13654985';
-const PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_7_E = '14089754';
-const PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_10_E = '09873857';
 
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 const Badge = require('../../../lib/domain/models/Badge');
@@ -47,8 +39,8 @@ function _createPixEmploiCleaBadge(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
   });
 
-  _associateBadgePartnerCompetences(databaseBuilder, skillIdsForBadgePartnerCompetences, badge);
-  _associateBadgeCriteria(databaseBuilder, badge);
+  const badgePartnerCompetencesIds = _associateBadgePartnerCompetences(databaseBuilder, skillIdsForBadgePartnerCompetences, badge);
+  _associateBadgeCriteria(databaseBuilder, badge, badgePartnerCompetencesIds);
 }
 
 function _createBasicsBadge(databaseBuilder) {
@@ -69,8 +61,8 @@ function _createBasicsBadge(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
   });
 
-  _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForBasicsBadge, basicsBadge);
-  _associateBadgeCriteria(databaseBuilder, basicsBadge);
+  const badgePartnerCompetencesIds = _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForBasicsBadge, basicsBadge);
+  _associateBadgeCriteria(databaseBuilder, basicsBadge, badgePartnerCompetencesIds);
 }
 
 function _createToolsBadge(databaseBuilder) {
@@ -91,8 +83,8 @@ function _createToolsBadge(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
   });
 
-  _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForToolsBadge, toolsBadge);
-  _associateBadgeCriteria(databaseBuilder, toolsBadge);
+  const badgePartnerCompetencesIds = _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForToolsBadge, toolsBadge);
+  _associateBadgeCriteria(databaseBuilder, toolsBadge, badgePartnerCompetencesIds);
 }
 
 function _createManipBadge(databaseBuilder) {
@@ -113,8 +105,8 @@ function _createManipBadge(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
   });
 
-  _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForManipBadge, manipBadge);
-  _associateBadgeCriteria(databaseBuilder, manipBadge);
+  const badgePartnerCompetencesIds = _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForManipBadge, manipBadge);
+  _associateBadgeCriteria(databaseBuilder, manipBadge, badgePartnerCompetencesIds);
 }
 
 function _createProfessionalBasicsBadge(databaseBuilder) {
@@ -219,45 +211,51 @@ function _createPixDroitBadge(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
   });
 
-  _associatePixDroitMasterBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForPixDroitBadge, pixDroitMasterBadge);
-  _associatePixDroitMasterBadgeCriteria(databaseBuilder, pixDroitMasterBadge);
+  const badgePartnerCompetencesMasterIds = _associatePixDroitMasterBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForPixDroitBadge, pixDroitMasterBadge);
+  _associatePixDroitMasterBadgeCriteria(databaseBuilder, pixDroitMasterBadge, badgePartnerCompetencesMasterIds);
 
-  _associatePixDroitExpertBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForPixDroitBadge, pixDroitExpertBadge);
-  _associatePixDroitExpertBadgeCriteria(databaseBuilder, pixDroitExpertBadge);
+  const badgePartnerCompetencesExpertIds = _associatePixDroitExpertBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForPixDroitBadge, pixDroitExpertBadge);
+  _associatePixDroitExpertBadgeCriteria(databaseBuilder, pixDroitExpertBadge, badgePartnerCompetencesExpertIds);
 
+}
+
+function _returnIds(...builders) {
+  return builders.map((builder) => builder.id);
 }
 
 function _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
-  databaseBuilder.factory.buildBadgePartnerCompetence({
-    name: 'Rechercher des informations sur internet',
-    color: null,
-    skillIds: targetProfileSkillIds[0].map((id) => id),
-    badgeId: badge.id,
-  });
+  return _returnIds(
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      name: 'Rechercher des informations sur internet',
+      color: null,
+      skillIds: targetProfileSkillIds[0].map((id) => id),
+      badgeId: badge.id,
+    }),
 
-  databaseBuilder.factory.buildBadgePartnerCompetence({
-    name: 'Utiliser des outils informatiques',
-    color: null,
-    skillIds: targetProfileSkillIds[1].map((id) => id),
-    badgeId: badge.id,
-  });
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      name: 'Utiliser des outils informatiques',
+      color: null,
+      skillIds: targetProfileSkillIds[1].map((id) => id),
+      badgeId: badge.id,
+    }),
 
-  databaseBuilder.factory.buildBadgePartnerCompetence({
-    name: 'Naviguer sur internet',
-    color: null,
-    skillIds: targetProfileSkillIds[2].map((id) => id),
-    badgeId: badge.id,
-  });
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      name: 'Naviguer sur internet',
+      color: null,
+      skillIds: targetProfileSkillIds[2].map((id) => id),
+      badgeId: badge.id,
+    }),
 
-  databaseBuilder.factory.buildBadgePartnerCompetence({
-    name: 'Partager sur les réseaux sociaux',
-    color: null,
-    skillIds: targetProfileSkillIds[3].map((id) => id),
-    badgeId: badge.id,
-  });
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      name: 'Partager sur les réseaux sociaux',
+      color: null,
+      skillIds: targetProfileSkillIds[3].map((id) => id),
+      badgeId: badge.id,
+    }),
+  );
 }
 
-function _associateBadgeCriteria(databaseBuilder, badge) {
+function _associateBadgeCriteria(databaseBuilder, badge, badgePartnerCompetencesIds = []) {
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
     threshold: 85,
@@ -268,116 +266,114 @@ function _associateBadgeCriteria(databaseBuilder, badge) {
     scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
     threshold: 75,
     badgeId: badge.id,
+    partnerCompetenceIds: badgePartnerCompetencesIds,
   });
 }
 
 function _associatePixDroitMasterBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
-  databaseBuilder.factory.buildBadgePartnerCompetence({
-    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_PIX_M,
-    name: 'Acquis du référentiel Pix',
-    color: null,
-    skillIds: targetProfileSkillIds[0].map((id) => id),
-    badgeId: badge.id,
-  });
+  return _returnIds(
 
-  databaseBuilder.factory.buildBadgePartnerCompetence({
-    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_M,
-    name: 'Acquis Pix+ Droit',
-    color: null,
-    skillIds: targetProfileSkillIds[1].map((id) => id),
-    badgeId: badge.id,
-  });
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      name: 'Acquis du référentiel Pix',
+      color: null,
+      skillIds: targetProfileSkillIds[0].map((id) => id),
+      badgeId: badge.id,
+    }),
 
-  databaseBuilder.factory.buildBadgePartnerCompetence({
-    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_7_M,
-    name: 'Domaine Pix+ Droit Domaine 7',
-    color: null,
-    skillIds: targetProfileSkillIds[2].map((id) => id),
-    badgeId: badge.id,
-  });
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      name: 'Acquis Pix+ Droit',
+      color: null,
+      skillIds: targetProfileSkillIds[1].map((id) => id),
+      badgeId: badge.id,
+    }),
 
-  databaseBuilder.factory.buildBadgePartnerCompetence({
-    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_10_M,
-    name: 'Domaine Pix+ Droit Domaine 10',
-    color: null,
-    skillIds: targetProfileSkillIds[3].map((id) => id),
-    badgeId: badge.id,
-  });
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      name: 'Domaine Pix+ Droit Domaine 7',
+      color: null,
+      skillIds: targetProfileSkillIds[2].map((id) => id),
+      badgeId: badge.id,
+    }),
+
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      name: 'Domaine Pix+ Droit Domaine 10',
+      color: null,
+      skillIds: targetProfileSkillIds[3].map((id) => id),
+      badgeId: badge.id,
+    }),
+  );
 }
 
 function _associatePixDroitExpertBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
-  databaseBuilder.factory.buildBadgePartnerCompetence({
-    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_PIX_E,
-    name: 'Acquis du référentiel Pix',
-    color: null,
-    skillIds: targetProfileSkillIds[0].map((id) => id),
-    badgeId: badge.id,
-  });
+  return _returnIds(
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      name: 'Acquis du référentiel Pix',
+      color: null,
+      skillIds: targetProfileSkillIds[0].map((id) => id),
+      badgeId: badge.id,
+    }),
 
-  databaseBuilder.factory.buildBadgePartnerCompetence({
-    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_E,
-    name: 'Acquis Pix+ Droit',
-    color: null,
-    skillIds: targetProfileSkillIds[1].map((id) => id),
-    badgeId: badge.id,
-  });
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      name: 'Acquis Pix+ Droit',
+      color: null,
+      skillIds: targetProfileSkillIds[1].map((id) => id),
+      badgeId: badge.id,
+    }),
 
-  databaseBuilder.factory.buildBadgePartnerCompetence({
-    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_7_E,
-    name: 'Domaine Pix+ Droit Domaine 7',
-    color: null,
-    skillIds: targetProfileSkillIds[2].map((id) => id),
-    badgeId: badge.id,
-  });
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      name: 'Domaine Pix+ Droit Domaine 7',
+      color: null,
+      skillIds: targetProfileSkillIds[2].map((id) => id),
+      badgeId: badge.id,
+    }),
 
-  databaseBuilder.factory.buildBadgePartnerCompetence({
-    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_10_E,
-    name: 'Domaine Pix+ Droit Domaine 10',
-    color: null,
-    skillIds: targetProfileSkillIds[3].map((id) => id),
-    badgeId: badge.id,
-  });
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      name: 'Domaine Pix+ Droit Domaine 10',
+      color: null,
+      skillIds: targetProfileSkillIds[3].map((id) => id),
+      badgeId: badge.id,
+    }),
+  );
 }
 
-function _associatePixDroitMasterBadgeCriteria(databaseBuilder, badge) {
+function _associatePixDroitMasterBadgeCriteria(databaseBuilder, badge, badgePartnerCompetencesIds) {
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
     threshold: 70,
     badgeId: badge.id,
-    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_PIX_M],
+    partnerCompetenceIds: [badgePartnerCompetencesIds[0]],
   });
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
     threshold: 60,
     badgeId: badge.id,
-    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_M],
+    partnerCompetenceIds: [badgePartnerCompetencesIds[1]],
   });
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
     threshold: 40,
     badgeId: badge.id,
-    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_7_M, PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_10_M],
+    partnerCompetenceIds: [badgePartnerCompetencesIds[2], badgePartnerCompetencesIds[3]],
   });
 }
 
-function _associatePixDroitExpertBadgeCriteria(databaseBuilder, badge) {
+function _associatePixDroitExpertBadgeCriteria(databaseBuilder, badge, badgePartnerCompetencesIds) {
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
     threshold: 70,
     badgeId: badge.id,
-    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_PIX_E],
+    partnerCompetenceIds: [badgePartnerCompetencesIds[0]],
   });
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
     threshold: 80,
     badgeId: badge.id,
-    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_E],
+    partnerCompetenceIds: [badgePartnerCompetencesIds[1]],
   });
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
     threshold: 40,
     badgeId: badge.id,
-    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_7_E, PIX_DROIT_BADGE_PARTNER_COMPETENCE_DROIT_10_E],
+    partnerCompetenceIds: [badgePartnerCompetencesIds[2], badgePartnerCompetencesIds[3]],
   });
 }
 
