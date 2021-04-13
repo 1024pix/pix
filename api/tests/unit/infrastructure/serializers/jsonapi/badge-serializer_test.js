@@ -35,6 +35,9 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
               'data': [{
                 id: '1',
                 type: 'badge-criterion',
+              }, {
+                id: '2',
+                type: 'badge-criterion',
               }],
             },
             'badge-partner-competences': {
@@ -54,7 +57,31 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
               scope: 'CampaignParticipation',
               threshold: 40,
             },
+            relationships: {
+              'partner-competences': {
+                data: [],
+              },
+            },
             id: '1',
+            type: 'badge-criterion',
+          },
+          {
+            attributes: {
+              scope: 'CampaignParticipation',
+              threshold: 40,
+            },
+            relationships: {
+              'partner-competences': {
+                data: [{
+                  id: '1',
+                  type: 'badge-partner-competence',
+                }, {
+                  id: '2',
+                  type: 'badge-partner-competence',
+                }],
+              },
+            },
+            id: '2',
             type: 'badge-criterion',
           },
           {

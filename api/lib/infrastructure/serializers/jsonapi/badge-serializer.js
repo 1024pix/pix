@@ -3,6 +3,7 @@ const { Serializer } = require('jsonapi-serializer');
 const mapType = {
   badgeCriteria: 'badge-criterion',
   badgePartnerCompetences: 'badge-partner-competence',
+  partnerCompetences: 'badge-partner-competence',
 };
 
 module.exports = {
@@ -13,16 +14,29 @@ module.exports = {
       badgeCriteria: {
         include: true,
         ref: 'id',
-        attributes: ['threshold', 'scope'],
+        attributes: ['threshold', 'scope', 'partnerCompetences'],
+        partnerCompetences: {
+          include: false,
+          ref: 'id',
+        },
       },
       badgePartnerCompetences: {
         include: true,
         ref: 'id',
         attributes: ['name'],
       },
-      typeForAttribute: (attribute) => {
+      typeForAttribute(attribute) {
         return mapType[attribute];
       },
+      transform(record) {
+        record.badgeCriteria.forEach((badgeCriterion) => {
+          badgeCriterion.partnerCompetences = badgeCriterion.partnerCompetenceIds.map((partnerCompetenceId) => {
+            return { id: partnerCompetenceId };
+          });
+        });
+        return record;
+      },
+
     }).serialize(badge);
   },
 };
