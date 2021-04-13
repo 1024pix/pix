@@ -180,7 +180,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
 
     server = await createServer();
 
-    user = databaseBuilder.factory.buildUser({});
+    user = databaseBuilder.factory.buildUser();
     assessment = databaseBuilder.factory.buildAssessment({
       userId: user.id, state: Assessment.states.STARTED,
     });
@@ -230,14 +230,16 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     });
 
     context('when assessment belongs to a campaign', () => {
+
       let user;
       let targetProfile;
       let badge;
 
-      beforeEach(() => {
-        user = databaseBuilder.factory.buildUser({});
+      beforeEach(async () => {
+        user = databaseBuilder.factory.buildUser();
         targetProfile = databaseBuilder.factory.buildTargetProfile();
         badge = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
+        await databaseBuilder.commit();
       });
 
       afterEach(async () => {

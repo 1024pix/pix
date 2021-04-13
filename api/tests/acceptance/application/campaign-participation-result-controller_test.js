@@ -165,6 +165,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
   });
 
   describe('GET /api/campaign-participations/{id}/campaign-participation-result', () => {
+
     let options;
 
     beforeEach(async () => {

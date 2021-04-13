@@ -15,7 +15,6 @@ describe('Acceptance | API | Progressions', () => {
     let userId;
 
     beforeEach(async () => {
-
       const learningContent = [{
         id: 'recArea1',
         competences: [{
@@ -54,7 +53,7 @@ describe('Acceptance | API | Progressions', () => {
 
     context('without authorization token', () => {
 
-      it('should return 401 HTTP status code', () => {
+      it('should return 401 HTTP status code', async () => {
         // given
         const progressionId = assessmentId;
         const options = {
@@ -66,19 +65,18 @@ describe('Acceptance | API | Progressions', () => {
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
     });
 
     context('with authorization token', () => {
 
       context('when the assessment does not exists', () => {
-        it('should respond with a 404', () => {
+
+        it('should respond with a 404', async () => {
           // given
           const progressionId = assessmentId + 1;
           const options = {
@@ -90,18 +88,16 @@ describe('Acceptance | API | Progressions', () => {
           };
 
           // when
-          const promise = server.inject(options);
+          const response = await server.inject(options);
 
           // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(404);
-          });
+          expect(response.statusCode).to.equal(404);
         });
       });
 
       context('allowed to access the progression', () => {
 
-        it('should respond with a 200', () => {
+        it('should respond with a 200', async () => {
           // given
           const progressionId = assessmentId;
           const options = {
@@ -113,12 +109,10 @@ describe('Acceptance | API | Progressions', () => {
           };
 
           // when
-          const promise = server.inject(options);
+          const response = await server.inject(options);
 
           // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(200);
-          });
+          expect(response.statusCode).to.equal(200);
         });
       });
     });
