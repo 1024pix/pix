@@ -70,6 +70,11 @@ describe('Acceptance | API | Badges', () => {
             scope: 'CampaignParticipation',
             threshold: 50,
           },
+          relationships: {
+            'partner-competences': {
+              data: [],
+            },
+          },
         }, {
           type: 'badge-partner-competence',
           id: badgePartnerCompetence.id.toString(),
