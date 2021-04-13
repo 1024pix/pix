@@ -8,7 +8,6 @@
         <div class="certification-joiner__row">
           <label class="certification-joiner__label" for="certificationJoinerSessionId">{{t "pages.certification-joiner.form.fields.session-number"}}</label>
           <Input
-            {{autofocus}}
             id="certificationJoinerSessionId"
             class={{if this.sessionIdIsNotANumberError "certification-joiner__input--invalid"}}
             pattern={{this.SESSION_ID_VALIDATION_PATTERN}}

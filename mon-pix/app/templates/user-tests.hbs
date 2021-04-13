@@ -2,17 +2,18 @@
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
     <NavbarHeader @burger={{burger}} />
-    <PixBackgroundHeader>
-      <div class="user-tests-banner">
-        <img src="{{this.rootURL}}/images/background/user-test-banner.svg" class="user-tests-banner__icon" role="none" aria-hidden="true"/>
-        <h3 class="user-tests-banner__title">{{t 'pages.user-tests.title'}}</h3>
-      </div>
-    </PixBackgroundHeader>
+    <main id="main">
+      <PixBackgroundHeader>
+        <div class="user-tests-banner">
+          <img src="{{this.rootURL}}/images/background/user-test-banner.svg" class="user-tests-banner__icon" role="none" alt="" />
+          <h3 class="user-tests-banner__title">{{t 'pages.user-tests.title'}}</h3>
+        </div>
+      </PixBackgroundHeader>
 
-    <section class="user-tests-main">
-      <CampaignParticipationOverview::Grid @model={{this.model}}/>
-    </section>
-
-    <Footer />
+      <section class="user-tests-main">
+        <CampaignParticipationOverview::Grid @model={{this.model}}/>
+      </section>
+    </main>
+    <Footer/>
   </burger.outlet>
 </BurgerMenu>
