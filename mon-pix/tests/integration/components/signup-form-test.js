@@ -664,7 +664,6 @@ describe('Integration | Component | SignupForm', function() {
       await render(hbs `<SignupForm @user={{this.user}} @authenticateUser={{action this.authenticateUser}} />`);
 
       // when
-      //click('.button');
       await clickByLabel('Je m\'inscris');
 
       // then
