@@ -6,6 +6,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const Skill = require('../../../../lib/domain/models/Skill');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | Campaign Participation', () => {
 
@@ -14,8 +15,9 @@ describe('Integration | Repository | Campaign Participation', () => {
     let campaignId, recentAssessmentId;
     let campaignParticipationId, campaignParticipationNotSharedId;
     let campaignParticipationAssessments;
+
     beforeEach(async () => {
-      campaignId = databaseBuilder.factory.buildCampaign({}).id;
+      campaignId = databaseBuilder.factory.buildCampaign().id;
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 12 }).id;
       campaignParticipationNotSharedId = databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
@@ -49,7 +51,9 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     it('should return a campaign participation object', async () => {
       // when
-      const foundCampaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
+      const foundCampaignParticipation = await DomainTransaction.execute(async (domainTransaction) =>
+        campaignParticipationRepository.get({ id: campaignParticipationId, domainTransaction }),
+      );
 
       // then
       expect(foundCampaignParticipation.id).to.equal(campaignParticipationId);
@@ -58,7 +62,9 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     it('should return a null object for sharedAt when the campaign-participation is not shared', async () => {
       // when
-      const foundCampaignParticipation = await campaignParticipationRepository.get(campaignParticipationNotSharedId);
+      const foundCampaignParticipation = await DomainTransaction.execute(async (domainTransaction) =>
+        campaignParticipationRepository.get({ id: campaignParticipationNotSharedId, domainTransaction }),
+      );
 
       // then
       expect(foundCampaignParticipation.sharedAt).to.be.null;
@@ -66,7 +72,9 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     it('should return the campaign participation with its last assessment', async () => {
       // when
-      const foundCampaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
+      const foundCampaignParticipation = await DomainTransaction.execute(async (domainTransaction) =>
+        campaignParticipationRepository.get({ id: campaignParticipationId, domainTransaction }),
+      );
 
       // then
       expect(foundCampaignParticipation.assessmentId).to.be.equal(recentAssessmentId);
@@ -77,13 +85,14 @@ describe('Integration | Repository | Campaign Participation', () => {
       const expectedAssessmentIds = campaignParticipationAssessments.map(({ id }) => id);
 
       // when
-      const foundCampaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
+      const foundCampaignParticipation = await DomainTransaction.execute(async (domainTransaction) =>
+        campaignParticipationRepository.get({ id: campaignParticipationId, domainTransaction }),
+      );
       const assessmentIds = foundCampaignParticipation.assessments.map(({ id }) => id);
 
       // then
       expect(assessmentIds).to.exactlyContain(expectedAssessmentIds);
     });
-
   });
 
   describe('#save', () => {
@@ -368,7 +377,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     let userId;
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
     });
@@ -486,7 +495,7 @@ describe('Integration | Repository | Campaign Participation', () => {
         databaseBuilder.factory.buildTargetProfileSkill({ skillId: skillId2, targetProfileId });
         databaseBuilder.factory.buildCampaign({ id: campaignId, targetProfileId });
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
-        const otherCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ });
+        const otherCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({});
         databaseBuilder.factory.buildAssessment({ id: assessmentId, campaignParticipationId: campaignParticipation.id, createdAt: moment().toDate() });
         databaseBuilder.factory.buildAssessment({ id: 67890, campaignParticipationId: otherCampaignParticipation.id, createdAt: moment().subtract(1, 'month').toDate() });
 
@@ -531,7 +540,7 @@ describe('Integration | Repository | Campaign Participation', () => {
     let assessmentId, wantedCampaignParticipation;
 
     beforeEach(async () => {
-      wantedCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ });
+      wantedCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({});
       const otherCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
 
       assessmentId = databaseBuilder.factory.buildAssessment({ campaignParticipationId: wantedCampaignParticipation.id }).id;

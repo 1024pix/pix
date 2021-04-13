@@ -75,7 +75,7 @@ module.exports = {
       .then(_toDomain);
   },
 
-  get(id) {
+  get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
     return BookshelfOrganization
       .where({ id })
       .fetch({
@@ -83,6 +83,7 @@ module.exports = {
           'targetProfileShares.targetProfile',
           'tags',
         ],
+        transacting: domainTransaction.knexTransaction,
       })
       .then(_toDomain)
       .catch((err) => {

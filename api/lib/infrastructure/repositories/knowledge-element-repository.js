@@ -58,8 +58,8 @@ async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, 
   });
 }
 
-async function _findSnapshotsForUsers(userIdsAndDates) {
-  const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
+async function _findSnapshotsForUsers(userIdsAndDates, domainTransaction) {
+  const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates, domainTransaction);
 
   for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
     const userId = parseInt(userIdStr);
@@ -179,8 +179,8 @@ module.exports = {
     return targetProfileWithLearningContent.getValidatedKnowledgeElementsGroupedByTube(_.flatMap(knowledgeElementsGroupedByUser));
   },
 
-  async findSnapshotForUsers(userIdsAndDates) {
-    return _findSnapshotsForUsers(userIdsAndDates);
+  async findSnapshotForUsers(userIdsAndDates, domainTransaction = DomainTransaction.emptyTransaction()) {
+    return _findSnapshotsForUsers(userIdsAndDates, domainTransaction);
   },
 
 };

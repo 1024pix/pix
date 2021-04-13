@@ -4,6 +4,7 @@ const { expect, knex, domainBuilder, databaseBuilder, sinon } = require('../../.
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | knowledgeElementRepository', () => {
 
@@ -1629,7 +1630,9 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
   });
 
   describe('#findSnapshotForUsers', () => {
+
     const sandbox = sinon.createSandbox();
+
     let userId1;
     let userId2;
 
@@ -1656,15 +1659,19 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const knowledgeElementsByUserIdAndCompetenceId =
-        await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: dateUserId1, [userId2]: dateUserId2 });
+      const knowledgeElementsByUserIdAndCompetenceId = await DomainTransaction.execute(async (domainTransaction) =>
+        knowledgeElementRepository.findSnapshotForUsers({
+          [userId1]: dateUserId1,
+          [userId2]: dateUserId2,
+        }, domainTransaction),
+      );
 
       // then
       expect(knowledgeElementsByUserIdAndCompetenceId[userId1][0]).to.be.instanceOf(KnowledgeElement);
       expect(knowledgeElementsByUserIdAndCompetenceId[userId1].length).to.equal(2);
       expect(knowledgeElementsByUserIdAndCompetenceId[userId2].length).to.equal(2);
       expect(knowledgeElementsByUserIdAndCompetenceId[userId1]).to.deep.include.members([user1knowledgeElement1, user1knowledgeElement2]);
-      expect(knowledgeElementsByUserIdAndCompetenceId[userId2]).to.deep.include.members([user2knowledgeElement1, user2knowledgeElement2 ]);
+      expect(knowledgeElementsByUserIdAndCompetenceId[userId2]).to.deep.include.members([user2knowledgeElement1, user2knowledgeElement2]);
     });
 
     context('when user has a snapshot for this date', () => {
@@ -1682,8 +1689,11 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         await databaseBuilder.commit();
 
         // when
-        const knowledgeElementsByUserIdAndCompetenceId =
-          await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: dateSharedAtUserId1 });
+        const knowledgeElementsByUserIdAndCompetenceId = await DomainTransaction.execute(async (domainTransaction) =>
+          knowledgeElementRepository.findSnapshotForUsers({
+            [userId1]: dateSharedAtUserId1,
+          }, domainTransaction),
+        );
 
         // then
         expect(knowledgeElementsByUserIdAndCompetenceId[userId1][0]).to.deep.equal(knowledgeElement);
@@ -1706,8 +1716,11 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
         it('should return all knowledge elements', async () => {
           // when
-          const knowledgeElementsByUserIdAndCompetenceId =
-            await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: null });
+          const knowledgeElementsByUserIdAndCompetenceId = await DomainTransaction.execute(async (domainTransaction) =>
+            knowledgeElementRepository.findSnapshotForUsers({
+              [userId1]: null,
+            }, domainTransaction),
+          );
 
           // then
           expect(knowledgeElementsByUserIdAndCompetenceId[userId1]).to.deep.include.members([expectedKnowledgeElement]);
@@ -1715,7 +1728,11 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
         it('should not trigger snapshotting', async () => {
           // when
-          await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: null });
+          await DomainTransaction.execute(async (domainTransaction) =>
+            knowledgeElementRepository.findSnapshotForUsers({
+              [userId1]: null,
+            }, domainTransaction),
+          );
 
           // then
           const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId: userId1 });
@@ -1724,6 +1741,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
 
       context('when a date is provided along with the user', () => {
+
         let expectedKnowledgeElement;
 
         beforeEach(() => {
@@ -1733,8 +1751,11 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
         it('should return the knowledge elements at date', async () => {
           // when
-          const knowledgeElementsByUserIdAndCompetenceId =
-            await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: new Date('2018-02-01') });
+          const knowledgeElementsByUserIdAndCompetenceId = await DomainTransaction.execute(async (domainTransaction) =>
+            knowledgeElementRepository.findSnapshotForUsers({
+              [userId1]: new Date('2018-02-01'),
+            }, domainTransaction),
+          );
 
           // then
           expect(knowledgeElementsByUserIdAndCompetenceId[userId1]).to.deep.include.members([expectedKnowledgeElement]);

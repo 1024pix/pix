@@ -5,17 +5,27 @@ const competenceRepository = require('./competence-repository');
 const assessmentRepository = require('./assessment-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 
+const DomainTransaction = require('../DomainTransaction');
+
 const campaignParticipationResultRepository = {
-  async getByParticipationId(campaignParticipationId, campaignBadges, acquiredBadgeIds, locale) {
-    const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
+
+  async getByParticipationId({
+    campaignParticipationId,
+    campaignBadges,
+    acquiredBadgeIds,
+    locale,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
+    const campaignParticipation = await campaignParticipationRepository.get({ id: campaignParticipationId, domainTransaction });
 
     const [targetProfile, competences, assessment] = await Promise.all([
-      targetProfileRepository.getByCampaignId(campaignParticipation.campaignId),
+      targetProfileRepository.getByCampaignId(campaignParticipation.campaignId, domainTransaction),
       competenceRepository.list({ locale }),
-      assessmentRepository.get(campaignParticipation.assessmentId),
+      assessmentRepository.get(campaignParticipation.assessmentId, domainTransaction),
     ]);
 
-    const snapshots = await knowledgeElementRepository.findSnapshotForUsers({ [campaignParticipation.userId]: campaignParticipation.sharedAt });
+    const snapshots = await knowledgeElementRepository.findSnapshotForUsers({ [campaignParticipation.userId]: campaignParticipation.sharedAt }, domainTransaction);
+
     return CampaignParticipationResult.buildFrom({
       campaignParticipationId,
       assessment,

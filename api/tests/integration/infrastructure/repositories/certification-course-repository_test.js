@@ -2,6 +2,7 @@ const { catchErr, expect, databaseBuilder, domainBuilder, knex } = require('../.
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const _ = require('lodash');
@@ -9,6 +10,7 @@ const _ = require('lodash');
 describe('Integration | Repository | Certification Course', function() {
 
   describe('#save', () => {
+
     let certificationCourse;
 
     beforeEach(() => {
@@ -85,6 +87,7 @@ describe('Integration | Repository | Certification Course', function() {
   });
 
   describe('#changeCompletionDate', () => {
+
     let courseId;
 
     beforeEach(async () => {
@@ -93,9 +96,13 @@ describe('Integration | Repository | Certification Course', function() {
     });
 
     it('should update completedAt of the certificationCourse if one date is passed', async () => {
-      // when
+      // given
       const completionDate = new Date('2018-01-01T06:07:08Z');
-      const updatedCertificationCourse = await certificationCourseRepository.changeCompletionDate(courseId, completionDate);
+
+      // when
+      const updatedCertificationCourse = await DomainTransaction.execute(async (domainTransaction) =>
+        certificationCourseRepository.changeCompletionDate(courseId, completionDate, domainTransaction),
+      );
 
       // then
       expect(updatedCertificationCourse).to.be.instanceOf(CertificationCourse);

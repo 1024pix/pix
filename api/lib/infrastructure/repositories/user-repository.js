@@ -64,10 +64,10 @@ module.exports = {
       });
   },
 
-  get(userId) {
+  get(userId, domainTransaction = DomainTransaction.emptyTransaction()) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch()
+      .fetch({ transacting: domainTransaction.knexTransaction })
       .then((user) => bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {

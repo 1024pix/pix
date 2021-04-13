@@ -5,10 +5,12 @@ const assessmentResultRepository = require('../../../../lib/infrastructure/repos
 const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | AssessmentResult', function() {
 
   describe('#save', () => {
+
     let assessmentResultToSave;
     let assessmentResult;
 
@@ -28,7 +30,9 @@ describe('Integration | Repository | AssessmentResult', function() {
 
       it('should persist the assessment result in db', async () => {
         // when
-        assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
+        assessmentResult = await DomainTransaction.execute(async (domainTransaction) =>
+          assessmentResultRepository.save(assessmentResultToSave, domainTransaction),
+        );
 
         // then
         const assessmentResultSaved = await knex('assessment-results').where('id', assessmentResult.id);
@@ -37,11 +41,12 @@ describe('Integration | Repository | AssessmentResult', function() {
 
       it('should return the saved assessment result', async () => {
         // when
-        assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
+        assessmentResult = await DomainTransaction.execute(async (domainTransaction) =>
+          assessmentResultRepository.save(assessmentResultToSave, domainTransaction),
+        );
 
         // then
         expect(assessmentResult).to.be.an.instanceOf(AssessmentResult);
-
         expect(assessmentResult).to.have.property('id').and.not.to.be.null;
       });
     });
@@ -56,9 +61,13 @@ describe('Integration | Repository | AssessmentResult', function() {
       });
 
       it('should throw a MissingAssessmentId error if assessmentId is null or undefined', async () => {
-        // when
+        // given
         assessmentResultToSave.assessmentId = null;
-        const result = await catchErr(assessmentResultRepository.save)(assessmentResultToSave);
+
+        // when
+        const result = await DomainTransaction.execute(async (domainTransaction) =>
+          catchErr(assessmentResultRepository.save)(assessmentResultToSave, domainTransaction),
+        );
 
         // then
         expect(result).to.be.instanceOf(MissingAssessmentId);
@@ -66,31 +75,33 @@ describe('Integration | Repository | AssessmentResult', function() {
 
       it('should throw an error in others cases', async () => {
         // when
-        const result = await catchErr(assessmentResultRepository.save)({ assessmentId: 1 });
+        const result = await DomainTransaction.execute(async (domainTransaction) =>
+          catchErr(assessmentResultRepository.save)({ assessmentId: 1 }, domainTransaction),
+        );
 
         // then
         expect(result).to.be.instanceOf(AssessmentResultNotCreatedError);
       });
     });
-
   });
 
   describe('#findLatestLevelAndPixScoreByAssessmentId', () => {
 
     let assessmentWithResultsId;
     let assessmentWithoutResultsId;
+
     const expectedAssessmentResultLevel = 3;
     const expectedAssessmentResultPixScore = 10;
     const expectedAssessmentResultWithinLimitDateLevel = 4;
     const expectedAssessmentResultWithinLimitDatePixScore = 20;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       assessmentWithResultsId = databaseBuilder.factory.buildAssessment().id;
       assessmentWithoutResultsId = databaseBuilder.factory.buildAssessment().id;
       databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessmentWithResultsId, createdAt: new Date('2019-02-01T00:00:00Z'), level: expectedAssessmentResultLevel, pixScore: expectedAssessmentResultPixScore }).id;
       databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessmentWithResultsId, createdAt: new Date('2019-01-01T00:00:00Z'), level: expectedAssessmentResultWithinLimitDateLevel, pixScore: expectedAssessmentResultWithinLimitDatePixScore }).id;
 
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     it('should return the most recent assessment result level and pixScore when assessment has some', async () => {
@@ -127,7 +138,7 @@ describe('Integration | Repository | AssessmentResult', function() {
     let ccWithoutResultsId;
     let expectedAssessmentResultId;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       ccWithResultsId = databaseBuilder.factory.buildCertificationCourse().id;
       ccWithoutResultsId = databaseBuilder.factory.buildCertificationCourse().id;
       const assessmentWithResultsId = databaseBuilder.factory.buildAssessment({ certificationCourseId: ccWithResultsId }).id;
@@ -136,7 +147,7 @@ describe('Integration | Repository | AssessmentResult', function() {
       databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: expectedAssessmentResultId });
       databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: expectedAssessmentResultId });
 
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     it('should return the most recent assessment result when certification course has some', async () => {

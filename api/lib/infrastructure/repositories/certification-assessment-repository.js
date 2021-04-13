@@ -4,7 +4,7 @@ const CertificationAssessment = require('../../domain/models/CertificationAssess
 const CertificationChallenge = require('../../domain/models/CertificationChallenge');
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
-const { knex } = require('../bookshelf');
+const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
 
 async function _getCertificationChallenges(certificationCourseId, knexConn) {
@@ -31,8 +31,10 @@ async function _getCertificationAnswersByDate(certificationAssessmentId, knexCon
 
 module.exports = {
 
-  async get(id) {
-    const certificationAssessmentRows = await knex('assessments')
+  async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
+
+    const certificationAssessmentRows = await knexConn('assessments')
       .join('certification-courses', 'certification-courses.id', 'assessments.certificationCourseId')
       .select({
         id: 'assessments.id',
@@ -48,8 +50,8 @@ module.exports = {
     if (!certificationAssessmentRows[0]) {
       throw new NotFoundError(`L'assessment de certification ${id} n'existe pas ou son accès est restreint`);
     }
-    const certificationChallenges = await _getCertificationChallenges(certificationAssessmentRows[0].certificationCourseId, knex);
-    const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRows[0].id, knex);
+    const certificationChallenges = await _getCertificationChallenges(certificationAssessmentRows[0].certificationCourseId, knexConn);
+    const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRows[0].id, knexConn);
 
     return new CertificationAssessment({
       ...certificationAssessmentRows[0],
@@ -59,7 +61,8 @@ module.exports = {
   },
 
   async getByCertificationCourseId({ certificationCourseId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const knexConn = domainTransaction.knexTransaction || knex;
+    const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
+
     const certificationAssessmentRow = await knexConn('assessments')
       .join('certification-courses', 'certification-courses.id', 'assessments.certificationCourseId')
       .select({
@@ -88,7 +91,7 @@ module.exports = {
 
   async save(certificationAssessment) {
     for (const challenge of certificationAssessment.certificationChallenges) {
-      await knex('certification-challenges')
+      await Bookshelf.knex('certification-challenges')
         .where({ id: challenge.id })
         .update(_.pick(challenge, ['isNeutralized']));
     }

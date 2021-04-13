@@ -22,6 +22,7 @@ const Organization = require('../../../../lib/domain/models/Organization');
 const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Integration | Infrastructure | Repository | UserRepository', () => {
@@ -242,7 +243,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return the found user', async () => {
         // when
-        const user = await userRepository.get(userInDb.id);
+        const user = await DomainTransaction.execute(async (domainTransaction) =>
+          userRepository.get(userInDb.id, domainTransaction),
+        );
 
         // then
         expect(user).to.be.an.instanceOf(User);
@@ -258,10 +261,12 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const nonExistentUserId = 678;
 
         // when
-        const result = await catchErr(userRepository.get)(nonExistentUserId);
+        const error = await DomainTransaction.execute(async (domainTransaction) =>
+          catchErr(userRepository.get)(nonExistentUserId, domainTransaction),
+        );
 
         // then
-        expect(result).to.be.instanceOf(UserNotFoundError);
+        expect(error).to.be.instanceOf(UserNotFoundError);
       });
     });
 

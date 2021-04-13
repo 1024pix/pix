@@ -2,6 +2,7 @@ const _ = require('lodash');
 const BookshelfCampaign = require('../data/campaign');
 const { NotFoundError } = require('../../domain/errors');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
 
@@ -24,11 +25,12 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
   },
 
-  async get(id) {
+  async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
     const bookshelfCampaign = await BookshelfCampaign
       .where({ id })
       .fetch({
         withRelated: ['creator', 'organization', 'targetProfile'],
+        transacting: domainTransaction.knexTransaction,
       })
       .catch((err) => {
         if (err instanceof BookshelfCampaign.NotFoundError) {

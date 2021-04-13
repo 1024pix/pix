@@ -156,10 +156,17 @@ module.exports = {
       });
   },
 
-  async findOneByUserIdAndIdentityProvider({ userId, identityProvider }) {
+  async findOneByUserIdAndIdentityProvider({
+    userId,
+    identityProvider,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
     const authenticationMethod = await BookshelfAuthenticationMethod
       .where({ userId, identityProvider })
-      .fetch({ require: false });
+      .fetch({
+        require: false,
+        domainTransaction,
+      });
 
     return authenticationMethod ? _toDomainEntity(authenticationMethod) : null;
   },
@@ -186,11 +193,23 @@ module.exports = {
     }
   },
 
-  async updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId }) {
+  async updatePoleEmploiAuthenticationComplementByUserId({
+    authenticationComplement,
+    userId,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
     try {
       const bookshelfAuthenticationMethod = await BookshelfAuthenticationMethod
         .where({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
-        .save({ authenticationComplement }, { method: 'update', patch: true, require: true });
+        .save(
+          { authenticationComplement },
+          {
+            method: 'update',
+            patch: true,
+            require: true,
+            transacting: domainTransaction.knexTransaction,
+          },
+        );
       return _toDomainEntity(bookshelfAuthenticationMethod);
     } catch (err) {
       if (err instanceof BookshelfAuthenticationMethod.NoRowsUpdatedError) {

@@ -43,7 +43,7 @@ function _toDomain(bookshelfCampaignParticipation) {
 
 module.exports = {
 
-  async get(id, options = {}) {
+  async get({ id, options = {}, domainTransaction = DomainTransaction.emptyTransaction() }) {
     if (options.include) {
       options.withRelated = _.union(options.include, ['assessments']);
     } else {
@@ -52,7 +52,11 @@ module.exports = {
 
     const campaignParticipation = await BookshelfCampaignParticipation
       .where({ id })
-      .fetch({ ...options, require: false });
+      .fetch({
+        ...options,
+        require: false,
+        transacting: domainTransaction.knexTransaction,
+      });
     return _toDomain(campaignParticipation);
   },
 

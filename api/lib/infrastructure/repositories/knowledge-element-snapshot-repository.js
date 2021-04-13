@@ -4,6 +4,7 @@ const BookshelfKnowledgeElementSnapshot = require('../data/knowledge-element-sna
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const { AlreadyExistingEntityError } = require('../../domain/errors');
 const bookshelfUtils = require('../utils/knex-utils');
+const DomainTransaction = require('../DomainTransaction');
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;
@@ -28,9 +29,11 @@ module.exports = {
     }
   },
 
-  async findByUserIdsAndSnappedAtDates(userIdsAndSnappedAtDates = {}) {
+  async findByUserIdsAndSnappedAtDates(userIdsAndSnappedAtDates = {}, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+
     const params = Object.entries(userIdsAndSnappedAtDates);
-    const results = await knex
+    const results = await knexConn
       .select('userId', 'snapshot')
       .from('knowledge-element-snapshots')
       .whereIn(['userId', 'snappedAt'], params);

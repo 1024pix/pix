@@ -3,7 +3,6 @@ const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
   create({ poleEmploiSending, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const transacting = domainTransaction && domainTransaction.knexTransaction;
-    return new BookshelfPoleEmploiSending(poleEmploiSending).save(null, { transacting });
+    return new BookshelfPoleEmploiSending(poleEmploiSending).save(null, { transacting: domainTransaction.knexTransaction });
   },
 };

@@ -4,6 +4,7 @@ const Organization = require('../../../../lib/domain/models/Organization');
 const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const _ = require('lodash');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | Organization', function() {
 
@@ -53,7 +54,6 @@ describe('Integration | Repository | Organization', function() {
     });
 
     it('should insert default value for canCollectProfiles (false), credit (0) when not defined', async () => {
-
       // given
       const organization = new Organization({
         name: 'organization',
@@ -68,12 +68,11 @@ describe('Integration | Repository | Organization', function() {
       expect(organizationSaved.canCollectProfiles).to.equal(Organization.defaultValues['canCollectProfiles']);
       expect(organizationSaved.credit).to.equal(Organization.defaultValues['credit']);
       expect(organizationSaved.email).to.be.null;
-
     });
-
   });
 
   describe('#update', () => {
+
     let organization;
 
     beforeEach(async () => {
@@ -135,7 +134,6 @@ describe('Integration | Repository | Organization', function() {
 
     describe('success management', function() {
 
-      let insertedOrganization;
       const organizationAttributes = {
         type: 'SCO',
         name: 'Organization of the dark side',
@@ -149,6 +147,7 @@ describe('Integration | Repository | Organization', function() {
       };
 
       let expectedAttributes;
+      let insertedOrganization;
 
       beforeEach(async () => {
         insertedOrganization = databaseBuilder.factory.buildOrganization(organizationAttributes);
@@ -173,7 +172,9 @@ describe('Integration | Repository | Organization', function() {
 
       it('should return a organization by provided id', async () => {
         // when
-        const foundOrganization = await organizationRepository.get(insertedOrganization.id);
+        const foundOrganization = await DomainTransaction.execute(async (domainTransaction) =>
+          organizationRepository.get(insertedOrganization.id, domainTransaction),
+        );
 
         // then
         expect(foundOrganization).to.deep.equal(expectedAttributes);
@@ -184,7 +185,9 @@ describe('Integration | Repository | Organization', function() {
         const nonExistentId = 10083;
 
         // when
-        const promise = organizationRepository.get(nonExistentId);
+        const promise = DomainTransaction.execute(async (domainTransaction) =>
+          organizationRepository.get(nonExistentId, domainTransaction),
+        );
 
         // then
         return promise.then(() => {
@@ -215,7 +218,9 @@ describe('Integration | Repository | Organization', function() {
 
       it('should return a list of profile containing the shared profile', async () => {
         // when
-        const organization = await organizationRepository.get(insertedOrganization.id);
+        const organization = await DomainTransaction.execute(async (domainTransaction) =>
+          organizationRepository.get(insertedOrganization.id, domainTransaction),
+        );
 
         // then
         const firstTargetProfileShare = organization.targetProfileShares[0];

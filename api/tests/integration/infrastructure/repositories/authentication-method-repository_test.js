@@ -13,6 +13,7 @@ const {
 
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 
 describe('Integration | Repository | AuthenticationMethod', () => {
@@ -171,7 +172,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       await databaseBuilder.commit();
 
       // when
-      const authenticationMethodsByUserIdAndIdentityProvider = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider });
+      const authenticationMethodsByUserIdAndIdentityProvider = await DomainTransaction.execute(async (domainTransaction) =>
+        authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider, domainTransaction }),
+      );
 
       // then
       expect(authenticationMethodsByUserIdAndIdentityProvider).to.be.instanceof(AuthenticationMethod);
@@ -185,7 +188,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       const identityProvider = AuthenticationMethod.identityProviders.GAR;
 
       // when
-      const authenticationMethodsByUserIdAndIdentityProvider = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider });
+      const authenticationMethodsByUserIdAndIdentityProvider = await DomainTransaction.execute(async (domainTransaction) =>
+        authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider, domainTransaction }),
+      );
 
       // then
       expect(authenticationMethodsByUserIdAndIdentityProvider).to.be.null;
@@ -449,7 +454,13 @@ describe('Integration | Repository | AuthenticationMethod', () => {
         });
 
         // when
-        const updatedAuthenticationMethod = await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId });
+        const updatedAuthenticationMethod = await DomainTransaction.execute(async (domainTransaction) =>
+          authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({
+            authenticationComplement,
+            userId,
+            domainTransaction,
+          }),
+        );
 
         // then
         expect(updatedAuthenticationMethod.authenticationComplement).to.deep.equal(authenticationComplement);
@@ -464,7 +475,13 @@ describe('Integration | Repository | AuthenticationMethod', () => {
         const authenticationComplement = {};
 
         // when
-        const error = await catchErr(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId)({ authenticationComplement, userId });
+        const error = await DomainTransaction.execute(async (domainTransaction) =>
+          catchErr(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId)({
+            authenticationComplement,
+            userId,
+            domainTransaction,
+          }),
+        );
 
         // then
         expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);

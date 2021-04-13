@@ -8,6 +8,7 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const { knex } = require('../bookshelf');
 const { isUniqConstraintViolated, foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
 const { TargetProfileCannotBeCreated, NotFoundError, AlreadyExistingEntityError, ObjectValidationError } = require('../../domain/errors');
+const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
 
@@ -37,10 +38,14 @@ module.exports = {
     }
   },
 
-  async get(id) {
+  async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
     const targetProfileBookshelf = await BookshelfTargetProfile
       .where({ id })
-      .fetch({ require: false, withRelated: ['skillIds'] });
+      .fetch({
+        require: false,
+        withRelated: ['skillIds'],
+        transacting: domainTransaction.knexTransaction,
+      });
 
     if (!targetProfileBookshelf) {
       throw new NotFoundError(`Le profil cible avec l'id ${id} n'existe pas`);
@@ -49,7 +54,7 @@ module.exports = {
     return _getWithLearningContentSkills(targetProfileBookshelf);
   },
 
-  async getByCampaignId(campaignId) {
+  async getByCampaignId(campaignId, domainTransaction = DomainTransaction.emptyTransaction()) {
     const targetProfileBookshelf = await BookshelfTargetProfile
       .query((qb) => {
         qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
@@ -62,7 +67,9 @@ module.exports = {
             stages: function(query) {
               query.orderBy('threshold', 'ASC');
             },
-          }],
+          },
+        ],
+        transacting: domainTransaction.knexTransaction,
       });
 
     return _getWithLearningContentSkills(targetProfileBookshelf);

@@ -58,6 +58,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
 
     context('when the assessment does not exist', () => {
+
       it('should return null', async () => {
         // when
         const assessment = await assessmentRepository.getWithAnswersAndCampaignParticipation(245);
@@ -81,7 +82,9 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment', async () => {
         // when
-        const assessment = await assessmentRepository.get(assessmentId);
+        const assessment = await DomainTransaction.execute(async (domainTransaction) =>
+          assessmentRepository.get(assessmentId, domainTransaction),
+        );
 
         // then
         expect(assessment).to.be.an.instanceOf(Assessment);
@@ -91,9 +94,12 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
 
     context('when the assessment does not exist', () => {
+
       it('should return null', async () => {
         // when
-        const error = await catchErr(assessmentRepository.get)(245);
+        const error = await DomainTransaction.execute(async (domainTransaction) =>
+          catchErr(assessmentRepository.get)(245, domainTransaction),
+        );
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -104,6 +110,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
   describe('#getByAssessmentIdAndUserId', () => {
 
     describe('when userId is provided,', () => {
+
       let userId;
       let assessmentId;
 

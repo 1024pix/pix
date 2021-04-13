@@ -1,5 +1,6 @@
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const BookshelfBadge = require('../../infrastructure/data/badge');
+const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
 
@@ -27,7 +28,7 @@ module.exports = {
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
   },
 
-  findByCampaignParticipationId(campaignParticipationId) {
+  findByCampaignParticipationId(campaignParticipationId, domainTransaction = DomainTransaction.emptyTransaction()) {
     return BookshelfBadge
       .query((qb) => {
         qb.join('target-profiles', 'target-profiles.id', 'badges.targetProfileId');
@@ -38,6 +39,7 @@ module.exports = {
       .fetchAll({
         require: false,
         withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
+        transacting: domainTransaction.knexTransaction,
       })
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
   },

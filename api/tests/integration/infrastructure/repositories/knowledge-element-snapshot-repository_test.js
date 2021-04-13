@@ -2,6 +2,7 @@ const { knex, expect, databaseBuilder, catchErr } = require('../../../test-helpe
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => {
 
@@ -53,6 +54,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => 
   });
 
   describe('#findByUserIdsAndSnappedAtDates', () => {
+
     let userId1;
     let userId2;
 
@@ -73,10 +75,12 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => 
       await databaseBuilder.commit();
 
       // when
-      const knowledgeElementsByUserId = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates({
-        [userId1]: snappedAt1,
-        [userId2]: snappedAt2,
-      });
+      const knowledgeElementsByUserId = await DomainTransaction.execute(async (domainTransaction) =>
+        knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates({
+          [userId1]: snappedAt1,
+          [userId2]: snappedAt2,
+        }, domainTransaction),
+      );
 
       // then
       expect(knowledgeElementsByUserId[userId1]).to.deep.equal([knowledgeElement1]);
@@ -85,9 +89,11 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => 
 
     it('should return null associated to userId when user does not have a snapshot', async () => {
       // when
-      const knowledgeElementsByUserId = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates({
-        [userId1]: new Date('2020-04-01T00:00:00Z'),
-      });
+      const knowledgeElementsByUserId = await DomainTransaction.execute(async (domainTransaction) =>
+        knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates({
+          [userId1]: new Date('2020-04-01T00:00:00Z'),
+        }, domainTransaction),
+      );
 
       expect(knowledgeElementsByUserId[userId1]).to.be.null;
     });

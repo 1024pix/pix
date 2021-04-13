@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | Campaign Participation Result', () => {
 
@@ -42,6 +43,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
     });
 
     it('use the most recent assessment to define if the participation is completed', async () => {
+      // given
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -54,14 +56,24 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed', createdAt: new Date('2021-01-02') });
       await databaseBuilder.commit();
 
-      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
-
+      // when
+      const campaignAssessmentParticipationResult = await DomainTransaction.execute(async (domainTransaction) =>
+        campaignParticipationResultRepository.getByParticipationId({
+          campaignParticipationId,
+          campaignBadges: [],
+          acquiredBadgeIds: [],
+          locale: 'FR',
+          domainTransaction,
+        }),
+      );
+      // then
       expect(campaignAssessmentParticipationResult).to.deep.include({
         isCompleted: true,
       });
     });
 
     it('compute the number of skills, the number of skill tested and the number of skill validated', async () => {
+      // given
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -105,8 +117,18 @@ describe('Integration | Repository | Campaign Participation Result', () => {
           knowledgeElementsAttributes,
         });
       await databaseBuilder.commit();
-      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
 
+      // when
+      const campaignAssessmentParticipationResult = await DomainTransaction.execute(async (domainTransaction) =>
+        campaignParticipationResultRepository.getByParticipationId({
+          campaignParticipationId,
+          campaignBadges: [],
+          acquiredBadgeIds: [],
+          locale: 'FR',
+          domainTransaction,
+        }),
+      );
+      // then
       expect(campaignAssessmentParticipationResult).to.deep.include({
         id: campaignParticipationId,
         knowledgeElementsCount: 2,
@@ -117,6 +139,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
     });
 
     it('computes the results for each competence assessed', async () => {
+      // given
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -163,7 +186,19 @@ describe('Integration | Repository | Campaign Participation Result', () => {
           knowledgeElementsAttributes,
         });
       await databaseBuilder.commit();
-      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+
+      // when
+      const campaignAssessmentParticipationResult = await DomainTransaction.execute(async (domainTransaction) =>
+        campaignParticipationResultRepository.getByParticipationId({
+          campaignParticipationId,
+          campaignBadges: [],
+          acquiredBadgeIds: [],
+          locale: 'FR',
+          domainTransaction,
+        }),
+      );
+
+      // then
       const competenceResults = campaignAssessmentParticipationResult.competenceResults.sort((a, b) => a.id <= b.id);
       expect(competenceResults).to.deep.equal([
         {
@@ -190,7 +225,9 @@ describe('Integration | Repository | Campaign Participation Result', () => {
     });
 
     context('when there is no snapshot because the participant did not share his results', () => {
+
       it('compute results by using knowledge elements', async () => {
+        // given
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -227,8 +264,19 @@ describe('Integration | Repository | Campaign Participation Result', () => {
         ];
         knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
         await databaseBuilder.commit();
-        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
 
+        // when
+        const campaignAssessmentParticipationResult = await DomainTransaction.execute(async (domainTransaction) =>
+          campaignParticipationResultRepository.getByParticipationId({
+            campaignParticipationId,
+            campaignBadges: [],
+            acquiredBadgeIds: [],
+            locale: 'FR',
+            domainTransaction,
+          }),
+        );
+
+        // then
         expect(campaignAssessmentParticipationResult).to.deep.include({
           id: campaignParticipationId,
           knowledgeElementsCount: 2,
@@ -240,7 +288,9 @@ describe('Integration | Repository | Campaign Participation Result', () => {
     });
 
     context('when the target profile has some stages', () => {
+
       it('returns the stage reached', async () => {
+        // given
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -291,7 +341,19 @@ describe('Integration | Repository | Campaign Participation Result', () => {
             knowledgeElementsAttributes,
           });
         await databaseBuilder.commit();
-        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+
+        // when
+        const campaignAssessmentParticipationResult = await DomainTransaction.execute(async (domainTransaction) =>
+          campaignParticipationResultRepository.getByParticipationId({
+            campaignParticipationId,
+            campaignBadges: [],
+            acquiredBadgeIds: [],
+            locale: 'FR',
+            domainTransaction,
+          }),
+        );
+
+        // then
         expect(campaignAssessmentParticipationResult.reachedStage).to.deep.include({
           id: 2,
           message: 'Message2',
@@ -304,7 +366,9 @@ describe('Integration | Repository | Campaign Participation Result', () => {
     });
 
     context('when the participation has badges', () => {
+
       it('computes the results for each badge', async () => {
+        // given
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -345,7 +409,19 @@ describe('Integration | Repository | Campaign Participation Result', () => {
             knowledgeElementsAttributes: [],
           });
         await databaseBuilder.commit();
-        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [badge1, badge2], [badge1.id], 'FR');
+
+        // when
+        const campaignAssessmentParticipationResult = await DomainTransaction.execute(async (domainTransaction) =>
+          campaignParticipationResultRepository.getByParticipationId({
+            campaignParticipationId,
+            campaignBadges: [badge1, badge2],
+            acquiredBadgeIds: [badge1.id],
+            locale: 'FR',
+            domainTransaction,
+          }),
+        );
+
+        // then
         const campaignParticipationBadge1 = campaignAssessmentParticipationResult.campaignParticipationBadges.find(({ id }) => id == 1);
         const campaignParticipationBadge2 = campaignAssessmentParticipationResult.campaignParticipationBadges.find(({ id }) => id == 2);
         expect(campaignParticipationBadge1).to.deep.include({
@@ -369,7 +445,9 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       });
 
       context('when the target profile has badge partner competences (CleaNumerique)', () => {
+
         it('computes the buildBadgePartnerCompetence for each competence of badge', async () => {
+          // given
           const { id: userId } = databaseBuilder.factory.buildUser();
           const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
           const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -419,7 +497,19 @@ describe('Integration | Repository | Campaign Participation Result', () => {
             });
           await databaseBuilder.commit();
           badge.badgePartnerCompetences = [badgePartnerCompetence1, badgePartnerCompetence2];
-          const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [badge], [badge.id], 'FR');
+
+          // when
+          const campaignAssessmentParticipationResult = await DomainTransaction.execute(async (domainTransaction) =>
+            campaignParticipationResultRepository.getByParticipationId({
+              campaignParticipationId,
+              campaignBadges: [badge],
+              acquiredBadgeIds: [badge.id],
+              locale: 'FR',
+              domainTransaction,
+            }),
+          );
+
+          // then
           const partnerCompetenceResults = campaignAssessmentParticipationResult
             .campaignParticipationBadges[0]
             .partnerCompetenceResults

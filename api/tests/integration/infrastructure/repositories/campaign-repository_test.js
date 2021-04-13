@@ -1,9 +1,10 @@
-const { expect, domainBuilder, databaseBuilder, knex } = require('../../../test-helper');
+const { catchErr, expect, domainBuilder, databaseBuilder, knex } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | Campaign', () => {
 
@@ -139,6 +140,7 @@ describe('Integration | Repository | Campaign', () => {
   });
 
   describe('#get', () => {
+
     let campaign;
 
     beforeEach(() => {
@@ -151,20 +153,26 @@ describe('Integration | Repository | Campaign', () => {
 
     it('should return a Campaign by her id', async () => {
       // when
-      const result = await campaignRepository.get(campaign.id);
+      const result = await DomainTransaction.execute(async (domainTransaction) =>
+        campaignRepository.get(campaign.id, domainTransaction),
+      );
 
       // then
       expect(result).to.be.an.instanceof(Campaign);
       expect(result.name).to.equal(campaign.name);
     });
 
-    it('should throw a NotFoundError if campaign can not be found', () => {
+    it('should throw a NotFoundError if campaign can not be found', async () => {
       // given
       const nonExistentId = 666;
+
       // when
-      const promise = campaignRepository.get(nonExistentId);
+      const error = await DomainTransaction.execute(async (domainTransaction) =>
+        catchErr(campaignRepository.get)(nonExistentId, domainTransaction),
+      );
+
       // then
-      return expect(promise).to.have.been.rejectedWith(NotFoundError);
+      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 

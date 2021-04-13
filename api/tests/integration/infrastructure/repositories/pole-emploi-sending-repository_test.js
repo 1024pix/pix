@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { expect, databaseBuilder, knex, domainBuilder } = require('../../../test-helper');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
 
 describe('Integration | Repository | PoleEmploiSending', () => {
@@ -17,7 +18,9 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       const poleEmploiSending = domainBuilder.buildPoleEmploiSending({ campaignParticipationId });
 
       // when
-      await poleEmploiSendingRepository.create({ poleEmploiSending });
+      await DomainTransaction.execute(async (domainTransaction) =>
+        poleEmploiSendingRepository.create({ poleEmploiSending, domainTransaction }),
+      );
 
       // then
       const poleEmploiSendings = await knex('pole-emploi-sendings').select();

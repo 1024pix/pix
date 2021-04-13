@@ -5,9 +5,12 @@ const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const { NotFoundError, AlreadyExistingEntityError, ObjectValidationError, TargetProfileCannotBeCreated } = require('../../../../lib/domain/errors');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | Target-profile', () => {
+
   describe('#create', () => {
+
     afterEach(async () => {
       await knex('target-profiles_skills').delete();
       await knex('target-profiles').delete();
@@ -49,7 +52,7 @@ describe('Integration | Repository | Target-profile', () => {
       expect(skillsId).to.exactlyContain(['skills1', 'skills2']);
     });
 
-    it('should throw exception given wrong insert', async() => {
+    it('should throw exception given wrong insert', async () => {
       const targetProfileData = {
         name: 'myFirstTargetProfile',
         imageUrl: 'someUrl',
@@ -88,28 +91,33 @@ describe('Integration | Repository | Target-profile', () => {
       sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([skillAssociatedToTargetProfile]);
     });
 
-    it('should return the target profile with its associated skills and the list of organizations which could access it', () => {
+    it('should return the target profile with its associated skills and the list of organizations which could access it', async () => {
       // when
-      const promise = targetProfileRepository.get(targetProfile.id);
+      const foundTargetProfile = await DomainTransaction.execute(async (domainTransaction) =>
+        targetProfileRepository.get(targetProfile.id, domainTransaction),
+      );
 
       // then
-      return promise.then((foundTargetProfile) => {
-        expect(skillDatasource.findOperativeByRecordIds).to.have.been.calledWith([targetProfileFirstSkill.skillId]);
+      expect(skillDatasource.findOperativeByRecordIds).to.have.been.calledWith([targetProfileFirstSkill.skillId]);
 
-        expect(foundTargetProfile).to.be.an.instanceOf(TargetProfile);
+      expect(foundTargetProfile).to.be.an.instanceOf(TargetProfile);
 
-        expect(foundTargetProfile.skills).to.be.an('array');
-        expect(foundTargetProfile.skills.length).to.equal(1);
-        expect(foundTargetProfile.skills[0]).to.be.an.instanceOf(Skill);
-        expect(foundTargetProfile.skills[0].id).to.equal(skillAssociatedToTargetProfile.id);
-        expect(foundTargetProfile.skills[0].name).to.equal(skillAssociatedToTargetProfile.name);
-      });
+      expect(foundTargetProfile.skills).to.be.an('array');
+      expect(foundTargetProfile.skills.length).to.equal(1);
+      expect(foundTargetProfile.skills[0]).to.be.an.instanceOf(Skill);
+      expect(foundTargetProfile.skills[0].id).to.equal(skillAssociatedToTargetProfile.id);
+      expect(foundTargetProfile.skills[0].name).to.equal(skillAssociatedToTargetProfile.name);
     });
 
     context('when the targetProfile does not exist', () => {
-      it('throws an error', async () => {
-        const error = await catchErr(targetProfileRepository.get)(1);
 
+      it('throws an error', async () => {
+        // when
+        const error = await DomainTransaction.execute(async (domainTransaction) =>
+          catchErr(targetProfileRepository.get)(1, domainTransaction),
+        );
+
+        // then
         expect(error).to.be.an.instanceOf(NotFoundError);
         expect(error.message).to.have.string('Le profil cible avec l\'id 1 n\'existe pas');
       });
@@ -184,6 +192,7 @@ describe('Integration | Repository | Target-profile', () => {
   });
 
   describe('#getByCampaignId', () => {
+
     let campaignId, targetProfileId;
 
     beforeEach(async () => {
@@ -202,7 +211,9 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should return the target profile matching the campaign id', async () => {
       // when
-      const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
+      const targetProfile = await DomainTransaction.execute(async (domainTransaction) =>
+        targetProfileRepository.getByCampaignId(campaignId, domainTransaction),
+      );
 
       // then
       expect(targetProfile.id).to.equal(targetProfileId);
@@ -210,7 +221,9 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should return the target profile with the stages ordered by threshold ASC', async () => {
       // when
-      const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
+      const targetProfile = await DomainTransaction.execute(async (domainTransaction) =>
+        targetProfileRepository.getByCampaignId(campaignId, domainTransaction),
+      );
 
       // then
       expect(targetProfile.stages).to.exist;

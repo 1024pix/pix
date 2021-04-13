@@ -2,13 +2,16 @@ const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-
 const _ = require('lodash');
 
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
 
 describe('Integration | Repository | CompetenceMark', () => {
 
   describe('#save', () => {
+
     let assessmentResultId;
     let competenceMark;
+
     beforeEach(async () => {
       assessmentResultId = await databaseBuilder.factory.buildAssessmentResult().id;
       await databaseBuilder.commit();
@@ -29,7 +32,9 @@ describe('Integration | Repository | CompetenceMark', () => {
 
     it('should persist the mark in db', async () => {
       // when
-      await competenceMarkRepository.save(competenceMark);
+      await DomainTransaction.execute(async (domainTransaction) =>
+        competenceMarkRepository.save(competenceMark, domainTransaction),
+      );
 
       // then
       const marks = await knex('competence-marks').select();
@@ -48,7 +53,9 @@ describe('Integration | Repository | CompetenceMark', () => {
       });
 
       // when
-      const savedMark = await competenceMarkRepository.save(mark);
+      const savedMark = await DomainTransaction.execute(async (domainTransaction) =>
+        competenceMarkRepository.save(mark, domainTransaction),
+      );
 
       // then
       expect(savedMark).to.be.an.instanceOf(CompetenceMark);

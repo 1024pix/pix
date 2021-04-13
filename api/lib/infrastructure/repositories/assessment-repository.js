@@ -24,11 +24,11 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  async get(id) {
+  async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
     try {
       const bookshelfAssessment = await BookshelfAssessment
         .where({ id })
-        .fetch();
+        .fetch({ transacting: domainTransaction.knexTransaction });
 
       return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfAssessment);
     } catch (err) {
@@ -119,8 +119,8 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  abortByAssessmentId(assessmentId) {
-    return this._updateStateById({ id: assessmentId, state: Assessment.states.ABORTED });
+  abortByAssessmentId(assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
+    return this._updateStateById({ id: assessmentId, state: Assessment.states.ABORTED }, domainTransaction);
   },
 
   completeByAssessmentId(assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
@@ -141,11 +141,9 @@ module.exports = {
   },
 
   async _updateStateById({ id, state }, domainTransaction) {
-    const transacting = domainTransaction && domainTransaction.knexTransaction;
-
     const assessment = await BookshelfAssessment
       .where({ id })
-      .save({ state }, { require: true, patch: true, transacting });
+      .save({ state }, { require: true, patch: true, transacting: domainTransaction.knexTransaction });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment);
   },
 

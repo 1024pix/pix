@@ -3,6 +3,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const certificationAssessmentRepository = require('../../../../lib/infrastructure/repositories/certification-assessment-repository');
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
 const _ = require('lodash');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', () => {
 
@@ -41,7 +42,9 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
       it('should return the certification assessment with certification challenges and answers', async () => {
         // when
-        const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
+        const certificationAssessment = await DomainTransaction.execute(async (domainTransaction) =>
+          certificationAssessmentRepository.get(certificationAssessmentId, domainTransaction),
+        );
 
         // then
         expect(certificationAssessment).to.be.an.instanceOf(CertificationAssessment);
@@ -60,7 +63,9 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     context('when the assessment does not exist', () => {
       it('should throw a NotFoundError', async () => {
         // when
-        const error = await catchErr(certificationAssessmentRepository.get)(12345);
+        const error = await DomainTransaction.execute(async (domainTransaction) =>
+          catchErr(certificationAssessmentRepository.get)(12345, domainTransaction),
+        );
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
