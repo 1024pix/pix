@@ -238,7 +238,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     it('should return true when the organization has a customResultPageButtonText and a customResultPageButtonUrl', async function() {
       // given
       component.args.model.campaignParticipation.campaign.customResultPageButtonText = 'Go to the next step';
-      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'www.my-url.net';
+      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
 
       // when
       const result = await component.showOrganizationButton;
@@ -250,7 +250,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     it('should return false when the organization has no a customResultPageButtonText ', function() {
       // given
       component.args.model.campaignParticipation.campaign.customResultPageButtonText = null;
-      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'www.my-url.net';
+      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
 
       // when
       const result = component.showOrganizationButton;
@@ -273,16 +273,48 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
   });
 
   describe('#customButtonUrl', function() {
+    context('when the participant has finished a campaign with stages', function() {
+      it('should add the stage to the url as the first query params when the url does not have one', function() {
+        // given
+        const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+        reachedStage.get.withArgs('threshold').returns(6);
+        component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+        component.args.model.campaignParticipation.campaignParticipationResult.reachedStage = reachedStage;
 
-    it('should return the url of the custom button', function() {
-      // given
-      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'www.my-url.net';
+        // when
+        const url = component.customButtonUrl;
 
-      // when
-      const url = component.customButtonUrl;
+        // then
+        expect(url).to.equal('http://www.my-url.net/resultats?stage=6');
+      });
 
-      // then
-      expect(url).to.equal('www.my-url.net');
+      it('should add the stage to the other query params', function() {
+        // given
+        const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+        reachedStage.get.withArgs('threshold').returns(6);
+        component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats?foo=bar';
+        component.args.model.campaignParticipation.campaignParticipationResult.reachedStage = reachedStage;
+
+        // when
+        const url = component.customButtonUrl;
+
+        // then
+        expect(url).to.equal('http://www.my-url.net/resultats?foo=bar&stage=6');
+      });
+    });
+
+    context('when the participant has finished a campaign without stages ', function() {
+      it('should return the url of the custom button', function() {
+        // given
+        component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
+        component.args.model.campaignParticipation.campaignParticipationResult.reachedStage = null;
+
+        // when
+        const url = component.customButtonUrl;
+
+        // then
+        expect(url).to.equal('http://www.my-url.net');
+      });
     });
   });
 
@@ -319,7 +351,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     it('should return false when there are customResultPageButtonText and customResultPageButtonUrl', function() {
       // given
       component.args.model.campaignParticipation.campaign.customResultPageButtonText = 'Next step';
-      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'www.my-url.net';
+      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
       // when
       const result = component.displayPixLink;
 
@@ -330,7 +362,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     it('should return true when customResultPageButtonText or customResultPageButtonUrl is empty', function() {
       // given
       component.args.model.campaignParticipation.campaign.customResultPageButtonText = null;
-      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'www.my-url.net';
+      component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
       // when
       const result = component.displayPixLink;
 

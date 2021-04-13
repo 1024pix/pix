@@ -82,11 +82,28 @@ export default class SkillReview extends Component {
   }
 
   get customButtonUrl() {
-    return this.args.model.campaignParticipation.campaign.get('customResultPageButtonUrl');
+    const buttonUrl = this.args.model.campaignParticipation.campaign.get('customResultPageButtonUrl');
+    if (this.reachedStage && buttonUrl) {
+      return this._buildUrl(buttonUrl, { stage: this.reachedStage.get('threshold') });
+    } else {
+      return buttonUrl;
+    }
   }
 
   get customButtonText() {
     return this.args.model.campaignParticipation.campaign.get('customResultPageButtonText');
+  }
+
+  _buildUrl(baseUrl, params) {
+    const Url = new URL(baseUrl);
+    const urlParams = new URLSearchParams(Url.search);
+    for (const key in params) {
+      if (params[key] !== undefined) {
+        urlParams.set(key, params[key]);
+      }
+    }
+    Url.search = urlParams.toString();
+    return Url.toString();
   }
 
   @action
