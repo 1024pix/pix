@@ -27,6 +27,8 @@ const setupServer = async () => {
 
   await setupOpenApiSpecification(server);
 
+  validateEnvironmentVariables();
+
   return server;
 };
 
