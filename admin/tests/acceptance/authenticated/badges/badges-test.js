@@ -16,22 +16,29 @@ module('Acceptance | authenticated/badges/badge', function(hooks) {
     currentUser = server.create('user');
     await createAuthenticateSession({ userId: currentUser.id });
 
-    const criterion = this.server.create('badge-criterion', {
+    const badgePartnerCompetence = this.server.create('badge-partner-competence', {
+      id: 1,
+      name: 'Internet for dummies',
+    });
+
+    const criterionCampaignParticipation = this.server.create('badge-criterion', {
       id: 1,
       scope: 'CampaignParticipation',
       threshold: 20,
     });
-
-    const badgePartnerCompetence = this.server.create('badge-partner-competence', {
-      id: 1,
-      name: 'Internet for dummies',
+    const criterionEveryPartnerCompetence = this.server.create('badge-criterion', {
+      id: 2,
+      scope: 'EveryPartnerCompetence',
+      threshold: 40,
+      partnerCompetences: [badgePartnerCompetence],
     });
 
     badge = this.server.create('badge', {
       id: 1,
       title: 'My badge',
       badgeCriteria: [
-        criterion,
+        criterionCampaignParticipation,
+        criterionEveryPartnerCompetence,
       ],
       badgePartnerCompetences: [
         badgePartnerCompetence,
@@ -45,6 +52,8 @@ module('Acceptance | authenticated/badges/badge', function(hooks) {
     const badgeElement = find('.page-section__details');
     assert.ok(badgeElement.textContent.match(badge.title));
     assert.contains('20');
+    assert.dom('.table-admin tbody tr:nth-child(1) ul').doesNotExist();
+    assert.dom('.table-admin tbody tr:nth-child(2) ul').exists();
     assert.contains('Internet for dummies');
   });
 
