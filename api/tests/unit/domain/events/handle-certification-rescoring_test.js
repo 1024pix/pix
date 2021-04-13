@@ -47,7 +47,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     const assessmentResultToBeSaved = new AssessmentResult({
       id: undefined,
       commentForJury: 'Computed',
-      emitter: 'PIX-ALGO',
+      emitter: 'PIX-ALGO-NEUTRALIZATION',
       pixScore: nbPix,
       status: status,
       assessmentId: 123,
@@ -109,7 +109,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
 
     const assessmentResultToBeSaved = new AssessmentResult({
       id: undefined,
-      emitter: 'PIX-ALGO',
+      emitter: 'PIX-ALGO-NEUTRALIZATION',
       commentForJury: 'Oopsie',
       pixScore: 0,
       status: 'error',

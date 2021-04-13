@@ -8,6 +8,7 @@ const ChallengeNeutralized = require('./ChallengeNeutralized');
 const { checkEventType } = require('./check-event-type');
 
 const eventType = ChallengeNeutralized;
+const EMITTER = 'PIX-ALGO-NEUTRALIZATION'; // to be refined according to rescoring reason
 
 async function handleCertificationRescoring({
   event,
@@ -83,7 +84,8 @@ function _createAssessmentResult({ certificationAssessment, certificationAssessm
     pixScore: certificationAssessmentScore.nbPix,
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
-    juryId
+    emitter: EMITTER,
+    juryId,
   });
   return assessmentResultRepository.save(assessmentResult);
 }
@@ -97,7 +99,8 @@ async function _saveResultAfterCertificationComputeError({
   const assessmentResult = AssessmentResult.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
-    juryId
+    juryId,
+    emitter: EMITTER,
   });
   await assessmentResultRepository.save(assessmentResult);
 }
