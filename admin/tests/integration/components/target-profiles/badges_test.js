@@ -28,7 +28,7 @@ module('Integration | Component | TargetProfiles::Badges', function(hooks) {
     assert.dom('tbody').exists();
     assert.contains('ID');
     assert.contains('Image');
-    assert.contains('Key');
+    assert.contains('Clé');
     assert.contains('Nom');
     assert.contains('Message');
     assert.contains('Actions');
