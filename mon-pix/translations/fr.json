@@ -829,7 +829,7 @@
                 "message": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects"
             },
             "fields": {
-                "legend": "Informations de connexion",
+                "legend": "Informations nécessaires pour se connecter.",
                 "login": {
                     "label": "Adresse e-mail ou identifiant"
                 },
@@ -875,7 +875,7 @@
                     "error": "Votre nom n’est pas renseigné.",
                     "label": "Nom"
                 },
-                "legend": "Information nécessaire pour l'inscription",
+                "legend": "Information nécessaire pour l'inscription.",
                 "password": {
                     "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
                     "help": "(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)",

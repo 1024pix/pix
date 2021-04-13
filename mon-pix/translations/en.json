@@ -829,7 +829,7 @@
                 "message": "There was an error in the email address or username/password entered."
             },
             "fields": {
-                "legend": "Informations de connexion",
+                "legend": "Information required for sign in.",
                 "login": {
                     "label": "Email address or username"
                 },
@@ -875,7 +875,7 @@
                     "error": "You have not entered your last name.",
                     "label": "Last name"
                 },
-                "legend": "Mandatory fields for sign up",
+                "legend": "Information required for sign up.",
                 "password": {
                     "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
                     "help": "(at least 8 characters, including one uppercase letter, one lowercase letter and one number)",
