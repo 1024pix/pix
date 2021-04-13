@@ -68,34 +68,6 @@ describe('Integration | Component | signin form', function() {
       expect(document.querySelector('a.sign-form-body__forgotten-password-link')).to.exist;
     });
 
-    it('should not display a Pole emploi button when Pole emploi connection is disabled', async function() {
-      // when
-      await render(hbs `<SigninForm />`);
-
-      // then
-      expect(find('a[data-test-pole-emploi]')).not.to.exist;
-    });
-
-    it('should display a Pole emploi button when Pole emploi connection is enabled', async function() {
-      const featureTogglesStub = Service.extend({
-        featureToggles: {
-          isPoleEmploiEnabled: true,
-        },
-      });
-      const urlStub = Service.extend({
-        isFrenchDomainExtension: true,
-      });
-
-      this.owner.register('service:featureToggles', featureTogglesStub);
-      this.owner.register('service:url', urlStub);
-
-      // when
-      await render(hbs `<SigninForm />`);
-
-      // then
-      expect(find('a[data-test-pole-emploi]')).to.exist;
-    });
-
     it('should not display any error by default', async function() {
       // when
       await render(hbs`<SigninForm />`);
