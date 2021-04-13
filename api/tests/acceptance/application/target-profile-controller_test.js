@@ -302,6 +302,11 @@ describe('Acceptance | Controller | target-profile-controller', () => {
           'message': badge.message,
           'title': badge.title,
         },
+        relationships: {
+          'badge-criteria': {
+            data: [],
+          },
+        },
       }];
       expect(response.result.data).to.deep.equal(expectedData);
     });
