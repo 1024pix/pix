@@ -117,9 +117,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         });
 
         // then
-        expect(AssessmentResult.buildAlgoErrorResult).to.have.been.calledWithExactly(
-          { error: computeError, assessmentId: certificationAssessment.id }
-        );
+        expect(AssessmentResult.buildAlgoErrorResult).to.have.been.calledWithExactly({
+          error: computeError,
+          assessmentId: certificationAssessment.id,
+          emitter: 'PIX-ALGO',
+        });
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(
           errorAssessmentResult,
         );
@@ -163,6 +165,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
           pixScore: certificationAssessmentScore.nbPix,
           status: certificationAssessmentScore.status,
           assessmentId: certificationAssessment.id,
+          emitter: 'PIX-ALGO',
         });
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult);
         expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(

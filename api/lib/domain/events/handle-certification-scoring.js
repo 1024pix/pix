@@ -9,6 +9,7 @@ const AssessmentCompleted = require('./AssessmentCompleted');
 const { checkEventType } = require('./check-event-type');
 
 const eventType = AssessmentCompleted;
+const EMITTER = 'PIX-ALGO';
 
 async function handleCertificationScoring({
   event,
@@ -96,7 +97,8 @@ function _createAssessmentResult({ certificationAssessment, certificationAssessm
   const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
     status: certificationAssessmentScore.status,
-    assessmentId: certificationAssessment.id
+    assessmentId: certificationAssessment.id,
+    emitter: EMITTER,
   });
   return assessmentResultRepository.save(assessmentResult);
 }
@@ -110,6 +112,7 @@ async function _saveResultAfterCertificationComputeError({
   const assessmentResult = AssessmentResult.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
+    emitter: EMITTER,
   });
   await assessmentResultRepository.save(assessmentResult);
   return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date());
