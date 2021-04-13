@@ -23,4 +23,30 @@
       </div>
     </div>
   </section>
+
+  <section class="page-section">
+    <div class="page-section__header">
+      <h2 class="page-section__title">Critères</h2>
+    </div>
+
+
+    <div class="page-section__details table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th>Périmètre</th>
+            <th>Seuil</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each @badge.badgeCriteria as |criterion|}}
+            <tr>
+              <td>{{criterion.scope}}</td>
+              <td>{{criterion.threshold}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </section>
 </main>
