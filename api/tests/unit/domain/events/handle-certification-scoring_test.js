@@ -54,7 +54,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         userId,
         createdAt: Symbol('someCreationDate'),
       };
-      sinon.stub(certificationAssessmentRepository, 'get').withArgs(assessmentId).resolves(certificationAssessment);
+      sinon.stub(certificationAssessmentRepository, 'get').withArgs(assessmentId, domainTransaction).resolves(certificationAssessment);
     });
 
     it('fails when event is not of correct type', async () => {

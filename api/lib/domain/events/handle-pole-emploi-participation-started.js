@@ -19,7 +19,7 @@ async function handlePoleEmploiParticipationStarted({
 
   const { campaignParticipationId } = event;
 
-  const participation = await campaignParticipationRepository.get(campaignParticipationId);
+  const participation = await campaignParticipationRepository.get({ id: campaignParticipationId });
   const campaign = await campaignRepository.get(participation.campaignId);
   const organization = await organizationRepository.get(campaign.organizationId);
 

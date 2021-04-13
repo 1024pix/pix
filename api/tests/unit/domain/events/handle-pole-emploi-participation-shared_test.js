@@ -5,6 +5,7 @@ const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSendi
 const { handlePoleEmploiParticipationShared } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () => {
+
   let event;
 
   const campaignRepository = { get: _.noop() };
@@ -107,12 +108,14 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
   });
 
   context('#handlePoleEmploiParticipationShared', () => {
+
     const campaignParticipationId = 55667788;
     const campaignId = 11223344;
     const userId = 987654321;
     const organizationId = Symbol('organizationId');
 
     context('when campaign is of type ASSESSMENT and organization is Pole Emploi', () => {
+
       beforeEach(() => {
         event = new CampaignParticipationResultsShared({ campaignParticipationId });
 
@@ -131,7 +134,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
           }),
         );
         targetProfileRepository.get.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
-        campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(
+        campaignParticipationRepository.get.withArgs({ id: campaignParticipationId }).resolves(
           domainBuilder.buildCampaignParticipation({
             id: 55667788,
             campaignId,
@@ -190,7 +193,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
     context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', () => {
       beforeEach(() => {
         event = new CampaignParticipationResultsShared({ campaignParticipationId });
-        campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(
+        campaignParticipationRepository.get.withArgs({ id: campaignParticipationId }).resolves(
           domainBuilder.buildCampaignParticipation({
             id: 55667788,
             campaignId,
@@ -219,7 +222,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
       beforeEach(() => {
         event = new CampaignParticipationResultsShared({ campaignParticipationId });
 
-        campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(
+        campaignParticipationRepository.get.withArgs({ id: campaignParticipationId }).resolves(
           domainBuilder.buildCampaignParticipation({
             id: 55667788,
             campaignId,

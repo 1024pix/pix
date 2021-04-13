@@ -2,7 +2,7 @@ const _ = require('lodash');
 const CampaignParticipationResultShared = require('./CampaignParticipationResultsShared');
 
 module.exports = async function computeValidatedSkillsCount({ event, campaignParticipationRepository, knowledgeElementRepository, targetProfileWithLearningContentRepository }) {
-  const campaignParticipation = await campaignParticipationRepository.get(event.campaignParticipationId, { include: ['campaign'] });
+  const campaignParticipation = await campaignParticipationRepository.get({ id: event.campaignParticipationId, options: { include: ['campaign'] } });
   if (campaignParticipation.canComputeValidatedSkillsCount()) {
 
     campaignParticipation.validatedSkillsCount = await _countValidatedSkills(campaignParticipation, knowledgeElementRepository, targetProfileWithLearningContentRepository);

@@ -15,8 +15,8 @@ const handleBadgeAcquisition = async function({
   checkEventType(event, eventType);
 
   if (event.isCampaignType) {
-    const badges = await _fetchPossibleCampaignAssociatedBadges(event, badgeRepository);
-    const campaignParticipationResult = await _fetchCampaignParticipationResults(event, badges, campaignParticipationResultRepository);
+    const badges = await _fetchPossibleCampaignAssociatedBadges(event, badgeRepository, domainTransaction);
+    const campaignParticipationResult = await _fetchCampaignParticipationResults(event, badges, campaignParticipationResultRepository, domainTransaction);
 
     const badgesBeingAcquired = badges.filter((badge) => _isBadgeAcquired(campaignParticipationResult, badge, badgeCriteriaService));
     const badgesAcquisitionToCreate = badgesBeingAcquired.map((badge) => {
@@ -26,20 +26,24 @@ const handleBadgeAcquisition = async function({
         campaignParticipationId: event.campaignParticipationId,
       };
     });
-
     if (!_.isEmpty(badgesAcquisitionToCreate)) {
       await badgeAcquisitionRepository.create(badgesAcquisitionToCreate, domainTransaction);
     }
   }
 };
 
-function _fetchPossibleCampaignAssociatedBadges(event, badgeRepository) {
-  return badgeRepository.findByCampaignParticipationId(event.campaignParticipationId);
+function _fetchPossibleCampaignAssociatedBadges(event, badgeRepository, domainTransaction) {
+  return badgeRepository.findByCampaignParticipationId(event.campaignParticipationId, domainTransaction);
 }
 
-function _fetchCampaignParticipationResults(event, campaignBadges, campaignParticipationResultRepository) {
+function _fetchCampaignParticipationResults(event, campaignBadges, campaignParticipationResultRepository, domainTransaction) {
   const acquiredBadges = [];
-  return campaignParticipationResultRepository.getByParticipationId(event.campaignParticipationId, campaignBadges, acquiredBadges);
+  return campaignParticipationResultRepository.getByParticipationId({
+    campaignParticipationId: event.campaignParticipationId,
+    campaignBadges,
+    acquiredBadgeIds: acquiredBadges,
+    domainTransaction,
+  });
 }
 
 function _isBadgeAcquired(campaignParticipationResult, badge, badgeCriteriaService) {

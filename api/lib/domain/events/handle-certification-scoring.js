@@ -24,7 +24,7 @@ async function handleCertificationScoring({
   checkEventType(event, eventType);
 
   if (event.isCertificationType) {
-    const certificationAssessment = await certificationAssessmentRepository.get(event.assessmentId);
+    const certificationAssessment = await certificationAssessmentRepository.get(event.assessmentId, domainTransaction);
     return _calculateCertificationScore({
       certificationAssessment,
       domainTransaction,

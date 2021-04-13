@@ -5,6 +5,7 @@ const CampaignParticipationResultsShared = require('./../../../../lib/domain/eve
 describe('Unit | Domain | Events | compute-validated-skills-count', function() {
 
   describe('eventType', () => {
+
     it('returns the CampaignParticipationResultsShared', () => {
       const eventType = computeValidatedSkillsCount.eventType;
 
@@ -36,7 +37,7 @@ describe('Unit | Domain | Events | compute-validated-skills-count', function() {
         const validatedSkillsCount = 5;
 
         campaignParticipationRepository.get
-          .withArgs(event.campaignParticipationId, { include: ['campaign'] })
+          .withArgs({ id: event.campaignParticipationId, options: { include: ['campaign'] } })
           .resolves(campaignParticipation);
 
         targetProfileWithLearningContentRepository.getByCampaignId

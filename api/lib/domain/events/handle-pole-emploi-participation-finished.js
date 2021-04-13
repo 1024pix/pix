@@ -23,15 +23,15 @@ async function handlePoleEmploiParticipationFinished({
 
   if (!campaignParticipationId) return;
 
-  const participation = await campaignParticipationRepository.get(campaignParticipationId);
-  const campaign = await campaignRepository.get(participation.campaignId);
-  const organization = await organizationRepository.get(campaign.organizationId);
+  const participation = await campaignParticipationRepository.get({ id: campaignParticipationId, domainTransaction });
+  const campaign = await campaignRepository.get(participation.campaignId, domainTransaction);
+  const organization = await organizationRepository.get(campaign.organizationId, domainTransaction);
 
   if (campaign.isAssessment() && organization.isPoleEmploi) {
 
-    const user = await userRepository.get(participation.userId);
-    const targetProfile = await targetProfileRepository.get(campaign.targetProfileId);
-    const assessment = await assessmentRepository.get(participation.assessmentId);
+    const user = await userRepository.get(participation.userId, domainTransaction);
+    const targetProfile = await targetProfileRepository.get(campaign.targetProfileId, domainTransaction);
+    const assessment = await assessmentRepository.get(participation.assessmentId, domainTransaction);
 
     const payload = PoleEmploiPayload.buildForParticipationFinished({
       user,
@@ -41,7 +41,7 @@ async function handlePoleEmploiParticipationFinished({
       assessment,
     });
 
-    const response = await poleEmploiNotifier.notify(user.id, payload.toString());
+    const response = await poleEmploiNotifier.notify({ userId: user.id, payload: payload.toString(), domainTransaction });
 
     const poleEmploiSending = PoleEmploiSending.buildForParticipationFinished({
       campaignParticipationId,
@@ -55,4 +55,5 @@ async function handlePoleEmploiParticipationFinished({
 }
 
 handlePoleEmploiParticipationFinished.eventType = eventType;
+
 module.exports = handlePoleEmploiParticipationFinished;

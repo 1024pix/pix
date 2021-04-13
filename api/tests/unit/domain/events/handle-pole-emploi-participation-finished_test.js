@@ -5,7 +5,10 @@ const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSendi
 const { handlePoleEmploiParticipationFinished } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', () => {
+
   let event;
+
+  const domainTransaction = Symbol('domainTransaction');
 
   const assessmentRepository = { get: _.noop() };
   const campaignRepository = { get: _.noop() };
@@ -82,12 +85,14 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
   });
 
   context('#handlePoleEmploiParticipationFinished', () => {
+
     const campaignId = Symbol('campaignId');
     const userId = Symbol('userId');
     const organizationId = Symbol('organizationId');
     const assessmentId = Symbol('assessmentId');
 
     context('when campaign is of type ASSESSMENT and organization is Pole Emploi', () => {
+
       beforeEach(() => {
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: 55667788,
@@ -98,33 +103,42 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         });
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
-        campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        assessmentRepository.get.withArgs(assessmentId).resolves(domainBuilder.buildAssessment({
+        campaignParticipationRepository.get.withArgs({ id: campaignParticipation.id, domainTransaction }).resolves(campaignParticipation);
+        assessmentRepository.get.withArgs(assessmentId, domainTransaction).resolves(domainBuilder.buildAssessment({
           updatedAt: new Date('2020-01-03'),
         }));
-        organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
-        userRepository.get.withArgs(userId).resolves(domainBuilder.buildUser({ id: userId, firstName: 'Jean', lastName: 'Bonneau' }));
-        campaignRepository.get.withArgs(campaignId).resolves(
-          domainBuilder.buildCampaign({
-            id: 11223344,
-            name: 'Campagne Pôle Emploi',
-            code: 'CODEPE123',
-            createdAt: new Date('2020-01-01'),
-            archivedAt: new Date('2020-02-01'),
-            type: 'ASSESSMENT',
-            targetProfile: { id: 'targetProfileId1' },
-            organization: { id: organizationId },
-          }),
-        );
-        targetProfileRepository.get.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
+        organizationRepository.get.withArgs(organizationId, domainTransaction).resolves({ isPoleEmploi: true });
+        userRepository.get
+          .withArgs(userId, domainTransaction)
+          .resolves(domainBuilder.buildUser({ id: userId, firstName: 'Jean', lastName: 'Bonneau' }));
+        campaignRepository.get
+          .withArgs(campaignId, domainTransaction)
+          .resolves(
+            domainBuilder.buildCampaign({
+              id: 11223344,
+              name: 'Campagne Pôle Emploi',
+              code: 'CODEPE123',
+              createdAt: new Date('2020-01-01'),
+              archivedAt: new Date('2020-02-01'),
+              type: 'ASSESSMENT',
+              targetProfile: { id: 'targetProfileId1' },
+              organization: { id: organizationId },
+            }),
+          );
+        targetProfileRepository.get.withArgs('targetProfileId1', domainTransaction).resolves({ name: 'Diagnostic initial' });
       });
 
       it('should notify pole emploi and create pole emploi sending accordingly', async () => {
         // given
-
         const expectedResponse = { isSuccessful: 'someValue', code: 'someCode' };
-        const domainTransaction = Symbol('domainTransaction');
-        poleEmploiNotifier.notify.withArgs(userId, expectedResults).resolves(expectedResponse);
+        poleEmploiNotifier.notify
+          .withArgs({
+            userId,
+            payload: expectedResults,
+            domainTransaction,
+          })
+          .resolves(expectedResponse);
+
         const poleEmploiSending = Symbol('Pole emploi sending');
         sinon.stub(PoleEmploiSending, 'buildForParticipationFinished').withArgs({
           campaignParticipationId: 55667788,
@@ -136,17 +150,17 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         // when
         await handlePoleEmploiParticipationFinished({
           event,
-          domainTransaction,
           ...dependencies,
+          domainTransaction,
         });
 
         // then
         expect(poleEmploiSendingRepository.create).to.have.been.calledWith({ poleEmploiSending, domainTransaction });
       });
-
     });
 
     context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', () => {
+
       beforeEach(() => {
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: 55667788,
@@ -156,9 +170,9 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         });
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
-        campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organization: { id: organizationId } }));
-        organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: false });
+        campaignParticipationRepository.get.withArgs({ id: campaignParticipation.id, domainTransaction }).resolves(campaignParticipation);
+        campaignRepository.get.withArgs(campaignId, domainTransaction).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organization: { id: organizationId } }));
+        organizationRepository.get.withArgs(organizationId, domainTransaction).resolves({ isPoleEmploi: false });
       });
 
       it('it should not notify to Pole Emploi', async () => {
@@ -166,6 +180,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         await handlePoleEmploiParticipationFinished({
           event,
           ...dependencies,
+          domainTransaction,
         });
 
         // then
@@ -174,6 +189,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
     });
 
     context('when organization is Pole Emploi but campaign is of type PROFILES_COLLECTION', () => {
+
       beforeEach(() => {
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: 55667788,
@@ -183,9 +199,9 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         });
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
-        campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION', organization: { id: organizationId } }));
-        organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
+        campaignParticipationRepository.get.withArgs({ id: campaignParticipation.id, domainTransaction }).resolves(campaignParticipation);
+        campaignRepository.get.withArgs(campaignId, domainTransaction).resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION', organization: { id: organizationId } }));
+        organizationRepository.get.withArgs(organizationId, domainTransaction).resolves({ isPoleEmploi: true });
       });
 
       it('it should not notify to Pole Emploi', async () => {
@@ -193,6 +209,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         await handlePoleEmploiParticipationFinished({
           event,
           ...dependencies,
+          domainTransaction,
         });
 
         // then

@@ -5,6 +5,7 @@ const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSendi
 const { handlePoleEmploiParticipationStarted } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-pole-emploi-participation-started', () => {
+
   let event;
 
   const campaignRepository = { get: _.noop() };
@@ -89,7 +90,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
           createdAt: new Date('2020-01-02'),
         });
 
-        campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+        campaignParticipationRepository.get.withArgs({ id: campaignParticipationId }).resolves(campaignParticipation);
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
         userRepository.get.withArgs(userId).resolves(domainBuilder.buildUser({ id: userId, firstName: 'Jean', lastName: 'Bonneau' }));
         campaignRepository.get.withArgs(campaignId).resolves(
@@ -133,6 +134,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
     });
 
     context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', () => {
+
       beforeEach(() => {
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: campaignParticipationId,
@@ -141,7 +143,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
           createdAt: new Date('2020-01-02'),
         });
 
-        campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+        campaignParticipationRepository.get.withArgs({ id: campaignParticipationId }).resolves(campaignParticipation);
         campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organization: { id: organizationId } }));
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: false });
 
@@ -169,7 +171,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
           createdAt: new Date('2020-01-02'),
         });
 
-        campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+        campaignParticipationRepository.get.withArgs({ id: campaignParticipationId }).resolves(campaignParticipation);
         campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION', organization: { id: organizationId } }));
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
 
