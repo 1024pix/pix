@@ -27,7 +27,7 @@ module('Integration | Component | TargetProfiles::Stages', function(hooks) {
     assert.dom('tbody').exists();
     assert.contains('ID');
     assert.contains('Image');
-    assert.contains('Threshold');
+    assert.contains('Seuil');
     assert.contains('Titre');
     assert.contains('Message');
     assert.contains('Actions');
