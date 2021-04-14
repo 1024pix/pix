@@ -1,0 +1,4 @@
+127.0.0.1 app.pix.local
+127.0.0.1 orga.pix.local
+127.0.0.1 admin.pix.local
+127.0.0.1 certif.pix.local
