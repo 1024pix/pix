@@ -197,7 +197,7 @@ describe('Integration | Component | routes/register-form', function() {
 
         // when
         await fillIn('#dayOfBirth', stringFilledIn);
-        await triggerEvent('#dayOfBirth', 'blur');
+        await triggerEvent('#dayOfBirth', 'focusout');
 
         // then
         expect(find('#register-birthdate-container #dayValidationMessage').textContent).to.equal(INVALID_DAY_OF_BIRTH_ERROR_MESSAGE);
@@ -216,7 +216,7 @@ describe('Integration | Component | routes/register-form', function() {
 
         // when
         await fillIn('#monthOfBirth', stringFilledIn);
-        await triggerEvent('#monthOfBirth', 'blur');
+        await triggerEvent('#monthOfBirth', 'focusout');
 
         // then
         expect(find('#register-birthdate-container #monthValidationMessage').textContent).to.equal(INVALID_MONTH_OF_BIRTH_ERROR_MESSAGE);
@@ -235,7 +235,7 @@ describe('Integration | Component | routes/register-form', function() {
 
         // when
         await fillIn('#yearOfBirth', stringFilledIn);
-        await triggerEvent('#yearOfBirth', 'blur');
+        await triggerEvent('#yearOfBirth', 'focusout');
 
         // then
         expect(find('#register-birthdate-container #yearValidationMessage').textContent).to.equal(INVALID_YEAR_OF_BIRTH_ERROR_MESSAGE);

@@ -1,10 +1,4 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { classNames } from '@ember-decorators/component';
-import { computed } from '@ember/object';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 
 const INPUT_VALIDATION_STATUS_MAP = {
   default: 'form-textfield__input--default',
@@ -24,80 +18,52 @@ const INPUT_CONTAINER_VALIDATION_STATUS_MAP = {
   success: 'form-textfield__input-container--success',
 };
 
-@classic
-@classNames('form-textfield')
 export default class FormTextfieldDate extends Component {
-  label = '';
-  dayTextfieldName = '';
-  monthTextfieldName = '';
-  yearTextfieldName = '';
-  dayValidationMessage = '';
-  monthValidationMessage = '';
-  yearValidationMessage = '';
-  require = false;
-  help = '';
-  disabled = false;
-  onValidateDay = () => {};
-  onValidateMonth = () => {};
-  onValidateYear = () => {};
-
-  @computed('dayValidationStatus', 'disabled')
   get dayHasIcon() {
-    return this.dayValidationStatus !== 'default' && !this.disabled;
+    return this.args.dayValidationStatus !== 'default' && !this.args.disabled;
   }
 
-  @computed('monthValidationStatus', 'disabled')
   get monthHasIcon() {
-    return this.monthValidationStatus !== 'default' && !this.disabled;
+    return this.args.monthValidationStatus !== 'default' && !this.args.disabled;
   }
 
-  @computed('yearValidationStatus', 'disabled')
   get yearHasIcon() {
-    return this.yearValidationStatus !== 'default' && !this.disabled;
+    return this.args.yearValidationStatus !== 'default' && !this.args.disabled;
   }
 
-  @computed('dayValidationStatus')
   get dayInputContainerStatusClass() {
-    return INPUT_CONTAINER_VALIDATION_STATUS_MAP[this.dayValidationStatus] || null;
+    return INPUT_CONTAINER_VALIDATION_STATUS_MAP[this.args.dayValidationStatus] || null;
   }
 
-  @computed('monthValidationStatus')
   get monthInputContainerStatusClass() {
-    return INPUT_CONTAINER_VALIDATION_STATUS_MAP[this.monthValidationStatus] || null;
+    return INPUT_CONTAINER_VALIDATION_STATUS_MAP[this.args.monthValidationStatus] || null;
   }
 
-  @computed('yearValidationStatus')
   get yearInputContainerStatusClass() {
-    return INPUT_CONTAINER_VALIDATION_STATUS_MAP[this.yearValidationStatus] || null;
+    return INPUT_CONTAINER_VALIDATION_STATUS_MAP[this.args.yearValidationStatus] || null;
   }
 
-  @computed('dayValidationStatus')
   get dayInputValidationStatus() {
-    return INPUT_VALIDATION_STATUS_MAP[this.dayValidationStatus] || '';
+    return INPUT_VALIDATION_STATUS_MAP[this.args.dayValidationStatus] || '';
   }
 
-  @computed('monthValidationStatus')
   get monthInputValidationStatus() {
-    return INPUT_VALIDATION_STATUS_MAP[this.monthValidationStatus] || '';
+    return INPUT_VALIDATION_STATUS_MAP[this.args.monthValidationStatus] || '';
   }
 
-  @computed('yearValidationStatus')
   get yearInputValidationStatus() {
-    return INPUT_VALIDATION_STATUS_MAP[this.yearValidationStatus] || '';
+    return INPUT_VALIDATION_STATUS_MAP[this.args.yearValidationStatus] || '';
   }
 
-  @computed('dayValidationStatus')
   get dayValidationMessageClass() {
-    return MESSAGE_VALIDATION_STATUS_MAP[this.dayValidationStatus] || '';
+    return MESSAGE_VALIDATION_STATUS_MAP[this.args.dayValidationStatus] || '';
   }
 
-  @computed('monthValidationStatus')
   get monthValidationMessageClass() {
-    return MESSAGE_VALIDATION_STATUS_MAP[this.monthValidationStatus] || '';
+    return MESSAGE_VALIDATION_STATUS_MAP[this.args.monthValidationStatus] || '';
   }
 
-  @computed('yearValidationStatus')
   get yearValidationMessageClass() {
-    return MESSAGE_VALIDATION_STATUS_MAP[this.yearValidationStatus] || '';
+    return MESSAGE_VALIDATION_STATUS_MAP[this.args.yearValidationStatus] || '';
   }
 }

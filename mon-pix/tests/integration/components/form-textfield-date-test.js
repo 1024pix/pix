@@ -38,6 +38,7 @@ describe('Integration | Component | form textfield date', function() {
       this.set('dayValidationMessage', 'day message');
       this.set('monthValidationMessage', 'month message');
       this.set('yearValidationMessage', 'year message');
+      this.set('validateStub', () => {});
 
       // When
       await render(hbs`<FormTextfieldDate
@@ -51,6 +52,9 @@ describe('Integration | Component | form textfield date', function() {
         @dayTextfieldName={{this.dayTextfieldName}}
         @monthTextfieldName={{this.monthTextfieldName}}
         @yearTextfieldName={{this.yearTextfieldName}}
+        @onValidateDay={{this.validateStub}}
+        @onValidateMonth={{this.validateStub}}
+        @onValidateYear={{this.validateStub}}
       />`);
     });
 
@@ -90,7 +94,7 @@ describe('Integration | Component | form textfield date', function() {
       const inputValueToValidate = { day: null, month: null, year: null };
       const expectedInputValue = { day: '10', month: '12', year: '2010' };
 
-      this.set('validate', function(attribute, value) {
+      this.set('validateStub', function(attribute, value) {
         isActionValidateHandled[attribute] = true;
         inputValueToValidate[attribute] = value;
       });
@@ -102,9 +106,15 @@ describe('Integration | Component | form textfield date', function() {
       this.set('dayTextfieldName', 'day');
       this.set('monthTextfieldName', 'month');
       this.set('yearTextfieldName', 'year');
+      this.set('dayOfBirth', inputValueToValidate['day']);
+      this.set('monthOfBirth', inputValueToValidate['month']);
+      this.set('yearOfBirth', inputValueToValidate['year']);
 
       await render(hbs`<FormTextfieldDate
         @label={{this.label}}
+        @dayInputBindingValue={{this.dayOfBirth}}
+        @monthInputBindingValue={{this.monthOfBirth}}
+        @yearInputBindingValue={{this.yearOfBirth}}
         @dayValidationStatus={{this.dayValidationStatus}}
         @monthValidationStatus={{this.monthValidationStatus}}
         @yearValidationStatus={{this.yearValidationStatus}}
@@ -114,16 +124,21 @@ describe('Integration | Component | form textfield date', function() {
         @dayTextfieldName={{this.dayTextfieldName}}
         @monthTextfieldName={{this.monthTextfieldName}}
         @yearTextfieldName={{this.yearTextfieldName}}
-        @onValidateDay={{action this.validate}}
-        @onValidateMonth={{action this.validate}}
-        @onValidateYear={{action this.validate}}
+        @onValidateDay={{this.validateStub}}
+        @onValidateMonth={{this.validateStub}}
+        @onValidateYear={{this.validateStub}}
       />`);
 
       // when
       await fillIn('#day', '10');
+      await triggerEvent('#day', 'focusout');
+
       await fillIn('#month', '12');
+      await triggerEvent('#month', 'focusout');
+
       await fillIn('#year', '2010');
-      await triggerEvent('#year', 'blur');
+      await triggerEvent('#year', 'focusout');
+
       // then
       expect(isActionValidateHandled.day).to.be.true;
       expect(isActionValidateHandled.month).to.be.true;
@@ -143,6 +158,7 @@ describe('Integration | Component | form textfield date', function() {
         this.set('dayValidationMessage', '');
         this.set('monthValidationMessage', '');
         this.set('yearValidationMessage', '');
+        this.set('validateStub', () => {});
 
         // When
         await render(hbs`<FormTextfieldDate
@@ -156,6 +172,9 @@ describe('Integration | Component | form textfield date', function() {
           @dayTextfieldName={{this.dayTextfieldName}}
           @monthTextfieldName={{this.monthTextfieldName}}
           @yearTextfieldName={{this.yearTextfieldName}}
+          @onValidateDay={{this.validateStub}}
+          @onValidateMonth={{this.validateStub}}
+          @onValidateYear={{this.validateStub}}
         />`);
       });
 
@@ -190,6 +209,7 @@ describe('Integration | Component | form textfield date', function() {
         this.set('dayValidationMessage', 'day message');
         this.set('monthValidationMessage', 'month message');
         this.set('yearValidationMessage', 'year message');
+        this.set('validateStub', () => {});
 
         // When
         await render(hbs`<FormTextfieldDate
@@ -203,6 +223,9 @@ describe('Integration | Component | form textfield date', function() {
           @dayTextfieldName={{this.dayTextfieldName}}
           @monthTextfieldName={{this.monthTextfieldName}}
           @yearTextfieldName={{this.yearTextfieldName}}
+          @onValidateDay={{this.validateStub}}
+          @onValidateMonth={{this.validateStub}}
+          @onValidateYear={{this.validateStub}}
         />`);
       });
 
@@ -238,6 +261,7 @@ describe('Integration | Component | form textfield date', function() {
         this.set('dayValidationMessage', 'day message');
         this.set('monthValidationMessage', 'month message');
         this.set('yearValidationMessage', 'year message');
+        this.set('validateStub', () => {});
 
         // When
         await render(hbs`<FormTextfieldDate
@@ -251,6 +275,9 @@ describe('Integration | Component | form textfield date', function() {
           @dayTextfieldName={{this.dayTextfieldName}}
           @monthTextfieldName={{this.monthTextfieldName}}
           @yearTextfieldName={{this.yearTextfieldName}}
+          @onValidateDay={{this.validateStub}}
+          @onValidateMonth={{this.validateStub}}
+          @onValidateYear={{this.validateStub}}
         />`);
       });
 
