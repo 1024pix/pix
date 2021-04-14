@@ -81,6 +81,7 @@
     "test:mon-pix": "cd mon-pix && npm test",
     "test:orga": "cd orga && npm test",
     "test:scripts": "cd scripts && NODE_ENV=test mocha --recursive --exit --reporter dot tests",
+    "domains:install": "./scripts/local-domains/install",
     "domains:start": "cd ./scripts/local-domains/ && docker-compose up -d",
     "domains:stop": "cd ./scripts/local-domains/ && docker-compose down"
   },
