@@ -17,7 +17,7 @@
         @query={{hash pageNumber=this.previousPage}}
         @disabledWhen={{eq this.currentPage 1}}
         @replace={{true}}
-        class="icon-button icon-button--link"
+        class="icon-button"
       >
         <FaIcon @icon="arrow-left" aria-label="Page précédente"/>
       </LinkTo>
@@ -32,7 +32,7 @@
         @query={{hash pageNumber=this.nextPage}}
         @disabledWhen={{eq this.currentPage this.pageCount}}
         @replace={{true}}
-        class="icon-button icon-button--link"
+        class="icon-button"
       >
         <FaIcon @icon="arrow-right" aria-label="Page suivante"/>
       </LinkTo>
