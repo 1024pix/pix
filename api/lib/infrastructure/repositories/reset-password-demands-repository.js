@@ -28,7 +28,7 @@ module.exports = {
 
   findByUserEmail(email, temporaryKey) {
     return ResetPasswordDemand.query((qb) => {
-      qb.where('email', 'ILIKE', email);
+      qb.whereRaw('LOWER("email") = ?', email.toLowerCase());
       qb.where({ 'used': false });
       qb.where({ temporaryKey });
     })
