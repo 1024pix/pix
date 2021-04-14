@@ -1,12 +1,9 @@
-/* eslint ember/no-actions-hash: 0 */
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
-import isEmailValid from 'mon-pix/utils/email-validator';
+import isEmailValid from '../utils/email-validator';
 import isPasswordValid from '../utils/password-validator';
 import ENV from 'mon-pix/config/environment';
 
@@ -17,156 +14,141 @@ const ERROR_INPUT_MESSAGE_MAP = {
   password: 'pages.sign-up.fields.password.error',
 };
 
-export default Component.extend({
+class SignupFormValidation {
+  lastName = {
+    @tracked status: 'default',
+    @tracked message: null,
+  }
+  firstName = {
+    @tracked status: 'default',
+    @tracked message: null,
+  }
+  email = {
+    @tracked status: 'default',
+    @tracked message: null,
+  }
+  password = {
+    @tracked status: 'default',
+    @tracked message: null,
+  }
+  cgu = {
+    @tracked status: 'default',
+    @tracked message: null,
+  }
+}
 
-  session: service(),
-  intl: service(),
-  url: service(),
+export default class SignupForm extends Component {
+  @service session;
+  @service intl;
+  @service url;
 
-  _notificationMessage: null,
-  validation: null,
-  _tokenHasBeenUsed: null,
-  isLoading: false,
-  errorMessage: null,
-
-  init() {
-    this._super(...arguments);
-    this._resetValidationFields();
-  },
+  @tracked errorMessage = null;
+  @tracked isLoading = false;
+  @tracked notificationMessage = null;
+  @tracked validation = new SignupFormValidation();
+  _tokenHasBeenUsed = null;
 
   get homeUrl() {
     return this.url.homeUrl;
-  },
+  }
 
   get cguUrl() {
     return this.url.cguUrl;
-  },
+  }
 
   _getErrorMessage(status, key) {
     return (status === 'error') ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
-  },
+  }
 
   _getValidationStatus(isValidField) {
     return (isValidField) ? 'error' : 'success';
-  },
+  }
 
   _isValuePresent(value) {
     return value.trim() ? true : false;
-  },
+  }
 
   _updateValidationStatus(key, status, message) {
-    const statusObject = 'validation.' + key + '.status';
-    const messageObject = 'validation.' + key + '.message';
-    this.set(statusObject, status);
-    this.set(messageObject, message);
-  },
-
-  _getModelAttributeValueFromKey(key) {
-    const userModel = this.user;
-    return userModel.get(key);
-  },
-
-  _resetValidationFields() {
-    const defaultValidationObject = {
-      lastName: {
-        status: 'default',
-        message: null,
-      },
-      firstName: {
-        status: 'default',
-        message: null,
-      },
-      email: {
-        status: 'default',
-        message: null,
-      },
-      password: {
-        status: 'default',
-        message: null,
-      },
-      cgu: {
-        status: 'default',
-        message: null,
-      },
-    };
-
-    this.set('validation', defaultValidationObject);
-  },
+    this.validation[key].status = status;
+    this.validation[key].message = message;
+  }
 
   _updateInputsStatus() {
-    const errors = this.user.errors;
+    const errors = this.args.user.errors;
     errors.forEach(({ attribute, message }) => {
       this._updateValidationStatus(attribute, 'error', message);
     });
-  },
+  }
 
   _executeFieldValidation(key, isValid) {
-    const modelAttrValue = this._getModelAttributeValueFromKey(key);
+    const modelAttrValue = this.args.user[key];
     const isValidInput = !isValid(modelAttrValue);
     const status = this._getValidationStatus(isValidInput);
     const message = this._getErrorMessage(status, key);
     this._updateValidationStatus(key, status, message);
-  },
+  }
 
   _trimNamesAndEmailOfUser() {
-    const { firstName, lastName, email } = this.user;
-    this.set('user.firstName', firstName.trim());
-    this.set('user.lastName', lastName.trim());
-    this.set('user.email', email.trim());
-  },
+    const { firstName, lastName, email } = this.args.user;
+    this.args.user.firstName = firstName.trim();
+    this.args.user.lastName = lastName.trim();
+    this.args.user.email = email.trim();
+  }
 
-  actions: {
+  @action
+  resetTokenHasBeenUsed() {
+    this._tokenHasBeenUsed = false;
+  }
 
-    resetTokenHasBeenUsed() {
-      this.set('_tokenHasBeenUsed', false);
-    },
+  @action
+  validateInput(key) {
+    this._executeFieldValidation(key, this._isValuePresent);
+  }
 
-    validateInput(key) {
-      this._executeFieldValidation(key, this._isValuePresent);
-    },
+  @action
+  validateInputEmail(key) {
+    this._executeFieldValidation(key, isEmailValid);
+  }
 
-    validateInputEmail(key) {
-      this._executeFieldValidation(key, isEmailValid);
-    },
+  @action
+  validateInputPassword(key) {
+    this._executeFieldValidation(key, isPasswordValid);
+  }
 
-    validateInputPassword(key) {
-      this._executeFieldValidation(key, isPasswordValid);
-    },
+  @action
+  signup(event) {
+    event && event.preventDefault();
+    this.notificationMessage = null;
+    this.isLoading = true;
 
-    signup() {
-      this.set('_notificationMessage', null);
-      this.set('isLoading', true);
+    this._trimNamesAndEmailOfUser();
+    this.args.user.lang = this.intl.t('current-lang');
 
-      this._trimNamesAndEmailOfUser();
-      this.set('user.lang', this.intl.t('current-lang'));
-
-      const campaignCode = get(this.session, 'attemptedTransition.from.parent.params.code');
-      this.user.save({ adapterOptions: { campaignCode } }).then(() => {
-        const credentials = { login: this.user.email, password: this.user.password };
-        this.authenticateUser(credentials);
-        this.set('_tokenHasBeenUsed', true);
-        this.set('user.password', null);
-      }).catch((response) => {
-        const error = get(response, 'errors[0]');
-        if (error) {
-          this._manageErrorsApi(error);
-        }
-        else {
-          this.set('errorMessage', this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE));
-        }
-        this.set('_tokenHasBeenUsed', true);
-        this.set('isLoading', false);
-      });
-    },
-  },
+    const campaignCode = get(this.session, 'attemptedTransition.from.parent.params.code');
+    this.args.user.save({ adapterOptions: { campaignCode } }).then(() => {
+      const credentials = { login: this.args.user.email, password: this.args.user.password };
+      this.args.authenticateUser(credentials);
+      this._tokenHasBeenUsed = true;
+      this.args.user.password = null;
+    }).catch((response) => {
+      const error = get(response, 'errors[0]');
+      if (error) {
+        this._manageErrorsApi(error);
+      } else {
+        this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
+      }
+      this._tokenHasBeenUsed = true;
+      this.isLoading = false;
+    });
+  }
 
   _manageErrorsApi(firstError) {
     const statusCode = get(firstError, 'status');
     if (statusCode === '422') {
       return this._updateInputsStatus();
     }
-    this.set('errorMessage', this._showErrorMessages(statusCode));
-  },
+    this.errorMessage = this._showErrorMessages(statusCode);
+  }
 
   _showErrorMessages(statusCode) {
     const httpStatusCodeMessages = {
@@ -177,5 +159,5 @@ export default Component.extend({
       'default': ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
-  },
-});
+  }
+}

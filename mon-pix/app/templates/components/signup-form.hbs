@@ -1,8 +1,6 @@
-{{!-- template-lint-disable no-implicit-this no-action no-curly-component-invocation --}}
 <main class="sign-form__container">
-
-  <a href={{homeUrl}} class="pix-logo__link">
-    <img class="pix-logo__image" src="{{rootURL}}/images/pix-logo.svg" alt="{{t 'navigation.homepage'}}">
+  <a href={{this.homeUrl}} class="pix-logo__link">
+    <img class="pix-logo__image" src="{{@rootURL}}/images/pix-logo.svg" alt="{{t 'navigation.homepage'}}">
   </a>
 
   <div class="sign-form__header">
@@ -19,22 +17,22 @@
     </div>
   {{/if}}
 
-  {{#if _notificationMessage}}
+  {{#if this.notificationMessage}}
     <div class="sign-form__notification-message sign-form__notification-message--success" aria-live="polite">
-      {{_notificationMessage}}
+      {{this.notificationMessage}}
     </div>
   {{/if}}
 
-  <form {{action "signup" on="submit"}} class="sign-form__body">
+  <form {{on "submit" this.signup}} class="sign-form__body">
     <span class="sign-form-body__instruction">{{t 'common.form.mandatory-fields' htmlSafe=true}}</span>
 
     <div class="sign-form-body__input">
       <FormTextfield @label="{{t 'pages.sign-up.fields.firstname.label'}}"
                      @textfieldName="firstName"
-                     @inputBindingValue={{user.firstName}}
-                     @onValidate={{action "validateInput"}}
-                     @validationStatus={{validation.firstName.status}}
-                     @validationMessage={{validation.firstName.message}}
+                     @inputBindingValue={{@user.firstName}}
+                     @onValidate={{this.validateInput}}
+                     @validationStatus={{this.validation.firstName.status}}
+                     @validationMessage={{this.validation.firstName.message}}
                      @autocomplete="given-name"
                      @require={{true}} />
     </div>
@@ -42,32 +40,34 @@
     <div class="sign-form-body__input">
       <FormTextfield @label="{{t 'pages.sign-up.fields.lastname.label'}}"
                      @textfieldName="lastName"
-                     @inputBindingValue={{user.lastName}}
-                     @onValidate={{action "validateInput"}}
-                     @validationStatus={{validation.lastName.status}}
-                     @validationMessage={{validation.lastName.message}}
-                     @autocomplete="family-name" @require={{true}} />
+                     @inputBindingValue={{@user.lastName}}
+                     @onValidate={{this.validateInput}}
+                     @validationStatus={{this.validation.lastName.status}}
+                     @validationMessage={{this.validation.lastName.message}}
+                     @autocomplete="family-name"
+                     @require={{true}} />
     </div>
 
     <div class="sign-form-body__input">
       <FormTextfield @label="{{t 'pages.sign-up.fields.email.label'}}"
                      @help="{{t 'pages.sign-up.fields.email.help'}}"
                      @textfieldName="email"
-                     @validationStatus={{validation.email.status}}
-                     @onValidate={{action "validateInputEmail"}}
-                     @inputBindingValue={{user.email}}
-                     @validationMessage={{validation.email.message}}
-                     @autocomplete="email" @require={{true}} />
+                     @validationStatus={{this.validation.email.status}}
+                     @onValidate={{this.validateInputEmail}}
+                     @inputBindingValue={{@user.email}}
+                     @validationMessage={{this.validation.email.message}}
+                     @autocomplete="email"
+                     @require={{true}} />
     </div>
 
     <div class="sign-form-body__input">
       <FormTextfield @label="{{t 'pages.sign-up.fields.password.label'}}"
                      @help="{{t 'pages.sign-up.fields.password.help'}}"
                      @textfieldName="password"
-                     @validationStatus={{validation.password.status}}
-                     @onValidate={{action "validateInputPassword"}}
-                     @inputBindingValue={{user.password}}
-                     @validationMessage={{validation.password.message}}
+                     @validationStatus={{this.validation.password.status}}
+                     @onValidate={{this.validateInputPassword}}
+                     @inputBindingValue={{@user.password}}
+                     @validationMessage={{this.validation.password.message}}
                      @autocomplete="new-password"
                      @require={{true}} />
     </div>
@@ -75,12 +75,12 @@
     <div class="signup-form__cgu-container">
       <label for="pix-cgu" class="signup-form__cgu-label">
         <div class="signup-form__cgu">
-          <Input @type="checkbox" @id="pix-cgu" @checked={{user.cgu}} />
-           {{t 'pages.sign-up.fields.cgu.label' cguUrl=cguUrl htmlSafe=true}}
-          <a href={{cguUrl}} class="link" target="_blank" rel="noopener noreferrer"> {{t 'pages.sign-up.fields.cgu.cgu' cguUrl=cguUrl htmlSafe=true}} </a>
+          <Input @type="checkbox" @id="pix-cgu" @checked={{@user.cgu}} />
+           {{t 'pages.sign-up.fields.cgu.label' cguUrl=this.cguUrl htmlSafe=true}}
+          <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer"> {{t 'pages.sign-up.fields.cgu.cgu' cguUrl=this.cguUrl htmlSafe=true}} </a>
         </div>
 
-        {{#if user.errors.cgu}}
+        {{#if @user.errors.cgu}}
           <div class="sign-form__validation-error">
             {{t 'pages.sign-up.fields.cgu.error'}}
           </div>
@@ -89,7 +89,7 @@
     </div>
 
     <div class="sign-form-body__bottom-button">
-      {{#if isLoading}}
+      {{#if this.isLoading}}
         <button type="button" disabled class="button button--uppercase button--thin button--round button--big">
           <span class="loader-in-button">&nbsp;</span>
         </button>
