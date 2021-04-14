@@ -2,6 +2,7 @@ const Joi = require('joi');
 
 const certificationController = require('./certification-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
+const securityPreHandlers = require('../security-pre-handlers');
 
 exports.register = async function(server) {
   server.route([
@@ -65,6 +66,28 @@ exports.register = async function(server) {
           ' via un id de certification et un user id',
         ],
         tags: ['api', 'certifications', 'PDF'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/certification/neutralize-challenge',
+      config: {
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                certificationCourseId: identifiersType.certificationCourseId,
+                challengeRecId: Joi.string().required(),
+              },
+            },
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: certificationController.neutralizeChallenge,
+        tags: ['api'],
       },
     },
   ]);
