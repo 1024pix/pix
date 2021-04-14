@@ -32,7 +32,7 @@ describe('Unit | Domain | Models | CertifiedScore', function() {
   it('is equal to 0 if the estimated level is uncertified', () => {
     // when
     const certifiedScore = CertifiedScore.from({
-      certifiedLevel: CertifiedLevel.uncertify(),
+      certifiedLevel: CertifiedLevel.invalidate(),
       estimatedScore: 10,
     });
 

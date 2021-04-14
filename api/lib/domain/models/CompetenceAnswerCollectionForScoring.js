@@ -40,6 +40,20 @@ module.exports = class CompetenceAnswerCollection {
     }).sum();
     return numberOfChallenges;
   }
+
+  numberOfNeutralizedChallenges() {
+    return _(this.answers).map((answer) => {
+      if (answer.challenge.isNeutralized) {
+        if (this.answers.length < 3 && answer.isQROCMdep()) {
+          return 2;
+        } else {
+          return 1;
+        }
+      } else {
+        return 0;
+      }
+    }).sum();
+  }
 };
 
 class AnswerForScoring {
