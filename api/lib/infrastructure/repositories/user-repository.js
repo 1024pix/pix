@@ -29,7 +29,7 @@ module.exports = {
   getByEmail(email) {
     return BookshelfUser
       .query((qb) => {
-        qb.where('email', 'ILIKE', email);
+        qb.whereRaw('LOWER("email") = ?', email.toLowerCase());
       })
       .fetch()
       .then((bookshelfUser) => {
