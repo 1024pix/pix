@@ -3,37 +3,29 @@
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
 
-    <NavbarHeader @burger={{burger}} @campaignParticipations={{@model.campaignParticipations}}/>
+    <NavbarHeader @burger={{burger}} @campaignParticipations={{@model.campaignParticipations}} />
 
     <main id="main">
-      <div class="background-banner">
-        <div class="user-account__banner">
-          <h1 class="user-account-banner__title">{{t 'pages.user-account.title'}}</h1>
+      <PixBackgroundHeader>
+
+        <h1 class="user-account__title">{{t 'pages.user-account.title'}}</h1>
+        <div class="user-account__menu-and-content">
+          <PixBlock class="user-account__menu-block">
+            <nav class="user-account-menu">
+              <LinkTo @route="user-account.personal-information" class="user-account-menu__link">
+                <FaIcon @icon='user' /> Informations personnelles
+              </LinkTo>
+              <LinkTo @route="user-account.connection-methods" class="user-account-menu__link">
+                <FaIcon @icon='link' /> Méthodes de connexion
+              </LinkTo>
+            </nav>
+          </PixBlock>
+
+          <PixBlock class="user-account__content">
+            {{outlet}}
+          </PixBlock>
         </div>
-      </div>
-
-      <nav>
-        <LinkTo @route="user-account.personal-information">
-          Informations personnelles
-        </LinkTo>
-        <LinkTo @route="user-account.connection-methods">
-          Méthodes de connexion
-        </LinkTo>
-      </nav>
-
-      {{#if this.isEmailEditionMode}}
-      <div class="user-account__update-email">
-        <UserAccountUpdateEmail
-                @disableEmailEditionMode={{this.disableEmailEditionMode}}
-                @saveNewEmail={{this.saveNewEmail}}/>
-      </div>
-      {{else}}
-      <div class="user-account__panel">
-        <UserAccountPanel
-                @user={{@model}}
-                @enableEmailEditionMode={{this.enableEmailEditionMode}}/>
-      </div>
-      {{/if}}
+      </PixBackgroundHeader>
     </main>
 
     <Footer />
