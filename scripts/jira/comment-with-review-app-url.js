@@ -39,8 +39,8 @@ async function main() {
     method: 'get',
     url: `${JIRA_API_URL}/issue/${issueCode}/comment`,
     auth: {
-      username: process.env.JIRA_API_KEY,
-      password: process.env.JIRA_API_SECRET,
+      username: process.env.JIRA_NOTIFICATION_ACCOUNT_EMAIL,
+      password: process.env.JIRA_NOTIFICATION_ACCOUNT_TOKEN,
     },
   });
 
@@ -69,8 +69,8 @@ async function main() {
       url: `${JIRA_API_URL}/issue/${issueCode}/comment`,
       headers: { 'Content-Type': 'application/json' },
       auth: {
-        username: process.env.JIRA_API_KEY,
-        password: process.env.JIRA_API_SECRET,
+        username: process.env.JIRA_NOTIFICATION_ACCOUNT_EMAIL,
+        password: process.env.JIRA_NOTIFICATION_ACCOUNT_TOKEN,
       },
       data: {
         body: text,
