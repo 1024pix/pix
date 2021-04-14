@@ -1,4 +1,4 @@
-# 10. Propager les _Domain Events_ via un _Event Dispatcher_ 
+# 10. Propager les _Domain Events_ via un _Event Dispatcher_
 
 Date : 2020-06-04
 
@@ -6,23 +6,26 @@ Cet ADR étend l'ADR [#8](./0008-découplage-fonctionnel-via-evenements.md)
 
 ## État
 
-En cours d'expérimentation
+Amendé par [0023-précision-sur-les-transactions-et-les-événements-métier.md][0023].
+
+[0023]: ./0023-précision-sur-les-transactions-et-les-événements-métier.md
 
 ## Contexte
 
 Actuellement, les _Domain Events_ sont distribués au _Event Handlers_ à la main dans le controller (orchestration).
-Ceci était une solution temporaire, on souhaite que les _Domain Handlers_ puissent s'abonner à des _Domain Events_ (chorégraphie).   
+Ceci était une solution temporaire, on souhaite que les _Domain Handlers_ puissent s'abonner à des _Domain Events_ (chorégraphie).
 
 ## Décision
 
-Les _Event Handlers_ définissent eux-même le type de _Domain Events_ auxquels ils réagissent.
+Les _Event Handlers_ définissent eux-mêmes le type de _Domain Events_ auxquels ils réagissent.
 Un mécanisme de _publisher/subscribers_ appelé _EventDispatcher_ est instancié au moment de l'injection de dépendances.
 Tous les handlers sont abonnés aux _Domain Events_ qui les regardent au moment de leur injection.
 
 ## Conséquences
 
 ### Controller
-_Avant :_ 
+
+_Avant :_
 ```javascript
   async completeAssessment(request) {
     const assessmentId = parseInt(request.params.id);
@@ -55,6 +58,7 @@ _Après :_
 ```
 
 ### Injection de dépendances
+
 _Pseudo-code illustratif:_
 ```javascript
 const handlersToBeInjected = {
@@ -78,6 +82,7 @@ module.exports = {
 
 
 ### Tests de chorégraphie
+
 Il devient alors possible (et précieux à titre de non-régression) de tester la bonne mise en place des _Event Handlers_ en testant les chaînages.
 
 ```javascript
@@ -104,10 +109,6 @@ describe('Event Choreography | Score Partner Certification', function() {
 });
 ```
 
-## Références : 
+## Références :
+
 - https://medium.com/ingeniouslysimple/choreography-vs-orchestration-a6f21cfaccae
-
-
-
-
-
