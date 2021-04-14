@@ -1,8 +1,19 @@
 ## Cypress
 
 Cypress est un framework de test end to end (back-end + front-end).
-Il est utilisé ici pour les tests de non-régression sur les chemins fonctionnels entiers. 
+Il est utilisé ici pour les tests de non-régression sur les chemins fonctionnels entiers.
 
+### Je veux lancer les tests rapidement, comment faire ?
+
+Si tu es sous Linux et que tu a `docker` et `docker-compose`, alors le plus simple est de lancer a la racine.
+
+    ./scripts/tests-e2e
+
+Pour lancer une session interactive de débugage avec cypress (avec forward de X11):
+
+    ./scripts/tests-e2e open
+
+Si tu n'aimes pas les scripts qui font tout, suit le reste de la procédure.
 
 ### Installer un navigateur
 
