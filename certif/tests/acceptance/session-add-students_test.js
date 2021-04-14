@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -144,8 +145,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
             await click(checkbox);
 
             // when
-            const cancelButtonSelector = '.bottom-action-bar__actions--cancel-button';
-            await click(cancelButtonSelector);
+            await clickByLabel('Annuler');
 
             // then
             assert.equal(currentURL(), `/sessions/${session.id}/candidats`);

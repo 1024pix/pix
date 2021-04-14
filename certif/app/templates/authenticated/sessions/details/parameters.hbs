@@ -1,4 +1,4 @@
-<div class="panel panel--strong-shadow session-details-container">
+<div class="panel session-details-container">
   <div class="session-details-row">
     <div class="session-details-content session-details-content--multiple">
       <h4 class="label-text session-details-content__label">ID session</h4>
@@ -49,18 +49,18 @@
   <div class="session-details-row">
     {{#if this.sessionHasStarted}}
       <div class="session-details-buttons">
-        <LinkTo @route="authenticated.sessions.update" @model={{this.session.id}} class="button button--regular button--grey button--link session-details-content__update-button">
+        <LinkTo @route="authenticated.sessions.update" @model={{this.session.id}} class="button button--regular button--grey button--link">
             Modifier
         </LinkTo>
       </div>
       <div class="session-details-buttons session-details-buttons--push-right {{if this.session.isFinalized "button--disabled"}}">
-        <LinkTo @route="authenticated.sessions.finalize" @model={{this.session.id}} class="button button--regular button--link session-details-content__finalize-button push-right">
+        <LinkTo @route="authenticated.sessions.finalize" @model={{this.session.id}} class="button button--regular button--link push-right">
             Finaliser la session
         </LinkTo>
       </div>
     {{else}}
       <div class="session-details-buttons">
-        <LinkTo @route="authenticated.sessions.update" @model={{this.session.id}} class="button button--regular button--link session-details-content__update-button">
+        <LinkTo @route="authenticated.sessions.update" @model={{this.session.id}} class="button button--regular button--link">
             Modifier
         </LinkTo>
       </div>
