@@ -399,6 +399,12 @@ class ChallengeAlreadyAnsweredError extends DomainError {
   }
 }
 
+class ChallengeToBeNeutralizedNotFoundError extends DomainError {
+  constructor() {
+    super('La question à neutraliser n\'a pas été posée lors du test de certification');
+  }
+}
+
 class CsvParsingError extends DomainError {
   constructor(message = 'Les données n\'ont pas pu être parsées.') {
     super(message);
@@ -790,6 +796,7 @@ module.exports = {
   CertificationCourseNotPublishableError,
   CertificationCourseUpdateError,
   ChallengeAlreadyAnsweredError,
+  ChallengeToBeNeutralizedNotFoundError,
   CompetenceResetError,
   CsvImportError,
   CsvParsingError,

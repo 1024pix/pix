@@ -32,15 +32,17 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
     const answersForCompetence = _selectAnswersMatchingCertificationChallenges(answers, challengesForCompetence);
 
     if (!continueOnError) {
-      CertificationContract.assertThatCompetenceHasEnoughChallenge(challengesForCompetence, competence.index);
-      CertificationContract.assertThatCompetenceHasEnoughAnswers(answersForCompetence, competence.index);
+      CertificationContract.assertThatCompetenceHasAtLeastOneChallenge(challengesForCompetence, competence.index);
+      CertificationContract.assertThatCompetenceHasAtLeastOneAnswer(answersForCompetence, competence.index);
       CertificationContract.assertThatEveryAnswerHasMatchingChallenge(answersForCompetence, challengesForCompetence);
     }
 
     const competenceAnswerCollection = CompetenceAnswerCollectionForScoring.from({ answersForCompetence, challengesForCompetence });
 
     const certifiedLevel = CertifiedLevel.from({
+      numberOfChallengesAnswered: competenceAnswerCollection.numberOfChallengesAnswered(),
       numberOfCorrectAnswers: competenceAnswerCollection.numberOfCorrectAnswers(),
+      numberOfNeutralizedAnswers: competenceAnswerCollection.numberOfNeutralizedChallenges(),
       estimatedLevel: competence.estimatedLevel,
       reproducibilityRate,
     });
@@ -67,7 +69,7 @@ function _getCompetenceWithFailedLevel(listCompetences) {
       id: competence.id,
       positionedLevel: competence.estimatedLevel,
       positionedScore: competence.pixScore,
-      obtainedLevel: CertifiedLevel.uncertify().value,
+      obtainedLevel: CertifiedLevel.invalidate().value,
       obtainedScore: 0,
     };
   });

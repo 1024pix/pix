@@ -34,23 +34,25 @@ class AssessmentResult {
     this.juryId = juryId;
   }
 
-  static buildAlgoErrorResult(error, assessmentId) {
+  static buildAlgoErrorResult({ error, assessmentId, juryId, emitter }) {
     return new AssessmentResult({
-      emitter: 'PIX-ALGO',
+      emitter,
       commentForJury: error.message,
       pixScore: 0,
       status: 'error',
       assessmentId,
+      juryId,
     });
   }
 
-  static buildStandardAssessmentResult(pixScore, status, assessmentId) {
+  static buildStandardAssessmentResult({ pixScore, status, assessmentId, juryId, emitter }) {
     return new AssessmentResult({
-      emitter: 'PIX-ALGO',
+      emitter,
       commentForJury: 'Computed',
       pixScore: pixScore,
       status,
       assessmentId,
+      juryId,
     });
   }
 

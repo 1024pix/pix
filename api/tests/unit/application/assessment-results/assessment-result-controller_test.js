@@ -5,6 +5,9 @@ const assessmentResultService = require('../../../../lib/domain/services/assessm
 
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
+const usecases = require('../../../../lib/domain/usecases');
+const events = require('../../../../lib/domain/events');
+const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
 
 describe('Unit | Controller | assessment-results', () => {
 
@@ -96,6 +99,39 @@ describe('Unit | Controller | assessment-results', () => {
       // then
       expect(response).to.be.null;
       expect(assessmentResultService.save).to.have.been.calledWithMatch(expectedAssessmentResult, [competenceMark1, competenceMark2, competenceMark3]);
+    });
+  });
+
+  describe('#neutralizeChallenge', () => {
+    it('neutralizes the challenge and dispatches the event', async () => {
+      // given
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              certificationCourseId: 1,
+              challengeRecId: 'rec43mpMIR5dUzdjh',
+            },
+          },
+        },
+        auth: { credentials: { userId: 7 } },
+      };
+      const eventToBeDispatched = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
+      sinon.stub(usecases, 'neutralizeChallenge').withArgs({
+        certificationCourseId: 1,
+        challengeRecId: 'rec43mpMIR5dUzdjh',
+        juryId: 7,
+      }).resolves(eventToBeDispatched);
+      sinon.stub(events, 'eventDispatcher').value({
+        dispatch: sinon.stub(),
+      });
+
+      // when
+      const response = await assessmentResultController.neutralizeChallenge(request, hFake);
+
+      // then
+      expect(events.eventDispatcher.dispatch).to.have.been.calledWithExactly(eventToBeDispatched);
+      expect(response.statusCode).to.equal(204);
     });
   });
 });
