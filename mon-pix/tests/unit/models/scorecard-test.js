@@ -123,6 +123,68 @@ describe('Unit | Model | Scorecard model', function() {
     });
   });
 
+  describe('isImprovable', function() {
+    context('when the competence is finished with max level', function() {
+      it('should return false', function() {
+        // given
+        scorecard.set('level', 5);
+        scorecard.set('status', 'COMPLETED');
+        scorecard.set('remainingDaysBeforeImproving', 0);
+
+        // when
+        const isImprovable = scorecard.get('isImprovable');
+
+        // then
+        expect(isImprovable).to.be.false;
+      });
+    });
+
+    context('when the competence is not finished', function() {
+      it('should return false', function() {
+        // given
+        scorecard.set('level', 5);
+        scorecard.set('status', 'STARTED');
+        scorecard.set('remainingDaysBeforeImproving', 0);
+
+        // when
+        const isImprovable = scorecard.get('isImprovable');
+
+        // then
+        expect(isImprovable).to.be.false;
+      });
+    });
+
+    context('when there are remaining days before improving', function() {
+      it('should return false', function() {
+        // given
+        scorecard.set('level', 5);
+        scorecard.set('status', 'COMPLETED');
+        scorecard.set('remainingDaysBeforeImproving', 1);
+
+        // when
+        const isImprovable = scorecard.get('isImprovable');
+
+        // then
+        expect(isImprovable).to.be.false;
+      });
+    });
+
+    context('when the competence is finished without reaching the max level and there are no remaining days before improving', function() {
+      it('should return true', function() {
+        // given
+        scorecard.set('level', 3);
+        scorecard.set('status', 'COMPLETED');
+        scorecard.set('remainingDaysBeforeImproving', 0);
+
+        // when
+        const isImprovable = scorecard.get('isImprovable');
+
+        // then
+        expect(isImprovable).to.be.true;
+      });
+    });
+  });
+
   describe('hasNotEarnAnything', function() {
     it('should return true', function() {
       // given
