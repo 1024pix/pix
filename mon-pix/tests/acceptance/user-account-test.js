@@ -46,7 +46,8 @@ describe('Acceptance | User account page', function() {
       await visit('/mon-compte');
 
       // when
-      await click('button[data-test-edit-email]');
+      await clickByLabel('Méthodes de connexion');
+      await clickByLabel('Modifier');
       await fillIn('#newEmail', newEmail);
       await fillIn('#newEmailConfirmation', newEmail);
       await fillIn('#password', user.password);
