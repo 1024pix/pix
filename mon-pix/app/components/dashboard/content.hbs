@@ -111,6 +111,20 @@
         <CompetenceCard::List @scorecards={{this.recommendedScorecards}} />
       </section>
     {{/if}}
+
+    {{#if this.hasImprovableCompetences}}
+      <section class="dashboard-content-main__section" data-test-improvable-competences>
+        <div class="dashboard-content-main-section--with-button">
+          <div>
+            <h2 class="dashboard-content-main-section__title">{{t 'pages.dashboard.improvable-competences.title'}}</h2>
+            <p class="dashboard-content-main-section__subtitle">{{t 'pages.dashboard.improvable-competences.subtitle'}}</p>
+          </div>
+          <LinkTo @route="profile" class="dashboard-content-main-section__button">{{t 'pages.dashboard.improvable-competences.profile-link'}}</LinkTo>
+        </div>
+
+        <CompetenceCard::List @scorecards={{this.improvableScorecards}} />
+      </section>
+    {{/if}}
   </section>
 
   <section class="dashboard-content__section dashboard-content__certif">

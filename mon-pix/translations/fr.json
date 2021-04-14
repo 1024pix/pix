@@ -568,6 +568,11 @@
                 "subtitle": "Explorez les compétences recommandées pour vous.",
                 "title": "Compétences recommandées"
             },
+            "improvable-competences": {
+                "profile-link": "Voir toutes",
+                "subtitle": "Prêt à faire passer votre compétence au niveau supérieur ?",
+                "title": "Retenter une compétence"
+            },
             "score": {
                 "profile-link": "Voir mes compétences"
             },

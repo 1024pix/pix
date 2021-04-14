@@ -160,6 +160,19 @@ describe('Acceptance | User dashboard page', function() {
 
   });
 
+  describe('retryable-competences', function() {
+
+    beforeEach(async function() {
+      user = server.create('user', 'withEmail');
+      await authenticateByEmail(user);
+      await visit('/accueil');
+    });
+
+    it('should display the improvable-competences section', function() {
+      expect(find('section[data-test-improvable-competences]')).to.exist;
+    });
+  });
+
   describe('started-competences', function() {
 
     beforeEach(async function() {
