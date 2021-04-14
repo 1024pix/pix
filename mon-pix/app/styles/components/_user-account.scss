@@ -1,53 +1,100 @@
 .user-account {
 
-  &__banner {
-    position: relative;
-    max-width: 980px;
-    margin: auto;
+  &__title {
+    margin: 0 0 8px;
+    padding-top: 55px;
+    padding-bottom: 26px;
+    font-size: 1.625rem;
+    font-family: $font-open-sans;
     font-weight: $font-light;
-    height: 270px;
-    padding: 0 20px;
-    text-align: center;
+    color: $white;
+    position: relative;
+    right: 0;
 
     @include device-is('tablet') {
-      text-align: left;
+      font-size: 3rem;
     }
 
-    @include device-is('desktop') {
-      padding: 0;
+    @include device-is('middle-desktop') {
+      right: 350px;
     }
+  }
 
-    h1 {
-      font-size: 1.625rem;
-      font-family: $font-open-sans;
-      font-weight: $font-light;
-      line-height: 2.75rem;
+  &__menu-and-content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 100%;
 
-      @include device-is('tablet') {
-        font-size: 2rem;
-        line-height: 3.375rem;
+    .pix-block {
+      width: auto;
+    }
+  }
+
+  &__menu-block {
+    padding: 0;
+    height: max-content;
+
+    .user-account-menu {
+      display: flex;
+      flex-direction: column;
+
+      &__link {
+        color: $grey-45;
+        padding: 16px 60px 16px 20px;
+        border-bottom: 1.5px solid $grey-10;
+
+        svg {
+          margin-right: 8px;
+        }
+
+        &:first-child {
+          border-radius: 4px 4px 0 0;
+        }
+
+        &:last-child {
+          border-radius: 0 0 4px 4px;
+          border-bottom: none;
+        }
+
+        &:hover {
+          background-color: $grey-15;
+        }
+
+        &:focus-within {
+          background-color: $grey-15;
+        }
+
+        &.active {
+          background-color: $grey-15;
+        }
       }
     }
   }
 
+  &__content.pix-block {
+    margin: 0 20px;
+    min-width: 645px;
+
+    @include device-is('mobile') {
+      min-width: 100%;
+      max-width: 100%;
+    }
+  }
+
   &__panel,
+  &__connection-methods,
   &__update-email {
     margin: 0 auto;
     max-width: 980px;
-    position: relative;
-    top: -6rem;
     padding: 0 20px;
 
     @include device-is('desktop') {
       padding: 0;
     }
-  }
-}
 
-.user-account-banner {
-
-  &__title {
-    margin: 0 0 8px;
-    padding-top: 64px;
+    @include device-is('mobile') {
+      padding: 0;
+    }
   }
 }
