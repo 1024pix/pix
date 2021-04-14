@@ -1,4 +1,4 @@
-const { expect } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 
 const HttpTestServer = require('../../tooling/server/http-test-server');
 
@@ -43,7 +43,7 @@ describe('Unit | Tooling | Http-test-server', () => {
         httpTestServerWithAuthentication = new HttpTestServer(moduleUnderTest, true);
       });
 
-      it('should reject if no authentication is provided', async () => {
+      it('should answer unauthorized if no authentication is provided', async () => {
 
         // given
         const request = {
@@ -58,6 +58,36 @@ describe('Unit | Tooling | Http-test-server', () => {
         expect(response.statusCode).to.equal(401);
       });
 
+      it('should answer unauthorized if authentication is invalid', async () => {
+
+        // given
+        const request = {
+          method: 'GET',
+          url: '/foo',
+          headers: { authorization: 'invalidToken' },
+        };
+
+        // when
+        const response = await httpTestServerWithAuthentication.request(request.method, request.url, null, null, request.headers);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('should answer internal error if authentication is valid, as actual strategy is not implemented (use actual server instead)', async () => {
+        // given
+        const request = {
+          method: 'GET',
+          url: '/foo',
+          headers: { authorization: generateValidRequestAuthorizationHeader() },
+        };
+
+        // when
+        const response = await httpTestServerWithAuthentication.request(request.method, request.url, null, null, request.headers);
+
+        // then
+        expect(response.statusCode).to.equal(500);
+      });
     });
   });
 });
