@@ -14,6 +14,8 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
     let clock;
 
+    const domainTransaction = Symbol('a DomainTransaction');
+
     const originPoleEmploiSendingUrl = settings.poleEmploi.sendingUrl;
     const originPoleEmploiTokenUrl = settings.poleEmploi.tokenUrl;
 
@@ -72,12 +74,16 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         const expiredDate = moment().add(10, 'm').toDate();
         const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+          .withArgs({
+            userId,
+            identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+            domainTransaction,
+          })
           .resolves(authenticationMethod);
         httpAgent.post.resolves({ isSuccessful: true, code });
 
         // when
-        await notify(userId, payload, poleEmploiSending);
+        await notify({ userId, payload, poleEmploiSending, domainTransaction });
 
         // then
         expect(httpAgent.post).to.have.been.calledWithExactly(settings.poleEmploi.sendingUrl, payload, {
@@ -94,8 +100,13 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       it('should try to refresh the access token', async () => {
         // given
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+          .withArgs({
+            userId,
+            identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+            domainTransaction,
+          })
           .resolves(authenticationMethod);
+
         const params = {
           grant_type: 'refresh_token',
           refresh_token: refreshToken,
@@ -105,7 +116,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         httpAgent.post.resolves({ isSuccessful: true, code, data });
 
         // when
-        await notify(userId, payload, poleEmploiSending);
+        await notify({ userId, payload, poleEmploiSending, domainTransaction });
 
         // then
         expect(httpAgent.post).to.have.been.calledWithExactly(settings.poleEmploi.tokenUrl, querystring.stringify(params), {
@@ -118,8 +129,13 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         it('should update the authentication method', async () => {
           // given
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-            .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+            .withArgs({
+              userId,
+              identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+              domainTransaction,
+            })
             .resolves(authenticationMethod);
+
           httpAgent.post.resolves({ isSuccessful: true, code, data });
           const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
             accessToken: data['access_token'],
@@ -128,10 +144,11 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           });
 
           // when
-          await notify(userId, payload, poleEmploiSending);
+          await notify({ userId, payload, poleEmploiSending, domainTransaction });
 
           // then
-          expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith({ authenticationComplement, userId });
+          expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId)
+            .to.have.been.calledWith({ authenticationComplement, userId, domainTransaction });
         });
 
         it('should send the notification to Pole Emploi', async () => {
@@ -143,11 +160,15 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           });
 
           authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId
-            .withArgs({ authenticationComplement, userId })
+            .withArgs({ authenticationComplement, userId, domainTransaction })
             .resolves();
 
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-            .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+            .withArgs({
+              userId,
+              identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+              domainTransaction,
+            })
             .resolves(authenticationMethod);
 
           httpAgent.post
@@ -155,7 +176,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             .onSecondCall().resolves({ isSuccessful: true, code });
 
           // when
-          await notify(userId, payload, poleEmploiSending);
+          await notify({ userId, payload, poleEmploiSending, domainTransaction });
 
           // then
           expect(httpAgent.post).to.have.been.calledWithExactly(settings.poleEmploi.sendingUrl, payload, {
@@ -172,12 +193,16 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         it('should not send results', async () => {
           // given
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-            .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+            .withArgs({
+              userId,
+              identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+              domainTransaction,
+            })
             .resolves(authenticationMethod);
           httpAgent.post.resolves({ isSuccessful: false, code });
 
           // when
-          await notify(userId, payload, poleEmploiSending);
+          await notify({ userId, payload, poleEmploiSending, domainTransaction });
 
           // then
           expect(httpAgent.post).to.not.have.been.calledWith(settings.poleEmploi.sendingUrl);
@@ -186,12 +211,17 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         it('should return isSuccessful to false', async () => {
           // given
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-            .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+            .withArgs({
+              userId,
+              identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+              domainTransaction,
+            })
             .resolves(authenticationMethod);
+
           httpAgent.post.resolves({ isSuccessful: false, code });
 
           // when
-          const response = await notify(userId, payload, poleEmploiSending);
+          const response = await notify({ userId, payload, poleEmploiSending, domainTransaction });
 
           // then
           expect(response).to.deep.equal({ isSuccessful: false, code });

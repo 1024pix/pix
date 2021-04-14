@@ -6,10 +6,17 @@ const settings = require('../../../config');
 const querystring = require('querystring');
 const { UnexpectedUserAccount } = require('../../../domain/errors');
 const moment = require('moment');
+const DomainTransaction = require('../../DomainTransaction');
 
 module.exports = {
-  async notify(userId, payload) {
-    const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI });
+
+  async notify({ userId, payload, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+      userId,
+      identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+      domainTransaction,
+    });
+
     let accessToken = _.get(authenticationMethod, 'authenticationComplement.accessToken');
     if (!accessToken) {
       throw new UnexpectedUserAccount({ message: 'Le compte utilisateur n\'est pas rattaché à l\'organisation Pôle Emploi' });
@@ -46,7 +53,11 @@ module.exports = {
         refreshToken: tokenResponse.data['refresh_token'],
         expiredDate: moment().add(tokenResponse.data['expires_in'], 's').toDate(),
       });
-      await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId });
+      await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({
+        authenticationComplement,
+        userId,
+        domainTransaction,
+      });
     }
 
     const url = settings.poleEmploi.sendingUrl;
