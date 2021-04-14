@@ -177,6 +177,18 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
           expect(demand.attributes.used).to.equal(false);
         });
 
+        it('should be case insensitive', async () => {
+          // when
+          const emailWithUppercase = email.toUpperCase();
+          const demand = await resetPasswordDemandsRepository.findByUserEmail(emailWithUppercase, temporaryKey);
+
+          // then
+          expect(demand.attributes.id).to.equal(demandId);
+          expect(demand.attributes.email).to.equal(email);
+          expect(demand.attributes.temporaryKey).to.equal(temporaryKey);
+          expect(demand.attributes.used).to.equal(false);
+        });
+
         context('when case is not identical', () => {
           it('should return the bookshelf demand', async () => {
             // given
