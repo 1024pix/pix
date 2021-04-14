@@ -1,10 +1,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
+import { clickByLabel } from '../../helpers/click-by-label';
 
 import {
   click, fillIn, find, findAll,
   render, settled, triggerEvent,
+  waitUntil,
 } from '@ember/test-helpers';
 
 import ArrayProxy from '@ember/array/proxy';
@@ -645,16 +647,27 @@ describe('Integration | Component | SignupForm', function() {
       expect(find('.sign-form-body__bottom-button .loader-in-button')).to.not.exist;
     });
 
-    it('should display a loading spinner when loading certification', async function() {
+    it('should display a loading spinner when user submit signup', async function() {
       // given
-      this.set('user', userEmpty);
-      this.set('isLoading', true);
+      const validUser = EmberObject.create({
+        email: 'toto@pix.fr',
+        firstName: 'Marion',
+        lastName: 'Yade',
+        password: 'gipix2017',
+        cgu: true,
+        save() {
+          return new resolve();
+        },
+      });
+      this.set('user', validUser);
+      this.set('authenticateUser', () => {});
+      await render(hbs `<SignupForm @user={{this.user}} @authenticateUser={{action this.authenticateUser}} />`);
 
       // when
-      await render(hbs `<SignupForm @user={{this.user}} @isLoading={{this.isLoading}} />`);
+      await clickByLabel('Je m\'inscris');
 
       // then
-      expect(find('.sign-form-body__bottom-button .loader-in-button')).to.exist;
+      await waitUntil(() => find('.loader-in-button'));
     });
   });
 
