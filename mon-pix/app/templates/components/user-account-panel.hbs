@@ -1,52 +1,26 @@
-<PixBlock>
-  <div class="user-account-panel__item">
-    <div class="user-account-panel-item__text">
-      <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.first-name'}}</p>
-      <p class="user-account-panel-item__value" data-test-firstName>{{@user.firstName}}</p>
-    </div>
+<div class="user-account-panel__item">
+  <div class="user-account-panel-item__text">
+    <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.first-name'}}</p>
+    <p class="user-account-panel-item__value" data-test-firstName>{{@user.firstName}}</p>
   </div>
-  <div class="user-account-panel__item">
-    <div class="user-account-panel-item__text">
-      <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.last-name'}}</p>
-      <p class="user-account-panel-item__value" data-test-lastName>{{@user.lastName}}</p>
-    </div>
+</div>
+<div class="user-account-panel__item">
+  <div class="user-account-panel-item__text">
+    <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.last-name'}}</p>
+    <p class="user-account-panel-item__value" data-test-lastName>{{@user.lastName}}</p>
   </div>
-
-  {{#if this.displayEmail}}
-  <div class="user-account-panel__item">
-    <div class="user-account-panel-item__text">
-      <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.email'}}</p>
-      <p class="user-account-panel-item__value" data-test-email>{{@user.email}}</p>
-    </div>
-      <PixButton
-              class="user-account-panel-item__button"
-              @triggerAction={{@enableEmailEditionMode}}
-              data-test-edit-email>
-        {{t 'pages.user-account.account-panel.edit-button'}}
-      </PixButton>
+</div>
+{{#if this.displayLanguageSwitch}}
+  <div class="user-account-panel__item user-account-panel-item__text">
+      <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.lang'}}</p>
+      <div class="user-account-panel-item__select">
+        <PixSelect
+          class="user-account-panel-item__value"
+          @options={{this.options}}
+          @onChange={{this.onChangeLang}}
+          @selectedOption={{@user.lang}}
+          data-test-lang
+        />
+      </div>
   </div>
-  {{/if}}
-
-  {{#if this.displayUsername}}
-  <div class="user-account-panel__item">
-    <div class="user-account-panel-item__text">
-      <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.username'}}</p>
-      <p class="user-account-panel-item__value" data-test-username>{{@user.username}}</p>
-    </div>
-  </div>
-  {{/if}}
-  {{#if this.displayLanguageSwitch}}
-    <div class="user-account-panel__item user-account-panel-item__text">
-        <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.lang'}}</p>
-        <div class="user-account-panel-item__select">
-          <PixSelect
-            class="user-account-panel-item__value"
-            @options={{this.options}}
-            @onChange={{this.onChangeLang}}
-            @selectedOption={{@user.lang}}
-            data-test-lang
-          />
-        </div>
-    </div>
-  {{/if}}
-</PixBlock>
+{{/if}}
