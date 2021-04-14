@@ -183,7 +183,7 @@ module.exports = {
 
   isEmailAvailable(email) {
     return BookshelfUser
-      .query((qb) => qb.where('email', 'ILIKE', email))
+      .query((qb) => qb.whereRaw('LOWER("email") = ?', email.toLowerCase()))
       .fetch({ require: false })
       .then((user) => {
         if (user) {
