@@ -1,8 +1,6 @@
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 const assessmentResultService = require('../../domain/services/assessment-result-service');
-const usecases = require('../../domain/usecases');
-const events = require('../../domain/events');
 
 // TODO: Should be removed and replaced by a real serializer
 function _deserializeResultsAdd(json) {
@@ -37,18 +35,5 @@ module.exports = {
     // FIXME (re)calculate partner certifications which may be invalidated/validated
     await assessmentResultService.save({ ...assessmentResult, juryId }, competenceMarks);
     return null;
-  },
-
-  async neutralizeChallenge(request, h) {
-    const challengeRecId = request.payload.data.attributes.challengeRecId;
-    const certificationCourseId = request.payload.data.attributes.certificationCourseId;
-    const juryId = request.auth.credentials.userId;
-    const event = await usecases.neutralizeChallenge({
-      challengeRecId,
-      certificationCourseId,
-      juryId,
-    });
-    await events.eventDispatcher.dispatch(event);
-    return h.response().code(204);
   },
 };
