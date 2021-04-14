@@ -9,7 +9,6 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding-bottom: 48px;
     margin: auto;
 
     @include device-is('tablet') {
