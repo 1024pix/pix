@@ -3,7 +3,7 @@ const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insert
 
 describe('Acceptance | API | Badges', () => {
 
-  let server, options, userId, badge, badgeCriterion;
+  let server, options, userId, badge, badgeCriterion, badgePartnerCompetence;
 
   beforeEach(async () => {
     server = await createServer();
@@ -24,6 +24,7 @@ describe('Acceptance | API | Badges', () => {
         isCertifiable: false,
       });
       badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
+      badgePartnerCompetence = databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badge.id });
 
       await databaseBuilder.commit();
     });
@@ -54,6 +55,12 @@ describe('Acceptance | API | Badges', () => {
                 type: 'badge-criterion',
               }],
             },
+            'badge-partner-competences': {
+              data: [{
+                id: badgePartnerCompetence.id.toString(),
+                type: 'badge-partner-competence',
+              }],
+            },
           },
         },
         included: [{
@@ -62,6 +69,17 @@ describe('Acceptance | API | Badges', () => {
           attributes: {
             scope: 'CampaignParticipation',
             threshold: 50,
+          },
+          relationships: {
+            'partner-competences': {
+              data: [],
+            },
+          },
+        }, {
+          type: 'badge-partner-competence',
+          id: badgePartnerCompetence.id.toString(),
+          attributes: {
+            name: 'name',
           },
         }],
       };
