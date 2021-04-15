@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.44.0 (15/04/2021)
+
+- [#2842](https://github.com/1024pix/pix/pull/2842) [FEATURE] Affiche les badgePartnerCompetences dans les critéres du badge
+- [#2820](https://github.com/1024pix/pix/pull/2820) [FEATURE] Afficher la liste des épreuves posées en certif sur l'onglet "Neutralisation" (PIX-2358)
+- [#2844](https://github.com/1024pix/pix/pull/2844) [FEATURE] Affichage d'une documentation dans PIX ORGA pour les organisations ayant comme type SUP (PIX-2462).
+- [#2834](https://github.com/1024pix/pix/pull/2834) [FEATURE] Ajout de nouveaux champs à la bdd pour permettre des participations multiples à la même campagne (PIX-2445).
+- [#2831](https://github.com/1024pix/pix/pull/2831) [FEATURE] Création de la page de plan de site (PIX-1958).
+- [#2811](https://github.com/1024pix/pix/pull/2811) [FEATURE]  Automatisation ajustement jury (PIX-2113)
+- [#2826](https://github.com/1024pix/pix/pull/2826) [FEATURE] Création de liens d'évitements (PIX-1862).
+- [#2853](https://github.com/1024pix/pix/pull/2853) [TECH] Améliorer les index sur les requêtes par email sur password-reset-demands et users (PIX-2474).
+- [#2851](https://github.com/1024pix/pix/pull/2851) [TECH] Rendre l'email à utiliser pour les notifications JIRA explicite (PIX-2472).
+- [#2813](https://github.com/1024pix/pix/pull/2813) [TECH] Montée de version des dépendances de Pix Orga (PIX-2468)
+- [#2835](https://github.com/1024pix/pix/pull/2835) [A11Y] Corrections d'accessibilité sur la page de connexion et d'inscription (PIX-2461).
+- [#2796](https://github.com/1024pix/pix/pull/2796) [CLEANUP] Glimmerizer SignupForm (PIX-2452).
+
 ## v3.43.0 (13/04/2021)
 
 - [#2836](https://github.com/1024pix/pix/pull/2836) [FEATURE] Affiche les critères d'un résultat thématique dans Pix Admin.
