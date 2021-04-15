@@ -24,6 +24,7 @@ class CampaignToJoin {
     customResultPageText,
     customResultPageButtonText,
     customResultPageButtonUrl,
+    multipleSendings,
   } = {}) {
     this.id = id;
     this.code = code;
@@ -47,6 +48,7 @@ class CampaignToJoin {
     this.customResultPageText = customResultPageText;
     this.customResultPageButtonText = customResultPageButtonText;
     this.customResultPageButtonUrl = customResultPageButtonUrl;
+    this.multipleSendings = multipleSendings;
   }
 
   get isAssessment() {

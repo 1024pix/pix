@@ -1,7 +1,8 @@
-const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, catchErr, mockLearningContent } = require('../../../test-helper');
 const campaignToJoinRepository = require('../../../../lib/infrastructure/repositories/campaign-to-join-repository');
 const CampaignToJoin = require('../../../../lib/domain/read-models/CampaignToJoin');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { NotFoundError, ForbiddenAccess, AlreadyExistingCampaignParticipationError } = require('../../../../lib/domain/errors');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | CampaignToJoin', () => {
 
@@ -16,7 +17,9 @@ describe('Integration | Repository | CampaignToJoin', () => {
       await databaseBuilder.commit();
 
       // when
-      const actualCampaign = await campaignToJoinRepository.get(expectedCampaign.id);
+      const actualCampaign = await DomainTransaction.execute(async (domainTransaction) => {
+        return campaignToJoinRepository.get(expectedCampaign.id, domainTransaction);
+      });
 
       // then
       expect(actualCampaign).to.be.instanceOf(CampaignToJoin);
@@ -40,11 +43,15 @@ describe('Integration | Repository | CampaignToJoin', () => {
 
     it('should throw a NotFoundError when no campaign exists with given id', async () => {
       // given
+      let error;
       const existingId = databaseBuilder.factory.buildCampaign().id;
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(campaignToJoinRepository.get)(existingId + 1000);
+
+      await DomainTransaction.execute(async (domainTransaction) => {
+        error = await catchErr(campaignToJoinRepository.get)(existingId + 1000, domainTransaction);
+      });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -138,24 +145,61 @@ describe('Integration | Repository | CampaignToJoin', () => {
     });
   });
 
-  describe('#isCampaignJoinableByUser', () => {
+  describe('#checkCampaignIsJoinableByUser', () => {
 
-    it('should return false if the campaign is archived', async () => {
+    let targetProfileId;
+    const skills = [
+      { id: 'skill1', status: 'actif' },
+      { id: 'skill2', status: 'archivé' },
+      { id: 'skill3', status: 'périmé' },
+      { id: 'skill4', status: 'actif' },
+    ];
+
+    beforeEach(() => {
+      mockLearningContent({ skills });
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill1' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill2' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill3' });
+    });
+
+    it('should not throw an error when the campaign is not archived and not restricted and the user has no participation for the given campaign', async () => {
       // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignData = databaseBuilder.factory.buildCampaign();
+      const campaignToJoin = domainBuilder.buildCampaignToJoin(campaignData);
+      await databaseBuilder.commit();
+
+      // when
+      try {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          return campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
+        });
+
+      } catch (error) {
+        expect.fail(`"${error}" should not have been thrown`);
+      }
+    });
+
+    it('should throw an error if the campaign is archived', async () => {
+      // given
+      let error;
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignData = databaseBuilder.factory.buildCampaign({ archivedAt: new Date('2020-01-01') });
       const campaignToJoin = domainBuilder.buildCampaignToJoin(campaignData);
       await databaseBuilder.commit();
 
-      // when
-      const canJoinCampaign = await campaignToJoinRepository.isCampaignJoinableByUser(campaignToJoin, userId);
+      await DomainTransaction.execute(async (domainTransaction) => {
+        error = await catchErr(campaignToJoinRepository.checkCampaignIsJoinableByUser)(campaignToJoin, userId, domainTransaction);
+      });
 
-      // then
-      expect(canJoinCampaign).to.be.false;
+      expect(error).to.be.instanceOf(ForbiddenAccess);
+      expect(error.message).to.equal('Vous n\'êtes pas autorisé à rejoindre la campagne');
     });
 
-    it('should return false if the campaign is restricted and the user does not have a corresponding schooling registration', async () => {
+    it('should throw an error if the campaign is restricted and the user does not have a corresponding schooling registration', async () => {
       // given
+      let error;
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
       databaseBuilder.factory.buildSchoolingRegistration({ organizationId });
@@ -166,14 +210,14 @@ describe('Integration | Repository | CampaignToJoin', () => {
       });
       await databaseBuilder.commit();
 
-      // when
-      const canJoinCampaign = await campaignToJoinRepository.isCampaignJoinableByUser(campaignToJoin, userId);
-
-      // then
-      expect(canJoinCampaign).to.be.false;
+      await DomainTransaction.execute(async (domainTransaction) => {
+        error = await catchErr(campaignToJoinRepository.checkCampaignIsJoinableByUser)(campaignToJoin, userId, domainTransaction);
+      });
+      expect(error).to.be.instanceOf(ForbiddenAccess);
+      expect(error.message).to.equal('Vous n\'êtes pas autorisé à rejoindre la campagne');
     });
 
-    it('should return true when the campaign is restricted and the user has a corresponding schooling registration', async () => {
+    it('should not throw error when the campaign is restricted and the user has a corresponding schooling registration', async () => {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
@@ -186,10 +230,127 @@ describe('Integration | Repository | CampaignToJoin', () => {
       await databaseBuilder.commit();
 
       // when
-      const canJoinCampaign = await campaignToJoinRepository.isCampaignJoinableByUser(campaignToJoin, userId);
-
-      // then
-      expect(canJoinCampaign).to.be.true;
+      try {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          return campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
+        });
+      } catch (error) {
+        expect.fail(`"${error}" should not have been thrown`);
+      }
     });
+
+    it('should throw an error when campaign is not multipleSendings and there is already a participation for user', async () => {
+      // given
+      let error;
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignData = databaseBuilder.factory.buildCampaign({ multipleSendings: false });
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        ...campaignData,
+      });
+      await databaseBuilder.commit();
+
+      await DomainTransaction.execute(async (domainTransaction) => {
+        error = await catchErr(campaignToJoinRepository.checkCampaignIsJoinableByUser)(campaignToJoin, userId, domainTransaction);
+      });
+
+      expect(error).to.be.instanceOf(AlreadyExistingCampaignParticipationError);
+      expect(error.message).to.equal(`User ${userId} has already a campaign participation with campaign ${campaignData.id}`);
+    });
+
+    it('should not throw error when campaign is multipleSendings and there is already a participation shared for user', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignData = databaseBuilder.factory.buildCampaign({ multipleSendings: true });
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-01') });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        ...campaignData,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      try {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          return campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
+        });
+      } catch (error) {
+        expect.fail(`"${error}" should not have been thrown`);
+      }
+    });
+
+    it('should throw error when campaign is multipleSendings and there is already a participation which is not shared for user', async () => {
+      // given
+      let error;
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignData = databaseBuilder.factory.buildCampaign({ multipleSendings: true });
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: false, sharedAt: null });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        ...campaignData,
+      });
+      await databaseBuilder.commit();
+
+      await DomainTransaction.execute(async (domainTransaction) => {
+        error = await catchErr(campaignToJoinRepository.checkCampaignIsJoinableByUser)(campaignToJoin, userId, domainTransaction);
+      });
+      expect(error).to.be.instanceOf(ForbiddenAccess);
+      expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
+    });
+
+    it('should throw error when campaign is multipleSendings and there is at least one participation which is not shared for user', async () => {
+      // given
+      let error;
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignData = databaseBuilder.factory.buildCampaign({ multipleSendings: true });
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: true });
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: false, sharedAt: null, isImproved: false, validatedSkillsCount: 2 });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        ...campaignData,
+      });
+      await databaseBuilder.commit();
+
+      await DomainTransaction.execute(async (domainTransaction) => {
+        error = await catchErr(campaignToJoinRepository.checkCampaignIsJoinableByUser)(campaignToJoin, userId, domainTransaction);
+      });
+      expect(error).to.be.instanceOf(ForbiddenAccess);
+      expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
+    });
+
+    it('should throw error when campaign is multipleSendings and there is participation which is shared for user but the mastery percentage is 100%', async () => {
+      // given
+      let error;
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignData = databaseBuilder.factory.buildCampaign({ multipleSendings: true, targetProfileId });
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: true, validatedSkillsCount: 1 });
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: false, validatedSkillsCount: 2 });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        ...campaignData,
+      });
+      await databaseBuilder.commit();
+
+      await DomainTransaction.execute(async (domainTransaction) => {
+        error = await catchErr(campaignToJoinRepository.checkCampaignIsJoinableByUser)(campaignToJoin, userId, domainTransaction);
+      });
+      expect(error).to.be.instanceOf(ForbiddenAccess);
+      expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
+    });
+
+    it('should throw error when campaign is multipleSendings and there is participation which is shared for user but the mastery percentage is over 100%', async () => {
+      // given
+      let error;
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignData = databaseBuilder.factory.buildCampaign({ multipleSendings: true, targetProfileId });
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: false, validatedSkillsCount: 3 });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        ...campaignData,
+      });
+      await databaseBuilder.commit();
+
+      await DomainTransaction.execute(async (domainTransaction) => {
+        error = await catchErr(campaignToJoinRepository.checkCampaignIsJoinableByUser)(campaignToJoin, userId, domainTransaction);
+      });
+      expect(error).to.be.instanceOf(ForbiddenAccess);
+      expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
+    });
+
   });
 });
