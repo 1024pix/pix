@@ -21,7 +21,7 @@ describe('Unit | Tooling | Http-test-server', () => {
       expect(httpTestServer.hapiServer._core.extensions.route.onPreResponse.nodes[0].func.name).to.equal('handleDomainAndHttpErrors');
     });
 
-    describe('when authentication is enabled', async () => {
+    describe('when authentication is enabled, using default strategy', async () => {
 
       let httpTestServerWithAuthentication;
 
@@ -74,7 +74,7 @@ describe('Unit | Tooling | Http-test-server', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should answer internal error if authentication is valid, as actual strategy is not implemented (use actual server instead)', async () => {
+      it('should answer OK if authentication is valid', async () => {
         // given
         const request = {
           method: 'GET',
@@ -86,7 +86,7 @@ describe('Unit | Tooling | Http-test-server', () => {
         const response = await httpTestServerWithAuthentication.request(request.method, request.url, null, null, request.headers);
 
         // then
-        expect(response.statusCode).to.equal(500);
+        expect(response.statusCode).to.equal(200);
       });
     });
   });
