@@ -1,19 +1,10 @@
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 
-export default class Footer extends Component {
+export default class Content extends Component {
   @service url;
   @service intl;
   @service currentDomain;
-
-  get shouldShowTheMarianneLogo() {
-    return this.url.isFrenchDomainExtension;
-  }
-
-  get currentYear() {
-    const date = new Date();
-    return date.getFullYear().toString();
-  }
 
   get cguUrl() {
     return this.url.cguUrl;
@@ -27,7 +18,11 @@ export default class Footer extends Component {
     return this.url.accessibilityUrl;
   }
 
-  get helpCenterUrl() {
-    return this.url.helpCenterUrl;
+  get accessibilityHelpUrl() {
+    return this.url.accessibilityHelpUrl;
+  }
+
+  get supportHomeUrl() {
+    return this.url.supportHomeUrl;
   }
 }
