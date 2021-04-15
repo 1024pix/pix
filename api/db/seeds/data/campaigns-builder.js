@@ -257,15 +257,16 @@ __Plus d'infos :)__
 
   databaseBuilder.factory.buildCampaign({
     id: 16,
-    name: 'Pro - Campagne d’évaluation PIC - Terrminé & partagé.',
+    name: 'Pro - Campagne d’évaluation PIC - Terrminé & partagé - Envois multiple',
     code: 'FINISHED3',
     type: 'ASSESSMENT',
-    title: 'Parcours terminé partagé',
+    title: 'Parcours terminé partagé - Envois multiple',
     customLandingPageText: '',
     organizationId: PRO_COMPANY_ID,
     creatorId: 2,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     idPixLabel: 'identifiant entreprise',
+    multipleSendings: true,
   });
 
   databaseBuilder.factory.buildCampaign({

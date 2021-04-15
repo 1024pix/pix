@@ -24,6 +24,7 @@ module.exports = function buildCampaign({
   customResultPageText,
   customResultPageButtonText,
   customResultPageButtonUrl,
+  multipleSendings,
 
 } = {}) {
 
@@ -53,6 +54,7 @@ module.exports = function buildCampaign({
     customResultPageText,
     customResultPageButtonText,
     customResultPageButtonUrl,
+    multipleSendings,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'campaigns',
