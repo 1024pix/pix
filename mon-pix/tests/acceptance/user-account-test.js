@@ -7,10 +7,12 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | User account page', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
 
   context('When user is not connected', function() {
 
@@ -46,8 +48,8 @@ describe('Acceptance | User account page', function() {
       await visit('/mon-compte');
 
       // when
-      await clickByLabel('Méthodes de connexion');
-      await clickByLabel('Modifier');
+      await clickByLabel(this.intl.t('pages.user-account.connexion-methods'));
+      await clickByLabel(this.intl.t('pages.user-account.account-connexion-methods.edit-button'));
       await fillIn('#newEmail', newEmail);
       await fillIn('#newEmailConfirmation', newEmail);
       await fillIn('#password', user.password);
@@ -64,8 +66,8 @@ describe('Acceptance | User account page', function() {
         await visit('/mon-compte');
 
         // then
-        expect(contains('Informations personnelles')).to.exist;
-        expect(contains('Méthodes de connexion')).to.exist;
+        expect(contains(this.intl.t('pages.user-account.personal-information'))).to.exist;
+        expect(contains(this.intl.t('pages.user-account.connexion-methods'))).to.exist;
       });
 
       it('should display personal information on click on "Informations personnelles"', async function() {
@@ -73,7 +75,7 @@ describe('Acceptance | User account page', function() {
         await visit('/mon-compte');
 
         // when
-        await clickByLabel('Informations personnelles');
+        await clickByLabel(this.intl.t('pages.user-account.personal-information'));
 
         // then
         expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
@@ -84,7 +86,7 @@ describe('Acceptance | User account page', function() {
         await visit('/mon-compte');
 
         // when
-        await clickByLabel('Méthodes de connexion');
+        await clickByLabel(this.intl.t('pages.user-account.connexion-methods'));
 
         // then
         expect(currentURL()).to.equal('/mon-compte/methodes-de-connexion');
