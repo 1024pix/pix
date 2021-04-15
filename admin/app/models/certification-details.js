@@ -14,25 +14,29 @@ export default class CertificationDetails extends Model {
   @attr() completedAt;
   @attr() listChallengesAndAnswers;
 
-  @computed('competencesWithMark', 'listChallengesAndAnswers')
-  get competences() {
-    const competenceData = this.competencesWithMark;
-    const answers = this.listChallengesAndAnswers;
+  @computed('listChallengesAndAnswers')
+  get answers() {
     let count = 1;
-    answers.forEach((answer) => {
+    return this.listChallengesAndAnswers.map((answer) => {
       answer.order = count;
       count++;
+      return answer;
     });
-    let competences = competenceData.reduce((accumulator, value) => {
-      accumulator[value.index] = value;
+  }
+
+  @computed('answers', 'competencesWithMark')
+  get competences() {
+    let competences = this.competencesWithMark.reduce((accumulator, competence) => {
+      accumulator[competence.index] = competence;
       return accumulator;
     }, {});
-    competences = answers.reduce((accumulator, value) => {
-      if (accumulator[value.competence]) {
-        if (!accumulator[value.competence].answers) {
-          accumulator[value.competence].answers = [];
+
+    competences = this.answers.reduce((accumulator, answer) => {
+      if (accumulator[answer.competence]) {
+        if (!accumulator[answer.competence].answers) {
+          accumulator[answer.competence].answers = [];
         }
-        accumulator[value.competence].answers.push(value);
+        accumulator[answer.competence].answers.push(answer);
       }
       return accumulator;
     }, competences);
