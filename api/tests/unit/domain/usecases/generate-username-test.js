@@ -196,15 +196,19 @@ describe('Unit | UseCase | generate-username', () => {
 
   context('When schoolingRegistration matched and student is not already reconciled', () => {
 
-    it('should return username', async () => {
+    it('should call createUsernameByUser with student information from database', async () => {
       // given
-      const username = studentInformation.firstName + '.' + studentInformation.lastName + '0112';
       schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([schoolingRegistration]);
       userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(schoolingRegistration.id);
-      userReconciliationService.createUsernameByUser.resolves(username);
+
+      studentInformation = {
+        firstName: schoolingRegistration.firstName,
+        lastName: schoolingRegistration.lastName,
+        birthdate: schoolingRegistration.birthdate,
+      };
 
       // when
-      const result = await generateUsername({
+      await generateUsername({
         studentInformation,
         campaignCode,
         campaignRepository,
@@ -216,7 +220,8 @@ describe('Unit | UseCase | generate-username', () => {
       });
 
       // then
-      expect(result).to.be.equal(username);
+      expect(userReconciliationService.createUsernameByUser).calledWith({ user: studentInformation, userRepository });
+
     });
   });
 });

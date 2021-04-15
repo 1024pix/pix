@@ -23,6 +23,12 @@ module.exports = async function generateUsername({
   const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
   await checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
 
+  studentInformation = {
+    firstName: matchedSchoolingRegistration.firstName,
+    lastName: matchedSchoolingRegistration.lastName,
+    birthdate: matchedSchoolingRegistration.birthdate,
+  };
+
   return userReconciliationService.createUsernameByUser({ user: studentInformation, userRepository });
 
 };
