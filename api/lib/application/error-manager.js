@@ -301,6 +301,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
 
+  if (error instanceof DomainErrors.InvalidMembershipRoleError) {
+    return new HttpErrors.BadRequestError(error.message);
+  }
+
   return new HttpErrors.BaseHttpError(error.message);
 }
 
