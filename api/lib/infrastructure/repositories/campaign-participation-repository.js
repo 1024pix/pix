@@ -109,7 +109,7 @@ module.exports = {
 
   findOneByCampaignIdAndUserId({ campaignId, userId }) {
     return BookshelfCampaignParticipation
-      .where({ campaignId, userId })
+      .where({ campaignId, userId, isImproved: false })
       .fetch({ require: false })
       .then((campaignParticipation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation));
   },

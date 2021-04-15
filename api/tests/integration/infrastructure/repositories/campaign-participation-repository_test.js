@@ -435,7 +435,29 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       // then
       expect(response).to.be.instanceOf(CampaignParticipation);
-      expect(response.id).to.deep.equal(campaignParticipation.id);
+      expect(response.id).to.equal(campaignParticipation.id);
+    });
+
+    it('should return the non improved campaign participation found', async () => {
+      // given
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId,
+        isImproved: true,
+      });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
+
+      // then
+      expect(response).to.be.instanceOf(CampaignParticipation);
+      expect(response.id).to.equal(campaignParticipation.id);
     });
 
     it('should return no campaign participation', async () => {
@@ -476,7 +498,7 @@ describe('Integration | Repository | Campaign Participation', () => {
         const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessmentId);
 
         // then
-        expect(campaignParticipationFound.assessmentId).to.deep.equal(assessmentId);
+        expect(campaignParticipationFound.assessmentId).to.equal(assessmentId);
         expect(campaignParticipationFound.campaign.targetProfile.skills).to.have.lengthOf(2);
         expect(campaignParticipationFound.campaign.targetProfile.skills[0]).to.be.instanceOf(Skill);
         expect(campaignParticipationFound.campaign.targetProfile.skills[0].id).to.equal(skillId1);

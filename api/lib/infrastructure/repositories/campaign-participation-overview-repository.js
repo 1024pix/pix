@@ -49,6 +49,7 @@ function _findByUserId({ userId }) {
         .innerJoin('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')
         .modify(_filterMostRecentAssessments)
         .where('campaign-participations.userId', userId)
+        .where('campaign-participations.isImproved', false)
         .whereNot('campaigns.isForAbsoluteNovice', true);
     })
     .from('campaign-participation-overviews')

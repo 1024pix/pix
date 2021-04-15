@@ -90,6 +90,19 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
         expect(campaignParticipationUserIds).to.exactlyContain([participation1Id, participation2Id]);
       });
 
+      it('retrieves information about the most recent campaign participation of multipleSending campaign', async () => {
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, multipleSendings: true });
+        const { id: oldParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, isImproved: true });
+        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId: oldParticipationId, state: Assessment.states.COMPLETED, createdAt: new Date('2020-01-01') });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId: participationId, state: Assessment.states.COMPLETED, createdAt: new Date('2020-01-03') });
+        await databaseBuilder.commit();
+
+        const { campaignParticipationOverviews: [campaignParticipation] } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+
+        expect(campaignParticipation.id).to.equal(participationId);
+      });
+
       it('retrieves information about the most recent assessment of campaign participation', async () => {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
         const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
