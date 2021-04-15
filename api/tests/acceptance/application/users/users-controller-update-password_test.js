@@ -1,6 +1,7 @@
 const { expect, hFake, knex, databaseBuilder } = require('../../../test-helper');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller-update-password', () => {

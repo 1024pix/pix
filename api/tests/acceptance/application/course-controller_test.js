@@ -1,4 +1,5 @@
 const { expect, nock, generateValidRequestAuthorizationHeader, mockLearningContent, learningContentBuilder } = require('../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../server');
 
 describe('Acceptance | API | Courses', () => {

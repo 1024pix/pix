@@ -4,6 +4,7 @@ const {
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
 
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller-get-current-user', () => {

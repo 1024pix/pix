@@ -1,4 +1,5 @@
 const { expect, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo', function() {

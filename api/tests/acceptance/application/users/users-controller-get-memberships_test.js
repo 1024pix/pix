@@ -1,4 +1,5 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 const Membership = require('../../../../lib/domain/models/Membership');

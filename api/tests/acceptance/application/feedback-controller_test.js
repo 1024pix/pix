@@ -1,4 +1,5 @@
 const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../server');
 const Feedback = require('../../../lib/infrastructure/data/feedback');
 

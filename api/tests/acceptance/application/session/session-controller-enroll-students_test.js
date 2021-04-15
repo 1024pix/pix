@@ -1,4 +1,5 @@
 const { sinon, expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | session-controller-enroll-students-to-session', () => {

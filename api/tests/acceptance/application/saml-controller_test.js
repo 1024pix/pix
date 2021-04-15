@@ -3,6 +3,7 @@ const _ = require('lodash');
 const { databaseBuilder, expect, sinon } = require('../../test-helper');
 
 const samlify = require('samlify');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../server');
 const settings = require('../../../lib/config');
 

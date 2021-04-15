@@ -3,6 +3,7 @@ const { expect, knex, databaseBuilder } = require('../../test-helper');
 const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
 
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../server');
 
 describe('Acceptance | Application | organization-invitation-controller', () => {

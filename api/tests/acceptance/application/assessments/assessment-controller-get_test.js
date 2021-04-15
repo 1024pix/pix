@@ -1,4 +1,5 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 const Assessment = require('../../../../lib/domain/models/Assessment');

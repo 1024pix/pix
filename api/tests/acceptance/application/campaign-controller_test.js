@@ -11,6 +11,7 @@ const {
 
 const settings = require('../../../lib/config');
 const Membership = require('../../../lib/domain/models/Membership');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../server');
 
 describe('Acceptance | API | Campaign Controller', () => {

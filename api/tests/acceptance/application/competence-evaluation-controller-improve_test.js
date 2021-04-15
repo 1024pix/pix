@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../server');
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex } = require('../../test-helper');
 const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../lib/domain/constants');

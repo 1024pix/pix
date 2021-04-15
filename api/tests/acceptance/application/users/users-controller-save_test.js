@@ -9,6 +9,7 @@ const {
 
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller', () => {

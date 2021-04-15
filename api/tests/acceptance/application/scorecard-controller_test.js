@@ -2,6 +2,7 @@ const { databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader, 
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const { FRENCH_SPOKEN } = require('../../../lib/domain/constants').LOCALE;
 
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | scorecard-controller', () => {

@@ -1,6 +1,7 @@
 const { knex, databaseBuilder, expect, generateValidRequestAuthorizationHeader, sinon, mockLearningContent } = require('../../../test-helper');
 const _ = require('lodash');
 
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller-reset-scorecard', () => {

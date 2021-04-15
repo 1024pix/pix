@@ -1,4 +1,5 @@
 const { learningContentBuilder, mockLearningContent, databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');

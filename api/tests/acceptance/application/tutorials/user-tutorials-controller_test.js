@@ -1,4 +1,5 @@
 const { expect, generateValidRequestAuthorizationHeader, mockLearningContent, databaseBuilder, knex } = require('../../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | user-tutorial-controller', () => {

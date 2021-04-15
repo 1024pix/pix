@@ -1,6 +1,7 @@
 const {
   expect, generateValidRequestAuthorizationHeader, databaseBuilder,
 } = require('../../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 describe('PUT /api/admin/sessions/:id/results-sent-to-prescriber', () => {

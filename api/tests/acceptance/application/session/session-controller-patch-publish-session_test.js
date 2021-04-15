@@ -1,6 +1,7 @@
 const {
   expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex,
 } = require('../../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 describe('PATCH /api/admin/sessions/:id/publish', () => {

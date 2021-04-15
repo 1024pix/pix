@@ -1,4 +1,5 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, sinon } = require('../../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 

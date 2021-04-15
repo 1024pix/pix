@@ -4,6 +4,7 @@ const {
   knex,
   generateValidRequestAuthorizationHeader,
 } = require('../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | certification-report-controller', () => {

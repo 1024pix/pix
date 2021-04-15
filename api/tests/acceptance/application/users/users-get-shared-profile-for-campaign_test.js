@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLearningContent } = require('../../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profile', () => {

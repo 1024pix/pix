@@ -3,6 +3,7 @@ const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Badge = require('../../../../lib/domain/models/Badge');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 

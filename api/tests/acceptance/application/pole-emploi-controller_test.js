@@ -1,4 +1,5 @@
 const { expect, knex } = require('../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../server');
 const authenticationCache = require('../../../lib/infrastructure/caches/authentication-cache');
 const jsonwebtoken = require('jsonwebtoken');

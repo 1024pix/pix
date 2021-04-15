@@ -1,5 +1,6 @@
 const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, mockLearningContent } = require('../../../test-helper');
 
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller-get-user-profile', () => {

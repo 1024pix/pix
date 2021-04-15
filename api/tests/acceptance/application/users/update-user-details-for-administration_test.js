@@ -1,5 +1,6 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, knex } = require('../../../test-helper');
 
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller-update-user-details-for-administration', () => {

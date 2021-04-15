@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../../test-helper');
 

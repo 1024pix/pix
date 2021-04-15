@@ -7,6 +7,7 @@ const {
   knex,
 } = require('../../test-helper');
 
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');

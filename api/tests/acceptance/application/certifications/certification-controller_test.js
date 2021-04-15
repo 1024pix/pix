@@ -5,6 +5,7 @@ const {
   mockLearningContent,
   learningContentBuilder,
 } = require('../../../test-helper');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 

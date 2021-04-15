@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 const Membership = require('../../../../lib/domain/models/Membership');
 const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');

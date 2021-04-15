@@ -5,6 +5,7 @@ const resetPasswordDemandRepository = require('../../../lib/infrastructure/repos
 
 const config = require('../../../lib/config');
 
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | password-controller', () => {

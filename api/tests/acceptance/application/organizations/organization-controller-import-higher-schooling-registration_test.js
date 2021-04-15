@@ -3,6 +3,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const HigherSchoolingRegistrationColumns = require('../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-columns');
 
 const { getI18n } = require('../../../../tests/tooling/i18n/i18n');
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../../server');
 
 const i18n = getI18n();
