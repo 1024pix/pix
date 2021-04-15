@@ -26,6 +26,10 @@ export default class SidebarMenu extends Component {
       return 'https://cloud.pix.fr/s/cwZN2GAbqSPGnw4';
     }
 
+    if (this.currentUser.organization.isSup) {
+      return 'https://cloud.pix.fr/s/DTTo7Lp7p6Ktceo';
+    }
+
     return null;
   }
 

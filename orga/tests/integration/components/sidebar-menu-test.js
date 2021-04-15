@@ -86,9 +86,20 @@ module('Integration | Component | sidebar-menu', function(hooks) {
 
     // when
     await render(hbs`<SidebarMenu />`);
-
     // then
     assert.dom('a[href="https://view.genial.ly/5ffb6eed1ac90d0d0daf65d8"]').exists();
+  });
+
+  test('it should display documentation for a SUP organization', async function(assert) {
+    class CurrentUserStub extends Service {
+      organization = Object.create({ id: 1, isSup: true });
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
+
+    // when
+    await render(hbs`<SidebarMenu />`);
+    // then
+    assert.dom('a[href="https://cloud.pix.fr/s/DTTo7Lp7p6Ktceo"]').exists();
   });
 
   test('it should not display documentation for a sco organization that does not managed students', async function(assert) {
