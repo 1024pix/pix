@@ -3,13 +3,14 @@ const jsonwebtoken = require('jsonwebtoken');
 const moment = require('moment');
 const authenticationCache = require('../../../lib/infrastructure/caches/authentication-cache');
 
-const { expect, databaseBuilder, knex, sinon, nock, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { expect, databaseBuilder, knex, sinon, nock, generateValidRequestAuthorizationHeader, HttpTestServer } = require('../../test-helper');
 
 const settings = require('../../../lib/config');
-const createServer = require('../../../server');
 const tokenService = require('../../../lib/domain/services/token-service');
 
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
+
+const moduleUnderTest = require('../../../lib/application/authentication');
 
 describe('Acceptance | Controller | authentication-controller', () => {
 
@@ -22,7 +23,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
   let userId;
 
   before(async () => {
-    server = await createServer();
+    server = new HttpTestServer(moduleUnderTest, true);
   });
 
   beforeEach(async () => {
@@ -32,7 +33,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
       rawPassword: userPassword,
       cgu: true,
     }).id;
-
     await databaseBuilder.commit();
   });
 
@@ -63,7 +63,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
     it('should return an 200 with accessToken when authentication is ok', async () => {
       // when
-      const response = await server.inject(options);
+      const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -104,7 +104,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       await databaseBuilder.commit();
 
       // when
-      const response = await server.inject(options);
+      const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
       // then
       expect(response.statusCode).to.equal(401);
@@ -154,7 +154,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
     it('should return an 200 with accessToken when authentication is ok', async () => {
       // when
-      const response = await server.inject(options);
+      const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -168,7 +168,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         options.payload.data.attributes.username = 'unknown';
 
         // when
-        const response = await server.inject(options);
+        const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -191,7 +191,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         options.payload.data.attributes.password = rawPassword;
 
         // when
-        const response = await server.inject(options);
+        const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -200,7 +200,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       });
     });
 
-    context('When the authentified user does not match the expected one', () => {
+    context('When the authenticated user does not match the expected one', () => {
 
       it('should return a 409 Conflict', async () => {
         // given
@@ -209,7 +209,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         options.payload.data.attributes['expected-user-id'] = invalidUserId;
 
         // when
-        const response = await server.inject(options);
+        const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
         // then
         expect(response.statusCode).to.equal(409);
@@ -290,7 +290,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
         it('should return http code 401', async () => {
           // when
-          const response = await server.inject(options);
+          const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
           // then
           expect(response.statusCode).to.equal(401);
@@ -298,7 +298,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
         it('should return an authenticationKey in meta', async () => {
           // when
-          const response = await server.inject(options);
+          const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
           // then
           expect(response.result.errors[0].meta).to.exist;
@@ -306,7 +306,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
         it('should return validate cgu in code', async () => {
           // when
-          const response = await server.inject(options);
+          const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
           // then
           expect(response.result.errors[0].code).to.exist;
@@ -315,7 +315,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
         it('should return an authenticationKey in meta which match to cached object', async () => {
           // when
-          const response = await server.inject(options);
+          const response = await server.request(options.method, options.url, options.payload, null, options.headers);
           const expectedObject = {
             accessToken: 'access_token',
             idToken: idToken,
@@ -354,7 +354,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
         it('should update POLE_EMPLOI authentication method authentication complement', async () => {
           // when
-          await server.inject(options);
+          await server.request(options.method, options.url, options.payload, null, options.headers);
 
           // then
           const authenticationMethods = await knex('authentication-methods').where({ userId });
@@ -365,7 +365,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
         it('should return an 200 with access_token and id_token when authentication is ok', async () => {
           // when
-          const response = await server.inject(options);
+          const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
           // then
           expect(response.statusCode).to.equal(200);
@@ -395,7 +395,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
         it('should create a POLE_EMPLOI authentication method for the authenticated user', async () => {
           // when
-          await server.inject(options);
+          await server.request(options.method, options.url, options.payload, null, options.headers);
 
           // then
           const authenticationMethods = await knex('authentication-methods').where({ userId: authenticatedUser.id });
@@ -408,7 +408,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
         it('should return an 200 with access_token and id_token when authentication is ok', async () => {
           // when
-          const response = await server.inject(options);
+          const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
           // then
           expect(response.statusCode).to.equal(200);
@@ -433,7 +433,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           await databaseBuilder.commit();
 
           // when
-          await server.inject(options);
+          await server.request(options.method, options.url, options.payload, null, options.headers);
 
           // then
           const authenticationMethods = await knex('authentication-methods').where({ userId: authenticatedUser.id });
@@ -453,7 +453,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           options.headers['Authorization'] = generateValidRequestAuthorizationHeader(otherUser.id);
 
           // when
-          const response = await server.inject(options);
+          const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
           // then
           expect(response.statusCode).to.equal(409);
@@ -462,7 +462,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
       it('should return an 200 with access_token and id_token when authentication is ok', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -475,14 +475,14 @@ describe('Acceptance | Controller | authentication-controller', () => {
     context('When user has an invalid token', () => {
 
       it('should be rejected by API', async () => {
-
+        // given
         options.headers['Authorization'] = 'invalid_token';
+
         // when
-        const response = await server.inject(options);
+        const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
         // expect
         expect(response.statusCode).to.equal(401);
-
       });
 
     });
@@ -518,7 +518,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
       it('should return an 401', async() =>{
         // when
-        const response = await server.inject(options);
+        const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -556,7 +556,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
       it('should return a 200 with accessToken', async() =>{
         // when
-        const response = await server.inject(options);
+        const response = await server.request(options.method, options.url, options.payload, null, options.headers);
         const result = response.result;
 
         // then
@@ -568,7 +568,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
       it('should create an anonymous user', async () => {
         // when
-        await server.inject(options);
+        await server.request(options.method, options.url, options.payload, null, options.headers);
 
         // then
         const users = await knex('users').where({ firstName, lastName, isAnonymous });
@@ -596,9 +596,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return an 200 with accessToken when clientId, client secret and scope are registred', async () => {
-      // when
-
+    it('should return an 200 with accessToken when clientId, client secret and scope are registered', async () => {
+      // given
       options.payload = querystring.stringify({
         grant_type: 'client_credentials',
         client_id: OSMOSE_CLIENT_ID,
@@ -606,7 +605,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
         scope: SCOPE,
       });
 
-      const response = await server.inject(options);
+      // when
+      const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -617,9 +617,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
       expect(result.client_id).to.equal(OSMOSE_CLIENT_ID);
     });
 
-    it('should return an 401 when clientId is not registred', async () => {
-      // when
-
+    it('should return an 401 when clientId is not registered', async () => {
+      // given
       options.payload = querystring.stringify({
         grant_type: 'client_credentials',
         client_id: 'NOT REGISTRED',
@@ -627,7 +626,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
         scope: SCOPE,
       });
 
-      const response = await server.inject(options);
+      // when
+      const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
       // then
       expect(response.result.errors[0]).to.deep.equal({
@@ -635,12 +635,10 @@ describe('Acceptance | Controller | authentication-controller', () => {
         'detail': 'The client ID is invalid.',
         'status': '401',
       });
-
     });
 
     it('should return an 401 when client secret is not valid', async () => {
-      // when
-
+      // given
       options.payload = querystring.stringify({
         grant_type: 'client_credentials',
         client_id: OSMOSE_CLIENT_ID,
@@ -648,7 +646,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
         scope: SCOPE,
       });
 
-      const response = await server.inject(options);
+      // when
+      const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
       // then
       expect(response.result.errors[0]).to.deep.equal({
@@ -656,12 +655,10 @@ describe('Acceptance | Controller | authentication-controller', () => {
         'detail': 'The client secret is invalid.',
         'status': '401',
       });
-
     });
 
     it('should return an 403 when scope is not allowed', async () => {
-      // when
-
+      // given
       options.payload = querystring.stringify({
         grant_type: 'client_credentials',
         client_id: OSMOSE_CLIENT_ID,
@@ -669,7 +666,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
         scope: 'invalid scope',
       });
 
-      const response = await server.inject(options);
+      // when
+      const response = await server.request(options.method, options.url, options.payload, null, options.headers);
 
       // then
       expect(response.result.errors[0]).to.deep.equal({
@@ -677,7 +675,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
         'detail': 'The scope is not allowed.',
         'status': '403',
       });
-
     });
 
   });
