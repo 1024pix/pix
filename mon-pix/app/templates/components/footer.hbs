@@ -12,35 +12,46 @@
     </div>
 
     <div class="footer-container__content">
-      <div class="footer-container-content__navigation">
-        <a href="{{this.helpCenterUrl}}"
-           target="_blank"
-           class="footer-navigation__item" rel="noopener noreferrer">
-          {{t 'navigation.footer.help-center'}}
-        </a>
+      <nav class="footer-container-content__navigation">
+        <ul class="footer-container-content__navigation-list">
+          <li>
+            <a href="{{this.helpCenterUrl}}"
+                         target="_blank"
+                         class="footer-navigation__item" rel="noopener noreferrer">
+            {{t 'navigation.footer.help-center'}}
+            </a>
+          </li>
 
-        <a href="{{this.accessibilityUrl}}"
-           target="_blank"
-           class="footer-navigation__item" rel="noopener noreferrer">
-          {{t 'navigation.footer.a11y'}}
-        </a>
+          <li>
+            <a href="{{this.accessibilityUrl}}"
+                         target="_blank"
+                         class="footer-navigation__item" rel="noopener noreferrer">
+            {{t 'navigation.footer.a11y'}}
+            </a>
+          </li>
 
-        <a href="{{this.cguUrl}}"
-           target="_blank"
-           class="footer-navigation__item" rel="noopener noreferrer">
-          {{t 'navigation.footer.eula'}}
-        </a>
+          <li>
+            <a href="{{this.cguUrl}}"
+                         target="_blank"
+                         class="footer-navigation__item" rel="noopener noreferrer">
+            {{t 'navigation.footer.eula'}}
+            </a>
+          </li>
 
-        <a href="{{this.dataProtectionPolicyUrl}}"
-           target="_blank"
-           class="footer-navigation__item" rel="noopener noreferrer">
-          {{t 'navigation.footer.data-protection-policy'}}
-        </a>
-
-        <LinkTo @route="sitemap" class="footer-navigation__item footer-navigation__item--internal-link">
-          {{t 'navigation.footer.sitemap'}}
-        </LinkTo>
-      </div>
+          <li>
+            <a href="{{this.dataProtectionPolicyUrl}}"
+                         target="_blank"
+                         class="footer-navigation__item" rel="noopener noreferrer">
+            {{t 'navigation.footer.data-protection-policy'}}
+            </a>
+          </li>
+          <li>
+            <LinkTo @route="sitemap" class="footer-navigation__item footer-navigation__item--internal-link">
+              {{t 'navigation.footer.sitemap'}}
+            </LinkTo>
+          </li>
+        </ul>
+      </nav>
 
       <div class="footer-container-content__copyrights">
         <span>{{t 'navigation.copyrights'}} {{ this.currentYear }} {{t 'navigation.pix'}}</span>

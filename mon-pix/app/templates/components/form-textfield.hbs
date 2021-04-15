@@ -1,6 +1,6 @@
-{{!-- template-lint-disable no-implicit-this no-action no-curly-component-invocation no-nested-interactive --}}
+{{!-- template-lint-disable no-implicit-this no-action no-curly-component-invocation --}}
 <label for="{{textfieldName}}" class="form-textfield__label">
-  {{#if require}}<abbr title="{{t 'common.form.mandatory'}}" class="mandatory-mark">*</abbr> {{/if}}
+  {{#unless hideRequired}}{{#if require}}<abbr title="{{t 'common.form.mandatory'}}" class="mandatory-mark">*</abbr> {{/if}}{{/unless}}
   {{label}}
     <br><span class="form-textfield__help">{{help}}</span>
 </label>
@@ -13,22 +13,20 @@
          @focus-out={{action onValidate textfieldName}}
          class="form-textfield__input {{inputValidationStatus}}"
          autocomplete={{autocomplete}}
-         aria-describedby="validationMessage"
+         aria-describedby="validationMessage-{{textfieldName}}"
          required={{require}}
          disabled={{disabled}} />
     <div class="form-textfield__icon">
       {{#if isPassword}}
-          <button type="button" aria-label={{t 'common.form.visible-password'}} class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
             {{#if isPasswordVisible}}
-                <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>
-                  <FaIcon @icon="eye" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
-                </div>
+            <button type="button" aria-label={{t 'common.form.invisible-password'}} class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
+              <FaIcon @icon="eye" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
+            </button>
             {{else}}
-                <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>
-                  <FaIcon @icon="eye-slash" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
-                </div>
+            <button type="button" aria-label={{t 'common.form.visible-password'}} class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
+              <FaIcon @icon="eye-slash" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
+            </button>
             {{/if}}
-          </button>
       {{/if}}
       {{#if hasIcon}}
         {{#if (eq validationStatus 'error') }}
@@ -40,5 +38,5 @@
     </div>
 </div>
 
-<div id="validationMessage-{{textfieldName}}" class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" role="alert">{{#if displayMessage}}{{validationMessage}}{{/if}}</div>
+<div id="validationMessage-{{textfieldName}}" class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" aria-live="polite">{{#if displayMessage}}{{validationMessage}}{{/if}}</div>
 
