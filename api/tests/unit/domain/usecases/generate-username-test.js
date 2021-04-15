@@ -1,11 +1,5 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { generateUsername } = require('../../../../lib/domain/usecases');
-const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
-const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
-const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 const Student = require('../../../../lib/domain/models/Student');
 const { CampaignCodeError, SchoolingRegistrationNotFound, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
@@ -13,19 +7,19 @@ const { CampaignCodeError, SchoolingRegistrationNotFound, SchoolingRegistrationA
 describe('Unit | UseCase | generate-username', () => {
 
   const organizationId = 1;
+  const schoolingRegistrationId = 1;
+
+  let campaignRepository;
+  let userRepository;
+  let schoolingRegistrationRepository;
+  let studentRepository;
+
+  let obfuscationService;
+  let userReconciliationService;
 
   let campaignCode;
-  let createUsernameByUser;
-  let findByOrganizationIdAndBirthdateStub;
-  let findMatchingCandidateIdForGivenUserStub;
-  let getCampaignStub;
-  let getReconciledStudentByNationalStudentdStub;
-  let getForObfuscationStub;
-  let getUserAuthenticationMethodWithObfuscationStub;
   let studentInformation;
   let schoolingRegistration;
-
-  const schoolingRegistrationId = 1;
 
   beforeEach(() => {
     campaignCode = 'RESTRICTD';
@@ -38,27 +32,48 @@ describe('Unit | UseCase | generate-username', () => {
       birthdate: '1992-02-02',
     };
 
-    getCampaignStub = sinon.stub(campaignRepository, 'getByCode')
+    campaignRepository = {
+      getByCode: sinon.stub(),
+    };
+    userRepository = {
+      getForObfuscation: sinon.stub(),
+    };
+    schoolingRegistrationRepository = {
+      findByOrganizationIdAndBirthdate: sinon.stub(),
+    };
+    studentRepository = {
+      getReconciledStudentByNationalStudentId: sinon.stub(),
+    };
+    obfuscationService = {
+      getUserAuthenticationMethodWithObfuscation: sinon.stub(),
+    };
+    userReconciliationService = {
+      findMatchingCandidateIdForGivenUser: sinon.stub(),
+      createUsernameByUser: sinon.stub(),
+    };
+
+    campaignRepository.getByCode
       .withArgs(campaignCode)
       .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
-    getForObfuscationStub = sinon.stub(userRepository, 'getForObfuscation');
-    findByOrganizationIdAndBirthdateStub = sinon.stub(schoolingRegistrationRepository, 'findByOrganizationIdAndBirthdate');
-    getReconciledStudentByNationalStudentdStub = sinon.stub(studentRepository, 'getReconciledStudentByNationalStudentId');
-    getUserAuthenticationMethodWithObfuscationStub = sinon.stub(obfuscationService, 'getUserAuthenticationMethodWithObfuscation');
-    findMatchingCandidateIdForGivenUserStub = sinon.stub(userReconciliationService, 'findMatchingCandidateIdForGivenUser');
-    createUsernameByUser = sinon.stub(userReconciliationService, 'createUsernameByUser');
+
   });
 
   context('When there is no campaign with the given code', () => {
 
     it('should throw a campaign code error', async () => {
       // given
-      getCampaignStub.withArgs(campaignCode).resolves(null);
+      campaignRepository.getByCode.withArgs(campaignCode).resolves(null);
 
       // when
       const result = await catchErr(generateUsername)({
         studentInformation,
         campaignCode,
+        campaignRepository,
+        schoolingRegistrationRepository,
+        userReconciliationService,
+        obfuscationService,
+        userRepository,
+        studentRepository,
       });
 
       // then
@@ -70,12 +85,18 @@ describe('Unit | UseCase | generate-username', () => {
 
     it('should throw a SchoolingRegistrationNotFound error', async () => {
       // given
-      findByOrganizationIdAndBirthdateStub.resolves([]);
+      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([]);
 
       // when
       const result = await catchErr(generateUsername)({
         studentInformation,
         campaignCode,
+        campaignRepository,
+        schoolingRegistrationRepository,
+        userReconciliationService,
+        obfuscationService,
+        userRepository,
+        studentRepository,
       });
 
       // then
@@ -88,13 +109,19 @@ describe('Unit | UseCase | generate-username', () => {
 
     it('should throw a SchoolingRegistrationNotFound error', async () => {
       // given
-      findByOrganizationIdAndBirthdateStub.resolves([schoolingRegistration]);
-      findMatchingCandidateIdForGivenUserStub.withArgs([schoolingRegistration], studentInformation).resolves();
+      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([schoolingRegistration]);
+      userReconciliationService.findMatchingCandidateIdForGivenUser.withArgs([schoolingRegistration], studentInformation).resolves();
 
       // when
       const result = await catchErr(generateUsername)({
         studentInformation,
         campaignCode,
+        campaignRepository,
+        schoolingRegistrationRepository,
+        userReconciliationService,
+        obfuscationService,
+        userRepository,
+        studentRepository,
       });
 
       // then
@@ -110,22 +137,28 @@ describe('Unit | UseCase | generate-username', () => {
       schoolingRegistration.userId = studentInformation.id;
       schoolingRegistration.firstName = studentInformation.firstName;
       schoolingRegistration.lastName = studentInformation.lastName;
-      const exceptedErrorMEssage = 'Un compte existe déjà pour l‘élève dans le même établissement.';
+      const exceptedErrorMessage = 'Un compte existe déjà pour l‘élève dans le même établissement.';
 
-      findByOrganizationIdAndBirthdateStub.resolves([schoolingRegistration]);
-      findMatchingCandidateIdForGivenUserStub.resolves(schoolingRegistration.id);
-      getForObfuscationStub.resolves();
-      getUserAuthenticationMethodWithObfuscationStub.resolves({ authenticatedBy: 'email', value: 'e***@example.net' });
+      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([schoolingRegistration]);
+      userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(schoolingRegistration.id);
+      userRepository.getForObfuscation.resolves();
+      obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({ authenticatedBy: 'email', value: 'e***@example.net' });
 
       // when
       const result = await catchErr(generateUsername)({
         studentInformation,
         campaignCode,
+        campaignRepository,
+        schoolingRegistrationRepository,
+        userReconciliationService,
+        obfuscationService,
+        userRepository,
+        studentRepository,
       });
 
       // then
       expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
-      expect(result.message).to.equal(exceptedErrorMEssage);
+      expect(result.message).to.equal(exceptedErrorMessage);
     });
   });
 
@@ -135,23 +168,29 @@ describe('Unit | UseCase | generate-username', () => {
       // given
       schoolingRegistration.firstName = studentInformation.firstName;
       schoolingRegistration.lastName = studentInformation.lastName;
-      const exceptedErrorMEssage = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
-      findByOrganizationIdAndBirthdateStub.resolves([schoolingRegistration]);
-      findMatchingCandidateIdForGivenUserStub.resolves(schoolingRegistration.id);
+      const exceptedErrorMessage = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
+      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([schoolingRegistration]);
+      userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(schoolingRegistration.id);
       const student = new Student({ account: { userId: studentInformation.id } });
-      getReconciledStudentByNationalStudentdStub.resolves(student);
-      getForObfuscationStub.resolves();
-      getUserAuthenticationMethodWithObfuscationStub.resolves({ authenticatedBy: 'email', value: 'e***@example.net' });
+      studentRepository.getReconciledStudentByNationalStudentId.resolves(student);
+      userRepository.getForObfuscation.resolves();
+      obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({ authenticatedBy: 'email', value: 'e***@example.net' });
 
       // when
       const result = await catchErr(generateUsername)({
         studentInformation,
         campaignCode,
+        campaignRepository,
+        schoolingRegistrationRepository,
+        userReconciliationService,
+        obfuscationService,
+        userRepository,
+        studentRepository,
       });
 
       // then
       expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
-      expect(result.message).to.equal(exceptedErrorMEssage);
+      expect(result.message).to.equal(exceptedErrorMessage);
     });
   });
 
@@ -160,19 +199,24 @@ describe('Unit | UseCase | generate-username', () => {
     it('should return username', async () => {
       // given
       const username = studentInformation.firstName + '.' + studentInformation.lastName + '0112';
-      findByOrganizationIdAndBirthdateStub.resolves([schoolingRegistration]);
-      findMatchingCandidateIdForGivenUserStub.resolves(schoolingRegistration.id);
-      createUsernameByUser.resolves(username);
+      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([schoolingRegistration]);
+      userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(schoolingRegistration.id);
+      userReconciliationService.createUsernameByUser.resolves(username);
 
       // when
       const result = await generateUsername({
         studentInformation,
         campaignCode,
+        campaignRepository,
+        schoolingRegistrationRepository,
+        userReconciliationService,
+        obfuscationService,
+        userRepository,
+        studentRepository,
       });
 
       // then
       expect(result).to.be.equal(username);
     });
   });
-
 });
