@@ -8,7 +8,7 @@ module.exports = {
 
   markAsBeingUsed(email) {
     return ResetPasswordDemand
-      .query((qb) => qb.where('email', 'ILIKE', email))
+      .query((qb) => qb.whereRaw('LOWER("email") = ?', email.toLowerCase()))
       .save({ used: true }, {
         patch: true,
         require: false,
@@ -28,7 +28,7 @@ module.exports = {
 
   findByUserEmail(email, temporaryKey) {
     return ResetPasswordDemand.query((qb) => {
-      qb.where('email', 'ILIKE', email);
+      qb.whereRaw('LOWER("email") = ?', email.toLowerCase());
       qb.where({ 'used': false });
       qb.where({ temporaryKey });
     })
