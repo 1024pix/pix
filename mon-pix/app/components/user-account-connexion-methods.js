@@ -2,11 +2,11 @@ import Component from '@glimmer/component';
 
 export default class UserAccountConnexionMethodsComponent extends Component {
 
-  get displayEmail() {
+  get shouldShowEmail() {
     return !!this.args.user.email;
   }
 
-  get displayUsername() {
+  get shouldShowUsername() {
     return !!this.args.user.username;
   }
 }

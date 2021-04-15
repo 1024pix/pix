@@ -1,4 +1,4 @@
-{{#if this.displayEmail}}
+{{#if this.shouldShowEmail}}
   <div class="user-account-panel__item">
     <div class="user-account-panel-item__text">
       <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-connexion-methods.email'}}</p>
@@ -13,7 +13,7 @@
   </div>
 {{/if}}
 
-{{#if this.displayUsername}}
+{{#if this.shouldShowUsername}}
   <div class="user-account-panel__item">
     <div class="user-account-panel-item__text">
       <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-connexion-methods.username'}}</p>

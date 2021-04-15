@@ -17,7 +17,7 @@ describe('Acceptance | User account page', function() {
   context('When user is not connected', function() {
 
     it('should be redirected to connection page', async function() {
-      // when
+      // given / when
       await visit('/mon-compte');
 
       // then
@@ -30,6 +30,7 @@ describe('Acceptance | User account page', function() {
     let user;
 
     beforeEach(async function() {
+      // given
       user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
     });
