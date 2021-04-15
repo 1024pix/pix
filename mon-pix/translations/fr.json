@@ -1005,13 +1005,17 @@
         },
         "user-account": {
             "title": "Mon compte",
+            "connexion-methods": "Méthodes de connexion",
+            "personal-information": "Informations personnelles",
+            "account-connexion-methods": {
+                "email": "Adresse e-mail",
+                "username": "Identifiant",
+                "edit-button": "Modifier"
+            },
             "account-panel": {
                 "first-name": "Prénom",
                 "last-name": "Nom",
-                "email": "Adresse e-mail",
-                "username": "Identifiant",
                 "lang": "Langue",
-                "edit-button": "Modifier",
                 "fields": {
                     "select": {
                         "labels": {
