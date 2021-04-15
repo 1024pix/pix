@@ -24,11 +24,12 @@ describe('Integration | Component | Footer', function() {
     await render(hbs`<Footer />}`);
 
     // then
-    expect(findAll('.footer-navigation__item')).to.have.lengthOf(4);
+    expect(findAll('.footer-navigation__item')).to.have.lengthOf(5);
     expect(contains(this.intl.t('navigation.footer.a11y'))).to.exist;
     expect(contains(this.intl.t('navigation.footer.data-protection-policy'))).to.exist;
     expect(contains(this.intl.t('navigation.footer.eula'))).to.exist;
     expect(contains(this.intl.t('navigation.footer.help-center'))).to.exist;
+    expect(contains(this.intl.t('navigation.footer.sitemap'))).to.exist;
   });
 
   it('should not display marianne logo when url does not have frenchDomainExtension', async function() {

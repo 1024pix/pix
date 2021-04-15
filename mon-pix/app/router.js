@@ -89,6 +89,7 @@ Router.map(function() {
 
   this.route('login-pe', { path: '/connexion-pole-emploi' });
   this.route('terms-of-service-pe', { path: '/cgu-pole-emploi' });
+  this.route('sitemap', { path: '/plan-du-site' });
 
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
   this.route('not-found', { path: '/*path' });
