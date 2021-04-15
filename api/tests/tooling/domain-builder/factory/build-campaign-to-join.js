@@ -21,6 +21,7 @@ module.exports = function buildCampaignToJoin({
   organizationIsPoleEmploi = false,
   targetProfileName = 'Le profil cible',
   targetProfileImageUrl = 'targetProfileImageUrl',
+  multipleSendings = false,
 } = {}) {
   return new CampaignToJoin({
     id,
@@ -41,5 +42,6 @@ module.exports = function buildCampaignToJoin({
     organizationIsPoleEmploi,
     targetProfileName,
     targetProfileImageUrl,
+    multipleSendings,
   });
 };

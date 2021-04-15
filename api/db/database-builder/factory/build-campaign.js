@@ -24,8 +24,7 @@ module.exports = function buildCampaign({
   customResultPageText,
   customResultPageButtonText,
   customResultPageButtonUrl,
-  multipleSendings,
-
+  multipleSendings = false,
 } = {}) {
 
   if (type === Campaign.types.ASSESSMENT) {

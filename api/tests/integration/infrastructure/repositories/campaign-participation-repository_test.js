@@ -671,4 +671,5 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(isAssessmentCompleted).to.be.false;
     });
   });
+
 });
