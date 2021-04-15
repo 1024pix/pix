@@ -1,0 +1,32 @@
+{{#if this.model.answers}}
+  <table class="table-admin table-admin__auto-width">
+    <thead>
+      <tr>
+        <th>
+          Numéro de question
+        </th>
+        <th>
+          RecId de l'épreuve
+        </th>
+        <th>
+          Action
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this.model.answers as |answer| }}
+        <tr>
+          <td>
+            {{answer.order}}
+          </td>
+          <td>
+            {{answer.challengeId}}
+          </td>
+          <td></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{else}}
+  <p>Aucune épreuve posée.</p>
+{{/if}}

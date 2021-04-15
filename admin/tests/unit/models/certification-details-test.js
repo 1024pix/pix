@@ -5,10 +5,27 @@ import { run } from '@ember/runloop';
 module('Unit | Model | certification details', function(hooks) {
   setupTest(hooks);
 
-  // Replace this with your real tests.
-  test('it exists', function(assert) {
-    const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('certification-details', {}));
-    assert.ok(model);
+  module('#get answers', function() {
+    test('it returns answers with order property', function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const listChallengesAndAnswers = [
+        { id: 'answerId1' },
+        { id: 'answerId2' },
+        { id: 'answerId3' },
+      ];
+
+      // when
+      const certification = run(() => store.createRecord('certification-details', {
+        listChallengesAndAnswers,
+      }));
+
+      // then
+      assert.deepEqual(certification.answers, [
+        { id: 'answerId1', order: 1 },
+        { id: 'answerId2', order: 2 },
+        { id: 'answerId3', order: 3 },
+      ]);
+    });
   });
 });
