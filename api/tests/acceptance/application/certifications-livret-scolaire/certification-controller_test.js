@@ -3,10 +3,12 @@ const {
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   generateValidRequestAuthorizationHeaderForApplication,
+  HttpTestServer,
 } = require('../../../test-helper');
-const createServer = require('../../../../server');
+
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { buildOrganization, buildValidatedPublishedCertificationData, mockLearningContentCompetences, buildUser, buildSchoolingRegistration } = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
+const moduleUnderTest = require('../../../../lib/application/certification-livret-scolaire');
 
 describe('Acceptance | API | Certifications', () => {
 
@@ -14,6 +16,10 @@ describe('Acceptance | API | Certifications', () => {
   const OSMOSE_CLIENT_ID = 'graviteeOsmoseClientId';
   const OSMOSE_SCOPE = 'organizations-certifications-result';
   const OSMOSE_SOURCE = 'osmose';
+
+  before(()=>{
+    server = new HttpTestServer(moduleUnderTest, true);
+  });
 
   describe('GET /api/organizations/:id/certifications', () => {
     const pixScore = 400;
@@ -191,7 +197,6 @@ describe('Acceptance | API | Certifications', () => {
     beforeEach(() => {
       organizationId = buildOrganization(uai).id;
       mockLearningContentCompetences();
-
     });
 
     context('when the given uai is correct', () => {
@@ -199,7 +204,6 @@ describe('Acceptance | API | Certifications', () => {
       it('should return 200 HTTP status code with the certifications results and referential of competences', async () => {
 
         // given
-        server = await createServer();
         const user = buildUser();
         const schoolingRegistration = buildSchoolingRegistration({ userId: user.id, organizationId });
         const { session, certificationCourse }
@@ -223,11 +227,10 @@ describe('Acceptance | API | Certifications', () => {
           method: 'GET',
           url: `/api/organizations/${uai}/certifications`,
           headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(OSMOSE_CLIENT_ID, OSMOSE_SOURCE, OSMOSE_SCOPE) },
-
         };
 
         // when
-        const response = await server.inject(options);
+        const response = await server.request(options.method, options.url, null, null, options.headers);
 
         // then
         const expectedCertificationResult = {
@@ -274,7 +277,6 @@ describe('Acceptance | API | Certifications', () => {
       it('should return 200 HTTP status code with the referential of competences only', async () => {
 
         // given
-        server = await createServer();
         options = {
           method: 'GET',
           url: '/api/organizations/9999/certifications',
@@ -282,7 +284,7 @@ describe('Acceptance | API | Certifications', () => {
         };
 
         // when
-        const response = await server.inject(options);
+        const response = await server.request(options.method, options.url, null, null, options.headers);
 
         // then
         const expectedCertificationResult = {
@@ -309,7 +311,6 @@ describe('Acceptance | API | Certifications', () => {
       it('should return unauthorized status code', async () => {
 
         // given
-        server = await createServer();
         options = {
           method: 'GET',
           url: '/api/organizations/9999/certifications',
@@ -317,7 +318,7 @@ describe('Acceptance | API | Certifications', () => {
         };
 
         // when
-        const response = await server.inject(options);
+        const response = await server.request(options.method, options.url, null, null, options.headers);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -329,7 +330,6 @@ describe('Acceptance | API | Certifications', () => {
       it('should return unauthorized status code', async () => {
 
         // given
-        server = await createServer();
         options = {
           method: 'GET',
           url: '/api/organizations/9999/certifications',
@@ -337,7 +337,7 @@ describe('Acceptance | API | Certifications', () => {
         };
 
         // when
-        const response = await server.inject(options);
+        const response = await server.request(options.method, options.url, null, null, options.headers);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -349,7 +349,6 @@ describe('Acceptance | API | Certifications', () => {
       it('should return Forbidden access status code', async () => {
 
         // given
-        server = await createServer();
         options = {
           method: 'GET',
           url: '/api/organizations/9999/certifications',
@@ -357,7 +356,7 @@ describe('Acceptance | API | Certifications', () => {
         };
 
         // when
-        const response = await server.inject(options);
+        const response = await server.request(options.method, options.url, null, null, options.headers);
 
         // then
         expect(response.statusCode).to.equal(403);
