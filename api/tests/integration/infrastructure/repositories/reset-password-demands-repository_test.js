@@ -46,6 +46,19 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
       expect(demand.used).to.be.true;
     });
 
+    it('should be case insensitive', async () => {
+      // when
+      const emailWithUppercase = email.toUpperCase();
+      await resetPasswordDemandsRepository.markAsBeingUsed(emailWithUppercase);
+
+      // then
+      const demand = await knex('reset-password-demands')
+        .select('used')
+        .where({ email })
+        .first();
+      expect(demand.used).to.be.true;
+    });
+
     context('when case is not identical', () => {
       it('should mark demand as used', async () => {
         // given
@@ -169,6 +182,18 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
         it('should return the bookshelf demand', async () => {
           // when
           const demand = await resetPasswordDemandsRepository.findByUserEmail(email, temporaryKey);
+
+          // then
+          expect(demand.attributes.id).to.equal(demandId);
+          expect(demand.attributes.email).to.equal(email);
+          expect(demand.attributes.temporaryKey).to.equal(temporaryKey);
+          expect(demand.attributes.used).to.equal(false);
+        });
+
+        it('should be case insensitive', async () => {
+          // when
+          const emailWithUppercase = email.toUpperCase();
+          const demand = await resetPasswordDemandsRepository.findByUserEmail(emailWithUppercase, temporaryKey);
 
           // then
           expect(demand.attributes.id).to.equal(demandId);
