@@ -35,7 +35,9 @@
         },
         "form": {
             "error": "erreur",
+            "invisible-password": "cacher le mot de passe",
             "mandatory": "obligatoire",
+            "mandatory-all-fields": "Tous les champs sont obligatoires.",
             "mandatory-fields": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires",
             "success": "correct",
             "visible-password": "afficher le mot de passe"
@@ -827,6 +829,7 @@
                 "message": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects"
             },
             "fields": {
+                "legend": "Informations nécessaires pour se connecter.",
                 "login": {
                     "label": "Adresse e-mail ou identifiant"
                 },
@@ -844,8 +847,7 @@
             "pole-emploi": {
                 "title": "Se connecter avec pôle emploi",
                 "link": {
-                    "title": "Pôle Emploi",
-                    "img": "image Pôle Emploi"
+                    "img": "pôle Emploi connect"
                 }
             }
         },
@@ -857,7 +859,7 @@
             "fields": {
                 "cgu": {
                     "error": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
-                    "label": "'<abbr title=\"obligatoire\">'*'</abbr>' J'accepte les ",
+                    "label": "J'accepte les ",
                     "cgu": "conditions d'utilisation de Pix"
                 },
                 "email": {
@@ -873,6 +875,7 @@
                     "error": "Votre nom n’est pas renseigné.",
                     "label": "Nom"
                 },
+                "legend": "Information nécessaire pour l'inscription.",
                 "password": {
                     "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
                     "help": "(8 caractères minimum, dont une majuscule, une minuscule et un chiffre)",

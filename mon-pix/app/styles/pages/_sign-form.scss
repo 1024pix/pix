@@ -146,28 +146,21 @@
   }
 
   &__bottom-decoration {
-    display: flex;
-    width: calc(100% + 90px);
-    padding: 12px 0 32px 0;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1.5px solid $grey-20;
+    line-height: 0.1rem;
+    margin: 30px 0 40px;
 
     @include device-is('mobile') {
       width: 100%;
     }
 
-    hr {
-      width: 100%;
-      height: 1px;
-      border: 1px solid $grey-20;
-    }
-
     span {
       font-size: 16px;
       color: $grey-80;
-      padding: 0 25px;
-
-      @include device-is('mobile') {
-        padding: 0 15px;
-      }
+      background: $white;
+      padding: 0 10px;
     }
   }
 
@@ -175,13 +168,20 @@
     border-radius: 100px;
     display: flex;
     align-items: center;
-    border: 2px solid $pole-emploi;
     text-decoration: none;
     background-color: $pole-emploi;
     color: $white;
     padding: 7px 10px 7px 13px;
     font-size: 14px;
     font-weight: bold;
+    border: 2px solid transparent;
+
+    &:focus,
+    &:hover,
+    &:focus-within {
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px $pole-emploi;
+    }
 
     img {
       width: 30px;

@@ -35,7 +35,9 @@
         },
         "form": {
             "error": "error",
+            "invisible-password": "Hide password",
             "mandatory": "required",
+            "mandatory-all-fields": "All fields are required.",
             "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required",
             "success": "success",
             "visible-password": "Show password"
@@ -827,6 +829,7 @@
                 "message": "There was an error in the email address or username/password entered."
             },
             "fields": {
+                "legend": "Information required for sign in.",
                 "login": {
                     "label": "Email address or username"
                 },
@@ -842,10 +845,9 @@
             },
             "or":"OR",
             "pole-emploi": {
-                "title": "",
+                "title": "Sign-in with pôle Emploi",
                 "link": {
-                    "title": "Pôle Emploi",
-                    "img": "picture Pôle Emploi"
+                    "img": "pôle emploi connect"
                 }
             }
         },
@@ -857,7 +859,7 @@
             "fields": {
                 "cgu": {
                     "error": "You must agree to the Pix terms of use to create an account.",
-                    "label": "'<abbr title=\"required\">'*'</abbr>' I agree to the ",
+                    "label": "I agree to the ",
                     "cgu": "Pix terms of use"
                 },
                 "email": {
@@ -873,6 +875,7 @@
                     "error": "You have not entered your last name.",
                     "label": "Last name"
                 },
+                "legend": "Information required for sign up.",
                 "password": {
                     "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
                     "help": "(at least 8 characters, including one uppercase letter, one lowercase letter and one number)",

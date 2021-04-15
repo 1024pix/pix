@@ -4,40 +4,26 @@
     max-width: 449px;
     width: 100%;
     padding: 0 15px;
-    margin-top: 10px;
-    margin-bottom: 6px;
+    margin: 10px 0;
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
 
     @include device-is('tablet') {
-      margin-top: 15px;
-      margin-bottom: 0;
+      margin: 15px 0;
       padding: 0;
     }
   }
 
   &__cgu {
+    margin-top: 7px;
     font-size: 1rem;
     font-weight: $font-medium;
   }
 
   &__cgu-label {
-    position: relative;
-    margin-bottom: 0;
-  }
-
-  &__cgu-label input[type=checkbox] {
-    margin: 3px 15px 3px 0;
-  }
-
-  &__cgu-label span {
-    color: $grey-80;
-    font-size: 0.813rem;
-
-    @include device-is('tablet') {
-      font-size: 0.875rem;
-    }
+    margin: 3px 15px;
   }
 
   &__legal-details-container {

@@ -3,6 +3,22 @@
  * Trick label & SVG to replace built-in checkboxes & radiobuttons.
  *
  **/
+
+fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding-block-start: 0;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+  padding-block-end: 0;
+  min-inline-size: -webkit-fill-available;
+  width: 100%;
+}
+
 .qcm-proposal-label__checkbox-picture {
   position: absolute;
   left: -11px;
