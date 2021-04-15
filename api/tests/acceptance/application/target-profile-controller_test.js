@@ -306,6 +306,9 @@ describe('Acceptance | Controller | target-profile-controller', () => {
           'badge-criteria': {
             data: [],
           },
+          'badge-partner-competences': {
+            data: [],
+          },
         },
       }];
       expect(response.result.data).to.deep.equal(expectedData);

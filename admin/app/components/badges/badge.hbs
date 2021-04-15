@@ -41,7 +41,15 @@
         <tbody>
           {{#each @badge.badgeCriteria as |criterion|}}
             <tr>
-              <td>{{criterion.scope}}</td>
+              <td>{{criterion.scope}}
+                {{#if criterion.partnerCompetences}}
+                  <ul>
+                    {{#each criterion.partnerCompetences as |badgePartnerCompetence|}}
+                      <li>{{badgePartnerCompetence.name}}</li>
+                    {{/each}}
+                  </ul>
+                {{/if}}
+              </td>
               <td>{{criterion.threshold}}</td>
             </tr>
           {{/each}}

@@ -13,10 +13,11 @@ module.exports = function buildBadge({
   targetProfileId = 456,
   badgeCriteria = [
     buildBadgeCriterion(),
+    buildBadgeCriterion({ id: 2, partnerCompetenceIds: [1, 2] }),
   ],
   badgePartnerCompetences = [
     buildBadgePartnerCompetence(),
-    buildBadgePartnerCompetence(),
+    buildBadgePartnerCompetence({ id: 2 }),
   ],
 } = {}) {
   return new Badge({
