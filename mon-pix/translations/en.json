@@ -568,6 +568,11 @@
                 "subtitle": "Discover the skills recommended for you.",
                 "title": "Recommended skills"
             },
+            "improvable-competences": {
+                "profile-link": "See all",
+                "subtitle": "Ready to improve your score?",
+                "title": "Try again"
+            },
             "score": {
                 "profile-link": "See my skills"
             },

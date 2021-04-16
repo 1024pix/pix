@@ -171,6 +171,80 @@ describe('Unit | Component | Dashboard | Content', function() {
     });
   });
 
+  describe('#improvableScorecards', function() {
+
+    it('should return improvable scorecards', function() {
+      // given
+      const scorecards = [
+        { id: 1, isImprovable: false },
+        { id: 2, isImprovable: false },
+        { id: 5, isImprovable: true },
+        { id: 3, isImprovable: false },
+      ];
+
+      const expectedScorecards = [
+        { id: 5, isImprovable: true },
+      ];
+
+      component.args.model = { scorecards };
+
+      // when
+      const result = component.improvableScorecards;
+
+      // then
+      expect(result).to.deep.equal(expectedScorecards);
+    });
+
+    it('should return scorecards ordered by index', function() {
+      // given
+      const scorecards = [
+        { id: 3, index: '3.1', isImprovable: true },
+        { id: 1, index: '1.1', isImprovable: true },
+        { id: 4, index: '2.4', isImprovable: true },
+      ];
+
+      const expectedScorecards = [
+        { id: 1, index: '1.1', isImprovable: true },
+        { id: 4, index: '2.4', isImprovable: true },
+        { id: 3, index: '3.1', isImprovable: true },
+      ];
+
+      component.args.model = { scorecards };
+
+      // when
+      const result = component.improvableScorecards;
+
+      // then
+      expect(result).to.deep.equal(expectedScorecards);
+    });
+
+    it('should return a maximum of four cards', function() {
+      // given
+      const scorecards = [
+        { id: 1, isImprovable: true },
+        { id: 2, isImprovable: true },
+        { id: 4, isImprovable: true },
+        { id: 5, isImprovable: true },
+        { id: 3, isImprovable: true },
+      ];
+
+      const expectedScorecards = [
+        { id: 1, isImprovable: true },
+        { id: 2, isImprovable: true },
+        { id: 4, isImprovable: true },
+        { id: 5, isImprovable: true },
+      ];
+
+      component.args.model = EmberObject.create({ scorecards });
+
+      // when
+      const result = component.improvableScorecards;
+
+      // then
+      expect(result).to.deep.equal(expectedScorecards);
+    });
+  });
+
   describe('#userFirstname', function() {
     it('should return userFirstname', function() {
       // given

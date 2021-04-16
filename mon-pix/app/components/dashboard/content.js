@@ -44,6 +44,10 @@ export default class Content extends Component {
     return this.startedCompetences.length > 0;
   }
 
+  get hasImprovableCompetences() {
+    return this.improvableScorecards.length > 0;
+  }
+
   get recommendedScorecards() {
     const isScorecardNotStarted = (scorecard) => scorecard.isNotStarted;
     return this._filterScorecardsByStateAndRetrieveTheFirstOnesByIndex(isScorecardNotStarted);
@@ -52,6 +56,11 @@ export default class Content extends Component {
   get startedCompetences() {
     const isScorecardStarted = (scorecard) => scorecard.isStarted;
     return this._filterScorecardsByStateAndRetrieveTheFirstOnesByIndex(isScorecardStarted);
+  }
+
+  get improvableScorecards() {
+    const isScorecardImprovable = (scorecard) => scorecard.isImprovable;
+    return this._filterScorecardsByStateAndRetrieveTheFirstOnesByIndex(isScorecardImprovable);
   }
 
   _filterScorecardsByStateAndRetrieveTheFirstOnesByIndex(state) {
