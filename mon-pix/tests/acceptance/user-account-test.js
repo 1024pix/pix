@@ -49,8 +49,8 @@ describe('Acceptance | User account page', function() {
       await visit('/mon-compte');
 
       // when
-      await clickByLabel(this.intl.t('pages.user-account.connexion-methods'));
-      await clickByLabel(this.intl.t('pages.user-account.account-connexion-methods.edit-button'));
+      await clickByLabel(this.intl.t('pages.user-account.connexion-methods.menu-link-title'));
+      await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
       await fillIn('#newEmail', newEmail);
       await fillIn('#newEmailConfirmation', newEmail);
       await fillIn('#password', user.password);
@@ -67,8 +67,9 @@ describe('Acceptance | User account page', function() {
         await visit('/mon-compte');
 
         // then
-        expect(contains(this.intl.t('pages.user-account.personal-information'))).to.exist;
-        expect(contains(this.intl.t('pages.user-account.connexion-methods'))).to.exist;
+        expect(contains(this.intl.t('pages.user-account.personal-information.menu-link-title'))).to.exist;
+        expect(contains(this.intl.t('pages.user-account.connexion-methods.menu-link-title'))).to.exist;
+        expect(contains(this.intl.t('pages.user-account.language.menu-link-title'))).to.exist;
       });
 
       it('should display personal information on click on "Informations personnelles"', async function() {
@@ -76,7 +77,7 @@ describe('Acceptance | User account page', function() {
         await visit('/mon-compte');
 
         // when
-        await clickByLabel(this.intl.t('pages.user-account.personal-information'));
+        await clickByLabel(this.intl.t('pages.user-account.personal-information.menu-link-title'));
 
         // then
         expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
@@ -87,7 +88,7 @@ describe('Acceptance | User account page', function() {
         await visit('/mon-compte');
 
         // when
-        await clickByLabel(this.intl.t('pages.user-account.connexion-methods'));
+        await clickByLabel(this.intl.t('pages.user-account.connexion-methods.menu-link-title'));
 
         // then
         expect(currentURL()).to.equal('/mon-compte/methodes-de-connexion');
