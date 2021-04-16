@@ -20,8 +20,8 @@ describe('Unit | Model | user model', function() {
     it('should concatenate user first and last name', function() {
       // given
       const model = store.createRecord('user');
-      model.set('firstName', 'Manu');
-      model.set('lastName', 'Phillip');
+      model.firstName = 'Manu';
+      model.lastName = 'Phillip';
 
       // when
       const fullName = model.fullName;
@@ -36,9 +36,9 @@ describe('Unit | Model | user model', function() {
       // given
       const campaign = store.createRecord('campaign', { type: 'ASSESSMENT' });
       const participation = store.createRecord('campaign-participation');
-      participation.set('campaign', campaign);
+      participation.campaign = campaign;
       const model = store.createRecord('user');
-      model.set('campaignParticipations', [participation]);
+      model.campaignParticipations = [participation];
 
       // when
       const hasAssessmentParticipations = model.hasAssessmentParticipations;
@@ -51,9 +51,9 @@ describe('Unit | Model | user model', function() {
       // given
       const campaign = store.createRecord('campaign', { type: 'PROFILE_COLLECTION' });
       const participation = store.createRecord('campaign-participation');
-      participation.set('campaign', campaign);
+      participation.campaign = campaign;
       const model = store.createRecord('user');
-      model.set('campaignParticipations', [participation]);
+      model.campaignParticipations = [participation];
 
       // when
       const hasAssessmentParticipations = model.hasAssessmentParticipations;

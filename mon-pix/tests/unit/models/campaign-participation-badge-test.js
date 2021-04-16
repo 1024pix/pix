@@ -28,7 +28,7 @@ describe('Unit | Model | CampaignParticipationBadge', function() {
       });
 
       const model = store.createRecord('campaign-participation-badge');
-      model.set('partnerCompetenceResults', [partnerCompetenceResult1, partnerCompetenceResult2]);
+      model.partnerCompetenceResults = [partnerCompetenceResult1, partnerCompetenceResult2];
 
       // when
       const maxTotalSkillsCountInPartnerCompetences = model.maxTotalSkillsCountInPartnerCompetences;
