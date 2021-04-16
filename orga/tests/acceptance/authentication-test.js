@@ -224,9 +224,10 @@ module('Acceptance | authentication', function(hooks) {
         // when
         await visit('/');
         // then
-        assert.dom('.sidebar-menu a').exists({ count: 2 });
+        assert.dom('.sidebar-menu a').exists({ count: 3 });
         assert.dom('.sidebar-menu').containsText('Campagnes');
         assert.dom('.sidebar-menu').containsText('Équipe');
+        assert.dom('.sidebar-menu').containsText('Documentation');
         assert.dom('.sidebar-menu a:first-child').hasClass('active');
       });
 
@@ -365,8 +366,9 @@ module('Acceptance | authentication', function(hooks) {
         await visit('/');
 
         // then
-        assert.dom('.sidebar-menu a').exists({ count: 1 });
+        assert.dom('.sidebar-menu a').exists({ count: 2 });
         assert.dom('.sidebar-menu').containsText('Campagnes');
+        assert.dom('.sidebar-menu').containsText('Documentation');
         assert.dom('.sidebar-menu a:first-child ').hasClass('active');
       });
 
