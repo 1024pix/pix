@@ -1,23 +1,27 @@
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex, HttpTestServer } = require('../../test-helper');
 const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../lib/domain/constants');
+
+const moduleUnderTest = require('../../../lib/application/competence-evaluations');
 
 describe('Acceptance | API | Improve Competence Evaluation', () => {
 
   let server;
   let userId;
 
+  before(async () => {
+    const authenticationEnabled = true;
+    server = new HttpTestServer(moduleUnderTest, authenticationEnabled);
+  });
+
   beforeEach(async () => {
     userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
-    server = await createServer();
   });
 
   describe('POST /api/competence-evaluations/improve', () => {
 
     const competenceId = 'recABCD123';
-    const options = {
+    const request = {
       method: 'POST',
       url: '/api/competence-evaluations/improve',
       headers: {
@@ -40,7 +44,7 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
 
         beforeEach(async () => {
           // given
-          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
+          request.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
           databaseBuilder.factory.buildCompetenceEvaluation({ competenceId, userId });
           await databaseBuilder.commit();
         });
@@ -51,7 +55,7 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
             await databaseBuilder.commit();
 
             // when
-            response = await server.inject(options);
+            response = await server.requestObject(request);
             assessment = response.result.data.relationships.assessment.data;
           });
 
@@ -79,7 +83,7 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
 
           it('should return 403 error', async () => {
             // when
-            response = await server.inject(options);
+            const response = await server.requestObject(request);
 
             // then
             expect(response.statusCode).to.equal(403);
@@ -91,11 +95,11 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
 
         it('should return 404 error', async () => {
           // given
-          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
-          options.payload.competenceId = 'WRONG_ID';
+          request.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
+          request.payload.competenceId = 'WRONG_ID';
 
           // when
-          const response = await server.inject(options);
+          const response = await server.requestObject(request);
 
           // then
           expect(response.statusCode).to.equal(404);
@@ -107,10 +111,10 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
 
       it('should return 401 error', async () => {
         // given
-        options.headers.authorization = null;
+        request.headers.authorization = null;
 
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(401);

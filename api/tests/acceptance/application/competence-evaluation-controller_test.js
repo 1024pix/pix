@@ -1,22 +1,26 @@
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex, mockLearningContent, learningContentBuilder, HttpTestServer } = require('../../test-helper');
+
+const moduleUnderTest = require('../../../lib/application/competence-evaluations');
 
 describe('Acceptance | API | Competence Evaluations', () => {
 
   let server;
   let userId;
 
+  before(async () => {
+    const authenticationEnabled = true;
+    server = new HttpTestServer(moduleUnderTest, authenticationEnabled);
+  });
+
   beforeEach(async () => {
     userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
-    server = await createServer();
   });
 
   describe('POST /api/competence-evaluations/start-or-resume', () => {
 
     const competenceId = 'recABCD123';
-    const options = {
+    const request = {
       method: 'POST',
       url: '/api/competence-evaluations/start-or-resume',
       headers: {
@@ -49,8 +53,8 @@ describe('Acceptance | API | Competence Evaluations', () => {
 
         it('should return 201 and the competence evaluation when it has been successfully created', async () => {
           // when
-          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
-          const response = await server.inject(options);
+          request.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
+          const response = await server.requestObject(request);
 
           // then
           expect(response.statusCode).to.equal(201);
@@ -60,12 +64,12 @@ describe('Acceptance | API | Competence Evaluations', () => {
 
         it('should return 200 and the competence evaluation when it has been successfully found', async () => {
           // given
-          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
+          request.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
           databaseBuilder.factory.buildCompetenceEvaluation({ competenceId, userId });
           await databaseBuilder.commit();
 
           // when
-          const response = await server.inject(options);
+          const response = await server.requestObject(request);
 
           // then
           expect(response.statusCode).to.equal(200);
@@ -78,11 +82,11 @@ describe('Acceptance | API | Competence Evaluations', () => {
 
         it('should return 404 error', async () => {
           // given
-          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
-          options.payload.competenceId = 'WRONG_ID';
+          request.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
+          request.payload.competenceId = 'WRONG_ID';
 
           // when
-          const response = await server.inject(options);
+          const response = await server.requestObject(request);
 
           // then
           expect(response.statusCode).to.equal(404);
@@ -94,10 +98,10 @@ describe('Acceptance | API | Competence Evaluations', () => {
 
       it('should return 401 error', async () => {
         // given
-        options.headers.authorization = null;
+        request.headers.authorization = null;
 
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
