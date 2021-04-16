@@ -1,17 +1,21 @@
 import { currentURL, click, find } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { authenticateByEmail } from '../helpers/authentication';
-import { expect } from 'chai';
-import visit from '../helpers/visit';
-import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { invalidateSession } from 'ember-simple-auth/test-support';
+import { setupApplicationTest } from 'ember-mocha';
+import { beforeEach, describe, it } from 'mocha';
+import { expect } from 'chai';
+import visit from '../helpers/visit';
+import { authenticateByEmail } from '../helpers/authentication';
+import { contains } from '../helpers/contains';
+import setupIntl from '../helpers/setup-intl';
 
 const ASSESSMENT = 'ASSESSMENT';
 
 describe('Acceptance | User dashboard page', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
+
   let user;
 
   describe('Visit the user dashboard page', function() {
@@ -158,6 +162,19 @@ describe('Acceptance | User dashboard page', function() {
       expect(find('.dashboard-content-main-section__button')).to.exist;
     });
 
+  });
+
+  describe('retryable-competences', function() {
+
+    beforeEach(async function() {
+      user = server.create('user', 'withEmail');
+      await authenticateByEmail(user);
+      await visit('/accueil');
+    });
+
+    it('should display the improvable-competences section', function() {
+      expect(contains(this.intl.t('pages.dashboard.improvable-competences.subtitle'))).to.exist;
+    });
   });
 
   describe('started-competences', function() {

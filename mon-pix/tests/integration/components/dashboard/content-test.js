@@ -172,6 +172,66 @@ describe('Integration | Component | Dashboard | Content', function() {
     });
   });
 
+  describe('improvable competence-card rendering', function() {
+    beforeEach(function() {
+      this.owner.register('service:currentUser', CurrentUserStub);
+    });
+
+    it('should render competence-card when there is at least one competence-card not started', async function() {
+      // given
+      const scorecard = { isImprovable: true };
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        campaignParticipations: [],
+        scorecards: [scorecard],
+      });
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+
+      // then
+      expect(contains(this.intl.t('pages.dashboard.improvable-competences.subtitle'))).to.exist;
+    });
+
+    it('should not render competence-card when there is no competence-card', async function() {
+      // given
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        campaignParticipations: [],
+        scorecards: [],
+      });
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+
+      // then
+      expect(contains(this.intl.t('pages.dashboard.improvable-competences.subtitle'))).to.not.exist;
+    });
+
+    it('should render the four first non improvable competence cards from the received arguments', async function() {
+      // given
+      const scorecards = [
+        { id: 1, index: '1.1', isImprovable: true },
+        { id: 2, index: '1.2', isImprovable: true },
+        { id: 3, index: '3.1', isImprovable: true },
+        { id: 5, index: '1.3', isImprovable: false },
+        { id: 4, index: '2.4', isImprovable: true },
+        { id: 4, index: '1.4', isImprovable: true },
+      ];
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        campaignParticipations: [],
+        scorecards,
+      });
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+
+      // then
+      expect(findAll('.competence-card')).to.have.length(4);
+    });
+  });
+
   describe('started competence-card rendering', function() {
     beforeEach(function() {
       this.owner.register('service:currentUser', CurrentUserStub);

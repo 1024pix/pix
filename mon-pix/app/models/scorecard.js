@@ -43,6 +43,10 @@ export default class Scorecard extends Model {
     return this.level >= ENV.APP.MAX_REACHABLE_LEVEL;
   }
 
+  get isImprovable() {
+    return this.isFinished && !this.isFinishedWithMaxLevel && this.remainingDaysBeforeImproving === 0;
+  }
+
   get hasNotEarnAnything() {
     return this.earnedPix === 0;
   }
