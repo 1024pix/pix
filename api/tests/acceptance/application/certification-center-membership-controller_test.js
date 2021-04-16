@@ -1,16 +1,20 @@
 const {
   expect, generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster, databaseBuilder, knex,
+  insertUserWithRolePixMaster, databaseBuilder, knex, HttpTestServer,
 } = require('../../test-helper');
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
+
+const moduleUnderTest = require('../../../lib/application/certification-center-memberships');
 
 describe('Acceptance | API | Certification Center Membership', () => {
 
-  let server, options;
+  let server, request;
+
+  before(async () => {
+    const authenticationEnabled = true;
+    server = new HttpTestServer(moduleUnderTest, authenticationEnabled);
+  });
 
   beforeEach(async () => {
-    server = await createServer();
     await insertUserWithRolePixMaster();
   });
 
@@ -20,7 +24,7 @@ describe('Acceptance | API | Certification Center Membership', () => {
       user = databaseBuilder.factory.buildUser();
       certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       await databaseBuilder.commit();
-      options = {
+      request = {
         method: 'POST',
         url: '/api/certification-center-memberships',
         payload: {
@@ -41,45 +45,39 @@ describe('Acceptance | API | Certification Center Membership', () => {
 
     context('when user is Pix Master', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuthorizationHeader() };
+        request.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return 201 HTTP status', () => {
+      it('should return 201 HTTP status', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(201);
-        });
+        expect(response.statusCode).to.equal(201);
       });
     });
 
     context('when user is not PixMaster', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
+        request.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
-      it('should return 403 HTTP status code ', () => {
+      it('should return 403 HTTP status code ', async() => {
         // when
-        const promise = server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
+        expect(response.statusCode).to.equal(403);
       });
     });
 
     context('when user is not connected', () => {
-      it('should return 401 HTTP status code if user is not authenticated', () => {
+      it('should return 401 HTTP status code if user is not authenticated', async() => {
         // when
-        const promise = server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
     });
 
