@@ -21,8 +21,11 @@ describe('Acceptance | Controller | authentication-controller', () => {
   let server;
   let userId;
 
-  beforeEach(async () => {
+  before(async () => {
     server = await createServer();
+  });
+
+  beforeEach(async () => {
 
     userId = databaseBuilder.factory.buildUser.withRawPassword({
       email: userEmailAddress,
