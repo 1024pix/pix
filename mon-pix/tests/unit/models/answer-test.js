@@ -26,7 +26,7 @@ describe('Unit | Model | Answer', function() {
       const answer = run(() => store.createRecord('answer', { 'result': 'ok' }));
 
       // when
-      const result = answer.get('isResultOk');
+      const result = answer.isResultOk;
 
       expect(result).to.be.true;
     });
@@ -36,7 +36,7 @@ describe('Unit | Model | Answer', function() {
       const answer = run(() => store.createRecord('answer', { 'result': 'ko' }));
 
       // when
-      const result = answer.get('isResultOk');
+      const result = answer.isResultOk;
 
       expect(result).to.be.false;
     });
@@ -48,7 +48,7 @@ describe('Unit | Model | Answer', function() {
       const answer = run(() => store.createRecord('answer', { 'result': 'ok' }));
 
       // when
-      const result = answer.get('isResultNotOk');
+      const result = answer.isResultNotOk;
 
       expect(result).to.be.false;
     });
@@ -58,7 +58,7 @@ describe('Unit | Model | Answer', function() {
       const answer = run(() => store.createRecord('answer', { 'result': 'ko' }));
 
       // when
-      const result = answer.get('isResultNotOk');
+      const result = answer.isResultNotOk;
 
       expect(result).to.be.true;
     });

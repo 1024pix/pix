@@ -21,10 +21,10 @@ describe('Unit | Model | SharedProfileForCampaign model', function() {
     const scorecard3 = store.createRecord('scorecard', { area: area2 });
 
     const model = store.createRecord('sharedProfileForCampaign');
-    model.set('scorecards', [scorecard1, scorecard2, scorecard3]);
+    model.scorecards = [scorecard1, scorecard2, scorecard3];
 
     // when
-    const areasCode = model.get('areasCode');
+    const areasCode = model.areasCode;
 
     // then
     expect(areasCode).to.deep.equal([1, 2]);

@@ -24,10 +24,10 @@ describe('Unit | Model | Assessment', function() {
     it('should return an empty array when no answers has been given', function() {
       // given
       const assessment = store.createRecord('assessment');
-      assessment.set('answers', []);
+      assessment.answers = [];
 
       // when
-      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+      const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([]);
@@ -38,10 +38,10 @@ describe('Unit | Model | Assessment', function() {
       const answer = run(() => store.createRecord('answer'));
       const assessment = store.createRecord('assessment');
       const answers = [answer];
-      run(() => assessment.set('answers', answers));
+      run(() => assessment.answers = answers);
 
       // when
-      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+      const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal(answers);
@@ -52,10 +52,10 @@ describe('Unit | Model | Assessment', function() {
       const answers = newAnswers(store, 7);
       const [answer6, answer7] = answers.slice(5);
       const assessment = store.createRecord('assessment');
-      run(() => assessment.set('answers', answers));
+      run(() => assessment.answers = answers);
 
       // when
-      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+      const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7]);
@@ -66,10 +66,10 @@ describe('Unit | Model | Assessment', function() {
       const answers = newAnswers(store, 10);
       const [answer6, answer7, answer8, answer9, answer10] = answers.slice(5);
       const assessment = store.createRecord('assessment');
-      run(() => assessment.set('answers', answers));
+      run(() => assessment.answers = answers);
 
       // when
-      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+      const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7, answer8, answer9, answer10]);
@@ -80,10 +80,10 @@ describe('Unit | Model | Assessment', function() {
       const answers = newAnswers(store, 11);
       const answer11 = answers[10];
       const assessment = store.createRecord('assessment');
-      run(() => assessment.set('answers', answers));
+      run(() => assessment.answers = answers);
 
       // when
-      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+      const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer11]);
@@ -96,7 +96,7 @@ describe('Unit | Model | Assessment', function() {
       const model = store.createRecord('assessment');
 
       // when
-      model.set('type', 'CAMPAIGN');
+      model.type = 'CAMPAIGN';
 
       //then
       expect(model.isForCampaign).to.be.true;
@@ -106,7 +106,7 @@ describe('Unit | Model | Assessment', function() {
       const model = store.createRecord('assessment');
 
       // when
-      model.set('type', '_');
+      model.type = '_';
 
       //then
       expect(model.isForCampaign).to.be.false;
@@ -119,7 +119,7 @@ describe('Unit | Model | Assessment', function() {
       const model = store.createRecord('assessment');
 
       // when
-      model.set('type', 'CERTIFICATION');
+      model.type = 'CERTIFICATION';
 
       //then
       expect(model.isCertification).to.be.true;
@@ -129,7 +129,7 @@ describe('Unit | Model | Assessment', function() {
       const model = store.createRecord('assessment');
 
       // when
-      model.set('type', '_');
+      model.type = '_';
 
       //then
       expect(model.isCertification).to.be.false;
@@ -142,7 +142,7 @@ describe('Unit | Model | Assessment', function() {
       const model = store.createRecord('assessment');
 
       // when
-      model.set('type', 'DEMO');
+      model.type = 'DEMO';
 
       //then
       expect(model.isDemo).to.be.true;
@@ -152,7 +152,7 @@ describe('Unit | Model | Assessment', function() {
       const model = store.createRecord('assessment');
 
       // when
-      model.set('type', '_');
+      model.type = '_';
 
       //then
       expect(model.isDemo).to.be.false;
@@ -165,7 +165,7 @@ describe('Unit | Model | Assessment', function() {
       const model = store.createRecord('assessment');
 
       // when
-      model.set('type', 'PREVIEW');
+      model.type = 'PREVIEW';
 
       //then
       expect(model.isPreview).to.be.true;
@@ -175,7 +175,7 @@ describe('Unit | Model | Assessment', function() {
       const model = store.createRecord('assessment');
 
       // when
-      model.set('type', '_');
+      model.type = '_';
 
       //then
       expect(model.isPreview).to.be.false;
