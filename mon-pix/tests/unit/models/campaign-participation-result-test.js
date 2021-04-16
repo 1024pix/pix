@@ -33,7 +33,7 @@ describe('Unit | Model | Campaign-Participation-Result', function() {
       model.set('competenceResults', [competenceResult1, competenceResult2, competenceResult3]);
 
       // when
-      const maxTotalSkillsCountInCompetences = model.get('maxTotalSkillsCountInCompetences');
+      const maxTotalSkillsCountInCompetences = model.maxTotalSkillsCountInCompetences;
 
       // then
       expect(maxTotalSkillsCountInCompetences).to.equal(11);

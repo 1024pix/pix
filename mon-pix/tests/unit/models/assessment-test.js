@@ -25,9 +25,10 @@ describe('Unit | Model | Assessment', function() {
       // given
       const assessment = store.createRecord('assessment');
       assessment.set('answers', []);
+      assessment.answers = [];
 
       // when
-      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+      const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([]);
@@ -41,7 +42,7 @@ describe('Unit | Model | Assessment', function() {
       run(() => assessment.set('answers', answers));
 
       // when
-      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+      const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal(answers);
@@ -55,7 +56,7 @@ describe('Unit | Model | Assessment', function() {
       run(() => assessment.set('answers', answers));
 
       // when
-      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+      const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7]);
@@ -69,7 +70,7 @@ describe('Unit | Model | Assessment', function() {
       run(() => assessment.set('answers', answers));
 
       // when
-      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+      const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7, answer8, answer9, answer10]);
@@ -83,7 +84,7 @@ describe('Unit | Model | Assessment', function() {
       run(() => assessment.set('answers', answers));
 
       // when
-      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+      const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer11]);

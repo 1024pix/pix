@@ -25,7 +25,7 @@ describe('Unit | Model | Challenge', function() {
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
 
         // when
-        const hasAttachment = challenge.get('hasAttachment');
+        const hasAttachment = challenge.hasAttachment;
 
         // then
         expect(hasAttachment).to.be.true;
@@ -39,7 +39,7 @@ describe('Unit | Model | Challenge', function() {
         const challenge = store.createRecord('challenge', { attachments: [] });
 
         // when
-        const hasAttachment = challenge.get('hasAttachment');
+        const hasAttachment = challenge.hasAttachment;
 
         // then
         expect(hasAttachment).to.be.false;
@@ -56,7 +56,7 @@ describe('Unit | Model | Challenge', function() {
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
 
         // when
-        const hasSingleAttachment = challenge.get('hasSingleAttachment');
+        const hasSingleAttachment = challenge.hasSingleAttachment;
 
         // then
         expect(hasSingleAttachment).to.be.true;
@@ -70,7 +70,7 @@ describe('Unit | Model | Challenge', function() {
         const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
 
         // when
-        const hasSingleAttachment = challenge.get('hasSingleAttachment');
+        const hasSingleAttachment = challenge.hasSingleAttachment;
 
         // then
         expect(hasSingleAttachment).to.be.false;
@@ -87,7 +87,7 @@ describe('Unit | Model | Challenge', function() {
         const challenge = store.createRecord('challenge', { attachments: [] });
 
         // when
-        const hasMultipleAttachments = challenge.get('hasMultipleAttachments');
+        const hasMultipleAttachments = challenge.hasMultipleAttachments;
 
         // then
         expect(hasMultipleAttachments).to.be.false;
@@ -101,7 +101,7 @@ describe('Unit | Model | Challenge', function() {
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
 
         // when
-        const hasMultipleAttachments = challenge.get('hasMultipleAttachments');
+        const hasMultipleAttachments = challenge.hasMultipleAttachments;
 
         // then
         expect(hasMultipleAttachments).to.be.false;
@@ -115,7 +115,7 @@ describe('Unit | Model | Challenge', function() {
         const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
 
         // when
-        const hasMultipleAttachments = challenge.get('hasMultipleAttachments');
+        const hasMultipleAttachments = challenge.hasMultipleAttachments;
 
         // then
         expect(hasMultipleAttachments).to.be.true;
@@ -141,7 +141,7 @@ describe('Unit | Model | Challenge', function() {
       const challenge = store.createRecord('challenge', embedOptions);
 
       // when
-      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
+      const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
       expect(hasValidEmbedDocument).to.be.true;
@@ -153,7 +153,7 @@ describe('Unit | Model | Challenge', function() {
       const challenge = store.createRecord('challenge', embedOptions);
 
       // when
-      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
+      const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
       expect(hasValidEmbedDocument).to.be.false;
@@ -165,7 +165,7 @@ describe('Unit | Model | Challenge', function() {
       const challenge = store.createRecord('challenge', embedOptions);
 
       // when
-      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
+      const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
       expect(hasValidEmbedDocument).to.be.false;
@@ -177,7 +177,7 @@ describe('Unit | Model | Challenge', function() {
       const challenge = store.createRecord('challenge', embedOptions);
 
       // when
-      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
+      const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
       expect(hasValidEmbedDocument).to.be.false;
@@ -189,7 +189,7 @@ describe('Unit | Model | Challenge', function() {
       const challenge = store.createRecord('challenge', embedOptions);
 
       // when
-      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
+      const hasValidEmbedDocument = challenge.hasValidEmbedDocument;
 
       // then
       expect(hasValidEmbedDocument).to.be.false;

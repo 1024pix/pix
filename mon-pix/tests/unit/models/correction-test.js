@@ -32,7 +32,7 @@ describe('Unit | Model | correction', function() {
       model = store.createRecord('correction', defaultAttributes);
 
       // when
-      const result = model.get('noHintsNorTutorialsAtAll');
+      const result = model.noHintsNorTutorialsAtAll;
 
       // then
       expect(result).to.be.true;
@@ -45,7 +45,7 @@ describe('Unit | Model | correction', function() {
       }));
 
       // when
-      const result = model.get('noHintsNorTutorialsAtAll');
+      const result = model.noHintsNorTutorialsAtAll;
 
       // then
       expect(result).to.be.false;
@@ -59,7 +59,7 @@ describe('Unit | Model | correction', function() {
       }));
 
       // when
-      const result = model.get('noHintsNorTutorialsAtAll');
+      const result = model.noHintsNorTutorialsAtAll;
 
       // then
       expect(result).to.be.false;
@@ -73,7 +73,7 @@ describe('Unit | Model | correction', function() {
       }));
 
       // when
-      const result = model.get('noHintsNorTutorialsAtAll');
+      const result = model.noHintsNorTutorialsAtAll;
 
       // then
       expect(result).to.be.false;

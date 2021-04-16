@@ -31,7 +31,7 @@ describe('Unit | Model | CampaignParticipationBadge', function() {
       model.set('partnerCompetenceResults', [partnerCompetenceResult1, partnerCompetenceResult2]);
 
       // when
-      const maxTotalSkillsCountInPartnerCompetences = model.get('maxTotalSkillsCountInPartnerCompetences');
+      const maxTotalSkillsCountInPartnerCompetences = model.maxTotalSkillsCountInPartnerCompetences;
 
       // then
       expect(maxTotalSkillsCountInPartnerCompetences).to.equal(10);
