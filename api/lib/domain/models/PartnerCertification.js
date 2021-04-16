@@ -18,10 +18,6 @@ class PartnerCertification {
     validateEntity(schema, this);
   }
 
-  isEligible() {
-    throw new NotImplementedError();
-  }
-
   isAcquired() {
     throw new NotImplementedError();
   }
