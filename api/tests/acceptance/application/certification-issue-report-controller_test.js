@@ -1,18 +1,25 @@
+const moduleUnderTest = require('../../../lib/application/certification-issue-reports');
+
 const {
   expect,
   databaseBuilder,
+  HttpTestServer,
   generateValidRequestAuthorizationHeader,
 } = require('../../test-helper');
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
 
 describe('Acceptance | Controller | certification-issue-report-controller', () => {
+
+  let server;
+
+  before(async () => {
+    const authenticationEnabled = true;
+    server = new HttpTestServer(moduleUnderTest, authenticationEnabled);
+  });
 
   describe('DELETE /api/certification-issue-reports/{id}', () => {
 
     it('should return 204 HTTP status code', async () => {
       // given
-      const server = await createServer();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId }).id;
@@ -29,7 +36,7 @@ describe('Acceptance | Controller | certification-issue-report-controller', () =
       await databaseBuilder.commit();
 
       // when
-      const response = await server.inject(request);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.statusCode).to.equal(204);
