@@ -30,7 +30,7 @@ describe('Unit | Model | Campaign-Participation-Result', function() {
       });
 
       const model = store.createRecord('campaign-participation-result');
-      model.set('competenceResults', [competenceResult1, competenceResult2, competenceResult3]);
+      model.competenceResults = [competenceResult1, competenceResult2, competenceResult3];
 
       // when
       const maxTotalSkillsCountInCompetences = model.maxTotalSkillsCountInCompetences;

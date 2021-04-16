@@ -29,8 +29,8 @@ describe('Unit | Model | Competence-Result', function() {
         competenceResults: [otherCompetenceResult, competenceResult],
       });
 
-      competenceResult.set('totalSkillsCount', 2);
-      competenceResult.set('campaignParticipationResult', campaignParticipationResult);
+      competenceResult.totalSkillsCount = 2;
+      competenceResult.campaignParticipationResult = campaignParticipationResult;
 
       // when
       const totalSkillsCountPercentage = competenceResult.totalSkillsCountPercentage;
@@ -48,8 +48,8 @@ describe('Unit | Model | Competence-Result', function() {
         competenceResults: [otherCompetenceResult, competenceResult],
       });
 
-      competenceResult.set('totalSkillsCount', 1);
-      competenceResult.set('campaignParticipationResult', campaignParticipationResult);
+      competenceResult.totalSkillsCount = 1;
+      competenceResult.campaignParticipationResult = campaignParticipationResult;
 
       // when
       const totalSkillsCountPercentage = competenceResult.totalSkillsCountPercentage;
