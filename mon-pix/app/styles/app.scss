@@ -92,7 +92,6 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'components/tutorial-item';
 @import 'components/tutorial-panel';
 @import 'components/user-account';
-@import 'components/user-account-panel';
 @import 'components/user-account-update-email';
 @import 'components/user-certifications-detail-competences-list';
 @import 'components/user-certifications-detail-competence';
@@ -129,6 +128,8 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'pages/user-certifications-get';
 @import 'pages/user-tutorials';
 @import 'pages/user-tests';
+@import 'pages/personal-information';
+@import 'pages/connexion-methods';
 
 * {
   box-sizing: border-box;
