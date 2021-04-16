@@ -88,18 +88,17 @@ module.exports = {
       .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
   },
 
-  updateById({ id, membershipAttributes }) {
-    return new BookshelfMembership({ id })
-      .save(membershipAttributes, { patch: true, method: 'update', require: true })
-      .then((updatedMembership) => updatedMembership.refresh({
-        withRelated: ['user', 'organization'],
-      }))
-      .then(
-        (membership) => bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, membership),
-        (err) => {
-          throw new MembershipUpdateError(err.message);
-        },
-      );
+  async updateById({ id, membership }) {
+    let updatedMembership;
+    try {
+      updatedMembership = await new BookshelfMembership({ id })
+        .save(membership, { patch: true, method: 'update', require: true });
+    } catch (err) {
+      throw new MembershipUpdateError(err.message);
+    }
+
+    updatedMembership = await updatedMembership.refresh({ withRelated: ['user', 'organization'] });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, updatedMembership);
   },
 
 };

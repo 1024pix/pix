@@ -25,12 +25,12 @@ describe('Integration | UseCases | update-membership', () => {
       organizationRole: Membership.roles.MEMBER,
     }).id;
     const newOrganizationRole = Membership.roles.ADMIN;
-    const membershipAttributes = { organizationRole: newOrganizationRole, updatedByUserId };
+    const membership = { organizationRole: newOrganizationRole, updatedByUserId };
 
     await databaseBuilder.commit();
 
     // when
-    const result = await updateMembership({ membershipRepository, membershipId, membershipAttributes });
+    const result = await updateMembership({ membershipRepository, membershipId, membership });
 
     // then
     expect(result).to.be.an.instanceOf(Membership);

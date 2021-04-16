@@ -2,7 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const { updateMembership } = require('../../../../lib/domain/usecases');
 const Membership = require('../../../../lib/domain/models/Membership');
 
-describe('Unit | UseCase | update-membership-attributes', () => {
+describe('Unit | UseCase | update-membership', () => {
 
   let membershipRepository;
 
@@ -18,13 +18,13 @@ describe('Unit | UseCase | update-membership-attributes', () => {
       // given
       const membershipId = 100;
       const organizationRole = Membership.roles.ADMIN;
-      const membershipAttributes = { id: membershipId, organizationRole, updatedByUserId: 12345 };
+      const membership = { id: membershipId, organizationRole, updatedByUserId: 12345 };
 
       // when
-      await updateMembership({ membershipId, membershipAttributes, membershipRepository });
+      await updateMembership({ membershipId, membership, membershipRepository });
 
       // then
-      expect(membershipRepository.updateById).to.has.been.calledWith({ id: membershipId, membershipAttributes });
+      expect(membershipRepository.updateById).to.has.been.calledWith({ id: membershipId, membership });
     });
   });
 });
