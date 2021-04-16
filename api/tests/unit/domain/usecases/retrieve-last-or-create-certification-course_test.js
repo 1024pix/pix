@@ -1,5 +1,4 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../../../../lib/domain/errors');
 const retrieveLastOrCreateCertificationCourse = require('../../../../lib/domain/usecases/retrieve-last-or-create-certification-course');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -259,7 +258,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId, userId }).resolves(foundCertificationCandidate);
             certificationCourseRepository.save.resolves(savedCertificationCourse);
             assessmentRepository.save.resolves(savedAssessment);
-            badgeAcquisitionRepository.findCertifiable.resolves([]);
+            badgeAcquisitionRepository.findCertifiable.withArgs({ userId, domainTransaction }).resolves([]);
           });
 
           it('should return it with flag created marked as true with related ressources', async function() {
@@ -320,7 +319,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               const certifiableBadge2 = domainBuilder.buildBadge({ key: 'SALUT', targetProfileId: 22 });
               const certifiableBadgeAcquisition1 = domainBuilder.buildBadgeAcquisition({ badge: certifiableBadge1 });
               const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({ badge: certifiableBadge2 });
-              badgeAcquisitionRepository.findCertifiable.resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
+              badgeAcquisitionRepository.findCertifiable
+                .withArgs({ userId, domainTransaction })
+                .resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
               certificationChallengesService.pickCertificationChallengesForPixPlus
                 .withArgs(certifiableBadge1, userId)
                 .resolves([challengePlus1, challengePlus2])
@@ -360,7 +361,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
                 const expertBadge = domainBuilder.buildBadge({ key: 'PIX_DROIT_EXPERT_CERTIF', targetProfileId: 22 });
                 const certifiableBadgeAcquisition1 = domainBuilder.buildBadgeAcquisition({ badge: maitreBadge });
                 const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({ badge: expertBadge });
-                badgeAcquisitionRepository.findCertifiable.resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
+                badgeAcquisitionRepository.findCertifiable
+                  .withArgs({ userId, domainTransaction })
+                  .resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
                 certificationChallengesService.pickCertificationChallengesForPixPlus
                   .withArgs(maitreBadge, userId)
                   .resolves(challengesForMaitre)
@@ -390,7 +393,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
             beforeEach(() => {
               sinon.spy(CertificationCourse, 'from');
-              badgeAcquisitionRepository.findCertifiable.resolves([]);
+              badgeAcquisitionRepository.findCertifiable.withArgs({ userId, domainTransaction }).resolves([]);
               certificationChallengesService.pickCertificationChallengesForPixPlus.throws();
             });
 
