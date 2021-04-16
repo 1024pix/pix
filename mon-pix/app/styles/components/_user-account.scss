@@ -4,14 +4,12 @@
     margin: 0 0 8px;
     padding-top: 55px;
     padding-bottom: 26px;
-    font-weight: $font-light;
+    font-family: $font-open-sans;
+    font-size: 3rem;
+    font-weight: 300;
     color: $white;
     position: relative;
     right: 0;
-
-    @include device-is('tablet') {
-      font-size: 3rem;
-    }
 
     @include device-is('middle-desktop') {
       right: 350px;

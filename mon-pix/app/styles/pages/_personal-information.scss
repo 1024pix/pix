@@ -36,6 +36,7 @@
 }
 
 @include device-is('mobile') {
+
   .personal-information {
     padding: 0;
   }
