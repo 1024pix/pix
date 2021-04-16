@@ -343,6 +343,47 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               });
             });
 
+            context('pix+ droit', () => {
+
+              it('should generate challenges for expert badge only if both maitre and expert badges are acquired', async function() {
+                // given
+                sinon.spy(CertificationCourse, 'from');
+                const challengesForMaitre = [
+                  domainBuilder.buildChallenge({ id: 'challenge-pixmaitre1' }),
+                  domainBuilder.buildChallenge({ id: 'challenge-pixmaitre2' }),
+                ];
+                const challengesForExpert = [
+                  domainBuilder.buildChallenge({ id: 'challenge-pixexpert1' }),
+                  domainBuilder.buildChallenge({ id: 'challenge-pixexpert2' }),
+                ];
+                const maitreBadge = domainBuilder.buildBadge({ key: 'PIX_DROIT_MAITRE_CERTIF', targetProfileId: 11 });
+                const expertBadge = domainBuilder.buildBadge({ key: 'PIX_DROIT_EXPERT_CERTIF', targetProfileId: 22 });
+                const certifiableBadgeAcquisition1 = domainBuilder.buildBadgeAcquisition({ badge: maitreBadge });
+                const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({ badge: expertBadge });
+                badgeAcquisitionRepository.findCertifiable.resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
+                certificationChallengesService.pickCertificationChallengesForPixPlus
+                  .withArgs(maitreBadge, userId)
+                  .resolves(challengesForMaitre)
+                  .withArgs(expertBadge, userId)
+                  .resolves(challengesForExpert);
+                const expectedChallenges = [challenge1, challenge2, ...challengesForExpert];
+
+                // when
+                await retrieveLastOrCreateCertificationCourse({
+                  sessionId,
+                  accessCode,
+                  userId,
+                  ...parameters,
+                });
+
+                // then
+                expect(CertificationCourse.from).to.have.been.calledWith({
+                  certificationCandidate: foundCertificationCandidate,
+                  challenges: expectedChallenges,
+                  maxReachableLevelOnCertificationDate: 5,
+                });
+              });
+            });
           });
 
           context('when user has no certifiable badges with pix plus', async function() {

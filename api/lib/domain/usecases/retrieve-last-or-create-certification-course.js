@@ -89,7 +89,8 @@ async function _startNewCertification({
 
 async function _findChallengesFromPixPlus({ userId, badgeAcquisitionRepository, certificationChallengesService }) {
   const certifiableBadgeAcquisitions = await badgeAcquisitionRepository.findCertifiable({ userId });
-  const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(certifiableBadgeAcquisitions,
+  const highestCertifiableBadgeAcquisitions = _keepHighestBadgeWithinPlusCertifications(certifiableBadgeAcquisitions);
+  const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(highestCertifiableBadgeAcquisitions,
     ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId));
   return _.flatMap(challengesPixPlusByCertifiableBadges);
 }
@@ -131,4 +132,26 @@ async function _createCertificationCourse({ certificationCandidateRepository, ce
     created: true,
     certificationCourse: savedCertificationCourse,
   };
+}
+
+function _keepHighestBadgeWithinPlusCertifications(certifiableBadgeAcquisitions) {
+  return _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions);
+}
+
+const pixDroitMaitre = 'PIX_DROIT_MAITRE_CERTIF';
+const pixDroitExpert = 'PIX_DROIT_EXPERT_CERTIF';
+
+function _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions) {
+  const [pixDroitBadgeAcquisitions, nonPixDroitBadgeAcquisitions] = _.partition(certifiableBadgeAcquisitions, _isPixDroit);
+  if (pixDroitBadgeAcquisitions.length === 0) return nonPixDroitBadgeAcquisitions;
+  const expertBadgeAcquisition = _.find(certifiableBadgeAcquisitions, { badgeKey: pixDroitExpert });
+  const maitreBadgeAcquisition = _.find(certifiableBadgeAcquisitions, { badgeKey: pixDroitMaitre });
+  return [
+    ...nonPixDroitBadgeAcquisitions,
+    expertBadgeAcquisition || maitreBadgeAcquisition,
+  ];
+}
+
+function _isPixDroit(badgeAcquisition) {
+  return [pixDroitMaitre, pixDroitExpert].includes(badgeAcquisition.badgeKey);
 }
