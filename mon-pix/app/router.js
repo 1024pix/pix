@@ -35,6 +35,7 @@ Router.map(function() {
   this.route('user-account', { path: '/mon-compte' }, function() {
     this.route('personal-information', { path: '/informations-personnelles' });
     this.route('connection-methods', { path: '/methodes-de-connexion' });
+    this.route('language', { path: '/langue' });
   });
 
   this.route('assessments', { path: '/assessments/:assessment_id' }, function() {

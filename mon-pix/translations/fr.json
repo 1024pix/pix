@@ -1048,6 +1048,9 @@
                         "unknown-error": "Une erreur est survenue. Veuillez recommencer ou contacter le support."
                     }
                 }
+            },
+            "language": {
+              "menu-link-title": "Choisir ma langue"
             }
         },
         "user-tutorials": {

@@ -23,6 +23,13 @@
                     <FaIcon @icon='link' /> {{t 'pages.user-account.connexion-methods'}}
                   </LinkTo>
                 </li>
+                {{#if this.displayLanguageSwitch}}
+                  <li>
+                    <LinkTo @route="user-account.language" class="user-account-menu__link">
+                      <FaIcon @icon='globe' /> {{t 'pages.user-account.language.menu-link-title'}}
+                    </LinkTo>
+                  </li>
+                {{/if}}
               </ul>
             </nav>
           </PixBlock>

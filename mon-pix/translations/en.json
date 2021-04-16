@@ -1048,6 +1048,9 @@
                         "unknown-error": "An error has occured. Please try again or contact the support."
                     }
                 }
+            },
+            "language": {
+              "menu-link-title": "Language"
             }
         },
         "user-tutorials": {
