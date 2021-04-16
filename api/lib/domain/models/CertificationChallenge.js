@@ -7,6 +7,7 @@ class CertificationChallenge {
     courseId,
     competenceId,
     isNeutralized,
+    certifiableBadgeKey,
   } = {}) {
     this.id = id;
     this.associatedSkillName = associatedSkillName;
@@ -15,6 +16,7 @@ class CertificationChallenge {
     this.competenceId = competenceId;
     this.courseId = courseId;
     this.isNeutralized = isNeutralized;
+    this.certifiableBadgeKey = certifiableBadgeKey;
   }
 
   static create({
@@ -31,6 +33,7 @@ class CertificationChallenge {
       challengeId,
       competenceId,
       isNeutralized: false,
+      certifiableBadgeKey: null,
     });
   }
 
