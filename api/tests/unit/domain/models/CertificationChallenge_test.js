@@ -93,4 +93,29 @@ describe('Unit | Domain | Models | CertificationChallenge', () => {
       expect(certificationChallenge).to.deep.equal(expectedCertificationChallenge);
     });
   });
+
+  describe('#isPixPlus', () => {
+
+    it('return true when challenge was picked for a pix plus certification', () => {
+      // given
+      const certificationChallenge = domainBuilder.buildCertificationChallenge({ certifiableBadgeKey: 'someValue' });
+
+      // when
+      const isPixPlus = certificationChallenge.isPixPlus();
+
+      // then
+      expect(isPixPlus).to.be.true;
+    });
+
+    it('return false when challenge was picked for a regular pix certification', () => {
+      // given
+      const certificationChallenge = domainBuilder.buildCertificationChallenge({ certifiableBadgeKey: null });
+
+      // when
+      const isPixPlus = certificationChallenge.isPixPlus();
+
+      // then
+      expect(isPixPlus).to.be.false;
+    });
+  });
 });
