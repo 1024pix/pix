@@ -295,4 +295,38 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
   });
+
+  describe('#getByExternalId', () => {
+
+    context('the certification center is found', () => {
+
+      const externalId = 'EXTERNAL_ID';
+
+      beforeEach(async () => {
+        databaseBuilder.factory.buildCertificationCenter({ externalId });
+        await databaseBuilder.commit();
+      });
+
+      it('should return the certification center', async () => {
+        // when
+        const certificationCenter = await certificationCenterRepository.getByExternalId({ externalId });
+
+        // then
+        expect(certificationCenter).to.be.an.instanceOf(CertificationCenter);
+      });
+    });
+
+    context('the certification center could not be found', () => {
+
+      it('should return null', async () => {
+        // when
+        const externalId = 'nonExistentExternalId';
+        const certificationCenter = await certificationCenterRepository.getByExternalId({ externalId });
+
+        // then
+        expect(certificationCenter).to.be.null;
+      });
+    });
+
+  });
 });
