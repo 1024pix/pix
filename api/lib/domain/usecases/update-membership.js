@@ -1,4 +1,3 @@
-
-module.exports = async function updateMembership({ membershipRepository, membershipId, membershipAttributes }) {
-  return membershipRepository.updateById({ id: membershipId, membershipAttributes });
+module.exports = async function updateMembership({ membershipRepository, membershipId, membership }) {
+  return membershipRepository.updateById({ id: membershipId, membership });
 };

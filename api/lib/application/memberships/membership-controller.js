@@ -14,17 +14,14 @@ module.exports = {
       });
   },
 
-  update(request, h) {
-
+  async update(request, h) {
     const membershipId = request.params.id;
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
-    const membershipAttributes = membershipSerializer.deserialize(request.payload);
-    membershipAttributes.updatedByUserId = userId;
+    const membership = membershipSerializer.deserialize(request.payload);
+    membership.updatedByUserId = userId;
 
-    return usecases.updateMembership({ membershipId, membershipAttributes })
-      .then((membership) => {
-        return h.response(membershipSerializer.serialize(membership));
-      });
+    const updateMembership = await usecases.updateMembership({ membershipId, membership });
+    return h.response(membershipSerializer.serialize(updateMembership));
   },
 
   async disable(request, h) {
