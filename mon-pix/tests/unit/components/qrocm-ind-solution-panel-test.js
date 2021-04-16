@@ -42,7 +42,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         type: 'input',
       }, {
         input: 'smiley2',
-        text: '<br/>\n\ntriste : ',
+        text: '<br/><br/>triste : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--correct',
@@ -84,7 +84,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         type: 'input',
       }, {
         input: 'num2',
-        text: '<br/>\n\nCarte mémoire (SD) : ',
+        text: '<br/><br/>Carte mémoire (SD) : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
@@ -127,7 +127,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         type: 'input',
       }, {
         input: 'num2',
-        text: '<br/>\n\nCarte mémoire (SD) : ',
+        text: '<br/><br/>Carte mémoire (SD) : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
@@ -161,7 +161,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
 
       const result = [{
         input: 'num1',
-        text: '- alain@pix.fr : ',
+        text: '<br/>- alain@pix.fr : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
@@ -173,7 +173,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         type: 'input',
       }, {
         input: 'num2',
-        text: '<br/>\n\n- leonie@pix.fr : ',
+        text: '<br/><br/>- leonie@pix.fr : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
@@ -204,7 +204,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
 
       const result = [{
         input: 'Num1',
-        text: '- Combien le dossier "projet PIX" contient-il de dossiers ? ',
+        text: '<br/>- Combien le dossier "projet PIX" contient-il de dossiers ? ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
@@ -216,7 +216,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         type: 'input',
       }, {
         input: 'Num2',
-        text: '<br/>\n\n- Combien le dossier "images" contient-il de fichiers ? ',
+        text: '<br/><br/>- Combien le dossier "images" contient-il de fichiers ? ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--wrong',
@@ -259,7 +259,7 @@ describe('Unit | Component | qrocm-ind-solution-panel', function() {
         type: 'input',
       }, {
         input: 'num2',
-        text: '<br/>\n\nCarte mémoire (SD) : ',
+        text: '<br/><br/>Carte mémoire (SD) : ',
         ariaLabel: null,
         showText: false,
         inputClass: 'correction-qroc-box-answer--aband',

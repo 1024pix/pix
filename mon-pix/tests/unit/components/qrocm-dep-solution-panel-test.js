@@ -30,7 +30,7 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
         type: 'input',
       }, {
         input: 'smiley2',
-        text: '<br/>\n\ntriste : ',
+        text: '<br/><br/>triste : ',
         ariaLabel: null,
         autoAriaLabel: false,
         inputClass: 'correction-qroc-box-answer--aband',
