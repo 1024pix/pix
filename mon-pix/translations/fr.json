@@ -1005,25 +1005,16 @@
         },
         "user-account": {
             "title": "Mon compte",
-            "connexion-methods": "Méthodes de connexion",
-            "personal-information": "Informations personnelles",
-            "account-connexion-methods": {
-                "email": "Adresse e-mail",
-                "username": "Identifiant",
-                "edit-button": "Modifier"
+            "personal-information": {
+              "menu-link-title": "Mes informations personnelles",
+              "first-name": "Prénom",
+              "last-name": "Nom"
             },
-            "account-panel": {
-                "first-name": "Prénom",
-                "last-name": "Nom",
-                "lang": "Langue",
-                "fields": {
-                    "select": {
-                        "labels": {
-                            "french": "Français",
-                            "english": "Anglais"
-                        }
-                    }
-                }
+            "connexion-methods": {
+              "menu-link-title": "Mes méthodes de connexion",
+              "email": "Adresse e-mail",
+              "username": "Identifiant",
+              "edit-button": "Modifier"
             },
             "account-update-email": {
                 "title": "Modification de votre adresse e-mail",
@@ -1050,7 +1041,16 @@
                 }
             },
             "language": {
-              "menu-link-title": "Choisir ma langue"
+              "menu-link-title": "Choisir ma langue",
+              "lang": "Langue",
+              "fields": {
+                  "select": {
+                      "labels": {
+                          "french": "Français",
+                          "english": "Anglais"
+                      }
+                  }
+              }
             }
         },
         "user-tutorials": {
