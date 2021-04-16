@@ -14,4 +14,15 @@ module('Unit | Adapter | certification details', function(hooks) {
       assert.ok(url.endsWith('/admin/certifications/123/details'));
     });
   });
+
+  module('#buildURL', function() {
+    test('should build neutralize-challenge base URL when called with according requestType', function(assert) {
+      // when
+      const adapter = this.owner.lookup('adapter:certification-details');
+      const url = adapter.buildURL(123, 'certification-details', null, 'neutralize-challenge');
+
+      // then
+      assert.ok(url.endsWith('/admin/certification/'));
+    });
+  });
 });
