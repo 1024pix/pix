@@ -1,4 +1,3 @@
-{{!-- template-lint-disable require-input-label --}}
 <div class="form-textfield">
   <label class="form-textfield__label">
     {{#if @require}}<abbr title="{{t 'common.form.mandatory'}}" class="mandatory-mark">*</abbr> {{/if}}
@@ -9,9 +8,9 @@
   <div class="form-textfield__date">
     <div class="form-textfield__input-field-container {{if @disabled "form-textfield__input-container--disabled" this.dayInputContainerStatusClass}}">
       <Input @type="text"
-             id={{@dayTextfieldName}}
-             name={{@dayTextfieldName}}
+             @id={{@dayTextfieldName}}
              @value={{@dayInputBindingValue}}
+             name={{@dayTextfieldName}}
              {{on "focusout" (fn @onValidateDay @dayTextfieldName @dayInputBindingValue)}}
              class="form-textfield__input {{this.dayInputValidationStatus}}"
              ariaDescribedBy={{@dayValidationMessage}}
@@ -36,9 +35,9 @@
 
     <div class="form-textfield__input-field-container {{if @disabled "form-textfield__input-container--disabled" this.monthInputContainerStatusClass}}">
       <Input @type="text"
-             id={{@monthTextfieldName}}
-             name={{@monthTextfieldName}}
+             @id={{@monthTextfieldName}}
              @value={{@monthInputBindingValue}}
+             name={{@monthTextfieldName}}
              {{on "focusout" (fn @onValidateMonth @monthTextfieldName @monthInputBindingValue)}}
              class="form-textfield__input {{this.monthInputValidationStatus}}"
              ariaDescribedBy={{@monthValidationMessage}}
@@ -62,9 +61,9 @@
 
     <div class="form-textfield__input-field-container {{if @disabled "form-textfield__input-container--disabled" this.yearInputContainerStatusClass}}">
       <Input @type="text"
-             id={{@yearTextfieldName}}
-             name={{@yearTextfieldName}}
+             @id={{@yearTextfieldName}}
              @value={{@yearInputBindingValue}}
+             name={{@yearTextfieldName}}
              {{on "focusout" (fn @onValidateYear @yearTextfieldName @yearInputBindingValue)}}
              class="form-textfield__input {{this.yearInputValidationStatus}}"
              ariaDescribedBy={{@yearValidationMessage}}
