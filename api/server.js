@@ -1,5 +1,3 @@
-// As early as possible in your application, require and configure dotenv.
-// https://www.npmjs.com/package/dotenv#usage
 require('dotenv').config();
 const validateEnvironmentVariables = require('./lib/infrastructure/validate-environement-variables');
 const Hapi = require('@hapi/hapi');
@@ -9,36 +7,32 @@ const preResponseUtils = require('./lib/application/pre-response-utils');
 const routes = require('./lib/routes');
 const plugins = require('./lib/plugins');
 const swaggers = require('./lib/swaggers');
-const config = require('./lib/config');
-
-const { find } = require('lodash');
-const security = require('./lib/infrastructure/security');
+const authentication = require('./lib/infrastructure/authentication');
 
 const { handleFailAction } = require('./lib/validate');
 
-function validateClientApplication(decoded) {
-  const application = find(config.graviteeRegisterApplicationsCredentials, { clientId: decoded.client_id });
+let config;
 
-  if (!application) {
-    return { isValid: false, errorCode: 401 };
-  }
+const setupServer = async () => {
 
-  if (decoded.scope !== application.scope) {
-    return { isValid: false, errorCode: 403 };
-  }
+  loadConfiguration();
 
-  return { isValid: true, credentials: { client_id: decoded.clientId, scope: decoded.scope, source: decoded.source } };
-}
+  const server = await createServer();
 
-function validateUser(decoded) {
-  return { isValid: true, credentials: { userId: decoded.user_id } };
-}
+  setupErrorHandling(server);
 
-const createServer = async () => {
+  setupAuthentication(server);
 
-  validateEnvironmentVariables();
+  await setupRoutesAndPlugins(server);
 
-  const server = new Hapi.server({
+  await setupOpenApiSpecification(server);
+
+  return server;
+};
+
+const createServer = async function() {
+
+  const serverConfiguration = {
     compression: false,
     routes: {
       validate: {
@@ -57,34 +51,38 @@ const createServer = async () => {
       isCaseSensitive: false,
       stripTrailingSlash: true,
     },
-  });
+  };
+
+  return new Hapi.server(serverConfiguration);
+};
+
+const loadConfiguration = function() {
+  validateEnvironmentVariables();
+  config = require('./lib/config');
+};
+
+const setupErrorHandling = function(server) {
 
   server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
+};
 
-  server.auth.scheme('jwt-scheme', security.scheme);
-
-  server.auth.strategy('jwt-livret-scolaire', 'jwt-scheme', {
-    //TODO rename var env to clientApplicationAuthentication
-    key: config.livretScolaireAuthentication.secret,
-    validate: validateClientApplication,
+const setupAuthentication = function(server) {
+  server.auth.scheme(authentication.schemeName, authentication.scheme);
+  authentication.strategies.map((strategy) => {
+    server.auth.strategy(strategy.name, authentication.schemeName, strategy.configuration);
   });
+  server.auth.default(authentication.defaultStrategy);
+};
 
-  server.auth.strategy('jwt-user', 'jwt-scheme', {
-    key: config.authentication.secret,
-    validate: validateUser,
-  });
-
-  server.auth.default('jwt-user');
-
+const setupRoutesAndPlugins = async function(server) {
   const configuration = [].concat(plugins, routes);
-
   await server.register(configuration);
+};
 
+const setupOpenApiSpecification = async function(server) {
   for (const swaggerRegisterArgs of swaggers) {
     await server.register(...swaggerRegisterArgs);
   }
-
-  return server;
 };
 
-module.exports = createServer;
+module.exports = setupServer;
