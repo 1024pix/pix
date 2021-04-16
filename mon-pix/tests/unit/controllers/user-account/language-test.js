@@ -19,7 +19,7 @@ describe('Unit | Controller | user-account/language', function() {
       controller.onChangeLang(event);
 
       // then
-      sinon.assert.calledWith(replaceStub, '/mon-compte?lang=en');
+      sinon.assert.calledWith(replaceStub, '/mon-compte/langue?lang=en');
     });
   });
 });
