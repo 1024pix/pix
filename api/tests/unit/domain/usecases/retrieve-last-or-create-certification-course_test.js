@@ -20,7 +20,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   const certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
   const certificationChallengeRepository = { save: sinon.stub() };
   const certificationChallengesService = { pickCertificationChallengesForPixPlus: sinon.stub(), pickCertificationChallenges: sinon.stub() };
-  const certifiableBadgesService = { hasCertifiableBadges: sinon.stub(), getTargetProfileIdFromAcquiredCertifiableBadges: sinon.stub() };
+  const badgeAcquisitionRepository = { findCertifiable: sinon.stub() };
   const certificationCourseRepository = {
     findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
     save: sinon.stub(),
@@ -38,7 +38,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     certificationChallengeRepository,
     certificationCourseRepository,
     sessionRepository,
-    certifiableBadgesService,
+    badgeAcquisitionRepository,
     certificationChallengesService,
     placementProfileService,
   };
@@ -259,6 +259,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId, userId }).resolves(foundCertificationCandidate);
             certificationCourseRepository.save.resolves(savedCertificationCourse);
             assessmentRepository.save.resolves(savedAssessment);
+            badgeAcquisitionRepository.findCertifiable.resolves([]);
           });
 
           it('should return it with flag created marked as true with related ressources', async function() {
@@ -308,23 +309,23 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           });
 
           context('when user has certifiable badges with pix plus', async function() {
-            const challengePlus1 = domainBuilder.buildChallenge({ id: 'challenge-pixplus1' });
-            const challengePlus2 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
-            const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
-
-            beforeEach(() => {
-              sinon.spy(CertificationCourse, 'from');
-              certifiableBadgesService.hasCertifiableBadges.resolves(true);
-              certifiableBadgesService.getTargetProfileIdFromAcquiredCertifiableBadges.resolves([11, 22]);
-              certificationChallengesService.pickCertificationChallengesForPixPlus
-                .withArgs(11, userId)
-                .resolves([challengePlus1, challengePlus2])
-                .withArgs(22, userId)
-                .resolves([challengePlus3]);
-            });
 
             it('should save all the challenges from pix and pix plus', async function() {
               // given
+              sinon.spy(CertificationCourse, 'from');
+              const challengePlus1 = domainBuilder.buildChallenge({ id: 'challenge-pixplus1' });
+              const challengePlus2 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
+              const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
+              const certifiableBadge1 = domainBuilder.buildBadge({ key: 'COUCOU', targetProfileId: 11 });
+              const certifiableBadge2 = domainBuilder.buildBadge({ key: 'SALUT', targetProfileId: 22 });
+              const certifiableBadgeAcquisition1 = domainBuilder.buildBadgeAcquisition({ badge: certifiableBadge1 });
+              const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({ badge: certifiableBadge2 });
+              badgeAcquisitionRepository.findCertifiable.resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
+              certificationChallengesService.pickCertificationChallengesForPixPlus
+                .withArgs(certifiableBadge1, userId)
+                .resolves([challengePlus1, challengePlus2])
+                .withArgs(certifiableBadge2, userId)
+                .resolves([challengePlus3]);
               const expectedChallenges = [challenge1, challenge2, challengePlus1, challengePlus2, challengePlus3];
               // when
               await retrieveLastOrCreateCertificationCourse({
@@ -345,19 +346,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           });
 
           context('when user has no certifiable badges with pix plus', async function() {
-            const challengePlus1 = domainBuilder.buildChallenge({ id: 'challenge-pixplus1' });
-            const challengePlus2 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
-            const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
 
             beforeEach(() => {
               sinon.spy(CertificationCourse, 'from');
-              certifiableBadgesService.hasCertifiableBadges.resolves(false);
-              certifiableBadgesService.getTargetProfileIdFromAcquiredCertifiableBadges.resolves([11, 22]);
-              certificationChallengesService.pickCertificationChallengesForPixPlus
-                .withArgs(11, userId)
-                .resolves([challengePlus1, challengePlus2])
-                .withArgs(22, userId)
-                .resolves([challengePlus3]);
+              badgeAcquisitionRepository.findCertifiable.resolves([]);
+              certificationChallengesService.pickCertificationChallengesForPixPlus.throws();
             });
 
             it('should save only the challenges from pix', async function() {
@@ -378,9 +371,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
                 maxReachableLevelOnCertificationDate: 5,
               });
             });
-
           });
-
         });
       });
     });
