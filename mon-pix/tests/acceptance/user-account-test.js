@@ -5,45 +5,52 @@ import { expect } from 'chai';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { contains } from '../helpers/contains';
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | User account page', function() {
   setupApplicationTest();
   setupMirage();
-  let user;
+  setupIntl();
 
-  beforeEach(function() {
-    user = server.create('user', 'withEmail');
-  });
+  context('When user is not connected', function() {
 
-  describe('Access to the user account page', function() {
-
-    it('should not be accessible when user is not connected', async function() {
-      // when
+    it('should be redirected to connection page', async function() {
+      // given / when
       await visit('/mon-compte');
 
       // then
       expect(currentURL()).to.equal('/connexion');
     });
+  });
 
-    it('should be accessible when user is connected', async function() {
+  context('When user is connected', function() {
+
+    let user;
+
+    beforeEach(async function() {
       // given
+      user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
+    });
 
+    it('should display my account page', async function() {
       // when
       await visit('/mon-compte');
 
       // then
-      expect(currentURL()).to.equal('/mon-compte');
+      expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
     });
 
-    it('should edit e-mail', async function() {
+    it('should be able to edit the email', async function() {
       // given
       const newEmail = 'new-email@example.net';
-      await authenticateByEmail(user);
       await visit('/mon-compte');
 
       // when
-      await click('button[data-test-edit-email]');
+      await clickByLabel(this.intl.t('pages.user-account.connexion-methods.menu-link-title'));
+      await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
       await fillIn('#newEmail', newEmail);
       await fillIn('#newEmailConfirmation', newEmail);
       await fillIn('#password', user.password);
@@ -51,6 +58,52 @@ describe('Acceptance | User account page', function() {
 
       // then
       expect(user.email).to.equal(newEmail);
+    });
+
+    describe('My account menu', function() {
+
+      it('should display my account menu', async function() {
+        // when
+        await visit('/mon-compte');
+
+        // then
+        expect(contains(this.intl.t('pages.user-account.personal-information.menu-link-title'))).to.exist;
+        expect(contains(this.intl.t('pages.user-account.connexion-methods.menu-link-title'))).to.exist;
+        expect(contains(this.intl.t('pages.user-account.language.menu-link-title'))).to.exist;
+      });
+
+      it('should display personal information on click on "Informations personnelles"', async function() {
+        // given
+        await visit('/mon-compte');
+
+        // when
+        await clickByLabel(this.intl.t('pages.user-account.personal-information.menu-link-title'));
+
+        // then
+        expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
+      });
+
+      it('should display connection methods on click on "Méthodes de connexion"', async function() {
+        // given
+        await visit('/mon-compte');
+
+        // when
+        await clickByLabel(this.intl.t('pages.user-account.connexion-methods.menu-link-title'));
+
+        // then
+        expect(currentURL()).to.equal('/mon-compte/methodes-de-connexion');
+      });
+
+      it('should display language on click on "Choisir ma langue"', async function() {
+        // given
+        await visit('/mon-compte');
+
+        // when
+        await clickByLabel(this.intl.t('pages.user-account.language.menu-link-title'));
+
+        // then
+        expect(currentURL()).to.equal('/mon-compte/langue');
+      });
     });
   });
 });

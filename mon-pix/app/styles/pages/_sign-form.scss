@@ -119,6 +119,10 @@
     @include device-is('tablet') {
       padding: 0;
     }
+
+    @include device-is('mobile') {
+      padding: 0;
+    }
   }
 
   &__bottom-button {

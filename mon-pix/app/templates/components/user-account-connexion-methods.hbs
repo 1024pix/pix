@@ -1,0 +1,23 @@
+{{#if this.shouldShowEmail}}
+  <div class="user-account-panel__item">
+    <div class="user-account-panel-item__text">
+      <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.connexion-methods.email'}}</p>
+      <p class="user-account-panel-item__value" data-test-email>{{@user.email}}</p>
+    </div>
+    <PixButton
+            class="user-account-panel-item__button"
+            @triggerAction={{@enableEmailEditionMode}}
+            data-test-edit-email>
+      {{t 'pages.user-account.connexion-methods.edit-button'}}
+    </PixButton>
+  </div>
+{{/if}}
+
+{{#if this.shouldShowUsername}}
+  <div class="user-account-panel__item">
+    <div class="user-account-panel-item__text">
+      <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.connexion-methods.username'}}</p>
+      <p class="user-account-panel-item__value" data-test-username>{{@user.username}}</p>
+    </div>
+  </div>
+{{/if}}

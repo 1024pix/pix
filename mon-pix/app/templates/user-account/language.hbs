@@ -1,0 +1,8 @@
+<div class="language">
+  <p class="form-textfield__label language__label">{{t 'pages.user-account.language.lang'}}</p>
+  <PixSelect
+    @options={{this.options}}
+    @onChange={{this.onChangeLang}}
+    @selectedOption={{@model.lang}}
+    data-test-lang />
+</div>

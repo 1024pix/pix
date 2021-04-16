@@ -3,27 +3,42 @@
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
 
-    <NavbarHeader @burger={{burger}} @campaignParticipations={{@model.campaignParticipations}}/>
+    <NavbarHeader @burger={{burger}} @campaignParticipations={{@model.campaignParticipations}} />
 
     <main id="main">
-      <div class="background-banner">
-        <div class="user-account__banner">
-          <h1 class="user-account-banner__title">{{t 'pages.user-account.title'}}</h1>
+      <PixBackgroundHeader>
+
+        <h1 class="user-account__title">{{t 'pages.user-account.title'}}</h1>
+        <div class="user-account__menu-and-content">
+          <PixBlock class="user-account__menu-block">
+            <nav class="user-account-menu">
+              <ul>
+                <li>
+                  <LinkTo @route="user-account.personal-information" class="user-account-menu__link">
+                    <FaIcon @icon='user' /> {{t 'pages.user-account.personal-information.menu-link-title'}}
+                  </LinkTo>
+                </li>
+                <li>
+                  <LinkTo @route="user-account.connection-methods" class="user-account-menu__link">
+                    <FaIcon @icon='link' /> {{t 'pages.user-account.connexion-methods.menu-link-title'}}
+                  </LinkTo>
+                </li>
+                {{#if this.displayLanguageSwitch}}
+                  <li>
+                    <LinkTo @route="user-account.language" class="user-account-menu__link">
+                      <FaIcon @icon='globe' /> {{t 'pages.user-account.language.menu-link-title'}}
+                    </LinkTo>
+                  </li>
+                {{/if}}
+              </ul>
+            </nav>
+          </PixBlock>
+
+          <PixBlock class="user-account__content">
+            {{outlet}}
+          </PixBlock>
         </div>
-      </div>
-      {{#if this.isEmailEditionMode}}
-      <div class="user-account__update-email">
-        <UserAccountUpdateEmail
-                @disableEmailEditionMode={{this.disableEmailEditionMode}}
-                @saveNewEmail={{this.saveNewEmail}}/>
-      </div>
-      {{else}}
-      <div class="user-account__panel">
-        <UserAccountPanel
-                @user={{@model}}
-                @enableEmailEditionMode={{this.enableEmailEditionMode}}/>
-      </div>
-      {{/if}}
+      </PixBackgroundHeader>
     </main>
 
     <Footer />
