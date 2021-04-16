@@ -19,7 +19,7 @@ class CertificationChallenge {
     this.certifiableBadgeKey = certifiableBadgeKey;
   }
 
-  static create({
+  static createForPixCertification({
     associatedSkillName,
     associatedSkillId,
     challengeId,
@@ -34,6 +34,25 @@ class CertificationChallenge {
       competenceId,
       isNeutralized: false,
       certifiableBadgeKey: null,
+    });
+  }
+
+  static createForPixPlusCertification({
+    associatedSkillName,
+    associatedSkillId,
+    challengeId,
+    competenceId,
+    certifiableBadgeKey,
+  }) {
+    return new CertificationChallenge({
+      id: undefined,
+      courseId: undefined,
+      associatedSkillName,
+      associatedSkillId,
+      challengeId,
+      competenceId,
+      isNeutralized: false,
+      certifiableBadgeKey,
     });
   }
 
