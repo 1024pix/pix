@@ -1,21 +1,21 @@
-const { expect, generateValidRequestAuthorizationHeader } = require('../../test-helper');
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
+const { expect, generateValidRequestAuthorizationHeader, HttpTestServer } = require('../../test-helper');
+
+const moduleUnderTest = require('../../../lib/application/cache');
 
 describe('Acceptance | Controller | cache-controller', () => {
 
   let server;
 
-  beforeEach(async () => {
-    server = await createServer();
+  before(async () => {
+    server = new HttpTestServer(moduleUnderTest, true);
   });
 
   describe('PATCH /api/cache/{model}/{id}', () => {
 
-    let options;
+    let request;
 
     beforeEach(() => {
-      options = {
+      request = {
         method: 'PATCH',
         url: '/api/cache/challenges/recChallengeId',
         headers: {},
@@ -29,10 +29,10 @@ describe('Acceptance | Controller | cache-controller', () => {
     describe('Resource access management', () => {
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
-        options.headers.authorization = 'invalid.access.token';
+        request.headers.authorization = 'invalid.access.token';
 
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -41,10 +41,10 @@ describe('Acceptance | Controller | cache-controller', () => {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
         // given
         const nonPixMasterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
+        request.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
 
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -54,10 +54,10 @@ describe('Acceptance | Controller | cache-controller', () => {
 
   describe('PATCH /api/cache', () => {
 
-    let options;
+    let request;
 
     beforeEach(() => {
-      options = {
+      request = {
         method: 'PATCH',
         url: '/api/cache',
         headers: {},
@@ -68,10 +68,10 @@ describe('Acceptance | Controller | cache-controller', () => {
 
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
-        options.headers.authorization = 'invalid.access.token';
+        request.headers.authorization = 'invalid.access.token';
 
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -80,10 +80,10 @@ describe('Acceptance | Controller | cache-controller', () => {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
         // given
         const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+        request.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(403);
