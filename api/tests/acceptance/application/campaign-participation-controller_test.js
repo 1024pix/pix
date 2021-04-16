@@ -1,19 +1,23 @@
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
-const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, knex, HttpTestServer, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const moduleUnderTest = require('../../../lib/application/campaign-participations');
 
 describe('Acceptance | API | Campaign Participations', () => {
 
   let server,
-    options,
+    request,
     user,
     campaign,
     assessment,
     campaignParticipation;
 
+  const authenticationEnabled = true;
+
+  before(async () => {
+    server = new HttpTestServer(moduleUnderTest, authenticationEnabled);
+  });
+
   beforeEach(async () => {
-    server = await createServer();
     user = databaseBuilder.factory.buildUser();
   });
 
@@ -37,7 +41,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
     it('should return the campaign-participation', async () => {
       // given
-      options = {
+      request = {
         method: 'GET',
         url: `/api/campaign-participations/${campaignParticipation.id}?include=user`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
@@ -80,7 +84,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -109,14 +113,14 @@ describe('Acceptance | API | Campaign Participations', () => {
     context('when the user own the campaign participation', () => {
 
       beforeEach(() => {
-        options = {
+        request = {
           method: 'GET',
           url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}&include=campaign,user`,
           headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         };
       });
 
-      it('should return the campaign-participation of the given assessmentId', () => {
+      it('should return the campaign-participation of the given assessmentId', async () => {
         // given
         const expectedCampaignParticipation = [
           {
@@ -161,13 +165,12 @@ describe('Acceptance | API | Campaign Participations', () => {
         ];
 
         // when
-        const promise = server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-          expect(response.result.data).to.be.deep.equal(expectedCampaignParticipation);
-        });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.be.deep.equal(expectedCampaignParticipation);
+
       });
 
     });
@@ -175,21 +178,19 @@ describe('Acceptance | API | Campaign Participations', () => {
     context('when the user doesnt own the campaign participation', () => {
 
       beforeEach(() => {
-        options = {
+        request = {
           method: 'GET',
           url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}`,
           headers: { authorization: 'USER_UNATHORIZED' },
         };
       });
 
-      it('it should reply an unauthorized error', () => {
+      it('it should reply an unauthorized error', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
-        return promise.then((error) => {
-          expect(error.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
     });
 
@@ -204,13 +205,13 @@ describe('Acceptance | API | Campaign Participations', () => {
 
         await databaseBuilder.commit();
 
-        const options = {
+        const request = {
           method: 'GET',
           url: '/api/campaign-participations?filter[assessmentId]=abcd',
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
 
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         expect(response.statusCode).to.equal(404);
       });
@@ -242,7 +243,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       const learningObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningObjects);
 
-      options = {
+      request = {
         method: 'PATCH',
         url: `/api/campaign-participations/${campaignParticipationId}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
@@ -278,7 +279,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
     it('shares the campaign participation', async () => {
       // when
-      const response = await server.inject(options);
+      const response = await server.requestObject(request);
       const campaignParticipation = await knex('campaign-participations').first();
 
       // then
@@ -290,7 +291,7 @@ describe('Acceptance | API | Campaign Participations', () => {
   describe('POST /api/campaign-participations', () => {
 
     let campaignId;
-    const options = {
+    const request = {
       method: 'POST',
       url: '/api/campaign-participations',
       headers: { authorization: generateValidRequestAuthorizationHeader() },
@@ -313,7 +314,7 @@ describe('Acceptance | API | Campaign Participations', () => {
     };
 
     beforeEach(async () => {
-      options.headers = { authorization: generateValidRequestAuthorizationHeader(user.id) };
+      request.headers = { authorization: generateValidRequestAuthorizationHeader(user.id) };
       campaignId = databaseBuilder.factory.buildCampaign({}).id;
       await databaseBuilder.commit();
     });
@@ -325,10 +326,10 @@ describe('Acceptance | API | Campaign Participations', () => {
 
     it('should return 201 and the campaign participation when it has been successfully created', async () => {
       // given
-      options.payload.data.relationships.campaign.data.id = campaignId;
+      request.payload.data.relationships.campaign.data.id = campaignId;
 
       // when
-      const response = await server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.statusCode).to.equal(201);
@@ -337,10 +338,10 @@ describe('Acceptance | API | Campaign Participations', () => {
 
     it('should return 404 error if the campaign related to the participation does not exist', async () => {
       // given
-      options.payload.data.relationships.campaign.data.id = null;
+      request.payload.data.relationships.campaign.data.id = null;
 
       // when
-      const response = await server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.statusCode).to.equal(404);
@@ -348,12 +349,12 @@ describe('Acceptance | API | Campaign Participations', () => {
 
     it('should return 412 error if the user has already participated to the campaign', async () => {
       // given
-      options.payload.data.relationships.campaign.data.id = campaignId;
+      request.payload.data.relationships.campaign.data.id = campaignId;
       databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, campaignId });
       await databaseBuilder.commit();
 
       // when
-      const response = await server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.statusCode).to.equal(412);
@@ -368,13 +369,13 @@ describe('Acceptance | API | Campaign Participations', () => {
 
     it('should return 401 HTTP status code when user is not connected', async () => {
       // given
-      options = {
+      request = {
         method: 'PATCH',
         url: '/api/campaign-participations/123/begin-improvement',
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.statusCode).to.equal(401);
@@ -386,14 +387,14 @@ describe('Acceptance | API | Campaign Participations', () => {
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, isShared: false }).id;
       databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, isImproving: false, state: Assessment.states.COMPLETED, type: 'CAMPAIGN' });
       await databaseBuilder.commit();
-      options = {
+      request = {
         method: 'PATCH',
         url: `/api/campaign-participations/${campaignParticipationId}/begin-improvement`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -405,14 +406,14 @@ describe('Acceptance | API | Campaign Participations', () => {
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, isShared: true }).id;
       databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, isImproving: false, state: Assessment.states.COMPLETED, type: 'CAMPAIGN' });
       await databaseBuilder.commit();
-      options = {
+      request = {
         method: 'PATCH',
         url: `/api/campaign-participations/${campaignParticipationId}/begin-improvement`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.statusCode).to.equal(412);
@@ -425,14 +426,14 @@ describe('Acceptance | API | Campaign Participations', () => {
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId: anotherUserId, isShared: false }).id;
       databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, isImproving: false, state: Assessment.states.COMPLETED, type: 'CAMPAIGN' });
       await databaseBuilder.commit();
-      options = {
+      request = {
         method: 'PATCH',
         url: `/api/campaign-participations/${campaignParticipationId}/begin-improvement`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.statusCode).to.equal(403);
@@ -447,6 +448,8 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
 
     it('should return the campaign profile as JSONAPI', async () => {
+
+      // given
       const userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -457,14 +460,16 @@ describe('Acceptance | API | Campaign Participations', () => {
 
       await databaseBuilder.commit();
 
-      const options = {
+      const request = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}/profiles-collection-participations/${campaignParticipation.id}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
-      const response = await server.inject(options);
+      // when
+      const response = await server.requestObject(request);
 
+      // then
       expect(response.statusCode).to.equal(200);
       const campaignProfile = response.result.data.attributes;
       expect(campaignProfile['external-id']).to.equal('Die Hard');
