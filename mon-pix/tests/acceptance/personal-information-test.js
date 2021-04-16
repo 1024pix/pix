@@ -30,7 +30,6 @@ describe('Acceptance | personal-information', function() {
       // then
       expect(contains(user.firstName)).to.exist;
       expect(contains(user.lastName)).to.exist;
-      expect(contains('Français')).to.exist;
     });
   });
 });

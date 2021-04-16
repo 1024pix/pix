@@ -31,6 +31,7 @@ module.exports = function() {
       'chevron-down',
       'user',
       'link',
+      'globe',
     ],
     'free-regular-svg-icons': [
       'bookmark',

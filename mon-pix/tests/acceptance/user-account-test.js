@@ -92,6 +92,17 @@ describe('Acceptance | User account page', function() {
         // then
         expect(currentURL()).to.equal('/mon-compte/methodes-de-connexion');
       });
+
+      it('should display language on click on "Choisir ma langue"', async function() {
+        // given
+        await visit('/mon-compte');
+
+        // when
+        await clickByLabel(this.intl.t('pages.user-account.language.menu-link-title'));
+
+        // then
+        expect(currentURL()).to.equal('/mon-compte/langue');
+      });
     });
   });
 });
