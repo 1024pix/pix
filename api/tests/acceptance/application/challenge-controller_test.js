@@ -1,13 +1,12 @@
-const { learningContentBuilder, expect, mockLearningContent } = require('../../test-helper');
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
+const { learningContentBuilder, expect, mockLearningContent, HttpTestServer } = require('../../test-helper');
+const moduleUnderTest = require('../../../lib/application/challenges');
 
 describe('Acceptance | API | ChallengeController', () => {
 
   let server;
-
-  beforeEach(async () => {
-    server = await createServer();
+  before(async () => {
+    const authenticationEnabled = false;
+    server = new HttpTestServer(moduleUnderTest, authenticationEnabled);
   });
 
   describe('GET /api/challenges/:challenge_id', () => {
@@ -47,44 +46,40 @@ describe('Acceptance | API | ChallengeController', () => {
       mockLearningContent(learningContentObjects);
     });
 
-    const options = {
+    const request = {
       method: 'GET',
       url: `/api/challenges/${challengeId}`,
     };
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', async() => {
       // when
-      const promise = server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should return application/json', () => {
+    it('should return application/json', async() => {
       // when
-      const promise = server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
-      return promise.then((response) => {
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
-      });
+      const contentType = response.headers['content-type'];
+      expect(contentType).to.contain('application/json');
     });
 
-    it('should return the expected challenge', () => {
+    it('should return the expected challenge', async() => {
       // when
-      const promise = server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
-      return promise.then((response) => {
-        const challenge = response.result.data;
-        expect(challenge.id).to.equal(challengeId);
-        expect(challenge.attributes.instruction).to.equal(instruction);
-        expect(challenge.attributes.proposals).to.equal(proposals);
-        expect(challenge.attributes.type).to.equal(challengeType);
-      });
+
+      const challenge = response.result.data;
+      expect(challenge.id).to.equal(challengeId);
+      expect(challenge.attributes.instruction).to.equal(instruction);
+      expect(challenge.attributes.proposals).to.equal(proposals);
+      expect(challenge.attributes.type).to.equal(challengeType);
+
     });
   });
 });
