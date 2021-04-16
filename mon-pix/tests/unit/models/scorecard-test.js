@@ -2,8 +2,10 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import { run } from '@ember/runloop';
+import ENV from 'mon-pix/config/environment';
 
 describe('Unit | Model | Scorecard model', function() {
+  const maxReachableLevel = ENV.APP.MAX_REACHABLE_LEVEL;
   let scorecard;
 
   setupTest();
@@ -48,7 +50,7 @@ describe('Unit | Model | Scorecard model', function() {
   describe('isMaxLevel', function() {
     it('should return true', function() {
       // given
-      scorecard.set('level', 5);
+      scorecard.set('level', maxReachableLevel);
 
       // when
       const isMaxLevel = scorecard.get('isMaxLevel');
@@ -73,7 +75,7 @@ describe('Unit | Model | Scorecard model', function() {
     context('when max level is reached', function() {
       it('should return true', function() {
         // given
-        scorecard.set('level', 5);
+        scorecard.set('level', maxReachableLevel);
         scorecard.set('status', 'COMPLETED');
 
         // when
@@ -85,7 +87,7 @@ describe('Unit | Model | Scorecard model', function() {
 
       it('should return false', function() {
         // given
-        scorecard.set('level', 5);
+        scorecard.set('level', maxReachableLevel);
         scorecard.set('status', 'STARTED');
 
         // when
@@ -127,7 +129,7 @@ describe('Unit | Model | Scorecard model', function() {
     context('when the competence is finished with max level', function() {
       it('should return false', function() {
         // given
-        scorecard.set('level', 5);
+        scorecard.set('level', maxReachableLevel);
         scorecard.set('status', 'COMPLETED');
         scorecard.set('remainingDaysBeforeImproving', 0);
 
@@ -142,7 +144,7 @@ describe('Unit | Model | Scorecard model', function() {
     context('when the competence is not finished', function() {
       it('should return false', function() {
         // given
-        scorecard.set('level', 5);
+        scorecard.set('level', maxReachableLevel);
         scorecard.set('status', 'STARTED');
         scorecard.set('remainingDaysBeforeImproving', 0);
 
@@ -157,7 +159,7 @@ describe('Unit | Model | Scorecard model', function() {
     context('when there are remaining days before improving', function() {
       it('should return false', function() {
         // given
-        scorecard.set('level', 5);
+        scorecard.set('level', maxReachableLevel);
         scorecard.set('status', 'COMPLETED');
         scorecard.set('remainingDaysBeforeImproving', 1);
 
