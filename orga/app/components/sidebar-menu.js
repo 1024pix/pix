@@ -3,9 +3,14 @@ import Component from '@glimmer/component';
 
 export default class SidebarMenu extends Component {
   @service currentUser;
+  @service url;
   @service featureToggles;
 
   get documentationUrl() {
+    if (!this.url.isFrenchDomainExtension) {
+      return 'https://cloud.pix.fr/s/HxpfpBnY47nYBkz';
+    }
+
     if (this.currentUser.isSCOManagingStudents && this.currentUser.isAgriculture) {
       return 'https://view.genial.ly/5f85a0b87812e90d12b7b593';
     }
