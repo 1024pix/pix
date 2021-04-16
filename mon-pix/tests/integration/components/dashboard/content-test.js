@@ -190,7 +190,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(find('section[data-test-improvable-competences]')).to.exist;
+      expect(contains(this.intl.t('pages.dashboard.improvable-competences.subtitle'))).to.exist;
     });
 
     it('should not render competence-card when there is no competence-card', async function() {
@@ -205,7 +205,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
 
       // then
-      expect(find('section[data-test-improvable-competences]')).to.not.exist;
+      expect(contains(this.intl.t('pages.dashboard.improvable-competences.subtitle'))).to.not.exist;
     });
 
     it('should render the four first non improvable competence cards from the received arguments', async function() {
