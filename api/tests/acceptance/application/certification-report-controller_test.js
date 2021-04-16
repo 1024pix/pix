@@ -3,11 +3,19 @@ const {
   databaseBuilder,
   knex,
   generateValidRequestAuthorizationHeader,
+  HttpTestServer,
 } = require('../../test-helper');
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
+
+const moduleUnderTest = require('../../../lib/application/certification-reports');
 
 describe('Acceptance | Controller | certification-report-controller', () => {
+
+  let server;
+
+  before(async () => {
+    const authenticationEnabled = true;
+    server = new HttpTestServer(moduleUnderTest, authenticationEnabled);
+  });
 
   describe('POST /api/certification-reports/{id}/certification-issue-reports', () => {
 
@@ -17,7 +25,6 @@ describe('Acceptance | Controller | certification-report-controller', () => {
 
     it('should return 201 HTTP status code', async () => {
       // given
-      const server = await createServer();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId }).id;
@@ -50,7 +57,7 @@ describe('Acceptance | Controller | certification-report-controller', () => {
       await databaseBuilder.commit();
 
       // when
-      const response = await server.inject(request);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.statusCode).to.equal(201);
