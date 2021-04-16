@@ -1,17 +1,18 @@
-const { expect, databaseBuilder, knex, learningContentBuilder, mockLearningContent, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
+const { expect, databaseBuilder, knex, learningContentBuilder, mockLearningContent, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, HttpTestServer } = require('../../test-helper');
 const config = require('../../../lib/config');
 
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const Assessment = require('../../../lib/domain/models/Assessment');
 
+const moduleUnderTest = require('../../../lib/application/certification-courses');
+
 describe('Acceptance | API | Certification Course', () => {
 
   let server;
 
-  beforeEach(async () => {
-    server = await createServer();
+  before(async () => {
+    const authenticationEnabled = true;
+    server = new HttpTestServer(moduleUnderTest, authenticationEnabled);
   });
 
   describe('when FT_IS_NEUTRALIZATION_AUTO_ENABLED toggle is enabled ', () => {
@@ -28,7 +29,7 @@ describe('Acceptance | API | Certification Course', () => {
 
         // given
         await insertUserWithRolePixMaster();
-        const options = {
+        const request = {
           method: 'GET',
           url: '/api/admin/certifications/1234/details',
           headers: {
@@ -70,16 +71,16 @@ describe('Acceptance | API | Certification Course', () => {
         await databaseBuilder.commit();
 
         // when
-        const result = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
-        expect(result.statusCode).to.equal(200);
+        expect(response.statusCode).to.equal(200);
       });
     });
   });
 
   describe('GET /api/admin/certifications/{id}', () => {
-    let options;
+    let request;
     let certificationCourseId;
 
     context('when certification course has no assessment', () => {
@@ -91,7 +92,7 @@ describe('Acceptance | API | Certification Course', () => {
           completedAt: new Date('2017-12-21T15:48:38Z'),
           isPublished: false,
         }));
-        options = {
+        request = {
           method: 'GET',
           url: `/api/admin/certifications/${certificationCourseId}`,
           headers: {
@@ -103,7 +104,7 @@ describe('Acceptance | API | Certification Course', () => {
 
       it('should return 200 HTTP status code', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -111,7 +112,7 @@ describe('Acceptance | API | Certification Course', () => {
 
       it('should return application/json', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         const contentType = response.headers['content-type'];
@@ -120,7 +121,7 @@ describe('Acceptance | API | Certification Course', () => {
 
       it('should retrieve the certification total pix score and certified competences levels', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         const result = response.result.data;
@@ -167,7 +168,7 @@ describe('Acceptance | API | Certification Course', () => {
           competence_code: 2.1,
           assessmentResultId,
         });
-        options = {
+        request = {
           method: 'GET',
           url: `/api/admin/certifications/${certificationCourseId}`,
           headers: {
@@ -179,7 +180,7 @@ describe('Acceptance | API | Certification Course', () => {
 
       it('should return 200 HTTP status code', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -187,7 +188,7 @@ describe('Acceptance | API | Certification Course', () => {
 
       it('should return application/json', async () => {
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         const contentType = response.headers['content-type'];
@@ -200,7 +201,7 @@ describe('Acceptance | API | Certification Course', () => {
         const expectedCompletedAt = new Date('2017-12-21T15:48:38Z');
 
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         const result = response.result.data;
@@ -222,14 +223,14 @@ describe('Acceptance | API | Certification Course', () => {
 
       it('should return 404 HTTP status code if certification not found', async () => {
         // given
-        const options = {
+        const request = {
           method: 'GET',
           url: '/api/admin/certifications/200',
           headers: { authorization: generateValidRequestAuthorizationHeader() },
         };
 
         // when
-        const response = await server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(404);
@@ -239,10 +240,10 @@ describe('Acceptance | API | Certification Course', () => {
 
         it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
           // given
-          options.headers.authorization = 'invalid.access.token';
+          request.headers.authorization = 'invalid.access.token';
 
           // when
-          const response = await server.inject(options);
+          const response = await server.requestObject(request);
 
           // then
           expect(response.statusCode).to.equal(401);
@@ -251,10 +252,10 @@ describe('Acceptance | API | Certification Course', () => {
         it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
           // given
           const nonPixMAsterUserId = 9999;
-          options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+          request.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
           // when
-          const response = await server.inject(options);
+          const response = await server.requestObject(request);
 
           // then
           expect(response.statusCode).to.equal(403);
@@ -268,14 +269,14 @@ describe('Acceptance | API | Certification Course', () => {
 
   describe('PATCH /api/certification-courses/{id}', () => {
 
-    let options;
+    let request;
 
     beforeEach(() => {
       const { id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
         createdAt: new Date('2019-12-21T15:44:38Z'),
         completedAt: new Date('2017-12-21T15:48:38Z'),
       });
-      options = {
+      request = {
         headers: { authorization: generateValidRequestAuthorizationHeader() },
         method: 'PATCH',
         url: `/api/certification-courses/${certificationCourseId}`, payload: {
@@ -296,40 +297,37 @@ describe('Acceptance | API | Certification Course', () => {
       return databaseBuilder.commit();
     });
 
-    it('should update the certification course', () => {
+    it('should update the certification course', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
-      return promise.then((response) => {
-        // then
-        const result = response.result.data;
-        expect(result.attributes['first-name']).to.equal('Freezer');
-        expect(result.attributes['last-name']).to.equal('The all mighty');
-        expect(result.attributes['birthplace']).to.equal('Namek');
-        expect(result.attributes['birthdate']).to.equal('1989-10-24');
-        expect(result.attributes['external-id']).to.equal('xenoverse2');
-      });
+      const result = response.result.data;
+      expect(result.attributes['first-name']).to.equal('Freezer');
+      expect(result.attributes['last-name']).to.equal('The all mighty');
+      expect(result.attributes['birthplace']).to.equal('Namek');
+      expect(result.attributes['birthdate']).to.equal('1989-10-24');
+      expect(result.attributes['external-id']).to.equal('xenoverse2');
     });
 
-    it('should return a Wrong Error Format when birthdate is false', () => {
+    it('should return a Wrong Error Format when birthdate is false', async () => {
       // given
-      options.payload.data.attributes.birthdate = 'aaaaaaa';
+      request.payload.data.attributes.birthdate = 'aaaaaaa';
 
       // when
-      const promise = server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
-      return promise.then((err) => {
-        expect(err.statusCode).to.be.equal(400);
-      });
+
+      expect(response.statusCode).to.be.equal(400);
+
     });
 
   });
 
   describe('GET /api/certification-courses/{id}', () => {
 
-    let options;
+    let request;
     let userId;
     let otherUserId;
     let expectedCertificationCourse;
@@ -349,7 +347,7 @@ describe('Acceptance | API | Certification Course', () => {
 
       const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
 
-      options = {
+      request = {
         method: 'GET',
         url: `/api/certification-courses/${certificationCourse.id}`,
         headers: {},
@@ -378,39 +376,37 @@ describe('Acceptance | API | Certification Course', () => {
 
     describe('Resource access management', () => {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
-        options.headers.authorization = 'invalid.access.token';
+        request.headers.authorization = 'invalid.access.token';
 
         // when
-        const promise = server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
+
       });
 
-      it('should respond with a 403 - forbidden access - if user is not linked to the certification course', () => {
+      it('should respond with a 403 - forbidden access - if user is not linked to the certification course', async () => {
         // given
-        options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
+        request.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
 
         // when
-        const promise = server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
+        expect(response.statusCode).to.equal(403);
+
       });
     });
 
     it('should return the certification course', async () => {
       // given
-      options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+      request.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
       // when
-      const response = await server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.result.data).to.deep.equal(expectedCertificationCourse);
@@ -418,7 +414,7 @@ describe('Acceptance | API | Certification Course', () => {
   });
 
   describe('POST /api/certification-courses', () => {
-    let options;
+    let request;
     let response;
     let userId;
     let sessionId;
@@ -434,7 +430,7 @@ describe('Acceptance | API | Certification Course', () => {
           },
         },
       };
-      options = {
+      request = {
         method: 'POST',
         url: '/api/certification-courses',
         headers: {
@@ -449,10 +445,10 @@ describe('Acceptance | API | Certification Course', () => {
 
       beforeEach(async () => {
         // given
-        options.payload.data.attributes['access-code'] = 'wrongcode';
+        request.payload.data.attributes['access-code'] = 'wrongcode';
 
         // when
-        response = await server.inject(options);
+        response = await server.requestObject(request);
       });
 
       it('should respond with 404 status code', () => {
@@ -640,7 +636,7 @@ describe('Acceptance | API | Certification Course', () => {
         await databaseBuilder.commit();
 
         // when
-        response = await server.inject(options);
+        response = await server.requestObject(request);
       });
 
       afterEach(async () => {
@@ -684,7 +680,7 @@ describe('Acceptance | API | Certification Course', () => {
         await databaseBuilder.commit();
 
         // when
-        response = await server.inject(options);
+        response = await server.requestObject(request);
       });
 
       it('should respond with 200 status code', () => {
