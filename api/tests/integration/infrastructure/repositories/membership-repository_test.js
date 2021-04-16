@@ -60,6 +60,42 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
     });
   });
 
+  describe('#get', () => {
+
+    let existingMembership;
+
+    beforeEach(async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      existingMembership = databaseBuilder.factory.buildMembership({ userId, organizationId });
+      await databaseBuilder.commit();
+    });
+
+    context('when membership exists', () => {
+
+      it('should return the membership', async () => {
+        // when
+        const result = await membershipRepository.get(existingMembership.id);
+
+        // then
+        expect(result).to.be.an.instanceOf(Membership);
+        expect(result.user).to.be.an.instanceOf(User);
+        expect(result.organization).to.be.an.instanceOf(Organization);
+      });
+    });
+
+    context('when membership does not exist', () => {
+
+      it('should throw a NotFoundError', async () => {
+        // when
+        const result = await membershipRepository.get(existingMembership.id);
+
+        // then
+        expect(result).to.be.an.instanceOf(Membership);
+      });
+    });
+  });
+
   describe('#findByOrganizationId', () => {
 
     it('should return all the memberships for a given organization ID with only required relationships', async () => {
