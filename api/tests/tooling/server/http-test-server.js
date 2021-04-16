@@ -1,7 +1,7 @@
 const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
 
-const security = require('../../../lib/infrastructure/security');
+const authentication = require('../../../lib/infrastructure/authentication');
 
 const preResponseUtils = require('../../../lib/application/pre-response-utils');
 const { handleFailAction } = require('../../../lib/validate');
@@ -37,9 +37,11 @@ class HttpTestServer {
     });
 
     if (enableAuthentication) {
-      this.hapiServer.auth.scheme('jwt-scheme', security.scheme);
-      this.hapiServer.auth.strategy('default', 'jwt-scheme');
-      this.hapiServer.auth.default('default');
+      this.hapiServer.auth.scheme(authentication.schemeName, authentication.scheme);
+      authentication.strategies.map((strategy) => {
+        this.hapiServer.auth.strategy(strategy.name, authentication.schemeName, strategy.configuration);
+      });
+      this.hapiServer.auth.default(authentication.defaultStrategy);
     }
     this.hapiServer.register(Inert);
     this.hapiServer.register(moduleUnderTest);
