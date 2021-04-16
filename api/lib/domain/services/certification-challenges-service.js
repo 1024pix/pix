@@ -52,8 +52,8 @@ module.exports = {
     return certificationChallenges;
   },
 
-  async pickCertificationChallengesForPixPlus(targetProfileId, userId) {
-    const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({ id: targetProfileId });
+  async pickCertificationChallengesForPixPlus(certifiableBadge, userId) {
+    const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({ id: certifiableBadge.targetProfileId });
     const certifiableProfile = await certifiableProfileForLearningContentRepository.get({ id: userId, profileDate: new Date(), targetProfileWithLearningContent });
     const allFrFrOperativeChallenges = await challengeRepository.findFrenchFranceOperative();
 
