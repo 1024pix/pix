@@ -85,11 +85,11 @@
                 "details": "During this personalised test, you will be able to:",
                 "legal": "By clicking on “Begin“, information about your progress will be shared with the organiser so they can assist you if necessary. At the end of your personalised test, your results will be shared with your organisation when clicking on “Submit my results“.",
                 "evaluate": {
-                    "title": "Assess your digital skills with fun tests on different subjects, such as:",
-                    "complement": "The Pix public service for the assessment and certification of digital skills enables assessment of your level in 5 major skill areas covering current uses of digital technology.",
+                    "title": "Assess your digital skills with fun challenges on different subjects, such as:",
+                    "complement": "The Pix public service for the assessment and certification of digital skills enables assessment of your level in 5 major competence areas covering current uses of digital technology.",
                     "list": "'<ul class=\"campaign-landing-page__details__text article-list\"><li>'finding information on the internet,'</li><li>'producing documents,'</li><li>'communicating and collaborating online,'</li><li>'securing your work environment,'</li><li>'etc.'</li></ul>'",
                     "more-info": {
-                        "link": "https://pix.org/en-gb/skills-assessed-by-pix",
+                        "link": "https://pix.org/en-gb/competences",
                         "label": "Find out more."
                     }
                 },
@@ -106,7 +106,7 @@
                 "title": "Submit your profile",
                 "action": "Let’s go!",
                 "announcement": "Sign up or log in to the Pix platform and send your profile to the recipient organisation.",
-                "legal": "Information about your progress will be sent to the organiser so they can provide support. It will only be sent with your permission."
+                "legal": "Information about your progress will be sent to the organiser so they can help you if necessary. It will only be sent with your permission."
             }
         },
         "campaign-participation": {
@@ -151,9 +151,9 @@
                 "alternative": "Digital CléA certification"
             },
             "competences": {
-                "information": "Your certified score was calculated based on the answers you gave whilst taking the certification. It may be different from the score shown on your profile. When you took the certification, it was possible to reach a maximum of level {maxReachableLevelOnCertificationDate} each skill and {maxReachablePixCountOnCertificationDate} pix.",
+                "information": "Your certified score was calculated based on the answers you gave whilst taking the certification. It may be different from the score shown on your profile. When you took the certification, it was possible to reach a maximum of level {maxReachableLevelOnCertificationDate} in each competence and {maxReachablePixCountOnCertificationDate} pix.",
                 "subtitle": "(levels out of {maxReachableLevel})",
-                "title": "Certified skills"
+                "title": "Certified competences"
             },
             "exam-date": "Completion date:",
             "hexagon-score": {
@@ -194,7 +194,7 @@
         },
         "certification-not-certifiable": {
             "title": "Your profile cannot be certified yet.",
-            "text": "To have your profile certified, you need to have reached at least level 1 in five skills.",
+            "text": "To have your profile certified, you need to have reached at least level 1 in 5 competences.",
             "action": {
                 "back": "Return to homepage"
             }
@@ -233,7 +233,7 @@
             "first-title": "You are about to begin your certification test."
         },
         "certifications-list": {
-            "title": "My certifications",
+            "title": "My Certifications",
             "header": {
                 "certification-center": "certification centre",
                 "date": "date",
@@ -253,7 +253,7 @@
                     "title": "Certification not awarded"
                 },
                 "not-published": {
-                    "title": "Awaiting results"
+                    "title": "Results pending"
                 }
             }
         },
@@ -364,13 +364,13 @@
                     "status": {
                         "error": {
                             "empty-message": "You must enter a message.",
-                            "max-characters": "Messages cannot contain more than 10,000 characters."
+                            "max-characters": "Your message cannot exceed 10,000 characters."
                         },
                         "success": "'<p>'Your comment has been sent to the Pix project team.'</p><p>'Thank you!'</p>'"
                     }
                 },
                 "information": {
-                    "data-usage": "'<p>'Pix processes the data from this area to manage and analyse the difficulty encountered and benefit from your feedback. You have rights over your data which can be exercised via '<a href=\"mailto:dpo@pix.fr\" class=\"link\">'dpo@pix.fr'</a>'.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'To find out more about protecting your data and your rights.'</a></p>'",
+                    "data-usage": "'<p>'Pix processes the data from this area to manage and analyse the difficulty encountered and benefit from your feedback. You have rights over your data which can be exercised via '<a href=\"mailto:dpo@pix.fr\" class=\"link\">'dpo@pix.fr'</a>'.'</p><p><a href=\"https://pix.org/en-gb/personal-data-reporting-test\" target=\"_blank\" class=\"link\">'To find out more about protecting your data and your rights.'</a></p>'",
                     "guidance": "'<p>'*Make sure you write in this zone: for your benefit and the benefit of others, please stay objective and keep to the facts.'</p><p>'Do not enter any information about yourself or third parties, or any information related to health; religion; political, or philosophical opinions; trade union affiliation; ethnic origins; or penalties and convictions.'</p>'"
                 }
             },
@@ -381,7 +381,7 @@
                 "answer-input": "Your answer",
                 "feedback": "Report a problem",
                 "instruction": "Instructions to answer the question",
-                "progress": "Your progress",
+                "progress": "Your progression",
                 "validation": "Validate or skip this question"
             },
             "progress-bar": {
@@ -419,7 +419,7 @@
         },
         "checkpoint": {
             "title": {
-                "assessment-progress": "Progress",
+                "assessment-progress": "Progression",
                 "end-of-assessment": "End of your assessment"
             },
             "actions": {
@@ -437,7 +437,7 @@
             },
             "completion-percentage": {
                 "label": "'<p class=\"sr-only\">'You have completed '</p>'{completionPercentage}%'<p class=\"sr-only\">' of your personalised test.'</p>'",
-                "caption": "progress"
+                "caption": "progression"
             }
         },
         "comparison-window": {
@@ -494,7 +494,7 @@
             }
         },
         "competence-details": {
-            "title": "Skill",
+            "title": "Competence",
             "actions": {
                 "continue": {
                     "label": "Resume"
@@ -513,7 +513,7 @@
                     "modal": {
                         "important-message": "Your Pix { earnedPix } will be deleted.",
                         "important-message-above-level-one": "Your level { level } and your Pix { earnedPix } will be deleted.",
-                        "title": "Skill reset",
+                        "title": "Competence reset",
                         "warning": {
                             "header": "NB: ",
                             "ongoing-assessment": "If you have a personalised test in progress, you might be asked some questions again.",
@@ -525,8 +525,8 @@
                     "label": "Start"
                 }
             },
-            "for-competence": "the skill {competence}",
-            "next-level-info": "{ remainingPixToNextLevel } Pix to next level { level }",
+            "for-competence": "the competence {competence}",
+            "next-level-info": "{ remainingPixToNextLevel } pix to level { level }",
             "tutorials": {
                 "title": "Develop your skills",
                 "description": "Here are a selection of tutorials that will help you increase your pix score."
@@ -557,7 +557,7 @@
             },
             "empty-dashboard" : {
                 "link-to-competences": "See my skills",
-                "message": "<h2>Congrats! You've finished all the skills recommended for you!</h2> <p> Want to continue your Pix experience? You can try some skills again. </p>"
+                "message": "<h2>Congrats! You've finished all the competences recommended for you!</h2> <p> Want to continue your Pix experience? You can try a competence again. </p>"
             },
             "presentation": {
                 "link": {
@@ -567,9 +567,9 @@
                 "message": "<h2>Hi {firstname}, welcome to your dashboard.</h2><p>Quickly and easily access all your tests in progress.<br>Follow the evolution of your Pix score and check if your profile is ready for certification.</p>"
             },
             "recommended-competences": {
-                "profile-link": "See all skills",
-                "subtitle": "Discover the skills recommended for you.",
-                "title": "Recommended skills"
+                "profile-link": "See all competences",
+                "subtitle": "Discover the competences recommended for you.",
+                "title": "Recommended"
             },
             "improvable-competences": {
                 "profile-link": "See all",
@@ -577,15 +577,15 @@
                 "title": "Try again"
             },
             "score": {
-                "profile-link": "See my skills"
+                "profile-link": "See my competences"
             },
             "started-competences": {
-                "subtitle": "Continue your tests, find the most recent ones here.",
-                "title": "Resume testing a skill"
+                "subtitle": "Resume testing your skills, find your most recent tests here.",
+                "title": "In progress"
             }
         },
         "error": {
-            "content-text": "'<p>'Please refresh the page or '<LinkTo @route=\"login\">'return to homepage'</LinkTo>'.'</p><p>'You can also contact us via '<a href=\"https://support.pix.fr/support/tickets/new\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
+            "content-text": "'<p>'Please refresh the page or '<LinkTo @route=\"login\">'return to homepage'</LinkTo>'.'</p><p>'You can also contact us via '<a href=\"https://pix.org/en-gb/contact-form\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
             "first-title": "Oops, an error occurred!"
         },
         "join": {
@@ -711,7 +711,7 @@
             "message": "You've been logged out.'<br>'Thanks! See you soon"
         },
         "password-reset-demand": {
-            "title": "Forgotten your password?",
+            "title": "Forgot your password?",
             "fields": {
                 "email": {
                     "label": "Email address"
@@ -734,11 +734,11 @@
             }
         },
         "profile": {
-            "title": "Skills",
+            "title": "Competences",
             "accessibility": {
                 "title": "Your Pix profile",
                 "user-score": "Your Pix score",
-                "user-skills": "Your Pix skills"
+                "user-skills": "Your Pix competences"
             },
             "competence-card": {
                 "congrats": "Well done!",
@@ -746,10 +746,10 @@
                 "image-info": {
                     "first-level": "Level 1 in progress: {percentageAheadOfNextLevel}% successfully completed.",
                     "level": "Current level: {currentLevel}. {percentageAheadOfNextLevel}% remaining to reach next level",
-                    "no-level": "Skill not started."
+                    "no-level": "Competence not started"
                 }
             },
-            "first-title": "You have 16 skills to test. '<br>'Get your thinking hat on and off we go!",
+            "first-title": "You have 16 competences to test. '<br>'Get your thinking hat on and off we go!",
             "resume-campaign-banner": {
                 "accessibility": {
                     "resume": "Resume your personalised test",
@@ -826,7 +826,7 @@
                 "send": "Submit my profile",
                 "shared": "Thank you, your profile has been submitted!"
             },
-            "instructions": "You are about to submit the score and skill levels shown on your Pix profile. '<br>' Any changes in your profile after this submission will not be shared. '<br>' Remember to check your profile before submitting it!"
+            "instructions": "You are about to submit the score and levels shown on your Pix profile. '<br>' Any changes in your profile after this submission will not be shared. '<br>' Remember to check your profile before submitting it!"
         },
         "sign-in": {
             "title": "Log in",
@@ -846,7 +846,7 @@
                 }
             },
             "first-title": "Log in",
-            "forgotten-password": "Forgotten your password?",
+            "forgotten-password": "Forgot your password?",
             "subtitle": {
                 "text": "Don’t have a Pix account yet?",
                 "link": "Create an account"
@@ -911,7 +911,7 @@
         },
         "skill-review": {
             "title": "Result",
-            "abstract": "You have mastered '<strong>'{percentage}%'</strong><br>' of the skills tested.",
+            "abstract": "You have mastered '<strong>'{percentage}%'</strong><br>' of the competences tested.",
             "abstract-title": "Your result for this personalised test",
             "actions": {
                 "continue": "Continue my Pix experience",
@@ -922,15 +922,15 @@
             "archived": "This personalised test has been archived by the organiser.'<br>' It is no longer possible to submit results.",
             "badges-title": "Your thematic results",
             "details": {
-                "header-skill": "Skills tested",
+                "header-skill": "Competences tested",
                 "header-result": "Results",
                 "result": "Overall result",
-                "result-by-skill": "Your results for the skill",
-                "title": "Your results by skill"
+                "result-by-skill": "Your results for the competence",
+                "title": "Your results by competence"
             },
             "information": "If you have already completed personalised tests on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",
             "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
-            "organization-message" : "Message of your organization",
+            "organization-message": "Message of your organisation",
             "send-results": "Don't forget to submit your results.",
             "send-status": {
                 "in-progress": "Results are being shared..."
@@ -1055,7 +1055,7 @@
         },
         "user-tutorials": {
             "title": "My tutorials",
-            "description": "Improve with the help of tutorials suggested by the Pix user community.",
+            "description": "Improve with the help of tutorials suggested by the Pix users' community.",
             "empty-list-info": {
                 "description": {
                     "part1": "As you test your skills, tutorials are recommended. Click on the bookmark icon",
@@ -1088,8 +1088,8 @@
         },
         "fill-in-campaign-code": {
             "title": "I have a code",
-            "first-title-connected": "{ firstName }, enter your code",
             "first-title-not-connected": "Enter your code",
+            "first-title-connected": "{ firstName }, enter your code",
             "description": "This code can be used to start a personalised test'<br>'or to submit your profile to an organisation",
             "errors": {
                 "forbidden": "Oops! We can’t find you. Check your details to continue or contact the organiser.",
@@ -1120,7 +1120,7 @@
         "fill-in-participant-external-id": {
             "title": "Enter my username",
             "first-title": "Before starting",
-            "announcement": "The organiser needs the information below in order to provide support:",
+            "announcement": "The organiser needs the information below in order to help you:",
             "buttons": {
                 "continue": "Continue",
                 "cancel": "Cancel"
@@ -1161,7 +1161,7 @@
             "dashboard": "Home",
             "help": "Help",
             "link-help": "https://pix.org/en-gb/faq-pix",
-            "skills": "Skills",
+            "skills": "Competences",
             "start-certification": "Certification",
             "tutorials": "My tutorials"
         },
