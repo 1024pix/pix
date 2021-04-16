@@ -1,6 +1,7 @@
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import isNil from 'lodash/isNil';
 
 import Component from '@glimmer/component';
 
@@ -81,12 +82,34 @@ export default class SkillReview extends Component {
     return Boolean(this.customButtonText && this.customButtonUrl);
   }
 
+  get masteryPercentage() {
+    return this.args.model.campaignParticipation.campaignParticipationResult.get('masteryPercentage');
+  }
+
+  get participantExternalId() {
+    return this.args.model.campaignParticipation.get('participantExternalId');
+  }
+
   get customButtonUrl() {
     const buttonUrl = this.args.model.campaignParticipation.campaign.get('customResultPageButtonUrl');
-    if (this.reachedStage && buttonUrl) {
-      return this._buildUrl(buttonUrl, { stage: this.reachedStage.get('threshold') });
+    if (buttonUrl) {
+      const params = {};
+
+      if (!isNil(this.masteryPercentage)) {
+        params.masteryPercentage = this.masteryPercentage;
+      }
+
+      if (!isNil(this.participantExternalId)) {
+        params.externalId = this.participantExternalId;
+      }
+
+      if (!isNil(this.reachedStage)) {
+        params.stage = this.reachedStage.get('threshold');
+      }
+
+      return this._buildUrl(buttonUrl, params);
     } else {
-      return buttonUrl;
+      return null;
     }
   }
 

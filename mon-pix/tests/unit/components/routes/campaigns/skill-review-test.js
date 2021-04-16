@@ -19,7 +19,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
         set: sinon.stub().resolves({}),
         save: sinon.stub().resolves({}),
         campaignParticipationResult: EmberObject.create({
-          masteryPercentage: 50,
+          id: 3,
         }),
         campaign: EmberObject.create({
           isSimplifiedAccess: false,
@@ -273,47 +273,145 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
   });
 
   describe('#customButtonUrl', function() {
-    context('when the participant has finished a campaign with stages', function() {
-      it('should add the stage to the url as the first query params when the url does not have one', function() {
-        // given
-        const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
-        reachedStage.get.withArgs('threshold').returns(6);
-        component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
-        component.args.model.campaignParticipation.campaignParticipationResult.reachedStage = reachedStage;
+    context('when there is a customResultPageButtonUrl', function() {
+      context('when the participant has finished a campaign with stages', function() {
+        it('should add the stage to the url ', function() {
+          // given
+          const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+          reachedStage.get.withArgs('threshold').returns(6);
+          component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+          component.args.model.campaignParticipation.campaignParticipationResult.reachedStage = reachedStage;
 
-        // when
-        const url = component.customButtonUrl;
+          // when
+          const url = component.customButtonUrl;
 
-        // then
-        expect(url).to.equal('http://www.my-url.net/resultats?stage=6');
+          // then
+          expect(url).to.equal('http://www.my-url.net/resultats?stage=6');
+        });
       });
 
-      it('should add the stage to the other query params', function() {
-        // given
-        const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
-        reachedStage.get.withArgs('threshold').returns(6);
-        component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats?foo=bar';
-        component.args.model.campaignParticipation.campaignParticipationResult.reachedStage = reachedStage;
+      context('when the participant has a mastery percentage', function() {
+        it('should add the masteryPercentage to the url', function() {
+          // given
+          component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+          component.args.model.campaignParticipation.campaignParticipationResult.masteryPercentage = 56;
 
-        // when
-        const url = component.customButtonUrl;
+          // when
+          const url = component.customButtonUrl;
 
-        // then
-        expect(url).to.equal('http://www.my-url.net/resultats?foo=bar&stage=6');
+          // then
+          expect(url).to.equal('http://www.my-url.net/resultats?masteryPercentage=56');
+        });
+      });
+
+      context('when the participant has a mastery percentage equals to 0', function() {
+        it('should add the masteryPercentage to the url', function() {
+          // given
+          component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+          component.args.model.campaignParticipation.campaignParticipationResult.masteryPercentage = 0;
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/resultats?masteryPercentage=0');
+        });
+      });
+
+      context('when the participant has a participantExternalId', function() {
+        it('should add the externalId to the url', function() {
+          // given
+          component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+          component.args.model.campaignParticipation.participantExternalId = '1234F56';
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/resultats?externalId=1234F56');
+        });
+      });
+
+      context('when the participant has a participantExternalId, a mastery percentage and stages ', function() {
+        it('should add all params to the url', function() {
+          // given
+          const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+          reachedStage.get.withArgs('threshold').returns(6);
+          component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+          component.args.model.campaignParticipation.participantExternalId = '1234F56';
+          component.args.model.campaignParticipation.campaignParticipationResult.masteryPercentage = 56;
+          component.args.model.campaignParticipation.campaignParticipationResult.reachedStage = reachedStage;
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/resultats?masteryPercentage=56&externalId=1234F56&stage=6');
+        });
+      });
+
+      context('when the url already has query params', function() {
+        it('should add the new parameters to the other query params', function() {
+          // given
+          const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+          reachedStage.get.withArgs('threshold').returns(6);
+          component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats?foo=bar';
+          component.args.model.campaignParticipation.campaignParticipationResult.reachedStage = reachedStage;
+          component.args.model.campaignParticipation.participantExternalId = '1234F56';
+          component.args.model.campaignParticipation.campaignParticipationResult.masteryPercentage = 56;
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/resultats?foo=bar&masteryPercentage=56&externalId=1234F56&stage=6');
+        });
+      });
+
+      context('when the url has an ancor', function() {
+        it('should add the new parameters before the ancor', function() {
+          // given
+          const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+          reachedStage.get.withArgs('threshold').returns(6);
+          component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net/#page1';
+          component.args.model.campaignParticipation.campaignParticipationResult.reachedStage = reachedStage;
+          component.args.model.campaignParticipation.participantExternalId = '1234F56';
+          component.args.model.campaignParticipation.campaignParticipationResult.masteryPercentage = 56;
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/?masteryPercentage=56&externalId=1234F56&stage=6#page1');
+        });
+      });
+
+      context('when there is no params', function() {
+        it('should return the url of the custom button', function() {
+          // given
+          component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
+          component.args.model.campaignParticipation.campaignParticipationResult.reachedStage = null;
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          expect(url).to.equal('http://www.my-url.net/');
+        });
       });
     });
 
-    context('when the participant has finished a campaign without stages ', function() {
-      it('should return the url of the custom button', function() {
+    context('when there is no customResultPageButtonUrl', function() {
+      it('should return nothing', function() {
         // given
-        component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
-        component.args.model.campaignParticipation.campaignParticipationResult.reachedStage = null;
+        component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = null;
+        component.args.model.campaignParticipation.campaignParticipationResult.reachedStage = 80;
 
         // when
         const url = component.customButtonUrl;
 
         // then
-        expect(url).to.equal('http://www.my-url.net');
+        expect(url).to.equal(null);
       });
     });
   });
