@@ -1,12 +1,12 @@
 import isEmpty from 'lodash/isEmpty';
 
-const MINIMUM_SIZE_FOR_LABEL = 5;
+const MINIMUM_SIZE_FOR_LABEL = 6;
 function stringHasPlaceholder(input) {
-  return 1 <= input.indexOf('#');
+  return 1 < input.indexOf('#');
 }
 
 function stringHasAriaLabel(input) {
-  return 1 <= input.indexOf('§');
+  return 1 < input.indexOf('§');
 }
 
 function _isInput(block) {
@@ -32,17 +32,15 @@ function buildLineFrom(textBlock, challengeResponseTemplate) {
 class TextBlock {
 
   constructor({ text }) {
-    if (text) {
-      if (text.substring(0, 1) === '\n') {
-        text = '<br/>' + text;
-      }
-      if (text.substring(text.length - 1, text.length) === '\n') {
-        text = text + '<br/>';
-      }
-      this._text = text;
-    } else {
-      this._text = text ? text.replace('\n', '<br/>') : text;
+
+    const firstCharacter = text.substring(0, 1);
+    const secondCharacter = text.substring(1, 2);
+    const isListItem = firstCharacter === '-'
+      || Number.isInteger(Number(firstCharacter)) && secondCharacter === '.';
+    if (isListItem) {
+      text = '\n' + text;
     }
+    this._text = text ? text.replace(/\n/g, '<br/>') : text;
     this._input = null;
     this._placeholder = null;
     this._ariaLabel = null;
@@ -67,10 +65,7 @@ class TextBlock {
 
   get() {
     return {
-      input: this._input,
       text: this._text,
-      placeholder: this._placeholder,
-      ariaLabel: this._ariaLabel,
       type: this._type,
     };
   }
@@ -147,32 +142,32 @@ class ChallengeResponseTemplate {
 
   constructor() {
     this._template = [];
-    this._detailledTemplate = [];
+    this._detailedTemplate = [];
     this._inputCount = 0;
   }
 
   add(block) {
-    this._detailledTemplate.push(block);
+    this._detailedTemplate.push(block);
   }
 
   constructFinalTemplate() {
-    for (let index = 0; index < this._detailledTemplate.length; index++) {
-      if (this._detailledTemplate[index].type) {
-        this._template.push(this._detailledTemplate[index].get());
+    for (let index = 0; index < this._detailedTemplate.length; index++) {
+      if (this._detailedTemplate[index].type) {
+        this._template.push(this._detailedTemplate[index].get());
       }
     }
   }
 
-  mixteTextAndInputBlock() {
-    for (let index = 1; index < this._detailledTemplate.length; index++) {
-      if (this._detailledTemplate[index].type == 'input'
-        && this._detailledTemplate[index].autoAriaLabel
-        && this._detailledTemplate[index - 1].type == 'text'
-        && this._detailledTemplate[index - 1].text.length > MINIMUM_SIZE_FOR_LABEL) {
-        this._detailledTemplate[index].setText(this._detailledTemplate[index - 1].text);
-        this._detailledTemplate[index].removeAriaLabel();
-        this._detailledTemplate[index].setAutoAriaLabel(false);
-        this._detailledTemplate[index - 1].removeType();
+  updateBlockDetails() {
+    for (let index = 1; index < this._detailedTemplate.length; index++) {
+      if (this._detailedTemplate[index].type === 'input'
+        && this._detailedTemplate[index].autoAriaLabel
+        && this._detailedTemplate[index - 1].type === 'text'
+        && this._detailedTemplate[index - 1].text.length > MINIMUM_SIZE_FOR_LABEL) {
+        this._detailedTemplate[index].setText(this._detailedTemplate[index - 1].text);
+        this._detailedTemplate[index].removeAriaLabel();
+        this._detailedTemplate[index].setAutoAriaLabel(false);
+        this._detailedTemplate[index - 1].removeType();
       }
     }
   }
@@ -202,7 +197,7 @@ export default function proposalsAsBlocks(proposals) {
     buildLineFrom(block, challengeResponseTemplate);
   });
 
-  challengeResponseTemplate.mixteTextAndInputBlock();
+  challengeResponseTemplate.updateBlockDetails();
   challengeResponseTemplate.constructFinalTemplate();
   return challengeResponseTemplate.get();
 }
