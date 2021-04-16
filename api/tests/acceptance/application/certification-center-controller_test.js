@@ -1,22 +1,26 @@
 const _ = require('lodash');
 
+const moduleUnderTest = require('../../../lib/application/certification-centers');
+
 const {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRolePixMaster,
   knex,
+  HttpTestServer,
 } = require('../../test-helper');
-
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
 
 describe('Acceptance | API | Certification Center', () => {
 
   let server, request;
 
+  before(async () => {
+    const authenticationEnabled = true;
+    server = new HttpTestServer(moduleUnderTest, authenticationEnabled);
+  });
+
   beforeEach(async () => {
-    server = await createServer();
     await insertUserWithRolePixMaster();
   });
 
@@ -38,7 +42,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return 200 HTTP status', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -46,7 +50,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return a list of certificationCenter, with their name and id', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.result.data).to.have.lengthOf(5);
@@ -61,7 +65,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return 403 HTTP status code ', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -71,7 +75,7 @@ describe('Acceptance | API | Certification Center', () => {
     context('when user is not connected', () => {
       it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -107,7 +111,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return 200 HTTP status', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -115,7 +119,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return the certification center created', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.result.data.attributes.name).to.equal('Nouveau Centre de Certif');
@@ -131,7 +135,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return 403 HTTP status code ', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -141,7 +145,7 @@ describe('Acceptance | API | Certification Center', () => {
     context('when user is not connected', () => {
       it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -169,7 +173,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return 200 HTTP status', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -177,7 +181,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return the certification center asked', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.result.data.id).to.equal(expectedCertificationCenter.id.toString());
@@ -189,7 +193,7 @@ describe('Acceptance | API | Certification Center', () => {
         request.url = '/api/certification-centers/112334';
 
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(404);
@@ -206,7 +210,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return 403 HTTP status code ', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -216,7 +220,7 @@ describe('Acceptance | API | Certification Center', () => {
     context('when user is not connected', () => {
       it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -248,7 +252,7 @@ describe('Acceptance | API | Certification Center', () => {
       };
 
       // when
-      const response = await server.inject(request);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -287,7 +291,7 @@ describe('Acceptance | API | Certification Center', () => {
         const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter, session);
 
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -311,7 +315,7 @@ describe('Acceptance | API | Certification Center', () => {
         const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter, session);
 
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(_.map(response.result.data, 'id')).to.deep.equal(['3', '2', '5', '4', '1']);
@@ -331,7 +335,7 @@ describe('Acceptance | API | Certification Center', () => {
         request = _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenterWhereUserDoesNotHaveAccess, session);
 
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -368,7 +372,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return 200 HTTP status', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -376,7 +380,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return the list of sessions', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.result.data).to.have.lengthOf(expectedSessions.length);
@@ -393,7 +397,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return 403 HTTP status code ', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -403,7 +407,7 @@ describe('Acceptance | API | Certification Center', () => {
     context('when user is not connected', () => {
       it('should return 401 HTTP status code if user is not authenticated', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -446,7 +450,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       it('should return 200 HTTP status', async () => {
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -491,7 +495,7 @@ describe('Acceptance | API | Certification Center', () => {
         ];
 
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.result.data[0].id)
@@ -538,7 +542,7 @@ describe('Acceptance | API | Certification Center', () => {
 
     it('should return 201 HTTP status', async () => {
       // when
-      const response = await server.inject(request);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.statusCode).to.equal(201);
@@ -551,7 +555,7 @@ describe('Acceptance | API | Certification Center', () => {
         request.headers.authorization = generateValidRequestAuthorizationHeader(1111);
 
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -565,7 +569,7 @@ describe('Acceptance | API | Certification Center', () => {
         request.headers.authorization = 'invalid.access.token';
 
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(401);
@@ -579,7 +583,7 @@ describe('Acceptance | API | Certification Center', () => {
         request.url = '/api/certification-centers/1/certification-center-memberships';
 
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(400);
@@ -593,7 +597,7 @@ describe('Acceptance | API | Certification Center', () => {
         request.payload.email = 'notexist@example.net';
 
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(404);
@@ -615,7 +619,7 @@ describe('Acceptance | API | Certification Center', () => {
         await databaseBuilder.commit();
 
         // when
-        const response = await server.inject(request);
+        const response = await server.requestObject(request);
 
         // then
         expect(response.statusCode).to.equal(412);
