@@ -1,7 +1,7 @@
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
-const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader, HttpTestServer } = require('../../test-helper');
 const _ = require('lodash');
+
+const moduleUnderTest = require('../../../lib/application/campaign-participation-results');
 
 describe('Acceptance | API | Campaign Participation Result', () => {
 
@@ -18,8 +18,13 @@ describe('Acceptance | API | Campaign Participation Result', () => {
 
   let server, badge, badgePartnerCompetence, stage;
 
+  const authenticationEnabled = true;
+
+  before(async () => {
+    server = new HttpTestServer(moduleUnderTest, authenticationEnabled);
+  });
+
   beforeEach(async () => {
-    server = await createServer();
 
     const oldDate = new Date('2018-02-03');
     const recentDate = new Date('2018-05-06');
@@ -166,10 +171,10 @@ describe('Acceptance | API | Campaign Participation Result', () => {
   });
 
   describe('GET /api/campaign-participations/{id}/campaign-participation-result', () => {
-    let options;
+    let request;
 
     beforeEach(async () => {
-      options = {
+      request = {
         method: 'GET',
         url: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
@@ -298,7 +303,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       };
 
       // when
-      const response = await server.inject(options);
+      const response = await server.requestObject(request);
 
       // then
       expect(response.result).to.deep.equal(expectedResponse);
