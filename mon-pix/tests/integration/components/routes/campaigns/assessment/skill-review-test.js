@@ -47,6 +47,9 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
               stageCount: 2,
               get: sinon.stub().returns([]),
             },
+            campaign: {
+              get: sinon.stub().returns([]),
+            },
           },
         };
         campaign.campaignParticipation.get.withArgs('isShared').returns(false);
@@ -175,17 +178,14 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
                   get: sinon.stub().returns([]),
                 },
                 campaign: {
-                  customResultPageText: 'Bravo !',
-                  organizationLogoUrl: 'www.logo-example.com',
-                  organizationName: 'Dragon & Co',
                   get: sinon.stub(),
                 },
               },
             };
             model.campaignParticipation.get.withArgs('isShared').returns(true);
-            model.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(['Bravo !']);
-            model.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(['www.logo-example.com']);
-            model.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+            model.campaignParticipation.campaign.get.withArgs('customResultPageText').returns('Bravo !');
+            model.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns('www.logo-example.com');
+            model.campaignParticipation.campaign.get.withArgs('organizationName').returns('Dragon & Co');
             this.set('model', model);
           });
 
@@ -208,31 +208,28 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         context('when the organization has no logo', function() {
           beforeEach(function() {
             // Given
-            const campaignParticipation = {
+            const model = {
               campaignParticipation: {
                 get: sinon.stub(),
                 campaignParticipationResult: {
                   get: sinon.stub().returns([]),
                 },
                 campaign: {
-                  customResultPageText: 'Bravo !',
-                  organizationLogoUrl: null,
-                  organizationName: 'Dragon & Co',
                   get: sinon.stub(),
                 },
               },
             };
-            campaignParticipation.campaignParticipation.get.withArgs('isShared').returns(true);
-            campaignParticipation.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(['Bravo !']);
-            campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(null);
-            campaignParticipation.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
-            this.set('campaignParticipation', campaignParticipation);
+            model.campaignParticipation.get.withArgs('isShared').returns(true);
+            model.campaignParticipation.campaign.get.withArgs('customResultPageText').returns('Bravo !');
+            model.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(null);
+            model.campaignParticipation.campaign.get.withArgs('organizationName').returns('Dragon & Co');
+            this.set('model', model);
           });
 
           it('should display the block for the message', async function() {
             // When
             await render(hbs`<Routes::Campaigns::Assessment::SkillReview
-                @model={{campaignParticipation}}/>`);
+                @model={{model}}/>`);
 
             // Then
             expect(contains('Dragon & Co')).to.exist;
@@ -245,6 +242,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           });
         });
       });
+
       context('when the organization has no message', function() {
         beforeEach(function() {
           // Given
@@ -255,9 +253,6 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
                 get: sinon.stub().returns([]),
               },
               campaign: {
-                customResultPageText: null,
-                organizationLogoUrl: null,
-                organizationName: 'Dragon & Co',
                 get: sinon.stub(),
               },
             },
@@ -265,7 +260,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           model.campaignParticipation.get.withArgs('isShared').returns(true);
           model.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(null);
           model.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(null);
-          model.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+          model.campaignParticipation.campaign.get.withArgs('organizationName').returns('Dragon & Co');
           this.set('model', model);
         });
 
@@ -280,12 +275,10 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       });
 
       context('when the organization has a customResultPageButtonUrl and a customResultPageButtonText', function() {
-        context('when the participant has finished a campaign with stages', function() {
+        context('when the participant has finished a campaign with stages and has a masteryPercentage and a participantExternalId', function() {
           beforeEach(function() {
             // Given
             const reachedStage = {
-              id: 78890,
-              threshold: 75,
               get: sinon.stub(),
             };
 
@@ -297,9 +290,6 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
                   get: sinon.stub().returns([]),
                 },
                 campaign: {
-                  organizationName: 'Dragon & Co',
-                  customResultPageButtonUrl: 'http://www.my-url.net/resultats',
-                  customResultPageButtonText: 'Next step',
                   get: sinon.stub(),
                 },
               },
@@ -307,26 +297,28 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
             model.campaignParticipation.get.withArgs('isShared').returns(true);
             model.campaignParticipation.campaignParticipationResult.get.withArgs('reachedStage').returns(reachedStage);
+            model.campaignParticipation.campaignParticipationResult.get.withArgs('masteryPercentage').returns(50);
             model.campaignParticipation.campaignParticipationResult.reachedStage.get.withArgs('threshold').returns([75]);
-            model.campaignParticipation.campaign.get.withArgs('customResultPageButtonUrl').returns(['http://www.my-url.net/resultats']);
-            model.campaignParticipation.campaign.get.withArgs('customResultPageButtonText').returns(['Next step']);
-            model.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+            model.campaignParticipation.campaign.get.withArgs('customResultPageButtonUrl').returns('http://www.my-url.net/resultats');
+            model.campaignParticipation.campaign.get.withArgs('customResultPageButtonText').returns('Next step');
+            model.campaignParticipation.campaign.get.withArgs('organizationName').returns('Dragon & Co');
+            model.campaignParticipation.get.withArgs('participantExternalId').returns('1234G56');
             this.set('model', model);
           });
 
-          it('should display the button', async function() {
+          it('should display the button with all params', async function() {
             // When
             await render(hbs`<Routes::Campaigns::Assessment::SkillReview
                 @model={{model}}/>`);
 
             // Then
-            expect(find('[href="http://www.my-url.net/resultats?stage=75"]')).to.exist;
+            expect(find('[href="http://www.my-url.net/resultats?masteryPercentage=50&externalId=1234G56&stage=75"]')).to.exist;
             expect(find('[target="_blank"]')).to.exist;
             expect(contains('Next step')).to.exist;
           });
         });
 
-        context('when the participant has finished a campaign without stages', function() {
+        context('when the participant has finished a campaign with neither stages and he has neither masteryPercentage nor participantExternalId', function() {
           beforeEach(function() {
             // Given
             const model = {
@@ -334,21 +326,19 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
                 get: sinon.stub(),
                 campaignParticipationResult: {
                   get: sinon.stub().returns([]),
-                  reachedStage: null,
                 },
                 campaign: {
-                  organizationName: 'Dragon & Co',
-                  customResultPageButtonUrl: 'www.my-url.net',
-                  customResultPageButtonText: 'Next step',
                   get: sinon.stub(),
                 },
               },
             };
             model.campaignParticipation.get.withArgs('isShared').returns(true);
             model.campaignParticipation.campaignParticipationResult.get.withArgs('reachedStage').returns(null);
-            model.campaignParticipation.campaign.get.withArgs('customResultPageButtonUrl').returns(['www.my-url.net']);
-            model.campaignParticipation.campaign.get.withArgs('customResultPageButtonText').returns(['Next step']);
-            model.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+            model.campaignParticipation.campaignParticipationResult.get.withArgs('masteryPercentage').returns(null);
+            model.campaignParticipation.campaign.get.withArgs('customResultPageButtonUrl').returns('http://www.my-url.net');
+            model.campaignParticipation.campaign.get.withArgs('customResultPageButtonText').returns('Next step');
+            model.campaignParticipation.campaign.get.withArgs('organizationName').returns('Dragon & Co');
+            model.campaignParticipation.get.withArgs('participantExternalId').returns(null);
             this.set('model', model);
 
           });
@@ -359,7 +349,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
                 @model={{model}}/>`);
 
             // Then
-            expect(find('[href="www.my-url.net"]')).to.exist;
+            expect(find('[href="http://www.my-url.net/"]')).to.exist;
             expect(find('[target="_blank"]')).to.exist;
             expect(contains('Next step')).to.exist;
           });
@@ -376,17 +366,14 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
                 get: sinon.stub().returns([]),
               },
               campaign: {
-                organizationName: 'Dragon & Co',
-                customResultPageButtonUrl: 'www.my-url.net',
-                customResultPageButtonText: null,
                 get: sinon.stub(),
               },
             },
           };
           model.campaignParticipation.get.withArgs('isShared').returns(true);
-          model.campaignParticipation.campaign.get.withArgs('customResultPageButtonUrl').returns(['www.my-url.net']);
+          model.campaignParticipation.campaign.get.withArgs('customResultPageButtonUrl').returns('www.my-url.net');
           model.campaignParticipation.campaign.get.withArgs('customResultPageButtonText').returns(null);
-          model.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+          model.campaignParticipation.campaign.get.withArgs('organizationName').returns('Dragon & Co');
           this.set('model', model);
         });
 
@@ -410,11 +397,6 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
                 get: sinon.stub().returns([]),
               },
               campaign: {
-                customResultPageText: null,
-                organizationLogoUrl: null,
-                customResultPageButtonUrl: null,
-                customResultPageButtonText: null,
-                organizationName: 'Dragon & Co',
                 get: sinon.stub(),
               },
             },
@@ -424,7 +406,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           model.campaignParticipation.campaign.get.withArgs('organizationLogoUrl').returns(null);
           model.campaignParticipation.campaign.get.withArgs('customResultPageButtonUrl').returns(null);
           model.campaignParticipation.campaign.get.withArgs('customResultPageButtonText').returns(null);
-          model.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+          model.campaignParticipation.campaign.get.withArgs('organizationName').returns('Dragon & Co');
           this.set('model', model);
 
         });
@@ -449,15 +431,13 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
               get: sinon.stub().returns([]),
             },
             campaign: {
-              customResultPageText: 'Bravo !',
-              organizationName: 'Dragon & Co',
               get: sinon.stub(),
             },
           },
         };
         model.campaignParticipation.get.withArgs('isShared').returns(false);
-        model.campaignParticipation.campaign.get.withArgs('customResultPageText').returns(['Bravo !']);
-        model.campaignParticipation.campaign.get.withArgs('organizationName').returns(['Dragon & Co']);
+        model.campaignParticipation.campaign.get.withArgs('customResultPageText').returns('Bravo !');
+        model.campaignParticipation.campaign.get.withArgs('organizationName').returns('Dragon & Co');
         this.set('model', model);
       });
 
