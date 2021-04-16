@@ -33,7 +33,7 @@ describe('Unit | Model | Profile model', function() {
         model.set('scorecards', [scorecard1, scorecard2, scorecard3]);
 
         // when
-        const areasCode = model.get('areasCode');
+        const areasCode = model.areasCode;
 
         // then
         expect(areasCode).to.deep.equal([1, 2]);

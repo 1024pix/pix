@@ -33,7 +33,7 @@ describe('Unit | Model | Competence-Result', function() {
       competenceResult.set('campaignParticipationResult', campaignParticipationResult);
 
       // when
-      const totalSkillsCountPercentage = competenceResult.get('totalSkillsCountPercentage');
+      const totalSkillsCountPercentage = competenceResult.totalSkillsCountPercentage;
 
       // then
       expect(totalSkillsCountPercentage).to.equal(100);
@@ -52,7 +52,7 @@ describe('Unit | Model | Competence-Result', function() {
       competenceResult.set('campaignParticipationResult', campaignParticipationResult);
 
       // when
-      const totalSkillsCountPercentage = competenceResult.get('totalSkillsCountPercentage');
+      const totalSkillsCountPercentage = competenceResult.totalSkillsCountPercentage;
 
       // then
       expect(totalSkillsCountPercentage).to.equal(25);

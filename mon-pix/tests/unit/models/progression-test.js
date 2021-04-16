@@ -25,7 +25,7 @@ describe('Unit | Model | Progression', function() {
         const progression = store.createRecord('progression', { completionRate: 0.06815 });
 
         // when
-        const completionPercentage = progression.get('completionPercentage');
+        const completionPercentage = progression.completionPercentage;
 
         // then
         expect(completionPercentage).to.equal(7);

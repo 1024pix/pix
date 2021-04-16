@@ -53,7 +53,7 @@ describe('Unit | Model | Scorecard model', function() {
       scorecard.set('level', maxReachableLevel);
 
       // when
-      const isMaxLevel = scorecard.get('isMaxLevel');
+      const isMaxLevel = scorecard.isMaxLevel;
 
       // then
       expect(isMaxLevel).to.be.true;
@@ -64,7 +64,7 @@ describe('Unit | Model | Scorecard model', function() {
       scorecard.set('level', 2);
 
       // when
-      const isMaxLevel = scorecard.get('isMaxLevel');
+      const isMaxLevel = scorecard.isMaxLevel;
 
       // then
       expect(isMaxLevel).to.be.false;
@@ -79,7 +79,7 @@ describe('Unit | Model | Scorecard model', function() {
         scorecard.set('status', 'COMPLETED');
 
         // when
-        const isFinishedWithMaxLevel = scorecard.get('isFinishedWithMaxLevel');
+        const isFinishedWithMaxLevel = scorecard.isFinishedWithMaxLevel;
 
         // then
         expect(isFinishedWithMaxLevel).to.be.true;
@@ -91,7 +91,7 @@ describe('Unit | Model | Scorecard model', function() {
         scorecard.set('status', 'STARTED');
 
         // when
-        const isFinishedWithMaxLevel = scorecard.get('isFinishedWithMaxLevel');
+        const isFinishedWithMaxLevel = scorecard.isFinishedWithMaxLevel;
 
         // then
         expect(isFinishedWithMaxLevel).to.be.false;
@@ -105,7 +105,7 @@ describe('Unit | Model | Scorecard model', function() {
         scorecard.set('status', 'COMPLETED');
 
         // when
-        const isFinishedWithMaxLevel = scorecard.get('isFinishedWithMaxLevel');
+        const isFinishedWithMaxLevel = scorecard.isFinishedWithMaxLevel;
 
         // then
         expect(isFinishedWithMaxLevel).to.be.false;
@@ -117,7 +117,7 @@ describe('Unit | Model | Scorecard model', function() {
         scorecard.set('status', 'STARTED');
 
         // when
-        const isFinishedWithMaxLevel = scorecard.get('isFinishedWithMaxLevel');
+        const isFinishedWithMaxLevel = scorecard.isFinishedWithMaxLevel;
 
         // then
         expect(isFinishedWithMaxLevel).to.be.false;
@@ -134,7 +134,7 @@ describe('Unit | Model | Scorecard model', function() {
         scorecard.set('remainingDaysBeforeImproving', 0);
 
         // when
-        const isImprovable = scorecard.get('isImprovable');
+        const isImprovable = scorecard.isImprovable;
 
         // then
         expect(isImprovable).to.be.false;
@@ -149,7 +149,7 @@ describe('Unit | Model | Scorecard model', function() {
         scorecard.set('remainingDaysBeforeImproving', 0);
 
         // when
-        const isImprovable = scorecard.get('isImprovable');
+        const isImprovable = scorecard.isImprovable;
 
         // then
         expect(isImprovable).to.be.false;
@@ -164,7 +164,7 @@ describe('Unit | Model | Scorecard model', function() {
         scorecard.set('remainingDaysBeforeImproving', 1);
 
         // when
-        const isImprovable = scorecard.get('isImprovable');
+        const isImprovable = scorecard.isImprovable;
 
         // then
         expect(isImprovable).to.be.false;
@@ -179,7 +179,7 @@ describe('Unit | Model | Scorecard model', function() {
         scorecard.set('remainingDaysBeforeImproving', 0);
 
         // when
-        const isImprovable = scorecard.get('isImprovable');
+        const isImprovable = scorecard.isImprovable;
 
         // then
         expect(isImprovable).to.be.true;
@@ -193,7 +193,7 @@ describe('Unit | Model | Scorecard model', function() {
       scorecard.set('earnedPix', 0);
 
       // when
-      const hasNotEarnAnything = scorecard.get('hasNotEarnAnything');
+      const hasNotEarnAnything = scorecard.hasNotEarnAnything;
 
       // then
       expect(hasNotEarnAnything).to.be.true;
@@ -204,7 +204,7 @@ describe('Unit | Model | Scorecard model', function() {
       scorecard.set('earnedPix', 2);
 
       // when
-      const hasNotEarnAnything = scorecard.get('hasNotEarnAnything');
+      const hasNotEarnAnything = scorecard.hasNotEarnAnything;
 
       // then
       expect(hasNotEarnAnything).to.be.false;
@@ -217,7 +217,7 @@ describe('Unit | Model | Scorecard model', function() {
       scorecard.set('level', 0);
 
       // when
-      const hasNotReachLevelOne = scorecard.get('hasNotReachLevelOne');
+      const hasNotReachLevelOne = scorecard.hasNotReachLevelOne;
 
       // then
       expect(hasNotReachLevelOne).to.be.true;
@@ -228,7 +228,7 @@ describe('Unit | Model | Scorecard model', function() {
       scorecard.set('level', 1);
 
       // when
-      const hasNotReachLevelOne = scorecard.get('hasNotReachLevelOne');
+      const hasNotReachLevelOne = scorecard.hasNotReachLevelOne;
 
       // then
       expect(hasNotReachLevelOne).to.be.false;
@@ -239,7 +239,7 @@ describe('Unit | Model | Scorecard model', function() {
       scorecard.set('level', 2);
 
       // when
-      const hasNotReachLevelOne = scorecard.get('hasNotReachLevelOne');
+      const hasNotReachLevelOne = scorecard.hasNotReachLevelOne;
 
       // then
       expect(hasNotReachLevelOne).to.be.false;
@@ -252,7 +252,7 @@ describe('Unit | Model | Scorecard model', function() {
       scorecard.set('level', 1);
 
       // when
-      const hasReachAtLeastLevelOne = scorecard.get('hasReachAtLeastLevelOne');
+      const hasReachAtLeastLevelOne = scorecard.hasReachAtLeastLevelOne;
 
       // then
       expect(hasReachAtLeastLevelOne).to.be.true;
@@ -263,7 +263,7 @@ describe('Unit | Model | Scorecard model', function() {
       scorecard.set('level', 4);
 
       // when
-      const hasReachAtLeastLevelOne = scorecard.get('hasReachAtLeastLevelOne');
+      const hasReachAtLeastLevelOne = scorecard.hasReachAtLeastLevelOne;
 
       // then
       expect(hasReachAtLeastLevelOne).to.be.true;
@@ -274,7 +274,7 @@ describe('Unit | Model | Scorecard model', function() {
       scorecard.set('level', 0);
 
       // when
-      const hasReachAtLeastLevelOne = scorecard.get('hasReachAtLeastLevelOne');
+      const hasReachAtLeastLevelOne = scorecard.hasReachAtLeastLevelOne;
 
       // then
       expect(hasReachAtLeastLevelOne).to.be.false;

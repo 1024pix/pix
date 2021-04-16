@@ -24,7 +24,7 @@ describe('Unit | Model | user model', function() {
       model.set('lastName', 'Phillip');
 
       // when
-      const fullName = model.get('fullName');
+      const fullName = model.fullName;
 
       // then
       expect(fullName).to.equal('Manu Phillip');
@@ -41,7 +41,7 @@ describe('Unit | Model | user model', function() {
       model.set('campaignParticipations', [participation]);
 
       // when
-      const hasAssessmentParticipations = model.get('hasAssessmentParticipations');
+      const hasAssessmentParticipations = model.hasAssessmentParticipations;
 
       // then
       expect(hasAssessmentParticipations).to.equal(true);
@@ -56,7 +56,7 @@ describe('Unit | Model | user model', function() {
       model.set('campaignParticipations', [participation]);
 
       // when
-      const hasAssessmentParticipations = model.get('hasAssessmentParticipations');
+      const hasAssessmentParticipations = model.hasAssessmentParticipations;
 
       // then
       expect(hasAssessmentParticipations).to.equal(false);
@@ -67,7 +67,7 @@ describe('Unit | Model | user model', function() {
       const model = store.createRecord('user');
 
       // when
-      const hasAssessmentParticipations = model.get('hasAssessmentParticipations');
+      const hasAssessmentParticipations = model.hasAssessmentParticipations;
 
       // then
       expect(hasAssessmentParticipations).to.equal(false);
