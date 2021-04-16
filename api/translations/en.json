@@ -11,9 +11,9 @@
       "progress": "% of progression",
       "shared-on": "Shared on",
       "skill": {
-        "items-successfully-completed": "Items of the target profile successfully completed in the skill {{name}}",
-        "mastery-percentage": "% of items successfully completed in the skill {{name}}",
-        "total-items": "Number of items of the target profile in the skill {{name}}"
+        "items-successfully-completed": "Items of the target profile successfully completed in the competence {{name}}",
+        "mastery-percentage": "% of items successfully completed in the competence {{name}}",
+        "total-items": "Number of items of the target profile in the competence {{name}}"
       },
       "started-on": "Started on",
       "status": {
@@ -39,13 +39,13 @@
       "yes": "Yes"
     },
     "profiles-collection": {
-      "certifiable-skills": "Number of skills eligible for certification",
+      "certifiable-skills": "Number of competences eligible for certification",
       "is-certifiable": "Eligible for certification (Y/N)",
       "is-sent": "Sent (Y/N)",
       "pix-score": "Total pix score",
       "sent-on": "Sent on",
-      "skill-level": "Level reached in the skill {{name}}",
-      "skill-ranking": "Pix score for the skill {{name}}"
+      "skill-level": "Level reached in the competence {{name}}",
+      "skill-ranking": "Pix score for the competence {{name}}"
     }
   },
   "current-lang": "en",
@@ -63,8 +63,8 @@
     "subject": "Email change confirmation"
   },
   "entity-validation-errors": {
-    "STAGE_THRESHOLD_IS_REQUIRED": "The stage threshold is required",
-    "STAGE_TITLE_IS_REQUIRED": "The stage title is required",
+    "STAGE_THRESHOLD_IS_REQUIRED": "The threshold is required",
+    "STAGE_TITLE_IS_REQUIRED": "The title is required",
     "TARGET_PROFILE_IS_REQUIRED": "The target profile is required",
     "ALREADY_REGISTERED_EMAIL": "This email address is already registered, please log in.",
     "WRONG_EMAIL_FORMAT": "The email address format is invalid.",
@@ -90,7 +90,7 @@
       "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
       "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
       "title": "You are invited to join Pix Orga",
-      "yourOrganization": "Your organization"
+      "yourOrganization": "Your organisation"
     },
     "subject": "Invitation to join Pix Orga"
   },
@@ -104,7 +104,7 @@
       "moreOn": "More on",
       "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
       "subtitle": "You can now start testing your skills.",
-      "title": "Your Pix account has been created !"
+      "title": "Your Pix account has been created!"
     },
     "subject": "Your Pix account has been created"
   },
