@@ -1,121 +1,50 @@
 import isEmpty from 'lodash/isEmpty';
 
-function parseInput(isInput, input) {
-  let block;
-
-  switch (input) {
-    case '${':
-      isInput = true;
-      break;
-    case undefined:
-      isInput = false;
-      break;
-    case '':
-      break;
-    default:
-      if (isInput) {
-        block = new ResponseBlock({ input });
-      }
-      else {
-        block = new ResponseBlock({ text: input });
-      }
-  }
-
-  return { isInput, block };
-}
-
+const MINIMUM_SIZE_FOR_LABEL = 6;
 function stringHasPlaceholder(input) {
-  return 1 <= input.indexOf('#');
+  return 1 < input.indexOf('#');
 }
 
-function isLastElement(currentIdx, elements) {
-  return currentIdx === (elements.length - 1);
+function stringHasAriaLabel(input) {
+  return 1 < input.indexOf('§');
 }
 
-function getLastLine(lines) {
-  return lines[lines.length - 1];
+function _isInput(block) {
+  return block.includes('${');
 }
 
-function isAriaLabelNeededForInputs(lines) {
-  const lastLine = getLastLine(lines);
-  const inputStartRegex = /\${/g;
-  const lastLineInputs = lastLine.match(inputStartRegex, '');
-  const hasMoreThanOneInputField = lastLineInputs && lastLineInputs.length > 1;
-  const inputRegex = /\s*(\${.+?})|-| /g; //regex that remove spaces, -, ${} => should return only letters
-  const lastLineWithoutInput = lastLine.replace(inputRegex, '');
-  const blocks = lastLine.split(/\s*(\${)|}\s*/);
-  const hasNoTextBeforeInput = !(blocks && blocks[0].replace(inputRegex, '').length > 0);
+function buildLineFrom(textBlock, challengeResponseTemplate) {
+  const isInput = _isInput(textBlock);
+  const block = textBlock;
 
-  if (hasMoreThanOneInputField || hasNoTextBeforeInput) {
-    return true;
+  if (isInput) {
+    challengeResponseTemplate.incrementInputCount();
+    const blockToTemplate = new InputBlock({ input: block, inputIndex: challengeResponseTemplate.inputCount });
+    blockToTemplate.attachInputAndPlaceholderIfExist();
+    challengeResponseTemplate.add(blockToTemplate);
+
+  } else {
+    const blockToTemplate = new TextBlock({ text: block });
+    challengeResponseTemplate.add(blockToTemplate);
   }
-
-  return lastLineWithoutInput.length === 0;
 }
 
-function buildLineFrom(blocks, ariaLabelNeeded, challengeResponseTemplate) {
-  let previousBlockText = '';
-  let isInput = false;
+class TextBlock {
 
-  for (let blockIdx = 0; blockIdx < blocks.length; blockIdx += 1) {
-    const input = parseInput(isInput, blocks[blockIdx]);
-    const block = input.block;
+  constructor({ text }) {
 
-    isInput = input.isInput;
-
-    if (!block) {
-      continue;
+    const firstCharacter = text.substring(0, 1);
+    const secondCharacter = text.substring(1, 2);
+    const isListItem = firstCharacter === '-'
+      || Number.isInteger(Number(firstCharacter)) && secondCharacter === '.';
+    if (isListItem) {
+      text = '\n' + text;
     }
-
-    const isInputField = block.input != null;
-    challengeResponseTemplate.incrementInputCount(isInputField);
-
-    block.attachInputAndPlaceholderIfExist();
-    const didAttachedLabel = block.attachLabel({
-      isInputField,
-      ariaLabelNeeded,
-      previousBlockText,
-      questionIdx: challengeResponseTemplate.inputCount });
-    previousBlockText = didAttachedLabel ? '' : block.text;
-
-    const canAddBlockToTemplate = ariaLabelNeeded || isInputField || isLastElement(blockIdx, blocks);
-    challengeResponseTemplate.add({ canAddBlockToTemplate, block: block.get() });
-  }
-}
-
-class ResponseBlock {
-
-  constructor({ input, text, placeholder }) {
-    this._input = input;
-    this._text = text;
-    this._placeholder = placeholder;
+    this._text = text ? text.replace(/\n/g, '<br/>') : text;
+    this._input = null;
+    this._placeholder = null;
     this._ariaLabel = null;
-  }
-
-  attachInputAndPlaceholderIfExist() {
-    if (this._input && stringHasPlaceholder(this._input)) {
-      const inputParts = this._input.split('#');
-      this._input = inputParts[0];
-      this._placeholder = inputParts[1];
-    }
-  }
-
-  attachLabel({ isInputField, ariaLabelNeeded, previousBlockText, questionIdx }) {
-    if (!isInputField) {
-      return false;
-    }
-    if (!ariaLabelNeeded
-        && this._hasPreviousBlockText(previousBlockText)) {
-      this._text = previousBlockText;
-    }
-    else {
-      this._ariaLabel = 'Réponse ' + questionIdx;
-    }
-    return true;
-  }
-
-  _hasPreviousBlockText(previousBlockText) {
-    return !(previousBlockText.trim().length === 1 && previousBlockText[0] === '-');
+    this._type = 'text';
   }
 
   get input() {
@@ -126,12 +55,85 @@ class ResponseBlock {
     return this._text;
   }
 
+  get type() {
+    return this._type;
+  }
+
+  removeType() {
+    this._type = null;
+  }
+
+  get() {
+    return {
+      text: this._text,
+      type: this._type,
+    };
+  }
+}
+
+class InputBlock {
+
+  constructor({ input, inputIndex }) {
+    const inputText = input.replace('${', '').replace('}', '');
+    this._input = inputText;
+    this._placeholder = null;
+    this._text = null;
+    this._ariaLabel = inputIndex.toString();
+    this._autoAriaLabel = true;
+    this._type = 'input';
+  }
+
+  attachInputAndPlaceholderIfExist() {
+    if (stringHasPlaceholder(this._input)) {
+      const inputParts = this._input.split('#');
+      if (stringHasAriaLabel(this._input)) {
+        const informations = inputParts[1].split('§');
+        this._placeholder = informations[0];
+        this._ariaLabel = informations[1];
+        this._autoAriaLabel = false;
+      } else {
+        this._placeholder = inputParts[1];
+      }
+      this._input = inputParts[0];
+    }
+  }
+
+  get input() {
+    return this._input;
+  }
+
+  get text() {
+    return this._text;
+  }
+
+  get type() {
+    return this._type;
+  }
+
+  get autoAriaLabel() {
+    return this._autoAriaLabel;
+  }
+
+  removeAriaLabel() {
+    this._ariaLabel = null;
+  }
+
+  setText(text) {
+    this._text = text;
+  }
+
+  setAutoAriaLabel(boolean) {
+    this._autoAriaLabel = boolean;
+  }
+
   get() {
     return {
       input: this._input,
       text: this._text,
       placeholder: this._placeholder,
       ariaLabel: this._ariaLabel,
+      type: this._type,
+      autoAriaLabel: this._autoAriaLabel,
     };
   }
 }
@@ -140,25 +142,38 @@ class ChallengeResponseTemplate {
 
   constructor() {
     this._template = [];
+    this._detailedTemplate = [];
     this._inputCount = 0;
   }
 
-  addLineBreakIfIsNotLastLine({ lineIdx, lines }) {
-    if (!isLastElement(lineIdx, lines)) {
-      this._template.push({ breakline: true });
+  add(block) {
+    this._detailedTemplate.push(block);
+  }
+
+  constructFinalTemplate() {
+    for (let index = 0; index < this._detailedTemplate.length; index++) {
+      if (this._detailedTemplate[index].type) {
+        this._template.push(this._detailedTemplate[index].get());
+      }
     }
   }
 
-  add({ canAddBlockToTemplate, block }) {
-    if (canAddBlockToTemplate) {
-      this._template.push(block);
+  updateBlockDetails() {
+    for (let index = 1; index < this._detailedTemplate.length; index++) {
+      if (this._detailedTemplate[index].type === 'input'
+        && this._detailedTemplate[index].autoAriaLabel
+        && this._detailedTemplate[index - 1].type === 'text'
+        && this._detailedTemplate[index - 1].text.length > MINIMUM_SIZE_FOR_LABEL) {
+        this._detailedTemplate[index].setText(this._detailedTemplate[index - 1].text);
+        this._detailedTemplate[index].removeAriaLabel();
+        this._detailedTemplate[index].setAutoAriaLabel(false);
+        this._detailedTemplate[index - 1].removeType();
+      }
     }
   }
 
-  incrementInputCount(isInputField) {
-    if (isInputField) {
-      this._inputCount++;
-    }
+  incrementInputCount() {
+    this._inputCount++;
   }
 
   get inputCount() {
@@ -177,13 +192,12 @@ export default function proposalsAsBlocks(proposals) {
   }
 
   const challengeResponseTemplate = new ChallengeResponseTemplate();
-  const lines = proposals.split(/[\r|\n]+/).filter((line) => !isEmpty(line));
-  const ariaLabelNeeded = isAriaLabelNeededForInputs(lines);
-
-  lines.forEach((line, lineIdx) => {
-    const blocks = line.split(/\s*(\${)|}\s*/);
-    buildLineFrom(blocks, ariaLabelNeeded, challengeResponseTemplate);
-    challengeResponseTemplate.addLineBreakIfIsNotLastLine({ lineIdx, lines });
+  const blocks = proposals.split(/(\$\{[^}]+\})/).filter((line) => !isEmpty(line));
+  blocks.forEach((block) => {
+    buildLineFrom(block, challengeResponseTemplate);
   });
+
+  challengeResponseTemplate.updateBlockDetails();
+  challengeResponseTemplate.constructFinalTemplate();
   return challengeResponseTemplate.get();
 }
