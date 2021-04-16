@@ -9,9 +9,9 @@
   {{if @disabled "form-textfield__input-container--disabled" this.inputContainerStatusClass}}
   {{if this.isPassword "form-textfield__input-container--password"}}">
     <Input @type={{this.textfieldType}}
-           id={{@textfieldName}}
-           name={{@textfieldName}}
+           @id={{@textfieldName}}
            @value={{@inputBindingValue}}
+           name={{@textfieldName}}
            {{on "focusout" (fn this.onValidate @textfieldName @inputBindingValue)}}
            class="form-textfield__input {{this.inputValidationStatus}}"
            autocomplete={{@autocomplete}}

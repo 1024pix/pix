@@ -34,7 +34,7 @@ export default class FormTextfield extends Component {
 
   constructor() {
     super(...arguments);
-    this.onValidate = this.args.onValidate ? this.args.onValidate : () => {};
+    this.onValidate = this.args.onValidate || (() => {});
   }
 
   get isPassword() {
