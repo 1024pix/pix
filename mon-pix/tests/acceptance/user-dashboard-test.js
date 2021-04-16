@@ -1,17 +1,21 @@
 import { currentURL, click, find } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { authenticateByEmail } from '../helpers/authentication';
-import { expect } from 'chai';
-import visit from '../helpers/visit';
-import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { invalidateSession } from 'ember-simple-auth/test-support';
+import { setupApplicationTest } from 'ember-mocha';
+import { beforeEach, describe, it } from 'mocha';
+import { expect } from 'chai';
+import visit from '../helpers/visit';
+import { authenticateByEmail } from '../helpers/authentication';
+import { contains } from '../helpers/contains';
+import setupIntl from '../helpers/setup-intl';
 
 const ASSESSMENT = 'ASSESSMENT';
 
 describe('Acceptance | User dashboard page', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
+
   let user;
 
   describe('Visit the user dashboard page', function() {
@@ -169,7 +173,7 @@ describe('Acceptance | User dashboard page', function() {
     });
 
     it('should display the improvable-competences section', function() {
-      expect(find('section[data-test-improvable-competences]')).to.exist;
+      expect(contains(this.intl.t('pages.dashboard.improvable-competences.subtitle'))).to.exist;
     });
   });
 
