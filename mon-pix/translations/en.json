@@ -1005,21 +1005,16 @@
         },
         "user-account": {
             "title": "My account",
-            "account-panel": {
-                "first-name": "First name",
-                "last-name": "Last name",
-                "email": "Email address",
-                "username": "Username",
-                "lang": "Language",
-                "edit-button": "Edit",
-                "fields": {
-                    "select": {
-                        "labels": {
-                            "french": "French",
-                            "english": "English"
-                        }
-                    }
-                }
+            "personal-information": {
+              "menu-link-title": "Personal information",
+              "first-name": "First name",
+              "last-name": "Last name"
+            },
+            "connexion-methods": {
+              "menu-link-title": "Log in methods",
+              "email": "Email address",
+              "username": "Username",
+              "edit-button": "Edit"
             },
             "account-update-email": {
                 "title": "Change your email address",
@@ -1044,6 +1039,18 @@
                         "unknown-error": "An error has occured. Please try again or contact the support."
                     }
                 }
+            },
+            "language": {
+              "menu-link-title": "Language",
+              "lang": "Language",
+              "fields": {
+                  "select": {
+                      "labels": {
+                          "french": "French",
+                          "english": "English"
+                      }
+                  }
+              }
             }
         },
         "user-tutorials": {

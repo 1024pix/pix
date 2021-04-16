@@ -1005,21 +1005,16 @@
         },
         "user-account": {
             "title": "Mon compte",
-            "account-panel": {
-                "first-name": "Prénom",
-                "last-name": "Nom",
-                "email": "Adresse e-mail",
-                "username": "Identifiant",
-                "lang": "Langue",
-                "edit-button": "Modifier",
-                "fields": {
-                    "select": {
-                        "labels": {
-                            "french": "Français",
-                            "english": "Anglais"
-                        }
-                    }
-                }
+            "personal-information": {
+              "menu-link-title": "Mes informations personnelles",
+              "first-name": "Prénom",
+              "last-name": "Nom"
+            },
+            "connexion-methods": {
+              "menu-link-title": "Mes méthodes de connexion",
+              "email": "Adresse e-mail",
+              "username": "Identifiant",
+              "edit-button": "Modifier"
             },
             "account-update-email": {
                 "title": "Modification de votre adresse e-mail",
@@ -1044,6 +1039,18 @@
                         "unknown-error": "Une erreur est survenue. Veuillez recommencer ou contacter le support."
                     }
                 }
+            },
+            "language": {
+              "menu-link-title": "Choisir ma langue",
+              "lang": "Langue",
+              "fields": {
+                  "select": {
+                      "labels": {
+                          "french": "Français",
+                          "english": "Anglais"
+                      }
+                  }
+              }
             }
         },
         "user-tutorials": {

@@ -1,0 +1,9 @@
+{{#if this.isEmailEditionMode}}
+  <div class="user-account__update-email">
+    <UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} @disableEmailEditionMode={{this.disableEmailEditionMode}} />
+  </div>
+{{else}}
+  <div class="user-account__connection-methods">
+    <UserAccountConnexionMethods @user={{@model}} @enableEmailEditionMode={{this.enableEmailEditionMode}} />
+  </div>
+{{/if}}

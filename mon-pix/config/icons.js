@@ -29,6 +29,9 @@ module.exports = function() {
       'times',
       'times-circle',
       'chevron-down',
+      'user',
+      'link',
+      'globe',
     ],
     'free-regular-svg-icons': [
       'bookmark',
