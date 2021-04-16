@@ -1,14 +1,14 @@
-const { expect, nock, generateValidRequestAuthorizationHeader, mockLearningContent, learningContentBuilder } = require('../../test-helper');
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
+const { expect, nock, generateValidRequestAuthorizationHeader, mockLearningContent, learningContentBuilder, HttpTestServer } = require('../../test-helper');
+const moduleUnderTest = require('../../../lib/application/courses');
 
 describe('Acceptance | API | Courses', () => {
 
   let server;
   const userId = 42;
 
-  beforeEach(async () => {
-    server = await createServer();
+  before(async () => {
+    const authenticationEnabled = false;
+    server = new HttpTestServer(moduleUnderTest, authenticationEnabled);
   });
 
   describe('GET /api/courses/:course_id', () => {
@@ -46,10 +46,10 @@ describe('Acceptance | API | Courses', () => {
     });
 
     context('when the course exists', () => {
-      let options;
+      let request;
 
       beforeEach(() => {
-        options = {
+        request = {
           method: 'GET',
           url: '/api/courses/rec_course_id',
           headers: {
@@ -58,60 +58,56 @@ describe('Acceptance | API | Courses', () => {
         };
       });
 
-      it('should return 200 HTTP status code', () => {
+      it('should return 200 HTTP status code', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
+
       });
 
-      it('should return application/json', () => {
+      it('should return application/json', async() => {
         // when
-        const promise = server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
-        return promise.then((response) => {
-          const contentType = response.headers['content-type'];
-          expect(contentType).to.contain('application/json');
-        });
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
+
       });
 
-      it('should return the expected course', () => {
+      it('should return the expected course', async() => {
         // when
-        const promise = server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
-        return promise.then((response) => {
-          const course = response.result.data;
-          expect(course.id).to.equal('rec_course_id');
-          expect(course.attributes.name).to.equal('A la recherche de l\'information #01');
-          expect(course.attributes.description).to.equal('Mener une recherche et une veille d\'information');
-        });
+        const course = response.result.data;
+        expect(course.id).to.equal('rec_course_id');
+        expect(course.attributes.name).to.equal('A la recherche de l\'information #01');
+        expect(course.attributes.description).to.equal('Mener une recherche et une veille d\'information');
+
       });
 
     });
 
-    context('when the course does not exist', () => {
-      let options;
+    context('when the course does not exist', async() => {
+      let request;
 
       beforeEach(() => {
-        options = {
+        request = {
           method: 'GET',
           url: '/api/courses/rec_i_dont_exist',
         };
       });
 
-      it('should return 404 HTTP status code', () => {
+      it('should return 404 HTTP status code', async() => {
         // when
-        const promise = server.inject(options);
+        const response = await server.requestObject(request);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(404);
-        });
+        expect(response.statusCode).to.equal(404);
+
       });
     });
   });
