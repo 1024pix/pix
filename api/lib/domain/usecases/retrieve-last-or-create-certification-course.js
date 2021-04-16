@@ -73,7 +73,7 @@ async function _startNewCertification({
     };
   }
 
-  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({ userId, badgeAcquisitionRepository, certificationChallengesService });
+  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({ userId, badgeAcquisitionRepository, certificationChallengesService, domainTransaction });
   const challengesForCertification = challengesForPixCertification.concat(challengesForPixPlusCertification);
 
   return _createCertificationCourse({
@@ -87,8 +87,8 @@ async function _startNewCertification({
   });
 }
 
-async function _findChallengesFromPixPlus({ userId, badgeAcquisitionRepository, certificationChallengesService }) {
-  const certifiableBadgeAcquisitions = await badgeAcquisitionRepository.findCertifiable({ userId });
+async function _findChallengesFromPixPlus({ userId, badgeAcquisitionRepository, certificationChallengesService, domainTransaction }) {
+  const certifiableBadgeAcquisitions = await badgeAcquisitionRepository.findCertifiable({ userId, domainTransaction });
   const highestCertifiableBadgeAcquisitions = _keepHighestBadgeWithinPlusCertifications(certifiableBadgeAcquisitions);
   const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(highestCertifiableBadgeAcquisitions,
     ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId));

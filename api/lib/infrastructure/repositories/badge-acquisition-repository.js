@@ -47,7 +47,7 @@ module.exports = {
     return acquiredBadgesByUsers;
   },
 
-  async findCertifiable({ userId }) {
+  async findCertifiable({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const results = await BookshelfBadgeAcquisition
       .query((qb) => {
         qb.join('badges', 'badges.id', 'badge-acquisitions.badgeId');
@@ -57,6 +57,7 @@ module.exports = {
       .fetchAll({
         withRelated: ['badge'],
         require: false,
+        transacting: domainTransaction.knexTransaction,
       });
 
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfBadgeAcquisition, results);
