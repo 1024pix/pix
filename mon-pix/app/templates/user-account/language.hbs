@@ -1,7 +1,6 @@
-<div class="personal-information-item">
-  <p class="form-textfield__label personal-information-item__label">{{t 'pages.user-account.language.lang'}}</p>
+<div class="language">
+  <p class="form-textfield__label language__label">{{t 'pages.user-account.language.lang'}}</p>
   <PixSelect
-    class="personal-information-item__select"
     @options={{this.options}}
     @onChange={{this.onChangeLang}}
     @selectedOption={{@model.lang}}
