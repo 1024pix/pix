@@ -25,7 +25,7 @@ describe('Integration | UseCases | update-membership', () => {
       organizationRole: Membership.roles.MEMBER,
     }).id;
     const newOrganizationRole = Membership.roles.ADMIN;
-    const membership = { organizationRole: newOrganizationRole, updatedByUserId };
+    const membership = new Membership({ id: membershipId, organizationRole: newOrganizationRole, updatedByUserId });
 
     await databaseBuilder.commit();
 

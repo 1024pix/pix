@@ -3,6 +3,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const Membership = require('../../../../lib/domain/models/Membership');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const moduleUnderTest = require('../../../../lib/application/memberships');
+const { InvalidMembershipRoleError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Application | Memberships | membership-controller', () => {
 
@@ -126,6 +127,21 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
           // then
           expect(response.statusCode).to.equal(403);
+        });
+      });
+
+      context('when organization role is not valid', () => {
+
+        it('should resolve a 400 HTTP response', async () => {
+          // given
+          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
+          usecases.updateMembership.throws(new InvalidMembershipRoleError());
+
+          // when
+          const response = await httpTestServer.request('PATCH', '/api/memberships/1', payload);
+
+          // then
+          expect(response.statusCode).to.equal(400);
         });
       });
     });
