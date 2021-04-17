@@ -1,5 +1,6 @@
+// eslint-disable-next-line no-restricted-modules
 const createServer = require('../../../server');
-const { expect, sinon } = require('../../test-helper');
+const { expect, sinon, HttpTestServer } = require('../../test-helper');
 const DomainErrors = require('../../../lib/domain/errors');
 
 describe('Integration | API | Controller Error', () => {
@@ -18,10 +19,21 @@ describe('Integration | API | Controller Error', () => {
     return payload.errors[0].title;
   }
 
-  beforeEach(async () => {
-    server = await createServer();
-    server.route({ method: 'GET', path: '/test_route', handler: routeHandler, config: { auth: false } });
-
+  before(async()=>{
+    const moduleUnderTest = {
+      name: 'test-route',
+      register: async function(server) {
+        server.route([{
+          method: 'GET',
+          path: '/test_route',
+          handler: routeHandler,
+          config: {
+            auth: false,
+          },
+        }]);
+      },
+    };
+    server = new HttpTestServer(moduleUnderTest);
   });
 
   context('412 Precondition Failed', () => {
@@ -165,7 +177,7 @@ describe('Integration | API | Controller Error', () => {
 
     it('responds Not Found when a ChallengeToBeDeneutralizedNotFoundError error occurs', async () => {
       routeHandler.throws(new DomainErrors.ChallengeToBeDeneutralizedNotFoundError());
-      const response = await server.inject(options);
+      const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
       expect(responseDetail(response)).to.equal('La question à dé-neutraliser n\'a pas été posée lors du test de certification');
@@ -636,11 +648,18 @@ describe('Integration | API | Controller Error', () => {
   });
 
   context('500 Internal Server Error', () => {
+
     const INTERNAL_SERVER_ERROR = 500;
+    let heavyweightServer;
+
+    beforeEach(async () => {
+      heavyweightServer = await createServer();
+      heavyweightServer.route({ method: 'GET', path: '/test_route', handler: routeHandler, config: { auth: false } });
+    });
 
     it('responds Internal Server Error error when another error occurs', async () => {
       routeHandler.throws(new Error('Unexpected Error'));
-      const response = await server.inject(options);
+      const response = await heavyweightServer.inject(options);
       const payload = JSON.parse(response.payload);
 
       expect(response.statusCode).to.equal(INTERNAL_SERVER_ERROR);
