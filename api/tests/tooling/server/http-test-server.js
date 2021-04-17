@@ -1,7 +1,5 @@
 const Hapi = require('@hapi/hapi');
 
-const authentication = require('../../../lib/infrastructure/authentication');
-
 const preResponseUtils = require('../../../lib/application/pre-response-utils');
 const { handleFailAction } = require('../../../lib/validate');
 
@@ -26,7 +24,7 @@ const routesConfig = {
  */
 class HttpTestServer {
 
-  constructor(moduleUnderTest, enableAuthentication = false) {
+  constructor(moduleUnderTest) {
     this.hapiServer = Hapi.server(routesConfig);
 
     this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
