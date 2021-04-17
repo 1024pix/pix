@@ -33,13 +33,9 @@ class HttpTestServer {
       console.error(event.error);
     });
 
-    if (enableAuthentication) {
-      this.hapiServer.auth.scheme(authentication.schemeName, authentication.scheme);
-      authentication.strategies.map((strategy) => {
-        this.hapiServer.auth.strategy(strategy.name, authentication.schemeName, strategy.configuration);
-      });
-      this.hapiServer.auth.default(authentication.defaultStrategy);
-    }
+    // register returns a promise, which is ignored
+    // TODO: extract register in a separate async method
+    // https://stackoverflow.com/questions/43431550/async-await-class-constructor
     this.hapiServer.register(moduleUnderTest);
   }
 
