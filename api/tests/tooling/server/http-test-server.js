@@ -1,5 +1,4 @@
 const Hapi = require('@hapi/hapi');
-const Inert = require('@hapi/inert');
 
 const authentication = require('../../../lib/infrastructure/authentication');
 
@@ -43,7 +42,6 @@ class HttpTestServer {
       });
       this.hapiServer.auth.default(authentication.defaultStrategy);
     }
-    this.hapiServer.register(Inert);
     this.hapiServer.register(moduleUnderTest);
   }
 
