@@ -50,6 +50,11 @@ class HttpTestServer {
   request(method, url, payload, auth, headers) {
     return this.hapiServer.inject({ method, url, payload, auth, headers });
   }
+
+  inject({ method, url, payload, auth, headers }) {
+    return this.hapiServer.inject({ method, url, payload, auth, headers });
+  }
+
 }
 
 module.exports = HttpTestServer;
