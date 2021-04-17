@@ -51,7 +51,7 @@ class HttpTestServer {
     return this.hapiServer.inject({ method, url, payload, auth, headers });
   }
 
-  inject({ method, url, payload, auth, headers }) {
+  requestObject({ method, url, payload, auth, headers }) {
     return this.hapiServer.inject({ method, url, payload, auth, headers });
   }
 
