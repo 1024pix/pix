@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../server');
 const { expect, sinon, HttpTestServer } = require('../../test-helper');
 const DomainErrors = require('../../../lib/domain/errors');
 
@@ -652,18 +650,14 @@ describe('Integration | API | Controller Error', () => {
   context('500 Internal Server Error', () => {
 
     const INTERNAL_SERVER_ERROR = 500;
-    let heavyweightServer;
-
-    beforeEach(async () => {
-      heavyweightServer = await createServer();
-      heavyweightServer.route({ method: 'GET', path: '/test_route', handler: routeHandler, config: { auth: false } });
-    });
 
     it('responds Internal Server Error error when another error occurs', async () => {
       routeHandler.throws(new Error('Unexpected Error'));
-      const response = await heavyweightServer.inject(request);
-      const payload = JSON.parse(response.payload);
+      // when
+      const response = await server.requestObject(request);
 
+      // then
+      const payload = JSON.parse(response.payload);
       expect(response.statusCode).to.equal(INTERNAL_SERVER_ERROR);
       expect(payload.message).to.equal('An internal server error occurred');
     });

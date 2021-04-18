@@ -28,10 +28,6 @@ class HttpTestServer {
     this.hapiServer = Hapi.server(routesConfig);
 
     this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
-    this.hapiServer.events.on({ name: 'request', channels: 'error' }, (request, event) => {
-      // eslint-disable-next-line no-console
-      console.error(event.error);
-    });
 
     // register returns a promise, which is ignored
     // TODO: extract register in a separate async method
