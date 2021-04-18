@@ -62,7 +62,6 @@ const loadConfiguration = function() {
 };
 
 const setupErrorHandling = function(server) {
-
   server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
 };
 
