@@ -27,12 +27,16 @@ class HttpTestServer {
   constructor(moduleUnderTest) {
     this.hapiServer = Hapi.server(routesConfig);
 
-    this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
+    this._setupErrorHandling();
 
     // register returns a promise, which is ignored
     // TODO: extract register in a separate async method
     // https://stackoverflow.com/questions/43431550/async-await-class-constructor
     this.hapiServer.register(moduleUnderTest);
+  }
+
+  _setupErrorHandling() {
+    this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
   }
 
   request(method, url, payload, auth, headers) {
