@@ -14,15 +14,26 @@ describe('Unit | Domain | Models | Stage', () => {
       expect(skillsToReach).to.be.equal(10);
     });
 
-    it('should always return an integer', () => {
+    it('should always return a floor integer 7.5 become 7 not 8', () => {
       // given
-      const stage = domainBuilder.buildStage({ threshold: 33 });
+      const stage = domainBuilder.buildStage({ threshold: 25 });
 
       // when
-      const skillsToReach = stage.getMinSkillsCountToReachStage(25);
+      const skillsToReach = stage.getMinSkillsCountToReachStage(30);
 
       // then
-      expect(skillsToReach).to.be.equal(9);
+      expect(skillsToReach).to.be.equal(7);
+    });
+
+    it('should always return a floor integer 7.25 become 7 not 8', () => {
+      // given
+      const stage = domainBuilder.buildStage({ threshold: 25 });
+
+      // when
+      const skillsToReach = stage.getMinSkillsCountToReachStage(29);
+
+      // then
+      expect(skillsToReach).to.be.equal(7);
     });
   });
 });
