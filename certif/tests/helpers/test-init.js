@@ -8,14 +8,20 @@ QUnit.assert.notContains = notContains;
 
 export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix', isRelatedOrganizationManagingStudents = false, certificationCenterCount = 1) {
   const certificationCenters = _createCertificationCenters(certificationCenterCount, { certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents });
+  return createCertificationPointOfContactWithCustomCenters({ pixCertifTermsOfServiceAccepted, certificationCenters });
+}
 
+export function createCertificationPointOfContactWithCustomCenters({
+  pixCertifTermsOfServiceAccepted = false,
+  certificationCenters = [],
+}) {
   const certificationPointOfContact = server.create('certification-point-of-contact', {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
     pixCertifTermsOfServiceAccepted,
     certificationCenters,
-    currentCertificationCenterId: 1,
+    currentCertificationCenterId: parseInt(certificationCenters[0].id),
   });
   certificationPointOfContact.save();
 
@@ -33,7 +39,6 @@ function _createCertificationCenters(certificationCenterCount, certificationCent
 
 export function createCertificationCenter({ certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents }) {
   const certificationCenter = server.create('certification-center', {
-    id: 1,
     name: certificationCenterName,
     type: certificationCenterType,
     externalId: 'ABC123',
