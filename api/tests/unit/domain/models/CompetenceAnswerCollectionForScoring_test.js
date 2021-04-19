@@ -187,6 +187,26 @@ describe('Unit | Domain | Models | CompetenceAnswerCollectionForScoring', functi
       // then
       expect(numberOfCorrectAnswers).to.equal(3);
     });
+
+    it('count only non-neutralized challenges', () => {
+      // given
+      const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM', isNeutralized: true });
+      const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QCM', isNeutralized: true });
+      const challenge3 = _buildDecoratedCertificationChallenge({ challengeId: 'chal3', type: 'QCM', isNeutralized: false });
+      const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId, result: AnswerStatus.OK });
+      const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.challengeId, result: AnswerStatus.OK });
+      const answer3 = domainBuilder.buildAnswer({ challengeId: challenge3.challengeId, result: AnswerStatus.OK });
+      const answerCollection = CompetenceAnswerCollectionForScoring.from({
+        answersForCompetence: [answer1, answer2, answer3],
+        challengesForCompetence: [challenge1, challenge2, challenge3],
+      });
+
+      // when
+      const numberOfChallengesAnswered = answerCollection.numberOfCorrectAnswers();
+
+      // then
+      expect(numberOfChallengesAnswered).to.equal(1);
+    });
   });
 
   context('#numberOfNeutralizedChallenges', () => {
