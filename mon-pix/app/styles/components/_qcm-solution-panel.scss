@@ -1,6 +1,7 @@
 input.qcm-panel__proposal-checkbox {
   display: inline-block;
   margin-right: 10px;
+  margin-top: 4px;
 }
 
 .qcm-panel {
@@ -17,23 +18,27 @@ input.qcm-panel__proposal-checkbox {
   &__proposal-label {
     font-weight: $font-normal;
     width: 100%;
+
+    p {
+      display: inline;
+    }
   }
 }
 
 .qcm-proposal-label {
 
   &__answer-details[data-goodness='good'] {
-    display: inline-block;
+    display: inline;
     color: $green;
     font-weight: $font-heavy;
   }
 
   &__answer-details[data-goodness='bad'][data-checked='yes'] {
-    display: inline-block;
+    display: inline;
     text-decoration: line-through;
   }
 
   &__answer-details[data-goodness='bad'][data-checked='no'] {
-    display: inline-block;
+    display: inline;
   }
 }
