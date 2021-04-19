@@ -10,14 +10,7 @@ export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepte
   const certificationCenters = [];
 
   times(certificationCenterCount, () => {
-    const certificationCenter = server.create('certification-center', {
-      id: 1,
-      name: certificationCenterName,
-      type: certificationCenterType,
-      externalId: 'ABC123',
-      isRelatedOrganizationManagingStudents,
-    });
-    certificationCenter.save();
+    const certificationCenter = createCertificationCenter({ certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents });
     certificationCenters.push(certificationCenter);
   });
 
@@ -32,6 +25,18 @@ export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepte
   certificationPointOfContact.save();
 
   return certificationPointOfContact;
+}
+
+export function createCertificationCenter({ certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents }) {
+  const certificationCenter = server.create('certification-center', {
+    id: 1,
+    name: certificationCenterName,
+    type: certificationCenterType,
+    externalId: 'ABC123',
+    isRelatedOrganizationManagingStudents,
+  });
+  certificationCenter.save();
+  return certificationCenter;
 }
 
 export function createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted() {
