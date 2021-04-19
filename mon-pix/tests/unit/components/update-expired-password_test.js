@@ -72,15 +72,16 @@ describe('Unit | Component | Update Expired Password', () => {
         authenticate: sinon.stub().resolves(),
       });
 
-      const userToSave = {
+      const resetExpiredPasswordDemand = {
         username,
         password: expiredPassword,
         save: sinon.stub().resolves(),
+        set: sinon.stub().resolves(),
         unloadRecord: sinon.stub().resolves(),
       };
 
       component.session = sessionStub;
-      component.user = userToSave;
+      component.resetExpiredPasswordDemand = resetExpiredPasswordDemand;
       component.newPassword = newPassword;
     });
 
@@ -99,7 +100,7 @@ describe('Unit | Component | Update Expired Password', () => {
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
-        sinon.assert.called(component.user.unloadRecord);
+        sinon.assert.called(component.resetExpiredPasswordDemand.unloadRecord);
       });
 
       it('should authenticate with username and newPassword', async () => {
@@ -126,7 +127,7 @@ describe('Unit | Component | Update Expired Password', () => {
         const response = {
           errors: [ { status: '400' } ],
         };
-        component.user.save.rejects(response);
+        component.resetExpiredPasswordDemand.save.rejects(response);
 
         // when
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
@@ -141,7 +142,7 @@ describe('Unit | Component | Update Expired Password', () => {
         const response = {
           errors: [ { status: '401' } ],
         };
-        component.user.save.rejects(response);
+        component.resetExpiredPasswordDemand.save.rejects(response);
 
         // when
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
@@ -153,7 +154,7 @@ describe('Unit | Component | Update Expired Password', () => {
       it('should set validation with errors data', async () => {
         // given
         const expectedErrorMessage = component.intl.t('api-error-messages.internal-server-error');
-        component.user.save.rejects();
+        component.resetExpiredPasswordDemand.save.rejects();
 
         // when
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);

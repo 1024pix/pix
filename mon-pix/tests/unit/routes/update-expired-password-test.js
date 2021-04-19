@@ -11,32 +11,24 @@ describe('Unit | Route | update-expired-password', function() {
 
   setupTest();
 
-  let route;
-  let peekAllStub;
-
-  beforeEach(function() {
-    route = this.owner.lookup('route:update-expired-password');
-
-    peekAllStub = sinon.stub();
+  it('should retrieve a reset expired password demand', async function() {
+    // given
+    const route = this.owner.lookup('route:update-expired-password');
+    const peekAllStub = sinon.stub();
     const storeStub = Service.create({
       peekAll: peekAllStub,
     });
     route.set('store', storeStub);
-  });
 
-  it('should retrieve user model with unset id', async function() {
-    // given
-    const userThatWasPreviouslyConnectedWithWrongAccount = EmberObject.create({ id: 1, username: 'user.name0112' });
-    const userWithExpiredPassword = EmberObject.create({ id: null, username: 'user.toupdate1501' });
+    const resetExpiredPasswordDemand = EmberObject.create({ username: 'user.name0112', oneTimePassword: 'password' });
     peekAllStub.returns([
-      userThatWasPreviouslyConnectedWithWrongAccount,
-      userWithExpiredPassword,
+      resetExpiredPasswordDemand,
     ]);
 
     // when
-    const user = await route.model();
+    const model = await route.model();
 
     // then
-    expect(user).to.equal(userWithExpiredPassword);
+    expect(model).to.equal(resetExpiredPasswordDemand);
   });
 });

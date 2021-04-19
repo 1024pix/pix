@@ -30,6 +30,6 @@ module.exports = {
     const { username, expiredPassword, newPassword } = request.payload.data.attributes;
     await usecases.updateExpiredPassword({ username, expiredPassword, newPassword });
 
-    return h.response({ data: { type: 'users' } }).created();
+    return h.response({ data: { type: 'reset-expired-password-demands' } }).created();
   },
 };

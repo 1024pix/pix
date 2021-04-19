@@ -5,6 +5,7 @@ export default function(schema, request) {
   const foundUser = schema.users.findBy({ username, password: expiredPassword });
 
   if (foundUser) {
-    return foundUser.update({ password: newPassword, shouldChangePassword: false });
+    foundUser.update({ password: newPassword, shouldChangePassword: false });
+    return { data: { type: 'reset-expired-password-demands' } };
   }
 }
