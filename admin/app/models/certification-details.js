@@ -15,7 +15,7 @@ export default class CertificationDetails extends Model {
   @attr() completedAt;
   @attr() listChallengesAndAnswers;
 
-  @computed('listChallengesAndAnswers')
+  @computed('listChallengesAndAnswers', 'listChallengesAndAnswers.@each.isNeutralized')
   get answers() {
     let count = 1;
     return this.listChallengesAndAnswers.map((answer) => {

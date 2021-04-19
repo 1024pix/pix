@@ -446,16 +446,19 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should return a object contains information about competences and challenges', async () => {
           // given
+          const certificationAssessmentWithNeutralizedChallenge = _.cloneDeep(certificationAssessment);
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[0].isNeutralized = true;
+
           const malusForFalseAnswer = 8;
           const expectedCertifiedCompetences = [{
             index: '1.1',
             area_code: '1',
             id: 'competence_1',
             name: 'Mener une recherche',
-            obtainedLevel: 0,
+            obtainedLevel: -1,
             positionedLevel: 1,
             positionedScore: 10,
-            obtainedScore: pixForCompetence1 - malusForFalseAnswer,
+            obtainedScore: 0,
           }, {
             index: '2.2',
             area_code: '2',
@@ -493,6 +496,7 @@ describe('Unit | Service | Certification Result Service', function() {
               skill: '@skillChallengeA_1',
               result: 'ok',
               value: '1',
+              isNeutralized: true,
             },
             {
               challengeId: 'challenge_B_for_competence_1',
@@ -500,6 +504,7 @@ describe('Unit | Service | Certification Result Service', function() {
               skill: '@skillChallengeB_1',
               result: 'ko',
               value: '1',
+              isNeutralized: false,
             },
             {
               challengeId: 'challenge_C_for_competence_1',
@@ -507,6 +512,7 @@ describe('Unit | Service | Certification Result Service', function() {
               skill: '@skillChallengeC_1',
               result: 'ok',
               value: '1',
+              isNeutralized: false,
             },
             {
               challengeId: 'challenge_D_for_competence_2',
@@ -514,6 +520,7 @@ describe('Unit | Service | Certification Result Service', function() {
               skill: '@skillChallengeD_2',
               result: 'ok',
               value: '1',
+              isNeutralized: false,
             },
             {
               challengeId: 'challenge_E_for_competence_2',
@@ -521,6 +528,7 @@ describe('Unit | Service | Certification Result Service', function() {
               skill: '@skillChallengeE_2',
               result: 'ok',
               value: '1',
+              isNeutralized: false,
             },
             {
               challengeId: 'challenge_F_for_competence_2',
@@ -528,6 +536,7 @@ describe('Unit | Service | Certification Result Service', function() {
               skill: '@skillChallengeF_2',
               result: 'ok',
               value: '1',
+              isNeutralized: false,
             },
             {
               challengeId: 'challenge_G_for_competence_3',
@@ -535,6 +544,7 @@ describe('Unit | Service | Certification Result Service', function() {
               skill: '@skillChallengeG_3',
               result: 'ok',
               value: '1',
+              isNeutralized: false,
             },
             {
               challengeId: 'challenge_H_for_competence_3',
@@ -542,6 +552,7 @@ describe('Unit | Service | Certification Result Service', function() {
               skill: '@skillChallengeH_3',
               result: 'ko',
               value: '1',
+              isNeutralized: false,
             },
             {
               challengeId: 'challenge_I_for_competence_3',
@@ -549,6 +560,7 @@ describe('Unit | Service | Certification Result Service', function() {
               skill: '@skillChallengeI_3',
               result: 'ko',
               value: '1',
+              isNeutralized: false,
             },
             {
               challengeId: 'challenge_J_for_competence_4',
@@ -556,6 +568,7 @@ describe('Unit | Service | Certification Result Service', function() {
               skill: '@skillChallengeJ_4',
               result: 'ok',
               value: '1',
+              isNeutralized: false,
             },
             {
               challengeId: 'challenge_K_for_competence_4',
@@ -563,6 +576,7 @@ describe('Unit | Service | Certification Result Service', function() {
               skill: '@skillChallengeK_4',
               result: 'ko',
               value: '1',
+              isNeutralized: false,
             },
             {
               challengeId: 'challenge_L_for_competence_4',
@@ -570,6 +584,7 @@ describe('Unit | Service | Certification Result Service', function() {
               skill: '@skillChallengeL_4',
               result: 'ok',
               value: '1',
+              isNeutralized: false,
             },
 
           ];
@@ -578,14 +593,14 @@ describe('Unit | Service | Certification Result Service', function() {
             listChallengesAndAnswers: expectedChallenges,
             percentageCorrectAnswers: 67,
             status: certificationAssessment.state,
-            totalScore: 54,
+            totalScore: 52,
             userId: certificationAssessment.userId,
             completedAt: certificationAssessment.completedAt,
             createdAt: certificationAssessment.createdAt,
           };
 
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.getCertificationResult({ certificationAssessment: certificationAssessmentWithNeutralizedChallenge, continueOnError });
 
           // then
           expect(result).to.deep.equal(expectedResult);
