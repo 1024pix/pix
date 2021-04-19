@@ -113,6 +113,7 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
       result: answer.result.status,
       value: answer.value,
       challengeId: answer.challengeId,
+      isNeutralized: certificationChallengeRelatedToAnswer.isNeutralized,
       competence: competenceValidatedByCertifChallenge.index || '',
       skill: certificationChallengeRelatedToAnswer.associatedSkillName || '',
     };
