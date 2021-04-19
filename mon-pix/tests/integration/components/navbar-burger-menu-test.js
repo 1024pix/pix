@@ -26,13 +26,25 @@ describe('Integration | Component | navbar-burger-menu', function() {
     // then
     expect(find('.navbar-burger-menu__navigation')).to.exist;
 
-    expect(findAll('.navbar-burger-menu-navigation__item')).to.have.lengthOf(6);
+    expect(findAll('.navbar-burger-menu-navigation__item')).to.have.lengthOf(5);
     expect(contains('Accueil')).to.exist;
-    expect(contains('Mon compte')).to.exist;
     expect(contains('Compétences')).to.exist;
     expect(contains('Certification')).to.exist;
     expect(contains('Mes tutos')).to.exist;
     expect(contains('J\'ai un code')).to.exist;
+  });
+
+  it('should display the user menu with expected elements', async function() {
+    // when
+    await render(hbs`<NavbarBurgerMenu />`);
+
+    // then
+    expect(find('.navbar-burger-menu__user-info')).to.exist;
+
+    expect(contains(this.intl.t('navigation.user.account'))).to.exist;
+    expect(contains(this.intl.t('navigation.user.certifications'))).to.exist;
+    expect(contains(this.intl.t('navigation.main.help'))).to.exist;
+    expect(contains(this.intl.t('navigation.user.sign-out'))).to.exist;
   });
 
   context('when user has participations', function() {
