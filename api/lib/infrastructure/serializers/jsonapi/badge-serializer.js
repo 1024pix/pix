@@ -30,7 +30,7 @@ module.exports = {
       },
       transform(record) {
         record.badgeCriteria.forEach((badgeCriterion) => {
-          badgeCriterion.partnerCompetences = badgeCriterion.partnerCompetenceIds.map((partnerCompetenceId) => {
+          badgeCriterion.partnerCompetences = badgeCriterion.partnerCompetenceIds?.map((partnerCompetenceId) => {
             return { id: partnerCompetenceId };
           });
         });
