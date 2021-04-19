@@ -101,7 +101,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       // then
       assert.contains('Doe2');
       assert.contains('John');
-      assert.contains('En attente');
+      assert.contains('En attente d\'envoi');
     });
 
     test('it should not display badge neither tooltip', async function(assert) {
