@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.45.0 (19/04/2021)
+
+- [#2830](https://github.com/1024pix/pix/pull/2830) [FEATURE] L'arrondi à l'entier supérieur n'est pas correct pour filtrer les participants dans pixOrga (PIX-2456).
+- [#2856](https://github.com/1024pix/pix/pull/2856) [FEATURE] Affichage d'un sous menu dans la page Mon compte (PIX-2055).
+- [#2841](https://github.com/1024pix/pix/pull/2841) [FEATURE] Ajout de la section "Compétences à retenter" sur le TDB (PIX-2263).
+- [#2840](https://github.com/1024pix/pix/pull/2840) [FEATURE] Ajouter les params externalId et masteryPercentage à l'url donnée par une orga (PIX-2440).
+- [#2860](https://github.com/1024pix/pix/pull/2860) [FEATURE] Ajouter une documentation pour orga.pix.org (PIX-2477).
+- [#2857](https://github.com/1024pix/pix/pull/2857) [FEATURE] Générer les identifiants via les informations de l'élève présent en base sur la double mire Pix App (PIX-1785).
+- [#2869](https://github.com/1024pix/pix/pull/2869) [BUGFIX] Corrige la récupération des badges
+- [#2866](https://github.com/1024pix/pix/pull/2866) [BUGFIX] Correctif d'alignement entre le bouton radio et la phrase dans les QCM (PIX-2427).
+- [#2843](https://github.com/1024pix/pix/pull/2843) [TECH] Améliorer l'authentification dans l'API (PIX-2475).
+- [#2817](https://github.com/1024pix/pix/pull/2817) [CLEANUP] Refacto du proposal as block pour mieux afficher les blocs avec du markdown (PIX-2438).
+- [#2865](https://github.com/1024pix/pix/pull/2865) [SR] Supprimer les .get et .set dans les tests unitaires des models de Pix-App.
+
 ## v3.44.0 (15/04/2021)
 
 - [#2842](https://github.com/1024pix/pix/pull/2842) [FEATURE] Affiche les badgePartnerCompetences dans les critéres du badge
