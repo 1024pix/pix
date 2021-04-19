@@ -27,11 +27,11 @@ describe('Integration | Component | navbar-burger-menu', function() {
     expect(find('.navbar-burger-menu__navigation')).to.exist;
 
     expect(findAll('.navbar-burger-menu-navigation__item')).to.have.lengthOf(5);
-    expect(contains('Accueil')).to.exist;
-    expect(contains('Compétences')).to.exist;
-    expect(contains('Certification')).to.exist;
-    expect(contains('Mes tutos')).to.exist;
-    expect(contains('J\'ai un code')).to.exist;
+    expect(contains(this.intl.t('navigation.main.dashboard'))).to.exist;
+    expect(contains(this.intl.t('navigation.main.skills'))).to.exist;
+    expect(contains(this.intl.t('navigation.main.start-certification'))).to.exist;
+    expect(contains(this.intl.t('navigation.main.tutorials'))).to.exist;
+    expect(contains(this.intl.t('navigation.main.code'))).to.exist;
   });
 
   it('should display the user menu with expected elements', async function() {
@@ -63,7 +63,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
       await render(hbs`<NavbarBurgerMenu />`);
 
       // then
-      expect(contains('Mes parcours')).to.exist;
+      expect(contains(this.intl.t('navigation.user.tests'))).to.exist;
     });
   });
 
@@ -83,7 +83,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
       await render(hbs`<NavbarBurgerMenu />`);
 
       // then
-      expect(contains('Mes parcours')).to.not.exist;
+      expect(contains(this.intl.t('navigation.user.tests'))).to.not.exist;
     });
   });
 });
