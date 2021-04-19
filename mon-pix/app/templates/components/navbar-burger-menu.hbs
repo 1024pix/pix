@@ -1,11 +1,34 @@
-<div class="navbar-burger-menu navbar-burger-menu__user-info">
+<div class="navbar-burger-menu navbar-burger-menu__navigation">
+
   {{#if this.currentUser.user}}
-    <div class="navbar-burger-menu-user-info__item">
-      <p class="navbar-burger-menu-user-info-item__name">
-        {{this.currentUser.user.fullName}}
-      </p>
-    </div>
+    <p class="navbar-burger-menu-user-info-item__name">
+      {{this.currentUser.user.fullName}}
+    </p>
   {{/if}}
+
+  <LinkTo @route="user-dashboard" class="navbar-burger-menu-navigation__item">
+    {{t 'navigation.main.dashboard'}}
+  </LinkTo>
+  <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
+    {{t 'navigation.main.skills'}}
+  </LinkTo>
+
+  <LinkTo @route="certifications" class="navbar-burger-menu-navigation__item">
+    {{t 'navigation.main.start-certification'}}
+  </LinkTo>
+
+  <LinkTo @route="user-tutorials" class="navbar-burger-menu-navigation__item">
+    {{t 'navigation.main.tutorials'}}
+  </LinkTo>
+
+</div>
+<div class="navbar-burger-menu-navigation__item navbar-burger-menu-navigation__bottom-item">
+  <LinkTo @route="fill-in-campaign-code" class="button button--thin">
+    {{t 'navigation.main.code'}}
+  </LinkTo>
+</div>
+
+<div class="navbar-burger-menu navbar-burger-menu__user-info">
 
   {{#if this.showMyTestsLink}}
     <LinkTo @route="user-tests" class="navbar-burger-menu-user-info__item">
@@ -27,28 +50,5 @@
 
   <LinkTo @route="logout" class="navbar-burger-menu-user-info__item navbar-burger-menu-user-info-item__logout">
     {{t 'navigation.user.sign-out'}}
-  </LinkTo>
-</div>
-
-<div class="navbar-burger-menu navbar-burger-menu__navigation">
-  <LinkTo @route="user-dashboard" class="navbar-burger-menu-navigation__item">
-    {{t 'navigation.main.dashboard'}}
-  </LinkTo>
-  <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
-    {{t 'navigation.main.skills'}}
-  </LinkTo>
-
-  <LinkTo @route="certifications" class="navbar-burger-menu-navigation__item">
-    {{t 'navigation.main.start-certification'}}
-  </LinkTo>
-
-  <LinkTo @route="user-tutorials" class="navbar-burger-menu-navigation__item">
-    {{t 'navigation.main.tutorials'}}
-  </LinkTo>
-
-</div>
-<div class="navbar-burger-menu-navigation__item navbar-burger-menu-navigation__bottom-item">
-  <LinkTo @route="fill-in-campaign-code" class="button button--thin">
-    {{t 'navigation.main.code'}}
   </LinkTo>
 </div>
