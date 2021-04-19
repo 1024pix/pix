@@ -15,7 +15,7 @@ describe('Unit | UseCase | update-membership', () => {
       get: sinon.stub(),
     };
     certificationCenterRepository = {
-      getByExternalId: sinon.stub(),
+      findByExternalId: sinon.stub(),
     };
     certificationCenterMembershipRepository = {
       save: sinon.stub(),
@@ -28,7 +28,7 @@ describe('Unit | UseCase | update-membership', () => {
     const organizationRole = Membership.roles.ADMIN;
     const membership = new Membership({ id: membershipId, organizationRole, updatedByUserId: 12345 });
     membershipRepository.get.resolves(domainBuilder.buildMembership());
-    certificationCenterRepository.getByExternalId.resolves(null);
+    certificationCenterRepository.findByExternalId.resolves(null);
 
     // when
     await updateMembership({
@@ -79,7 +79,7 @@ describe('Unit | UseCase | update-membership', () => {
         });
 
         membershipRepository.get.withArgs(membershipId).resolves(existingMembership);
-        certificationCenterRepository.getByExternalId.withArgs({ externalId }).resolves(existingCertificationCenter);
+        certificationCenterRepository.findByExternalId.withArgs({ externalId }).resolves(existingCertificationCenter);
 
         // when
         await updateMembership({
@@ -109,7 +109,7 @@ describe('Unit | UseCase | update-membership', () => {
         });
 
         membershipRepository.get.withArgs(membershipId).resolves(existingMembership);
-        certificationCenterRepository.getByExternalId.withArgs({ externalId }).resolves(null);
+        certificationCenterRepository.findByExternalId.withArgs({ externalId }).resolves(null);
 
         // when
         await updateMembership({
