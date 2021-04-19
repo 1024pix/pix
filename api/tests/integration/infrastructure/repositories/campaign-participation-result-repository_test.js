@@ -29,11 +29,11 @@ describe('Integration | Repository | Campaign Participation Result', () => {
           { id: 'recTube2', competenceId: 'rec2' },
         ],
         skills: [
-          { id: 'skill1', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1' },
-          { id: 'skill2', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1' },
-          { id: 'skill3', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' },
-          { id: 'skill4', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' },
-          { id: 'skill5', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' },
+          { id: 'skill1', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1' }, // skill previously validated in competence 1
+          { id: 'skill2', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1' }, // skill validated in competence 1
+          { id: 'skill3', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' }, // skill invalidated in competence 2
+          { id: 'skill4', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' }, // skill not tested
+          { id: 'skill5', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' }, // skill not in target profile
         ],
       };
 
@@ -71,7 +71,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
         sharedAt: new Date('2020-01-02'),
       });
 
-      databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed', type: 'CAMPAIGN' });
       const knowledgeElementsAttributes = [
         {
           userId,
@@ -82,8 +82,9 @@ describe('Integration | Repository | Campaign Participation Result', () => {
         },
         {
           userId,
-          skillId: 'skill2',
-          competenceId: 'rec1',
+          assessmentId,
+          skillId: 'skill3',
+          competenceId: 'rec2',
           createdAt: new Date('2020-01-01'),
           status: KnowledgeElement.StatusType.INVALIDATED,
         },
@@ -125,7 +126,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
         sharedAt: new Date('2020-01-02'),
       });
 
-      databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed', type: 'CAMPAIGN' });
 
       const knowledgeElementsAttributes = [
         {
@@ -137,6 +138,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
         },
         {
           userId,
+          assessmentId,
           skillId: 'skill2',
           competenceId: 'rec1',
           createdAt: new Date('2020-01-01'),
@@ -144,17 +146,11 @@ describe('Integration | Repository | Campaign Participation Result', () => {
         },
         {
           userId,
+          assessmentId,
           skillId: 'skill3',
           competenceId: 'rec2',
           createdAt: new Date('2020-01-01'),
           status: KnowledgeElement.StatusType.INVALIDATED,
-        },
-        {
-          userId,
-          skillId: 'skill4',
-          competenceId: 'rec2',
-          createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.VALIDATED,
         },
       ];
 
@@ -186,9 +182,9 @@ describe('Integration | Repository | Campaign Participation Result', () => {
           index: '2.1',
           areaName: 'area2',
           areaColor: 'colorArea2',
-          testedSkillsCount: 2,
+          testedSkillsCount: 1,
           totalSkillsCount: 2,
-          validatedSkillsCount: 1,
+          validatedSkillsCount: 0,
         },
       ]);
     });
@@ -204,7 +200,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
           sharedAt: null,
         });
 
-        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+        const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed', type: 'CAMPAIGN' });
         const knowledgeElementsAttributes = [
           {
             userId,
@@ -215,6 +211,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
           },
           {
             userId,
+            assessmentId,
             skillId: 'skill2',
             competenceId: 'rec1',
             createdAt: new Date('2020-01-01'),
@@ -253,7 +250,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
           sharedAt: new Date('2020-01-02'),
         });
 
-        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+        const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed', type: 'CAMPAIGN' });
         databaseBuilder.factory.buildStage({ id: 10, title: 'StageO', message: 'Message0', targetProfileId, threshold: 0 });
         databaseBuilder.factory.buildStage({ id: 1, title: 'Stage1', message: 'Message1', targetProfileId, threshold: 10 });
         databaseBuilder.factory.buildStage({ id: 2, title: 'Stage2', message: 'Message2', targetProfileId, threshold: 50 });
@@ -269,6 +266,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
           },
           {
             userId,
+            assessmentId,
             skillId: 'skill2',
             competenceId: 'rec1',
             createdAt: new Date('2020-01-01'),
@@ -276,17 +274,11 @@ describe('Integration | Repository | Campaign Participation Result', () => {
           },
           {
             userId,
+            assessmentId,
             skillId: 'skill3',
             competenceId: 'rec2',
             createdAt: new Date('2020-01-01'),
             status: KnowledgeElement.StatusType.INVALIDATED,
-          },
-          {
-            userId,
-            skillId: 'skill4',
-            competenceId: 'rec2',
-            createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
           },
         ];
 
@@ -415,13 +407,6 @@ describe('Integration | Repository | Campaign Participation Result', () => {
               createdAt: new Date('2020-01-01'),
               status: KnowledgeElement.StatusType.INVALIDATED,
             },
-            {
-              userId,
-              skillId: 'skill4',
-              competenceId: 'rec2',
-              createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
-            },
           ];
 
           databaseBuilder
@@ -456,9 +441,9 @@ describe('Integration | Repository | Campaign Participation Result', () => {
             areaName: undefined,
             index: undefined,
             name: 'BadgeCompt2',
-            testedSkillsCount: 2,
+            testedSkillsCount: 1,
             totalSkillsCount: 2,
-            validatedSkillsCount: 1,
+            validatedSkillsCount: 0,
           });
         });
       });
