@@ -1,4 +1,5 @@
 const JSONAPIError = require('jsonapi-serializer').Error;
+
 class BaseHttpError extends Error {
   constructor(message) {
     super(message);
@@ -125,6 +126,14 @@ class SessionPublicationBatchError extends BaseHttpError {
   }
 }
 
+class InternalServerError extends BaseHttpError {
+  constructor(message, title) {
+    super(message);
+    this.title = title || 'Internal Server Error';
+    this.status = 500;
+  }
+}
+
 function sendJsonApiError(httpError, h) {
   const jsonApiError = new JSONAPIError({
     status: httpError.status.toString(),
@@ -142,6 +151,7 @@ module.exports = {
   ConflictError,
   ForbiddenError,
   ImproveCompetenceEvaluationForbiddenError,
+  InternalServerError,
   MissingQueryParamError,
   NotFoundError,
   PasswordShouldChangeError,
@@ -149,7 +159,7 @@ module.exports = {
   PreconditionFailedError,
   sendJsonApiError,
   ServiceUnavailableError,
+  SessionPublicationBatchError,
   UnauthorizedError,
   UnprocessableEntityError,
-  SessionPublicationBatchError,
 };

@@ -768,6 +768,14 @@ class NotImplementedError extends Error {
   }
 }
 
+class GeneratePoleEmploiTokensError extends DomainError {
+  constructor(message, status) {
+    super(message);
+    this.status = parseInt(status, 10);
+    this.title = 'Pole emploi tokens generation fails.';
+  }
+}
+
 module.exports = {
   AlreadyExistingEntityError,
   AlreadyExistingCampaignParticipationError,
@@ -811,6 +819,7 @@ module.exports = {
   EntityValidationError,
   FileValidationError,
   ForbiddenAccess,
+  GeneratePoleEmploiTokensError,
   ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
