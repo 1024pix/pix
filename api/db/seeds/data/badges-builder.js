@@ -224,35 +224,33 @@ function _returnIds(...builders) {
 }
 
 function _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
-  return _returnIds(
-    databaseBuilder.factory.buildBadgePartnerCompetence({
-      name: 'Rechercher des informations sur internet',
-      color: null,
-      skillIds: targetProfileSkillIds[0].map((id) => id),
-      badgeId: badge.id,
-    }),
+  databaseBuilder.factory.buildBadgePartnerCompetence({
+    name: 'Rechercher des informations sur internet',
+    color: null,
+    skillIds: targetProfileSkillIds[0].map((id) => id),
+    badgeId: badge.id,
+  });
 
-    databaseBuilder.factory.buildBadgePartnerCompetence({
-      name: 'Utiliser des outils informatiques',
-      color: null,
-      skillIds: targetProfileSkillIds[1].map((id) => id),
-      badgeId: badge.id,
-    }),
+  databaseBuilder.factory.buildBadgePartnerCompetence({
+    name: 'Utiliser des outils informatiques',
+    color: null,
+    skillIds: targetProfileSkillIds[1].map((id) => id),
+    badgeId: badge.id,
+  });
 
-    databaseBuilder.factory.buildBadgePartnerCompetence({
-      name: 'Naviguer sur internet',
-      color: null,
-      skillIds: targetProfileSkillIds[2].map((id) => id),
-      badgeId: badge.id,
-    }),
+  databaseBuilder.factory.buildBadgePartnerCompetence({
+    name: 'Naviguer sur internet',
+    color: null,
+    skillIds: targetProfileSkillIds[2].map((id) => id),
+    badgeId: badge.id,
+  });
 
-    databaseBuilder.factory.buildBadgePartnerCompetence({
-      name: 'Partager sur les réseaux sociaux',
-      color: null,
-      skillIds: targetProfileSkillIds[3].map((id) => id),
-      badgeId: badge.id,
-    }),
-  );
+  databaseBuilder.factory.buildBadgePartnerCompetence({
+    name: 'Partager sur les réseaux sociaux',
+    color: null,
+    skillIds: targetProfileSkillIds[3].map((id) => id),
+    badgeId: badge.id,
+  });
 }
 
 function _associateBadgeCriteria(databaseBuilder, badge, badgePartnerCompetencesIds = []) {
