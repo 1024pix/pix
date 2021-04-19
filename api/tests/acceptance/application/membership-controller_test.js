@@ -127,7 +127,8 @@ describe('Acceptance | Controller | membership-controller', () => {
     let newOrganizationRole;
 
     beforeEach(async () => {
-      organizationId = databaseBuilder.factory.buildOrganization().id;
+      const externalId = 'externalId';
+      organizationId = databaseBuilder.factory.buildOrganization({ externalId }).id;
       const adminUserId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildMembership({
         organizationId,
@@ -140,6 +141,7 @@ describe('Acceptance | Controller | membership-controller', () => {
         organizationId, userId,
         organizationRole: Membership.roles.MEMBER,
       }).id;
+      databaseBuilder.factory.buildCertificationCenter({ externalId });
 
       await databaseBuilder.commit();
 
@@ -177,6 +179,10 @@ describe('Acceptance | Controller | membership-controller', () => {
     });
 
     context('Success cases', () => {
+
+      afterEach(async () => {
+        await knex('certification-center-memberships').delete();
+      });
 
       it('should return the updated membership', async () => {
         // given

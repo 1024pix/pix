@@ -19,6 +19,7 @@ describe('Unit | UseCase | update-membership', () => {
     };
     certificationCenterMembershipRepository = {
       save: sinon.stub(),
+      isMemberOfCertificationCenter: sinon.stub(),
     };
   });
 
@@ -92,6 +93,39 @@ describe('Unit | UseCase | update-membership', () => {
 
         // then
         expect(certificationCenterMembershipRepository.save).to.have.been.calledWith(existingUser.id, existingCertificationCenter.id);
+      });
+
+      context('when the user is already a member of the certification center', () => {
+
+        it('should not create a certification center membership', async () => {
+          // given
+          const membershipId = 1;
+          const externalId = 'externalId';
+          const membership = new Membership({ organizationRole: Membership.roles.ADMIN });
+          const existingOrganization = domainBuilder.buildOrganization({ externalId });
+          const existingUser = domainBuilder.buildUser();
+          const existingCertificationCenter = domainBuilder.buildCertificationCenter({ externalId });
+          const existingMembership = domainBuilder.buildMembership({
+            organization: existingOrganization,
+            user: existingUser,
+          });
+
+          membershipRepository.get.withArgs(membershipId).resolves(existingMembership);
+          certificationCenterRepository.findByExternalId.withArgs({ externalId }).resolves(existingCertificationCenter);
+          certificationCenterMembershipRepository.isMemberOfCertificationCenter.withArgs(existingUser.id, existingCertificationCenter.id).resolves(true);
+
+          // when
+          await updateMembership({
+            membershipId,
+            membership,
+            membershipRepository,
+            certificationCenterRepository,
+            certificationCenterMembershipRepository,
+          });
+
+          // then
+          expect(certificationCenterMembershipRepository.save).to.not.have.been.called;
+        });
       });
     });
 
