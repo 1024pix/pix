@@ -46,15 +46,6 @@
     overflow: hidden;
   }
 
-  &__email {
-    font-size: 0.75rem;
-    font-weight: $font-light;
-    padding: 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
   &__logout {
     font-size: 0.938rem;
     text-decoration: underline;
