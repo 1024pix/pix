@@ -761,7 +761,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
 
       // then
       expect(skillCountBoundaries).to.deep.equal([
-        { from: 3, to: 4 },
+        { from: 2, to: 3 },
       ]);
     });
 
@@ -788,8 +788,8 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
 
       // then
       expect(skillCountBoundaries).to.deep.equal([
-        { from: 0, to: 2 },
-        { from: 3, to: 4 },
+        { from: 0, to: 1 },
+        { from: 2, to: 3 },
       ]);
     });
 
@@ -816,7 +816,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
 
       // then
       expect(skillCountBoundaries).to.deep.equal([
-        { from: 5, to: 6 },
+        { from: 4, to: 6 },
       ]);
     });
 
