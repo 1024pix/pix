@@ -9,7 +9,7 @@ module.exports = async function updateMembership({
 
   if (membership.isAdmin) {
     const existingMembership = await membershipRepository.get(membershipId);
-    const existingCertificationCenter = await certificationCenterRepository.getByExternalId({ externalId: existingMembership.organization.externalId });
+    const existingCertificationCenter = await certificationCenterRepository.findByExternalId({ externalId: existingMembership.organization.externalId });
 
     if (existingCertificationCenter) {
       certificationCenterMembershipRepository.save(existingMembership.user.id, existingCertificationCenter.id);

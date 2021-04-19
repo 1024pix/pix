@@ -77,7 +77,7 @@ module.exports = {
     return { models: models.map(_toDomain), pagination };
   },
 
-  async getByExternalId({ externalId }) {
+  async findByExternalId({ externalId }) {
     const certificationCenterBookshelf = await BookshelfCertificationCenter
       .where({ externalId })
       .fetch({ require: false });

@@ -296,7 +296,7 @@ describe('Integration | Repository | Certification Center', () => {
     });
   });
 
-  describe('#getByExternalId', () => {
+  describe('#findByExternalId', () => {
 
     context('the certification center is found', () => {
 
@@ -309,7 +309,7 @@ describe('Integration | Repository | Certification Center', () => {
 
       it('should return the certification center', async () => {
         // when
-        const certificationCenter = await certificationCenterRepository.getByExternalId({ externalId });
+        const certificationCenter = await certificationCenterRepository.findByExternalId({ externalId });
 
         // then
         expect(certificationCenter).to.be.an.instanceOf(CertificationCenter);
@@ -321,7 +321,7 @@ describe('Integration | Repository | Certification Center', () => {
       it('should return null', async () => {
         // when
         const externalId = 'nonExistentExternalId';
-        const certificationCenter = await certificationCenterRepository.getByExternalId({ externalId });
+        const certificationCenter = await certificationCenterRepository.findByExternalId({ externalId });
 
         // then
         expect(certificationCenter).to.be.null;
