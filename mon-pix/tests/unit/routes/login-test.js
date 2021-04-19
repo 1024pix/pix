@@ -69,4 +69,32 @@ describe('Unit | Route | login page', function() {
       });
     });
   });
+
+  describe('#updateExpiredPassword', function() {
+
+    it('should create a reset expired password demand', async function() {
+      // given
+      const username = 'Alice';
+      const oneTimePassword = 'ExpiredPassword123';
+      const route = this.owner.lookup('route:login');
+
+      const createRecordStub = sinon.stub();
+      const storeStub = { createRecord: createRecordStub };
+
+      route.set('store', storeStub);
+      route.replaceWith = sinon.stub();
+
+      // when
+      await route.actions.updateExpiredPassword.call(route, username, oneTimePassword);
+
+      // then
+      sinon.assert.calledWith(
+        createRecordStub,
+        'reset-expired-password-demand',
+        { username, oneTimePassword },
+      );
+
+    });
+
+  });
 });
