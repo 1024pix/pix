@@ -15,11 +15,10 @@ describe('Integration | Component | update-expired-password-form', function() {
 
   setupIntlRenderingTest();
 
-  let isSaveMethodCalled, saveMethodOptions;
+  let isSaveMethodCalled;
 
-  const save = (options) => {
+  const save = () => {
     isSaveMethodCalled = true;
-    saveMethodOptions = options;
     return resolve();
   };
 
@@ -48,11 +47,11 @@ describe('Integration | Component | update-expired-password-form', function() {
 
     it('should save the new password, when button is clicked', async function() {
       // given
-      const user = EmberObject.create({ username: 'toto', password: 'Password123', save, unloadRecord });
-      this.set('user', user);
+      const resetExpiredPasswordDemand = EmberObject.create({ username: 'toto', password: 'Password123', save, unloadRecord });
+      this.set('resetExpiredPasswordDemand', resetExpiredPasswordDemand);
       const newPassword = 'Pix12345!';
 
-      await render(hbs `{{update-expired-password-form user=user}}`);
+      await render(hbs `<UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{this.resetExpiredPasswordDemand}} />`);
 
       // when
       await fillIn(PASSWORD_INPUT_CLASS, newPassword);
@@ -62,7 +61,6 @@ describe('Integration | Component | update-expired-password-form', function() {
 
       // then
       expect(isSaveMethodCalled).to.be.true;
-      expect(saveMethodOptions).to.deep.equal({ adapterOptions: { updateExpiredPassword: true, newPassword } });
       expect(find(PASSWORD_INPUT_CLASS)).to.not.exist;
       expect(find('.password-reset-demand-form__body')).to.exist;
     });
@@ -75,11 +73,11 @@ describe('Integration | Component | update-expired-password-form', function() {
       // given
       const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
 
-      const user = EmberObject.create({ username: 'toto', password: 'Password123', save: saveWithRejection, unloadRecord });
-      this.set('user', user);
+      const resetExpiredPasswordDemand = EmberObject.create({ username: 'toto', password: 'Password123', save: saveWithRejection, unloadRecord });
+      this.set('resetExpiredPasswordDemand', resetExpiredPasswordDemand);
       const newPassword = 'Pix12345!';
 
-      await render(hbs `<UpdateExpiredPasswordForm @user={{this.user}} />`);
+      await render(hbs `<UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{this.resetExpiredPasswordDemand}} />`);
 
       // when
       await fillIn(PASSWORD_INPUT_CLASS, newPassword);

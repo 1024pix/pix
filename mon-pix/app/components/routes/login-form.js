@@ -49,7 +49,7 @@ export default class LoginForm extends Component {
     } catch (response) {
       const shouldChangePassword = get(response, 'responseJSON.errors[0].title') === 'PasswordShouldChange';
       if (shouldChangePassword) {
-        this.store.createRecord('user', { username: this.login, password: this.password });
+        this.store.createRecord('reset-expired-password-demand', { username: this.login, oneTimePassword: this.password });
         return this.router.replaceWith('update-expired-password');
       }
       this.isErrorMessagePresent = true;
@@ -69,7 +69,7 @@ export default class LoginForm extends Component {
       const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
 
       if (title === 'PasswordShouldChange') {
-        this.store.createRecord('user', { username: this.login, password: this.password });
+        this.store.createRecord('reset-expired-password-demand', { username: this.login, oneTimePassword: this.password });
         return this.router.replaceWith('update-expired-password');
       }
 

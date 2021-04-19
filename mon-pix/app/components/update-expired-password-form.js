@@ -65,10 +65,12 @@ export default class UpdateExpiredPasswordForm extends Component {
       this.validation = VALIDATION_MAP.default;
 
       try {
-        await this.user.save({ adapterOptions: { updateExpiredPassword: true, newPassword: this.newPassword } });
-        await this.user.unloadRecord();
 
-        await this._authenticateWithUpdatedPassword({ login: this.user.username, password: this.newPassword });
+        this.resetExpiredPasswordDemand.newPassword = this.newPassword;
+        await this.resetExpiredPasswordDemand.save();
+        this.resetExpiredPasswordDemand.unloadRecord();
+
+        await this._authenticateWithUpdatedPassword({ login: this.resetExpiredPasswordDemand.username, password: this.newPassword });
 
         if (this.session.get('data.externalUser')) {
           this.session.data.authenticated.source = AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
