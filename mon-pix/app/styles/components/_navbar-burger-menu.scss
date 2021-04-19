@@ -44,11 +44,13 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    padding: 6px 32px;
+    color: $grey-70;
+    margin: 0 0 20px 0;
   }
 
   &__logout {
-    font-size: 0.938rem;
-    text-decoration: underline;
+    font-size: 1rem;
     margin: 10px 0;
 
     &:hover {

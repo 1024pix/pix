@@ -18,6 +18,14 @@ describe('Integration | Component | navbar-burger-menu', function() {
 
   });
 
+  it('should display the user\'s fullname', async function() {
+    // when
+    await render(hbs`<NavbarBurgerMenu />`);
+
+    // then
+    expect(contains('Bobby Carotte')).to.exist;
+  });
+
   it('should display the navigation menu with expected elements outside of campaign results', async function() {
     // when
     await render(hbs`<NavbarBurgerMenu />`);
