@@ -12,7 +12,6 @@ describe('Integration | Component | navbar-burger-menu', function() {
 
   beforeEach(async function() {
     class currentUser extends Service { user = {
-      email: 'bobby.carotte@example.net',
       fullName: 'Bobby Carotte',
     }}
     this.owner.register('service:currentUser', currentUser);
