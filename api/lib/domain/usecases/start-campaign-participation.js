@@ -1,7 +1,6 @@
 const Assessment = require('../models/Assessment');
 const CampaignParticipationStarted = require('../events/CampaignParticipationStarted');
 const CampaignParticipation = require('../models/CampaignParticipation');
-const { AlreadyExistingCampaignParticipationError, ForbiddenAccess } = require('../../domain/errors');
 
 module.exports = async function startCampaignParticipation({
   campaignParticipation,
@@ -11,17 +10,24 @@ module.exports = async function startCampaignParticipation({
   campaignToJoinRepository,
   domainTransaction,
 }) {
-  const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId);
+  const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId, domainTransaction);
 
-  const canJoinCampaign = await campaignToJoinRepository.isCampaignJoinableByUser(campaignToJoin, userId);
-  if (!canJoinCampaign) {
-    throw new ForbiddenAccess('Vous n\'êtes pas autorisé à rejoindre la campagne');
-  }
+  await campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
+  let createdCampaignParticipation;
 
-  const createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);
-
-  if (campaignToJoin.isAssessment) {
-    await _createCampaignAssessment(userId, createdCampaignParticipation.id, assessmentRepository, domainTransaction);
+  if (await campaignParticipationRepository.hasAlreadyParticipated(campaignToJoin.id, userId, domainTransaction)) {
+    await campaignParticipationRepository.markPreviousParticipationsAsImproved(campaignToJoin.id, userId, domainTransaction);
+    createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);
+    if (campaignToJoin.isAssessment) {
+      const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId: createdCampaignParticipation.id });
+      await assessmentRepository.save({ assessment, domainTransaction });
+    }
+  } else {
+    createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);
+    if (campaignToJoin.isAssessment) {
+      const assessment = Assessment.createForCampaign({ userId, campaignParticipationId: createdCampaignParticipation.id });
+      await assessmentRepository.save({ assessment, domainTransaction });
+    }
   }
 
   return {
@@ -30,17 +36,7 @@ module.exports = async function startCampaignParticipation({
   };
 };
 
-async function _createCampaignAssessment(userId, campaignParticipationId, assessmentRepository, domainTransaction) {
-  const assessment = Assessment.createForCampaign({ userId, campaignParticipationId });
-  return assessmentRepository.save({ assessment, domainTransaction });
-}
-
 async function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction) {
-  const { campaignId } = campaignParticipation;
-  const alreadyExistingCampaignParticipation = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
-  if (alreadyExistingCampaignParticipation) {
-    throw new AlreadyExistingCampaignParticipationError(`User ${userId} has already a campaign participation with campaign ${campaignId}`);
-  }
 
   const userParticipation = new CampaignParticipation({ ...campaignParticipation, userId });
   return campaignParticipationRepository.save(userParticipation, domainTransaction);
