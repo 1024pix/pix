@@ -1,8 +1,10 @@
-// eslint-disable-next-line no-restricted-modules
-const axios = require('axios');
 const querystring = require('querystring');
+const get = require('lodash/get');
 
 const settings = require('../../config');
+const httpAgent = require('../../infrastructure/http/http-agent');
+
+const { GeneratePoleEmploiTokensError } = require('../errors');
 
 const encryptionService = require('./encryption-service');
 const tokenService = require('./token-service');
@@ -32,19 +34,22 @@ async function generatePoleEmploiTokens({ code, clientId, redirectUri }) {
     redirect_uri: redirectUri,
   };
 
-  const response = await axios.post(
-    settings.poleEmploi.tokenUrl,
-    querystring.stringify(data),
-    {
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    },
-  );
+  const tokensResponse = await httpAgent.post({
+    url: settings.poleEmploi.tokenUrl,
+    payload: querystring.stringify(data),
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  });
+
+  if (!tokensResponse.isSuccessful) {
+    const errorMessage = _getErrorMessage(tokensResponse.data);
+    throw new GeneratePoleEmploiTokensError(errorMessage, tokensResponse.code);
+  }
 
   return {
-    accessToken: response.data['access_token'],
-    idToken: response.data['id_token'],
-    expiresIn: response.data['expires_in'],
-    refreshToken: response.data['refresh_token'],
+    accessToken: tokensResponse.data['access_token'],
+    idToken: tokensResponse.data['id_token'],
+    expiresIn: tokensResponse.data['expires_in'],
+    refreshToken: tokensResponse.data['refresh_token'],
   };
 }
 
@@ -57,6 +62,19 @@ async function getPoleEmploiUserInfo(idToken) {
     externalIdentityId: idIdentiteExterne,
     nonce,
   };
+}
+
+function _getErrorMessage(data) {
+  let message;
+
+  if (data instanceof String) {
+    message = data;
+  } else {
+    const error = get(data, 'error', '');
+    const error_description = get(data, 'error_description', '');
+    message = `${error} ${error_description}`;
+  }
+  return message.trim();
 }
 
 module.exports = {
