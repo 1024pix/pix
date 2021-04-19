@@ -145,8 +145,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('authentication-methods').delete();
+    afterEach(async () => {
+      await knex('authentication-methods').delete();
     });
 
     it('should return an 200 with accessToken when authentication is ok', async () => {
@@ -228,7 +228,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
     const lastName = 'Doe';
     const externalIdentifier = 'idIdentiteExterne';
 
-    beforeEach(async () => {
+    beforeEach(() => {
       sinon.stub(settings.featureToggles, 'isPoleEmploiEnabled').value(true);
 
       clock = sinon.useFakeTimers({
@@ -376,6 +376,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
     context('When user is connected to Pix', () => {
 
       let authenticatedUser;
+
       beforeEach(async () => {
         authenticatedUser = databaseBuilder.factory.buildUser();
         await databaseBuilder.commit();
@@ -472,16 +473,38 @@ describe('Acceptance | Controller | authentication-controller', () => {
     context('When user has an invalid token', () => {
 
       it('should be rejected by API', async () => {
-
+        // given
         options.headers['Authorization'] = 'invalid_token';
+
         // when
         const response = await server.inject(options);
 
         // expect
         expect(response.statusCode).to.equal(401);
-
       });
+    });
 
+    context('When pole-emploi request fail', () => {
+
+      it('should return HTTP 500 with error detail', async () => {
+        // given
+        const errorData = {
+          error: 'invalid_client',
+          error_description: 'Invalid authentication method for accessing this endpoint.',
+        };
+        const expectedDetail = `${errorData.error} ${errorData.error_description}`;
+        nock.cleanAll();
+        nock(settings.poleEmploi.tokenUrl)
+          .post('/')
+          .reply(400, errorData);
+
+        // when
+        const response = await server.inject(options);
+
+        // expect
+        expect(response.statusCode).to.equal(500);
+        expect(response.result.errors[0].detail).to.equal(expectedDetail);
+      });
     });
   });
 
@@ -594,8 +617,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
     });
 
     it('should return an 200 with accessToken when clientId, client secret and scope are registred', async () => {
-      // when
-
+      // given
       options.payload = querystring.stringify({
         grant_type: 'client_credentials',
         client_id: OSMOSE_CLIENT_ID,
@@ -603,6 +625,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         scope: SCOPE,
       });
 
+      // when
       const response = await server.inject(options);
 
       // then
@@ -615,8 +638,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
     });
 
     it('should return an 401 when clientId is not registred', async () => {
-      // when
-
+      // given
       options.payload = querystring.stringify({
         grant_type: 'client_credentials',
         client_id: 'NOT REGISTRED',
@@ -624,6 +646,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         scope: SCOPE,
       });
 
+      // when
       const response = await server.inject(options);
 
       // then
@@ -636,8 +659,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
     });
 
     it('should return an 401 when client secret is not valid', async () => {
-      // when
-
+      // given
       options.payload = querystring.stringify({
         grant_type: 'client_credentials',
         client_id: OSMOSE_CLIENT_ID,
@@ -645,6 +667,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         scope: SCOPE,
       });
 
+      // when
       const response = await server.inject(options);
 
       // then
@@ -653,12 +676,10 @@ describe('Acceptance | Controller | authentication-controller', () => {
         'detail': 'The client secret is invalid.',
         'status': '401',
       });
-
     });
 
     it('should return an 403 when scope is not allowed', async () => {
-      // when
-
+      // given
       options.payload = querystring.stringify({
         grant_type: 'client_credentials',
         client_id: OSMOSE_CLIENT_ID,
@@ -666,6 +687,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         scope: 'invalid scope',
       });
 
+      // when
       const response = await server.inject(options);
 
       // then
@@ -674,9 +696,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
         'detail': 'The scope is not allowed.',
         'status': '403',
       });
-
     });
-
   });
-
 });
