@@ -58,7 +58,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
       assert.contains('Doe');
       assert.contains('Doe2');
       assert.contains('John');
-      assert.contains('En attente');
+      assert.contains('En attente d\'envoi');
     });
 
     test('it should display the profile list with external id', async function(assert) {

@@ -128,7 +128,7 @@
           "last-name": "Prénom",
           "results": {
             "label": "Résultats",
-            "on-hold": " En attente",
+            "on-hold": " En attente d'envoi",
             "under-test": "En cours de test"
           }
         },
@@ -251,7 +251,7 @@
           },
           "sending-date": {
             "label": "Date d'envoi",
-            "on-hold": "En attente"
+            "on-hold": "En attente d'envoi"
           }
         },
         "empty": "En attente de profils",
