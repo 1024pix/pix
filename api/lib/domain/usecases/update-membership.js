@@ -1,3 +1,11 @@
+async function createCertificationCenterMembership(certificationCenterMembershipRepository, existingMembership, existingCertificationCenter) {
+  const isAlreadyMemberOfCertificationCenter = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(existingMembership.user.id, existingCertificationCenter.id);
+
+  if (!isAlreadyMemberOfCertificationCenter) {
+    certificationCenterMembershipRepository.save(existingMembership.user.id, existingCertificationCenter.id);
+  }
+}
+
 module.exports = async function updateMembership({
   membershipId,
   membership,
@@ -12,7 +20,7 @@ module.exports = async function updateMembership({
     const existingCertificationCenter = await certificationCenterRepository.findByExternalId({ externalId: existingMembership.organization.externalId });
 
     if (existingCertificationCenter) {
-      certificationCenterMembershipRepository.save(existingMembership.user.id, existingCertificationCenter.id);
+      await createCertificationCenterMembership(certificationCenterMembershipRepository, existingMembership, existingCertificationCenter);
     }
   }
 
