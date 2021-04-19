@@ -7,12 +7,7 @@ QUnit.assert.contains = contains;
 QUnit.assert.notContains = notContains;
 
 export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix', isRelatedOrganizationManagingStudents = false, certificationCenterCount = 1) {
-  const certificationCenters = [];
-
-  times(certificationCenterCount, () => {
-    const certificationCenter = createCertificationCenter({ certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents });
-    certificationCenters.push(certificationCenter);
-  });
+  const certificationCenters = _createCertificationCenters(certificationCenterCount, { certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents });
 
   const certificationPointOfContact = server.create('certification-point-of-contact', {
     firstName: 'Harry',
@@ -25,6 +20,15 @@ export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepte
   certificationPointOfContact.save();
 
   return certificationPointOfContact;
+}
+
+function _createCertificationCenters(certificationCenterCount, certificationCenterTemplate) {
+  const certificationCenters = [];
+  times(certificationCenterCount, () => {
+    const certificationCenter = createCertificationCenter(certificationCenterTemplate);
+    certificationCenters.push(certificationCenter);
+  });
+  return certificationCenters;
 }
 
 export function createCertificationCenter({ certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents }) {
