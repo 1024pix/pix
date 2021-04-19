@@ -9,23 +9,6 @@ export default class User extends ApplicationAdapter {
   createRecord(store, type, snapshot) {
     const { adapterOptions } = snapshot;
 
-    if (adapterOptions && adapterOptions.updateExpiredPassword) {
-      const url = this.buildURL('expired-password-update', null, snapshot, 'createRecord');
-
-      delete adapterOptions.updateExpiredPassword;
-      const newPassword = adapterOptions.newPassword;
-      delete adapterOptions.newPassword;
-
-      const { username, password: expiredPassword } = snapshot.record;
-      const payload = {
-        data: {
-          attributes: { username, expiredPassword, newPassword },
-        },
-      };
-
-      return this.ajax(url, 'POST', { data: payload });
-    }
-
     if (adapterOptions && adapterOptions.campaignCode) {
       const url = this.buildURL(type.modelName, null, snapshot, 'createRecord');
       const { data } = this.serialize(snapshot);
