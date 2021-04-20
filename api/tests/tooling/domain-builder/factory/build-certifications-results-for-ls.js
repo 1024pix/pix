@@ -25,7 +25,7 @@ function _createCertificationCenter() {
   return { certificationCenterId: id, certificationCenter: name };
 }
 
-function _buildCertificationData({ user, schoolingRegistration, certificationCreatedDate, isPublished, verificationCode }) {
+function _buildCertificationData({ user, schoolingRegistration, certificationCreatedDate, isPublished, isCancelled, verificationCode }) {
   const {
     id: certificationCenterId,
     name: certificationCenter,
@@ -54,6 +54,7 @@ function _buildCertificationData({ user, schoolingRegistration, certificationCre
     isPublished,
     createdAt: certificationCreatedDate || new Date(),
     verificationCode,
+    isCancelled,
   });
 
   databaseBuilder.factory.buildCertificationCourse({
@@ -63,6 +64,7 @@ function _buildCertificationData({ user, schoolingRegistration, certificationCre
     birthdate: schoolingRegistration.birthdate,
     sessionId: session.id,
     isPublished: false,
+    isCancelled,
   });
 
   const assessment = databaseBuilder.factory.buildAssessment({
@@ -108,6 +110,10 @@ function buildOrganization(uai) {
   return databaseBuilder.factory.buildOrganization({ externalId: uai });
 }
 
+function buildCancelledCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, certificationCreatedDate }) {
+  return _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, certificationCreatedDate, competenceMarks, isPublished: false, isCancelled: true });
+}
+
 function buildValidatedPublishedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, certificationCreatedDate }) {
   return _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, certificationCreatedDate, competenceMarks, isPublished: true });
 }
@@ -116,7 +122,7 @@ function buildValidatedUnpublishedCertificationData({ user, schoolingRegistratio
   return _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, certificationCreatedDate, competenceMarks, isPublished: false });
 }
 
-function _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, certificationCreatedDate, isPublished }) {
+function _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, certificationCreatedDate, isPublished, isCancelled = false }) {
   const certificationStatus = status.VALIDATED;
   const {
     session,
@@ -129,6 +135,7 @@ function _buildValidatedCertificationData({ user, schoolingRegistration, verific
     type,
     pixScore,
     isPublished,
+    isCancelled,
     certificationCreatedDate,
   });
 
@@ -274,6 +281,7 @@ function mockLearningContentCompetences() {
 module.exports = {
   buildValidatedPublishedCertificationData,
   buildValidatedUnpublishedCertificationData,
+  buildCancelledCertificationData,
   buildRejectedPublishedCertificationData,
   buildErrorUnpublishedCertificationData,
   buildCertificationDataWithNoCompetenceMarks,
