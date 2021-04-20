@@ -10,12 +10,12 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
   let dependencies;
   let certificate;
   const deliveredAt = new Date('2020-09-17T01:02:03Z');
-  const cleaCertificationStatus = 'someStatus';
+  const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
   let assessmentResult;
   const assessmentResultId = 1;
 
   beforeEach(() => {
-    certificate = domainBuilder.buildPrivateCertificate({
+    certificate = domainBuilder.buildCertificationAttestation({
       userId,
       id: certificationId,
       deliveredAt,
@@ -27,8 +27,8 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
     const certificationRepository = {
       getCertificationAttestation: sinon.stub().withArgs(certificationId).resolves(certificate),
     };
-    const cleaCertificationStatusRepository = {
-      getCleaCertificationStatus: sinon.stub().withArgs({ id: certificationId }).resolves(cleaCertificationStatus),
+    const cleaCertificationResultRepository = {
+      get: sinon.stub().withArgs({ id: certificationId }).resolves(cleaCertificationResult),
     };
     const competenceTreeRepository = { get: sinon.stub().resolves(competenceTree) };
     const assessmentResultRepository = {
@@ -37,7 +37,7 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
 
     dependencies = {
       certificationRepository,
-      cleaCertificationStatusRepository,
+      cleaCertificationResultRepository,
       assessmentResultRepository,
       competenceTreeRepository,
     };
@@ -65,7 +65,7 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
         'birthdate': '1992-06-12',
         'birthplace': 'Paris',
         'certificationCenter': 'L’univeristé du Pix',
-        cleaCertificationStatus,
+        cleaCertificationResult,
         'commentForCandidate': 'Comment for Candidate',
         'date': certificate.date,
         'deliveredAt': deliveredAt,

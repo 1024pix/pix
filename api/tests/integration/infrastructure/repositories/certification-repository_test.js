@@ -19,7 +19,7 @@ describe('Integration | Repository | Certification ', () => {
   let userId;
   let completeSession;
   let completeCertificationCourse;
-  let completeAssementResult;
+  let completeAssessmentResult;
   let expectedCertification;
   const type = Assessment.types.CERTIFICATION;
 
@@ -41,10 +41,10 @@ describe('Integration | Repository | Certification ', () => {
       id: certificationCenterId,
       name: certificationCenter,
     } = databaseBuilder.factory.buildCertificationCenter({ name: 'Certif College' }));
-    ({ session: completeSession, certificationCourse: completeCertificationCourse, assessmentResult: completeAssementResult }
+    ({ session: completeSession, certificationCourse: completeCertificationCourse, assessmentResult: completeAssessmentResult }
       = _buildValidatedPublishedCertificationData({ verificationCode, certificationCenterId, certificationCenter, userId, type, pixScore }));
 
-    expectedCertification = _buildPrivateCertificate(certificationCenter, completeCertificationCourse, completeAssementResult, completeSession.publishedAt);
+    expectedCertification = _buildPrivateCertificate(certificationCenter, completeCertificationCourse, completeAssessmentResult, completeSession.publishedAt);
     databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: expectedCertification.id, partnerKey: PARTNER_CLEA_KEY, acquired: false });
 
     sessionLatestAssessmentRejectedCertifCourseIds = [];
@@ -290,7 +290,7 @@ describe('Integration | Repository | Certification ', () => {
       // then
       expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
       expect(certificationAttestation.pixScore).to.equal(pixScore);
-      expect(certificationAttestation.firsName).to.equal(userId.firstName);
+      expect(certificationAttestation.firstName).to.equal(completeCertificationCourse.firstName);
     });
   });
 
@@ -384,6 +384,6 @@ function _buildPrivateCertificate(certificationCenterName, certificationCourse, 
     userId: certificationCourse.userId,
     verificationCode: certificationCourse.verificationCode,
   });
-  certificate.cleaCertificationStatus = undefined;
+  certificate.cleaCertificationResult = undefined;
   return certificate;
 }

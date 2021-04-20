@@ -1,17 +1,17 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
-const findCompletedUserCertifications = require('../../../../lib/domain/usecases/find-completed-user-certifications');
+const findCompletedPrivateCertificates = require('../../../../lib/domain/usecases/find-completed-private-certificates');
 
-describe('Unit | UseCase | find-completed-user-certifications', () => {
+describe('Unit | UseCase | find-completed-private-certificates', () => {
 
   const certificationRepository = {};
-  const cleaCertificationStatusRepository = {};
-  const cleaCertificationStatus = 'someStatus';
+  const cleaCertificationResultRepository = {};
+  const cleaCertificationResult = domainBuilder.buildCleaCertificationResult();
 
   beforeEach(() => {
     certificationRepository.findByUserId = sinon.stub();
-    cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
+    cleaCertificationResultRepository.get = sinon.stub().resolves(cleaCertificationResult);
   });
 
   it('should return all the needed informations about certifications', function() {
@@ -32,14 +32,14 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
     certificationRepository.findByUserId.resolves([completedCertificates]);
 
     // when
-    const promise = findCompletedUserCertifications({ userId, certificationRepository, cleaCertificationStatusRepository });
+    const promise = findCompletedPrivateCertificates({ userId, certificationRepository, cleaCertificationResultRepository });
 
     // then
     return promise.then((certifications) => {
       expect(certificationRepository.findByUserId).to.have.been.calledWith(userId);
       expect(certifications).to.have.lengthOf(1);
       expect(certifications[0].id).to.equal(1000);
-      expect(certifications[0].cleaCertificationStatus).to.equal(cleaCertificationStatus);
+      expect(certifications[0].cleaCertificationResult).to.deep.equal(cleaCertificationResult);
     });
   });
 });

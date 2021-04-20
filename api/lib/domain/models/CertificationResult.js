@@ -14,7 +14,7 @@ class CertificationResult {
       createdAt,
       isPublished,
       isV2Certification,
-      cleaCertificationStatus,
+      cleaCertificationResult,
       certificationIssueReports,
       hasSeenEndTestScreen,
       assessmentId,
@@ -30,7 +30,7 @@ class CertificationResult {
     this.createdAt = createdAt;
     this.isPublished = isPublished;
     this.isV2Certification = isV2Certification;
-    this.cleaCertificationStatus = cleaCertificationStatus;
+    this.cleaCertificationResult = cleaCertificationResult;
     this.certificationIssueReports = certificationIssueReports;
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     this.assessmentId = assessmentId;

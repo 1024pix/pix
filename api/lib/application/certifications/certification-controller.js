@@ -1,13 +1,14 @@
 const usecases = require('../../domain/usecases');
-const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
+const privateCertificateSerializer = require('../../infrastructure/serializers/jsonapi/private-certificate-serializer');
+const shareableCertificateSerializer = require('../../infrastructure/serializers/jsonapi/shareable-certificate-serializer');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
 
 module.exports = {
   findUserCertifications(request) {
     const userId = request.auth.credentials.userId;
 
-    return usecases.findCompletedUserCertifications({ userId })
-      .then((certifications) => certificationSerializer.serialize(certifications));
+    return usecases.findCompletedPrivateCertificates({ userId })
+      .then((privateCertificates) => privateCertificateSerializer.serialize(privateCertificates));
   },
 
   getCertification(request) {
@@ -18,14 +19,14 @@ module.exports = {
       userId,
       certificationId,
     })
-      .then((certification) => certificationSerializer.serialize(certification));
+      .then((certification) => privateCertificateSerializer.serialize(certification));
   },
 
   getCertificationByVerificationCode(request) {
     const verificationCode = request.payload.verificationCode;
 
     return usecases.getShareableCertificate({ verificationCode })
-      .then((certificate) => certificationSerializer.serializeForSharing(certificate));
+      .then((certificate) => shareableCertificateSerializer.serialize(certificate));
   },
 
   async getPDFAttestation(request, h) {

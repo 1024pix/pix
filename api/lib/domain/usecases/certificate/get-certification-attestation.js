@@ -1,12 +1,11 @@
 const { decorateWithCleaStatusAndCompetenceTree } = require('./decorate-with-clea-status-and-competence-tree');
 const { NotFoundError } = require('../../errors');
-const CertificationAttestation = require('../../models/CertificationAttestation');
 
 module.exports = async function getCertificationAttestation({
   userId,
   certificationId,
   certificationRepository,
-  cleaCertificationStatusRepository,
+  cleaCertificationResultRepository,
   assessmentResultRepository,
   competenceTreeRepository,
 }) {
@@ -15,13 +14,11 @@ module.exports = async function getCertificationAttestation({
     throw new NotFoundError();
   }
 
-  const certificateWithCleaAndCompetenceTree = await decorateWithCleaStatusAndCompetenceTree({
+  return decorateWithCleaStatusAndCompetenceTree({
     certificationId,
     toBeDecorated: certificationAttestation,
     assessmentResultRepository,
     competenceTreeRepository,
-    cleaCertificationStatusRepository,
+    cleaCertificationResultRepository,
   });
-
-  return new CertificationAttestation({ ...certificateWithCleaAndCompetenceTree });
 };

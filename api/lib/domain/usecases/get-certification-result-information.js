@@ -4,15 +4,14 @@ module.exports = async function getCertificationResultInformation({
   certificationCourseId,
   generalCertificationInformationRepository,
   assessmentResultRepository,
-  cleaCertificationStatusRepository,
+  cleaCertificationResultRepository,
 }) {
   const generalCertificationInformation = await generalCertificationInformationRepository.get({ certificationCourseId });
   const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
-  const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificationCourseId);
-  const certificationResultInformation = CertificationResultInformation.from({
+  const cleaCertificationResult = await cleaCertificationResultRepository.get(certificationCourseId);
+  return CertificationResultInformation.from({
     generalCertificationInformation,
     assessmentResult,
-    cleaCertificationStatus,
+    cleaCertificationResult,
   });
-  return certificationResultInformation;
 };

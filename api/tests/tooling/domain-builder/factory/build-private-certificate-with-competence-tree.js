@@ -1,6 +1,7 @@
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
 const buildAssessmentResult = require('./build-assessment-result');
 const buildResultCompetenceTree = require('./build-result-competence-tree');
+const buildCleaCertificationResult = require('./build-clea-certification-result');
 
 module.exports = function buildPrivateCertificate({
   id = 1,
@@ -19,9 +20,9 @@ module.exports = function buildPrivateCertificate({
   commentForCandidate,
   pixScore,
   status,
-  cleaCertificationStatus = 'acquired',
   verificationCode = 'P-BBBCCCDD',
   maxReachableLevelOnCertificationDate = 5,
+  cleaCertificationResult = buildCleaCertificationResult.acquired(),
 
   // the id of the ResultCompetenceTree should be with the most recent assessment result.
   resultCompetenceTree = buildResultCompetenceTree({ id: `${id}-${assessmentResults[0].id}` }),
@@ -41,7 +42,7 @@ module.exports = function buildPrivateCertificate({
     lastName,
     userId,
     resultCompetenceTree,
-    cleaCertificationStatus,
+    cleaCertificationResult,
     verificationCode,
     maxReachableLevelOnCertificationDate,
   });

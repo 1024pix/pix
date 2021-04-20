@@ -36,7 +36,7 @@ module.exports = {
               return { id };
             });
           } else {
-            badgeCriterion.partnerCompetences = badgeCriterion.partnerCompetenceIds?.map((partnerCompetenceId) => {
+            badgeCriterion.partnerCompetences = badgeCriterion.partnerCompetenceIds.map((partnerCompetenceId) => {
               return { id: partnerCompetenceId };
             });
           }

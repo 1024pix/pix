@@ -32,7 +32,7 @@ module.exports = {
   async update(request) {
     const certificationCourse = await certificationSerializer.deserialize(request.payload);
     const updatedCertificationCourse = await certificationCourseService.update(certificationCourse);
-    return certificationSerializer.serializeFromCertificationCourse(updatedCertificationCourse);
+    return certificationSerializer.serialize(updatedCertificationCourse);
   },
 
   async save(request, h) {

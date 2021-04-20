@@ -1,6 +1,6 @@
 const { getCsvContent } = require('./write-csv-utils');
 const { status: assessmentResultStatuses } = require('../../../domain/models/AssessmentResult');
-const { statuses: cleaStatuses } = require('../../../infrastructure/repositories/clea-certification-status-repository');
+const { cleaStatuses } = require('../../../domain/models/CleaCertificationResult');
 
 const _ = require('lodash');
 const moment = require('moment');
@@ -26,11 +26,11 @@ async function getSessionCertificationResultsCsv({
 }
 
 function _didAtLeastOneCandidateTakeClea(certificationResults) {
-  return certificationResults.some((result) => _hasPassedClea(result.cleaCertificationStatus));
+  return certificationResults.some((result) => _hasPassedClea(result.cleaCertificationResult));
 }
 
-function _hasPassedClea(cleaCertificationStatus) {
-  return [cleaStatuses.REJECTED, cleaStatuses.ACQUIRED].includes(cleaCertificationStatus);
+function _hasPassedClea(cleaCertificationResult) {
+  return [cleaStatuses.REJECTED, cleaStatuses.ACQUIRED].includes(cleaCertificationResult.status);
 }
 
 function _buildCertificationResultsFileDataWithoutCertificationCenterName({ certificationResults }) {
@@ -123,7 +123,7 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
     [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
     [_headers.BIRTHPLACE]: certificationResult.birthplace,
     [_headers.EXTERNAL_ID]: certificationResult.externalId,
-    [_headers.CLEA_STATUS]: CLEA_STATUS_LABEL_FOR_CSV[certificationResult.cleaCertificationStatus],
+    [_headers.CLEA_STATUS]: CLEA_STATUS_LABEL_FOR_CSV[certificationResult.cleaCertificationResult.status],
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
     [_headers.SESSION_ID]: session.id,
     [_headers.CERTIFICATION_CENTER]: session.certificationCenter,

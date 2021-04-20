@@ -9,6 +9,7 @@ module.exports = {
           id: certificationResultInformation.certificationCourseId,
           ...certificationResultInformation,
           competencesWithMark: certificationResultInformation.competenceMarks,
+          cleaCertificationStatus: certificationResultInformation.cleaCertificationResult.status,
         };
       },
       attributes: [

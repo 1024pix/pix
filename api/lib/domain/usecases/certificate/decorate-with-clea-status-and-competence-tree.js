@@ -4,11 +4,11 @@ module.exports = {
   decorateWithCleaStatusAndCompetenceTree: async function({
     certificationId,
     toBeDecorated,
-    cleaCertificationStatusRepository,
+    cleaCertificationResultRepository,
     assessmentResultRepository,
     competenceTreeRepository,
   }) {
-    const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificationId);
+    const cleaCertificationResult = await cleaCertificationResultRepository.get(certificationId);
 
     const competenceTree = await competenceTreeRepository.get();
     const [assessmentResultId, competenceMarks] = await _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentResultRepository });
@@ -18,12 +18,10 @@ module.exports = {
       competenceMarks,
     });
     resultCompetenceTree.id = `${certificationId}-${assessmentResultId}`;
+    toBeDecorated.resultCompetenceTree = resultCompetenceTree;
+    toBeDecorated.cleaCertificationResult = cleaCertificationResult;
 
-    return {
-      ...toBeDecorated,
-      resultCompetenceTree,
-      cleaCertificationStatus,
-    };
+    return toBeDecorated;
   },
 
 };

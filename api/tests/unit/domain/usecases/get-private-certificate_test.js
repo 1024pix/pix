@@ -7,7 +7,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
 
   const userId = 2;
   const certificationId = '23';
-  const cleaCertificationStatus = 'someStatus';
+  const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
   const verificationCode = 'P-XXXXXXXX';
 
   const certificationRepository = {
@@ -21,8 +21,8 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
   const competenceTreeRepository = {
     get: () => undefined,
   };
-  const cleaCertificationStatusRepository = {
-    getCleaCertificationStatus: () => undefined,
+  const cleaCertificationResultRepository = {
+    get: () => undefined,
   };
 
   const verifyCertificateCodeService = {
@@ -31,7 +31,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
 
   const dependencies = {
     certificationRepository,
-    cleaCertificationStatusRepository,
+    cleaCertificationResultRepository,
     assessmentResultRepository,
     competenceTreeRepository,
     verifyCertificateCodeService,
@@ -41,7 +41,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
     certificationRepository.getPrivateCertificateByCertificationCourseId = sinon.stub();
     assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks = sinon.stub();
     competenceTreeRepository.get = sinon.stub();
-    cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
+    cleaCertificationResultRepository.get = sinon.stub().resolves(cleaCertificationResult);
   });
 
   context('when the user is not owner of the certification', async () => {
@@ -136,7 +136,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       expect(result).to.deep.equal({
         ...certificate,
         resultCompetenceTree: competenceTree,
-        cleaCertificationStatus,
+        cleaCertificationResult,
       });
     });
 
@@ -173,10 +173,10 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       expect(result.resultCompetenceTree.id).to.equal(expectedId);
     });
 
-    it('should set cleaCertificationStatus', async () => {
+    it('should set cleaCertificationResult', async () => {
       const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
 
-      expect(result.cleaCertificationStatus).to.equal(cleaCertificationStatus);
+      expect(result.cleaCertificationResult).to.deep.equal(cleaCertificationResult);
     });
   });
 });

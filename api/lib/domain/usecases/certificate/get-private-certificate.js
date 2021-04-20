@@ -5,7 +5,7 @@ module.exports = async function getPrivateCertificate({
   certificationId,
   userId,
   certificationRepository,
-  cleaCertificationStatusRepository,
+  cleaCertificationResultRepository,
   assessmentResultRepository,
   competenceTreeRepository,
   verifyCertificateCodeService,
@@ -23,7 +23,7 @@ module.exports = async function getPrivateCertificate({
   return decorateWithCleaStatusAndCompetenceTree({
     certificationId,
     toBeDecorated: certificate,
-    cleaCertificationStatusRepository,
+    cleaCertificationResultRepository,
     assessmentResultRepository,
     competenceTreeRepository,
   });

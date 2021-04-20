@@ -1,8 +1,8 @@
-const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
+const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
 const buildAssessmentResult = require('./build-assessment-result');
 const buildCleaCertificationResult = require('./build-clea-certification-result');
 
-module.exports = function buildPrivateCertificate({
+module.exports = function buildCertificationAttestation({
   id = 1,
   firstName = 'Jean',
   lastName = 'Bon',
@@ -13,7 +13,6 @@ module.exports = function buildPrivateCertificate({
   certificationCenter = 'L’univeristé du Pix',
   date = new Date('2018-12-01T01:02:03Z'),
   deliveredAt = new Date('2018-10-03T01:02:03Z'),
-  commentForCandidate,
   pixScore,
   status,
   cleaCertificationResult = buildCleaCertificationResult.acquired(),
@@ -22,7 +21,7 @@ module.exports = function buildPrivateCertificate({
   maxReachableLevelOnCertificationDate = 5,
 } = {}) {
   const assessmentResult = buildAssessmentResult();
-  return new PrivateCertificate({
+  return new CertificationAttestation({
     id,
     firstName,
     lastName,
@@ -33,7 +32,6 @@ module.exports = function buildPrivateCertificate({
     certificationCenter,
     date,
     deliveredAt,
-    commentForCandidate: commentForCandidate || assessmentResult.commentForCandidate,
     pixScore: pixScore || assessmentResult.pixScore,
     status: status || assessmentResult.status,
     resultCompetenceTree,

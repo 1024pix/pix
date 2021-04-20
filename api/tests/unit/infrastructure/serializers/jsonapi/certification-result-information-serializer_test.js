@@ -2,7 +2,6 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-result-information-serializer');
 const CertificationResultInformation = require('../../../../../lib/domain/read-models/CertificationResultInformation');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
-const cleaCertificationStatusRepository = require('../../../../../lib/infrastructure/repositories/clea-certification-status-repository');
 
 describe('Unit | Serializer | JSONAPI | certification-result-information-serializer', function() {
 
@@ -14,6 +13,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ certificationCourseId });
       const certificationIssueReports = [ certificationIssueReport ];
       const competenceMarks = [ domainBuilder.buildCompetenceMark() ];
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notPassed();
       const certificationResultInformationDTO = {
         certificationCourseId,
         sessionId: 11,
@@ -22,7 +22,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
         completedAt: new Date('2020-02-20T11:00:00Z'),
         isPublished: true,
         isV2Certification: true,
-        cleaCertificationStatus: cleaCertificationStatusRepository.statuses.NOT_PASSED,
+        cleaCertificationResult,
         firstName: 'James',
         lastName: 'Watt',
         birthdate: '07-11-1950',
@@ -53,7 +53,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
             'completed-at': new Date('2020-02-20T11:00:00Z'),
             'is-published': certificationResultInformationDTO.isPublished,
             'is-v2-certification': certificationResultInformationDTO.isV2Certification,
-            'clea-certification-status': certificationResultInformationDTO.cleaCertificationStatus,
+            'clea-certification-status': 'not_passed',
             'first-name': certificationResultInformationDTO.firstName,
             'last-name': certificationResultInformationDTO.lastName,
             birthdate: certificationResultInformationDTO.birthdate,

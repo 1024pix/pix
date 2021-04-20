@@ -7,13 +7,13 @@ describe('Unit | UseCase | get-shareable-certificate', () => {
   let certificationRepository;
   let assessmentResultRepository;
   let competenceTreeRepository;
-  let cleaCertificationStatusRepository;
+  let cleaCertificationResultRepository;
 
   beforeEach(() => {
     certificationRepository = { getCertificationByVerificationCode: sinon.stub() };
     assessmentResultRepository = { findLatestByCertificationCourseIdWithCompetenceMarks: sinon.stub() };
     competenceTreeRepository = { get: sinon.stub() };
-    cleaCertificationStatusRepository = { getCleaCertificationStatus: sinon.stub() };
+    cleaCertificationResultRepository = { get: sinon.stub() };
   });
 
   it('should return certification from verification code', async () => {
@@ -26,12 +26,12 @@ describe('Unit | UseCase | get-shareable-certificate', () => {
       cleaCertificationStatus: null,
       resultCompetenceTree: null,
     });
-    const cleaCertificationStatus = 'not_passed';
+    const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notPassed();
     const assessmentResultId = 1;
     const competenceTree = { areas: [] };
     const competenceMarks = [];
     certificationRepository.getShareableCertificateByVerificationCode = sinon.stub().withArgs({ verificationCode }).resolves(certificateWithoutCleaAndCompetenceTree);
-    cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().withArgs(certificateWithoutCleaAndCompetenceTree).resolves(cleaCertificationStatus);
+    cleaCertificationResultRepository.get = sinon.stub().withArgs(certificateWithoutCleaAndCompetenceTree).resolves(cleaCertificationResult);
     assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks = sinon.stub().withArgs({ certificationCourseId }).resolves({ id: assessmentResultId, competenceMarks });
     competenceTreeRepository.get = sinon.stub().resolves(competenceTree);
 
@@ -39,7 +39,7 @@ describe('Unit | UseCase | get-shareable-certificate', () => {
     const result = await getCertificationByVerificationCode({
       verificationCode,
       certificationRepository,
-      cleaCertificationStatusRepository,
+      cleaCertificationResultRepository,
       assessmentResultRepository,
       competenceTreeRepository,
     });
@@ -47,7 +47,7 @@ describe('Unit | UseCase | get-shareable-certificate', () => {
     // then
     const expectedCertification = {
       ...certificateWithoutCleaAndCompetenceTree,
-      cleaCertificationStatus,
+      cleaCertificationResult,
       resultCompetenceTree: { areas: [], id: '1-1' },
     };
     expect(result).to.be.deep.equal(expectedCertification);
@@ -63,7 +63,7 @@ describe('Unit | UseCase | get-shareable-certificate', () => {
     const error = await catchErr(getCertificationByVerificationCode)({
       verificationCode,
       certificationRepository,
-      cleaCertificationStatusRepository,
+      cleaCertificationResultRepository,
       assessmentResultRepository,
       competenceTreeRepository,
     });

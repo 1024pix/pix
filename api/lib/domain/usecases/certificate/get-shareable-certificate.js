@@ -3,7 +3,7 @@ const { decorateWithCleaStatusAndCompetenceTree } = require('./decorate-with-cle
 module.exports = async function getShareableCertificate({
   verificationCode,
   certificationRepository,
-  cleaCertificationStatusRepository,
+  cleaCertificationResultRepository,
   competenceTreeRepository,
   assessmentResultRepository,
 }) {
@@ -13,7 +13,7 @@ module.exports = async function getShareableCertificate({
     certificationId: certificate.id,
     toBeDecorated: certificate,
     maxReachableLevelOnCertificationDate: certificate.maxReachableLevelOnCertificationDate,
-    cleaCertificationStatusRepository,
+    cleaCertificationResultRepository,
     assessmentResultRepository,
     competenceTreeRepository,
   });
