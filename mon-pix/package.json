@@ -54,7 +54,6 @@
     "dotenv": "^8.2.0",
     "ember-auto-import": "^1.8.0",
     "ember-burger-menu": "^3.3.4",
-    "ember-classic-decorator": "^1.0.7",
     "ember-cli": "~3.23.0",
     "ember-cli-app-version": "^4.0.0",
     "ember-cli-autoprefixer": "^1.0.3",
