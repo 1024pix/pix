@@ -334,7 +334,7 @@ describe('Integration | Component | SignupForm', function() {
 
         // when
         await fillIn('#firstName', '');
-        await triggerEvent('#firstName', 'blur');
+        await triggerEvent('#firstName', 'focusout');
 
         // then
         return settled().then(() => {
@@ -355,7 +355,7 @@ describe('Integration | Component | SignupForm', function() {
 
         // when
         await fillIn('#lastName', '');
-        await triggerEvent('#lastName', 'blur');
+        await triggerEvent('#lastName', 'focusout');
 
         // then
         return settled().then(() => {
@@ -376,7 +376,7 @@ describe('Integration | Component | SignupForm', function() {
 
         // when
         await fillIn('#email', '');
-        await triggerEvent('#email', 'blur');
+        await triggerEvent('#email', 'focusout');
 
         // then
         return settled().then(() => {
@@ -397,7 +397,7 @@ describe('Integration | Component | SignupForm', function() {
 
         // when
         await fillIn('#password', '');
-        await triggerEvent('#password', 'blur');
+        await triggerEvent('#password', 'focusout');
 
         // then
         return settled().then(() => {
@@ -510,7 +510,7 @@ describe('Integration | Component | SignupForm', function() {
 
         // when
         await fillIn('#firstName', 'pix');
-        await triggerEvent('#firstName', 'blur');
+        await triggerEvent('#firstName', 'focusout');
 
         // then
         return settled().then(() => {
@@ -530,7 +530,7 @@ describe('Integration | Component | SignupForm', function() {
 
         // when
         await fillIn('#lastName', 'pix');
-        await triggerEvent('#lastName', 'blur');
+        await triggerEvent('#lastName', 'focusout');
 
         // then
         return settled().then(() => {
@@ -550,7 +550,7 @@ describe('Integration | Component | SignupForm', function() {
 
         // when
         await fillIn('#email', 'shi@fu.pix');
-        await triggerEvent('#email', 'blur');
+        await triggerEvent('#email', 'focusout');
 
         // then
         return settled().then(() => {
@@ -570,7 +570,7 @@ describe('Integration | Component | SignupForm', function() {
 
         // when
         await fillIn('#password', 'Mypassword1');
-        await triggerEvent('#password', 'blur');
+        await triggerEvent('#password', 'focusout');
 
         // then
         return settled().then(() => {

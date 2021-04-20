@@ -1,13 +1,19 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
 describe('Unit | Component | form-textfield-date', function() {
 
   setupTest();
 
-  describe('When validationStatus gets "default", Component computed property: ', function() {
+  let component;
 
+  beforeEach(() => {
+    component = createGlimmerComponent('component:form-textfield-date');
+  });
+
+  describe('When validationStatus gets "default", Component computed property: ', function() {
     [
       { field: 'day' },
       { field: 'month' },
@@ -22,12 +28,11 @@ describe('Unit | Component | form-textfield-date', function() {
 
       ].forEach(({ property, expectedValue }) => {
         it(`${property} should return ${expectedValue}`, function() {
-          // Given
-          const component = this.owner.lookup('component:form-textfield-date');
           // When
-          component.set(`${field}ValidationStatus`, 'default');
-          component.set(`${field}ValidationMessage`, '');
-          const propertyValue = component.get(property);
+          component.args[`${field}ValidationStatus`] = 'default';
+          component.args[`${field}ValidationMessage`] = '';
+          const propertyValue = component[property];
+
           // Then
           expect(propertyValue).to.equal(expectedValue);
         });
@@ -51,12 +56,11 @@ describe('Unit | Component | form-textfield-date', function() {
 
       ].forEach(({ property, expectedValue }) => {
         it(`${property} should return ${expectedValue}`, function() {
-          // Given
-          const component = this.owner.lookup('component:form-textfield-date');
           // When
-          component.set(`${field}ValidationStatus`, 'error');
-          component.set(`${field}ValidationMessage`, 'error message');
-          const propertyValue = component.get(property);
+          component.args[`${field}ValidationStatus`] = 'error';
+          component.args[`${field}ValidationMessage`] = 'error message';
+          const propertyValue = component[property];
+
           // Then
           expect(propertyValue).to.equal(expectedValue);
         });
@@ -80,12 +84,11 @@ describe('Unit | Component | form-textfield-date', function() {
 
       ].forEach(({ property, expectedValue }) => {
         it(`${property} should return ${expectedValue}`, function() {
-          // Given
-          const component = this.owner.lookup('component:form-textfield-date');
           // When
-          component.set(`${field}ValidationStatus`, 'success');
-          component.set(`${field}ValidationMessage`, '');
-          const propertyValue = component.get(property);
+          component.args[`${field}ValidationStatus`] = 'success';
+          component.args[`${field}ValidationMessage`] = '';
+          const propertyValue = component[property];
+
           // Then
           expect(propertyValue).to.equal(expectedValue);
         });
