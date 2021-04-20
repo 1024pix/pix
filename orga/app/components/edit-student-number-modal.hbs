@@ -4,10 +4,10 @@
       {{#if @student.studentNumber}}
         <p class="content-text">{{t "pages.students-sup.edit-student-number-modal.form.student-number" firstName=@student.firstName  lastName=@student.lastName }}<span class=" content-text--info">{{@student.studentNumber}}</span></p>
       {{/if}}
-      <label for="studentNumber" class="content-text">{{t "pages.students-sup.edit-student-number-modal.form.new-student-number-label"}}</label>
+      <label for="editStudentNumber" class="content-text">{{t "pages.students-sup.edit-student-number-modal.form.new-student-number-label"}}</label>
       <div class="input-container">
         <Input
-          id="studentNumber"
+          id="editStudentNumber"
           type="text"
           @value={{this.newStudentNumber}}
           class="input"
