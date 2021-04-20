@@ -74,6 +74,15 @@
         </div>
       </div>
     </div>
+    {{#if this.retryAllowed }}
+      <div class="skill-review__retry">
+        <p class="skill-review-retry__message">{{t 'pages.skill-review.retry.message' organizationName=this.organizationName}}</p>
+        <LinkTo @route="campaigns.start-or-resume"
+                @model={{@model.campaignParticipation.campaign.code}}
+                @query={{hash retry=true}}
+                class="skill-review-retry__button button button--big button--link">{{t 'pages.skill-review.retry.button'}}</LinkTo>
+      </div>
+    {{/if}}
   </PixBlock>
 {{/if}}
 {{#if this.displayOrganizationCustomMessage}}

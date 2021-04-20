@@ -931,6 +931,10 @@
             "information": "Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.",
             "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
             "organization-message" : "Message de votre organisation",
+            "retry": {
+                "button": "Repasser mon parcours",
+                "message": "{organizationName} vous invite à repasser ce parcours afin d'améliorer votre résultat et de continuer à progresser."
+            },
             "send-results": "N'oubliez pas d'envoyer vos résultats à l'organisateur du parcours.",
             "send-status": {
                 "in-progress": "Envoi en cours"
