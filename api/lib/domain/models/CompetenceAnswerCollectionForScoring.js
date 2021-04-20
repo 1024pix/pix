@@ -43,7 +43,7 @@ module.exports = class CompetenceAnswerCollection {
 
   numberOfNeutralizedChallenges() {
     return _(this.answers).map((answer) => {
-      if (answer.challenge.isNeutralized) {
+      if (answer.isNeutralized()) {
         if (this.answers.length < 3 && answer.isQROCMdep()) {
           return 2;
         } else {
@@ -78,5 +78,9 @@ class AnswerForScoring {
   isAPartiallyCorrectQROCMdep() {
     return this.isQROCMdep()
       && Boolean(this.answer) && this.answer.isPartially();
+  }
+
+  isNeutralized() {
+    return this.challenge.isNeutralized;
   }
 }
