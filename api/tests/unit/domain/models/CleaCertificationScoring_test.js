@@ -1,11 +1,12 @@
-const CleaCertification = require('../../../../lib/domain/models/CleaCertification');
+const CleaCertificationScoring = require('../../../../lib/domain/models/CleaCertificationScoring');
 const { expect, catchErr, domainBuilder } = require('../../../test-helper');
 const { ObjectValidationError, NotEligibleCandidateError } = require('../../../../lib/domain/errors');
 
 const GREEN_ZONE_REPRO = [80, 90, 100];
 const RED_ZONE_REPRO = [1, 50];
 
-describe('Unit | Domain | Models | CleaCertification', () => {
+describe('Unit | Domain | Models | CleaCertificationScoring', () => {
+
   describe('constructor', () => {
     let validArguments;
     beforeEach(() => {
@@ -21,12 +22,12 @@ describe('Unit | Domain | Models | CleaCertification', () => {
 
     it('should successfully instantiate object when passing all valid arguments', () => {
       // when
-      expect(() => new CleaCertification(validArguments)).not.to.throw(ObjectValidationError);
+      expect(() => new CleaCertificationScoring(validArguments)).not.to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when hasAcquiredBadge is not valid', () => {
       // when
-      expect(() => new CleaCertification({
+      expect(() => new CleaCertificationScoring({
         ...validArguments,
         hasAcquiredBadge: 'coucou',
       })).to.throw(ObjectValidationError);
@@ -34,7 +35,7 @@ describe('Unit | Domain | Models | CleaCertification', () => {
 
     it('should throw an ObjectValidationError when reproducibilityRate is not valid', () => {
       // when
-      expect(() => new CleaCertification({
+      expect(() => new CleaCertificationScoring({
         ...validArguments,
         reproducibilityRate: 'coucou',
       })).to.throw(ObjectValidationError);
@@ -42,12 +43,12 @@ describe('Unit | Domain | Models | CleaCertification', () => {
 
     it('should throw an ObjectValidationError when cleaCompetenceMarks is not valid', () => {
       // when
-      expect(() => new CleaCertification({ ...validArguments, cleaCompetenceMarks: null })).to.throw(ObjectValidationError);
+      expect(() => new CleaCertificationScoring({ ...validArguments, cleaCompetenceMarks: null })).to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when maxReachablePixByCompetenceForClea is not valid', () => {
       // when
-      expect(() => new CleaCertification({
+      expect(() => new CleaCertificationScoring({
         ...validArguments,
         maxReachablePixByCompetenceForClea: null,
       })).to.throw(ObjectValidationError);
@@ -58,10 +59,10 @@ describe('Unit | Domain | Models | CleaCertification', () => {
 
     it('when user has badge it is eligible', async () => {
       // given
-      const partnerCertification = await _buildCleaCertificationWithBadge();
+      const cleaCertificationScoring = await _buildCleaCertificationScoringWithBadge();
 
       // when
-      const hasAcquiredCertif = partnerCertification.isEligible();
+      const hasAcquiredCertif = cleaCertificationScoring.isEligible();
 
       // then
       expect(hasAcquiredCertif).to.be.true;
@@ -69,10 +70,10 @@ describe('Unit | Domain | Models | CleaCertification', () => {
 
     it('when user does not have badge it is not eligible', async () => {
       // given
-      const partnerCertification = await _buildCleaCertificationWithoutBadge();
+      const cleaCertificationScoring = await _buildCleaCertificationScoringWithoutBadge();
 
       // when
-      const hasAcquiredCertif = partnerCertification.isEligible();
+      const hasAcquiredCertif = cleaCertificationScoring.isEligible();
 
       // then
       expect(hasAcquiredCertif).to.be.false;
@@ -83,10 +84,10 @@ describe('Unit | Domain | Models | CleaCertification', () => {
 
     it('throws when not eligible', async () => {
       // given
-      const partnerCertification = await _buildCleaCertificationWithoutBadge();
+      const cleaCertificationScoring = await _buildCleaCertificationScoringWithoutBadge();
 
       // when
-      const error = await catchErr(partnerCertification.isAcquired, partnerCertification)();
+      const error = await catchErr(cleaCertificationScoring.isAcquired, cleaCertificationScoring)();
 
       // then
       expect(error).to.be.instanceOf(NotEligibleCandidateError);
@@ -96,10 +97,10 @@ describe('Unit | Domain | Models | CleaCertification', () => {
       GREEN_ZONE_REPRO.forEach((reproducibilityRate) =>
         it(`for ${reproducibilityRate} reproducibility rate, it should obtain certification`, async () => {
           // given
-          const partnerCertification = await _buildCleaCertificationWithReproducibilityRate(reproducibilityRate);
+          const cleaCertificationScoring = await _buildCleaCertificationScoringWithReproducibilityRate(reproducibilityRate);
 
           // when
-          const hasAcquiredCertif = partnerCertification.isAcquired();
+          const hasAcquiredCertif = cleaCertificationScoring.isAcquired();
 
           // then
           expect(hasAcquiredCertif).to.be.true;
@@ -111,10 +112,10 @@ describe('Unit | Domain | Models | CleaCertification', () => {
 
       it('for 70 reproducibility rate, it should obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore', async () => {
         // given
-        const partnerCertification = await _buildCleaCertificationInGreyZoneAndCertifiableCompetences();
+        const cleaCertificationScoring = await _buildCleaCertificationScoringInGreyZoneAndCertifiableCompetences();
 
         // when
-        const hasAcquiredCertif = partnerCertification.isAcquired();
+        const hasAcquiredCertif = cleaCertificationScoring.isAcquired();
 
         // then
         expect(hasAcquiredCertif).to.be.true;
@@ -122,10 +123,10 @@ describe('Unit | Domain | Models | CleaCertification', () => {
 
       it('for 70 reproducibility rate, it should not obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore', async () => {
         // given
-        const partnerCertification = await _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences();
+        const cleaCertificationScoring = await _buildCleaCertificationScoringInGreyZoneAndNonCertifiableCompetences();
 
         // when
-        const hasAcquiredCertif = partnerCertification.isAcquired();
+        const hasAcquiredCertif = cleaCertificationScoring.isAcquired();
 
         // then
         expect(hasAcquiredCertif).to.be.false;
@@ -136,10 +137,10 @@ describe('Unit | Domain | Models | CleaCertification', () => {
       RED_ZONE_REPRO.forEach((reproducibilityRate) =>
         it(`for ${reproducibilityRate} reproducibility rate, it should not obtain certification`, async () => {
           // given
-          const partnerCertification = await _buildCleaCertificationWithReproducibilityRate(reproducibilityRate);
+          const cleaCertificationScoring = await _buildCleaCertificationScoringWithReproducibilityRate(reproducibilityRate);
 
           // when
-          const hasAcquiredCertif = partnerCertification.isAcquired({
+          const hasAcquiredCertif = cleaCertificationScoring.isAcquired({
             hasAcquiredBadge: true,
             reproducibilityRate,
           });
@@ -152,19 +153,19 @@ describe('Unit | Domain | Models | CleaCertification', () => {
   });
 });
 
-function _buildCleaCertificationWithBadge() {
-  return _buildCleaCertification({ withBadge: true });
+function _buildCleaCertificationScoringWithBadge() {
+  return _buildCleaCertificationScoring({ withBadge: true });
 }
 
-function _buildCleaCertificationWithoutBadge() {
-  return _buildCleaCertification({ withBadge: false });
+function _buildCleaCertificationScoringWithoutBadge() {
+  return _buildCleaCertificationScoring({ withBadge: false });
 }
 
-function _buildCleaCertificationWithReproducibilityRate(reproducibilityRate) {
-  return _buildCleaCertification({ withBadge: true, reproducibilityRate });
+function _buildCleaCertificationScoringWithReproducibilityRate(reproducibilityRate) {
+  return _buildCleaCertificationScoring({ withBadge: true, reproducibilityRate });
 }
 
-function _buildCleaCertificationInGreyZoneAndCertifiableCompetences() {
+function _buildCleaCertificationScoringInGreyZoneAndCertifiableCompetences() {
   const competenceId1 = 'competenceId1', competenceId2 = 'competenceId2';
 
   const maxReachablePixByCompetenceForClea = {
@@ -187,7 +188,7 @@ function _buildCleaCertificationInGreyZoneAndCertifiableCompetences() {
       },
     ),
   ];
-  return _buildCleaCertification(
+  return _buildCleaCertificationScoring(
     {
       withBadge: true,
       reproducibilityRate: 70,
@@ -196,7 +197,7 @@ function _buildCleaCertificationInGreyZoneAndCertifiableCompetences() {
     });
 }
 
-function _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences() {
+function _buildCleaCertificationScoringInGreyZoneAndNonCertifiableCompetences() {
   const competenceId1 = 'competenceId1', competenceId2 = 'competenceId2';
 
   const maxReachablePixByCompetenceForClea = {
@@ -219,7 +220,7 @@ function _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences() {
       },
     ),
   ];
-  return _buildCleaCertification({
+  return _buildCleaCertificationScoring({
     withBadge: true,
     reproducibilityRate: 70,
     cleaCompetenceMarks,
@@ -227,7 +228,7 @@ function _buildCleaCertificationInGreyZoneAndNonCertifiableCompetences() {
   });
 }
 
-function _buildCleaCertification({
+function _buildCleaCertificationScoring({
   withBadge = false,
   reproducibilityRate = 0,
   cleaCompetenceMarks = [domainBuilder.buildCompetenceMark()],
@@ -235,7 +236,7 @@ function _buildCleaCertification({
 }) {
   const certificationCourseId = 42;
 
-  return new CleaCertification({
+  return new CleaCertificationScoring({
     certificationCourseId,
     hasAcquiredBadge: withBadge,
     reproducibilityRate,

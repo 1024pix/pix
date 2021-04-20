@@ -1,7 +1,7 @@
-const CleaCertification = require('./../../../../lib/domain/models/CleaCertification');
+const CleaCertificationScoring = require('./../../../../lib/domain/models/CleaCertificationScoring');
 const buildCompetenceMark = require('./build-competence-mark');
 
-module.exports = function buildCompetence({
+module.exports = function buildCleaCertificationScoring({
   certificationCourseId = 42,
   hasAcquiredBadge = true,
   reproducibilityRate = 50,
@@ -9,7 +9,7 @@ module.exports = function buildCompetence({
   maxReachablePixByCompetenceForClea = { competence1: 51 },
 } = {}) {
 
-  return new CleaCertification({
+  return new CleaCertificationScoring({
     certificationCourseId,
     hasAcquiredBadge,
     reproducibilityRate,

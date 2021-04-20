@@ -1,13 +1,13 @@
-const PixPlusCertification = require('../../../../lib/domain/models/PixPlusCertification');
+const PixPlusCertificationScoring = require('../../../../lib/domain/models/PixPlusCertificationScoring');
 const buildReproducibilityRate = require('./build-reproducibility-rate');
 
-module.exports = function buildPixPlusCertification({
+module.exports = function buildPixPlusCertificationScoring({
   certificationCourseId = 123,
   certifiableBadgeKey = 'PIX_FRUITS',
   reproducibilityRate = buildReproducibilityRate({ value: 100 }),
   hasAcquiredPixCertification = true,
 } = {}) {
-  return new PixPlusCertification({
+  return new PixPlusCertificationScoring({
     certificationCourseId,
     certifiableBadgeKey,
     reproducibilityRate,
