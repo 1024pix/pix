@@ -23,7 +23,7 @@ Majuscule et verbe d’action pour être en harmonie avec les conventions de Git
 
 Si le message n'est pas 100 % autoportant, on peut ajouter une description (après une ligne vide) qui explique la motivation du commit.
 
-On suit la convention que le sujet doit marcher comme fin de phrase `If applied, this commit will...`.
+On suit la convention que le sujet doit marcher comme une fin de phrase à `If applied, this commit will...`.
 
 > A properly formed Git commit subject line should always be able to complete the following sentence:
 >
