@@ -3,6 +3,7 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const usecases = require('../../../../lib/domain/usecases');
+const identifiersType = require('../../../../lib/domain/types/identifiers-type');
 
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
@@ -26,9 +27,10 @@ describe('Unit | Router | organization-router', () => {
 
   describe('GET /api/organizations', () => {
 
+    const method = 'GET';
+
     it('should return OK (200) when request is valid', async () => {
       // given
-      const method = 'GET';
       const url = '/api/organizations?filter[id]=&filter[name]=DRA&filter[type]=SCO&page[number]=3&page[size]=25';
 
       // when
@@ -38,17 +40,48 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return BadRequest (400) when request is invalid', async () => {
-      // given
-      const method = 'GET';
-      const idNotNumeric = 'foo';
-      const url = `/api/organizations?filter[id]=${idNotNumeric}`;
+    context('when request is invalid', () => {
 
-      // when
-      const response = await httpTestServer.request(method, url);
+      it('should return BadRequest (400) if id is not numeric', async () => {
+        // given
+        const idNotNumeric = 'foo';
+        const url = `/api/organizations?filter[id]=${idNotNumeric}`;
 
-      // then
-      expect(response.statusCode).to.equal(400);
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      context('when id is outside number limits', async () => {
+
+        const minNumberLimit = identifiersType.positiveInteger32bits.min;
+        const maxNumberLimit = identifiersType.positiveInteger32bits.max;
+        const numbersOutsideLimits = [
+          {
+            expectedBehavior: 'should return HTTP statusCode 400 if id number is less than the minimum value',
+            wrongNumber: minNumberLimit - 1,
+          },
+          {
+            expectedBehavior: 'should return HTTP statusCode 400 if id number is greater than the maximum value',
+            wrongNumber: maxNumberLimit + 1,
+          },
+        ];
+
+        numbersOutsideLimits.forEach(({ expectedBehavior, wrongNumber }) => {
+          it(expectedBehavior, async () => {
+            // given
+            const url = `/api/organizations?filter[id]=${wrongNumber}`;
+
+            // when
+            const response = await httpTestServer.request(method, url);
+
+            // then
+            expect(response.statusCode).to.equal(400);
+          });
+        });
+      });
     });
   });
 
@@ -128,6 +161,7 @@ describe('Unit | Router | organization-router', () => {
   });
 
   describe('POST /api/organizations/{id}/schooling-registrations/import-csv', () => {
+
     context('when the id not an integer', () => {
       it('responds 400', async () => {
         // given
