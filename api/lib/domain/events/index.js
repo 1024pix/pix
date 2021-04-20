@@ -28,18 +28,18 @@ const dependencies = {
   finalizedSessionRepository: require('../../infrastructure/repositories/finalized-session-repository'),
 };
 
-const partnerCertificationRepository = injectDependencies(
-  require('../../infrastructure/repositories/partner-certification-repository'),
+const partnerCertificationScoringRepository = injectDependencies(
+  require('../../infrastructure/repositories/partner-certification-scoring-repository'),
   dependencies,
 );
-dependencies.partnerCertificationRepository = partnerCertificationRepository;
+dependencies.partnerCertificationScoringRepository = partnerCertificationScoringRepository;
 
 const handlersToBeInjected = {
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
   handleCertificationScoring: require('./handle-certification-scoring'),
   handleCertificationRescoring: require('./handle-certification-rescoring'),
-  handlePartnerCertifications: require('./handle-partner-certification'),
-  handlePixPlusCertifications: require('./handle-pix-plus-certification'),
+  handleCleaCertificationScoring: require('./handle-clea-certification-scoring'),
+  handlePixPlusCertificationsScoring: require('./handle-pix-plus-certifications-scoring'),
   handlePoleEmploiParticipationFinished: require('./handle-pole-emploi-participation-finished'),
   handlePoleEmploiParticipationShared: require('./handle-pole-emploi-participation-shared'),
   handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
