@@ -68,7 +68,7 @@ class AnswerForScoring {
   }
 
   isCorrect() {
-    return Boolean(this?.answer.isOk());
+    return Boolean(this.answer?.isOk());
   }
 
   isAFullyCorrectQROCMdep() {
