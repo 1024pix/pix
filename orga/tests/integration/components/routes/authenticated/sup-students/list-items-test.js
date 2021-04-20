@@ -105,9 +105,9 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
     assert.dom('[aria-label="Étudiant"]').exists({ count: 2 });
   });
 
-  test('it should display the firstName, lastName and birthdate of student', async function(assert) {
+  test('it should display the student number, firstName, lastName and birthdate of student', async function(assert) {
     // given
-    const students = [{ lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') }];
+    const students = [{ studentNumber: 'LATERREURGIGI123', lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') }];
 
     this.set('students', students);
 
@@ -115,6 +115,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
     await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
     // then
+    assert.contains('LATERREURGIGI123');
     assert.contains('La Terreur');
     assert.contains('Gigi');
     assert.contains('01/02/2010');
@@ -153,6 +154,23 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       assert.equal(call.args[0], 'firstName');
       assert.equal(call.args[1], true);
       assert.equal(call.args[2].target.value, 'bob');
+    });
+
+    test('it should trigger filtering with student number', async function(assert) {
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', []);
+
+      // when
+      await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
+
+      await fillInByLabel('Entrer un numéro étudiant', 'LATERREURGIGI123');
+
+      // then
+      const call = triggerFiltering.getCall(0);
+      assert.equal(call.args[0], 'studentNumber');
+      assert.equal(call.args[1], true);
+      assert.equal(call.args[2].target.value, 'LATERREURGIGI123');
     });
   });
 });
