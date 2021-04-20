@@ -5,6 +5,7 @@ const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
 const bookshelfUtils = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const DomainTransaction = require('../DomainTransaction');
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
@@ -109,16 +110,16 @@ module.exports = {
       .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
   },
 
-  async updateById({ id, membership }) {
+  async updateById({ id, membership }, domainTransaction = DomainTransaction.emptyTransaction()) {
     let updatedMembership;
     try {
       updatedMembership = await new BookshelfMembership({ id })
-        .save(membership, { patch: true, method: 'update', require: true });
+        .save(membership, { patch: true, method: 'update', require: true, transacting: domainTransaction.knexTransaction });
     } catch (err) {
       throw new MembershipUpdateError(err.message);
     }
 
-    updatedMembership = await updatedMembership.refresh({ withRelated: ['user', 'organization'] });
+    updatedMembership = await updatedMembership.refresh({ withRelated: ['user', 'organization'], transacting: domainTransaction.knexTransaction });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, updatedMembership);
   },
 
