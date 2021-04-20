@@ -15,7 +15,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('certifies the estimated level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfCorrectAnswers: 3,
           numberOfNeutralizedAnswers: 0,
           estimatedLevel: 3,
@@ -34,7 +34,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 2,
           estimatedLevel: 3,
@@ -48,7 +48,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it(`certifies a level below the estimated level when reproducibility rate < ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 2,
           estimatedLevel: 3,
@@ -66,7 +66,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('certifies the estimated level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfNeutralizedAnswers: 1,
           numberOfCorrectAnswers: 2,
           estimatedLevel: 3,
@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('does not certify a level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
@@ -103,7 +103,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it(`certifies the estimated level is reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfCorrectAnswers: 1,
           numberOfNeutralizedAnswers: 1,
           estimatedLevel: 3,
@@ -119,7 +119,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it(`certifies a level below the estimated on if reproducibility rate >= 70% and < ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfCorrectAnswers: 1,
           numberOfNeutralizedAnswers: 1,
           estimatedLevel: 3,
@@ -135,7 +135,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('does not certify a level if reproducibility level < 70%', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfCorrectAnswers: 1,
           numberOfNeutralizedAnswers: 1,
           estimatedLevel: 3,
@@ -153,7 +153,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('certifies the estimated level if reproducibility rate is >= 70%', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfCorrectAnswers: 1,
           numberOfNeutralizedAnswers: 2,
           estimatedLevel: 3,
@@ -169,7 +169,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('certifies a level below the estimated on if reproducibility rate < 70%', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfCorrectAnswers: 1,
           numberOfNeutralizedAnswers: 2,
           estimatedLevel: 3,
@@ -188,7 +188,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('does not certify any level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfCorrectAnswers: 0,
           numberOfNeutralizedAnswers: 0,
           estimatedLevel: 3, // unimportant
@@ -207,7 +207,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('does not certify any level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfCorrectAnswers: 0,
           numberOfNeutralizedAnswers: 1,
           estimatedLevel: 3, // unimportant
@@ -226,7 +226,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('does not certify any level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfCorrectAnswers: 0,
           numberOfNeutralizedAnswers: 2,
           estimatedLevel: 3, // unimportant
@@ -245,7 +245,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('does not certify any level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 3,
+          numberOfChallenges: 3,
           numberOfCorrectAnswers: 0,
           numberOfNeutralizedAnswers: 3,
           estimatedLevel: 3, // unimportant
@@ -267,7 +267,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('certifies the estimated level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 2,
+          numberOfChallenges: 2,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 2,
           estimatedLevel: 3,
@@ -286,7 +286,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 2,
+          numberOfChallenges: 2,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
@@ -302,7 +302,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it(`certifies a level below the estimated level when reproducibility rate >= 70% and < ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 2,
+          numberOfChallenges: 2,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
@@ -318,7 +318,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('does not certify a level when reproducibility rate < 70%', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 2,
+          numberOfChallenges: 2,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
@@ -337,7 +337,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('certifies the estimated level when reproducibility rate >= 70%', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 2,
+          numberOfChallenges: 2,
           numberOfNeutralizedAnswers: 1,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
@@ -353,7 +353,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('certifies a level below the estimated level when reproducibility rate < 70%', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 2,
+          numberOfChallenges: 2,
           numberOfNeutralizedAnswers: 1,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
@@ -372,7 +372,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('does not certify any level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 2,
+          numberOfChallenges: 2,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 0,
           estimatedLevel: 3, // unimportant
@@ -391,7 +391,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('does not certify any level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 2,
+          numberOfChallenges: 2,
           numberOfNeutralizedAnswers: 1,
           numberOfCorrectAnswers: 0,
           estimatedLevel: 3, // unimportant
@@ -410,7 +410,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('does not certify any level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 2,
+          numberOfChallenges: 2,
           numberOfNeutralizedAnswers: 2,
           numberOfCorrectAnswers: 0,
           estimatedLevel: 3, // unimportant
@@ -433,7 +433,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('certifies the estimated level when reproducibility rate >= 70%', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 1,
+          numberOfChallenges: 1,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
@@ -449,7 +449,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('certifies a level below the estimated level when reproducibility rate < 70%', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 1,
+          numberOfChallenges: 1,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
@@ -468,7 +468,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('does not certify any level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 1,
+          numberOfChallenges: 1,
           numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 0,
           estimatedLevel: 3, // unimportant
@@ -487,7 +487,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       it('does not certify any level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
-          numberOfChallengesAnswered: 1,
+          numberOfChallenges: 1,
           numberOfNeutralizedAnswers: 1,
           numberOfCorrectAnswers: 0,
           estimatedLevel: 3, // unimportant
@@ -504,14 +504,19 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
 
   context('when no rule is applicable', () => {
     it('throws', () => {
+      // given
+      const expectedMessage = 'Règle de calcul de niveau certifié manquante pour ' +
+        '1000 épreuves proposées ' +
+        '1000 réponses correctes ' +
+        'et 1000 épreuves neutralisées';
       // when
       expect(() => CertifiedLevel.from({
-        numberOfChallengesAnswered: 1000,
+        numberOfChallenges: 1000,
         numberOfNeutralizedAnswers: 1000,
         numberOfCorrectAnswers: 1000,
         estimatedLevel: 0, // unimportant
         reproducibilityRate: 0, // unimportant
-      })).to.throw();
+      })).to.throw(expectedMessage);
     });
   });
 });
