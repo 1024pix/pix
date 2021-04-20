@@ -283,4 +283,16 @@ __Plus d'infos :)__
     isForAbsoluteNovice: true,
   });
 
+  databaseBuilder.factory.buildCampaign({
+    id: 18,
+    name: 'Pro - Campagne de collecte de profils - envois multiple',
+    code: 'SNAPMU789',
+    type: 'PROFILES_COLLECTION',
+    organizationId: PRO_COMPANY_ID,
+    creatorId: 2,
+    idPixLabel: 'identifiant entreprise',
+    title: null,
+    customLandingPageText: null,
+    multipleSendings: true,
+  });
 }
