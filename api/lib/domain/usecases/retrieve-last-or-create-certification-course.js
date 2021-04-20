@@ -11,7 +11,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   sessionId,
   userId,
   assessmentRepository,
-  certifiableBadgesService,
+  badgeAcquisitionRepository,
   competenceRepository,
   certificationCandidateRepository,
   certificationCourseRepository,
@@ -41,7 +41,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     sessionId,
     userId,
     assessmentRepository,
-    certifiableBadgesService,
+    badgeAcquisitionRepository,
     competenceRepository,
     certificationCandidateRepository,
     certificationCourseRepository,
@@ -55,7 +55,7 @@ async function _startNewCertification({
   sessionId,
   userId,
   assessmentRepository,
-  certifiableBadgesService,
+  badgeAcquisitionRepository,
   certificationCandidateRepository,
   certificationCourseRepository,
   certificationChallengesService,
@@ -73,7 +73,7 @@ async function _startNewCertification({
     };
   }
 
-  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({ userId, certifiableBadgesService, certificationChallengesService });
+  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({ userId, badgeAcquisitionRepository, certificationChallengesService, domainTransaction });
   const challengesForCertification = challengesForPixCertification.concat(challengesForPixPlusCertification);
 
   return _createCertificationCourse({
@@ -87,16 +87,12 @@ async function _startNewCertification({
   });
 }
 
-async function _findChallengesFromPixPlus({ userId, certifiableBadgesService, certificationChallengesService }) {
-  const hasCertifiableBadges = await certifiableBadgesService.hasCertifiableBadges(userId);
-  if (hasCertifiableBadges) {
-    const targetProfileIds = await certifiableBadgesService.getTargetProfileIdFromAcquiredCertifiableBadges(userId);
-    const challengesPixPlusByTargetProfiles = await bluebird.mapSeries(targetProfileIds,
-      (targetProfileId) => certificationChallengesService.pickCertificationChallengesForPixPlus(targetProfileId, userId));
-    return _.flatMap(challengesPixPlusByTargetProfiles);
-  } else {
-    return [];
-  }
+async function _findChallengesFromPixPlus({ userId, badgeAcquisitionRepository, certificationChallengesService, domainTransaction }) {
+  const certifiableBadgeAcquisitions = await badgeAcquisitionRepository.findCertifiable({ userId, domainTransaction });
+  const highestCertifiableBadgeAcquisitions = _keepHighestBadgeWithinPlusCertifications(certifiableBadgeAcquisitions);
+  const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(highestCertifiableBadgeAcquisitions,
+    ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId));
+  return _.flatMap(challengesPixPlusByCertifiableBadges);
 }
 
 async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction) {
@@ -138,3 +134,24 @@ async function _createCertificationCourse({ certificationCandidateRepository, ce
   };
 }
 
+function _keepHighestBadgeWithinPlusCertifications(certifiableBadgeAcquisitions) {
+  return _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions);
+}
+
+const pixDroitMaitre = 'PIX_DROIT_MAITRE_CERTIF';
+const pixDroitExpert = 'PIX_DROIT_EXPERT_CERTIF';
+
+function _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions) {
+  const [pixDroitBadgeAcquisitions, nonPixDroitBadgeAcquisitions] = _.partition(certifiableBadgeAcquisitions, _isPixDroit);
+  if (pixDroitBadgeAcquisitions.length === 0) return nonPixDroitBadgeAcquisitions;
+  const expertBadgeAcquisition = _.find(certifiableBadgeAcquisitions, { badgeKey: pixDroitExpert });
+  const maitreBadgeAcquisition = _.find(certifiableBadgeAcquisitions, { badgeKey: pixDroitMaitre });
+  return [
+    ...nonPixDroitBadgeAcquisitions,
+    expertBadgeAcquisition || maitreBadgeAcquisition,
+  ];
+}
+
+function _isPixDroit(badgeAcquisition) {
+  return [pixDroitMaitre, pixDroitExpert].includes(badgeAcquisition.badgeKey);
+}

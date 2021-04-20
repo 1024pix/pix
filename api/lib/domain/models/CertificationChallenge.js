@@ -7,6 +7,7 @@ class CertificationChallenge {
     courseId,
     competenceId,
     isNeutralized,
+    certifiableBadgeKey,
   } = {}) {
     this.id = id;
     this.associatedSkillName = associatedSkillName;
@@ -15,9 +16,10 @@ class CertificationChallenge {
     this.competenceId = competenceId;
     this.courseId = courseId;
     this.isNeutralized = isNeutralized;
+    this.certifiableBadgeKey = certifiableBadgeKey;
   }
 
-  static create({
+  static createForPixCertification({
     associatedSkillName,
     associatedSkillId,
     challengeId,
@@ -31,6 +33,26 @@ class CertificationChallenge {
       challengeId,
       competenceId,
       isNeutralized: false,
+      certifiableBadgeKey: null,
+    });
+  }
+
+  static createForPixPlusCertification({
+    associatedSkillName,
+    associatedSkillId,
+    challengeId,
+    competenceId,
+    certifiableBadgeKey,
+  }) {
+    return new CertificationChallenge({
+      id: undefined,
+      courseId: undefined,
+      associatedSkillName,
+      associatedSkillId,
+      challengeId,
+      competenceId,
+      isNeutralized: false,
+      certifiableBadgeKey,
     });
   }
 
