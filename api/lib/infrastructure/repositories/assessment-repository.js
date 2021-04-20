@@ -112,6 +112,7 @@ module.exports = {
       .query((qb) => {
         qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
         qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
+        qb.where('campaign-participations.isImproved', false);
       })
       .orderBy('createdAt', 'desc')
       .fetch({ require: false, withRelated: includeCampaign ? ['campaignParticipation', 'campaignParticipation.campaign'] : [] })

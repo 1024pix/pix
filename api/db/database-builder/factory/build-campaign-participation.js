@@ -12,6 +12,7 @@ module.exports = function buildCampaignParticipation({
   userId,
   participantExternalId = 'participantExternalId',
   validatedSkillsCount,
+  isImproved,
 } = {}) {
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -27,6 +28,7 @@ module.exports = function buildCampaignParticipation({
     sharedAt,
     participantExternalId,
     validatedSkillsCount,
+    isImproved,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'campaign-participations',
