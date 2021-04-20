@@ -196,6 +196,7 @@ describe('computePoleEmploiSendings', () => {
     });
 
     it('should create pole emploi sending', async () => {
+      // given
       const payload = {
         campagne: {
           nom: 'Campagne Pôle Emploi',
@@ -254,8 +255,10 @@ describe('computePoleEmploiSendings', () => {
         payload,
       };
 
+      // when
       await computePoleEmploiSendings(code, 1);
 
+      // then
       const [ poleEmploiSending ] = await knex('pole-emploi-sendings').where({ type: PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_SHARING });
       expect(_.omit(poleEmploiSending, ['id', 'createdAt'])).to.deep.equal(expectedResults);
     });

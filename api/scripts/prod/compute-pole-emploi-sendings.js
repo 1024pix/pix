@@ -119,7 +119,7 @@ async function _computeSharedPoleEmploiSendings(participation) {
   const user = await userRepository.get(participation.userId);
   const campaign = await campaignRepository.get(participation.campaignId);
   const targetProfile = await targetProfileRepository.get(campaign.targetProfileId);
-  const participationResult = await campaignParticipationResultRepository.getByParticipationId(participation.id);
+  const participationResult = await campaignParticipationResultRepository.getByParticipationId({ campaignParticipationId: participation.id });
 
   const payload = PoleEmploiPayload.buildForParticipationShared({
     user,
