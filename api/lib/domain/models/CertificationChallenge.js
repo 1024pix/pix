@@ -59,6 +59,10 @@ class CertificationChallenge {
   neutralize() {
     this.isNeutralized = true;
   }
+
+  isPixPlus() {
+    return Boolean(this.certifiableBadgeKey);
+  }
 }
 
 module.exports = CertificationChallenge;

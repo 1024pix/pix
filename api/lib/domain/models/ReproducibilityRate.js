@@ -22,6 +22,10 @@ class ReproducibilityRate {
   isEnoughToBeCertified() {
     return this.value >= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED;
   }
+
+  isEqualOrAbove(value) {
+    return this.value >= value;
+  }
 }
 
 module.exports = {

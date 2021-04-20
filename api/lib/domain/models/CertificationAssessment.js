@@ -55,6 +55,20 @@ class CertificationAssessment {
       throw new ChallengeToBeNeutralizedNotFoundError();
     }
   }
+
+  listCertifiableBadgeKeysTaken() {
+    return _(this.certificationChallenges)
+      .filter((certificationChallenge) => certificationChallenge.isPixPlus())
+      .uniqBy('certifiableBadgeKey')
+      .map('certifiableBadgeKey')
+      .value();
+  }
+
+  findAnswersForCertifiableBadgeKey(certifiableBadgeKey) {
+    const certificationChallengesForBadge = _.filter(this.certificationChallenges, { certifiableBadgeKey });
+    const challengeIds = _.map(certificationChallengesForBadge, 'challengeId');
+    return _.filter(this.certificationAnswersByDate, ({ challengeId }) => _.includes(challengeIds, challengeId));
+  }
 }
 
 CertificationAssessment.states = states;
