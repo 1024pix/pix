@@ -17,13 +17,13 @@ Ex : "Pix App", "Pix Admin", "Pix Orga", "Pix API", "Pix Certif"
 
 Les messages de commit doivent être rédigés en anglais (décision d'équipe du 27/04/2017).
 
-50 char max pour respecter les conventions de l’écosystème notamment GitHub.
+50 caractères au maximum pour respecter les conventions de l’écosystème notamment GitHub.
 
 Majuscule et verbe d’action pour être en harmonie avec les conventions de Git.
 
 Si le message n'est pas 100 % autoportant, on peut ajouter une description (après une ligne vide) qui explique la motivation du commit.
 
-On suit la convention que le sujet doit marcher comme une fin de phrase à `If applied, this commit will...`.
+On suit la convention que le sujet doit marcher comme une fin de phrase à `If applied, this commit will… `.
 
 > A properly formed Git commit subject line should always be able to complete the following sentence:
 >
@@ -75,6 +75,16 @@ DOC | PR relative à de la documentation
 #### DESCRIPTION
 
 La description de l'US doit être en français, car il s'agit d'un produit francophone et qu'on souhaite que les gens, même loin de l'informatique, s'intéressent à notre CHANGELOG.
+
+On suit la convention que la description doit marcher comme une fin de phrase à `Une fois mergée, cette _pull request_ permettra de …`.
+
+// BAD
+// Serialise tout les badgeParnerCompetences
+// Proposition d'ADR pour séparer Domain Transactions et Domain Events
+
+// GOOD
+// Sérialiser tout les badgeParnerCompetences
+// Proposer un ADR pour séparer Domain Transactions et Domain Events
 
 #### `PROJET_REF`
 
