@@ -1,15 +1,16 @@
 .navbar-burger-menu {
-  padding: 20px 0;
 
   &__user-info {
     display: flex;
     flex-direction: column;
     background-color: $light-blue;
+    padding: 20px 0;
   }
 
   &__navigation {
     display: flex;
     flex-direction: column;
+    padding: 20px 0;
   }
 }
 
@@ -21,9 +22,23 @@
 
 .navbar-burger-menu-user-info {
 
+  &__list {
+    padding-left: 0;
+    margin: 0;
+  }
+
   &__item {
+    list-style: none;
     margin: 5px 0;
-    padding: 6px 32px;
+    padding: 10px 0;
+  }
+}
+
+.navbar-burger-menu-user-info-item {
+
+  &__link {
+    margin: 5px 0;
+    padding: 10px 32px;
     color: $white;
     font-size: 1rem;
     font-family: $font-open-sans;
@@ -33,20 +48,6 @@
       color: $white;
       text-decoration: none;
     }
-  }
-}
-
-.navbar-burger-menu-user-info-item {
-
-  &__name {
-    font-size: 1.25rem;
-    font-weight: $font-semi-bold;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    padding: 6px 32px;
-    color: $grey-70;
-    margin: 0 0 20px 0;
   }
 
   &__logout {
@@ -68,13 +69,37 @@
 }
 
 .navbar-burger-menu-navigation {
-  margin-bottom: auto;
+
+  &__name {
+    font-size: 1.25rem;
+    font-weight: $font-semi-bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 6px 32px;
+    color: $grey-70;
+    margin: 0 0 20px 0;
+  }
+
+  &__list {
+    padding-left: 0;
+    margin: 0;
+  }
 
   &__item {
+    list-style: none;
+    padding: 12px 0;
     margin: 5px 0;
-    padding: 10px 32px;
+  }
+}
+
+.navbar-burger-menu-navigation-item {
+  margin-bottom: auto;
+
+  &__link {
     color: $grey-35;
     font-size: 1.125rem;
+    padding: 12px 32px;
     font-family: $font-roboto;
 
     &.active {
@@ -99,5 +124,6 @@
     margin-bottom: 21px;
     display: flex;
     flex-direction: column;
+    padding: 10px 32px;
   }
 }
