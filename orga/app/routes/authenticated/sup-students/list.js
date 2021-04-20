@@ -8,6 +8,7 @@ export default class ListRoute extends Route {
   queryParams = {
     lastName: { refreshModel: true },
     firstName: { refreshModel: true },
+    studentNumber: { refreshModel: true },
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
   };
@@ -20,6 +21,7 @@ export default class ListRoute extends Route {
         organizationId: this.currentUser.organization.id,
         lastName: params.lastName,
         firstName: params.firstName,
+        studentNumber: params.studentNumber,
       },
       page: {
         number: params.pageNumber,
@@ -32,6 +34,7 @@ export default class ListRoute extends Route {
     if (isExiting) {
       controller.lastName = null;
       controller.firstName = null;
+      controller.studentNumber = null;
       controller.pageNumber = null;
       controller.pageSize = null;
     }
