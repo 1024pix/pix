@@ -497,6 +497,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           userId,
           campaignId: campaign.id,
         });
+
         assessmentId = databaseBuilder.factory.buildAssessment({
           userId,
           type: Assessment.types.CAMPAIGN,
@@ -544,6 +545,52 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
         // then
         expect(assessmentReturned).to.equal(null);
+      });
+    });
+
+    context('when campaign is multipleSending', () => {
+      beforeEach(async () => {
+        campaign = databaseBuilder.factory.buildCampaign({
+          name: 'Campagne',
+          code: 'AZERTY',
+          multipleSendings: true,
+        });
+
+        const oldCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId: campaign.id,
+          isImproved: true,
+        });
+
+        databaseBuilder.factory.buildAssessment({
+          userId,
+          type: Assessment.types.CAMPAIGN,
+          campaignParticipationId: oldCampaignParticipation.id,
+        }).id;
+
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId: campaign.id,
+        });
+
+        assessmentId = databaseBuilder.factory.buildAssessment({
+          userId,
+          type: Assessment.types.CAMPAIGN,
+          campaignParticipationId: campaignParticipation.id,
+        }).id;
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return the assessment with last campaign launched', async () => {
+        // when
+        const assessmentReturned = await assessmentRepository.findLastCampaignAssessmentByUserIdAndCampaignCode({
+          userId,
+          campaignCode: campaign.code,
+        });
+
+        // then
+        expect(assessmentReturned.id).to.equal(assessmentId);
       });
     });
   });
