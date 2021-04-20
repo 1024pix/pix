@@ -8,8 +8,8 @@ module.exports = class CompetenceAnswerCollection {
   }
 
   static from({ answersForCompetence, challengesForCompetence }) {
-    const answersForScoring = answersForCompetence.map((answer) => {
-      const challenge = _.find(challengesForCompetence, { challengeId: answer.challengeId });
+    const answersForScoring = challengesForCompetence.map((challenge) => {
+      const answer = _.find(answersForCompetence, { challengeId: challenge.challengeId });
       return new AnswerForScoring(answer, challenge);
     });
     return new CompetenceAnswerCollection(answersForScoring);
@@ -30,7 +30,7 @@ module.exports = class CompetenceAnswerCollection {
     return nbOfCorrectAnswers;
   }
 
-  numberOfChallengesAnswered() {
+  numberOfChallenges() {
     const numberOfChallenges = _(this.answers).map((answer) => {
       if (this.answers.length < 3 && answer.isQROCMdep()) {
         return 2;
@@ -68,14 +68,15 @@ class AnswerForScoring {
   }
 
   isCorrect() {
-    return this.answer.isOk();
+    return Boolean(this?.answer.isOk());
   }
 
   isAFullyCorrectQROCMdep() {
-    return this.isQROCMdep() && this.answer.isOk();
+    return this.isQROCMdep() && this.isCorrect();
   }
 
   isAPartiallyCorrectQROCMdep() {
-    return this.isQROCMdep() && this.answer.isPartially();
+    return this.isQROCMdep()
+      && Boolean(this.answer) && this.answer.isPartially();
   }
 }
