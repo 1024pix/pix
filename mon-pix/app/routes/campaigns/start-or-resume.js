@@ -63,7 +63,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.modelFor('campaigns');
   }
 
-  async redirect(campaign) {
+  async redirect(campaign, transition) {
     if (campaign.isArchived) {
       this.isLoading = false;
       return;
@@ -79,7 +79,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       return this.replaceWith('campaigns.fill-in-participant-external-id', campaign);
     }
 
-    if (this._shouldStartCampaignParticipation) {
+    if (this._shouldStartCampaignParticipation(campaign, transition.to.queryParams)) {
       await this._createCampaignParticipation(campaign);
     }
 
@@ -224,8 +224,8 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       && !this.state.doesUserHaveOngoingParticipation;
   }
 
-  get _shouldStartCampaignParticipation() {
-    return !this.state.doesUserHaveOngoingParticipation;
+  _shouldStartCampaignParticipation(campaign, queryParams) {
+    return !this.state.doesUserHaveOngoingParticipation || (campaign.multipleSendings && queryParams.retry);
   }
 
   _handleQueryParamBoolean(value, defaultValue) {

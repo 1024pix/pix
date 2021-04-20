@@ -326,6 +326,38 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           expect(currentURL()).to.contains('/assessments');
         });
       });
+
+      context('When the participation is shared', () => {
+        context('when the campaign allows multiple participations', function() {
+
+          beforeEach(async function() {
+            campaign = server.create('campaign', { type: ASSESSMENT, multipleSendings: true });
+            const assessment = server.create('assessment', { type: 'CAMPAIGN', state: 'completed', codeCampaign: campaign.code });
+            server.create('campaign-participation', { sharedAt: new Date('2020-01-01'), isShared: true, createdAt: new Date('2020-01-01'), assessment, campaign });
+            await visit(`campagnes/${campaign.code}?retry=true`);
+          });
+
+          it('should redirect to assessment when retrying the campaign', async function() {
+            // then
+            expect(currentURL()).to.contains('/evaluation');
+          });
+        });
+
+        context('when the campaign does not allow multiple participations', () => {
+          beforeEach(async function() {
+            campaign = server.create('campaign', { type: ASSESSMENT, multipleSendings: false });
+            const assessment = server.create('assessment', { type: 'CAMPAIGN', state: 'completed', codeCampaign: campaign.code });
+            const campaignParticipationResult = server.create('campaign-participation-result', {});
+            server.create('campaign-participation', { sharedAt: new Date('2020-01-01'), isShared: true, createdAt: new Date('2020-01-01'), user: prescritUser, campaign, assessment, campaignParticipationResult });
+            await visit(`campagnes/${campaign.code}?retry=true&hasUserSeenLandingPage=true`);
+          });
+
+          it('should redirect to assessment results when retrying the campaign', async function() {
+            // then
+            expect(currentURL()).to.contains('/evaluation/resultats/');
+          });
+        });
+      });
     });
   });
 });

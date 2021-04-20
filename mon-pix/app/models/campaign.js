@@ -21,6 +21,7 @@ export default class Campaign extends Model {
   @attr('string') customResultPageText;
   @attr('string') customResultPageButtonText;
   @attr('string') customResultPageButtonUrl;
+  @attr('boolean') multipleSendings;
 
   get isAssessment() {
     return this.type === 'ASSESSMENT';
