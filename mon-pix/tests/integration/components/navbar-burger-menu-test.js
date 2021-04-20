@@ -26,7 +26,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
     expect(contains('Bobby Carotte')).to.exist;
   });
 
-  it('should display the navigation menu with expected elements outside of campaign results', async function() {
+  it('should display the navigation menu with "Home", "Skills", "Certification", "My tutorials" and "I have a code" links', async function() {
     // when
     await render(hbs`<NavbarBurgerMenu />`);
 
@@ -41,7 +41,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
     expect(contains(this.intl.t('navigation.main.code'))).to.exist;
   });
 
-  it('should display the user menu with expected elements', async function() {
+  it('should display the user menu with "My account", "My certifications", "Help", "Log-out" links', async function() {
     // when
     await render(hbs`<NavbarBurgerMenu />`);
 
