@@ -1,56 +1,69 @@
-<div class="navbar-burger-menu navbar-burger-menu__user-info">
-  {{#if this.currentUser.user}}
-    <div class="navbar-burger-menu-user-info__item">
-      <p class="navbar-burger-menu-user-info-item__name">
+<nav class="navbar-burger-menu">
+  <div class="navbar-burger-menu__navigation">
+
+    {{#if this.currentUser.user}}
+      <p class="navbar-burger-menu-navigation__name">
         {{this.currentUser.user.fullName}}
       </p>
-      <p class="navbar-burger-menu-user-info-item__email">
-        {{this.currentUser.user.email}}
-      </p>
-    </div>
-  {{/if}}
-
-  {{#if this.showMyTestsLink}}
-    <LinkTo @route="user-tests" class="navbar-burger-menu-user-info__item">
-      {{t 'navigation.user.tests'}}
+    {{/if}}
+    <ul class="navbar-burger-menu-navigation__list">
+      <li class="navbar-burger-menu-navigation__item">
+        <LinkTo @route="user-dashboard" class="navbar-burger-menu-navigation-item__link">
+          {{t 'navigation.main.dashboard'}}
+        </LinkTo>
+      </li>
+      <li class="navbar-burger-menu-navigation__item">
+        <LinkTo @route="profile" class="navbar-burger-menu-navigation-item__link">
+          {{t 'navigation.main.skills'}}
+        </LinkTo>
+      </li>
+      <li class="navbar-burger-menu-navigation__item">
+        <LinkTo @route="certifications" class="navbar-burger-menu-navigation-item__link">
+          {{t 'navigation.main.start-certification'}}
+        </LinkTo>
+      </li>
+      <li class="navbar-burger-menu-navigation__item">
+        <LinkTo @route="user-tutorials" class="navbar-burger-menu-navigation-item__link">
+          {{t 'navigation.main.tutorials'}}
+        </LinkTo>
+      </li>
+    </ul>
+  </div>
+  <div class="navbar-burger-menu-navigation__item navbar-burger-menu-navigation-item__bottom-item">
+    <LinkTo @route="fill-in-campaign-code" class="button button--thin">
+      {{t 'navigation.main.code'}}
     </LinkTo>
-  {{/if}}
-
-  <LinkTo @route="user-certifications" class="navbar-burger-menu-user-info__item">
-    {{t 'navigation.user.certifications'}}
-  </LinkTo>
-
-  <a href="{{t 'navigation.main.link-help'}}" target="_blank" class="navbar-burger-menu-user-info__item" rel="noopener noreferrer">
-    {{t 'navigation.main.help'}}
-  </a>
-
-  <LinkTo @route="logout" class="navbar-burger-menu-user-info__item navbar-burger-menu-user-info-item__logout">
-    {{t 'navigation.user.sign-out'}}
-  </LinkTo>
-</div>
-
-<div class="navbar-burger-menu navbar-burger-menu__navigation">
-  <LinkTo @route="user-dashboard" class="navbar-burger-menu-navigation__item">
-    {{t 'navigation.main.dashboard'}}
-  </LinkTo>
-  <LinkTo @route="user-account" class="navbar-burger-menu-navigation__item" >
-    {{t 'navigation.user.account'}}
-  </LinkTo>
-  <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
-    {{t 'navigation.main.skills'}}
-  </LinkTo>
-
-  <LinkTo @route="certifications" class="navbar-burger-menu-navigation__item">
-    {{t 'navigation.main.start-certification'}}
-  </LinkTo>
-
-  <LinkTo @route="user-tutorials" class="navbar-burger-menu-navigation__item">
-    {{t 'navigation.main.tutorials'}}
-  </LinkTo>
-
-</div>
-<div class="navbar-burger-menu-navigation__item navbar-burger-menu-navigation__bottom-item">
-  <LinkTo @route="fill-in-campaign-code" class="button button--thin">
-    {{t 'navigation.main.code'}}
-  </LinkTo>
-</div>
+  </div>
+  <div class="navbar-burger-menu__user-info">
+    <ul class="navbar-burger-menu-user-info__list">
+      {{#if this.showMyTestsLink}}
+        <li class="navbar-burger-menu-user-info__item">
+          <LinkTo @route="user-tests" class="navbar-burger-menu-user-info-item__link">
+            {{t 'navigation.user.tests'}}
+          </LinkTo>
+        </li>
+      {{/if}}
+      <li class="navbar-burger-menu-user-info__item">
+        <LinkTo @route="user-account" class="navbar-burger-menu-user-info-item__link" >
+          {{t 'navigation.user.account'}}
+        </LinkTo>
+      </li>
+      <li class="navbar-burger-menu-user-info__item">
+        <LinkTo @route="user-certifications" class="navbar-burger-menu-user-info-item__link">
+          {{t 'navigation.user.certifications'}}
+        </LinkTo>
+      </li>
+      <li class="navbar-burger-menu-user-info__item">
+        <a href="{{t 'navigation.main.link-help'}}" target="_blank" class="navbar-burger-menu-user-info-item__link" rel="noopener noreferrer">
+          {{t 'navigation.main.help'}}
+        </a>
+      </li>
+      <li class="navbar-burger-menu-user-info__item">
+        <LinkTo @route="logout" class="navbar-burger-menu-user-info-item__link navbar-burger-menu-user-info-item__logout">
+          <FaIcon @icon="power-off" class="navbar-burger-menu-user-info-item-logout__icon"/>
+          {{t 'navigation.user.sign-out'}}
+        </LinkTo>
+      </li>
+    </ul>
+  </div>
+</nav>

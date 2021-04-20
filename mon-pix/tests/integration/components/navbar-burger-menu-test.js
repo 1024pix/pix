@@ -12,27 +12,46 @@ describe('Integration | Component | navbar-burger-menu', function() {
 
   beforeEach(async function() {
     class currentUser extends Service { user = {
-      email: 'bobby.carotte@example.net',
       fullName: 'Bobby Carotte',
     }}
     this.owner.register('service:currentUser', currentUser);
 
   });
 
-  it('should display the navigation menu with expected elements outside of campaign results', async function() {
+  it('should display the user\'s fullname', async function() {
+    // when
+    await render(hbs`<NavbarBurgerMenu />`);
+
+    // then
+    expect(contains('Bobby Carotte')).to.exist;
+  });
+
+  it('should display the navigation menu with "Home", "Skills", "Certification", "My tutorials" and "I have a code" links', async function() {
     // when
     await render(hbs`<NavbarBurgerMenu />`);
 
     // then
     expect(find('.navbar-burger-menu__navigation')).to.exist;
 
-    expect(findAll('.navbar-burger-menu-navigation__item')).to.have.lengthOf(6);
-    expect(contains('Accueil')).to.exist;
-    expect(contains('Mon compte')).to.exist;
-    expect(contains('Compétences')).to.exist;
-    expect(contains('Certification')).to.exist;
-    expect(contains('Mes tutos')).to.exist;
-    expect(contains('J\'ai un code')).to.exist;
+    expect(findAll('.navbar-burger-menu-navigation__item')).to.have.lengthOf(5);
+    expect(contains(this.intl.t('navigation.main.dashboard'))).to.exist;
+    expect(contains(this.intl.t('navigation.main.skills'))).to.exist;
+    expect(contains(this.intl.t('navigation.main.start-certification'))).to.exist;
+    expect(contains(this.intl.t('navigation.main.tutorials'))).to.exist;
+    expect(contains(this.intl.t('navigation.main.code'))).to.exist;
+  });
+
+  it('should display the user menu with "My account", "My certifications", "Help", "Log-out" links', async function() {
+    // when
+    await render(hbs`<NavbarBurgerMenu />`);
+
+    // then
+    expect(find('.navbar-burger-menu__user-info')).to.exist;
+
+    expect(contains(this.intl.t('navigation.user.account'))).to.exist;
+    expect(contains(this.intl.t('navigation.user.certifications'))).to.exist;
+    expect(contains(this.intl.t('navigation.main.help'))).to.exist;
+    expect(contains(this.intl.t('navigation.user.sign-out'))).to.exist;
   });
 
   context('when user has participations', function() {
@@ -51,7 +70,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
       await render(hbs`<NavbarBurgerMenu />`);
 
       // then
-      expect(contains('Mes parcours')).to.exist;
+      expect(contains(this.intl.t('navigation.user.tests'))).to.exist;
     });
   });
 
@@ -71,7 +90,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
       await render(hbs`<NavbarBurgerMenu />`);
 
       // then
-      expect(contains('Mes parcours')).to.not.exist;
+      expect(contains(this.intl.t('navigation.user.tests'))).to.not.exist;
     });
   });
 });
