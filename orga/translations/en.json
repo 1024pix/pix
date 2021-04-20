@@ -547,6 +547,10 @@
           "last-name": {
             "aria-label": "Enter a last name",
             "label": "Search by last name"
+          },
+          "student-number": {
+            "aria-label": "Enter a student number",
+            "label": "Search by student number"
           }
         },
         "row-title": "Student"
