@@ -9,19 +9,23 @@ class CertifiedLevel {
   }
 
   static from({
-    numberOfChallengesAnswered,
+    numberOfChallenges,
     numberOfNeutralizedAnswers,
     numberOfCorrectAnswers,
     estimatedLevel,
     reproducibilityRate,
   }) {
     const rule = _rules.findRuleFor({
-      numberOfChallengesAnswered,
+      numberOfChallenges,
       numberOfCorrectAnswers,
       numberOfNeutralizedAnswers,
     });
     if (!rule) {
-      throw new Error('Règle de calcul de niveau certifié manquante.');
+      throw new MissingCertifiedLevelRuleError({
+        numberOfChallenges,
+        numberOfNeutralizedAnswers,
+        numberOfCorrectAnswers,
+      });
     } else {
       return rule.apply({ reproducibilityRate, estimatedLevel });
     }
@@ -60,14 +64,14 @@ module.exports = {
 
 class Rule {
   constructor({
-    numberOfChallengesAnswered,
+    numberOfChallenges,
     numberOfCorrectAnswers,
     numberOfNeutralizedAnswers,
     actionWhenReproducibilityRateEqualOrAbove80,
     actionWhenReproducibilityBetween70And80,
     actionWhenReproducibilityBelow70,
   }) {
-    this.numberOfChallengesAnswered = numberOfChallengesAnswered;
+    this.numberOfChallenges = numberOfChallenges;
     this.numberOfCorrectAnswers = numberOfCorrectAnswers;
     this.numberOfNeutralizedAnswers = numberOfNeutralizedAnswers;
     this.actionWhenReproducibilityRateEqualOrAbove80 = actionWhenReproducibilityRateEqualOrAbove80;
@@ -76,11 +80,11 @@ class Rule {
   }
 
   isApplicable({
-    numberOfChallengesAnswered,
+    numberOfChallenges,
     numberOfCorrectAnswers,
     numberOfNeutralizedAnswers,
   }) {
-    return (numberOfChallengesAnswered === this.numberOfChallengesAnswered
+    return (numberOfChallenges === this.numberOfChallenges
       && numberOfCorrectAnswers === this.numberOfCorrectAnswers
       && numberOfNeutralizedAnswers === this.numberOfNeutralizedAnswers);
   }
@@ -99,7 +103,7 @@ class Rule {
 class Rule1 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 3,
+      numberOfChallenges: 3,
       numberOfCorrectAnswers: 3,
       numberOfNeutralizedAnswers: 0,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
@@ -112,7 +116,7 @@ class Rule1 extends Rule {
 class Rule2 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 3,
+      numberOfChallenges: 3,
       numberOfCorrectAnswers: 2,
       numberOfNeutralizedAnswers: 0,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
@@ -125,7 +129,7 @@ class Rule2 extends Rule {
 class Rule3 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 3,
+      numberOfChallenges: 3,
       numberOfCorrectAnswers: 2,
       numberOfNeutralizedAnswers: 1,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
@@ -138,7 +142,7 @@ class Rule3 extends Rule {
 class Rule4 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 3,
+      numberOfChallenges: 3,
       numberOfCorrectAnswers: 1,
       numberOfNeutralizedAnswers: 0,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
@@ -151,7 +155,7 @@ class Rule4 extends Rule {
 class Rule5 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 3,
+      numberOfChallenges: 3,
       numberOfCorrectAnswers: 1,
       numberOfNeutralizedAnswers: 1,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
@@ -164,7 +168,7 @@ class Rule5 extends Rule {
 class Rule6 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 3,
+      numberOfChallenges: 3,
       numberOfCorrectAnswers: 1,
       numberOfNeutralizedAnswers: 2,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
@@ -177,7 +181,7 @@ class Rule6 extends Rule {
 class Rule7 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 3,
+      numberOfChallenges: 3,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 0,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
@@ -190,7 +194,7 @@ class Rule7 extends Rule {
 class Rule8 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 3,
+      numberOfChallenges: 3,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 1,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
@@ -203,7 +207,7 @@ class Rule8 extends Rule {
 class Rule9 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 3,
+      numberOfChallenges: 3,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 2,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
@@ -216,7 +220,7 @@ class Rule9 extends Rule {
 class Rule10 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 3,
+      numberOfChallenges: 3,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 3,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
@@ -229,7 +233,7 @@ class Rule10 extends Rule {
 class Rule11 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 2,
+      numberOfChallenges: 2,
       numberOfCorrectAnswers: 2,
       numberOfNeutralizedAnswers: 0,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
@@ -242,7 +246,7 @@ class Rule11 extends Rule {
 class Rule12 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 2,
+      numberOfChallenges: 2,
       numberOfCorrectAnswers: 1,
       numberOfNeutralizedAnswers: 0,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
@@ -255,7 +259,7 @@ class Rule12 extends Rule {
 class Rule13 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 2,
+      numberOfChallenges: 2,
       numberOfCorrectAnswers: 1,
       numberOfNeutralizedAnswers: 1,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
@@ -268,7 +272,7 @@ class Rule13 extends Rule {
 class Rule14 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 2,
+      numberOfChallenges: 2,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 0,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
@@ -281,7 +285,7 @@ class Rule14 extends Rule {
 class Rule15 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 2,
+      numberOfChallenges: 2,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 1,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
@@ -294,7 +298,7 @@ class Rule15 extends Rule {
 class Rule16 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 2,
+      numberOfChallenges: 2,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 2,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
@@ -307,7 +311,7 @@ class Rule16 extends Rule {
 class Rule17 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 1,
+      numberOfChallenges: 1,
       numberOfCorrectAnswers: 1,
       numberOfNeutralizedAnswers: 0,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
@@ -320,7 +324,7 @@ class Rule17 extends Rule {
 class Rule18 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 1,
+      numberOfChallenges: 1,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 1,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
@@ -333,7 +337,7 @@ class Rule18 extends Rule {
 class Rule19 extends Rule {
   constructor() {
     super({
-      numberOfChallengesAnswered: 1,
+      numberOfChallenges: 1,
       numberOfCorrectAnswers: 0,
       numberOfNeutralizedAnswers: 0,
       actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.invalidate,
@@ -366,14 +370,28 @@ const _rules = {
     new Rule19(),
   ],
   findRuleFor({
-    numberOfChallengesAnswered,
+    numberOfChallenges,
     numberOfCorrectAnswers,
     numberOfNeutralizedAnswers,
   }) {
     return this.rules.find((rule) => rule.isApplicable({
-      numberOfChallengesAnswered,
+      numberOfChallenges,
       numberOfCorrectAnswers,
       numberOfNeutralizedAnswers,
     }));
   },
 };
+
+class MissingCertifiedLevelRuleError extends Error {
+  constructor({
+    numberOfChallenges,
+    numberOfCorrectAnswers,
+    numberOfNeutralizedAnswers,
+  }) {
+    const message = 'Règle de calcul de niveau certifié manquante pour ' +
+      `${numberOfChallenges} épreuves proposées ` +
+      `${numberOfCorrectAnswers} réponses correctes et ` +
+      `${numberOfNeutralizedAnswers} épreuves neutralisées`;
+    super(message);
+  }
+}
