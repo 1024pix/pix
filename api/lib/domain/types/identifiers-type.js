@@ -54,4 +54,9 @@ _assignValueToExport(typesPositiveInteger32bits, implementationType.positiveInte
 _assignValueToExport(typesAlphanumeric, implementationType.alphanumeric);
 _assignValueToExport(typesAlphanumeric255, implementationType.alphanumeric255);
 
+valuesToExport.positiveInteger32bits = {
+  min: postgreSQLSequenceDefaultStart,
+  max: postgreSQLSequenceEnd,
+};
+
 module.exports = valuesToExport;
