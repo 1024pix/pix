@@ -9,6 +9,7 @@ const {
   buildCertificationDataWithNoCompetenceMarks,
   buildValidatedPublishedCertificationData,
   buildValidatedUnpublishedCertificationData,
+  buildCancelledCertificationData,
   buildRejectedPublishedCertificationData,
   buildErrorUnpublishedCertificationData,
 } = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
@@ -81,6 +82,28 @@ describe('Integration | Repository | Certification-ls ', () => {
 
       // then
       expect(certificationResults).to.deep.equal([expected]);
+    });
+
+    it('should not return cancelled certification for a given UAI', async () => {
+      // given
+      const organizationId = buildOrganization(uai).id;
+      const user = buildUser();
+      const schoolingRegistration = buildSchoolingRegistration({
+        userId: user.id, organizationId,
+      });
+      buildCancelledCertificationData(
+        {
+          user, schoolingRegistration, verificationCode, pixScore, competenceMarks,
+        },
+      );
+
+      await databaseBuilder.commit();
+
+      // when
+      const certificationResults = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
+
+      // then
+      expect(certificationResults).to.deep.equal([]);
     });
 
     it('should return rejected certification results for a given UAI', async () => {
