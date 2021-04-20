@@ -119,6 +119,17 @@
     {{else}}
     <div class="organization__data">
       <h1 class="organization__name">{{@organization.name}}</h1>
+
+      {{#if @organization.tags}}
+        <ul class="organization-tags-list">
+          {{#each @organization.tags as |tag|}}
+            <li class="organization-tags-list__tag">
+              <PixTag @compact="true" @color="purple-light">{{tag.name}}</PixTag>
+            </li>
+          {{/each}}
+        </ul>
+      {{/if}}
+
       <div class="organization-information-section__content">
         <div>
           <p>

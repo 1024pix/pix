@@ -38,11 +38,23 @@
     }
 
     .organization__data {
+      max-width: 100%;
 
       .organization__name {
         font-size: 1.5rem;
         font-weight: 600;
         margin-bottom: 20px;
+      }
+
+      .organization-tags-list {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+
+        &__tag {
+          margin-right: 6px;
+        }
       }
     }
 
