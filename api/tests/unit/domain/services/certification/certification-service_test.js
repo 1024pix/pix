@@ -22,7 +22,7 @@ describe('Unit | Service | Certification Service', function() {
 
         // then
         sinon.assert.calledOnce(certificationAssessmentRepository.getByCertificationCourseId);
-        sinon.assert.calledWith(certificationAssessmentRepository.getByCertificationCourseId, 'course_id');
+        sinon.assert.calledWith(certificationAssessmentRepository.getByCertificationCourseId, { certificationCourseId: 'course_id' });
       });
 
       it('should call CertificationResultService with appropriate arguments', async () => {
