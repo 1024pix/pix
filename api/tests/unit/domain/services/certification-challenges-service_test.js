@@ -44,13 +44,14 @@ describe('Unit | Service | Certification Challenge Service', () => {
     return challenge;
   }
 
-  function _createCertificationChallenge(challengeId, skill) {
+  function _createCertificationChallenge(challengeId, skill, certifiableBadgeKey = null) {
     return new CertificationChallenge({
       challengeId,
       associatedSkillName: skill.name,
       associatedSkillId: skill.id,
       competenceId: skill.competenceId,
       isNeutralized: false,
+      certifiableBadgeKey,
     });
   }
 
@@ -686,9 +687,10 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
       sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456);
 
       // then
       let expectedCertificationChallenges = [];
@@ -696,42 +698,42 @@ describe('Unit | Service | Certification Challenge Service', () => {
         id: 'faireDesCourses3_id',
         name: '@faireDesCourses3',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses4_dec1', {
         id: 'faireDesCourses4_id',
         name: '@faireDesCourses4',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_direBonjour2_dec1', {
         id: 'direBonjour2_id',
         name: '@direBonjour2',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_conduireUneVoiture2_dec1', {
         id: 'conduireUneVoiture2_id',
         name: '@conduireUneVoiture2',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents2_dec1', {
         id: 'laverLesDents2_id',
         name: '@laverLesDents2',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents3_dec1', {
         id: 'laverLesDents3_id',
         name: '@laverLesDents3',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit4_dec1', {
         id: 'faireSonLit4_id',
         name: '@faireSonLit4',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit6_dec1', {
         id: 'faireSonLit6_id',
         name: '@faireSonLit6',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
       expect(certificationChallengesForPlus).to.have.length(8);
     });
@@ -802,9 +804,10 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 2));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
       sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456);
 
       // then
       let expectedCertificationChallenges = [];
@@ -812,42 +815,42 @@ describe('Unit | Service | Certification Challenge Service', () => {
         id: 'faireDesCourses3_id',
         name: '@faireDesCourses3',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses4_dec1', {
         id: 'faireDesCourses4_id',
         name: '@faireDesCourses4',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_direBonjour2_dec2', {
         id: 'direBonjour2_id',
         name: '@direBonjour2',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_conduireUneVoiture2_dec1', {
         id: 'conduireUneVoiture2_id',
         name: '@conduireUneVoiture2',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents2_dec2', {
         id: 'laverLesDents2_id',
         name: '@laverLesDents2',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents3_dec1', {
         id: 'laverLesDents3_id',
         name: '@laverLesDents3',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit4_dec2', {
         id: 'faireSonLit4_id',
         name: '@faireSonLit4',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit6_dec1', {
         id: 'faireSonLit6_id',
         name: '@faireSonLit6',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
       expect(certificationChallengesForPlus).to.have.length(8);
     });
@@ -924,9 +927,10 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', [{ id: 'faireSonLit5_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
       sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456);
 
       // then
       let expectedCertificationChallenges = [];
@@ -934,42 +938,42 @@ describe('Unit | Service | Certification Challenge Service', () => {
         id: 'faireDesCourses3_id',
         name: '@faireDesCourses3',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses4_dec1', {
         id: 'faireDesCourses4_id',
         name: '@faireDesCourses4',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_direBonjour2_dec1', {
         id: 'direBonjour2_id',
         name: '@direBonjour2',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_conduireUneVoiture2_dec1', {
         id: 'conduireUneVoiture2_id',
         name: '@conduireUneVoiture2',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents3_dec1', {
         id: 'laverLesDents3_id',
         name: '@laverLesDents3',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit4_dec1', {
         id: 'faireSonLit4_id',
         name: '@faireSonLit4',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit5_dec1', {
         id: 'faireSonLit5_id',
         name: '@faireSonLit5',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit6_dec1', {
         id: 'faireSonLit6_id',
         name: '@faireSonLit6',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
       expect(certificationChallengesForPlus).to.have.length(8);
     });
@@ -1047,9 +1051,10 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', [{ id: 'faireSonLit5_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
       sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456);
 
       // then
       let expectedCertificationChallenges = [];
@@ -1057,22 +1062,22 @@ describe('Unit | Service | Certification Challenge Service', () => {
         id: 'faireDesCourses3_id',
         name: '@faireDesCourses3',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses4_dec1', {
         id: 'faireDesCourses4_id',
         name: '@faireDesCourses4',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_direBonjour2_dec1', {
         id: 'direBonjour2_id',
         name: '@direBonjour2',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_conduireUneVoiture2_dec1', {
         id: 'conduireUneVoiture2_id',
         name: '@conduireUneVoiture2',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
       expect(certificationChallengesForPlus).to.have.length(4);
     });
@@ -1142,9 +1147,10 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit', [{ id: 'faireSonLit6_id' }, { id: 'faireSonLit4_id' }], 1));
       sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456);
 
       // then
       let expectedCertificationChallenges = [];
@@ -1152,37 +1158,37 @@ describe('Unit | Service | Certification Challenge Service', () => {
         id: 'faireDesCourses3_id',
         name: '@faireDesCourses3',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses4_dec1', {
         id: 'faireDesCourses4_id',
         name: '@faireDesCourses4',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_direBonjour2_dec1', {
         id: 'direBonjour2_id',
         name: '@direBonjour2',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_conduireUneVoiture2_dec1', {
         id: 'conduireUneVoiture2_id',
         name: '@conduireUneVoiture2',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents2_dec1', {
         id: 'laverLesDents2_id',
         name: '@laverLesDents2',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents3_dec1', {
         id: 'laverLesDents3_id',
         name: '@laverLesDents3',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireSonLit_dec1', {
         id: 'faireSonLit6_id',
         name: '@faireSonLit6',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
       expect(certificationChallengesForPlus).to.have.length(7);
     });
@@ -1253,9 +1259,10 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
       sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+      const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456);
 
       // then
       let expectedCertificationChallenges = [];
@@ -1263,32 +1270,32 @@ describe('Unit | Service | Certification Challenge Service', () => {
         id: 'faireDesCourses3_id',
         name: '@faireDesCourses3',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_faireDesCourses4_dec1', {
         id: 'faireDesCourses4_id',
         name: '@faireDesCourses4',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_direBonjour2_dec1', {
         id: 'direBonjour2_id',
         name: '@direBonjour2',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_conduireUneVoiture2_dec1', {
         id: 'conduireUneVoiture2_id',
         name: '@conduireUneVoiture2',
         competenceId: 'comp_reussirDehors_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents2_dec1', {
         id: 'laverLesDents2_id',
         name: '@laverLesDents2',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expectedCertificationChallenges = expectedCertificationChallenges.concat(_createCertificationChallenge('ch_laverLesDents3_dec1', {
         id: 'laverLesDents3_id',
         name: '@laverLesDents3',
         competenceId: 'comp_faireBienDedans_id',
-      }));
+      }, 'BADGE_KEY'));
       expect(certificationChallengesForPlus).to.deep.include.members(expectedCertificationChallenges);
       expect(certificationChallengesForPlus).to.have.length(6);
     });

@@ -1,5 +1,5 @@
+const _ = require('lodash');
 const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
-
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
@@ -13,7 +13,10 @@ describe('Integration | Repository | Certification Challenge', function() {
     beforeEach(async () => {
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
 
-      certificationChallenge = domainBuilder.buildCertificationChallenge({ courseId: certificationCourseId });
+      certificationChallenge = domainBuilder.buildCertificationChallenge({
+        courseId: certificationCourseId,
+        certifiableBadgeKey: 'PIX-PROUT',
+      });
       certificationChallenge.id = undefined;
       await databaseBuilder.commit();
     });
@@ -28,7 +31,7 @@ describe('Integration | Repository | Certification Challenge', function() {
       // then
       expect(savedCertificationChallenge).to.be.an.instanceOf(CertificationChallenge);
       expect(savedCertificationChallenge).to.have.property('id').and.not.null;
-      expect(savedCertificationChallenge.challengeId).to.equal(certificationChallenge.challengeId);
+      expect(_.omit(savedCertificationChallenge, 'id')).to.deep.equal(_.omit(certificationChallenge, 'id'));
     });
   });
 

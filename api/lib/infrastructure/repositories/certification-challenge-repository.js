@@ -20,6 +20,7 @@ module.exports = {
       associatedSkillName: certificationChallenge.associatedSkillName,
       associatedSkillId: certificationChallenge.associatedSkillId,
       courseId: certificationChallenge.courseId,
+      certifiableBadgeKey: certificationChallenge.certifiableBadgeKey,
     });
     const savedCertificationChallenge = await certificationChallengeToSave.save(null, { transacting: domainTransaction.knexTransaction });
     return bookshelfToDomainConverter.buildDomainObject(CertificationChallengeBookshelf, savedCertificationChallenge);

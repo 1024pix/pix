@@ -12,6 +12,10 @@ class BadgeAcquisition {
     this.badgeId = badgeId;
     this.campaignParticipationId = campaignParticipationId;
   }
+
+  get badgeKey() {
+    return this.badge.key;
+  }
 }
 
 module.exports = BadgeAcquisition;
