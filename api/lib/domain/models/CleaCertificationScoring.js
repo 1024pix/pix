@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const Badge = require('../models/Badge');
-const PartnerCertification = require('./PartnerCertification');
+const PartnerCertificationScoring = require('./PartnerCertificationScoring');
 const { NotEligibleCandidateError } = require('../errors');
 const Joi = require('joi')
   .extend(require('@joi/date'));
@@ -31,7 +31,7 @@ function _hasNotMinimumReproducibilityRateToBeCertified(reproducibilityRate) {
   return reproducibilityRate <= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED;
 }
 
-class CleaCertification extends PartnerCertification {
+class CleaCertificationScoring extends PartnerCertificationScoring {
 
   constructor({
     certificationCourseId,
@@ -78,4 +78,4 @@ class CleaCertification extends PartnerCertification {
   }
 }
 
-module.exports = CleaCertification;
+module.exports = CleaCertificationScoring;

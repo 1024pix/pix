@@ -3,7 +3,7 @@ const Joi = require('joi')
 const { validateEntity } = require('../validators/entity-validator');
 const { NotImplementedError } = require('../errors');
 
-class PartnerCertification {
+class PartnerCertificationScoring {
   constructor(
     {
       certificationCourseId,
@@ -23,4 +23,4 @@ class PartnerCertification {
   }
 }
 
-module.exports = PartnerCertification;
+module.exports = PartnerCertificationScoring;
