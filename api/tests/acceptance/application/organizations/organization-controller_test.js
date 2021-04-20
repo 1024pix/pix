@@ -547,6 +547,10 @@ describe('Acceptance | Application | organization-controller', () => {
 
       it('should return the matching organization as JSON API', async () => {
         // given
+        const tag = databaseBuilder.factory.buildTag({ id: 7, name: 'AEFE' });
+        databaseBuilder.factory.buildOrganizationTag({ tagId: tag.id, organizationId: organization.id });
+        await databaseBuilder.commit();
+
         const expectedResult = {
           'data': {
             'attributes': {
@@ -572,6 +576,14 @@ describe('Acceptance | Application | organization-controller', () => {
                   'related': `/api/organizations/${organization.id}/students`,
                 },
               },
+              'tags': {
+                'data': [
+                  {
+                    'id': tag.id.toString(),
+                    'type': 'tags',
+                  },
+                ],
+              },
               'target-profiles': {
                 'links': {
                   'related': `/api/organizations/${organization.id}/target-profiles`,
@@ -580,6 +592,16 @@ describe('Acceptance | Application | organization-controller', () => {
             },
             'type': 'organizations',
           },
+          'included': [
+            {
+              'attributes': {
+                'id': tag.id,
+                'name': tag.name,
+              },
+              'id': tag.id.toString(),
+              'type': 'tags',
+            },
+          ],
         };
 
         // when
