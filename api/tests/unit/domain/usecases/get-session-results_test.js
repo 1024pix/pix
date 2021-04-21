@@ -1,5 +1,5 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const cleaCertificationStatusRepository = require('../../../../lib/infrastructure/repositories/clea-certification-status-repository');
+const cleaCertificationResultRepository = require('../../../../lib/infrastructure/repositories/clea-certification-result-repository');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 const getSessionResults = require('../../../../lib/domain/usecases/get-session-results');
@@ -14,16 +14,20 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
   const certifCourse2 = domainBuilder.buildCertificationCourse({ id: 2 });
   const certifCourse3 = domainBuilder.buildCertificationCourse({ id: 3 });
 
-  const cleaCertifications = [ 'acquired', 'rejected', 'not_passed'];
+  const cleaCertificationResults = [
+    domainBuilder.buildCleaCertificationResult.acquired(),
+    domainBuilder.buildCleaCertificationResult.rejected(),
+    domainBuilder.buildCleaCertificationResult.notPassed(),
+  ];
   const assessmentsIds = [ 1, 2, 3 ];
 
   const assessmentResult1 = domainBuilder.buildAssessmentResult({ pixScore: 500, competenceMarks: [], createdAt: 'lundi', assessmentId: assessmentsIds[0] });
   const assessmentResult2 = domainBuilder.buildAssessmentResult({ pixScore: 10, competenceMarks: [], createdAt: 'mardi', assessmentId: assessmentsIds[1], commentForCandidate: 'Son ordinateur a explosé' });
   const assessmentResult3 = domainBuilder.buildAssessmentResult({ pixScore: 400, competenceMarks: [], createdAt: 'mercredi', assessmentId: assessmentsIds[2] });
 
-  const firstCertifResult = _buildCertificationResult(certifCourse1, assessmentResult1, cleaCertifications[0]);
-  const secondCertifResult = _buildCertificationResult(certifCourse2, assessmentResult2, cleaCertifications[1]);
-  const thirdCertifResult = _buildCertificationResult(certifCourse3, assessmentResult3, cleaCertifications[2]);
+  const firstCertifResult = _buildCertificationResult(certifCourse1, assessmentResult1, cleaCertificationResults[0]);
+  const secondCertifResult = _buildCertificationResult(certifCourse2, assessmentResult2, cleaCertificationResults[1]);
+  const thirdCertifResult = _buildCertificationResult(certifCourse3, assessmentResult3, cleaCertificationResults[2]);
 
   beforeEach(() => {
     // given
@@ -31,10 +35,10 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
 
     certificationCourseRepository.findCertificationCoursesBySessionId = sinon.stub().withArgs({ sessionId }).resolves([certifCourse1, certifCourse2, certifCourse3]);
 
-    const cleaCertificationStatusRepositoryStub = sinon.stub(cleaCertificationStatusRepository, 'getCleaCertificationStatus');
-    cleaCertificationStatusRepositoryStub.withArgs(certifCourse1.id).resolves(cleaCertifications[0]);
-    cleaCertificationStatusRepositoryStub.withArgs(certifCourse2.id).resolves(cleaCertifications[1]);
-    cleaCertificationStatusRepositoryStub.withArgs(certifCourse3.id).resolves(cleaCertifications[2]);
+    const cleaCertificationResultRepositoryStub = sinon.stub(cleaCertificationResultRepository, 'get');
+    cleaCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse1.id }).resolves(cleaCertificationResults[0]);
+    cleaCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse2.id }).resolves(cleaCertificationResults[1]);
+    cleaCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse3.id }).resolves(cleaCertificationResults[2]);
 
     const assessmentRepositoryStub = sinon.stub(assessmentRepository, 'getIdByCertificationCourseId');
     assessmentRepositoryStub.withArgs(certifCourse1.id).resolves(assessmentsIds[0]);
@@ -88,13 +92,13 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
 
 });
 
-function _buildCertificationResult(certifCourse, lastAssessmentResult, cleaCertification) {
+function _buildCertificationResult(certifCourse, lastAssessmentResult, cleaCertificationResult) {
   return domainBuilder.buildCertificationResult({
     ...certifCourse,
     certificationIssueReports: certifCourse.certificationIssueReports,
     lastAssessmentResult,
     assessmentId: lastAssessmentResult.assessmentId,
-    cleaCertificationStatus: cleaCertification,
+    cleaCertificationResult,
     competencesWithMark: [],
   });
 }

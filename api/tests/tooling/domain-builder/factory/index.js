@@ -36,6 +36,7 @@ module.exports = {
   buildCertifiedTube: require('./build-certified-tube'),
   buildChallenge: require('./build-challenge'),
   buildChallengeLearningContentDataObject: require('./build-challenge-learning-content-data-object'),
+  buildCleaCertificationResult: require('./build-clea-certification-result'),
   buildCleaCertificationScoring: require('./build-clea-certification-scoring'),
   buildCompetence: require('./build-competence'),
   buildCompetenceEvaluation: require('./build-competence-evaluation'),
