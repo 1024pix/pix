@@ -150,33 +150,6 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResult.competenceResults).to.be.empty;
     });
 
-    it('should return certification from student even if this certification was from another other organisation', async () => {
-      // given
-      const organizationId = buildOrganization(uai).id;
-      const user = buildUser();
-      buildSchoolingRegistration({
-        userId: user.id, organizationId,
-      });
-      const formerOrganizationId = buildOrganization().id;
-      const formerSchoolingRegistration = buildSchoolingRegistration({
-        userId: user.id, formerOrganizationId,
-      });
-
-      buildValidatedPublishedCertificationData({
-        user, schoolingRegistration: formerSchoolingRegistration, verificationCode, pixScore, competenceMarks,
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const [certificationResult] = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
-
-      // then
-      expect(certificationResult.status).to.equal(status.VALIDATED);
-      expect(certificationResult.pixScore).not.to.equal(0);
-      expect(certificationResult.competenceResults).not.to.be.empty;
-    });
-
     it('should return pending (validated) certification results for a given UAI', async () => {
       // given
       const organizationId = buildOrganization(uai).id;
@@ -219,6 +192,33 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResult).to.be.empty;
     });
 
+    it('should return certification from student even if this certification was from another other organisation', async () => {
+      // given
+      const organizationId = buildOrganization(uai).id;
+      const user = buildUser();
+      buildSchoolingRegistration({
+        userId: user.id, organizationId,
+      });
+      const formerOrganizationId = buildOrganization().id;
+      const formerSchoolingRegistration = buildSchoolingRegistration({
+        userId: user.id, formerOrganizationId,
+      });
+
+      buildValidatedPublishedCertificationData({
+        user, schoolingRegistration: formerSchoolingRegistration, verificationCode, pixScore, competenceMarks,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const [certificationResult] = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
+
+      // then
+      expect(certificationResult.status).to.equal(status.VALIDATED);
+      expect(certificationResult.pixScore).not.to.equal(0);
+      expect(certificationResult.competenceResults).not.to.be.empty;
+    });
+
     it('should return only the last certification', async () => {
       // given
       const organizationId = buildOrganization(uai).id;
@@ -253,6 +253,40 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResults).to.have.length(1);
       expect(certificationResults[0].id).to.equal(lastCertificationCourse.id);
     });
+
+    it('should return no negative competence level', async () => {
+      // given
+      const organizationId = buildOrganization(uai).id;
+      const user = buildUser();
+      const schoolingRegistration = buildSchoolingRegistration({
+        userId: user.id, organizationId,
+      });
+      buildValidatedPublishedCertificationData(
+        {
+          user, schoolingRegistration, verificationCode, pixScore, competenceMarks: [{
+            code: '1.1', level: 5,
+          }, {
+            code: '5.2', level: -1,
+          }],
+        },
+      );
+
+      await databaseBuilder.commit();
+
+      const expectedCompetenceResults = [{
+        competenceId: '1.1', level: 5,
+      }, {
+        competenceId: '5.2', level: 0,
+      },
+      ];
+
+      // when
+      const [certificationResult] = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
+
+      // then
+      expect(certificationResult.competenceResults).to.deep.equal(expectedCompetenceResults);
+    });
+
   });
 });
 

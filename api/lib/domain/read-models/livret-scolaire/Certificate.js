@@ -84,7 +84,9 @@ function _isValidated(status) {
 }
 
 function _getExtractValidatedCompetenceResults(competenceResultsJson) {
-  const competenceResults = JSON.parse(competenceResultsJson);
+  const competenceResults = JSON
+    .parse(competenceResultsJson)
+    .map(({ competenceId, level }) => ({ competenceId, level: Math.max(0, level) }));
   return sortBy(competenceResults, 'competenceId');
 }
 
