@@ -83,5 +83,22 @@ Pour les traitements qui peuvent échouer ou réussir indépendamment et qui
 utilisent une chorégraphie par événements à l'intérieur d'une transaction,
 supprimer la transaction.
 
+### Ce qui n'est pas traité par cette ADR
+
 Pour cette dernière option, on peut se poser la question suivante :
 "Comment on gère les échecs de l'un ou l'autre des traitements?"
+
+On peut imaginer une voie future possible, qui demanderait de monter en
+compétences sur ce genre de sujets.
+
+Par exemple, quand une série d'écritures sont liées entre elles
+fonctionnellement mais ne sont pas liées par une transaction SQL, si l'une
+d'elle échoue :
+- pour une raison métier, charge à l'application de propager des actions de
+  compensation / rollback des écritures déjà effectuées
+- pour une raison technique, charge à l'application de réessayer jusqu'à
+  réussir, ou de fournir un mécanisme de two phase commit.
+
+L'autre voie serait de laisser les incohérences d'écriture se produire si elles
+sont peu nombreuses, et de traiter les cas par un process explicite, par
+exemple traitement par le support, par le pôle certif, autre ?
