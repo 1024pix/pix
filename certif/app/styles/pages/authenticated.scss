@@ -21,6 +21,7 @@
       justify-content: space-between;
 
       .sco-temporary-banner__informations-text {
+        color: $pix-certif-banner-text;
         display: flex;
         align-items: center;
         line-height: 22px;
@@ -34,8 +35,8 @@
           margin: 0;
 
           a {
-            font-weight: bold;
-            color: $white;
+            font-weight: bolder;
+            color: $pix-certif-banner-text;
           }
         }
       }
