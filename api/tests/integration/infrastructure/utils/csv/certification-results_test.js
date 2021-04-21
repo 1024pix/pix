@@ -1,6 +1,5 @@
 const { expect, domainBuilder, databaseBuilder } = require('../../../../test-helper');
 const { getSessionCertificationResultsCsv, getDivisionCertificationResultsCsv } = require('../../../../../lib/infrastructure/utils/csv/certification-results');
-const { statuses: cleaStatuses } = require('../../../../../lib/infrastructure/repositories/clea-certification-status-repository');
 
 describe('Integration | Infrastructure | Utils | csv | certification-results', () => {
 
@@ -36,13 +35,14 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
           firstName: 'Lili',
           birthdate,
           createdAt,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notPassed(),
         });
         const certifResult2 = domainBuilder.buildCertificationResult({
           lastAssessmentResult: lastAssessmentResult2,
           firstName: 'Tom',
           birthdate,
           createdAt,
-          cleaCertificationStatus: cleaStatuses.NOT_PASSED,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notPassed(),
         });
 
         const certificationResults = [ certifResult1, certifResult2 ];
@@ -91,14 +91,14 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
           firstName: 'Lili',
           birthdate,
           createdAt,
-          cleaCertificationStatus: cleaStatuses.NOT_PASSED,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notPassed(),
         });
         const certifResult2 = domainBuilder.buildCertificationResult({
           lastAssessmentResult: lastAssessmentResult2,
           firstName: 'Tom',
           birthdate,
           createdAt,
-          cleaCertificationStatus: cleaStatuses.ACQUIRED,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
         });
 
         const certificationResults = [ certifResult1, certifResult2 ];
