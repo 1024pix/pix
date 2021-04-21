@@ -10,16 +10,16 @@ export default class NeutralizationController extends Controller {
   @service notifications;
 
   @action
-  async neutralize(challengeRecId) {
+  async neutralize(challengeRecId, questionIndex) {
     try {
       await this.certificationDetails.neutralizeChallenge({
         certificationCourseId: this.certificationDetails.id,
         challengeRecId,
       });
       this._updateModel(challengeRecId);
-      return this.notifications.success('Épreuve neutralisée avec succès.');
+      return this.notifications.success(`La question n°${questionIndex} a été neutralisée avec succès.`);
     } catch (e) {
-      return this.notifications.error('Une erreur est survenue lors de la neutralisation de l\'épreuve.');
+      return this.notifications.error(`Une erreur est survenue lors de la neutralisation de la question n°${questionIndex}.`);
     }
   }
 

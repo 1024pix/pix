@@ -11,11 +11,12 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       controller.certificationDetails = {
         id: 'certificationCourseId',
         neutralizeChallenge: sinon.stub(),
+        listChallengesAndAnswers: [{ challengeId: 'challengeRecId123', isNeutralized: false }],
       };
       controller.certificationDetails.neutralizeChallenge.resolves({});
 
       // when
-      await controller.neutralize('challengeRecId123');
+      await controller.neutralize('challengeRecId123', 2);
 
       // then
       assert.ok(controller.certificationDetails.neutralizeChallenge.calledOnceWithExactly({
@@ -24,12 +25,13 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       }));
     });
 
-    test('notifies a successful neutralization', async function(assert) {
+    test('notifies a successful neutralization and updates model', async function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
         id: 'certificationCourseId',
         neutralizeChallenge: sinon.stub(),
+        listChallengesAndAnswers: [{ challengeId: 'challengeRecId123', isNeutralized: false }],
       };
       controller.certificationDetails.neutralizeChallenge.resolves({});
       const notifications = {
@@ -38,12 +40,13 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       controller.notifications = notifications;
 
       // when
-      await controller.neutralize('challengeRecId123');
+      await controller.neutralize('challengeRecId123', 2);
 
       // then
       assert.ok(controller.notifications.success.calledOnceWithExactly(
-        'Épreuve neutralisée avec succès.',
+        'La question n°2 a été neutralisée avec succès.',
       ));
+      assert.equal(controller.certificationDetails.listChallengesAndAnswers[0].isNeutralized, true);
     });
 
     test('notifies a failed neutralization', async function(assert) {
@@ -52,6 +55,7 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       controller.certificationDetails = {
         id: 'certificationCourseId',
         neutralizeChallenge: sinon.stub(),
+        listChallengesAndAnswers: [{ challengeId: 'challengeRecId123', isNeutralized: false }],
       };
       controller.certificationDetails.neutralizeChallenge.rejects({});
       const notifications = {
@@ -60,11 +64,11 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       controller.notifications = notifications;
 
       // when
-      await controller.neutralize('challengeRecId123');
+      await controller.neutralize('challengeRecId123', 2);
 
       // then
       assert.ok(controller.notifications.error.calledOnceWithExactly(
-        'Une erreur est survenue lors de la neutralisation de l\'épreuve.',
+        'Une erreur est survenue lors de la neutralisation de la question n°2.',
       ));
     });
   });
