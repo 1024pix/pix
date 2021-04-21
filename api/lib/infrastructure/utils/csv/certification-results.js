@@ -1,9 +1,8 @@
+const _ = require('lodash');
+const moment = require('moment');
 const { getCsvContent } = require('./write-csv-utils');
 const { status: assessmentResultStatuses } = require('../../../domain/models/AssessmentResult');
 const { cleaStatuses } = require('../../../domain/models/CleaCertificationResult');
-
-const _ = require('lodash');
-const moment = require('moment');
 
 async function getDivisionCertificationResultsCsv({
   certificationResults,
@@ -18,19 +17,11 @@ async function getSessionCertificationResultsCsv({
   session,
   certificationResults,
 }) {
-
+  const shouldIncludeCleaHeader = certificationResults.some((certificationResult) => certificationResult.hasTakenClea());
+  const fileHeaders = _buildFileHeaders({ shouldIncludeCleaHeader });
   const data = _buildFileData({ session, certificationResults });
-  const fileHeaders = _buildFileHeaders({ shouldIncludeClea: _didAtLeastOneCandidateTakeClea(certificationResults) });
 
   return getCsvContent({ data, fileHeaders });
-}
-
-function _didAtLeastOneCandidateTakeClea(certificationResults) {
-  return certificationResults.some((result) => _hasPassedClea(result.cleaCertificationResult));
-}
-
-function _hasPassedClea(cleaCertificationResult) {
-  return [cleaStatuses.REJECTED, cleaStatuses.ACQUIRED].includes(cleaCertificationResult.status);
 }
 
 function _buildFileDataWithoutCertificationCenterName({ certificationResults }) {
@@ -83,9 +74,9 @@ function _buildFileData({ session, certificationResults }) {
   return certificationResults.map(_getRowItemsFromSessionAndResults(session));
 }
 
-function _buildFileHeaders({ shouldIncludeClea }) {
+function _buildFileHeaders({ shouldIncludeCleaHeader }) {
 
-  const cleaHeader = shouldIncludeClea
+  const cleaHeader = shouldIncludeCleaHeader
     ? [_headers.CLEA_STATUS]
     : [];
 
@@ -109,12 +100,6 @@ function _buildFileHeaders({ shouldIncludeClea }) {
   );
 }
 
-const CLEA_STATUS_LABEL_FOR_CSV = {
-  [cleaStatuses.NOT_TAKEN]: 'Non passée',
-  [cleaStatuses.ACQUIRED]: 'Validée',
-  [cleaStatuses.REJECTED]: 'Rejetée',
-};
-
 const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => {
   const rowWithoutCompetences = {
     [_headers.CERTIFICATION_NUMBER]: certificationResult.id,
@@ -123,7 +108,7 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
     [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
     [_headers.BIRTHPLACE]: certificationResult.birthplace,
     [_headers.EXTERNAL_ID]: certificationResult.externalId,
-    [_headers.CLEA_STATUS]: CLEA_STATUS_LABEL_FOR_CSV[certificationResult.cleaCertificationResult.status],
+    [_headers.CLEA_STATUS]: _formatCleaCertificationResult(certificationResult.cleaCertificationResult),
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
     [_headers.SESSION_ID]: session.id,
     [_headers.CERTIFICATION_CENTER]: session.certificationCenter,
@@ -133,6 +118,12 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
   const competencesCells = _getCompetenceCells(certificationResult);
   return { ...rowWithoutCompetences, ...competencesCells };
 };
+
+function _formatCleaCertificationResult(cleaCertificationResult) {
+  if (cleaCertificationResult.status === cleaStatuses.ACQUIRED) return 'Validée';
+  if (cleaCertificationResult.status === cleaStatuses.REJECTED) return 'Rejetée';
+  return 'Non passée';
+}
 
 function _formatPixScore(certificationResult) {
   return _isCertificationRejected(certificationResult) ? '0' : certificationResult.pixScore;

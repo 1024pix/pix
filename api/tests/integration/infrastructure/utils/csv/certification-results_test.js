@@ -9,7 +9,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
 
       it('should return correct csvContent without clea informations', async () => {
         // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const session = databaseBuilder.factory.buildSession({ certificationCenterId });
 
         const birthdate = new Date('1990-01-01');

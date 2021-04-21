@@ -57,6 +57,10 @@ class CertificationResult {
       this.juryId = undefined;
     }
   }
+
+  hasTakenClea() {
+    return this.cleaCertificationResult.isTaken();
+  }
 }
 
 module.exports = CertificationResult;
