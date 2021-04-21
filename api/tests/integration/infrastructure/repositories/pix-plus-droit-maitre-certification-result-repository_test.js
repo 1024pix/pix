@@ -1,4 +1,4 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const pixPlusDroitMaitreCertificationResultRepository = require('../../../../lib/infrastructure/repositories/pix-plus-droit-maitre-certification-result-repository');
 const PixPlusDroitMaitreCertificationResult = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 
@@ -13,8 +13,9 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-maitre-ce
         const pixPlusCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({ certificationCourseId: 123 });
 
         // then
+        const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
         expect(pixPlusCertificationResult).to.be.instanceOf(PixPlusDroitMaitreCertificationResult);
-        expect(pixPlusCertificationResult.status).to.equal(PixPlusDroitMaitreCertificationResult.statuses.NOT_TAKEN);
+        expect(pixPlusCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
       });
     });
 
@@ -31,8 +32,9 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-maitre-ce
         const pixPlusCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({ certificationCourseId });
 
         // then
+        const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
         expect(pixPlusCertificationResult).to.be.instanceOf(PixPlusDroitMaitreCertificationResult);
-        expect(pixPlusCertificationResult.status).to.equal(PixPlusDroitMaitreCertificationResult.statuses.ACQUIRED);
+        expect(pixPlusCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
       });
     });
 
@@ -49,8 +51,9 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-maitre-ce
         const pixPlusCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({ certificationCourseId });
 
         // then
+        const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
         expect(pixPlusCertificationResult).to.be.instanceOf(PixPlusDroitMaitreCertificationResult);
-        expect(pixPlusCertificationResult.status).to.equal(PixPlusDroitMaitreCertificationResult.statuses.REJECTED);
+        expect(pixPlusCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
       });
     });
   });
