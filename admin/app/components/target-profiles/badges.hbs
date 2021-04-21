@@ -20,7 +20,7 @@
               <td>{{badge.key}}</td>
               <td>{{badge.title}}</td>
               <td>{{badge.message}}</td>
-              <td><LinkTo @route="authenticated.badges.badge" @model={{badge}} class="btn btn-outline-default btn-thin">Voir détail</LinkTo></td>
+              <td><LinkTo @route="authenticated.badges.badge" @model={{badge.id}} class="btn btn-outline-default btn-thin">Voir détail</LinkTo></td>
             </tr>
           {{/each}}
         </tbody>
