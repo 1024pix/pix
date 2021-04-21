@@ -1,6 +1,6 @@
-const PartnerCertification = require('./PartnerCertification');
+const PartnerCertificationScoring = require('./PartnerCertificationScoring');
 
-class PixPlusCertification extends PartnerCertification {
+class PixPlusCertificationScoring extends PartnerCertificationScoring {
 
   constructor({
     certificationCourseId,
@@ -22,4 +22,4 @@ class PixPlusCertification extends PartnerCertification {
   }
 }
 
-module.exports = PixPlusCertification;
+module.exports = PixPlusCertificationScoring;

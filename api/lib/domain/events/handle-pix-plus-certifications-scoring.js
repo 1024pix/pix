@@ -1,15 +1,15 @@
 const { checkEventType } = require('./check-event-type');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted');
-const PixPlusCertification = require('../models/PixPlusCertification');
+const PixPlusCertificationScoring = require('../models/PixPlusCertificationScoring');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 
 const eventType = CertificationScoringCompleted;
 
-async function handlePixPlusCertifications({
+async function handlePixPlusCertificationsScoring({
   event,
   domainTransaction,
   certificationAssessmentRepository,
-  partnerCertificationRepository,
+  partnerCertificationScoringRepository,
 }) {
   checkEventType(event, eventType);
   const certificationCourseId = event.certificationCourseId;
@@ -17,14 +17,14 @@ async function handlePixPlusCertifications({
   const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgeKeysTaken();
   for (const certifiableBadgeKey of certifiableBadgeKeys) {
     const pixPlusAnswers = certificationAssessment.findAnswersForCertifiableBadgeKey(certifiableBadgeKey);
-    const pixPlusCertification = _buildPixPlusCertification(event, pixPlusAnswers, certifiableBadgeKey);
-    await partnerCertificationRepository.save({ partnerCertification: pixPlusCertification, domainTransaction });
+    const pixPlusCertificationScoring = _buildPixPlusCertificationScoring(event, pixPlusAnswers, certifiableBadgeKey);
+    await partnerCertificationScoringRepository.save({ partnerCertificationScoring: pixPlusCertificationScoring, domainTransaction });
   }
 }
 
-function _buildPixPlusCertification(event, answers, certifiableBadgeKey) {
+function _buildPixPlusCertificationScoring(event, answers, certifiableBadgeKey) {
   const reproducibilityRate = ReproducibilityRate.from({ answers });
-  return new PixPlusCertification({
+  return new PixPlusCertificationScoring({
     certificationCourseId: event.certificationCourseId,
     reproducibilityRate,
     certifiableBadgeKey,
@@ -32,5 +32,5 @@ function _buildPixPlusCertification(event, answers, certifiableBadgeKey) {
   });
 }
 
-handlePixPlusCertifications.eventType = eventType;
-module.exports = handlePixPlusCertifications;
+handlePixPlusCertificationsScoring.eventType = eventType;
+module.exports = handlePixPlusCertificationsScoring;
