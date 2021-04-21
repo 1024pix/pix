@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.46.0 (21/04/2021)
+
+- [#2870](https://github.com/1024pix/pix/pull/2870) [FEATURE] Correction de l'affichage dans le burger menu sur Pix App (PIX-2469).
+- [#2819](https://github.com/1024pix/pix/pull/2819) [FEATURE] Mise en place du calcul d'obtention des certifications Pix+ à l'issue d'un test de certification (PIX-2371)
+- [#2867](https://github.com/1024pix/pix/pull/2867) [FEATURE] Résilience Pôle emploi - Ajout d'un script de création a posteriori des pole-emploi-sendings (Pix-2483).
+- [#2862](https://github.com/1024pix/pix/pull/2862) [FEATURE] Afficher la dernière participation à la campagne dans le cas d'une campagne à envois multiples (Pix-2463).
+- [#2882](https://github.com/1024pix/pix/pull/2882) [BUGFIX] Valider le paramètre filter[id] de la route GET /api/organizations (PIX-2497).
+- [#2879](https://github.com/1024pix/pix/pull/2879) [BUGFIX] Calcul du résultat de certification : compter le nombre d'épreuves proposées (PIX-2493)
+- [#2876](https://github.com/1024pix/pix/pull/2876) [BUGFIX] Serialise tout les badgeParnerCompetences dans le critère lorsque son scope est EveryPartnerCompetence
+- [#2875](https://github.com/1024pix/pix/pull/2875) [BUGFIX][i18n] Modification du terme "En attente" afin de le rendre plus compréhensible par le prescripteur (Pix-2486)
+- [#2863](https://github.com/1024pix/pix/pull/2863) [TECH] Retenir pour la certification de quel badge certifiable une épreuve est choisie lors du choix des épreuves de la création du test de certification (PIX-2485)
+- [#2861](https://github.com/1024pix/pix/pull/2861) [TECH] Introduire un modèle dédié à la réinitialisation de mot de passe (PIX-2274).
+- [#2636](https://github.com/1024pix/pix/pull/2636) [CLEANUP] Glimmerizer les FormTextfields (PIX-2272).
+
 ## v3.45.0 (19/04/2021)
 
 - [#2830](https://github.com/1024pix/pix/pull/2830) [FEATURE] L'arrondi à l'entier supérieur n'est pas correct pour filtrer les participants dans pixOrga (PIX-2456).
