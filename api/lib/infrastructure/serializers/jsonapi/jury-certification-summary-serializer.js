@@ -13,6 +13,7 @@ module.exports = {
           get(juryCertificationSummary, 'certificationIssueReports[0].description');
         result.numberOfCertificationIssueReports = juryCertificationSummary.certificationIssueReports.length;
         result.numberOfCertificationIssueReportsWithRequiredAction = juryCertificationSummary.certificationIssueReports.filter((issueReport) => issueReport.isActionRequired).length;
+        result.cleaCertificationStatus = result.cleaCertificationResult.status;
         return result;
       },
       attributes: [

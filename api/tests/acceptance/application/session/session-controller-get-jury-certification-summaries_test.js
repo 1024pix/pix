@@ -88,7 +88,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
           'created-at': certif2.createdAt,
           'number-of-certification-issue-reports': 0,
           'number-of-certification-issue-reports-with-required-action': 0,
-          'clea-certification-status': 'not_passed',
+          'clea-certification-status': 'not_taken',
           'completed-at': certif2.completedAt,
           'examiner-comment': undefined,
           'has-seen-end-test-screen': certif2.hasSeenEndTestScreen,

@@ -1,4 +1,4 @@
-const { databaseBuilder, expect } = require('../../../test-helper');
+const { databaseBuilder, expect, domainBuilder } = require('../../../test-helper');
 const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 const CleaCertificationResult = require('../../../../lib/domain/models/CleaCertificationResult');
@@ -66,8 +66,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
         // then
+        const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
         const expectedJuryCertificationSummary = new JuryCertificationSummary({
-          cleaCertificationStatus: null,
+          cleaCertificationResult: expectedCleaCertificationResult,
           completedAt: manyAsrCertification.completedAt,
           createdAt: manyAsrCertification.createdAt,
           firstName: manyAsrCertification.firstName,
@@ -194,8 +195,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
         // then
+        const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
         expect(juryCertificationSummaries).to.have.lengthOf(1);
-        expect(juryCertificationSummaries[0].cleaCertificationStatus).to.equal(CleaCertificationResult.cleaStatuses.ACQUIRED);
+        expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
       });
 
       it('should have the status rejected when clea certification is rejected', async () => {
@@ -211,14 +213,15 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
         // then
+        const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
         expect(juryCertificationSummaries).to.have.lengthOf(1);
-        expect(juryCertificationSummaries[0].cleaCertificationStatus).to.equal(CleaCertificationResult.cleaStatuses.REJECTED);
+        expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
       });
     });
 
     context('when a summary has a no Clea certification', () => {
 
-      it('should have the status not_passed when clea certification has not be taken', async () => {
+      it('should have the status notTaken when clea certification has not be taken', async () => {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -229,8 +232,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
         // then
+        const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
         expect(juryCertificationSummaries).to.have.lengthOf(1);
-        expect(juryCertificationSummaries[0].cleaCertificationStatus).to.equal('not_passed');
+        expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
       });
     });
   });

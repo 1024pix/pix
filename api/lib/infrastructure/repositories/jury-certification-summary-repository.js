@@ -2,6 +2,7 @@ const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const JuryCertificationSummary = require('../../domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
+const CleaCertificationResult = require('../../domain/models/CleaCertificationResult');
 
 module.exports = {
 
@@ -57,9 +58,13 @@ function _toDomain(juryCertificationSummaryDTO) {
       return new CertificationIssueReport(certificationIssueReportDTO);
     });
 
+  let cleaCertificationResult = CleaCertificationResult.buildNotTaken();
+  if (_.isBoolean(juryCertificationSummaryDTO.acquired)) {
+    cleaCertificationResult = CleaCertificationResult.buildFrom({ acquired: juryCertificationSummaryDTO.acquired });
+  }
   return new JuryCertificationSummary({
     ...juryCertificationSummaryDTO,
     certificationIssueReports,
-    cleaCertificationStatus: juryCertificationSummaryDTO.acquired,
+    cleaCertificationResult,
   });
 }
