@@ -1,8 +1,11 @@
+const { keys } = require('./Badge');
+
 const cleaStatuses = {
   ACQUIRED: 'acquired',
   REJECTED: 'rejected',
   NOT_PASSED: 'not_passed',
 };
+const badgeKey = keys.PIX_EMPLOI_CLEA;
 
 class CleaCertificationResult {
 
@@ -26,4 +29,5 @@ class CleaCertificationResult {
 }
 
 CleaCertificationResult.cleaStatuses = cleaStatuses;
+CleaCertificationResult.badgeKey = badgeKey;
 module.exports = CleaCertificationResult;
