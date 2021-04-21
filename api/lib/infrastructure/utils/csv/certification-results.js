@@ -3,6 +3,8 @@ const moment = require('moment');
 const { getCsvContent } = require('./write-csv-utils');
 const { status: assessmentResultStatuses } = require('../../../domain/models/AssessmentResult');
 const { cleaStatuses } = require('../../../domain/models/CleaCertificationResult');
+const { statuses: maitreStatuses } = require('../../../domain/models/PixPlusDroitMaitreCertificationResult');
+const { statuses: expertStatuses } = require('../../../domain/models/PixPlusDroitExpertCertificationResult');
 
 async function getDivisionCertificationResultsCsv({
   certificationResults,
@@ -17,8 +19,7 @@ async function getSessionCertificationResultsCsv({
   session,
   certificationResults,
 }) {
-  const shouldIncludeCleaHeader = certificationResults.some((certificationResult) => certificationResult.hasTakenClea());
-  const fileHeaders = _buildFileHeaders({ shouldIncludeCleaHeader });
+  const fileHeaders = _buildFileHeaders(certificationResults);
   const data = _buildFileData({ session, certificationResults });
 
   return getCsvContent({ data, fileHeaders });
@@ -74,10 +75,19 @@ function _buildFileData({ session, certificationResults }) {
   return certificationResults.map(_getRowItemsFromSessionAndResults(session));
 }
 
-function _buildFileHeaders({ shouldIncludeCleaHeader }) {
+function _buildFileHeaders(certificationResults) {
+  const shouldIncludeCleaHeader = certificationResults.some((certificationResult) => certificationResult.hasTakenClea());
+  const shouldIncludePixPlusDroitMaitreHeader = certificationResults.some((certificationResult) => certificationResult.hasTakenPixPlusDroitMaitre());
+  const shouldIncludePixPlusDroitExpertHeader = certificationResults.some((certificationResult) => certificationResult.hasTakenPixPlusDroitExpert());
 
   const cleaHeader = shouldIncludeCleaHeader
     ? [_headers.CLEA_STATUS]
+    : [];
+  const pixPlusDroitMaitreHeader = shouldIncludePixPlusDroitMaitreHeader
+    ? [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]
+    : [];
+  const pixPlusDroitExpertHeader = shouldIncludePixPlusDroitExpertHeader
+    ? [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]
     : [];
 
   return _.concat(
@@ -89,6 +99,8 @@ function _buildFileHeaders({ shouldIncludeCleaHeader }) {
       _headers.BIRTHPLACE,
       _headers.EXTERNAL_ID,
     ],
+    pixPlusDroitMaitreHeader,
+    pixPlusDroitExpertHeader,
     cleaHeader,
     [ _headers.PIX_SCORE ],
     _competenceIndexes,
@@ -109,6 +121,8 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
     [_headers.BIRTHPLACE]: certificationResult.birthplace,
     [_headers.EXTERNAL_ID]: certificationResult.externalId,
     [_headers.CLEA_STATUS]: _formatCleaCertificationResult(certificationResult.cleaCertificationResult),
+    [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]: _formatPixPlusDroitMaitreCertificationResult(certificationResult.pixPlusDroitMaitreCertificationResult),
+    [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]: _formatPixPlusDroitExpertCertificationResult(certificationResult.pixPlusDroitExpertCertificationResult),
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
     [_headers.SESSION_ID]: session.id,
     [_headers.CERTIFICATION_CENTER]: session.certificationCenter,
@@ -122,6 +136,18 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
 function _formatCleaCertificationResult(cleaCertificationResult) {
   if (cleaCertificationResult.status === cleaStatuses.ACQUIRED) return 'Validée';
   if (cleaCertificationResult.status === cleaStatuses.REJECTED) return 'Rejetée';
+  return 'Non passée';
+}
+
+function _formatPixPlusDroitMaitreCertificationResult(pixPlusDroitMaitreCertificationResult) {
+  if (pixPlusDroitMaitreCertificationResult.status === maitreStatuses.ACQUIRED) return 'Validée';
+  if (pixPlusDroitMaitreCertificationResult.status === maitreStatuses.REJECTED) return 'Rejetée';
+  return 'Non passée';
+}
+
+function _formatPixPlusDroitExpertCertificationResult(pixPlusDroitExpertCertificationResult) {
+  if (pixPlusDroitExpertCertificationResult.status === expertStatuses.ACQUIRED) return 'Validée';
+  if (pixPlusDroitExpertCertificationResult.status === expertStatuses.REJECTED) return 'Rejetée';
   return 'Non passée';
 }
 
@@ -195,6 +221,8 @@ const _headers = {
   BIRTHPLACE: 'Lieu de naissance',
   EXTERNAL_ID: 'Identifiant Externe',
   CLEA_STATUS: 'Certification CléA numérique',
+  PIX_PLUS_DROIT_MAITRE_STATUS: 'Certification Pix+ Droit Maître',
+  PIX_PLUS_DROIT_EXPERT_STATUS: 'Certification Pix+ Droit Expert',
   PIX_SCORE: 'Nombre de Pix',
   SESSION_ID: 'Session',
   CERTIFICATION_CENTER: 'Centre de certification',
