@@ -9,7 +9,10 @@ const NONE_CERTIF_CENTER_ID = 4;
 const NONE_CERTIF_CENTER_NAME = 'Centre NOTYPE des Anne-Étoiles';
 const DROIT_CERTIF_CENTER_ID = 5;
 const DROIT_CERTIF_CENTER_NAME = 'Centre DROIT des Anne-Étoiles';
+const SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_ID = 6;
+const SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_NAME = 'Centre SCO NO MANAGING STUDENTS des Anne-Étoiles';
 const SCO_EXTERNAL_ID = '1237457A';
+const SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID = 'AEFE';
 
 function certificationCentersBuilder({ databaseBuilder }) {
 
@@ -17,6 +20,13 @@ function certificationCentersBuilder({ databaseBuilder }) {
     id: SCO_CERTIF_CENTER_ID,
     name: SCO_CERTIF_CENTER_NAME,
     externalId: SCO_EXTERNAL_ID,
+    type: 'SCO',
+  });
+
+  databaseBuilder.factory.buildCertificationCenter({
+    id: SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_ID,
+    name: SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_NAME,
+    externalId: SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID,
     type: 'SCO',
   });
 
@@ -65,4 +75,6 @@ module.exports = {
   NONE_CERTIF_CENTER_NAME,
   DROIT_CERTIF_CENTER_ID,
   DROIT_CERTIF_CENTER_NAME,
+  SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_ID,
+  SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_NAME,
 };
