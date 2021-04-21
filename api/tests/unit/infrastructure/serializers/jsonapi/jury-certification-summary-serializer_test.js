@@ -1,4 +1,4 @@
-const { expect } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
 const JuryCertificationSummary = require('../../../../../lib/domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../../../../lib/domain/models/CertificationIssueReport');
@@ -17,6 +17,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         description: 'someComment',
         category: CertificationIssueReportCategories.OTHER,
       });
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
       modelJuryCertifSummary = new JuryCertificationSummary({
         id: 1,
         firstName: 'someFirstName',
@@ -28,7 +29,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         isPublished: true,
         certificationIssueReports: [issueReport],
         hasSeenEndTestScreen: false,
-        cleaCertificationStatus: true,
+        cleaCertificationResult,
       });
 
       expectedJsonApi = {
