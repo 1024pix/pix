@@ -5,15 +5,12 @@ import sinon from 'sinon';
 module('Unit | Controller | authenticated/sessions/session/informations', function(hooks) {
   setupTest(hooks);
 
-  let store;
   let controller;
   let model;
   const err = { error: 'some error' };
 
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/sessions/session/informations');
-    store = this.owner.lookup('service:store');
-
     model = { id: 'an id', juryCertificationSummaries: [{ id: 'juryCertifSummary1' }, { id: 'juryCertifSummary2' }] };
 
     const success = sinon.stub().returns();
@@ -60,44 +57,6 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       await controller.actions.downloadSessionResultFile.call(controller);
 
       // then
-      assert.ok(controller.notifications.error.calledWithExactly(err));
-    });
-  });
-
-  module('#downloadBeforeJuryFile', function() {
-
-    hooks.beforeEach(function() {
-      sinon.stub(store, 'peekRecord');
-      store.peekRecord.withArgs('certification', 'juryCertifSummary1').returns('certification1');
-      store.peekRecord.withArgs('certification', 'juryCertifSummary2').returns('certification2');
-
-      const downloadJuryFile = sinon.stub();
-      downloadJuryFile.withArgs({ sessionId: model.id, certifications: ['certification1', 'certification2'] }).returns();
-      downloadJuryFile.throws(err);
-
-      controller.sessionInfoService = { downloadJuryFile };
-    });
-
-    test('should launch the download of before jury file', async function(assert) {
-      // given
-      controller.model = model;
-
-      // when
-      await controller.actions.downloadBeforeJuryFile.call(controller);
-
-      // then
-      assert.ok(controller.sessionInfoService.downloadJuryFile.calledWithExactly({ sessionId: model.id, certifications: ['certification1', 'certification2'] }));
-    });
-
-    test('should notify error when jury file service throws', async function(assert) {
-      // given
-      controller.model = { id: 'another model', juryCertificationSummaries: [] };
-
-      // when
-      await controller.actions.downloadBeforeJuryFile.call(controller);
-
-      // then
-      assert.ok(controller.sessionInfoService.downloadJuryFile.calledOnce);
       assert.ok(controller.notifications.error.calledWithExactly(err));
     });
   });

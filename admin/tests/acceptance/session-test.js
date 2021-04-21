@@ -109,7 +109,6 @@ module('Acceptance | Session pages', function(hooks) {
         test('it shows all buttons', function(assert) {
           // then
           assert.contains('M\'assigner la session');
-          assert.contains('Récupérer le fichier avant jury');
           assert.contains('Exporter les résultats');
           assert.contains('Copier le lien de téléchargement');
           assert.contains('Résultats transmis au prescripteur');

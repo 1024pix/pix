@@ -33,7 +33,7 @@ module('Acceptance | Session page', function(hooks) {
     const SENT_TO_PRESCRIPTEUR_DATE_SECTION = 11;
     const LABEL_ROW_INDEX = 1;
     const VALUE_ROW_INDEX = 2;
-    const SEND_TO_PRESCRIPTEUR_BUTTON_INDEX = 5;
+    const SEND_TO_PRESCRIPTEUR_BUTTON_INDEX = 4;
 
     hooks.beforeEach(async function() {
       await visitSessionsPage();
