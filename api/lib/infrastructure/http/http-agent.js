@@ -14,7 +14,7 @@ class HttpResponse {
 }
 
 module.exports = {
-  async post(url, payload, headers) {
+  async post({ url, payload, headers }) {
     try {
       const httpResponse = await axios.post(url, payload, {
         headers,

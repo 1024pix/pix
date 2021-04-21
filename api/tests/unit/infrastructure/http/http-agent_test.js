@@ -23,7 +23,7 @@ describe('Unit | Infrastructure | http | http-agent', () => {
       sinon.stub(axios, 'post').withArgs(url, payload, { headers }).resolves(axiosResponse);
 
       // when
-      const actualResponse = await post(url, payload, headers);
+      const actualResponse = await post({ url, payload, headers });
 
       // then
       expect(actualResponse).to.deep.equal({
@@ -53,7 +53,7 @@ describe('Unit | Infrastructure | http | http-agent', () => {
           sinon.stub(axios, 'post').withArgs(url, payload, { headers }).rejects(axiosError);
 
           // when
-          const actualResponse = await post(url, payload, headers);
+          const actualResponse = await post({ url, payload, headers });
 
           // then
           expect(logger.error).to.have.been.calledOnce;
@@ -87,7 +87,7 @@ describe('Unit | Infrastructure | http | http-agent', () => {
           };
 
           // when
-          const actualResponse = await post(url, payload, headers);
+          const actualResponse = await post({ url, payload, headers });
 
           // then
           expect(logger.error).to.have.been.calledOnce;
