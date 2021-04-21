@@ -34,6 +34,24 @@ describe('Unit | Utility | proposals as blocks', function() {
       ],
     },
     {
+      data: '${a#PlaceHolder§AriaLabel}',
+      expected: [
+        { input: 'a', text: null, placeholder: 'PlaceHolder', ariaLabel: 'AriaLabel', type: 'input', autoAriaLabel: false },
+      ],
+    },
+    {
+      data: '${a#PlaceHolder}',
+      expected: [
+        { input: 'a', text: null, placeholder: 'PlaceHolder', ariaLabel: '1', type: 'input', autoAriaLabel: true },
+      ],
+    },
+    {
+      data: '${a§AriaLabel}',
+      expected: [
+        { input: 'a', text: null, placeholder: null, ariaLabel: 'AriaLabel', type: 'input', autoAriaLabel: false },
+      ],
+    },
+    {
       data: '${annee#19XX§Année de construction}',
       expected: [
         { input: 'annee', text: null, placeholder: '19XX', ariaLabel: 'Année de construction', type: 'input', autoAriaLabel: false },
