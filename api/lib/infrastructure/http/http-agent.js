@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-restricted-modules
 const axios = require('axios');
-const logger = require('../logger');
 
 class HttpResponse {
   constructor({
@@ -26,24 +25,20 @@ module.exports = {
         isSuccessful: true,
       });
     } catch (httpErr) {
-      const isSuccessful = false;
-
-      let code;
+      let code = null;
       let data;
 
       if (httpErr.response) {
         code = httpErr.response.status;
         data = httpErr.response.data;
       } else {
-        code = '500';
-        data = null;
+        data = httpErr.message;
       }
 
-      logger.error({ err: httpErr }, `Error while post ${url}`);
       return new HttpResponse({
         code,
         data,
-        isSuccessful,
+        isSuccessful: false,
       });
     }
   },
