@@ -1,4 +1,4 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const cleaCertificationResultRepository = require('../../../../lib/infrastructure/repositories/clea-certification-result-repository');
 const CleaCertificationResult = require('../../../../lib/domain/models/CleaCertificationResult');
 
@@ -13,8 +13,9 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
         const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId: 123 });
 
         // then
+        const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
         expect(cleaCertificationResult).to.be.instanceOf(CleaCertificationResult);
-        expect(cleaCertificationResult.status).to.equal(CleaCertificationResult.cleaStatuses.NOT_TAKEN);
+        expect(cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
       });
     });
 
@@ -31,8 +32,9 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
         const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId });
 
         // then
+        const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
         expect(cleaCertificationResult).to.be.instanceOf(CleaCertificationResult);
-        expect(cleaCertificationResult.status).to.equal(CleaCertificationResult.cleaStatuses.ACQUIRED);
+        expect(cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
       });
     });
 
@@ -49,8 +51,9 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
         const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId });
 
         // then
+        const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
         expect(cleaCertificationResult).to.be.instanceOf(CleaCertificationResult);
-        expect(cleaCertificationResult.status).to.equal(CleaCertificationResult.cleaStatuses.REJECTED);
+        expect(cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
       });
     });
   });
