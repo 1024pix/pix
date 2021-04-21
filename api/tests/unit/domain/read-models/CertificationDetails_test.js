@@ -127,9 +127,9 @@ describe('Unit | Domain | Read-models | CertificationDetails', () => {
 
       it('should create listChallengesAndAnswers', () => {
         // given
-        const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue' });
+        const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue', isNeutralized: true });
         const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123', value: 'prout' });
-        const certificationChallenge2 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec456', competenceId: 'recComp2', associatedSkillName: 'faire son lit' });
+        const certificationChallenge2 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec456', competenceId: 'recComp2', associatedSkillName: 'faire son lit', isNeutralized: false });
         const answer2 = domainBuilder.buildAnswer.ko({ challengeId: 'rec456', value: 'bidule' });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge1, certificationChallenge2],
@@ -153,6 +153,7 @@ describe('Unit | Domain | Read-models | CertificationDetails', () => {
           {
             challengeId: 'rec123',
             competence: '1.1',
+            isNeutralized: true,
             result: 'ok',
             skill: 'manger une mangue',
             value: 'prout',
@@ -160,6 +161,7 @@ describe('Unit | Domain | Read-models | CertificationDetails', () => {
           {
             challengeId: 'rec456',
             competence: '2.2',
+            isNeutralized: false,
             result: 'ko',
             skill: 'faire son lit',
             value: 'bidule',
@@ -169,9 +171,9 @@ describe('Unit | Domain | Read-models | CertificationDetails', () => {
 
       it('should ignore challenges that do not have answer', () => {
         // given
-        const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue' });
+        const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue', isNeutralized: true });
         const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123', value: 'prout' });
-        const certificationChallenge2 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec456', competenceId: 'recComp2', associatedSkillName: 'faire son lit' });
+        const certificationChallenge2 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec456', competenceId: 'recComp2', associatedSkillName: 'faire son lit', isNeutralized: true });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge1, certificationChallenge2],
           certificationAnswersByDate: [answer1],
@@ -194,6 +196,7 @@ describe('Unit | Domain | Read-models | CertificationDetails', () => {
           {
             challengeId: 'rec123',
             competence: '1.1',
+            isNeutralized: true,
             result: 'ok',
             skill: 'manger une mangue',
             value: 'prout',

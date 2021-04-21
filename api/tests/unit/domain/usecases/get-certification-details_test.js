@@ -19,7 +19,7 @@ describe('Unit | UseCase | get-certification-details', () => {
   it('should return the certification details', async () => {
     // given
     const certificationCourseId = 1234;
-    const certificationChallenge = domainBuilder.buildCertificationChallenge({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue' });
+    const certificationChallenge = domainBuilder.buildCertificationChallenge({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue', isNeutralized: false });
     const answer = domainBuilder.buildAnswer.ok({ challengeId: 'rec123', value: 'prout' });
 
     const certificationAssessment = domainBuilder.buildCertificationAssessment({
@@ -82,6 +82,7 @@ describe('Unit | UseCase | get-certification-details', () => {
         {
           challengeId: 'rec123',
           competence: '1.1',
+          isNeutralized: false,
           result: 'ok',
           skill: 'manger une mangue',
           value: 'prout',
