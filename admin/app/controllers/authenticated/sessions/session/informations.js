@@ -10,7 +10,6 @@ import { statusToDisplayName } from '../../../../models/session';
 export default class IndexController extends Controller {
   @service notifications;
   @service currentUser;
-  @service fileSaver;
   @service session;
 
   @alias('model') sessionModel;
