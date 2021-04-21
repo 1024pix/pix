@@ -36,22 +36,6 @@ export default class IndexController extends Controller {
   }
 
   @action
-  async downloadSessionResultFile() {
-    try {
-      const sessionId = this.sessionModel.id;
-      const url = `/api/admin/sessions/${sessionId}/results`;
-      const fileName = 'resultats-session.csv';
-      let token = '';
-      if (this.session.isAuthenticated) {
-        token = this.session.data.authenticated.access_token;
-      }
-      this.fileSaver.save({ url, fileName, token });
-    } catch (error) {
-      this.notifications.error(error);
-    }
-  }
-
-  @action
   async tagSessionAsSentToPrescriber() {
     await this.sessionModel.save({ adapterOptions: { flagResultsAsSentToPrescriber: true } });
   }

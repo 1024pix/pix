@@ -6,59 +6,12 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
   setupTest(hooks);
 
   let controller;
-  let model;
-  const err = { error: 'some error' };
 
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/sessions/session/informations');
-    model = { id: 'an id', juryCertificationSummaries: [{ id: 'juryCertifSummary1' }, { id: 'juryCertifSummary2' }] };
-
     const success = sinon.stub().returns();
     const error = sinon.stub().returns();
     controller.notifications = { success, error };
-  });
-
-  module('#downloadSessionResultFile', function() {
-
-    let url, fileName, validToken;
-
-    hooks.beforeEach(function() {
-      url = `/api/admin/sessions/${model.id}/results`;
-      fileName = 'resultats-session.csv';
-      validToken = Symbol('my super token');
-
-      const save = sinon.stub();
-      save.withArgs({ url, fileName, token: 'validToken' }).returns();
-      save.throws(err);
-
-      controller.fileSaver = { save };
-    });
-
-    test('should launch the download of result file', async function(assert) {
-      // given
-      controller.model = model;
-      const isAuthenticated = sinon.stub().returns();
-      controller.session = { isAuthenticated, data: { authenticated: { access_token: validToken } } };
-
-      // when
-      await controller.actions.downloadSessionResultFile.call(controller);
-
-      // then
-      assert.ok(controller.fileSaver.save.calledWithExactly({ url, fileName, token: validToken }));
-    });
-
-    test('should notify error when session result service throws', async function(assert) {
-      // given
-      controller.model = { id: 'another model' };
-      const isAuthenticated = sinon.stub().rejects();
-      controller.session = { isAuthenticated, data: { authenticated: { token: '' } } };
-
-      // when
-      await controller.actions.downloadSessionResultFile.call(controller);
-
-      // then
-      assert.ok(controller.notifications.error.calledWithExactly(err));
-    });
   });
 
   module('#checkForAssignment', function(hooks) {
