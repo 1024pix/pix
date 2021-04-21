@@ -3,7 +3,7 @@ const { keys } = require('./Badge');
 const cleaStatuses = {
   ACQUIRED: 'acquired',
   REJECTED: 'rejected',
-  NOT_PASSED: 'not_passed',
+  NOT_TAKEN: 'not_taken',
 };
 const badgeKey = keys.PIX_EMPLOI_CLEA;
 
@@ -21,9 +21,9 @@ class CleaCertificationResult {
     });
   }
 
-  static buildNotPassed() {
+  static buildNotTaken() {
     return new CleaCertificationResult({
-      status: cleaStatuses.NOT_PASSED,
+      status: cleaStatuses.NOT_TAKEN,
     });
   }
 }

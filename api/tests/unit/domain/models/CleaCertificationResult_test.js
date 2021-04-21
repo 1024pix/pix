@@ -24,15 +24,15 @@ describe('Unit | Domain | Models | CleaCertificationResult', () => {
     });
   });
 
-  context('#static buildNotPassed', () => {
+  context('#static buildNotTaken', () => {
 
-    it('builds a CleaCertificationResult not_passed', async () => {
+    it('builds a CleaCertificationResult not_taken', async () => {
       // when
-      const cleaCertificationResult = CleaCertificationResult.buildNotPassed();
+      const cleaCertificationResult = CleaCertificationResult.buildNotTaken();
 
       // then
       expect(cleaCertificationResult).to.be.instanceOf(CleaCertificationResult);
-      expect(cleaCertificationResult.status).to.equal(CleaCertificationResult.cleaStatuses.NOT_PASSED);
+      expect(cleaCertificationResult.status).to.equal(CleaCertificationResult.cleaStatuses.NOT_TAKEN);
     });
   });
 });

@@ -17,7 +17,7 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
   const cleaCertificationResults = [
     domainBuilder.buildCleaCertificationResult.acquired(),
     domainBuilder.buildCleaCertificationResult.rejected(),
-    domainBuilder.buildCleaCertificationResult.notPassed(),
+    domainBuilder.buildCleaCertificationResult.notTaken(),
   ];
   const assessmentsIds = [ 1, 2, 3 ];
 

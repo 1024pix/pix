@@ -10,7 +10,7 @@ module.exports = {
       .first();
 
     if (!result) {
-      return CleaCertificationResult.buildNotPassed();
+      return CleaCertificationResult.buildNotTaken();
     }
     return CleaCertificationResult.from(result);
   },

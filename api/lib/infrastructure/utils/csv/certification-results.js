@@ -110,7 +110,7 @@ function _buildFileHeaders({ shouldIncludeClea }) {
 }
 
 const CLEA_STATUS_LABEL_FOR_CSV = {
-  [cleaStatuses.NOT_PASSED]: 'Non passée',
+  [cleaStatuses.NOT_TAKEN]: 'Non passée',
   [cleaStatuses.ACQUIRED]: 'Validée',
   [cleaStatuses.REJECTED]: 'Rejetée',
 };
