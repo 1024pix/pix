@@ -24,7 +24,7 @@
           </td>
           <td>
             <PixButton
-                @triggerAction={{fn this.neutralize answer.challengeId}}
+                @triggerAction={{fn this.neutralize answer.challengeId answer.order}}
                 @backgroundColor="blue"
                 @loading-color="grey"
                 class="neutralization__neutralize-button"
