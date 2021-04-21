@@ -8,13 +8,13 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
 
     context('when there is no clea certification result for a given certification id', () => {
 
-      it('should return a not_passed result', async () => {
+      it('should return a not_taken result', async () => {
         // when
         const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId: 123 });
 
         // then
         expect(cleaCertificationResult).to.be.instanceOf(CleaCertificationResult);
-        expect(cleaCertificationResult.status).to.equal(CleaCertificationResult.cleaStatuses.NOT_PASSED);
+        expect(cleaCertificationResult.status).to.equal(CleaCertificationResult.cleaStatuses.NOT_TAKEN);
       });
     });
 

@@ -15,7 +15,7 @@ module.exports = function buildCertificationResult({
   completedAt = new Date('2020-05-05'),
   isPublished = true,
   isV2Certification = true,
-  cleaCertificationResult = buildCleaCertificationResult.notPassed(),
+  cleaCertificationResult = buildCleaCertificationResult.notTaken(),
   hasSeenEndTestScreen = true,
   assessmentId,
   sessionId,

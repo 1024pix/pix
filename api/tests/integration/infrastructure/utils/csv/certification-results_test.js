@@ -35,14 +35,14 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
           firstName: 'Lili',
           birthdate,
           createdAt,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notPassed(),
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
         });
         const certifResult2 = domainBuilder.buildCertificationResult({
           lastAssessmentResult: lastAssessmentResult2,
           firstName: 'Tom',
           birthdate,
           createdAt,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notPassed(),
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
         });
 
         const certificationResults = [ certifResult1, certifResult2 ];
@@ -91,7 +91,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
           firstName: 'Lili',
           birthdate,
           createdAt,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notPassed(),
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
         });
         const certifResult2 = domainBuilder.buildCertificationResult({
           lastAssessmentResult: lastAssessmentResult2,

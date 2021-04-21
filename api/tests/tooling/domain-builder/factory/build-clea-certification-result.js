@@ -20,9 +20,9 @@ buildCleaCertificationResult.rejected = function() {
   });
 };
 
-buildCleaCertificationResult.notPassed = function() {
+buildCleaCertificationResult.notTaken = function() {
   return new CleaCertificationResult({
-    status: CleaCertificationResult.cleaStatuses.NOT_PASSED,
+    status: CleaCertificationResult.cleaStatuses.NOT_TAKEN,
   });
 };
 
