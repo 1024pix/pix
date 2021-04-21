@@ -2,20 +2,19 @@ const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const DomainTransaction = require('../DomainTransaction');
 const PartnerCertificationBookshelf = require('../data/partner-certification');
-const CleaCertification = require('../../domain/models/CleaCertification');
+const CleaCertificationScoring = require('../../domain/models/CleaCertificationScoring');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 const Badge = require('../../domain/models/Badge');
 
 module.exports = {
 
-  async buildCleaCertification(
-    {
-      certificationCourseId,
-      userId,
-      reproducibilityRate,
-      domainTransaction = DomainTransaction.emptyTransaction(),
-      skillRepository,
-    }) {
+  async buildCleaCertificationScoring({
+    certificationCourseId,
+    userId,
+    reproducibilityRate,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+    skillRepository,
+  }) {
     const hasAcquiredBadge = await _hasAcquiredBadge(userId, domainTransaction);
     const cleaSkills = await _getCleaSkills(skillRepository);
     const maxReachablePixByCompetenceForClea = _getMaxReachablePixByCompetenceForClea(cleaSkills);
@@ -25,7 +24,7 @@ module.exports = {
       domainTransaction,
     });
 
-    return new CleaCertification({
+    return new CleaCertificationScoring({
       certificationCourseId,
       hasAcquiredBadge,
       cleaCompetenceMarks,
@@ -34,10 +33,10 @@ module.exports = {
     });
   },
 
-  async save({ partnerCertification, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  async save({ partnerCertificationScoring, domainTransaction = DomainTransaction.emptyTransaction() }) {
     return new PartnerCertificationBookshelf(_adaptModelToDB({
-      ...partnerCertification,
-      acquired: partnerCertification.isAcquired(),
+      ...partnerCertificationScoring,
+      acquired: partnerCertificationScoring.isAcquired(),
     })).save(null, { transacting: domainTransaction.knexTransaction });
   },
 };
