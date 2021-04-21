@@ -24,7 +24,7 @@ const skillIdsForBadgePartnerCompetence2 = [
 const skillIdsForBadgePartnerCompetence3 = [
   'recZnnTU4WUP6KwwX', 'rececWx6MmPhufxXk', 'recAFoEonOOChXe9t', 'recaMBgjv3EZnAlWO', 'recXDYAkqqIDCDePc',
   'recwOLZ8bzMQK9NF9', 'recR1SlS7sWoquhoC', 'recPGDVdX0LSOWQQC', 'rec0tk8dZWOzSQbaQ', 'recmoanUlDOyXexPF',
-  'recKbNbM8G7mKaloD', 'recEdU3ZJrHxWOLcb', 'recfktfO0ROu1OifX', 'rec7WOXWi5ClE8BxH', 'recHo6D1spbDR9C2N',
+  'recKbNbM8G7mKaloD', 'recfktfO0ROu1OifX', 'rec7WOXWi5ClE8BxH', 'recHo6D1spbDR9C2N',
   'recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx', 'rec7EvARki1b9t574', 'rec6IWrDOSaoX4aLn', 'recI4zS51by3N7Ryi',
   'recrV8JAEsieJOAch', 'recHBMRraNImyqmDF', 'recaTPKUCD6uAS0li', 'recicaqEeoJUtXT6j', 'recDotNI5r7ApHfwa',
 ];
