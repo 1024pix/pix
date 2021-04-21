@@ -3,6 +3,8 @@ const { knex } = require('../bookshelf');
 const JuryCertificationSummary = require('../../domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
 const CleaCertificationResult = require('../../domain/models/CleaCertificationResult');
+const PixPlusDroitMaitreCertificationResult = require('../../domain/models/PixPlusDroitMaitreCertificationResult');
+const PixPlusDroitExpertCertificationResult = require('../../domain/models/PixPlusDroitExpertCertificationResult');
 
 module.exports = {
 
@@ -12,10 +14,10 @@ module.exports = {
         'certification-courses.*',
         'assessment-results.pixScore',
         'assessment-results.status',
-        'partner-certifications.acquired',
       )
         .select(knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS asr_row_number',
           ['certification-courses.id', 'assessment-results.createdAt']))
+        .select(knex.raw('\'[\' || (string_agg(\'{ "acquired":\' || "partner-certifications".acquired::VARCHAR || \', "partnerKey":"\' || "partner-certifications"."partnerKey" || \'"}\', \',\') over (partition by "certification-courses".id)) || \']\' as "partnerCertifications"'))
         .from('certification-courses')
         .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
         .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
@@ -58,13 +60,29 @@ function _toDomain(juryCertificationSummaryDTO) {
       return new CertificationIssueReport(certificationIssueReportDTO);
     });
 
-  let cleaCertificationResult = CleaCertificationResult.buildNotTaken();
-  if (_.isBoolean(juryCertificationSummaryDTO.acquired)) {
-    cleaCertificationResult = CleaCertificationResult.buildFrom({ acquired: juryCertificationSummaryDTO.acquired });
-  }
+  const {
+    cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
+  } = _getPartnerCertificationsResult(juryCertificationSummaryDTO.partnerCertifications);
   return new JuryCertificationSummary({
     ...juryCertificationSummaryDTO,
     certificationIssueReports,
     cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
   });
+}
+
+function _getPartnerCertificationsResult(partnerCertificationsJSON) {
+  const partnerCertifications = JSON.parse(partnerCertificationsJSON) || [];
+  const cleaCertificationCertification = _.find(partnerCertifications, { partnerKey: CleaCertificationResult.badgeKey });
+  const pixPlusDroitMaitreCertification = _.find(partnerCertifications, { partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey });
+  const pixPlusDroitExpertCertification = _.find(partnerCertifications, { partnerKey: PixPlusDroitExpertCertificationResult.badgeKey });
+
+  return {
+    cleaCertificationResult: cleaCertificationCertification ? CleaCertificationResult.buildFrom(cleaCertificationCertification) : CleaCertificationResult.buildNotTaken(),
+    pixPlusDroitMaitreCertificationResult: pixPlusDroitMaitreCertification ? PixPlusDroitMaitreCertificationResult.buildFrom(pixPlusDroitMaitreCertification) : PixPlusDroitMaitreCertificationResult.buildNotTaken(),
+    pixPlusDroitExpertCertificationResult: pixPlusDroitExpertCertification ? PixPlusDroitExpertCertificationResult.buildFrom(pixPlusDroitExpertCertification) : PixPlusDroitExpertCertificationResult.buildNotTaken(),
+  };
 }

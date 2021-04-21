@@ -18,6 +18,8 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         category: CertificationIssueReportCategories.OTHER,
       });
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
+      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
       modelJuryCertifSummary = new JuryCertificationSummary({
         id: 1,
         firstName: 'someFirstName',
@@ -30,6 +32,8 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         certificationIssueReports: [issueReport],
         hasSeenEndTestScreen: false,
         cleaCertificationResult,
+        pixPlusDroitMaitreCertificationResult,
+        pixPlusDroitExpertCertificationResult,
       });
 
       expectedJsonApi = {
@@ -49,6 +53,8 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
             'number-of-certification-issue-reports-with-required-action': 1,
             'has-seen-end-test-screen': modelJuryCertifSummary.hasSeenEndTestScreen,
             'clea-certification-status': 'acquired',
+            'pix-plus-droit-maitre-certification-status': 'rejected',
+            'pix-plus-droit-expert-certification-status': 'not_taken',
           },
         },
       };
@@ -62,5 +68,4 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
       expect(json).to.deep.equal(expectedJsonApi);
     });
   });
-
 });
