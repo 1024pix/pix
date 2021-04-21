@@ -1,7 +1,12 @@
 import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import {
+  createCertificationPointOfContactWithTermsOfServiceAccepted,
+  createCertificationPointOfContactWithCustomCenters,
+  createCertificationCenter,
+  authenticateSession,
+} from '../helpers/test-init';
 import { statusToDisplayName } from 'pix-certif/models/session';
 import moment from 'moment';
 
@@ -96,6 +101,29 @@ module('Acceptance | Session List', function(hooks) {
 
         // then
         assert.equal(currentURL(), `/sessions/${firstSession.id}`);
+      });
+
+      test('it should update message display when selected certif center changes', async function(assert) {
+        // given
+        const centerManagingStudents = createCertificationCenter({ certificationCenterName: 'Centre SCO isM', certificationCenterType: 'SCO', isRelatedOrganizationManagingStudents: true });
+        const centerNotManagingStudents = createCertificationCenter({ certificationCenterName: 'Centre SCO isNotM', certificationCenterType: 'SCO', isRelatedOrganizationManagingStudents: false });
+        certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
+          pixCertifTermsOfServiceAccepted: true,
+          certificationCenters: [centerNotManagingStudents, centerManagingStudents],
+        });
+        certificationCenterId = certificationPointOfContact.certificationCenterId;
+        await authenticateSession(certificationPointOfContact.id);
+
+        server.create('session', { certificationCenterId: centerManagingStudents.id, date: '2019-01-01' });
+        server.create('session', { certificationCenterId: centerNotManagingStudents.id, date: '2019-01-01' });
+
+        // when
+        await visit('/sessions/liste');
+        await click('.logged-user-summary__link');
+        await click('.logged-user-menu-item');
+
+        // then
+        assert.dom('.pix-message').doesNotExist();
       });
     });
   });

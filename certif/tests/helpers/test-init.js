@@ -7,31 +7,45 @@ QUnit.assert.contains = contains;
 QUnit.assert.notContains = notContains;
 
 export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix', isRelatedOrganizationManagingStudents = false, certificationCenterCount = 1) {
-  const certificationCenters = [];
+  const certificationCenters = _createCertificationCenters(certificationCenterCount, { certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents });
+  return createCertificationPointOfContactWithCustomCenters({ pixCertifTermsOfServiceAccepted, certificationCenters });
+}
 
-  times(certificationCenterCount, () => {
-    const certificationCenter = server.create('certification-center', {
-      id: 1,
-      name: certificationCenterName,
-      type: certificationCenterType,
-      externalId: 'ABC123',
-      isRelatedOrganizationManagingStudents,
-    });
-    certificationCenter.save();
-    certificationCenters.push(certificationCenter);
-  });
-
+export function createCertificationPointOfContactWithCustomCenters({
+  pixCertifTermsOfServiceAccepted = false,
+  certificationCenters = [],
+}) {
   const certificationPointOfContact = server.create('certification-point-of-contact', {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
     pixCertifTermsOfServiceAccepted,
     certificationCenters,
-    currentCertificationCenterId: 1,
+    currentCertificationCenterId: parseInt(certificationCenters[0].id),
   });
   certificationPointOfContact.save();
 
   return certificationPointOfContact;
+}
+
+function _createCertificationCenters(certificationCenterCount, certificationCenterTemplate) {
+  const certificationCenters = [];
+  times(certificationCenterCount, () => {
+    const certificationCenter = createCertificationCenter(certificationCenterTemplate);
+    certificationCenters.push(certificationCenter);
+  });
+  return certificationCenters;
+}
+
+export function createCertificationCenter({ certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents }) {
+  const certificationCenter = server.create('certification-center', {
+    name: certificationCenterName,
+    type: certificationCenterType,
+    externalId: 'ABC123',
+    isRelatedOrganizationManagingStudents,
+  });
+  certificationCenter.save();
+  return certificationCenter;
 }
 
 export function createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted() {
