@@ -14,6 +14,8 @@ class JuryCertificationSummary {
     isPublished,
     hasSeenEndTestScreen,
     cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
     certificationIssueReports,
   } = {}) {
     this.id = id;
@@ -25,6 +27,8 @@ class JuryCertificationSummary {
     }
     this.pixScore = pixScore;
     this.cleaCertificationResult = cleaCertificationResult;
+    this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
+    this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.isPublished = isPublished;

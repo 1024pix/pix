@@ -76,6 +76,8 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
           'number-of-certification-issue-reports': 0,
           'number-of-certification-issue-reports-with-required-action': 0,
           'clea-certification-status': 'acquired',
+          'pix-plus-droit-maitre-certification-status': 'not_taken',
+          'pix-plus-droit-expert-certification-status': 'not_taken',
           'examiner-comment': undefined,
           'has-seen-end-test-screen': certif1.hasSeenEndTestScreen,
         };
@@ -89,6 +91,8 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
           'number-of-certification-issue-reports': 0,
           'number-of-certification-issue-reports-with-required-action': 0,
           'clea-certification-status': 'not_taken',
+          'pix-plus-droit-maitre-certification-status': 'not_taken',
+          'pix-plus-droit-expert-certification-status': 'not_taken',
           'completed-at': certif2.completedAt,
           'examiner-comment': undefined,
           'has-seen-end-test-screen': certif2.hasSeenEndTestScreen,
@@ -122,9 +126,6 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         expect(response.result.data[1].attributes).to.deep.equal(expectedJuryCertifSumm2);
         expect(response.result.data[1].id).to.deep.equal(certif2.id.toString());
       });
-
     });
-
   });
-
 });
