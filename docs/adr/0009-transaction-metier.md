@@ -4,11 +4,14 @@ Date : 2020-03-27
 
 ## État
 
-En cours d'expérimentation
+Amendé par [0023-précision-sur-les-transactions-et-les-événements-métier.md][0023].
+
+[0023]: ./0023-précision-sur-les-transactions-et-les-événements-métier.md
 
 ## Contexte
+
 Le mécanisme de transaction permet de garantir qu'une suite d'effets de bord n'a lieu que si chacun d'entre eux réussit.
-Si l'un des effets de bord échoue, aucun des autres effets ne sera appliqué. 
+Si l'un des effets de bord échoue, aucun des autres effets ne sera appliqué.
 
 A date, on ne sait travailler avec les transactions qu'au niveau `repositories`.
 Dans le même `repository`, on sait par exemple écrire dans différentes tables en plusieurs étapes de façon transactionnelle.
@@ -16,22 +19,25 @@ Dans le même `repository`, on sait par exemple écrire dans différentes tables
 Limiter la gestion des transactions au niveau `repository` pose plusieurs problèmes :
 
 ### Appel de plusieurs `repositories` au sein d'un même `usecase`
+
 ```javascript
 completeAssessment({assessment, assessmentRepository, badgeRepository}) {
     if (!assessment.isComplete()) {
         await assessmentRepository.completeByAssessmentId(assessment.id); // S'exécute sans problème
-        await badgeRepository.acquireBadge(); // Échoue 
+        await badgeRepository.acquireBadge(); // Échoue
     }
 }
 ```
-Dans l'exemple ci-dessus, les données de la base seront dans un état inconsistent.
-Le parcours sera flaggé comme terminé alors que l'enregistrement du badge à échouer. 
+
+Dans l'exemple ci-dessus, les données de la base seront dans un état inconsistant.
+Le parcours sera flaggé comme terminé alors que l'enregistrement du badge à échouer.
 
 Or on ne sait pas :
-- Detecter cette anomalie
-- Rejouer l'acquisition du badge sans rejouer la completion du parcours
+- Détecter cette anomalie
+- Rejouer l'acquisition du badge sans rejouer la complétion du parcours
 
-### Design des objets métier / repositories par l'axe chronologique  
+### Design des objets métier / repositories par l'axe chronologique
+
 Pour palier à ce problème là, on pourrait déléguer la transaction à un seul repository:
 ```javascript
 completeAssessment({assessment, assessmentRepository}) {
@@ -42,7 +48,7 @@ completeAssessment({assessment, assessmentRepository}) {
 }
 ```
 Cela amène à regrouper des objets par chronologie : l'assessment et le badge sont modifiés *au même moment* donc on les regroupe.
-Or cette solution amène du couplage entre deux aspects fonctionnels distincts qu'on voudrait pouvoir faire vivre et évoluer indépendemment.
+Or cette solution amène du couplage entre deux aspects fonctionnels distincts qu'on voudrait pouvoir faire vivre et évoluer indépendamment.
 
 ## Décision
 
@@ -50,11 +56,12 @@ Englober le usecase dans une transaction métier.
 
 ## Conséquences
 
-L'architecture applicative est legèrement différente.
+L'architecture applicative est légèrement différente.
 
 ### Architecture
 
-#### DomainTransaction:
+#### DomainTransaction
+
 ```javascript
 class DomainTransaction {
   constructor(knexTransaction) {
@@ -69,7 +76,8 @@ class DomainTransaction {
 }
 ```
 
-#### Controller :
+#### Controller
+
 ```javascript
   async completeAssessment(request) {
     const assessmentId = parseInt(request.params.id);
@@ -82,7 +90,8 @@ class DomainTransaction {
   }
 ```
 
-#### Usecase :
+#### Usecase
+j
 ```javascript
 completeAssessment({assessment, domainTransaction, assessmentRepository, badgeRepository}) {
     if (!assessment.isComplete()) {
@@ -92,7 +101,8 @@ completeAssessment({assessment, domainTransaction, assessmentRepository, badgeRe
 }
 ```
 
-#### Repository :
+#### Repository
+
 ```javascript
   completeByAssessmentId(assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
       const assessment = await BookshelfAssessment
@@ -102,7 +112,8 @@ completeAssessment({assessment, domainTransaction, assessmentRepository, badgeRe
   }
 ```
 
-#### Handlers :
+#### Handlers
+
 L'utilisation de `DomainTransaction` permet également de placer un `usecase` ainsi qu'un ou plusieurs handlers dans la même transaction:
 
 ```javascript
