@@ -59,7 +59,7 @@
       "cancel": "Cancel",
       "close": "Close"
     },
-    "help-form": "https://pix.org/en-gb/help-form",
+    "help-form": "https://pix.org/en-gb/contact-form",
     "loading": "Loading",
     "pagination": {
       "action": {
@@ -107,14 +107,14 @@
         "review": "Review"
       },
       "table": {
-        "title": "Results by skill",
+        "title": "Results by competence",
         "column": {
-          "competences": "Skills ({count, plural, =0 {-} other {{count}}})",
+          "competences": "Competences ({count, plural, =0 {-} other {{count}}})",
           "results": {
             "label": "Results",
-            "tooltip": "<span class=\"sr-only\">This participant has validated</span> {result} % <span class=\"sr-only\">of the skill {competence}.</span>"
+            "tooltip": "<span class=\"sr-only\">This participant has validated</span> {result} % <span class=\"sr-only\">of the competence {competence}.</span>"
           },
-          "totalSkills": "Items tested",
+          "totalSkills": "Items assessed",
           "validatedSkills": "Items successfully completed"
         },
         "empty": "Results pending"
@@ -127,9 +127,9 @@
           "first-name": "First name",
           "last-name": "Last name",
           "results": {
-            "label": "Results",
+            "label": "Success rate",
             "on-hold": "Pending",
-            "under-test": "Testing in progress"
+            "under-test": "Test in progress"
           }
         },
         "empty": "No participants",
@@ -178,17 +178,17 @@
       "result": "Result",
       "table": {
         "column": {
-          "competences": "Skills ({count})",
+          "competences": "Competences ({count})",
           "results": {
             "label": "Results",
-            "tooltip": "<span class=\"sr-only\">Participants have validated</span> {result} % <span class=\"sr-only\">of the skill {competence}.</span>"
+            "tooltip": "<span class=\"sr-only\">Participants have validated</span> {result} % <span class=\"sr-only\">of the competence {competence}.</span>"
           },
-          "tested-items": "Items tested",
+          "tested-items": "Items assessed",
           "validated-items": "Items successfully completed"
         },
         "empty": "Results pending",
-        "row-title": "Skill",
-        "title": "Collective results by skill"
+        "row-title": "Competence",
+        "title": "Collective results by competence"
       }
     },
     "campaign-creation": {
@@ -242,7 +242,7 @@
       "table": {
         "column": {
           "certifiable": "Eligible for certification",
-          "competences-certifiables": "Skills eligible for certification",
+          "competences-certifiables": "Competences eligible for certification",
           "first-name": "First name",
           "last-name": "Last name",
           "pix-score": {
@@ -250,7 +250,7 @@
             "value": "{score, number}"
           },
           "sending-date": {
-            "label": "Sending date",
+            "label": "Sent on",
             "on-hold": "Pending"
           }
         },
@@ -300,7 +300,7 @@
       "title": "Edit a campaign"
     },
     "campaign-review": {
-      "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following subjects, sorted by relevance ({bubble}).",
+      "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following topics, sorted by relevance ({bubble}).",
       "sub-table": {
         "column": {
           "source": {
@@ -312,7 +312,7 @@
       },
       "table": {
         "column": {
-          "subjects": "Subjects ({count, plural, =0 {-} other {{count}}})",
+          "subjects": "Topics ({count, plural, =0 {-} other {{count}}})",
           "relevance": "Relevance",
           "tutorial-count": {
             "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
@@ -321,14 +321,14 @@
             "aria-label": "Show all tutorials"
           }
         },
-        "empty": "Waiting results",
-        "row-title": "Subject",
+        "empty": "Results pending",
+        "row-title": "Topic",
         "sort": {
           "relevance": "Sort by relevance"
         },
-        "title": "Review by subject"
+        "title": "Review by topic"
       },
-      "title": "Recommendations of subjects to focus on"
+      "title": "Recommendations of topics to focus on"
     },
     "certifications": {
       "description": "Please select the class for which you would like to export the certification results in a csv file.",
@@ -347,11 +347,11 @@
       "title": "Log in"
     },
     "login-form": {
-      "active-or-retrieve": "Activate or retrieve your Pix Orga workspace",
+      "active-or-retrieve": "Activate or retrieve your Pix Orga space",
       "email": "Email address",
       "forgot-password": "Forgot your password?",
       "forgotten-password-url": "https://app.pix.org/mot-de-passe-oublie?lang=en",
-      "invitation-already-accepted": "This invitation has already been accepted. Please log in or contact the administrator of your Pix Orga workspace.",
+      "invitation-already-accepted": "This invitation has already been accepted. Please log in or contact the administrator of your Pix Orga space.",
       "is-only-accessible": "Pix Orga is only accessible to invited members. Please contact your Pix Orga administrator in order to be invited.",
       "login": "Log in",
       "only-for-admin": "only for school administrations",
@@ -361,22 +361,22 @@
         "status": {
           "401": "Missing or invalid credentials",
           "401-should-change-password": "An error occurred. Please change your password.",
-          "403": "Access to this Pix Orga workspace is limited to invited members. Each Pix Orga workspace is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited."
+          "403": "Access to this Pix Orga space is limited to invited members. Each Pix Orga space is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited."
         }
       }
     },
     "login-or-register": {
       "invitation": "You have been invited to join the organisation",
       "register-form": {
-        "title": "I sign up",
+        "title": "Sign up",
         "button": "Sign up",
         "fields": {
           "first-name": {
-            "label":"First name",
+            "label": "First name",
             "error": "Please enter a first name."
           },
           "last-name": {
-            "label":"Last name",
+            "label": "Last name",
             "error": "Please enter a last name."
           },
           "email": {
@@ -395,29 +395,29 @@
             "error": "Please agree to the terms and conditions of use."
           },
           "button": {
-            "label": "I sign up"
+            "label": "Sign up"
           }
         },
         "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific personalised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr."
       },
       "login-form": {
-        "title": "I already have an account",
+        "title": "Already have an account?",
         "button": "Log in"
       }
     },
     "profiles-individual-results": {
       "certifiable": "Eligible for certification",
-      "competences-certifiables": "SKILLS ELIGIBLE FOR CERTIFICATION",
+      "competences-certifiables": "COMP. ELIGIBLE FOR CERTIFICATION",
       "pix": "PIX",
       "pix-score": "{score, number}",
       "table": {
         "column": {
           "level": "Level",
           "pix-score": "Pix score",
-          "skill": "Skill"
+          "skill": "Competence"
         },
         "empty": "Results pending",
-        "row-title": "Skill"
+        "row-title": "Competence"
       }
     },
     "students-sco": {
@@ -430,7 +430,7 @@
         "manage-account": "Manage the account",
         "show-actions": "Show actions"
       },
-      "agri-tooltip": "Some information about import:<ul><li>For your students: use the FREGATA export towards Pix and click on the import button.</li><li>For your trainees: Pix imports all trainees at the end of November into your Pix Orga workspace. From December on, you will be able to add trainees from time to time. To do so, consult the Pix Orga documentation and use the template provided.</li></ul>",
+      "agri-tooltip": "Some information about import:<ul><li>For your students: use the FREGATA export towards Pix and click on the import button.</li><li>For your trainees: Pix imports all trainees at the end of November into your Pix Orga space. From December on, you will be able to add trainees from time to time. To do so, consult the Pix Orga documentation and use the template provided.</li></ul>",
       "connection-types": {
         "empty": "\u2013",
         "none": "None",
@@ -440,7 +440,7 @@
       },
       "import": {
         "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
-        "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/help-form\">the help form</a>.</div>",
+        "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">the help form</a>.</div>",
         "global-success": "The list has been successfully imported."
       },
       "know-more": "Know more",
@@ -472,7 +472,7 @@
             "label": "New temporary password",
             "warning-1": "Send this new temporary password to your student.",
             "warning-2": "Your student will be able to log in with the temporary password.",
-            "warning-3": "Your student will  choose a new password."
+            "warning-3": "Your student will choose a new password."
           },
           "reset-password": {
             "button": "Reset password",
@@ -528,7 +528,7 @@
       },
       "import": {
         "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please edit your file and try to import it again.</div>",
-        "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/help-form\">the help form</a></div>",
+        "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">the help form</a></div>",
         "global-success": "The list has been successfully imported."
       },
       "table": {
@@ -580,7 +580,7 @@
           "remove": "Yes, remove the member"
         },
         "title": "Are you sure you want to remove this member?",
-        "message": "{memberFirstName} {memberLastName} will no longer have access to this Pix Orga workspace.<br>The campaigns created by this member will still be accessible to the rest of the team."
+        "message": "{memberFirstName} {memberLastName} will no longer have access to this Pix Orga space.<br>The campaigns created by this member will still be accessible to the rest of the team."
       },
       "notifications": {
         "success": "{memberFirstName} {memberLastName} has successfully been removed from your Pix Orga team.",
@@ -615,7 +615,7 @@
       "invited-members": "By clicking on the link provided in the invitation, the invited members will be able to create an account or log in with an existing Pix account.",
       "errors": {
         "default": "The service is temporarily unavailable. Please try again later.",
-        "status" : {
+        "status": {
           "400": "The email address format is invalid.",
           "404": "This email address doesn't match any Pix user.",
           "412": "This member has already been added.",

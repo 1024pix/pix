@@ -19,7 +19,7 @@ const PIX_ORGA_NAME_EN = 'Pix Orga - Noreply';
 const PIX_NAME_FR = 'PIX - Ne pas répondre';
 const PIX_NAME_EN = 'PIX - Noreply';
 const HELPDESK_FRENCH_FRANCE = 'https://support.pix.fr/support/tickets/new';
-const HELPDESK_ENGLISH_SPOKEN = 'https://pix.org/en-gb/help-form';
+const HELPDESK_ENGLISH_SPOKEN = 'https://pix.org/en-gb/contact-form';
 const HELPDESK_FRENCH_SPOKEN = 'https://pix.org/fr/formulaire-aide';
 
 const EMAIL_CHANGE_TAG = 'EMAIL_CHANGE';

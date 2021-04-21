@@ -27,7 +27,7 @@ describe('Unit | Application | ErrorManager', () => {
       expect(response.source).to.deep.equal({
         errors: [
           {
-            detail: 'The stage title is required',
+            detail: 'The title is required',
             source: {
               pointer: '/data/attributes/name',
             },
