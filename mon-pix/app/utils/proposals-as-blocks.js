@@ -2,11 +2,11 @@ import isEmpty from 'lodash/isEmpty';
 
 const MINIMUM_SIZE_FOR_LABEL = 6;
 function stringHasPlaceholder(input) {
-  return 1 < input.indexOf('#');
+  return input.includes('#');
 }
 
 function stringHasAriaLabel(input) {
-  return 1 < input.indexOf('§');
+  return input.includes('§');
 }
 
 function _isInput(block) {
@@ -20,7 +20,7 @@ function buildLineFrom(textBlock, challengeResponseTemplate) {
   if (isInput) {
     challengeResponseTemplate.incrementInputCount();
     const blockToTemplate = new InputBlock({ input: block, inputIndex: challengeResponseTemplate.inputCount });
-    blockToTemplate.attachInputAndPlaceholderIfExist();
+    blockToTemplate.addPlaceHolderAndAriaLabelIfExist();
     challengeResponseTemplate.add(blockToTemplate);
 
   } else {
@@ -83,19 +83,15 @@ class InputBlock {
     this._type = 'input';
   }
 
-  attachInputAndPlaceholderIfExist() {
+  addPlaceHolderAndAriaLabelIfExist() {
     if (stringHasPlaceholder(this._input)) {
-      const inputParts = this._input.split('#');
-      if (stringHasAriaLabel(this._input)) {
-        const informations = inputParts[1].split('§');
-        this._placeholder = informations[0];
-        this._ariaLabel = informations[1];
-        this._autoAriaLabel = false;
-      } else {
-        this._placeholder = inputParts[1];
-      }
-      this._input = inputParts[0];
+      this._placeholder = this._input.split('#')[1].split('§')[0];
     }
+    if (stringHasAriaLabel(this._input)) {
+      this._ariaLabel = this._input.split('§')[1];
+      this._autoAriaLabel = false;
+    }
+    this._input = this._input.split(/#|§/)[0];
   }
 
   get input() {
