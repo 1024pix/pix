@@ -35,9 +35,7 @@ module.exports = {
       juryCertificationSummaryRows,
       certificationIssueReportRows);
 
-    const juryCertificationSummaries = _.map(juryCertificationSummaryDTOs, _toDomain);
-
-    return juryCertificationSummaries;
+    return _.map(juryCertificationSummaryDTOs, _toDomain);
   },
 };
 
