@@ -26,6 +26,10 @@ class CleaCertificationResult {
       status: cleaStatuses.NOT_TAKEN,
     });
   }
+
+  isTaken() {
+    return this.status !== cleaStatuses.NOT_TAKEN;
+  }
 }
 
 CleaCertificationResult.cleaStatuses = cleaStatuses;
