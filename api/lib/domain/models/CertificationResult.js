@@ -14,6 +14,8 @@ class CertificationResult {
     isPublished,
     isV2Certification,
     cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
     certificationIssueReports,
     hasSeenEndTestScreen,
     assessmentId,
@@ -30,6 +32,8 @@ class CertificationResult {
     this.isPublished = isPublished;
     this.isV2Certification = isV2Certification;
     this.cleaCertificationResult = cleaCertificationResult;
+    this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
+    this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
     this.certificationIssueReports = certificationIssueReports;
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     this.assessmentId = assessmentId;
@@ -60,6 +64,14 @@ class CertificationResult {
 
   hasTakenClea() {
     return this.cleaCertificationResult.isTaken();
+  }
+
+  hasTakenPixPlusDroitMaitre() {
+    return this.pixPlusDroitMaitreCertificationResult.isTaken();
+  }
+
+  hasTakenPixPlusDroitExpert() {
+    return this.pixPlusDroitExpertCertificationResult.isTaken();
   }
 }
 

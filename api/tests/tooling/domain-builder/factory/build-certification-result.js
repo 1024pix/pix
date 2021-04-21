@@ -1,6 +1,7 @@
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
 const buildAssessmentResult = require('./build-assessment-result');
 const buildCleaCertificationResult = require('./build-clea-certification-result');
+const buildPixPlusDroitCertificationResult = require('./build-pix-plus-droit-certification-result');
 
 module.exports = function buildCertificationResult({
   id = '123',
@@ -16,6 +17,8 @@ module.exports = function buildCertificationResult({
   isPublished = true,
   isV2Certification = true,
   cleaCertificationResult = buildCleaCertificationResult.notTaken(),
+  pixPlusDroitMaitreCertificationResult = buildPixPlusDroitCertificationResult.maitre.notTaken(),
+  pixPlusDroitExpertCertificationResult = buildPixPlusDroitCertificationResult.expert.notTaken(),
   hasSeenEndTestScreen = true,
   assessmentId,
   sessionId,
@@ -34,6 +37,8 @@ module.exports = function buildCertificationResult({
     isPublished,
     isV2Certification,
     cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
     certificationIssueReports,
     hasSeenEndTestScreen,
     assessmentId,
