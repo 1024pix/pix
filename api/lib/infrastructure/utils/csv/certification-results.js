@@ -8,8 +8,8 @@ const moment = require('moment');
 async function getDivisionCertificationResultsCsv({
   certificationResults,
 }) {
-  const data = _buildCertificationResultsFileDataWithoutCertificationCenterName({ certificationResults });
-  const fileHeaders = _buildCertificationResultsFileHeadersWithoutCertificationCenterName();
+  const data = _buildFileDataWithoutCertificationCenterName({ certificationResults });
+  const fileHeaders = _buildFileHeadersWithoutCertificationCenterName();
 
   return getCsvContent({ data, fileHeaders });
 }
@@ -19,8 +19,8 @@ async function getSessionCertificationResultsCsv({
   certificationResults,
 }) {
 
-  const data = _buildCertificationResultsFileDataWithCertificationCenterName({ session, certificationResults });
-  const fileHeaders = _buildCertificationResultsFileHeadersWithCertificationCenterName({ shouldIncludeClea: _didAtLeastOneCandidateTakeClea(certificationResults) });
+  const data = _buildFileData({ session, certificationResults });
+  const fileHeaders = _buildFileHeaders({ shouldIncludeClea: _didAtLeastOneCandidateTakeClea(certificationResults) });
 
   return getCsvContent({ data, fileHeaders });
 }
@@ -33,7 +33,7 @@ function _hasPassedClea(cleaCertificationResult) {
   return [cleaStatuses.REJECTED, cleaStatuses.ACQUIRED].includes(cleaCertificationResult.status);
 }
 
-function _buildCertificationResultsFileDataWithoutCertificationCenterName({ certificationResults }) {
+function _buildFileDataWithoutCertificationCenterName({ certificationResults }) {
   return certificationResults.map(_getRowItemsFromResults);
 }
 
@@ -60,7 +60,7 @@ function _getRowItemsFromResults(certificationResult) {
   return { ...rowWithoutCompetences, ...competencesRow };
 }
 
-function _buildCertificationResultsFileHeadersWithoutCertificationCenterName() {
+function _buildFileHeadersWithoutCertificationCenterName() {
   return _.concat(
     [
       _headers.CERTIFICATION_NUMBER,
@@ -79,11 +79,11 @@ function _buildCertificationResultsFileHeadersWithoutCertificationCenterName() {
   );
 }
 
-function _buildCertificationResultsFileDataWithCertificationCenterName({ session, certificationResults }) {
+function _buildFileData({ session, certificationResults }) {
   return certificationResults.map(_getRowItemsFromSessionAndResults(session));
 }
 
-function _buildCertificationResultsFileHeadersWithCertificationCenterName({ shouldIncludeClea }) {
+function _buildFileHeaders({ shouldIncludeClea }) {
 
   const cleaHeader = shouldIncludeClea
     ? [_headers.CLEA_STATUS]
