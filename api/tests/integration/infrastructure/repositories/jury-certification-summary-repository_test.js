@@ -1,6 +1,7 @@
 const { databaseBuilder, expect } = require('../../../test-helper');
 const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
+const CleaCertificationResult = require('../../../../lib/domain/models/CleaCertificationResult');
 const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
@@ -175,6 +176,61 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
             questionNumber: null,
           }),
         ]);
+      });
+    });
+
+    context('when a summary has a Clea certification', () => {
+
+      it('should have the status acquired when clea certification is acquired', async () => {
+        // given
+        const dbf = databaseBuilder.factory;
+        const sessionId = dbf.buildSession().id;
+        const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
+        dbf.buildBadge({ key: CleaCertificationResult.badgeKey });
+        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey, acquired: true });
+        await databaseBuilder.commit();
+
+        // when
+        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+
+        // then
+        expect(juryCertificationSummaries).to.have.lengthOf(1);
+        expect(juryCertificationSummaries[0].cleaCertificationStatus).to.equal(CleaCertificationResult.cleaStatuses.ACQUIRED);
+      });
+
+      it('should have the status rejected when clea certification is rejected', async () => {
+        // given
+        const dbf = databaseBuilder.factory;
+        const sessionId = dbf.buildSession().id;
+        const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
+        dbf.buildBadge({ key: CleaCertificationResult.badgeKey });
+        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey, acquired: false });
+        await databaseBuilder.commit();
+
+        // when
+        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+
+        // then
+        expect(juryCertificationSummaries).to.have.lengthOf(1);
+        expect(juryCertificationSummaries[0].cleaCertificationStatus).to.equal(CleaCertificationResult.cleaStatuses.REJECTED);
+      });
+    });
+
+    context('when a summary has a no Clea certification', () => {
+
+      it('should have the status not_passed when clea certification has not be taken', async () => {
+        // given
+        const dbf = databaseBuilder.factory;
+        const sessionId = dbf.buildSession().id;
+        dbf.buildCertificationCourse({ sessionId }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+
+        // then
+        expect(juryCertificationSummaries).to.have.lengthOf(1);
+        expect(juryCertificationSummaries[0].cleaCertificationStatus).to.equal('not_passed');
       });
     });
   });
