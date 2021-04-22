@@ -19,7 +19,7 @@ async function handleCertificationRescoring({
 }) {
   checkEventType(event, eventType);
 
-  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(event.certificationCourseId);
+  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: event.certificationCourseId });
   await _calculateCertificationScore({
     certificationAssessment,
     assessmentResultRepository,

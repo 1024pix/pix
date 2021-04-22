@@ -14,7 +14,36 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     challengeId: 'rec12345',
     order: 5,
     result: 'partially',
+    isNeutralized: false,
   };
+
+  test('init answer displayed status with its result when challenge is not neutralized', async function(assert) {
+    // given
+    this.setProperties({
+      answer: answerData,
+      onUpdateRate: () => {},
+    });
+
+    // when
+    await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+
+    // then
+    assert.dom('.ember-power-select-selected-item').hasText('Succès partiel');
+  });
+
+  test('init answer displayed status with neutralized label when challenge is neutralized', async function(assert) {
+    // given
+    this.setProperties({
+      answer: { ...answerData, isNeutralized: true },
+      onUpdateRate: () => {},
+    });
+
+    // when
+    await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+
+    // then
+    assert.dom('.ember-power-select-selected-item').hasText('Neutralisée');
+  });
 
   test('info are correctly displayed', async function(assert) {
     // given

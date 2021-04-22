@@ -29,7 +29,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       ],
       certificationAnswersByDate: ['answer'],
     });
-    certificationAssessmentRepository.getByCertificationCourseId.withArgs(1).resolves(certificationAssessment);
+    certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: 1 }).resolves(certificationAssessment);
 
     const competenceMarkData2 = domainBuilder.buildCompetenceMark();
     const competenceMarkData1 = domainBuilder.buildCompetenceMark();
@@ -102,7 +102,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       ],
       certificationAnswersByDate: ['answer'],
     });
-    certificationAssessmentRepository.getByCertificationCourseId.withArgs(1).resolves(certificationAssessment);
+    certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: 1 }).resolves(certificationAssessment);
 
     scoringCertificationService.calculateCertificationAssessmentScore.withArgs(certificationAssessment)
       .rejects(new CertificationComputeError('Oopsie'));

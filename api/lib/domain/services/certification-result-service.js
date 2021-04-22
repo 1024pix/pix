@@ -8,7 +8,7 @@ const placementProfileService = require('./placement-profile-service');
 const { CertifiedLevel } = require('../models/CertifiedLevel');
 const { CertifiedScore } = require('../models/CertifiedScore');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
-const CompetenceAnswerCollectionForScoring = require('../models/CompetenceAnswerCollectionForScoring');
+const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(
@@ -26,7 +26,7 @@ function _getSumScoreFromCertifiedCompetences(listCompetences) {
   return _(listCompetences).map('obtainedScore').sum();
 }
 
-function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, reproducibilityRate, certificationChallenges, continueOnError) {
+function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, reproducibilityRate, certificationChallenges, continueOnError, answerCollection) {
   return listCompetences.map((competence) => {
     const challengesForCompetence = _.filter(certificationChallenges, { competenceId: competence.id });
     const answersForCompetence = _selectAnswersMatchingCertificationChallenges(answers, challengesForCompetence);
@@ -37,12 +37,10 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
       CertificationContract.assertThatEveryAnswerHasMatchingChallenge(answersForCompetence, challengesForCompetence);
     }
 
-    const competenceAnswerCollection = CompetenceAnswerCollectionForScoring.from({ answersForCompetence, challengesForCompetence });
-
     const certifiedLevel = CertifiedLevel.from({
-      numberOfChallenges: competenceAnswerCollection.numberOfChallenges(),
-      numberOfCorrectAnswers: competenceAnswerCollection.numberOfCorrectAnswers(),
-      numberOfNeutralizedAnswers: competenceAnswerCollection.numberOfNeutralizedChallenges(),
+      numberOfChallenges: answerCollection.numberOfChallengesForCompetence(competence.id),
+      numberOfCorrectAnswers: answerCollection.numberOfCorrectAnswersForCompetence(competence.id),
+      numberOfNeutralizedAnswers: answerCollection.numberOfNeutralizedChallengesForCompetence(competence.id),
       estimatedLevel: competence.estimatedLevel,
       reproducibilityRate,
     });
@@ -81,7 +79,13 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
     CertificationContract.assertThatWeHaveEnoughAnswers(answers, certificationChallenges);
   }
 
-  const reproducibilityRate = ReproducibilityRate.from({ answers });
+  const answerCollection = AnswerCollectionForScoring.from({ answers, challenges: certificationChallenges });
+
+  const reproducibilityRate = ReproducibilityRate.from({
+    numberOfNonNeutralizedChallenges: answerCollection.numberOfNonNeutralizedChallenges(),
+    numberOfCorrectAnswers: answerCollection.numberOfCorrectAnswers(),
+  });
+
   if (!reproducibilityRate.isEnoughToBeCertified()) {
     return {
       competencesWithMark: _getCompetenceWithFailedLevel(testedCompetences),
@@ -90,7 +94,7 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
     };
   }
 
-  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answers, testedCompetences, reproducibilityRate.value, certificationChallenges, continueOnError);
+  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answers, testedCompetences, reproducibilityRate.value, certificationChallenges, continueOnError, answerCollection);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
   if (!continueOnError) {
@@ -113,6 +117,7 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
       result: answer.result.status,
       value: answer.value,
       challengeId: answer.challengeId,
+      isNeutralized: certificationChallengeRelatedToAnswer.isNeutralized,
       competence: competenceValidatedByCertifChallenge.index || '',
       skill: certificationChallengeRelatedToAnswer.associatedSkillName || '',
     };

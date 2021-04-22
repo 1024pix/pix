@@ -7,11 +7,11 @@ const {
 
 describe('Unit | Domain | Models | ReproducibilityRate', function() {
 
-  context('#static from', () => {
+  context('#static fromAnswers', () => {
 
     it('is equal to 0% if no answers', () => {
       // when
-      const reproducibilityRate = ReproducibilityRate.from({ answers: [] });
+      const reproducibilityRate = ReproducibilityRate.fromAnswers({ answers: [] });
 
       // then
       expect(reproducibilityRate.value).to.equal(0);
@@ -25,13 +25,13 @@ describe('Unit | Domain | Models | ReproducibilityRate', function() {
       ];
 
       // when
-      const reproducibilityRate = ReproducibilityRate.from({ answers });
+      const reproducibilityRate = ReproducibilityRate.fromAnswers({ answers });
 
       // then
       expect(reproducibilityRate.value).to.equal(50);
     });
 
-    it('is equal to 33% is 1 answeer is correct and 2 are non-correct', () => {
+    it('is equal to 33% if 1 answer is correct and 2 are non-correct', () => {
       // given
       const answers = [
         domainBuilder.buildAnswer({ result: AnswerStatus.OK }),
@@ -40,7 +40,53 @@ describe('Unit | Domain | Models | ReproducibilityRate', function() {
       ];
 
       // when
-      const reproducibilityRate = ReproducibilityRate.from({ answers });
+      const reproducibilityRate = ReproducibilityRate.fromAnswers({ answers });
+
+      // then
+      expect(reproducibilityRate.value).to.equal(33);
+    });
+  });
+  context('#static from', () => {
+
+    it('is equal to 0% non non-neutralizedAnswers', () => {
+      // when
+      const reproducibilityRate = ReproducibilityRate.from({
+        numberOfNonNeutralizedChallenges: 0,
+        numberOfCorrectAnswers: 0,
+      });
+
+      // then
+      expect(reproducibilityRate.value).to.equal(0);
+    });
+
+    it('is equal to 0% non correct answers', () => {
+      // when
+      const reproducibilityRate = ReproducibilityRate.from({
+        numberOfNonNeutralizedChallenges: 1,
+        numberOfCorrectAnswers: 0,
+      });
+
+      // then
+      expect(reproducibilityRate.value).to.equal(0);
+    });
+
+    it('is equal to 50% if 1 answer is correct 2 non-neutralized challenges', () => {
+      // when
+      const reproducibilityRate = ReproducibilityRate.from({
+        numberOfNonNeutralizedChallenges: 2,
+        numberOfCorrectAnswers: 1,
+      });
+
+      // then
+      expect(reproducibilityRate.value).to.equal(50);
+    });
+
+    it('is equal to 33% if 1 correct answer and 3 non-neutralized challenges', () => {
+      // when
+      const reproducibilityRate = ReproducibilityRate.from({
+        numberOfNonNeutralizedChallenges: 3,
+        numberOfCorrectAnswers: 1,
+      });
 
       // then
       expect(reproducibilityRate.value).to.equal(33);
