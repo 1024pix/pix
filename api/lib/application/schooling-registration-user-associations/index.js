@@ -50,10 +50,10 @@ exports.register = async function(server) {
           payload: Joi.object({
             data: {
               attributes: {
+                'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'birthdate': Joi.date().format('YYYY-MM-DD').required(),
-                'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)),
                 'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
               },
               type: 'schooling-registration-user-associations',
@@ -65,8 +65,7 @@ exports.register = async function(server) {
         },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle réconcilie l’utilisateur à l’inscription d’un étudiant dans cette organisation\n' +
-            'ou bien créée une inscription surnuméraire.',
+          '- Elle réconcilie l’utilisateur à l’inscription d’un étudiant dans cette organisation',
         ],
         tags: ['api', 'schoolingRegistrationUserAssociation'],
       },
