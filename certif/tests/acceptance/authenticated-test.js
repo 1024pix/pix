@@ -3,6 +3,7 @@ import { visit, currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
+  createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
 
@@ -42,6 +43,32 @@ module('Acceptance | authenticated', function(hooks) {
 
       // then
       assert.equal(currentURL(), '/sessions/liste');
+    });
+  });
+
+  module('Sco temporary banner', function() {
+    test('it should display the banner when User is SCO isManagingStudent', async function(assert) {
+      // given
+      const certificationPointOfContact = createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted();
+      await authenticateSession(certificationPointOfContact.id);
+
+      // when
+      await visit('/sessions/liste');
+
+      // then
+      assert.dom('.sco-temporary-banner').hasText('La certification en collège et lycée est possible jusqu\'au 25 juin. Pour reporter des sessions déjà programmées, il vous suffit de changer la date de la session en cliquant sur « modifier ». En savoir plus');
+    });
+
+    test('it should not display the banner when User is NOT SCO isManagingStudent', async function(assert) {
+      // given
+      const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+      await authenticateSession(certificationPointOfContact.id);
+
+      // when
+      await visit('/sessions/liste');
+
+      // then
+      assert.dom('.sco-temporary-banner').doesNotExist();
     });
   });
 
