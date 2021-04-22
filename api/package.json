@@ -80,6 +80,8 @@
   },
   "devDependencies": {
     "@ls-lint/ls-lint": "^1.9.2",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^14.14.41",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "chai-sorted": "^0.2.0",
@@ -96,7 +98,8 @@
     "nyc": "^15.1.0",
     "sinon": "^11.1.1",
     "sinon-chai": "^3.7.0",
-    "stream-to-promise": "^3.0.0"
+    "stream-to-promise": "^3.0.0",
+    "typescript": "^4.2.4"
   },
   "scripts": {
     "clean": "rm -rf node_modules",
@@ -119,6 +122,7 @@
     "lint:code": "eslint .",
     "lint:fix": "eslint --fix .",
     "lint:json": "eslint --fix --ext .json translations/",
+    "typecheck": "tsc --project tsconfig.json",
     "postdeploy": "npm run db:migrate",
     "preinstall": "npx check-engine",
     "scalingo-background-job": "node scripts/reload-cache-everyday.js",
