@@ -12,6 +12,6 @@ module.exports = {
     if (!result) {
       return PixPlusDroitMaitreCertificationResult.buildNotTaken();
     }
-    return PixPlusDroitMaitreCertificationResult.from(result);
+    return PixPlusDroitMaitreCertificationResult.buildFrom(result);
   },
 };

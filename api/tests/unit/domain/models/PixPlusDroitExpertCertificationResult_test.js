@@ -3,11 +3,11 @@ const PixPlusExpertCertificationResult = require('../../../../lib/domain/models/
 
 describe('Unit | Domain | Models | PixPlusExpertCertificationResult', () => {
 
-  context('#static from', () => {
+  context('#static buildFrom', () => {
 
     it('builds a PixPlusExpertCertificationResult acquired', async () => {
       // when
-      const pixPlusResult = PixPlusExpertCertificationResult.from({ acquired: true });
+      const pixPlusResult = PixPlusExpertCertificationResult.buildFrom({ acquired: true });
 
       // then
       expect(pixPlusResult).to.be.instanceOf(PixPlusExpertCertificationResult);
@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | PixPlusExpertCertificationResult', () => {
 
     it('builds a PixPlusExpertCertificationResult rejected', async () => {
       // when
-      const pixPlusResult = PixPlusExpertCertificationResult.from({ acquired: false });
+      const pixPlusResult = PixPlusExpertCertificationResult.buildFrom({ acquired: false });
 
       // then
       expect(pixPlusResult).to.be.instanceOf(PixPlusExpertCertificationResult);

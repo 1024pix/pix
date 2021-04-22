@@ -12,6 +12,6 @@ module.exports = {
     if (!result) {
       return CleaCertificationResult.buildNotTaken();
     }
-    return CleaCertificationResult.from(result);
+    return CleaCertificationResult.buildFrom(result);
   },
 };
