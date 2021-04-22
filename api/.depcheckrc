@@ -1,4 +1,11 @@
-ignores: ["good-console", "good-squeeze", "bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha"]
+ignores: [
+  "good-console",
+  "good-squeeze",
+  "bookshelf-validate",
+  "mocha-junit-reporter",
+  "eslint-plugin-mocha",
+  "@types/node"
+]
 
 # "good-console" is used in file ./lib/plugins.js
 # code => module: 'good-console'
@@ -19,3 +26,5 @@ ignores: ["good-console", "good-squeeze", "bookshelf-validate", "mocha-junit-rep
 # "eslint-plugin-mocha" is used in ../.eslintrc.yaml
 # code =>  plugins: - mocha
 # see https://github.com/lo1tuma/eslint-plugin-mocha#install-and-configure
+
+# "@types/node" is used by typechecker
