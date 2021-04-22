@@ -62,12 +62,12 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
   describe('#get', () => {
 
-    let existingMembership;
+    let existingMembershipId;
 
     beforeEach(async () => {
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      existingMembership = databaseBuilder.factory.buildMembership({ userId, organizationId });
+      existingMembershipId = databaseBuilder.factory.buildMembership({ userId, organizationId }).id;
       await databaseBuilder.commit();
     });
 
@@ -75,7 +75,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
       it('should return the membership', async () => {
         // when
-        const result = await membershipRepository.get(existingMembership.id);
+        const result = await membershipRepository.get(existingMembershipId);
 
         // then
         expect(result).to.be.an.instanceOf(Membership);
@@ -88,7 +88,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
       it('should throw a NotFoundError', async () => {
         // when
-        const result = await membershipRepository.get(existingMembership.id);
+        const result = await membershipRepository.get(existingMembershipId);
 
         // then
         expect(result).to.be.an.instanceOf(Membership);
