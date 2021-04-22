@@ -1,12 +1,19 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | <Certification::CertificationList/>', function(hooks) {
+module('Integration | Component | CertificationList', function(hooks) {
 
   setupRenderingTest(hooks);
+
+  let store;
+
+  hooks.beforeEach(async function() {
+    store = this.owner.lookup('service:store');
+  });
 
   test('should display many certifications', async function(assert) {
     // given
@@ -34,5 +41,23 @@ module('Integration | Component | <Certification::CertificationList/>', function
 
     const numberOfCertificationIssueReportsWithRequiredAction = this.element.querySelector('tbody > tr td:nth-child(5)');
     assert.dom(numberOfCertificationIssueReportsWithRequiredAction).hasText('2');
+  });
+
+  test('should display the complementary certifications if any', async function(assert) {
+    // given
+    const juryCertificationSummaryProcessed = run(() => {
+      return store.createRecord('jury-certification-summary', {
+        cleaCertificationStatus: 'taken',
+        pixPlusDroitMaitreCertificationStatus: 'taken',
+        pixPlusDroitExpertCertificationStatus: 'not_taken',
+      });
+    });
+    this.certifications = [juryCertificationSummaryProcessed];
+
+    // when
+    await render(hbs`<Certification::CertificationList @certifications={{certifications}} />`);
+
+    // then
+    assert.contains('CléA Numérique\nPix+ Droit Maître');
   });
 });

@@ -5,15 +5,7 @@ import Model, { attr } from '@ember-data/model';
 import find from 'lodash/find';
 import { certificationStatuses } from 'pix-admin/models/certification';
 
-const ACQUIRED = 'acquired';
-const REJECTED = 'rejected';
-const NOT_PASSED = 'not_passed';
-
-const partnerCertificationStatusToDisplayName = {
-  [ACQUIRED]: 'Validée',
-  [REJECTED]: 'Rejetée',
-  [NOT_PASSED]: 'Non passée',
-};
+const NOT_TAKEN = 'not_taken';
 
 export default class JuryCertificationSummary extends Model {
 
@@ -27,6 +19,8 @@ export default class JuryCertificationSummary extends Model {
   @attr() examinerComment;
   @attr() hasSeenEndTestScreen;
   @attr() cleaCertificationStatus;
+  @attr() pixPlusDroitMaitreCertificationStatus;
+  @attr() pixPlusDroitExpertCertificationStatus;
   @attr() numberOfCertificationIssueReports;
   @attr() numberOfCertificationIssueReportsWithRequiredAction;
 
@@ -40,9 +34,12 @@ export default class JuryCertificationSummary extends Model {
     return (new Date(this.completedAt)).toLocaleString('fr-FR');
   }
 
-  @computed('cleaCertificationStatus')
-  get cleaStatus() {
-    return partnerCertificationStatusToDisplayName[this.cleaCertificationStatus];
+  get complementaryCertificationsLabel() {
+    const certifications = [];
+    if (this.cleaCertificationStatus !== NOT_TAKEN) certifications.push('CléA Numérique');
+    if (this.pixPlusDroitMaitreCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Droit Maître');
+    if (this.pixPlusDroitExpertCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Droit Expert');
+    return certifications.join('\n');
   }
 
   @computed('numberOfCertificationIssueReportsWithRequiredAction')
