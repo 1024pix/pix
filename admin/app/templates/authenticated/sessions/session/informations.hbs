@@ -105,16 +105,16 @@
         {{/if}}
       {{/if}}
 
-      <div class="session-info__copy-button">
+      <div class="session-info__copy-button btn--right">
         {{#if this.isCopyButtonClicked}}
           <p class="session-info__tooltip">
             {{this.copyButtonText}}
           </p>
         {{/if}}
 
-        <button type="button" class="btn btn-secondary btn--right" {{on 'click' this.copyResultsDownloadLink}}>
-          Copier le lien de téléchargement &nbsp;
-          <FaIcon @icon="copy" @prefix="far" class="fa-inverse" />
+        <button type="button" class="btn btn-secondary" {{on 'click' this.copyResultsDownloadLink}}>
+          <FaIcon @icon="copy" @prefix="far" class="fa-inverse" aria-label="Copier" />
+          Lien de téléchargement des résultats
         </button>
       </div>
 
