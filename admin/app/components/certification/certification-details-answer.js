@@ -20,7 +20,7 @@ export default class CertificationDetailsAnswer extends Component {
   constructor() {
     super(...arguments);
     this.resultOptions = options;
-    this.selectedOption = this.getOption(this.args.answer.result);
+    this.selectedOption = this._answerResultValue();
   }
 
   getOption(resultValue) {
@@ -34,10 +34,19 @@ export default class CertificationDetailsAnswer extends Component {
   @action
   selectOption(selected) {
     const answer = this.args.answer;
-    const newResult = (selected.value !== answer.result) ? selected.value : null;
-    answer.jury = newResult;
-    this.selectedOption = newResult ? this.getOption(newResult) : this.getOption(this.args.answer.result);
+    const answerResult = this._answerResultValue();
+    const newResult = this.getOption(selected.value);
+    answer.jury = (answerResult.value !== newResult.value) ? newResult.value : null;
+    this.selectedOption = newResult ?? answerResult;
     this.hasJuryResult = !!newResult;
     this.args.onUpdateRate();
+  }
+
+  _answerResultValue() {
+    if (this.args.answer.isNeutralized) {
+      return this.getOption('skip');
+    } else {
+      return this.getOption(this.args.answer.result);
+    }
   }
 }

@@ -22,7 +22,17 @@
           <td>
             {{answer.challengeId}}
           </td>
-          <td></td>
+          <td>
+            <PixButton
+                @triggerAction={{fn this.neutralize answer.challengeId answer.order}}
+                @backgroundColor="blue"
+                @loading-color="grey"
+                class="neutralization__neutralize-button"
+                @isDisabled={{ answer.isNeutralized }}
+            >
+              Neutraliser
+            </PixButton>
+          </td>
         </tr>
       {{/each}}
     </tbody>

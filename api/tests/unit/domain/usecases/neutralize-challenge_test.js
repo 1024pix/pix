@@ -36,7 +36,7 @@ describe('Unit | UseCase | neutralize-challenge', () => {
       certificationAnswersByDate: ['answer'],
     });
     certificationAssessmentRepository.getByCertificationCourseId
-      .withArgs(certificationCourseId)
+      .withArgs({ certificationCourseId })
       .resolves(certificationAssessment);
 
     // when
@@ -84,7 +84,7 @@ describe('Unit | UseCase | neutralize-challenge', () => {
       certificationAnswersByDate: ['answer'],
     });
     certificationAssessmentRepository.getByCertificationCourseId
-      .withArgs(certificationCourseId)
+      .withArgs({ certificationCourseId })
       .resolves(certificationAssessment);
 
     // when

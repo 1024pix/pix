@@ -29,7 +29,7 @@ class CertificationDetails {
     competenceMarks,
     placementProfile,
   }) {
-    const reproducibilityRate = ReproducibilityRate.from({ answers: certificationAssessment.certificationAnswersByDate });
+    const reproducibilityRate = ReproducibilityRate.fromAnswers({ answers: certificationAssessment.certificationAnswersByDate });
     const competencesWithMark = _buildCompetencesWithMark({ competenceMarks, placementProfile });
     const listChallengesAndAnswers = _buildListChallengesAndAnswers({ certificationAssessment, competencesWithMark });
 

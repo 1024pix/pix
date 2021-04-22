@@ -2,6 +2,7 @@
 
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
+import { memberAction } from 'ember-api-actions';
 
 export default class CertificationDetails extends Model {
 
@@ -14,7 +15,7 @@ export default class CertificationDetails extends Model {
   @attr() completedAt;
   @attr() listChallengesAndAnswers;
 
-  @computed('listChallengesAndAnswers')
+  @computed('listChallengesAndAnswers', 'listChallengesAndAnswers.@each.isNeutralized')
   get answers() {
     let count = 1;
     return this.listChallengesAndAnswers.map((answer) => {
@@ -56,4 +57,17 @@ export default class CertificationDetails extends Model {
   get completionDate() {
     return (new Date(this.completedAt)).toLocaleString('fr-FR');
   }
+
+  neutralizeChallenge = memberAction({
+    path: 'neutralize-challenge',
+    type: 'post',
+    urlType: 'neutralize-challenge',
+    before(attributes) {
+      return {
+        data: {
+          attributes,
+        },
+      };
+    },
+  });
 }

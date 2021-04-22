@@ -1,4 +1,5 @@
 const usecases = require('../../domain/usecases');
+const events = require('../../domain/events');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
 
@@ -41,5 +42,18 @@ module.exports = {
     return h.response(file)
       .header('Content-Disposition', `attachment; filename=${fileName}`)
       .header('Content-Type', 'application/pdf');
+  },
+
+  async neutralizeChallenge(request, h) {
+    const challengeRecId = request.payload.data.attributes.challengeRecId;
+    const certificationCourseId = request.payload.data.attributes.certificationCourseId;
+    const juryId = request.auth.credentials.userId;
+    const event = await usecases.neutralizeChallenge({
+      challengeRecId,
+      certificationCourseId,
+      juryId,
+    });
+    await events.eventDispatcher.dispatch(event);
+    return h.response().code(204);
   },
 };
