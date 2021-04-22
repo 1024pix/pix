@@ -25,7 +25,13 @@
           <Table::Header />
         </tr>
         <tr>
-          <Table::Header/>
+          <Table::HeaderFilterInput
+            @field="studentNumber"
+            @value={{@studentNumberFilter}}
+            @placeholder={{t "pages.students-sup.table.filter.student-number.label"}}
+            @ariaLabel={{t "pages.students-sup.table.filter.student-number.aria-label"}}
+            @triggerFiltering={{@triggerFiltering}}
+          />
           <Table::HeaderFilterInput
             @field="lastName"
             @value={{@lastNameFilter}}

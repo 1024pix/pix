@@ -33,12 +33,15 @@ function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
   });
 }
 
-function _setSchoolingRegistrationFilters(qb, { lastName, firstName, connexionType } = {}) {
+function _setSchoolingRegistrationFilters(qb, { lastName, firstName, studentNumber, connexionType } = {}) {
   if (lastName) {
     qb.whereRaw('LOWER("schooling-registrations"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
   }
   if (firstName) {
     qb.whereRaw('LOWER("schooling-registrations"."firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
+  }
+  if (studentNumber) {
+    qb.whereRaw('LOWER("schooling-registrations"."studentNumber") LIKE ?', `%${studentNumber.toLowerCase()}%`);
   }
   if (connexionType === 'none') {
     qb.whereRaw('"users"."username" IS NULL');
