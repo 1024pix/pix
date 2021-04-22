@@ -7,11 +7,20 @@ async function fillCampaignParticipationIdInBadgeAcquisitions() {
 }
 
 async function getCampaignParticipationFromBadgeAcquisition(badgeAcquisition) {
+  const dateBeforeBadgeAcquisition = new Date(badgeAcquisition.createdAt);
+  dateBeforeBadgeAcquisition.setDate(badgeAcquisition.createdAt.getDate() - 1);
+
   const badge = await knex('badges').select('targetProfileId').where({ id: badgeAcquisition.badgeId }).first();
   return knex('campaign-participations')
     .select('campaign-participations.id')
     .innerJoin('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .where({ 'campaign-participations.userId': badgeAcquisition.userId, 'campaigns.targetProfileId': badge.targetProfileId });
+    .innerJoin('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')
+    .where({
+      'campaign-participations.userId': badgeAcquisition.userId,
+      'campaigns.targetProfileId': badge.targetProfileId,
+      'assessments.state': 'completed',
+    })
+    .whereBetween('assessments.updatedAt', [dateBeforeBadgeAcquisition, badgeAcquisition.createdAt]);
 }
 
 async function main() {
