@@ -1,15 +1,16 @@
-const { getCsvContent } = require('./write-csv-utils');
-const { status: assessmentResultStatuses } = require('../../../domain/models/AssessmentResult');
-const { statuses: cleaStatuses } = require('../../../infrastructure/repositories/clea-certification-status-repository');
-
 const _ = require('lodash');
 const moment = require('moment');
+const { getCsvContent } = require('./write-csv-utils');
+const { status: assessmentResultStatuses } = require('../../../domain/models/AssessmentResult');
+const { cleaStatuses } = require('../../../domain/models/CleaCertificationResult');
+const { statuses: maitreStatuses } = require('../../../domain/models/PixPlusDroitMaitreCertificationResult');
+const { statuses: expertStatuses } = require('../../../domain/models/PixPlusDroitExpertCertificationResult');
 
 async function getDivisionCertificationResultsCsv({
   certificationResults,
 }) {
-  const data = _buildCertificationResultsFileDataWithoutCertificationCenterName({ certificationResults });
-  const fileHeaders = _buildCertificationResultsFileHeadersWithoutCertificationCenterName();
+  const data = _buildFileDataWithoutCertificationCenterName({ certificationResults });
+  const fileHeaders = _buildFileHeadersWithoutCertificationCenterName();
 
   return getCsvContent({ data, fileHeaders });
 }
@@ -18,22 +19,13 @@ async function getSessionCertificationResultsCsv({
   session,
   certificationResults,
 }) {
-
-  const data = _buildCertificationResultsFileDataWithCertificationCenterName({ session, certificationResults });
-  const fileHeaders = _buildCertificationResultsFileHeadersWithCertificationCenterName({ shouldIncludeClea: _didAtLeastOneCandidateTakeClea(certificationResults) });
+  const fileHeaders = _buildFileHeaders(certificationResults);
+  const data = _buildFileData({ session, certificationResults });
 
   return getCsvContent({ data, fileHeaders });
 }
 
-function _didAtLeastOneCandidateTakeClea(certificationResults) {
-  return certificationResults.some((result) => _hasPassedClea(result.cleaCertificationStatus));
-}
-
-function _hasPassedClea(cleaCertificationStatus) {
-  return [cleaStatuses.REJECTED, cleaStatuses.ACQUIRED].includes(cleaCertificationStatus);
-}
-
-function _buildCertificationResultsFileDataWithoutCertificationCenterName({ certificationResults }) {
+function _buildFileDataWithoutCertificationCenterName({ certificationResults }) {
   return certificationResults.map(_getRowItemsFromResults);
 }
 
@@ -60,7 +52,7 @@ function _getRowItemsFromResults(certificationResult) {
   return { ...rowWithoutCompetences, ...competencesRow };
 }
 
-function _buildCertificationResultsFileHeadersWithoutCertificationCenterName() {
+function _buildFileHeadersWithoutCertificationCenterName() {
   return _.concat(
     [
       _headers.CERTIFICATION_NUMBER,
@@ -79,14 +71,23 @@ function _buildCertificationResultsFileHeadersWithoutCertificationCenterName() {
   );
 }
 
-function _buildCertificationResultsFileDataWithCertificationCenterName({ session, certificationResults }) {
+function _buildFileData({ session, certificationResults }) {
   return certificationResults.map(_getRowItemsFromSessionAndResults(session));
 }
 
-function _buildCertificationResultsFileHeadersWithCertificationCenterName({ shouldIncludeClea }) {
+function _buildFileHeaders(certificationResults) {
+  const shouldIncludeCleaHeader = certificationResults.some((certificationResult) => certificationResult.hasTakenClea());
+  const shouldIncludePixPlusDroitMaitreHeader = certificationResults.some((certificationResult) => certificationResult.hasTakenPixPlusDroitMaitre());
+  const shouldIncludePixPlusDroitExpertHeader = certificationResults.some((certificationResult) => certificationResult.hasTakenPixPlusDroitExpert());
 
-  const cleaHeader = shouldIncludeClea
+  const cleaHeader = shouldIncludeCleaHeader
     ? [_headers.CLEA_STATUS]
+    : [];
+  const pixPlusDroitMaitreHeader = shouldIncludePixPlusDroitMaitreHeader
+    ? [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]
+    : [];
+  const pixPlusDroitExpertHeader = shouldIncludePixPlusDroitExpertHeader
+    ? [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]
     : [];
 
   return _.concat(
@@ -98,6 +99,8 @@ function _buildCertificationResultsFileHeadersWithCertificationCenterName({ shou
       _headers.BIRTHPLACE,
       _headers.EXTERNAL_ID,
     ],
+    pixPlusDroitMaitreHeader,
+    pixPlusDroitExpertHeader,
     cleaHeader,
     [ _headers.PIX_SCORE ],
     _competenceIndexes,
@@ -109,12 +112,6 @@ function _buildCertificationResultsFileHeadersWithCertificationCenterName({ shou
   );
 }
 
-const CLEA_STATUS_LABEL_FOR_CSV = {
-  [cleaStatuses.NOT_PASSED]: 'Non passée',
-  [cleaStatuses.ACQUIRED]: 'Validée',
-  [cleaStatuses.REJECTED]: 'Rejetée',
-};
-
 const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => {
   const rowWithoutCompetences = {
     [_headers.CERTIFICATION_NUMBER]: certificationResult.id,
@@ -123,7 +120,9 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
     [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
     [_headers.BIRTHPLACE]: certificationResult.birthplace,
     [_headers.EXTERNAL_ID]: certificationResult.externalId,
-    [_headers.CLEA_STATUS]: CLEA_STATUS_LABEL_FOR_CSV[certificationResult.cleaCertificationStatus],
+    [_headers.CLEA_STATUS]: _formatCleaCertificationResult(certificationResult.cleaCertificationResult),
+    [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]: _formatPixPlusDroitMaitreCertificationResult(certificationResult.pixPlusDroitMaitreCertificationResult),
+    [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]: _formatPixPlusDroitExpertCertificationResult(certificationResult.pixPlusDroitExpertCertificationResult),
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
     [_headers.SESSION_ID]: session.id,
     [_headers.CERTIFICATION_CENTER]: session.certificationCenter,
@@ -133,6 +132,24 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
   const competencesCells = _getCompetenceCells(certificationResult);
   return { ...rowWithoutCompetences, ...competencesCells };
 };
+
+function _formatCleaCertificationResult(cleaCertificationResult) {
+  if (cleaCertificationResult.status === cleaStatuses.ACQUIRED) return 'Validée';
+  if (cleaCertificationResult.status === cleaStatuses.REJECTED) return 'Rejetée';
+  return 'Non passée';
+}
+
+function _formatPixPlusDroitMaitreCertificationResult(pixPlusDroitMaitreCertificationResult) {
+  if (pixPlusDroitMaitreCertificationResult.status === maitreStatuses.ACQUIRED) return 'Validée';
+  if (pixPlusDroitMaitreCertificationResult.status === maitreStatuses.REJECTED) return 'Rejetée';
+  return 'Non passée';
+}
+
+function _formatPixPlusDroitExpertCertificationResult(pixPlusDroitExpertCertificationResult) {
+  if (pixPlusDroitExpertCertificationResult.status === expertStatuses.ACQUIRED) return 'Validée';
+  if (pixPlusDroitExpertCertificationResult.status === expertStatuses.REJECTED) return 'Rejetée';
+  return 'Non passée';
+}
 
 function _formatPixScore(certificationResult) {
   return _isCertificationRejected(certificationResult) ? '0' : certificationResult.pixScore;
@@ -204,6 +221,8 @@ const _headers = {
   BIRTHPLACE: 'Lieu de naissance',
   EXTERNAL_ID: 'Identifiant Externe',
   CLEA_STATUS: 'Certification CléA numérique',
+  PIX_PLUS_DROIT_MAITRE_STATUS: 'Certification Pix+ Droit Maître',
+  PIX_PLUS_DROIT_EXPERT_STATUS: 'Certification Pix+ Droit Expert',
   PIX_SCORE: 'Nombre de Pix',
   SESSION_ID: 'Session',
   CERTIFICATION_CENTER: 'Centre de certification',

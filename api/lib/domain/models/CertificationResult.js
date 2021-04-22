@@ -1,25 +1,26 @@
 const Assessment = require('./Assessment');
 
 class CertificationResult {
-  constructor(
-    {
-      id,
-      lastAssessmentResult,
-      firstName,
-      lastName,
-      birthplace,
-      birthdate,
-      externalId,
-      completedAt,
-      createdAt,
-      isPublished,
-      isV2Certification,
-      cleaCertificationStatus,
-      certificationIssueReports,
-      hasSeenEndTestScreen,
-      assessmentId,
-      sessionId,
-    } = {}) {
+  constructor({
+    id,
+    lastAssessmentResult,
+    firstName,
+    lastName,
+    birthplace,
+    birthdate,
+    externalId,
+    completedAt,
+    createdAt,
+    isPublished,
+    isV2Certification,
+    cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
+    certificationIssueReports,
+    hasSeenEndTestScreen,
+    assessmentId,
+    sessionId,
+  } = {}) {
     this.id = id;
     this.lastName = lastName;
     this.firstName = firstName;
@@ -30,7 +31,9 @@ class CertificationResult {
     this.createdAt = createdAt;
     this.isPublished = isPublished;
     this.isV2Certification = isV2Certification;
-    this.cleaCertificationStatus = cleaCertificationStatus;
+    this.cleaCertificationResult = cleaCertificationResult;
+    this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
+    this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
     this.certificationIssueReports = certificationIssueReports;
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     this.assessmentId = assessmentId;
@@ -57,6 +60,18 @@ class CertificationResult {
       this.competencesWithMark = [];
       this.juryId = undefined;
     }
+  }
+
+  hasTakenClea() {
+    return this.cleaCertificationResult.isTaken();
+  }
+
+  hasTakenPixPlusDroitMaitre() {
+    return this.pixPlusDroitMaitreCertificationResult.isTaken();
+  }
+
+  hasTakenPixPlusDroitExpert() {
+    return this.pixPlusDroitExpertCertificationResult.isTaken();
   }
 }
 

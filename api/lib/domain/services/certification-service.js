@@ -2,7 +2,9 @@ const CertificationResult = require('../models/CertificationResult');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const certificationAssessmentRepository = require('../../../lib/infrastructure/repositories/certification-assessment-repository');
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
-const cleaCertificationStatusRepository = require('../../infrastructure/repositories/clea-certification-status-repository');
+const cleaCertificationResultRepository = require('../../infrastructure/repositories/clea-certification-result-repository');
+const pixPlusDroitMaitreCertificationResultRepository = require('../../infrastructure/repositories/pix-plus-droit-maitre-certification-result-repository');
+const pixPlusDroitExpertCertificationResultRepository = require('../../infrastructure/repositories/pix-plus-droit-expert-certification-result-repository');
 const certificationResultService = require('./certification-result-service');
 
 async function calculateCertificationResultByCertificationCourseId(certificationCourseId) {
@@ -12,7 +14,9 @@ async function calculateCertificationResultByCertificationCourseId(certification
 
 async function getCertificationResultByCertifCourse({ certificationCourse }) {
   const certificationCourseId = certificationCourse.id;
-  const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificationCourseId);
+  const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId });
+  const pixPlusDroitMaitreCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({ certificationCourseId });
+  const pixPlusDroitExpertCertificationResult = await pixPlusDroitExpertCertificationResultRepository.get({ certificationCourseId });
   const lastAssessmentResult = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId });
   const assessmentId = await assessmentRepository.getIdByCertificationCourseId(certificationCourseId);
 
@@ -29,7 +33,9 @@ async function getCertificationResultByCertifCourse({ certificationCourse }) {
     createdAt: certificationCourse.createdAt,
     isPublished: certificationCourse.isPublished,
     isV2Certification: certificationCourse.isV2Certification,
-    cleaCertificationStatus,
+    cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
     certificationIssueReports: certificationCourse.certificationIssueReports,
     hasSeenEndTestScreen: certificationCourse.hasSeenEndTestScreen,
     sessionId: certificationCourse.sessionId,
