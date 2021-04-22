@@ -11,6 +11,7 @@ import { Response } from 'ember-cli-mirage';
 import visit from '../helpers/visit';
 import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';
+import { fillInByLabel } from '../helpers/fill-in-by-label';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
@@ -804,12 +805,12 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           await visit(`/campagnes/${campaign.code}`);
 
           // when
-          await click('#no-student-number');
-          await fillIn('#firstName', 'Jean');
-          await fillIn('#lastName', 'Bon');
-          await fillIn('#dayOfBirth', '01');
-          await fillIn('#monthOfBirth', '01');
-          await fillIn('#yearOfBirth', '2000');
+          await fillInByLabel('Numéro étudiant', 'F100');
+          await fillInByLabel('Prénom', 'Jean');
+          await fillInByLabel('Nom', 'Bon');
+          await fillInByLabel('jour de naissance', '01');
+          await fillInByLabel('mois de naissance', '01');
+          await fillInByLabel('année de naissance', '2000');
           await clickByLabel('C\'est parti !');
 
           // then

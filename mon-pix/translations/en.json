@@ -596,10 +596,13 @@
                     "label": "Date of birth",
                     "day-error": "Your birth day is in an invalid format.",
                     "day-format": "DD",
+                    "day-label": "Day",
                     "month-error": "Your birth month is in an invalid format.",
                     "month-format": "MM",
+                    "month-label": "Month",
                     "year-error": "Your birth year is in an invalid format.",
-                    "year-format": "YYYY"
+                    "year-format": "YYYY",
+                    "year-label": "Year"
                 },
                 "firstname": {
                     "error": "Please enter your first name.",
