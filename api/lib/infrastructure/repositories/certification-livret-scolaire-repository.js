@@ -36,6 +36,7 @@ module.exports = {
         .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
         .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
         .modify(_filterMostRecentCertificationCourse)
+        .where('certification-courses.isCancelled', '=', false)
         .whereRaw('LOWER("organizations"."externalId") = LOWER(?)', uai),
     )
       .select(knex.ref('*').withSchema(withName))

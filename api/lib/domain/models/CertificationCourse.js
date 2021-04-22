@@ -19,6 +19,7 @@ class CertificationCourse {
       userId,
       sessionId,
       maxReachableLevelOnCertificationDate,
+      isCancelled = false,
     } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -38,6 +39,7 @@ class CertificationCourse {
     this.userId = userId;
     this.sessionId = sessionId;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
+    this.isCancelled = isCancelled;
   }
 
   reportIssue(issueReport) {
