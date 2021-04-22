@@ -7,16 +7,24 @@ class ReproducibilityRate {
     this.value = value;
   }
 
-  static from({ answers }) {
+  static from({
+    numberOfNonNeutralizedChallenges,
+    numberOfCorrectAnswers,
+  }) {
+    if (numberOfNonNeutralizedChallenges === 0) return new ReproducibilityRate(0);
+    return new ReproducibilityRate(Math.round((numberOfCorrectAnswers / numberOfNonNeutralizedChallenges) * 100));
+  }
+
+  static fromAnswers({ answers }) {
     const numberOfAnswers = answers.length;
 
     if (!numberOfAnswers) {
       return new ReproducibilityRate(0);
     }
 
-    const numberOfValidAnswers = answers.filter((answer) => answer.isOk()).length;
+    const numberOfCorrectAnswers = answers.filter((answer) => answer.isOk()).length;
 
-    return new ReproducibilityRate(Math.round((numberOfValidAnswers % 100 / numberOfAnswers) * 100));
+    return new ReproducibilityRate(Math.round((numberOfCorrectAnswers / numberOfAnswers) * 100));
   }
 
   isEnoughToBeCertified() {

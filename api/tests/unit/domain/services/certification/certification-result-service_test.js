@@ -591,7 +591,7 @@ describe('Unit | Service | Certification Result Service', function() {
           const expectedResult = {
             competencesWithMark: expectedCertifiedCompetences,
             listChallengesAndAnswers: expectedChallenges,
-            percentageCorrectAnswers: 67,
+            percentageCorrectAnswers: 64,
             status: certificationAssessment.state,
             totalScore: 52,
             userId: certificationAssessment.userId,

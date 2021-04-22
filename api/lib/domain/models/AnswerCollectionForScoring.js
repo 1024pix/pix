@@ -1,47 +1,42 @@
 const _ = require('lodash');
 const qrocmDepChallenge = 'QROCM-dep';
 
-module.exports = class CompetenceAnswerCollection {
+module.exports = class AnswerCollectionForScoring {
   constructor(answers) {
     this.answers = answers;
   }
 
-  static from({ answersForCompetence, challengesForCompetence }) {
-    const answersForScoring = challengesForCompetence.map((challenge) => {
-      const answer = _.find(answersForCompetence, { challengeId: challenge.challengeId });
+  static from({ answers, challenges }) {
+    const answersForScoring = challenges.map((challenge) => {
+      const answer = _.find(answers, { challengeId: challenge.challengeId });
       return new AnswerForScoring(answer, challenge);
     });
-    return new CompetenceAnswerCollection(answersForScoring);
+    return new AnswerCollectionForScoring(answersForScoring);
   }
 
   numberOfCorrectAnswers() {
     let nbOfCorrectAnswers = 0;
     this.answers.forEach((answer) => {
-      if (!answer.challenge.isNeutralized) {
-        if (this.answers.length < 3 && answer.isAFullyCorrectQROCMdep()) {
-          nbOfCorrectAnswers += 2;
-        } else if (this.answers.length < 3 && answer.isAPartiallyCorrectQROCMdep()) {
-          nbOfCorrectAnswers += 1;
-        } else if (answer.isCorrect()) {
-          nbOfCorrectAnswers += 1;
-        }
+      if (!answer.isNeutralized() && answer.isCorrect()) {
+        nbOfCorrectAnswers++;
       }
     });
 
     return nbOfCorrectAnswers;
   }
 
-  numberOfChallenges() {
-    const numberOfChallenges = _(this.answers).map((answer) => {
-      if (this.answers.length < 3 && answer.isQROCMdep()) {
-        return 2;
-      } else {
-        return 1;
+  numberOfNonNeutralizedChallenges() {
+    let numberOfNonNeutralizedChallenges = 0;
+    this.answers.forEach((answer) => {
+      if (!answer.isNeutralized()) {
+        numberOfNonNeutralizedChallenges++;
       }
-    }).sum();
-    return numberOfChallenges;
+    });
+
+    return numberOfNonNeutralizedChallenges;
   }
 
+  /*
   numberOfNeutralizedChallenges() {
     return _(this.answers).map((answer) => {
       if (answer.isNeutralized()) {
@@ -55,6 +50,7 @@ module.exports = class CompetenceAnswerCollection {
       }
     }).sum();
   }
+   */
 };
 
 class AnswerForScoring {
