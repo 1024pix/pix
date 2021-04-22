@@ -31,17 +31,6 @@ module.exports = class CompetenceAnswerCollection {
     return nbOfCorrectAnswers;
   }
 
-  numberOfChallenges() {
-    const numberOfChallenges = _(this.answers).map((answer) => {
-      if (this.answers.length < 3 && answer.isQROCMdep()) {
-        return 2;
-      } else {
-        return 1;
-      }
-    }).sum();
-    return numberOfChallenges;
-  }
-
   numberOfNeutralizedChallenges() {
     return _(this.answers).map((answer) => {
       if (answer.isNeutralized()) {

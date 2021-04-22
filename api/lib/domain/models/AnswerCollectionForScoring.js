@@ -36,6 +36,18 @@ module.exports = class AnswerCollectionForScoring {
     return numberOfNonNeutralizedChallenges;
   }
 
+  numberOfChallengesForCompetence(competenceId) {
+    const answersForCompetence = this.answers.filter((answer) => answer.competenceId() === competenceId);
+    const numberOfChallenges = _(answersForCompetence).map((answer) => {
+      if (answersForCompetence.length < 3 && answer.isQROCMdep()) {
+        return 2;
+      } else {
+        return 1;
+      }
+    }).sum();
+    return numberOfChallenges;
+  }
+
   /*
   numberOfNeutralizedChallenges() {
     return _(this.answers).map((answer) => {
@@ -79,5 +91,8 @@ class AnswerForScoring {
 
   isNeutralized() {
     return this.challenge.isNeutralized;
+  }
+  competenceId() {
+    return this.challenge.competenceId;
   }
 }
