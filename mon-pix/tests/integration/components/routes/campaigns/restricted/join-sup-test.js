@@ -1,13 +1,13 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
+import sinon from 'sinon';
+import { expect } from 'chai';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
-import { click, fillIn, render, find } from '@ember/test-helpers';
+import { fillInByLabel } from '../../../../../helpers/fill-in-by-label';
+import { clickByLabel } from '../../../../../helpers/click-by-label';
+import { contains } from '../../../../../helpers/contains';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
-import { clickByLabel } from '../../../../../helpers/click-by-label';
 
 describe('Integration | Component | routes/campaigns/restricted/join-sup', function() {
   setupIntlRenderingTest();
@@ -17,72 +17,57 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
   let onSubmitToReconcileStub;
 
   beforeEach(function() {
-    sessionStub = Service.extend({});
-    storeStub = Service.extend({});
+    sessionStub = class StoreStub extends Service {};
+    storeStub = class StoreStub extends Service {
+      createRecord = () => ({
+        unloadRecord: () => sinon.stub(),
+      })
+    };
     this.owner.register('service:session', sessionStub);
     this.owner.register('service:store', storeStub);
   });
 
-  context('when the student number is typed', () => {
-    it('should show user data form', async function() {
+  context('when user fill the form correctly', () => {
+    it('should call the submit callback', async function() {
       // given
+      onSubmitToReconcileStub = sinon.stub();
       this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
 
       // when
       await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
 
-      await fillIn('#studentNumber', '1234');
-      await click('[type="submit"]');
-      // then
-      expect(find('#firstName')).to.exist;
-    });
-
-    it('should disable input student number', async function() {
-      // when
-      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
-
-      // given
-      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
-
-      await fillIn('#studentNumber', '1234');
-      await click('[type="submit"]');
+      await fillInByLabel('Numéro étudiant', 'F100');
+      await fillInByLabel('Prénom', 'Jean');
+      await fillInByLabel('Nom', 'Bon');
+      await fillInByLabel('jour de naissance', '01');
+      await fillInByLabel('mois de naissance', '01');
+      await fillInByLabel('année de naissance', '2000');
+      await clickByLabel('C\'est parti !');
 
       // then
-      expect(find('#studentNumber')).to.exist;
-      expect(find('#studentNumber').disabled).to.be.true;
+      sinon.assert.called(onSubmitToReconcileStub);
     });
   });
 
-  context('when i want change the student number', () => {
-    it('should be possible to edit student number when a mistake was done', async function() {
-      // when
+  context('when the server responds an error', () => {
+    it('should display server error', async function() {
+      // given
+      onSubmitToReconcileStub = sinon.stub().rejects();
       this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
 
-      // given
-      await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
-
-      await fillIn('#studentNumber', '1234');
-      await click('[type="submit"]');
-      await clickByLabel('Modifier le numéro étudiant');
-
-      // then
-      expect(find('#studentNumber').disabled).to.be.false;
-    });
-  });
-
-  context('when i don’t have a student number', () => {
-    it('should display user data form', async function() {
       // when
-      this.set('onSubmitToReconcileStub', onSubmitToReconcileStub);
-
-      // given
       await render(hbs`<Routes::Campaigns::Restricted::JoinSup @campaignCode={{123}} @onSubmitToReconcile={{this.onSubmitToReconcileStub}}/>`);
 
-      await click('[type="checkbox"]');
+      await fillInByLabel('Numéro étudiant', 'F100');
+      await fillInByLabel('Prénom', 'Jean');
+      await fillInByLabel('Nom', 'Bon');
+      await fillInByLabel('jour de naissance', '01');
+      await fillInByLabel('mois de naissance', '01');
+      await fillInByLabel('année de naissance', '2000');
+      await clickByLabel('C\'est parti !');
 
       // then
-      expect(find('#studentNumber').disabled).to.be.true;
-      expect(find('#firstName')).to.exist;
+      expect(contains('Veuillez vérifier les informations saisies, ou si vous avez déjà un compte Pix, connectez-vous avec celui-ci.')).to.exist;
     });
   });
 });

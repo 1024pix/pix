@@ -1,50 +1,100 @@
-{{!-- template-lint-disable require-input-label no-triple-curlies --}}
 <form>
   <div class="join-restricted-campaign__row">
-    <label class="join-restricted-campaign__label">{{t 'pages.join.sup.fields.student-number.label'}}</label>
-    <Input
-            @id="studentNumber"
-            @type="text"
-            @name="studentNumber"
-            @value={{this.studentNumber}}
-            placeholder={{t 'pages.join.sup.fields.student-number.label'}}
-            @disabled={{this.showFurtherInformationForm}}
-            @readonly={{this.showFurtherInformationForm}}
-            class={{if this.validation.studentNumber "input--error"}}
-            @focusOut={{fn this.triggerInputStringValidation "studentNumber" this.studentNumber}}
-    />
-    <div class={{if this.validation.studentNumber "join-restricted-campaign__field-error"}} role="alert">
-      {{this.validation.studentNumber}}
-    </div>
-    {{#if this.showFurtherInformationForm}}
-      <button type="button" class="link join-restricted-campaign__back-button" {{on 'click' this.hideFurtherInformationForm}}>
-        {{t 'pages.join.sup.fields.student-number.modify'}}
-      </button>
-    {{/if}}
-
-    <label for="no-student-number">
-      <Input @type="checkbox" @id="no-student-number" class="join-restricted-campaign__no-student-number" @checked={{this.noStudentNumber}} {{on 'click' this.toggleNoStudentNumber}}/>
-      {{t 'pages.join.sup.fields.student-number.not-existing'}}
+    <label for="studentNumber" class="join-restricted-campaign__label">
+      {{t 'pages.join.sup.fields.student-number.label'}}
     </label>
+    <Input
+      id="studentNumber"
+      @type="text"
+      @value={{this.studentNumber}}
+      placeholder={{t 'pages.join.sup.fields.student-number.label'}}
+      class={{if this.errors.studentNumber "input--error"}}
+      @focusOut={{fn this.triggerInputStringValidation "studentNumber" this.studentNumber}}
+    />
+    {{#if this.errors.studentNumber}}
+      <div class="join-restricted-campaign__field-error" role="alert">{{this.errors.studentNumber}}</div>
+    {{/if}}
   </div>
 
-  {{#if this.showFurtherInformationForm}}
-    <Routes::Campaigns::Restricted::UserInformationForm
-            @validation={{this.validation}}
-            @firstName={{this.firstName}}
-            @lastName={{this.lastName}}
-            @dayOfBirth={{this.dayOfBirth}}
-            @monthOfBirth={{this.monthOfBirth}}
-            @yearOfBirth={{this.yearOfBirth}}
-            @triggerInputStringValidation={{this.triggerInputStringValidation}}
-            @triggerInputDayValidation={{this.triggerInputDayValidation}}
-            @triggerInputMonthValidation={{this.triggerInputMonthValidation}}
-            @triggerInputYearValidation={{this.triggerInputYearValidation}}
+  <div class="join-restricted-campaign__row">
+    <label for="firstName" class="join-restricted-campaign__label">
+      {{t 'pages.join.fields.firstname.label'}}
+    </label>
+    <Input
+      id="firstName"
+      @type="text"
+      @value={{this.firstName}}
+      placeholder={{t 'pages.join.fields.firstname.label'}}
+      class={{if this.errors.firstName "input--error"}}
+      @focusOut={{fn this.triggerInputStringValidation "firstName" this.firstName}}
     />
+    {{#if this.errors.firstName}}
+      <div class="join-restricted-campaign__field-error" role="alert">{{this.errors.firstName}}</div>
+    {{/if}}
+  </div>
+
+  <div class="join-restricted-campaign__row">
+    <label for="lastName" class="join-restricted-campaign__label">
+      {{t 'pages.join.fields.lastname.label'}}
+    </label>
+    <Input
+      id="lastName"
+      @type="text"
+      @value={{this.lastName}}
+      placeholder={{t 'pages.join.fields.lastname.label'}}
+      class={{if this.errors.lastName "input--error"}}
+      @focusOut={{fn this.triggerInputStringValidation "lastName" this.lastName}}
+    />
+    {{#if this.errors.lastName}}
+      <div class="join-restricted-campaign__field-error" role="alert">{{this.errors.lastName}}</div>
+    {{/if}}
+  </div>
+
+  <div class="join-restricted-campaign__row">
+    <label class="join-restricted-campaign__label">
+      {{t 'pages.join.fields.birthdate.label'}}
+    </label>
+    <div class="join-restricted-campaign__birthdate">
+      <Input
+        @type="text"
+        @value={{this.dayOfBirth}}
+        placeholder={{t 'pages.join.fields.birthdate.day-format'}}
+        aria-label={{t 'pages.join.fields.birthdate.day-label'}}
+        class={{if this.errors.dayOfBirth "input--error"}}
+        @focusOut={{fn this.triggerInputDayValidation "dayOfBirth" this.dayOfBirth}}
+      />
+      <Input
+        @type="text"
+        @value={{this.monthOfBirth}}
+        placeholder={{t 'pages.join.fields.birthdate.month-format'}}
+        aria-label={{t 'pages.join.fields.birthdate.month-label'}}
+        class={{if this.errors.monthOfBirth "input--error"}}
+        @focusOut={{fn this.triggerInputMonthValidation "monthOfBirth" this.monthOfBirth}}
+      />
+      <Input
+        @type="text"
+        @value={{this.yearOfBirth}}
+        placeholder={{t 'pages.join.fields.birthdate.year-format'}}
+        aria-label={{t 'pages.join.fields.birthdate.year-label'}}
+        class={{if this.errors.yearOfBirth "input--error"}}
+        @focusOut={{fn this.triggerInputYearValidation "yearOfBirth" this.yearOfBirth}}
+      />
+    </div>
+    {{#if this.errors.dayOfBirth}}
+      <div class="join-restricted-campaign__field-error" role="alert">{{this.errors.dayOfBirth}}</div>
+    {{/if}}
+    {{#if this.errors.monthOfBirth}}
+      <div class="join-restricted-campaign__field-error" role="alert">{{this.errors.monthOfBirth}}</div>
+    {{/if}}
+    {{#if this.errors.yearOfBirth}}
+      <div class="join-restricted-campaign__field-error" role="alert">{{this.errors.yearOfBirth}}</div>
+    {{/if}}
+  </div>
+  
+  {{#if this.errors.global}}
+    <div class="join-restricted-campaign__error" aria-live="polite">{{this.errors.global}}</div>
   {{/if}}
-  {{#if this.errorMessage}}
-    <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessage}}}</div>
-  {{/if}}
+
   <button type="submit" disabled={{this.isLoading}} class="button button--big join-restricted-campaign__button" {{on 'click' this.submit}}>
     {{#if this.isLoading}}
       <span class="loader-in-button">&nbsp;</span>
@@ -52,5 +102,4 @@
       {{t 'pages.join.button'}}
     {{/if}}
   </button>
-
 </form>
