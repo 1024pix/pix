@@ -27,7 +27,7 @@ function _getSumScoreFromCertifiedCompetences(listCompetences) {
   return _(listCompetences).map('obtainedScore').sum();
 }
 
-function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, reproducibilityRate, certificationChallenges, continueOnError) {
+function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, reproducibilityRate, certificationChallenges, continueOnError, answerCollection) {
   return listCompetences.map((competence) => {
     const challengesForCompetence = _.filter(certificationChallenges, { competenceId: competence.id });
     const answersForCompetence = _selectAnswersMatchingCertificationChallenges(answers, challengesForCompetence);
@@ -44,7 +44,7 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
     });
 
     const certifiedLevel = CertifiedLevel.from({
-      numberOfChallenges: competenceAnswerCollection.numberOfChallenges(),
+      numberOfChallenges: answerCollection.numberOfChallengesForCompetence(competence.id),
       numberOfCorrectAnswers: competenceAnswerCollection.numberOfCorrectAnswers(),
       numberOfNeutralizedAnswers: competenceAnswerCollection.numberOfNeutralizedChallenges(),
       estimatedLevel: competence.estimatedLevel,
@@ -100,7 +100,7 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
     };
   }
 
-  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answers, testedCompetences, reproducibilityRate.value, certificationChallenges, continueOnError);
+  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answers, testedCompetences, reproducibilityRate.value, certificationChallenges, continueOnError, answerCollection);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
   if (!continueOnError) {
