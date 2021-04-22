@@ -52,10 +52,20 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       // when
       await visit(`/sessions/${session.id}`);
 
+      // then
       assert.equal(find('[data-test-id="session-info__examiner-comment"]'), undefined);
       assert.equal(find('[data-test-id="session-info__number-of-not-checked-end-screen"]'), undefined);
-      const firstButton = this.element.querySelector('.session-info__actions .row button:nth-child(1)');
-      assert.equal(firstButton.innerHTML.trim(), 'Récupérer le fichier avant jury');
+    });
+
+    test('it does not render the "M\'assigner la session" button', async function(assert) {
+      // given
+      session = this.server.create('session', 'created');
+
+      // when
+      await visit(`/sessions/${session.id}`);
+
+      // then
+      assert.dom('.session-info__actions .row button:nth-child(1)').doesNotIncludeText('M\'assigner la session');
     });
   });
 
@@ -120,7 +130,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         await visit(`/sessions/${session.id}`);
 
         // then
-        const buttonSendResultsToCandidates = this.element.querySelector('.session-info__actions .row button:nth-child(5)');
+        const buttonSendResultsToCandidates = this.element.querySelector('.session-info__actions .row button:nth-child(3)');
         assert.equal(buttonSendResultsToCandidates.innerHTML.trim(), 'Résultats transmis au prescripteur');
       });
 

@@ -3,6 +3,7 @@
 
   .row--btn {
     margin: inherit;
+    margin-right: -20px;
 
     .btn {
       height: 36px;
@@ -12,7 +13,6 @@
         margin-left: auto;
       }
     }
-
   }
 
   &__certification-officer-assigned {
