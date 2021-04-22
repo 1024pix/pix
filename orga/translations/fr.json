@@ -372,11 +372,11 @@
         "button": "S'inscrire",
         "fields": {
           "first-name": {
-            "label":"Prénom",
+            "label": "Prénom",
             "error": "Votre prénom n’est pas renseigné."
           },
           "last-name": {
-            "label":"Nom",
+            "label": "Nom",
             "error": "Votre nom n’est pas renseigné."
           },
           "email": {
@@ -547,6 +547,10 @@
           "last-name": {
             "aria-label": "Entrer un nom",
             "label": "Rechercher par nom"
+          },
+          "student-number": {
+            "aria-label": "Entrer un numéro étudiant",
+            "label": "Rechercher par numéro étudiant"
           }
         },
         "row-title": "Étudiant"
@@ -588,9 +592,9 @@
       },
       "table": {
         "column": {
-          "first-name":"Prénom",
-          "last-name":"Nom",
-          "organization-membership-role":"Rôle"
+          "first-name": "Prénom",
+          "last-name": "Nom",
+          "organization-membership-role": "Rôle"
         },
         "empty": "En attente de membres",
         "row-title": "Membre"
@@ -615,7 +619,7 @@
       "invited-members": "À la réception de l'e-mail, les invités pourront choisir de se créer un compte Pix ou de se connecter avec un compte Pix existant.",
       "errors": {
         "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
-        "status" : {
+        "status": {
           "400": "Le format de l'adresse e-mail est incorrect.",
           "404": "Cet email n'appartient à aucun utilisateur.",
           "412": "Ce membre a déjà été ajouté.",

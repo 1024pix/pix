@@ -53,14 +53,6 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
       });
     });
 
-    test('should render component with student number input', async function(assert) {
-      assert.dom('#studentNumber').exists();
-    });
-
-    test('should render component with update button', async function(assert) {
-      assert.contains('Mettre à jour');
-    });
-
     module('When a student number is entered', function() {
 
       test('should have the update button enable', async function(assert) {
@@ -92,7 +84,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
         onSaveStudentNumberStub.withArgs(123456).resolves();
 
         // when
-        await fillInByLabel('Nouveau numéro étudiant', 123456);
+        await fillInByLabel('Nouveau numéro étudiant', '123456');
         await clickByLabel('Mettre à jour');
 
         // then
@@ -125,7 +117,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
         onSaveStudentNumberStub.rejects(error);
 
         // when
-        await fillInByLabel('Nouveau numéro étudiant', 77107);
+        await fillInByLabel('Nouveau numéro étudiant', '77107');
         await clickByLabel('Mettre à jour');
 
         // then
@@ -145,9 +137,9 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
         onSaveStudentNumberStub.onFirstCall().rejects(error).onSecondCall().resolves();
 
         // when
-        await fillInByLabel('Nouveau numéro étudiant', 77107);
+        await fillInByLabel('Nouveau numéro étudiant', '77107');
         await clickByLabel('Mettre à jour');
-        await fillInByLabel('Nouveau numéro étudiant', 65432);
+        await fillInByLabel('Nouveau numéro étudiant', '65432');
         await clickByLabel('Mettre à jour');
 
         // then
