@@ -9,6 +9,7 @@ const { CertifiedLevel } = require('../models/CertifiedLevel');
 const { CertifiedScore } = require('../models/CertifiedScore');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 const CompetenceAnswerCollectionForScoring = require('../models/CompetenceAnswerCollectionForScoring');
+const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(
@@ -37,7 +38,10 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
       CertificationContract.assertThatEveryAnswerHasMatchingChallenge(answersForCompetence, challengesForCompetence);
     }
 
-    const competenceAnswerCollection = CompetenceAnswerCollectionForScoring.from({ answersForCompetence, challengesForCompetence });
+    const competenceAnswerCollection = CompetenceAnswerCollectionForScoring.from({
+      answersForCompetence,
+      challengesForCompetence,
+    });
 
     const certifiedLevel = CertifiedLevel.from({
       numberOfChallenges: competenceAnswerCollection.numberOfChallenges(),
@@ -81,7 +85,13 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
     CertificationContract.assertThatWeHaveEnoughAnswers(answers, certificationChallenges);
   }
 
-  const reproducibilityRate = ReproducibilityRate.from({ answers });
+  const answerCollection = AnswerCollectionForScoring.from({ answers, challenges: certificationChallenges });
+
+  const reproducibilityRate = ReproducibilityRate.from({
+    numberOfNonNeutralizedChallenges: answerCollection.numberOfNonNeutralizedChallenges(),
+    numberOfCorrectAnswers: answerCollection.numberOfCorrectAnswers(),
+  });
+
   if (!reproducibilityRate.isEnoughToBeCertified()) {
     return {
       competencesWithMark: _getCompetenceWithFailedLevel(testedCompetences),

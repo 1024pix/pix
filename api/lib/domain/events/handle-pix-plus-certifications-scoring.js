@@ -23,7 +23,7 @@ async function handlePixPlusCertificationsScoring({
 }
 
 function _buildPixPlusCertificationScoring(event, answers, certifiableBadgeKey) {
-  const reproducibilityRate = ReproducibilityRate.from({ answers });
+  const reproducibilityRate = ReproducibilityRate.fromAnswers({ answers });
   return new PixPlusCertificationScoring({
     certificationCourseId: event.certificationCourseId,
     reproducibilityRate,
