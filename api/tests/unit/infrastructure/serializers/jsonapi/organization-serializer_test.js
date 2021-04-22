@@ -7,8 +7,13 @@ describe('Unit | Serializer | organization-serializer', () => {
 
     it('should return a JSON API serialized organization', () => {
       // given
-      const organization = domainBuilder.buildOrganization({ email: 'sco.generic.account@example.net' });
+      const tags = [
+        domainBuilder.buildTag({ id: 7, name: 'AEFE' }),
+        domainBuilder.buildTag({ id: 44, name: 'PUBLIC' }),
+      ];
+      const organization = domainBuilder.buildOrganization({ email: 'sco.generic.account@example.net', tags });
       const meta = { some: 'meta' };
+
       // when
       const serializedOrganization = serializer.serialize(organization, meta);
 
@@ -44,8 +49,38 @@ describe('Unit | Serializer | organization-serializer', () => {
                 related: `/api/organizations/${organization.id}/target-profiles`,
               },
             },
+            'tags': {
+              'data': [
+                {
+                  'id': tags[0].id.toString(),
+                  'type': 'tags',
+                },
+                {
+                  'id': tags[1].id.toString(),
+                  'type': 'tags',
+                },
+              ],
+            },
           },
         },
+        'included': [
+          {
+            'attributes': {
+              'id': tags[0].id,
+              'name': tags[0].name,
+            },
+            'id': tags[0].id.toString(),
+            'type': 'tags',
+          },
+          {
+            'attributes': {
+              'id': tags[1].id,
+              'name': tags[1].name,
+            },
+            'id': tags[1].id.toString(),
+            'type': 'tags',
+          },
+        ],
         meta: {
           some: 'meta',
         },
