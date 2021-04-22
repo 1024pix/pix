@@ -127,16 +127,6 @@ module.exports = {
     return juryCertificationSummarySerializer.serialize(juryCertificationSummaries);
   },
 
-  async getSessionResults(request, h) {
-    const sessionId = request.params.id;
-    const { session, certificationResults, fileName } = await usecases.getSessionResults({ sessionId });
-    const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({ session, certificationResults });
-
-    return h.response(csvResult)
-      .header('Content-Type', 'text/csv;charset=utf-8')
-      .header('Content-Disposition', `attachment; filename=${fileName}`);
-  },
-
   async generateSessionResultsDownloadLink(request, h) {
     const sessionId = request.params.id;
     const sessionResultsLink = sessionResultsLinkService.generateResultsLink(sessionId);

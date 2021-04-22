@@ -285,27 +285,6 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/admin/sessions/{id}/results',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
-        handler: sessionController.getSessionResults,
-        tags: ['api', 'sessions', 'results'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs ayant le rôle PIXMASTER',
-          'Elle retourne les résultats de certifications d\'une session',
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/admin/sessions/{id}/generate-results-download-link',
       config: {
         validate: {
