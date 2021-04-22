@@ -5,9 +5,9 @@ function _keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements,
   const startedDateOfAssessment = assessment.createdAt;
 
   return currentUserKnowledgeElements.filter((knowledgeElement) => {
-    const isOldEnoughToBeImproved = moment(startedDateOfAssessment)
+    const isNotOldEnoughToBeImproved = moment(startedDateOfAssessment)
       .diff(knowledgeElement.createdAt, 'days', true) < constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
-    return knowledgeElement.isValidated || isOldEnoughToBeImproved;
+    return knowledgeElement.isValidated || isNotOldEnoughToBeImproved;
   });
 }
 
