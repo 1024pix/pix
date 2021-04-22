@@ -105,7 +105,7 @@
     "eslint-plugin-i18n-json": "^3.1.0",
     "eslint-plugin-mocha": "^8.1.0",
     "eslint-plugin-node": "^11.1.0",
-    "faker": "^5.1.0",
+    "faker": "^5.5.3",
     "js-yaml": "^3.14.1",
     "jwt-decode": "^3.1.2",
     "loader.js": "^4.7.0",
