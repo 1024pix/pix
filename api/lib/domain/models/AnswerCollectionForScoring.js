@@ -66,11 +66,11 @@ module.exports = class AnswerCollectionForScoring {
     return nbOfCorrectAnswers;
   }
 
-  /*
-  numberOfNeutralizedChallenges() {
-    return _(this.answers).map((answer) => {
+  numberOfNeutralizedChallengesForCompetence(competenceId) {
+    const answersForCompetence = this.answers.filter((answer) => answer.competenceId() === competenceId);
+    return _(answersForCompetence).map((answer) => {
       if (answer.isNeutralized()) {
-        if (this.answers.length < 3 && answer.isQROCMdep()) {
+        if (answersForCompetence.length < 3 && answer.isQROCMdep()) {
           return 2;
         } else {
           return 1;
@@ -80,7 +80,6 @@ module.exports = class AnswerCollectionForScoring {
       }
     }).sum();
   }
-   */
 };
 
 class AnswerForScoring {

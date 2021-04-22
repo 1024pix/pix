@@ -8,7 +8,6 @@ const placementProfileService = require('./placement-profile-service');
 const { CertifiedLevel } = require('../models/CertifiedLevel');
 const { CertifiedScore } = require('../models/CertifiedScore');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
-const CompetenceAnswerCollectionForScoring = require('../models/CompetenceAnswerCollectionForScoring');
 const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
@@ -38,15 +37,10 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
       CertificationContract.assertThatEveryAnswerHasMatchingChallenge(answersForCompetence, challengesForCompetence);
     }
 
-    const competenceAnswerCollection = CompetenceAnswerCollectionForScoring.from({
-      answersForCompetence,
-      challengesForCompetence,
-    });
-
     const certifiedLevel = CertifiedLevel.from({
       numberOfChallenges: answerCollection.numberOfChallengesForCompetence(competence.id),
       numberOfCorrectAnswers: answerCollection.numberOfCorrectAnswersForCompetence(competence.id),
-      numberOfNeutralizedAnswers: competenceAnswerCollection.numberOfNeutralizedChallenges(),
+      numberOfNeutralizedAnswers: answerCollection.numberOfNeutralizedChallengesForCompetence(competence.id),
       estimatedLevel: competence.estimatedLevel,
       reproducibilityRate,
     });

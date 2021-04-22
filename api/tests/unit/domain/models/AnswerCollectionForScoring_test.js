@@ -477,6 +477,113 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallengesAnswered).to.equal(1);
     });
   });
+  context('#numberOfNeutralizedChallengesForCompetence', () => {
+
+    it('equals 0 when there are no answers for given competence', () => {
+      // given
+      const aCompetenceId = 'recIdOfACompetence';
+      const anotherCompetenceId = 'recIdOfAnotherCompetence';
+      const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', competenceId: aCompetenceId, type: 'QCM' });
+      const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', competenceId: aCompetenceId, type: 'QCM' });
+      const challenge3 = _buildDecoratedCertificationChallenge({ challengeId: 'chal3', competenceId: aCompetenceId, type: 'QCM' });
+      const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId });
+      const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.challengeId });
+      const answer3 = domainBuilder.buildAnswer({ challengeId: challenge3.challengeId });
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [answer1, answer2, answer3],
+        challenges: [challenge1, challenge2, challenge3],
+      });
+
+      // when
+      const numberOfNeutralizedChallenges = answerCollection.numberOfNeutralizedChallengesForCompetence(anotherCompetenceId);
+
+      // then
+      expect(numberOfNeutralizedChallenges).to.equal(0);
+    });
+
+    it('equals the number of challenges when there are all neutralized and none of them are QROCMDep for given competence', () => {
+      // given
+      const aCompetenceId = 'recIdOfACompetence';
+      const anotherCompetenceId = 'recIdOfAnotherCompetence';
+      const challenge1 = _buildDecoratedCertificationChallenge({ type: 'QCM', competenceId: aCompetenceId, isNeutralized: true });
+      const challenge2 = _buildDecoratedCertificationChallenge({ type: 'QCM', competenceId: aCompetenceId, isNeutralized: true });
+      const challenge3 = _buildDecoratedCertificationChallenge({ type: 'QCM', competenceId: aCompetenceId, isNeutralized: true });
+      const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId });
+      const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.challengeId });
+      const answer3 = domainBuilder.buildAnswer({ challengeId: challenge3.challengeId });
+
+      const challenge4 = _buildDecoratedCertificationChallenge({ challengeId: 'chal4', competenceId: anotherCompetenceId, type: 'QCM' });
+      const challenge5 = _buildDecoratedCertificationChallenge({ challengeId: 'chal5', competenceId: anotherCompetenceId, type: 'QCM' });
+      const answer4 = domainBuilder.buildAnswer({ challengeId: challenge4.challengeId });
+      const answer5 = domainBuilder.buildAnswer({ challengeId: challenge5.challengeId });
+
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [answer1, answer2, answer3, answer4, answer5],
+        challenges: [challenge1, challenge2, challenge3, challenge4, challenge5],
+      });
+
+      // when
+      const numberOfNeutralizedChallenges = answerCollection.numberOfNeutralizedChallengesForCompetence(aCompetenceId);
+
+      // then
+      expect(numberOfNeutralizedChallenges).to.equal(3);
+    });
+
+    it('counts a neutralized QROCMDep challenge as two neutralized challenges when less than 3 challenges for given competence', () => {
+      // given
+      const aCompetenceId = 'recIdOfACompetence';
+      const anotherCompetenceId = 'recIdOfAnotherCompetence';
+      const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'rec1234', competenceId: aCompetenceId, type: 'QCM', isNeutralized: true });
+      const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'rec456', competenceId: aCompetenceId, type: 'QROCM-dep', isNeutralized: true });
+      const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId });
+      const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.challengeId });
+
+      const challenge3 = _buildDecoratedCertificationChallenge({ challengeId: 'chal3', competenceId: anotherCompetenceId, type: 'QCM' });
+      const challenge4 = _buildDecoratedCertificationChallenge({ challengeId: 'chal4', competenceId: anotherCompetenceId, type: 'QCM' });
+      const answer3 = domainBuilder.buildAnswer({ challengeId: challenge3.challengeId, result: AnswerStatus.KO });
+      const answer4 = domainBuilder.buildAnswer({ challengeId: challenge4.challengeId, result: AnswerStatus.KO });
+
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [answer1, answer2, answer3, answer4],
+        challenges: [challenge1, challenge2, challenge3, challenge4],
+      });
+
+      // when
+      const numberOfNeutralizedChallenges = answerCollection.numberOfNeutralizedChallengesForCompetence(aCompetenceId);
+
+      // then
+      expect(numberOfNeutralizedChallenges).to.equal(3);
+    });
+
+    it('counts a neutralized QROCMDep challenge as a single neutralized challenge when 3 challenges for given competence', () => {
+      // given
+      const aCompetenceId = 'recIdOfACompetence';
+      const anotherCompetenceId = 'recIdOfAnotherCompetence';
+      const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'rec1234', competenceId: aCompetenceId, type: 'QCM', isNeutralized: true });
+      const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'rec456', competenceId: aCompetenceId, type: 'QROCM-dep', isNeutralized: true });
+      const challenge3 = _buildDecoratedCertificationChallenge({ challengeId: 'rec789', competenceId: aCompetenceId, type: 'QCM', isNeutralized: true });
+
+      const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId });
+      const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.challengeId });
+      const answer3 = domainBuilder.buildAnswer({ challengeId: challenge3.challengeId });
+
+      const challenge4 = _buildDecoratedCertificationChallenge({ challengeId: 'chal4', competenceId: anotherCompetenceId, type: 'QCM' });
+      const challenge5 = _buildDecoratedCertificationChallenge({ challengeId: 'chal5', competenceId: anotherCompetenceId, type: 'QCM' });
+      const answer4 = domainBuilder.buildAnswer({ challengeId: challenge4.challengeId });
+      const answer5 = domainBuilder.buildAnswer({ challengeId: challenge5.challengeId });
+
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [answer1, answer2, answer3, answer4, answer5],
+        challenges: [challenge1, challenge2, challenge3, challenge4, challenge5],
+      });
+
+      // when
+      const numberOfNeutralizedChallenges = answerCollection.numberOfNeutralizedChallengesForCompetence(aCompetenceId);
+
+      // then
+      expect(numberOfNeutralizedChallenges).to.equal(3);
+    });
+  });
 });
 
 function _buildDecoratedCertificationChallenge({ challengeId, type, isNeutralized, competenceId }) {
