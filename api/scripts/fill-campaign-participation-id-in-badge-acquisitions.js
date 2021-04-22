@@ -1,4 +1,5 @@
 const { knex } = require('../db/knex-database-connection');
+const bluebird = require('bluebird');
 
 async function getAllBadgeAcquistionsWithoutCampaignParticipation() {
   return knex('badge-acquisitions').select().where({ campaignParticipationId: null });
@@ -31,18 +32,23 @@ async function updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisitio
     await knex('badge-acquisitions').update({ campaignParticipationId }).where({ id: badgeAcquisition.id });
     return;
   }
-  console.log(`ERROR with badgeAcquisition #${badgeAcquisition.id} : campaignParticipations has ${campaignParticipations.length} possibilities.`)
+  console.log(`ERROR with badgeAcquisition #${badgeAcquisition.id} : campaignParticipations has ${campaignParticipations.length} possibilities.`);
 }
 
 async function main() {
   try {
-    console.log('Coucou');
+    console.log('START');
 
-    // Récupérer les badges acquisitions sans campaignParticipationid
     const badgeAcquisitionsWithoutCPI = await getAllBadgeAcquistionsWithoutCampaignParticipation();
-    // Récupérer pour chacun la campagne qui va bien
+    console.log(`${badgeAcquisitionsWithoutCPI.length} badges without campaignParticipationId.`);
 
-    // Update chaque ligne avec sa campagne qui va bien
+    await bluebird.mapSeries(badgeAcquisitionsWithoutCPI,
+      async (badgeAcquisition) => {
+        const campaignsParticipations = await getCampaignParticipationFromBadgeAcquisition(badgeAcquisition);
+        await updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisition, campaignsParticipations);
+      });
+
+    console.log('FINISH');
 
   } catch (error) {
     console.error(error);
@@ -61,7 +67,8 @@ if (require.main === module) {
 }
 
 module.exports = {
+  main,
   getAllBadgeAcquistionsWithoutCampaignParticipation,
   getCampaignParticipationFromBadgeAcquisition,
-  updateBadgeAcquisitionWithCampaignParticipationId
+  updateBadgeAcquisitionWithCampaignParticipationId,
 };

@@ -1,17 +1,50 @@
 const { expect, databaseBuilder, knex } = require('../../test-helper');
 
 const {
-  fillCampaignParticipationIdInBadgeAcquisitions,
+  main,
+  getAllBadgeAcquistionsWithoutCampaignParticipation,
   getCampaignParticipationFromBadgeAcquisition,
-  updateBadgeAcquisitionWithCampaignParticipationId
+  updateBadgeAcquisitionWithCampaignParticipationId,
 } = require('../../../scripts/fill-campaign-participation-id-in-badge-acquisitions');
 
-describe.only('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions', () => {
+describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions', () => {
 
   afterEach(() => {
     databaseBuilder.clean();
   });
 
+  describe('#main', () => {
+    it('should update the campaignParticipationId of BadgeAcquisition', async ()=> {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      const badge = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
+      const badgeAcquisitionWithoutCampaignId = databaseBuilder.factory.buildBadgeAcquisition({
+        userId: user.id,
+        badgeId: badge.id,
+        campaignParticipationId: null,
+        createdAt: new Date('2020-01-01'),
+      });
+      const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId: user.id,
+      });
+      databaseBuilder.factory.buildAssessment({
+        campaignParticipationId: campaignParticipation.id,
+        updatedAt: new Date('2020-01-01'),
+        state: 'completed',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await main();
+
+      // then
+      const result = await knex('badge-acquisitions').select().where({ id: badgeAcquisitionWithoutCampaignId.id });
+      expect(result[0].campaignParticipationId).to.equal(campaignParticipation.id);
+    });
+  });
   describe('#getAllBadgeAcquistionsWithoutCampaignParticipation', () => {
 
     it('should return badge-acquisitions without campaignParticipationId', async () => {
