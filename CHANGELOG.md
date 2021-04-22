@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.47.0 (22/04/2021)
+
+- [#2887](https://github.com/1024pix/pix/pull/2887) [FEATURE] Toujours renvoyer un niveau de competence positif pour le livret scolaire
+- [#2837](https://github.com/1024pix/pix/pull/2837) [FEATURE] Ajouter un statut Annulé aux certifications
+- [#2889](https://github.com/1024pix/pix/pull/2889) [FEATURE] Modifier la bannière Pix certif pour la reprogrammation de sessions du SCO (PIX-2500)
+- [#2864](https://github.com/1024pix/pix/pull/2864) [FEATURE] Traduction anglaises depuis PO Editor - Avril 2021.
+- [#2886](https://github.com/1024pix/pix/pull/2886) [BUGFIX] Gérer les QROCM avec des clés d'input à une lettre (PIX-2502).
+- [#2877](https://github.com/1024pix/pix/pull/2877) [BUGFIX] Correction des conditions d'affichage du bandeau sur l'adresse email du destinataire des résultats (PIX-2491)
+- [#2884](https://github.com/1024pix/pix/pull/2884) [TECH] Renommage de certains modèles et cas d'utilisation liés au scoring de certification de façon plus explicite (PIX-2499)
+- [#2846](https://github.com/1024pix/pix/pull/2846) [DOC] Proposition d'ADR pour séparer Domain Transactions et Domain Events
+
 ## v3.46.0 (21/04/2021)
 
 - [#2870](https://github.com/1024pix/pix/pull/2870) [FEATURE] Correction de l'affichage dans le burger menu sur Pix App (PIX-2469).
