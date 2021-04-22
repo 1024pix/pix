@@ -1,13 +1,18 @@
-const { expect, databaseBuilder } = require('../../test-helper');
+const { expect, databaseBuilder, knex } = require('../../test-helper');
 
 const {
   fillCampaignParticipationIdInBadgeAcquisitions,
   getCampaignParticipationFromBadgeAcquisition,
+  updateBadgeAcquisitionWithCampaignParticipationId
 } = require('../../../scripts/fill-campaign-participation-id-in-badge-acquisitions');
 
 describe.only('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions', () => {
 
-  describe('#fillCampaignParticipationIdInBadgeAcquisitions', () => {
+  afterEach(() => {
+    databaseBuilder.clean();
+  });
+
+  describe('#getAllBadgeAcquistionsWithoutCampaignParticipation', () => {
 
     it('should return badge-acquisitions without campaignParticipationId', async () => {
       // given
@@ -27,12 +32,15 @@ describe.only('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisi
       await databaseBuilder.commit();
 
       // when
-      const result = await fillCampaignParticipationIdInBadgeAcquisitions();
+      const result = await getAllBadgeAcquistionsWithoutCampaignParticipation();
 
       // then
       expect(result).to.have.lengthOf(1);
       expect(result[0].campaignParticipationId).to.equal(null);
     });
+  });
+
+  describe('#getCampaignParticipationFromBadgeAcquisition', () => {
 
     it('should return possible campaignParticipations for one badge', async () => {
       // given
@@ -116,5 +124,65 @@ describe.only('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisi
       // then
       expect(result).to.deep.equal([ { id: campaignParticipation.id } ]);
     });
+  });
+
+  describe('#updateBadgeAcquisitionWithCampaignParticipationId', () => {
+    it('should update the badge-acquisitions with its campaignParticipationId', async () => {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      const badge = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
+      const badgeAcquisitionWithoutCampaignId = databaseBuilder.factory.buildBadgeAcquisition({
+        userId: user.id,
+        badgeId: badge.id,
+        campaignParticipationId: null,
+        createdAt: new Date('2020-01-01'),
+      });
+      const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId: user.id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisitionWithoutCampaignId, [campaignParticipation]);
+
+      // then
+      const result = await knex('badge-acquisitions').select().where({ id: badgeAcquisitionWithoutCampaignId.id });
+      expect(result[0].campaignParticipationId).to.equal(campaignParticipation.id);
+    });
+
+    it('should not update the badge-acquisitions when there is more than one campaign participation', async () => {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      const badge = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
+      const badgeAcquisitionWithoutCampaignId = databaseBuilder.factory.buildBadgeAcquisition({
+        userId: user.id,
+        badgeId: badge.id,
+        campaignParticipationId: null,
+        createdAt: new Date('2020-01-01'),
+      });
+      const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId: user.id,
+      });
+      const secondCampaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+      const secondCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: secondCampaign.id,
+        userId: user.id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisitionWithoutCampaignId, [campaignParticipation, secondCampaignParticipation]);
+
+      // then
+      const result = await knex('badge-acquisitions').select().where({ id: badgeAcquisitionWithoutCampaignId.id });
+      expect(result[0].campaignParticipationId).to.equal(null);
+    });
+
   });
 });
