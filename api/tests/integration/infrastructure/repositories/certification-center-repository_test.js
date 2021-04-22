@@ -10,7 +10,8 @@ describe('Integration | Repository | Certification Center', () => {
 
     context('the certification center is found', () => {
 
-      beforeEach(async () => {
+      it('should return the certification center of the given id with the right properties', async () => {
+        // given
         databaseBuilder.factory.buildCertificationCenter({
           id: 1,
           name: 'certificationCenterName',
@@ -19,9 +20,7 @@ describe('Integration | Repository | Certification Center', () => {
         databaseBuilder.factory.buildCertificationCenter({ id: 2 });
 
         await databaseBuilder.commit();
-      });
 
-      it('should return the certification center of the given id with the right properties', async () => {
         // when
         const certificationCenter = await certificationCenterRepository.get(1);
 
@@ -117,14 +116,11 @@ describe('Integration | Repository | Certification Center', () => {
 
     context('when there are CertificationCenters in the database', () => {
 
-      beforeEach(() => {
-        _.times(3, databaseBuilder.factory.buildCertificationCenter);
-
-        return databaseBuilder.commit();
-      });
-
       it('should return an Array of CertificationCenters', async () => {
         // given
+        _.times(3, databaseBuilder.factory.buildCertificationCenter);
+        await databaseBuilder.commit();
+
         const filter = {};
         const page = { number: 1, size: 10 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
@@ -143,13 +139,11 @@ describe('Integration | Repository | Certification Center', () => {
 
     context('when there are lots of CertificationCenters (> 10) in the database', () => {
 
-      beforeEach(() => {
-        _.times(12, databaseBuilder.factory.buildCertificationCenter);
-        return databaseBuilder.commit();
-      });
-
       it('should return paginated matching CertificationCenters', async () => {
         // given
+        _.times(12, databaseBuilder.factory.buildCertificationCenter);
+        await databaseBuilder.commit();
+
         const filter = {};
         const page = { number: 1, size: 3 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
@@ -165,16 +159,14 @@ describe('Integration | Repository | Certification Center', () => {
 
     context('when there are multiple CertificationCenters matching the same "name" search pattern', () => {
 
-      beforeEach(() => {
+      it('should return only CertificationCenters matching "name" if given in filters', async () => {
+        // given
         databaseBuilder.factory.buildCertificationCenter({ name: 'Dragon & co center' });
         databaseBuilder.factory.buildCertificationCenter({ name: 'Dragonades & co center' });
         databaseBuilder.factory.buildCertificationCenter({ name: 'Broca & co center' });
         databaseBuilder.factory.buildCertificationCenter({ name: 'Donnie & co center' });
-        return databaseBuilder.commit();
-      });
+        await databaseBuilder.commit();
 
-      it('should return only CertificationCenters matching "name" if given in filters', async () => {
-        // given
         const filter = { name: 'dra' };
         const page = { number: 1, size: 10 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
@@ -191,16 +183,14 @@ describe('Integration | Repository | Certification Center', () => {
 
     context('when there are multiple CertificationCenters matching the same "type" search pattern', () => {
 
-      beforeEach(() => {
+      it('should return only CertificationCenters matching "type" if given in filters', async () => {
+        // given
         databaseBuilder.factory.buildCertificationCenter({ type: 'PRO' });
         databaseBuilder.factory.buildCertificationCenter({ type: 'PRO' });
         databaseBuilder.factory.buildCertificationCenter({ type: 'SUP' });
         databaseBuilder.factory.buildCertificationCenter({ type: 'SCO' });
-        return databaseBuilder.commit();
-      });
+        await databaseBuilder.commit();
 
-      it('should return only CertificationCenters matching "type" if given in filters', async () => {
-        // given
         const filter = { type: 'S' };
         const page = { number: 1, size: 10 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
@@ -216,15 +206,13 @@ describe('Integration | Repository | Certification Center', () => {
 
     context('when there are multiple CertificationCenters matching the same "externalId" search pattern', () => {
 
-      beforeEach(() => {
+      it('should return only CertificationCenters matching "externalId" if given in filters', async () => {
+        // given
         databaseBuilder.factory.buildCertificationCenter({ externalId: 'AZH578' });
         databaseBuilder.factory.buildCertificationCenter({ externalId: 'BFR842' });
         databaseBuilder.factory.buildCertificationCenter({ externalId: 'AZH002' });
-        return databaseBuilder.commit();
-      });
+        await databaseBuilder.commit();
 
-      it('should return only CertificationCenters matching "externalId" if given in filters', async () => {
-        // given
         const filter = { externalId: 'AZ' };
         const page = { number: 1, size: 10 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
@@ -240,22 +228,12 @@ describe('Integration | Repository | Certification Center', () => {
 
     context('when there are multiple CertificationCenters matching the fields "first name", "last name" and "email" search pattern', () => {
 
-      beforeEach(() => {
-        // Matching users
-        databaseBuilder.factory.buildCertificationCenter({ name: 'name_ok_1', type: 'SCO', externalId: 'c_ok_1' });
-        databaseBuilder.factory.buildCertificationCenter({ name: 'name_ok_2', type: 'SCO', externalId: 'c_ok_2' });
-        databaseBuilder.factory.buildCertificationCenter({ name: 'name_ok_3', type: 'SCO', externalId: 'c_ok_3' });
-
-        // Unmatching users
-        databaseBuilder.factory.buildCertificationCenter({ name: 'name_ko_4', type: 'SCO', externalId: 'c_ok_4' });
-        databaseBuilder.factory.buildCertificationCenter({ name: 'name_ok_5', type: 'SUP', externalId: 'c_ok_5' });
-        databaseBuilder.factory.buildCertificationCenter({ name: 'name_ok_6', type: 'SCO', externalId: 'c_ko_1' });
-
-        return databaseBuilder.commit();
-      });
-
       it('should return only CertificationCenters matching "name" AND "type" AND "externalId" if given in filters', async () => {
         // given
+        _buildThreeCertificationCenterMatchingNameTypeAndExternalId({ databaseBuilder, numberOfBuild: 3 });
+        _buildThreeCertificationCenterUnmatchingNameTypeOrExternalId({ databaseBuilder, numberOfBuild: 3 });
+        await databaseBuilder.commit();
+
         const filter = { name: 'name_ok', type: 'SCO', externalId: 'c_ok' };
         const page = { number: 1, size: 10 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
@@ -273,15 +251,12 @@ describe('Integration | Repository | Certification Center', () => {
 
     context('when there are filters that should be ignored', () => {
 
-      beforeEach(() => {
-        databaseBuilder.factory.buildCertificationCenter({ id: 1 });
-        databaseBuilder.factory.buildCertificationCenter({ id: 2 });
-
-        return databaseBuilder.commit();
-      });
-
       it('should ignore the filters and retrieve all certificationCenters', async () => {
         // given
+        databaseBuilder.factory.buildCertificationCenter({ id: 1 });
+        databaseBuilder.factory.buildCertificationCenter({ id: 2 });
+        await databaseBuilder.commit();
+
         const filter = { foo: 1 };
         const page = { number: 1, size: 10 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
@@ -300,14 +275,12 @@ describe('Integration | Repository | Certification Center', () => {
 
     context('the certification center is found', () => {
 
-      const externalId = 'EXTERNAL_ID';
-
-      beforeEach(async () => {
+      it('should return the certification center', async () => {
+        // given
+        const externalId = 'EXTERNAL_ID';
         databaseBuilder.factory.buildCertificationCenter({ externalId });
         await databaseBuilder.commit();
-      });
 
-      it('should return the certification center', async () => {
         // when
         const certificationCenter = await certificationCenterRepository.findByExternalId({ externalId });
 
@@ -331,3 +304,15 @@ describe('Integration | Repository | Certification Center', () => {
 
   });
 });
+
+function _buildThreeCertificationCenterMatchingNameTypeAndExternalId({ databaseBuilder }) {
+  databaseBuilder.factory.buildCertificationCenter({ name: 'name_ok_1', type: 'SCO', externalId: 'c_ok_1' });
+  databaseBuilder.factory.buildCertificationCenter({ name: 'name_ok_2', type: 'SCO', externalId: 'c_ok_2' });
+  databaseBuilder.factory.buildCertificationCenter({ name: 'name_ok_3', type: 'SCO', externalId: 'c_ok_3' });
+}
+
+function _buildThreeCertificationCenterUnmatchingNameTypeOrExternalId({ databaseBuilder }) {
+  databaseBuilder.factory.buildCertificationCenter({ name: 'name_ko_4', type: 'SCO', externalId: 'c_ok_4' });
+  databaseBuilder.factory.buildCertificationCenter({ name: 'name_ok_5', type: 'SUP', externalId: 'c_ok_5' });
+  databaseBuilder.factory.buildCertificationCenter({ name: 'name_ok_6', type: 'SCO', externalId: 'c_ko_1' });
+}
