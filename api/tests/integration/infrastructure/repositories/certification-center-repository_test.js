@@ -313,10 +313,11 @@ describe('Integration | Repository | Certification Center', () => {
 
         // then
         expect(certificationCenter).to.be.an.instanceOf(CertificationCenter);
+        expect(certificationCenter.externalId).to.equal(externalId);
       });
     });
 
-    context('the certification center could not be found', () => {
+    context('the certification center is not found', () => {
 
       it('should return null', async () => {
         // when

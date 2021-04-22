@@ -44,7 +44,7 @@ describe('Integration | UseCases | update-membership', () => {
     expect(result.updatedByUserId).equal(updatedByUserId);
   });
 
-  it('if the organization has a certification center and he role to update is set to administrator, it should create a certification center membership ', async () => {
+  it('if the organization has a certification center and the role to update is set to administrator, it should create a certification center membership ', async () => {
     // given
     const externalId = 'foo';
     const organizationId = databaseBuilder.factory.buildOrganization({ externalId }).id;

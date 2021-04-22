@@ -13,9 +13,6 @@ describe('Unit | Domain | Models | Membership', () => {
         const membership = new Membership({
           id: 'bbb12aa3',
           organizationRole: 'ADMIN',
-          updatedByUserId: undefined,
-          organization: undefined,
-          user: undefined,
         });
 
         // then
@@ -30,9 +27,6 @@ describe('Unit | Domain | Models | Membership', () => {
         const membership = new Membership({
           id: '123',
           organizationRole: 'SUPERADMIN',
-          updatedByUserId: null,
-          organization: null,
-          user: null,
         });
 
         // then
