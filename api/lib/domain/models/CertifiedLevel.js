@@ -1,13 +1,30 @@
-const {
-  UNCERTIFIED_LEVEL,
-} = require('../constants');
+// @ts-check
+
+const { UNCERTIFIED_LEVEL } = require('../constants');
+
+/** @typedef {(number) => CertifiedLevel} ValidationFunction */
 
 class CertifiedLevel {
+  /**
+   * @param {Object} obj
+   * @param {number} obj.value
+   * @param {Statuses} obj.status
+   */
   constructor({ value, status }) {
     this.value = value;
     this.status = status;
   }
 
+  /**
+   * @param {Object} obj
+   * @param {number} obj.numberOfChallenges
+   * @param {number} obj.numberOfNeutralizedAnswers
+   * @param {number} obj.numberOfCorrectAnswers
+   * @param {number} obj.estimatedLevel
+   * @param {number} obj.reproducibilityRate
+   *
+   * @returns {CertifiedLevel}
+   */
   static from({
     numberOfChallenges,
     numberOfNeutralizedAnswers,
@@ -31,28 +48,36 @@ class CertifiedLevel {
     }
   }
 
+  /** @type {ValidationFunction} */
   static invalidate() {
-    return new CertifiedLevel({ value: UNCERTIFIED_LEVEL, status: statuses.UNCERTIFIED });
+    return new CertifiedLevel({ value: UNCERTIFIED_LEVEL, status: Statuses.UNCERTIFIED });
   }
 
+  /** @type {ValidationFunction} */
   static downgrade(estimatedLevel) {
-    return new CertifiedLevel({ value: estimatedLevel - 1, status: statuses.DOWNGRADED });
+    return new CertifiedLevel({ value: estimatedLevel - 1, status: Statuses.DOWNGRADED });
   }
 
+  /** @type {ValidationFunction} */
   static validate(estimatedLevel) {
-    return new CertifiedLevel({ value: estimatedLevel, status: statuses.VALIDATED });
+    return new CertifiedLevel({ value: estimatedLevel, status: Statuses.VALIDATED });
   }
 
+  /** @returns {Boolean} */
   isDowngraded() {
-    return this.status === statuses.DOWNGRADED;
+    return this.status === Statuses.DOWNGRADED;
   }
 
+  /** @returns {Boolean} */
   isUncertified() {
-    return this.status === statuses.UNCERTIFIED;
+    return this.status === Statuses.UNCERTIFIED;
   }
 }
 
-const statuses = {
+/**
+ * @enum {string}
+ */
+const Statuses = {
   DOWNGRADED: 'DOWNGRADED',
   UNCERTIFIED: 'UNCERTIFIED',
   VALIDATED: 'VALIDATED',
@@ -63,6 +88,15 @@ module.exports = {
 };
 
 class Rule {
+  /**
+   * @param {Object} obj
+   * @param {number} obj.numberOfChallenges
+   * @param {number} obj.numberOfCorrectAnswers
+   * @param {number} obj.numberOfNeutralizedAnswers
+   * @param {ValidationFunction} obj.actionWhenReproducibilityRateEqualOrAbove80
+   * @param {ValidationFunction} obj.actionWhenReproducibilityBetween70And80
+   * @param {ValidationFunction} obj.actionWhenReproducibilityBelow70
+   */
   constructor({
     numberOfChallenges,
     numberOfCorrectAnswers,
@@ -79,6 +113,14 @@ class Rule {
     this.actionWhenReproducibilityBelow70 = actionWhenReproducibilityBelow70;
   }
 
+  /**
+   * @param {Object} obj
+   * @param {number} obj.numberOfChallenges
+   * @param {number} obj.numberOfCorrectAnswers
+   * @param {number} obj.numberOfNeutralizedAnswers
+   *
+   * @returns {Boolean}
+   */
   isApplicable({
     numberOfChallenges,
     numberOfCorrectAnswers,
@@ -89,6 +131,13 @@ class Rule {
       && numberOfNeutralizedAnswers === this.numberOfNeutralizedAnswers);
   }
 
+  /**
+   * @param {Object} obj
+   * @param {number} obj.reproducibilityRate
+   * @param {number} obj.estimatedLevel
+   *
+   * @returns {CertifiedLevel}
+   */
   apply({ reproducibilityRate, estimatedLevel }) {
     if (reproducibilityRate >= 80) {
       return this.actionWhenReproducibilityRateEqualOrAbove80(estimatedLevel);
@@ -369,6 +418,15 @@ const _rules = {
     new Rule18(),
     new Rule19(),
   ],
+
+  /**
+   * @param {Object} obj
+   * @param {number} obj.numberOfChallenges
+   * @param {number} obj.numberOfCorrectAnswers
+   * @param {number} obj.numberOfNeutralizedAnswers
+   *
+   * @returns {Rule | undefined}
+   */
   findRuleFor({
     numberOfChallenges,
     numberOfCorrectAnswers,
@@ -383,6 +441,12 @@ const _rules = {
 };
 
 class MissingCertifiedLevelRuleError extends Error {
+  /**
+   * @param {Object} obj
+   * @param {number} obj.numberOfChallenges
+   * @param {number} obj.numberOfCorrectAnswers
+   * @param {number} obj.numberOfNeutralizedAnswers
+   */
   constructor({
     numberOfChallenges,
     numberOfCorrectAnswers,
