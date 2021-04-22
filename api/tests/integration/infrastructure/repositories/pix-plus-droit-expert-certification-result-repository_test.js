@@ -9,8 +9,12 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-expert-ce
     context('when there is no pix plus droit expert certification result for a given certification id', () => {
 
       it('should return a not_taken result', async () => {
+        // given
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+        await databaseBuilder.commit();
+
         // when
-        const pixPlusCertificationResult = await pixPlusDroitExpertCertificationResultRepository.get({ certificationCourseId: 123 });
+        const pixPlusCertificationResult = await pixPlusDroitExpertCertificationResultRepository.get({ certificationCourseId });
 
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();

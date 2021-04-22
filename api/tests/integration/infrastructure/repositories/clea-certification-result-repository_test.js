@@ -9,8 +9,12 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
     context('when there is no clea certification result for a given certification id', () => {
 
       it('should return a not_taken result', async () => {
+        // given
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+        await databaseBuilder.commit();
+
         // when
-        const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId: 123 });
+        const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId });
 
         // then
         const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();

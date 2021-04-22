@@ -14,7 +14,7 @@ class PixPlusDroitExpertCertificationResult {
     this.status = status;
   }
 
-  static from({ acquired }) {
+  static buildFrom({ acquired }) {
     return new PixPlusDroitExpertCertificationResult({
       status: acquired ? statuses.ACQUIRED : statuses.REJECTED,
     });

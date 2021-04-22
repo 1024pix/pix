@@ -3,11 +3,11 @@ const CleaCertificationResult = require('../../../../lib/domain/models/CleaCerti
 
 describe('Unit | Domain | Models | CleaCertificationResult', () => {
 
-  context('#static from', () => {
+  context('#static buildFrom', () => {
 
     it('builds a CleaCertificationResult acquired', async () => {
       // when
-      const cleaCertificationResult = CleaCertificationResult.from({ acquired: true });
+      const cleaCertificationResult = CleaCertificationResult.buildFrom({ acquired: true });
 
       // then
       expect(cleaCertificationResult).to.be.instanceOf(CleaCertificationResult);
@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | CleaCertificationResult', () => {
 
     it('builds a CleaCertificationResult rejected', async () => {
       // when
-      const cleaCertificationResult = CleaCertificationResult.from({ acquired: false });
+      const cleaCertificationResult = CleaCertificationResult.buildFrom({ acquired: false });
 
       // then
       expect(cleaCertificationResult).to.be.instanceOf(CleaCertificationResult);

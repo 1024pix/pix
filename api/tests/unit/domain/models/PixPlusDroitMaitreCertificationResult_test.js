@@ -3,11 +3,11 @@ const PixPlusMaitreCertificationResult = require('../../../../lib/domain/models/
 
 describe('Unit | Domain | Models | PixPlusMaitreCertificationResult', () => {
 
-  context('#static from', () => {
+  context('#static buildFrom', () => {
 
     it('builds a PixPlusMaitreCertificationResult acquired', async () => {
       // when
-      const pixPlusResult = PixPlusMaitreCertificationResult.from({ acquired: true });
+      const pixPlusResult = PixPlusMaitreCertificationResult.buildFrom({ acquired: true });
 
       // then
       expect(pixPlusResult).to.be.instanceOf(PixPlusMaitreCertificationResult);
@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | PixPlusMaitreCertificationResult', () => {
 
     it('builds a PixPlusMaitreCertificationResult rejected', async () => {
       // when
-      const pixPlusResult = PixPlusMaitreCertificationResult.from({ acquired: false });
+      const pixPlusResult = PixPlusMaitreCertificationResult.buildFrom({ acquired: false });
 
       // then
       expect(pixPlusResult).to.be.instanceOf(PixPlusMaitreCertificationResult);

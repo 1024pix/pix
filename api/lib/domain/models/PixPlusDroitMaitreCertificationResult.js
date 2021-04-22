@@ -14,7 +14,7 @@ class PixPlusDroitMaitreCertificationResult {
     this.status = status;
   }
 
-  static from({ acquired }) {
+  static buildFrom({ acquired }) {
     return new PixPlusDroitMaitreCertificationResult({
       status: acquired ? statuses.ACQUIRED : statuses.REJECTED,
     });

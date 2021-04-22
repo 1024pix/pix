@@ -15,7 +15,7 @@ class CleaCertificationResult {
     this.status = status;
   }
 
-  static from({ acquired }) {
+  static buildFrom({ acquired }) {
     return new CleaCertificationResult({
       status: acquired ? cleaStatuses.ACQUIRED : cleaStatuses.REJECTED,
     });
