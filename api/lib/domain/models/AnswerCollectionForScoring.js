@@ -48,6 +48,24 @@ module.exports = class AnswerCollectionForScoring {
     return numberOfChallenges;
   }
 
+  numberOfCorrectAnswersForCompetence(competenceId) {
+    const answersForCompetence = this.answers.filter((answer) => answer.competenceId() === competenceId);
+    let nbOfCorrectAnswers = 0;
+    answersForCompetence.forEach((answer) => {
+      if (!answer.challenge.isNeutralized) {
+        if (answersForCompetence.length < 3 && answer.isAFullyCorrectQROCMdep()) {
+          nbOfCorrectAnswers += 2;
+        } else if (answersForCompetence.length < 3 && answer.isAPartiallyCorrectQROCMdep()) {
+          nbOfCorrectAnswers += 1;
+        } else if (answer.isCorrect()) {
+          nbOfCorrectAnswers += 1;
+        }
+      }
+    });
+
+    return nbOfCorrectAnswers;
+  }
+
   /*
   numberOfNeutralizedChallenges() {
     return _(this.answers).map((answer) => {

@@ -14,23 +14,6 @@ module.exports = class CompetenceAnswerCollection {
     return new CompetenceAnswerCollection(answersForScoring);
   }
 
-  numberOfCorrectAnswers() {
-    let nbOfCorrectAnswers = 0;
-    this.answers.forEach((answer) => {
-      if (!answer.challenge.isNeutralized) {
-        if (this.answers.length < 3 && answer.isAFullyCorrectQROCMdep()) {
-          nbOfCorrectAnswers += 2;
-        } else if (this.answers.length < 3 && answer.isAPartiallyCorrectQROCMdep()) {
-          nbOfCorrectAnswers += 1;
-        } else if (answer.isCorrect()) {
-          nbOfCorrectAnswers += 1;
-        }
-      }
-    });
-
-    return nbOfCorrectAnswers;
-  }
-
   numberOfNeutralizedChallenges() {
     return _(this.answers).map((answer) => {
       if (answer.isNeutralized()) {
