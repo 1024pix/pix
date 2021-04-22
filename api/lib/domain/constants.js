@@ -1,3 +1,5 @@
+// @ts-check
+
 const settings = require('../config');
 
 const PIX_COUNT_BY_LEVEL = 8;
