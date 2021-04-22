@@ -8,10 +8,8 @@ import { tracked } from '@glimmer/tracking';
 import { statusToDisplayName } from '../../../../models/session';
 
 export default class IndexController extends Controller {
-  @service sessionInfoService;
   @service notifications;
   @service currentUser;
-  @service fileSaver;
   @service session;
 
   @alias('model') sessionModel;
@@ -34,32 +32,6 @@ export default class IndexController extends Controller {
 
   get isAssigned() {
     return this.sessionModel.assignedCertificationOfficer.get('id') ? true : false;
-  }
-
-  @action
-  async downloadSessionResultFile() {
-    try {
-      const sessionId = this.sessionModel.id;
-      const url = `/api/admin/sessions/${sessionId}/results`;
-      const fileName = 'resultats-session.csv';
-      let token = '';
-      if (this.session.isAuthenticated) {
-        token = this.session.data.authenticated.access_token;
-      }
-      this.fileSaver.save({ url, fileName, token });
-    } catch (error) {
-      this.notifications.error(error);
-    }
-  }
-
-  @action
-  async downloadBeforeJuryFile() {
-    try {
-      const certifications = await this._loadAllCertifications(this.sessionModel);
-      this.sessionInfoService.downloadJuryFile({ sessionId: this.sessionModel.id, certifications });
-    } catch (error) {
-      this.notifications.error(error);
-    }
   }
 
   @action
@@ -120,19 +92,5 @@ export default class IndexController extends Controller {
       this.notifications.error('Erreur lors de l\'assignation à la session');
     }
     this.isShowingAssignmentModal = false;
-  }
-
-  async _loadAllCertifications(session) {
-    const certifications = [];
-    for (let i = 0; i < session.juryCertificationSummaries.length; ++i) {
-      const juryCertificationSummary = session.juryCertificationSummaries.objectAt(i);
-      let certification = this.store.peekRecord('certification', juryCertificationSummary.id);
-      if (!certification) {
-        certification = await this.store.findRecord('certification', juryCertificationSummary.id);
-      }
-      certifications.push(certification);
-    }
-
-    return certifications;
   }
 }
