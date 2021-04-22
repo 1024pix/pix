@@ -43,6 +43,20 @@ module('Integration | Component | organization-information-section', function(ho
     assert.dom('.organization__canCollectProfiles').hasText('Oui');
   });
 
+  test('it should display tags', async function(assert) {
+    // given
+    const organization = EmberObject.create({ tags: [{ id: 1, name: 'CFA' }, { id: 2, name: 'PRIVE' }, { id: 3, name: 'AGRICULTURE' }] });
+    this.set('organization', organization);
+
+    // when
+    await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
+
+    // expect
+    assert.contains('CFA');
+    assert.contains('PRIVE');
+    assert.contains('AGRICULTURE');
+  });
+
   module('Edit organization', function(hooks) {
 
     let organization;

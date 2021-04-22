@@ -21,6 +21,7 @@ export default class Organization extends Model {
 
   @hasMany('membership') memberships;
   @hasMany('targetProfile') targetProfiles;
+  @hasMany('tag') tags;
 
   async hasMember(userEmail) {
     const memberships = await this.memberships;
