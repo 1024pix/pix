@@ -1,6 +1,5 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const CertificationResultInformation = require('../../../../lib/domain/read-models/CertificationResultInformation');
-const { statuses: cleaStatuses } = require('../../../../lib/infrastructure/repositories/clea-certification-status-repository');
 const getCertificationResultInformation = require('../../../../lib/domain/usecases/get-certification-result-information');
 
 describe('Unit | Usecase | get-certification-result-information', () => {
@@ -19,17 +18,32 @@ describe('Unit | Usecase | get-certification-result-information', () => {
     assessmentResultRepository.getByCertificationCourseId
       .withArgs({ certificationCourseId }).resolves(assessmentResult);
 
-    const cleaCertificationStatusRepository = { getCleaCertificationStatus: sinon.stub() };
-    const cleaCertificationStatus = cleaStatuses.NOT_PASSED;
-    cleaCertificationStatusRepository.getCleaCertificationStatus
-      .withArgs(certificationCourseId).resolves(cleaCertificationStatus);
+    const cleaCertificationResultRepository = { get: sinon.stub() };
+    const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
+    cleaCertificationResultRepository.get
+      .withArgs({ certificationCourseId })
+      .resolves(cleaCertificationResult);
+
+    const pixPlusDroitMaitreCertificationResultRepository = { get: sinon.stub() };
+    const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
+    pixPlusDroitMaitreCertificationResultRepository.get
+      .withArgs({ certificationCourseId })
+      .resolves(pixPlusDroitMaitreCertificationResult);
+
+    const pixPlusDroitExpertCertificationResultRepository = { get: sinon.stub() };
+    const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+    pixPlusDroitExpertCertificationResultRepository.get
+      .withArgs({ certificationCourseId })
+      .resolves(pixPlusDroitExpertCertificationResult);
 
     const certificationResultInformation = Symbol('Certification result information');
     sinon.stub(CertificationResultInformation, 'from')
       .withArgs({
         generalCertificationInformation,
         assessmentResult,
-        cleaCertificationStatus,
+        cleaCertificationResult,
+        pixPlusDroitMaitreCertificationResult,
+        pixPlusDroitExpertCertificationResult,
       })
       .resolves(certificationResultInformation);
 
@@ -38,7 +52,9 @@ describe('Unit | Usecase | get-certification-result-information', () => {
       certificationCourseId,
       generalCertificationInformationRepository,
       assessmentResultRepository,
-      cleaCertificationStatusRepository,
+      cleaCertificationResultRepository,
+      pixPlusDroitMaitreCertificationResultRepository,
+      pixPlusDroitExpertCertificationResultRepository,
     });
 
     // then
