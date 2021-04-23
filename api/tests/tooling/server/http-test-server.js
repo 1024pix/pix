@@ -1,7 +1,4 @@
 const Hapi = require('@hapi/hapi');
-const Inert = require('@hapi/inert');
-
-const authentication = require('../../../lib/infrastructure/authentication');
 
 const preResponseUtils = require('../../../lib/application/pre-response-utils');
 const { handleFailAction } = require('../../../lib/validate');
@@ -27,29 +24,29 @@ const routesConfig = {
  */
 class HttpTestServer {
 
-  constructor(moduleUnderTest, enableAuthentication = false) {
+  constructor(moduleUnderTest) {
     this.hapiServer = Hapi.server(routesConfig);
 
-    this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
-    this.hapiServer.events.on({ name: 'request', channels: 'error' }, (request, event) => {
-      // eslint-disable-next-line no-console
-      console.error(event.error);
-    });
+    this._setupErrorHandling();
 
-    if (enableAuthentication) {
-      this.hapiServer.auth.scheme(authentication.schemeName, authentication.scheme);
-      authentication.strategies.map((strategy) => {
-        this.hapiServer.auth.strategy(strategy.name, authentication.schemeName, strategy.configuration);
-      });
-      this.hapiServer.auth.default(authentication.defaultStrategy);
-    }
-    this.hapiServer.register(Inert);
+    // register returns a promise, which is ignored
+    // TODO: extract register in a separate async method
+    // https://stackoverflow.com/questions/43431550/async-await-class-constructor
     this.hapiServer.register(moduleUnderTest);
+  }
+
+  _setupErrorHandling() {
+    this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
   }
 
   request(method, url, payload, auth, headers) {
     return this.hapiServer.inject({ method, url, payload, auth, headers });
   }
+
+  requestObject({ method, url, payload, auth, headers }) {
+    return this.hapiServer.inject({ method, url, payload, auth, headers });
+  }
+
 }
 
 module.exports = HttpTestServer;

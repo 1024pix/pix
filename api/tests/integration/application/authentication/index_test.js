@@ -1,20 +1,20 @@
+const querystring = require('querystring');
+
 const {
   expect,
-  HttpTestServer,
   sinon,
 } = require('../../../test-helper');
 
-const querystring = require('querystring');
-
-const moduleUnderTest = require('../../../../lib/application/authentication');
+// eslint-disable-next-line no-restricted-modules
+const createServer = require('../../../../server');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
 describe('Integration | Application | Route | AuthenticationRouter', () => {
 
-  let httpTestServer;
+  let server;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(authenticationController, 'authenticateUser').callsFake((request, h) => h.response({
       token_type: 'bearer',
       access_token: 'some-jwt-access-token',
@@ -22,8 +22,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     }));
     sinon.stub(authenticationController, 'authenticatePoleEmploiUser').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(authenticationController, 'authenticateAnonymousUser').callsFake((request, h) => h.response('ok').code(200));
-
-    httpTestServer = new HttpTestServer(moduleUnderTest, true);
+    server = await createServer();
   });
 
   describe('POST /api/token', () => {
@@ -54,7 +53,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -69,7 +68,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -83,7 +82,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -97,7 +96,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -112,7 +111,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -123,7 +122,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       headers['content-type'] = 'text/html';
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(415);
@@ -149,7 +148,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a response with HTTP status code 204 when route handler (a.k.a. controller) is successful', async () => {
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -163,7 +162,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -176,7 +175,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -189,7 +188,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -200,7 +199,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       headers['content-type'] = 'text/html';
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(415);
@@ -233,7 +232,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       payload.data.attributes.username = undefined;
 
       // when
-      const response = await httpTestServer.request(method, url, payload);
+      const response = await server.inject({ method, url, payload });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -244,7 +243,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       payload.data.attributes.password = undefined;
 
       // when
-      const response = await httpTestServer.request(method, url, payload);
+      const response = await server.inject({ method, url, payload });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -255,7 +254,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       payload.data.attributes['external-user-token'] = undefined;
 
       // when
-      const response = await httpTestServer.request(method, url, payload);
+      const response = await server.inject({ method, url, payload });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -266,7 +265,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       payload.data.attributes['expected-user-id'] = undefined;
 
       // when
-      const response = await httpTestServer.request(method, url, payload);
+      const response = await server.inject({ method, url, payload });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -297,7 +296,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a response with HTTP status code 200', async () => {
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -308,7 +307,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       headers['content-type'] = 'application/json';
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(415);
@@ -319,7 +318,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       payload = undefined;
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -333,7 +332,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -347,7 +346,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -361,7 +360,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -388,7 +387,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     it('should return a response with HTTP status code 200', async () => {
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -399,7 +398,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       payload = querystring.stringify({});
 
       // when
-      const response = await httpTestServer.request(method, url, payload, null, headers);
+      const response = await server.inject({ method, url, payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
