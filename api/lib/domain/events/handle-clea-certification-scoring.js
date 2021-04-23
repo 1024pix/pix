@@ -1,4 +1,4 @@
-const { checkEventType } = require('./check-event-type');
+const { checkEventTypes } = require('./check-event-types');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted');
 
 const eventType = CertificationScoringCompleted;
@@ -7,7 +7,7 @@ async function handleCleaCertificationScoring({
   event,
   partnerCertificationScoringRepository,
 }) {
-  checkEventType(event, eventType);
+  checkEventTypes(event, [eventType]);
   const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
     certificationCourseId: event.certificationCourseId,
     userId: event.userId,

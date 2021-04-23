@@ -31,7 +31,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () =
     );
 
     // then
-    expect(error.message).to.equal('event must be of type CertificationScoringCompleted');
+    expect(error.message).to.equal('event must be one of types CertificationScoringCompleted');
   });
 
   context('when user was not asked any pix plus challenges', () => {

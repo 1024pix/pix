@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const AssessmentCompleted = require('../events/AssessmentCompleted');
-const { checkEventType } = require('./check-event-type');
+const { checkEventTypes } = require('./check-event-types');
 
 const eventType = AssessmentCompleted;
 
@@ -11,7 +11,7 @@ const handleBadgeAcquisition = async function({
   badgeRepository,
   campaignParticipationResultRepository,
 }) {
-  checkEventType(event, eventType);
+  checkEventTypes(event, [eventType]);
 
   if (event.isCampaignType) {
     const badges = await _fetchPossibleCampaignAssociatedBadges(event, badgeRepository);
