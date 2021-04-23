@@ -28,6 +28,31 @@ describe('Unit | Domain | Models | CertificationChallenge', () => {
     });
   });
 
+  describe('#deneutralize', () => {
+
+    it('should deneutralize a neutralized certification challenge', () => {
+      // given
+      const certificationChallenge = domainBuilder.buildCertificationChallenge({ isNeutralized: true });
+
+      // when
+      certificationChallenge.deneutralize();
+
+      // then
+      expect(certificationChallenge.isNeutralized).to.be.false;
+    });
+
+    it('should leave a deneutralized certification challenge if it was deneutralized already', () => {
+      // given
+      const certificationChallenge = domainBuilder.buildCertificationChallenge({ isNeutralized: false });
+
+      // when
+      certificationChallenge.deneutralize();
+
+      // then
+      expect(certificationChallenge.isNeutralized).to.be.false;
+    });
+  });
+
   describe('#static createForPixCertification', () => {
 
     it('should build a certificationChallenge for pix certification', () => {

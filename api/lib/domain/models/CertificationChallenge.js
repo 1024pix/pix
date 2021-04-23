@@ -60,6 +60,10 @@ class CertificationChallenge {
     this.isNeutralized = true;
   }
 
+  deneutralize() {
+    this.isNeutralized = false;
+  }
+
   isPixPlus() {
     return Boolean(this.certifiableBadgeKey);
   }
