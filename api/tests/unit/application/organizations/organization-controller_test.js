@@ -9,6 +9,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const organizationService = require('../../../../lib/domain/services/organization-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
+const campaignManagementSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-management-serializer');
 const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
@@ -392,6 +393,70 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       // then
       expect(campaignReportSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedPagination);
+    });
+  });
+
+  describe('#findPaginatedCampaignManagements', () => {
+
+    let organizationId;
+    let request;
+    let campaign;
+    let serializedCampaigns;
+
+    beforeEach(() => {
+      organizationId = 1;
+      request = {
+        params: { id: organizationId },
+        auth: {
+          credentials: {
+            userId: 1,
+          },
+        },
+      };
+      campaign = domainBuilder.buildCampaign();
+      serializedCampaigns = [{ name: campaign.name, code: campaign.code }];
+
+      sinon.stub(queryParamsUtils, 'extractParameters');
+      sinon.stub(usecases, 'findPaginatedCampaignManagements');
+      sinon.stub(campaignManagementSerializer, 'serialize');
+    });
+
+    it('should call the usecase to get the campaigns and associated campaignManagements', async () => {
+      // given
+      request.query = {
+        campaignManagement: true,
+      };
+      const expectedPage = 2;
+      const expectedFilter = { name: 'Math' };
+      queryParamsUtils.extractParameters.withArgs(request.query).returns({ page: expectedPage, filter: expectedFilter });
+      const expectedResults = [campaign];
+      const expectedPagination = { page: expectedPage, pageSize: 25, itemsCount: 100, pagesCount: 4 };
+      usecases.findPaginatedCampaignManagements.resolves({ models: expectedResults, pagination: expectedPagination });
+      campaignManagementSerializer.serialize.returns({ data: serializedCampaigns, meta: {} });
+
+      // when
+      await organizationController.findPaginatedCampaignManagements(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedCampaignManagements).to.have.been.calledWith({ organizationId, filter: expectedFilter, page: expectedPage });
+    });
+
+    it('should return the serialized campaigns belonging to the organization', async () => {
+      // given
+      request.query = {};
+      const expectedResponse = { data: serializedCampaigns, meta: {} };
+
+      const expectedResults = [campaign];
+      const expectedPagination = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4 };
+      queryParamsUtils.extractParameters.withArgs({}).returns({ filter: {} });
+      usecases.findPaginatedCampaignManagements.resolves({ models: expectedResults, meta: expectedPagination });
+      campaignManagementSerializer.serialize.withArgs(expectedResults, expectedPagination).returns(expectedResponse);
+
+      // when
+      const response = await organizationController.findPaginatedCampaignManagements(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(expectedResponse);
     });
   });
 
