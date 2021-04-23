@@ -162,6 +162,14 @@ describe('Integration | API | Controller Error', () => {
       expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
       expect(responseDetail(response)).to.equal('La question à neutraliser n\'a pas été posée lors du test de certification');
     });
+
+    it('responds Not Found when a ChallengeToBeDeneutralizedNotFoundError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.ChallengeToBeDeneutralizedNotFoundError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
+      expect(responseDetail(response)).to.equal('La question à dé-neutraliser n\'a pas été posée lors du test de certification');
+    });
   });
 
   context('409 Conflict', () => {

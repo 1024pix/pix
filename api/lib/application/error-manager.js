@@ -79,6 +79,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.ChallengeToBeNeutralizedNotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
   }
+  if (error instanceof DomainErrors.ChallengeToBeDeneutralizedNotFoundError) {
+    return new HttpErrors.NotFoundError(error.message);
+  }
   if (error instanceof DomainErrors.NotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
   }
