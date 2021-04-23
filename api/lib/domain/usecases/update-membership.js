@@ -1,3 +1,4 @@
+const OrganizationTypes = require('../models/Organization').types;
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = async function updateMembership({
@@ -7,10 +8,12 @@ module.exports = async function updateMembership({
   certificationCenterRepository,
   certificationCenterMembershipRepository,
 }) {
-  membership.validateRole();
 
-  if (membership.isAdmin) {
-    const existingMembership = await membershipRepository.get(membershipId);
+  membership.validateRole();
+  const existingMembership = await membershipRepository.get(membershipId);
+
+  if (existingMembership.organization.type === OrganizationTypes.SCO && membership.isAdmin) {
+
     const existingCertificationCenter = await certificationCenterRepository.findByExternalId({ externalId: existingMembership.organization.externalId });
 
     if (existingCertificationCenter) {

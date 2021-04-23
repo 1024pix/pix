@@ -91,7 +91,15 @@ describe('Integration | Application | Memberships | membership-controller', () =
       data: {
         type: 'memberships',
         attributes: {
-          'organaization-role': organizationRole,
+          'organization-role': organizationRole,
+        },
+        relationships: {
+          organization: {
+            data: {
+              id: '1',
+              type: 'organizations',
+            },
+          },
         },
       },
     };

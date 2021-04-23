@@ -8,6 +8,7 @@ describe('Unit | UseCase | update-membership', () => {
   let membershipRepository;
   let certificationCenterRepository;
   let certificationCenterMembershipRepository;
+  let organizationRepository;
 
   beforeEach(() => {
     membershipRepository = {
@@ -25,9 +26,10 @@ describe('Unit | UseCase | update-membership', () => {
 
   it('should update the membership', async () => {
     // given
+    const organization = domainBuilder.buildOrganization({ type: 'SUP' });
     const membershipId = 100;
     const organizationRole = Membership.roles.ADMIN;
-    const membership = new Membership({ id: membershipId, organizationRole, updatedByUserId: 12345 });
+    const membership = new Membership({ id: membershipId, organization, organizationRole, updatedByUserId: 12345 });
     membershipRepository.get.resolves(domainBuilder.buildMembership());
     certificationCenterRepository.findByExternalId.resolves(null);
 
@@ -35,9 +37,11 @@ describe('Unit | UseCase | update-membership', () => {
     await updateMembership({
       membershipId,
       membership,
+      organizationId: organization.id,
       membershipRepository,
       certificationCenterRepository,
       certificationCenterMembershipRepository,
+      organizationRepository,
     });
 
     // then
@@ -46,9 +50,10 @@ describe('Unit | UseCase | update-membership', () => {
 
   it('should throw a InvalidMembershipRoleError if role is not valid', async () => {
     // given
+    const organization = domainBuilder.buildOrganization({ type: 'SUP' });
     const membershipId = 100;
     const organizationRole = 'NOT_VALID_ROLE';
-    const membership = new Membership({ id: membershipId, organizationRole, updatedByUserId: 12345 });
+    const membership = new Membership({ id: membershipId, organization, organizationRole, updatedByUserId: 12345 });
 
     // when
     const error = await catchErr(updateMembership)({
@@ -70,12 +75,12 @@ describe('Unit | UseCase | update-membership', () => {
         // given
         const membershipId = 1;
         const externalId = 'externalId';
-        const membership = new Membership({ organizationRole: Membership.roles.ADMIN });
-        const existingOrganization = domainBuilder.buildOrganization({ externalId });
+        const organization = domainBuilder.buildOrganization({ type: 'SCO', externalId });
+        const membership = new Membership({ organization, organizationRole: Membership.roles.ADMIN });
         const existingUser = domainBuilder.buildUser();
         const existingCertificationCenter = domainBuilder.buildCertificationCenter({ externalId });
         const existingMembership = domainBuilder.buildMembership({
-          organization: existingOrganization,
+          organization: organization,
           user: existingUser,
         });
 
@@ -96,17 +101,16 @@ describe('Unit | UseCase | update-membership', () => {
       });
 
       context('when the user is already a member of the certification center', () => {
-
         it('should not create a certification center membership', async () => {
           // given
           const membershipId = 1;
           const externalId = 'externalId';
-          const membership = new Membership({ organizationRole: Membership.roles.ADMIN });
-          const existingOrganization = domainBuilder.buildOrganization({ externalId });
+          const organization = domainBuilder.buildOrganization({ externalId });
+          const membership = new Membership({ organization, organizationRole: Membership.roles.ADMIN });
           const existingUser = domainBuilder.buildUser();
           const existingCertificationCenter = domainBuilder.buildCertificationCenter({ externalId });
           const existingMembership = domainBuilder.buildMembership({
-            organization: existingOrganization,
+            organization: organization,
             user: existingUser,
           });
 
@@ -127,27 +131,63 @@ describe('Unit | UseCase | update-membership', () => {
           expect(certificationCenterMembershipRepository.save).to.not.have.been.called;
         });
       });
+
+      context('when the organization type is not SCO', () => {
+        it('should not create a certification center membership', async () => {
+          // given
+          const externalId = 'externalId';
+          const organization = domainBuilder.buildOrganization({ type: 'SUP', externalId });
+          const existingUser = domainBuilder.buildUser();
+          const existingCertificationCenter = domainBuilder.buildCertificationCenter({ externalId });
+          const existingMembershipId = 1;
+          const existingMembership = domainBuilder.buildMembership({
+            id: existingMembershipId,
+            organization,
+            user: existingUser,
+          });
+
+          const membership = new Membership({ organization, organizationRole: Membership.roles.ADMIN });
+
+          membershipRepository.get.withArgs(existingMembershipId).resolves(existingMembership);
+          certificationCenterRepository.findByExternalId.withArgs({ externalId }).resolves(existingCertificationCenter);
+
+          // when
+          await updateMembership({
+            membershipId: existingMembershipId,
+            membership,
+            membershipRepository,
+            certificationCenterRepository,
+            certificationCenterMembershipRepository,
+          });
+
+          // then
+          expect(certificationCenterMembershipRepository.save).to.not.have.been.called;
+        });
+      });
+
     });
 
     context('when the membership\'s organization has no certification center', () => {
       it('should not create a certification center membership', async () => {
         // given
-        const membershipId = 1;
         const externalId = 'externalId';
-        const membership = new Membership({ organizationRole: Membership.roles.ADMIN });
-        const existingOrganization = domainBuilder.buildOrganization({ externalId });
+        const organization = domainBuilder.buildOrganization({ externalId });
+        const existingMembershipId = 1;
         const existingUser = domainBuilder.buildUser();
         const existingMembership = domainBuilder.buildMembership({
-          organization: existingOrganization,
+          id: existingMembershipId,
+          organization: organization,
           user: existingUser,
         });
 
-        membershipRepository.get.withArgs(membershipId).resolves(existingMembership);
+        const membership = new Membership({ organization, organizationRole: Membership.roles.ADMIN });
+
+        membershipRepository.get.withArgs(existingMembershipId).resolves(existingMembership);
         certificationCenterRepository.findByExternalId.withArgs({ externalId }).resolves(null);
 
         // when
         await updateMembership({
-          membershipId,
+          membershipId: existingMembershipId,
           membership,
           membershipRepository,
           certificationCenterRepository,
@@ -163,8 +203,18 @@ describe('Unit | UseCase | update-membership', () => {
   context('when the role to update is set to member', () => {
     it('should not create a certification center membership', async () => {
       // given
+      const organization = domainBuilder.buildOrganization({ type: 'SCO' });
       const membershipId = 1;
-      const membership = new Membership({ organizationRole: Membership.roles.MEMBER });
+      const membership = new Membership({ organization, organizationRole: Membership.roles.MEMBER });
+
+      const existingMembershipId = 1;
+      const existingUser = domainBuilder.buildUser();
+      const existingMembership = domainBuilder.buildMembership({
+        id: existingMembershipId,
+        organization: organization,
+        user: existingUser,
+      });
+      membershipRepository.get.withArgs(membershipId).resolves(existingMembership);
 
       // when
       await updateMembership({

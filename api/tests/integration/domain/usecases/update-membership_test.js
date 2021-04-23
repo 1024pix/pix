@@ -3,6 +3,7 @@ const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 const certificationCenterRepository = require('../../../../lib/infrastructure/repositories/certification-center-repository');
 const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
+
 const Membership = require('../../../../lib/domain/models/Membership');
 
 const updateMembership = require('../../../../lib/domain/usecases/update-membership');
@@ -47,7 +48,7 @@ describe('Integration | UseCases | update-membership', () => {
   it('if the organization has a certification center and the role to update is set to administrator, it should create a certification center membership ', async () => {
     // given
     const externalId = 'foo';
-    const organizationId = databaseBuilder.factory.buildOrganization({ externalId }).id;
+    const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId }).id;
     const userId = databaseBuilder.factory.buildUser().id;
     const updatedByUserId = databaseBuilder.factory.buildUser().id;
     const membershipId = databaseBuilder.factory.buildMembership({
