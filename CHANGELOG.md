@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.48.0 (23/04/2021)
+
+- [#2901](https://github.com/1024pix/pix/pull/2901) [FEATURE] Ajout de l'info de neutralisation dans l'affichage du détail d'une certification dans Pix Admin (PIX-2380)
+- [#2900](https://github.com/1024pix/pix/pull/2900) [FEATURE] Ajout d'un bouton pour Dé-neutraliser une épreuve neutralisée sur PixAdmin (PIX-2509)
+- [#2883](https://github.com/1024pix/pix/pull/2883) [FEATURE] Autoriser l'envoi multiple pour une campagne de collecte de profils (Pix-2466).
+- [#2885](https://github.com/1024pix/pix/pull/2885) [FEATURE] Ajouter les mentions concernant les certifications Pix+ Droit dans les csv de résultats de certification (PIX-2443)
+- [#2874](https://github.com/1024pix/pix/pull/2874) [FEATURE] Neutralisation d'épreuves depuis Pix-Admin (Pix-2359)
+- [#2894](https://github.com/1024pix/pix/pull/2894) [FEATURE] Afficher les tags de chaque organisation sur Pix Admin (PIX-197).
+- [#2881](https://github.com/1024pix/pix/pull/2881) [FEATURE] Ajout la possibilité  de filtrer une liste d’étudiants  SUP par numéro étudiant (PIX-2417).
+- [#2898](https://github.com/1024pix/pix/pull/2898) [BUGFIX] L'affichage du score dans la page de détails d'une certification sur PixAdmin pouvait être erroné (PIX-2507)
+- [#2888](https://github.com/1024pix/pix/pull/2888) [ADMIN] Supprimer les boutons “Récupérer le fichier avant jury” et “Exporter les résultats” de la page session dans Pix Admin (PIX-2495)
+
 ## v3.47.0 (22/04/2021)
 
 - [#2887](https://github.com/1024pix/pix/pull/2887) [FEATURE] Toujours renvoyer un niveau de competence positif pour le livret scolaire
