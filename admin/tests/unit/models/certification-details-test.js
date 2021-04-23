@@ -68,4 +68,42 @@ module('Unit | Model | certification details', function(hooks) {
       assert.ok(adapter.ajax.calledWithExactly(url, 'POST', payload));
     });
   });
+
+  module('#deneutralizeChallenge', function() {
+
+    test('deneutralizes a challenge', async function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const adapter = store.adapterFor('certification-details');
+      sinon.stub(adapter, 'ajax');
+
+      const url = `${ENV.APP.API_HOST}/api/admin/certification/deneutralize-challenge`;
+      const payload = {
+        data: {
+          data: {
+            attributes: {
+              certificationCourseId: 123,
+              challengeRecId: 'rec123',
+            },
+          },
+        },
+      };
+      adapter.ajax.resolves({});
+
+      const certification = run(() => store.createRecord('certification-details', {
+        listChallengesAndAnswers: [],
+      }));
+
+      // when
+      await certification.deneutralizeChallenge(
+        {
+          certificationCourseId: 123,
+          challengeRecId: 'rec123',
+        },
+      );
+
+      // then
+      assert.ok(adapter.ajax.calledWithExactly(url, 'POST', payload));
+    });
+  });
 });

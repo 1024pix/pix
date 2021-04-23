@@ -13,7 +13,7 @@ export default class CertificationDetails extends ApplicationAdapter {
     requestType,
     query,
   ) {
-    if (requestType === 'neutralize-challenge') {
+    if (requestType === 'challenge-neutralization') {
       return `${this.host}/${this.namespace}/admin/certification/`;
     } else {
       return super.buildURL(

@@ -118,6 +118,14 @@ export default function() {
     return schema.certificationDetails.find(id);
   });
 
+  this.post('/admin/certification/neutralize-challenge', () => {
+    return new Response(204);
+  });
+
+  this.post('/admin/certification/deneutralize-challenge', () => {
+    return new Response(204);
+  });
+
   this.get('/admin/sessions/:id/generate-results-download-link', { sessionResultsLink: 'http://link-to-results.fr' });
 
   this.post('/organizations/:id/invitations', (schema, request) => {
