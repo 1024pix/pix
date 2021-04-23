@@ -4,11 +4,11 @@ const CampaignParticipationResultsShared = require('./../../../../lib/domain/eve
 
 describe('Unit | Domain | Events | compute-validated-skills-count', function() {
 
-  describe('eventType', () => {
+  describe('eventTypes', () => {
     it('returns the CampaignParticipationResultsShared', () => {
-      const eventType = computeValidatedSkillsCount.eventType;
+      const eventTypes = computeValidatedSkillsCount.eventTypes;
 
-      expect(eventType).to.equals(CampaignParticipationResultsShared);
+      expect(eventTypes).to.deep.equal([CampaignParticipationResultsShared]);
     });
   });
 

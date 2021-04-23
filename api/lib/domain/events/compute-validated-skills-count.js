@@ -18,4 +18,4 @@ async function _countValidatedSkills(campaignParticipation, knowledgeElementRepo
   return _(validatedSkillsCountByCompetence).values().sum();
 }
 
-module.exports.eventType = CampaignParticipationResultShared;
+module.exports.eventTypes = [ CampaignParticipationResultShared ];
