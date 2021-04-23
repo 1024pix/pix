@@ -53,7 +53,10 @@ function buildEventDispatcher(handlersStubs) {
 
   for (const key in handlers) {
     const inject = _.partial(injectDefaults, dependencies);
-    eventDispatcher.subscribe(handlersToBeInjected[key].eventType, inject(handlers[key]));
+    const injectedHandler = inject(handlers[key]);
+    for (const eventType of handlersToBeInjected[key].eventTypes) {
+      eventDispatcher.subscribe(eventType, injectedHandler);
+    }
   }
 
   return eventDispatcher;

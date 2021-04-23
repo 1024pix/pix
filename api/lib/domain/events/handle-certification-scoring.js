@@ -8,7 +8,7 @@ const {
 const AssessmentCompleted = require('./AssessmentCompleted');
 const { checkEventTypes } = require('./check-event-types');
 
-const eventType = AssessmentCompleted;
+const eventTypes = [ AssessmentCompleted ];
 const EMITTER = 'PIX-ALGO';
 
 async function handleCertificationScoring({
@@ -20,7 +20,7 @@ async function handleCertificationScoring({
   competenceMarkRepository,
   scoringCertificationService,
 }) {
-  checkEventTypes(event, [eventType]);
+  checkEventTypes(event, eventTypes);
 
   if (event.isCertificationType) {
     const certificationAssessment = await certificationAssessmentRepository.get(event.assessmentId);
@@ -118,5 +118,5 @@ async function _saveResultAfterCertificationComputeError({
   await assessmentResultRepository.save(assessmentResult);
   return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date());
 }
-handleCertificationScoring.eventType = eventType;
+handleCertificationScoring.eventTypes = eventTypes;
 module.exports = handleCertificationScoring;
