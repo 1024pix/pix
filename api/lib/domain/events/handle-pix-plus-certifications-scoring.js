@@ -1,4 +1,4 @@
-const { checkEventType } = require('./check-event-type');
+const { checkEventTypes } = require('./check-event-types');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted');
 const PixPlusCertificationScoring = require('../models/PixPlusCertificationScoring');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
@@ -11,7 +11,7 @@ async function handlePixPlusCertificationsScoring({
   certificationAssessmentRepository,
   partnerCertificationScoringRepository,
 }) {
-  checkEventType(event, eventType);
+  checkEventTypes(event, [eventType]);
   const certificationCourseId = event.certificationCourseId;
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId, domainTransaction });
   const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgeKeysTaken();

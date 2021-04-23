@@ -1,5 +1,5 @@
 const FinalizedSession = require('../models/FinalizedSession');
-const { checkEventType } = require('./check-event-type');
+const { checkEventTypes } = require('./check-event-types');
 const SessionFinalized = require('./SessionFinalized');
 
 const eventType = SessionFinalized;
@@ -9,7 +9,7 @@ async function handleSessionFinalized({
   juryCertificationSummaryRepository,
   finalizedSessionRepository,
 }) {
-  checkEventType(event, eventType);
+  checkEventTypes(event, [eventType]);
   const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(event.sessionId);
 
   const finalizedSession = FinalizedSession.from({
