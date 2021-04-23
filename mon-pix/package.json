@@ -47,7 +47,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
-    "@glimmer/component": "^1.0.2",
+    "@glimmer/component": "^1.0.4",
     "@sentry/ember": "^6.3.1",
     "babel-eslint": "^10.0.3",
     "broccoli-asset-rev": "^3.0.0",
