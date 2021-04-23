@@ -16,16 +16,17 @@ const handleBadgeAcquisition = async function({
 
   if (event.isCampaignType) {
 
-    const badgeList = await _fetchPossibleCampaignAssociatedBadges(event, badgeRepository);
-    if (_.isEmpty(badgeList)) {
+    const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(event, badgeRepository);
+    if (_.isEmpty(associatedBadges)) {
       return;
     }
     const targetProfile = await targetProfileRepository.getByCampaignParticipationId(event.campaignParticipationId);
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: event.userId });
 
-    const badgesBeingAcquired = badgeList.filter((badge) =>
-      _isBadgeAcquired({ knowledgeElements, targetProfile, badge, badgeCriteriaService }));
-    const badgesAcquisitionToCreate = badgesBeingAcquired.map((badge) => {
+    const validatedBadgesByUser = associatedBadges.filter((badge) =>
+      badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge }));
+
+    const badgesAcquisitionToCreate = validatedBadgesByUser.map((badge) => {
       return {
         badgeId: badge.id,
         userId: event.userId,
@@ -41,10 +42,6 @@ const handleBadgeAcquisition = async function({
 
 function _fetchPossibleCampaignAssociatedBadges(event, badgeRepository) {
   return badgeRepository.findByCampaignParticipationId(event.campaignParticipationId);
-}
-
-function _isBadgeAcquired({ knowledgeElements, targetProfile, badge, badgeCriteriaService }) {
-  return badgeCriteriaService.isBadgeAcquired({ knowledgeElements, targetProfile, badge });
 }
 
 handleBadgeAcquisition.eventTypes = eventTypes;

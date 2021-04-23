@@ -20,7 +20,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
     };
 
     const badgeCriteriaService = {
-      isBadgeAcquired: _.noop,
+      areBadgeCriteriaFulfilled: _.noop,
     };
 
     const dependencies = {
@@ -69,13 +69,13 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
           sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
           knowledgeElementRepository.findUniqByUserId.withArgs({ userId: event.userId }).resolves(knowledgeElements);
-          sinon.stub(badgeCriteriaService, 'isBadgeAcquired');
+          sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
           sinon.stub(badgeAcquisitionRepository, 'create');
         });
 
         it('should create a badge when badge requirements are fulfilled', async () => {
           // given
-          badgeCriteriaService.isBadgeAcquired
+          badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ targetProfile, knowledgeElements, badge })
             .returns(true);
 
@@ -92,7 +92,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
         it('should not create a badge when badge requirements are not fulfilled', async () => {
           // given
-          badgeCriteriaService.isBadgeAcquired
+          badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ targetProfile, knowledgeElements, badge })
             .returns(false);
           // when
@@ -129,16 +129,16 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
           knowledgeElementRepository.findUniqByUserId.withArgs({ userId: event.userId }).resolves(knowledgeElements);
 
-          sinon.stub(badgeCriteriaService, 'isBadgeAcquired');
+          sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
           sinon.stub(badgeAcquisitionRepository, 'create');
         });
 
         it('should create one badge when only one badge requirements are fulfilled', async () => {
           // given
-          badgeCriteriaService.isBadgeAcquired
+          badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
             .returns(true);
-          badgeCriteriaService.isBadgeAcquired
+          badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ targetProfile, knowledgeElements, badge: badge2 })
             .returns(false);
 
@@ -155,10 +155,10 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
         it('should create two badges when both badges requirements are fulfilled', async () => {
           // given
-          badgeCriteriaService.isBadgeAcquired
+          badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
             .returns(true);
-          badgeCriteriaService.isBadgeAcquired
+          badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ targetProfile, knowledgeElements, badge: badge2 })
             .returns(true);
 
