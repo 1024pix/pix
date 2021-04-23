@@ -5,9 +5,10 @@ const {
   CertificationComputeError,
 } = require('../errors');
 const ChallengeNeutralized = require('./ChallengeNeutralized');
+const ChallengeDeneutralized = require('./ChallengeDeneutralized');
 const { checkEventTypes } = require('./check-event-types');
 
-const eventType = ChallengeNeutralized;
+const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized];
 const EMITTER = 'PIX-ALGO-NEUTRALIZATION'; // to be refined according to rescoring reason
 
 async function handleCertificationRescoring({
@@ -17,7 +18,7 @@ async function handleCertificationRescoring({
   competenceMarkRepository,
   scoringCertificationService,
 }) {
-  checkEventTypes(event, [eventType]);
+  checkEventTypes(event, [eventTypes]);
 
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: event.certificationCourseId });
   await _calculateCertificationScore({
@@ -105,5 +106,5 @@ async function _saveResultAfterCertificationComputeError({
   await assessmentResultRepository.save(assessmentResult);
 }
 
-handleCertificationRescoring.eventType = eventType;
+handleCertificationRescoring.eventTypes = eventTypes;
 module.exports = handleCertificationRescoring;

@@ -3,7 +3,7 @@ const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/Po
 const AssessmentCompleted = require('./AssessmentCompleted');
 const PoleEmploiSending = require('../models/PoleEmploiSending');
 
-const eventType = AssessmentCompleted;
+const eventTypes = [ AssessmentCompleted ];
 
 async function handlePoleEmploiParticipationFinished({
   event,
@@ -16,7 +16,7 @@ async function handlePoleEmploiParticipationFinished({
   userRepository,
   poleEmploiNotifier,
 }) {
-  checkEventTypes(event, [eventType]);
+  checkEventTypes(event, eventTypes);
 
   const { campaignParticipationId } = event;
 
@@ -53,5 +53,5 @@ async function handlePoleEmploiParticipationFinished({
   }
 }
 
-handlePoleEmploiParticipationFinished.eventType = eventType;
+handlePoleEmploiParticipationFinished.eventTypes = eventTypes;
 module.exports = handlePoleEmploiParticipationFinished;
