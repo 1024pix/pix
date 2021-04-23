@@ -90,6 +90,28 @@ exports.register = async function(server) {
         tags: ['api'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/admin/certification/deneutralize-challenge',
+      config: {
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                certificationCourseId: identifiersType.certificationCourseId,
+                challengeRecId: Joi.string().required(),
+              },
+            },
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: certificationController.deneutralizeChallenge,
+        tags: ['api'],
+      },
+    },
   ]);
 };
 
