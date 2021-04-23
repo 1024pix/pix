@@ -160,4 +160,55 @@ describe('Unit | Controller | certifications-controller', () => {
       expect(response.statusCode).to.equal(204);
     });
   });
+
+  describe('#deneutralizeChallenge', () => {
+    it('deneutralizes the challenge', async () => {
+      // given
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              certificationCourseId: 1,
+              challengeRecId: 'rec43mpMIR5dUzdjh',
+            },
+          },
+        },
+        auth: { credentials: { userId: 7 } },
+      };
+      sinon.stub(usecases, 'deneutralizeChallenge');
+
+      // when
+      await certificationController.deneutralizeChallenge(request, hFake);
+
+      // then
+      expect(usecases.deneutralizeChallenge).to.have.been.calledWith({
+        certificationCourseId: 1,
+        challengeRecId: 'rec43mpMIR5dUzdjh',
+        juryId: 7,
+      });
+    });
+
+    it('returns 204', async () => {
+      // given
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              certificationCourseId: 1,
+              challengeRecId: 'rec43mpMIR5dUzdjh',
+            },
+          },
+        },
+        auth: { credentials: { userId: 7 } },
+      };
+      sinon.stub(usecases, 'deneutralizeChallenge');
+
+      // when
+      const response = await certificationController.deneutralizeChallenge(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+  });
 });
