@@ -6,6 +6,7 @@ const certificationSerializer = require('../../../../lib/infrastructure/serializ
 const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
 const events = require('../../../../lib/domain/events');
 const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
+const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
 
 describe('Unit | Controller | certifications-controller', () => {
 
@@ -176,6 +177,7 @@ describe('Unit | Controller | certifications-controller', () => {
         auth: { credentials: { userId: 7 } },
       };
       sinon.stub(usecases, 'deneutralizeChallenge');
+      sinon.stub(events, 'eventDispatcher');
 
       // when
       await certificationController.deneutralizeChallenge(request, hFake);
@@ -202,12 +204,40 @@ describe('Unit | Controller | certifications-controller', () => {
         auth: { credentials: { userId: 7 } },
       };
       sinon.stub(usecases, 'deneutralizeChallenge');
+      sinon.stub(events, 'eventDispatcher');
 
       // when
       const response = await certificationController.deneutralizeChallenge(request, hFake);
 
       // then
       expect(response.statusCode).to.equal(204);
+    });
+
+    it('dispatches the event', async () => {
+      // given
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              certificationCourseId: 1,
+              challengeRecId: 'rec43mpMIR5dUzdjh',
+            },
+          },
+        },
+        auth: { credentials: { userId: 7 } },
+      };
+      const eventToBeDispatched = new ChallengeDeneutralized({ certificationCourseId: 1, juryId: 7 });
+
+      sinon.stub(usecases, 'deneutralizeChallenge').resolves(eventToBeDispatched);
+      sinon.stub(events, 'eventDispatcher').value({
+        dispatch: sinon.stub(),
+      });
+
+      // when
+      await certificationController.deneutralizeChallenge(request, hFake);
+
+      // then
+      expect(events.eventDispatcher.dispatch).to.have.been.calledWith(eventToBeDispatched);
     });
 
   });
