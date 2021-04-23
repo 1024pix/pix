@@ -79,6 +79,7 @@ function _buildListChallengesAndAnswers({
     return {
       challengeId: challengeForAnswer.challengeId,
       competence: competenceIndex,
+      isNeutralized: challengeForAnswer.isNeutralized,
       result: certificationAnswer.result.status,
       skill: challengeForAnswer.associatedSkillName,
       value: certificationAnswer.value,
