@@ -23,15 +23,25 @@
             {{answer.challengeId}}
           </td>
           <td>
-            <PixButton
-                @triggerAction={{fn this.neutralize answer.challengeId answer.order}}
-                @backgroundColor="blue"
-                @loading-color="grey"
-                class="neutralization__neutralize-button"
-                @isDisabled={{ answer.isNeutralized }}
-            >
-              Neutraliser
-            </PixButton>
+            {{#if answer.isNeutralized}}
+              <PixButton
+                      @triggerAction={{fn this.deneutralize answer.challengeId answer.order}}
+                      @backgroundColor="transparent"
+                      @loading-color="grey"
+                      class="neutralization__neutralize-button"
+              >
+                Dé-neutraliser
+              </PixButton>
+            {{else}}
+              <PixButton
+                      @triggerAction={{fn this.neutralize answer.challengeId answer.order}}
+                      @backgroundColor="blue"
+                      @loading-color="grey"
+                      class="neutralization__neutralize-button"
+              >
+                Neutraliser
+              </PixButton>
+            {{/if}}
           </td>
         </tr>
       {{/each}}

@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
 const { expect, domainBuilder } = require('../../../test-helper');
-const { ObjectValidationError, ChallengeToBeNeutralizedNotFoundError } = require('../../../../lib/domain/errors');
+const { ObjectValidationError, ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | CertificationAssessment', () => {
 
@@ -185,6 +185,62 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       // when / then
       expect(() => { certificationAssessment.neutralizeChallengeByRecId(challengeNotAskedToBeNeutralized.challengeId); })
         .to.throw(ChallengeToBeNeutralizedNotFoundError);
+    });
+  });
+
+  describe('#deneutralizeChallengeByRecId', () => {
+
+    it('deneutralizes the challenge when the challenge was asked', () => {
+      // given
+      const challengeToBeDeneutralized = domainBuilder.buildCertificationChallenge({ challengeId: 'rec1', isNeutralized: true });
+
+      const certificationAssessment = new CertificationAssessment({
+        id: 123,
+        userId: 123,
+        certificationCourseId: 123,
+        createdAt: new Date('2020-01-01'),
+        completedAt: new Date('2020-01-01'),
+        state: CertificationAssessment.states.STARTED,
+        isV2Certification: true,
+        certificationChallenges: [
+          challengeToBeDeneutralized,
+          domainBuilder.buildCertificationChallenge({ challengeId: 'rec2', isNeutralized: true }),
+          domainBuilder.buildCertificationChallenge({ challengeId: 'rec3', isNeutralized: true }),
+        ],
+        certificationAnswersByDate: ['answer'],
+      });
+
+      // when
+      certificationAssessment.deneutralizeChallengeByRecId(challengeToBeDeneutralized.challengeId);
+
+      // then
+      expect(certificationAssessment.certificationChallenges[0].isNeutralized).to.be.false;
+      expect(certificationAssessment.certificationChallenges[1].isNeutralized).to.be.true;
+      expect(certificationAssessment.certificationChallenges[2].isNeutralized).to.be.true;
+    });
+
+    it('throws when the challenge was not asked', async () => {
+      // given
+      const challengeNotAskedToBeDeneutralized = domainBuilder.buildCertificationChallenge({ challengeId: 'rec1', isNeutralized: false });
+
+      const certificationAssessment = new CertificationAssessment({
+        id: 123,
+        userId: 123,
+        certificationCourseId: 123,
+        createdAt: new Date('2020-01-01'),
+        completedAt: new Date('2020-01-01'),
+        state: CertificationAssessment.states.STARTED,
+        isV2Certification: true,
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallenge({ challengeId: 'rec2', isNeutralized: false }),
+          domainBuilder.buildCertificationChallenge({ challengeId: 'rec3', isNeutralized: false }),
+        ],
+        certificationAnswersByDate: ['answer'],
+      });
+
+      // when / then
+      expect(() => { certificationAssessment.deneutralizeChallengeByRecId(challengeNotAskedToBeDeneutralized.challengeId); })
+        .to.throw(ChallengeToBeDeneutralizedNotFoundError);
     });
   });
 

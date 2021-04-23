@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
 
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -37,49 +38,189 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
   module('when there are challenges for this certification', function() {
 
-    test('it renders a challenge list', async function(assert) {
-      // given
-      const listChallengesAndAnswers = [{
-        result: 'ok',
-        value: 'Dummy value',
-        challengeId: 'recCGEqqWBQnzD3NZ',
-        competence: '1.1',
-        skill: '',
-      },
-      {
-        result: 'ok',
-        value: 'Dummy value',
-        challengeId: 'recABCEdeef1234',
-        competence: '1.2',
-        skill: '',
-      }];
+    module('it renders a challenge list', function() {
 
-      const competencesWithMark = [
-        {
-          'area_code': '1',
-          'index': '1.1',
+      test('it renders as many rows as there are challenges', async function(assert) {
+        // given
+        const listChallengesAndAnswers = [{
+          result: 'ok',
+          value: 'Dummy value',
+          challengeId: 'recCGEqqWBQnzD3NZ',
+          competence: '1.1',
+          skill: '',
         },
         {
-          'area_code': '1',
-          'index': '1.2',
-        },
-      ];
+          result: 'ok',
+          value: 'Dummy value',
+          challengeId: 'recABCEdeef1234',
+          competence: '1.2',
+          skill: '',
+        }];
 
-      this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
-      const certificationId = this.server.create('certification').id;
-      this.server.create('certification-detail', {
-        id: certificationId,
-        competencesWithMark,
-        status: 'started',
-        listChallengesAndAnswers,
+        const competencesWithMark = [
+          {
+            'area_code': '1',
+            'index': '1.1',
+          },
+          {
+            'area_code': '1',
+            'index': '1.2',
+          },
+        ];
+
+        this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
+        const certificationId = this.server.create('certification').id;
+        this.server.create('certification-detail', {
+          id: certificationId,
+          competencesWithMark,
+          status: 'started',
+          listChallengesAndAnswers,
+        });
+
+        // when
+        await visit(`/certifications/${certificationId}/neutralization`);
+
+        // then
+        assert.contains('recCGEqqWBQnzD3NZ');
+        assert.contains('recABCEdeef1234');
       });
 
-      // when
-      await visit(`/certifications/${certificationId}/neutralization`);
+      test('it renders the challenge info', async function(assert) {
+        // given
+        const listChallengesAndAnswers = [{
+          result: 'ok',
+          value: 'Dummy value',
+          challengeId: 'recCGEqqWBQnzD3NZ',
+          competence: '1.1',
+          skill: '',
+        }];
 
-      // then
-      assert.contains('recCGEqqWBQnzD3NZ');
-      assert.contains('recABCEdeef1234');
+        this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
+        const certificationId = this.server.create('certification').id;
+        this.server.create('certification-detail', {
+          id: certificationId,
+          competencesWithMark: [],
+          status: 'started',
+          listChallengesAndAnswers,
+        });
+
+        // when
+        await visit(`/certifications/${certificationId}/neutralization`);
+
+        // then
+        assert.contains('1');
+        assert.contains('recCGEqqWBQnzD3NZ');
+      });
+
+      test('it renders a "Neutraliser" button when challenge is not neutralized', async function(assert) {
+        // given
+        const listChallengesAndAnswers = [{
+          result: 'ok',
+          value: 'Dummy value',
+          challengeId: 'recCGEqqWBQnzD3NZ',
+          competence: '1.1',
+          skill: '',
+          isNeutralized: false,
+        }];
+
+        this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
+        const certificationId = this.server.create('certification').id;
+        this.server.create('certification-detail', {
+          id: certificationId,
+          competencesWithMark: [],
+          status: 'started',
+          listChallengesAndAnswers,
+        });
+
+        // when
+        await visit(`/certifications/${certificationId}/neutralization`);
+
+        // then
+        assert.contains('Neutraliser');
+      });
+
+      test('it renders a "Dé-neutraliser" button when challenge is neutralized', async function(assert) {
+        // given
+        const listChallengesAndAnswers = [{
+          result: 'ok',
+          value: 'Dummy value',
+          challengeId: 'recCGEqqWBQnzD3NZ',
+          competence: '1.1',
+          skill: '',
+          isNeutralized: true,
+        }];
+
+        this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
+        const certificationId = this.server.create('certification').id;
+        this.server.create('certification-detail', {
+          id: certificationId,
+          competencesWithMark: [],
+          status: 'started',
+          listChallengesAndAnswers,
+        });
+
+        // when
+        await visit(`/certifications/${certificationId}/neutralization`);
+
+        // then
+        assert.contains('Dé-neutraliser');
+      });
+
+      test('it toggles the "Dé-neutraliser" button into a "Neutraliser" button when deneutralizing a neutralized challenge', async function(assert) {
+        // given
+        const listChallengesAndAnswers = [{
+          result: 'ok',
+          value: 'Dummy value',
+          challengeId: 'recCGEqqWBQnzD3NZ',
+          competence: '1.1',
+          skill: '',
+          isNeutralized: true,
+        }];
+
+        this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
+        const certificationId = this.server.create('certification').id;
+        this.server.create('certification-detail', {
+          id: certificationId,
+          competencesWithMark: [],
+          status: 'started',
+          listChallengesAndAnswers,
+        });
+        await visit(`/certifications/${certificationId}/neutralization`);
+
+        // when
+        await clickByLabel('Dé-neutraliser');
+
+        // then
+        assert.contains('Neutraliser');
+      });
+
+      test('it toggles the "Neutraliser" button into a "Dé-neutraliser" button when neutralizing a deneutralized challenge', async function(assert) {
+        // given
+        const listChallengesAndAnswers = [{
+          result: 'ok',
+          value: 'Dummy value',
+          challengeId: 'recCGEqqWBQnzD3NZ',
+          competence: '1.1',
+          skill: '',
+          isNeutralized: false,
+        }];
+
+        this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
+        const certificationId = this.server.create('certification').id;
+        this.server.create('certification-detail', {
+          id: certificationId,
+          competencesWithMark: [],
+          status: 'started',
+          listChallengesAndAnswers,
+        });
+        await visit(`/certifications/${certificationId}/neutralization`);
+
+        // when
+        await clickByLabel('Neutraliser');
+
+        // then
+        assert.contains('Dé-neutraliser');
+      });
     });
 
     test('it sort challenges by order property', async function(assert) {

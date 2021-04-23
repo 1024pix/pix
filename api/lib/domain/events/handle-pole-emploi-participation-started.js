@@ -1,9 +1,9 @@
-const { checkEventType } = require('./check-event-type');
+const { checkEventTypes } = require('./check-event-types');
 const CampaignParticipationStarted = require('./CampaignParticipationStarted');
 const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload');
 const PoleEmploiSending = require('../models/PoleEmploiSending');
 
-const eventType = CampaignParticipationStarted;
+const eventTypes = [ CampaignParticipationStarted ];
 
 async function handlePoleEmploiParticipationStarted({
   event,
@@ -15,7 +15,7 @@ async function handlePoleEmploiParticipationStarted({
   userRepository,
   poleEmploiNotifier,
 }) {
-  checkEventType(event, eventType);
+  checkEventTypes(event, eventTypes);
 
   const { campaignParticipationId } = event;
 
@@ -48,5 +48,5 @@ async function handlePoleEmploiParticipationStarted({
   }
 }
 
-handlePoleEmploiParticipationStarted.eventType = eventType;
+handlePoleEmploiParticipationStarted.eventTypes = eventTypes;
 module.exports = handlePoleEmploiParticipationStarted;
