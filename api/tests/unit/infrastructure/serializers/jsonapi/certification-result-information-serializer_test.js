@@ -2,18 +2,20 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-result-information-serializer');
 const CertificationResultInformation = require('../../../../../lib/domain/read-models/CertificationResultInformation');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
-const cleaCertificationStatusRepository = require('../../../../../lib/infrastructure/repositories/clea-certification-status-repository');
 
-describe('Unit | Serializer | JSONAPI | certification-result-information-serializer', function() {
+describe('Unit | Serializer | JSONAPI | certification-result-information-serializer', () => {
 
-  describe('#serialize', function() {
+  describe('#serialize', () => {
 
-    it('should serialize results of a certification', function() {
+    it('should serialize results of a certification', () => {
       // given
       const certificationCourseId = 123;
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ certificationCourseId });
       const certificationIssueReports = [ certificationIssueReport ];
       const competenceMarks = [ domainBuilder.buildCompetenceMark() ];
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
+      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
+      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
       const certificationResultInformationDTO = {
         certificationCourseId,
         sessionId: 11,
@@ -22,7 +24,9 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
         completedAt: new Date('2020-02-20T11:00:00Z'),
         isPublished: true,
         isV2Certification: true,
-        cleaCertificationStatus: cleaCertificationStatusRepository.statuses.NOT_PASSED,
+        cleaCertificationResult,
+        pixPlusDroitMaitreCertificationResult,
+        pixPlusDroitExpertCertificationResult,
         firstName: 'James',
         lastName: 'Watt',
         birthdate: '07-11-1950',
@@ -53,7 +57,9 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
             'completed-at': new Date('2020-02-20T11:00:00Z'),
             'is-published': certificationResultInformationDTO.isPublished,
             'is-v2-certification': certificationResultInformationDTO.isV2Certification,
-            'clea-certification-status': certificationResultInformationDTO.cleaCertificationStatus,
+            'clea-certification-status': 'not_taken',
+            'pix-plus-droit-maitre-certification-status': 'acquired',
+            'pix-plus-droit-expert-certification-status': 'rejected',
             'first-name': certificationResultInformationDTO.firstName,
             'last-name': certificationResultInformationDTO.lastName,
             birthdate: certificationResultInformationDTO.birthdate,
