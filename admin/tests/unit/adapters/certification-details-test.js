@@ -16,10 +16,10 @@ module('Unit | Adapter | certification details', function(hooks) {
   });
 
   module('#buildURL', function() {
-    test('should build neutralize-challenge base URL when called with according requestType', function(assert) {
+    test('should build challenge neutralization base URL when called with according requestType', function(assert) {
       // when
       const adapter = this.owner.lookup('adapter:certification-details');
-      const url = adapter.buildURL(123, 'certification-details', null, 'neutralize-challenge');
+      const url = adapter.buildURL(123, 'certification-details', null, 'challenge-neutralization');
 
       // then
       assert.ok(url.endsWith('/admin/certification/'));

@@ -61,7 +61,20 @@ export default class CertificationDetails extends Model {
   neutralizeChallenge = memberAction({
     path: 'neutralize-challenge',
     type: 'post',
-    urlType: 'neutralize-challenge',
+    urlType: 'challenge-neutralization',
+    before(attributes) {
+      return {
+        data: {
+          attributes,
+        },
+      };
+    },
+  });
+
+  deneutralizeChallenge = memberAction({
+    path: 'deneutralize-challenge',
+    type: 'post',
+    urlType: 'challenge-neutralization',
     before(attributes) {
       return {
         data: {
