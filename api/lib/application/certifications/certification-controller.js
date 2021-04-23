@@ -56,4 +56,16 @@ module.exports = {
     await events.eventDispatcher.dispatch(event);
     return h.response().code(204);
   },
+
+  async deneutralizeChallenge(request, h) {
+    const challengeRecId = request.payload.data.attributes.challengeRecId;
+    const certificationCourseId = request.payload.data.attributes.certificationCourseId;
+    const juryId = request.auth.credentials.userId;
+    await usecases.deneutralizeChallenge({
+      challengeRecId,
+      certificationCourseId,
+      juryId,
+    });
+    return h.response().code(204);
+  },
 };
