@@ -13,7 +13,7 @@ describe('Unit | UseCase | neutralize-challenge', () => {
     const certificationCourseId = 1;
     const certificationAssessmentRepository = {
       getByCertificationCourseId: sinon.stub(),
-      save: sinon.spy(), // FIXME : do it without a spy ?
+      save: sinon.stub(),
     };
     const dependencies = {
       certificationAssessmentRepository,
@@ -35,6 +35,7 @@ describe('Unit | UseCase | neutralize-challenge', () => {
       ],
       certificationAnswersByDate: ['answer'],
     });
+    sinon.stub(certificationAssessment, 'neutralizeChallengeByRecId');
     certificationAssessmentRepository.getByCertificationCourseId
       .withArgs({ certificationCourseId })
       .resolves(certificationAssessment);
@@ -48,12 +49,8 @@ describe('Unit | UseCase | neutralize-challenge', () => {
     });
 
     // then
-    expect(
-      certificationAssessmentRepository.save
-        .getCall(0)
-        .args[0]
-        .certificationChallenges[0].isNeutralized,
-    ).to.be.true;
+    expect(certificationAssessment.neutralizeChallengeByRecId).to.have.been.calledWith(challengeToBeNeutralized.challengeId);
+    expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
   });
 
   it('return a ChallengeNeutralized event', async () => {
