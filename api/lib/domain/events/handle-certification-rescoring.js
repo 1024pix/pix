@@ -9,7 +9,7 @@ const ChallengeDeneutralized = require('./ChallengeDeneutralized');
 const { checkEventTypes } = require('./check-event-types');
 
 const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized];
-const EMITTER = 'PIX-ALGO-NEUTRALIZATION'; // to be refined according to rescoring reason
+const EMITTER = 'PIX-ALGO-NEUTRALIZATION';
 
 async function handleCertificationRescoring({
   event,
@@ -18,7 +18,7 @@ async function handleCertificationRescoring({
   competenceMarkRepository,
   scoringCertificationService,
 }) {
-  checkEventTypes(event, [eventTypes]);
+  checkEventTypes(event, eventTypes);
 
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: event.certificationCourseId });
   await _calculateCertificationScore({
