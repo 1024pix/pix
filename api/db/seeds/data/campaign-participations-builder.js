@@ -107,15 +107,33 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
     }
   };
 
-  const participateToCampaignOfTypeProfilesCollection = (userId, isShared) => {
-    const sharedAt = isShared ? new Date() : null;
+  const participateToCampaignOfTypeProfilesCollection = (campaignId, userId, isShared, isImproved = false) => {
+    const today = new Date();
+
+    const sharedAt = isShared ? today : null;
+
     databaseBuilder.factory.buildCampaignParticipation({
-      campaignId: 6,
+      campaignId,
       userId,
       participantExternalId: userId,
       isShared,
       sharedAt,
     });
+
+    if (isImproved) {
+      const yesterday = new Date();
+      yesterday.setDate(today.getDate() - 1);
+      const oldSharedAt = isShared ? yesterday : null;
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId,
+        participantExternalId: userId,
+        isShared,
+        sharedAt: oldSharedAt,
+        isImproved,
+      });
+    }
   };
 
   usersNotCompleted.forEach((user) => participateComplexAssessmentCampaign(1, user, 'STARTED', false));
@@ -129,9 +147,11 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
   participateComplexAssessmentCampaign(15, users[0], 'COMPLETED', true);
   participateComplexAssessmentCampaign(16, users[0], 'COMPLETED', true, true);
 
-  usersNotCompleted.forEach((user) => participateToCampaignOfTypeProfilesCollection(user.id, false));
-  usersNotShared.forEach((user) => participateToCampaignOfTypeProfilesCollection(user.id, false));
-  usersCompletedShared.forEach((user) => participateToCampaignOfTypeProfilesCollection(user.id, true));
-  [CERTIF_REGULAR_USER1_ID, CERTIF_REGULAR_USER2_ID, CERTIF_REGULAR_USER3_ID].forEach((userId) => participateToCampaignOfTypeProfilesCollection(userId, true));
-  [CERTIF_REGULAR_USER4_ID, CERTIF_REGULAR_USER5_ID].forEach((userId) => participateToCampaignOfTypeProfilesCollection(userId, false));
+  participateToCampaignOfTypeProfilesCollection(18, users[0].id, true, true);
+
+  usersNotCompleted.forEach((user) => participateToCampaignOfTypeProfilesCollection(6, user.id, false));
+  usersNotShared.forEach((user) => participateToCampaignOfTypeProfilesCollection(6, user.id, false));
+  usersCompletedShared.forEach((user) => participateToCampaignOfTypeProfilesCollection(6, user.id, true));
+  [CERTIF_REGULAR_USER1_ID, CERTIF_REGULAR_USER2_ID, CERTIF_REGULAR_USER3_ID].forEach((userId) => participateToCampaignOfTypeProfilesCollection(6, userId, true));
+  [CERTIF_REGULAR_USER4_ID, CERTIF_REGULAR_USER5_ID].forEach((userId) => participateToCampaignOfTypeProfilesCollection(6, userId, false));
 };
