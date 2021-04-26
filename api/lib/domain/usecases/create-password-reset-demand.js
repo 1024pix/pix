@@ -6,7 +6,7 @@ module.exports = async function createPasswordResetDemand({
   resetPasswordDemandRepository,
   userRepository,
 }) {
-  const { id: userId } = await userRepository.getByEmail(email);
+  await userRepository.isUserExistingByEmail(email);
 
   const temporaryKey = resetPasswordService.generateTemporaryKey();
   const passwordResetDemand = await resetPasswordDemandRepository.create({ email, temporaryKey });
