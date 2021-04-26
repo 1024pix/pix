@@ -21,6 +21,7 @@ export const certificationIssueReportSubcategories = {
   WEBSITE_UNAVAILABLE: 'WEBSITE_UNAVAILABLE',
   WEBSITE_BLOCKED: 'WEBSITE_BLOCKED',
   EXTRA_TIME_EXCEEDED: 'EXTRA_TIME_EXCEEDED',
+  SOFTWARE_NOT_WORKING: 'SOFTWARE_NOT_WORKING',
 };
 
 export const categoryToLabel = {
@@ -44,13 +45,14 @@ export const subcategoryToLabel = {
   [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'Le site à visiter est indisponible/en maintenance/inaccessible',
   [certificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'Le site est bloqué par les restrictions réseau de l\'établissement (réseaux sociaux par ex.)',
   [certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'Le candidat bénéficie d\'un temps majoré et n\'a pas pu répondre à la question dans le temps imparti',
+  [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'Le logiciel installé sur l\'ordinateur n\'a pas fonctionné',
 };
 
 export const categoryToCode = {
   [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: 'C1-C2',
   [certificationIssueReportCategories.LATE_OR_LEAVING]: 'C3-C4',
   [certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: 'C5',
-  [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E8',
+  [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E9',
   [certificationIssueReportCategories.FRAUD]: 'C6',
   [certificationIssueReportCategories.TECHNICAL_PROBLEM]: 'A1',
   [certificationIssueReportCategories.OTHER]: 'A2',
@@ -67,6 +69,7 @@ export const subcategoryToCode = {
   [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E4',
   [certificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
   [certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'E8',
+  [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'E9',
 };
 
 export const subcategoryToTextareaLabel = {
