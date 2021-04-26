@@ -56,8 +56,6 @@ module.exports = {
         'users.id AS "creatorId"',
         'users.firstName AS creatorFirstName',
         'users.lastName AS creatorLastName',
-        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER (partition by "campaigns"."id") AS "participationsCount"'),
-        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isShared" IS TRUE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'),
       )
       .join('users', 'users.id', 'campaigns.creatorId')
       .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')

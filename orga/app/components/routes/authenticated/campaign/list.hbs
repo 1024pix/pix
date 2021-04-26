@@ -13,12 +13,6 @@
             <th class="table__column table__column--small">
               {{t 'pages.campaigns-list.table.column.created-on'}}
             </th>
-            <th class="table__column table__column--small">
-              {{t 'pages.campaigns-list.table.column.participants'}}
-            </th>
-            <th class="table__column table__column--small">
-              {{t 'pages.campaigns-list.table.column.results'}}
-            </th>
           </tr>
           <tr>
             <Table::HeaderFilterInput
@@ -36,8 +30,6 @@
               @triggerFiltering={{@triggerFiltering}}
             />
             <Table::Header/>
-            <Table::Header/>
-            <Table::Header/>
           </tr>
         </thead>
 
@@ -47,8 +39,6 @@
             <td>{{campaign.name}}</td>
             <td class="table__column--truncated">{{campaign.creatorFullName}}</td>
             <td>{{moment-format campaign.createdAt 'DD/MM/YYYY' allow-empty=true}}</td>
-            <td>{{campaign.participationsCount}}</td>
-            <td>{{campaign.sharedParticipationsCount}}</td>
           </tr>
         {{/each}}
         </tbody>

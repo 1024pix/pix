@@ -150,7 +150,7 @@ describe('Integration | Repository | Campaign-Report', () => {
 
           // then
           expect(campaignReports[0]).to.be.instanceOf(CampaignReport);
-          expect(campaignReports[0]).to.include({ id: campaign.id, participationsCount: 3, sharedParticipationsCount: 1 });
+          expect(campaignReports[0]).to.include({ id: campaign.id, participationsCount: 0, sharedParticipationsCount: 0 });
         });
       });
 
