@@ -58,6 +58,7 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]} ${subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]}`);
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_BLOCKED]} ${subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED]}`);
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]} ${subcategoryToLabel[certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]}`);
+    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]} ${subcategoryToLabel[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]}`);
   });
 
 });
