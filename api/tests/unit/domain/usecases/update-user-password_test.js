@@ -31,7 +31,7 @@ describe('Unit | UseCase | update-user-password', () => {
       invalidateOldResetPasswordDemand: sinon.stub(),
     };
     authenticationMethodRepository = {
-      updateOnlyPassword: sinon.stub(),
+      updateChangedPassword: sinon.stub(),
     };
     userRepository = {
       get: sinon.stub(),
@@ -45,7 +45,7 @@ describe('Unit | UseCase | update-user-password', () => {
       .resolves();
     resetPasswordService.invalidateOldResetPasswordDemand.resolves();
 
-    authenticationMethodRepository.updateOnlyPassword.resolves();
+    authenticationMethodRepository.updateChangedPassword.resolves();
     userRepository.get.resolves(user);
   });
 
@@ -118,7 +118,7 @@ describe('Unit | UseCase | update-user-password', () => {
 
     // then
     expect(encryptionService.hashPassword).to.have.been.calledWith(password);
-    expect(authenticationMethodRepository.updateOnlyPassword).to.have.been.calledWith({
+    expect(authenticationMethodRepository.updateChangedPassword).to.have.been.calledWith({
       userId,
       hashedPassword,
     });
