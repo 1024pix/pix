@@ -195,6 +195,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
           CertificationIssueReportSubcategories.FILE_NOT_OPENING,
           CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
           CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+          CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
         ].includes(subcategory)) {
           it(`should create an IN_CHALLENGE CertificationIssueReport when subcategory is of value ${subcategory}`, () => {
             // when
@@ -216,6 +217,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         CertificationIssueReportSubcategories.FILE_NOT_OPENING,
         CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
         CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+        CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
       ].forEach((subcategory) => {
         it(`should throw an InvalidCertificationIssueReportForSaving when description is not empty for subcategory ${subcategory}`, () => {
           // when
@@ -312,6 +314,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'FILE_NOT_OPENING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'IMAGE_NOT_DISPLAYING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'EMBED_NOT_WORKING', questionNumber: 42 },
+        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'EXTRA_TIME_EXCEEDED', questionNumber: 42 },
         { certificationCourseId: 42, category: 'TECHNICAL_PROBLEM', description: 'toto' },
       ].forEach((certificationIssueReportDTO) => {
         it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isActionRequired to true`, () => {
