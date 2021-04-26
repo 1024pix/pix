@@ -113,7 +113,7 @@ export default class JoinSup extends Component {
     });
 
     try {
-      await this.args.onSubmitToReconcile(schoolingRegistration, { registerAdditional: true });
+      await this.args.onSubmitToReconcile(schoolingRegistration, { reconcileSup: true });
     } catch (errorResponse) {
       schoolingRegistration.unloadRecord();
       this._setErrorMessage(errorResponse);

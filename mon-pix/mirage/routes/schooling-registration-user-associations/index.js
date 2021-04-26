@@ -14,7 +14,7 @@ export default function index(config) {
     return schema.schoolingRegistrationUserAssociations.create({ campaignCode, birthdate });
   });
 
-  config.post('/schooling-registration-user-associations/register', (schema, request) => {
+  config.post('/schooling-registration-user-associations/student', (schema, request) => {
     const params = JSON.parse(request.requestBody);
     const campaignCode = params.data.attributes['campaign-code'];
     const studentNumber = params.data.attributes.studentNumber;

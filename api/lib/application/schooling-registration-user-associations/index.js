@@ -40,7 +40,7 @@ exports.register = async function(server) {
     },
     {
       method: 'POST',
-      path: '/api/schooling-registration-user-associations/register',
+      path: '/api/schooling-registration-user-associations/student',
       config: {
         handler: schoolingRegistrationUserAssociationController.reconcileHigherSchoolingRegistration,
         validate: {
