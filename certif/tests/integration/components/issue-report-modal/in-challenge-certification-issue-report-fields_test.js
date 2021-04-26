@@ -57,7 +57,6 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]}`);
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]} ${subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]}`);
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_BLOCKED]} ${subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED]}`);
-    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.OTHER]} ${subcategoryToLabel[certificationIssueReportSubcategories.OTHER]}`);
   });
 
 });

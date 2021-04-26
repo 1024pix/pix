@@ -30,14 +30,6 @@
         @selectedOption={{@inChallengeCategory.subcategory}}
         @onChange={{this.onChangeSubcategory}}
       />
-      {{#if this.isOtherSubcategorySelected }}
-        <label for="text-area-for-category-in-challenge-subcategory-other">Précisez</label>
-        <PixTextarea
-          @id="text-area-for-category-in-challenge-subcategory-other"
-          @value={{@inChallengeCategory.description}}
-          @maxlength={{@maxlength}}
-          required="true" />
-      {{/if}}
     </div>
   {{/if}}
 </fieldset>

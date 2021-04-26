@@ -4,10 +4,6 @@ import { certificationIssueReportSubcategories, subcategoryToLabel, subcategoryT
 
 export default class InChallengeCertificationIssueReportFields extends Component {
 
-  get isOtherSubcategorySelected() {
-    return this.args.inChallengeCategory.subcategory === certificationIssueReportSubcategories.OTHER;
-  }
-
   @action
   onChangeSubcategory(event) {
     this.args.inChallengeCategory.subcategory = event.target.value;
@@ -15,7 +11,7 @@ export default class InChallengeCertificationIssueReportFields extends Component
   }
 
   options = ['IMAGE_NOT_DISPLAYING', 'EMBED_NOT_WORKING', 'FILE_NOT_OPENING',
-    'WEBSITE_UNAVAILABLE', 'WEBSITE_BLOCKED', 'OTHER'].map((subcategoryKey) => {
+    'WEBSITE_UNAVAILABLE', 'WEBSITE_BLOCKED'].map((subcategoryKey) => {
     const subcategory = certificationIssueReportSubcategories[subcategoryKey];
     return {
       value: certificationIssueReportSubcategories[subcategory],
