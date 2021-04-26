@@ -8,10 +8,10 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const { knex } = require('../bookshelf');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
+const DomainTransaction = require('../DomainTransaction');
 
 const fp = require('lodash/fp');
 const _ = require('lodash');
-const DomainTransaction = require('../DomainTransaction');
 
 const ATTRIBUTES_TO_SAVE = [
   'id',
@@ -66,6 +66,24 @@ module.exports = {
     const attributes = _getAttributes(campaignParticipation);
 
     await BookshelfCampaignParticipation.forge(attributes).save();
+  },
+
+  async markPreviousParticipationsAsImproved(campaignId, userId, domainTransaction = DomainTransaction.emptyTransaction()) {
+    return knex('campaign-participations')
+      .where({ campaignId, userId })
+      .update({
+        isImproved: true,
+      })
+      .transacting(domainTransaction.knexTransaction);
+  },
+
+  async hasAlreadyParticipated(campaignId, userId, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const { count } = await knex('campaign-participations')
+      .transacting(domainTransaction.knexTransaction)
+      .count('id')
+      .where({ campaignId, userId })
+      .first();
+    return count > 0;
   },
 
   async findProfilesCollectionResultDataByCampaignId(campaignId) {
