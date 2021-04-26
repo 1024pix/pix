@@ -89,7 +89,7 @@
     "ember-modal-dialog": "^3.0.2",
     "ember-modifier": "^2.1.1",
     "ember-moment": "^8.0.1",
-    "ember-page-title": "^6.0.3",
+    "ember-page-title": "^6.2.1",
     "ember-resolver": "^8.0.2",
     "ember-responsive": "^4.0.1",
     "ember-route-action-helper": "^2.0.8",
