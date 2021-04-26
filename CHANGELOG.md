@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v3.47.2 (26/04/2021)
+
+- [#2905](https://github.com/1024pix/pix/pull/2905) [BUGFIX] Suppression du join sur les campagnes participation.
+
 ## v3.47.1 (26/04/2021)
 
 - [#2904](https://github.com/1024pix/pix/pull/2904) [FEATURE] Changer la page de maintenance (PIX-2515).
