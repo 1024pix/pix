@@ -9,16 +9,24 @@ const handleBadgeAcquisition = async function({
   badgeCriteriaService,
   badgeAcquisitionRepository,
   badgeRepository,
-  campaignParticipationResultRepository,
+  knowledgeElementRepository,
+  targetProfileRepository,
 }) {
   checkEventTypes(event, eventTypes);
 
   if (event.isCampaignType) {
-    const badges = await _fetchPossibleCampaignAssociatedBadges(event, badgeRepository);
-    const campaignParticipationResult = await _fetchCampaignParticipationResults(event, badges, campaignParticipationResultRepository);
 
-    const badgesBeingAcquired = badges.filter((badge) => _isBadgeAcquired(campaignParticipationResult, badge, badgeCriteriaService));
-    const badgesAcquisitionToCreate = badgesBeingAcquired.map((badge) => {
+    const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(event, badgeRepository);
+    if (_.isEmpty(associatedBadges)) {
+      return;
+    }
+    const targetProfile = await targetProfileRepository.getByCampaignParticipationId(event.campaignParticipationId);
+    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: event.userId });
+
+    const validatedBadgesByUser = associatedBadges.filter((badge) =>
+      badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge }));
+
+    const badgesAcquisitionToCreate = validatedBadgesByUser.map((badge) => {
       return {
         badgeId: badge.id,
         userId: event.userId,
@@ -34,15 +42,6 @@ const handleBadgeAcquisition = async function({
 
 function _fetchPossibleCampaignAssociatedBadges(event, badgeRepository) {
   return badgeRepository.findByCampaignParticipationId(event.campaignParticipationId);
-}
-
-function _fetchCampaignParticipationResults(event, campaignBadges, campaignParticipationResultRepository) {
-  const acquiredBadges = [];
-  return campaignParticipationResultRepository.getByParticipationId(event.campaignParticipationId, campaignBadges, acquiredBadges);
-}
-
-function _isBadgeAcquired(campaignParticipationResult, badge, badgeCriteriaService) {
-  return badgeCriteriaService.areBadgeCriteriaFulfilled({ campaignParticipationResult, badge });
 }
 
 handleBadgeAcquisition.eventTypes = eventTypes;
