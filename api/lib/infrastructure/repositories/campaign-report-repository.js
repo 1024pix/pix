@@ -58,7 +58,6 @@ module.exports = {
         'users.lastName AS creatorLastName',
       )
       .join('users', 'users.id', 'campaigns.creatorId')
-      .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
       .where('campaigns.organizationId', organizationId)
       .modify(_setSearchFiltersForQueryBuilder, filter)
       .orderBy('campaigns.createdAt', 'DESC');
