@@ -140,52 +140,6 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
       assert.contains('02/02/2020');
     });
 
-    test('it should display the participations count', async function(assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const campaign1 = store.createRecord('campaign', {
-        participationsCount: 10,
-      });
-
-      const campaigns = [campaign1];
-      campaigns.meta = {
-        rowCount: 1,
-      };
-      this.set('campaigns', campaigns);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::List
-                  @campaigns={{campaigns}}
-                  @triggerFiltering={{this.triggerFilteringSpy}}
-                  @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
-
-      // then
-      assert.dom('[aria-label="Campagne"]').containsText('10');
-    });
-
-    test('it should display the shared participations count', async function(assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const campaign1 = store.createRecord('campaign', {
-        sharedParticipationsCount: 4,
-      });
-
-      const campaigns = [campaign1];
-      campaigns.meta = {
-        rowCount: 1,
-      };
-      this.set('campaigns', campaigns);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::List
-                  @campaigns={{campaigns}}
-                  @triggerFiltering={{this.triggerFilteringSpy}}
-                  @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
-
-      // then
-      assert.dom('[aria-label="Campagne"]').containsText('4');
-    });
-
     test('it should display the placeholder of the filter by campaign field', async function(assert) {
       // given
       const campaigns = [];

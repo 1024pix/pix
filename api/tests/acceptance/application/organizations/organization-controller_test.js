@@ -454,8 +454,8 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(200);
         const campaigns = response.result.data;
         expect(campaigns).to.have.lengthOf(1);
-        expect(response.result.data[0].attributes['participations-count']).to.equal(1);
-        expect(response.result.data[0].attributes['shared-participations-count']).to.equal(1);
+        expect(response.result.data[0].attributes['participations-count']).to.equal(0);
+        expect(response.result.data[0].attributes['shared-participations-count']).to.equal(0);
       });
 
       it('should return default pagination meta data', async () => {
