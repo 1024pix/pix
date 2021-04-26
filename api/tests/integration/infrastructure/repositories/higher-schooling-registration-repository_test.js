@@ -64,13 +64,13 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
     context('When there is no registered schooling registrations', () => {
       beforeEach(async () => {
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, isSupernumerary: true, studentNumber, birthdate });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, birthdate });
         await databaseBuilder.commit();
       });
 
       it('should return null', async () => {
         // when
-        const result = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } });
+        const result = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber: 'XXX' } });
 
         // then
         expect(result).to.equal(null);
@@ -80,7 +80,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     context('When there is no schooling registrations for the organization', () => {
       beforeEach(async () => {
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: otherOrganizationId, isSupernumerary: false, studentNumber, birthdate });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: otherOrganizationId, studentNumber, birthdate });
         await databaseBuilder.commit();
       });
 
@@ -95,7 +95,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
     context('When there is no schooling registrations with given student number', () => {
       beforeEach(async () => {
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber: '999', isSupernumerary: false, birthdate });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber: '999', birthdate });
         await databaseBuilder.commit();
       });
 
@@ -110,7 +110,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
     context('When there is no schooling registrations with given birthdate', () => {
       beforeEach(async () => {
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, isSupernumerary: false, birthdate: '2000-03-30' });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, birthdate: '2000-03-30' });
         await databaseBuilder.commit();
       });
 
@@ -123,44 +123,10 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
-    context('When there is a matching schooling registrations with student number only', () => {
-      let expectedSchoolingRegistrationId;
-      beforeEach(async () => {
-        expectedSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, isSupernumerary: false, birthdate }).id;
-        await databaseBuilder.commit();
-      });
-
-      it('should return the schooling registration', async () => {
-        // when
-        const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { studentNumber } });
-
-        // then
-        expect(schoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
-        expect(schoolingRegistration.id).to.equal(expectedSchoolingRegistrationId);
-      });
-    });
-
-    context('When there is a matching schooling registrations with birthdate only', () => {
-      let expectedSchoolingRegistrationId;
-      beforeEach(async () => {
-        expectedSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, isSupernumerary: false, birthdate }).id;
-        await databaseBuilder.commit();
-      });
-
-      it('should return the schooling registration', async () => {
-        // when
-        const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate } });
-
-        // then
-        expect(schoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
-        expect(schoolingRegistration.id).to.equal(expectedSchoolingRegistrationId);
-      });
-    });
-
     context('When there is a matching schooling registrations with student number and birthdate', () => {
       let expectedSchoolingRegistrationId;
       beforeEach(async () => {
-        expectedSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, isSupernumerary: false, birthdate }).id;
+        expectedSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, birthdate }).id;
         await databaseBuilder.commit();
       });
 

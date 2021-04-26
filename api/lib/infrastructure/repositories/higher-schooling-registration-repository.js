@@ -97,9 +97,8 @@ module.exports = {
     const schoolingRegistration = await BookshelfSchoolingRegistration
       .query((qb) => {
         qb.where('organizationId', organizationId);
-        qb.where('isSupernumerary', false);
-        if (birthdate) qb.where('birthdate', birthdate);
-        if (studentNumber) qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
+        qb.where('birthdate', birthdate);
+        qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
       })
       .fetch({ require: false });
 
