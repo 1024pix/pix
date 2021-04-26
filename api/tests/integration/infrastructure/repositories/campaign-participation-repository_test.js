@@ -6,6 +6,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const Skill = require('../../../../lib/domain/models/Skill');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | Campaign Participation', () => {
 
@@ -159,6 +160,71 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(campaignParticipation.isShared).to.equals(true);
       expect(campaignParticipation.sharedAt).to.deep.equals(new Date('2021-01-01'));
       expect(campaignParticipation.validatedSkillsCount).to.equals(10);
+    });
+  });
+
+  describe('markPreviousParticipationsAsImproved', () => {
+    it('marks previous participations as improved', async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ multipleSendings: true }).id;
+      const oldCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: false }).id;
+
+      await databaseBuilder.commit();
+
+      await DomainTransaction.execute((domainTransaction) => {
+        return campaignParticipationRepository.markPreviousParticipationsAsImproved(campaignId, userId, domainTransaction);
+      });
+
+      const campaignParticipation = await knex('campaign-participations').where({ id: oldCampaignParticipationId }).first();
+
+      expect(campaignParticipation.isImproved).to.equals(true);
+    });
+
+    it('does not change the campaign participations when an error occurred during the transaction', async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ multipleSendings: true }).id;
+      const oldCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: false }).id;
+
+      await databaseBuilder.commit();
+      try {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await campaignParticipationRepository.markPreviousParticipationsAsImproved(campaignId, userId, domainTransaction);
+          throw new Error();
+        });
+        // eslint-disable-next-line no-empty
+      } catch {}
+
+      const campaignParticipation = await knex('campaign-participations').where({ id: oldCampaignParticipationId }).first();
+
+      expect(campaignParticipation.isImproved).to.equals(false);
+    });
+  });
+
+  describe('hasAlreadyParticipated', () => {
+    it('returns true', async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignId = databaseBuilder.factory.buildCampaign().id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
+
+      await databaseBuilder.commit();
+
+      const result = await DomainTransaction.execute((domainTransaction) => {
+        return campaignParticipationRepository.hasAlreadyParticipated(campaignId, userId, domainTransaction);
+      });
+
+      expect(result).to.equals(true);
+    });
+
+    it('returns false', async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignId = databaseBuilder.factory.buildCampaign().id;
+
+      await databaseBuilder.commit();
+      const result = await DomainTransaction.execute((domainTransaction) => {
+        return campaignParticipationRepository.hasAlreadyParticipated(campaignId, userId, domainTransaction);
+      });
+
+      expect(result).to.equals(false);
     });
   });
 
