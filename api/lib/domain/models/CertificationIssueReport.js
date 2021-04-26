@@ -45,6 +45,7 @@ const categoryInChallengeJoiSchema = Joi.object({
     CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
     CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
     CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+    CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
   ),
   description: Joi.string()
     .when('subcategory', {
@@ -56,6 +57,7 @@ const categoryInChallengeJoiSchema = Joi.object({
           CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
           CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
           CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
         ), then: Joi.string().min(0).max(0).allow('').allow(null).optional() },
       ],
       otherwise: Joi.string().trim().required(),
@@ -98,6 +100,7 @@ const subcategoryCodeRequiredAction = {
   [CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E4',
   [CertificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
   [CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'E8',
+  [CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'E9',
 };
 
 class CertificationIssueReport {
