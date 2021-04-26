@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v3.47.1 (26/04/2021)
+
+- [#2904](https://github.com/1024pix/pix/pull/2904) [FEATURE] Changer la page de maintenance (PIX-2515).
+- [#2903](https://github.com/1024pix/pix/pull/2903) [BUGFIX] Supprimer le compteur de participations sur la page d'accueil de Pix Orga.
+
 ## v3.47.0 (22/04/2021)
 
 - [#2887](https://github.com/1024pix/pix/pull/2887) [FEATURE] Toujours renvoyer un niveau de competence positif pour le livret scolaire
