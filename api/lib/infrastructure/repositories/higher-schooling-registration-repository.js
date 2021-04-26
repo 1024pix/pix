@@ -74,20 +74,6 @@ module.exports = {
     }
   },
 
-  async saveAndReconcile(higherSchoolingRegistration, userId) {
-    try {
-      const attributes = {
-        ..._.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE),
-        status: higherSchoolingRegistration.studyScheme,
-        userId,
-      };
-
-      await knex('schooling-registrations').insert(attributes);
-    } catch (error) {
-      throw new SchoolingRegistrationsCouldNotBeSavedError();
-    }
-  },
-
   async findByOrganizationIdAndStudentNumber({ organizationId, studentNumber }) {
     const schoolingRegistration = await BookshelfSchoolingRegistration
       .query((qb) => {
