@@ -191,7 +191,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       [...Object.values(CertificationIssueReportSubcategories)].forEach((subcategory) => {
         if ([
           CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
-          CertificationIssueReportSubcategories.LINK_NOT_WORKING,
           CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
           CertificationIssueReportSubcategories.FILE_NOT_OPENING,
           CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
@@ -214,7 +213,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
 
       [
         CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
-        CertificationIssueReportSubcategories.LINK_NOT_WORKING,
         CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
         CertificationIssueReportSubcategories.FILE_NOT_OPENING,
         CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
@@ -261,6 +259,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
           .to.throw(InvalidCertificationIssueReportForSaving);
       });
     });
+
     context('CATEGORY: FRAUD', () => {
       const certificationIssueReportDTO = {
         certificationCourseId: 123,
@@ -319,7 +318,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'WEBSITE_UNAVAILABLE', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'FILE_NOT_OPENING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'OTHER', description: 'toto', questionNumber: 42 },
-        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'LINK_NOT_WORKING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'IMAGE_NOT_DISPLAYING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'EMBED_NOT_WORKING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'TECHNICAL_PROBLEM', description: 'toto' },
