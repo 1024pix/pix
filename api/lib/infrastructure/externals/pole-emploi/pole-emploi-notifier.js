@@ -1,22 +1,24 @@
-const _ = require('lodash');
+const get = require('lodash/get');
+const moment = require('moment');
+const querystring = require('querystring');
+
 const authenticationMethodRepository = require('../../repositories/authentication-method-repository');
 const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
 const httpAgent = require('../../http/http-agent');
 const settings = require('../../../config');
-const querystring = require('querystring');
 const { UnexpectedUserAccount } = require('../../../domain/errors');
-const moment = require('moment');
+const logger = require('../../logger');
 
 module.exports = {
   async notify(userId, payload) {
     const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI });
-    let accessToken = _.get(authenticationMethod, 'authenticationComplement.accessToken');
+    let accessToken = get(authenticationMethod, 'authenticationComplement.accessToken');
     if (!accessToken) {
       throw new UnexpectedUserAccount({ message: 'Le compte utilisateur n\'est pas rattaché à l\'organisation Pôle Emploi' });
     }
 
-    const expiredDate = _.get(authenticationMethod, 'authenticationComplement.expiredDate');
-    const refreshToken = _.get(authenticationMethod, 'authenticationComplement.refreshToken');
+    const expiredDate = get(authenticationMethod, 'authenticationComplement.expiredDate');
+    const refreshToken = get(authenticationMethod, 'authenticationComplement.refreshToken');
     if (!refreshToken || new Date(expiredDate) <= new Date()) {
       const data = {
         grant_type: 'refresh_token',
@@ -28,13 +30,15 @@ module.exports = {
       const tokenResponse = await httpAgent.post({
         url: settings.poleEmploi.tokenUrl,
         payload: querystring.stringify(data),
-        headers: { 'content-type': 'application/x-www-form-urlencoded' } },
-      );
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      });
 
       if (!tokenResponse.isSuccessful) {
+        const errorMessage = _getErrorMessage(tokenResponse.data);
+        logger.error(errorMessage);
         return {
           isSuccessful: tokenResponse.isSuccessful,
-          code: tokenResponse.code,
+          code: tokenResponse.code || '500',
         };
       }
 
@@ -57,9 +61,27 @@ module.exports = {
 
     const httpResponse = await httpAgent.post({ url, payload, headers });
 
+    if (!httpResponse.isSuccessful) {
+      const errorMessage = _getErrorMessage(httpResponse.data);
+      logger.error(errorMessage);
+    }
+
     return {
       isSuccessful: httpResponse.isSuccessful,
-      code: httpResponse.code,
+      code: httpResponse.code || '500',
     };
   },
 };
+
+function _getErrorMessage(data) {
+  let message;
+
+  if (typeof data === 'string') {
+    message = data;
+  } else {
+    const error = get(data, 'error', '');
+    const error_description = get(data, 'error_description', '');
+    message = `${error} ${error_description}`;
+  }
+  return message.trim();
+}
