@@ -202,10 +202,10 @@ describe('Integration | Application | Route | schooling-registration-user-associ
     });
   });
 
-  describe('POST /api/schooling-registration-user-associations/register', () => {
+  describe('POST /api/schooling-registration-user-associations/student', () => {
 
     const method = 'POST';
-    const url = '/api/schooling-registration-user-associations/register';
+    const url = '/api/schooling-registration-user-associations/student';
 
     context('User association with studentNumber, firstName, lastName, birthdate and campaignCode', () => {
       it('should succeed', async () => {
