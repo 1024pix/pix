@@ -718,6 +718,14 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        firstName: 'Jean',
+        lastName: 'Michel',
+        birthdate: new Date('2010-01-01'),
+        studentNumber: '12345',
+        organizationId: organization.id,
+        userId: null,
+      });
 
       await databaseBuilder.commit();
     });
