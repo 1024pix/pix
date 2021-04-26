@@ -42,7 +42,7 @@
     "@ember/render-modifiers": "^1.0.2",
     "@formatjs/intl-getcanonicallocales": "^1.5.9",
     "@formatjs/intl-locale": "^2.4.22",
-    "@formatjs/intl-pluralrules": "^4.0.14",
+    "@formatjs/intl-pluralrules": "^4.0.15",
     "@fortawesome/ember-fontawesome": "^0.2.3",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
