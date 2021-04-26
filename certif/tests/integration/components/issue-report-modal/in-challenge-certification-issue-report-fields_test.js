@@ -53,7 +53,6 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
 
     // then
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]} ${subcategoryToLabel[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]}`);
-    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.LINK_NOT_WORKING]} ${subcategoryToLabel[certificationIssueReportSubcategories.LINK_NOT_WORKING]}`);
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.EMBED_NOT_WORKING]} ${subcategoryToLabel[certificationIssueReportSubcategories.EMBED_NOT_WORKING]}`);
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]}`);
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]} ${subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]}`);
