@@ -195,7 +195,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
           CertificationIssueReportSubcategories.FILE_NOT_OPENING,
           CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
           CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
-          CertificationIssueReportSubcategories.OTHER,
         ].includes(subcategory)) {
           it(`should create an IN_CHALLENGE CertificationIssueReport when subcategory is of value ${subcategory}`, () => {
             // when
@@ -227,12 +226,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
           }))
             .to.throw(InvalidCertificationIssueReportForSaving);
         });
-      });
-
-      it('should throw an InvalidCertificationIssueReportForSaving when description is empty for subcategory OTHER', () => {
-        // when
-        expect(() => CertificationIssueReport.new({ ...certificationIssueReportDTO, subcategory: CertificationIssueReportSubcategories.OTHER }))
-          .to.throw(InvalidCertificationIssueReportForSaving);
       });
 
       [
@@ -317,7 +310,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'WEBSITE_BLOCKED', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'WEBSITE_UNAVAILABLE', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'FILE_NOT_OPENING', questionNumber: 42 },
-        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'OTHER', description: 'toto', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'IMAGE_NOT_DISPLAYING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'EMBED_NOT_WORKING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'TECHNICAL_PROBLEM', description: 'toto' },

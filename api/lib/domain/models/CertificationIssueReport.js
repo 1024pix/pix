@@ -44,7 +44,6 @@ const categoryInChallengeJoiSchema = Joi.object({
     CertificationIssueReportSubcategories.FILE_NOT_OPENING,
     CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
     CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
-    CertificationIssueReportSubcategories.OTHER,
   ),
   description: Joi.string()
     .when('subcategory', {
@@ -96,7 +95,6 @@ const subcategoryCodeRequiredAction = {
   [CertificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E3',
   [CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E4',
   [CertificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
-  [CertificationIssueReportSubcategories.OTHER]: 'E7',
 };
 
 class CertificationIssueReport {
