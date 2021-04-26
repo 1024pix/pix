@@ -11,7 +11,7 @@ export default class InChallengeCertificationIssueReportFields extends Component
   }
 
   options = ['IMAGE_NOT_DISPLAYING', 'EMBED_NOT_WORKING', 'FILE_NOT_OPENING',
-    'WEBSITE_UNAVAILABLE', 'WEBSITE_BLOCKED'].map((subcategoryKey) => {
+    'WEBSITE_UNAVAILABLE', 'WEBSITE_BLOCKED', 'EXTRA_TIME_EXCEEDED'].map((subcategoryKey) => {
     const subcategory = certificationIssueReportSubcategories[subcategoryKey];
     return {
       value: certificationIssueReportSubcategories[subcategory],
