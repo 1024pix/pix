@@ -9,21 +9,26 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
     const badgeRepository = {
       findByCampaignParticipationId: _.noop,
     };
+    const targetProfileRepository = {
+      getByCampaignParticipationId: _.noop,
+    };
+    const knowledgeElementRepository = {
+      findUniqByUserId: _.noop,
+    };
     const badgeAcquisitionRepository = {
       create: _.noop,
     };
-    const campaignParticipationResultRepository = {
-      getByParticipationId: _.noop,
-    };
+
     const badgeCriteriaService = {
       areBadgeCriteriaFulfilled: _.noop,
     };
 
     const dependencies = {
       badgeAcquisitionRepository,
-      badgeRepository,
-      campaignParticipationResultRepository,
       badgeCriteriaService,
+      badgeRepository,
+      knowledgeElementRepository,
+      targetProfileRepository,
     };
 
     it('fails when event is not of correct type', async () => {
@@ -48,7 +53,8 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
 
         let badge;
         const badgeId = Symbol('badgeId');
-        const campaignParticipationResult = Symbol('campaignParticipationResult');
+        const targetProfile = Symbol('targetProfile');
+        const knowledgeElements = Symbol('knowledgeElements');
 
         beforeEach(() => {
           sinon.stub(badgeRepository, 'findByCampaignParticipationId');
@@ -58,20 +64,19 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           };
           badgeRepository.findByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves([badge]);
 
-          sinon.stub(badgeAcquisitionRepository, 'create');
+          sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
+          targetProfileRepository.getByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves(targetProfile);
 
-          sinon.stub(campaignParticipationResultRepository, 'getByParticipationId');
-          campaignParticipationResultRepository.getByParticipationId.withArgs(event.campaignParticipationId, [badge], []).resolves(
-            campaignParticipationResult,
-          );
-
+          sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
+          knowledgeElementRepository.findUniqByUserId.withArgs({ userId: event.userId }).resolves(knowledgeElements);
           sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
+          sinon.stub(badgeAcquisitionRepository, 'create');
         });
 
         it('should create a badge when badge requirements are fulfilled', async () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ campaignParticipationResult, badge })
+            .withArgs({ targetProfile, knowledgeElements, badge })
             .returns(true);
 
           // when
@@ -88,7 +93,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         it('should not create a badge when badge requirements are not fulfilled', async () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ campaignParticipationResult, badge })
+            .withArgs({ targetProfile, knowledgeElements, badge })
             .returns(false);
           // when
           await handleBadgeAcquisition({ event, ...dependencies });
@@ -103,8 +108,8 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         let badge1, badge2;
         const badgeId_1 = Symbol('badgeId_1');
         const badgeId_2 = Symbol('badgeId_2');
-
-        const campaignParticipationResult = Symbol('campaignParticipationResult');
+        const targetProfile = Symbol('targetProfile');
+        const knowledgeElements = Symbol('knowledgeElements');
 
         beforeEach(() => {
           sinon.stub(badgeRepository, 'findByCampaignParticipationId');
@@ -118,23 +123,23 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           };
           badgeRepository.findByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves([badge1, badge2]);
 
-          sinon.stub(badgeAcquisitionRepository, 'create');
+          sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
+          targetProfileRepository.getByCampaignParticipationId.withArgs(event.campaignParticipationId).resolves(targetProfile);
 
-          sinon.stub(campaignParticipationResultRepository, 'getByParticipationId');
-          campaignParticipationResultRepository.getByParticipationId.withArgs(event.campaignParticipationId, [badge1, badge2], []).resolves(
-            campaignParticipationResult,
-          );
+          sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
+          knowledgeElementRepository.findUniqByUserId.withArgs({ userId: event.userId }).resolves(knowledgeElements);
 
           sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
+          sinon.stub(badgeAcquisitionRepository, 'create');
         });
 
         it('should create one badge when only one badge requirements are fulfilled', async () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ campaignParticipationResult, badge: badge1 })
+            .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
             .returns(true);
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ campaignParticipationResult, badge: badge2 })
+            .withArgs({ targetProfile, knowledgeElements, badge: badge2 })
             .returns(false);
 
           // when
@@ -151,10 +156,10 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         it('should create two badges when both badges requirements are fulfilled', async () => {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ campaignParticipationResult, badge: badge1 })
+            .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
             .returns(true);
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ campaignParticipationResult, badge: badge2 })
+            .withArgs({ targetProfile, knowledgeElements, badge: badge2 })
             .returns(true);
 
           // when
