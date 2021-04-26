@@ -37,98 +37,6 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('schooling-registrations').delete();
-    });
-
-    context('When there is no student number', () => {
-      it('should create a supernumerary schooling registration with user info', async () => {
-        // given
-        const reconciliationInfo = {
-          userId,
-          firstName: 'firstname',
-          lastName: 'lastname',
-          birthdate: '2008-01-01',
-        };
-
-        // when
-        await reconcileHigherSchoolingRegistration({
-          campaignCode,
-          reconciliationInfo,
-          campaignRepository,
-          higherSchoolingRegistrationRepository,
-          schoolingRegistrationRepository,
-          userReconciliationService,
-        });
-
-        // then
-        const [schoolingRegistration] = await knex('schooling-registrations');
-        expect(schoolingRegistration.userId).to.equal(userId);
-        expect(schoolingRegistration.isSupernumerary).to.be.true;
-      });
-    });
-
-    context('When no registered schooling registration found with student number', () => {
-      context('When student number already exists in supernumerary', () => {
-        it('should create new supernumerary schooling registration with user info', async () => {
-          // given
-          const reconciliationInfo = {
-            userId,
-            studentNumber: '123',
-            firstName: 'other firstname',
-            lastName: 'other lastname',
-            birthdate: '2008-01-01',
-          };
-          const otherUserId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildSchoolingRegistration({ ...reconciliationInfo, userId: otherUserId, isSupernumerary: true, organizationId });
-          await databaseBuilder.commit();
-
-          // when
-          await reconcileHigherSchoolingRegistration({
-            campaignCode,
-            reconciliationInfo,
-            campaignRepository,
-            higherSchoolingRegistrationRepository,
-            schoolingRegistrationRepository,
-            userReconciliationService,
-          });
-
-          // then
-          const [schoolingRegistration] = await knex('schooling-registrations').where({ userId });
-          expect(schoolingRegistration.userId).to.equal(userId);
-          expect(schoolingRegistration.isSupernumerary).to.be.true;
-        });
-      });
-
-      context('When student number does not already exist in supernumerary', () => {
-        it('should create supernumerary schooling registration with user info', async () => {
-          // given
-          const reconciliationInfo = {
-            userId,
-            studentNumber: '123',
-            firstName: 'firstname',
-            lastName: 'lastname',
-            birthdate: '2008-01-01',
-          };
-
-          // when
-          await reconcileHigherSchoolingRegistration({
-            campaignCode,
-            reconciliationInfo,
-            campaignRepository,
-            higherSchoolingRegistrationRepository,
-            schoolingRegistrationRepository,
-            userReconciliationService,
-          });
-
-          // then
-          const [schoolingRegistration] = await knex('schooling-registrations');
-          expect(schoolingRegistration.userId).to.equal(userId);
-          expect(schoolingRegistration.isSupernumerary).to.be.true;
-        });
-      });
-    });
-
     context('When no registered schooling registration found with matching student number, firstName, lastName and birthdate', () => {
       it('should throw an error', async () => {
         // given
@@ -159,7 +67,7 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
 
     context('When a matching registered schooling registration is found', () => {
       context('and is not reconciled yet', () => {
-        it('should reconcile and unregister schooling registration as a supernumerary', async () => {
+        it('should reconcile schooling registration with user', async () => {
         // given
           const reconciliationInfo = {
             userId,
