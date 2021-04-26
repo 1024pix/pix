@@ -94,7 +94,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
-  describe('#updateOnlyPassword', () => {
+  describe('#updateChangedPassword', () => {
 
     let userId;
 
@@ -112,7 +112,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       await databaseBuilder.commit();
 
       // when
-      const updatedAuthenticationMethod = await authenticationMethodRepository.updateOnlyPassword({
+      const updatedAuthenticationMethod = await authenticationMethodRepository.updateChangedPassword({
         userId,
         hashedPassword: newHashedPassword,
       });
@@ -123,7 +123,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(updatedAuthenticationMethod.authenticationComplement.password).to.equal(newHashedPassword);
     });
 
-    it('should update only the password', async () => {
+    it('should update the password and disable changing password', async () => {
       // given
       databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
         userId,
@@ -133,14 +133,14 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       await databaseBuilder.commit();
 
       // when
-      const updatedAuthenticationMethod = await authenticationMethodRepository.updateOnlyPassword({
+      const updatedAuthenticationMethod = await authenticationMethodRepository.updateChangedPassword({
         userId,
         hashedPassword: newHashedPassword,
       });
 
       // then
       expect(updatedAuthenticationMethod.authenticationComplement.password).to.equal(newHashedPassword);
-      expect(updatedAuthenticationMethod.authenticationComplement.shouldChangePassword).to.be.true;
+      expect(updatedAuthenticationMethod.authenticationComplement.shouldChangePassword).to.be.false;
     });
 
     it('should throw AuthenticationMethodNotFoundError when user id not found', async () => {
@@ -148,7 +148,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       const wrongUserId = 0;
 
       // when
-      const error = await catchErr(authenticationMethodRepository.updateOnlyPassword)({
+      const error = await catchErr(authenticationMethodRepository.updateChangedPassword)({
         userId: wrongUserId,
         hashedPassword,
       });
