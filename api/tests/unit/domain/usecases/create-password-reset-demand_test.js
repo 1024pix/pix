@@ -18,7 +18,6 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
 
   let mailService;
   let resetPasswordService;
-  let authenticationMethodRepository;
   let resetPasswordDemandRepository;
   let userRepository;
 
@@ -28,9 +27,6 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
     };
     resetPasswordService = {
       generateTemporaryKey: sinon.stub(),
-    };
-    authenticationMethodRepository = {
-      updateOnlyShouldChangePassword: sinon.stub(),
     };
     resetPasswordDemandRepository = {
       create: sinon.stub(),
@@ -51,7 +47,6 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
       locale,
       mailService,
       resetPasswordService,
-      authenticationMethodRepository,
       resetPasswordDemandRepository,
       userRepository,
     });
@@ -62,10 +57,6 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
     expect(userRepository.getByEmail).to.have.been.calledWithExactly(email);
     expect(resetPasswordService.generateTemporaryKey).to.have.been.calledOnce;
     expect(resetPasswordDemandRepository.create).to.have.been.calledWithExactly({ email, temporaryKey });
-    expect(authenticationMethodRepository.updateOnlyShouldChangePassword).to.have.been.calledWith({
-      userId: 1,
-      shouldChangePassword: false,
-    });
     expect(mailService.sendResetPasswordDemandEmail)
       .to.have.been.calledWithExactly({ email, locale, temporaryKey });
   });
@@ -80,7 +71,6 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
       locale,
       mailService,
       resetPasswordService,
-      authenticationMethodRepository,
       resetPasswordDemandRepository,
       userRepository,
     });
