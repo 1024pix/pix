@@ -113,6 +113,10 @@ export default class SkillReview extends Component {
     }
   }
 
+  get retryAllowed() {
+    return this.isShared && this.masteryPercentage < 100 && this.args.model.campaignParticipation.campaign.get('multipleSendings');
+  }
+
   get customButtonText() {
     return this.args.model.campaignParticipation.campaign.get('customResultPageButtonText');
   }

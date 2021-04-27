@@ -3,6 +3,8 @@
   &__banner {
     width: 100%;
     margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
   }
 
   &__result-and-action {
@@ -13,6 +15,21 @@
 
     @include device-is('tablet') {
       flex-direction: row;
+    }
+  }
+
+  &__retry {
+    border-top: 1px dashed $grey-22;
+    color: $grey-100;
+    text-align: center;
+    font-size: 1.125rem;
+    font-family: $font-open-sans;
+    font-weight: $font-light;
+
+    @include device-is('tablet') {
+      margin-top: 32px;
+      padding: 0 32px;
+      font-size: 1.5rem;
     }
   }
 
@@ -84,6 +101,14 @@
 
   &__improvement-button {
     height: 50px;
+  }
+}
+
+.skill-review-retry {
+
+  &__button {
+    font-size: 0.875rem;
+    padding: 10px;
   }
 }
 

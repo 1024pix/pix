@@ -4,6 +4,7 @@ import { click, find, render } from '@ember/test-helpers';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 import { reject } from 'rsvp';
+import EmberObject from '@ember/object';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
@@ -112,6 +113,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
     });
   });
+
   context('When campaign is for Absolute Novice', function() {
     beforeEach(async function() {
       // Given
@@ -449,6 +451,75 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         // Then
         expect(contains('J\'envoie mes résultats')).to.exist;
         expect(contains('Message de votre organisation')).to.not.exist;
+      });
+    });
+  });
+
+  describe('The retry block', function() {
+    let clock;
+    const now = new Date('2021-09-25');
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers(now.getTime());
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    context('show the retry block', function() {
+      beforeEach(function() {
+        // Given
+        const model = {
+          campaignParticipation: EmberObject.create({
+            isShared: true,
+            campaignParticipationResult: EmberObject.create({
+              campaignParticipationBadges: [],
+              masteryPercentage: 56,
+            }),
+            campaign: EmberObject.create({
+              multipleSendings: true,
+            }),
+          }),
+
+        };
+        this.set('model', model);
+      });
+
+      it('should display the block for the message', async function() {
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview
+            @model={{model}}/>`);
+        // Then
+        expect(contains(this.intl.t('pages.skill-review.retry.button'))).to.exist;
+      });
+    });
+
+    context('Does not show the retry block', function() {
+      beforeEach(function() {
+        // Given
+        const model = {
+          campaignParticipation: EmberObject.create({
+            isShared: true,
+            campaignParticipationResult: EmberObject.create({
+              campaignParticipationBadges: [],
+              masteryPercentage: 56,
+            }),
+            campaign: EmberObject.create({
+              multipleSendings: false,
+            }),
+          }),
+
+        };
+        this.set('model', model);
+      });
+
+      it('should display the block for the message', async function() {
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview
+            @model={{model}}/>`);
+        // Then
+        expect(contains(this.intl.t('pages.skill-review.retry.button'))).to.not.exist;
       });
     });
   });

@@ -423,10 +423,10 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       component.args.model.campaignParticipation.campaign.customResultPageButtonText = 'Next step';
 
       // when
-      const url = component.customButtonText;
+      const result = component.customButtonText;
 
       // then
-      expect(url).to.equal('Next step');
+      expect(result).to.equal('Next step');
     });
   });
 
@@ -474,6 +474,59 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       component.args.model.campaignParticipation.campaign.customResultPageButtonUrl = null;
       // when
       const result = component.displayPixLink;
+
+      // then
+      expect(result).to.be.true;
+    });
+  });
+
+  describe('#retryAllowed', function() {
+
+    it('should return false when masteryPercentage equals to 100 ', function() {
+      // given
+      component.args.model.campaignParticipation.isShared = true;
+      component.args.model.campaignParticipation.campaignParticipationResult.masteryPercentage = 100;
+      component.args.model.campaignParticipation.campaign.multipleSendings = true;
+      // when
+      const result = component.retryAllowed;
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return false when isShared is false', function() {
+      // given
+      component.args.model.campaignParticipation.isShared = false;
+      component.args.model.campaignParticipation.campaignParticipationResult.masteryPercentage = 56;
+      component.args.model.campaignParticipation.campaign.multipleSendings = true;
+
+      // when
+      const result = component.retryAllowed;
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return false when multipleSendings is false', function() {
+      // given
+      component.args.model.campaignParticipation.isShared = true;
+      component.args.model.campaignParticipation.campaignParticipationResult.masteryPercentage = 56;
+      component.args.model.campaignParticipation.campaign.multipleSendings = false;
+
+      // when
+      const result = component.retryAllowed;
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return true when multipleSendings and isShared are true,  masteryPercentage is less than 100', function() {
+      // given
+      component.args.model.campaignParticipation.isShared = true;
+      component.args.model.campaignParticipation.campaignParticipationResult.masteryPercentage = 56;
+      component.args.model.campaignParticipation.campaign.multipleSendings = true;
+      // when
+      const result = component.retryAllowed;
 
       // then
       expect(result).to.be.true;

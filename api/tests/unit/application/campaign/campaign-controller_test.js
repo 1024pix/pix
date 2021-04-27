@@ -227,6 +227,7 @@ describe('Unit | Application | Controller | Campaign', () => {
           'custom-result-page-text': campaignToJoin.customResultPageText,
           'custom-result-page-button-text': campaignToJoin.customResultPageButtonText,
           'custom-result-page-button-url': campaignToJoin.customResultPageButtonUrl,
+          'multiple-sendings': campaignToJoin.multipleSendings,
         },
       });
     });
