@@ -47,21 +47,6 @@ const categoryInChallengeJoiSchema = Joi.object({
     CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
     CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
   ),
-  description: Joi.string()
-    .when('subcategory', {
-      switch: [
-        { is: Joi.valid(
-          CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
-          CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
-          CertificationIssueReportSubcategories.FILE_NOT_OPENING,
-          CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
-          CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
-          CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-          CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-        ), then: Joi.string().min(0).max(0).allow('').allow(null).optional() },
-      ],
-      otherwise: Joi.string().trim().required(),
-    }),
 });
 
 const categoryFraudJoiSchema = Joi.object({

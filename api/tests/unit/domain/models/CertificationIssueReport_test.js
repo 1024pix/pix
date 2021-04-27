@@ -213,26 +213,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       });
 
       [
-        CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
-        CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
-        CertificationIssueReportSubcategories.FILE_NOT_OPENING,
-        CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
-        CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
-        CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-        CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-      ].forEach((subcategory) => {
-        it(`should throw an InvalidCertificationIssueReportForSaving when description is not empty for subcategory ${subcategory}`, () => {
-          // when
-          expect(() => CertificationIssueReport.new({
-            ...certificationIssueReportDTO,
-            subcategory,
-            description: 'Salut',
-          }))
-            .to.throw(InvalidCertificationIssueReportForSaving);
-        });
-      });
-
-      [
         MISSING_VALUE,
         EMPTY_VALUE,
         UNDEFINED_VALUE,
