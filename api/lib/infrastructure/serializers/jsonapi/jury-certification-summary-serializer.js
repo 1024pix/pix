@@ -13,6 +13,9 @@ module.exports = {
           get(juryCertificationSummary, 'certificationIssueReports[0].description');
         result.numberOfCertificationIssueReports = juryCertificationSummary.certificationIssueReports.length;
         result.numberOfCertificationIssueReportsWithRequiredAction = juryCertificationSummary.certificationIssueReports.filter((issueReport) => issueReport.isActionRequired).length;
+        result.cleaCertificationStatus = result.cleaCertificationResult.status;
+        result.pixPlusDroitMaitreCertificationStatus = result.pixPlusDroitMaitreCertificationResult.status;
+        result.pixPlusDroitExpertCertificationStatus = result.pixPlusDroitExpertCertificationResult.status;
         return result;
       },
       attributes: [
@@ -28,6 +31,8 @@ module.exports = {
         'numberOfCertificationIssueReportsWithRequiredAction',
         'hasSeenEndTestScreen',
         'cleaCertificationStatus',
+        'pixPlusDroitMaitreCertificationStatus',
+        'pixPlusDroitExpertCertificationStatus',
       ],
     }).serialize(juryCertificationSummary);
   },
