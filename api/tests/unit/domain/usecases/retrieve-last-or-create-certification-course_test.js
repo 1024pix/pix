@@ -16,10 +16,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   let foundSession;
   const assessmentRepository = { save: sinon.stub() };
   const competenceRepository = { listPixCompetencesOnly: sinon.stub() };
+  const certificationBadgesService = { findStillAcquiredBadgeAcquisitions: sinon.stub() };
   const certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
   const certificationChallengeRepository = { save: sinon.stub() };
   const certificationChallengesService = { pickCertificationChallengesForPixPlus: sinon.stub(), pickCertificationChallenges: sinon.stub() };
-  const badgeAcquisitionRepository = { findCertifiable: sinon.stub() };
   const certificationCourseRepository = {
     findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
     save: sinon.stub(),
@@ -37,7 +37,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     certificationChallengeRepository,
     certificationCourseRepository,
     sessionRepository,
-    badgeAcquisitionRepository,
+    certificationBadgesService,
     certificationChallengesService,
     placementProfileService,
   };
@@ -258,7 +258,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             certificationCandidateRepository.getBySessionIdAndUserId.withArgs({ sessionId, userId }).resolves(foundCertificationCandidate);
             certificationCourseRepository.save.resolves(savedCertificationCourse);
             assessmentRepository.save.resolves(savedAssessment);
-            badgeAcquisitionRepository.findCertifiable.withArgs({ userId, domainTransaction }).resolves([]);
+            certificationBadgesService.findStillAcquiredBadgeAcquisitions.withArgs({ userId, domainTransaction }).resolves([]);
           });
 
           it('should return it with flag created marked as true with related ressources', async function() {
@@ -319,7 +319,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               const certifiableBadge2 = domainBuilder.buildBadge({ key: 'SALUT', targetProfileId: 22 });
               const certifiableBadgeAcquisition1 = domainBuilder.buildBadgeAcquisition({ badge: certifiableBadge1 });
               const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({ badge: certifiableBadge2 });
-              badgeAcquisitionRepository.findCertifiable
+              certificationBadgesService.findStillAcquiredBadgeAcquisitions
                 .withArgs({ userId, domainTransaction })
                 .resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
               certificationChallengesService.pickCertificationChallengesForPixPlus
@@ -359,11 +359,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
                 ];
                 const maitreBadge = domainBuilder.buildBadge({ key: 'PIX_DROIT_MAITRE_CERTIF', targetProfileId: 11 });
                 const expertBadge = domainBuilder.buildBadge({ key: 'PIX_DROIT_EXPERT_CERTIF', targetProfileId: 22 });
-                const certifiableBadgeAcquisition1 = domainBuilder.buildBadgeAcquisition({ badge: maitreBadge });
+                domainBuilder.buildBadgeAcquisition({ badge: maitreBadge });
                 const certifiableBadgeAcquisition2 = domainBuilder.buildBadgeAcquisition({ badge: expertBadge });
-                badgeAcquisitionRepository.findCertifiable
+                certificationBadgesService.findStillAcquiredBadgeAcquisitions
                   .withArgs({ userId, domainTransaction })
-                  .resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
+                  .resolves([certifiableBadgeAcquisition2]);
                 certificationChallengesService.pickCertificationChallengesForPixPlus
                   .withArgs(maitreBadge, userId)
                   .resolves(challengesForMaitre)
@@ -393,7 +393,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
             beforeEach(() => {
               sinon.spy(CertificationCourse, 'from');
-              badgeAcquisitionRepository.findCertifiable.withArgs({ userId, domainTransaction }).resolves([]);
+              certificationBadgesService.findStillAcquiredBadgeAcquisitions.withArgs({ userId, domainTransaction }).resolves([]);
               certificationChallengesService.pickCertificationChallengesForPixPlus.throws();
             });
 
