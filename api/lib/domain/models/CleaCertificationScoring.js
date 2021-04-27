@@ -66,6 +66,10 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
     return this.hasAcquiredBadge && this.badgeStillAcquired;
   }
 
+  setBadgeStillAcquired(badgeStillAcquired) {
+    this.badgeStillAcquired = badgeStillAcquired;
+  }
+
   isAcquired() {
     if (!this.hasAcquiredBadge) throw new NotEligibleCandidateError();
 
