@@ -29,7 +29,7 @@ export const categoryToLabel = {
   [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: 'Modification infos candidat',
   [certificationIssueReportCategories.LATE_OR_LEAVING]: 'Retard, absence ou départ',
   [certificationIssueReportCategories.FRAUD]: 'Suspicion de fraude',
-  [certificationIssueReportCategories.TECHNICAL_PROBLEM]: 'Problème technique',
+  [certificationIssueReportCategories.TECHNICAL_PROBLEM]: 'Problème technique non bloquant',
   [certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: 'Le candidat n’a pas pu terminer, faute de temps',
   [certificationIssueReportCategories.IN_CHALLENGE]: 'Problème sur une épreuve',
 };
