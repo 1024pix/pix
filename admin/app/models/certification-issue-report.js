@@ -31,7 +31,7 @@ export const categoryToLabel = {
   [certificationIssueReportCategories.FRAUD]: 'Suspicion de fraude',
   [certificationIssueReportCategories.TECHNICAL_PROBLEM]: 'Problème technique non bloquant',
   [certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: 'Le candidat n’a pas pu terminer, faute de temps',
-  [certificationIssueReportCategories.IN_CHALLENGE]: 'Problème sur une épreuve',
+  [certificationIssueReportCategories.IN_CHALLENGE]: 'Problème technique sur une question',
 };
 
 export const subcategoryToLabel = {
