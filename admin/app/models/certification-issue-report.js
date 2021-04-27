@@ -20,7 +20,6 @@ export const certificationIssueReportSubcategories = {
   FILE_NOT_OPENING: 'FILE_NOT_OPENING',
   WEBSITE_UNAVAILABLE: 'WEBSITE_UNAVAILABLE',
   WEBSITE_BLOCKED: 'WEBSITE_BLOCKED',
-  OTHER: 'OTHER',
 };
 
 export const categoryToLabel = {
@@ -43,7 +42,6 @@ export const subcategoryToLabel = {
   [certificationIssueReportSubcategories.FILE_NOT_OPENING]: 'Le fichier à télécharger ne s\'ouvre pas',
   [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'Le site à visiter est indisponible/en maintenance/inaccessible',
   [certificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'Le site est bloqué par les restrictions réseau de l\'établissement (réseaux sociaux par ex.)',
-  [certificationIssueReportSubcategories.OTHER]: 'Autre incident lié à une question',
 };
 
 export const categoryToCode = {
@@ -66,7 +64,6 @@ export const subcategoryToCode = {
   [certificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E3',
   [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E4',
   [certificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
-  [certificationIssueReportSubcategories.OTHER]: 'E7',
 };
 
 export const subcategoryToTextareaLabel = {
