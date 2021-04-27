@@ -3,7 +3,7 @@ const _ = require('lodash');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const Session = require('../../../../lib/domain/models/Session');
 const { statuses } = require('../../../../lib/domain/models/Session');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const sessionSQLRepository = require('../../../../lib/infrastructure/repositories/session-sql-repository');
 
 describe('Integration | Repository | Session', function() {
 
@@ -32,7 +32,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should persist the session in db', async function() {
       // when
-      await sessionRepository.save(session);
+      await sessionSQLRepository.save(session);
 
       // then
       const sessionSaved = await knex('sessions').select();
@@ -41,7 +41,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return the saved Session', async function() {
       // when
-      const savedSession = await sessionRepository.save(session);
+      const savedSession = await sessionSQLRepository.save(session);
 
       // then
       expect(savedSession).to.be.an.instanceOf(Session);
@@ -73,7 +73,7 @@ describe('Integration | Repository | Session', function() {
       const accessCode = 'DEF123';
 
       // when
-      const isAvailable = await sessionRepository.isSessionCodeAvailable(accessCode);
+      const isAvailable = await sessionSQLRepository.isSessionCodeAvailable(accessCode);
 
       // then
       expect(isAvailable).to.be.equal(true);
@@ -84,7 +84,7 @@ describe('Integration | Repository | Session', function() {
       const accessCode = 'ABC123';
 
       // when
-      const isAvailable = await sessionRepository.isSessionCodeAvailable(accessCode);
+      const isAvailable = await sessionSQLRepository.isSessionCodeAvailable(accessCode);
 
       // then
       expect(isAvailable).to.be.equal(false);
@@ -105,7 +105,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return true if the session status is finalized', async function() {
       // when
-      const isFinalized = await sessionRepository.isFinalized(finalizedSessionId);
+      const isFinalized = await sessionSQLRepository.isFinalized(finalizedSessionId);
 
       // then
       expect(isFinalized).to.be.equal(true);
@@ -113,7 +113,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return false if the session status is not finalized', async function() {
       // when
-      const isFinalized = await sessionRepository.isFinalized(notFinalizedSessionId);
+      const isFinalized = await sessionSQLRepository.isFinalized(notFinalizedSessionId);
 
       // then
       expect(isFinalized).to.be.equal(false);
@@ -152,7 +152,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return session informations in a session Object', async function() {
       // when
-      const actualSession = await sessionRepository.get(session.id);
+      const actualSession = await sessionSQLRepository.get(session.id);
 
       // then
       expect(actualSession).to.be.instanceOf(Session);
@@ -161,7 +161,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return a Not found error when no session was found', async function() {
       // when
-      const error = await catchErr(sessionRepository.get)(2);
+      const error = await catchErr(sessionSQLRepository.get)(2);
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -204,7 +204,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return session informations in a session Object', async function() {
       // when
-      const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
+      const actualSession = await sessionSQLRepository.getWithCertificationCandidates(session.id);
 
       // then
       expect(actualSession).to.be.instanceOf(Session);
@@ -213,7 +213,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return associated certifications candidates ordered by lastname and firstname', async function() {
       // when
-      const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
+      const actualSession = await sessionSQLRepository.getWithCertificationCandidates(session.id);
 
       // then
       const actualCandidates = _.map(actualSession.certificationCandidates, (item) => _.pick(item, ['sessionId', 'lastName', 'firstName']));
@@ -226,7 +226,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return a Not found error when no session was found', async function() {
       // when
-      const error = await catchErr(sessionRepository.get)(session.id + 1);
+      const error = await catchErr(sessionSQLRepository.get)(session.id + 1);
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -252,7 +252,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return a Session domain object', async function() {
       // when
-      const sessionSaved = await sessionRepository.updateSessionInfo(session);
+      const sessionSaved = await sessionSQLRepository.updateSessionInfo(session);
 
       // then
       expect(sessionSaved).to.be.an.instanceof(Session);
@@ -262,7 +262,7 @@ describe('Integration | Repository | Session', function() {
       // given
 
       // when
-      const sessionSaved = await sessionRepository.updateSessionInfo(session);
+      const sessionSaved = await sessionSQLRepository.updateSessionInfo(session);
 
       // then
       expect(sessionSaved.id).to.equal(session.id);
@@ -298,7 +298,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return true if user has membership in the certification center that originated the session', async function() {
       // when
-      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
+      const hasMembership = await sessionSQLRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
 
       // then
       expect(hasMembership).to.be.true;
@@ -306,7 +306,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return false if user has no membership in the certification center that originated the session', async function() {
       // when
-      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userIdNotAllowed, sessionId);
+      const hasMembership = await sessionSQLRepository.doesUserHaveCertificationCenterMembershipForSession(userIdNotAllowed, sessionId);
 
       // then
       expect(hasMembership).to.be.false;
@@ -327,7 +327,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return an updated Session domain object', async function() {
       // when
-      const sessionSaved = await sessionRepository.finalize({ id, examinerGlobalComment, finalizedAt });
+      const sessionSaved = await sessionSQLRepository.finalize({ id, examinerGlobalComment, finalizedAt });
 
       // then
       expect(sessionSaved).to.be.an.instanceof(Session);
@@ -349,7 +349,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return a flagged Session domain object', async function() {
       // when
-      const sessionFlagged = await sessionRepository.flagResultsAsSentToPrescriber({ id, resultsSentToPrescriberAt });
+      const sessionFlagged = await sessionSQLRepository.flagResultsAsSentToPrescriber({ id, resultsSentToPrescriberAt });
 
       // then
       expect(sessionFlagged).to.be.an.instanceof(Session);
@@ -370,7 +370,7 @@ describe('Integration | Repository | Session', function() {
 
     it('should return a updated Session domain object', async function() {
       // when
-      const sessionFlagged = await sessionRepository.updatePublishedAt({ id, publishedAt });
+      const sessionFlagged = await sessionSQLRepository.updatePublishedAt({ id, publishedAt });
 
       // then
       expect(sessionFlagged).to.be.an.instanceof(Session);

@@ -96,7 +96,7 @@ const dependencies = {
   scoringCertificationService: require('../../domain/services/scoring/scoring-certification-service'),
   sessionAuthorizationService: require('../../domain/services/session-authorization-service'),
   sessionPublicationService: require('../../domain/services/session-publication-service'),
-  sessionRepository: require('../../infrastructure/repositories/session-repository'),
+  sessionRepository: require('../../infrastructure/repositories/session-sql-repository'),
   sessionSummaryRepository: require('../../infrastructure/repositories/session-summary-repository'),
   settings: require('../../config'),
   shareableCertificateRepository: require('../../infrastructure/repositories/shareable-certificate-repository'),

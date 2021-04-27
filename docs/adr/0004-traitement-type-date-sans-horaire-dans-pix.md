@@ -45,7 +45,7 @@ Exemple de résultats dans les tests en local avant mise en application des reco
       -[Date: 2018-02-22T23:00:00.000Z]
       +[Date: 2018-02-23T00:00:00.000Z]
 
-      at Context.it.only (tests/integration/infrastructure/repositories/session-repository_test.js:193:37)
+      at Context.it.only (tests/integration/infrastructure/repositories/session-sql-repository_test.js:193:37)
 ```
 
 ## Décision
