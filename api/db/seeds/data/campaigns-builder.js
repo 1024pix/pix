@@ -28,6 +28,7 @@ function _buildCampaignForSco(databaseBuilder) {
     title: null,
     customLandingPageText: null,
     idPixLabel: null,
+    createdAt: new Date('2020-01-01'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -40,6 +41,7 @@ function _buildCampaignForSco(databaseBuilder) {
     idPixLabel: null,
     title: null,
     customLandingPageText: 'Veuillez envoyer votre profil',
+    createdAt: new Date('2020-01-02'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -53,6 +55,7 @@ function _buildCampaignForSco(databaseBuilder) {
     idPixLabel: null,
     title: null,
     customLandingPageText: null,
+    createdAt: new Date('2020-01-03'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -66,6 +69,7 @@ function _buildCampaignForSco(databaseBuilder) {
     idPixLabel: null,
     title: null,
     customLandingPageText: null,
+    createdAt: new Date('2020-01-04'),
   });
 }
 
@@ -81,6 +85,7 @@ function _buildCampaignForSup(databaseBuilder) {
     title: null,
     customLandingPageText: null,
     idPixLabel: null,
+    createdAt: new Date('2020-01-05'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -93,6 +98,7 @@ function _buildCampaignForSup(databaseBuilder) {
     idPixLabel: null,
     title: null,
     customLandingPageText: null,
+    createdAt: new Date('2020-01-06'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -106,6 +112,7 @@ function _buildCampaignForSup(databaseBuilder) {
     title: null,
     customLandingPageText: null,
     idPixLabel: null,
+    createdAt: new Date('2020-01-07'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -119,6 +126,7 @@ function _buildCampaignForSup(databaseBuilder) {
     title: null,
     customLandingPageText: null,
     idPixLabel: null,
+    createdAt: new Date('2020-01-08'),
   });
 }
 
@@ -137,6 +145,7 @@ function _buildCampaignForPro(databaseBuilder) {
     customResultPageText: 'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.',
     customResultPageButtonUrl: 'https://pix.fr/',
     customResultPageButtonText: 'Voir Pix !',
+    createdAt: new Date('2020-01-09'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -159,6 +168,7 @@ __Plus d'infos :)__
 - __[Google](https://google.fr/)__ - Faites des recherches sur google.
 
 ---`,
+    createdAt: new Date('2020-01-10'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -174,6 +184,7 @@ __Plus d'infos :)__
     idPixLabel: 'identifiant pôle emploi',
     externalIdHelpImageUrl: 'https://placekitten.com/g/500/300',
     alternativeTextToExternalIdHelpImage: 'Votre identifiant est le nom du premier chaton',
+    createdAt: new Date('2020-01-11'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -186,6 +197,7 @@ __Plus d'infos :)__
     idPixLabel: 'identifiant entreprise',
     title: null,
     customLandingPageText: null,
+    createdAt: new Date('2020-01-12'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -199,6 +211,7 @@ __Plus d'infos :)__
     targetProfileId: TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
     customLandingPageText: '',
     idPixLabel: null,
+    createdAt: new Date('2020-01-13'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -212,6 +225,7 @@ __Plus d'infos :)__
     creatorId: 2,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     idPixLabel: 'identifiant entreprise',
+    createdAt: new Date('2020-01-14'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -226,6 +240,7 @@ __Plus d'infos :)__
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     idPixLabel: 'identifiant entreprise',
     archivedAt: new Date('2020-01-02T15:00:34Z'),
+    createdAt: new Date('2020-01-15'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -239,6 +254,7 @@ __Plus d'infos :)__
     creatorId: 2,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     idPixLabel: 'identifiant entreprise',
+    createdAt: new Date('2019-01-01'),
     archivedAt: new Date('2020-01-01T15:00:34Z'),
   });
   databaseBuilder.factory.buildCampaign({
@@ -252,6 +268,7 @@ __Plus d'infos :)__
     creatorId: 2,
     targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
     idPixLabel: 'identifiant entreprise',
+    createdAt: new Date('2019-01-02'),
     archivedAt: new Date('2020-01-01T15:00:34Z'),
   });
 
@@ -267,6 +284,7 @@ __Plus d'infos :)__
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     idPixLabel: 'identifiant entreprise',
     multipleSendings: true,
+    createdAt: new Date('2020-01-16'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -281,6 +299,7 @@ __Plus d'infos :)__
     targetProfileId: TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
     idPixLabel: null,
     isForAbsoluteNovice: true,
+    createdAt: new Date('2020-01-17'),
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -294,5 +313,6 @@ __Plus d'infos :)__
     title: null,
     customLandingPageText: null,
     multipleSendings: true,
+    createdAt: new Date('2020-01-18'),
   });
 }
