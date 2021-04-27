@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.49.0 (27/04/2021)
+
+- [#2892](https://github.com/1024pix/pix/pull/2892) [FEATURE] Affichage des certifications complémentaires dans la liste des certifications sur PixAdmin (PIX-2373)
+- [#2904](https://github.com/1024pix/pix/pull/2904) [FEATURE] Changer la page de maintenance (PIX-2515).
+- [#2905](https://github.com/1024pix/pix/pull/2905) [BUGFIX] Suppression du join sur les campagnes participation
+- [#2903](https://github.com/1024pix/pix/pull/2903) [BUGFIX] Supprimer le compteur de participations sur la page d'accueil de Pix Orga
+- [#2908](https://github.com/1024pix/pix/pull/2908) [TECH] Ajouter un index sur campaignID dans la table campaign-participations.
+- [#2812](https://github.com/1024pix/pix/pull/2812) [TECH] Montée de version des dépendances de Pix Certif (PIX-XXX).
+- [#2868](https://github.com/1024pix/pix/pull/2868) [TECH] Expliciter la stratégie de test du routeur dans les tests API.
+- [#2907](https://github.com/1024pix/pix/pull/2907) Mise à jour du changelog des hotfixes
+- [#2890](https://github.com/1024pix/pix/pull/2890) [REFACTO] Calculer le résultat d'un résultat thématique en dehors d'une campagne (PIX-2488).
+- [#2878](https://github.com/1024pix/pix/pull/2878) [DOC] Expliciter la description des pull requests.
+
 ## v3.48.0 (23/04/2021)
 
 - [#2901](https://github.com/1024pix/pix/pull/2901) [FEATURE] Ajout de l'info de neutralisation dans l'affichage du détail d'une certification dans Pix Admin (PIX-2380)
