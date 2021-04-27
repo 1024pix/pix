@@ -63,7 +63,8 @@ module.exports = {
       queryBuilder
         .leftJoin({ [lastCertificationAlias]: 'certification-courses' }, function() {
           this.on(`${lastCertificationAlias}.userId`, 'certification-courses.userId')
-            .andOn('certification-courses.createdAt', '<', knex.ref(`${lastCertificationAlias}.createdAt`));
+            .andOn('certification-courses.createdAt', '<', knex.ref(`${lastCertificationAlias}.createdAt`))
+            .andOn(`${lastCertificationAlias}.isCancelled`, '=', knex.raw('?', [false]));
         })
         .whereNull(lastCertificationAlias);
 

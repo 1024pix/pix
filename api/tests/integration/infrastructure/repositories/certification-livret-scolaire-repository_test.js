@@ -219,7 +219,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResult.competenceResults).not.to.be.empty;
     });
 
-    it('should return only the last certification', async () => {
+    it('should return only the last (not cancelled) certification', async () => {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
@@ -242,6 +242,12 @@ describe('Integration | Repository | Certification-ls ', () => {
         user,
         schoolingRegistration,
         certificationCreatedDate: new Date('2020-02-21T14:23:56Z'),
+      });
+
+      buildCancelledCertificationData({
+        user,
+        schoolingRegistration,
+        certificationCreatedDate: new Date('2020-02-23T14:23:56Z'),
       });
 
       await databaseBuilder.commit();
