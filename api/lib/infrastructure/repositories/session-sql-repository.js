@@ -1,3 +1,5 @@
+// @ts-check
+
 const _ = require('lodash');
 
 const BookshelfSession = require('../orm-models/Session');
@@ -5,14 +7,17 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
 
-module.exports = {
+/** @typedef {import('../../domain/models/SessionRepository')} SessionRepository */
+
+/** @implements {SessionRepository} */
+class SessionSQLRepository {
 
   async save(sessionData) {
     sessionData = _.omit(sessionData, ['certificationCandidates']);
 
     const newSession = await new BookshelfSession(sessionData).save();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, newSession);
-  },
+  }
 
   async isSessionCodeAvailable(accessCode) {
     const sessionWithAccessCode = await BookshelfSession
@@ -20,7 +25,7 @@ module.exports = {
       .fetch({ require: false });
 
     return !sessionWithAccessCode;
-  },
+  }
 
   async isFinalized(id) {
     const session = await BookshelfSession
@@ -30,7 +35,7 @@ module.exports = {
       })
       .fetch({ require: false, columns: 'id' });
     return Boolean(session);
-  },
+  }
 
   async get(idSession) {
     try {
@@ -44,7 +49,7 @@ module.exports = {
       }
       throw err;
     }
-  },
+  }
 
   async getWithCertificationCandidates(idSession) {
     try {
@@ -67,7 +72,7 @@ module.exports = {
       }
       throw err;
     }
-  },
+  }
 
   async updateSessionInfo(session) {
     const sessionDataToUpdate = _.pick(session, [
@@ -84,7 +89,7 @@ module.exports = {
       .save(sessionDataToUpdate, { patch: true, method: 'update' });
     updatedSession = await updatedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
-  },
+  }
 
   async doesUserHaveCertificationCenterMembershipForSession(userId, sessionId) {
     const session = await BookshelfSession
@@ -95,26 +100,28 @@ module.exports = {
       })
       .fetch({ require: false, columns: 'sessions.id' });
     return Boolean(session);
-  },
+  }
 
   async finalize({ id, examinerGlobalComment, finalizedAt }) {
     let updatedSession = await new BookshelfSession({ id })
       .save({ examinerGlobalComment, finalizedAt }, { patch: true });
     updatedSession = await updatedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
-  },
+  }
 
   async flagResultsAsSentToPrescriber({ id, resultsSentToPrescriberAt }) {
     let flaggedSession = await new BookshelfSession({ id })
       .save({ resultsSentToPrescriberAt }, { patch: true });
     flaggedSession = await flaggedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, flaggedSession);
-  },
+  }
 
   async updatePublishedAt({ id, publishedAt }) {
     let publishedSession = await new BookshelfSession({ id })
       .save({ publishedAt }, { patch: true });
     publishedSession = await publishedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, publishedSession);
-  },
-};
+  }
+}
+
+module.exports = new SessionSQLRepository();

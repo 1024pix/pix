@@ -1,23 +1,27 @@
+// @ts-check
+
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const getSession = require('../../../../lib/domain/usecases/get-session');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
+const Session = require('../../../../lib/domain/models/Session');
+const SessionRepository = require('../../../../lib/domain/models/SessionRepository');
+
 describe('Unit | UseCase | get-session', () => {
 
-  const sessionId = 'sessionId';
+  const sessionId = 123;
+  /** @type {SessionRepository} */
   let sessionRepository;
 
   beforeEach(() => {
-    sessionRepository = {
-      get: sinon.stub(),
-    };
+    sessionRepository = new SessionRepository();
   });
 
   context('when the session exists', () => {
-    const sessionToFind = Symbol('sessionToFind');
+    const sessionToFind = new Session({ id: sessionId });
 
     beforeEach(() => {
-      sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
+      sinon.stub(sessionRepository, 'get').withArgs(sessionId).resolves(sessionToFind);
     });
 
     it('should get the session', async () => {
@@ -32,7 +36,7 @@ describe('Unit | UseCase | get-session', () => {
   context('when the session does not exist', () => {
 
     beforeEach(() => {
-      sessionRepository.get.withArgs(sessionId).rejects(new NotFoundError());
+      sinon.stub(sessionRepository, 'get').rejects(new NotFoundError());
     });
 
     it('should throw an error the session', async () => {

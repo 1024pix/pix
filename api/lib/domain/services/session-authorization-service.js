@@ -1,4 +1,4 @@
-const sessionRepository = require('../../infrastructure/repositories/session-repository');
+const sessionRepository = require('../../infrastructure/repositories/session-sql-repository');
 const userRepository = require('../../infrastructure/repositories/user-repository');
 
 module.exports = {

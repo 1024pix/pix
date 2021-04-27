@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const sessionAuthorizationService = require('../../../../lib/domain/services/session-authorization-service');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const sessionSQLRepository = require('../../../../lib/infrastructure/repositories/session-sql-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Unit | Service | SessionAuthorizationService', () => {
@@ -15,14 +15,14 @@ describe('Unit | Service | SessionAuthorizationService', () => {
 
     beforeEach(() => {
       sinon.stub(userRepository, 'isPixMaster');
-      sinon.stub(sessionRepository, 'doesUserHaveCertificationCenterMembershipForSession');
+      sinon.stub(sessionSQLRepository, 'doesUserHaveCertificationCenterMembershipForSession');
     });
 
     context('when user has membership for session', () => {
 
       it('should return', async () => {
         // given
-        sessionRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, sessionId).returns(true);
+        sessionSQLRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, sessionId).returns(true);
 
         // when
         const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({ userId, sessionId });
@@ -35,7 +35,7 @@ describe('Unit | Service | SessionAuthorizationService', () => {
     context('when user has no membership for session', () => {
 
       beforeEach(() => {
-        sessionRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, sessionId).returns(false);
+        sessionSQLRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, sessionId).returns(false);
       });
 
       context('when user is PixMaster', () => {

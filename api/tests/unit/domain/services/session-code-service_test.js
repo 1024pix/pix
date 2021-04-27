@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const sessionSQLRepository = require('../../../../lib/infrastructure/repositories/session-sql-repository');
 const _ = require('lodash');
 
 describe('Unit | Service | CodeSession', () => {
@@ -9,7 +9,7 @@ describe('Unit | Service | CodeSession', () => {
 
     it('should return a session code with 4 random capital letters and 2 random numbers', async () => {
       // given
-      sinon.stub(sessionRepository, 'isSessionCodeAvailable').resolves(true);
+      sinon.stub(sessionSQLRepository, 'isSessionCodeAvailable').resolves(true);
 
       // when
       const result = await sessionCodeService.getNewSessionCode();
@@ -20,7 +20,7 @@ describe('Unit | Service | CodeSession', () => {
 
     it('should return a new code if first code was not unique', async () => {
       // given
-      sinon.stub(sessionRepository, 'isSessionCodeAvailable')
+      sinon.stub(sessionSQLRepository, 'isSessionCodeAvailable')
         .onCall(0).resolves(false)
         .onCall(1).resolves(true);
       sinon.stub(_, 'sample')
