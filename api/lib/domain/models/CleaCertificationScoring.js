@@ -38,6 +38,7 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
     hasAcquiredBadge,
     reproducibilityRate,
     cleaCompetenceMarks,
+    badgeStillAcquired = true,
     maxReachablePixByCompetenceForClea,
   } = {}) {
     super({
@@ -46,6 +47,7 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
     });
 
     this.hasAcquiredBadge = hasAcquiredBadge;
+    this.badgeStillAcquired = badgeStillAcquired;
     this.reproducibilityRate = reproducibilityRate;
     this.cleaCompetenceMarks = cleaCompetenceMarks;
     this.maxReachablePixByCompetenceForClea = maxReachablePixByCompetenceForClea;
@@ -61,7 +63,7 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
   }
 
   isEligible() {
-    return this.hasAcquiredBadge;
+    return this.hasAcquiredBadge && this.badgeStillAcquired;
   }
 
   isAcquired() {
