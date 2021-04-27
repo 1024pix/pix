@@ -50,4 +50,14 @@ module.exports = {
       });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
   },
+
+  async getByKey(key) {
+    const bookshelfBadge = await BookshelfBadge
+      .where('key', key)
+      .fetch({
+        withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
+      });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
+  },
+
 };

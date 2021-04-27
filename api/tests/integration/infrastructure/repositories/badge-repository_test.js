@@ -347,4 +347,35 @@ describe('Integration | Repository | Badge', () => {
       expect(myBadge.badgePartnerCompetences.length).to.equal(1);
     });
   });
+
+  describe('#getByKey', () => {
+    let badge;
+
+    beforeEach(async () => {
+      badge = databaseBuilder.factory.buildBadge({
+        id: 1,
+        altMessage: 'You won the Toto badge!',
+        imageUrl: 'data:,',
+        message: 'Congrats, you won the Toto badge!',
+        key: 'TOTO2',
+      });
+      databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
+      databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badge.id });
+      await databaseBuilder.commit();
+    });
+
+    it('should return a badge', async () => {
+      const myBadge = await badgeRepository.getByKey(badge.key);
+
+      expect(myBadge.id).to.equal(1);
+    });
+
+    it('should return a badge with badgeCriteria and badgePartnerCompetences', async () => {
+      const myBadge = await badgeRepository.getByKey(badge.key);
+
+      expect(myBadge.badgeCriteria.length).to.equal(1);
+      expect(myBadge.badgePartnerCompetences.length).to.equal(1);
+    });
+  });
+
 });
