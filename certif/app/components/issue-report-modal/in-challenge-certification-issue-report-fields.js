@@ -7,7 +7,6 @@ export default class InChallengeCertificationIssueReportFields extends Component
   @action
   onChangeSubcategory(event) {
     this.args.inChallengeCategory.subcategory = event.target.value;
-    this.args.inChallengeCategory.description = null;
   }
 
   options = ['IMAGE_NOT_DISPLAYING', 'EMBED_NOT_WORKING', 'FILE_NOT_OPENING',
