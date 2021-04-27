@@ -6,3 +6,4 @@ require('fs').readdirSync(__dirname).forEach(function(file) {
 
   module.exports[path.basename(file, '.js')] = require(path.join(__dirname, file));
 });
+

@@ -12,7 +12,7 @@ module.exports = function buildCampaignParticipation({
   userId,
   participantExternalId = 'participantExternalId',
   validatedSkillsCount,
-  isImproved,
+  isImproved = false,
 } = {}) {
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
