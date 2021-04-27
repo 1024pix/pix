@@ -33,8 +33,8 @@ export default class CertificationList extends Component {
       className: 'certification-list-page__cell--important',
     },
     {
-      propertyName: 'cleaStatus',
-      title: 'Certification CléA numérique',
+      propertyName: 'complementaryCertificationsLabel',
+      title: 'Autres certifications',
     },
     {
       propertyName: 'pixScore',

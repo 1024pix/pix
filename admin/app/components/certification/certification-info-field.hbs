@@ -28,7 +28,7 @@
 {{else}}
   <div class="row certification-info-field">
     <div class="certification-info-field__label">{{@label}}</div>
-    <div class="certification-info-value">
+    <div class="certification-info-value {{@class}}">
       {{#if @linkRoute}}
         <LinkTo @route={{@linkRoute}} @model={{@value}}>
           {{this.valueWithSuffix}}

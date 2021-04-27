@@ -1,4 +1,4 @@
-const { expect } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
 const JuryCertificationSummary = require('../../../../../lib/domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../../../../lib/domain/models/CertificationIssueReport');
@@ -17,6 +17,9 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         description: 'someComment',
         category: CertificationIssueReportCategories.OTHER,
       });
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
+      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
       modelJuryCertifSummary = new JuryCertificationSummary({
         id: 1,
         firstName: 'someFirstName',
@@ -28,7 +31,9 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         isPublished: true,
         certificationIssueReports: [issueReport],
         hasSeenEndTestScreen: false,
-        cleaCertificationStatus: true,
+        cleaCertificationResult,
+        pixPlusDroitMaitreCertificationResult,
+        pixPlusDroitExpertCertificationResult,
       });
 
       expectedJsonApi = {
@@ -48,6 +53,8 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
             'number-of-certification-issue-reports-with-required-action': 1,
             'has-seen-end-test-screen': modelJuryCertifSummary.hasSeenEndTestScreen,
             'clea-certification-status': 'acquired',
+            'pix-plus-droit-maitre-certification-status': 'rejected',
+            'pix-plus-droit-expert-certification-status': 'not_taken',
           },
         },
       };
@@ -61,5 +68,4 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
       expect(json).to.deep.equal(expectedJsonApi);
     });
   });
-
 });
