@@ -6,4 +6,9 @@ export default class LearningContentCache extends ApplicationAdapter {
     const url = `${this.host}/${this.namespace}/cache`;
     return this.ajax(url, 'PATCH');
   }
+
+  createLearningContentReleaseAndRefreshCache() {
+    const url = `${this.host}/${this.namespace}/lcms/releases`;
+    return this.ajax(url, 'POST');
+  }
 }

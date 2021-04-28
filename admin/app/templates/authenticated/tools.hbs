@@ -15,10 +15,20 @@
         <p>Si le cache a été vidé, il peut s’avérer utile ou nécessaire de recharger le référentiel.</p>
         <div class="callout alert"><strong>Attention !</strong> Le rechargement du référentiel est une opération risquée. Il est recommandé de ne l’effectuer qu’en cas de force majeure, accompagné d’un développeur ou d'une développeuse.</div>
         <div class="callout info">Durée de l’opération : <strong>≈10s</strong>.</div>
+
         <PixButton
           @triggerAction={{this.refreshLearningContent}}
         >
           <FaIcon @icon="sync"></FaIcon> Recharger le cache
+        </PixButton>
+        <br><br>
+        <p>Si quelque chose a été changé dans le référentiel et qu'il faut appliquer ces changements dans l'application, il faut créer une nouvelle version et mettre à jour le cache.</p>
+        <div class="callout info">Durée de l’opération : <strong>≈1mn</strong>.</div>
+        <PixButton
+          @triggerAction={{this.createLearningContentReleaseAndRefreshCache}}
+          @backgroundColor="yellow"
+        >
+          <FaIcon @icon="sync"></FaIcon> Créer une nouvelle version du référentiel et recharger le cache
         </PixButton>
       </div>
     </section>

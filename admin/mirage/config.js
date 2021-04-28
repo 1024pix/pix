@@ -206,4 +206,6 @@ export default function() {
     return new Response(204);
   });
 
+  this.patch('/cache', () => {});
+  this.post('/lcms/releases', () => {});
 }
