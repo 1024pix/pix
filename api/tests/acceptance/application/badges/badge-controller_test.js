@@ -1,5 +1,5 @@
 const createServer = require('../../../../server');
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
 
 describe('Acceptance | API | Badges', () => {
 
@@ -13,6 +13,28 @@ describe('Acceptance | API | Badges', () => {
 
     beforeEach(async () => {
       userId = (await insertUserWithRolePixMaster()).id;
+
+      const learningContent = [{
+        id: 'recArea',
+        competences: [{
+          id: 'recCompetence',
+          tubes: [{
+            id: 'recTube',
+            name: '@recSkill',
+            practicalTitle: 'Titre pratique',
+            skills: [{
+              id: 'recABC123',
+              nom: '@recSkill3',
+            }, {
+              id: 'recDEF456',
+              nom: '@recSkill2',
+            }],
+          }],
+        }],
+      }];
+
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
 
       badge = databaseBuilder.factory.buildBadge({
         id: 1,
@@ -52,19 +74,19 @@ describe('Acceptance | API | Badges', () => {
             'badge-criteria': {
               data: [{
                 id: badgeCriterion.id.toString(),
-                type: 'badge-criterion',
+                type: 'badge-criteria',
               }],
             },
             'badge-partner-competences': {
               data: [{
                 id: badgePartnerCompetence.id.toString(),
-                type: 'badge-partner-competence',
+                type: 'badge-partner-competences',
               }],
             },
           },
         },
         included: [{
-          type: 'badge-criterion',
+          type: 'badge-criteria',
           id: badgeCriterion.id.toString(),
           attributes: {
             scope: 'CampaignParticipation',
@@ -76,10 +98,61 @@ describe('Acceptance | API | Badges', () => {
             },
           },
         }, {
-          type: 'badge-partner-competence',
+          attributes: {
+            'practical-title': 'Titre pratique',
+          },
+          id: 'recTube',
+          type: 'tubes',
+          relationships: {},
+        }, {
+          attributes: {
+            name: '@recSkill3',
+            difficulty: 3,
+          },
+          id: 'recABC123',
+          type: 'skills',
+          relationships: {
+            tube: {
+              data: {
+                id: 'recTube',
+                type: 'tubes',
+              },
+            },
+          },
+        }, {
+          attributes: {
+            name: '@recSkill2',
+            difficulty: 2,
+          },
+          id: 'recDEF456',
+          type: 'skills',
+          relationships: {
+            tube: {
+              data: {
+                id: 'recTube',
+                type: 'tubes',
+              },
+            },
+          },
+        }, {
+          type: 'badge-partner-competences',
           id: badgePartnerCompetence.id.toString(),
           attributes: {
             name: 'name',
+          },
+          relationships: {
+            skills: {
+              data: [
+                {
+                  id: 'recABC123',
+                  type: 'skills',
+                },
+                {
+                  id: 'recDEF456',
+                  type: 'skills',
+                },
+              ],
+            },
           },
         }],
       };
