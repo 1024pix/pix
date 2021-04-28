@@ -16,7 +16,7 @@ export default ModalDialog.extend({
   containerClass: 'centered-scrolling-container',
   originId: defaultOrigin,
 
-  didRender() {
+  didInsertElement() {
     this._super(...arguments);
     document.querySelector('#modal-overlays').classList.add('active');
     document.body.classList.add('centered-modal-showing');
