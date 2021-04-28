@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v3.50.0 (28/04/2021)
+
+- [#2893](https://github.com/1024pix/pix/pull/2893) [FEATURE] Simplifier le formulaire de réconciliation SUP (PIX-2415)
+- [#2899](https://github.com/1024pix/pix/pull/2899) [FEATURE] Permettre de recommencer un parcours dont les résultats ont été partagés (Pix-2464)
+- [#2916](https://github.com/1024pix/pix/pull/2916) [TECH] Ne pas remonter d'erreur lorsqu'aucun ticket Jira ne correspond à la PR.
+- [#2854](https://github.com/1024pix/pix/pull/2854) [TECH] Lancer les tests end to end en 1 commande
+
 ## v3.49.0 (27/04/2021)
 
 - [#2892](https://github.com/1024pix/pix/pull/2892) [FEATURE] Affichage des certifications complémentaires dans la liste des certifications sur PixAdmin (PIX-2373)
