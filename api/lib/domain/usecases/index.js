@@ -189,7 +189,7 @@ module.exports = injectDependencies({
   getAnswer: require('./get-answer'),
   getAssessment: require('./get-assessment'),
   getAttendanceSheet: require('./get-attendance-sheet'),
-  getBadge: require('./get-badge'),
+  getBadgeDetails: require('./get-badge-details'),
   getCampaign: require('./get-campaign'),
   getCampaignByCode: require('./get-campaign-by-code'),
   getCampaignAssessmentParticipation: require('./get-campaign-assessment-participation'),
