@@ -700,7 +700,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
     });
   });
 
-  describe('POST /api/schooling-registration-user-associations/register', () => {
+  describe('POST /api/schooling-registration-user-associations/student', () => {
     let organization;
     let campaign;
     let options;
@@ -710,7 +710,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       // given
       options = {
         method: 'POST',
-        url: '/api/schooling-registration-user-associations/register',
+        url: '/api/schooling-registration-user-associations/student',
         headers: {},
         payload: {},
       };
@@ -718,15 +718,19 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        firstName: 'Jean',
+        lastName: 'Michel',
+        birthdate: new Date('2010-01-01'),
+        studentNumber: '12345',
+        organizationId: organization.id,
+        userId: null,
+      });
 
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('schooling-registrations').delete();
-    });
-
-    it('should return an 204 status after creating higher schooling registration', async () => {
+    it('should return an 204 status after updating higher schooling registration', async () => {
       // given
       options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
       options.payload.data = {

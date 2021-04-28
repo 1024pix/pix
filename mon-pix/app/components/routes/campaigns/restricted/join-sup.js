@@ -18,22 +18,19 @@ const isMonthValid = (value) => value > 0 && value <= 12;
 const isYearValid = (value) => value > 999 && value <= 9999;
 const isStringValid = (value) => !!value.trim();
 
-class Validation {
+class Errors {
   @tracked firstName = null;
   @tracked lastName = null;
   @tracked dayOfBirth = null;
   @tracked monthOfBirth = null;
   @tracked yearOfBirth = null;
   @tracked studentNumber = null;
+  @tracked global = null;
 }
 
 export default class JoinSup extends Component {
   @service store;
   @service intl;
-  @tracked errorMessage;
-  @tracked isLoading = false;
-  @tracked showFurtherInformationForm = false;
-  @tracked noStudentNumber = false;
 
   @tracked firstName = '';
   @tracked lastName = '';
@@ -42,13 +39,34 @@ export default class JoinSup extends Component {
   @tracked yearOfBirth = '';
   @tracked studentNumber = '';
 
-  validation = new Validation();
+  @tracked isLoading = false;
+  errors = new Errors();
 
   get birthdate() {
     const dayOfBirth = standardizeNumberInTwoDigitFormat(this.dayOfBirth.trim());
     const monthOfBirth = standardizeNumberInTwoDigitFormat(this.monthOfBirth.trim());
     const yearOfBirth = this.yearOfBirth.trim();
     return [yearOfBirth, monthOfBirth, dayOfBirth].join('-');
+  }
+
+  get isValidForm() {
+    this._validateInputString('studentNumber', this.studentNumber);
+    this._validateInputString('firstName', this.firstName);
+    this._validateInputString('lastName', this.lastName);
+    this._validateInputDay('dayOfBirth', this.dayOfBirth);
+    this._validateInputMonth('monthOfBirth', this.monthOfBirth);
+    this._validateInputYear('yearOfBirth', this.yearOfBirth);
+
+    const hasError = (
+      this.errors.studentNumber ||
+      this.errors.firstName ||
+      this.errors.lastName ||
+      this.errors.dayOfBirth ||
+      this.errors.monthOfBirth ||
+      this.errors.yearOfBirth
+    );
+
+    return !hasError;
   }
 
   @action
@@ -80,90 +98,50 @@ export default class JoinSup extends Component {
   @action
   async submit(event) {
     event.preventDefault();
-    this.isLoading = true;
-    let schoolingRegistration;
-    const adapterOptions = {};
-    if (this.showFurtherInformationForm) {
-      this._validateInputString('firstName', this.firstName);
-      this._validateInputString('lastName', this.lastName);
-      this._validateInputDay('dayOfBirth', this.dayOfBirth);
-      this._validateInputMonth('monthOfBirth', this.monthOfBirth);
-      this._validateInputYear('yearOfBirth', this.yearOfBirth);
-      if (this.validation.firstName || this.validation.lastName || this.validation.dayOfBirth || this.validation.monthOfBirth || this.validation.yearOfBirth) {
-        return this.isLoading = false;
-      }
 
-      schoolingRegistration = this.store.createRecord('schooling-registration-user-association', {
-        id: this.args.campaignCode + '_' + this.lastName,
-        studentNumber: this.studentNumber,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        birthdate: this.birthdate,
-        campaignCode: this.args.campaignCode,
-      });
-      adapterOptions.registerAdditional = true;
-    } else {
-      this._validateInputString('studentNumber', this.studentNumber);
-      if (this.validation.studentNumber) {
-        return this.isLoading = false;
-      }
-      this.isLoading = false;
-      return this.showFurtherInformationForm = true;
-    }
+    if (!this.isValidForm) return;
+
+    this.isLoading = true;
+
+    const schoolingRegistration = this.store.createRecord('schooling-registration-user-association', {
+      id: `${this.args.campaignCode}_${this.lastName}`,
+      studentNumber: this.studentNumber,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      birthdate: this.birthdate,
+      campaignCode: this.args.campaignCode,
+    });
 
     try {
-      await this.args.onSubmitToReconcile(schoolingRegistration, adapterOptions);
-      this.isLoading = false;
+      await this.args.onSubmitToReconcile(schoolingRegistration, { reconcileSup: true });
     } catch (errorResponse) {
       schoolingRegistration.unloadRecord();
-      this._setErrorMessageForAttemptNextAction(errorResponse);
-      this.isLoading = false;
+      this._setErrorMessage(errorResponse);
     }
+    this.isLoading = false;
   }
 
-  @action
-  hideFurtherInformationForm() {
-    this.showFurtherInformationForm = false;
-    this.noStudentNumber = false;
-    this.errorMessage = null;
-    this.firstName = '';
-    this.lastName = '';
-    this.dayOfBirth = '';
-    this.monthOfBirth = '';
-    this.yearOfBirth = '';
-  }
-
-  @action
-  toggleNoStudentNumber() {
-    if (!this.studentNumber) {
-      this.showFurtherInformationForm = !this.showFurtherInformationForm;
-    }
-    this.studentNumber = null;
-    this.noStudentNumber = !this.noStudentNumber;
-    this.errorMessage = null;
-  }
-
-  _setErrorMessageForAttemptNextAction(errorResponse) {
+  _setErrorMessage(errorResponse) {
     const ERRORS_HANDLED = ['409', '404'];
-    const ERRORS_HANDLED_MESSAGE = this.intl.t('pages.join.sup.error');
+    const ERRORS_HANDLED_MESSAGE = this.intl.t('pages.join.sup.error', { htmlSafe: true });
+    if (!errorResponse.errors) {
+      this.errors.global = ERRORS_HANDLED_MESSAGE;
+      return;
+    }
     errorResponse.errors.forEach((error) => {
       if (ERRORS_HANDLED.includes(error.status)) {
-        return this.errorMessage = ERRORS_HANDLED_MESSAGE;
+        this.errors.global = ERRORS_HANDLED_MESSAGE;
+        return;
       }
-      return this.errorMessage = error.detail;
+      this.errors.global = error.detail;
+      return;
     });
-  }
-
-  _standardizeNumberInInput(attribute, value) {
-    if (value) {
-      this.attribute = standardizeNumberInTwoDigitFormat(value);
-    }
   }
 
   _executeFieldValidation(key, value, isValid) {
     const isInvalidInput = !isValid(value);
     const message = isInvalidInput ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
-    this.validation[key] = message;
+    this.errors[key] = message;
   }
 
   _validateInputString(key, value) {
@@ -180,6 +158,12 @@ export default class JoinSup extends Component {
 
   _validateInputYear(key, value) {
     this._executeFieldValidation(key, value, isYearValid);
+  }
+
+  _standardizeNumberInInput(attribute, value) {
+    if (value) {
+      this.attribute = standardizeNumberInTwoDigitFormat(value);
+    }
   }
 }
 

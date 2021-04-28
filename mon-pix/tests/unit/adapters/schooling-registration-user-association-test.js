@@ -35,14 +35,14 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
         expect(url.endsWith('/schooling-registration-user-associations/auto')).to.be.true;
       });
     });
-    context('when is for registerAdditional', function() {
-      it('should redirect to /schooling-registrations-user-associations/register ', async function() {
+    context('when is for reconcileSup', function() {
+      it('should redirect to /schooling-registrations-user-associations/student ', async function() {
         // when
-        const snapshot = { adapterOptions: { registerAdditional: true } };
+        const snapshot = { adapterOptions: { reconcileSup: true } };
         const url = await adapter.urlForCreateRecord('schooling-registration-user-association', snapshot);
 
         // then
-        expect(url.endsWith('/schooling-registration-user-associations/register')).to.be.true;
+        expect(url.endsWith('/schooling-registration-user-associations/student')).to.be.true;
       });
     });
   });

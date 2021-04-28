@@ -596,10 +596,13 @@
                     "label": "Date de naissance",
                     "day-error": "Votre jour de naissance n’est pas valide.",
                     "day-format": "JJ",
+                    "day-label": "jour de naissance",
                     "month-error": "Votre mois de naissance n’est pas valide.",
                     "month-format": "MM",
+                    "month-label": "mois de naissance",
                     "year-error": "Votre année de naissance n’est pas valide.",
-                    "year-format": "AAAA"
+                    "year-format": "AAAA",
+                    "year-label": "année de naissance"
                 },
                 "firstname": {
                     "error": "Votre prénom n’est pas renseigné.",

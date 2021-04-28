@@ -202,17 +202,18 @@ describe('Integration | Application | Route | schooling-registration-user-associ
     });
   });
 
-  describe('POST /api/schooling-registration-user-associations/register', () => {
+  describe('POST /api/schooling-registration-user-associations/student', () => {
 
     const method = 'POST';
-    const url = '/api/schooling-registration-user-associations/register';
+    const url = '/api/schooling-registration-user-associations/student';
 
-    context('User association with firstName, lastName, birthdate and campaignCode', () => {
+    context('User association with studentNumber, firstName, lastName, birthdate and campaignCode', () => {
       it('should succeed', async () => {
         // given
         const payload = {
           data: {
             attributes: {
+              'student-number': 'F001',
               'first-name': 'Robert',
               'last-name': 'Smith',
               birthdate: '2012-12-12',
@@ -233,8 +234,9 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         const payload = {
           data: {
             attributes: {
+              'student-number': 'F001 ',
               'first-name': 'Robert ',
-              'last-name': 'Smith',
+              'last-name': 'Smith ',
               birthdate: '2012-12-12',
               'campaign-code': 'RESTRICTD',
             },
@@ -257,12 +259,35 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
+      it('should return an error when there is an invalid student number attribute in the payload', async () => {
+        // given
+        const INVALID_STUDENT_NUMBER = ' ';
+        const payload = {
+          data: {
+            attributes: {
+              'student-number': INVALID_STUDENT_NUMBER,
+              'first-name': 'Robert',
+              'last-name': 'Smith',
+              birthdate: '2012-12-12',
+              'campaign-code': 'RESTRICTD',
+            },
+          },
+        };
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(422);
+      });
+
       it('should return an error when there is an invalid first name attribute in the payload', async () => {
         // given
         const INVALID_FIRSTNAME = ' ';
         const payload = {
           data: {
             attributes: {
+              'student-number': 'F001',
               'first-name': INVALID_FIRSTNAME,
               'last-name': 'Smith',
               birthdate: '2012-12-12',
@@ -284,6 +309,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         const payload = {
           data: {
             attributes: {
+              'student-number': 'F001',
               'first-name': 'Robert',
               'last-name': INVALID_LASTNAME,
               birthdate: '2012-12-12',
@@ -307,6 +333,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         const payload = {
           data: {
             attributes: {
+              'student-number': 'F001',
               'first-name': 'Robert',
               'last-name': 'Smith',
               birthdate: INVALID_BIRTHDATE,
@@ -328,6 +355,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         const payload = {
           data: {
             attributes: {
+              'student-number': 'F001',
               'first-name': 'Robert',
               'last-name': 'Smith',
               birthdate: INVALID_BIRTHDATE,
@@ -349,6 +377,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         const payload = {
           data: {
             attributes: {
+              'student-number': 'F001',
               'first-name': 'Robert',
               'last-name': 'Smith',
               birthdate: INVALID_BIRTHDATE,
@@ -370,6 +399,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         const payload = {
           data: {
             attributes: {
+              'student-number': 'F001',
               'first-name': 'Robert',
               'last-name': 'Smith',
               birthdate: '2012-12-12',
@@ -383,29 +413,6 @@ describe('Integration | Application | Route | schooling-registration-user-associ
 
         // then
         expect(response.statusCode).to.equal(422);
-      });
-    });
-
-    context('User association with studentNumber, lastName, firstName, birthdate and campaignCode', () => {
-      it('should succeed', async () => {
-        // given
-        const payload = {
-          data: {
-            attributes: {
-              'first-name': 'Robert',
-              'last-name': 'Smith',
-              birthdate: '2012-12-12',
-              'student-number': '123456789A',
-              'campaign-code': 'RESTRICTD',
-            },
-          },
-        };
-
-        // when
-        const response = await httpTestServer.request(method, url, payload);
-
-        // then
-        expect(response.statusCode).to.equal(204);
       });
     });
   });
