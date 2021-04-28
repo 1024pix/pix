@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:12.5-alpine
+    environment:
+      POSTGRES_DB: pix
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  redis:
+    image: redis:5.0.7-alpine
+
+  cypress:
+    user: node
+    build:
+      context: .
+    env_file: ./env-api
+    volumes:
+      - ../..:/code
+    working_dir: /code/high-level-tests/e2e
+    depends_on:
+      - orga
+      - monpix
+      - certif
+
+  orga:
+    user: node
+    image: node:14.16.0
+    command: npx ember serve --proxy http://api:3000
+    volumes:
+      - ../..:/code
+    working_dir: /code/orga
+    depends_on:
+      - api
+
+  certif:
+    user: node
+    image: node:14.16.0
+    command: npx ember serve --proxy http://api:3000
+    volumes:
+      - ../..:/code
+    working_dir: /code/certif
+    depends_on:
+      - api
+
+  monpix:
+    user: node
+    image: node:14.16.0
+    command: npx ember serve --proxy http://api:3000
+    volumes:
+      - ../..:/code
+    working_dir: /code/mon-pix
+    depends_on:
+      - api
+
+  api:
+    user: node
+    image: node:14.16.0
+    env_file: ./env-api
+    command: npm run start:watch
+    volumes:
+      - ../..:/code
+    working_dir: /code/api
+    depends_on:
+      - redis
+      - postgres
