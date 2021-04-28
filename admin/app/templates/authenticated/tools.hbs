@@ -15,14 +15,11 @@
         <p>Si le cache a été vidé, il peut s’avérer utile ou nécessaire de recharger le référentiel.</p>
         <div class="callout alert"><strong>Attention !</strong> Le rechargement du référentiel est une opération risquée. Il est recommandé de ne l’effectuer qu’en cas de force majeure, accompagné d’un développeur ou d'une développeuse.</div>
         <div class="callout info">Durée de l’opération : <strong>≈10s</strong>.</div>
-        {{#if this.isLoading}}
-          <button type="button" disabled class="btn btn-primary btn-refresh-cache"><span class="loader-in-button">&nbsp;</span>
-          </button>
-        {{else}}
-          <button type="button" class="btn btn-primary btn-refresh-cache" {{on 'click' this.refreshLearningContent}}>
-            <FaIcon @icon="sync"></FaIcon> Recharger le cache
-          </button>
-        {{/if}}
+        <PixButton
+          @triggerAction={{this.refreshLearningContent}}
+        >
+          <FaIcon @icon="sync"></FaIcon> Recharger le cache
+        </PixButton>
       </div>
     </section>
   </main>
