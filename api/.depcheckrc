@@ -4,6 +4,7 @@ ignores: [
   "bookshelf-validate",
   "mocha-junit-reporter",
   "eslint-plugin-mocha",
+  "@types/bookshelf",
   "@types/node"
 ]
 
@@ -27,4 +28,5 @@ ignores: [
 # code =>  plugins: - mocha
 # see https://github.com/lo1tuma/eslint-plugin-mocha#install-and-configure
 
+# "@types/bookshelf" is used by typechecker
 # "@types/node" is used by typechecker

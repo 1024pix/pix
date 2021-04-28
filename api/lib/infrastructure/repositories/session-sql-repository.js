@@ -20,17 +20,15 @@ class SessionSQLRepository {
   }
 
   async isSessionCodeAvailable(accessCode) {
-    const sessionWithAccessCode = await BookshelfSession
-      .where({ accessCode })
+    const sessionWithAccessCode = await new BookshelfSession({ accessCode })
       .fetch({ require: false });
 
     return !sessionWithAccessCode;
   }
 
   async isFinalized(id) {
-    const session = await BookshelfSession
+    const session = await new BookshelfSession({ id })
       .query((qb) => {
-        qb.where({ id });
         qb.whereRaw('?? IS NOT NULL', ['finalizedAt']);
       })
       .fetch({ require: false, columns: 'id' });

@@ -1,11 +1,36 @@
+// ts-check
+
 const Session = require('../../../../lib/domain/models/Session');
 
+/** @typedef {import('../../../../lib/domain/models/CertificationCandidate')} CertificationCandidate */
+
+/**
+ * @param {Object} obj
+ * @param {number} [obj.id]
+ * @param {string} [obj.accessCode]
+ * @param {string} [obj.address]
+ * @param {string} [obj.certificationCenter]
+ * @param {number} [obj.certificationCenterId]
+ * @param {string} [obj.date]
+ * @param {string} [obj.description]
+ * @param {string} [obj.examiner]
+ * @param {string} [obj.room]
+ * @param {string} [obj.time]
+ * @param {string | null} [obj.examinerGlobalComment]
+ * @param {Date | null} [obj.finalizedAt]
+ * @param {Date | null} [obj.resultsSentToPrescriberAt]
+ * @param {Date | null} [obj.publishedAt]
+ * @param {number | null} [obj.assignedCertificationOfficerId]
+ * @param {CertificationCandidate[]} [obj.certificationCandidates]
+ *
+ * @returns {Session}
+ */
 const buildSession = function({
   id = 123,
   accessCode = 'ABCD123',
   address = '4 avenue du général perlimpimpim',
   certificationCenter = 'Centre de certif pix',
-  certificationCenterId,
+  certificationCenterId = 1234,
   date = '2021-01-01',
   description = 'Bonne année',
   examiner = 'Flute',
@@ -15,7 +40,7 @@ const buildSession = function({
   finalizedAt = null,
   resultsSentToPrescriberAt = null,
   publishedAt = null,
-  assignedCertificationOfficerId,
+  assignedCertificationOfficerId = null,
   certificationCandidates = [],
 } = {}) {
   return new Session({
@@ -38,6 +63,27 @@ const buildSession = function({
   });
 };
 
+/**
+ * @param {Object} obj
+ * @param {number} [obj.id]
+ * @param {string} [obj.accessCode]
+ * @param {string} [obj.address]
+ * @param {string} [obj.certificationCenter]
+ * @param {number} [obj.certificationCenterId]
+ * @param {string} [obj.date]
+ * @param {string} [obj.description]
+ * @param {string} [obj.examiner]
+ * @param {string} [obj.room]
+ * @param {string} [obj.time]
+ * @param {string} [obj.examinerGlobalComment]
+ * @param {Date | null} [obj.finalizedAt]
+ * @param {Date | null} [obj.resultsSentToPrescriberAt]
+ * @param {Date | null} [obj.publishedAt]
+ * @param {number | null} [obj.assignedCertificationOfficerId]
+ * @param {CertificationCandidate[]} [obj.certificationCandidates]
+ *
+ * @returns {Session}
+ */
 buildSession.created = function({
   id,
   accessCode,
@@ -63,7 +109,7 @@ buildSession.created = function({
     room,
     time,
     certificationCandidates,
-    examinerGlobalComment: null,
+    examinerGlobalComment: Session.NO_EXAMINER_GLOBAL_COMMENT,
     finalizedAt: null,
     resultsSentToPrescriberAt: null,
     publishedAt: null,
@@ -71,6 +117,22 @@ buildSession.created = function({
   });
 };
 
+/**
+ * @param {Object} obj
+ * @param {number} [obj.id]
+ * @param {string} [obj.accessCode]
+ * @param {string} [obj.address]
+ * @param {string} [obj.certificationCenter]
+ * @param {number} [obj.certificationCenterId]
+ * @param {string} [obj.date]
+ * @param {string} [obj.description]
+ * @param {string} [obj.examiner]
+ * @param {string} [obj.room]
+ * @param {string} [obj.time]
+ * @param {CertificationCandidate[]} [obj.certificationCandidates]
+ *
+ * @returns {Session}
+ */
 buildSession.finalized = function({
   id,
   accessCode,
@@ -96,7 +158,7 @@ buildSession.finalized = function({
     room,
     time,
     certificationCandidates,
-    examinerGlobalComment: null,
+    examinerGlobalComment: Session.NO_EXAMINER_GLOBAL_COMMENT,
     finalizedAt: new Date('2020-01-01'),
     resultsSentToPrescriberAt: null,
     publishedAt: null,
@@ -104,6 +166,22 @@ buildSession.finalized = function({
   });
 };
 
+/**
+ * @param {Object} obj
+ * @param {number} [obj.id]
+ * @param {string} [obj.accessCode]
+ * @param {string} [obj.address]
+ * @param {string} [obj.certificationCenter]
+ * @param {number} [obj.certificationCenterId]
+ * @param {string} [obj.date]
+ * @param {string} [obj.description]
+ * @param {string} [obj.examiner]
+ * @param {string} [obj.room]
+ * @param {string} [obj.time]
+ * @param {CertificationCandidate[]} [obj.certificationCandidates]
+ *
+ * @returns {Session}
+ */
 buildSession.inProcess = function({
   id,
   accessCode,
@@ -129,7 +207,7 @@ buildSession.inProcess = function({
     room,
     time,
     certificationCandidates,
-    examinerGlobalComment: null,
+    examinerGlobalComment: Session.NO_EXAMINER_GLOBAL_COMMENT,
     finalizedAt: new Date('2020-01-01'),
     resultsSentToPrescriberAt: null,
     publishedAt: null,
@@ -137,6 +215,22 @@ buildSession.inProcess = function({
   });
 };
 
+/**
+ * @param {Object} obj
+ * @param {number} [obj.id]
+ * @param {string} [obj.accessCode]
+ * @param {string} [obj.address]
+ * @param {string} [obj.certificationCenter]
+ * @param {number} [obj.certificationCenterId]
+ * @param {string} [obj.date]
+ * @param {string} [obj.description]
+ * @param {string} [obj.examiner]
+ * @param {string} [obj.room]
+ * @param {string} [obj.time]
+ * @param {CertificationCandidate[]} [obj.certificationCandidates]
+ *
+ * @returns {Session}
+ */
 buildSession.processed = function({
   id,
   accessCode,
@@ -162,7 +256,7 @@ buildSession.processed = function({
     room,
     time,
     certificationCandidates,
-    examinerGlobalComment: null,
+    examinerGlobalComment: Session.NO_EXAMINER_GLOBAL_COMMENT,
     finalizedAt: new Date('2020-01-01'),
     resultsSentToPrescriberAt: new Date('2020-01-02'),
     publishedAt: new Date('2020-01-02'),
