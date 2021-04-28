@@ -7,14 +7,15 @@ describe('Integration | Application | Route | schooling-registration-user-associ
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileSchoolingRegistrationManually').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileHigherSchoolingRegistration').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileSchoolingRegistrationAutomatically').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(schoolingRegistrationUserAssociationController, 'findAssociation').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(schoolingRegistrationUserAssociationController, 'generateUsername').callsFake((request, h) => h.response('ok').code(200));
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('POST /api/schooling-registration-user-associations', () => {

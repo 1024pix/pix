@@ -9,13 +9,14 @@ describe('Integration | Application | Prescribers | Routes', () => {
   let httpTestServer;
   const method = 'GET';
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
 
     sinon.stub(prescriberController, 'get').returns('ok');
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('GET /api/prescription/prescribers/{id}', () => {

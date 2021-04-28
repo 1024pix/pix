@@ -8,12 +8,13 @@ describe('Integration | Application | Password | Routes', () => {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(passwordController, 'checkResetDemand').resolves('ok');
     sinon.stub(passwordController, 'createResetDemand').callsFake((request, h) => h.response().created());
     sinon.stub(passwordController, 'updateExpiredPassword').callsFake((request, h) => h.response().created());
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('POST /api/password-reset-demands', () => {

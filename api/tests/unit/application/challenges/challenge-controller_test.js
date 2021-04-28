@@ -16,11 +16,12 @@ describe('Unit | Controller | challenge-controller', function() {
   let ChallengeRepoStub;
   let ChallengeSerializerStub;
 
-  beforeEach(function() {
+  beforeEach(async function() {
     ChallengeRepoStub = sinon.stub(ChallengeRepository, 'get');
     ChallengeSerializerStub = sinon.stub(ChallengeSerializer, 'serialize');
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('#get', function() {

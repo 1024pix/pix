@@ -11,13 +11,14 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
   let sandbox;
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'createAndReconcileUserToSchoolingRegistration').rejects(new Error('not expected error'));
     sandbox.stub(usecases, 'updateSchoolingRegistrationDependentUserPassword').rejects(new Error('not expected error'));
     sandbox.stub(usecases, 'generateUsernameWithTemporaryPassword').resolves();
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   afterEach(() => {

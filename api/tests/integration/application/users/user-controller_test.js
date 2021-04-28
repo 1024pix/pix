@@ -11,7 +11,7 @@ describe('Integration | Application | Users | user-controller', () => {
   let sandbox;
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
     sandbox.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
@@ -22,7 +22,8 @@ describe('Integration | Application | Users | user-controller', () => {
     sandbox.stub(usecases, 'dissociateSchoolingRegistrations');
     sandbox.stub(usecases, 'removeAuthenticationMethod');
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   afterEach(() => {

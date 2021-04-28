@@ -19,20 +19,19 @@ const routesConfig = {
  * beforeEach(() => {
  *   sinon.stub(usecases, 'updateOrganizationInformation');
  *   sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
- *   httpTestServer = new HttpTestServer(moduleUnderTest);
+ *   httpTestServer = new HttpTestServer();
+ *   await httpTestServer.register(moduleUnderTest);
  * });
  */
 class HttpTestServer {
 
-  constructor(moduleUnderTest) {
+  constructor() {
     this.hapiServer = Hapi.server(routesConfig);
-
     this._setupErrorHandling();
+  }
 
-    // register returns a promise, which is ignored
-    // TODO: extract register in a separate async method
-    // https://stackoverflow.com/questions/43431550/async-await-class-constructor
-    this.hapiServer.register(moduleUnderTest);
+  async register(moduleUnderTest) {
+    await this.hapiServer.register(moduleUnderTest);
   }
 
   _setupErrorHandling() {

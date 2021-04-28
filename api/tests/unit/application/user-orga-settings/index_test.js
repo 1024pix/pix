@@ -7,9 +7,10 @@ describe('Unit | Router | user-orga-settings-router', () => {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(userOrgaSettingsController, 'createOrUpdate').returns('ok');
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('PUT /api/user-orga-settings/{id}', () => {

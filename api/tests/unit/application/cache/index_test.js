@@ -14,12 +14,13 @@ describe('Unit | Router | cache-router', () => {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(cacheController, 'refreshCacheEntries').callsFake((request, h) => h.response().code(204));
     sinon.stub(cacheController, 'refreshCacheEntry').callsFake((request, h) => h.response().code(204));
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('PATCH /api/cache/{model}/{id}', () => {

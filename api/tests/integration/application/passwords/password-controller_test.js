@@ -15,12 +15,13 @@ describe('Integration | Application | Passwords | password-controller', () => {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(usecases, 'createPasswordResetDemand');
     sinon.stub(usecases, 'getUserByResetPasswordDemand');
     sinon.stub(usecases, 'updateExpiredPassword');
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('#createResetDemand', () => {

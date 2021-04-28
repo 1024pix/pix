@@ -12,13 +12,14 @@ describe('Unit | Router | answer-router', function() {
 
   let httpTestServer;
 
-  beforeEach(function() {
+  beforeEach(async function() {
     sinon.stub(AnswerController, 'save').callsFake((request, h) => h.response().code(201));
     sinon.stub(AnswerController, 'get').callsFake((request, h) => h.response().code(200));
     sinon.stub(AnswerController, 'find').callsFake((request, h) => h.response().code(200));
     sinon.stub(AnswerController, 'update').callsFake((request, h) => h.response().code(204));
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('POST /api/answers', function() {

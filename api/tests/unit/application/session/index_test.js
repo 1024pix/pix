@@ -21,7 +21,7 @@ describe('Unit | Application | Sessions | Routes', () => {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(sessionAuthorization, 'verify').returns(null);
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
@@ -47,7 +47,8 @@ describe('Unit | Application | Sessions | Routes', () => {
     sinon.stub(finalizedSessionController, 'findFinalizedSessionsToPublish').returns('ok');
     sinon.stub(finalizedSessionController, 'findFinalizedSessionsWithRequiredAction').returns('ok');
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('GET /api/sessions/{id}', () => {
