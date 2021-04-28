@@ -1,4 +1,4 @@
-const { batch } = require('../batchTreatment');
+const { batch } = require('../batch-processing');
 
 const TABLE_NAME_USER_ORGA_SETTINGS = 'user-orga-settings';
 const TABLE_NAME_MEMBERSHIPS = 'memberships';
