@@ -21,6 +21,7 @@ jobs:
     - name: Find Issue Key
       id: find
       uses: atlassian/gajira-find-issue-key@master
+      continue-on-error: true
       with:
         from: commits
 
