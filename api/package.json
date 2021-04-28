@@ -80,6 +80,7 @@
     "yargs": "^16.2.0"
   },
   "devDependencies": {
+    "@ls-lint/ls-lint": "^1.9.2",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "chai-sorted": "^0.2.0",
