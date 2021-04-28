@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 module.exports = {
   root: true,
@@ -40,6 +41,12 @@ module.exports = {
     }],
     /* Recommended rules */
     'ember/no-mixins': 'off',
+    'i18n-json/sorted-keys': [2, {
+      'order': 'asc',
+      'sortFunctionPath': path.resolve('./config/linter-translation-order.js'),
+    }],
+    'i18n-json/valid-message-syntax': 1,
+    'no-irregular-whitespace': 0,
   },
   overrides: [
     // node files

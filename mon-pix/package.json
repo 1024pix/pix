@@ -28,7 +28,7 @@
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
     "lint:scss": "stylelint app/styles/*.scss 'app/styles/**/*.scss'",
-    "lint:json": "eslint --fix --ext .json --format node_modules/eslint-plugin-i18n-json/formatter.js translations/",
+    "lint:json": "eslint --fix --ext .json translations/",
     "build": "ember build --environment $BUILD_ENVIRONMENT",
     "preinstall": "npx check-engine",
     "start": "ember serve --proxy http://localhost:3000",
