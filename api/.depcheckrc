@@ -1,4 +1,4 @@
-ignores: ["bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha", "@types/node",]
+ignores: ["bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha", "@types/node", "@types/bookshelf",]
 
 # "bookshelf-validate" is used in ./lib/infrastructure/bookshelf.js
 # code => bookshelf.plugin('bookshelf-validate',
@@ -12,4 +12,5 @@ ignores: ["bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha", "
 # code =>  plugins: - mocha
 # see https://github.com/lo1tuma/eslint-plugin-mocha#install-and-configure
 
+# "@types/bookshelf" is used by typechecker
 # "@types/node" is used by typechecker

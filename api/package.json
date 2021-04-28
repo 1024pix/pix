@@ -80,6 +80,7 @@
   },
   "devDependencies": {
     "@ls-lint/ls-lint": "^1.9.2",
+    "@types/bookshelf": "^1.2.1",
     "@types/mocha": "^8.2.2",
     "@types/node": "^14.14.41",
     "chai": "^4.3.4",
