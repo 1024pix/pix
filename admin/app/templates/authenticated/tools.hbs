@@ -11,11 +11,10 @@
         <h2 class="page-section__title">Référentiel</h2>
       </header>
       <div>
-        <p>Le référentiel de données pédagogique est mis à jour automatiquement quotidiennement (vers 6h00).</p>
-        <p>Parfois, il peut s’avérer utile ou nécessaire de forcer le rechargement du référentiel.</p>
-        <p>Ex : apparition d’une régression sur la plateforme (Pix API, Pix Editor, etc.)</p>
-        <div class="callout alert"><strong>Attention !</strong> Le rechargement du référentiel est une opération risquée. Il est recommandé de ne l’effectuer qu’en cas de force majeure, accompagné d’un développeur.</div>
-        <div class="callout info">Durée de l’opération : <strong>≈1mn</strong>.</div>
+        <p>Une version du référentiel de données pédagogique est créée quotidiennement (vers 4h00) et le référentiel utilisé par l'application est mis à jour (vers 6h00).</p>
+        <p>Si le cache a été vidé, il peut s’avérer utile ou nécessaire de recharger le référentiel.</p>
+        <div class="callout alert"><strong>Attention !</strong> Le rechargement du référentiel est une opération risquée. Il est recommandé de ne l’effectuer qu’en cas de force majeure, accompagné d’un développeur ou d'une développeuse.</div>
+        <div class="callout info">Durée de l’opération : <strong>≈10s</strong>.</div>
         {{#if this.isLoading}}
           <button type="button" disabled class="btn btn-primary btn-refresh-cache"><span class="loader-in-button">&nbsp;</span>
           </button>
