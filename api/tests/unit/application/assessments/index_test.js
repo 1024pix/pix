@@ -15,7 +15,7 @@ describe('Integration | Route | AssessmentRoute', () => {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(assessmentController, 'save').returns('ok');
     sinon.stub(assessmentController, 'getNextChallenge').returns('ok');
     sinon.stub(assessmentController, 'findByFilters').returns('ok');
@@ -24,7 +24,8 @@ describe('Integration | Route | AssessmentRoute', () => {
     sinon.stub(assessmentAuthorization, 'verify').returns('userId');
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('POST /api/assessments', () => {

@@ -6,12 +6,13 @@ describe('Integration | Application | Route | healthcheckRouter', () => {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     sinon.stub(healthCheckController, 'get').callsFake((request, h) => h.response(true));
     sinon.stub(healthCheckController, 'checkDbStatus').callsFake((request, h) => h.response(true));
     sinon.stub(healthCheckController, 'checkRedisStatus').callsFake((request, h) => h.response(true));
     sinon.stub(healthCheckController, 'crashTest').callsFake((request, h) => h.response(true));
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('GET /api', () => {

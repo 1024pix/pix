@@ -10,12 +10,13 @@ describe('Integration | Application | Prescribers | prescriber-controller', () =
   let sandbox;
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
     sandbox.stub(usecases, 'getPrescriber');
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   afterEach(() => {

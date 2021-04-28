@@ -9,13 +9,14 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(usecases, 'createMembership');
     sinon.stub(usecases, 'updateMembership');
     sinon.stub(usecases, 'disableMembership');
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('#create', () => {

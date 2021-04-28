@@ -13,7 +13,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(certificationCoursesController, 'getCertificationResultInformation').returns('ok');
     sinon.stub(certificationCoursesController, 'update').returns('ok');
@@ -22,7 +22,8 @@ describe('Unit | Application | Certifications Course | Route', function() {
     sinon.stub(certificationCoursesController, 'get').returns('ok');
     sinon.stub(certificationCoursesController, 'getCertifiedProfile').returns('ok');
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('GET /api/admin/certifications/{id}/details', () => {

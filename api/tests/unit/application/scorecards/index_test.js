@@ -2,15 +2,16 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 const scorecardController = require('../../../../lib/application/scorecards/scorecard-controller');
 const moduleUnderTest = require('../../../../lib/application/scorecards');
 
-let server;
+let httpTestServer;
 
 describe('Unit | Router | scorecard-router', () => {
 
   describe('GET /api/scorecards/{id}', () => {
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(scorecardController, 'getScorecard').returns('ok');
-      server = new HttpTestServer(moduleUnderTest);
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
     });
 
     it('should exist', async () => {
@@ -21,7 +22,7 @@ describe('Unit | Router | scorecard-router', () => {
       };
 
       // when
-      const response = await server.request(options.method, options.url);
+      const response = await httpTestServer.request(options.method, options.url);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -30,9 +31,10 @@ describe('Unit | Router | scorecard-router', () => {
 
   describe('GET /api/scorecards/{id}/tutorials', () => {
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(scorecardController, 'findTutorials').returns('ok');
-      server = new HttpTestServer(moduleUnderTest);
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
     });
 
     it('should exist', async () => {
@@ -43,7 +45,7 @@ describe('Unit | Router | scorecard-router', () => {
       };
 
       // when
-      const response = await server.request(options.method, options.url);
+      const response = await httpTestServer.request(options.method, options.url);
 
       // then
       expect(response.statusCode).to.equal(200);

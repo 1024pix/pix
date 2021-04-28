@@ -9,10 +9,11 @@ describe('Integration | Application | Assessments | assessment-controller', () =
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(usecases, 'getAssessment');
     sinon.stub(assessmentAuthorization, 'verify');
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('#get', () => {
