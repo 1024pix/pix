@@ -1,13 +1,17 @@
-const { expect, databaseBuilder, knex } = require('../../test-helper');
+const { expect, databaseBuilder, knex, sinon } = require('../../test-helper');
 
 const {
   main,
-  getAllBadgeAcquistionsWithoutCampaignParticipation,
+  getAllBadgeAcquistionsWithoutCampaignParticipationId,
   getCampaignParticipationFromBadgeAcquisition,
   updateBadgeAcquisitionWithCampaignParticipationId,
 } = require('../../../scripts/fill-campaign-participation-id-in-badge-acquisitions');
 
 describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions', () => {
+
+  beforeEach(() => {
+    sinon.stub(console, 'log');
+  });
 
   afterEach(() => {
     databaseBuilder.clean();
@@ -45,7 +49,7 @@ describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions
       expect(result[0].campaignParticipationId).to.equal(campaignParticipation.id);
     });
   });
-  describe('#getAllBadgeAcquistionsWithoutCampaignParticipation', () => {
+  describe('#getAllBadgeAcquistionsWithoutCampaignParticipationId', () => {
 
     it('should return badge-acquisitions without campaignParticipationId', async () => {
       // given
@@ -65,7 +69,7 @@ describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions
       await databaseBuilder.commit();
 
       // when
-      const result = await getAllBadgeAcquistionsWithoutCampaignParticipation();
+      const result = await getAllBadgeAcquistionsWithoutCampaignParticipationId();
 
       // then
       expect(result).to.have.lengthOf(1);
