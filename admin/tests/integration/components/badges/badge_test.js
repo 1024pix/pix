@@ -2,14 +2,28 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import EmberObject from '@ember/object';
 
 module('Integration | Component | Badges::Badge', function(hooks) {
   let badge;
+  let skill;
 
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
-    badge = {
+    const tube = EmberObject.create({
+      id: 1,
+      practicalTitle: 'Mon tube',
+    });
+    skill = EmberObject.create({
+      id: 1,
+      name: '@skill2',
+      difficulty: 2,
+      tube,
+    });
+    tube.skills = [skill];
+
+    badge = EmberObject.create({
       id: 42,
       title: 'mon titre',
       message: 'mon message',
@@ -18,10 +32,15 @@ module('Integration | Component | Badges::Badge', function(hooks) {
       altMessage: 'mon message alternatif',
       isCertifiable: true,
       badgeCriteria: [
-        { id: 1, scope: 'CampaignParticipation', threshold: 85 },
+        EmberObject.create({
+          id: 1, scope: 'CampaignParticipation', threshold: 85, partnerCompetences: [
+            EmberObject.create({ id: 1, name: 'Competence', color: 'red', skills: [
+              skill,
+            ] }),
+          ],
+        }),
       ],
-      badgePartnerCompetences: [],
-    };
+    });
 
     this.set('badge', badge);
   });
@@ -40,7 +59,9 @@ module('Integration | Component | Badges::Badge', function(hooks) {
     assert.ok(detailsContent.match(badge.altMessage), 'altMessage');
     assert.ok(detailsContent.match('Certifiable'), 'Certifiable');
     assert.dom('.page-section__details img').exists();
-    assert.contains('85');
-    assert.contains('CampaignParticipation');
+    assert.contains('L‘évalué doit obtenir 85% sur l‘ensemble des acquis du target profile');
+    assert.contains('Competence - red');
+    assert.contains('@skill2');
+    assert.contains('Mon tube');
   });
 });
