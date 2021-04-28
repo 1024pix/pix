@@ -25,10 +25,15 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
     areBadgeCriteriaFulfilled: _.noop(),
   };
 
+  const certificationCourseRepository = {
+    getCreationDate: _.noop(),
+  };
+
   const dependencies = {
     partnerCertificationScoringRepository,
     badgeRepository,
     knowledgeElementRepository,
+    certificationCourseRepository,
     targetProfileRepository,
     badgeCriteriaService,
   };
@@ -60,12 +65,12 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
         userId,
         isCertification: true,
         reproducibilityRate,
-        limitDate: new Date('2018-02-03'),
       });
-
-      badgeRepository.getByKey = sinon.stub().withArgs({ }).resolves(badge);
+      const date = '2021-01-01';
+      certificationCourseRepository.getCreationDate = sinon.stub().withArgs(certificationCourseId).resolves(date);
+      badgeRepository.getByKey = sinon.stub().resolves(badge);
       targetProfileRepository.get = sinon.stub().withArgs(targetProfile.id).resolves(targetProfile);
-      knowledgeElementRepository.findUniqByUserId = sinon.stub().withArgs({ userId: event.userId }).resolves(knowledgeElements);
+      knowledgeElementRepository.findUniqByUserId = sinon.stub().withArgs({ userId: event.userId, limitDate: date }).resolves(knowledgeElements);
       badgeCriteriaService.areBadgeCriteriaFulfilled = sinon.stub().withArgs({ knowledgeElements, targetProfile, badge }).returns(true);
       cleaCertificationScoring.setBadgeStillAcquired = sinon.stub().returns(true);
 
