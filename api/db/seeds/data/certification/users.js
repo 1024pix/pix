@@ -12,6 +12,8 @@ const CERTIF_REGULAR_USER5_ID = 110;
 const CERTIF_DROIT_USER5_ID = 111;
 const { DEFAULT_PASSWORD } = require('../users-builder');
 
+const { SCO_STUDENT_ID } = require('../organizations-sco-builder');
+
 function certificationUsersBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildUser.withRawPassword({
@@ -127,6 +129,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
 module.exports = {
   certificationUsersBuilder,
   PIX_SCO_CERTIF_USER_ID,
+  CERTIF_SCO_STUDENT_ID: SCO_STUDENT_ID,
   PIX_PRO_CERTIF_USER_ID,
   PIX_SUP_CERTIF_USER_ID,
   PIX_NONE_CERTIF_USER_ID,

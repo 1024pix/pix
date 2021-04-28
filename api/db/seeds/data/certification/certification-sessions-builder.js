@@ -9,6 +9,7 @@ const PROBLEMS_FINALIZED_SESSION_ID = 6;
 const NO_CERTIF_CENTER_SESSION_ID = 7;
 const PUBLISHED_SESSION_ID = 8;
 const PIX_DROIT_SESSION_ID = 9;
+const PUBLISHED_SCO_SESSION_ID = 10;
 
 function certificationSessionsBuilder({ databaseBuilder }) {
   const certificationCenter = SCO_CERTIF_CENTER_NAME;
@@ -116,6 +117,24 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     publishedAt: new Date('2020-06-05T15:00:34Z'),
   });
 
+  databaseBuilder.factory.buildSession({
+    id: PUBLISHED_SCO_SESSION_ID,
+    certificationCenter, certificationCenterId, address, room, examiner, date, time,
+    description: 'Session publiée',
+    accessCode: 'ANNE08',
+    finalizedAt: new Date('2020-05-05T15:00:34Z'),
+    publishedAt: new Date('2020-06-05T15:00:34Z'),
+  });
+
+  databaseBuilder.factory.buildFinalizedSession({
+    sessionId: PUBLISHED_SCO_SESSION_ID,
+    certificationCenterName: certificationCenter,
+    isPublishable: true,
+    date, time,
+    finalizedAt: new Date('2020-05-05T15:00:34Z'),
+    publishedAt: new Date('2020-06-05T15:00:34Z'),
+  });
+
   // Some sessions to illustrate paginated sessions list order in PixAdmin
   databaseBuilder.factory.buildSession({
     certificationCenter, certificationCenterId, address, room, examiner, date, time,
@@ -159,5 +178,6 @@ module.exports = {
   PROBLEMS_FINALIZED_SESSION_ID,
   NO_CERTIF_CENTER_SESSION_ID,
   PUBLISHED_SESSION_ID,
+  PUBLISHED_SCO_SESSION_ID,
   PIX_DROIT_SESSION_ID,
 };
