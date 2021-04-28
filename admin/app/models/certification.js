@@ -5,11 +5,11 @@ import Model, { attr, hasMany } from '@ember-data/model';
 
 export const ACQUIRED = 'acquired';
 export const REJECTED = 'rejected';
-export const NOT_PASSED = 'not_passed';
+export const NOT_TAKEN = 'not_taken';
 export const partnerCertificationStatusToDisplayName = {
   [ACQUIRED]: 'Validée',
   [REJECTED]: 'Rejetée',
-  [NOT_PASSED]: 'Non passée',
+  [NOT_TAKEN]: 'Non passée',
 };
 export const STARTED = 'started';
 export const ERROR = 'error';
@@ -43,6 +43,8 @@ export default class Certification extends Model {
   @attr('boolean', { defaultValue: false }) isPublished;
   @attr('boolean', { defaultValue: false }) isV2Certification;
   @attr() cleaCertificationStatus;
+  @attr() pixPlusDroitMaitreCertificationStatus;
+  @attr() pixPlusDroitExpertCertificationStatus;
 
   @hasMany('certification-issue-report') certificationIssueReports;
 
@@ -87,17 +89,17 @@ export default class Certification extends Model {
   }
 
   @computed('cleaCertificationStatus')
-  get displayCleaCertificationStatus() {
+  get cleaCertificationStatusLabel() {
     return partnerCertificationStatusToDisplayName[this.cleaCertificationStatus];
   }
 
-  @computed('cleaCertificationStatus')
-  get isCleaCertificationIsAcquired() {
-    return this.cleaCertificationStatus === ACQUIRED;
+  @computed('pixPlusDroitMaitreCertificationStatus')
+  get pixPlusDroitMaitreCertificationStatusLabel() {
+    return partnerCertificationStatusToDisplayName[this.pixPlusDroitMaitreCertificationStatus];
   }
 
-  @computed('cleaCertificationStatus')
-  get isCleaCertificationIsRejected() {
-    return this.cleaCertificationStatus === REJECTED;
+  @computed('pixPlusDroitExpertCertificationStatus')
+  get pixPlusDroitExpertCertificationStatusLabel() {
+    return partnerCertificationStatusToDisplayName[this.pixPlusDroitExpertCertificationStatus];
   }
 }

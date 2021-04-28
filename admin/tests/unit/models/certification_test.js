@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
-import { ACQUIRED, REJECTED, NOT_PASSED } from 'pix-admin/models/certification';
+import { ACQUIRED, REJECTED, NOT_TAKEN } from 'pix-admin/models/certification';
 
 module('Unit | Model | certification', function(hooks) {
   setupTest(hooks);
@@ -12,61 +12,225 @@ module('Unit | Model | certification', function(hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  test('it exists', function(assert) {
-    const model = run(() => store.createRecord('certification', {}));
-    assert.ok(model);
-  });
+  module('#cleaCertificationStatusLabel', function() {
 
-  module('#isCleaCertificationIsAcquired', function() {
-
-    const cleaStatusesAndExpectedResult = new Map([
-      [ACQUIRED, true],
-      [REJECTED, false],
-      [NOT_PASSED, false],
+    const cleaStatusesAndExpectedLabel = new Map([
+      [ACQUIRED, 'Validée'],
+      [REJECTED, 'Rejetée'],
+      [NOT_TAKEN, 'Non passée'],
     ]);
-    cleaStatusesAndExpectedResult.forEach((expectedResult, cleaStatus) => {
+    cleaStatusesAndExpectedLabel.forEach((expectedLabel, cleaStatus) => {
       module(`when cleaCertificationStatus is ${cleaStatus}`, function() {
 
-        test(`isCleaCertificationIsAcquired should be ${expectedResult}`, function(assert) {
+        test(`cleaCertificationStatusLabel should be ${expectedLabel}`, function(assert) {
           // given
           const certification = run(() => store.createRecord('certification', {
             cleaCertificationStatus: cleaStatus,
           }));
 
           // when
-          const result = certification.isCleaCertificationIsAcquired;
+          const label = certification.cleaCertificationStatusLabel;
 
           // then
-          assert.equal(result, expectedResult);
+          assert.equal(label, expectedLabel);
         });
       });
     });
   });
 
-  module('#isCleaCertificationIsRejected', function() {
+  module('#pixPlusDroitMaitreCertificationStatusLabel', function() {
 
-    const cleaStatusesAndExpectedResult = new Map([
-      [ACQUIRED, false],
-      [REJECTED, true],
-      [NOT_PASSED, false],
+    const pixPlusDroitMaitreStatusesAndExpectedLabel = new Map([
+      [ACQUIRED, 'Validée'],
+      [REJECTED, 'Rejetée'],
+      [NOT_TAKEN, 'Non passée'],
     ]);
-    cleaStatusesAndExpectedResult.forEach((expectedResult, cleaStatus) => {
-      module(`when cleaCertificationStatus is ${cleaStatus}`, function() {
+    pixPlusDroitMaitreStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusDroitMaitreCertificationStatus) => {
+      module(`when pixPlusDroitMaitreCertificationStatus is ${pixPlusDroitMaitreCertificationStatus}`, function() {
 
-        test(`isCleaCertificationIsRejected should be ${expectedResult}`, function(assert) {
+        test(`pixPlusDroitMaitreCertificationStatusLabel should be ${expectedLabel}`, function(assert) {
           // given
           const certification = run(() => store.createRecord('certification', {
-            cleaCertificationStatus: cleaStatus,
+            pixPlusDroitMaitreCertificationStatus: pixPlusDroitMaitreCertificationStatus,
           }));
 
           // when
-          const result = certification.isCleaCertificationIsRejected;
+          const label = certification.pixPlusDroitMaitreCertificationStatusLabel;
 
           // then
-          assert.equal(result, expectedResult);
+          assert.equal(label, expectedLabel);
         });
       });
     });
   });
 
+  module('#pixPlusDroitExpertCertificationStatusLabel', function() {
+
+    const pixPlusDroitExpertStatusesAndExpectedLabel = new Map([
+      [ACQUIRED, 'Validée'],
+      [REJECTED, 'Rejetée'],
+      [NOT_TAKEN, 'Non passée'],
+    ]);
+    pixPlusDroitExpertStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusDroitExpertCertificationStatus) => {
+      module(`when pixPlusDroitExpertCertificationStatus is ${pixPlusDroitExpertCertificationStatus}`, function() {
+
+        test(`pixPlusDroitMaitreCertificationStatusLabel should be ${expectedLabel}`, function(assert) {
+          // given
+          const certification = run(() => store.createRecord('certification', {
+            pixPlusDroitExpertCertificationStatus: pixPlusDroitExpertCertificationStatus,
+          }));
+
+          // when
+          const label = certification.pixPlusDroitExpertCertificationStatusLabel;
+
+          // then
+          assert.equal(label, expectedLabel);
+        });
+      });
+    });
+  });
+
+  module('#publishedText', function() {
+
+    test('it should return "oui" when isPublished is true', function(assert) {
+      // given
+      const certification = run(() => store.createRecord('certification', {
+        isPublished: true,
+      }));
+
+      // when
+      const isPublishedLabel = certification.publishedText;
+
+      // then
+      assert.equal(isPublishedLabel, 'Oui');
+    });
+
+    test('it should return "non" when isPublished is false', function(assert) {
+      // given
+      const certification = run(() => store.createRecord('certification', {
+        isPublished: false,
+      }));
+
+      // when
+      const isPublishedLabel = certification.publishedText;
+
+      // then
+      assert.equal(isPublishedLabel, 'Non');
+    });
+  });
+
+  module('#isV2CertificationText', function() {
+
+    test('it should return "oui" when isV2Certification is true', function(assert) {
+      // given
+      const certification = run(() => store.createRecord('certification', {
+        isV2Certification: true,
+      }));
+
+      // when
+      const isV2CertificationLabel = certification.isV2CertificationText;
+
+      // then
+      assert.equal(isV2CertificationLabel, 'Oui');
+    });
+
+    test('it should return "non" when isV2Certification is false', function(assert) {
+      // given
+      const certification = run(() => store.createRecord('certification', {
+        isV2Certification: false,
+      }));
+
+      // when
+      const isV2CertificationLabel = certification.isV2CertificationText;
+
+      // then
+      assert.equal(isV2CertificationLabel, 'Non');
+    });
+  });
+
+  module('#indexedCompetences', function() {
+
+    test('it should return the indexedCompetences from the competencesWithMark', function(assert) {
+      // given
+      const certification = run(() => store.createRecord('certification', {
+        competencesWithMark: [{
+          id: 1,
+          area_code: '1',
+          competence_code: '1.1',
+          competenceId: 'rec11',
+          level: 4,
+          score: 39,
+          assessmentResultId: 123,
+        }, {
+          id: 2,
+          area_code: '2',
+          competence_code: '2.1',
+          competenceId: 'rec21',
+          level: 5,
+          score: 20,
+          assessmentResultId: 123,
+        }],
+      }));
+
+      // when
+      const indexedCompetences = certification.indexedCompetences;
+
+      // then
+      assert.deepEqual(indexedCompetences, {
+        '1.1': {
+          index: '1.1',
+          level: 4,
+          score: 39,
+        },
+        '2.1': {
+          index: '2.1',
+          level: 5,
+          score: 20,
+        },
+      });
+    });
+  });
+
+  module('#competences', function() {
+
+    test('it should return the competences from the indexedCompetences', function(assert) {
+      // given
+      const certification = run(() => store.createRecord('certification', {
+        competencesWithMark: [{
+          id: 1,
+          area_code: '1',
+          competence_code: '1.1',
+          competenceId: 'rec11',
+          level: 4,
+          score: 39,
+          assessmentResultId: 123,
+        }, {
+          id: 2,
+          area_code: '2',
+          competence_code: '2.1',
+          competenceId: 'rec21',
+          level: 5,
+          score: 20,
+          assessmentResultId: 123,
+        }],
+      }));
+
+      // when
+      const competences = certification.competences;
+
+      // then
+      assert.deepEqual(competences, [
+        {
+          index: '1.1',
+          level: 4,
+          score: 39,
+        },
+        {
+          index: '2.1',
+          level: 5,
+          score: 20,
+        },
+      ]);
+    });
+  });
 });
