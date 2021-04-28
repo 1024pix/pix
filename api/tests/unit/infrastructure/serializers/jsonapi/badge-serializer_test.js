@@ -35,28 +35,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
           },
           id: '1',
           type: 'badges',
-          relationships: {
-            'badge-criteria': {
-              'data': [{
-                id: '1',
-                type: 'badge-criterion',
-              }],
-            },
-            'badge-partner-competences': {
-              'data': [],
-            },
-          },
         },
-        included: [
-          {
-            attributes: {
-              scope: 'CampaignParticipation',
-              threshold: 40,
-            },
-            id: '1',
-            type: 'badge-criterion',
-          },
-        ],
       };
 
       // when
@@ -91,75 +70,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
           },
           id: '1',
           type: 'badges',
-          relationships: {
-            'badge-criteria': {
-              'data': [{
-                id: '1',
-                type: 'badge-criterion',
-              }, {
-                id: '2',
-                type: 'badge-criterion',
-              }],
-            },
-            'badge-partner-competences': {
-              'data': [{
-                id: '1',
-                type: 'badge-partner-competence',
-              }, {
-                id: '2',
-                type: 'badge-partner-competence',
-              }],
-            },
-          },
         },
-        included: [
-          {
-            attributes: {
-              scope: 'CampaignParticipation',
-              threshold: 40,
-            },
-            relationships: {
-              'partner-competences': {
-                data: [],
-              },
-            },
-            id: '1',
-            type: 'badge-criterion',
-          },
-          {
-            attributes: {
-              scope: 'CampaignParticipation',
-              threshold: 40,
-            },
-            relationships: {
-              'partner-competences': {
-                data: [{
-                  id: '1',
-                  type: 'badge-partner-competence',
-                }, {
-                  id: '2',
-                  type: 'badge-partner-competence',
-                }],
-              },
-            },
-            id: '2',
-            type: 'badge-criterion',
-          },
-          {
-            attributes: {
-              name: 'name',
-            },
-            id: '1',
-            type: 'badge-partner-competence',
-          },
-          {
-            attributes: {
-              name: 'name',
-            },
-            id: '2',
-            type: 'badge-partner-competence',
-          },
-        ],
       };
 
       // when
@@ -200,59 +111,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
           },
           id: '1',
           type: 'badges',
-          relationships: {
-            'badge-criteria': {
-              'data': [{
-                id: '1',
-                type: 'badge-criterion',
-              }],
-            },
-            'badge-partner-competences': {
-              'data': [{
-                id: '1',
-                type: 'badge-partner-competence',
-              }, {
-                id: '2',
-                type: 'badge-partner-competence',
-              }],
-            },
-          },
         },
-        included: [
-          {
-            attributes: {
-              scope: 'EveryPartnerCompetence',
-              threshold: 40,
-            },
-            relationships: {
-              'partner-competences': {
-                data: [{
-                  id: '1',
-                  type: 'badge-partner-competence',
-                }, {
-                  id: '2',
-                  type: 'badge-partner-competence',
-                }],
-              },
-            },
-            id: '1',
-            type: 'badge-criterion',
-          },
-          {
-            attributes: {
-              name: 'name',
-            },
-            id: '1',
-            type: 'badge-partner-competence',
-          },
-          {
-            attributes: {
-              name: 'name',
-            },
-            id: '2',
-            type: 'badge-partner-competence',
-          },
-        ],
       };
 
       // when
