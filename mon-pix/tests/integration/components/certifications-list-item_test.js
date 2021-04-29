@@ -10,6 +10,7 @@ describe('Integration | Component | certifications list item', function() {
 
   let certification;
   const PUBLISH_CLASS = '.certifications-list-item__published-item';
+  const UNPUBLISH_CLASS = '.certifications-list-item__unpublished-item';
   const CERTIFICATION_CELL_SELECTOR = '.certifications-list-item__cell';
   const STATUS_SELECTOR = '.certifications-list-item__cell-double-width';
   const IMG_FOR_STATUS_SELECTOR = 'img.certifications-list-item__cross-img';
@@ -44,7 +45,7 @@ describe('Integration | Component | certifications list item', function() {
 
     // then
     it('should render a certifications-list-item__unpublished-item div', function() {
-      expect(find('.certifications-list-item__unpublished-item')).to.exist;
+      expect(find(UNPUBLISH_CLASS)).to.exist;
     });
 
     it('should show en attente de résultat', function() {
@@ -177,6 +178,34 @@ describe('Integration | Component | certifications list item', function() {
     it('should show link to certification page in last column', function() {
       expect(find(VALIDATED_DETAIL_SELECTOR)).to.exist;
       expect(find(VALIDATED_DETAIL_SELECTOR).textContent).to.include('résultats');
+    });
+  });
+
+  context('when the certification is cancelled', function() {
+
+    beforeEach(async function() {
+      // given
+      certification = EmberObject.create({
+        id: 1,
+        date: '2018-02-15T15:15:52.504Z',
+        status: 'cancelled',
+        certificationCenter: 'Université de Paris',
+        isPublished: false,
+      });
+      this.set('certification', certification);
+
+      // when
+      await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+    });
+
+    // then
+    it('should render a certifications-list-item__unpublished-item div', function() {
+      expect(find(UNPUBLISH_CLASS)).to.exist;
+    });
+
+    it('should show Certification annulée', function() {
+      expect(find(IMG_FOR_STATUS_SELECTOR)).to.exist;
+      expect(find(STATUS_SELECTOR).textContent).to.include('Certification annulée');
     });
   });
 });
