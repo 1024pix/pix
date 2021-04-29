@@ -4,13 +4,14 @@ const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRe
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | higher-schooling-registration-repository', () => {
-  describe('#findByOrganizationIdAndStudentNumber', () => {
+  describe('#findOneByStudentNumber', () => {
 
     let organization;
+    let schoolingRegistration;
 
     beforeEach(async () => {
       organization = databaseBuilder.factory.buildOrganization();
-      databaseBuilder.factory.buildSchoolingRegistration({
+      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         studentNumber: '123A',
       });
@@ -19,26 +20,26 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
     it('should return found schoolingRegistrations with student number', async () => {
       // when
-      const result = await higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: organization.id, studentNumber: '123A' });
+      const result = await higherSchoolingRegistrationRepository.findOneByStudentNumber({ organizationId: organization.id, studentNumber: '123A' });
 
       // then
-      expect(result.length).to.be.equal(1);
+      expect(result.id).to.deep.equal(schoolingRegistration.id);
     });
 
     it('should return empty array when there is no schooling-registrations with the given student number', async () => {
       // when
-      const result = await higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: organization.id, studentNumber: '123B' });
+      const result = await higherSchoolingRegistrationRepository.findOneByStudentNumber({ organizationId: organization.id, studentNumber: '123B' });
 
       // then
-      expect(result.length).to.be.equal(0);
+      expect(result).to.equal(null);
     });
 
     it('should return empty array when there is no schooling-registrations with the given organizationId', async () => {
       // when
-      const result = await higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: '999', studentNumber: '123A' });
+      const result = await higherSchoolingRegistrationRepository.findOneByStudentNumber({ organizationId: '999', studentNumber: '123A' });
 
       // then
-      expect(result.length).to.be.equal(0);
+      expect(result).to.equal(null);
     });
   });
 
