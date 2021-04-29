@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { expect, databaseBuilder, knex, catchErr, domainBuilder } = require('../../../test-helper');
 const higherSchoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-schooling-registration-repository');
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
@@ -9,29 +8,22 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
   describe('#findByOrganizationIdAndStudentNumber', () => {
 
     let organization;
-    const studentNumber = '123A';
 
     beforeEach(async () => {
       organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
-        studentNumber,
-        isSupernumerary: true,
-      });
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        studentNumber,
-        isSupernumerary: true,
+        studentNumber: '123A',
       });
       await databaseBuilder.commit();
     });
 
     it('should return found schoolingRegistrations with student number', async () => {
       // when
-      const result = await higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: organization.id, studentNumber });
+      const result = await higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: organization.id, studentNumber: '123A' });
 
       // then
-      expect(result.length).to.be.equal(2);
+      expect(result.length).to.be.equal(1);
     });
 
     it('should return empty array when there is no schooling-registrations with the given student number', async () => {
@@ -44,7 +36,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
     it('should return empty array when there is no schooling-registrations with the given organizationId', async () => {
       // when
-      const result = await higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: '999', studentNumber });
+      const result = await higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber({ organizationId: '999', studentNumber: '123A' });
 
       // then
       expect(result.length).to.be.equal(0);
@@ -188,11 +180,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         await higherSchoolingRegistrationRepository.save(higherSchoolingRegistration);
 
         const [schoolingRegistration] = await knex('schooling-registrations').select('*', 'status AS studyScheme').where({ id: higherSchoolingRegistrationId });
-        expect(schoolingRegistration).to.include({
-          ...registrationAttributes,
-          isSupernumerary: false,
-          userId: user.id,
-        });
+        expect(schoolingRegistration).to.include({ ...registrationAttributes, userId: user.id });
       });
     });
 
@@ -206,7 +194,6 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           lastName: 'Ishii',
           studentNumber: '1',
           birthdate: '2000-01-01',
-          isSupernumerary: false,
         };
 
         const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration(registrationAttributes);
@@ -221,12 +208,11 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#saveNonSupernumerary', () => {
-    context('when there is a non supernumerary schooling registration for the given student number and organization id', () => {
+  describe('#saveByStudentNumber', () => {
+    context('when there is a schooling registration for the given student number and organization id', () => {
       it('update the schooling-registration ', async () => {
 
         const organization = databaseBuilder.factory.buildOrganization();
-        const user = databaseBuilder.factory.buildUser();
         const registrationAttributes = {
           firstName: 'O-Ren',
           lastName: 'Ishii',
@@ -239,48 +225,15 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         const higherSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
           organizationId: organization.id,
           studentNumber: registrationAttributes.studentNumber,
-          userId: user.id,
-          isSupernumerary: false,
         }).id;
         await databaseBuilder.commit();
 
-        await higherSchoolingRegistrationRepository.saveNonSupernumerary(higherSchoolingRegistration);
+        await higherSchoolingRegistrationRepository.saveByStudentNumber(higherSchoolingRegistration);
 
         const [schoolingRegistration] = await knex('schooling-registrations').select('*', 'status AS studyScheme').where({ id: higherSchoolingRegistrationId });
         expect(schoolingRegistration).to.include({
           ...registrationAttributes,
-          isSupernumerary: false,
-          userId: user.id,
         });
-      });
-    });
-
-    context('when there is a supernumerary schooling registration for the given student number and organization id', () => {
-      it('throws an error ', async () => {
-
-        const organization = databaseBuilder.factory.buildOrganization();
-        const user = databaseBuilder.factory.buildUser();
-        const registrationAttributes = {
-          organization,
-          firstName: 'O-Ren',
-          lastName: 'Ishii',
-          studentNumber: '4',
-          birthdate: '1990-07-01',
-          studyScheme: 'I have always no idea what it\'s like.',
-        };
-
-        const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration(registrationAttributes);
-        databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: registrationAttributes.organizationId,
-          studentNumber: registrationAttributes.studentNumber,
-          userId: user.id,
-          isSupernumerary: true,
-        }).id;
-        await databaseBuilder.commit();
-
-        const error = await catchErr(higherSchoolingRegistrationRepository.saveNonSupernumerary)(higherSchoolingRegistration);
-
-        expect(error).to.be.an.instanceOf(SchoolingRegistrationsCouldNotBeSavedError);
       });
     });
 
@@ -294,15 +247,14 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           lastName: 'Ishii',
           studentNumber: '1',
           birthdate: '2000-01-01',
-          isSupernumerary: false,
         };
 
         const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration(registrationAttributes);
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: registrationAttributes.organizationId }).id;
-        databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: registrationAttributes.studentNumber }).id;
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: registrationAttributes.organizationId });
+        databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: registrationAttributes.studentNumber });
         await databaseBuilder.commit();
 
-        const error = await catchErr(higherSchoolingRegistrationRepository.saveNonSupernumerary)(higherSchoolingRegistration);
+        const error = await catchErr(higherSchoolingRegistrationRepository.saveByStudentNumber)(higherSchoolingRegistration);
 
         expect(error).to.be.an.instanceOf(SchoolingRegistrationsCouldNotBeSavedError);
       });
@@ -324,7 +276,6 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           lastName: 'Ishii',
           studentNumber: '4',
           birthdate: '1990-07-01',
-          isSupernumerary: false,
         });
         const higherSchoolingRegistration2 = domainBuilder.buildHigherSchoolingRegistration({
           organization,
@@ -332,7 +283,6 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           lastName: 'Rambo',
           studentNumber: '5',
           birthdate: '1990-07-02',
-          isSupernumerary: false,
         });
         await databaseBuilder.commit();
 
@@ -359,10 +309,9 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
             lastName: 'Ishii',
             studentNumber: '4',
             birthdate: '1990-07-01',
-            isSupernumerary: false,
           });
 
-          databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, studentNumber: '4' }).id;
+          databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, studentNumber: '4' });
           await databaseBuilder.commit();
 
           const error = await catchErr(higherSchoolingRegistrationRepository.batchCreate)([higherSchoolingRegistration]);
@@ -373,7 +322,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#findStudentNumbersNonSupernumerary', () => {
+  describe('#findStudentNumbersByOrganization', () => {
     let organization;
     const studentNumber = '123A';
 
@@ -381,22 +330,15 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       organization = databaseBuilder.factory.buildOrganization();
     });
 
-    it('should return a student numbers array of non super numerary registrations for the organization', async () => {
+    it('should return a student numbers array for the organization', async () => {
       // given
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        isSupernumerary: true,
-      });
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        studentNumber: studentNumber,
-        isSupernumerary: false,
-      });
+      databaseBuilder.factory.buildSchoolingRegistration();
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, studentNumber });
       await databaseBuilder.commit();
 
       // when
       const result = await DomainTransaction.execute((domainTransaction) => {
-        return higherSchoolingRegistrationRepository.findStudentNumbersNonSupernumerary(
+        return higherSchoolingRegistrationRepository.findStudentNumbersByOrganization(
           organization.id,
           domainTransaction,
         );
@@ -404,79 +346,6 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
       // then
       expect(result).to.deep.equal([studentNumber]);
-    });
-
-    it('should return an empty array if non super numerary registrations don’t exist for the organization', async () => {
-      // given
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        isSupernumerary: true,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const result = await DomainTransaction.execute((domainTransaction) => {
-        return higherSchoolingRegistrationRepository.findStudentNumbersNonSupernumerary(
-          organization.id,
-          domainTransaction,
-        );
-      });
-
-      // then
-      expect(result).to.deep.equal([]);
-    });
-  });
-
-  describe('#findSupernumerary', () => {
-    let organization;
-
-    beforeEach(async () => {
-      organization = databaseBuilder.factory.buildOrganization();
-    });
-
-    it('should return a registration array of super numerary registrations for the organization', async () => {
-      // given
-      const registration = databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        isSupernumerary: true,
-      });
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        isSupernumerary: false,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const result = await DomainTransaction.execute((domainTransaction) => {
-        return higherSchoolingRegistrationRepository.findSupernumerary(
-          organization.id,
-          domainTransaction,
-        );
-      });
-
-      // then
-      const expectedRegistration = _.pick(registration, ['studentNumber', 'firstName', 'id', 'lastName', 'birthdate']);
-      expect(result).to.deep.equal([expectedRegistration]);
-    });
-
-    it('should return an empty array of if super numerary registrations don’t exist for the organization', async () => {
-      // given
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        isSupernumerary: false,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const result = await DomainTransaction.execute((domainTransaction) => {
-        return higherSchoolingRegistrationRepository.findSupernumerary(
-          organization.id,
-          domainTransaction,
-        );
-      });
-
-      // then
-      expect(result).to.deep.equal([]);
     });
   });
 });
