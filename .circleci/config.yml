@@ -106,9 +106,10 @@ jobs:
           paths:
             - ~/.npm
       - run:
-          name: Lint and test
+          name: Lint, typecheck and test
           command: |
             npm run lint
+            npm run typecheck
             npm test
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
