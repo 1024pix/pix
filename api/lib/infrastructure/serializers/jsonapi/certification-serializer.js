@@ -23,6 +23,7 @@ const attributes = [
   'firstName',
   'deliveredAt',
   'isPublished',
+  'isCancelled',
   'lastName',
   'status',
   'pixScore',
