@@ -47,6 +47,7 @@ function _getBaseCertificationQuery() {
       birthdate: 'certification-courses.birthdate',
       birthplace: 'certification-courses.birthplace',
       isPublished: 'certification-courses.isPublished',
+      isCancelled: 'certification-courses.isCancelled',
       userId: 'certification-courses.userId',
       date: 'certification-courses.createdAt',
       verificationCode: 'certification-courses.verificationCode',
@@ -64,6 +65,11 @@ function getNotFoundErrorMessage(id) {
   return `Certification attestation not found for ID ${id}`;
 }
 
+function getStatus(certification, assessmentResult) {
+  return certification.isCancelled ?
+    PrivateCertificate.status.CANCELLED : assessmentResult?.status;
+}
+
 module.exports = {
 
   async findByUserId(userId) {
@@ -76,8 +82,8 @@ module.exports = {
 
       return new PrivateCertificate({
         ...result,
-        pixScore: latestAssessmentResult && latestAssessmentResult.pixScore,
-        status: latestAssessmentResult && latestAssessmentResult.status,
+        pixScore: latestAssessmentResult?.pixScore,
+        status: getStatus(result, latestAssessmentResult),
         commentForCandidate: latestAssessmentResult && latestAssessmentResult.commentForCandidate,
       });
     });
@@ -127,7 +133,7 @@ module.exports = {
     return new PrivateCertificate({
       ...certificationCourseDTO,
       pixScore: latestAssessmentResult && latestAssessmentResult.pixScore,
-      status: latestAssessmentResult && latestAssessmentResult.status,
+      status: getStatus(certificationCourseDTO, latestAssessmentResult),
       commentForCandidate: latestAssessmentResult && latestAssessmentResult.commentForCandidate,
     });
   },
