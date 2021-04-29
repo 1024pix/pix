@@ -24,8 +24,9 @@ function _applyFilters(knowledgeElements) {
   return _dropResetKnowledgeElements(uniqsMostRecentPerSkill);
 }
 
-function _findByUserIdAndLimitDateQuery({ userId, limitDate }) {
+function _findByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction = DomainTransaction.emptyTransaction() }) {
   return knex('knowledge-elements')
+    .transacting(domainTransaction)
     .where((qb) => {
       qb.where({ userId });
       if (limitDate) {
@@ -34,8 +35,8 @@ function _findByUserIdAndLimitDateQuery({ userId, limitDate }) {
     });
 }
 
-async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate }) {
-  const knowledgeElementRows = await _findByUserIdAndLimitDateQuery({ userId, limitDate });
+async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction }) {
+  const knowledgeElementRows = await _findByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction });
 
   const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
   return _applyFilters(knowledgeElements);
@@ -89,8 +90,8 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfKnowledgeElement, savedKnowledgeElement);
   },
 
-  async findUniqByUserId({ userId, limitDate }) {
-    return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate });
+  async findUniqByUserId({ userId, limitDate, domainTransaction }) {
+    return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction });
   },
 
   async findUniqByUserIdAndAssessmentId({ userId, assessmentId }) {

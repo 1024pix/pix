@@ -43,8 +43,8 @@ describe('Unit | Service | Certification Badges Service', () => {
         badge = { targetProfileId: targetProfile.id };
         badgeAcquisition = { id: 'badgeId', userId, badge };
         badgeAcquisitionRepository.findCertifiable.withArgs({ userId, domainTransaction }).resolves([badgeAcquisition]);
-        knowledgeElementRepository.findUniqByUserId.withArgs({ userId }).resolves(knowledgeElements);
-        targetProfileRepository.get.withArgs(targetProfile.id).resolves(targetProfile);
+        knowledgeElementRepository.findUniqByUserId.withArgs({ userId, domainTransaction }).resolves(knowledgeElements);
+        targetProfileRepository.get.withArgs(targetProfile.id, domainTransaction).resolves(targetProfile);
       });
 
       context('and badges are still valid', () => {
@@ -96,8 +96,8 @@ describe('Unit | Service | Certification Badges Service', () => {
           const maitreBadgeAcquisition = { id: 'badgeId1', userId, badgeKey: pixDroitMaitre, badge: maitreBadge };
           const otherBadgeAcquisition = { id: 'badgeId2', userId, badge: otherBadge };
           badgeAcquisitionRepository.findCertifiable.withArgs({ userId, domainTransaction }).resolves([maitreBadgeAcquisition, otherBadgeAcquisition]);
-          knowledgeElementRepository.findUniqByUserId.withArgs({ userId }).resolves(knowledgeElements);
-          targetProfileRepository.get.withArgs(targetProfile.id).resolves(targetProfile);
+          knowledgeElementRepository.findUniqByUserId.withArgs({ userId, domainTransaction }).resolves(knowledgeElements);
+          targetProfileRepository.get.withArgs(targetProfile.id, domainTransaction).resolves(targetProfile);
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ targetProfile, badge: maitreBadge, knowledgeElements }).returns(true);
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ targetProfile, badge: otherBadge, knowledgeElements }).returns(true);
 
@@ -118,8 +118,8 @@ describe('Unit | Service | Certification Badges Service', () => {
           const maitreBadgeAcquisition = { id: 'badgeId1', userId, badgeKey: pixDroitMaitre, badge: maitreBadge };
           const expertBadgeAcquisition = { id: 'badgeId2', userId, badgeKey: pixDroitExpert, badge: expertBadge };
           badgeAcquisitionRepository.findCertifiable.withArgs({ userId, domainTransaction }).resolves([maitreBadgeAcquisition, expertBadgeAcquisition]);
-          knowledgeElementRepository.findUniqByUserId.withArgs({ userId }).resolves(knowledgeElements);
-          targetProfileRepository.get.withArgs(targetProfile.id).resolves(targetProfile);
+          knowledgeElementRepository.findUniqByUserId.withArgs({ userId, domainTransaction }).resolves(knowledgeElements);
+          targetProfileRepository.get.withArgs(targetProfile.id, domainTransaction).resolves(targetProfile);
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ targetProfile, badge: maitreBadge, knowledgeElements }).returns(true);
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ targetProfile, badge: expertBadge, knowledgeElements }).returns(true);
 
