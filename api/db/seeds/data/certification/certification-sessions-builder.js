@@ -9,19 +9,20 @@ const PROBLEMS_FINALIZED_SESSION_ID = 6;
 const NO_CERTIF_CENTER_SESSION_ID = 7;
 const PUBLISHED_SESSION_ID = 8;
 const PIX_DROIT_SESSION_ID = 9;
+const PUBLISHED_SCO_SESSION_ID = 10;
 
 function certificationSessionsBuilder({ databaseBuilder }) {
   const certificationCenter = SCO_CERTIF_CENTER_NAME;
   const certificationCenterId = SCO_CERTIF_CENTER_ID;
   const address = 'Anne-Star Street';
   const room = 'Salle Anne';
-  const examiner = 'Anne-Quelquechose';
+  const examiner = 'Anne';
   const date = '2020-03-04';
   const time = '15:00';
 
   databaseBuilder.factory.buildSession({
     id: EMPTY_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner, date, time,
+    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-empty`, date, time,
     description: 'Session pas commencée avec ZERO candidat inscrit.',
     accessCode: 'ANNE01',
     examinerGlobalComment: null,
@@ -29,7 +30,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: STARTED_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner, date, time,
+    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-started`, date, time,
     description: 'Session pas commencée avec quelques candidats inscrits non liés.',
     accessCode: 'ANNE02',
     examinerGlobalComment: null,
@@ -37,7 +38,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID,
-    certificationCenter, certificationCenterId, address, room, examiner, date, time,
+    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-lot-of-candidates`, date, time,
     description: 'Session pas commencée avec des candidats inscrits non liés.',
     accessCode: 'ANNE03',
     examinerGlobalComment: null,
@@ -45,7 +46,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: TO_FINALIZE_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner, date, time,
+    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-to-finalize`, date, time,
     description: 'Session pas encore finalisée, avec des candidats ayant passés leur test de certification.',
     accessCode: 'ANNE04',
     examinerGlobalComment: null,
@@ -53,7 +54,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: NO_PROBLEM_FINALIZED_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner, date, time,
+    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-no-problem`, date, time,
     description: 'Session finalisée sans problème, donc aucun commentaire et le surveillant a vu tous les écrans de fin de test.',
     accessCode: 'ANNE05',
     examinerGlobalComment: null,
@@ -71,7 +72,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: PROBLEMS_FINALIZED_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner, date, time,
+    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-problems`, date, time,
     description: 'Session finalisée à problèmes et assignée !',
     accessCode: 'ANNE06',
     examinerGlobalComment: 'Une météorite est tombée sur le centre de certification pendant la session !!',
@@ -100,7 +101,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: PUBLISHED_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner, date, time,
+    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-published`, date, time,
     description: 'Session publiée',
     accessCode: 'ANNE08',
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
@@ -116,9 +117,27 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     publishedAt: new Date('2020-06-05T15:00:34Z'),
   });
 
+  databaseBuilder.factory.buildSession({
+    id: PUBLISHED_SCO_SESSION_ID,
+    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-published-sco`, date, time,
+    description: 'Session publiée',
+    accessCode: 'ANNE08',
+    finalizedAt: new Date('2020-05-05T15:00:34Z'),
+    publishedAt: new Date('2020-06-05T15:00:34Z'),
+  });
+
+  databaseBuilder.factory.buildFinalizedSession({
+    sessionId: PUBLISHED_SCO_SESSION_ID,
+    certificationCenterName: certificationCenter,
+    isPublishable: true,
+    date, time,
+    finalizedAt: new Date('2020-05-05T15:00:34Z'),
+    publishedAt: new Date('2020-06-05T15:00:34Z'),
+  });
+
   // Some sessions to illustrate paginated sessions list order in PixAdmin
   databaseBuilder.factory.buildSession({
-    certificationCenter, certificationCenterId, address, room, examiner, date, time,
+    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-1`, date, time,
     finalizedAt: null,
     publishedAt: null,
   });
@@ -134,14 +153,14 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     resultsSentToPrescriberAt: new Date('2018-01-04T00:00:00Z'),
   });
   databaseBuilder.factory.buildSession({
-    certificationCenter, certificationCenterId, address, room, examiner, date, time,
+    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-2`, date, time,
     finalizedAt: new Date('2018-01-02T00:00:00Z'),
     publishedAt: new Date('2018-01-03T00:00:00Z'),
   });
   databaseBuilder.factory.buildSession({
     id: PIX_DROIT_SESSION_ID,
     certificationCenter: DROIT_CERTIF_CENTER_NAME,
-    certificationCenterId: DROIT_CERTIF_CENTER_ID, address, room, examiner, date, time,
+    certificationCenterId: DROIT_CERTIF_CENTER_ID, address, room, examiner: `${examiner}-3`, date, time,
     description: 'Certif avec pix+droit',
     accessCode: 'DROI01',
     finalizedAt: null,
@@ -159,5 +178,6 @@ module.exports = {
   PROBLEMS_FINALIZED_SESSION_ID,
   NO_CERTIF_CENTER_SESSION_ID,
   PUBLISHED_SESSION_ID,
+  PUBLISHED_SCO_SESSION_ID,
   PIX_DROIT_SESSION_ID,
 };
