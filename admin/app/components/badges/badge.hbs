@@ -31,30 +31,49 @@
 
 
     <div class="page-section__details table-admin">
-      <table>
-        <thead>
-          <tr>
-            <th>Périmètre</th>
-            <th>Seuil</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each @badge.badgeCriteria as |criterion|}}
-            <tr>
-              <td>{{criterion.scope}}
-                {{#if criterion.partnerCompetences}}
-                  <ul>
-                    {{#each criterion.partnerCompetences as |badgePartnerCompetence|}}
-                      <li>{{badgePartnerCompetence.name}}</li>
+      {{#each this.badgeCriteria as |criterion|}}
+        <p>L‘évalué doit obtenir <strong>{{criterion.threshold}}%</strong> sur {{call (fn this.scopeExplanation criterion.scope)}}</p>
+
+        {{#if criterion.partnerCompetences}}
+          <ul class="badge-criteria-competences">
+            {{#each criterion.partnerCompetences as |badgePartnerCompetence|}}
+            <li>
+              <details>
+                <summary>{{badgePartnerCompetence.name}}{{#if badgePartnerCompetence.color}} - {{badgePartnerCompetence.color}}{{/if}}</summary>
+                <table class="table-admin badge-partner-competences-table">
+                  <thead>
+                    <tr>
+                      <th class="table__column table__column--wide">Sujet</th>
+                      {{#each this.allLevels as |level|}}
+                      <th class="table__column table__column--small table__column--center">Niveau {{level}}</th>
+                      {{/each}}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each badgePartnerCompetence.tubes as |tube|}}
+                    <tr>
+                      <td>{{tube.practicalTitle}}</td>
+                      {{#each tube.skillsWithAllLevels as |skill|}}
+                      <td class="table__column--center skill-column">
+                        {{#if skill}}
+                        <PixTooltip @text={{concat skill.id ' ' skill.name}} @position='bottom'  >
+                        <FaIcon @icon="check" class="skill-column--check" aria-label={{skill.name}} />
+                        </PixTooltip>
+                        {{else}}
+                        <FaIcon @icon="times" class="skill-column--uncheck" />
+                        {{/if}}
+                      </td>
+                      {{/each}}
+                    </tr>
                     {{/each}}
-                  </ul>
-                {{/if}}
-              </td>
-              <td>{{criterion.threshold}}</td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
+                  </tbody>
+                </table>
+              </details>
+            </li>
+            {{/each}}
+          </ul>
+        {{/if}}
+      {{/each}}
     </div>
   </section>
 </main>
