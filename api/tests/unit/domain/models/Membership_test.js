@@ -1,6 +1,6 @@
 const { expect } = require('../../../test-helper');
 const Membership = require('../../../../lib/domain/models/Membership');
-const { InvalidMembershipRoleError } = require('../../../../lib/domain/errors');
+const { InvalidMembershipOrganizationRoleError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | Membership', () => {
 
@@ -22,7 +22,7 @@ describe('Unit | Domain | Models | Membership', () => {
 
     context('when organizationRole is invalid', () => {
 
-      it('should throw an InvalidMembershipRoleError error', async () => {
+      it('should throw an InvalidMembershipOrganizationRoleError error', async () => {
         // given / when
         const membership = new Membership({
           id: '123',
@@ -30,7 +30,7 @@ describe('Unit | Domain | Models | Membership', () => {
         });
 
         // then
-        expect(() => membership.validateRole()).to.throw(InvalidMembershipRoleError);
+        expect(() => membership.validateRole()).to.throw(InvalidMembershipOrganizationRoleError);
       });
 
     });

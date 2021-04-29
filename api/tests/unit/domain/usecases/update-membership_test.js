@@ -1,7 +1,7 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { updateMembership } = require('../../../../lib/domain/usecases');
 const Membership = require('../../../../lib/domain/models/Membership');
-const { InvalidMembershipRoleError } = require('../../../../lib/domain/errors');
+const { InvalidMembershipOrganizationRoleError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-membership', () => {
 
@@ -48,7 +48,7 @@ describe('Unit | UseCase | update-membership', () => {
     expect(membershipRepository.updateById).to.has.been.calledWith({ id: membershipId, membership });
   });
 
-  it('should throw a InvalidMembershipRoleError if role is not valid', async () => {
+  it('should throw a InvalidMembershipOrganizationRoleError if role is not valid', async () => {
     // given
     const organization = domainBuilder.buildOrganization({ type: 'SUP' });
     const membershipId = 100;
@@ -65,7 +65,7 @@ describe('Unit | UseCase | update-membership', () => {
     });
 
     // then
-    expect(error).to.an.instanceOf(InvalidMembershipRoleError);
+    expect(error).to.an.instanceOf(InvalidMembershipOrganizationRoleError);
   });
 
   context('when the role to update is set to administrator', () => {
