@@ -149,7 +149,7 @@ module.exports = {
     const organizationId = parseInt(request.params.id);
     const buffer = request.payload;
     const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(buffer, organizationId, request.i18n);
-    await usecases.importHigherSchoolingRegistrations({ organizationId, higherSchoolingRegistrationParser });
+    await usecases.importHigherSchoolingRegistrations({ higherSchoolingRegistrationParser });
     return h.response(null).code(204);
   },
 
