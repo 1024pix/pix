@@ -72,7 +72,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     studentNumber: 'JAIMELESLEGUMES123',
   });
 
-  // supernumerary with student number
+  // with student number
   const sansaStark = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Sansa',
     lastName: 'Stark',
@@ -87,11 +87,10 @@ function organizationsSupBuilder({ databaseBuilder }) {
     birthdate: '2000-05-28',
     organizationId: SUP_UNIVERSITY_ID,
     userId: sansaStark.id,
-    isSupernumerary: true,
-    studentNumber: null,
+    studentNumber: 'JAIMELECHOCOLAT',
   });
 
-  // supernumerary without student number
+  // with student number
   const branStark = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Bran',
     lastName: 'Stark',
@@ -106,7 +105,6 @@ function organizationsSupBuilder({ databaseBuilder }) {
     birthdate: '2000-05-28',
     organizationId: SUP_UNIVERSITY_ID,
     userId: branStark.id,
-    isSupernumerary: true,
     studentNumber: 'JAIMELESFECULENTS123',
   });
 }
