@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 module.exports = {
   globals: {
@@ -18,12 +19,18 @@ module.exports = {
   extends: [
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
     'plugin:ember/recommended',
+    'plugin:i18n-json/recommended',
   ],
   env: {
     browser: true,
   },
   rules: {
     'no-restricted-imports': ['error', { 'paths': ['lodash'] }],
+    'i18n-json/sorted-keys': [1, {
+      'sortFunctionPath': path.resolve('./config/linter-translation-order.js'),
+    }],
+    'i18n-json/valid-message-syntax': 1,
+    'no-irregular-whitespace': 0,
   },
   overrides: [
     // node files
