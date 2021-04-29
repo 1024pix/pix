@@ -10,7 +10,7 @@ import {
   subcategoryToLabel,
   subcategoryToCode,
 } from 'pix-certif/models/certification-issue-report';
-import { RadioButtonCategoryWithSubcategoryWithDescriptionAndQuestionNumber } from 'pix-certif/components/issue-report-modal/add-issue-report-modal';
+import { RadioButtonCategoryWithSubcategoryAndQuestionNumber } from 'pix-certif/components/issue-report-modal/add-issue-report-modal';
 
 module('Integration | Component | in-challenge-certification-issue-report-fields', function(hooks) {
   setupRenderingTest(hooks);
@@ -18,7 +18,7 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
   test('it should call toggle function on click radio button', async function(assert) {
     // given
     const toggleOnCategory = sinon.stub();
-    const inChallengeCategory = new RadioButtonCategoryWithSubcategoryWithDescriptionAndQuestionNumber({ name: 'IN_CHALLENGE', isChecked: false });
+    const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({ name: 'IN_CHALLENGE', isChecked: false });
     this.set('toggleOnCategory', toggleOnCategory);
     this.set('inChallengeCategory', inChallengeCategory);
 
@@ -38,7 +38,7 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
   test('it should show dropdown menu with code & subcategories when category is checked', async function(assert) {
     // given
     const toggleOnCategory = sinon.stub();
-    const inChallengeCategory = new RadioButtonCategoryWithSubcategoryWithDescriptionAndQuestionNumber({ name: 'IN_CHALLENGE', isChecked: true });
+    const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({ name: 'IN_CHALLENGE', isChecked: true });
     this.set('toggleOnCategory', toggleOnCategory);
     this.set('inChallengeCategory', inChallengeCategory);
 
@@ -53,12 +53,12 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
 
     // then
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]} ${subcategoryToLabel[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]}`);
-    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.LINK_NOT_WORKING]} ${subcategoryToLabel[certificationIssueReportSubcategories.LINK_NOT_WORKING]}`);
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.EMBED_NOT_WORKING]} ${subcategoryToLabel[certificationIssueReportSubcategories.EMBED_NOT_WORKING]}`);
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]}`);
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]} ${subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]}`);
     assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_BLOCKED]} ${subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED]}`);
-    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.OTHER]} ${subcategoryToLabel[certificationIssueReportSubcategories.OTHER]}`);
+    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]} ${subcategoryToLabel[certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]}`);
+    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]} ${subcategoryToLabel[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]}`);
   });
 
 });

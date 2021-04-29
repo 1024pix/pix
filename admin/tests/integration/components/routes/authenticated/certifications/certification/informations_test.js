@@ -178,7 +178,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
         await visit(`/certifications/${certification.id}`);
 
         // then
-        assert.dom('.card-text ul li').hasText('Problème sur une épreuve : L\'image ne s\'affiche pas - image disparue - Épreuve 666');
+        assert.dom('.card-text ul li').hasText('Problème technique sur une question : L\'image ne s\'affiche pas - image disparue - Question 666');
       });
 
     });
