@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-modules
 const axios = require('axios');
 const querystring = require('querystring');
 

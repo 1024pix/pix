@@ -25,12 +25,10 @@ module.exports = {
         client_id: settings.poleEmploi.clientId,
       };
 
-      const tokenResponse = await httpAgent.post(
-        settings.poleEmploi.tokenUrl,
-        querystring.stringify(data),
-        {
-          headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        },
+      const tokenResponse = await httpAgent.post({
+        url: settings.poleEmploi.tokenUrl,
+        payload: querystring.stringify(data),
+        headers: { 'content-type': 'application/x-www-form-urlencoded' } },
       );
 
       if (!tokenResponse.isSuccessful) {
@@ -56,7 +54,8 @@ module.exports = {
       'Accept': 'application/json',
       'Service-source': 'Pix',
     };
-    const httpResponse = await httpAgent.post(url, payload, headers);
+
+    const httpResponse = await httpAgent.post({ url, payload, headers });
 
     return {
       isSuccessful: httpResponse.isSuccessful,
