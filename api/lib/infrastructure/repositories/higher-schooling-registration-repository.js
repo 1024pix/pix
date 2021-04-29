@@ -60,15 +60,16 @@ module.exports = {
   },
 
   async batchCreate(higherSchoolingRegistrations, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+
     const registrationsToInsert = higherSchoolingRegistrations.map((registration) => ({
       ..._.pick(registration, ATTRIBUTES_TO_SAVE),
       status: registration.studyScheme,
     }));
 
     try {
-      await knex
-        .batchInsert('schooling-registrations', registrationsToInsert)
-        .transacting(domainTransaction.knexTransaction);
+      await knexConn
+        .batchInsert('schooling-registrations', registrationsToInsert);
     } catch (error) {
       throw new SchoolingRegistrationsCouldNotBeSavedError();
     }
@@ -106,18 +107,19 @@ module.exports = {
   },
 
   async findStudentNumbersNonSupernumerary(organizationId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const results = await knex('schooling-registrations')
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const results = await knexConn('schooling-registrations')
       .select('studentNumber')
-      .where({ organizationId, isSupernumerary: false })
-      .transacting(domainTransaction.knexTransaction);
+      .where({ organizationId, isSupernumerary: false });
 
     return _.map(results, 'studentNumber');
   },
 
   findSupernumerary(organizationId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    return knex('schooling-registrations')
+    const knexConn = domainTransaction.knexTransaction || knex;
+
+    return knexConn('schooling-registrations')
       .select('studentNumber', 'firstName', 'id', 'lastName', 'birthdate')
-      .where({ organizationId, isSupernumerary: true })
-      .transacting(domainTransaction.knexTransaction);
+      .where({ organizationId, isSupernumerary: true });
   },
 };
