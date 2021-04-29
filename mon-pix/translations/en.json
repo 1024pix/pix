@@ -254,6 +254,9 @@
                 },
                 "not-published": {
                     "title": "Results pending"
+                },
+                "cancelled": {
+                    "title": "Certification cancelled"
                 }
             }
         },
