@@ -75,14 +75,14 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
   },
 
-  async findByOrganizationIdAndStudentNumber({ organizationId, studentNumber }) {
+  async findOneByStudentNumber({ organizationId, studentNumber }) {
     const schoolingRegistration = await BookshelfSchoolingRegistration
       .query((qb) => {
         qb.where('organizationId', organizationId);
         qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
       })
-      .fetchAll();
+      .fetch({ require: false });
 
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistration);
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
   },
 };
