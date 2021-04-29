@@ -39,35 +39,17 @@ module.exports = {
     }
   },
 
-  async saveByStudentNumber(higherSchoolingRegistration, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const attributes = {
-      ..._.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE),
-      status: higherSchoolingRegistration.studyScheme,
-    };
-
-    try {
-      await BookshelfSchoolingRegistration
-        .where({
-          studentNumber: attributes.studentNumber,
-          organizationId: attributes.organizationId,
-        })
-        .save(attributes, { method: 'update', transacting: domainTransaction.knexTransaction });
-    } catch (error) {
-      throw new SchoolingRegistrationsCouldNotBeSavedError();
-    }
-  },
-
-  async batchCreate(higherSchoolingRegistrations, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const knexConn = domainTransaction.knexTransaction || knex;
-
+  async upsertStudents(higherSchoolingRegistrations) {
     const registrationsToInsert = higherSchoolingRegistrations.map((registration) => ({
       ..._.pick(registration, ATTRIBUTES_TO_SAVE),
       status: registration.studyScheme,
     }));
 
     try {
-      await knexConn
-        .batchInsert('schooling-registrations', registrationsToInsert);
+      await knex('schooling-registrations')
+        .insert(registrationsToInsert)
+        .onConflict(['organizationId', 'studentNumber'])
+        .merge();
     } catch (error) {
       throw new SchoolingRegistrationsCouldNotBeSavedError();
     }
@@ -91,16 +73,6 @@ module.exports = {
       .fetch({ require: false });
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
-  },
-
-  async findStudentNumbersByOrganization(organizationId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const knexConn = domainTransaction.knexTransaction || knex;
-    const results = await knex('schooling-registrations')
-      .select('studentNumber')
-      .where({ organizationId })
-      .transacting(knexConn);
-
-    return _.map(results, 'studentNumber');
   },
 
   async findByOrganizationIdAndStudentNumber({ organizationId, studentNumber }) {
