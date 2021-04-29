@@ -17,6 +17,12 @@ log_format keyvalue
 access_log off;
 
 server {
+  listen <%= ENV['PORT'] %>;
+  server_name ~^www\.(.*)$;
+  return 301 $scheme://$1$request_uri;
+}
+  
+server {
   access_log logs/access.log keyvalue;
   server_name localhost;
   listen <%= ENV['PORT'] %>;
