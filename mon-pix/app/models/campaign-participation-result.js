@@ -12,6 +12,7 @@ export default class CampaignParticipationResult extends Model {
   @attr('number') testedSkillsCount;
   @attr('number') validatedSkillsCount;
   @attr('number') stageCount;
+  @attr('boolean') canRetry;
 
   // includes
   @hasMany('campaignParticipationBadges') campaignParticipationBadges;

@@ -74,7 +74,7 @@
         </div>
       </div>
     </div>
-    {{#if this.retryAllowed }}
+    {{#if this.canRetry }}
       <div class="skill-review__retry">
         <p class="skill-review-retry__message">{{t 'pages.skill-review.retry.message' organizationName=this.organizationName}}</p>
         <LinkTo @route="campaigns.start-or-resume"

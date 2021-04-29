@@ -456,33 +456,20 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
   });
 
   describe('The retry block', function() {
-    let clock;
-    const now = new Date('2021-09-25');
-
-    beforeEach(() => {
-      clock = sinon.useFakeTimers(now.getTime());
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
-
-    context('show the retry block', function() {
+    context('when user can retry', function() {
       beforeEach(function() {
         // Given
         const model = {
           campaignParticipation: EmberObject.create({
-            isShared: true,
             campaignParticipationResult: EmberObject.create({
-              campaignParticipationBadges: [],
-              masteryPercentage: 56,
+              get: sinon.stub(),
             }),
             campaign: EmberObject.create({
-              multipleSendings: true,
+              get: sinon.stub(),
             }),
           }),
-
         };
+        model.campaignParticipation.campaignParticipationResult.get.withArgs('canRetry').returns(true);
         this.set('model', model);
       });
 
@@ -495,22 +482,20 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       });
     });
 
-    context('Does not show the retry block', function() {
+    context('when user cannot retry', function() {
       beforeEach(function() {
         // Given
         const model = {
           campaignParticipation: EmberObject.create({
-            isShared: true,
             campaignParticipationResult: EmberObject.create({
-              campaignParticipationBadges: [],
-              masteryPercentage: 56,
+              get: sinon.stub(),
             }),
             campaign: EmberObject.create({
-              multipleSendings: false,
+              get: sinon.stub(),
             }),
           }),
-
         };
+        model.campaignParticipation.campaignParticipationResult.get.withArgs('canRetry').returns(false);
         this.set('model', model);
       });
 
