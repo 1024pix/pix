@@ -1,5 +1,6 @@
-extends: '../.eslintrc.yaml'
-
+extends:
+  - '../.eslintrc.yaml'
+  - 'plugin:i18n-json/recommended'
 parserOptions:
   ecmaVersion: 2020
 
@@ -20,3 +21,4 @@ rules:
      -  selector: "CallExpression[callee.object.object.name='faker'][callee.object.property.name='internet'][callee.property.name='email']"
         message: "Use only faker.internet.exampleEmail()"
   knex/avoid-injections: error
+  i18n-json/valid-message-syntax: 1
