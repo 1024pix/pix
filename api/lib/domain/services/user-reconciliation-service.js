@@ -25,9 +25,8 @@ async function findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAn
   reconciliationInfo: { studentNumber, firstName, lastName, birthdate },
   higherSchoolingRegistrationRepository,
 }) {
-  const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({
-    organizationId,
-    reconciliationInfo: { studentNumber, birthdate },
+  const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({
+    organizationId, studentNumber, birthdate,
   });
 
   if (!schoolingRegistration) {

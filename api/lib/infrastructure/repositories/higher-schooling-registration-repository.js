@@ -63,7 +63,7 @@ module.exports = {
       });
   },
 
-  async findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } = {} }) {
+  async findOneByStudentNumberAndBirthdate({ organizationId, studentNumber, birthdate }) {
     const schoolingRegistration = await BookshelfSchoolingRegistration
       .query((qb) => {
         qb.where('organizationId', organizationId);
