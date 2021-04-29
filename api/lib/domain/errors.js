@@ -776,7 +776,7 @@ class GeneratePoleEmploiTokensError extends DomainError {
   }
 }
 
-class InvalidMembershipRoleError extends DomainError {
+class InvalidMembershipOrganizationRoleError extends DomainError {
   constructor(message = 'Le rôle du membre est invalide.') {
     super(message);
   }
@@ -831,7 +831,7 @@ module.exports = {
   InvalidCertificationReportForFinalization,
   InvalidCertificationIssueReportForSaving,
   InvalidExternalUserTokenError,
-  InvalidMembershipRoleError,
+  InvalidMembershipOrganizationRoleError,
   InvalidPasswordForUpdateEmailError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
