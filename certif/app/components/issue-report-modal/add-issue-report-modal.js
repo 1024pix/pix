@@ -50,9 +50,8 @@ export class RadioButtonCategoryWithDescription extends RadioButtonCategory {
   }
 }
 
-export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButtonCategory {
+export class RadioButtonCategoryWithSubcategory extends RadioButtonCategory {
   @tracked subcategory;
-  @tracked description = null;
 
   constructor({ name, subcategory, isChecked }) {
     super({ name, isChecked });
@@ -64,6 +63,17 @@ export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButt
     return subcategoryToLabel[this.subcategory];
   }
 
+  issueReport(certificationReport) {
+    return {
+      ...super.issueReport(certificationReport),
+      subcategory: this.subcategory,
+    };
+  }
+}
+
+export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButtonCategoryWithSubcategory {
+  @tracked description = null;
+
   toggle(categoryNameBeingChecked) {
     super.toggle(categoryNameBeingChecked);
     this.description = null;
@@ -72,13 +82,12 @@ export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButt
   issueReport(certificationReport) {
     return {
       ...super.issueReport(certificationReport),
-      subcategory: this.subcategory,
       description: this.description,
     };
   }
 }
 
-export class RadioButtonCategoryWithSubcategoryWithDescriptionAndQuestionNumber extends RadioButtonCategoryWithSubcategoryWithDescription {
+export class RadioButtonCategoryWithSubcategoryAndQuestionNumber extends RadioButtonCategoryWithSubcategory {
   @tracked questionNumber = null;
 
   toggle(categoryNameBeingChecked) {
@@ -109,7 +118,7 @@ export default class AddIssueReportModal extends Component {
   @tracked connectionOrEndScreenCategory = new RadioButtonCategory({
     name: certificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
   });
-  @tracked inChallengeCategory = new RadioButtonCategoryWithSubcategoryWithDescriptionAndQuestionNumber({
+  @tracked inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
     name: certificationIssueReportCategories.IN_CHALLENGE,
     subcategory: certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
   });
