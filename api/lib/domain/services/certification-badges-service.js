@@ -12,11 +12,11 @@ module.exports = {
   async findStillValidBadgeAcquisitions({ userId, domainTransaction }) {
     const certifiableBadgeAcquisitions = await badgeAcquisitionRepository.findCertifiable({ userId, domainTransaction });
     const highestCertifiableBadgeAcquisitions = this._keepHighestBadgeWithinPlusCertifications(certifiableBadgeAcquisitions);
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
+    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, domainTransaction });
 
     const badgeAcquisitions = await bluebird.mapSeries(highestCertifiableBadgeAcquisitions, async (badgeAcquisition) => {
       const badge = badgeAcquisition.badge;
-      const targetProfile = await targetProfileRepository.get(badge.targetProfileId);
+      const targetProfile = await targetProfileRepository.get(badge.targetProfileId, domainTransaction);
       const isBadgeValid = badgeCriteriaService.areBadgeCriteriaFulfilled({
         knowledgeElements,
         targetProfile,
