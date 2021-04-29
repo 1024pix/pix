@@ -7,6 +7,7 @@ const AuthenticationMethod = require('../../../../../lib/domain/models/Authentic
 const { notify } = require('../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const authenticationMethodRepository = require('../../../../../lib/infrastructure/repositories/authentication-method-repository');
+const logger = require('../../../../../lib/infrastructure/logger');
 
 describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', () => {
 
@@ -38,6 +39,8 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       sinon.stub(httpAgent, 'post');
       sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
       sinon.stub(authenticationMethodRepository, 'updatePoleEmploiAuthenticationComplementByUserId');
+      sinon.stub(logger, 'error');
+
       settings.poleEmploi.tokenUrl = 'someTokenUrlToPoleEmploi';
       settings.poleEmploi.sendingUrl = 'someSendingUrlToPoleEmploi';
     });
@@ -46,6 +49,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       clock.restore();
       settings.poleEmploi.sendingUrl = originPoleEmploiSendingUrl;
       settings.poleEmploi.tokenUrl = originPoleEmploiTokenUrl;
+
       httpAgent.post.restore();
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.restore();
       authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId.restore();
@@ -53,7 +57,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
     it('should throw an error if the user is not known as PoleEmploi user', async () => {
       // given
-      httpAgent.post
+      authenticationMethodRepository.findOneByUserIdAndIdentityProvider
         .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
         .resolves(null);
 
@@ -71,6 +75,14 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         // given
         const expiredDate = moment().add(10, 'm').toDate();
         const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
+
+        const expectedHearders = {
+          'Authorization': `Bearer ${authenticationMethod.authenticationComplement.accessToken}`,
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'Service-source': 'Pix',
+        };
+
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
           .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
           .resolves(authenticationMethod);
@@ -80,12 +92,11 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         await notify(userId, payload, poleEmploiSending);
 
         // then
-        expect(httpAgent.post).to.have.been.calledWithExactly({ url: settings.poleEmploi.sendingUrl, payload, headers: {
-          'Authorization': `Bearer ${authenticationMethod.authenticationComplement.accessToken}`,
-          'Content-type': 'application/json',
-          'Accept': 'application/json',
-          'Service-source': 'Pix',
-        } });
+        expect(httpAgent.post).to.have.been.calledWithExactly({
+          url: settings.poleEmploi.sendingUrl,
+          payload,
+          headers: expectedHearders,
+        });
       });
     });
 
@@ -93,6 +104,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
       it('should try to refresh the access token', async () => {
         // given
+        const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
           .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
           .resolves(authenticationMethod);
@@ -108,8 +120,11 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         await notify(userId, payload, poleEmploiSending);
 
         // then
-        expect(httpAgent.post).to.have.been.calledWithExactly({ url: settings.poleEmploi.tokenUrl, payload: querystring.stringify(params),
-          headers: { 'content-type': 'application/x-www-form-urlencoded' } });
+        expect(httpAgent.post).to.have.been.calledWithExactly({
+          url: settings.poleEmploi.tokenUrl,
+          payload: querystring.stringify(params),
+          headers: expectedHeaders,
+        });
       });
 
       context('when it succeeds', () => {
@@ -141,6 +156,13 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             expiredDate: moment().add(data['expires_in'], 's').toDate(),
           });
 
+          const expectedHeaders = {
+            'Authorization': `Bearer ${authenticationComplement.accessToken}`,
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'Service-source': 'Pix',
+          };
+
           authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId
             .withArgs({ authenticationComplement, userId })
             .resolves();
@@ -157,43 +179,98 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(httpAgent.post).to.have.been.calledWithExactly({ url: settings.poleEmploi.sendingUrl, payload, headers: {
-            'Authorization': `Bearer ${authenticationComplement.accessToken}`,
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-            'Service-source': 'Pix',
-          } });
+          expect(httpAgent.post).to.have.been.calledWithExactly({
+            url: settings.poleEmploi.sendingUrl,
+            payload,
+            headers: expectedHeaders,
+          });
         });
       });
 
       context('when it fails', () => {
 
-        it('should not send results', async () => {
+        it('should log error and return httpResponse with error if retrieve PE tokens fails', async () => {
           // given
+          const errorData = {
+            error: 'invalid_client',
+            error_description: 'Invalid authentication method for accessing this endpoint.',
+          };
+          const tokenResponse = {
+            isSuccessful: false,
+            code: 400,
+            data: errorData,
+          };
+
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-            .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
             .resolves(authenticationMethod);
-          httpAgent.post.resolves({ isSuccessful: false, code });
+
+          httpAgent.post.withArgs({
+            url: settings.poleEmploi.tokenUrl,
+            headers: sinon.match.any,
+            payload: sinon.match.any,
+          }).resolves(tokenResponse);
+
+          logger.error.resolves();
+
+          const expectedLoggerMessage = `${errorData.error} ${errorData.error_description}`;
+          const expectedResult = {
+            code: tokenResponse.code,
+            isSuccessful: tokenResponse.isSuccessful,
+          };
 
           // when
-          await notify(userId, payload, poleEmploiSending);
+          const result = await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(httpAgent.post).to.not.have.been.calledWith(settings.poleEmploi.sendingUrl);
+          expect(logger.error).to.have.been.calledWith(expectedLoggerMessage);
+          expect(result).to.deep.equal(expectedResult);
         });
 
-        it('should return isSuccessful to false', async () => {
+        it('should log error and return httpResponse with error if sending to PE fails', async () => {
           // given
+          const tokenResponse = {
+            isSuccessful: true,
+            data: {
+              access_token: 'TOKEN',
+            },
+          };
+          const httpResponse = {
+            isSuccessful: false,
+            code: 429,
+            data: 'Too Many Requests',
+          };
+
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-            .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
             .resolves(authenticationMethod);
-          httpAgent.post.resolves({ isSuccessful: false, code });
+          authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId
+            .resolves();
+
+          httpAgent.post
+            .withArgs({
+              url: settings.poleEmploi.tokenUrl,
+              headers: sinon.match.any,
+              payload: sinon.match.any,
+            }).resolves(tokenResponse)
+            .withArgs({
+              url: settings.poleEmploi.sendingUrl,
+              headers: sinon.match.any,
+              payload: sinon.match.any,
+            }).resolves(httpResponse);
+
+          logger.error.resolves();
+
+          const expectedLoggerMessage = httpResponse.data;
+          const expectedResult = {
+            code: httpResponse.code,
+            isSuccessful: httpResponse.isSuccessful,
+          };
 
           // when
-          const response = await notify(userId, payload, poleEmploiSending);
+          const result = await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(response).to.deep.equal({ isSuccessful: false, code });
+          expect(logger.error).to.have.been.calledWith(expectedLoggerMessage);
+          expect(result).to.deep.equal(expectedResult);
         });
       });
     });

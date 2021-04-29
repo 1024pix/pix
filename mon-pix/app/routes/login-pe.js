@@ -60,6 +60,7 @@ export default class LoginPeRoute extends Route {
       if (shouldValidateCgu && authenticationKey) {
         return this.replaceWith('terms-of-service-pe', { queryParams: { authenticationKey } });
       }
+      throw new Error(JSON.stringify(response.errors));
     }
   }
 
