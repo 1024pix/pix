@@ -33,6 +33,7 @@ Router.map(function() {
       this.route('get', { path: '/:organization_id' }, function() {
         this.route('members');
         this.route('target-profiles');
+        this.route('campaigns');
       });
     });
 

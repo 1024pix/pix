@@ -2,6 +2,7 @@ const organizationService = require('../../domain/services/organization-service'
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
+const campaignManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-management-serializer');
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
 const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
@@ -73,6 +74,14 @@ module.exports = {
     }
     const { models: campaigns, meta } = await usecases.findPaginatedFilteredOrganizationCampaigns({ organizationId, filter: options.filter, page: options.page });
     return campaignReportSerializer.serialize(campaigns, meta);
+  },
+
+  async findPaginatedCampaignManagements(request) {
+    const organizationId = parseInt(request.params.id);
+    const { filter, page } = queryParamsUtils.extractParameters(request.query);
+
+    const { models: campaigns, meta } = await usecases.findPaginatedCampaignManagements({ organizationId, filter, page });
+    return campaignManagementSerializer.serialize(campaigns, meta);
   },
 
   async findPaginatedFilteredMemberships(request) {
