@@ -80,12 +80,12 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         await notify(userId, payload, poleEmploiSending);
 
         // then
-        expect(httpAgent.post).to.have.been.calledWithExactly(settings.poleEmploi.sendingUrl, payload, {
+        expect(httpAgent.post).to.have.been.calledWithExactly({ url: settings.poleEmploi.sendingUrl, payload, headers: {
           'Authorization': `Bearer ${authenticationMethod.authenticationComplement.accessToken}`,
           'Content-type': 'application/json',
           'Accept': 'application/json',
           'Service-source': 'Pix',
-        });
+        } });
       });
     });
 
@@ -108,9 +108,8 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         await notify(userId, payload, poleEmploiSending);
 
         // then
-        expect(httpAgent.post).to.have.been.calledWithExactly(settings.poleEmploi.tokenUrl, querystring.stringify(params), {
-          headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        });
+        expect(httpAgent.post).to.have.been.calledWithExactly({ url: settings.poleEmploi.tokenUrl, payload: querystring.stringify(params),
+          headers: { 'content-type': 'application/x-www-form-urlencoded' } });
       });
 
       context('when it succeeds', () => {
@@ -158,12 +157,12 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(httpAgent.post).to.have.been.calledWithExactly(settings.poleEmploi.sendingUrl, payload, {
+          expect(httpAgent.post).to.have.been.calledWithExactly({ url: settings.poleEmploi.sendingUrl, payload, headers: {
             'Authorization': `Bearer ${authenticationComplement.accessToken}`,
             'Content-type': 'application/json',
             'Accept': 'application/json',
             'Service-source': 'Pix',
-          });
+          } });
         });
       });
 

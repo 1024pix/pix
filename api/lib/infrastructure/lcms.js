@@ -1,12 +1,15 @@
-const axios = require('axios');
+const httpAgent = require('./http/http-agent');
+
 const { lcms } = require('../config');
 
 module.exports = {
   async getCurrentContent() {
-    const response = await axios.get('/releases/latest', {
-      baseURL: lcms.url,
-      headers: { Authorization: `Bearer ${lcms.apiKey}` },
-    });
+    const response = await httpAgent.get(
+      {
+        url: lcms.url + '/releases/latest',
+        headers: { Authorization: `Bearer ${lcms.apiKey}` },
+      },
+    );
     return response.data.content;
   },
 };
