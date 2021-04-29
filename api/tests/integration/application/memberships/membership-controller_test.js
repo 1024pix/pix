@@ -85,37 +85,42 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
   describe('#update', () => {
 
-    const organizationRole = Membership.roles.ADMIN;
-
-    const payload = {
-      data: {
-        type: 'memberships',
-        attributes: {
-          'organization-role': organizationRole,
-        },
-        relationships: {
-          organization: {
-            data: {
-              id: '1',
-              type: 'organizations',
-            },
-          },
-        },
-      },
-    };
-
     context('Success cases', () => {
 
       it('should return a 200 HTTP response', async () => {
         // given
-        const membership = domainBuilder.buildMembership({
+        const membership = new Membership({
+          id: 123,
+          organizationRole: Membership.roles.ADMIN,
+          updatedByUserId: null,
+        });
+        const updatedMembership = domainBuilder.buildMembership({
           organizationRole: Membership.roles.MEMBER,
         });
-        usecases.updateMembership.resolves(membership);
+        usecases.updateMembership
+          .withArgs({ membership })
+          .resolves(updatedMembership);
         securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
 
         // when
-        const response = await httpTestServer.request('PATCH', '/api/memberships/1', payload);
+        const payload = {
+          data: {
+            type: 'memberships',
+            id: 123,
+            attributes: {
+              'organization-role': Membership.roles.ADMIN,
+            },
+            relationships: {
+              organization: {
+                data: {
+                  id: '1',
+                  type: 'organizations',
+                },
+              },
+            },
+          },
+        };
+        const response = await httpTestServer.request('PATCH', `/api/memberships/${membership.id}`, payload);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -148,6 +153,22 @@ describe('Integration | Application | Memberships | membership-controller', () =
           usecases.updateMembership.throws(new InvalidMembershipOrganizationRoleError());
 
           // when
+          const payload = {
+            data: {
+              type: 'memberships',
+              attributes: {
+                'organization-role': Membership.roles.ADMIN,
+              },
+              relationships: {
+                organization: {
+                  data: {
+                    id: '1',
+                    type: 'organizations',
+                  },
+                },
+              },
+            },
+          };
           const response = await httpTestServer.request('PATCH', '/api/memberships/1', payload);
 
           // then

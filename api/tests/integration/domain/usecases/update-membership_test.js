@@ -32,7 +32,6 @@ describe('Integration | UseCases | update-membership', () => {
 
     // when
     const result = await updateMembership({
-      membershipId,
       membership,
       membershipRepository,
       certificationCenterRepository,
@@ -45,40 +44,92 @@ describe('Integration | UseCases | update-membership', () => {
     expect(result.updatedByUserId).equal(updatedByUserId);
   });
 
-  it('if the organization has a certification center and the role to update is set to administrator, it should create a certification center membership ', async () => {
-    // given
-    const externalId = 'foo';
-    const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId }).id;
-    const userId = databaseBuilder.factory.buildUser().id;
-    const updatedByUserId = databaseBuilder.factory.buildUser().id;
-    const membershipId = databaseBuilder.factory.buildMembership({
-      organizationId, userId,
-      organizationRole: Membership.roles.MEMBER,
-    }).id;
-    const newOrganizationRole = Membership.roles.ADMIN;
-    const membership = new Membership({ id: membershipId, organizationRole: newOrganizationRole, updatedByUserId });
+  describe('when the organizationRole to change is set to ADMIN', () => {
 
-    const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ externalId }).id;
+    describe('when the SCO organization has a certification center', () => {
 
-    await databaseBuilder.commit();
+      it('it should create a certification center membership ', async () => {
+        // given
+        const externalId = 'foo';
+        const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId }).id;
+        const userWhoseOrganizationRoleIsToUpdate = databaseBuilder.factory.buildUser();
+        const adminWhoWantsToMakeTheOrganizationRoleChange = databaseBuilder.factory.buildUser();
+        const membershipId = databaseBuilder.factory.buildMembership({
+          organizationRole: Membership.roles.MEMBER,
+          organizationId,
+          userId: userWhoseOrganizationRoleIsToUpdate.id,
+        }).id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ externalId }).id;
+        await databaseBuilder.commit();
 
-    // when
-    await updateMembership({
-      membershipId,
-      membership,
-      membershipRepository,
-      certificationCenterRepository,
-      certificationCenterMembershipRepository,
+        const givenMembership = new Membership({
+          id: membershipId,
+          organizationRole: Membership.roles.ADMIN,
+          updatedByUserId: adminWhoWantsToMakeTheOrganizationRoleChange.id,
+        });
+
+        // when
+        await updateMembership({
+          membership: givenMembership,
+          membershipRepository,
+          certificationCenterRepository,
+          certificationCenterMembershipRepository,
+        });
+
+        // then
+        const certificationCenterMembership = await knex('certification-center-memberships').where({
+          userId: userWhoseOrganizationRoleIsToUpdate.id,
+          certificationCenterId,
+        }).first();
+
+        expect(certificationCenterMembership).not.to.be.undefined;
+        expect(certificationCenterMembership.userId).to.equal(userWhoseOrganizationRoleIsToUpdate.id);
+        expect(certificationCenterMembership.certificationCenterId).to.equal(certificationCenterId);
+      });
     });
+  });
 
-    // then
-    const certificationCenterMembership = await knex('certification-center-memberships').where({
-      userId,
-      certificationCenterId,
-    }).first();
+  describe('when the organizationRole to change is set to MEMBER', () => {
 
-    expect(certificationCenterMembership).not.to.be.undefined;
+    it('should only update membership and keep certificationMembership untouch', async () => {
+      // given
+      const externalId = 'foo';
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId }).id;
+      const userWhoseOrganizationRoleIsToUpdate = databaseBuilder.factory.buildUser();
+      const adminWhoWantsToMakeTheOrganizationRoleChange = databaseBuilder.factory.buildUser();
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ externalId }).id;
+      const membershipId = databaseBuilder.factory.buildMembership({
+        organizationRole: Membership.roles.ADMIN,
+        organizationId,
+        userId: userWhoseOrganizationRoleIsToUpdate.id,
+      }).id;
+      await databaseBuilder.commit();
 
+      const givenMembership = new Membership({
+        id: membershipId,
+        organizationRole: Membership.roles.MEMBER,
+        updatedByUserId: adminWhoWantsToMakeTheOrganizationRoleChange.id,
+      });
+
+      // when
+      const result = await updateMembership({
+        membership: givenMembership,
+        membershipRepository,
+        certificationCenterRepository,
+        certificationCenterMembershipRepository,
+      });
+
+      // then
+      const certificationCenterMembership = await knex('certification-center-memberships').where({
+        userId: userWhoseOrganizationRoleIsToUpdate.id,
+        certificationCenterId,
+      }).first();
+
+      expect(certificationCenterMembership).to.be.undefined;
+      expect(result).to.be.an.instanceOf(Membership);
+      expect(result.organizationRole).equal(Membership.roles.MEMBER);
+      expect(result.updatedByUserId).equal(adminWhoWantsToMakeTheOrganizationRoleChange.id);
+    });
   });
 
 });

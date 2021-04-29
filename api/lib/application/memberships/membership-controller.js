@@ -20,8 +20,9 @@ module.exports = {
     const membership = membershipSerializer.deserialize(request.payload);
     membership.updatedByUserId = userId;
 
-    const updateMembership = await usecases.updateMembership({ membershipId, membership });
-    return h.response(membershipSerializer.serialize(updateMembership));
+    const updatedMembership = await usecases.updateMembership({ membership });
+
+    return h.response(membershipSerializer.serialize(updatedMembership));
   },
 
   async disable(request, h) {
