@@ -1,6 +1,7 @@
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 const usecases = require('../../domain/usecases');
+const { BadRequestError } = require('../http-errors');
 
 module.exports = {
 
@@ -18,6 +19,9 @@ module.exports = {
     const membershipId = request.params.id;
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
     const membership = membershipSerializer.deserialize(request.payload);
+    if (membershipId != membership.id) {
+      throw new BadRequestError();
+    }
     membership.updatedByUserId = userId;
 
     const updatedMembership = await usecases.updateMembership({ membership });

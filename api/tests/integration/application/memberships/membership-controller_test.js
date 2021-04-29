@@ -129,6 +129,51 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
     context('Error cases', () => {
 
+      context('when request is not valid', () => {
+
+        it('should resolve a 400 HTTP response', async () => {
+          // given
+          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
+          const idGivenInRequestParams = 1;
+          const idGivenInPayload = 44;
+
+          const membership = new Membership({
+            id: idGivenInPayload,
+            organizationRole: Membership.roles.ADMIN,
+            updatedByUserId: null,
+          });
+          const updatedMembership = domainBuilder.buildMembership({
+            organizationRole: Membership.roles.ADMIN,
+          });
+          usecases.updateMembership
+            .withArgs({ membership })
+            .resolves(updatedMembership);
+
+          // when
+          const payload = {
+            data: {
+              type: 'memberships',
+              id: idGivenInPayload,
+              attributes: {
+                'organization-role': Membership.roles.ADMIN,
+              },
+              relationships: {
+                organization: {
+                  data: {
+                    id: '1',
+                    type: 'organizations',
+                  },
+                },
+              },
+            },
+          };
+          const response = await httpTestServer.request('PATCH', `/api/memberships/${idGivenInRequestParams}`, payload);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+      });
+
       context('when user is not allowed to access resource', () => {
 
         it('should resolve a 403 HTTP response', async () => {
