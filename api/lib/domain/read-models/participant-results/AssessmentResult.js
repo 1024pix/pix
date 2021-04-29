@@ -1,11 +1,13 @@
 const BadgeResult = require('./BadgeResult');
 const ReachedStage = require('./ReachedStage');
 const CompetenceResult = require('./CompetenceResult');
+const constants = require('../../constants');
+const moment = require('moment');
 
 class AssessmentResult {
 
-  constructor(participationResults, targetProfile) {
-    const { knowledgeElements } = participationResults;
+  constructor(participationResults, targetProfile, isCampaignMultipleSendings) {
+    const { knowledgeElements, sharedAt } = participationResults;
     const { competences } = targetProfile;
 
     this.id = participationResults.campaignParticipationId;
@@ -23,6 +25,7 @@ class AssessmentResult {
     if (targetProfile.stages.length > 0) {
       this.reachedStage = new ReachedStage(this.masteryPercentage, targetProfile.stages);
     }
+    this.canRetry = this._computeCanRetry(isCampaignMultipleSendings, sharedAt);
   }
 
   _computeMasteryPercentage() {
@@ -31,6 +34,16 @@ class AssessmentResult {
     } else {
       return 0;
     }
+  }
+
+  _computeCanRetry(isCampaignMultipleSendings, sharedAt) {
+    return isCampaignMultipleSendings
+      && this._isSharedLongTimeAgo(sharedAt)
+      && this.masteryPercentage < constants.MAX_MASTERY_POURCENTAGE;
+  }
+
+  _isSharedLongTimeAgo(sharedAt) {
+    return sharedAt && moment().diff(sharedAt, 'days') >= constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
   }
 }
 
