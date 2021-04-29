@@ -42,7 +42,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#findOneRegisteredByOrganizationIdAndUserData', () => {
+  describe('#findOneByStudentNumberAndBirthdate', () => {
 
     let organizationId;
     const studentNumber = '1234567';
@@ -61,7 +61,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
       it('should return null', async () => {
         // when
-        const result = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber: 'XXX' } });
+        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({ organizationId, birthdate, studentNumber: 'XXX' });
 
         // then
         expect(result).to.equal(null);
@@ -77,7 +77,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
       it('should return null', async () => {
         // when
-        const result = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } });
+        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({ organizationId, birthdate, studentNumber });
 
         // then
         expect(result).to.equal(null);
@@ -92,7 +92,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
       it('should return null', async () => {
         // when
-        const result = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } });
+        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({ organizationId, birthdate, studentNumber });
 
         // then
         expect(result).to.equal(null);
@@ -107,7 +107,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
       it('should return null', async () => {
         // when
-        const result = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } });
+        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({ organizationId, birthdate, studentNumber });
 
         // then
         expect(result).to.equal(null);
@@ -123,7 +123,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
       it('should return the schooling registration', async () => {
         // when
-        const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { studentNumber, birthdate } });
+        const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({ organizationId, studentNumber, birthdate });
 
         // then
         expect(schoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
