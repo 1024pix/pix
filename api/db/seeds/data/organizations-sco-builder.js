@@ -6,6 +6,7 @@ const SCO_HIGH_SCHOOL_ID = 6;
 const SCO_AGRI_ID = 7;
 const SCO_AGRI_CFA_ID = 8;
 const SCO_AEFE_ID = 9;
+const SCO_STUDENT_ID = 99;
 
 function organizationsScoBuilder({ databaseBuilder }) {
   const SCO_EXTERNAL_ID = '1237457A';
@@ -138,6 +139,26 @@ function organizationsScoBuilder({ databaseBuilder }) {
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithEmail.id,
     nationalStudentId: '123123123C',
+  });
+
+  // schooling registration associated with email used by certification
+  const userCertifWithEmail = databaseBuilder.factory.buildUser.withRawPassword({
+    id: SCO_STUDENT_ID,
+    firstName: 'student',
+    lastName: 'certif',
+    email: 'eleve-certif@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+
+  databaseBuilder.factory.buildSchoolingRegistration({
+    firstName: userCertifWithEmail.firstName,
+    lastName: userCertifWithEmail.lastName,
+    birthdate: '2000-01-01',
+    division: '5D',
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
+    userId: userCertifWithEmail.id,
+    nationalStudentId: '123123123E',
   });
 
   // schooling registration associated with gar
@@ -297,5 +318,6 @@ module.exports = {
   SCO_AGRI_ID,
   SCO_AGRI_CFA_ID,
   SCO_AEFE_ID,
+  SCO_STUDENT_ID,
 };
 
