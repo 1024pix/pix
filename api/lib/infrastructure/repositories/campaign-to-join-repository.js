@@ -7,8 +7,8 @@ const DomainTransaction = require('../DomainTransaction');
 module.exports = {
 
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const result = await knex('campaigns')
-      .transacting(domainTransaction.knexTransaction)
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const result = await knexConn('campaigns')
       .select('campaigns.*')
       .select({
         'organizationId': 'organizations.id',
@@ -80,8 +80,8 @@ async function _checkCanAccessToCampaign(campaign, userId, domainTransaction) {
 }
 
 async function _hasNoSchoolingRegistration(userId, campaign, domainTransaction) {
-  const registrations = await knex
-    .transacting(domainTransaction.knexTransaction)
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const registrations = await knexConn
     .select('schooling-registrations.id')
     .from('schooling-registrations')
     .where({ userId, organizationId: campaign.organizationId });
@@ -99,8 +99,9 @@ async function _checkCanParticipateToCampaign(campaign, userId, domainTransactio
 }
 
 async function _hasAlreadyParticipatedToCampaign(campaignId, userId, domainTransaction) {
-  const { count } = await knex('campaign-participations')
-    .transacting(domainTransaction.knexTransaction)
+  const knexConn = domainTransaction.knexTransaction || knex;
+
+  const { count } = await knexConn('campaign-participations')
     .count('id')
     .where({ userId, campaignId })
     .first();
@@ -108,16 +109,16 @@ async function _hasAlreadyParticipatedToCampaign(campaignId, userId, domainTrans
 }
 
 async function _cannotImproveResults(campaignId, userId, domainTransaction) {
-  const targetProfileSkillIds = await knex('target-profiles_skills')
-    .transacting(domainTransaction.knexTransaction)
+  const knexConn = domainTransaction.knexTransaction || knex;
+
+  const targetProfileSkillIds = await knexConn('target-profiles_skills')
     .select('skillId')
     .join('campaigns', 'campaigns.targetProfileId', 'target-profiles_skills.targetProfileId')
     .where({ 'campaigns.id': campaignId });
 
   const operativeTargetProfileSkillIds = await skillDatasource.findOperativeByRecordIds(targetProfileSkillIds.map(({ skillId }) => skillId));
 
-  const { count } = await knex('campaign-participations')
-    .transacting(domainTransaction.knexTransaction)
+  const { count } = await knexConn('campaign-participations')
     .count('id')
     .where({ userId, campaignId, isImproved: false })
     .andWhere((builder) => {

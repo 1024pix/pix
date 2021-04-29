@@ -69,17 +69,17 @@ module.exports = {
   },
 
   async markPreviousParticipationsAsImproved(campaignId, userId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    return knex('campaign-participations')
+    const knexConn = domainTransaction.knexTransaction || knex;
+    return knexConn('campaign-participations')
       .where({ campaignId, userId })
       .update({
         isImproved: true,
-      })
-      .transacting(domainTransaction.knexTransaction);
+      });
   },
 
   async hasAlreadyParticipated(campaignId, userId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const { count } = await knex('campaign-participations')
-      .transacting(domainTransaction.knexTransaction)
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const { count } = await knexConn('campaign-participations')
       .count('id')
       .where({ campaignId, userId })
       .first();
