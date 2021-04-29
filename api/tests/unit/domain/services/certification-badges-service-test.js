@@ -7,7 +7,7 @@ const badgeCriteriaService = require('../../../../lib/domain/services/badge-crit
 
 describe('Unit | Service | Certification Badges Service', () => {
 
-  describe('#findStillAcquiredBadgeAcquisitions', () => {
+  describe('#findStillValidBadgeAcquisitions', () => {
 
     beforeEach(() => {
       sinon.stub(badgeAcquisitionRepository, 'findCertifiable');
@@ -24,7 +24,7 @@ describe('Unit | Service | Certification Badges Service', () => {
         badgeAcquisitionRepository.findCertifiable.withArgs({ userId, domainTransaction }).resolves([]);
 
         // when
-        const badgesAcquisitions = await certificationBadgesService.findStillAcquiredBadgeAcquisitions({ userId, domainTransaction });
+        const badgesAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({ userId, domainTransaction });
 
         // then
         expect(badgesAcquisitions).to.deep.equal([]);
@@ -53,7 +53,7 @@ describe('Unit | Service | Certification Badges Service', () => {
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ targetProfile, badge, knowledgeElements }).returns(true);
 
           // when
-          const badgesAcquisitions = await certificationBadgesService.findStillAcquiredBadgeAcquisitions({ userId, domainTransaction });
+          const badgesAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({ userId, domainTransaction });
 
           // then
           expect(badgesAcquisitions).to.deep.equal([badgeAcquisition]);
@@ -66,7 +66,7 @@ describe('Unit | Service | Certification Badges Service', () => {
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ targetProfile, badge, knowledgeElements }).returns(false);
 
           // when
-          const badgesAcquisitions = await certificationBadgesService.findStillAcquiredBadgeAcquisitions({ userId, domainTransaction });
+          const badgesAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({ userId, domainTransaction });
 
           // then
           expect(badgesAcquisitions).to.deep.equal([]);
@@ -102,7 +102,7 @@ describe('Unit | Service | Certification Badges Service', () => {
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ targetProfile, badge: otherBadge, knowledgeElements }).returns(true);
 
           // when
-          const badgesAcquisitions = await certificationBadgesService.findStillAcquiredBadgeAcquisitions({ userId, domainTransaction });
+          const badgesAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({ userId, domainTransaction });
 
           // then
           expect(badgesAcquisitions).to.deep.equal([otherBadgeAcquisition, maitreBadgeAcquisition]);
@@ -124,7 +124,7 @@ describe('Unit | Service | Certification Badges Service', () => {
           badgeCriteriaService.areBadgeCriteriaFulfilled.withArgs({ targetProfile, badge: expertBadge, knowledgeElements }).returns(true);
 
           // when
-          const badgesAcquisitions = await certificationBadgesService.findStillAcquiredBadgeAcquisitions({ userId, domainTransaction });
+          const badgesAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({ userId, domainTransaction });
 
           // then
           expect(badgesAcquisitions).to.deep.equal([expertBadgeAcquisition]);

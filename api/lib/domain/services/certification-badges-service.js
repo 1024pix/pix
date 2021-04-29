@@ -9,7 +9,7 @@ const badgeCriteriaService = require('../../domain/services/badge-criteria-servi
 const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF } = require('../../domain/models/Badge').keys;
 
 module.exports = {
-  async findStillAcquiredBadgeAcquisitions({ userId, domainTransaction }) {
+  async findStillValidBadgeAcquisitions({ userId, domainTransaction }) {
     const certifiableBadgeAcquisitions = await badgeAcquisitionRepository.findCertifiable({ userId, domainTransaction });
     const highestCertifiableBadgeAcquisitions = this._keepHighestBadgeWithinPlusCertifications(certifiableBadgeAcquisitions);
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
