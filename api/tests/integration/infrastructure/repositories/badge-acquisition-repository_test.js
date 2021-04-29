@@ -105,16 +105,18 @@ describe('Integration | Repository | Badge Acquisition', () => {
   });
 
   describe('#findCertifiable', () => {
-    let badgeCertifiable1, badgeNonCertifiable, user, userWithoutBadge;
+    let badgeCertifiable, badgeNonCertifiable, user, userWithoutBadge;
     beforeEach(async () => {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      badgeCertifiable1 = databaseBuilder.factory.buildBadge({ key: 'key1', targetProfileId: targetProfile.id, isCertifiable: true });
+      badgeCertifiable = databaseBuilder.factory.buildBadge({ key: 'key1', targetProfileId: targetProfile.id, isCertifiable: true });
       databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id, isCertifiable: true });
       badgeNonCertifiable = databaseBuilder.factory.buildBadge({ key: 'key2', targetProfileId: targetProfile.id, isCertifiable: false });
       user = databaseBuilder.factory.buildUser();
       userWithoutBadge = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeCertifiable1.id, userId: user.id });
+      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeCertifiable.id, userId: user.id });
       databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeNonCertifiable.id, userId: user.id });
+      databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badgeCertifiable.id });
+      databaseBuilder.factory.buildBadgeCriterion({ badgeId: badgeCertifiable.id });
       await databaseBuilder.commit();
     });
 
@@ -126,7 +128,9 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
       // then
       expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
-      expect(certifiableBadgesAcquiredByUser[0].badge).to.includes(badgeCertifiable1);
+      expect(certifiableBadgesAcquiredByUser[0].badge).to.includes(badgeCertifiable);
+      expect(certifiableBadgesAcquiredByUser[0].badge.badgePartnerCompetences.length).to.equal(1);
+      expect(certifiableBadgesAcquiredByUser[0].badge.badgeCriteria.length).to.deep.equal(1);
     });
 
     it('should return an empty array when user has no certifiable acquired badge', async () => {
