@@ -278,7 +278,6 @@ function _buildSUPSchoolingRegistration({ userId, organizationId, identifier }) 
   return {
     ..._buildBaseSchoolingRegistration({ userId, organizationId, identifier }),
     studentNumber: `NUMETU_${organizationId}_${identifier}`,
-    isSupernumerary: _.random(0, 1) === 1,
     diploma: diplomas[_.random(0, 3)],
     group: groups[_.random(0, 3)],
   };

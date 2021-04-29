@@ -61,7 +61,6 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
           group: 'Deadly Viper Assassination Squad',
           studyScheme: 'hello darkness my old friend',
           organizationId,
-          isSupernumerary: false,
         });
         expect(registrations[1]).to.deep.equal({
           firstName: 'O-Ren',
@@ -78,7 +77,6 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
           group: 'Deadly Viper Assassination Squad',
           studyScheme: undefined,
           organizationId,
-          isSupernumerary: false,
         });
       });
     });

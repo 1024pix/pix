@@ -5,16 +5,7 @@ const validationConfiguration = { allowUnknown: true };
 const MAX_LENGTH = 255;
 
 const validationSchema = Joi.object({
-  studentNumber: Joi.string().regex(/^[a-zA-Z0-9_\\-]*$/).max(MAX_LENGTH)
-    .when('$isSupernumerary', {
-      switch: [{
-        is: true,
-        then: Joi.optional().allow(null),
-      }, {
-        is: false,
-        then: Joi.required(),
-      }],
-    }),
+  studentNumber: Joi.string().regex(/^[a-zA-Z0-9_\\-]*$/).max(MAX_LENGTH).required(),
   firstName: Joi.string().max(MAX_LENGTH).required(),
   middleName: Joi.string().max(MAX_LENGTH).optional(),
   thirdName: Joi.string().max(MAX_LENGTH).optional(),
@@ -28,14 +19,13 @@ const validationSchema = Joi.object({
   group: Joi.string().max(MAX_LENGTH).optional(),
   studyScheme: Joi.string().max(MAX_LENGTH).optional(),
   organizationId: Joi.number().integer().required(),
-  isSupernumerary: Joi.boolean().required(),
 });
 
 module.exports = {
   checkValidation(higherSchoolingRegistration) {
     const { error } = validationSchema.validate(
       higherSchoolingRegistration,
-      { ...validationConfiguration, context: { isSupernumerary: higherSchoolingRegistration.isSupernumerary } },
+      validationConfiguration,
     );
     if (error) {
       const err = EntityValidationError.fromJoiErrors(error.details);
