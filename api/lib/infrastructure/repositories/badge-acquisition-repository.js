@@ -55,7 +55,7 @@ module.exports = {
         qb.where('badges.isCertifiable', '=', true);
       })
       .fetchAll({
-        withRelated: ['badge'],
+        withRelated: ['badge', 'badge.badgePartnerCompetences', 'badge.badgeCriteria'],
         require: false,
         transacting: domainTransaction.knexTransaction,
       });
