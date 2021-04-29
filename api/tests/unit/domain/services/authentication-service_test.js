@@ -1,11 +1,14 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
-const axios = require('axios');
-
-const { UserNotFoundError, PasswordNotMatching } = require('../../../../lib/domain/errors');
+const {
+  GeneratePoleEmploiTokensError,
+  PasswordNotMatching,
+  UserNotFoundError,
+} = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
 
 const settings = require('../../../../lib/config');
+const httpAgent = require('../../../../lib/infrastructure/http/http-agent');
 
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
@@ -109,6 +112,10 @@ describe('Unit | Domain | Services | authentication-service', () => {
 
   describe('#generatePoleEmploiTokens', () => {
 
+    beforeEach(() => {
+      sinon.stub(httpAgent, 'post');
+    });
+
     it('should return access token, id token and validity period', async () => {
       // given
       const code = 'code';
@@ -123,9 +130,10 @@ describe('Unit | Domain | Services | authentication-service', () => {
 
       const expectedUrl = settings.poleEmploi.tokenUrl;
       const expectedData = `client_secret=${settings.poleEmploi.clientSecret}&grant_type=authorization_code&code=${code}&client_id=${clientId}&redirect_uri=${redirectUri}`;
-      const expectedHeaders = { headers: { 'content-type': 'application/x-www-form-urlencoded' } };
+      const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
 
       const response = {
+        isSuccessful: true,
         data: {
           access_token: accessToken,
           id_token: idToken,
@@ -133,14 +141,48 @@ describe('Unit | Domain | Services | authentication-service', () => {
           refresh_token: refreshToken,
         },
       };
-      sinon.stub(axios, 'post').resolves(response);
+      httpAgent.post.resolves(response);
 
       // when
       const result = await service.generatePoleEmploiTokens({ code, clientId, redirectUri });
 
       // then
       expect(result).to.deep.equal(expectedResult);
-      expect(axios.post).to.have.been.calledWith(expectedUrl, expectedData, expectedHeaders);
+      expect(httpAgent.post).to.have.been.calledWith({
+        url: expectedUrl,
+        payload: expectedData,
+        headers: expectedHeaders,
+      });
+    });
+
+    context('when PE tokens generation fails', () => {
+
+      it('should log error and throw GeneratePoleEmploiTokensError', async () => {
+        // given
+        const code = 'code';
+        const clientId = 'clientId';
+        const redirectUri = 'redirectUri';
+
+        const errorData = {
+          error: 'invalid_client',
+          error_description: 'Invalid authentication method for accessing this endpoint.',
+        };
+        const expectedMessage = `${errorData.error} ${errorData.error_description}`;
+
+        const response = {
+          isSuccessful: false,
+          code: 400,
+          data: errorData,
+        };
+        httpAgent.post.resolves(response);
+
+        // when
+        const error = await catchErr(service.generatePoleEmploiTokens)({ code, clientId, redirectUri });
+
+        // then
+        expect(error).to.be.an.instanceOf(GeneratePoleEmploiTokensError);
+        expect(error.message).to.equal(expectedMessage);
+      });
     });
   });
 

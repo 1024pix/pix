@@ -56,7 +56,6 @@ describe('Unit | Infrastructure | http | http-agent', () => {
           const actualResponse = await post({ url, payload, headers });
 
           // then
-          expect(logger.error).to.have.been.calledOnce;
           expect(actualResponse).to.deep.equal({
             isSuccessful: false,
             code: axiosError.response.status,
@@ -76,21 +75,23 @@ describe('Unit | Infrastructure | http | http-agent', () => {
           const headers = { a: 'someHeaderInfo' };
 
           const axiosError = {
-            name: 'error name',
+            response: {
+              data: { error: 'HTTP error' },
+              status: 400,
+            },
           };
           sinon.stub(axios, 'post').withArgs(url, payload, { headers }).rejects(axiosError);
 
           const expectedResponse = {
             isSuccessful: false,
-            code: '500',
-            data: null,
+            code: axiosError.response.status,
+            data: axiosError.response.data,
           };
 
           // when
           const actualResponse = await post({ url, payload, headers });
 
           // then
-          expect(logger.error).to.have.been.calledOnce;
           expect(actualResponse).to.deep.equal(expectedResponse);
         });
       });

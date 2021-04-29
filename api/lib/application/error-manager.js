@@ -88,6 +88,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CampaignCodeError) {
     return new HttpErrors.NotFoundError(error.message);
   }
+  if (error instanceof DomainErrors.GeneratePoleEmploiTokensError) {
+    return new HttpErrors.InternalServerError(error.message, error.title);
+  }
   if (error instanceof DomainErrors.UserAccountNotFoundForPoleEmploiError) {
     return new HttpErrors.UnauthorizedError(error.message, error.responseCode, { authenticationKey: error.authenticationKey });
   }
