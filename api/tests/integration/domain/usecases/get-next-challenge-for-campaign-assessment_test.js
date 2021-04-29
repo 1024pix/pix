@@ -4,13 +4,14 @@ const getNextChallengeForCampaignAssessment = require('../../../../lib/domain/us
 const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', () => {
+describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-assessment', () => {
 
   describe('#getNextChallengeForCampaignAssessment', () => {
 
     let userId, assessmentId, campaignParticipationId,
       assessment, lastAnswer, answerRepository, challengeRepository, challenges,
       knowledgeElementRepository, recentKnowledgeElements,
+      campaignParticipationRepository, isRetrying,
       targetProfileRepository, targetProfile, skills, actualNextChallenge,
       improvementService, pickChallengeService,
       challengeWeb21, challengeWeb22, possibleSkillsForNextChallenge, locale;
@@ -35,6 +36,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
       knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
 
+      isRetrying = false;
+      campaignParticipationRepository = { isRetrying: sinon.stub().resolves(isRetrying) };
       const web2 = domainBuilder.buildSkill({ name: '@web2' });
       challengeWeb21 = domainBuilder.buildChallenge({ id: 'challenge_web2_1' });
       challengeWeb22 = domainBuilder.buildChallenge({ id: 'challenge_web2_2' });
@@ -57,6 +60,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
         answerRepository,
         challengeRepository,
         knowledgeElementRepository,
+        campaignParticipationRepository,
         targetProfileRepository,
         improvementService,
         pickChallengeService,
@@ -77,6 +81,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessmen
       expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWithExactly(({
         knowledgeElements: recentKnowledgeElements,
         assessment: expectedAssessment,
+        isRetrying,
       }));
     });
 
