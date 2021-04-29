@@ -46,24 +46,29 @@ describe('Unit | Router | user-router', () => {
       httpTestServer = startServer();
     });
 
-    it('should exist', async () => {
-      // given
-      const payload = {
-        data: {
-          attributes: {
-            'first-name': 'Edouard',
-            'last-name': 'Doux',
-            email: 'doux.doudou@example.net',
-            password: 'password_1234',
-          },
-        },
-      };
+    context('Payload schema validation', () => {
 
-      // when
-      const response = await httpTestServer.request(method, url, payload);
+      it('should return HTTP 400 if payload does not exist', async () => {
+        // given
+        const payload = null;
 
-      // then
-      expect(response.statusCode).to.equal(200);
+        // when
+        const result = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(result.statusCode).to.equal(400);
+      });
+
+      it('should return HTTP 200 if payload is not empty and valid', async () => {
+        // given
+        const payload = { data: { attributes: {} } };
+
+        // when
+        const result = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(result.statusCode).to.equal(200);
+      });
     });
   });
 
