@@ -8,7 +8,7 @@ describe('Integration | Repository | Certification Center', () => {
 
   describe('#get', () => {
 
-    context('the certification center is found', () => {
+    context('when the certification center is found', () => {
 
       it('should return the certification center of the given id with the right properties', async () => {
         // given
