@@ -22,10 +22,12 @@ module.exports = async function getProgression(
     const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
     const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
     const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: campaignParticipation.sharedAt });
+    const isRetrying = await campaignParticipationRepository.isRetrying({ campaignParticipationId: assessment.campaignParticipationId });
 
     const knowledgeElementsForProgression = await improvementService.filterKnowledgeElementsIfImproving({
       knowledgeElements: knowledgeElementsBeforeSharedDate,
       assessment,
+      isRetrying,
     });
 
     progression = new Progression({

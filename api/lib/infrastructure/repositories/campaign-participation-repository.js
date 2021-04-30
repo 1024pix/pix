@@ -69,17 +69,17 @@ module.exports = {
   },
 
   async markPreviousParticipationsAsImproved(campaignId, userId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    return knex('campaign-participations')
+    const knexConn = domainTransaction.knexTransaction || knex;
+    return knexConn('campaign-participations')
       .where({ campaignId, userId })
       .update({
         isImproved: true,
-      })
-      .transacting(domainTransaction.knexTransaction);
+      });
   },
 
   async hasAlreadyParticipated(campaignId, userId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const { count } = await knex('campaign-participations')
-      .transacting(domainTransaction.knexTransaction)
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const { count } = await knexConn('campaign-participations')
       .count('id')
       .where({ campaignId, userId })
       .first();
@@ -185,6 +185,21 @@ module.exports = {
       return assessment.state === Assessment.states.COMPLETED;
     }
     return false;
+  },
+
+  async isRetrying({ campaignParticipationId }) {
+    const { id: campaignId, userId } = await knex('campaigns')
+      .select('campaigns.id', 'userId')
+      .join('campaign-participations', 'campaigns.id', 'campaignId')
+      .where({ 'campaign-participations.id': campaignParticipationId })
+      .first();
+
+    const campaignParticipations = await knex('campaign-participations')
+      .select('sharedAt', 'isImproved')
+      .where({ campaignId, userId });
+
+    return campaignParticipations.length > 1 && campaignParticipations.some(
+      (participation) => !participation.isImproved && !participation.sharedAt);
   },
 };
 

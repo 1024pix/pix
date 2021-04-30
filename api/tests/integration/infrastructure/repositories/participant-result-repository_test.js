@@ -2,7 +2,7 @@ const { expect, databaseBuilder, mockLearningContent } = require('../../../test-
 const participantResultRepository = require('../../../../lib/infrastructure/repositories/participant-result-repository');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
-describe('Integration | Repository | Assessment Profile', () => {
+describe('Integration | Repository | ParticipantResultRepository', () => {
 
   describe('#getByParticipationId', () => {
 
@@ -60,6 +60,36 @@ describe('Integration | Repository | Assessment Profile', () => {
 
       expect(participantResult).to.deep.include({
         isCompleted: true,
+      });
+    });
+
+    context('computes canRetry', async () => {
+      it('returns true when all conditions are filled', async () => {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId, multipleSendings: true });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          sharedAt: new Date('2020-01-02'),
+        });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        await databaseBuilder.commit();
+
+        const participantResult = await participantResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+
+        expect(participantResult.canRetry).to.equal(true);
+      });
+
+      it('returns false', async () => {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId, multipleSendings: false });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        await databaseBuilder.commit();
+
+        const participantResult = await participantResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+
+        expect(participantResult.canRetry).to.equal(false);
       });
     });
 

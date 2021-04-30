@@ -738,4 +738,96 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
+  describe('#isRetrying', () => {
+    let campaignId;
+    let campaignParticipationId;
+    let userId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser().id;
+      campaignId = databaseBuilder.factory.buildCampaign().id;
+      await databaseBuilder.commit();
+    });
+
+    context('When the user has just one participation shared', () => {
+      beforeEach(async () => {
+        campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, isImproved: false, sharedAt: new Date('2002-10-10') }).id;
+        await databaseBuilder.commit();
+      });
+
+      it('returns false', async () => {
+        const result = await campaignParticipationRepository.isRetrying({ userId, campaignParticipationId });
+        expect(result).to.be.false;
+      });
+    });
+
+    context('When the user has just one participation not shared', () => {
+      beforeEach(async () => {
+        campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, isImproved: false, sharedAt: null }).id;
+        await databaseBuilder.commit();
+      });
+
+      it('returns false', async () => {
+        const result = await campaignParticipationRepository.isRetrying({ userId, campaignParticipationId });
+        expect(result).to.be.false;
+      });
+    });
+
+    context('When the user has several participations but all shared', () => {
+      beforeEach(async () => {
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, isImproved: true, sharedAt: new Date('2002-10-10') });
+        campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, isImproved: false, sharedAt: new Date('2002-10-10') }).id;
+        await databaseBuilder.commit();
+      });
+
+      it('returns false', async () => {
+        const result = await campaignParticipationRepository.isRetrying({ userId, campaignParticipationId });
+        expect(result).to.be.false;
+      });
+    });
+
+    context('When the user has several participations but not in the same campaign', () => {
+      beforeEach(async () => {
+        const otherCampaignId = databaseBuilder.factory.buildCampaign().id;
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId: otherCampaignId, userId, isImproved: true, sharedAt: new Date('2002-10-10') });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId: otherCampaignId, userId, isImproved: false, sharedAt: null });
+        campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, isImproved: false, sharedAt: null }).id;
+        await databaseBuilder.commit();
+      });
+
+      it('returns false', async () => {
+        const result = await campaignParticipationRepository.isRetrying({ userId, campaignParticipationId });
+        expect(result).to.be.false;
+      });
+    });
+
+    context('When there is several participations but not for the same user', () => {
+      beforeEach(async () => {
+        const otherUserId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: otherUserId, isImproved: true, sharedAt: new Date('2002-10-10') });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: otherUserId, isImproved: false, sharedAt: null });
+        campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, isImproved: false, sharedAt: null }).id;
+        await databaseBuilder.commit();
+      });
+
+      it('returns false', async () => {
+        const result = await campaignParticipationRepository.isRetrying({ userId, campaignParticipationId });
+        expect(result).to.be.false;
+      });
+    });
+
+    context('When the user is retrying the campaign', () => {
+      beforeEach(async () => {
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, isImproved: true, sharedAt: new Date('2002-10-10') });
+        campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, isImproved: false, sharedAt: null }).id;
+        await databaseBuilder.commit();
+      });
+
+      it('returns true', async () => {
+        const result = await campaignParticipationRepository.isRetrying({ userId, campaignParticipationId });
+        expect(result).to.be.true;
+      });
+    });
+  });
+
 });

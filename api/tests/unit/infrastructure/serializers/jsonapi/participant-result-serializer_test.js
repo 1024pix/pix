@@ -10,6 +10,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
     let assessmentResult;
 
     beforeEach(() => {
+      const isCampaignMultipleSendings = true;
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({
           skillId: 'skill1',
@@ -26,6 +27,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
       const participationResults = {
         campaignParticipationId: 1,
         isCompleted: true,
+        sharedAt: new Date('2020-01-01'),
         knowledgeElements: knowledgeElements,
         acquiredBadgeIds: [3],
       };
@@ -57,7 +59,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
       }];
 
       const targetProfile = { competences, stages, badges };
-      assessmentResult = new AssessmentResult(participationResults, targetProfile);
+      assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings);
     });
 
     it('should convert a CampaignParticipationResult model object into JSON API data', function() {
@@ -71,6 +73,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             'total-skills-count': 2,
             'validated-skills-count': 1,
             'stage-count': 3,
+            'can-retry': true,
           },
           id: '1',
           relationships: {
