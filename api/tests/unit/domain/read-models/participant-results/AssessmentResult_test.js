@@ -1,6 +1,7 @@
-const { domainBuilder, expect } = require('../../../../test-helper');
+const { domainBuilder, expect, sinon } = require('../../../../test-helper');
 const AssessmentResult = require('../../../../../lib/domain/read-models/participant-results/AssessmentResult');
 const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
+const constants = require('../../../../../lib/domain/constants');
 
 describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', () => {
 
@@ -141,6 +142,88 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
       const badgeResult2 = assessmentResult.badgeResults.find(({ id }) => id === 2);
       expect(badgeResult1).to.deep.include({ title: 'Badge Yellow', isAcquired: true });
       expect(badgeResult2).to.deep.include({ title: 'Badge Blue', isAcquired: false });
+    });
+  });
+
+  describe('#canRetry', () => {
+    const now = new Date('2020-01-05T05:06:07Z');
+    let clock;
+    constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 3;
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers(now);
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    context('when the campaign does not allow multiple sendings', () => {
+      it('returns false', () => {
+        const isCampaignMultipleSendings = false;
+        const participationResults = {
+          knowledgeElements: [],
+          acquiredBadgeIds: [],
+          sharedAt: new Date('2020-01-04'),
+        };
+        const targetProfile = { competences: [], stages: [], badges: [] };
+
+        const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings);
+
+        expect(assessmentResult.canRetry).to.be.false;
+      });
+    });
+
+    context('when the participation has been shared less than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', () => {
+      it('returns false', () => {
+        const isCampaignMultipleSendings = true;
+        const participationResults = {
+          knowledgeElements: [],
+          acquiredBadgeIds: [],
+          sharedAt: new Date('2020-01-03'),
+        };
+        const targetProfile = { competences: [], stages: [], badges: [] };
+
+        const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings);
+
+        expect(assessmentResult.canRetry).to.be.false;
+      });
+    });
+
+    context('when the mastery percentage is 100%', () => {
+      it('returns false', () => {
+        const isCampaignMultipleSendings = true;
+        const competences = [{ id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1'] }];
+        const knowledgeElements = [
+          domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
+        ];
+        const participationResults = {
+          knowledgeElements,
+          acquiredBadgeIds: [],
+          sharedAt: new Date('2020-01-01'),
+        };
+        const targetProfile = { competences, stages: [], badges: [] };
+
+        const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings);
+
+        expect(assessmentResult.canRetry).to.be.false;
+      });
+    });
+
+    context('when the campaign allow multiple sendings, the mastery percentage is under 100% and the participation has been shared more than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', () => {
+      it('returns true', () => {
+        const isCampaignMultipleSendings = true;
+        const competences = [{ id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill3'] }];
+        const participationResults = {
+          knowledgeElements: [],
+          acquiredBadgeIds: [],
+          sharedAt: new Date('2020-01-01'),
+        };
+        const targetProfile = { competences, stages: [], badges: [] };
+        const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings);
+
+        expect(assessmentResult.canRetry).to.be.true;
+      });
     });
   });
 });

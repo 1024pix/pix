@@ -8,14 +8,13 @@ const knowledgeElementRepository = require('./knowledge-element-repository');
 
 const ParticipantResultRepository = {
   async getByParticipationId(campaignParticipationId, locale) {
-    const [participationResults, targetProfile] = await Promise.all([
+    const [participationResults, targetProfile, isCampaignMultipleSendings] = await Promise.all([
       _getParticipationResults(campaignParticipationId),
       _getTargetProfile(campaignParticipationId, locale),
+      _isCampaignMultipleSendings(campaignParticipationId),
     ]);
 
-    const assessmentResult = new AssessmentResult(participationResults, targetProfile);
-
-    return assessmentResult;
+    return new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings);
   },
 };
 
@@ -30,6 +29,7 @@ async function _getParticipationResults(campaignParticipationId) {
   return {
     campaignParticipationId,
     isCompleted,
+    sharedAt,
     knowledgeElements,
     acquiredBadgeIds: acquiredBadgeIds.map(({ badgeId }) => badgeId),
   };
@@ -68,7 +68,7 @@ async function _getTargetProfile(campaignParticipationId, locale) {
 }
 
 async function _getTargetProfileId(campaignParticipationId) {
-  return await knex('campaign-participations')
+  return knex('campaign-participations')
     .select('targetProfileId')
     .join('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
     .where({ 'campaign-participations.id': campaignParticipationId })
@@ -123,6 +123,15 @@ async function _findTargetedSkillIds(targetProfileId) {
   const targetProfileSkillIds = await knex('target-profiles_skills').select('skillId').where({ targetProfileId }).then((skills) => skills.map(({ skillId }) => skillId));
   const targetedSkills = await skillDatasource.findOperativeByRecordIds(targetProfileSkillIds);
   return targetedSkills.map(({ id }) => id);
+}
+
+async function _isCampaignMultipleSendings(campaignParticipationId) {
+  const campaignParticipation = await knex('campaign-participations')
+    .select('multipleSendings')
+    .join('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
+    .where({ 'campaign-participations.id': campaignParticipationId })
+    .first();
+  return campaignParticipation.multipleSendings;
 }
 
 module.exports = ParticipantResultRepository;

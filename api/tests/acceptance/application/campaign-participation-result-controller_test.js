@@ -188,6 +188,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'validated-skills-count': 3,
             'is-completed': true,
             'stage-count': 2,
+            'can-retry': false,
           },
           relationships: {
             'campaign-participation-badges': {
