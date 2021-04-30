@@ -13,11 +13,11 @@
     float: right;
   }
 
-  &__clea--acquired .certification-info-value {
+  &__complementary-certification--acquired {
     color: $success;
     font-weight: bold;
   }
-  &__clea--rejected .certification-info-value {
+  &__complementary-certification--rejected {
     color: $error;
     font-weight: bold;
   }

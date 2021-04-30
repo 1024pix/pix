@@ -4,15 +4,20 @@ module.exports = async function getCertificationResultInformation({
   certificationCourseId,
   generalCertificationInformationRepository,
   assessmentResultRepository,
-  cleaCertificationStatusRepository,
+  cleaCertificationResultRepository,
+  pixPlusDroitMaitreCertificationResultRepository,
+  pixPlusDroitExpertCertificationResultRepository,
 }) {
   const generalCertificationInformation = await generalCertificationInformationRepository.get({ certificationCourseId });
   const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
-  const cleaCertificationStatus = await cleaCertificationStatusRepository.getCleaCertificationStatus(certificationCourseId);
-  const certificationResultInformation = CertificationResultInformation.from({
+  const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId });
+  const pixPlusDroitMaitreCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({ certificationCourseId });
+  const pixPlusDroitExpertCertificationResult = await pixPlusDroitExpertCertificationResultRepository.get({ certificationCourseId });
+  return CertificationResultInformation.from({
     generalCertificationInformation,
     assessmentResult,
-    cleaCertificationStatus,
+    cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
   });
-  return certificationResultInformation;
 };

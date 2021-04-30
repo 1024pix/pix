@@ -1,8 +1,7 @@
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const CertificationResultInformation = require('../../../../lib/domain/read-models/CertificationResultInformation');
 const GeneralCertificationInformation = require('../../../../lib/domain/read-models/GeneralCertificationInformation');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const cleaCertificationStatusRepository = require('../../../../lib/infrastructure/repositories/clea-certification-status-repository');
 
 describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
 
@@ -36,13 +35,17 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
         pixScore: 555,
         competenceMarks: [],
       });
-      const cleaCertificationStatus = cleaCertificationStatusRepository.statuses.NOT_PASSED;
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
+      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
+      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
 
       // when
       const certificationResultInformation = CertificationResultInformation.from({
         generalCertificationInformation,
         assessmentResult,
-        cleaCertificationStatus,
+        cleaCertificationResult,
+        pixPlusDroitMaitreCertificationResult,
+        pixPlusDroitExpertCertificationResult,
       });
 
       // then
@@ -56,7 +59,9 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
         juryId: assessmentResult.juryId,
         pixScore: assessmentResult.pixScore,
         competenceMarks: assessmentResult.competenceMarks,
-        cleaCertificationStatus,
+        cleaCertificationResult,
+        pixPlusDroitMaitreCertificationResult,
+        pixPlusDroitExpertCertificationResult,
       };
       expect(certificationResultInformation).to.be.instanceOf(CertificationResultInformation);
       expect(certificationResultInformation).to.deep.equal(expectedCertificationResultInformation);
