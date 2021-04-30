@@ -205,6 +205,23 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         expect(result).to.be.equal(false);
       });
     });
+
+    context('when the badge does not have criterion', function() {
+      const badgeCriteria = [];
+      const badge = domainBuilder.buildBadge({ badgeCriteria });
+
+      it('should return false', async () => {
+        // given
+        const masteryPercentage = 90;
+        const partnerCompetenceResults = [];
+
+        // when
+        const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+
+        // then
+        expect(result).to.be.equal(false);
+      });
+    });
   });
 
   describe('#areBadgeCriteriaFulfilled', () => {
