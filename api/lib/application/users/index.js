@@ -16,6 +16,15 @@ exports.register = async function(server) {
       path: '/api/users',
       config: {
         auth: false,
+        validate: {
+          payload: Joi.object({
+            data: Joi.object({
+              type: Joi.string(),
+              attributes: Joi.object().required(),
+              relationships: Joi.object(),
+            }).required(),
+          }).required(),
+        },
         handler: userController.save,
         tags: ['api'],
       },
