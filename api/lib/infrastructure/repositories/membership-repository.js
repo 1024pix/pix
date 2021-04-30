@@ -1,9 +1,11 @@
 const BookshelfMembership = require('../data/membership');
-const { MembershipCreationError, MembershipUpdateError } = require('../../domain/errors');
+const { MembershipCreationError, MembershipUpdateError, NotFoundError } = require('../../domain/errors');
 const Membership = require('../../domain/models/Membership');
 const User = require('../../domain/models/User');
+const Organization = require('../../domain/models/Organization');
 const bookshelfUtils = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const DomainTransaction = require('../DomainTransaction');
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
@@ -11,7 +13,13 @@ const DEFAULT_PAGE_NUMBER = 1;
 function _toDomain(bookshelfMembership) {
   const membership = new Membership(bookshelfMembership.toJSON());
 
-  membership.user = new User(bookshelfMembership.relations.user.toJSON());
+  if (bookshelfMembership.relations.user) {
+    membership.user = new User(bookshelfMembership.relations.user.toJSON());
+  }
+
+  if (bookshelfMembership.relations.organization) {
+    membership.organization = new Organization(bookshelfMembership.relations.organization.toJSON());
+  }
 
   return membership;
 }
@@ -45,6 +53,20 @@ module.exports = {
         }
         throw err;
       });
+  },
+
+  async get(membershipId) {
+    let bookshelfMembership;
+    try {
+      bookshelfMembership = await BookshelfMembership.where('id', membershipId).fetch({ withRelated: ['user', 'organization'] });
+    } catch (error) {
+      if (error instanceof BookshelfMembership.NotFoundError) {
+        throw new NotFoundError(`Membership ${membershipId} not found`);
+      }
+      throw error;
+    }
+
+    return _toDomain(bookshelfMembership);
   },
 
   async findByOrganizationId({ organizationId }) {
@@ -88,18 +110,17 @@ module.exports = {
       .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
   },
 
-  updateById({ id, membershipAttributes }) {
-    return new BookshelfMembership({ id })
-      .save(membershipAttributes, { patch: true, method: 'update', require: true })
-      .then((updatedMembership) => updatedMembership.refresh({
-        withRelated: ['user', 'organization'],
-      }))
-      .then(
-        (membership) => bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, membership),
-        (err) => {
-          throw new MembershipUpdateError(err.message);
-        },
-      );
+  async updateById({ id, membership }, domainTransaction = DomainTransaction.emptyTransaction()) {
+    let updatedMembership;
+    try {
+      updatedMembership = await new BookshelfMembership({ id })
+        .save(membership, { patch: true, method: 'update', require: true, transacting: domainTransaction.knexTransaction });
+    } catch (err) {
+      throw new MembershipUpdateError(err.message);
+    }
+
+    const updatedMembershipWithUserAndOrganization = await updatedMembership.refresh({ withRelated: ['user', 'organization'], transacting: domainTransaction.knexTransaction });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, updatedMembershipWithUserAndOrganization);
   },
 
 };

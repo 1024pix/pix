@@ -1,3 +1,4 @@
+const { InvalidMembershipOrganizationRoleError } = require('../errors');
 const roles = {
   ADMIN: 'ADMIN',
   MEMBER: 'MEMBER',
@@ -21,6 +22,13 @@ class Membership {
 
   get isAdmin() {
     return this.organizationRole === roles.ADMIN;
+  }
+
+  validateRole() {
+    const isRoleValid = Object.values(roles).includes(this.organizationRole);
+    if (!isRoleValid) {
+      throw new InvalidMembershipOrganizationRoleError();
+    }
   }
 }
 

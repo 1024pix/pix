@@ -1,6 +1,7 @@
 const bookshelfUtils = require('../utils/knex-utils');
 const BookshelfCertificationCenterMembership = require('../data/certification-center-membership');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
+const DomainTransaction = require('../DomainTransaction');
 const { CertificationCenterMembershipCreationError, AlreadyExistingMembershipError } = require('../../domain/errors');
 
 module.exports = {
@@ -31,14 +32,14 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfCertificationCenterMembership, certificationCenterMemberships);
   },
 
-  async save(userId, certificationCenterId) {
+  async save(userId, certificationCenterId, domainTransaction = DomainTransaction.emptyTransaction()) {
     try {
       const newCertificationCenterMembership = await new BookshelfCertificationCenterMembership({
         userId,
         certificationCenterId,
       })
-        .save()
-        .then((model) => model.fetch({ withRelated: ['user', 'certificationCenter'] }));
+        .save(null, { transacting: domainTransaction.knexTransaction })
+        .then((model) => model.fetch({ withRelated: ['user', 'certificationCenter'], transacting: domainTransaction.knexTransaction }));
 
       return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationCenterMembership, newCertificationCenterMembership);
     } catch (err) {

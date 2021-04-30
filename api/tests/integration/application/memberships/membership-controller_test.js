@@ -3,6 +3,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const Membership = require('../../../../lib/domain/models/Membership');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const moduleUnderTest = require('../../../../lib/application/memberships');
+const { InvalidMembershipOrganizationRoleError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Application | Memberships | membership-controller', () => {
 
@@ -31,14 +32,13 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
     context('Success cases', () => {
 
-      beforeEach(() => {
+      it('should resolve a 201 HTTP response', async () => {
+        // given
         const membership = domainBuilder.buildMembership();
         usecases.createMembership.resolves(membership);
 
         securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
-      });
 
-      it('should resolve a 201 HTTP response', async () => {
         // when
         const response = await httpTestServer.request('POST', '/api/memberships', payload);
 
@@ -47,6 +47,12 @@ describe('Integration | Application | Memberships | membership-controller', () =
       });
 
       it('should return a JSON API membership', async () => {
+        // given
+        const membership = domainBuilder.buildMembership();
+        usecases.createMembership.resolves(membership);
+
+        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+
         // when
         const response = await httpTestServer.request('POST', '/api/memberships', payload);
 
@@ -59,13 +65,12 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
       context('when user is not allowed to access resource', () => {
 
-        beforeEach(() => {
+        it('should resolve a 403 HTTP response', () => {
+          // given
           securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
-        });
 
-        it('should resolve a 403 HTTP response', () => {
           // when
           const promise = httpTestServer.request('POST', '/api/memberships', payload);
 
@@ -80,30 +85,42 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
   describe('#update', () => {
 
-    const organizationRole = Membership.roles.ADMIN;
-
-    const payload = {
-      data: {
-        type: 'memberships',
-        attributes: {
-          'organaization-role': organizationRole,
-        },
-      },
-    };
-
     context('Success cases', () => {
 
-      beforeEach(() => {
-        const membership = domainBuilder.buildMembership({
+      it('should return a 200 HTTP response', async () => {
+        // given
+        const membership = new Membership({
+          id: 123,
+          organizationRole: Membership.roles.ADMIN,
+          updatedByUserId: null,
+        });
+        const updatedMembership = domainBuilder.buildMembership({
           organizationRole: Membership.roles.MEMBER,
         });
-        usecases.updateMembership.resolves(membership);
+        usecases.updateMembership
+          .withArgs({ membership })
+          .resolves(updatedMembership);
         securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
-      });
 
-      it('should return a 200 HTTP response', async () => {
         // when
-        const response = await httpTestServer.request('PATCH', '/api/memberships/1', payload);
+        const payload = {
+          data: {
+            type: 'memberships',
+            id: 123,
+            attributes: {
+              'organization-role': Membership.roles.ADMIN,
+            },
+            relationships: {
+              organization: {
+                data: {
+                  id: '1',
+                  type: 'organizations',
+                },
+              },
+            },
+          },
+        };
+        const response = await httpTestServer.request('PATCH', `/api/memberships/${membership.id}`, payload);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -112,15 +129,59 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
     context('Error cases', () => {
 
+      context('when request is not valid', () => {
+
+        it('should resolve a 400 HTTP response', async () => {
+          // given
+          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
+          const idGivenInRequestParams = 1;
+          const idGivenInPayload = 44;
+
+          const membership = new Membership({
+            id: idGivenInPayload,
+            organizationRole: Membership.roles.ADMIN,
+            updatedByUserId: null,
+          });
+          const updatedMembership = domainBuilder.buildMembership({
+            organizationRole: Membership.roles.ADMIN,
+          });
+          usecases.updateMembership
+            .withArgs({ membership })
+            .resolves(updatedMembership);
+
+          // when
+          const payload = {
+            data: {
+              type: 'memberships',
+              id: idGivenInPayload,
+              attributes: {
+                'organization-role': Membership.roles.ADMIN,
+              },
+              relationships: {
+                organization: {
+                  data: {
+                    id: '1',
+                    type: 'organizations',
+                  },
+                },
+              },
+            },
+          };
+          const response = await httpTestServer.request('PATCH', `/api/memberships/${idGivenInRequestParams}`, payload);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+      });
+
       context('when user is not allowed to access resource', () => {
 
-        beforeEach(() => {
+        it('should resolve a 403 HTTP response', async () => {
+          // given
           securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
-        });
 
-        it('should resolve a 403 HTTP response', async () => {
           // when
           const response = await httpTestServer.request('PATCH', '/api/memberships/1');
 
@@ -128,22 +189,50 @@ describe('Integration | Application | Memberships | membership-controller', () =
           expect(response.statusCode).to.equal(403);
         });
       });
+
+      context('when organization role is not valid', () => {
+
+        it('should resolve a 400 HTTP response', async () => {
+          // given
+          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
+          usecases.updateMembership.throws(new InvalidMembershipOrganizationRoleError());
+
+          // when
+          const payload = {
+            data: {
+              type: 'memberships',
+              attributes: {
+                'organization-role': Membership.roles.ADMIN,
+              },
+              relationships: {
+                organization: {
+                  data: {
+                    id: '1',
+                    type: 'organizations',
+                  },
+                },
+              },
+            },
+          };
+          const response = await httpTestServer.request('PATCH', '/api/memberships/1', payload);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+      });
     });
   });
 
   describe('#disable', () => {
 
-    let membershipId;
-
     context('Success cases', () => {
 
-      beforeEach(() => {
-        membershipId = domainBuilder.buildMembership().id;
+      it('should return a 200 HTTP response', async () => {
+        // given
+        const membershipId = domainBuilder.buildMembership().id;
         usecases.disableMembership.resolves();
         securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
-      });
 
-      it('should return a 200 HTTP response', async () => {
         // when
         const response = await httpTestServer.request('POST', `/api/memberships/${membershipId}/disable`);
 
@@ -156,13 +245,13 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
       context('when user is not admin of the organization nor has pix master role', () => {
 
-        beforeEach(() => {
+        it('should resolve a 403 HTTP response', async () => {
+          // given
+          const membershipId = domainBuilder.buildMembership({ organizationRole: Membership.roles.MEMBER }).id;
           securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
-        });
 
-        it('should resolve a 403 HTTP response', async () => {
           // when
           const response = await httpTestServer.request('POST', `/api/memberships/${membershipId}/disable`);
 
