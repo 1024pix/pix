@@ -5,6 +5,7 @@ const SCOCertificationCandidate = require('../../../../lib/domain/models/SCOCert
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | enroll-students-to-session', () => {
+
   context('when referent is allowed to Pix Certif', () => {
 
     it('enrolls n students to a session', async () => {
@@ -56,6 +57,58 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       // then
       expect(scoCertificationCandidateRepository.findBySessionId(sessionId)).to.deep.equal(expectedCertificationCandidates);
       expect(scoCertificationCandidateRepository.findBySessionId(anotherSessionId)).to.deep.equal(undefined);
+    });
+
+    it('enrolls a student by trimming his first name and last name', async () => {
+      // given
+      const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
+      const sessionId = session.id;
+
+      const referentId = Symbol('a referent id');
+
+      const organizationForReferent = domainBuilder.buildOrganization();
+      const schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+        id: 1,
+        firstName: 'Sarah Michelle ',
+        lastName: ' Gellar',
+        birthdate: '2020-01-01',
+        organization: organizationForReferent,
+      });
+
+      const expectedCertificationCandidate = new SCOCertificationCandidate({
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '2020-01-01',
+        sessionId: sessionId,
+        schoolingRegistrationId: 1,
+      });
+
+      const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();
+      const schoolingRegistrationRepository = { findByIds: sinon.stub() };
+      schoolingRegistrationRepository.findByIds.withArgs({ ids: [1] }).resolves([schoolingRegistration]);
+      const sessionRepository = { get: sinon.stub() };
+      sessionRepository.get.withArgs(sessionId).resolves(session);
+      const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
+      certificationCenterMembershipRepository.findByUserId.withArgs(referentId).resolves(certificationCenterMemberships);
+      const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
+      organizationRepository.getIdByCertificationCenterId.withArgs(session.certificationCenterId).resolves(
+        organizationForReferent.id,
+      );
+
+      // when
+      await enrollStudentsToSession({
+        sessionId,
+        studentIds: [1],
+        referentId,
+        scoCertificationCandidateRepository,
+        certificationCenterMembershipRepository,
+        schoolingRegistrationRepository,
+        sessionRepository,
+        organizationRepository,
+      });
+
+      // then
+      expect(scoCertificationCandidateRepository.findBySessionId(sessionId)).to.deep.equal([expectedCertificationCandidate]);
     });
 
     it('rejects enrollment if students do not belong to same organization as referent', async () => {
