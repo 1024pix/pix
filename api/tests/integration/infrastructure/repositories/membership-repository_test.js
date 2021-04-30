@@ -1,7 +1,7 @@
 const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const _ = require('lodash');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
-const { MembershipCreationError, MembershipUpdateError } = require('../../../../lib/domain/errors');
+const { MembershipCreationError, MembershipUpdateError, NotFoundError } = require('../../../../lib/domain/errors');
 const Membership = require('../../../../lib/domain/models/Membership');
 const Organization = require('../../../../lib/domain/models/Organization');
 const User = require('../../../../lib/domain/models/User');
@@ -87,11 +87,14 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
     context('when membership does not exist', () => {
 
       it('should throw a NotFoundError', async () => {
+        // given
+        const nonExistingMembership = existingMembershipId + 1;
+
         // when
-        const result = await membershipRepository.get(existingMembershipId);
+        const error = await catchErr(membershipRepository.get)(nonExistingMembership);
 
         // then
-        expect(result).to.be.an.instanceOf(Membership);
+        expect(error).to.be.an.instanceOf(NotFoundError);
       });
     });
   });
@@ -540,7 +543,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
     context('When membership exist', () => {
 
-      it('should update membership attributes', async () => {
+      it('should return the updated membership', async () => {
         // given
         const membership = { organizationRole: Membership.roles.ADMIN, updatedByUserId };
 
@@ -562,8 +565,6 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
         // then
         expect(updatedMembership).to.be.an.instanceOf(Membership);
-        expect(updatedMembership.user).be.an.instanceOf(User);
-        expect(updatedMembership.organization).to.be.an.instanceOf(Organization);
       });
     });
 

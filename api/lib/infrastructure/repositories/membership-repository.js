@@ -61,7 +61,7 @@ module.exports = {
       bookshelfMembership = await BookshelfMembership.where('id', membershipId).fetch({ withRelated: ['user', 'organization'] });
     } catch (error) {
       if (error instanceof BookshelfMembership.NotFoundError) {
-        throw new NotFoundError(`Not found membership for ID ${membershipId}`);
+        throw new NotFoundError(`Membership ${membershipId} not found`);
       }
       throw error;
     }
@@ -119,8 +119,8 @@ module.exports = {
       throw new MembershipUpdateError(err.message);
     }
 
-    updatedMembership = await updatedMembership.refresh({ withRelated: ['user', 'organization'], transacting: domainTransaction.knexTransaction });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, updatedMembership);
+    const updatedMembershipWithUserAndOrganization = await updatedMembership.refresh({ withRelated: ['user', 'organization'], transacting: domainTransaction.knexTransaction });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, updatedMembershipWithUserAndOrganization);
   },
 
 };

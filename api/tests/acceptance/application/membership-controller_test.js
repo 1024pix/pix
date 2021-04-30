@@ -184,7 +184,7 @@ describe('Acceptance | Controller | membership-controller', () => {
         await knex('certification-center-memberships').delete();
       });
 
-      it('should return the updated membership', async () => {
+      it('should return the updated membership and add certification center membership', async () => {
         // given
         const expectedMembership = {
           data: {
