@@ -301,6 +301,7 @@
       "title": "Épreuve {stepNumber} sur {totalChallengeNumber}",
       "actions": {
         "continue": "Poursuivre",
+        "go-to-next": "et je vais à la prochaine question",
         "skip": "Je passe",
         "validate": "Je valide"
       },
