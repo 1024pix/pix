@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.51.0 (30/04/2021)
+
+- [#2932](https://github.com/1024pix/pix/pull/2932) [FEATURE] Pouvoir repasser un parcours seulement après 4 jours (PIX-2465).
+- [#2913](https://github.com/1024pix/pix/pull/2913) [FEATURE] Afficher les mentions concernant les certifications complémentaires Pix+ Droit sur la page de détails d'une certification dans PixAdmin (PIX-2374)
+- [#2872](https://github.com/1024pix/pix/pull/2872) [FEATURE] Donner accès à Pix Certif à l'administrateur SCO lors de la modification du rôle dans PixOrga (PIX-2454).
+- [#2909](https://github.com/1024pix/pix/pull/2909) [FEATURE] Modifier les catégories de signalement (PIX-2484).
+- [#2914](https://github.com/1024pix/pix/pull/2914) [FEATURE] Afficher les groupes d'acquis nécessaires pour obtenir un résultat thématique dans l'admin (PIX-2364)
+- [#2873](https://github.com/1024pix/pix/pull/2873) [FEATURE] Afficher toutes les campagnes d'une organisation dans Pix Admin (PIX-2251).
+- [#2933](https://github.com/1024pix/pix/pull/2933) [BUGFIX] Corrige l'entrée des dates de naissance pour l'ajout des candidats de certif (PIX-2526)
+- [#2925](https://github.com/1024pix/pix/pull/2925) [BUGFIX] Valider le payload sur POST /api/users (PIX-2514).
+- [#2871](https://github.com/1024pix/pix/pull/2871) [BUGFIX] Gérer les erreurs produites lors d'un appel POST /api/pole-emploi/token (PIX-2490).
+- [#2915](https://github.com/1024pix/pix/pull/2915) [BUGFIX] Ne change pas le focus de la modal a chaque rendu (PIX-2521)
+- [#2891](https://github.com/1024pix/pix/pull/2891) [TECH] Généraliser l'encapsulation des appels http sortant de l'API.
+- [#2917](https://github.com/1024pix/pix/pull/2917) [TECH] Homogénéisation du nommage des fichiers de tests entre les dossiers
+- [#2912](https://github.com/1024pix/pix/pull/2912) [API] Récupérer la derniere certif non annulée pour le livret-scolaire (pix-2520)
+
 ## v3.50.0 (28/04/2021)
 
 - [#2893](https://github.com/1024pix/pix/pull/2893) [FEATURE] Simplifier le formulaire de réconciliation SUP (PIX-2415)
