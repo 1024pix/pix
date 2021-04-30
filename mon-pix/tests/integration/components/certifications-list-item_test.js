@@ -8,7 +8,6 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 describe('Integration | Component | certifications list item', function() {
   setupIntlRenderingTest();
 
-  let certification;
   const PUBLISH_CLASS = '.certifications-list-item__published-item';
   const UNPUBLISH_CLASS = '.certifications-list-item__unpublished-item';
   const CERTIFICATION_CELL_SELECTOR = '.certifications-list-item__cell';
@@ -29,13 +28,10 @@ describe('Integration | Component | certifications list item', function() {
 
     beforeEach(async function() {
       // given
-      certification = EmberObject.create({
-        id: 1,
-        date: '2018-02-15T15:15:52.504Z',
+      const certification = createCertification({
         status: 'validated',
-        certificationCenter: 'Université de Paris',
         isPublished: false,
-        pixScore: 231,
+        commentForCandidate: null,
       });
       this.set('certification', certification);
 
@@ -59,15 +55,12 @@ describe('Integration | Component | certifications list item', function() {
     context('without commentForCandidate', function() {
       beforeEach(async function() {
         // given
-        certification = EmberObject.create({
-          id: 1,
-          date: '2018-02-15T15:15:52.504Z',
+        const certification = createCertification({
           status: 'rejected',
-          certificationCenter: 'Université de Paris',
           isPublished: true,
-          pixScore: 231,
           commentForCandidate: null,
         });
+
         this.set('certification', certification);
 
         // when
@@ -103,14 +96,10 @@ describe('Integration | Component | certifications list item', function() {
 
       beforeEach(async function() {
         // given
-        certification = EmberObject.create({
-          id: 1,
-          date: '2018-02-15T15:15:52.504Z',
+        const certification = createCertification({
           status: 'rejected',
-          certificationCenter: 'Université de Paris',
           isPublished: true,
-          pixScore: 231,
-          commentForCandidate: commentForCandidate,
+          commentForCandidate,
         });
         this.set('certification', certification);
 
@@ -146,13 +135,9 @@ describe('Integration | Component | certifications list item', function() {
 
     beforeEach(async function() {
       // given
-      certification = EmberObject.create({
-        id: 1,
-        date: '2018-02-15T15:15:52.504Z',
+      const certification = createCertification({
         status: 'validated',
-        certificationCenter: 'Université de Paris',
         isPublished: true,
-        pixScore: 231,
       });
       this.set('certification', certification);
 
@@ -183,29 +168,82 @@ describe('Integration | Component | certifications list item', function() {
 
   context('when the certification is cancelled', function() {
 
-    beforeEach(async function() {
-      // given
-      certification = EmberObject.create({
-        id: 1,
-        date: '2018-02-15T15:15:52.504Z',
-        status: 'cancelled',
-        certificationCenter: 'Université de Paris',
-        isPublished: false,
+    context('and is published', function() {
+
+      it('should show Certification annulée without comments', async function() {
+        // given
+        const certification = createCertification({
+          status: 'cancelled',
+          isPublished: true,
+        });
+
+        this.set('certification', certification);
+
+        // when
+        await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+
+        console.log(find('.certifications-list-item'));
+        expect(find(PUBLISH_CLASS)).to.exist;
+        expect(find(IMG_FOR_STATUS_SELECTOR)).to.exist;
+        expect(find(STATUS_SELECTOR).textContent).to.include('Certification annulée');
+
+        expect(find('button')).not.to.exist;
       });
-      this.set('certification', certification);
 
-      // when
-      await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+      it('should show Certification annulée with comments', async function() {
+        // given
+        const certification = EmberObject.create({
+          id: 1,
+          date: '2018-02-15T15:15:52.504Z',
+          status: 'cancelled',
+          certificationCenter: 'Université de Paris',
+          isPublished: true,
+          commentForCandidate: 'random',
+        });
+
+        this.set('certification', certification);
+
+        // when
+        await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+
+        expect(find('button')).to.exist;
+      });
+
     });
 
-    // then
-    it('should render a certifications-list-item__unpublished-item div', function() {
-      expect(find(UNPUBLISH_CLASS)).to.exist;
-    });
+    context('and is not published', function() {
+      beforeEach(async function() {
+        // given
+        const certification = createCertification({
+          status: 'cancelled',
+          isPublished: false,
+        });
+        this.set('certification', certification);
 
-    it('should show Certification annulée', function() {
-      expect(find(IMG_FOR_STATUS_SELECTOR)).to.exist;
-      expect(find(STATUS_SELECTOR).textContent).to.include('Certification annulée');
+        // when
+        await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+      });
+
+      // then
+      it('should render a certifications-list-item__unpublished-item div', function() {
+        expect(find(UNPUBLISH_CLASS)).to.exist;
+      });
+
+      it('should not show Certification annulée', function() {
+        expect(find(IMG_FOR_STATUS_SELECTOR)).not.to.exist;
+      });
     });
   });
 });
+
+function createCertification({ status, isPublished, commentForCandidate }) {
+  return EmberObject.create({
+    id: 1,
+    date: '2018-02-15T15:15:52.504Z',
+    certificationCenter: 'Université de Paris',
+    pixScore: 231,
+    status,
+    isPublished,
+    commentForCandidate,
+  });
+}
