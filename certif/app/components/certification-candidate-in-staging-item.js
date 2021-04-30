@@ -81,9 +81,14 @@ export default class CertificationCandidateInStagingItem extends Component {
   }
 
   @action
-  updateCandidateDataBirthdate(unmasked, masked) {
+  updateCandidateDataBirthdate(_, masked) {
     this.maskedBirthdate = masked;
-    this.args.updateCandidateBirthdate(this.args.candidateData, unmasked);
+    this.args.updateCandidateBirthdate(this.args.candidateData, this._formatDate(masked));
+  }
+
+  _formatDate(date) {
+    const [day, month, year] = date.split('/');
+    return `${year}-${month}-${day}` ;
   }
 
   @action
