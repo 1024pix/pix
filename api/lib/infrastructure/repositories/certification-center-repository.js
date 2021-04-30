@@ -76,4 +76,12 @@ module.exports = {
     const { models, pagination } = certificationCenterBookshelf;
     return { models: models.map(_toDomain), pagination };
   },
+
+  async findByExternalId({ externalId }) {
+    const certificationCenterBookshelf = await BookshelfCertificationCenter
+      .where({ externalId })
+      .fetch({ require: false });
+
+    return certificationCenterBookshelf ? _toDomain(certificationCenterBookshelf) : null;
+  },
 };

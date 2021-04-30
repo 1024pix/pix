@@ -1,9 +1,10 @@
 const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const _ = require('lodash');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
-const { MembershipCreationError, MembershipUpdateError } = require('../../../../lib/domain/errors');
+const { MembershipCreationError, MembershipUpdateError, NotFoundError } = require('../../../../lib/domain/errors');
 const Membership = require('../../../../lib/domain/models/Membership');
 const Organization = require('../../../../lib/domain/models/Organization');
+const User = require('../../../../lib/domain/models/User');
 
 describe('Integration | Infrastructure | Repository | membership-repository', () => {
 
@@ -55,6 +56,45 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
         // then
         expect(result).to.be.instanceOf(MembershipCreationError);
+      });
+    });
+  });
+
+  describe('#get', () => {
+
+    let existingMembershipId;
+
+    beforeEach(async () => {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      existingMembershipId = databaseBuilder.factory.buildMembership({ userId, organizationId }).id;
+      await databaseBuilder.commit();
+    });
+
+    context('when membership exists', () => {
+
+      it('should return the membership', async () => {
+        // when
+        const result = await membershipRepository.get(existingMembershipId);
+
+        // then
+        expect(result).to.be.an.instanceOf(Membership);
+        expect(result.user).to.be.an.instanceOf(User);
+        expect(result.organization).to.be.an.instanceOf(Organization);
+      });
+    });
+
+    context('when membership does not exist', () => {
+
+      it('should throw a NotFoundError', async () => {
+        // given
+        const nonExistingMembership = existingMembershipId + 1;
+
+        // when
+        const error = await catchErr(membershipRepository.get)(nonExistingMembership);
+
+        // then
+        expect(error).to.be.an.instanceOf(NotFoundError);
       });
     });
   });
@@ -503,53 +543,28 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
     context('When membership exist', () => {
 
-      it('should update membership attributes', async () => {
+      it('should return the updated membership', async () => {
         // given
-        const membershipAttributes = { organizationRole: Membership.roles.ADMIN, updatedByUserId };
+        const membership = { organizationRole: Membership.roles.ADMIN, updatedByUserId };
 
         // when
-        const membership = await membershipRepository.updateById({ id: existingMembershipId, membershipAttributes });
+        const updatedMembership = await membershipRepository.updateById({ id: existingMembershipId, membership });
 
         // then
-        expect(membership).to.be.an.instanceOf(Membership);
-        expect(membership.organizationRole).to.equal(membershipAttributes.organizationRole);
-        expect(membership.updatedByUserId).to.equal(membershipAttributes.updatedByUserId);
+        expect(updatedMembership).to.be.an.instanceOf(Membership);
+        expect(updatedMembership.organizationRole).to.equal(updatedMembership.organizationRole);
+        expect(updatedMembership.updatedByUserId).to.equal(updatedMembership.updatedByUserId);
       });
 
-      it('should update organization role with admin role', async () => {
+      it('should return the organization and user linked to this membership', async () => {
         // given
-        const membershipAttributes = { organizationRole: Membership.roles.ADMIN };
+        const membership = { organizationRole: Membership.roles.ADMIN, updatedByUserId };
 
         // when
-        const membership = await membershipRepository.updateById({ id: existingMembershipId, membershipAttributes });
+        const updatedMembership = await membershipRepository.updateById({ id: existingMembershipId, membership });
 
         // then
-        expect(membership).to.be.an.instanceOf(Membership);
-        expect(membership.organizationRole).to.equal(membershipAttributes.organizationRole);
-      });
-
-      it('should update organization role with member role', async () => {
-        // given
-        const organizationRole = Membership.roles.MEMBER;
-        const membershipAttributes = { organizationRole };
-
-        // when
-        const membership = await membershipRepository.updateById({ id: existingMembershipId, membershipAttributes });
-        // then
-        expect(membership.organizationRole).to.equal(organizationRole);
-      });
-
-      it('should save the user identifier who changes the organization role ', async () => {
-        // given
-        const membershipAttributes = { organizationRole: Membership.roles.ADMIN, updatedByUserId };
-
-        // when
-        const membership = await membershipRepository.updateById({ id: existingMembershipId, membershipAttributes });
-
-        // then
-        expect(membership).to.be.an.instanceOf(Membership);
-        expect(membership.organizationRole).to.equal(membershipAttributes.organizationRole);
-        expect(membership.updatedByUserId).to.equal(membershipAttributes.updatedByUserId);
+        expect(updatedMembership).to.be.an.instanceOf(Membership);
       });
     });
 
@@ -560,10 +575,10 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         const organizationRole = Membership.roles.ADMIN;
         const messageNotRowUpdated = 'No Rows Updated';
         const notExistingMembershipId = 9898977;
-        const membershipAttributes = { organizationRole, updatedByUserId };
+        const membership = { organizationRole, updatedByUserId };
 
         // when
-        const error = await catchErr(membershipRepository.updateById)({ id: notExistingMembershipId, membershipAttributes });
+        const error = await catchErr(membershipRepository.updateById)({ id: notExistingMembershipId, membership });
 
         // then
         expect(error).to.be.an.instanceOf(MembershipUpdateError);
