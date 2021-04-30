@@ -1,7 +1,6 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
-import { mapBy, max } from '@ember/object/computed';
 import { computed } from '@ember/object';
 
 export default class CampaignParticipationResult extends Model {
@@ -18,10 +17,6 @@ export default class CampaignParticipationResult extends Model {
   @hasMany('campaignParticipationBadges') campaignParticipationBadges;
   @hasMany('competenceResult') competenceResults;
   @belongsTo('reachedStage') reachedStage;
-
-  // methods
-  @mapBy('competenceResults', 'totalSkillsCount') totalSkillsCounts;
-  @max('totalSkillsCounts') maxTotalSkillsCountInCompetences;
 
   @computed('campaignParticipationBadges')
   get cleaBadge() {
