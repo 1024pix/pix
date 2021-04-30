@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
+const logger = require('../../infrastructure/logger');
 
 function areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge }) {
   const targetProfileSkillsIds = targetProfile.getSkillIds();
@@ -27,6 +28,10 @@ function getMasteryPercentageForAllPartnerCompetences({ targetedKnowledgeElement
 }
 
 function verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge }) {
+  if (badge.badgeCriteria.length === 0) {
+    logger.warn(`No criteria for badge ${badge.id}`);
+    return false;
+  }
   return _.every(badge.badgeCriteria, (criterion) => {
     switch (criterion.scope) {
       case BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION:
