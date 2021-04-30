@@ -28,7 +28,7 @@ function getMasteryPercentageForAllPartnerCompetences({ targetedKnowledgeElement
 }
 
 function verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge }) {
-  if (badge.badgeCriteria.length === 0) {
+  if (!badge.badgeCriteria.length) {
     logger.warn(`No criteria for badge ${badge.id}`);
     return false;
   }
