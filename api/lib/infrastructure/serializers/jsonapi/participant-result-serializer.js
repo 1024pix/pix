@@ -13,6 +13,7 @@ module.exports = {
         'competenceResults',
         'reachedStage',
         'stageCount',
+        'canRetry',
       ],
       campaignParticipationBadges: {
         ref: 'id',
