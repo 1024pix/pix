@@ -9,6 +9,9 @@ module.exports = {
           id: certificationResultInformation.certificationCourseId,
           ...certificationResultInformation,
           competencesWithMark: certificationResultInformation.competenceMarks,
+          cleaCertificationStatus: certificationResultInformation.cleaCertificationResult.status,
+          pixPlusDroitMaitreCertificationStatus: certificationResultInformation.pixPlusDroitMaitreCertificationResult.status,
+          pixPlusDroitExpertCertificationStatus: certificationResultInformation.pixPlusDroitExpertCertificationResult.status,
         };
       },
       attributes: [
@@ -19,6 +22,8 @@ module.exports = {
         'isPublished',
         'isV2Certification',
         'cleaCertificationStatus',
+        'pixPlusDroitMaitreCertificationStatus',
+        'pixPlusDroitExpertCertificationStatus',
         'firstName',
         'lastName',
         'birthdate',
