@@ -20,7 +20,8 @@
     <button class="button challenge-actions__action challenge-actions__action-continue"
       {{on 'click' @validateAnswer}}
             type="button">
-      <span class="challenge-actions__action-continue-text">{{t "pages.challenge.actions.continue"}}</span>
+      <span class="challenge-actions__action-continue-text">{{t "pages.challenge.actions.continue"}}
+        <span class="sr-only">{{t "pages.challenge.actions.go-to-next"}}</span></span>
     </button>
 
   {{else}}
@@ -28,7 +29,8 @@
       <button class="button challenge-actions__action challenge-actions__action-validate"
               {{on 'click' @validateAnswer}}
               type="submit">
-        <span class="challenge-actions__action-validate-text">{{t "pages.challenge.actions.validate"}}</span>
+        <span class="challenge-actions__action-validate-text">{{t "pages.challenge.actions.validate"}}
+          <span class="sr-only">{{t "pages.challenge.actions.go-to-next"}}</span></span>
       </button>
     {{else}}
       <div class="challenge-actions__action challenge-actions__action-validate__loader">
@@ -39,7 +41,8 @@
       <button class="button challenge-actions__action challenge-actions__action-skip"
               {{on 'click' @skipChallenge}}
               type="button">
-        <span class="challenge-actions__action-skip-text">{{t "pages.challenge.actions.skip"}}</span>
+        <span class="challenge-actions__action-skip-text">{{t "pages.challenge.actions.skip"}}
+          <span class="sr-only">{{t "pages.challenge.actions.go-to-next"}}</span></span>
       </button>
     {{else}}
       <div class="challenge-actions__action challenge-actions__action-skip__loader">
