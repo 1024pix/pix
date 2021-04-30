@@ -186,6 +186,21 @@ module.exports = {
     }
     return false;
   },
+
+  async isRetrying({ campaignParticipationId }) {
+    const { id: campaignId, userId } = await knex('campaigns')
+      .select('campaigns.id', 'userId')
+      .join('campaign-participations', 'campaigns.id', 'campaignId')
+      .where({ 'campaign-participations.id': campaignParticipationId })
+      .first();
+
+    const campaignParticipations = await knex('campaign-participations')
+      .select('sharedAt', 'isImproved')
+      .where({ campaignId, userId });
+
+    return campaignParticipations.length > 1 && campaignParticipations.some(
+      (participation) => !participation.isImproved && !participation.sharedAt);
+  },
 };
 
 function _adaptModelToDb(campaignParticipation) {
