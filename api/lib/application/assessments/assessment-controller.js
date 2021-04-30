@@ -94,7 +94,9 @@ module.exports = {
 async function _getChallenge(assessment, request) {
   const locale = extractLocaleFromRequest(request);
 
-  await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
+  if (assessment.isStarted()) {
+    await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
+  }
 
   if (assessment.isPreview()) {
     return usecases.getNextChallengeForPreview({});
