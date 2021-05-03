@@ -2,43 +2,60 @@
 <div class="certifications-list-item {{if this.isPublished 'certifications-list-item__published-item' 'certifications-list-item__unpublished-item'}}
   {{if this.isClickable 'certifications-list-item__clickable' 'certifications-list-item__not-clickable'}}">
 
-  {{#if this.isPublishedAndRejected}}
-    <CpPanel as |panel|>
-      <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
+  {{#if this.isNotPublished}}
+    <div class="certifications-list-item__row-presentation">
+      <div class="certifications-list-item__cell">
+        {{moment-format @certification.date 'DD/MM/YYYY'}}
+      </div>
 
-        <div class="certifications-list-item__cell">
-          {{moment-format @certification.date 'DD/MM/YYYY'}}
-        </div>
+      <div class="certifications-list-item__cell-double-width">
+        <img src="/images/icons/sablier.svg" alt="" role="presentation" class="certifications-list-item__hourglass-img">
+        {{t "pages.certifications-list.statuses.not-published.title"}}
+      </div>
+      <div class="certifications-list-item__cell-pix-score"></div>
 
-        <div class="certifications-list-item__cell-double-width">
-          <img src="/images/icons/icon-croix.svg" alt="" role="presentation" class="certifications-list-item__cross-img">
+      <div class="certifications-list-item__cell-certification-center">
+        {{@certification.certificationCenter}}
+      </div>
+
+      <div class="certifications-list-item__cell-detail">
+      </div>
+    </div>
+  {{ else if this.isRejected}}
+  <CpPanel as |panel|>
+    <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
+
+      <div class="certifications-list-item__cell">
+        {{moment-format @certification.date 'DD/MM/YYYY'}}
+      </div>
+
+      <div class="certifications-list-item__cell-double-width">
+        <img src="/images/icons/icon-croix.svg" alt="" role="presentation" class="certifications-list-item__cross-img">
           {{t "pages.certifications-list.statuses.fail.title"}}
+      </div>
+      <div class="certifications-list-item__cell-pix-score"></div>
+
+      <div class="certifications-list-item__cell-certification-center">
+        {{@certification.certificationCenter}}
+      </div>
+
+      <div class="certifications-list-item__cell-detail">
+        {{#if this.shouldDisplayComment}}
+          <button type="button">{{t "pages.certifications-list.statuses.fail.action"}}</button>
+        {{/if}}
+      </div>
+    </panel.toggle>
+
+    {{#if this.shouldDisplayComment}}
+      <panel.body @class="certifications-list-item__row-comment" @role="tabpanel">
+        <div class="certifications-list-item__row-comment-cell">
+          {{@certification.commentForCandidate}}
         </div>
-        <div class="certifications-list-item__cell-pix-score"></div>
+      </panel.body>
+    {{/if}}
 
-        <div class="certifications-list-item__cell-certification-center">
-          {{@certification.certificationCenter}}
-        </div>
-
-        <div class="certifications-list-item__cell-detail">
-          {{#if this.shouldDisplayComment}}
-            <button type="button">{{t "pages.certifications-list.statuses.fail.action"}}</button>
-          {{/if}}
-        </div>
-      </panel.toggle>
-
-      {{#if this.shouldDisplayComment}}
-        <panel.body @class="certifications-list-item__row-comment" @role="tabpanel">
-          <div class="certifications-list-item__row-comment-cell">
-            {{@certification.commentForCandidate}}
-          </div>
-        </panel.body>
-      {{/if}}
-
-    </CpPanel>
-  {{/if}}
-
-  {{#if this.isPublishedAndValidated}}
+  </CpPanel>
+  {{ else if this.isValidated}}
     <LinkTo @route="user-certifications.get" @model={{@certification.id}} class="certifications-list-item__row-presentation">
       <div class="certifications-list-item__cell">
         {{moment-format @certification.date 'DD/MM/YYYY'}}
@@ -62,17 +79,17 @@
         <a>{{t "pages.certifications-list.statuses.success.action"}}</a>
       </div>
     </LinkTo>
-  {{/if}}
+  {{else if this.isCancelled}}
+  <CpPanel as |panel|>
+    <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
 
-  {{#if this.isNotPublished}}
-    <div class="certifications-list-item__row-presentation">
       <div class="certifications-list-item__cell">
         {{moment-format @certification.date 'DD/MM/YYYY'}}
       </div>
 
       <div class="certifications-list-item__cell-double-width">
-        <img src="/images/icons/sablier.svg" alt="" role="presentation" class="certifications-list-item__hourglass-img">
-        {{t "pages.certifications-list.statuses.not-published.title"}}
+        <img src="/images/icons/icon-croix.svg" alt="" role="presentation" class="certifications-list-item__cross-img">
+        {{t "pages.certifications-list.statuses.cancelled.title"}}
       </div>
       <div class="certifications-list-item__cell-pix-score"></div>
 
@@ -81,7 +98,20 @@
       </div>
 
       <div class="certifications-list-item__cell-detail">
+        {{#if this.shouldDisplayComment}}
+          <button type="button">{{t "pages.certifications-list.statuses.fail.action"}}</button>
+        {{/if}}
       </div>
-    </div>
+    </panel.toggle>
+
+    {{#if this.shouldDisplayComment}}
+      <panel.body @class="certifications-list-item__row-comment" @role="tabpanel">
+        <div class="certifications-list-item__row-comment-cell">
+          {{@certification.commentForCandidate}}
+        </div>
+      </panel.body>
+    {{/if}}
+  </CpPanel>
   {{/if}}
+
 </div>

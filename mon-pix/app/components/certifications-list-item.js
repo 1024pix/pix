@@ -1,12 +1,22 @@
 import Component from '@glimmer/component';
 
+const status = {
+  VALIDATED: 'validated',
+  CANCELLED: 'cancelled',
+  REJECTED: 'rejected',
+};
+
 export default class CertificationsListItem extends Component {
-  get isNotValidated() {
-    return !this.isValidated;
+
+  get certification() {
+    return this.args.certification;
+  }
+  get isRejected() {
+    return this.certification.status === status.REJECTED;
   }
 
   get isValidated() {
-    return this.args.certification.status === 'validated';
+    return this.certification.status === status.VALIDATED;
   }
 
   get isNotPublished() {
@@ -14,20 +24,15 @@ export default class CertificationsListItem extends Component {
   }
 
   get isPublished() {
-    const certification = this.args.certification;
-    return certification && certification.isPublished;
+    return this.certification?.isPublished;
   }
 
-  get isPublishedAndRejected() {
-    return this.isPublished && this.isNotValidated;
-  }
-
-  get isPublishedAndValidated() {
-    return this.isPublished && this.isValidated;
+  get isCancelled() {
+    return this.certification?.status === status.CANCELLED;
   }
 
   get shouldDisplayComment() {
-    return this.isPublishedAndRejected && this.args.certification.commentForCandidate;
+    return (this.isPublished && (this.isRejected || this.isCancelled)) && this.certification?.commentForCandidate;
   }
 
   get isClickable() {

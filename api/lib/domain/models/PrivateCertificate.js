@@ -1,3 +1,10 @@
+const status = {
+  REJECTED: 'rejected',
+  VALIDATED: 'validated',
+  ERROR: 'error',
+  CANCELLED: 'cancelled',
+};
+
 class PrivateCertificate {
   constructor({
     id,
@@ -37,5 +44,7 @@ class PrivateCertificate {
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
   }
 }
+
+PrivateCertificate.status = status;
 
 module.exports = PrivateCertificate;
