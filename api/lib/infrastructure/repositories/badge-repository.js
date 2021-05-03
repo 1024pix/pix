@@ -53,7 +53,7 @@ module.exports = {
 
   async getByKey(key) {
     const bookshelfBadge = await BookshelfBadge
-      .where('key', key)
+      .where({ key })
       .fetch({
         withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
       });
