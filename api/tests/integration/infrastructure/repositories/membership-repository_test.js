@@ -585,6 +585,22 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         expect(error.message).to.be.equal(messageNotRowUpdated);
       });
     });
+
+    context('When membership attributes are empty', () => {
+
+      it('should throw MembershipUpdateError', async () => {
+        // given
+        const errorMessage = 'Le membership n\'est pas renseigné';
+        const membership = undefined;
+
+        // when
+        const error = await catchErr(membershipRepository.updateById)({ id: existingMembershipId, membership });
+
+        // then
+        expect(error).to.be.an.instanceOf(MembershipUpdateError);
+        expect(error.message).to.be.equal(errorMessage);
+      });
+    });
   });
 
 });
