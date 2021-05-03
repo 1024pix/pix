@@ -20,16 +20,30 @@ async function handleCleaCertificationScoring({
   });
 
   if (cleaCertificationScoring.hasAcquiredBadge) {
-    const beginningCertificationDate = await certificationCourseRepository.getCreationDate(event.certificationCourseId);
-    const badge = await badgeRepository.getByKey(cleaCertificationScoring.partnerKey);
-    const targetProfile = await targetProfileRepository.get(badge.targetProfileId);
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: event.userId, limitDate: beginningCertificationDate });
-    cleaCertificationScoring.setBadgeStillValid(badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge }));
+    await _verifyBadgeValidity(certificationCourseRepository, event, badgeRepository, cleaCertificationScoring, targetProfileRepository, knowledgeElementRepository, badgeCriteriaService);
   }
 
   if (cleaCertificationScoring.isEligible()) {
     await partnerCertificationScoringRepository.save({ partnerCertificationScoring: cleaCertificationScoring });
   }
+}
+
+async function _verifyBadgeValidity(certificationCourseRepository, event, badgeRepository, cleaCertificationScoring, targetProfileRepository, knowledgeElementRepository, badgeCriteriaService) {
+  const beginningCertificationDate = await certificationCourseRepository.getCreationDate(event.certificationCourseId);
+
+  const badge = await badgeRepository.getByKey(cleaCertificationScoring.partnerKey);
+  const targetProfile = await targetProfileRepository.get(badge.targetProfileId);
+
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
+    userId: event.userId,
+    limitDate: beginningCertificationDate,
+  });
+
+  cleaCertificationScoring.setBadgeStillValid(badgeCriteriaService.areBadgeCriteriaFulfilled({
+    knowledgeElements,
+    targetProfile,
+    badge,
+  }));
 }
 
 handleCleaCertificationScoring.eventTypes = eventTypes;
