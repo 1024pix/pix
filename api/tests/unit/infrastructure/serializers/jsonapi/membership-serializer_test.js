@@ -189,11 +189,11 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
 
     it('should convert JSON API data into a map object that contain attribute to patch', () => {
       // when
-      const membershipAttributes = serializer.deserialize(jsonMembership);
+      const membership = serializer.deserialize(jsonMembership);
 
       // then
-      expect(membershipAttributes.organizationRole).to.equal('ADMIN');
-      expect(membershipAttributes.id).to.equal('12345');
+      expect(membership.organizationRole).to.equal('ADMIN');
+      expect(membership.id).to.equal('12345');
 
     });
   });

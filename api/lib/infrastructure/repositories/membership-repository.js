@@ -112,6 +112,11 @@ module.exports = {
 
   async updateById({ id, membership }, domainTransaction = DomainTransaction.emptyTransaction()) {
     let updatedMembership;
+
+    if (!membership) {
+      throw new MembershipUpdateError('Le membership n\'est pas renseigné');
+    }
+
     try {
       updatedMembership = await new BookshelfMembership({ id })
         .save(membership, { patch: true, method: 'update', require: true, transacting: domainTransaction.knexTransaction });
