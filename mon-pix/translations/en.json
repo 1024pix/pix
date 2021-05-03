@@ -281,6 +281,9 @@
         "text": "You have no certifications yet."
       },
       "statuses": {
+        "cancelled": {
+          "title": "Certification cancelled"
+        },
         "fail": {
           "title": "Certification not awarded",
           "action": "details"
