@@ -54,7 +54,7 @@ describe('Integration | Service | Certification-Badges Service', () => {
       listSkill.forEach((skillId) => databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId }));
       const badge = databaseBuilder.factory.buildBadge({ isCertifiable: true, targetProfileId: targetProfileId });
       databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: badge.id });
-      databaseBuilder.factory.buildBadgeCriterion({
+      const badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({
         scope: 'EveryPartnerCompetence',
         badgeId: badge.id,
         threshold: 40,
@@ -63,7 +63,7 @@ describe('Integration | Service | Certification-Badges Service', () => {
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web2', status: 'validated' }).id;
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web3', status: 'validated' }).id;
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' }).id;
-      databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badge.id, skillIds: ['web1', 'web2', 'web3', 'web4'] });
+      const badgePartnerCompetence = databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badge.id, skillIds: ['web1', 'web2', 'web3', 'web4'] });
 
       await databaseBuilder.commit();
 
@@ -76,9 +76,27 @@ describe('Integration | Service | Certification-Badges Service', () => {
       });
 
       // then
+      const expectedBadgeCriteria = [
+        {
+          id: badgeCriterion.id,
+          scope: badgeCriterion.scope,
+          threshold: badgeCriterion.threshold,
+          partnerCompetenceIds: badgeCriterion.partnerCompetenceIds,
+        },
+      ];
+
+      const expectedBadgePartnerCompetences = [
+        {
+          id: badgePartnerCompetence.id,
+          name: badgePartnerCompetence.name,
+          color: badgePartnerCompetence.color,
+          skillIds: badgePartnerCompetence.skillIds,
+        },
+      ];
+
       expect(badgeAcquisitions.length).to.equal(1);
-      expect(badgeAcquisitions[0].badge.badgeCriteria.length).to.equal(1);
-      expect(badgeAcquisitions[0].badge.badgePartnerCompetences.length).to.equal(1);
+      expect(badgeAcquisitions[0].badge.badgeCriteria).to.deep.equal(expectedBadgeCriteria);
+      expect(badgeAcquisitions[0].badge.badgePartnerCompetences).to.deep.equal(expectedBadgePartnerCompetences);
     });
   });
 });
