@@ -4,7 +4,7 @@ const buildCompetenceMark = require('./build-competence-mark');
 module.exports = function buildCleaCertificationScoring({
   certificationCourseId = 42,
   hasAcquiredBadge = true,
-  badgeStillAcquired = true,
+  isBadgeStillValid = true,
   reproducibilityRate = 50,
   cleaCompetenceMarks = [buildCompetenceMark()],
   maxReachablePixByCompetenceForClea = { competence1: 51 },
@@ -13,7 +13,7 @@ module.exports = function buildCleaCertificationScoring({
   return new CleaCertificationScoring({
     certificationCourseId,
     hasAcquiredBadge,
-    badgeStillAcquired,
+    isBadgeStillValid,
     reproducibilityRate,
     cleaCompetenceMarks,
     maxReachablePixByCompetenceForClea,
