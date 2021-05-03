@@ -5,12 +5,12 @@ const findUserPrivateCertificates = require('../../../../lib/domain/usecases/fin
 
 describe('Unit | UseCase | find-user-private-certificates', () => {
 
-  const certificationRepository = {};
+  const privateCertificateRepository = {};
   const cleaCertificationStatusRepository = {};
   const cleaCertificationStatus = 'someStatus';
 
   beforeEach(() => {
-    certificationRepository.findByUserId = sinon.stub();
+    privateCertificateRepository.findByUserId = sinon.stub();
     cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
   });
 
@@ -29,14 +29,14 @@ describe('Unit | UseCase | find-user-private-certificates', () => {
       assessmentState: 'completed',
       assessmentResults: [assessmentResult],
     });
-    certificationRepository.findByUserId.resolves([completedCertificates]);
+    privateCertificateRepository.findByUserId.resolves([completedCertificates]);
 
     // when
-    const promise = findUserPrivateCertificates({ userId, certificationRepository, cleaCertificationStatusRepository });
+    const promise = findUserPrivateCertificates({ userId, privateCertificateRepository, cleaCertificationStatusRepository });
 
     // then
     return promise.then((certifications) => {
-      expect(certificationRepository.findByUserId).to.have.been.calledWith(userId);
+      expect(privateCertificateRepository.findByUserId).to.have.been.calledWith({ userId });
       expect(certifications).to.have.lengthOf(1);
       expect(certifications[0].id).to.equal(1000);
       expect(certifications[0].cleaCertificationStatus).to.equal(cleaCertificationStatus);
