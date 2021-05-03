@@ -28,8 +28,8 @@ module.exports = async function enrollStudentsToSession({
 
   const scoCertificationCandidates = students.map((student) => {
     return new SCOCertificationCandidate({
-      firstName: student.firstName,
-      lastName: student.lastName,
+      firstName: student.firstName.trim(),
+      lastName: student.lastName.trim(),
       birthdate: student.birthdate,
       sessionId,
       schoolingRegistrationId: student.id,
