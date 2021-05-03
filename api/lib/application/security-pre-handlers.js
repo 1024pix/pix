@@ -185,6 +185,21 @@ async function checkUserIsAdminInSUPOrganizationManagingStudents(request, h) {
   return _replyWithAuthorizationError(h);
 }
 
+async function checkUserBelongsToOrganization(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyWithAuthorizationError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const organizationId = parseInt(request.params.id);
+
+  const belongsToOrganization = await checkUserBelongsToOrganizationUseCase.execute(userId, organizationId);
+  if (belongsToOrganization) {
+    return h.response(true);
+  }
+  return _replyWithAuthorizationError(h);
+}
+
 module.exports = {
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToOrganizationOrHasRolePixMaster,
@@ -196,4 +211,5 @@ module.exports = {
   checkUserIsAdminInOrganizationOrHasRolePixMaster,
   checkUserIsAdminInSCOOrganizationManagingStudents,
   checkUserIsAdminInSUPOrganizationManagingStudents,
+  checkUserBelongsToOrganization,
 };

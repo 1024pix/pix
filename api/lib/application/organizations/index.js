@@ -100,6 +100,7 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/campaigns',
       config: {
+        pre: [{ method: securityPreHandlers.checkUserBelongsToOrganization }],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,

@@ -2,6 +2,7 @@ const Hapi = require('@hapi/hapi');
 
 const preResponseUtils = require('../../../lib/application/pre-response-utils');
 const { handleFailAction } = require('../../../lib/validate');
+const authentication = require('../../../lib/infrastructure/authentication');
 
 const routesConfig = {
   routes: {
@@ -45,6 +46,14 @@ class HttpTestServer {
 
   requestObject({ method, url, payload, auth, headers }) {
     return this.hapiServer.inject({ method, url, payload, auth, headers });
+  }
+
+  setupAuthentication() {
+    this.hapiServer.auth.scheme(authentication.schemeName, authentication.scheme);
+    authentication.strategies.map((strategy) => {
+      this.hapiServer.auth.strategy(strategy.name, authentication.schemeName, strategy.configuration);
+    });
+    this.hapiServer.auth.default(authentication.defaultStrategy);
   }
 
 }
