@@ -281,6 +281,9 @@
         "text": "Vous n'avez pas encore de certification."
       },
       "statuses": {
+        "cancelled": {
+          "title": "Certification annulée"
+        },
         "fail": {
           "title": "Certification non obtenue",
           "action": "détail"
