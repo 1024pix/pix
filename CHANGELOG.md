@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.52.0 (03/05/2021)
+
+- [#2910](https://github.com/1024pix/pix/pull/2910) [FEATURE] Afficher les certification annulées (PIX-2403)
+- [#2936](https://github.com/1024pix/pix/pull/2936) [FEATURE] Empêcher la mise à jour de "LastQuestionDate" quand l'assessment est terminé (PIX-2524).
+- [#2924](https://github.com/1024pix/pix/pull/2924) [FEATURE] Suppression de la notion de surnuméraire de l'API (PIX-2414)
+- [#2937](https://github.com/1024pix/pix/pull/2937) [BUGFIX] Corriger la suppression d'un membre sur Pix Orga (Pix-2541).
+- [#2934](https://github.com/1024pix/pix/pull/2934) [BUGFIX] Un candidat inscrit à une session de certification ne pouvait la rejoindre si, à l'inscription, un espace au début ou à la fin est présent dans son nom ou son prénom (PIX-2382)
+- [#2931](https://github.com/1024pix/pix/pull/2931) [BUGFIX] Ne pas valider de badge quand ce dernier n'a pas de critère (PIX-2538).
+- [#2918](https://github.com/1024pix/pix/pull/2918) [CLEAN] Linter automatiquement les fichiers json de traduction (PIX-2525).
+
 ## v3.51.0 (30/04/2021)
 
 - [#2932](https://github.com/1024pix/pix/pull/2932) [FEATURE] Pouvoir repasser un parcours seulement après 4 jours (PIX-2465).
