@@ -48,6 +48,40 @@
       "skill-ranking": "Pix score for the competence {{name}}"
     }
   },
+  "csv-template": {
+    "higher-schooling-registrations": {
+      "birthdate": "Date of birth (DD/MM/YYYY)",
+      "department": "Department",
+      "diploma": "Degree",
+      "educational-team": "Teaching staff",
+      "email": "Email address",
+      "first-name": "First Name",
+      "group": "Group",
+      "last-name": "Last name",
+      "middle-name": "Middle name #1",
+      "preferred-lastname": "Preferred name",
+      "student-number": "Student number",
+      "study-scheme": "Status",
+      "third-name": "Middle name #2"
+    },
+    "schooling-registrations": {
+      "birth-city": "Place of birth**",
+      "birth-city-code": "City of birth code**",
+      "birth-country-code": "Country code*",
+      "birth-province-code": "Province of birth code*",
+      "birthdate": "Date of birth (DD/MM/YYYY)*",
+      "division": "Class*",
+      "first-name": "First name*",
+      "last-name": "Last name*",
+      "mef-code": "MEF code*",
+      "middle-name": "Middle name #1",
+      "national-identifier": "Unique identifier*",
+      "preferred-last-name": "Preferred name",
+      "status": "Status*",
+      "third-name": "Middle name #2"
+    },
+    "template-name": "import-template"
+  },
   "current-lang": "en",
   "email-change-email": {
     "body": {
@@ -63,21 +97,21 @@
     "subject": "Email change confirmation"
   },
   "entity-validation-errors": {
+    "ACCEPT_CGU": "Please agree to the terms and conditions of use.",
+    "ALREADY_REGISTERED_EMAIL": "This email address is already registered, please log in.",
+    "EMPTY_EMAIL": "Please enter an email address.",
+    "EMPTY_FIRST_NAME": "Please enter a first name.",
+    "EMPTY_INPUT": "Please fill out the fields.",
+    "EMPTY_LAST_NAME": "Please enter a last name.",
+    "EMPTY_USERNAME": "Please enter a username.",
+    "FILL_USERNAME_OR_EMAIL": "Please enter an email address and/or a username.",
+    "MAX_SIZE_EMAIL": "Your email address must not exceed 255 characters.",
+    "MAX_SIZE_FIRST_NAME": "Your first name must not exceed 255 characters.",
+    "MAX_SIZE_LAST_NAME": "Your last name must not exceed 255 characters.",
     "STAGE_THRESHOLD_IS_REQUIRED": "The threshold is required",
     "STAGE_TITLE_IS_REQUIRED": "The title is required",
     "TARGET_PROFILE_IS_REQUIRED": "The target profile is required",
-    "ALREADY_REGISTERED_EMAIL": "This email address is already registered, please log in.",
-    "WRONG_EMAIL_FORMAT": "The email address format is invalid.",
-    "MAX_SIZE_EMAIL": "Your email address must not exceed 255 characters.",
-    "MAX_SIZE_LAST_NAME": "Your last name must not exceed 255 characters.",
-    "MAX_SIZE_FIRST_NAME": "Your first name must not exceed 255 characters.",
-    "EMPTY_EMAIL": "Please enter an email address.",
-    "EMPTY_LAST_NAME": "Please enter a last name.",
-    "EMPTY_FIRST_NAME": "Please enter a first name.",
-    "EMPTY_USERNAME": "Please enter a username.",
-    "EMPTY_INPUT": "Please fill out the fields.",
-    "ACCEPT_CGU": "Please agree to the terms and conditions of use.",
-    "FILL_USERNAME_OR_EMAIL": "Please enter an email address and/or a username."
+    "WRONG_EMAIL_FORMAT": "The email address format is invalid."
   },
   "organization-invitation-email": {
     "params": {
@@ -121,39 +155,5 @@
       "weCannotSendYourPassword": "Hello, for security reasons, we cannot send your password by email."
     },
     "subject": "Pix password reset request"
-  },
-  "csv-template": {
-    "higher-schooling-registrations": {
-      "birthdate": "Date of birth (DD/MM/YYYY)",
-      "department": "Department",
-      "diploma": "Degree",
-      "educational-team": "Teaching staff",
-      "email": "Email address",
-      "first-name": "First Name",
-      "group": "Group",
-      "last-name": "Last name",
-      "middle-name": "Middle name #1",
-      "preferred-lastname": "Preferred name",
-      "student-number": "Student number",
-      "study-scheme": "Status",
-      "third-name": "Middle name #2"
-    },
-    "schooling-registrations": {
-      "birthdate": "Date of birth (DD/MM/YYYY)*",
-      "birth-city": "Place of birth**",
-      "birth-city-code": "City of birth code**",
-      "birth-province-code": "Province of birth code*",
-      "birth-country-code": "Country code*",
-      "division": "Class*",
-      "first-name": "First name*",
-      "last-name": "Last name*",
-      "middle-name": "Middle name #1",
-      "mef-code": "MEF code*",
-      "national-identifier": "Unique identifier*",
-      "preferred-last-name": "Preferred name",
-      "status": "Status*",
-      "third-name": "Middle name #2"
-    },
-    "template-name": "import-template"
   }
 }

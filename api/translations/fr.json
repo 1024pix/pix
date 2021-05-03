@@ -2,9 +2,9 @@
   "campaign-export": {
     "assessment": {
       "competence-area": {
-        "items-successfully-completed": "Acquis maitrisés du domaine {{name}}",
-        "mastery-percentage": "% de maitrise des acquis du domaine {{name}}",
-        "total-items": "Nombre d'acquis du profil cible du domaine {{name}}"
+        "items-successfully-completed": "Acquis maitrisés du domaine {{ name }}",
+        "mastery-percentage": "% de maitrise des acquis du domaine {{ name }}",
+        "total-items": "Nombre d'acquis du profil cible du domaine {{ name }}"
       },
       "is-shared": "Partage (O/N)",
       "mastery-percentage-target-profile": "% maitrise de l'ensemble des acquis du profil",
@@ -48,6 +48,40 @@
       "skill-ranking": "Nombre de pix pour la compétence {{name}}"
     }
   },
+  "csv-template": {
+    "higher-schooling-registrations": {
+      "birthdate": "Date de naissance (jj/mm/aaaa)",
+      "department": "Composante",
+      "diploma": "Diplôme",
+      "educational-team": "Équipe pédagogique",
+      "email": "Email",
+      "first-name": "Premier prénom",
+      "group": "Groupe",
+      "last-name": "Nom de famille",
+      "middle-name": "Deuxième prénom",
+      "preferred-lastname": "Nom d'usage",
+      "student-number": "Numéro étudiant",
+      "study-scheme": "Régime",
+      "third-name": "Troisième prénom"
+    },
+    "schooling-registrations": {
+      "birth-city": "Libellé commune naissance**",
+      "birth-city-code": "Code commune naissance**",
+      "birth-country-code": "Code pays naissance*",
+      "birth-province-code": "Code département naissance*",
+      "birthdate": "Date de naissance (jj/mm/aaaa)*",
+      "division": "Division*",
+      "first-name": "Premier prénom*",
+      "last-name": "Nom de famille*",
+      "mef-code": "Code MEF*",
+      "middle-name": "Deuxième prénom",
+      "national-identifier": "Identifiant unique*",
+      "preferred-last-name": "Nom d'usage",
+      "status": "Statut*",
+      "third-name": "Troisième prénom"
+    },
+    "template-name": "modele-import"
+  },
   "current-lang": "fr",
   "email-change-email": {
     "body": {
@@ -63,21 +97,21 @@
     "subject": "Vous avez changé votre adresse e-mail"
   },
   "entity-validation-errors": {
+    "ACCEPT_CGU": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
+    "ALREADY_REGISTERED_EMAIL": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
+    "EMPTY_EMAIL": "Votre adresse e-mail n’est pas renseignée.",
+    "EMPTY_FIRST_NAME": "Votre prénom n’est pas renseigné.",
+    "EMPTY_INPUT": "Aucun champ n'est renseigné.",
+    "EMPTY_LAST_NAME": "Votre nom n’est pas renseignée.",
+    "EMPTY_USERNAME": "Votre identifiant n’est pas renseigné.",
+    "FILL_USERNAME_OR_EMAIL": "Vous devez renseigner une adresse e-mail et/ou un identifiant.",
+    "MAX_SIZE_EMAIL": "Votre adresse e-mail ne doit pas dépasser les 255 caractères.",
+    "MAX_SIZE_FIRST_NAME": "Votre prénom ne doit pas dépasser les 255 caractères.",
+    "MAX_SIZE_LAST_NAME": "Votre nom ne doit pas dépasser les 255 caractères.",
     "STAGE_THRESHOLD_IS_REQUIRED": "Le seuil du palier est obligatoire",
     "STAGE_TITLE_IS_REQUIRED": "Le titre du palier est obligatoire",
     "TARGET_PROFILE_IS_REQUIRED": "Le profil cible est obligatoire",
-    "ALREADY_REGISTERED_EMAIL": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
-    "WRONG_EMAIL_FORMAT": "Le format de l'adresse e-mail est incorrect.",
-    "MAX_SIZE_EMAIL": "Votre adresse e-mail ne doit pas dépasser les 255 caractères.",
-    "MAX_SIZE_LAST_NAME": "Votre nom ne doit pas dépasser les 255 caractères.",
-    "MAX_SIZE_FIRST_NAME": "Votre prénom ne doit pas dépasser les 255 caractères.",
-    "EMPTY_EMAIL": "Votre adresse e-mail n’est pas renseignée.",
-    "EMPTY_LAST_NAME": "Votre nom n’est pas renseignée.",
-    "EMPTY_FIRST_NAME": "Votre prénom n’est pas renseigné.",
-    "EMPTY_USERNAME": "Votre identifiant n’est pas renseigné.",
-    "EMPTY_INPUT": "Aucun champ n'est renseigné.",
-    "ACCEPT_CGU": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
-    "FILL_USERNAME_OR_EMAIL": "Vous devez renseigner une adresse e-mail et/ou un identifiant."
+    "WRONG_EMAIL_FORMAT": "Le format de l'adresse e-mail est incorrect."
   },
   "organization-invitation-email": {
     "params": {
@@ -121,39 +155,5 @@
       "weCannotSendYourPassword": "Bonjour, pour des raisons de sécurité, nous ne vous envoyons pas votre mot de passe par e-mail."
     },
     "subject": "Demande de réinitialisation de mot de passe Pix"
-  },
-  "csv-template": {
-    "higher-schooling-registrations": {
-      "birthdate": "Date de naissance (jj/mm/aaaa)",
-      "department": "Composante",
-      "diploma": "Diplôme",
-      "educational-team": "Équipe pédagogique",
-      "email": "Email",
-      "first-name": "Premier prénom",
-      "group": "Groupe",
-      "last-name": "Nom de famille",
-      "middle-name": "Deuxième prénom",
-      "preferred-lastname": "Nom d'usage",
-      "student-number": "Numéro étudiant",
-      "study-scheme": "Régime",
-      "third-name": "Troisième prénom"
-    },
-    "schooling-registrations": {
-      "birthdate": "Date de naissance (jj/mm/aaaa)*",
-      "birth-city": "Libellé commune naissance**",
-      "birth-city-code": "Code commune naissance**",
-      "birth-province-code": "Code département naissance*",
-      "birth-country-code": "Code pays naissance*",
-      "division": "Division*",
-      "first-name": "Premier prénom*",
-      "last-name": "Nom de famille*",
-      "middle-name": "Deuxième prénom",
-      "mef-code": "Code MEF*",
-      "national-identifier": "Identifiant unique*",
-      "preferred-last-name": "Nom d'usage",
-      "status": "Statut*",
-      "third-name": "Troisième prénom"
-    },
-    "template-name": "modele-import"
   }
 }
