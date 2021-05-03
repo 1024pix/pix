@@ -79,7 +79,6 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
           databaseBuilder.factory.buildSchoolingRegistration({
             ...reconciliationInfo,
             firstName: 'first name',
-            isSupernumerary: false,
             userId: null,
             organizationId,
           });
@@ -99,7 +98,6 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
           const [schoolingRegistration] = await knex('schooling-registrations');
           expect(schoolingRegistration.userId).to.equal(userId);
           expect(schoolingRegistration.firstName).to.equal('first name');
-          expect(schoolingRegistration.isSupernumerary).to.be.false;
         });
       });
 
@@ -114,7 +112,7 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
             birthdate: '2008-01-01',
           };
           const otherUserId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildSchoolingRegistration({ ...reconciliationInfo, userId: otherUserId, isSupernumerary: false, organizationId });
+          databaseBuilder.factory.buildSchoolingRegistration({ ...reconciliationInfo, userId: otherUserId, organizationId });
           await databaseBuilder.commit();
 
           // when

@@ -16,7 +16,6 @@ function buildSchoolingRegistration({
   group = 'grp12',
   diploma = 'licence',
   studyScheme = 'sch23',
-  isSupernumerary = false,
 } = {}) {
 
   return new HigherSchoolingRegistration({
@@ -34,7 +33,6 @@ function buildSchoolingRegistration({
     group,
     studyScheme,
     organizationId: organization.id,
-    isSupernumerary,
   });
 }
 

@@ -28,7 +28,6 @@ module.exports = function buildSchoolingRegistration({
   diploma = 'Licence',
   createdAt = new Date('2021-01-01'),
   updatedAt = new Date('2021-02-01'), // for BEGINNING_OF_THE_2020_SCHOOL_YEAR, can outdate very fast! ;)
-  isSupernumerary = false,
   organizationId,
   userId,
 } = {}) {
@@ -60,7 +59,6 @@ module.exports = function buildSchoolingRegistration({
     diploma,
     createdAt,
     updatedAt,
-    isSupernumerary,
     organizationId,
     userId,
   };

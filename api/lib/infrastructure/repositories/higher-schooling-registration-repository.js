@@ -20,7 +20,6 @@ const ATTRIBUTES_TO_SAVE = [
   'status',
   'birthdate',
   'organizationId',
-  'isSupernumerary',
 ];
 
 module.exports = {
@@ -40,50 +39,20 @@ module.exports = {
     }
   },
 
-  async saveNonSupernumerary(higherSchoolingRegistration, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const attributes = {
-      ..._.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE),
-      status: higherSchoolingRegistration.studyScheme,
-    };
-
-    try {
-      await BookshelfSchoolingRegistration
-        .where({
-          studentNumber: attributes.studentNumber,
-          organizationId: attributes.organizationId,
-          isSupernumerary: false,
-        })
-        .save(attributes, { method: 'update', transacting: domainTransaction.knexTransaction });
-    } catch (error) {
-      throw new SchoolingRegistrationsCouldNotBeSavedError();
-    }
-  },
-
-  async batchCreate(higherSchoolingRegistrations, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const knexConn = domainTransaction.knexTransaction || knex;
-
+  async upsertStudents(higherSchoolingRegistrations) {
     const registrationsToInsert = higherSchoolingRegistrations.map((registration) => ({
       ..._.pick(registration, ATTRIBUTES_TO_SAVE),
       status: registration.studyScheme,
     }));
 
     try {
-      await knexConn
-        .batchInsert('schooling-registrations', registrationsToInsert);
+      await knex('schooling-registrations')
+        .insert(registrationsToInsert)
+        .onConflict(['organizationId', 'studentNumber'])
+        .merge();
     } catch (error) {
       throw new SchoolingRegistrationsCouldNotBeSavedError();
     }
-  },
-
-  async findByOrganizationIdAndStudentNumber({ organizationId, studentNumber }) {
-    const schoolingRegistration = await BookshelfSchoolingRegistration
-      .query((qb) => {
-        qb.where('organizationId', organizationId);
-        qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
-      })
-      .fetchAll();
-
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistration);
   },
 
   async updateStudentNumber(studentId, studentNumber) {
@@ -94,7 +63,7 @@ module.exports = {
       });
   },
 
-  async findOneRegisteredByOrganizationIdAndUserData({ organizationId, reconciliationInfo: { birthdate, studentNumber } = {} }) {
+  async findOneByStudentNumberAndBirthdate({ organizationId, studentNumber, birthdate }) {
     const schoolingRegistration = await BookshelfSchoolingRegistration
       .query((qb) => {
         qb.where('organizationId', organizationId);
@@ -106,20 +75,14 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
   },
 
-  async findStudentNumbersNonSupernumerary(organizationId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const knexConn = domainTransaction.knexTransaction || knex;
-    const results = await knexConn('schooling-registrations')
-      .select('studentNumber')
-      .where({ organizationId, isSupernumerary: false });
+  async findOneByStudentNumber({ organizationId, studentNumber }) {
+    const schoolingRegistration = await BookshelfSchoolingRegistration
+      .query((qb) => {
+        qb.where('organizationId', organizationId);
+        qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
+      })
+      .fetch({ require: false });
 
-    return _.map(results, 'studentNumber');
-  },
-
-  findSupernumerary(organizationId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const knexConn = domainTransaction.knexTransaction || knex;
-
-    return knexConn('schooling-registrations')
-      .select('studentNumber', 'firstName', 'id', 'lastName', 'birthdate')
-      .where({ organizationId, isSupernumerary: true });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
   },
 };
