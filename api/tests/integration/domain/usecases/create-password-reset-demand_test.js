@@ -2,7 +2,6 @@ const { catchErr, databaseBuilder, expect } = require('../../../test-helper');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
-const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const resetPasswordDemandRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
@@ -32,7 +31,6 @@ describe('Integration | UseCases | create-password-reset-demand', () => {
       locale,
       mailService,
       resetPasswordService,
-      authenticationMethodRepository,
       resetPasswordDemandRepository,
       userRepository,
     });
@@ -52,7 +50,6 @@ describe('Integration | UseCases | create-password-reset-demand', () => {
       locale,
       mailService,
       resetPasswordService,
-      authenticationMethodRepository,
       resetPasswordDemandRepository,
       userRepository,
     });

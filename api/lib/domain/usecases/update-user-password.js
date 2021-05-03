@@ -18,7 +18,7 @@ module.exports = async function updateUserPassword({
 
   await resetPasswordService.hasUserAPasswordResetDemandInProgress(user.email, temporaryKey);
 
-  const updatedUser = await authenticationMethodRepository.updateOnlyPassword({
+  const updatedUser = await authenticationMethodRepository.updateChangedPassword({
     userId: user.id,
     hashedPassword,
   });
