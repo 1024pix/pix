@@ -7,7 +7,7 @@ module.exports = {
   findUserCertifications(request) {
     const userId = request.auth.credentials.userId;
 
-    return usecases.findCompletedUserCertifications({ userId })
+    return usecases.findUserPrivateCertificates({ userId })
       .then((certifications) => certificationSerializer.serialize(certifications));
   },
 
