@@ -7,8 +7,10 @@ export default class OrganizationCampaignsRoute extends Route {
   }
 
   async model(params) {
+    const organizationId = this.paramsFor('authenticated.organizations.get').organization_id;
+
     const query = {
-      organizationId: 1,
+      organizationId,
       'page[number]': params.pageNumber || 1,
       'page[size]': params.pageSize || 10,
     };
