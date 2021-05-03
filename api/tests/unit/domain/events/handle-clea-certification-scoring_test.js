@@ -87,7 +87,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
 
     context('when certification is eligible', () => {
 
-      it('it should verify if the badge is still acquired', async () => {
+      it('should verify if the badge is still acquired', async () => {
         // given
         cleaCertificationScoring.isEligible = () => true;
 
@@ -101,7 +101,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
         expect(cleaCertificationScoring.setBadgeStillAcquired).to.have.been.calledWith(true);
       });
 
-      it('it should save a certif partner', async () => {
+      it('should save a certif partner', async () => {
         // given
         cleaCertificationScoring.isEligible = () => true;
 
@@ -119,7 +119,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
 
     context('when certification is not eligible', () => {
 
-      it('it not should verify if the badge is still acquired if the badge is not acquired', async () => {
+      it('should not verify if the badge is still acquired if the badge is not acquired', async () => {
         // given
         cleaCertificationScoring.hasAcquiredBadge = false;
         cleaCertificationScoring.isEligible = () => true;
@@ -134,7 +134,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
         expect(cleaCertificationScoring.setBadgeStillAcquired).to.not.to.have.been.called;
       });
 
-      it('it should not save a certif partner', async () => {
+      it('should not save a certif partner', async () => {
         // given
         cleaCertificationScoring.isEligible = () => false;
 

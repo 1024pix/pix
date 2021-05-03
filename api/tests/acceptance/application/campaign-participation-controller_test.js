@@ -181,7 +181,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         };
       });
 
-      it('it should reply an unauthorized error', () => {
+      it('should reply an unauthorized error', () => {
         // when
         const promise = server.inject(options);
 

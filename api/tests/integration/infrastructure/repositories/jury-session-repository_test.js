@@ -238,7 +238,7 @@ describe('Integration | Repository | JurySession', function() {
           return databaseBuilder.commit();
         });
 
-        it('it should find sessions by part of their certification center name, in a case-insensitive way', async () => {
+        it('should find sessions by part of their certification center name, in a case-insensitive way', async () => {
           // given
           const filters = { certificationCenterName: ' Des laURa' };
           const page = { number: 1, size: 10 };
@@ -281,7 +281,7 @@ describe('Integration | Repository | JurySession', function() {
           return databaseBuilder.commit();
         });
 
-        it('it should find sessions by part of their certification type', async () => {
+        it('should find sessions by part of their certification type', async () => {
           // given
           const filters = { certificationCenterType: 'SCO' };
           const page = { number: 1, size: 10 };
@@ -296,7 +296,7 @@ describe('Integration | Repository | JurySession', function() {
           expect(jurySessions).to.have.length(1);
         });
 
-        it('it should return all sessions if certification type filter is null', async () => {
+        it('should return all sessions if certification type filter is null', async () => {
           // given
           const filters = { certificationCenterType: null };
           const page = { number: 1, size: 10 };
