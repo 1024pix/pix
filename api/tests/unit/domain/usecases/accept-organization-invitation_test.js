@@ -177,7 +177,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
           });
 
           // then
-          expect(membershipRepository.updateById).to.have.been.calledWith({ id: membership.id, membershipAttributes: { organizationRole: pendingOrganizationInvitation.role } });
+          expect(membershipRepository.updateById).to.have.been.calledWith({ id: membership.id, membership: { organizationRole: pendingOrganizationInvitation.role } });
           expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitationId);
         });
       });
