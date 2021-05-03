@@ -3,18 +3,13 @@ module.exports = async function createPasswordResetDemand({
   locale,
   mailService,
   resetPasswordService,
-  authenticationMethodRepository,
   resetPasswordDemandRepository,
   userRepository,
 }) {
-  const { id: userId } = await userRepository.getByEmail(email);
+  await userRepository.isUserExistingByEmail(email);
 
   const temporaryKey = resetPasswordService.generateTemporaryKey();
   const passwordResetDemand = await resetPasswordDemandRepository.create({ email, temporaryKey });
-  await authenticationMethodRepository.updateOnlyShouldChangePassword({
-    shouldChangePassword: false,
-    userId,
-  });
 
   await mailService.sendResetPasswordDemandEmail({ email, locale, temporaryKey });
 

@@ -53,18 +53,23 @@ module.exports = {
     }
   },
 
-  updateOnlyPassword({ userId, hashedPassword }) {
+  updateChangedPassword({ userId, hashedPassword }) {
+    const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
+      password: hashedPassword,
+      shouldChangePassword: false,
+    });
+
     return BookshelfAuthenticationMethod
       .where({
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
       .save(
+        { authenticationComplement },
         {
-          // eslint-disable-next-line quotes
-          authenticationComplement: Bookshelf.knex.raw(`jsonb_set("authenticationComplement", '{password}', ?)`, `"${hashedPassword}"`),
+          patch: true,
+          method: 'update',
         },
-        { patch: true, method: 'update' },
       )
       .then(_toDomainEntity)
       .catch((err) => {

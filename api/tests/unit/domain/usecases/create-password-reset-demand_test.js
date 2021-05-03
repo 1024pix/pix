@@ -18,7 +18,6 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
 
   let mailService;
   let resetPasswordService;
-  let authenticationMethodRepository;
   let resetPasswordDemandRepository;
   let userRepository;
 
@@ -29,17 +28,14 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
     resetPasswordService = {
       generateTemporaryKey: sinon.stub(),
     };
-    authenticationMethodRepository = {
-      updateOnlyShouldChangePassword: sinon.stub(),
-    };
     resetPasswordDemandRepository = {
       create: sinon.stub(),
     };
     userRepository = {
-      getByEmail: sinon.stub(),
+      isUserExistingByEmail: sinon.stub(),
     };
 
-    userRepository.getByEmail.resolves({ id: 1 });
+    userRepository.isUserExistingByEmail.resolves({ id: 1 });
     resetPasswordService.generateTemporaryKey.returns(temporaryKey);
     resetPasswordDemandRepository.create.resolves(resetPasswordDemand);
   });
@@ -51,7 +47,6 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
       locale,
       mailService,
       resetPasswordService,
-      authenticationMethodRepository,
       resetPasswordDemandRepository,
       userRepository,
     });
@@ -59,20 +54,16 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
     // then
     expect(result).to.deep.equal(resetPasswordDemand);
 
-    expect(userRepository.getByEmail).to.have.been.calledWithExactly(email);
+    expect(userRepository.isUserExistingByEmail).to.have.been.calledWithExactly(email);
     expect(resetPasswordService.generateTemporaryKey).to.have.been.calledOnce;
     expect(resetPasswordDemandRepository.create).to.have.been.calledWithExactly({ email, temporaryKey });
-    expect(authenticationMethodRepository.updateOnlyShouldChangePassword).to.have.been.calledWith({
-      userId: 1,
-      shouldChangePassword: false,
-    });
     expect(mailService.sendResetPasswordDemandEmail)
       .to.have.been.calledWithExactly({ email, locale, temporaryKey });
   });
 
   it('should throw UserNotFoundError if user email does not exist', async () => {
     // given
-    userRepository.getByEmail.throws(new UserNotFoundError());
+    userRepository.isUserExistingByEmail.throws(new UserNotFoundError());
 
     // when
     const error = await catchErr(createPasswordResetDemand)({
@@ -80,7 +71,6 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
       locale,
       mailService,
       resetPasswordService,
-      authenticationMethodRepository,
       resetPasswordDemandRepository,
       userRepository,
     });
