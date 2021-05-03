@@ -25,6 +25,7 @@ class Campaign {
     customResultPageText,
     customResultPageButtonText,
     customResultPageButtonUrl,
+    multipleSendings,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -44,7 +45,7 @@ class Campaign {
     this.customResultPageText = customResultPageText;
     this.customResultPageButtonText = customResultPageButtonText;
     this.customResultPageButtonUrl = customResultPageButtonUrl;
-
+    this.multipleSendings = multipleSendings;
   }
 
   get organizationId() {

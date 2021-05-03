@@ -74,6 +74,7 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
             'attributes': {
               'pix-score': 2,
               'shared-at': sharedAt,
+              'can-retry': false,
             },
             'relationships': {
               'scorecards': {
