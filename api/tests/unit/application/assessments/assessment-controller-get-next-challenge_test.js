@@ -207,67 +207,107 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     });
 
     describe('when the assessment is a competence evaluation assessment', () => {
-      const userId = 1;
 
-      const assessment = domainBuilder.buildAssessment({
-        id: 1,
-        courseId: 'courseId',
-        userId: 5,
-        type: Assessment.types.COMPETENCE_EVALUATION,
-      });
+      describe('when assessment is started', () => {
+        const userId = 1;
 
-      beforeEach(() => {
-        assessmentRepository.get.resolves(assessment);
-      });
-
-      it('should call the usecase getNextChallengeForCompetenceEvaluation', async () => {
-        const locale = FRENCH_SPOKEN;
-        const request = {
-          params: { id: 1 },
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(userId),
-            'accept-language': locale,
-          },
-        };
-        // when
-        await assessmentController.getNextChallenge(request);
-
-        // then
-        expect(usecases.getNextChallengeForCompetenceEvaluation).to.have.been.calledWith({
-          assessment,
-          userId,
-          locale,
+        const assessment = domainBuilder.buildAssessment({
+          id: 1,
+          courseId: 'courseId',
+          userId: 5,
+          type: Assessment.types.COMPETENCE_EVALUATION,
+          state: 'started',
         });
-      });
-
-      describe('when asking for a challenge', () => {
-        const now = new Date('2019-01-01T05:06:07Z');
-        let clock;
 
         beforeEach(() => {
-          clock = sinon.useFakeTimers(now);
+          assessmentRepository.get.resolves(assessment);
         });
 
-        afterEach(() => {
-          clock.restore();
-        });
-
-        it('should call assessmentRepository updateLastQuestionDate method with currentDate', async () => {
-          // given
+        it('should call the usecase getNextChallengeForCompetenceEvaluation', async () => {
           const locale = FRENCH_SPOKEN;
           const request = {
             params: { id: 1 },
             headers: {
-              authorization: generateValidRequestAuthorizationHeader(1),
+              authorization: generateValidRequestAuthorizationHeader(userId),
               'accept-language': locale,
             },
           };
-
           // when
           await assessmentController.getNextChallenge(request);
 
           // then
-          expect(updateLastQuestionDateStub).to.be.calledWith({ id: request.params.id, lastQuestionDate: now });
+          expect(usecases.getNextChallengeForCompetenceEvaluation).to.have.been.calledWith({
+            assessment,
+            userId,
+            locale,
+          });
+        });
+
+        describe('when asking for a challenge', () => {
+          const now = new Date('2019-01-01T05:06:07Z');
+          let clock;
+
+          beforeEach(() => {
+            clock = sinon.useFakeTimers(now);
+          });
+
+          afterEach(() => {
+            clock.restore();
+          });
+
+          it('should call assessmentRepository updateLastQuestionDate method with currentDate', async () => {
+            // given
+            const locale = FRENCH_SPOKEN;
+            const request = {
+              params: { id: 1 },
+              headers: {
+                authorization: generateValidRequestAuthorizationHeader(1),
+                'accept-language': locale,
+              },
+            };
+
+            // when
+            await assessmentController.getNextChallenge(request);
+
+            // then
+            expect(updateLastQuestionDateStub).to.be.calledWith({ id: request.params.id, lastQuestionDate: now });
+          });
+
+        });
+
+      });
+
+      describe('when assessment is completed', () => {
+        const assessment = domainBuilder.buildAssessment({
+          id: 1,
+          courseId: 'courseId',
+          userId: 5,
+          type: Assessment.types.COMPETENCE_EVALUATION,
+          state: 'completed',
+        });
+
+        beforeEach(() => {
+          assessmentRepository.get.resolves(assessment);
+        });
+
+        describe('#getNextChallenge', () => {
+          it('should not call assessmentRepository updateLastQuestionDate method', async () => {
+            // given
+            const locale = FRENCH_SPOKEN;
+            const request = {
+              params: { id: 1 },
+              headers: {
+                authorization: generateValidRequestAuthorizationHeader(1),
+                'accept-language': locale,
+              },
+            };
+
+            // when
+            await assessmentController.getNextChallenge(request);
+
+            // then
+            expect(updateLastQuestionDateStub).to.have.not.been.called;
+          });
         });
       });
     });
