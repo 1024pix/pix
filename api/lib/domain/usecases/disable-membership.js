@@ -3,6 +3,6 @@ module.exports = async function disableMembership({
   userId,
   membershipRepository,
 }) {
-  const membershipAttributes = { disabledAt: new Date(), updatedByUserId: userId };
-  return membershipRepository.updateById({ id: membershipId, membershipAttributes });
+  const membership = { disabledAt: new Date(), updatedByUserId: userId };
+  return membershipRepository.updateById({ id: membershipId, membership });
 };

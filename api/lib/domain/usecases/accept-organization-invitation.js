@@ -30,7 +30,7 @@ module.exports = async function acceptOrganizationInvitation({
     }
 
     if (existingMembership) {
-      await membershipRepository.updateById({ id: existingMembership.id, membershipAttributes: { organizationRole: invitationRole } });
+      await membershipRepository.updateById({ id: existingMembership.id, membership: { organizationRole: invitationRole } });
     } else {
       const organizationRole = invitationRole || _pickDefaultRole(memberships);
       await membershipRepository.create(userFound.id, organizationId, organizationRole);
