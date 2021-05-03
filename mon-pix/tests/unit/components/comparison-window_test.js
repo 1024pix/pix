@@ -118,9 +118,9 @@ describe('Unit | Component | comparison-window', function() {
     });
 
     [
-      { validationStatus: 'unavailable (i.e. empty)', result: '', expectedTitle: '', expectedTooltip: 'Correction automatique en cours de développement ;)' },
-      { validationStatus: 'unknown', result: 'xxx', expectedTitle: '', expectedTooltip: 'Correction automatique en cours de développement ;)' },
-      { validationStatus: 'undefined', result: undefined, expectedTitle: '', expectedTooltip: 'Correction automatique en cours de développement ;)' },
+      { validationStatus: 'unavailable (i.e. empty)', result: '', expectedTitle: 'Réponse', expectedTooltip: 'Correction automatique en cours de développement ;)' },
+      { validationStatus: 'unknown', result: 'xxx', expectedTitle: 'Réponse', expectedTooltip: 'Correction automatique en cours de développement ;)' },
+      { validationStatus: 'undefined', result: undefined, expectedTitle: 'Réponse', expectedTooltip: 'Correction automatique en cours de développement ;)' },
       { validationStatus: 'ok', result: 'ok', expectedTitle: 'Vous avez la bonne réponse !', expectedTooltip: 'Réponse correcte' },
       { validationStatus: 'ko', result: 'ko', expectedTitle: 'Vous n’avez pas la bonne réponse', expectedTooltip: 'Réponse incorrecte' },
       { validationStatus: 'aband', result: 'aband', expectedTitle: 'Vous n’avez pas donné de réponse', expectedTooltip: 'Sans réponse' },
