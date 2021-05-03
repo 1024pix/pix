@@ -41,12 +41,12 @@ module.exports = {
     }],
     /* Recommended rules */
     'ember/no-mixins': 'off',
-    'i18n-json/sorted-keys': [2, {
+    'i18n-json/sorted-keys': ['error', {
       'order': 'asc',
       'sortFunctionPath': path.resolve('./config/linter-translation-order.js'),
     }],
-    'i18n-json/valid-message-syntax': 1,
-    'no-irregular-whitespace': 0,
+    'i18n-json/valid-message-syntax': 'warn',
+    'no-irregular-whitespace': 'off',
   },
   overrides: [
     // node files

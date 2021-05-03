@@ -21,4 +21,4 @@ rules:
      -  selector: "CallExpression[callee.object.object.name='faker'][callee.object.property.name='internet'][callee.property.name='email']"
         message: "Use only faker.internet.exampleEmail()"
   knex/avoid-injections: error
-  i18n-json/valid-message-syntax: 1
+  i18n-json/valid-message-syntax: warn

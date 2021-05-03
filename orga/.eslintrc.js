@@ -26,11 +26,11 @@ module.exports = {
   },
   rules: {
     'no-restricted-imports': ['error', { 'paths': ['lodash'] }],
-    'i18n-json/sorted-keys': [1, {
+    'i18n-json/sorted-keys': ['warn', {
       'sortFunctionPath': path.resolve('./config/linter-translation-order.js'),
     }],
-    'i18n-json/valid-message-syntax': 1,
-    'no-irregular-whitespace': 0,
+    'i18n-json/valid-message-syntax': 'warn',
+    'no-irregular-whitespace': 'off',
   },
   overrides: [
     // node files
