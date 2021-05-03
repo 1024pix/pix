@@ -71,4 +71,25 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
       });
     });
   });
+
+  it('should return warnings about the import', async () => {
+    const input = `${higherSchoolingRegistrationColumns}
+            Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
+        `.trim();
+
+    const encodedInput = iconv.encode(input, 'utf8');
+    const organization = databaseBuilder.factory.buildOrganization();
+    await databaseBuilder.commit();
+
+    const warnings = await importHigherSchoolingRegistration({
+      organizationId: organization.id,
+      higherSchoolingRegistrationRepository,
+      higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
+    });
+
+    expect(warnings).to.deep.equal([
+      { studentNumber: '123456', field: 'study-scheme', value: 'BAD', code: 'unknown' },
+      { studentNumber: '123456', field: 'diploma', value: 'BAD', code: 'unknown' },
+    ]);
+  });
 });
