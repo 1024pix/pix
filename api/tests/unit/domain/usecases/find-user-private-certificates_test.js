@@ -1,9 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
-const findCompletedUserCertifications = require('../../../../lib/domain/usecases/find-completed-user-certifications');
+const findUserPrivateCertificates = require('../../../../lib/domain/usecases/find-user-private-certificates');
 
-describe('Unit | UseCase | find-completed-user-certifications', () => {
+describe('Unit | UseCase | find-user-private-certificates', () => {
 
   const certificationRepository = {};
   const cleaCertificationStatusRepository = {};
@@ -32,7 +32,7 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
     certificationRepository.findByUserId.resolves([completedCertificates]);
 
     // when
-    const promise = findCompletedUserCertifications({ userId, certificationRepository, cleaCertificationStatusRepository });
+    const promise = findUserPrivateCertificates({ userId, certificationRepository, cleaCertificationStatusRepository });
 
     // then
     return promise.then((certifications) => {

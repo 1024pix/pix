@@ -19,19 +19,19 @@ describe('Unit | Controller | certifications-controller', () => {
     const request = { auth: { credentials: { userId } } };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'findCompletedUserCertifications');
+      sinon.stub(usecases, 'findUserPrivateCertificates');
       sinon.stub(certificationSerializer, 'serialize').returns(serializedCertifications);
     });
 
     it('should return a serialized certifications array when use case return a array of Certifications', async () => {
       // given
-      usecases.findCompletedUserCertifications.resolves(retrievedCertifications);
+      usecases.findUserPrivateCertificates.resolves(retrievedCertifications);
 
       // when
       const response = await certificationController.findUserCertifications(request, hFake);
 
       // then
-      expect(usecases.findCompletedUserCertifications).to.have.been.calledWith({ userId });
+      expect(usecases.findUserPrivateCertificates).to.have.been.calledWith({ userId });
       expect(certificationSerializer.serialize).to.have.been.calledWith(retrievedCertifications);
       expect(response).to.deep.equal(serializedCertifications);
     });
