@@ -72,7 +72,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
       targetProfileRepository.get = sinon.stub().withArgs(targetProfile.id).resolves(targetProfile);
       knowledgeElementRepository.findUniqByUserId = sinon.stub().withArgs({ userId: event.userId, limitDate: date }).resolves(knowledgeElements);
       badgeCriteriaService.areBadgeCriteriaFulfilled = sinon.stub().withArgs({ knowledgeElements, targetProfile, badge }).returns(true);
-      cleaCertificationScoring.setBadgeStillValid = sinon.stub().returns(true);
+      cleaCertificationScoring.setBadgeAcquisitionStillValid = sinon.stub().returns(true);
 
       partnerCertificationScoringRepository.save = sinon.stub();
       partnerCertificationScoringRepository.buildCleaCertificationScoring = sinon.stub();
@@ -98,7 +98,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
 
         // then
         expect(badgeCriteriaService.areBadgeCriteriaFulfilled).to.have.been.calledWith({ knowledgeElements, targetProfile, badge });
-        expect(cleaCertificationScoring.setBadgeStillValid).to.have.been.calledWith(true);
+        expect(cleaCertificationScoring.setBadgeAcquisitionStillValid).to.have.been.calledWith(true);
       });
 
       it('should save a certif partner', async () => {
@@ -131,7 +131,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
 
         // then
         expect(badgeCriteriaService.areBadgeCriteriaFulfilled).to.not.to.have.been.called;
-        expect(cleaCertificationScoring.setBadgeStillValid).to.not.to.have.been.called;
+        expect(cleaCertificationScoring.setBadgeAcquisitionStillValid).to.not.to.have.been.called;
       });
 
       it('should not save a certif partner', async () => {

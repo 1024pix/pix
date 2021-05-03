@@ -39,7 +39,7 @@ async function _verifyBadgeValidity(certificationCourseRepository, event, badgeR
     limitDate: beginningCertificationDate,
   });
 
-  cleaCertificationScoring.setBadgeStillValid(badgeCriteriaService.areBadgeCriteriaFulfilled({
+  cleaCertificationScoring.setBadgeAcquisitionStillValid(badgeCriteriaService.areBadgeCriteriaFulfilled({
     knowledgeElements,
     targetProfile,
     badge,
