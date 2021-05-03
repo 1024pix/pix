@@ -37,8 +37,8 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
 
       it('returns a HigherSchoolingRegistrationSet with a schooling registration for each line using the CSV column', () => {
         const input = `${higherSchoolingRegistrationColumns}
-        Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
-        O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
+        Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Autre;Autre;
+        O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT contrôlé par l'Etat;Autre;
         `;
         const organizationId = 789;
         const encodedInput = iconv.encode(input, 'utf8');
@@ -55,11 +55,11 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
           studentNumber: '123456',
           email: 'thebride@example.net',
           birthdate: '1970-01-01',
-          diploma: 'Master',
+          diploma: 'Autre',
           department: 'Assassination Squad',
           educationalTeam: 'Hattori Hanzo',
           group: 'Deadly Viper Assassination Squad',
-          studyScheme: 'hello darkness my old friend',
+          studyScheme: 'Autre',
           organizationId,
         });
         expect(registrations[1]).to.deep.equal({
@@ -71,11 +71,11 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
           studentNumber: '789',
           email: 'ishii@example.net',
           birthdate: '1980-01-01',
-          diploma: 'DUT',
+          diploma: 'DUT contrôlé par l\'Etat',
           department: 'Assassination Squad',
           educationalTeam: 'Bill',
           group: 'Deadly Viper Assassination Squad',
-          studyScheme: undefined,
+          studyScheme: 'Autre',
           organizationId,
         });
       });
