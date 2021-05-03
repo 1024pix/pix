@@ -1,6 +1,5 @@
 const HigherSchoolingRegistration = require('../../../../lib/domain/models/HigherSchoolingRegistration');
 const { expect, catchErr } = require('../../../test-helper');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
 
@@ -28,7 +27,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
 
     ['firstName', 'lastName', 'birthdate', 'studentNumber'].forEach((field) => {
       it(`throw an error when ${field} is required`, async () => {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: undefined, isSupernumerary: false });
+        const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: undefined });
 
         expect(error.key).to.equal(field);
         expect(error.why).to.equal('required');
@@ -85,55 +84,6 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', () => {
 
       expect(error.key).to.equal('organizationId');
       expect(error.why).to.equal('not_an_integer');
-    });
-
-    it('throw an error when isSupernumerary is not a boolean', async () => {
-      const error = await catchErr(buildRegistration)({ ...validAttributes, isSupernumerary: 'saaaaluuuut' });
-
-      expect(error.key).to.equal('isSupernumerary');
-      expect(error.why).to.equal('not_a_boolean');
-    });
-
-    context('when isSupernumerary is true', () => {
-      context('when student number is not present', () => {
-        it('is valid', async () => {
-          try {
-            await buildRegistration({ ...validAttributes, studentNumber: null, isSupernumerary: true });
-          } catch (e) {
-            expect.fail('higherSchoolingRegistration is valid when all required fields are present');
-          }
-        });
-      });
-
-      context('when student number is present', () => {
-        it('is valid', async () => {
-          try {
-            await buildRegistration({ ...validAttributes, studentNumber: '1234', isSupernumerary: true });
-          } catch (e) {
-            expect.fail('higherSchoolingRegistration is valid when all required fields are present');
-          }
-        });
-      });
-    });
-
-    context('when isSupernumerary is false', () => {
-      context('when student number is not present', () => {
-        it('throws an error', async () => {
-          const error = await catchErr(buildRegistration)({ ...validAttributes, studentNumber: null, isSupernumerary: false });
-
-          expect(error).to.be.instanceOf(EntityValidationError);
-        });
-      });
-
-      context('when student number is present', () => {
-        it('is valid', async () => {
-          try {
-            await buildRegistration({ ...validAttributes, studentNumber: '1234', isSupernumerary: false });
-          } catch (e) {
-            expect.fail('higherSchoolingRegistration is valid when all required fields are present');
-          }
-        });
-      });
     });
 
     context('when birthdate is not a date', () => {

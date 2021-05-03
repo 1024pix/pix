@@ -399,14 +399,14 @@ describe('Unit | Service | user-reconciliation-service', () => {
     beforeEach(() => {
       organizationId = domainBuilder.buildOrganization().id;
       higherSchoolingRegistrationRepositoryStub = {
-        findOneRegisteredByOrganizationIdAndUserData: sinon.stub(),
+        findOneByStudentNumberAndBirthdate: sinon.stub(),
       };
     });
 
     context('When schooling registrations are found for organization and birthdate', () => {
 
       beforeEach(() => {
-        higherSchoolingRegistrationRepositoryStub.findOneRegisteredByOrganizationIdAndUserData.resolves(schoolingRegistrations[0]);
+        higherSchoolingRegistrationRepositoryStub.findOneByStudentNumberAndBirthdate.resolves(schoolingRegistrations[0]);
       });
 
       context('When no schooling registrations matched on names', () => {
@@ -442,7 +442,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
           it('should throw an error', async () => {
             // given
-            higherSchoolingRegistrationRepositoryStub.findOneRegisteredByOrganizationIdAndUserData.resolves(schoolingRegistrations[0]);
+            higherSchoolingRegistrationRepositoryStub.findOneByStudentNumberAndBirthdate.resolves(schoolingRegistrations[0]);
 
             // when
             const result = await catchErr(userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, higherSchoolingRegistrationRepository: higherSchoolingRegistrationRepositoryStub });
@@ -468,7 +468,7 @@ describe('Unit | Service | user-reconciliation-service', () => {
     context('When no schooling registrations found', () => {
 
       beforeEach(() => {
-        higherSchoolingRegistrationRepositoryStub.findOneRegisteredByOrganizationIdAndUserData.resolves(null);
+        higherSchoolingRegistrationRepositoryStub.findOneByStudentNumberAndBirthdate.resolves(null);
       });
 
       it('should throw an error', async () => {

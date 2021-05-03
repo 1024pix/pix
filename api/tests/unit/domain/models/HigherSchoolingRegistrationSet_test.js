@@ -24,7 +24,6 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', () => {
           group: 'Deadly Viper Assassination Squad',
           studyScheme: 'I have no idea what it\'s like.',
           organizationId: 1,
-          isSupernumerary: false,
         };
 
         higherSchoolingRegistrationSet.addRegistration(registrationAttributes);
@@ -55,7 +54,6 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', () => {
           studyScheme: 'I have no idea what it\'s like.',
           userId: 12345,
           organizationId: 1,
-          isSupernumerary: false,
         };
         const registration2 = {
           firstName: 'Bill',
@@ -72,7 +70,6 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', () => {
           group: 'Deadly Viper Assassination Squad',
           studyScheme: 'I have always no idea what it\'s like.',
           organizationId: 2,
-          isSupernumerary: false,
         };
 
         higherSchoolingRegistrationSet.addRegistration(registration1);

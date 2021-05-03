@@ -13,7 +13,7 @@ describe('Unit | UseCase | update-student-number', () => {
   let schoolingRegistration;
 
   const higherSchoolingRegistrationRepository = {
-    findByOrganizationIdAndStudentNumber: sinon.stub(),
+    findOneByStudentNumber: sinon.stub(),
     updateStudentNumber: sinon.stub(),
   };
 
@@ -22,9 +22,9 @@ describe('Unit | UseCase | update-student-number', () => {
     beforeEach(() => {
       schoolingRegistration = domainBuilder.buildHigherSchoolingRegistration();
 
-      higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber
+      higherSchoolingRegistrationRepository.findOneByStudentNumber
         .withArgs({ organizationId, studentNumber })
-        .resolves([schoolingRegistration]);
+        .resolves(schoolingRegistration);
     });
 
     it('should throw an AlreadyExistingEntityError', async () => {
@@ -48,7 +48,7 @@ describe('Unit | UseCase | update-student-number', () => {
   context('When there are not schooling registration with the same student number', () => {
 
     beforeEach(() => {
-      higherSchoolingRegistrationRepository.findByOrganizationIdAndStudentNumber.withArgs({ organizationId, studentNumber }).resolves([]);
+      higherSchoolingRegistrationRepository.findOneByStudentNumber.withArgs({ organizationId, studentNumber }).resolves(null);
     });
 
     it('should update a student number', async () => {
