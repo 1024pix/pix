@@ -23,7 +23,7 @@ describe('Unit | UseCase | disable-membership', () => {
       disabledAt: sinon.match.instanceOf(Date),
       updatedByUserId: userId,
     };
-    expect(membershipRepository.updateById).to.has.been.calledWithExactly({ id: membershipId, membershipAttributes: expectedMembershipAttributes });
+    expect(membershipRepository.updateById).to.has.been.calledWithExactly({ id: membershipId, membership: expectedMembershipAttributes });
   });
 
   it('should throw a MembershipUpdateError if membership does not exist', async () => {

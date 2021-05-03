@@ -94,9 +94,9 @@ export default class Items extends Component {
       const memberLastName = membership.user.get('lastName');
 
       await this.args.removeMembership(membership);
-      this.notifications.success(this.intl.t('pages.team-items.notifications.success', { memberFirstName, memberLastName }));
+      this.notifications.success(this.intl.t('pages.team-members.notifications.success', { memberFirstName, memberLastName }));
     } catch (e) {
-      this.notifications.error(this.intl.t('pages.team-items.notifications.error'));
+      this.notifications.error(this.intl.t('pages.team-members.notifications.error'));
     } finally {
       this.closeRemoveMembershipModal();
     }
