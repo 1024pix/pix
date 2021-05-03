@@ -1,169 +1,158 @@
 {
-    "current-lang": "en",
-    "organization-invitation-email": {
-        "title": "You are invited to join Pix Orga",
-        "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
-        "yourOrganization": "Your organisation",
-        "acceptInvitation": "Accept the invitation",
-        "oneTimeLink": "This is a single-use link",
-        "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
-        "moreAbout": "More on",
-        "doNotAnswer": "This is an automated email message, please do not reply.",
-        "needHelp": "Have questions? We’re here to help, contact us",
-        "here": "here",
-        "params": {
-            "acceptInvitation": "Accept the invitation",
-            "doNotAnswer": "This is an automated email message, please do not reply.",
-            "here": "here",
-            "moreAbout": "More on",
-            "needHelp": "Have questions? We’re here to help, contact us",
-            "oneTimeLink": "This is a single-use link",
-            "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
-            "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
-            "title": "You are invited to join Pix Orga",
-            "yourOrganization": "Your organisation"
-        },
-        "subject": "Invitation to join Pix Orga"
+  "campaign-export": {
+    "assessment": {
+      "competence-area": {
+        "items-successfully-completed": "Items of the target profile successfully completed in the competence area {{name}}",
+        "mastery-percentage": "% of items successfully completed in the competence area {{name}}",
+        "total-items": "Number of items of the target profile in the competence area {{name}}"
+      },
+      "is-shared": "Shared (Y/N)",
+      "mastery-percentage-target-profile": "% of items successfully completed in the target profile",
+      "progress": "% of progression",
+      "shared-on": "Shared on",
+      "skill": {
+        "items-successfully-completed": "Items of the target profile successfully completed in the competence {{name}}",
+        "mastery-percentage": "% of items successfully completed in the competence {{name}}",
+        "total-items": "Number of items of the target profile in the competence {{name}}"
+      },
+      "started-on": "Started on",
+      "status": {
+        "ko": "KO",
+        "not-tested": "Not tested",
+        "ok": "OK"
+      },
+      "success-rate": "Success rate (/{{value}})",
+      "target-profile-name": "Target profile’s name",
+      "thematic-result-name": "{{name}} (Y/N)"
     },
-    "campaign-export": {
-        "assessment": {
-            "competence-area": {
-                "items-successfully-completed": "Items of the target profile successfully completed in the competence area {{name}}",
-                "mastery-percentage": "% of items successfully completed in the competence area {{name}}",
-                "total-items": "Number of items of the target profile in the competence area {{name}}"
-            },
-            "is-shared": "Shared (Y/N)",
-            "mastery-percentage-target-profile": "% of items successfully completed in the target profile",
-            "progress": "% of progression",
-            "shared-on": "Shared on",
-            "skill": {
-                "items-successfully-completed": "Items of the target profile successfully completed in the competence {{name}}",
-                "mastery-percentage": "% of items successfully completed in the competence {{name}}",
-                "total-items": "Number of items of the target profile in the competence {{name}}"
-            },
-            "started-on": "Started on",
-            "status": {
-                "ko": "KO",
-                "not-tested": "Not tested",
-                "ok": "OK"
-            },
-            "success-rate": "Success rate (/{{value}})",
-            "target-profile-name": "Target profile’s name",
-            "thematic-result-name": "{{name}} (Y/N)"
-        },
-        "common": {
-            "campaign-id": "Campaign ID",
-            "campaign-name": "Campaign's name",
-            "file-name": "Results-{{name}}-{{id}}-{{date}}.csv",
-            "no": "No",
-            "not-available": "NA",
-            "organization-name": "Organisation’s name",
-            "participant-division": "Class",
-            "participant-firstname": "Participant's first name",
-            "participant-lastname": "Participant's last name",
-            "participant-student-number": "Student number",
-            "yes": "Yes"
-        },
-        "profiles-collection": {
-            "certifiable-skills": "Number of competences eligible for certification",
-            "is-certifiable": "Eligible for certification (Y/N)",
-            "is-sent": "Sent (Y/N)",
-            "pix-score": "Total pix score",
-            "sent-on": "Sent on",
-            "skill-level": "Level reached in the competence {{name}}",
-            "skill-ranking": "Pix score for the competence {{name}}"
-        }
+    "common": {
+      "campaign-id": "Campaign ID",
+      "campaign-name": "Campaign's name",
+      "file-name": "Results-{{name}}-{{id}}-{{date}}.csv",
+      "no": "No",
+      "not-available": "NA",
+      "organization-name": "Organisation’s name",
+      "participant-division": "Class",
+      "participant-firstname": "Participant's first name",
+      "participant-lastname": "Participant's last name",
+      "participant-student-number": "Student number",
+      "yes": "Yes"
     },
-    "email-change-email": {
-        "body": {
-            "context": "You’ve recently changed your email address.",
-            "doNotAnswer": "This is an automated email message, please do not reply.",
-            "greeting": "Hi,",
-            "loginEmail": "You can now log in using the following email address:",
-            "moreOn": "More on",
-            "noPasswordChanged": "Your password remains the same.",
-            "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
-            "signing": "— The Pix Team"
-        },
-        "subject": "Email change confirmation"
-    },
-    "entity-validation-errors": {
-        "STAGE_THRESHOLD_IS_REQUIRED": "The threshold is required",
-        "STAGE_TITLE_IS_REQUIRED": "The title is required",
-        "TARGET_PROFILE_IS_REQUIRED": "The target profile is required",
-        "ALREADY_REGISTERED_EMAIL": "This email address is already registered, please log in.",
-        "WRONG_EMAIL_FORMAT": "The email address format is invalid.",
-        "MAX_SIZE_EMAIL": "Your email address must not exceed 255 characters.",
-        "MAX_SIZE_LAST_NAME": "Your last name must not exceed 255 characters.",
-        "MAX_SIZE_FIRST_NAME": "Your first name must not exceed 255 characters.",
-        "EMPTY_EMAIL": "Please enter an email address.",
-        "EMPTY_LAST_NAME": "Please enter a last name.",
-        "EMPTY_FIRST_NAME": "Please enter a first name.",
-        "EMPTY_USERNAME": "Please enter a username.",
-        "EMPTY_INPUT": "Please fill out the fields.",
-        "ACCEPT_CGU": "Please agree to the terms and conditions of use.",
-        "FILL_USERNAME_OR_EMAIL": "Please enter an email address and/or a username."
-    },
-    "pix-account-creation-email": {
-        "params": {
-            "askForHelp": "Any questions? We’re here to help, contact us",
-            "disclaimer": "If you did not create this account, you can ask its deletion",
-            "doNotAnswer": "This is an automated email message, please do not reply.",
-            "goToPix": "Get started",
-            "helpdeskLinkLabel": "here",
-            "moreOn": "More on",
-            "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
-            "subtitle": "You can now start testing your skills.",
-            "title": "Your Pix account has been created!"
-        },
-        "subject": "Your Pix account has been created"
-    },
-    "reset-password-demand-email": {
-        "params": {
-            "clickOnTheButton": "Click on the button below to choose a new password.",
-            "contactUs": "contact us here",
-            "doNotAnswer": "This is an automated email message, please do not reply. Have questions? We're here to help, ",
-            "linkValidFor": "This link is valid for 24 hours. If you did not request to change your password, please ignore this email.",
-            "moreOn": "More on",
-            "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
-            "resetMyPassword": "Reset my password",
-            "title": "Reset your password",
-            "weCannotSendYourPassword": "Hello, for security reasons, we cannot send your password by email."
-        },
-        "subject": "Pix password reset request"
-    },
-    "csv-template": {
-        "higher-schooling-registrations": {
-            "birthdate": "Date of birth (DD/MM/YYYY)",
-            "department": "Department",
-            "diploma": "Degree",
-            "educational-team": "Teaching staff",
-            "email": "Email address",
-            "first-name": "First Name",
-            "group": "Group",
-            "last-name": "Last name",
-            "middle-name": "Middle name #1",
-            "preferred-lastname": "Preferred name",
-            "student-number": "Student number",
-            "study-scheme": "Status",
-            "third-name": "Middle name #2"
-        },
-        "schooling-registrations": {
-            "birthdate": "Date of birth (DD/MM/YYYY)*",
-            "birth-city": "Place of birth**",
-            "birth-city-code": "City of birth code**",
-            "birth-province-code": "Province of birth code*",
-            "birth-country-code": "Country code*",
-            "division": "Class*",
-            "first-name": "First name*",
-            "last-name": "Last name*",
-            "middle-name": "Middle name #1",
-            "mef-code": "MEF code*",
-            "national-identifier": "Unique identifier*",
-            "preferred-last-name": "Preferred name",
-            "status": "Status*",
-            "third-name": "Middle name #2"
-        },
-        "template-name": "import-template"
+    "profiles-collection": {
+      "certifiable-skills": "Number of competences eligible for certification",
+      "is-certifiable": "Eligible for certification (Y/N)",
+      "is-sent": "Sent (Y/N)",
+      "pix-score": "Total pix score",
+      "sent-on": "Sent on",
+      "skill-level": "Level reached in the competence {{name}}",
+      "skill-ranking": "Pix score for the competence {{name}}"
     }
+  },
+  "csv-template": {
+    "higher-schooling-registrations": {
+      "birthdate": "Date of birth (DD/MM/YYYY)",
+      "department": "Department",
+      "diploma": "Degree",
+      "educational-team": "Teaching staff",
+      "email": "Email address",
+      "first-name": "First Name",
+      "group": "Group",
+      "last-name": "Last name",
+      "middle-name": "Middle name #1",
+      "preferred-lastname": "Preferred name",
+      "student-number": "Student number",
+      "study-scheme": "Status",
+      "third-name": "Middle name #2"
+    },
+    "schooling-registrations": {
+      "birth-city": "Place of birth**",
+      "birth-city-code": "City of birth code**",
+      "birth-country-code": "Country code*",
+      "birth-province-code": "Province of birth code*",
+      "birthdate": "Date of birth (DD/MM/YYYY)*",
+      "division": "Class*",
+      "first-name": "First name*",
+      "last-name": "Last name*",
+      "mef-code": "MEF code*",
+      "middle-name": "Middle name #1",
+      "national-identifier": "Unique identifier*",
+      "preferred-last-name": "Preferred name",
+      "status": "Status*",
+      "third-name": "Middle name #2"
+    },
+    "template-name": "import-template"
+  },
+  "current-lang": "en",
+  "email-change-email": {
+    "body": {
+      "context": "You’ve recently changed your email address.",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "greeting": "Hi,",
+      "loginEmail": "You can now log in using the following email address:",
+      "moreOn": "More on",
+      "noPasswordChanged": "Your password remains the same.",
+      "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
+      "signing": "— The Pix Team"
+    },
+    "subject": "Email change confirmation"
+  },
+  "entity-validation-errors": {
+    "ACCEPT_CGU": "Please agree to the terms and conditions of use.",
+    "ALREADY_REGISTERED_EMAIL": "This email address is already registered, please log in.",
+    "EMPTY_EMAIL": "Please enter an email address.",
+    "EMPTY_FIRST_NAME": "Please enter a first name.",
+    "EMPTY_INPUT": "Please fill out the fields.",
+    "EMPTY_LAST_NAME": "Please enter a last name.",
+    "EMPTY_USERNAME": "Please enter a username.",
+    "FILL_USERNAME_OR_EMAIL": "Please enter an email address and/or a username.",
+    "MAX_SIZE_EMAIL": "Your email address must not exceed 255 characters.",
+    "MAX_SIZE_FIRST_NAME": "Your first name must not exceed 255 characters.",
+    "MAX_SIZE_LAST_NAME": "Your last name must not exceed 255 characters.",
+    "STAGE_THRESHOLD_IS_REQUIRED": "The threshold is required",
+    "STAGE_TITLE_IS_REQUIRED": "The title is required",
+    "TARGET_PROFILE_IS_REQUIRED": "The target profile is required",
+    "WRONG_EMAIL_FORMAT": "The email address format is invalid."
+  },
+  "organization-invitation-email": {
+    "params": {
+      "acceptInvitation": "Accept the invitation",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "here": "here",
+      "moreAbout": "More on",
+      "needHelp": "Have questions? We’re here to help, contact us",
+      "oneTimeLink": "This is a single-use link",
+      "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
+      "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
+      "title": "You are invited to join Pix Orga",
+      "yourOrganization": "Your organisation"
+    }
+  },
+  "pix-account-creation-email": {
+    "params": {
+      "askForHelp": "Any questions? We’re here to help, contact us",
+      "disclaimer": "If you did not create this account, you can ask its deletion",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "goToPix": "Get started",
+      "helpdeskLinkLabel": "here",
+      "moreOn": "More on",
+      "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
+      "subtitle": "You can now start testing your skills.",
+      "title": "Your Pix account has been created!"
+    },
+    "subject": "Your Pix account has been created"
+  },
+  "reset-password-demand-email": {
+    "params": {
+      "clickOnTheButton": "Click on the button below to choose a new password.",
+      "contactUs": "contact us here",
+      "doNotAnswer": "This is an automated email message, please do not reply. Have questions? We're here to help, ",
+      "linkValidFor": "This link is valid for 24 hours. If you did not request to change your password, please ignore this email.",
+      "moreOn": "More on",
+      "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
+      "resetMyPassword": "Reset my password",
+      "title": "Reset your password",
+      "weCannotSendYourPassword": "Hello, for security reasons, we cannot send your password by email."
+    },
+    "subject": "Pix password reset request"
+  }
 }

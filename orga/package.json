@@ -28,7 +28,7 @@
     "lint:ci": "npm run lint",
     "lint:js": "eslint .",
     "lint:hbs": "ember-template-lint .",
-    "lint:json": "eslint --fix --ext .json translations/fr.json",
+    "lint:json": "eslint --fix --ext .json translations/*.json",
     "preinstall": "npx check-engine",
     "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test --reporter dot",

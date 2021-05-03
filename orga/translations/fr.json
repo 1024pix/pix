@@ -1,811 +1,811 @@
 {
-    "api-errors": {
-        "global": ""
+  "current-lang": "fr",
+  "api-errors": {
+    "global": ""
+  },
+  "api-errors-messages": {
+    "bad-request": "Les données que vous avez soumises ne sont pas au bon format.",
+    "campaign-creation": {
+      "external-user-id-required": "Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.",
+      "name-required": "Veuillez donner un nom à votre campagne.",
+      "purpose-required": "Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.",
+      "target-profile-required": "Veuillez sélectionner un profil cible pour votre campagne."
     },
-    "current-lang": "fr",
-    "common": {
-        "actions": {
-            "back": "Retour",
-            "cancel": "Annuler",
-            "close": "Fermer"
-        },
-        "pagination": {
-            "action": {
-                "next": "Aller à la page suivante",
-                "previous": "Aller à la page précédente",
-                "select-page-size": "Sélectionner une pagination"
-            },
-            "page-number": "Page {current} / {total}",
-            "result-by-page": "Voir"
-        },
-        "help-form": "https://support.pix.fr/support/tickets/new",
-        "loading": "Chargement en cours"
+    "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
+    "edit-student-number": {
+      "student-number-exists": "Le numéro étudiant saisi est déjà utilisé par l’étudiant {firstName} {lastName}"
     },
-    "navigation": {
-        "credits": {
-            "number": "{count, plural, =0 {0 crédit} =1 {1 crédit} other {{count, number} crédits}}",
-            "tooltip-text": "Le nombre de crédits affichés correspond au nombre de crédits acquis par l’organisation et en cours de validité (indépendamment de leur activation). Pour plus d’information contactez-nous à l’adresse <a href=mailto:pro@pix.fr>pro@pix.fr</a>"
-        },
-        "main": {
-            "campaigns": "Campagnes",
-            "certifications": "Certifications",
-            "documentation": "Documentation",
-            "students-sco": "Élèves",
-            "students-sup": "Étudiants",
-            "team": "Équipe"
-        },
-        "user-logged-menu": {
-            "logout": "Se déconnecter",
-            "summary": "Résumé utilisateur"
-        }
+    "global": "Une erreur est survenue. Veuillez réessayer ultérieurement.",
+    "or-separator": " ou ",
+    "student-csv-import": {
+      "bad-csv-format": "Le fichier doit être au format csv avec séparateur virgule ou point-virgule.",
+      "encoding-not-supported": "Encodage du fichier non supporté.",
+      "field-bad-values": "Ligne {line} : Le champ “{field}” doit être “{valids}”.",
+      "field-date-format": "Ligne {line} : Le champ “{field}” doit être au format jj/mm/aaaa.",
+      "field-email-format": "Ligne {line} : Le champ “{field}” doit être une adresse email valide.",
+      "field-length": "Ligne {line} : Le champ “{field}” doit faire {limit} caractères.",
+      "field-max-length": "Ligne {line} : Le champ “{field}” doit être inférieur à {limit} caractères.",
+      "field-min-length": "Ligne {line} : Le champ “{field}” doit être d’au moins {limit} caractères.",
+      "field-required": "Ligne {line} : Le champ “{field}” est obligatoire.",
+      "header-required": "La colonne “{field}” est obligatoire.",
+      "header-unknown": "Les entêtes de colonnes doivent être identiques à celles du modèle.",
+      "identifier-unique": "Ligne {line} : Le champ “{field}” de cette ligne est présent plusieurs fois dans le fichier.",
+      "ina-format": "Ligne {line} : Le champ “{field}” (INA) doit être de 10 chiffres suivis d’une lettre.",
+      "insee-code-invalid": "Ligne {line} : Le champ “{field}” n'est pas au format INSEE.",
+      "payload-too-large": "La taille du fichier doit être inférieure à {maxSize}Mo.",
+      "student-number-format": "Ligne {line} : Le champ “{field}” ne doit pas avoir de caractères spéciaux.",
+      "student-number-unique": "Ligne {line} : Le champ “{field}” doit être unique au sein du fichier."
     },
-    "pages": {
-        "assessment-individual-results": {
-            "badges": "Résultats Thématiques",
-            "mastery-percentage": "Résultat",
-            "progression": "Avancement",
-            "result": {
-                "label": "Résultat",
-                "value": "{count} / {total} ACQUIS"
-            },
-            "stages": {
-                "label": "Paliers",
-                "value": "{count} étoiles sur {total}"
-            },
-            "tab": {
-                "results": "Résultats",
-                "review": "Analyse"
-            },
-            "table": {
-                "title": "Résultats par compétence",
-                "column": {
-                    "competences": "Compétences ({count, plural, =0 {-} other {{count}}})",
-                    "results": {
-                        "label": "Résultats",
-                        "explanation-begin": "",
-                        "explanation-end": "",
-                        "tooltip": "<span class=\"sr-only\">Ce participant a validé</span> {result} % <span class=\"sr-only\">de la compétence {competence}.</span>"
-                    },
-                    "totalSkills": "Acquis évalués",
-                    "validatedSkills": "Acquis validés"
-                },
-                "empty": "En attente de résultats"
-            }
-        },
-        "assessment-participants-list": {
-            "table": {
-                "column": {
-                    "badges": "Résultats Thématiques",
-                    "first-name": "Nom",
-                    "last-name": "Prénom",
-                    "results": {
-                        "label": "Résultats",
-                        "on-hold": " En attente d'envoi",
-                        "under-test": "En cours de test"
-                    }
-                },
-                "empty": "Aucun participant",
-                "row-title": "Participant"
-            }
-        },
-        "campaign-individual-results": {
-            "campaign-name": "",
-            "shared-date": "Envoyé le",
-            "start-date": "Commencé le"
-        },
-        "campaign": {
-            "actions": {
-                "export-results": "Exporter les résultats (.csv)",
-                "unarchive": "Désarchiver la campagne"
-            },
-            "archived": "Campagne archivée",
-            "code": "Code",
-            "filters": {
-                "actions": {
-                    "clear": "Effacer les filtres"
-                },
-                "aria-label": "Filtres sur les participations",
-                "participations-count": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count} participants}}",
-                "title": "Filtres",
-                "type": {
-                    "badges": "Thématiques",
-                    "divisions": {
-                        "empty": "Pas de classe",
-                        "title": "Classes"
-                    },
-                    "stages": "Paliers"
-                }
-            },
-            "participations-count": "Participants",
-            "shared-participations-count": "Profils reçus",
-            "tab": {
-                "collective-results": "Résultats collectifs",
-                "details": "Détails",
-                "participants": "Participants ({count})",
-                "review": "Analyse"
-            },
-            "name": "Nom de la campagne"
-        },
-        "campaign-collective-results": {
-            "average": "Moyenne des résultats",
-            "table": {
-                "column": {
-                    "competences": "Compétences ({count})",
-                    "results": {
-                        "label": "Résultats",
-                        "tooltip": "<span class=\"sr-only\">Les participants ont validé</span> {result} % <span class=\"sr-only\">de la compétence {competence}.</span>"
-                    },
-                    "tested-items": "Acquis évalués",
-                    "validated-items": "Acquis validés"
-                },
-                "empty": "En attente de résultats",
-                "row-title": "Compétence",
-                "title": "Résultats collectifs par compétence"
-            },
-            "result": "Résultat"
-        },
-        "campaign-creation": {
-            "actions": {
-                "create": "Créer la campagne"
-            },
-            "external-id-label": {
-                "question-label": "Souhaitez-vous demander un identifiant externe ?",
-                "label": "Libellé de l’identifiant",
-                "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
-            },
-            "landing-page-text": {
-                "label": "Texte de la page d'accueil"
-            },
-            "legal-warning": "* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.",
-            "name": {
-                "label": "Nom de la campagne"
-            },
-            "no": "Non",
-            "purpose": {
-                "assessment": "Évaluer les participants",
-                "label": "Quel est l'objectif de votre campagne ?",
-                "profiles-collection": "Collecter les profils Pix des participants"
-            },
-            "target-profile-informations": "Si vous souhaitez avoir plus d'information, consulter <a class=\"link\" href=\"https://cloud.pix.fr/s/3joGMGYWSpmHg5w\" target=\"_blank\" rel=\"noopener noreferrer\"> la documentation correspondante</a>.",
-            "target-profiles-list": {
-                "label": "Que souhaitez-vous tester ?"
-            },
-            "test-title": {
-                "label": "Titre du parcours"
-            },
-            "title": "Création d'une campagne",
-            "yes": "Oui"
-        },
-        "campaign-details": {
-            "actions": {
-                "archive": "Archiver",
-                "copy-link": {
-                    "copied": "Copié !",
-                    "copy": "Copier le lien direct"
-                },
-                "edit": "Modifier"
-            },
-            "direct-link": "Lien direct",
-            "external-user-id-label": "Libellé de l'identifiant",
-            "landing-page-text": "Texte de la page d'accueil",
-            "personalised-test-title": "Titre du parcours",
-            "target-profile": "Profil cible"
-        },
-        "profiles-list": {
-            "table": {
-                "column": {
-                    "certifiable": "Certifiable",
-                    "competences-certifiables": "Comp. certifiables",
-                    "first-name": "Nom",
-                    "last-name": "Prénom",
-                    "pix-score": {
-                        "label": "Score Pix",
-                        "value": "{score, number}"
-                    },
-                    "sending-date": {
-                        "label": "Date d'envoi",
-                        "on-hold": "En attente d'envoi"
-                    }
-                },
-                "empty": "En attente de profils",
-                "row-title": "Profil"
-            }
-        },
-        "campaigns-list": {
-            "action": {
-                "archived": {
-                    "aria-label": "Afficher les campagnes archivées",
-                    "label": "Archivées"
-                },
-                "create": "Créer une campagne",
-                "ongoing": {
-                    "aria-label": "Afficher les campagnes actives",
-                    "label": "Actives"
-                }
-            },
-            "no-campaign": {
-                "description": "Configurez et lancez votre première campagne. Vous pourrez ensuite inviter vos utilisateurs à rejoindre ce parcours.",
-                "title": "Créez votre première campagne"
-            },
-            "table": {
-                "column": {
-                    "campaign": "Campagnes",
-                    "created-by": "Créé par",
-                    "created-on": "Créé le",
-                    "participants": "Participants",
-                    "results": "Résultats reçus"
-                },
-                "empty": "Aucune campagne",
-                "filter": {
-                    "by-creator": "Rechercher un créateur",
-                    "by-name": "Rechercher une campagne"
-                },
-                "row-title": "Campagne"
-            }
-        },
-        "campaign-modification": {
-            "actions": {
-                "edit": "Modifier"
-            },
-            "campaign-name": "Nom de la campagne",
-            "landing-page-text": "Texte de la page d'accueil",
-            "personalised-test-title": "Titre du parcours",
-            "title": "Modification d'une campagne"
-        },
-        "campaign-review": {
-            "description": "En fonction du référentiel testé et des résultats de la campagne, Pix vous recommande ces sujets à travailler, classés par degré de pertinence ({bubble}).",
-            "header": {
-                "title": "",
-                "relevance": "",
-                "subjects": ""
-            },
-            "title": "Recommandation de sujets à travailler",
-            "tube-recommendations": {
-                "name": "",
-                "recommended-tutorial": "",
-                "show-tutorial": "",
-                "subject": "",
-                "tutorial-source": "",
-                "tutorial-total": ""
-            },
-            "waiting-results": "",
-            "sub-table": {
-                "column": {
-                    "source": {
-                        "value": "Par {source}"
-                    }
-                },
-                "row-title": "Tutoriel",
-                "title": "{count, plural, =1 {1 tuto recommandé} other{{count} tutos recommandés}} par la communauté Pix"
-            },
-            "table": {
-                "column": {
-                    "subjects": "Sujets ({count, plural, =0 {-} other {{count}}})",
-                    "relevance": "Pertinence",
-                    "tutorial-count": {
-                        "value": "{count, plural, =1 {1 tuto} other {{count} tutos}}"
-                    },
-                    "tutorial": {
-                        "aria-label": "Afficher la liste des tutos"
-                    }
-                },
-                "empty": "En attente de résultats",
-                "row-title": "Sujet",
-                "sort": {
-                    "relevance": "Trier par pertinence"
-                },
-                "title": "Analyse par sujet"
-            }
-        },
-        "certifications": {
-            "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.<br> Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.",
-            "download-button": "Exporter les résultats",
-            "select-label": "Classe",
-            "title": "Résultats de certification",
-            "documentation-link-notice": "Vous trouverez en suivant ce lien quelques éléments pour interpréter les résultats : ",
-            "documentation-link-label": "Interprétation des résultats.",
-            "documentation-link": "https://cloud.pix.fr/s/cRaeKT4ErrXs4X8",
-            "errors": {
-                "no-results": "Aucun résultat de certification pour la classe {selectedDivision}.",
-                "invalid-division": "La classe {selectedDivision} n'existe pas."
-            }
-        },
-        "profiles-individual-results": {
-            "certifiable": "Certifiable",
-            "competences-certifiables": "COMP. CERTIFIABLES",
-            "pix": "PIX",
-            "pix-score": "{score, number}",
-            "table": {
-                "column": {
-                    "level": "Niveau",
-                    "pix-score": "Score Pix",
-                    "skill": "Compétence"
-                },
-                "empty": "En attente de résultats",
-                "row-title": "Compétence"
-            }
-        },
-        "login": {
-            "title": "Connectez-vous"
-        },
-        "login-form": {
-            "active-or-retrieve": "Activez ou récupérez votre espace Pix Orga",
-            "email": "Adresse e-mail",
-            "forgot-password": "Mot de passe oublié ?",
-            "forgotten-password-url": "https://app.pix.fr/mot-de-passe-oublie",
-            "invitation-already-accepted": "Cette invitation a déjà été acceptée. Connectez-vous ou contactez l'administrateur de votre espace Pix Orga.",
-            "is-only-accessible": "L'accès à Pix Orga est limité aux membres invités. Contactez l’administrateur Pix Orga de votre organisation pour qu'il vous invite.",
-            "login": "Je me connecte",
-            "only-for-admin": "réservé aux personnels de direction des établissements scolaires",
-            "password": "Mot de passe",
-            "show-password": "rendre le mot de passe lisible",
-            "errors": {
-                "status": {
-                    "401": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
-                    "401-should-change-password": "Erreur, vous devez changer votre mot de passe.",
-                    "403": "L'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite."
-                }
-            }
-        },
-        "login-or-register": {
-            "invitation": "Vous êtes invité(e) à rejoindre l'organisation",
-            "register-form": {
-                "title": "Je m’inscris",
-                "button": "S'inscrire",
-                "fields": {
-                    "first-name": {
-                        "label": "Prénom",
-                        "error": "Votre prénom n’est pas renseigné."
-                    },
-                    "last-name": {
-                        "label": "Nom",
-                        "error": "Votre nom n’est pas renseigné."
-                    },
-                    "email": {
-                        "label": "Adresse e-mail",
-                        "error": "Votre adresse e-mail n’est pas valide."
-                    },
-                    "password": {
-                        "label": "Mot de passe",
-                        "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre."
-                    },
-                    "cgu": {
-                        "accept": "J'accepte les",
-                        "link": "https://pix.fr/conditions-generales-d-utilisation",
-                        "terms-of-use": "conditions d'utilisation de Pix",
-                        "aria-label": "Accepter les conditions d'utilisation de Pix",
-                        "error": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte."
-                    },
-                    "button": {
-                        "label": "Je m'inscris"
-                    }
-                },
-                "legal-text": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « Informatique et Libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le Délégué à la Protection des Données de Pix à dpo@pix.fr."
-            },
-            "login-form": {
-                "title": "J'ai déjà un compte",
-                "button": "Se connecter"
-            }
-        },
-        "students-sco": {
-            "actions": {
-                "download-template": "Télécharger le modèle",
-                "import-file": {
-                    "file-type-separator": " ou ",
-                    "label": "Importer ({types})"
-                },
-                "manage-account": "Gérer le compte",
-                "show-actions": "Afficher les actions"
-            },
-            "agri-tooltip": "Quelques informations concernant l’import :<ul><li>Pour vos élèves : utiliser l’export FREGATA vers Pix et cliquer sur le bouton importer.</li><li>Pour vos apprentis : Pix importe tous les apprentis fin novembre au sein de votre espace Pix Orga. Les ajouts ponctuels d’apprentis se feront à partir de décembre, pour cela consulter la documentation Pix Orga et utiliser le modèle fourni.</li></ul>",
-            "connection-types": {
-                "empty": "–",
-                "none": "Aucune",
-                "email": "Adresse e-mail",
-                "identifiant": "Identifiant",
-                "mediacentre": "Mediacentre"
-            },
-            "import": {
-                "error-wrapper": "<div>Aucun élève n’a été importé.<br/><strong>{message}</strong><br/> Veuillez vérifier ou modifier votre fichier et l’importer à nouveau.</div>",
-                "global-error": "<div>Aucun élève n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">le formulaire du centre d’aide</a>.</div>",
-                "global-success": "La liste a été importée avec succès."
-            },
-            "know-more": "En savoir plus",
-            "manage-authentication-method-modal": {
-                "authentication-methods": "Méthodes de connexion",
-                "copied": "Copié !",
-                "error": {
-                    "default": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
-                    "unexpected": "Quelque chose s'est mal passé. Veuillez réessayer."
-                },
-                "section": {
-                    "add-username": {
-                        "button": "Ajouter l’identifiant",
-                        "label": "Ajouter une connexion avec un identifiant"
-                    },
-                    "email": {
-                        "copy": "Copier l’adresse e-mail",
-                        "label": "Adresse e-mail"
-                    },
-                    "username": {
-                        "copy": "Copier l’identifiant",
-                        "label": "Identifiant"
-                    },
-                    "mediacentre": {
-                        "label": "Médiacentre"
-                    },
-                    "password": {
-                        "copy": "Copier le mot de passe unique",
-                        "label": "Nouveau mot de passe à usage unique",
-                        "warning-1": "Communiquez ce nouveau mot de passe à votre élève.",
-                        "warning-2": "L’élève se connecte avec ce mot de passe à usage unique.",
-                        "warning-3": "Pix lui demande d'en choisir un nouveau."
-                    },
-                    "reset-password": {
-                        "button": "Réinitialiser le mot de passe",
-                        "warning": "Réinitialiser supprime le mot de passe actuel de l’élève."
-                    }
-                },
-                "title": "Gestion du compte Pix de l’élève"
-            },
-            "table": {
-                "column": {
-                    "date-of-birth": "Date de naissance",
-                    "first-name": "Prénom",
-                    "last-name": "Nom",
-                    "login-method": "Méthode(s) de connexion"
-                },
-                "empty": "Aucun élève.",
-                "filter": {
-                    "first-name": {
-                        "aria-label": "Entrer un prénom",
-                        "label": "Rechercher par prénom"
-                    },
-                    "last-name": {
-                        "aria-label": "Entrer un nom",
-                        "label": "Rechercher par nom"
-                    },
-                    "login-method": {
-                        "aria-label": "Rechercher par méthode de connexion",
-                        "empty-option": "Tous"
-                    }
-                },
-                "row-title": "Élève"
-            },
-            "title": "Élèves"
-        },
-        "students-sup": {
-            "actions": {
-                "download-template": "Télécharger le modèle",
-                "edit-student-number": "Éditer le numéro étudiant",
-                "import-file": "Importer (.csv)",
-                "show-actions": "Afficher les actions"
-            },
-            "edit-student-number-modal": {
-                "actions": {
-                    "update": "Mettre à jour"
-                },
-                "form": {
-                    "error": "Le numéro étudiant ne doit pas être vide.",
-                    "new-student-number-label": "Nouveau numéro étudiant",
-                    "student-number": "Numéro étudiant actuel de {firstName} {lastName} est : ",
-                    "success": "La modification du numéro étudiant de {firstName} {lastName} a bien été effectué."
-                },
-                "title": "Édition du numéro étudiant"
-            },
-            "import": {
-                "error-wrapper": "<div>Aucun étudiant n’a été importé.<br/><strong>{message}</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>",
-                "global-error": "<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">le formulaire du centre d’aide</a></div>",
-                "global-success": "La liste a été importée avec succès."
-            },
-            "table": {
-                "column": {
-                    "date-of-birth": "Date de naissance",
-                    "first-name": "Prénom",
-                    "last-name": "Nom",
-                    "student-number": "Numéro étudiant"
-                },
-                "empty": "Aucun étudiant.",
-                "filter": {
-                    "first-name": {
-                        "aria-label": "Entrer un prénom",
-                        "label": "Rechercher par prénom"
-                    },
-                    "last-name": {
-                        "aria-label": "Entrer un nom",
-                        "label": "Rechercher par nom"
-                    },
-                    "student-number": {
-                        "aria-label": "Entrer un numéro étudiant",
-                        "label": "Rechercher par numéro étudiant"
-                    }
-                },
-                "row-title": "Étudiant"
-            },
-            "title": "Étudiants"
-        },
-        "team-list": {
-            "title": "Mon équipe",
-            "add-member-button": "Inviter un membre",
-            "tabs": {
-                "member": "Membres ({count, plural, =0 {-} other {{count}}})",
-                "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})"
-            }
-        },
-        "team-members": {
-            "actions": {
-                "edit-organization-membership-role": "Modifier le rôle",
-                "manage": "Gérer",
-                "remove-membership": "Supprimer",
-                "save": "Enregistrer",
-                "select-role": {
-                    "label": "Sélectionner un rôle",
-                    "options": {
-                        "admin": "Administrateur",
-                        "member": "Membre"
-                    }
-                }
-            },
-            "remove-membership-modal": {
-                "actions": {
-                    "remove": "Oui, supprimer le membre"
-                },
-                "title": "Confirmez-vous la suppression ?",
-                "message": "{memberFirstName} {memberLastName} n'aura plus accès à cet espace Pix Orga.<br>Ses campagnes restent accessibles au reste de l'équipe."
-            },
-            "notifications": {
-                "success": "{memberFirstName} {memberLastName} a été supprimé avec succès de votre équipe Pix Orga.",
-                "error": "Une erreur est survenue lors de la désactivation du membre."
-            },
-            "table": {
-                "column": {
-                    "first-name": "Prénom",
-                    "last-name": "Nom",
-                    "organization-membership-role": "Rôle"
-                },
-                "empty": "En attente de membres",
-                "row-title": "Membre"
-            }
-        },
-        "team-invitations": {
-            "table": {
-                "column": {
-                    "email-address": "Adresse e-mail",
-                    "pending-invitation": "Date de dernier envoi"
-                },
-                "row": {
-                    "aria-label": "Invitation en attente",
-                    "message": "Dernière invitation envoyée le"
-                }
-            }
-        },
-        "team-new": {
-            "title": "Inviter un membre",
-            "email-requirement": "Saisissez ici l'adresse e-mail du membre que vous souhaitez inviter.",
-            "several-email-requirement": "Vous pouvez inviter plusieurs membres en séparant les adresses e-mails par des virgules.",
-            "invited-members": "À la réception de l'e-mail, les invités pourront choisir de se créer un compte Pix ou de se connecter avec un compte Pix existant.",
-            "errors": {
-                "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
-                "status": {
-                    "400": "Le format de l'adresse e-mail est incorrect.",
-                    "404": "Cet email n'appartient à aucun utilisateur.",
-                    "412": "Ce membre a déjà été ajouté.",
-                    "500": "Quelque chose s'est mal passé. Veuillez réessayer."
-                }
-            }
-        },
-        "team-new-item": {
-            "input-label": "Adresse(s) e-mail",
-            "invite-button": "Inviter"
-        }
-    },
-    "api-errors-messages": {
-        "bad-request": "Les données que vous avez soumises ne sont pas au bon format.",
-        "campaign-creation": {
-            "external-user-id-required": "Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.",
-            "name-required": "Veuillez donner un nom à votre campagne.",
-            "purpose-required": "Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.",
-            "target-profile-required": "Veuillez sélectionner un profil cible pour votre campagne."
-        },
-        "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
-        "edit-student-number": {
-            "student-number-exists": "Le numéro étudiant saisi est déjà utilisé par l’étudiant {firstName} {lastName}"
-        },
-        "global": "Une erreur est survenue. Veuillez réessayer ultérieurement.",
-        "or-separator": " ou ",
-        "student-csv-import": {
-            "bad-csv-format": "Le fichier doit être au format csv avec séparateur virgule ou point-virgule.",
-            "encoding-not-supported": "Encodage du fichier non supporté.",
-            "field-bad-values": "Ligne {line} : Le champ “{field}” doit être “{valids}”.",
-            "field-date-format": "Ligne {line} : Le champ “{field}” doit être au format jj/mm/aaaa.",
-            "field-email-format": "Ligne {line} : Le champ “{field}” doit être une adresse email valide.",
-            "field-length": "Ligne {line} : Le champ “{field}” doit faire {limit} caractères.",
-            "field-max-length": "Ligne {line} : Le champ “{field}” doit être inférieur à {limit} caractères.",
-            "field-min-length": "Ligne {line} : Le champ “{field}” doit être d’au moins {limit} caractères.",
-            "field-required": "Ligne {line} : Le champ “{field}” est obligatoire.",
-            "header-required": "La colonne “{field}” est obligatoire.",
-            "header-unknown": "Les entêtes de colonnes doivent être identiques à celles du modèle.",
-            "identifier-unique": "Ligne {line} : Le champ “{field}” de cette ligne est présent plusieurs fois dans le fichier.",
-            "ina-format": "Ligne {line} : Le champ “{field}” (INA) doit être de 10 chiffres suivis d’une lettre.",
-            "insee-code-invalid": "Ligne {line} : Le champ “{field}” n'est pas au format INSEE.",
-            "payload-too-large": "La taille du fichier doit être inférieure à {maxSize}Mo.",
-            "student-number-format": "Ligne {line} : Le champ “{field}” ne doit pas avoir de caractères spéciaux.",
-            "student-number-unique": "Ligne {line} : Le champ “{field}” doit être unique au sein du fichier."
-        },
-        "student-xml-import": {
-            "empty": "Les élèves doivent posséder un INE ainsi qu'une classe.",
-            "encoding-not-supported": "Encodage du fichier non supporté.",
-            "ine-required": "Le champ INE est obligatoire pour chaque élève.",
-            "ine-unique": "L’INE {nationalStudentId} est présent plusieurs fois dans le fichier pour plusieurs élèves.",
-            "invalid-file": "Le fichier n’est pas conforme.",
-            "invalid-file-extension": "Extension {fileExtension} non supportée.",
-            "payload-too-large": "La taille du fichier doit être inférieure à {maxSize}Mo.",
-            "uai-mismatched": "L’UAI du fichier SIECLE ne correspond pas à celui de votre établissement."
-        }
-    },
-    "banners": {
-        "campaigns": {
-            "message": "Il est important de vérifier que les élèves soient '<strong>'certifiables'</strong>' avant de les inscrire en session de certification. Vous pouvez faire une '<'a href={documentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'campagne de collecte de profils {faIcon}'</a>' pour vous en assurer."
-        },
-        "import": {
-            "link-to": "importer ou ré-importer la base élèves",
-            "message": "Rentrée 2020 : l’'<strong>'administrateur'</strong>' doit {linkTo} pour initialiser Pix Orga. Plus d’info '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'collège {faIcon}'</a>' et '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'lycée (GT et Pro) {faIcon}'</a>'"
-        }
-    },
-    "campaign-export": {
-        "assessment": {
-            "competence-area": {
-                "items-successfully-completed": "Acquis maitrisés du domaine {{name}}",
-                "mastery-percentage": "% de maitrise des acquis du domaine {{name}}",
-                "total-items": "Nombre d'acquis du profil cible du domaine {{name}}"
-            },
-            "is-shared": "Partage (O/N)",
-            "mastery-percentage-target-profile": "% maitrise de l'ensemble des acquis du profil",
-            "progress": "% de progression",
-            "shared-on": "Date du partage",
-            "skill": {
-                "items-successfully-completed": "Acquis maitrisés dans la compétence {{name}}",
-                "mastery-percentage": "% de maitrise des acquis de la compétence {{name}}",
-                "total-items": "Nombre d'acquis du profil cible dans la compétence {{name}}"
-            },
-            "started-on": "Date de début",
-            "status": {
-                "ko": "KO",
-                "not-tested": "Non testé",
-                "ok": "OK"
-            },
-            "success-rate": "Palier obtenu (/{{value}})",
-            "target-profile-name": "Nom du Profil Cible",
-            "thematic-result-name": "{{name}} obtenu (O/N)"
-        },
-        "common": {
-            "campaign-id": "ID Campagne",
-            "campaign-name": "Nom de la campagne",
-            "file-name": "Resultats-{{name}}-{{id}}-{{date}}.csv",
-            "no": "Non",
-            "not-available": "NA",
-            "organization-name": "Nom de l'organisation",
-            "participant-division": "Classe",
-            "participant-firstname": "Prénom du Participant",
-            "participant-lastname": "Nom du Participant",
-            "participant-student-number": "Numéro Étudiant",
-            "yes": "Oui"
-        },
-        "profiles-collection": {
-            "certifiable-skills": "Nombre de compétences certifiables",
-            "is-certifiable": "Certifiable (O/N)",
-            "is-sent": "Envoi (O/N)",
-            "pix-score": "Nombre de pix total",
-            "sent-on": "Date de l'envoi",
-            "skill-level": "Niveau pour la compétence {{name}}",
-            "skill-ranking": "Nombre de pix pour la compétence {{name}}"
-        }
-    },
-    "email-change-email": {
-        "body": {
-            "context": "Vous avez récemment modifié votre adresse email.",
-            "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre",
-            "greeting": "Bonjour,",
-            "loginEmail": "Vous pouvez maintenant vous connecter avec l’adresse suivante :",
-            "moreOn": "En savoir plus sur",
-            "noPasswordChanged": "Votre mot de passe reste inchangé.",
-            "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
-            "signing": "— L'équipe Pix"
-        },
-        "subject": "Vous avez changé votre adresse e-mail"
-    },
-    "entity-validation-errors": {
-        "STAGE_THRESHOLD_IS_REQUIRED": "Le seuil du palier est obligatoire",
-        "STAGE_TITLE_IS_REQUIRED": "Le titre du palier est obligatoire",
-        "TARGET_PROFILE_IS_REQUIRED": "Le profil cible est obligatoire",
-        "ALREADY_REGISTERED_EMAIL": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
-        "WRONG_EMAIL_FORMAT": "Le format de l'adresse e-mail est incorrect.",
-        "MAX_SIZE_EMAIL": "Votre adresse e-mail ne doit pas dépasser les 255 caractères.",
-        "MAX_SIZE_LAST_NAME": "Votre nom ne doit pas dépasser les 255 caractères.",
-        "MAX_SIZE_FIRST_NAME": "Votre prénom ne doit pas dépasser les 255 caractères.",
-        "EMPTY_EMAIL": "Votre adresse e-mail n’est pas renseignée.",
-        "EMPTY_LAST_NAME": "Votre nom n’est pas renseignée.",
-        "EMPTY_FIRST_NAME": "Votre prénom n’est pas renseigné.",
-        "EMPTY_USERNAME": "Votre identifiant n’est pas renseigné.",
-        "EMPTY_INPUT": "Aucun champ n'est renseigné.",
-        "ACCEPT_CGU": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
-        "FILL_USERNAME_OR_EMAIL": "Vous devez renseigner une adresse e-mail et/ou un identifiant."
-    },
-    "organization-invitation-email": {
-        "params": {
-            "acceptInvitation": "Accepter l’invitation",
-            "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
-            "here": "ici",
-            "moreAbout": "En savoir plus sur",
-            "needHelp": "Besoin d’aide, contactez-nous",
-            "oneTimeLink": "Ce lien est à usage unique",
-            "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
-            "subtitle": "La plateforme Pix Orga vous permet de créer, gérer des campagnes de test et suivre la progression de vos participants.",
-            "title": "Vous êtes invité(e) à rejoindre Pix Orga",
-            "yourOrganization": "Votre organisation"
-        },
-        "subject": "Invitation à rejoindre Pix Orga"
-    },
-    "pix-account-creation-email": {
-        "params": {
-            "askForHelp": "Besoin d’aide, contactez-nous",
-            "disclaimer": "Si vous n'êtes pas à l’origine de cette création de compte, vous pouvez en demander la suppression",
-            "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
-            "goToPix": "Commencer les tests",
-            "helpdeskLinkLabel": "ici",
-            "moreOn": "En savoir plus sur",
-            "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
-            "subtitle": "Vous pouvez désormais commencer les tests.",
-            "title": "Votre compte Pix a bien été créé !"
-        },
-        "subject": "Votre compte Pix a bien été créé"
-    },
-    "reset-password-demand-email": {
-        "params": {
-            "clickOnTheButton": "Cliquez sur le bouton ci-dessous pour choisir un nouveau mot de passe.",
-            "contactUs": "contactez-nous ici",
-            "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre. Besoin d’aide, ",
-            "linkValidFor": "Ce lien est valide 24 heures. Si vous n'êtes pas à l'origine de cette demande, merci d'ignorer cet e-mail.",
-            "moreOn": "En savoir plus sur",
-            "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
-            "resetMyPassword": "Définir un nouveau mot de passe",
-            "title": "Réinitialisation de votre mot de passe",
-            "weCannotSendYourPassword": "Bonjour, pour des raisons de sécurité, nous ne vous envoyons pas votre mot de passe par e-mail."
-        },
-        "subject": "Demande de réinitialisation de mot de passe Pix"
-    },
-    "csv-template": {
-        "higher-schooling-registrations": {
-            "birthdate": "Date de naissance (jj/mm/aaaa)",
-            "department": "Composante",
-            "diploma": "Diplôme",
-            "educational-team": "Équipe pédagogique",
-            "email": "Email",
-            "first-name": "Premier prénom",
-            "group": "Groupe",
-            "last-name": "Nom de famille",
-            "middle-name": "Deuxième prénom",
-            "preferred-lastname": "Nom d'usage",
-            "student-number": "Numéro étudiant",
-            "study-scheme": "Régime",
-            "third-name": "Troisième prénom"
-        },
-        "schooling-registrations": {
-            "birthdate": "Date de naissance (jj/mm/aaaa)*",
-            "birth-city": "Libellé commune naissance**",
-            "birth-city-code": "Code commune naissance**",
-            "birth-province-code": "Code département naissance*",
-            "birth-country-code": "Code pays naissance*",
-            "division": "Division*",
-            "first-name": "Premier prénom*",
-            "last-name": "Nom de famille*",
-            "middle-name": "Deuxième prénom",
-            "mef-code": "Code MEF*",
-            "national-identifier": "Identifiant unique*",
-            "preferred-last-name": "Nom d'usage",
-            "status": "Statut*",
-            "third-name": "Troisième prénom"
-        },
-        "template-name": "modele-import"
+    "student-xml-import": {
+      "empty": "Les élèves doivent posséder un INE ainsi qu'une classe.",
+      "encoding-not-supported": "Encodage du fichier non supporté.",
+      "ine-required": "Le champ INE est obligatoire pour chaque élève.",
+      "ine-unique": "L’INE {nationalStudentId} est présent plusieurs fois dans le fichier pour plusieurs élèves.",
+      "invalid-file": "Le fichier n’est pas conforme.",
+      "invalid-file-extension": "Extension {fileExtension} non supportée.",
+      "payload-too-large": "La taille du fichier doit être inférieure à {maxSize}Mo.",
+      "uai-mismatched": "L’UAI du fichier SIECLE ne correspond pas à celui de votre établissement."
     }
+  },
+  "banners": {
+    "campaigns": {
+      "message": "Il est important de vérifier que les élèves soient '<strong>'certifiables'</strong>' avant de les inscrire en session de certification. Vous pouvez faire une '<'a href={documentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'campagne de collecte de profils {faIcon}'</a>' pour vous en assurer."
+    },
+    "import": {
+      "link-to": "importer ou ré-importer la base élèves",
+      "message": "Rentrée 2020 : l’'<strong>'administrateur'</strong>' doit {linkTo} pour initialiser Pix Orga. Plus d’info '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'collège {faIcon}'</a>' et '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'lycée (GT et Pro) {faIcon}'</a>'"
+    }
+  },
+  "campaign-export": {
+    "assessment": {
+      "competence-area": {
+        "items-successfully-completed": "Acquis maitrisés du domaine {{name}}",
+        "mastery-percentage": "% de maitrise des acquis du domaine {{name}}",
+        "total-items": "Nombre d'acquis du profil cible du domaine {{name}}"
+      },
+      "is-shared": "Partage (O/N)",
+      "mastery-percentage-target-profile": "% maitrise de l'ensemble des acquis du profil",
+      "progress": "% de progression",
+      "shared-on": "Date du partage",
+      "skill": {
+        "items-successfully-completed": "Acquis maitrisés dans la compétence {{name}}",
+        "mastery-percentage": "% de maitrise des acquis de la compétence {{name}}",
+        "total-items": "Nombre d'acquis du profil cible dans la compétence {{name}}"
+      },
+      "started-on": "Date de début",
+      "status": {
+        "ko": "KO",
+        "not-tested": "Non testé",
+        "ok": "OK"
+      },
+      "success-rate": "Palier obtenu (/{{value}})",
+      "target-profile-name": "Nom du Profil Cible",
+      "thematic-result-name": "{{name}} obtenu (O/N)"
+    },
+    "common": {
+      "campaign-id": "ID Campagne",
+      "campaign-name": "Nom de la campagne",
+      "file-name": "Resultats-{{name}}-{{id}}-{{date}}.csv",
+      "no": "Non",
+      "not-available": "NA",
+      "organization-name": "Nom de l'organisation",
+      "participant-division": "Classe",
+      "participant-firstname": "Prénom du Participant",
+      "participant-lastname": "Nom du Participant",
+      "participant-student-number": "Numéro Étudiant",
+      "yes": "Oui"
+    },
+    "profiles-collection": {
+      "certifiable-skills": "Nombre de compétences certifiables",
+      "is-certifiable": "Certifiable (O/N)",
+      "is-sent": "Envoi (O/N)",
+      "pix-score": "Nombre de pix total",
+      "sent-on": "Date de l'envoi",
+      "skill-level": "Niveau pour la compétence {{name}}",
+      "skill-ranking": "Nombre de pix pour la compétence {{name}}"
+    }
+  },
+  "common": {
+    "actions": {
+      "back": "Retour",
+      "cancel": "Annuler",
+      "close": "Fermer"
+    },
+    "help-form": "https://support.pix.fr/support/tickets/new",
+    "loading": "Chargement en cours",
+    "pagination": {
+      "action": {
+        "next": "Aller à la page suivante",
+        "previous": "Aller à la page précédente",
+        "select-page-size": "Sélectionner une pagination"
+      },
+      "page-number": "Page {current} / {total}",
+      "result-by-page": "Voir"
+    }
+  },
+  "csv-template": {
+    "higher-schooling-registrations": {
+      "birthdate": "Date de naissance (jj/mm/aaaa)",
+      "department": "Composante",
+      "diploma": "Diplôme",
+      "educational-team": "Équipe pédagogique",
+      "email": "Email",
+      "first-name": "Premier prénom",
+      "group": "Groupe",
+      "last-name": "Nom de famille",
+      "middle-name": "Deuxième prénom",
+      "preferred-lastname": "Nom d'usage",
+      "student-number": "Numéro étudiant",
+      "study-scheme": "Régime",
+      "third-name": "Troisième prénom"
+    },
+    "schooling-registrations": {
+      "birth-city": "Libellé commune naissance**",
+      "birth-city-code": "Code commune naissance**",
+      "birth-country-code": "Code pays naissance*",
+      "birth-province-code": "Code département naissance*",
+      "birthdate": "Date de naissance (jj/mm/aaaa)*",
+      "division": "Division*",
+      "first-name": "Premier prénom*",
+      "last-name": "Nom de famille*",
+      "mef-code": "Code MEF*",
+      "middle-name": "Deuxième prénom",
+      "national-identifier": "Identifiant unique*",
+      "preferred-last-name": "Nom d'usage",
+      "status": "Statut*",
+      "third-name": "Troisième prénom"
+    },
+    "template-name": "modele-import"
+  },
+  "email-change-email": {
+    "body": {
+      "context": "Vous avez récemment modifié votre adresse email.",
+      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre",
+      "greeting": "Bonjour,",
+      "loginEmail": "Vous pouvez maintenant vous connecter avec l’adresse suivante :",
+      "moreOn": "En savoir plus sur",
+      "noPasswordChanged": "Votre mot de passe reste inchangé.",
+      "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
+      "signing": "— L'équipe Pix"
+    },
+    "subject": "Vous avez changé votre adresse e-mail"
+  },
+  "entity-validation-errors": {
+    "ACCEPT_CGU": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
+    "ALREADY_REGISTERED_EMAIL": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
+    "EMPTY_EMAIL": "Votre adresse e-mail n’est pas renseignée.",
+    "EMPTY_FIRST_NAME": "Votre prénom n’est pas renseigné.",
+    "EMPTY_INPUT": "Aucun champ n'est renseigné.",
+    "EMPTY_LAST_NAME": "Votre nom n’est pas renseignée.",
+    "EMPTY_USERNAME": "Votre identifiant n’est pas renseigné.",
+    "FILL_USERNAME_OR_EMAIL": "Vous devez renseigner une adresse e-mail et/ou un identifiant.",
+    "MAX_SIZE_EMAIL": "Votre adresse e-mail ne doit pas dépasser les 255 caractères.",
+    "MAX_SIZE_FIRST_NAME": "Votre prénom ne doit pas dépasser les 255 caractères.",
+    "MAX_SIZE_LAST_NAME": "Votre nom ne doit pas dépasser les 255 caractères.",
+    "STAGE_THRESHOLD_IS_REQUIRED": "Le seuil du palier est obligatoire",
+    "STAGE_TITLE_IS_REQUIRED": "Le titre du palier est obligatoire",
+    "TARGET_PROFILE_IS_REQUIRED": "Le profil cible est obligatoire",
+    "WRONG_EMAIL_FORMAT": "Le format de l'adresse e-mail est incorrect."
+  },
+  "navigation": {
+    "credits": {
+      "number": "{count, plural, =0 {0 crédit} =1 {1 crédit} other {{count, number} crédits}}",
+      "tooltip-text": "Le nombre de crédits affichés correspond au nombre de crédits acquis par l’organisation et en cours de validité (indépendamment de leur activation). Pour plus d’information contactez-nous à l’adresse <a href=mailto:pro@pix.fr>pro@pix.fr</a>"
+    },
+    "main": {
+      "campaigns": "Campagnes",
+      "certifications": "Certifications",
+      "documentation": "Documentation",
+      "students-sco": "Élèves",
+      "students-sup": "Étudiants",
+      "team": "Équipe"
+    },
+    "user-logged-menu": {
+      "logout": "Se déconnecter",
+      "summary": "Résumé utilisateur"
+    }
+  },
+  "organization-invitation-email": {
+    "params": {
+      "title": "Vous êtes invité(e) à rejoindre Pix Orga",
+      "acceptInvitation": "Accepter l’invitation",
+      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
+      "here": "ici",
+      "moreAbout": "En savoir plus sur",
+      "needHelp": "Besoin d’aide, contactez-nous",
+      "oneTimeLink": "Ce lien est à usage unique",
+      "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
+      "subtitle": "La plateforme Pix Orga vous permet de créer, gérer des campagnes de test et suivre la progression de vos participants.",
+      "yourOrganization": "Votre organisation"
+    },
+    "subject": "Invitation à rejoindre Pix Orga"
+  },
+  "pages": {
+    "assessment-individual-results": {
+      "badges": "Résultats Thématiques",
+      "mastery-percentage": "Résultat",
+      "progression": "Avancement",
+      "result": {
+        "label": "Résultat",
+        "value": "{count} / {total} ACQUIS"
+      },
+      "stages": {
+        "label": "Paliers",
+        "value": "{count} étoiles sur {total}"
+      },
+      "tab": {
+        "results": "Résultats",
+        "review": "Analyse"
+      },
+      "table": {
+        "title": "Résultats par compétence",
+        "column": {
+          "competences": "Compétences ({count, plural, =0 {-} other {{count}}})",
+          "results": {
+            "explanation-begin": "",
+            "explanation-end": "",
+            "label": "Résultats",
+            "tooltip": "<span class=\"sr-only\">Ce participant a validé</span> {result} % <span class=\"sr-only\">de la compétence {competence}.</span>"
+          },
+          "totalSkills": "Acquis évalués",
+          "validatedSkills": "Acquis validés"
+        },
+        "empty": "En attente de résultats"
+      }
+    },
+    "assessment-participants-list": {
+      "table": {
+        "column": {
+          "badges": "Résultats Thématiques",
+          "first-name": "Nom",
+          "last-name": "Prénom",
+          "results": {
+            "label": "Résultats",
+            "on-hold": " En attente d'envoi",
+            "under-test": "En cours de test"
+          }
+        },
+        "empty": "Aucun participant",
+        "row-title": "Participant"
+      }
+    },
+    "campaign": {
+      "actions": {
+        "export-results": "Exporter les résultats (.csv)",
+        "unarchive": "Désarchiver la campagne"
+      },
+      "archived": "Campagne archivée",
+      "code": "Code",
+      "filters": {
+        "title": "Filtres",
+        "actions": {
+          "clear": "Effacer les filtres"
+        },
+        "aria-label": "Filtres sur les participations",
+        "participations-count": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count} participants}}",
+        "type": {
+          "badges": "Thématiques",
+          "divisions": {
+            "title": "Classes",
+            "empty": "Pas de classe"
+          },
+          "stages": "Paliers"
+        }
+      },
+      "name": "Nom de la campagne",
+      "participations-count": "Participants",
+      "shared-participations-count": "Profils reçus",
+      "tab": {
+        "collective-results": "Résultats collectifs",
+        "details": "Détails",
+        "participants": "Participants ({count})",
+        "review": "Analyse"
+      }
+    },
+    "campaign-collective-results": {
+      "average": "Moyenne des résultats",
+      "result": "Résultat",
+      "table": {
+        "title": "Résultats collectifs par compétence",
+        "column": {
+          "competences": "Compétences ({count})",
+          "results": {
+            "label": "Résultats",
+            "tooltip": "<span class=\"sr-only\">Les participants ont validé</span> {result} % <span class=\"sr-only\">de la compétence {competence}.</span>"
+          },
+          "tested-items": "Acquis évalués",
+          "validated-items": "Acquis validés"
+        },
+        "empty": "En attente de résultats",
+        "row-title": "Compétence"
+      }
+    },
+    "campaign-creation": {
+      "title": "Création d'une campagne",
+      "actions": {
+        "create": "Créer la campagne"
+      },
+      "external-id-label": {
+        "label": "Libellé de l’identifiant",
+        "question-label": "Souhaitez-vous demander un identifiant externe ?",
+        "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
+      },
+      "landing-page-text": {
+        "label": "Texte de la page d'accueil"
+      },
+      "legal-warning": "* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.",
+      "name": {
+        "label": "Nom de la campagne"
+      },
+      "no": "Non",
+      "purpose": {
+        "assessment": "Évaluer les participants",
+        "label": "Quel est l'objectif de votre campagne ?",
+        "profiles-collection": "Collecter les profils Pix des participants"
+      },
+      "target-profile-informations": "Si vous souhaitez avoir plus d'information, consulter <a class=\"link\" href=\"https://cloud.pix.fr/s/3joGMGYWSpmHg5w\" target=\"_blank\" rel=\"noopener noreferrer\"> la documentation correspondante</a>.",
+      "target-profiles-list": {
+        "label": "Que souhaitez-vous tester ?"
+      },
+      "test-title": {
+        "label": "Titre du parcours"
+      },
+      "yes": "Oui"
+    },
+    "campaign-details": {
+      "actions": {
+        "archive": "Archiver",
+        "copy-link": {
+          "copied": "Copié !",
+          "copy": "Copier le lien direct"
+        },
+        "edit": "Modifier"
+      },
+      "direct-link": "Lien direct",
+      "external-user-id-label": "Libellé de l'identifiant",
+      "landing-page-text": "Texte de la page d'accueil",
+      "personalised-test-title": "Titre du parcours",
+      "target-profile": "Profil cible"
+    },
+    "campaign-individual-results": {
+      "campaign-name": "",
+      "shared-date": "Envoyé le",
+      "start-date": "Commencé le"
+    },
+    "campaign-modification": {
+      "title": "Modification d'une campagne",
+      "actions": {
+        "edit": "Modifier"
+      },
+      "campaign-name": "Nom de la campagne",
+      "landing-page-text": "Texte de la page d'accueil",
+      "personalised-test-title": "Titre du parcours"
+    },
+    "campaign-review": {
+      "title": "Recommandation de sujets à travailler",
+      "description": "En fonction du référentiel testé et des résultats de la campagne, Pix vous recommande ces sujets à travailler, classés par degré de pertinence ({bubble}).",
+      "header": {
+        "title": "",
+        "relevance": "",
+        "subjects": ""
+      },
+      "sub-table": {
+        "title": "{count, plural, =1 {1 tuto recommandé} other{{count} tutos recommandés}} par la communauté Pix",
+        "column": {
+          "source": {
+            "value": "Par {source}"
+          }
+        },
+        "row-title": "Tutoriel"
+      },
+      "table": {
+        "title": "Analyse par sujet",
+        "column": {
+          "relevance": "Pertinence",
+          "subjects": "Sujets ({count, plural, =0 {-} other {{count}}})",
+          "tutorial": {
+            "aria-label": "Afficher la liste des tutos"
+          },
+          "tutorial-count": {
+            "value": "{count, plural, =1 {1 tuto} other {{count} tutos}}"
+          }
+        },
+        "empty": "En attente de résultats",
+        "row-title": "Sujet",
+        "sort": {
+          "relevance": "Trier par pertinence"
+        }
+      },
+      "tube-recommendations": {
+        "name": "",
+        "recommended-tutorial": "",
+        "show-tutorial": "",
+        "subject": "",
+        "tutorial-source": "",
+        "tutorial-total": ""
+      },
+      "waiting-results": ""
+    },
+    "campaigns-list": {
+      "action": {
+        "archived": {
+          "aria-label": "Afficher les campagnes archivées",
+          "label": "Archivées"
+        },
+        "create": "Créer une campagne",
+        "ongoing": {
+          "aria-label": "Afficher les campagnes actives",
+          "label": "Actives"
+        }
+      },
+      "no-campaign": {
+        "title": "Créez votre première campagne",
+        "description": "Configurez et lancez votre première campagne. Vous pourrez ensuite inviter vos utilisateurs à rejoindre ce parcours."
+      },
+      "table": {
+        "column": {
+          "campaign": "Campagnes",
+          "created-by": "Créé par",
+          "created-on": "Créé le",
+          "participants": "Participants",
+          "results": "Résultats reçus"
+        },
+        "empty": "Aucune campagne",
+        "filter": {
+          "by-creator": "Rechercher un créateur",
+          "by-name": "Rechercher une campagne"
+        },
+        "row-title": "Campagne"
+      }
+    },
+    "certifications": {
+      "title": "Résultats de certification",
+      "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.<br> Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.",
+      "documentation-link": "https://cloud.pix.fr/s/cRaeKT4ErrXs4X8",
+      "documentation-link-label": "Interprétation des résultats.",
+      "documentation-link-notice": "Vous trouverez en suivant ce lien quelques éléments pour interpréter les résultats : ",
+      "download-button": "Exporter les résultats",
+      "errors": {
+        "invalid-division": "La classe {selectedDivision} n'existe pas.",
+        "no-results": "Aucun résultat de certification pour la classe {selectedDivision}."
+      },
+      "select-label": "Classe"
+    },
+    "login": {
+      "title": "Connectez-vous"
+    },
+    "login-form": {
+      "active-or-retrieve": "Activez ou récupérez votre espace Pix Orga",
+      "email": "Adresse e-mail",
+      "errors": {
+        "status": {
+          "401": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
+          "403": "L'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite.",
+          "401-should-change-password": "Erreur, vous devez changer votre mot de passe."
+        }
+      },
+      "forgot-password": "Mot de passe oublié ?",
+      "forgotten-password-url": "https://app.pix.fr/mot-de-passe-oublie",
+      "invitation-already-accepted": "Cette invitation a déjà été acceptée. Connectez-vous ou contactez l'administrateur de votre espace Pix Orga.",
+      "is-only-accessible": "L'accès à Pix Orga est limité aux membres invités. Contactez l’administrateur Pix Orga de votre organisation pour qu'il vous invite.",
+      "login": "Je me connecte",
+      "only-for-admin": "réservé aux personnels de direction des établissements scolaires",
+      "password": "Mot de passe",
+      "show-password": "rendre le mot de passe lisible"
+    },
+    "login-or-register": {
+      "invitation": "Vous êtes invité(e) à rejoindre l'organisation",
+      "login-form": {
+        "title": "J'ai déjà un compte",
+        "button": "Se connecter"
+      },
+      "register-form": {
+        "title": "Je m’inscris",
+        "button": "S'inscrire",
+        "fields": {
+          "button": {
+            "label": "Je m'inscris"
+          },
+          "cgu": {
+            "accept": "J'accepte les",
+            "aria-label": "Accepter les conditions d'utilisation de Pix",
+            "error": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
+            "link": "https://pix.fr/conditions-generales-d-utilisation",
+            "terms-of-use": "conditions d'utilisation de Pix"
+          },
+          "email": {
+            "error": "Votre adresse e-mail n’est pas valide.",
+            "label": "Adresse e-mail"
+          },
+          "first-name": {
+            "error": "Votre prénom n’est pas renseigné.",
+            "label": "Prénom"
+          },
+          "last-name": {
+            "error": "Votre nom n’est pas renseigné.",
+            "label": "Nom"
+          },
+          "password": {
+            "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+            "label": "Mot de passe"
+          }
+        },
+        "legal-text": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « Informatique et Libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le Délégué à la Protection des Données de Pix à dpo@pix.fr."
+      }
+    },
+    "profiles-individual-results": {
+      "certifiable": "Certifiable",
+      "competences-certifiables": "COMP. CERTIFIABLES",
+      "pix": "PIX",
+      "pix-score": "{score, number}",
+      "table": {
+        "column": {
+          "level": "Niveau",
+          "pix-score": "Score Pix",
+          "skill": "Compétence"
+        },
+        "empty": "En attente de résultats",
+        "row-title": "Compétence"
+      }
+    },
+    "profiles-list": {
+      "table": {
+        "column": {
+          "certifiable": "Certifiable",
+          "competences-certifiables": "Comp. certifiables",
+          "first-name": "Nom",
+          "last-name": "Prénom",
+          "pix-score": {
+            "label": "Score Pix",
+            "value": "{score, number}"
+          },
+          "sending-date": {
+            "label": "Date d'envoi",
+            "on-hold": "En attente d'envoi"
+          }
+        },
+        "empty": "En attente de profils",
+        "row-title": "Profil"
+      }
+    },
+    "students-sco": {
+      "title": "Élèves",
+      "actions": {
+        "download-template": "Télécharger le modèle",
+        "import-file": {
+          "file-type-separator": " ou ",
+          "label": "Importer ({types})"
+        },
+        "manage-account": "Gérer le compte",
+        "show-actions": "Afficher les actions"
+      },
+      "agri-tooltip": "Quelques informations concernant l’import :<ul><li>Pour vos élèves : utiliser l’export FREGATA vers Pix et cliquer sur le bouton importer.</li><li>Pour vos apprentis : Pix importe tous les apprentis fin novembre au sein de votre espace Pix Orga. Les ajouts ponctuels d’apprentis se feront à partir de décembre, pour cela consulter la documentation Pix Orga et utiliser le modèle fourni.</li></ul>",
+      "connection-types": {
+        "email": "Adresse e-mail",
+        "empty": "–",
+        "identifiant": "Identifiant",
+        "mediacentre": "Mediacentre",
+        "none": "Aucune"
+      },
+      "import": {
+        "error-wrapper": "<div>Aucun élève n’a été importé.<br/><strong>{message}</strong><br/> Veuillez vérifier ou modifier votre fichier et l’importer à nouveau.</div>",
+        "global-error": "<div>Aucun élève n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">le formulaire du centre d’aide</a>.</div>",
+        "global-success": "La liste a été importée avec succès."
+      },
+      "know-more": "En savoir plus",
+      "manage-authentication-method-modal": {
+        "title": "Gestion du compte Pix de l’élève",
+        "authentication-methods": "Méthodes de connexion",
+        "copied": "Copié !",
+        "error": {
+          "default": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
+          "unexpected": "Quelque chose s'est mal passé. Veuillez réessayer."
+        },
+        "section": {
+          "add-username": {
+            "button": "Ajouter l’identifiant",
+            "label": "Ajouter une connexion avec un identifiant"
+          },
+          "email": {
+            "copy": "Copier l’adresse e-mail",
+            "label": "Adresse e-mail"
+          },
+          "mediacentre": {
+            "label": "Médiacentre"
+          },
+          "password": {
+            "copy": "Copier le mot de passe unique",
+            "label": "Nouveau mot de passe à usage unique",
+            "warning-1": "Communiquez ce nouveau mot de passe à votre élève.",
+            "warning-2": "L’élève se connecte avec ce mot de passe à usage unique.",
+            "warning-3": "Pix lui demande d'en choisir un nouveau."
+          },
+          "reset-password": {
+            "button": "Réinitialiser le mot de passe",
+            "warning": "Réinitialiser supprime le mot de passe actuel de l’élève."
+          },
+          "username": {
+            "copy": "Copier l’identifiant",
+            "label": "Identifiant"
+          }
+        }
+      },
+      "table": {
+        "column": {
+          "date-of-birth": "Date de naissance",
+          "first-name": "Prénom",
+          "last-name": "Nom",
+          "login-method": "Méthode(s) de connexion"
+        },
+        "empty": "Aucun élève.",
+        "filter": {
+          "first-name": {
+            "aria-label": "Entrer un prénom",
+            "label": "Rechercher par prénom"
+          },
+          "last-name": {
+            "aria-label": "Entrer un nom",
+            "label": "Rechercher par nom"
+          },
+          "login-method": {
+            "aria-label": "Rechercher par méthode de connexion",
+            "empty-option": "Tous"
+          }
+        },
+        "row-title": "Élève"
+      }
+    },
+    "students-sup": {
+      "title": "Étudiants",
+      "actions": {
+        "download-template": "Télécharger le modèle",
+        "edit-student-number": "Éditer le numéro étudiant",
+        "import-file": "Importer (.csv)",
+        "show-actions": "Afficher les actions"
+      },
+      "edit-student-number-modal": {
+        "title": "Édition du numéro étudiant",
+        "actions": {
+          "update": "Mettre à jour"
+        },
+        "form": {
+          "error": "Le numéro étudiant ne doit pas être vide.",
+          "new-student-number-label": "Nouveau numéro étudiant",
+          "student-number": "Numéro étudiant actuel de {firstName} {lastName} est : ",
+          "success": "La modification du numéro étudiant de {firstName} {lastName} a bien été effectué."
+        }
+      },
+      "import": {
+        "error-wrapper": "<div>Aucun étudiant n’a été importé.<br/><strong>{message}</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>",
+        "global-error": "<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">le formulaire du centre d’aide</a></div>",
+        "global-success": "La liste a été importée avec succès."
+      },
+      "table": {
+        "column": {
+          "date-of-birth": "Date de naissance",
+          "first-name": "Prénom",
+          "last-name": "Nom",
+          "student-number": "Numéro étudiant"
+        },
+        "empty": "Aucun étudiant.",
+        "filter": {
+          "first-name": {
+            "aria-label": "Entrer un prénom",
+            "label": "Rechercher par prénom"
+          },
+          "last-name": {
+            "aria-label": "Entrer un nom",
+            "label": "Rechercher par nom"
+          },
+          "student-number": {
+            "aria-label": "Entrer un numéro étudiant",
+            "label": "Rechercher par numéro étudiant"
+          }
+        },
+        "row-title": "Étudiant"
+      }
+    },
+    "team-invitations": {
+      "table": {
+        "column": {
+          "email-address": "Adresse e-mail",
+          "pending-invitation": "Date de dernier envoi"
+        },
+        "row": {
+          "aria-label": "Invitation en attente",
+          "message": "Dernière invitation envoyée le"
+        }
+      }
+    },
+    "team-list": {
+      "title": "Mon équipe",
+      "add-member-button": "Inviter un membre",
+      "tabs": {
+        "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})",
+        "member": "Membres ({count, plural, =0 {-} other {{count}}})"
+      }
+    },
+    "team-members": {
+      "actions": {
+        "edit-organization-membership-role": "Modifier le rôle",
+        "manage": "Gérer",
+        "remove-membership": "Supprimer",
+        "save": "Enregistrer",
+        "select-role": {
+          "label": "Sélectionner un rôle",
+          "options": {
+            "admin": "Administrateur",
+            "member": "Membre"
+          }
+        }
+      },
+      "notifications": {
+        "error": "Une erreur est survenue lors de la désactivation du membre.",
+        "success": "{memberFirstName} {memberLastName} a été supprimé avec succès de votre équipe Pix Orga."
+      },
+      "remove-membership-modal": {
+        "title": "Confirmez-vous la suppression ?",
+        "actions": {
+          "remove": "Oui, supprimer le membre"
+        },
+        "message": "{memberFirstName} {memberLastName} n'aura plus accès à cet espace Pix Orga.<br>Ses campagnes restent accessibles au reste de l'équipe."
+      },
+      "table": {
+        "column": {
+          "first-name": "Prénom",
+          "last-name": "Nom",
+          "organization-membership-role": "Rôle"
+        },
+        "empty": "En attente de membres",
+        "row-title": "Membre"
+      }
+    },
+    "team-new": {
+      "title": "Inviter un membre",
+      "email-requirement": "Saisissez ici l'adresse e-mail du membre que vous souhaitez inviter.",
+      "errors": {
+        "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
+        "status": {
+          "400": "Le format de l'adresse e-mail est incorrect.",
+          "404": "Cet email n'appartient à aucun utilisateur.",
+          "412": "Ce membre a déjà été ajouté.",
+          "500": "Quelque chose s'est mal passé. Veuillez réessayer."
+        }
+      },
+      "invited-members": "À la réception de l'e-mail, les invités pourront choisir de se créer un compte Pix ou de se connecter avec un compte Pix existant.",
+      "several-email-requirement": "Vous pouvez inviter plusieurs membres en séparant les adresses e-mails par des virgules."
+    },
+    "team-new-item": {
+      "input-label": "Adresse(s) e-mail",
+      "invite-button": "Inviter"
+    }
+  },
+  "pix-account-creation-email": {
+    "params": {
+      "title": "Votre compte Pix a bien été créé !",
+      "askForHelp": "Besoin d’aide, contactez-nous",
+      "disclaimer": "Si vous n'êtes pas à l’origine de cette création de compte, vous pouvez en demander la suppression",
+      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
+      "goToPix": "Commencer les tests",
+      "helpdeskLinkLabel": "ici",
+      "moreOn": "En savoir plus sur",
+      "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
+      "subtitle": "Vous pouvez désormais commencer les tests."
+    },
+    "subject": "Votre compte Pix a bien été créé"
+  },
+  "reset-password-demand-email": {
+    "params": {
+      "title": "Réinitialisation de votre mot de passe",
+      "clickOnTheButton": "Cliquez sur le bouton ci-dessous pour choisir un nouveau mot de passe.",
+      "contactUs": "contactez-nous ici",
+      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre. Besoin d’aide, ",
+      "linkValidFor": "Ce lien est valide 24 heures. Si vous n'êtes pas à l'origine de cette demande, merci d'ignorer cet e-mail.",
+      "moreOn": "En savoir plus sur",
+      "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
+      "resetMyPassword": "Définir un nouveau mot de passe",
+      "weCannotSendYourPassword": "Bonjour, pour des raisons de sécurité, nous ne vous envoyons pas votre mot de passe par e-mail."
+    },
+    "subject": "Demande de réinitialisation de mot de passe Pix"
+  }
 }
