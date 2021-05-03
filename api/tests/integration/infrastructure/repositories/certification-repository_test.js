@@ -1,4 +1,4 @@
-const { expect, domainBuilder, databaseBuilder, catchErr, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, catchErr, knex } = require('../../../test-helper');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
 const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -17,10 +17,7 @@ describe('Integration | Repository | Certification ', () => {
   const pixScore = 400;
 
   let userId;
-  let completeSession;
   let completeCertificationCourse;
-  let completeAssementResult;
-  let expectedCertification;
   const type = Assessment.types.CERTIFICATION;
 
   let sessionLatestAssessmentRejected;
@@ -41,11 +38,8 @@ describe('Integration | Repository | Certification ', () => {
       id: certificationCenterId,
       name: certificationCenter,
     } = databaseBuilder.factory.buildCertificationCenter({ name: 'Certif College' }));
-    ({ session: completeSession, certificationCourse: completeCertificationCourse, assessmentResult: completeAssementResult }
+    ({ certificationCourse: completeCertificationCourse }
       = _buildValidatedPublishedCertificationData({ verificationCode, certificationCenterId, certificationCenter, userId, type, pixScore }));
-
-    expectedCertification = _buildPrivateCertificate(certificationCenter, completeCertificationCourse, completeAssementResult, completeSession.publishedAt);
-    databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: expectedCertification.id, partnerKey: PARTNER_CLEA_KEY, acquired: false });
 
     sessionLatestAssessmentRejectedCertifCourseIds = [];
     sessionWithStartedAndErrorCertifCourseIds = [];
@@ -74,25 +68,6 @@ describe('Integration | Repository | Certification ', () => {
     await knex('assessments').delete();
     await knex('certification-courses').delete();
     return knex('sessions').delete();
-  });
-
-  describe('#getByCertificationCourseId', () => {
-
-    it('should return a certification with needed informations', async () => {
-      // when
-      const certificate = await certificationRepository.getPrivateCertificateByCertificationCourseId({ id: completeCertificationCourse.id });
-
-      // then
-      expect(certificate).to.deep.equal(expectedCertification);
-    });
-
-    it('should return a not found error when certification does not exist', async () => {
-      // when
-      const result = await catchErr(certificationRepository.getPrivateCertificateByCertificationCourseId)({ id: -1 });
-
-      // then
-      expect(result).to.be.instanceOf(NotFoundError);
-    });
   });
 
   describe('#hasVerificationCode', () => {
@@ -135,51 +110,6 @@ describe('Integration | Repository | Certification ', () => {
       const savedCertificationCourse = await CertificationCourseBookshelf.where({ id: certificationCourse.id }).fetch({ columns: 'verificationCode' });
       expect(savedCertificationCourse.attributes.verificationCode).to.equal(verificationCode);
     });
-  });
-
-  describe('#findByUserId', () => {
-    let expectedCertifications;
-
-    beforeEach(() => {
-      // Without assessment
-      databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: completeSession.id });
-      // Without assessment-result
-      const withoutAsrCcId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: completeSession.id }).id;
-      databaseBuilder.factory.buildAssessment({ userId, certificationCourseId: withoutAsrCcId });
-      // Ok
-      const certificationCourse1 = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: completeSession.id });
-      const assessment1 = databaseBuilder.factory.buildAssessment({
-        certificationCourseId: certificationCourse1.id,
-        userId,
-        type,
-        state: 'started',
-      });
-      const assessmentResult1 = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment1.id });
-      const certificationCourse2 = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId: completeSession.id });
-      const assessment2 = databaseBuilder.factory.buildAssessment({
-        certificationCourseId: certificationCourse2.id,
-        userId,
-        type,
-        state: 'completed',
-      });
-      const assessmentResult2 = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment2.id });
-      expectedCertifications = [
-        _buildPrivateCertificate(completeSession.certificationCenter, certificationCourse1, assessmentResult1, completeSession.publishedAt),
-        _buildPrivateCertificate(completeSession.certificationCenter, certificationCourse2, assessmentResult2, completeSession.publishedAt),
-        expectedCertification,
-      ];
-
-      return databaseBuilder.commit();
-    });
-
-    it('should return an array of Certifications with needed informations', async () => {
-      // when
-      const certifications = await certificationRepository.findByUserId(userId);
-
-      // then
-      expect(certifications).to.deep.include.members(expectedCertifications);
-    });
-
   });
 
   describe('#publishCertificationCoursesBySessionId', () => {
@@ -365,26 +295,4 @@ function _buildCertificationData({ isPublished, status, verificationCode, certif
   });
   const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id, pixScore, status });
   return { session, certificationCourse, assessmentResult };
-}
-
-function _buildPrivateCertificate(certificationCenterName, certificationCourse, assessmentResult, deliveredAt) {
-  const certificate = domainBuilder.buildPrivateCertificate({
-    id: certificationCourse.id,
-    birthdate: certificationCourse.birthdate,
-    birthplace: certificationCourse.birthplace,
-    certificationCenter: certificationCenterName,
-    date: certificationCourse.createdAt,
-    firstName: certificationCourse.firstName,
-    lastName: certificationCourse.lastName,
-    deliveredAt,
-    isPublished: certificationCourse.isPublished,
-    isCancelled: certificationCourse.isCancelled,
-    pixScore: assessmentResult.pixScore,
-    status: assessmentResult.status,
-    commentForCandidate: assessmentResult.commentForCandidate,
-    userId: certificationCourse.userId,
-    verificationCode: certificationCourse.verificationCode,
-  });
-  certificate.cleaCertificationStatus = undefined;
-  return certificate;
 }
