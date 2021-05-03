@@ -60,7 +60,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
 
       beforeEach(async () => {
         databaseBuilder.factory.buildUser({ id: userId });
-        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId, lastQuestionDate: new Date('2020-01-20') });
+        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId, lastQuestionDate: new Date('2020-01-20'), state: 'started' });
         const { id: answerId } = databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any good answer', result: 'ok' });
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
         databaseBuilder.factory.buildKnowledgeElement({
