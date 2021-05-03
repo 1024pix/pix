@@ -12,6 +12,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
   let campaignParticipationRepository;
   let knowledgeElementRepository;
   let competenceRepository;
+  let campaignRepository;
 
   context('When user has shared its profile for the campaign', () => {
 
@@ -19,6 +20,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
       campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
       knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
       competenceRepository = { listPixCompetencesOnly: sinon.stub() };
+      campaignRepository = { get: sinon.stub() };
       sinon.stub(Scorecard, 'buildFrom');
     });
 
@@ -29,10 +31,12 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
     it('should return the shared profile for campaign', async () => {
       const knowledgeElements = { 'competence1': [], 'competence2': [] };
       const competences = [{ id: 'competence1' }, { id: 'competence2' }];
+      const campaign = { multipleSendings: false };
       // given
       campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ userId, campaignId }).resolves(expectedCampaignParticipation);
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: sharedAt }).resolves(knowledgeElements);
       competenceRepository.listPixCompetencesOnly.resolves(competences);
+      campaignRepository.get.withArgs(campaignId).resolves(campaign);
       Scorecard
         .buildFrom
         .withArgs({ userId, knowledgeElements: knowledgeElements['competence1'], competence: competences[0] })
@@ -49,6 +53,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
         campaignParticipationRepository,
         knowledgeElementRepository,
         competenceRepository,
+        campaignRepository,
       });
 
       // then
@@ -56,6 +61,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
         id: '1',
         sharedAt,
         pixScore: 15,
+        canRetry: false,
         scorecards: [
           { id: 'Score1', earnedPix: 10 },
           { id: 'Score2', earnedPix: 5 },
@@ -76,6 +82,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
         campaignParticipationRepository,
         knowledgeElementRepository,
         competenceRepository,
+        campaignRepository,
       });
 
       // then

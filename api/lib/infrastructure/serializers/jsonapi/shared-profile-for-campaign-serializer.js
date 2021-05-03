@@ -17,6 +17,7 @@ module.exports = {
         'pixScore',
         'sharedAt',
         'scorecards',
+        'canRetry',
       ],
       scorecards: {
         ref: 'id',

@@ -148,9 +148,9 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
   describe('#canRetry', () => {
     const now = new Date('2020-01-05T05:06:07Z');
     let clock;
-    constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 3;
 
     beforeEach(() => {
+      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 3;
       clock = sinon.useFakeTimers(now);
     });
 
