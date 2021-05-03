@@ -5,6 +5,7 @@ module.exports = async function getPrivateCertificate({
   certificationId,
   userId,
   certificationRepository,
+  privateCertificateRepository,
   cleaCertificationStatusRepository,
   assessmentResultRepository,
   competenceTreeRepository,
@@ -15,7 +16,7 @@ module.exports = async function getPrivateCertificate({
     const code = await verifyCertificateCodeService.generateCertificateVerificationCode();
     await certificationRepository.saveVerificationCode(certificationId, code);
   }
-  const certificate = await certificationRepository.getPrivateCertificateByCertificationCourseId({ id: certificationId });
+  const certificate = await privateCertificateRepository.get(certificationId);
   if (certificate.userId !== userId) {
     throw new NotFoundError();
   }
