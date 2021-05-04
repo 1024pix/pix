@@ -50,7 +50,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 
-    it('it should throw an UserNotAuthorizedToAccessEntityError error', async () => {
+    it('should throw an UserNotAuthorizedToAccessEntityError error', async () => {
       // when
       const result = await catchErr(computeCampaignCollectiveResult)({
         userId,

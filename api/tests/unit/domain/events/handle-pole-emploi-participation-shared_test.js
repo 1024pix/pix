@@ -203,7 +203,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: false });
       });
 
-      it('it should not notify to Pole Emploi', async () => {
+      it('should not notify to Pole Emploi', async () => {
         // when
         await handlePoleEmploiParticipationShared({
           event,
@@ -234,7 +234,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true, organization: { id: organizationId } });
       });
 
-      it('it should not notify to Pole Emploi', async () => {
+      it('should not notify to Pole Emploi', async () => {
         // when
         await handlePoleEmploiParticipationShared({
           event,

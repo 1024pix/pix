@@ -80,6 +80,34 @@ describe('Unit | Domain | Models | CleaCertificationScoring', () => {
     });
   });
 
+  context('#setBadgeAcquisitionStillValid', () => {
+
+    it('when user has badge and set stillAcquired at true, should be eligible', async () => {
+      // given
+      const cleaCertificationScoring = await _buildCleaCertificationScoringWithBadge();
+
+      // when
+      cleaCertificationScoring.setBadgeAcquisitionStillValid(true);
+
+      // then
+      expect(cleaCertificationScoring.isBadgeAcquisitionStillValid).to.be.true;
+      expect(cleaCertificationScoring.isEligible()).to.be.true;
+    });
+
+    it('when user has badge and set stillAcquired at false, should not be eligible', async () => {
+      // given
+      const cleaCertificationScoring = await _buildCleaCertificationScoringWithBadge();
+
+      // when
+      cleaCertificationScoring.setBadgeAcquisitionStillValid(false);
+
+      // then
+      expect(cleaCertificationScoring.isBadgeAcquisitionStillValid).to.be.false;
+      expect(cleaCertificationScoring.hasAcquiredBadge).to.be.true;
+      expect(cleaCertificationScoring.isEligible()).to.be.false;
+    });
+  });
+
   context('#isAcquired', () => {
 
     it('throws when not eligible', async () => {
