@@ -1,4 +1,4 @@
-const { batch } = require('../batchTreatment');
+const { batch } = require('../batch-processing');
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 const TABLE_NAME_CERTIFICATIONS = 'certification-courses';
 const LIST_COMPETENCES_PLACEMENT = [

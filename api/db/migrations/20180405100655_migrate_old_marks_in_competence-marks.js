@@ -1,4 +1,4 @@
-const { batch } = require('../batchTreatment');
+const { batch } = require('../batch-processing');
 
 const TABLE_NAME_MARKS = 'marks';
 const TABLE_NAME_COMPETENCE_MARKS = 'competence-marks';
