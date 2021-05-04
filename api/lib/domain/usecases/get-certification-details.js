@@ -1,5 +1,4 @@
 const CertificationDetails = require('../read-models/CertificationDetails');
-const CertificationAssessmentStates = require('../models/CertificationAssessment').states;
 
 module.exports = async function getCertificationDetails({
   certificationCourseId,
@@ -9,17 +8,17 @@ module.exports = async function getCertificationDetails({
   certificationService,
 }) {
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
-  if (certificationAssessment.state === CertificationAssessmentStates.STARTED) {
-    return _computeCertificationDetailsOnTheFly(
-      certificationCourseId,
-      certificationService,
-    );
-  } else {
+  if (certificationAssessment.isCompleted()) {
     return _retrievePersistedCertificationDetails(
       certificationCourseId,
       certificationAssessment,
       competenceMarkRepository,
       placementProfileService,
+    );
+  } else {
+    return _computeCertificationDetailsOnTheFly(
+      certificationCourseId,
+      certificationService,
     );
   }
 };

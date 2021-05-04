@@ -326,4 +326,24 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(answersByCertifiableBadgeKey).to.be.empty;
     });
   });
+
+  describe('#isCompleted', () => {
+    it('returns true when completed', () => {
+      // given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        state: CertificationAssessment.states.COMPLETED,
+      });
+      // when / then
+      expect(certificationAssessment.isCompleted()).to.be.true;
+    });
+
+    it('returns false when only started', () => {
+      // given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        state: CertificationAssessment.states.STARTED,
+      });
+      // when / then
+      expect(certificationAssessment.isCompleted()).to.be.false;
+    });
+  });
 });
