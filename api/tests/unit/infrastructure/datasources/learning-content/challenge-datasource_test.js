@@ -68,7 +68,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     };
 
   beforeEach(() => {
-    sinon.stub(cache, 'get').callsFake((key, generator) => generator());
+    sinon.stub(cache, 'get').callsFake((generator) => generator());
   });
 
   describe('#findOperativeBySkillIds', () => {

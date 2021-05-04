@@ -6,7 +6,7 @@ const cache = require('../../../../../lib/infrastructure/caches/learning-content
 describe('Unit | Infrastructure | Datasource | Learning Content | CompetenceDatasource', () => {
 
   beforeEach(() => {
-    sinon.stub(cache, 'get').callsFake((key, generator) => generator());
+    sinon.stub(cache, 'get').callsFake((generator) => generator());
   });
 
   describe('#findByRecordIds', () => {
