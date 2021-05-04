@@ -13,7 +13,7 @@ import {
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-const TOGGLE_LINK = '.feedback-panel__open-button';
+const OPEN_FEEDBACK_BUTTON = '.feedback-panel__open-button';
 const BUTTON_SEND = '.feedback-panel__button--send';
 
 const TEXTAREA = 'textarea.feedback-panel__field--content';
@@ -23,18 +23,6 @@ const TUTORIAL_AREA = '.feedback-panel__tutorial-content';
 const PICK_CATEGORY_WITH_NESTED_LEVEL = 'question';
 const PICK_CATEGORY_WITH_TEXTAREA = 'accessibility';
 const PICK_CATEGORY_WITH_TUTORIAL = 'picture';
-
-function expectFormViewToBeVisible() {
-  expect(find('.feedback-panel__view--form')).to.exist;
-}
-
-function expectFormViewToNotBeVisible() {
-  expect(find('.feedback-panel__view--form')).to.not.exist;
-}
-
-function expectMercixViewToBeVisible() {
-  expect(find('.feedback-panel__view--mercix')).to.exist;
-}
 
 async function setContent(content) {
   await fillIn(DROPDOWN, PICK_CATEGORY_WITH_TEXTAREA);
@@ -46,89 +34,17 @@ describe('Integration | Component | feedback-panel', function() {
 
   setupIntlRenderingTest();
 
-  describe('Default rendering', function() {
-    context('when assessment is not of type certification', function() {
-      beforeEach(async function() {
-        await render(hbs`<FeedbackPanel />`);
+  class StoreStub extends Service {
+    createRecord() {
+      return Object.create({
+        save() {
+          return resolve();
+        },
       });
-
-      it('should display the feedback panel', function() {
-        expect(find('.feedback-panel__view--link')).to.exist;
-      });
-
-      it('should toggle the form view when clicking on the toggle link', async function() {
-        // when
-        await click(TOGGLE_LINK);
-
-        // then
-        expectFormViewToBeVisible();
-
-        // then when
-        await click(TOGGLE_LINK);
-
-        // then
-        expectFormViewToNotBeVisible();
-      });
-    });
-
-    context('when assessment is of type certification', function() {
-      beforeEach(async function() {
-        const assessment = {
-          isCertification: true,
-        };
-        this.set('assessment', assessment);
-
-        await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @context={{this.context}} />`);
-      });
-
-      it('should display the feedback certification section', async function() {
-        // when
-        await click(TOGGLE_LINK);
-
-        // then
-        expect(find('.feedback-certification-section__div')).to.exist;
-      });
-    });
-  });
-
-  context('FeedbackPanel is set to always open the form', function() {
-
-    beforeEach(async function() {
-      const assessment = { id: 'assessment_id' };
-      const challenge = { id: 'challenge_id' };
-
-      this.set('assessment', assessment);
-      this.set('challenge', challenge);
-      this.set('alwaysOpenForm', true);
-
-      await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} @alwaysOpenForm={{this.alwaysOpenForm}} />`);
-    });
-
-    it('should display the "form" view', async function() {
-      expectFormViewToBeVisible();
-      expect(findAll(DROPDOWN).length).to.equal(1);
-    });
-
-    it('should not be able to hide the form view', async function() {
-      // when
-      await click(TOGGLE_LINK);
-
-      // then
-      expect(find('.feedback-panel__form')).to.exist;
-    });
-  });
-
-  context('FeedbackPanel is not set to always open the form', function() {
-
-    class StoreStub extends Service {
-      createRecord() {
-        return Object.create({
-          save() {
-            return resolve();
-          },
-        });
-      }
     }
+  }
+
+  describe('Default rendering', function() {
 
     beforeEach(async function() {
       const assessment = { id: 'assessment_id' };
@@ -142,23 +58,10 @@ describe('Integration | Component | feedback-panel', function() {
 
       await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`);
       expect(find('.feedback-panel__form')).not.to.exist;
-      await click(TOGGLE_LINK);
+      await click(OPEN_FEEDBACK_BUTTON);
     });
 
-    it('should display the "form" view', async function() {
-      expectFormViewToBeVisible();
-      expect(findAll(DROPDOWN).length).to.equal(1);
-    });
-
-    it('should be able to hide the form view', async function() {
-      // when
-      await click(TOGGLE_LINK);
-
-      // then
-      expect(find('.feedback-panel__form')).not.to.exist;
-    });
-
-    it('clicking on "send" button should display the "mercix" view', async function() {
+    it('should display the "mercix" view when clicking on send button', async function() {
       // given
       const CONTENT_VALUE = 'Prêtes-moi ta plume, pour écrire un mot';
       await setContent(CONTENT_VALUE);
@@ -167,12 +70,12 @@ describe('Integration | Component | feedback-panel', function() {
       await click(BUTTON_SEND);
 
       // then
-      expectFormViewToNotBeVisible();
-      expectMercixViewToBeVisible();
+      expect(find('.feedback-panel__view--form')).to.not.exist;
+      expect(find('.feedback-panel__view--mercix')).to.exist;
     });
 
-    context('selecting a category', function() {
-      it('should display a second dropdown with the list of questions', async function() {
+    context('when selecting a category', function() {
+      it('should display a second dropdown with the list of questions when category have a nested level', async function() {
         // when
         await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_NESTED_LEVEL);
 
@@ -182,7 +85,7 @@ describe('Integration | Component | feedback-panel', function() {
         expect(find(BUTTON_SEND)).to.not.exist;
       });
 
-      it('with no further questions should directly display the message box and the submit button', async function() {
+      it('should directly display the message box and the submit button when category has a textarea', async function() {
         // when
         await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TEXTAREA);
 
@@ -191,16 +94,17 @@ describe('Integration | Component | feedback-panel', function() {
         expect(findAll(BUTTON_SEND).length).to.equal(1);
       });
 
-      it('with a tuto should directly display the tuto without the textbox nor the send button', async function() {
+      it('should directly display the tuto without the textbox nor the send button when category has a tutorial', async function() {
         // when
         await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TUTORIAL);
+
         // then
         expect(findAll(DROPDOWN).length).to.equal(2);
         expect(find(BUTTON_SEND)).to.not.exist;
         expect(find(TEXTAREA)).to.not.exist;
       });
 
-      it('selecting another category should show the correct feedback action', async function() {
+      it('should show the correct feedback action when selecting two different categories', async function() {
         // when
         await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TUTORIAL);
         await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TEXTAREA);
@@ -212,7 +116,7 @@ describe('Integration | Component | feedback-panel', function() {
         expect(find(TEXTAREA)).to.exist;
       });
 
-      it('with fewer levels after a deeper category should hide the second dropdown', async function() {
+      it('should hide the second dropdown when category has fewer levels after a deeper category', async function() {
         // when
         await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_NESTED_LEVEL);
         await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TEXTAREA);
@@ -224,14 +128,111 @@ describe('Integration | Component | feedback-panel', function() {
         expect(find(TEXTAREA)).to.exist;
       });
     });
+  });
 
+  context('When assessment is not of type certification', function() {
+    beforeEach(async function() {
+      await render(hbs`<FeedbackPanel />`);
+    });
+
+    it('should display the feedback panel', function() {
+      expect(find('.feedback-panel__view--link')).to.exist;
+    });
+
+    it('should toggle the form view when clicking on the toggle link', async function() {
+      // when
+      await click(OPEN_FEEDBACK_BUTTON);
+
+      // then
+      expect(find('.feedback-panel__view--form')).to.exist;
+
+      // then when
+      await click(OPEN_FEEDBACK_BUTTON);
+
+      // then
+      expect(find('.feedback-panel__view--form')).to.not.exist;
+    });
+  });
+
+  context('When assessment is of type certification', function() {
+    beforeEach(async function() {
+      const assessment = {
+        isCertification: true,
+      };
+      this.set('assessment', assessment);
+
+      await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @context={{this.context}} />`);
+    });
+
+    it('should display the feedback certification section', async function() {
+      // when
+      await click(OPEN_FEEDBACK_BUTTON);
+
+      // then
+      expect(find('.feedback-certification-section__div')).to.exist;
+    });
+  });
+
+  context('When FeedbackPanel is rendered initially opened (e.g. in a comparison-window)', function() {
+
+    beforeEach(async function() {
+      const assessment = { id: 'assessment_id' };
+      const challenge = { id: 'challenge_id' };
+
+      this.set('assessment', assessment);
+      this.set('challenge', challenge);
+      this.set('alwaysOpenForm', true);
+
+      await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} @alwaysOpenForm={{this.alwaysOpenForm}} />`);
+    });
+
+    it('should display the "form" view', async function() {
+      expect(find('.feedback-panel__view--form')).to.exist;
+      expect(findAll(DROPDOWN).length).to.equal(1);
+    });
+
+    it('should not be able to hide the form view', async function() {
+      // when
+      await click(OPEN_FEEDBACK_BUTTON);
+
+      // then
+      expect(find('.feedback-panel__form')).to.exist;
+    });
+  });
+
+  context('When FeedbackPanel is rendered initially closed (e.g. in a challenge)', function() {
+
+    beforeEach(async function() {
+      const assessment = { id: 'assessment_id' };
+      const challenge = { id: 'challenge_id' };
+
+      this.set('assessment', assessment);
+      this.set('challenge', challenge);
+
+      await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} />`);
+      expect(find('.feedback-panel__form')).not.to.exist;
+      await click(OPEN_FEEDBACK_BUTTON);
+    });
+
+    it('should display the "form" view', async function() {
+      expect(find('.feedback-panel__view--form')).to.exist;
+      expect(findAll(DROPDOWN).length).to.equal(1);
+    });
+
+    it('should be able to hide the form view', async function() {
+      // when
+      await click(OPEN_FEEDBACK_BUTTON);
+
+      // then
+      expect(find('.feedback-panel__form')).not.to.exist;
+    });
   });
 
   describe('Error management', function() {
 
     beforeEach(async function() {
       await render(hbs`<FeedbackPanel />`);
-      await click(TOGGLE_LINK);
+      await click(OPEN_FEEDBACK_BUTTON);
     });
 
     it('should display error if "content" is empty', async function() {
@@ -262,8 +263,8 @@ describe('Integration | Component | feedback-panel', function() {
       await click(BUTTON_SEND);
 
       // when
-      await click(TOGGLE_LINK);
-      await click(TOGGLE_LINK);
+      await click(OPEN_FEEDBACK_BUTTON);
+      await click(OPEN_FEEDBACK_BUTTON);
 
       // then
       expect(find('.alert')).to.not.exist;
