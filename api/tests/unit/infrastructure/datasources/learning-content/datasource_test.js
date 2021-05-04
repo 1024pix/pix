@@ -17,7 +17,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
   describe('#get', () => {
 
     beforeEach(() => {
-      cache.get.withArgs('LearningContent').callsFake((cacheKey, generator) => generator());
+      cache.get.callsFake((generator) => generator());
     });
 
     context('(success cases)', () => {
@@ -58,7 +58,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
         await someDatasource.get('rec1');
 
         // then
-        expect(cache.get).to.have.been.calledWith('LearningContent');
+        expect(cache.get).to.have.been.called;
       });
     });
 
@@ -99,7 +99,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
     let learningContent;
 
     beforeEach(() => {
-      cache.get.withArgs('LearningContent').callsFake((cacheKey, generator) => generator());
+      cache.get.callsFake((generator) => generator());
 
       learningContent = {
         learningContentModel: [
@@ -134,7 +134,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       await someDatasource.list();
 
       // then
-      expect(cache.get).to.have.been.calledWith('LearningContent');
+      expect(cache.get).to.have.been.called;
     });
   });
 
@@ -143,7 +143,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
     let learningContent;
 
     beforeEach(() => {
-      cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
+      cache.get.withArgs(someDatasource.modelName).callsFake((generator) => generator());
       sinon.stub(cache, 'set');
       learningContent = {
         learningContentModel: [
@@ -167,7 +167,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       await dataSource.refreshLearningContentCacheRecords();
 
       // then
-      expect(cache.set).to.have.been.calledWith('LearningContent', learningContent);
+      expect(cache.set).to.have.been.calledWith(learningContent);
     });
   });
 
@@ -185,8 +185,8 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
           { id: 'rec3', property: 'value3' },
         ],
       };
-      cache.get.withArgs('LearningContent').resolves(learningContent);
-      sinon.stub(cache, 'set').callsFake((key, value) => value);
+      cache.get.resolves(learningContent);
+      sinon.stub(cache, 'set').callsFake((value) => value);
 
       // when
       const entry = await someDatasource.refreshLearningContentCacheRecord('rec1', record);
@@ -196,7 +196,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
         id: 'rec1',
         property: 'updatedValue',
       });
-      expect(cache.set).to.have.been.deep.calledWith('LearningContent', {
+      expect(cache.set).to.have.been.deep.calledWith({
         learningContentModel: [
           { id: 'rec2', property: 'value2' },
           { id: 'rec1', property: 'updatedValue' },

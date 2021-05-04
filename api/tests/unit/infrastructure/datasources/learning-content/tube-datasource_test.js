@@ -7,7 +7,7 @@ const cache = require('../../../../../lib/infrastructure/caches/learning-content
 describe('Unit | Infrastructure | Datasource | Learning Content | TubeDatasource', () => {
 
   beforeEach(() => {
-    sinon.stub(cache, 'get').callsFake((key, generator) => generator());
+    sinon.stub(cache, 'get').callsFake((generator) => generator());
   });
 
   describe('#findByNames', () => {

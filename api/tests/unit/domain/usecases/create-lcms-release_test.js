@@ -25,6 +25,6 @@ describe('Unit | UseCase | create-lcms-release', () => {
     await createLcmsRelease();
 
     // then
-    expect(cache.set).to.have.been.calledWith('LearningContent', learningContent);
+    expect(cache.set).to.have.been.calledWith(learningContent);
   });
 });
