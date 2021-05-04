@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 const request = require('request-promise-native');
-const { batch } = require('../db/batchTreatment');
+const { batch } = require('../db/batch-processing');
 
 function compute(listOfAssessmentsToRecompute, request) {
 
