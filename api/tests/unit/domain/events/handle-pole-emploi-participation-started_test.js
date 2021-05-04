@@ -148,7 +148,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
         event = new CampaignParticipationStarted({ campaignParticipationId });
       });
 
-      it('it should not notify to Pole Emploi', async () => {
+      it('should not notify to Pole Emploi', async () => {
         // when
         await handlePoleEmploiParticipationStarted({
           event,
@@ -176,7 +176,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
         event = new CampaignParticipationStarted({ campaignParticipationId });
       });
 
-      it('it should not notify to Pole Emploi', async () => {
+      it('should not notify to Pole Emploi', async () => {
         // when
         await handlePoleEmploiParticipationStarted({
           event,
