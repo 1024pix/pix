@@ -10,10 +10,10 @@ export default class Notifications extends NotificationsService {
   }
 
   sendWarning(message) {
-    return this.warning(message, { autoClear: false, cssClasses: 'notification notification--warning' });
+    return this.warning(message, { autoClear: false, htmlContent: true, cssClasses: 'notification notification--warning' });
   }
 
   sendSuccess(message) {
-    return this.success(message, { autoClear: defaultAutoClear, cssClasses: 'notification notification--success' });
+    return this.success(message, { autoClear: defaultAutoClear, htmlContent: true, cssClasses: 'notification notification--success' });
   }
 }
