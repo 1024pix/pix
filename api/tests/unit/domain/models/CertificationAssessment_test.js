@@ -65,9 +65,9 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       });
     });
 
-    it('should throw an ObjectValidationError when status is of unknown value', () => {
+    it('should throw an ObjectValidationError when status is not one of [completed, started]', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, state: 'aaa' }))
+      expect(() => new CertificationAssessment({ ...validArguments, state: 'aborted' }))
         .to.throw(ObjectValidationError);
     });
 
