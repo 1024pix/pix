@@ -25,8 +25,8 @@ function _applyFilters(knowledgeElements) {
 }
 
 function _findByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  return knex('knowledge-elements')
-    .transacting(domainTransaction)
+  const knexConn = domainTransaction.knexTransaction || knex;
+  return knexConn('knowledge-elements')
     .where((qb) => {
       qb.where({ userId });
       if (limitDate) {
