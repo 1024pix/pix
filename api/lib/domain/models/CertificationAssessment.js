@@ -78,6 +78,10 @@ class CertificationAssessment {
     const challengeIds = _.map(certificationChallengesForBadge, 'challengeId');
     return _.filter(this.certificationAnswersByDate, ({ challengeId }) => _.includes(challengeIds, challengeId));
   }
+
+  isCompleted() {
+    return this.state === states.COMPLETED;
+  }
 }
 
 CertificationAssessment.states = states;
