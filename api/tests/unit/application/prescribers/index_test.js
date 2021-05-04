@@ -16,11 +16,12 @@ describe('Unit | Router | prescriber-router', () => {
 
   describe('GET /api/prescription/prescribers/{id}', () => {
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(prescriberController, 'get').returns('ok');
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
 
-      httpTestServer = new HttpTestServer(moduleUnderTest);
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
     });
 
     it('should exist', async () => {

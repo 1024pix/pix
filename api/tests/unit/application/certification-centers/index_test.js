@@ -13,13 +13,14 @@ describe('Unit | Router | certification-center-router', () => {
 
   let httpTestServer;
 
-  beforeEach(function() {
+  beforeEach(async function() {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
     sinon.stub(certificationCenterController, 'createCertificationCenterMembershipByEmail').returns('ok');
     sinon.stub(certificationCenterController, 'findCertificationCenterMembershipsByCertificationCenter').returns('ok');
     sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('GET /api/certification-centers/{certificationCenterId}/divisions', () => {

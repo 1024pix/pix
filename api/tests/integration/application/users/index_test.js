@@ -12,7 +12,7 @@ describe('Integration | Application | Users | Routes', () => {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
 
@@ -21,7 +21,8 @@ describe('Integration | Application | Users | Routes', () => {
     sinon.stub(userController, 'dissociateSchoolingRegistrations').returns('ok');
     sinon.stub(userController, 'resetScorecard').returns('ok');
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('GET /api/admin/users/{id}', () => {

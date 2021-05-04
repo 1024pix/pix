@@ -11,7 +11,7 @@ describe('Unit | Router | organization-router', () => {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(usecases, 'findPendingOrganizationInvitations').resolves([]);
 
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
@@ -22,7 +22,8 @@ describe('Unit | Router | organization-router', () => {
     sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
     sinon.stub(organizationController, 'getSchoolingRegistrationsCsvTemplate').callsFake((request, h) => h.response('ok').code(200));
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('GET /api/organizations', () => {

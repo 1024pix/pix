@@ -8,8 +8,10 @@ const moduleUnderTest = require('../../../../lib/application/users');
 
 let httpTestServer;
 
-function startServer() {
-  return new HttpTestServer(moduleUnderTest);
+async function startServer() {
+  const server = new HttpTestServer();
+  await server.register(moduleUnderTest);
+  return server;
 }
 
 describe('Unit | Router | user-router', () => {
@@ -18,10 +20,10 @@ describe('Unit | Router | user-router', () => {
 
     const method = 'GET';
 
-    beforeEach(() => {
+    beforeEach(async () => {
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     it('should exist', async () => {
@@ -41,9 +43,9 @@ describe('Unit | Router | user-router', () => {
     const method = 'POST';
     const url = '/api/users';
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(userController, 'save').returns('ok');
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     context('Payload schema validation', () => {
@@ -76,9 +78,9 @@ describe('Unit | Router | user-router', () => {
 
     const method = 'GET';
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(userController, 'getCurrentUser').returns('ok');
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     it('should exist', async () => {
@@ -97,10 +99,10 @@ describe('Unit | Router | user-router', () => {
 
     const method = 'GET';
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(userController, 'getMemberships').returns('ok');
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     it('should exist', async () => {
@@ -120,10 +122,10 @@ describe('Unit | Router | user-router', () => {
     const method = 'PATCH';
     const url = '/api/users/12344/password-update';
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(userController, 'updatePassword').returns('ok');
       sinon.stub(userVerification, 'verifyById').returns('ok');
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     it('should exist and pass through user verification pre-handler', async () => {
@@ -184,10 +186,10 @@ describe('Unit | Router | user-router', () => {
     const method = 'GET';
     const url = '/api/users/42/is-certifiable';
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(userController, 'isCertifiable').returns('ok');
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     it('should exist', async () => {
@@ -204,10 +206,10 @@ describe('Unit | Router | user-router', () => {
     const method = 'GET';
     const url = '/api/users/42/profile';
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(userController, 'getProfile').returns('ok');
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     it('should exist', async () => {
@@ -223,10 +225,10 @@ describe('Unit | Router | user-router', () => {
 
     const method = 'GET';
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(userController, 'getUserProfileSharedForCampaign').returns('ok');
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     it('should return 200', async () => {
@@ -269,10 +271,10 @@ describe('Unit | Router | user-router', () => {
 
     const method = 'GET';
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(userController, 'getUserCampaignParticipationToCampaign').returns('ok');
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     it('should return 200', async () => {
@@ -315,10 +317,10 @@ describe('Unit | Router | user-router', () => {
 
     const method = 'PATCH';
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(userController, 'updateUserDetailsForAdministration').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     it('should verify user identity and return sucess update', async () => {
@@ -366,10 +368,10 @@ describe('Unit | Router | user-router', () => {
 
     const method = 'POST';
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(userController, 'anonymizeUser').callsFake((request, h) => h.response({}).code(204));
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     it('should exist', async () => {
@@ -400,10 +402,10 @@ describe('Unit | Router | user-router', () => {
 
     const method = 'PATCH';
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(userController, 'dissociateSchoolingRegistrations').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     it('should exist', async () => {
@@ -432,10 +434,10 @@ describe('Unit | Router | user-router', () => {
 
   describe('POST /api/admin/users/{id}/remove-authentication', () => {
 
-    beforeEach(() => {
+    beforeEach(async() => {
       sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-      httpTestServer = startServer();
+      httpTestServer = await startServer();
     });
 
     ['GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI']
