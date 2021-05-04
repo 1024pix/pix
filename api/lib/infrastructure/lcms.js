@@ -12,4 +12,8 @@ module.exports = {
     );
     return response.data.content;
   },
+
+  async createRelease() {
+  },
+
 };
