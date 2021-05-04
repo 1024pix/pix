@@ -18,7 +18,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | TutorialDataso
       const rawTutorial2 = { id: 'FAKE_REC_ID_RAW_TUTORIAL_2' };
       const rawTutorial3 = { id: 'FAKE_REC_ID_RAW_TUTORIAL_3' };
       const records = [rawTutorial1, rawTutorial2, rawTutorial3];
-      sinon.stub(lcms, 'getCurrentContent').resolves({ tutorials: records });
+      sinon.stub(lcms, 'getLatestRelease').resolves({ tutorials: records });
 
       // when
       const promise = tutorialDatasource.findByRecordIds([rawTutorial1.id, rawTutorial3.id]);
@@ -27,7 +27,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | TutorialDataso
       return promise.then((foundTutorials) => {
         expect(foundTutorials).to.be.an('array');
         expect(_.map(foundTutorials, 'id')).to.deep.equal([rawTutorial1.id, rawTutorial3.id]);
-        expect(lcms.getCurrentContent).to.have.been.called;
+        expect(lcms.getLatestRelease).to.have.been.called;
       });
     });
   });

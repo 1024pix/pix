@@ -74,7 +74,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
   describe('#findOperativeBySkillIds', () => {
 
     beforeEach(() => {
-      sinon.stub(lcms, 'getCurrentContent').resolves({ 'challenges': [
+      sinon.stub(lcms, 'getLatestRelease').resolves({ 'challenges': [
         challenge_web1,
         challenge_web1_notValidated,
         challenge_web2,
@@ -90,7 +90,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       const result = await challengeDatasource.findOperativeBySkillIds(skillIds);
 
       // then
-      expect(lcms.getCurrentContent).to.have.been.called;
+      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal([
         'challenge-web1',
         'challenge-web2',
@@ -104,7 +104,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
 
     beforeEach(async () => {
       // given
-      sinon.stub(lcms, 'getCurrentContent').resolves({ 'challenges': [
+      sinon.stub(lcms, 'getLatestRelease').resolves({ 'challenges': [
         challenge_competence1,
         challenge_competence1_noSkills,
         challenge_competence1_notValidated,
@@ -117,7 +117,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
 
     it('should resolve to an array of matching Challenges from learning content', () => {
       // then
-      expect(lcms.getCurrentContent).to.have.been.called;
+      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal(['challenge-competence1']);
     });
   });
@@ -125,7 +125,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
   describe('#findOperative', () => {
 
     beforeEach(() => {
-      sinon.stub(lcms, 'getCurrentContent').resolves({ 'challenges': [
+      sinon.stub(lcms, 'getLatestRelease').resolves({ 'challenges': [
         challenge_web1,
         challenge_web1_notValidated,
         challenge_web2,
@@ -138,7 +138,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       const result = await challengeDatasource.findOperative();
 
       // then
-      expect(lcms.getCurrentContent).to.have.been.called;
+      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal([
         'challenge-web1',
         'challenge-web2',
@@ -151,7 +151,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
 
     it('should retrieve the operative Challenges of given locale only', async () => {
       // given
-      sinon.stub(lcms, 'getCurrentContent').resolves({ 'challenges': [
+      sinon.stub(lcms, 'getLatestRelease').resolves({ 'challenges': [
         challenge_web1,
         challenge_web1_notValidated,
         challenge_web2,
@@ -172,7 +172,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
   describe('#findValidated', () => {
 
     beforeEach(() => {
-      sinon.stub(lcms, 'getCurrentContent').resolves({ 'challenges': [
+      sinon.stub(lcms, 'getLatestRelease').resolves({ 'challenges': [
         challenge_web1,
         challenge_web1_notValidated,
         challenge_web2,
@@ -185,7 +185,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       const result = await challengeDatasource.findValidated();
 
       // then
-      expect(lcms.getCurrentContent).to.have.been.called;
+      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal([
         'challenge-web1',
         'challenge-web2',

@@ -3,7 +3,7 @@ const httpAgent = require('./http/http-agent');
 const { lcms } = require('../config');
 
 module.exports = {
-  async getCurrentContent() {
+  async getLatestRelease() {
     const response = await httpAgent.get(
       {
         url: lcms.url + '/releases/latest',
