@@ -5,17 +5,19 @@ const moduleUnderTest = require('../../../../lib/application/stages');
 
 let httpTestServer;
 
-function startServer() {
-  return new HttpTestServer(moduleUnderTest);
+async function startServer() {
+  const server = new HttpTestServer();
+  await server.register(moduleUnderTest);
+  return server;
 }
 
 describe('Unit | Router | stages-router', () => {
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(stagesController, 'create').returns('ok');
     sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(stagesController, 'getStageDetails').callsFake((request, h) => h.response('ok').code(200));
-    httpTestServer = startServer();
+    httpTestServer = await startServer();
   });
 
   describe('POST /api/admin/stages', () => {

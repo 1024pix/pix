@@ -14,7 +14,7 @@ describe('Integration | Application | Organizations | organization-controller', 
   let sandbox;
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'updateOrganizationInformation');
     sandbox.stub(usecases, 'findPaginatedFilteredOrganizationMemberships');
@@ -30,7 +30,8 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationOrHasRolePixMaster');
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   afterEach(() => {

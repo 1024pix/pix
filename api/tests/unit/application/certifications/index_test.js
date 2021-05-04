@@ -13,7 +13,8 @@ describe('Unit | Application | Certification | Routes', () => {
       sinon.stub(certificationController, 'neutralizeChallenge').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
-      const httpTestServer = new HttpTestServer(moduleUnderTest);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
       const payload = {
         data: {
           attributes: {
@@ -35,7 +36,8 @@ describe('Unit | Application | Certification | Routes', () => {
       sinon.stub(certificationController, 'neutralizeChallenge').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
-      const httpTestServer = new HttpTestServer(moduleUnderTest);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
       const payload = {
         data: {
           attributes: {
@@ -57,7 +59,8 @@ describe('Unit | Application | Certification | Routes', () => {
       sinon.stub(certificationController, 'neutralizeChallenge').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
-      const httpTestServer = new HttpTestServer(moduleUnderTest);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
       const payload = {
         data: {
           attributes: {
@@ -82,7 +85,8 @@ describe('Unit | Application | Certification | Routes', () => {
       sinon.stub(certificationController, 'deneutralizeChallenge').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
-      const httpTestServer = new HttpTestServer(moduleUnderTest);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
       const payload = {
         data: {
           attributes: {
@@ -104,7 +108,8 @@ describe('Unit | Application | Certification | Routes', () => {
       sinon.stub(certificationController, 'deneutralizeChallenge').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
-      const httpTestServer = new HttpTestServer(moduleUnderTest);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
       const payload = {
         data: {
           attributes: {
@@ -126,7 +131,8 @@ describe('Unit | Application | Certification | Routes', () => {
       sinon.stub(certificationController, 'deneutralizeChallenge').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
-      const httpTestServer = new HttpTestServer(moduleUnderTest);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
       const payload = {
         data: {
           attributes: {

@@ -18,13 +18,14 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(preHandler, 'checkUserIsAdminInSUPOrganizationManagingStudents');
 
     sinon.stub(schoolingRegistrationUserAssociationController, 'dissociate').returns('ok');
     sinon.stub(schoolingRegistrationUserAssociationController, 'updateStudentNumber').returns('ok');
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('PATCH /api/organizations/id/schooling-registration-user-associations/studentId', () => {

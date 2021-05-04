@@ -10,10 +10,11 @@ describe('Integration | Application | Schooling-registration-user-association | 
   let sandbox;
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'generateUsername').rejects(new Error('not expected error'));
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   afterEach(() => {

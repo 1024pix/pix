@@ -19,7 +19,7 @@ describe('Integration | API | Controller Error', () => {
     return payload.errors[0].title;
   }
 
-  before(async()=>{
+  before(async () => {
     const moduleUnderTest = {
       name: 'test-route',
       register: async function(server) {
@@ -33,7 +33,8 @@ describe('Integration | API | Controller Error', () => {
         }]);
       },
     };
-    server = new HttpTestServer(moduleUnderTest);
+    server = new HttpTestServer();
+    await server.register(moduleUnderTest);
   });
 
   context('412 Precondition Failed', () => {

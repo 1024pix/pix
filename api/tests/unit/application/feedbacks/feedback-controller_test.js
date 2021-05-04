@@ -14,8 +14,9 @@ describe('Unit | Controller | feedback-controller', function() {
 
   let httpTestServer;
 
-  beforeEach(function() {
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+  beforeEach(async function() {
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('#save', function() {

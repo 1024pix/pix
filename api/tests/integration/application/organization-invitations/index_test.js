@@ -12,12 +12,13 @@ describe('Integration | Application | Organization-invitations | Routes', () => 
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(organisationInvitationController, 'acceptOrganizationInvitation').callsFake((request, h) => h.response().code(204));
     sinon.stub(organisationInvitationController, 'sendScoInvitation').callsFake((request, h) => h.response().code(201));
     sinon.stub(organisationInvitationController, 'getOrganizationInvitation').callsFake((request, h) => h.response().code(200));
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('POST /api/organization-invitations/:id/response', () => {

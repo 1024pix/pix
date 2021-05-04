@@ -13,7 +13,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     sinon.stub(campaignController, 'save').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignController, 'getByCode').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'getById').callsFake((request, h) => h.response('ok').code(200));
@@ -28,7 +28,8 @@ describe('Unit | Application | Router | campaign-router ', function() {
     sinon.stub(campaignController, 'findAssessmentParticipations').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'division').callsFake((request, h) => h.response('ok').code(200));
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('POST /api/campaigns', () => {

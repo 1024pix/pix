@@ -12,14 +12,15 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(campaignParticipationController, 'shareCampaignResult').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignParticipationController, 'find').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignParticipationController, 'getAnalysis').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignParticipationController, 'getCampaignAssessmentParticipation').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignParticipationController, 'getCampaignAssessmentParticipationResult').callsFake((request, h) => h.response('ok').code(200));
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('GET /api/campaign-participations?filter[assessmentId]={id}', () => {

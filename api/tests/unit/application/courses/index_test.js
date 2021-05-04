@@ -14,11 +14,12 @@ describe('Unit | Router | course-router', () => {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(courseController, 'get').returns('ok');
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer();
+    await httpTestServer.register(moduleUnderTest);
   });
 
   describe('GET /api/courses/{id}', () => {
