@@ -301,6 +301,7 @@
       "title": "Question {stepNumber} of {totalChallengeNumber}",
       "actions": {
         "continue": "Continue",
+        "go-to-next": "and go to the next question",
         "skip": "Skip",
         "validate": "Validate"
       },
