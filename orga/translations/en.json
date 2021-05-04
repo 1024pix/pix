@@ -46,7 +46,8 @@
   },
   "banners": {
     "campaigns": {
-      "message": "Please note that you must check if the students are '<strong>'eligible to certification'</strong>' before signing them up on certification sessions. You can do a '<'a href={documentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'profile collection campaign {faIcon}'</a>' to be sure."
+      "message": "Certification in middle and high schools is open until 25 June. To reschedule sessions already scheduled, simply change the date of the session by clicking on 'edit' in Pix Certif.",
+      "actionLabel": "Learn more."
     },
     "import": {
       "link-to": "import or reimport the students database",
