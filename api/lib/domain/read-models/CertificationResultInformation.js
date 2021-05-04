@@ -1,3 +1,7 @@
+const status = {
+  CANCELLED: 'cancelled',
+};
+
 class CertificationResultInformation {
   constructor({
     certificationCourseId,
@@ -57,7 +61,7 @@ class CertificationResultInformation {
     return new CertificationResultInformation({
       certificationCourseId: generalCertificationInformation.certificationCourseId,
       sessionId: generalCertificationInformation.sessionId,
-      status: assessmentResult.status,
+      status: _getStatus(assessmentResult.status, generalCertificationInformation.isCancelled),
       createdAt: generalCertificationInformation.createdAt,
       completedAt: generalCertificationInformation.completedAt,
       isPublished: generalCertificationInformation.isPublished,
@@ -79,6 +83,11 @@ class CertificationResultInformation {
       competenceMarks: assessmentResult.competenceMarks,
     });
   }
+}
+
+function _getStatus(assessmentResultStatus, isCourseCancelled) {
+  if (isCourseCancelled) return status.CANCELLED;
+  return assessmentResultStatus;
 }
 
 module.exports = CertificationResultInformation;
