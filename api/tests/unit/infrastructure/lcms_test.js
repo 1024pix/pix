@@ -3,7 +3,7 @@ const { expect, nock, catchErr } = require('../../test-helper');
 const lcms = require('../../../lib/infrastructure/lcms');
 
 describe('Unit | Infrastructure | LCMS', () => {
-  describe('#getCurrentContent', () => {
+  describe('#getLatestRelease', () => {
 
     it('calls LCMS API to get learning content latest release', async () => {
       // given
@@ -13,7 +13,7 @@ describe('Unit | Infrastructure | LCMS', () => {
         .reply(200);
 
       // when
-      await lcms.getCurrentContent();
+      await lcms.getLatestRelease();
 
       // then
       expect(lcmsCall.isDone()).to.equal(true);
@@ -28,7 +28,7 @@ describe('Unit | Infrastructure | LCMS', () => {
         .reply(200, { content: learningContent });
 
       // when
-      const response = await lcms.getCurrentContent();
+      const response = await lcms.getLatestRelease();
 
       // then
       expect(response).to.deep.equal(learningContent);
@@ -42,7 +42,7 @@ describe('Unit | Infrastructure | LCMS', () => {
         .reply(500);
 
       // when
-      const error = await catchErr(lcms.getCurrentContent)();
+      const error = await catchErr(lcms.getLatestRelease)();
 
       // then
       expect(error).to.be.not.null;

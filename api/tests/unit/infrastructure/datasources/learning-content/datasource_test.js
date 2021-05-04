@@ -31,7 +31,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
             { id: 'rec2', property: 'value2' },
           ],
         };
-        sinon.stub(lcms, 'getCurrentContent').resolves(learningContent);
+        sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
       });
 
       it('should fetch a single record from LCMS API (or its cached copy)', async () => {
@@ -72,7 +72,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
             { id: 'rec2', property: 'value2' },
           ],
         };
-        sinon.stub(lcms, 'getCurrentContent').resolves(learningContent);
+        sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
 
         // when
         const promise = someDatasource.get('UNKNOWN_RECORD_ID');
@@ -84,7 +84,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       it('should dispatch error in case of generic error', () => {
         // given
         const err = new Error();
-        sinon.stub(lcms, 'getCurrentContent').rejects(err);
+        sinon.stub(lcms, 'getLatestRelease').rejects(err);
 
         // when
         const promise = someDatasource.get('rec1');
@@ -107,7 +107,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
           { id: 'rec2', property: 'value2' },
         ],
       };
-      sinon.stub(lcms, 'getCurrentContent').resolves(learningContent);
+      sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
     });
 
     it('should fetch all the records of a given type from LCMS API (or its cached copy)', async () => {
@@ -151,7 +151,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
           { id: 'rec2', property: 'value2' },
         ],
       };
-      sinon.stub(lcms, 'getCurrentContent').resolves(learningContent);
+      sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
     });
 
     it('should load all the learning content table content in the cache (and return them)', async () => {
