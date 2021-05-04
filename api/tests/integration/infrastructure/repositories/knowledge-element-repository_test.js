@@ -4,6 +4,7 @@ const { expect, knex, domainBuilder, databaseBuilder, sinon } = require('../../.
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | knowledgeElementRepository', () => {
 
@@ -84,6 +85,26 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       await databaseBuilder.commit();
     });
 
+    it('should be DomainTransaction compliant', async () => {
+      // given
+      const answerId = databaseBuilder.factory.buildAnswer().id;
+      const assessmentId = databaseBuilder.factory.buildAssessment().id;
+      await databaseBuilder.commit();
+      const extraKnowledgeElement = domainBuilder.buildKnowledgeElement({ id: 1000, skillId: '1000', userId, answerId, assessmentId, createdAt: new Date() });
+      const knowledgeElementsWantedTrx = [...knowledgeElementsWanted, extraKnowledgeElement];
+
+      // when
+      const knowledgeElementsFound = await DomainTransaction.execute(async (domainTransaction) => {
+        await domainTransaction.knexTransaction('knowledge-elements')
+          .insert(extraKnowledgeElement);
+        return knowledgeElementRepository.findUniqByUserId({ userId, domainTransaction });
+      });
+
+      // then
+      expect(knowledgeElementsFound).have.lengthOf(4);
+      expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWantedTrx);
+    });
+
     context('when there is no limit date', () => {
       it('should find the knowledge elements for campaign assessment associated with a user id', async () => {
         // when
@@ -103,7 +124,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         expect(knowledgeElementsFound).have.lengthOf(2);
       });
     });
-
   });
 
   describe('#findUniqByUserIdAndAssessmentId', () => {
