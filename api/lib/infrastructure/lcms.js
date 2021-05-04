@@ -14,6 +14,13 @@ module.exports = {
   },
 
   async createRelease() {
+    const response = await httpAgent.post(
+      {
+        url: lcms.url + '/releases',
+        headers: { Authorization: `Bearer ${lcms.apiKey}` },
+      },
+    );
+    return response.data.content;
   },
 
 };

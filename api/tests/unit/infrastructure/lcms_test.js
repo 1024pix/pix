@@ -49,4 +49,36 @@ describe('Unit | Infrastructure | LCMS', () => {
     });
 
   });
+
+  describe('#createRelease', () => {
+    it('calls LCMS API endpoint', async () => {
+      // given
+      const lcmsCall = nock('https://lcms-test.pix.fr/api')
+        .post('/releases')
+        .matchHeader('Authorization', 'Bearer test-api-key')
+        .reply(201);
+
+      // when
+      await lcms.createRelease();
+
+      // then
+      expect(lcmsCall.isDone()).to.equal(true);
+    });
+
+    it('returns created release', async () => {
+      // given
+      const learningContent = { models: [{ id: 'recId' }] };
+      nock('https://lcms-test.pix.fr/api')
+        .post('/releases')
+        .matchHeader('Authorization', 'Bearer test-api-key')
+        .reply(201, { content: learningContent });
+
+      // when
+      const response = await lcms.createRelease();
+
+      // then
+      expect(response).to.deep.equal(learningContent);
+    });
+  });
+
 });
