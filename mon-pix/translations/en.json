@@ -9,14 +9,14 @@
       "r13": "You already have a Pix account through your virtual learning environment (\"ENT\") in another school '<br> 'To continue, contact a teacher who can give you access to this account using Pix Orga.",
       "r31": "{ value }",
       "r32": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code R32)",
-      "r33": "You already have a Pix account through your virtual learning environment (\"ENT\"). Log in with this account to take your personalised test.",
+      "r33": "You already have a Pix account through your virtual learning environment (\"ENT\"). Log in with this account to take your customised test.",
       "r70": "An error occurred. Please log out and try again."
     },
     "login-unauthorized-error": "There was an error in the email address or username/password entered.",
     "register-error": {
       "s51": "{ value }",
       "s52": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code S52)",
-      "s53": "You already have a Pix account through your virtual learning environment (\"ENT\"). Log in with this account to take your personalised test.",
+      "s53": "You already have a Pix account through your virtual learning environment (\"ENT\"). Log in with this account to take your customised test.",
       "s61": "{ value }",
       "s62": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code S62)",
       "s63": "You already have a Pix account through your virtual learning environment (\"ENT\") in another school '<br> 'To continue, contact a teacher who can give you access to this account using Pix Orga.'<br>'(Code S63)"
@@ -87,7 +87,7 @@
       "account": "My account",
       "certifications": "My certifications",
       "sign-out": "Log out",
-      "tests": "My personalised tests"
+      "tests": "My customised tests"
     },
     "user-logged-menu": {
       "details": "Check my details"
@@ -116,14 +116,14 @@
     "campaign-landing": {
       "title": "Presentation",
       "assessment": {
-        "title": "Begin your personalised test",
+        "title": "Begin your customised test",
         "action": "Begin",
-        "announcement": "Start your personalised test.'<br>' Sign up or log in to the Pix platform and start your test.",
+        "announcement": "Start your customised test.'<br>' Sign up or log in to the Pix platform and start your test.",
         "certify": {
           "title": "Prepare a certification recognised throughout Europe and in the business world",
           "description": "The Pix Certification enables you to highlight your digital skills to employers."
         },
-        "details": "During this personalised test, you will be able to:",
+        "details": "During this customised test, you will be able to:",
         "develop": {
           "title": "See your results as you go along and view tips to improve.",
           "description": "Every 5 questions, you will be able to see your results and watch tutorials to help you improve your skills."
@@ -137,7 +137,7 @@
             "link": "https://pix.org/en-gb/competences"
           }
         },
-        "legal": "By clicking on “Begin“, information about your progress will be shared with the organiser so they can assist you if necessary. At the end of your personalised test, your results will be shared with your organisation when clicking on “Submit my results“."
+        "legal": "By clicking on “Begin“, information about your progress will be shared with the organiser so they can assist you if necessary. At the end of your customised test, your results will be shared with your organisation when clicking on “Submit my results“."
       },
       "profiles-collection": {
         "title": "Submit your profile",
@@ -147,10 +147,10 @@
       }
     },
     "campaign-participation": {
-      "title": "Personalised test"
+      "title": "Customised test"
     },
     "campaign-participation-overview": {
-      "title": "Personalised test",
+      "title": "Customised test",
       "card": {
         "finished-at": "Finished the {date}",
         "results": "Success rate: {result}%",
@@ -165,7 +165,7 @@
           "finished": "Finished",
           "started": "In progress"
         },
-        "text-archived": "Your personalised test has been archived by your organisation.'<br>'Your results could not be submitted."
+        "text-archived": "Your customised test has been archived by your organisation.'<br>'Your results could not be submitted."
       }
     },
     "certificate": {
@@ -471,14 +471,14 @@
       },
       "answers": {
         "already-finished": {
-          "explanation": "You have already answered the questions in your previous personalised tests. You can go straight to your results.",
+          "explanation": "You have already answered the questions in your previous customised tests. You can go straight to your results.",
           "info": "Don’t be surprised, it’s over already!"
         },
         "header": "your answers"
       },
       "completion-percentage": {
         "caption": "progression",
-        "label": "'<p class=\"sr-only\">'You have completed '</p>'{completionPercentage}%'<p class=\"sr-only\">' of your personalised test.'</p>'"
+        "label": "'<p class=\"sr-only\">'You have completed '</p>'{completionPercentage}%'<p class=\"sr-only\">' of your customised test.'</p>'"
       }
     },
     "comparison-window": {
@@ -558,7 +558,7 @@
             "warning": {
               "certification": "If you are planning to certify your profile and results, this could affect your certification.",
               "header": "NB: ",
-              "ongoing-assessment": "If you have a personalised test in progress, you might be asked some questions again."
+              "ongoing-assessment": "If you have a customised test in progress, you might be asked some questions again."
             }
           }
         },
@@ -588,13 +588,13 @@
     "dashboard": {
       "title": "Homepage",
       "campaigns": {
-        "title": "Personalised tests",
+        "title": "Customised tests",
         "resume": {
           "action": "Resume",
           "text": "<h2>Don’t forget to submit your results!</h2>"
         },
-        "subtitle": "Resume your personalised tests or submit your results",
-        "tests-link": "All my personalised tests"
+        "subtitle": "Resume your customised tests or submit your results",
+        "tests-link": "All my customised tests"
       },
       "empty-dashboard": {
         "link-to-competences": "See my skills",
@@ -631,7 +631,7 @@
     },
     "fill-in-campaign-code": {
       "title": "I have a code",
-      "description": "This code can be used to start a personalised test'<br>'or to submit your profile to an organisation",
+      "description": "This code can be used to start a customised test'<br>'or to submit your profile to an organisation",
       "errors": {
         "forbidden": "Oops! We can’t find you. Check your details to continue or contact the organiser.",
         "missing-code": "Please enter a code.",
@@ -697,7 +697,7 @@
       "sco": {
         "associate": "Link",
         "continue-with-pix": "Continue with my Pix account",
-        "error-not-found": "If you're a pupil '<br>' Check your information (first name, last name and date of birth) or contact a teacher.'<br><br>' If you're a teacher '<br>' Access to this personalised test is not available at the moment.",
+        "error-not-found": "If you're a pupil '<br>' Check your information (first name, last name and date of birth) or contact a teacher.'<br><br>' If you're a teacher '<br>' Access to this customised test is not available at the moment.",
         "login-information-message": "The Pix account  '<b>'{ connectionMethod }'</b>' will be linked with the pupil:  '<b>'{ firstName }  { lastName }'</b>'.'<b>'If this is you, click on \"Link\". Otherwise, log out.",
         "login-information-title": "Pix account information"
       },
@@ -780,7 +780,7 @@
             "label": "My username"
           }
         },
-        "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific personalised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr.",
+        "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific customised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr.",
         "not-me": "That's not me",
         "options": {
           "email": "My email address",
@@ -835,17 +835,17 @@
       "first-title": "You have 16 competences to test. '<br>'Get your thinking hat on and off we go!",
       "resume-campaign-banner": {
         "accessibility": {
-          "resume": "Resume your personalised test",
-          "share": "Share your personalised test results"
+          "resume": "Resume your customised test",
+          "share": "Share your customised test results"
         },
         "actions": {
           "continue": "Continue",
           "resume": "Resume"
         },
-        "reminder-continue-campaign": "You haven’t finished your personalised test",
-        "reminder-continue-campaign-with-title": "You haven’t finished the personalised test \"{title}\"",
+        "reminder-continue-campaign": "You haven’t finished your customised test",
+        "reminder-continue-campaign-with-title": "You haven’t finished the customised test \"{title}\"",
         "reminder-send-campaign": "Don’t forget to submit your results!",
-        "reminder-send-campaign-with-title": "Personalised test \"{title}\" finished. Don’t forget to submit your results!"
+        "reminder-send-campaign-with-title": "customised test \"{title}\" finished. Don’t forget to submit your results!"
       },
       "total-score-helper": {
         "title": "Why 1,024 pix?",
@@ -999,14 +999,14 @@
     "skill-review": {
       "title": "Result",
       "abstract": "You have mastered '<strong>'{percentage}%'</strong><br>' of the competences tested.",
-      "abstract-title": "Your result for this personalised test",
+      "abstract-title": "Your result for this customised test",
       "actions": {
         "continue": "Continue my Pix experience",
         "send": "Submit my results",
         "try-again": "Try again"
       },
       "already-shared": "Thank you, your results have been submitted!",
-      "archived": "This personalised test has been archived by the organiser.'<br>' It is no longer possible to submit results.",
+      "archived": "This customised test has been archived by the organiser.'<br>' It is no longer possible to submit results.",
       "badges-title": "Your thematic results",
       "details": {
         "title": "Your results by competence",
@@ -1015,11 +1015,11 @@
         "result": "Overall result",
         "result-by-skill": "Your results for the competence"
       },
-      "information": "If you have already completed personalised tests on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",
+      "information": "If you have already completed customised tests on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",
       "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
       "organization-message": "Message of your organization",
       "retry": {
-        "button": "Retake my personalised test",
+        "button": "Retake my customised test",
         "message": "{organizationName} encourages you to retake your test to measure your progress."
       },
       "send-results": "Don't forget to submit your results.",
@@ -1070,7 +1070,7 @@
         },
         "page1": {
           "title": "There’s no time limit!",
-          "explanation": "Take all the time you need to finish your personalised test. \nIf a question is timed, we will let you know.",
+          "explanation": "Take all the time you need to finish your customised test. \nIf a question is timed, we will let you know.",
           "icon": "icn-temps.svg"
         },
         "page2": {
@@ -1085,7 +1085,7 @@
         }
       },
       "pass": "Ignore",
-      "start": "Start my personalised test"
+      "start": "Start my customised test"
     },
     "tutorial-panel": {
       "title": "For better results next time",
@@ -1155,7 +1155,7 @@
       }
     },
     "user-tests": {
-      "title": "My personalised tests"
+      "title": "My customised tests"
     },
     "user-tutorials": {
       "title": "My tutorials",

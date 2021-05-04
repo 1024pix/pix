@@ -3,7 +3,7 @@
   "api-errors-messages": {
     "bad-request": "The data entered was not in the correct format.",
     "campaign-creation": {
-      "external-user-id-required": "Please specify the type of external user ID which the participants will be required to fill when starting the personalised test.",
+      "external-user-id-required": "Please specify the type of external user ID which the participants will be required to fill when starting the customised test.",
       "name-required": "Please name your campaign.",
       "purpose-required": "Please select the purpose of your campaign: assess participants or collect their profiles.",
       "target-profile-required": "Please select a target profile for your campaign."
@@ -215,7 +215,7 @@
         "label": "What would you like to test?"
       },
       "test-title": {
-        "label": "Title of the personalised test"
+        "label": "Title of the customised test"
       },
       "yes": "Yes"
     },
@@ -231,7 +231,7 @@
       "direct-link": "Direct link",
       "external-user-id-label": "External user ID label",
       "landing-page-text": "Text to display on the starting page",
-      "personalised-test-title": "Title of the personalised test",
+      "personalised-test-title": "Title of the customised test",
       "target-profile": "Target profile"
     },
     "campaign-individual-results": {
@@ -245,7 +245,7 @@
       },
       "campaign-name": "Name of the campaign",
       "landing-page-text": "Text to display on the starting page",
-      "personalised-test-title": "Title of the personalised test"
+      "personalised-test-title": "Title of the customised test"
     },
     "campaign-review": {
       "title": "Recommendations of topics to focus on",
@@ -292,7 +292,7 @@
       },
       "no-campaign": {
         "title": "Create your first campaign",
-        "description": "Set up and launch your first campaign. Then, invite your users to join this personalised test."
+        "description": "Set up and launch your first campaign. Then, invite your users to join this customised test."
       },
       "table": {
         "column": {
@@ -304,8 +304,8 @@
         },
         "empty": "No campaign",
         "filter": {
-          "by-creator": "Search a creator",
-          "by-name": "Search a campaign"
+          "by-creator": "Search for a creator",
+          "by-name": "Search for a campaign"
         },
         "row-title": "Campaign"
       }
@@ -382,7 +382,7 @@
             "label": "Password"
           }
         },
-        "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific personalised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr."
+        "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific customised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr."
       }
     },
     "profiles-individual-results": {
