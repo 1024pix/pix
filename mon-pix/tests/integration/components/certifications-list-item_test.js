@@ -13,11 +13,16 @@ describe('Integration | Component | certifications list item', function() {
   const CERTIFICATION_CELL_SELECTOR = '.certifications-list-item__cell';
   const STATUS_SELECTOR = '.certifications-list-item__cell-double-width';
   const IMG_FOR_STATUS_SELECTOR = 'img.certifications-list-item__cross-img';
+  const IMG_FOR_WAITING_STATUS_SELECTOR = 'img.certifications-list-item__hourglass-img';
   const PIX_SCORE_CELL_SELECTOR = '.certifications-list-item__pix-score';
   const DETAIL_SELECTOR = '.certifications-list-item__cell-detail';
   const REJECTED_DETAIL_SELECTOR = `${DETAIL_SELECTOR} button`;
   const VALIDATED_DETAIL_SELECTOR = `${DETAIL_SELECTOR} a`;
   const COMMENT_CELL_SELECTOR = '.certifications-list-item__row-comment-cell';
+  const NOT_CLICKABLE_SELECTOR = '.certifications-list-item__not-clickable';
+  const CLICKABLE_SELECTOR = '.certifications-list-item__clickable';
+
+  const commentForCandidate = 'Commentaire pour le candidat';
 
   it('renders', async function() {
     await render(hbs`<CertificationsListItem />`);
@@ -45,8 +50,13 @@ describe('Integration | Component | certifications list item', function() {
     });
 
     it('should show en attente de résultat', function() {
-      expect(find('img.certifications-list-item__hourglass-img')).to.exist;
+      expect(find(IMG_FOR_WAITING_STATUS_SELECTOR)).to.exist;
       expect(find(STATUS_SELECTOR).textContent).to.include('En attente du résultat');
+    });
+
+    it('should not be clickable', function() {
+      expect(find(NOT_CLICKABLE_SELECTOR)).to.exist;
+      expect(find(CLICKABLE_SELECTOR)).not.to.exist;
     });
   });
 
@@ -88,11 +98,15 @@ describe('Integration | Component | certifications list item', function() {
         // then
         expect(find(COMMENT_CELL_SELECTOR)).to.not.exist;
       });
+
+      it('should not be clickable', function() {
+        expect(find(NOT_CLICKABLE_SELECTOR)).to.exist;
+        expect(find(CLICKABLE_SELECTOR)).not.to.exist;
+      });
+
     });
 
     context('with a commentForCandidate', function() {
-
-      const commentForCandidate = 'Commentaire pour le candidat';
 
       beforeEach(async function() {
         // given
@@ -127,6 +141,11 @@ describe('Integration | Component | certifications list item', function() {
 
         expect(find(COMMENT_CELL_SELECTOR)).to.exist;
         expect(find(COMMENT_CELL_SELECTOR).textContent).to.include(commentForCandidate);
+      });
+
+      it('should be clickable', function() {
+        expect(find(CLICKABLE_SELECTOR)).to.exist;
+        expect(find(NOT_CLICKABLE_SELECTOR)).not.to.exist;
       });
     });
   });
@@ -164,49 +183,89 @@ describe('Integration | Component | certifications list item', function() {
       expect(find(VALIDATED_DETAIL_SELECTOR)).to.exist;
       expect(find(VALIDATED_DETAIL_SELECTOR).textContent).to.include('résultats');
     });
+
+    it('should be clickable', function() {
+      expect(find(CLICKABLE_SELECTOR)).to.exist;
+      expect(find(NOT_CLICKABLE_SELECTOR)).not.to.exist;
+    });
   });
 
   context('when the certification is cancelled', function() {
 
     context('and is published', function() {
 
-      it('should show Certification annulée without comments', async function() {
+      context('and and has no comments', function() {
+
+        it('should show Certification annulée without comments', async function() {
+          // given
+          const certification = createCertification({
+            status: 'cancelled',
+            isPublished: true,
+          });
+          this.set('certification', certification);
+
+          // when
+          await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+
+          expect(find(PUBLISH_CLASS)).to.exist;
+          expect(find(IMG_FOR_STATUS_SELECTOR)).to.exist;
+          expect(find(STATUS_SELECTOR).textContent).to.include('Certification annulée');
+
+          expect(find('button')).not.to.exist;
+        });
+
+        it('should not be clickable', async function() {
+          // given
+          const certification = createCertification({
+            status: 'cancelled',
+            isPublished: true,
+          });
+          this.set('certification', certification);
+
+          // when
+          await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+
+          expect(find(NOT_CLICKABLE_SELECTOR)).to.exist;
+          expect(find(CLICKABLE_SELECTOR)).not.to.exist;
+        });
+      });
+
+      context('and and has comments', function() {
+
+        it('should show Certification annulée with comments', async function() {
+          // given
+          const certification = EmberObject.create({
+            id: 1,
+            date: '2018-02-15T15:15:52.504Z',
+            status: 'cancelled',
+            certificationCenter: 'Université de Paris',
+            isPublished: true,
+            commentForCandidate: 'random',
+          });
+
+          this.set('certification', certification);
+
+          // when
+          await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+
+          expect(find('button')).to.exist;
+        });
+      });
+
+      it('should be clickable', async function() {
         // given
         const certification = createCertification({
           status: 'cancelled',
           isPublished: true,
+          commentForCandidate,
         });
-
         this.set('certification', certification);
 
         // when
         await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
 
-        console.log(find('.certifications-list-item'));
-        expect(find(PUBLISH_CLASS)).to.exist;
-        expect(find(IMG_FOR_STATUS_SELECTOR)).to.exist;
-        expect(find(STATUS_SELECTOR).textContent).to.include('Certification annulée');
-
-        expect(find('button')).not.to.exist;
-      });
-
-      it('should show Certification annulée with comments', async function() {
-        // given
-        const certification = EmberObject.create({
-          id: 1,
-          date: '2018-02-15T15:15:52.504Z',
-          status: 'cancelled',
-          certificationCenter: 'Université de Paris',
-          isPublished: true,
-          commentForCandidate: 'random',
-        });
-
-        this.set('certification', certification);
-
-        // when
-        await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
-
-        expect(find('button')).to.exist;
+        expect(find(CLICKABLE_SELECTOR)).to.exist;
+        expect(find(NOT_CLICKABLE_SELECTOR)).not.to.exist;
       });
 
     });
