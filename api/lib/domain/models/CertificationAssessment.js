@@ -1,9 +1,13 @@
 const Joi = require('joi')
   .extend(require('@joi/date'));
 const { validateEntity } = require('../validators/entity-validator');
-const { states } = require('./Assessment');
 const _ = require('lodash');
 const { ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFoundError } = require('../errors');
+
+const states = {
+  COMPLETED: 'completed',
+  STARTED: 'started',
+};
 
 const certificationAssessmentSchema = Joi.object({
   id: Joi.number().integer().required(),
@@ -11,7 +15,7 @@ const certificationAssessmentSchema = Joi.object({
   certificationCourseId: Joi.number().integer().required(),
   createdAt: Joi.date().required(),
   completedAt: Joi.date().allow(null),
-  state: Joi.string().valid(states.COMPLETED, states.STARTED, states.ABORTED).required(),
+  state: Joi.string().valid(states.COMPLETED, states.STARTED).required(),
   isV2Certification: Joi.boolean().required(),
   certificationChallenges: Joi.array().min(1).required(),
   certificationAnswersByDate: Joi.array().min(0).required(),
