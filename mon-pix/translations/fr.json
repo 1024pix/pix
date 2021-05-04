@@ -374,6 +374,14 @@
                   },
                   "other": "J’ai un autre problème avec le fichier"
                 },
+                "embed-displayed-on-desktop-with-problems": {
+                  "label": "Sur ordinateur, le simulateur s'affiche mais a un problème",
+                  "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier. Vous pouvez arrêter là et reprendre sur un ordinateur.'<br>'Précisez votre problème en indiquant votre navigateur et votre système d'exploitation."
+                },
+                "embed-displayed-on-mobile-devices-with-problems": {
+                    "label": "Sur téléphone ou tablette, le simulateur s'affiche mais a un problème",
+                    "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier.'<br>'Précisez votre problème en indiquant votre type d'appareil (smartphone, tablette...), votre système d'exploitation et votre navigateur."
+                },
                 "embed-not-displayed": {
                   "label": "Le simulateur / l’application ne s’affiche pas",
                   "solution": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' à côté de la barre d’adresse. Attendez un peu, le simulateur va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?"

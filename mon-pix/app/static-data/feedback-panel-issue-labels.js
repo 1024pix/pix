@@ -83,6 +83,16 @@ const questions = {
       name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-other',
       type: 'textbox',
     },
+    {
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-desktop-with-problems.label',
+      type: 'tutorialAndTextbox',
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-desktop-with-problems.solution',
+    },
+    {
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-mobile-devices-with-problems.label',
+      type: 'tutorialAndTextbox',
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-mobile-devices-with-problems.solution',
+    },
   ],
   'download': [
     {
