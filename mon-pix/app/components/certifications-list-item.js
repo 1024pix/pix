@@ -27,6 +27,10 @@ export default class CertificationsListItem extends Component {
     return this.certification?.isPublished;
   }
 
+  get isPublishedAndValidated() {
+    return this.isPublished && this.isValidated;
+  }
+
   get isCancelled() {
     return this.certification?.status === status.CANCELLED;
   }
