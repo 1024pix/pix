@@ -134,6 +134,28 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
 
     });
 
+    context('when the session has a cancelled certification course', () => {
+
+      it('should return a JuryCertificationSummary with a cancelled status', async () => {
+        // given
+        const dbf = databaseBuilder.factory;
+        const sessionId = dbf.buildSession().id;
+        const cancelledCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'DDD', isCancelled: true });
+
+        const assessmentId = dbf.buildAssessment({ certificationCourseId: cancelledCertification.id }).id;
+
+        dbf.buildAssessmentResult({ assessmentId, createdAt: new Date('2018-02-15T00:00:00Z') });
+
+        await databaseBuilder.commit();
+
+        // when
+        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+
+        // then
+        expect(juryCertificationSummaries[0].status).to.equal('cancelled');
+      });
+    });
+
     context('when a summary has several issue reports', () => {
       it('should return all issue reports', async () => {
         // given
