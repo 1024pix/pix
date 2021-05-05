@@ -5,9 +5,34 @@ module.exports = async function getCertificationDetails({
   competenceMarkRepository,
   certificationAssessmentRepository,
   placementProfileService,
+  certificationService,
 }) {
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
+  if (certificationAssessment.isCompleted()) {
+    return _retrievePersistedCertificationDetails(
+      certificationCourseId,
+      certificationAssessment,
+      competenceMarkRepository,
+      placementProfileService,
+    );
+  } else {
+    return _computeCertificationDetailsOnTheFly(
+      certificationCourseId,
+      certificationService,
+    );
+  }
+};
 
+async function _computeCertificationDetailsOnTheFly(certificationCourseId, certificationService) {
+  const certificationResult = await certificationService.calculateCertificationResultByCertificationCourseId(certificationCourseId);
+  return new CertificationDetails(
+    {
+      id: certificationCourseId,
+      ...certificationResult,
+    });
+}
+
+async function _retrievePersistedCertificationDetails(certificationCourseId, certificationAssessment, competenceMarkRepository, placementProfileService) {
   const competenceMarks = await competenceMarkRepository.findByCertificationCourseId(certificationCourseId);
 
   const placementProfile = await placementProfileService.getPlacementProfile({
@@ -21,4 +46,4 @@ module.exports = async function getCertificationDetails({
     certificationAssessment,
     placementProfile,
   });
-};
+}
