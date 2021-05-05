@@ -233,4 +233,29 @@ module('Unit | Model | certification', function(hooks) {
       ]);
     });
   });
+
+  module('#statusLabelAndValue', function() {
+
+    [
+      { value: 'started', label: 'Démarrée' },
+      { value: 'error', label: 'En erreur' },
+      { value: 'validated', label: 'Validée' },
+      { value: 'rejected', label: 'Rejetée' },
+      { value: 'cancelled', label: 'Annulée' },
+    ].forEach((certificationStatus) => {
+
+      test('it should return the right pair of label and value', function(assert) {
+        // given
+        const certification = run(() => store.createRecord('certification', {
+          status: certificationStatus.value,
+        }));
+
+        // then
+        assert.deepEqual(certification.statusLabelAndValue, {
+          value: certificationStatus.value,
+          label: certificationStatus.label,
+        });
+      });
+    });
+  });
 });

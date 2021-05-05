@@ -59,6 +59,11 @@ export default class Certification extends Model {
     return (new Date(this.completedAt)).toLocaleString('fr-FR');
   }
 
+  @computed('status')
+  get statusLabelAndValue() {
+    return certificationStatuses.find((certificationStatus) => certificationStatus.value === this.status);
+  }
+
   @computed('isPublished')
   get publishedText() {
     const value = this.isPublished;
