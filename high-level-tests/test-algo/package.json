@@ -1,6 +1,6 @@
 {
   "name": "test-algo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Application permettant de tester l'algorithme adaptatif de choix d'épreuve pour le positionnement.",
   "main": "index.js",
   "scripts": {
