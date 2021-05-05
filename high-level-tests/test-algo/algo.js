@@ -1,6 +1,6 @@
 'use strict';
 require('dotenv').config();
-
+const fs = require('fs');
 const smartRandom = require('../../api/lib/domain/services/smart-random/smart-random');
 const dataFetcher = require('../../api/lib/domain/services/smart-random/data-fetcher');
 const challengeRepository = require('../../api/lib/infrastructure/repositories/challenge-repository');
@@ -13,6 +13,16 @@ const AnswerStatus = require('../../api/lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../api/lib/domain/models/KnowledgeElement');
 
 const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
+
+function _read(path) {
+  if (path) {
+    const file = fs.readFileSync(path, 'utf-8');
+    if (file) {
+      return JSON.parse(file);
+    }
+  }
+  return [];
+}
 
 function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId, userResult }) {
 
@@ -133,7 +143,7 @@ async function _getChallenge({
 
 async function launchTest(argv) {
 
-  const { competenceId, targetProfileId, locale, userResult } = argv;
+  const { competenceId, targetProfileId, locale, userResult, userKEFile } = argv;
 
   let allAnswers = [];
   let knowledgeElements = [];
@@ -150,6 +160,8 @@ async function launchTest(argv) {
   const answerRepository = {
     findByAssessment: () => [],
   };
+
+  const userKE = _read(userKEFile);
 
   let isAssessmentOver = false;
 
@@ -183,6 +195,7 @@ async function launchTest(argv) {
         allKnowledgeElements: knowledgeElements,
         targetSkills,
         userResult,
+        userKE,
       });
       allAnswers = updatedAnswers;
       knowledgeElements = updatedKnowledgeElements;
