@@ -12,6 +12,7 @@ class AssessmentResult {
 
     this.id = participationResults.campaignParticipationId;
     this.isCompleted = participationResults.isCompleted;
+    this.isShared = Boolean(participationResults.sharedAt);
 
     this.totalSkillsCount = competences.flatMap(({ skillIds }) => skillIds).length;
     this.testedSkillsCount = knowledgeElements.length;

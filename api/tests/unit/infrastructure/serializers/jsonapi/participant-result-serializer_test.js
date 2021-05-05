@@ -68,6 +68,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         data: {
           attributes: {
             'is-completed': true,
+            'is-shared': true,
             'mastery-percentage': 50,
             'tested-skills-count': 2,
             'total-skills-count': 2,
