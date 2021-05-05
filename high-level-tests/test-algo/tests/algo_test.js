@@ -186,6 +186,36 @@ describe('#answerTheChallenge', () => {
 
   });
 
+  describe('when userKE is not empty', () => {
+    [
+      { userKE: { 'status': 'validated', 'skillId': 'recPgkHUdzk0HPGt1', 'competenceId': 'recsvLz0W2ShyfD63' }, answerStatus: 'ok' },
+      { userKE: { 'status': 'invalidated', 'skillId': 'recPgkHUdzk0HPGt1', 'competenceId': 'recsvLz0W2ShyfD63' }, answerStatus: 'ko' },
+      { userKE: null, answerStatus: 'ko' },
+    ].forEach((testCase) => {
+      it(`should return the list of answers with ${testCase.answerStatus} answers for ${testCase.userKE ? testCase.userKE.status : 'empty' } KE`, () => {
+        // given
+        challenge.skills = ['recPgkHUdzk0HPGt1'];
+
+        // when
+        const result = answerTheChallenge({
+          challenge,
+          allAnswers: previousAnswers,
+          allKnowledgeElements: [],
+          targetSkills: [],
+          userId: 1,
+          userResult: 'KE',
+          userKE: testCase.userKE ? [testCase.userKE] : [],
+        });
+
+        // then
+        expect(result.updatedAnswers).lengthOf(previousAnswers.length + 1);
+        expect(result.updatedAnswers[0]).to.be.deep.equal(previousAnswers[0]);
+        expect(result.updatedAnswers[1].challengeId).to.be.equal(challenge.id);
+        expect(result.updatedAnswers[1].result).to.be.deep.equal({ status: testCase.answerStatus });
+      });
+    });
+  });
+
 });
 
 describe('#_getReferentiel', () => {
