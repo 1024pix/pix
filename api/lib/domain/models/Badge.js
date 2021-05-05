@@ -26,6 +26,8 @@ class Badge {
 
 Badge.keys = {
   PIX_EMPLOI_CLEA: 'PIX_EMPLOI_CLEA',
+  PIX_DROIT_MAITRE_CERTIF: 'PIX_DROIT_MAITRE_CERTIF',
+  PIX_DROIT_EXPERT_CERTIF: 'PIX_DROIT_EXPERT_CERTIF',
 };
 
 module.exports = Badge;
