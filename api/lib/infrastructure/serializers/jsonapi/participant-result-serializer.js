@@ -10,6 +10,7 @@ module.exports = {
         'validatedSkillsCount',
         'isCompleted',
         'isShared',
+        'participantExternalId',
         'campaignParticipationBadges',
         'competenceResults',
         'reachedStage',

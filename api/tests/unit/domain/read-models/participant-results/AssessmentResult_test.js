@@ -16,7 +16,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
       domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: KnowledgeElement.StatusType.INVALIDATED }),
       domainBuilder.buildKnowledgeElement({ skillId: 'skill4', status: KnowledgeElement.StatusType.VALIDATED }),
     ];
-    const participationResults = { campaignParticipationId: 12, isCompleted: true, knowledgeElements, acquiredBadgeIds: [], sharedAt: new Date() };
+    const participationResults = { campaignParticipationId: 12, isCompleted: true, knowledgeElements, acquiredBadgeIds: [], sharedAt: new Date(), participantExternalId: 'greg@lafleche.fr' };
 
     const targetProfile = { competences, stages: [], badges: [] };
 
@@ -29,6 +29,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
       validatedSkillsCount: 2,
       isCompleted: true,
       isShared: true,
+      participantExternalId: 'greg@lafleche.fr',
     });
   });
 

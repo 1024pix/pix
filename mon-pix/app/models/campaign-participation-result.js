@@ -1,7 +1,4 @@
-/* eslint ember/no-computed-properties-in-native-classes: 0 */
-
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
-import { computed } from '@ember/object';
 
 export default class CampaignParticipationResult extends Model {
 
@@ -13,13 +10,13 @@ export default class CampaignParticipationResult extends Model {
   @attr('number') stageCount;
   @attr('boolean') canRetry;
   @attr('boolean') isShared;
+  @attr('string') participantExternalId;
 
   // includes
   @hasMany('campaignParticipationBadges') campaignParticipationBadges;
   @hasMany('competenceResult') competenceResults;
   @belongsTo('reachedStage') reachedStage;
 
-  @computed('campaignParticipationBadges')
   get cleaBadge() {
     const badgeCleaKey = 'PIX_EMPLOI_CLEA';
     return this.campaignParticipationBadges.find((badge) => badge.key === badgeCleaKey);
