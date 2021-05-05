@@ -1,7 +1,5 @@
 const Assessment = require('../../../../lib/domain/models/Assessment');
-
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
-
 const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | CertificationResult', () => {
@@ -131,6 +129,18 @@ describe('Unit | Domain | Models | CertificationResult', () => {
       // then
       expect(certificationResult).to.deep.equal(expectedCertificationResult);
 
+    });
+  });
+
+  context('#isCancelled', () => {
+    it('returns true if status is "cancelled"', () => {
+      // given
+      const cancelledCertificationResult = new CertificationResult({
+        isCourseCancelled: true,
+      });
+
+      // when / then
+      expect(cancelledCertificationResult.isCancelled()).to.be.true;
     });
   });
 
