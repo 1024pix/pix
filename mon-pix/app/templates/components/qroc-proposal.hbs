@@ -1,6 +1,11 @@
-{{!-- template-lint-disable no-down-event-binding --}}
 <div class="qroc-proposal">
   {{#each this._blocks as |block|}}
+
+    {{#if block.showText}}
+      <MarkdownToHtml @markdown={{block.text}}
+                      @extensions="remove-paragraph-tags"
+                      class="qrocm-proposal__label" />
+    {{/if}}
 
     {{#if block.text}}
       <label for="qroc_input">
@@ -12,51 +17,51 @@
 
     {{#if block.input}}
       {{#if (eq @format 'paragraphe')}}
-        <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
+        <Textarea id="qroc_input"
+                  @value="{{this.userAnswer}}"
+                  class="challenge-response__proposal challenge-response__proposal--paragraph"
                   rows="5"
-                  id="qroc_input"
-                  {{on 'keydown' this.onInputChange}}
+                  {{on 'keyup' this.onInputChange}}
                   name={{block.randomName}}
                   placeholder={{block.placeholder}}
                   autocomplete="nope"
-                  value="{{this.userAnswer}}"
                   data-uid="qroc-proposal-uid"
-                  disabled={{if @answer true}}>
-        </textarea>
+                  disabled={{@answer}}>
+        </Textarea>
       {{else if (eq @format 'phrase')}}
-        <input class="challenge-response__proposal challenge-response__proposal--sentence"
-               type="text"
-               id="qroc_input"
-               {{on 'keydown' this.onInputChange}}
+        <Input id="qroc_input"
+               @type="text"
+               @value="{{this.userAnswer}}"
+               class="challenge-response__proposal challenge-response__proposal--sentence"
+               {{on 'keyup' this.onInputChange}}
                name={{block.randomName}}
                placeholder={{block.placeholder}}
                autocomplete="nope"
-               value="{{this.userAnswer}}"
                data-uid="qroc-proposal-uid"
-               disabled={{if @answer true}}>
+               disabled={{@answer}} />
       {{else if (eq @format 'nombre')}}
-        <input class="challenge-response__proposal challenge-response__proposal--number"
-               type="number"
-               id="qroc_input"
-               {{on 'keydown' this.onInputChange}}
+        <Input id="qroc_input"
+               @type="number"
+               @value="{{this.userAnswer}}"
+               class="challenge-response__proposal challenge-response__proposal--number"
+               {{on 'keyup' this.onInputChange}}
                name={{block.randomName}}
                placeholder={{block.placeholder}}
                autocomplete="nope"
-               value="{{this.userAnswer}}"
                data-uid="qroc-proposal-uid"
-               disabled={{if @answer true}}>
+               disabled={{@answer}} />
       {{else}}
-        <input class="challenge-response__proposal"
+        <Input id="qroc_input"
+               @type="text"
+               @value="{{this.userAnswer}}"
+               class="challenge-response__proposal"
                size="{{get-qroc-input-size @format}}"
-               type="text"
-               id="qroc_input"
-               {{on 'keydown' this.onInputChange}}
+               {{on 'keyup' this.onInputChange}}
                name={{block.randomName}}
                placeholder={{block.placeholder}}
                autocomplete="nope"
-               value="{{this.userAnswer}}"
                data-uid="qroc-proposal-uid"
-               disabled={{if @answer true}}>
+               disabled={{@answer}} />
       {{/if}}
     {{/if}}
 
