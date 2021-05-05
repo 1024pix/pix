@@ -1,6 +1,7 @@
 'use strict';
 require('dotenv').config();
 const fs = require('fs');
+const { find } = require('lodash');
 const smartRandom = require('../../api/lib/domain/services/smart-random/smart-random');
 const dataFetcher = require('../../api/lib/domain/services/smart-random/data-fetcher');
 const challengeRepository = require('../../api/lib/infrastructure/repositories/challenge-repository');
@@ -24,7 +25,7 @@ function _read(path) {
   return [];
 }
 
-function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId, userResult }) {
+function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId, userResult, userKE }) {
 
   let result;
   const isFirstAnswer = !allAnswers.length;
@@ -44,6 +45,12 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
     case 'firstKOthenOK':
       isFirstAnswer ? result = AnswerStatus.KO : result = AnswerStatus.OK;
       break;
+    case 'KE': {
+      const ke = find(userKE, (ke) => challenge.skills.includes(ke.skillId));
+      const status = ke ? ke.status : KnowledgeElement.StatusType.INVALIDATED;
+      result = status === KnowledgeElement.StatusType.VALIDATED ? AnswerStatus.OK : AnswerStatus.KO;
+      break;
+    }
     default:
       result = AnswerStatus.OK;
   }
