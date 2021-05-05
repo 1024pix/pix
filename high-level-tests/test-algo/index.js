@@ -27,6 +27,10 @@ async function index() {
       choices: ['ok', 'ko', 'random', 'firstOKthenKO', 'firstKOthenOK'],
       default: 'ok',
     })
+    .option('userKEFile', {
+      type: 'string',
+      description: 'Localisation du fichier',
+    })
     .check((argv) => {
       return Boolean(argv.competenceId || argv.targetProfileId);
     })
