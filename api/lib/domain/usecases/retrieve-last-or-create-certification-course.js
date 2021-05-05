@@ -11,13 +11,13 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   sessionId,
   userId,
   assessmentRepository,
-  badgeAcquisitionRepository,
   competenceRepository,
   certificationCandidateRepository,
   certificationCourseRepository,
   sessionRepository,
   certificationChallengesService,
   placementProfileService,
+  certificationBadgesService,
 }) {
   const session = await sessionRepository.get(sessionId);
   if (session.accessCode !== accessCode) {
@@ -41,11 +41,11 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     sessionId,
     userId,
     assessmentRepository,
-    badgeAcquisitionRepository,
     competenceRepository,
     certificationCandidateRepository,
     certificationCourseRepository,
     certificationChallengesService,
+    certificationBadgesService,
     placementProfileService,
   });
 };
@@ -55,11 +55,11 @@ async function _startNewCertification({
   sessionId,
   userId,
   assessmentRepository,
-  badgeAcquisitionRepository,
   certificationCandidateRepository,
   certificationCourseRepository,
   certificationChallengesService,
   placementProfileService,
+  certificationBadgesService,
 }) {
   const challengesForPixCertification = await _createPixCertification(placementProfileService, certificationChallengesService, userId);
 
@@ -73,7 +73,7 @@ async function _startNewCertification({
     };
   }
 
-  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({ userId, badgeAcquisitionRepository, certificationChallengesService, domainTransaction });
+  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({ userId, certificationBadgesService, certificationChallengesService, domainTransaction });
   const challengesForCertification = challengesForPixCertification.concat(challengesForPixPlusCertification);
 
   return _createCertificationCourse({
@@ -87,9 +87,8 @@ async function _startNewCertification({
   });
 }
 
-async function _findChallengesFromPixPlus({ userId, badgeAcquisitionRepository, certificationChallengesService, domainTransaction }) {
-  const certifiableBadgeAcquisitions = await badgeAcquisitionRepository.findCertifiable({ userId, domainTransaction });
-  const highestCertifiableBadgeAcquisitions = _keepHighestBadgeWithinPlusCertifications(certifiableBadgeAcquisitions);
+async function _findChallengesFromPixPlus({ userId, domainTransaction, certificationBadgesService, certificationChallengesService }) {
+  const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({ userId, domainTransaction });
   const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(highestCertifiableBadgeAcquisitions,
     ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId));
   return _.flatMap(challengesPixPlusByCertifiableBadges);
@@ -132,26 +131,4 @@ async function _createCertificationCourse({ certificationCandidateRepository, ce
     created: true,
     certificationCourse: savedCertificationCourse,
   };
-}
-
-function _keepHighestBadgeWithinPlusCertifications(certifiableBadgeAcquisitions) {
-  return _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions);
-}
-
-const pixDroitMaitre = 'PIX_DROIT_MAITRE_CERTIF';
-const pixDroitExpert = 'PIX_DROIT_EXPERT_CERTIF';
-
-function _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions) {
-  const [pixDroitBadgeAcquisitions, nonPixDroitBadgeAcquisitions] = _.partition(certifiableBadgeAcquisitions, _isPixDroit);
-  if (pixDroitBadgeAcquisitions.length === 0) return nonPixDroitBadgeAcquisitions;
-  const expertBadgeAcquisition = _.find(certifiableBadgeAcquisitions, { badgeKey: pixDroitExpert });
-  const maitreBadgeAcquisition = _.find(certifiableBadgeAcquisitions, { badgeKey: pixDroitMaitre });
-  return [
-    ...nonPixDroitBadgeAcquisitions,
-    expertBadgeAcquisition || maitreBadgeAcquisition,
-  ];
-}
-
-function _isPixDroit(badgeAcquisition) {
-  return [pixDroitMaitre, pixDroitExpert].includes(badgeAcquisition.badgeKey);
 }

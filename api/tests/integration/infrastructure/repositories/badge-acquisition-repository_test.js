@@ -105,28 +105,50 @@ describe('Integration | Repository | Badge Acquisition', () => {
   });
 
   describe('#findCertifiable', () => {
-    let badgeCertifiable1, badgeNonCertifiable, user, userWithoutBadge;
+    let badgeCertifiable, badgeNonCertifiable, badgePartnerCompetence, badgePartnerCriterion, user, userWithoutBadge;
     beforeEach(async () => {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      badgeCertifiable1 = databaseBuilder.factory.buildBadge({ key: 'key1', targetProfileId: targetProfile.id, isCertifiable: true });
+      badgeCertifiable = databaseBuilder.factory.buildBadge({ key: 'key1', targetProfileId: targetProfile.id, isCertifiable: true });
       databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id, isCertifiable: true });
       badgeNonCertifiable = databaseBuilder.factory.buildBadge({ key: 'key2', targetProfileId: targetProfile.id, isCertifiable: false });
       user = databaseBuilder.factory.buildUser();
       userWithoutBadge = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeCertifiable1.id, userId: user.id });
+      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeCertifiable.id, userId: user.id });
       databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeNonCertifiable.id, userId: user.id });
+      badgePartnerCompetence = databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: badgeCertifiable.id });
+      badgePartnerCriterion = databaseBuilder.factory.buildBadgeCriterion({ badgeId: badgeCertifiable.id });
       await databaseBuilder.commit();
     });
 
-    it('should return badges certifiables acquired by users', async () => {
+    it('should return certifiable badges acquired by the user', async () => {
       // when
       const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findCertifiable({
         userId: user.id,
       });
 
       // then
+      const expectedBadgePartnerCompetences = [
+        {
+          id: badgePartnerCompetence.id,
+          name: badgePartnerCompetence.name,
+          color: badgePartnerCompetence.color,
+          skillIds: badgePartnerCompetence.skillIds,
+        },
+      ];
+
+      const expectedBadgeCriteria = [
+        {
+          id: badgePartnerCriterion.id,
+          scope: badgePartnerCriterion.scope,
+          threshold: badgePartnerCriterion.threshold,
+          partnerCompetenceIds: badgePartnerCriterion.partnerCompetenceIds,
+        },
+      ];
+
       expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
-      expect(certifiableBadgesAcquiredByUser[0].badge).to.includes(badgeCertifiable1);
+      expect(certifiableBadgesAcquiredByUser[0].badge).to.includes(badgeCertifiable);
+      expect(certifiableBadgesAcquiredByUser[0].badge.badgePartnerCompetences).to.deep.equal(expectedBadgePartnerCompetences);
+      expect(certifiableBadgesAcquiredByUser[0].badge.badgeCriteria).to.deep.equal(expectedBadgeCriteria);
     });
 
     it('should return an empty array when user has no certifiable acquired badge', async () => {
