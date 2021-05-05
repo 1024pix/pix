@@ -29,6 +29,10 @@ function _getDate(dateAsString) {
   return dateAsMoment.toDate();
 }
 
+function _removeTrailingSlashFromUrl(url) {
+  return url.replace(/\/$/, '');
+}
+
 module.exports = (function() {
 
   const config = {
@@ -51,7 +55,7 @@ module.exports = (function() {
     },
 
     lcms: {
-      url: process.env.CYPRESS_LCMS_API_URL || process.env.LCMS_API_URL,
+      url: _removeTrailingSlashFromUrl(process.env.CYPRESS_LCMS_API_URL || process.env.LCMS_API_URL),
       apiKey: process.env.CYPRESS_LCMS_API_KEY || process.env.LCMS_API_KEY,
     },
 
