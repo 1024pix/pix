@@ -45,6 +45,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
           { value: 'error', label: 'En erreur' },
           { value: 'validated', label: 'Validée' },
           { value: 'rejected', label: 'Rejetée' },
+          { value: 'cancelled', label: 'Annulée' },
         ];
 
         // when
@@ -52,7 +53,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
 
         // then
         const elementOptions = this.element.querySelectorAll('.certification-status-select__select > option');
-        assert.equal(elementOptions.length, 4);
+        assert.equal(elementOptions.length, 5);
         elementOptions.forEach((elementOption, index) => {
           const expectedOption = expectedOptions[index];
           assert.dom(elementOption).hasText(expectedOption.label);
