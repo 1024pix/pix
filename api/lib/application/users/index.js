@@ -23,7 +23,11 @@ exports.register = async function(server) {
               attributes: Joi.object().required(),
               relationships: Joi.object(),
             }).required(),
+            meta: Joi.object(),
           }).required(),
+          options: {
+            allowUnknown: true,
+          },
         },
         handler: userController.save,
         tags: ['api'],
