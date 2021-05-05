@@ -186,6 +186,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'tested-skills-count': 5,
             'validated-skills-count': 3,
             'is-completed': true,
+            'is-shared': true,
             'stage-count': 2,
             'can-retry': false,
           },

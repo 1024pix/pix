@@ -16,7 +16,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
       domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: KnowledgeElement.StatusType.INVALIDATED }),
       domainBuilder.buildKnowledgeElement({ skillId: 'skill4', status: KnowledgeElement.StatusType.VALIDATED }),
     ];
-    const participationResults = { campaignParticipationId: 12, isCompleted: true, knowledgeElements, acquiredBadgeIds: [] };
+    const participationResults = { campaignParticipationId: 12, isCompleted: true, knowledgeElements, acquiredBadgeIds: [], sharedAt: new Date() };
 
     const targetProfile = { competences, stages: [], badges: [] };
 
@@ -28,6 +28,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
       testedSkillsCount: 3,
       validatedSkillsCount: 2,
       isCompleted: true,
+      isShared: true,
     });
   });
 
