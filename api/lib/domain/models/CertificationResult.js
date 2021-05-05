@@ -94,3 +94,4 @@ function _getStatus(lastAssessmentResult, isCourseCancelled) {
 }
 
 module.exports = CertificationResult;
+CertificationResult.status = status;

@@ -130,6 +130,65 @@ describe('Unit | Domain | Models | CertificationResult', () => {
       expect(certificationResult).to.deep.equal(expectedCertificationResult);
 
     });
+
+    it('should construct a certification result with a cancelled status', () => {
+      // given
+      const certificationIssueReports = [Symbol('a')];
+      const expectedCertificationResult = {
+        id: '123',
+        lastName: 'Wayne',
+        firstName: 'Malik',
+        birthplace: 'Perpignan',
+        birthdate: '2000-08-30',
+        externalId: 'externalId',
+        completedAt: new Date('2020-05-05'),
+        createdAt: new Date('2020-01-01'),
+        isPublished: true,
+        isV2Certification: true,
+        cleaCertificationResult: { status: 'not_taken' },
+        pixPlusDroitMaitreCertificationResult: { status: 'not_taken' },
+        pixPlusDroitExpertCertificationResult: { status: 'not_taken' },
+        certificationIssueReports,
+        hasSeenEndTestScreen: true,
+        sessionId,
+        assessmentId,
+        resultCreatedAt: undefined,
+        pixScore: undefined,
+        status: CertificationResult.status.CANCELLED,
+        emitter: undefined,
+        commentForCandidate: undefined,
+        commentForJury: undefined,
+        commentForOrganization: undefined,
+        competencesWithMark: [],
+        juryId: undefined,
+      };
+
+      // when
+      const certificationResult = new CertificationResult({
+        id: '123',
+        lastAssessmentResult: undefined,
+        certificationIssueReports,
+        firstName: 'Malik',
+        lastName: 'Wayne',
+        birthplace: 'Perpignan',
+        birthdate: '2000-08-30',
+        externalId: 'externalId',
+        createdAt: new Date('2020-01-01'),
+        completedAt: new Date('2020-05-05'),
+        isPublished: true,
+        isV2Certification: true,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
+        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
+        hasSeenEndTestScreen: true,
+        assessmentId,
+        sessionId,
+        isCourseCancelled: true,
+      });
+
+      // then
+      expect(certificationResult).to.deep.equal(expectedCertificationResult);
+    });
   });
 
   context('#isCancelled', () => {
