@@ -93,6 +93,11 @@ async function _getReferentiel({
         return targetProfile;
       },
     };
+    const campaignParticipationRepositoryStub = {
+      isRetrying: () => {
+        return false;
+      },
+    };
 
     const { targetSkills, challenges } = await dataFetcher.fetchForCampaigns({
       assessment,
@@ -101,6 +106,7 @@ async function _getReferentiel({
       challengeRepository,
       knowledgeElementRepository,
       improvementService,
+      campaignParticipationRepository: campaignParticipationRepositoryStub,
     });
 
     return { targetSkills, challenges };
