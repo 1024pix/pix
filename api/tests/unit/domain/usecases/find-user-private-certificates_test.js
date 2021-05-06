@@ -1,16 +1,16 @@
 const { expect, sinon } = require('../../../test-helper');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
-const findCompletedUserCertifications = require('../../../../lib/domain/usecases/find-completed-user-certifications');
+const findUserPrivateCertificates = require('../../../../lib/domain/usecases/find-user-private-certificates');
 
-describe('Unit | UseCase | find-completed-user-certifications', () => {
+describe('Unit | UseCase | find-user-private-certificates', () => {
 
-  const certificationRepository = {};
+  const privateCertificateRepository = {};
   const cleaCertificationStatusRepository = {};
   const cleaCertificationStatus = 'someStatus';
 
   beforeEach(() => {
-    certificationRepository.findByUserId = sinon.stub();
+    privateCertificateRepository.findByUserId = sinon.stub();
     cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
   });
 
@@ -29,14 +29,14 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
       assessmentState: 'completed',
       assessmentResults: [assessmentResult],
     });
-    certificationRepository.findByUserId.resolves([completedCertificates]);
+    privateCertificateRepository.findByUserId.resolves([completedCertificates]);
 
     // when
-    const promise = findCompletedUserCertifications({ userId, certificationRepository, cleaCertificationStatusRepository });
+    const promise = findUserPrivateCertificates({ userId, privateCertificateRepository, cleaCertificationStatusRepository });
 
     // then
     return promise.then((certifications) => {
-      expect(certificationRepository.findByUserId).to.have.been.calledWith(userId);
+      expect(privateCertificateRepository.findByUserId).to.have.been.calledWith({ userId });
       expect(certifications).to.have.lengthOf(1);
       expect(certifications[0].id).to.equal(1000);
       expect(certifications[0].cleaCertificationStatus).to.equal(cleaCertificationStatus);

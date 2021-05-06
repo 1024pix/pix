@@ -1,8 +1,11 @@
+const { status: assessmentResultStatuses } = require('./AssessmentResult');
+
 const status = {
   REJECTED: 'rejected',
   VALIDATED: 'validated',
   ERROR: 'error',
   CANCELLED: 'cancelled',
+  STARTED: 'started',
 };
 
 class PrivateCertificate {
@@ -43,6 +46,56 @@ class PrivateCertificate {
     this.verificationCode = verificationCode;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
   }
+
+  static buildFrom({
+    id,
+    firstName,
+    lastName,
+    birthdate,
+    birthplace,
+    isPublished,
+    userId,
+    date,
+    deliveredAt,
+    certificationCenter,
+    pixScore,
+    commentForCandidate,
+    cleaCertificationStatus,
+    resultCompetenceTree = null,
+    verificationCode,
+    maxReachableLevelOnCertificationDate,
+    assessmentResultStatus,
+    isCancelled,
+  }) {
+    const status = _computeStatus(assessmentResultStatus, isCancelled);
+    return new PrivateCertificate({
+      id,
+      firstName,
+      lastName,
+      birthdate,
+      birthplace,
+      isPublished,
+      userId,
+      date,
+      deliveredAt,
+      certificationCenter,
+      pixScore,
+      commentForCandidate,
+      cleaCertificationStatus,
+      resultCompetenceTree,
+      verificationCode,
+      maxReachableLevelOnCertificationDate,
+      status,
+    });
+  }
+}
+
+function _computeStatus(assessmentResultStatus, isCancelled) {
+  if (isCancelled) return status.CANCELLED;
+  if (assessmentResultStatus === assessmentResultStatuses.VALIDATED) return status.VALIDATED;
+  if (assessmentResultStatus === assessmentResultStatuses.REJECTED) return status.REJECTED;
+  if (assessmentResultStatus === assessmentResultStatuses.ERROR) return status.ERROR;
+  return status.STARTED;
 }
 
 PrivateCertificate.status = status;
