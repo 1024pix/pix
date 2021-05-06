@@ -10,7 +10,6 @@ class CertificationResultInformation {
     createdAt,
     completedAt,
     isPublished,
-    isV2Certification,
     cleaCertificationResult,
     pixPlusDroitMaitreCertificationResult,
     pixPlusDroitExpertCertificationResult,
@@ -33,7 +32,6 @@ class CertificationResultInformation {
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.isPublished = isPublished;
-    this.isV2Certification = isV2Certification;
     this.cleaCertificationResult = cleaCertificationResult;
     this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
     this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
@@ -65,7 +63,6 @@ class CertificationResultInformation {
       createdAt: generalCertificationInformation.createdAt,
       completedAt: generalCertificationInformation.completedAt,
       isPublished: generalCertificationInformation.isPublished,
-      isV2Certification: generalCertificationInformation.isV2Certification,
       cleaCertificationResult,
       pixPlusDroitMaitreCertificationResult,
       pixPlusDroitExpertCertificationResult,

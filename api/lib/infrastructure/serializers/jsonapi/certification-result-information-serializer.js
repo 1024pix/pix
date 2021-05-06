@@ -20,7 +20,6 @@ module.exports = {
         'createdAt',
         'completedAt',
         'isPublished',
-        'isV2Certification',
         'cleaCertificationStatus',
         'pixPlusDroitMaitreCertificationStatus',
         'pixPlusDroitExpertCertificationStatus',

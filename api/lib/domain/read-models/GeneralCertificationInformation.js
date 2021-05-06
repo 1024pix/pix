@@ -6,7 +6,6 @@ class GeneralCertificationInformation {
     createdAt,
     completedAt,
     isPublished,
-    isV2Certification,
     isCancelled,
 
     firstName,
@@ -23,7 +22,6 @@ class GeneralCertificationInformation {
     this.completedAt = completedAt;
     this.isPublished = isPublished;
     this.isCancelled = isCancelled;
-    this.isV2Certification = isV2Certification;
 
     this.firstName = firstName;
     this.lastName = lastName;

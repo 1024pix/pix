@@ -24,7 +24,6 @@ describe('Integration | Repository | Certification Course', function() {
           completedAt: new Date('2020-02-20T00:00:00Z'),
           createdAt: new Date('2020-01-20T00:00:00Z'),
           hasSeenEndTestScreen: false,
-          isV2Certification: true,
         };
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse(certificationCourseDTO).id;
 
@@ -48,7 +47,6 @@ describe('Integration | Repository | Certification Course', function() {
           createdAt: certificationCourseDTO.createdAt,
           completedAt: certificationCourseDTO.completedAt,
           isPublished: certificationCourseDTO.isPublished,
-          isV2Certification: certificationCourseDTO.isV2Certification,
           isCancelled: certificationCourseDTO.isCancelled,
           firstName: certificationCourseDTO.firstName,
           lastName: certificationCourseDTO.lastName,
