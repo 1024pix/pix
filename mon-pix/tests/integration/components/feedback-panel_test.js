@@ -18,6 +18,8 @@ const BUTTON_SEND = '.feedback-panel__button--send';
 
 const TEXTAREA = 'textarea.feedback-panel__field--content';
 const DROPDOWN = '.feedback-panel__dropdown';
+const CATEGORY_DROPDOWN = 'select[data-test-feedback-category-dropdown]';
+const SUBCATEGORY_DROPDOWN = 'select[data-test-feedback-subcategory-dropdown]';
 const TUTORIAL_AREA = '.feedback-panel__quick-help';
 
 const PICK_SELECT_OPTION_WITH_NESTED_LEVEL = 'question';
@@ -79,7 +81,7 @@ describe('Integration | Component | feedback-panel', function() {
     context('when selecting a category', function() {
       it('should display a second dropdown with the list of questions when category have a nested level', async function() {
         // when
-        await fillIn('.feedback-panel__dropdown', PICK_SELECT_OPTION_WITH_NESTED_LEVEL);
+        await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_NESTED_LEVEL);
 
         // then
         expect(findAll(DROPDOWN).length).to.equal(2);
@@ -89,16 +91,17 @@ describe('Integration | Component | feedback-panel', function() {
 
       it('should directly display the message box and the submit button when category has a textarea', async function() {
         // when
-        await fillIn('.feedback-panel__dropdown', PICK_SELECT_OPTION_WITH_TEXTAREA);
+        await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
         // then
         expect(findAll(DROPDOWN).length).to.equal(1);
+        expect(find(TEXTAREA)).to.exist;
         expect(findAll(BUTTON_SEND).length).to.equal(1);
       });
 
-      it('should directly display the tuto without the textbox nor the send button when category has a tutorial', async function() {
+      it('should directly display the tuto without the textbox or the send button when category has a tutorial', async function() {
         // when
-        await fillIn('.feedback-panel__dropdown', PICK_SELECT_OPTION_WITH_TUTORIAL);
+        await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TUTORIAL);
 
         // then
         expect(findAll(DROPDOWN).length).to.equal(2);
@@ -108,8 +111,8 @@ describe('Integration | Component | feedback-panel', function() {
 
       it('should show the correct feedback action when selecting two different categories', async function() {
         // when
-        await fillIn('.feedback-panel__dropdown', PICK_SELECT_OPTION_WITH_TUTORIAL);
-        await fillIn('.feedback-panel__dropdown', PICK_SELECT_OPTION_WITH_TEXTAREA);
+        await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TUTORIAL);
+        await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
         // then
         expect(findAll(DROPDOWN).length).to.equal(1);
@@ -120,8 +123,8 @@ describe('Integration | Component | feedback-panel', function() {
 
       it('should hide the second dropdown when category has fewer levels after a deeper category', async function() {
         // when
-        await fillIn('.feedback-panel__dropdown', PICK_SELECT_OPTION_WITH_NESTED_LEVEL);
-        await fillIn('.feedback-panel__dropdown', PICK_SELECT_OPTION_WITH_TEXTAREA);
+        await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_NESTED_LEVEL);
+        await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
         // then
         expect(findAll(DROPDOWN).length).to.equal(1);
@@ -132,11 +135,9 @@ describe('Integration | Component | feedback-panel', function() {
 
       it('should display tutorial with textarea with selecting related category and subcategory', async function() {
         // when
-        const categoryDropdown = find('select[data-test-feedback-category-dropdown]');
-        await fillIn(categoryDropdown, PICK_ANOTHER_SELECT_OPTION_WITH_NESTED_LEVEL);
+        await fillIn(CATEGORY_DROPDOWN, PICK_ANOTHER_SELECT_OPTION_WITH_NESTED_LEVEL);
 
-        const subcategoryDropdown = find('select[data-test-feedback-subcategory-dropdown]');
-        await fillIn(subcategoryDropdown, PICK_SELECT_OPTION_WITH_TEXTAREA_AND_TUTORIAL);
+        await fillIn(SUBCATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA_AND_TUTORIAL);
 
         // then
         expect(findAll(DROPDOWN).length).to.equal(2);
@@ -254,7 +255,7 @@ describe('Integration | Component | feedback-panel', function() {
 
     it('should display error if "content" is empty', async function() {
       // given
-      await fillIn('.feedback-panel__dropdown', PICK_SELECT_OPTION_WITH_TEXTAREA);
+      await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
       // when
       await click(BUTTON_SEND);
