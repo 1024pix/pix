@@ -2,6 +2,7 @@ const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../t
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const privateCertificateRepository = require('../../../../lib/infrastructure/repositories/private-certificate-repository');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
+const { badgeKey: cleaBadgeKey } = require('../../../../lib/domain/models/CleaCertificationResult');
 
 describe('Integration | Infrastructure | Repository | Private Certificate', () => {
 
@@ -33,7 +34,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
         commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
-        cleaCertificationStatus: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({
@@ -92,7 +93,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
         commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
-        cleaCertificationStatus: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({
@@ -158,7 +159,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: null,
         commentForCandidate: null,
-        cleaCertificationStatus: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({
@@ -194,6 +195,62 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expectedPrivateCertificate.commentForCandidate = null;
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
+
+    it('should get the clea certification result if taken', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'ABCDE-F',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: null,
+        commentForCandidate: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+      };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        publishedAt: privateCertificateData.deliveredAt,
+        certificationCenter: privateCertificateData.certificationCenter,
+        certificationCenterId,
+      }).id;
+      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: privateCertificateData.firstName,
+        lastName: privateCertificateData.lastName,
+        birthdate: privateCertificateData.birthdate,
+        birthplace: privateCertificateData.birthplace,
+        isPublished: privateCertificateData.isPublished,
+        isCancelled: false,
+        createdAt: privateCertificateData.date,
+        verificationCode: privateCertificateData.verificationCode,
+        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+        sessionId,
+        userId,
+      }).id;
+      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+      databaseBuilder.factory.buildBadge({ key: cleaBadgeKey });
+      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: cleaBadgeKey, acquired: true });
+      await databaseBuilder.commit();
+
+      // when
+      const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+      // then
+      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+        id: certificateId,
+        ...privateCertificateData,
+      });
+      expectedPrivateCertificate.pixScore = null;
+      expectedPrivateCertificate.commentForCandidate = null;
+      expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+    });
   });
 
   describe('#findByUserId', () => {
@@ -215,7 +272,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
         commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
-        cleaCertificationStatus: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({
@@ -311,7 +368,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
         commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
-        cleaCertificationStatus: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({
@@ -377,7 +434,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: null,
         commentForCandidate: null,
-        cleaCertificationStatus: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({
@@ -399,6 +456,62 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         userId,
       }).id;
       databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+      await databaseBuilder.commit();
+
+      // when
+      const privateCertificates = await privateCertificateRepository.findByUserId({ userId });
+
+      // then
+      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+        id: certificateId,
+        ...privateCertificateData,
+      });
+      expectedPrivateCertificate.pixScore = null;
+      expectedPrivateCertificate.commentForCandidate = null;
+      expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
+    });
+
+    it('should get the clea certification result if taken', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'ABCDE-F',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: null,
+        commentForCandidate: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+      };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        publishedAt: privateCertificateData.deliveredAt,
+        certificationCenter: privateCertificateData.certificationCenter,
+        certificationCenterId,
+      }).id;
+      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: privateCertificateData.firstName,
+        lastName: privateCertificateData.lastName,
+        birthdate: privateCertificateData.birthdate,
+        birthplace: privateCertificateData.birthplace,
+        isPublished: privateCertificateData.isPublished,
+        isCancelled: false,
+        createdAt: privateCertificateData.date,
+        verificationCode: privateCertificateData.verificationCode,
+        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+        sessionId,
+        userId,
+      }).id;
+      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+      databaseBuilder.factory.buildBadge({ key: cleaBadgeKey });
+      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: cleaBadgeKey, acquired: true });
       await databaseBuilder.commit();
 
       // when
