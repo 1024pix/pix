@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { InvalidCertificationIssueReportForSaving } = require('../errors');
+const { InvalidCertificationIssueReportForSaving, DeprecatedCertificationIssueReportSubcategory } = require('../errors');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('./CertificationIssueReportCategory');
 
 const categoryOtherJoiSchema = Joi.object({
@@ -92,6 +92,11 @@ const subcategoryCodeRequiredAction = {
   [CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'E9',
 };
 
+const deprecatedSubcategories = {
+  [CertificationIssueReportSubcategories.LINK_NOT_WORKING]: 'E6',
+  [CertificationIssueReportSubcategories.OTHER]: 'E7',
+};
+
 class CertificationIssueReport {
   constructor(
     {
@@ -148,9 +153,14 @@ class CertificationIssueReport {
     if (!schemaToUse) {
       throw new InvalidCertificationIssueReportForSaving(`Unknown category : ${this.category}`);
     }
+
     const { error } = schemaToUse.validate(this, { allowUnknown: true });
     if (error) {
       throw new InvalidCertificationIssueReportForSaving(error);
+    }
+
+    if (_isSubcategoryDeprecated(this.subcategory)) {
+      throw new DeprecatedCertificationIssueReportSubcategory();
     }
   }
 }
@@ -159,4 +169,8 @@ module.exports = CertificationIssueReport;
 
 function _isActionRequired({ category, subcategory }) {
   return Boolean(subcategoryCodeRequiredAction[subcategory] || categoryCodeWithRequiredAction[category]);
+}
+
+function _isSubcategoryDeprecated(subcategory) {
+  return Boolean(deprecatedSubcategories[subcategory]);
 }

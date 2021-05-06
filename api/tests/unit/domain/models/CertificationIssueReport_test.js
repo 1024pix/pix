@@ -1,6 +1,6 @@
 const { expect } = require('../../../test-helper');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const { CertificationIssueReportCategories, CertificationIssueReportSubcategories, DeprecatedCertificationIssueReportCategory } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const { InvalidCertificationIssueReportForSaving } = require('../../../../lib/domain/errors');
 
 const MISSING_VALUE = null;
@@ -191,12 +191,10 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       [...Object.values(CertificationIssueReportSubcategories)].forEach((subcategory) => {
         if ([
           CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
-          CertificationIssueReportSubcategories.LINK_NOT_WORKING,
           CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
           CertificationIssueReportSubcategories.FILE_NOT_OPENING,
           CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
           CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
-          CertificationIssueReportSubcategories.OTHER,
           CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
           CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
         ].includes(subcategory)) {
@@ -205,7 +203,26 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
             expect(CertificationIssueReport.new({ ...certificationIssueReportDTO, subcategory, description: subcategory === CertificationIssueReportSubcategories.OTHER ? 'salut' : null }))
               .to.be.an.instanceOf(CertificationIssueReport);
           });
-        } else {
+        }
+
+        else if ([
+          CertificationIssueReportSubcategories.LINK_NOT_WORKING,
+          CertificationIssueReportSubcategories.OTHER,
+        ].includes(subcategory)) {
+          it(`should throw a deprecated error when using subcategory ${subcategory}`, () => {
+            // when
+            const createIssueReport = () => CertificationIssueReport.new({
+              ...certificationIssueReportDTO,
+              category: CertificationIssueReportCategories.IN_CHALLENGE,
+              subcategory: CertificationIssueReportSubcategories.LINK_NOT_WORKING,
+            });
+
+            // then
+            expect(createIssueReport).to.throw(DeprecatedCertificationIssueReportCategory);
+          });
+        }
+
+        else {
           it(`should throw an InvalidCertificationIssueReportForSaving when subcategory is ${subcategory}`, () => {
             // when
             expect(() => CertificationIssueReport.new({ ...certificationIssueReportDTO, subcategory }))
@@ -295,7 +312,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'WEBSITE_BLOCKED', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'WEBSITE_UNAVAILABLE', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'FILE_NOT_OPENING', questionNumber: 42 },
-        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'OTHER', description: 'toto', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'LINK_NOT_WORKING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'IMAGE_NOT_DISPLAYING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'EMBED_NOT_WORKING', questionNumber: 42 },
