@@ -19,7 +19,7 @@ module.exports = {
     try {
       userAttributes = await saml.parsePostResponse(request.payload);
     } catch (e) {
-      logger.error(e);
+      logger.error({ e }, 'SAML: Error while parsing post response');
       return h.response(e.toString()).code(400);
     }
 
@@ -28,7 +28,7 @@ module.exports = {
 
       return h.redirect(redirectionUrl);
     } catch (e) {
-      logger.error(e);
+      logger.error({ e }, 'SAML: Error while get external authentication redirection url');
       return h.response(e.toString()).code(500);
     }
   },
