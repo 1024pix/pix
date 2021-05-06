@@ -1,5 +1,8 @@
 # Pix Changelog
 
+## v3.52.3 (06/05/2021)
+
+
 ## v3.52.2 (06/05/2021)
 
 - [#2960](https://github.com/1024pix/pix/pull/2960) Mise à jour du changelog du hotfix 3.52.1
