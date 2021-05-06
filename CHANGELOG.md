@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v3.52.2 (06/05/2021)
+
+- [#2960](https://github.com/1024pix/pix/pull/2960) Mise à jour du changelog du hotfix 3.52.1
+
 ## v3.52.1 (05/05/2021)
 - [#2958](https://github.com/1024pix/pix/pull/2958) [BUGFIX] Ne pas lancer d'erreur lors d'un payload avec plus de meta que prévu par notre validation (PIX-2555).
 
