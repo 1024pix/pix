@@ -88,6 +88,10 @@ class PrivateCertificate {
       status,
     });
   }
+
+  setResultCompetenceTree(resultCompetenceTree) {
+    this.resultCompetenceTree = resultCompetenceTree;
+  }
 }
 
 function _computeStatus(assessmentResultStatus, isCancelled) {

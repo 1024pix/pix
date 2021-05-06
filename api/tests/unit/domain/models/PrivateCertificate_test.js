@@ -75,4 +75,19 @@ describe('Unit | Domain | Models | PrivateCertificate', () => {
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
   });
+
+  context('#setResultCompetenceTree', () => {
+
+    it('should set the resultCompetenceTree on PrivateCertificate model', () => {
+      // given
+      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({ id: 'someId' });
+      const privateCertificate = domainBuilder.buildPrivateCertificate();
+
+      // when
+      privateCertificate.setResultCompetenceTree(resultCompetenceTree);
+
+      // expect
+      expect(privateCertificate.resultCompetenceTree).to.deep.equal(resultCompetenceTree);
+    });
+  });
 });
