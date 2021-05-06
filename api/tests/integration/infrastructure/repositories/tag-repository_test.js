@@ -91,6 +91,7 @@ describe('Integration | Repository | TagRepository', () => {
 
       // then
       expect(result).to.be.deep.equal(expectedResult);
+      expect(result[0]).to.be.instanceOf(Tag);
     });
   });
 
