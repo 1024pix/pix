@@ -1,5 +1,5 @@
 'use strict';
-
+const bluebird = require('bluebird');
 const DatabaseBuilder = require('../database-builder/database-builder');
 
 const answersBuilder = require('./data/answers-builder');
@@ -85,14 +85,10 @@ exports.seed = async (knex) => {
  * Making the sequences start at an arbitrary high number prevents the problem from happening for a time.
  * (time being enough for dev ou review apps - seed are not run on staging or prod)
  */
-function alterSequenceIfPG(knex) {
-  return knex.raw('SELECT sequence_name FROM information_schema.sequences;')
-    .then((sequenceNameQueryResult) => {
-      const sequenceNames = sequenceNameQueryResult.rows.map((row) => row.sequence_name);
-
-      const sequenceUpdatePromises = sequenceNames.map((sequenceName) => {
-        return knex.raw(`ALTER SEQUENCE "${sequenceName}" RESTART WITH ${SEQUENCE_RESTART_AT_NUMBER};`);
-      });
-      return Promise.all(sequenceUpdatePromises);
-    });
+async function alterSequenceIfPG(knex) {
+  const sequenceNameQueryResult = await knex.raw('SELECT sequence_name FROM information_schema.sequences;');
+  const sequenceNames = sequenceNameQueryResult.rows.map((row) => row.sequence_name);
+  return bluebird.mapSeries(sequenceNames, async (sequenceName) => {
+    await knex.raw(`ALTER SEQUENCE "${sequenceName}" RESTART WITH ${SEQUENCE_RESTART_AT_NUMBER};`);
+  });
 }
