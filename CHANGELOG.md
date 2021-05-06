@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.53.0 (06/05/2021)
+
+- [#2963](https://github.com/1024pix/pix/pull/2963) [TECH] Empêcher les rôles dupliqués.
+- [#2939](https://github.com/1024pix/pix/pull/2939) [TECH] Refacto technique préalable avant affichage des macarons sur le certificat utilisateur (PIX-2543)
+- [#2962](https://github.com/1024pix/pix/pull/2962) [TECH] Supprimer le rôle jamais utilisé PIX-READER.
+
 ## v3.52.4 (06/05/2021)
 
 
