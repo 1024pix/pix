@@ -1,5 +1,8 @@
 # Pix Changelog
 
+## v2.87.1 (06/05/2021)
+
+
 ## v2.87.0 (21/11/2019)
 
 - [#848](https://github.com/1024pix/pix/pull/848) [FEATURE] Modification de certains textes dans la page de lancement de test de certification (PF-928).
