@@ -16,8 +16,9 @@ module.exports = {
     const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
       competenceTree,
       competenceMarks,
+      certificationId,
+      assessmentResultId,
     });
-    resultCompetenceTree.id = `${certificationId}-${assessmentResultId}`;
 
     return {
       ...toBeDecorated,
