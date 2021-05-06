@@ -119,35 +119,6 @@ module('Unit | Model | certification', function(hooks) {
     });
   });
 
-  module('#isV2CertificationText', function() {
-
-    test('it should return "oui" when isV2Certification is true', function(assert) {
-      // given
-      const certification = run(() => store.createRecord('certification', {
-        isV2Certification: true,
-      }));
-
-      // when
-      const isV2CertificationLabel = certification.isV2CertificationText;
-
-      // then
-      assert.equal(isV2CertificationLabel, 'Oui');
-    });
-
-    test('it should return "non" when isV2Certification is false', function(assert) {
-      // given
-      const certification = run(() => store.createRecord('certification', {
-        isV2Certification: false,
-      }));
-
-      // when
-      const isV2CertificationLabel = certification.isV2CertificationText;
-
-      // then
-      assert.equal(isV2CertificationLabel, 'Non');
-    });
-  });
-
   module('#indexedCompetences', function() {
 
     test('it should return the indexedCompetences from the competencesWithMark', function(assert) {

@@ -42,7 +42,6 @@ export default class Certification extends Model {
   @attr() pixScore;
   @attr() competencesWithMark;
   @attr('boolean', { defaultValue: false }) isPublished;
-  @attr('boolean', { defaultValue: false }) isV2Certification;
   @attr() cleaCertificationStatus;
   @attr() pixPlusDroitMaitreCertificationStatus;
   @attr() pixPlusDroitExpertCertificationStatus;
@@ -67,12 +66,6 @@ export default class Certification extends Model {
   @computed('isPublished')
   get publishedText() {
     const value = this.isPublished;
-    return value ? 'Oui' : 'Non';
-  }
-
-  @computed('isV2Certification')
-  get isV2CertificationText() {
-    const value = this.isV2Certification;
     return value ? 'Oui' : 'Non';
   }
 
