@@ -2,6 +2,8 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import ChallengeItemGeneric from './challenge-item-generic';
 import { inject as service } from '@ember/service';
+import jsyaml from 'js-yaml';
+import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
 export default class ChallengeItemQroc extends ChallengeItemGeneric {
   @service intl;
@@ -9,12 +11,32 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   @tracked autoReplyAnswer = '';
   postMessageHandler = null;
   embedOrigins = ['https://epreuves.pix.fr', 'https://1024pix.github.io'];
+  answersValue = {};
 
   constructor() {
     super(...arguments);
+    this.answersValue = this._extractProposals();
+
+    if (this.args.answer) {
+      this.answersValue = this.args.answer._valuesAsMap;
+    }
+
     if (this.args.challenge.autoReply) {
       this._addEventListener();
     }
+  }
+
+  _extractProposals() {
+    const proposals = proposalsAsBlocks(this.args.challenge.proposals);
+    const inputFieldsNames = {};
+
+    proposals.forEach(({ input }) => {
+      if (input) {
+        inputFieldsNames[input] = '';
+      }
+    });
+
+    return inputFieldsNames;
   }
 
   _hasError() {
@@ -22,7 +44,7 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   _getAnswerValue() {
-    return this.showProposal ? (document.querySelector('[data-uid="qroc-proposal-uid"]')).value : this.autoReplyAnswer;
+    return jsyaml.safeDump(this.answersValue);
   }
 
   _getErrorMessage() {

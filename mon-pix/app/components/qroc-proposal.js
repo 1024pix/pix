@@ -16,11 +16,6 @@ export default class QrocProposal extends Component {
     });
   }
 
-  get userAnswer() {
-    const answer = this.args.answerValue || '';
-    return answer.indexOf('#ABAND#') > -1 ? '' : answer;
-  }
-
   @action
   onInputChange() {
     this.args.answerChanged();

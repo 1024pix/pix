@@ -1,4 +1,5 @@
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import filter from 'lodash/filter';
 import isEmpty from 'lodash/isEmpty';
@@ -10,7 +11,7 @@ import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 export default class ChallengeItemQrocm extends ChallengeItemGeneric {
   @service intl;
 
-  answersValue = {};
+  @tracked answersValue = {};
 
   constructor() {
     super(...arguments);

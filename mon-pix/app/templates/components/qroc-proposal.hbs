@@ -7,18 +7,18 @@
                       class="qrocm-proposal__label" />
     {{/if}}
 
-    {{#if block.text}}
-      <label for="qroc_input">
-        <MarkdownToHtml class="qroc_input-label"
-                        @extensions="remove-paragraph-tags"
-                        @markdown={{block.text}} />
-      </label>
-    {{/if}}
-
     {{#if block.input}}
+      {{#if block.text}}
+        <label for="qroc_input">
+          <MarkdownToHtml class="qroc_input-label"
+                          @extensions="remove-paragraph-tags"
+                          @markdown={{block.text}} />
+        </label>
+      {{/if}}
+
       {{#if (eq @format 'paragraphe')}}
         <Textarea id="qroc_input"
-                  @value="{{this.userAnswer}}"
+                  @value={{mut (get @answersValue block.input)}}
                   class="challenge-response__proposal challenge-response__proposal--paragraph"
                   rows="5"
                   {{on 'keyup' this.onInputChange}}
@@ -31,7 +31,7 @@
       {{else if (eq @format 'phrase')}}
         <Input id="qroc_input"
                @type="text"
-               @value="{{this.userAnswer}}"
+               @value={{mut (get @answersValue block.input)}}
                class="challenge-response__proposal challenge-response__proposal--sentence"
                {{on 'keyup' this.onInputChange}}
                name={{block.randomName}}
@@ -42,7 +42,7 @@
       {{else if (eq @format 'nombre')}}
         <Input id="qroc_input"
                @type="number"
-               @value="{{this.userAnswer}}"
+               @value={{mut (get @answersValue block.input)}}
                class="challenge-response__proposal challenge-response__proposal--number"
                {{on 'keyup' this.onInputChange}}
                name={{block.randomName}}
@@ -53,7 +53,7 @@
       {{else}}
         <Input id="qroc_input"
                @type="text"
-               @value="{{this.userAnswer}}"
+               @value={{mut (get @answersValue block.input)}}
                class="challenge-response__proposal"
                size="{{get-qroc-input-size @format}}"
                {{on 'keyup' this.onInputChange}}
