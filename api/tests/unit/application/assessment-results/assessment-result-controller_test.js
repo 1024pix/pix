@@ -29,16 +29,19 @@ describe('Unit | Controller | assessment-results', () => {
                 score: 18,
                 'area_code': 2,
                 'competence_code': 2.1,
+                'competenceId': 'rec123456',
               }, {
                 level: 3,
                 score: 27,
                 'area_code': 3,
                 'competence_code': 3.2,
+                'competenceId': 'rec159753',
               }, {
                 level: 1,
                 score: 9,
                 'area_code': 1,
                 'competence_code': 1.3,
+                'competenceId': 'rec456789',
               },
             ],
           },
@@ -76,18 +79,21 @@ describe('Unit | Controller | assessment-results', () => {
         score: 18,
         area_code: 2,
         competence_code: 2.1,
+        competenceId: 'rec123456',
       });
       const competenceMark2 = new CompetenceMark({
         level: 3,
         score: 27,
         area_code: 3,
         competence_code: 3.2,
+        competenceId: 'rec159753',
       });
       const competenceMark3 = new CompetenceMark({
         level: 1,
         score: 9,
         area_code: 1,
         competence_code: 1.3,
+        competenceId: 'rec456789',
       });
 
       // when
