@@ -7,14 +7,14 @@ const NOT_PASSED_SCORE = 0;
 class ResultCompetenceTree {
 
   constructor({
-    id = 1,
+    id,
     areas = [],
   } = {}) {
     this.id = id;
     this.areas = areas;
   }
 
-  static generateTreeFromCompetenceMarks({ competenceTree, competenceMarks }) {
+  static generateTreeFromCompetenceMarks({ competenceTree, competenceMarks, certificationId, assessmentResultId }) {
 
     const areasWithResultCompetences = competenceTree.areas.map((area) => {
 
@@ -40,7 +40,10 @@ class ResultCompetenceTree {
       return areaWithResultCompetences;
     });
 
-    return new ResultCompetenceTree({ areas: areasWithResultCompetences });
+    return new ResultCompetenceTree({
+      id: `${certificationId}-${assessmentResultId}`,
+      areas: areasWithResultCompetences,
+    });
   }
 }
 

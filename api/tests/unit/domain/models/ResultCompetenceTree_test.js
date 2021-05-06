@@ -15,7 +15,7 @@ describe('Unit | Domain | Models | ResultCompetence', () => {
       const competenceMarks = [competenceMark1, competenceMark3];
 
       const expectedResultTree = {
-        id: 1,
+        id: '123-456',
         areas: [
           {
             id: 'recvoGdo7z2z7pXWa',
@@ -51,7 +51,12 @@ describe('Unit | Domain | Models | ResultCompetence', () => {
       };
 
       // when
-      const resultTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({ competenceTree, competenceMarks });
+      const resultTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
+        competenceTree,
+        competenceMarks,
+        certificationId: 123,
+        assessmentResultId: 456,
+      });
 
       // then
       expect(resultTree).to.be.an.instanceOf(ResultCompetenceTree);
