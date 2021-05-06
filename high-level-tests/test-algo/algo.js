@@ -46,7 +46,7 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
       isFirstAnswer ? result = AnswerStatus.KO : result = AnswerStatus.OK;
       break;
     case 'KE': {
-      const ke = find(userKE, (ke) => challenge.skills.includes(ke.skillId));
+      const ke = find(userKE, (ke) => find(challenge.skills, (skill) => skill.id === ke.skillId));
       const status = ke ? ke.status : KnowledgeElement.StatusType.INVALIDATED;
       result = status === KnowledgeElement.StatusType.VALIDATED ? AnswerStatus.OK : AnswerStatus.KO;
       break;
@@ -54,7 +54,7 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
     default:
       result = AnswerStatus.OK;
   }
-
+  console.log(`Result : ${result.status}`);
   const newAnswer = new Answer({ challengeId: challenge.id, result });
 
   const _getSkillsFilteredByStatus = (knowledgeElements, targetSkills, status) => {

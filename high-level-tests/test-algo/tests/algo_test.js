@@ -18,6 +18,7 @@ describe('#answerTheChallenge', () => {
     challenge = { id: 'recId' };
     newKe = { id: 'KE-id' };
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer').returns([newKe]);
+    sinon.stub(console, 'log');
   });
 
   afterEach(() => {
@@ -194,7 +195,7 @@ describe('#answerTheChallenge', () => {
     ].forEach((testCase) => {
       it(`should return the list of answers with ${testCase.answerStatus} answers for ${testCase.userKE ? testCase.userKE.status : 'empty' } KE`, () => {
         // given
-        challenge.skills = ['recPgkHUdzk0HPGt1'];
+        challenge.skills = [{ id: 'recPgkHUdzk0HPGt1' }];
 
         // when
         const result = answerTheChallenge({
