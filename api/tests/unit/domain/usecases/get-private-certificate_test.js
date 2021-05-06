@@ -11,9 +11,11 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
   const verificationCode = 'P-XXXXXXXX';
 
   const certificationRepository = {
-    getByCertificationCourseId: () => undefined,
     hasVerificationCode: sinon.stub().resolves(true),
     saveVerificationCode: sinon.stub().resolves(),
+  };
+  const privateCertificateRepository = {
+    get: () => undefined,
   };
   const assessmentResultRepository = {
     findLatestByCertificationCourseIdWithCompetenceMarks: () => undefined,
@@ -31,6 +33,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
 
   const dependencies = {
     certificationRepository,
+    privateCertificateRepository,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
     competenceTreeRepository,
@@ -38,7 +41,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
   };
 
   beforeEach(() => {
-    certificationRepository.getPrivateCertificateByCertificationCourseId = sinon.stub();
+    privateCertificateRepository.get = sinon.stub();
     assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks = sinon.stub();
     competenceTreeRepository.get = sinon.stub();
     cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
@@ -55,7 +58,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
         userId: randomOtherUserId,
         id: certificationId,
       });
-      certificationRepository.getPrivateCertificateByCertificationCourseId.resolves(certificate);
+      privateCertificateRepository.get.resolves(certificate);
     });
 
     it('Should throw an error if user is not the owner of the certificate', async () => {
@@ -80,7 +83,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
         userId,
         id: certificationId,
       });
-      certificationRepository.getPrivateCertificateByCertificationCourseId.resolves(certificate);
+      privateCertificateRepository.get.resolves(certificate);
 
       assessmentResult = domainBuilder.buildAssessmentResult({ id: assessmentResultId });
       assessmentResult.competenceMarks = [domainBuilder.buildCompetenceMark()];
