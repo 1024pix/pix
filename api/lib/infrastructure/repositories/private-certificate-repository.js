@@ -1,6 +1,6 @@
-const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const PrivateCertificate = require('../../domain/models/PrivateCertificate');
+const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 
 module.exports = {
@@ -14,9 +14,11 @@ module.exports = {
       throw new NotFoundError(`Certificate not found for ID ${id}`);
     }
 
+    const cleaCertificationResult = await _getCleaCertificationResult(id);
+
     return PrivateCertificate.buildFrom({
       ...certificationCourseDTO,
-      cleaCertificationStatus: null,
+      cleaCertificationResult,
     });
   },
 
@@ -25,10 +27,16 @@ module.exports = {
       .where('certification-courses.userId', '=', userId)
       .orderBy('certification-courses.createdAt', 'DESC');
 
-    return _.map(results, (result) => PrivateCertificate.buildFrom({
-      ...result,
-      cleaCertificationStatus: null,
-    }));
+    const privateCertificates = [];
+    for (const result of results) {
+      const cleaCertificationResult = await _getCleaCertificationResult(result.id);
+      const privateCertificate = PrivateCertificate.buildFrom({
+        ...result,
+        cleaCertificationResult,
+      });
+      privateCertificates.push(privateCertificate);
+    }
+    return privateCertificates;
   },
 };
 
@@ -61,4 +69,17 @@ function _selectPrivateCertificates() {
     })
     .join('sessions', 'sessions.id', 'certification-courses.sessionId')
     .whereNull('newerAssessmentResults.id');
+}
+
+async function _getCleaCertificationResult(certificationCourseId) {
+  const result = await knex
+    .select('acquired')
+    .from('partner-certifications')
+    .where({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey })
+    .first();
+
+  if (!result) {
+    return CleaCertificationResult.buildNotTaken();
+  }
+  return CleaCertificationResult.buildFrom(result);
 }

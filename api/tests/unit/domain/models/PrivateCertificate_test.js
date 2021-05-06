@@ -19,7 +19,7 @@ describe('Unit | Domain | Models | PrivateCertificate', () => {
       certificationCenter: 'Centre des fruits et légumes',
       pixScore: 250,
       commentForCandidate: 'Bravo !',
-      cleaCertificationStatus: 'someCleaStatus',
+      cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       resultCompetenceTree: null,
       verificationCode: 'someVerifCode',
       maxReachableLevelOnCertificationDate: 5,
