@@ -236,7 +236,6 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
         cleaCertificationStatus: null,
-        status: 'validated',
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({

@@ -36,7 +36,6 @@ function _selectShareableCertificates() {
       certificationCenter: 'sessions.certificationCenter',
       maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
       pixScore: 'assessment-results.pixScore',
-      status: 'assessment-results.status',
     })
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')

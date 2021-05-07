@@ -11,7 +11,6 @@ class ShareableCertificate {
     deliveredAt,
     certificationCenter,
     pixScore,
-    status,
     cleaCertificationStatus,
     resultCompetenceTree = null,
     maxReachableLevelOnCertificationDate,
@@ -27,7 +26,6 @@ class ShareableCertificate {
     this.deliveredAt = deliveredAt;
     this.certificationCenter = certificationCenter;
     this.pixScore = pixScore;
-    this.status = status;
     this.cleaCertificationStatus = cleaCertificationStatus;
     this.resultCompetenceTree = resultCompetenceTree;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;

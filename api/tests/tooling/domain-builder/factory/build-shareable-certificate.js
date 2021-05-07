@@ -28,7 +28,6 @@ module.exports = function buildShareableCertificate({
     date,
     deliveredAt,
     pixScore,
-    status: 'validated',
     maxReachableLevelOnCertificationDate,
     resultCompetenceTree,
     cleaCertificationStatus,
