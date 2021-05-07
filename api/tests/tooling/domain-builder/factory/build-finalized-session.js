@@ -1,4 +1,4 @@
-const Session = require('../../../../lib/domain/models/Session');
+const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
 module.exports = function buildFinalizedSession({
   sessionId = 123,
@@ -9,7 +9,7 @@ module.exports = function buildFinalizedSession({
   publishedAt = null,
   isPublishable = true,
 } = {}) {
-  return new Session({
+  return new FinalizedSession({
     sessionId,
     certificationCenterName,
     sessionDate,

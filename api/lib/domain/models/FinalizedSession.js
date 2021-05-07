@@ -44,6 +44,11 @@ module.exports = class FinalizedSession {
       publishedAt: null,
     });
   }
+
+  assignCertificationOfficer({ certificationOfficerName }) {
+    this.isPublishable = false;
+    this.assignedCertificationOfficerName = certificationOfficerName;
+  }
 };
 
 function _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries) {

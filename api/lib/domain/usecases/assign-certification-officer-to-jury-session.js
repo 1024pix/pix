@@ -23,11 +23,12 @@ module.exports = async function assignCertificationOfficerToJurySession({
   const certificationOfficer = await userRepository.get(certificationOfficerId);
   const { firstName, lastName } = certificationOfficer;
   const certificationOfficerName = `${firstName} ${lastName}`;
+  const finalizedSession = await finalizedSessionRepository.get({ sessionId: integerSessionId });
 
-  await finalizedSessionRepository.assignCertificationOfficer({
-    sessionId: integerSessionId,
-    assignedCertificationOfficerName: certificationOfficerName,
-  });
+  finalizedSession.assignCertificationOfficer({ certificationOfficerName });
+
+  await finalizedSessionRepository.save(finalizedSession);
+
   return jurySessionRepository.assignCertificationOfficer({
     id: integerSessionId,
     assignedCertificationOfficerId: integerCertificationOfficerId,

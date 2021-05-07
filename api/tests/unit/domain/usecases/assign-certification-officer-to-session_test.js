@@ -1,4 +1,4 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const assignCertificationOfficerToJurySession = require('../../../../lib/domain/usecases/assign-certification-officer-to-jury-session');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
@@ -60,8 +60,15 @@ describe('Unit | UseCase | assign-certification-officer-to-session', () => {
           .resolves(returnedSessionId);
 
         const finalizedSessionRepository = {
-          assignCertificationOfficer: sinon.stub(),
+          get: sinon.stub(),
+          save: sinon.stub(),
         };
+
+        const finalizedSession = domainBuilder.buildFinalizedSession();
+
+        finalizedSessionRepository.get
+          .withArgs({ sessionId })
+          .resolves(finalizedSession);
 
         const userRepository = { get: sinon.stub() };
         userRepository.get
@@ -85,11 +92,8 @@ describe('Unit | UseCase | assign-certification-officer-to-session', () => {
           assignedCertificationOfficerId: certificationOfficerId,
         });
         expect(
-          finalizedSessionRepository.assignCertificationOfficer,
-        ).to.have.been.calledWith({
-          sessionId: 1,
-          assignedCertificationOfficerName: 'Severus Snape',
-        });
+          finalizedSessionRepository.save,
+        ).to.have.been.calledWith(finalizedSession);
         expect(actualSessionId).to.equal(returnedSessionId);
       });
     });
