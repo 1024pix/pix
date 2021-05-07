@@ -63,5 +63,25 @@ describe('Integration | Component | hexagon-score', function() {
       });
     });
 
+    describe('on hover', () => {
+
+      it('should display tooltip on mouseover', async function() {
+        // when
+        await triggerEvent('.hexagon-score', 'mouseover');
+
+        // then
+        expect(find(tooltip)).to.exist;
+      });
+
+      it('should hide tooltip on mouseout', async function() {
+        // when
+        await triggerEvent('.hexagon-score', 'mouseover');
+        await triggerEvent('.hexagon-score', 'mouseout');
+
+        // then
+        expect(find(tooltip)).to.not.exist;
+      });
+    });
+
   });
 });
