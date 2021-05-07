@@ -1,5 +1,4 @@
 const ShareableCertificate = require('../../../../lib/domain/models/ShareableCertificate');
-const buildAssessmentResult = require('./build-assessment-result');
 
 module.exports = function buildShareableCertificate({
   id = 1,
@@ -12,12 +11,11 @@ module.exports = function buildShareableCertificate({
   certificationCenter = 'L’univeristé du Pix',
   date = new Date('2018-12-01T01:02:03Z'),
   deliveredAt = new Date('2018-10-03T01:02:03Z'),
-  pixScore,
-  status,
+  pixScore = 123,
+  maxReachableLevelOnCertificationDate = 5,
   cleaCertificationStatus = 'acquired',
   resultCompetenceTree = null,
 } = {}) {
-  const assessmentResult = buildAssessmentResult();
   return new ShareableCertificate({
     id,
     firstName,
@@ -29,8 +27,9 @@ module.exports = function buildShareableCertificate({
     certificationCenter,
     date,
     deliveredAt,
-    pixScore: pixScore || assessmentResult.pixScore,
-    status: status || assessmentResult.status,
+    pixScore,
+    status: 'validated',
+    maxReachableLevelOnCertificationDate,
     resultCompetenceTree,
     cleaCertificationStatus,
   });
