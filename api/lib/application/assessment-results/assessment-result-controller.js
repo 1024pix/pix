@@ -20,7 +20,7 @@ function _deserializeResultsAdd(json) {
       score: competenceMark.score,
       area_code: competenceMark.area_code,
       competence_code: competenceMark.competence_code,
-      competenceId: competenceMark['competence-id'],
+      competenceId: competenceMark['competenceId'],
     });
   });
   return { assessmentResult, competenceMarks };
