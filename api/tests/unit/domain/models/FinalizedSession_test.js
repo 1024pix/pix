@@ -100,6 +100,32 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.true;
     });
   });
+
+  context('#assignCertificationOfficer', () => {
+
+    it('Assigns certification officer and make the session not publishable', () => {
+      // given / when
+      const certificationOfficerName = 'Ruppert Giles';
+      const finalizedSession = new FinalizedSession({
+        sessionId: 1234,
+        certificationCenterName: 'a certification center',
+        sessionDate: '2021-01-29',
+        sessionTime: '16:00',
+        hasExaminerGlobalComment: false,
+        juryCertificationSummaries: _noneWithRequiredActionNorErrorOrStartedStatus(),
+        finalizedAt: new Date('2020-01-01T00:00:00Z'),
+        isPublishable: true,
+        publishedAt: null,
+        assignedCertificationOfficerName: null,
+      });
+
+      finalizedSession.assignCertificationOfficer({ certificationOfficerName });
+
+      // then
+      expect(finalizedSession.isPublishable).to.be.false;
+      expect(finalizedSession.assignedCertificationOfficerName).to.equal(certificationOfficerName);
+    });
+  });
 });
 
 function _noneWithRequiredActionNorErrorOrStartedStatus() {
