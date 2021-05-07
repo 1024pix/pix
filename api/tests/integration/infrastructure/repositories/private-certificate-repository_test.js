@@ -193,8 +193,6 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         id: certificateId,
         ...privateCertificateData,
       });
-      expectedPrivateCertificate.pixScore = null;
-      expectedPrivateCertificate.commentForCandidate = null;
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
 
@@ -249,8 +247,6 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         id: certificateId,
         ...privateCertificateData,
       });
-      expectedPrivateCertificate.pixScore = null;
-      expectedPrivateCertificate.commentForCandidate = null;
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
 
@@ -315,8 +311,6 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           id: certificateId,
           ...privateCertificateData,
         });
-        expectedPrivateCertificate.pixScore = null;
-        expectedPrivateCertificate.commentForCandidate = null;
         expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
       });
 
@@ -376,8 +370,6 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           id: certificateId,
           ...privateCertificateData,
         });
-        expectedPrivateCertificate.pixScore = null;
-        expectedPrivateCertificate.commentForCandidate = null;
         expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
       });
     });
@@ -596,8 +588,6 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         id: certificateId,
         ...privateCertificateData,
       });
-      expectedPrivateCertificate.pixScore = null;
-      expectedPrivateCertificate.commentForCandidate = null;
       expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
     });
 
@@ -652,8 +642,6 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         id: certificateId,
         ...privateCertificateData,
       });
-      expectedPrivateCertificate.pixScore = null;
-      expectedPrivateCertificate.commentForCandidate = null;
       expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
     });
 
@@ -718,8 +706,6 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           id: certificateId,
           ...privateCertificateData,
         });
-        expectedPrivateCertificate.pixScore = null;
-        expectedPrivateCertificate.commentForCandidate = null;
         expect(privateCertificates).to.have.length(1);
         expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
       });
@@ -780,8 +766,6 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           id: certificateId,
           ...privateCertificateData,
         });
-        expectedPrivateCertificate.pixScore = null;
-        expectedPrivateCertificate.commentForCandidate = null;
         expect(privateCertificates).to.have.length(1);
         expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
       });
