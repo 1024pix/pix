@@ -5,16 +5,7 @@
 - [#2963](https://github.com/1024pix/pix/pull/2963) [TECH] Empêcher les rôles dupliqués.
 - [#2939](https://github.com/1024pix/pix/pull/2939) [TECH] Refacto technique préalable avant affichage des macarons sur le certificat utilisateur (PIX-2543)
 - [#2962](https://github.com/1024pix/pix/pull/2962) [TECH] Supprimer le rôle jamais utilisé PIX-READER.
-
-## v3.52.4 (06/05/2021)
-
-
-## v3.52.3 (06/05/2021)
-
-
-## v3.52.2 (06/05/2021)
-
-- [#2960](https://github.com/1024pix/pix/pull/2960) Mise à jour du changelog du hotfix 3.52.1
+- [#2960](https://github.com/1024pix/pix/pull/2960) [CLEAN] Mise à jour du changelog du hotfix 3.52.1
 
 ## v3.52.1 (05/05/2021)
 - [#2958](https://github.com/1024pix/pix/pull/2958) [BUGFIX] Ne pas lancer d'erreur lors d'un payload avec plus de meta que prévu par notre validation (PIX-2555).
