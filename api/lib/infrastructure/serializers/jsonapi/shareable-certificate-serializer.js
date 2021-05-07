@@ -44,6 +44,7 @@ const attributes = [
   'pixScore',
   'resultCompetenceTree',
   'cleaCertificationStatus',
+  'certifiedBadgeImages',
   'maxReachableLevelOnCertificationDate',
 ];
 

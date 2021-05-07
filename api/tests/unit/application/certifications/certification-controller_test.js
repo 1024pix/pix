@@ -154,6 +154,7 @@ describe('Unit | Controller | certifications-controller', () => {
         certificationCenter: 'Centre des choux de Bruxelles',
         pixScore: 456,
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+        certifiedBadgeImages: ['/img/1'],
         maxReachableLevelOnCertificationDate: 6,
       });
       sinon.stub(usecases, 'getShareableCertificate');
@@ -179,6 +180,9 @@ describe('Unit | Controller | certifications-controller', () => {
             'pix-score': 456,
             'status': 'validated',
             'clea-certification-status': 'acquired',
+            'certified-badge-images': [
+              '/img/1',
+            ],
             'max-reachable-level-on-certification-date': 6,
           },
           'relationships': {
