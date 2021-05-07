@@ -10,8 +10,9 @@ export default class CertificationStatusSelect extends CertificationInfoField {
 
   constructor() {
     super(...arguments);
-    this.options = certificationStatuses;
-    this.selectedOption = this.getOptionByValue(this.args.certification.status);
+    this.options = certificationStatuses.filter((certificationStatus) => certificationStatus.value !== 'cancelled');
+
+    this.selectedOption = this.args.certification.statusLabelAndValue;
   }
 
   @action

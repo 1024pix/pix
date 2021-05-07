@@ -67,6 +67,7 @@ function _toDomain(juryCertificationSummaryDTO) {
   } = _getPartnerCertificationsResult(juryCertificationSummaryDTO.partnerCertifications);
   return new JuryCertificationSummary({
     ...juryCertificationSummaryDTO,
+    isCourseCancelled: juryCertificationSummaryDTO.isCancelled,
     certificationIssueReports,
     cleaCertificationResult,
     pixPlusDroitMaitreCertificationResult,

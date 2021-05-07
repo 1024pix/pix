@@ -18,6 +18,7 @@ export const certificationStatuses = [
   { value: ERROR, label: 'En erreur' },
   { value: 'validated', label: 'Validée' },
   { value: 'rejected', label: 'Rejetée' },
+  { value: 'cancelled', label: 'Annulée' },
 ];
 
 export default class Certification extends Model {
@@ -41,7 +42,6 @@ export default class Certification extends Model {
   @attr() pixScore;
   @attr() competencesWithMark;
   @attr('boolean', { defaultValue: false }) isPublished;
-  @attr('boolean', { defaultValue: false }) isV2Certification;
   @attr() cleaCertificationStatus;
   @attr() pixPlusDroitMaitreCertificationStatus;
   @attr() pixPlusDroitExpertCertificationStatus;
@@ -58,15 +58,14 @@ export default class Certification extends Model {
     return (new Date(this.completedAt)).toLocaleString('fr-FR');
   }
 
+  @computed('status')
+  get statusLabelAndValue() {
+    return certificationStatuses.find((certificationStatus) => certificationStatus.value === this.status);
+  }
+
   @computed('isPublished')
   get publishedText() {
     const value = this.isPublished;
-    return value ? 'Oui' : 'Non';
-  }
-
-  @computed('isV2Certification')
-  get isV2CertificationText() {
-    const value = this.isV2Certification;
     return value ? 'Oui' : 'Non';
   }
 
