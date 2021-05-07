@@ -149,6 +149,9 @@ export default class FeedbackPanel extends Component {
       this.quickHelpInstructions = category.content;
     } else if (category.type === 'textbox') {
       this.displayTextBox = true;
+    } else if (category.type === 'tutorialAndTextbox') {
+      this.quickHelpInstructions = category.content;
+      this.displayTextBox = true;
     }
   }
 

@@ -26,14 +26,14 @@
             <form class="feedback-panel__form" {{on "submit" this.sendFeedback}}>
               <div class="feedback-panel__group">
                 <div class="feedback-panel__category-selection">
-                  <select class="feedback-panel__dropdown" {{on "change" this.displayCategoryOptions}} aria-label={{t 'pages.challenge.feedback-panel.form.fields.detail-selection.aria-first'}}>
+                  <select class="feedback-panel__dropdown" {{on "change" this.displayCategoryOptions}} aria-label={{t 'pages.challenge.feedback-panel.form.fields.detail-selection.aria-first'}} data-test-feedback-category-dropdown>
                     <option value="" disabled selected>{{t 'pages.challenge.feedback-panel.form.fields.category-selection.label'}}</option>
                     {{#each this.categories as |category|}}
                       <option value={{category.value}}>{{t category.name}}</option>
                     {{/each}}
                   </select>
                   {{#if this.displayQuestionDropdown}}
-                    <select class="feedback-panel__dropdown" {{on "change" this.showFeedback}} aria-label={{t 'pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary'}}>
+                    <select class="feedback-panel__dropdown" {{on "change" this.showFeedback}} aria-label={{t 'pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary'}} data-test-feedback-subcategory-dropdown>
                       <option value="default" selected>{{t 'pages.challenge.feedback-panel.form.fields.detail-selection.label'}}</option>
                         {{#each this.nextCategory as |question index|}}
                           <option value={{index}}>{{t question.name}}</option>

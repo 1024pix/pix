@@ -374,6 +374,14 @@
                   },
                   "other": "I have another problem with the file"
                 },
+                "embed-displayed-on-desktop-with-problems": {
+                    "label": "On a computer, the simulator is displayed but has a problem",
+                    "solution": "We are doing our best to make the simulators work on all devices, all operating systems, and all browsers but you may be using a specific system.'<br>'You can stop your test and resume on a computer. Please specify your problem, as well as your browser and your operating system."
+                },
+                "embed-displayed-on-mobile-devices-with-problems": {
+                    "label": "On a smartphone or a tablet, the simulator is displayed but has a problem",
+                    "solution": "We are doing our best to make the simulators work on all devices, all operating systems, and all browsers but you may be using a specific system.'<br>'Please specify your problem, as well as your type of device (smartphone, tablet etc.), your browser and your operating system."
+                },
                 "embed-not-displayed": {
                   "label": "I cannot see the simulator/app",
                   "solution": "Your internet connection may not be strong enough.'<br>'Refresh the page by clicking on the refresh button'<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' next to the address bar. Wait a little while, the simulator might display. '<br><br>'If it doesn’t, you can try again later or from another location with a better connection."
