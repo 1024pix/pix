@@ -3,52 +3,54 @@ const getCertificationByVerificationCode = require('../../../../lib/domain/useca
 
 describe('Unit | UseCase | get-shareable-certificate', () => {
 
-  let shareableCertificateRepository;
-  let assessmentResultRepository;
-  let competenceTreeRepository;
-  let cleaCertificationStatusRepository;
+  const shareableCertificateRepository = {
+    getByVerificationCode: () => undefined,
+  };
+  const resultCompetenceTreeService = {
+    computeForCertification: () => undefined,
+  };
+  const assessmentResultRepository = 'assessmentResultRepository';
+  const competenceTreeRepository = 'competenceTreeRepository';
 
   beforeEach(() => {
-    shareableCertificateRepository = { getByVerificationCode: sinon.stub() };
-    assessmentResultRepository = { findLatestByCertificationCourseIdWithCompetenceMarks: sinon.stub() };
-    competenceTreeRepository = { get: sinon.stub() };
-    cleaCertificationStatusRepository = { getCleaCertificationStatus: sinon.stub() };
+    shareableCertificateRepository.getByVerificationCode = sinon.stub();
+    resultCompetenceTreeService.computeForCertification = sinon.stub();
   });
 
-  it('should return certification from verification code', async () => {
+  it('should return certification from verification code enhanced with resultCompetenceTree', async () => {
     // given
-    const verificationCode = 'P-123456CC';
-    const certificationCourseId = 1;
-    const certificateWithoutCleaAndCompetenceTree = domainBuilder.buildShareableCertificate({
-      id: certificationCourseId,
-      verificationCode,
-      cleaCertificationStatus: null,
+    const shareableCertificate = domainBuilder.buildShareableCertificate({
+      id: 1,
+      verificationCode: 'P-123456CC',
       resultCompetenceTree: null,
     });
-    const cleaCertificationStatus = 'not_passed';
-    const assessmentResultId = 1;
-    const competenceTree = { areas: [] };
-    const competenceMarks = [];
-    shareableCertificateRepository.getByVerificationCode = sinon.stub().withArgs({ verificationCode }).resolves(certificateWithoutCleaAndCompetenceTree);
-    cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().withArgs(certificateWithoutCleaAndCompetenceTree).resolves(cleaCertificationStatus);
-    assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks = sinon.stub().withArgs({ certificationCourseId }).resolves({ id: assessmentResultId, competenceMarks });
-    competenceTreeRepository.get = sinon.stub().resolves(competenceTree);
+    shareableCertificateRepository.getByVerificationCode
+      .withArgs({ verificationCode: 'P-123456CC' })
+      .resolves(shareableCertificate);
+    const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
+    resultCompetenceTreeService.computeForCertification
+      .withArgs({
+        certificationId: 1,
+        assessmentResultRepository,
+        competenceTreeRepository,
+      })
+      .resolves(resultCompetenceTree);
 
     // when
-    const result = await getCertificationByVerificationCode({
-      verificationCode,
+    const finalShareableCertificate = await getCertificationByVerificationCode({
+      verificationCode: 'P-123456CC',
       shareableCertificateRepository,
-      cleaCertificationStatusRepository,
       assessmentResultRepository,
       competenceTreeRepository,
+      resultCompetenceTreeService,
     });
 
     // then
-    const expectedCertification = {
-      ...certificateWithoutCleaAndCompetenceTree,
-      cleaCertificationStatus,
-      resultCompetenceTree: { areas: [], id: '1-1' },
-    };
-    expect(result).to.be.deep.equal(expectedCertification);
+    const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
+      id: 1,
+      verificationCode: 'P-123456CC',
+      resultCompetenceTree,
+    });
+    expect(finalShareableCertificate).to.be.deep.equal(expectedShareableCertificate);
   });
 });

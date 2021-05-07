@@ -1,4 +1,5 @@
 const ShareableCertificate = require('../../../../lib/domain/models/ShareableCertificate');
+const buildCleaCertificationResult = require('./build-clea-certification-result');
 
 module.exports = function buildShareableCertificate({
   id = 1,
@@ -13,7 +14,7 @@ module.exports = function buildShareableCertificate({
   deliveredAt = new Date('2018-10-03T01:02:03Z'),
   pixScore = 123,
   maxReachableLevelOnCertificationDate = 5,
-  cleaCertificationStatus = 'acquired',
+  cleaCertificationResult = buildCleaCertificationResult.notTaken(),
   resultCompetenceTree = null,
 } = {}) {
   return new ShareableCertificate({
@@ -30,6 +31,6 @@ module.exports = function buildShareableCertificate({
     pixScore,
     maxReachableLevelOnCertificationDate,
     resultCompetenceTree,
-    cleaCertificationStatus,
+    cleaCertificationResult,
   });
 };

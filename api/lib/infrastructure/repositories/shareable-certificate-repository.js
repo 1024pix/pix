@@ -1,6 +1,7 @@
 const { knex } = require('../bookshelf');
 const ShareableCertificate = require('../../domain/models/ShareableCertificate');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
+const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 
 module.exports = {
@@ -14,9 +15,11 @@ module.exports = {
       throw new NotFoundError(`There is no certification course with verification code "${verificationCode}"`);
     }
 
+    const cleaCertificationResult = await _getCleaCertificationResult(shareableCertificateDTO.id);
+
     return new ShareableCertificate({
       ...shareableCertificateDTO,
-      cleaCertificationStatus: null,
+      cleaCertificationResult,
     });
   },
 };
@@ -50,4 +53,17 @@ function _selectShareableCertificates() {
     .where('assessment-results.status', AssessmentResult.status.VALIDATED)
     .where('certification-courses.isPublished', true)
     .where('certification-courses.isCancelled', false);
+}
+
+async function _getCleaCertificationResult(certificationCourseId) {
+  const result = await knex
+    .select('acquired')
+    .from('partner-certifications')
+    .where({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey })
+    .first();
+
+  if (!result) {
+    return CleaCertificationResult.buildNotTaken();
+  }
+  return CleaCertificationResult.buildFrom(result);
 }
