@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
+import { click, find, render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | hexagon-score', function() {
@@ -34,5 +34,34 @@ describe('Integration | Component | hexagon-score', function() {
       // then
       expect(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML).to.equal(pixScore);
     });
+  });
+
+  describe('Tooltip behaviour', () => {
+    const tooltip = '.hexagon-score__information--visible';
+
+    beforeEach(async () => {
+      await render(hbs`<HexagonScore />`);
+      expect(find(tooltip)).not.to.exist;
+    });
+
+    describe('on click', () => {
+      it('when tooltip is hidden, should display tooltip on click', async function() {
+        // when
+        await click('.hexagon-score-content__pix-total button');
+
+        // then
+        expect(find(tooltip)).to.exist;
+      });
+
+      it('when tooltip is displayed, should hide tooltip on click', async function() {
+        // when
+        await click('.hexagon-score-content__pix-total button');
+        await click('.hexagon-score-content__pix-total button');
+
+        // then
+        expect(find(tooltip)).not.to.exist;
+      });
+    });
+
   });
 });
