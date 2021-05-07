@@ -15,6 +15,7 @@ module.exports = function buildShareableCertificate({
   pixScore = 123,
   maxReachableLevelOnCertificationDate = 5,
   cleaCertificationResult = buildCleaCertificationResult.notTaken(),
+  certifiedBadgeImages = [],
   resultCompetenceTree = null,
 } = {}) {
   return new ShareableCertificate({
@@ -32,5 +33,6 @@ module.exports = function buildShareableCertificate({
     maxReachableLevelOnCertificationDate,
     resultCompetenceTree,
     cleaCertificationResult,
+    certifiedBadgeImages,
   });
 };

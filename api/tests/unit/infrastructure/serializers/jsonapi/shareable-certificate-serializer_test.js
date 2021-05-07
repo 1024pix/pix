@@ -47,6 +47,7 @@ describe('Unit | Serializer | JSONAPI | shareable-certificate-serializer', () =>
         certificationCenter: 'Centre des choux de Bruxelles',
         pixScore: 456,
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        certifiedBadgeImages: ['/img/1', '/img/2'],
         resultCompetenceTree,
         maxReachableLevelOnCertificationDate: 6,
       });
@@ -70,6 +71,10 @@ describe('Unit | Serializer | JSONAPI | shareable-certificate-serializer', () =>
           'pix-score': 456,
           'status': 'validated',
           'clea-certification-status': 'not_taken',
+          'certified-badge-images': [
+            '/img/1',
+            '/img/2',
+          ],
           'max-reachable-level-on-certification-date': 6,
         },
         'relationships': {

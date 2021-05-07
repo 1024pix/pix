@@ -2,6 +2,8 @@ const { knex } = require('../bookshelf');
 const ShareableCertificate = require('../../domain/models/ShareableCertificate');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
+const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 
 module.exports = {
@@ -16,10 +18,12 @@ module.exports = {
     }
 
     const cleaCertificationResult = await _getCleaCertificationResult(shareableCertificateDTO.id);
+    const certifiedBadgeImages = await _getCertifiedBadgeImages(shareableCertificateDTO.id);
 
     return new ShareableCertificate({
       ...shareableCertificateDTO,
       cleaCertificationResult,
+      certifiedBadgeImages,
     });
   },
 };
@@ -66,4 +70,16 @@ async function _getCleaCertificationResult(certificationCourseId) {
     return CleaCertificationResult.buildNotTaken();
   }
   return CleaCertificationResult.buildFrom(result);
+}
+
+async function _getCertifiedBadgeImages(certificationCourseId) {
+  const handledBadgeKeys = [pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey];
+  const results = await knex
+    .select('badges.certifiedImageUrl')
+    .from('partner-certifications')
+    .join('badges', 'badges.key', 'partner-certifications.partnerKey')
+    .where({ certificationCourseId, acquired: true, isCertifiable: true })
+    .whereIn('partner-certifications.partnerKey', handledBadgeKeys);
+
+  return results.map((result) => result.certifiedImageUrl);
 }
