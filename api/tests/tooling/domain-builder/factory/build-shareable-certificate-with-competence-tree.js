@@ -15,7 +15,6 @@ module.exports = function buildShareableCertificate({
   date = new Date('2018-12-01T01:02:03Z'),
   deliveredAt = new Date('2018-10-03T01:02:03Z'),
   pixScore,
-  status,
   cleaCertificationStatus = 'acquired',
   maxReachableLevelOnCertificationDate = 5,
 
@@ -35,7 +34,6 @@ module.exports = function buildShareableCertificate({
     date,
     deliveredAt,
     pixScore,
-    status,
     resultCompetenceTree,
     cleaCertificationStatus,
     maxReachableLevelOnCertificationDate,
@@ -43,9 +41,6 @@ module.exports = function buildShareableCertificate({
 
   if (pixScore !== undefined) {
     certificate.pixScore = pixScore;
-  }
-  if (status !== undefined) {
-    certificate.status = status;
   }
 
   return certificate;
