@@ -20,6 +20,10 @@ export default class HexagonScore extends Component {
     return ENV.APP.MAX_REACHABLE_LEVEL;
   }
 
+  get isTooltipDisplayed() {
+    return this.displayHelp === 'hexagon-score__information--visible';
+  }
+
   @action
   hideHelp() {
     this.displayHelp = 'hexagon-score__information--hidden';
@@ -28,5 +32,14 @@ export default class HexagonScore extends Component {
   @action
   showHelp() {
     this.displayHelp = 'hexagon-score__information--visible';
+  }
+
+  @action
+  toggleTooltip() {
+    if (this.isTooltipDisplayed) {
+      this.hideHelp();
+      return;
+    }
+    this.showHelp();
   }
 }
