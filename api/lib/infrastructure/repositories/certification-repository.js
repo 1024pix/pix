@@ -2,9 +2,7 @@ const AssessmentResultBookshelf = require('../data/assessment-result');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
-const ShareableCertificate = require('../../domain/models/ShareableCertificate');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');
-const { status: assessmentStatus } = require('../../domain/models/AssessmentResult');
 const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../lib/domain/errors');
 
 async function getAssessmentResultsStatusesBySessionId(id) {
@@ -93,28 +91,6 @@ module.exports = {
     return CertificationCourseBookshelf
       .where({ id })
       .save({ verificationCode }, { method: 'update' });
-  },
-
-  async getShareableCertificateByVerificationCode({ verificationCode }) {
-    const certificationCourseDTO = await _getBaseCertificationQuery()
-      .where({ verificationCode, 'isPublished': true })
-      .first();
-    const notFoundError = new NotFoundError('There is no certification course with this verification code');
-
-    if (!certificationCourseDTO) {
-      throw notFoundError;
-    }
-
-    const latestAssessmentResult = await _getLatestAssessmentResult(certificationCourseDTO.id);
-    if (!latestAssessmentResult || latestAssessmentResult.status !== assessmentStatus.VALIDATED) {
-      throw notFoundError;
-    }
-
-    return new ShareableCertificate({
-      ...certificationCourseDTO,
-      pixScore: latestAssessmentResult.pixScore,
-      status: latestAssessmentResult.status,
-    });
   },
 
   async getCertificationAttestation({ id }) {

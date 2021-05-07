@@ -1,6 +1,7 @@
 const ShareableCertificate = require('../../../../lib/domain/models/ShareableCertificate');
 const buildAssessmentResult = require('./build-assessment-result');
 const buildResultCompetenceTree = require('./build-result-competence-tree');
+const buildCleaCertificationResult = require('./build-clea-certification-result');
 
 module.exports = function buildShareableCertificate({
   id = 1,
@@ -15,7 +16,7 @@ module.exports = function buildShareableCertificate({
   date = new Date('2018-12-01T01:02:03Z'),
   deliveredAt = new Date('2018-10-03T01:02:03Z'),
   pixScore,
-  cleaCertificationStatus = 'acquired',
+  cleaCertificationResult = buildCleaCertificationResult.notTaken(),
   maxReachableLevelOnCertificationDate = 5,
 
   // the id of the ResultCompetenceTree should be with the most recent assessment result.
@@ -35,7 +36,7 @@ module.exports = function buildShareableCertificate({
     deliveredAt,
     pixScore,
     resultCompetenceTree,
-    cleaCertificationStatus,
+    cleaCertificationResult,
     maxReachableLevelOnCertificationDate,
   });
 
