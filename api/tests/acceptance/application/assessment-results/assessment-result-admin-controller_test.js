@@ -42,19 +42,19 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
                   score: 18,
                   'area_code': 2,
                   'competence_code': 2.1,
-                  'competence-id': '2.1',
+                  'competenceId': '2.1',
                 }, {
                   level: 3,
                   score: 27,
                   'area_code': 3,
                   'competence_code': 3.2,
-                  'competence-id': '3.2',
+                  'competenceId': '3.2',
                 }, {
                   level: 1,
                   score: 9,
                   'area_code': 1,
                   'competence_code': 1.3,
-                  'competence-id': '1.3',
+                  'competenceId': '1.3',
                 },
               ],
             },
@@ -127,6 +127,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
             score: 0,
             area_code: 2,
             competence_code: 2.1,
+            competenceId: 'rec123',
           });
       });
 
