@@ -20,6 +20,7 @@ describe('Unit | Domain | Models | PrivateCertificate', () => {
       pixScore: 250,
       commentForCandidate: 'Bravo !',
       cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+      certifiedBadgeImages: [],
       resultCompetenceTree: null,
       verificationCode: 'someVerifCode',
       maxReachableLevelOnCertificationDate: 5,

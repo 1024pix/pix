@@ -3,6 +3,8 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const privateCertificateRepository = require('../../../../lib/infrastructure/repositories/private-certificate-repository');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
 const { badgeKey: cleaBadgeKey } = require('../../../../lib/domain/models/CleaCertificationResult');
+const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 
 describe('Integration | Infrastructure | Repository | Private Certificate', () => {
 
@@ -250,6 +252,134 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expectedPrivateCertificate.pixScore = null;
       expectedPrivateCertificate.commentForCandidate = null;
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+    });
+
+    context('acquired certifiable badges', () => {
+
+      it('should get the certified badge images of pixPlusDroitMaitre and/or pixPlusDroitExpert when those certifications were acquired', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDE-F',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: [
+            'image/to/expert',
+            'image/to/maitre',
+          ],
+        };
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const sessionId = databaseBuilder.factory.buildSession({
+          publishedAt: privateCertificateData.deliveredAt,
+          certificationCenter: privateCertificateData.certificationCenter,
+          certificationCenterId,
+        }).id;
+        const certificateId = databaseBuilder.factory.buildCertificationCourse({
+          firstName: privateCertificateData.firstName,
+          lastName: privateCertificateData.lastName,
+          birthdate: privateCertificateData.birthdate,
+          birthplace: privateCertificateData.birthplace,
+          isPublished: privateCertificateData.isPublished,
+          isCancelled: false,
+          createdAt: privateCertificateData.date,
+          verificationCode: privateCertificateData.verificationCode,
+          maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+          sessionId,
+          userId,
+        }).id;
+        databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/expert' });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/maitre' });
+        databaseBuilder.factory.buildBadge({ key: 'should_be_ignored', isCertifiable: true, certifiedImageUrl: 'some/horrible/image' });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: 'should_be_ignored', acquired: true });
+        await databaseBuilder.commit();
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+        expectedPrivateCertificate.pixScore = null;
+        expectedPrivateCertificate.commentForCandidate = null;
+        expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+      });
+
+      it('should only take into account acquired ones', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDE-F',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: [
+            'image/to/expert',
+          ],
+        };
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const sessionId = databaseBuilder.factory.buildSession({
+          publishedAt: privateCertificateData.deliveredAt,
+          certificationCenter: privateCertificateData.certificationCenter,
+          certificationCenterId,
+        }).id;
+        const certificateId = databaseBuilder.factory.buildCertificationCourse({
+          firstName: privateCertificateData.firstName,
+          lastName: privateCertificateData.lastName,
+          birthdate: privateCertificateData.birthdate,
+          birthplace: privateCertificateData.birthplace,
+          isPublished: privateCertificateData.isPublished,
+          isCancelled: false,
+          createdAt: privateCertificateData.date,
+          verificationCode: privateCertificateData.verificationCode,
+          maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+          sessionId,
+          userId,
+        }).id;
+        databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/expert' });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/maitre' });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: false });
+        await databaseBuilder.commit();
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+        expectedPrivateCertificate.pixScore = null;
+        expectedPrivateCertificate.commentForCandidate = null;
+        expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+      });
     });
   });
 
@@ -525,6 +655,136 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expectedPrivateCertificate.pixScore = null;
       expectedPrivateCertificate.commentForCandidate = null;
       expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
+    });
+
+    context('acquired certifiable badges', () => {
+
+      it('should get the certified badge images of pixPlusDroitMaitre and/or pixPlusDroitExpert when those certifications were acquired', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDE-F',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: [
+            'image/to/expert',
+            'image/to/maitre',
+          ],
+        };
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const sessionId = databaseBuilder.factory.buildSession({
+          publishedAt: privateCertificateData.deliveredAt,
+          certificationCenter: privateCertificateData.certificationCenter,
+          certificationCenterId,
+        }).id;
+        const certificateId = databaseBuilder.factory.buildCertificationCourse({
+          firstName: privateCertificateData.firstName,
+          lastName: privateCertificateData.lastName,
+          birthdate: privateCertificateData.birthdate,
+          birthplace: privateCertificateData.birthplace,
+          isPublished: privateCertificateData.isPublished,
+          isCancelled: false,
+          createdAt: privateCertificateData.date,
+          verificationCode: privateCertificateData.verificationCode,
+          maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+          sessionId,
+          userId,
+        }).id;
+        databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/expert' });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/maitre' });
+        databaseBuilder.factory.buildBadge({ key: 'should_be_ignored', isCertifiable: true, certifiedImageUrl: 'some/horrible/image' });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: 'should_be_ignored', acquired: true });
+        await databaseBuilder.commit();
+
+        // when
+        const privateCertificates = await privateCertificateRepository.findByUserId({ userId });
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+        expectedPrivateCertificate.pixScore = null;
+        expectedPrivateCertificate.commentForCandidate = null;
+        expect(privateCertificates).to.have.length(1);
+        expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
+      });
+
+      it('should only take into account acquired ones', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDE-F',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: [
+            'image/to/expert',
+          ],
+        };
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const sessionId = databaseBuilder.factory.buildSession({
+          publishedAt: privateCertificateData.deliveredAt,
+          certificationCenter: privateCertificateData.certificationCenter,
+          certificationCenterId,
+        }).id;
+        const certificateId = databaseBuilder.factory.buildCertificationCourse({
+          firstName: privateCertificateData.firstName,
+          lastName: privateCertificateData.lastName,
+          birthdate: privateCertificateData.birthdate,
+          birthplace: privateCertificateData.birthplace,
+          isPublished: privateCertificateData.isPublished,
+          isCancelled: false,
+          createdAt: privateCertificateData.date,
+          verificationCode: privateCertificateData.verificationCode,
+          maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+          sessionId,
+          userId,
+        }).id;
+        databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/expert' });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/maitre' });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: false });
+        await databaseBuilder.commit();
+
+        // when
+        const privateCertificates = await privateCertificateRepository.findByUserId({ userId });
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+        expectedPrivateCertificate.pixScore = null;
+        expectedPrivateCertificate.commentForCandidate = null;
+        expect(privateCertificates).to.have.length(1);
+        expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
+      });
     });
   });
 });

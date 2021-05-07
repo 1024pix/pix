@@ -24,6 +24,7 @@ class PrivateCertificate {
     status,
     commentForCandidate,
     cleaCertificationResult,
+    certifiedBadgeImages,
     resultCompetenceTree = null,
     verificationCode,
     maxReachableLevelOnCertificationDate,
@@ -42,6 +43,7 @@ class PrivateCertificate {
     this.status = status;
     this.commentForCandidate = commentForCandidate;
     this.cleaCertificationResult = cleaCertificationResult;
+    this.certifiedBadgeImages = certifiedBadgeImages;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
@@ -61,6 +63,7 @@ class PrivateCertificate {
     pixScore,
     commentForCandidate,
     cleaCertificationResult,
+    certifiedBadgeImages,
     resultCompetenceTree = null,
     verificationCode,
     maxReachableLevelOnCertificationDate,
@@ -82,6 +85,7 @@ class PrivateCertificate {
       pixScore,
       commentForCandidate,
       cleaCertificationResult,
+      certifiedBadgeImages,
       resultCompetenceTree,
       verificationCode,
       maxReachableLevelOnCertificationDate,

@@ -1,6 +1,8 @@
 const { knex } = require('../bookshelf');
 const PrivateCertificate = require('../../domain/models/PrivateCertificate');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
+const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 
 module.exports = {
@@ -15,10 +17,12 @@ module.exports = {
     }
 
     const cleaCertificationResult = await _getCleaCertificationResult(id);
+    const certifiedBadgeImages = await _getCertifiedBadgeImages(id);
 
     return PrivateCertificate.buildFrom({
       ...certificationCourseDTO,
       cleaCertificationResult,
+      certifiedBadgeImages,
     });
   },
 
@@ -30,9 +34,11 @@ module.exports = {
     const privateCertificates = [];
     for (const result of results) {
       const cleaCertificationResult = await _getCleaCertificationResult(result.id);
+      const certifiedBadgeImages = await _getCertifiedBadgeImages(result.id);
       const privateCertificate = PrivateCertificate.buildFrom({
         ...result,
         cleaCertificationResult,
+        certifiedBadgeImages,
       });
       privateCertificates.push(privateCertificate);
     }
@@ -82,4 +88,16 @@ async function _getCleaCertificationResult(certificationCourseId) {
     return CleaCertificationResult.buildNotTaken();
   }
   return CleaCertificationResult.buildFrom(result);
+}
+
+async function _getCertifiedBadgeImages(certificationCourseId) {
+  const handledBadgeKeys = [pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey];
+  const results = await knex
+    .select('badges.certifiedImageUrl')
+    .from('partner-certifications')
+    .join('badges', 'badges.key', 'partner-certifications.partnerKey')
+    .where({ certificationCourseId, acquired: true, isCertifiable: true })
+    .whereIn('partner-certifications.partnerKey', handledBadgeKeys);
+
+  return results.map((result) => result.certifiedImageUrl);
 }

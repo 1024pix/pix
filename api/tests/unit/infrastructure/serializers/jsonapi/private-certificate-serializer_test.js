@@ -48,6 +48,7 @@ describe('Unit | Serializer | JSONAPI | private-certificate-serializer', () => {
         pixScore: 456,
         commentForCandidate: 'Cette personne est impolie !',
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        certifiedBadgeImages: ['/img/1', '/img/2'],
         resultCompetenceTree,
         verificationCode: 'P-SUPERCODE',
         maxReachableLevelOnCertificationDate: 6,
@@ -73,6 +74,10 @@ describe('Unit | Serializer | JSONAPI | private-certificate-serializer', () => {
           'status': 'rejected',
           'comment-for-candidate': 'Cette personne est impolie !',
           'clea-certification-status': 'not_taken',
+          'certified-badge-images': [
+            '/img/1',
+            '/img/2',
+          ],
           'verification-code': 'P-SUPERCODE',
           'max-reachable-level-on-certification-date': 6,
         },
