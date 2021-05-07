@@ -11,13 +11,19 @@
     </PixBlock>
   {{/if}}
 
+  <h2>{{t "pages.certificate.complementary.title"}}</h2>
+  <PixBlock>
   {{#if @certification.hasCleaCertif}}
-    <h2>{{t "pages.certificate.clea.title"}}</h2>
-    <PixBlock>
-      <div class="user-certifications-detail-result__badge-clea">
-        <img src="https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/CleA_Num_certif.svg"
-             alt="{{t "pages.certificate.clea.alternative"}}" />
-      </div>
-    </PixBlock>
+    <div class="user-certifications-detail-result__complementary-certification">
+      <img src="https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/CleA_Num_certif.svg"
+           alt="{{t "pages.certificate.clea.alternative"}}" />
+    </div>
   {{/if}}
+  {{#each @certification.certifiedBadgeImages as |certifiedBadgeImageUrl|}}
+    <div class="user-certifications-detail-result__complementary-certification">
+      <img src={{certifiedBadgeImageUrl}}
+           alt="{{t "pages.certificate.complementary.alternative"}}"/>
+    </div>
+  {{/each}}
+  </PixBlock>
 </div>

@@ -13,6 +13,7 @@ describe('Unit | Model | certification', function() {
   });
 
   describe('#hasCleaCertif', function() {
+
     it('should have clea certif', function() {
       const model = store.createRecord('certification');
       model.cleaCertificationStatus = ACQUIRED;
@@ -24,6 +25,18 @@ describe('Unit | Model | certification', function() {
       model.cleaCertificationStatus = 'AnythingElse';
       expect(model.hasCleaCertif).not.to.be.ok;
     });
+  });
 
+  describe('#hasAcquiredComplementaryCertifications', function() {
+
+    it('should be true when certification has certified badge image', function() {
+      const model = store.createRecord('certification', { certifiedBadgeImages: ['/some/img'] });
+      expect(model.hasAcquiredComplementaryCertifications).to.be.true;
+    });
+
+    it('should be false when certification has no certified badge image', function() {
+      const model = store.createRecord('certification', { certifiedBadgeImages: [] });
+      expect(model.hasAcquiredComplementaryCertifications).to.be.false;
+    });
   });
 });

@@ -176,13 +176,16 @@
       "candidate-birth-complete": "Né(e) le {birthdate} à {birthplace}",
       "certification-center": "Centre de certification :",
       "clea": {
-        "title": "Certifié Cléa",
         "alternative": "Certification cléA numérique"
       },
       "competences": {
         "title": "Compétences certifiées",
         "information": "Votre score certifié a été calculé en fonction de vos réponses lors du passage de la certification. Il peut donc différer du nombre de Pix affiché dans votre profil. Le jour de votre certification il était possible d’atteindre le niveau {maxReachableLevelOnCertificationDate} des compétences et {maxReachablePixCountOnCertificationDate} pix au maximum.",
         "subtitle": "(niveaux sur {maxReachableLevel})"
+      },
+      "complementary": {
+        "title": "Autre certification obtenue",
+        "alternative": "Certification complémentaire"
       },
       "exam-date": "Date de passage :",
       "hexagon-score": {

@@ -95,7 +95,7 @@ describe('Integration | Component | user certifications detail result', function
 
     // then
     it('should show the CLEA badge', function() {
-      expect(find('.user-certifications-detail-result__badge-clea')).to.exist;
+      expect(find('img[alt="Certification cléA numérique"]')).to.exist;
     });
   });
 
@@ -124,7 +124,65 @@ describe('Integration | Component | user certifications detail result', function
 
     // then
     it('should not show the CLEA badge', function() {
-      expect(find('.user-certifications-detail-result__badge-clea')).not.to.exist;
+      expect(find('img[alt="Certification cléA numérique"]')).not.to.exist;
+    });
+  });
+
+  context('when certification has a certified badge image', function() {
+
+    beforeEach(async function() {
+      // given
+      certification = EmberObject.create({
+        id: 1,
+        birthdate: new Date('2000-01-22T15:15:52Z'),
+        firstName: 'Jean',
+        lastName: 'Bon',
+        date: new Date('2018-02-15T15:15:52Z'),
+        certificationCenter: 'Université de Lyon',
+        isPublished: true,
+        pixScore: 654,
+        status: 'validated',
+        certifiedBadgeImages: ['/some/img'],
+      });
+      this.set('certification', certification);
+
+      // when
+      await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+    });
+
+    // then
+    it('should show the complementary certification badge', function() {
+      expect(find('img[alt="Certification complémentaire"]')).to.exist;
+    });
+  });
+
+  context('when certification has no certifed badge image', function() {
+
+    beforeEach(async function() {
+      // given
+      certification = EmberObject.create({
+        id: 1,
+        birthdate: new Date('2000-01-22T15:15:52Z'),
+        firstName: 'Jean',
+        lastName: 'Bon',
+        date: new Date('2018-02-15T15:15:52Z'),
+        certificationCenter: 'Université de Lyon',
+        isPublished: true,
+        pixScore: 654,
+        status: 'validated',
+        commentForCandidate: null,
+        hasCleaCertif: false,
+        certifiedBadgeImages: [],
+      });
+      this.set('certification', certification);
+
+      // when
+      await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+    });
+
+    // then
+    it('should not show the complementary certification badge', function() {
+      expect(find('img[alt="Certification complémentaire"]')).not.to.exist;
     });
   });
 
