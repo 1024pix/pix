@@ -1,3 +1,7 @@
+const status = {
+  CANCELLED: 'cancelled',
+};
+
 class CertificationResultInformation {
   constructor({
     certificationCourseId,
@@ -6,7 +10,6 @@ class CertificationResultInformation {
     createdAt,
     completedAt,
     isPublished,
-    isV2Certification,
     cleaCertificationResult,
     pixPlusDroitMaitreCertificationResult,
     pixPlusDroitExpertCertificationResult,
@@ -29,7 +32,6 @@ class CertificationResultInformation {
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.isPublished = isPublished;
-    this.isV2Certification = isV2Certification;
     this.cleaCertificationResult = cleaCertificationResult;
     this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
     this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
@@ -57,11 +59,10 @@ class CertificationResultInformation {
     return new CertificationResultInformation({
       certificationCourseId: generalCertificationInformation.certificationCourseId,
       sessionId: generalCertificationInformation.sessionId,
-      status: assessmentResult.status,
+      status: _getStatus(assessmentResult.status, generalCertificationInformation.isCancelled),
       createdAt: generalCertificationInformation.createdAt,
       completedAt: generalCertificationInformation.completedAt,
       isPublished: generalCertificationInformation.isPublished,
-      isV2Certification: generalCertificationInformation.isV2Certification,
       cleaCertificationResult,
       pixPlusDroitMaitreCertificationResult,
       pixPlusDroitExpertCertificationResult,
@@ -79,6 +80,11 @@ class CertificationResultInformation {
       competenceMarks: assessmentResult.competenceMarks,
     });
   }
+}
+
+function _getStatus(assessmentResultStatus, isCourseCancelled) {
+  if (isCourseCancelled) return status.CANCELLED;
+  return assessmentResultStatus;
 }
 
 module.exports = CertificationResultInformation;

@@ -41,7 +41,7 @@ function _toDomain({ certificationCourseDTO, certificationIssueReportsDTO }) {
     createdAt: certificationCourseDTO.createdAt,
     completedAt: certificationCourseDTO.completedAt,
     isPublished: certificationCourseDTO.isPublished,
-    isV2Certification: certificationCourseDTO.isV2Certification,
+    isCancelled: certificationCourseDTO.isCancelled,
     firstName: certificationCourseDTO.firstName,
     lastName: certificationCourseDTO.lastName,
     birthdate: certificationCourseDTO.birthdate,
