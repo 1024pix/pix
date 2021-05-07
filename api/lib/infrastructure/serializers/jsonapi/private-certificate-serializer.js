@@ -44,6 +44,7 @@ const attributes = [
   'commentForCandidate',
   'resultCompetenceTree',
   'cleaCertificationStatus',
+  'certifiedBadgeImages',
   'verificationCode',
   'maxReachableLevelOnCertificationDate',
 ];

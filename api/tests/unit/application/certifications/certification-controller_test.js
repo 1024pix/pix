@@ -29,6 +29,7 @@ describe('Unit | Controller | certifications-controller', () => {
         pixScore: 456,
         commentForCandidate: 'Cette personne est impolie !',
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+        certifiedBadgeImages: [],
         verificationCode: 'P-SUPERCODE',
         maxReachableLevelOnCertificationDate: 6,
       });
@@ -57,6 +58,7 @@ describe('Unit | Controller | certifications-controller', () => {
               'status': 'validated',
               'comment-for-candidate': 'Cette personne est impolie !',
               'clea-certification-status': 'acquired',
+              'certified-badge-images': [],
               'verification-code': 'P-SUPERCODE',
               'max-reachable-level-on-certification-date': 6,
             },
@@ -94,6 +96,7 @@ describe('Unit | Controller | certifications-controller', () => {
         pixScore: 456,
         commentForCandidate: 'Cette personne est impolie !',
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+        certifiedBadgeImages: [],
         verificationCode: 'P-SUPERCODE',
         maxReachableLevelOnCertificationDate: 6,
       });
@@ -121,6 +124,7 @@ describe('Unit | Controller | certifications-controller', () => {
             'status': 'validated',
             'comment-for-candidate': 'Cette personne est impolie !',
             'clea-certification-status': 'acquired',
+            'certified-badge-images': [],
             'verification-code': 'P-SUPERCODE',
             'max-reachable-level-on-certification-date': 6,
           },
