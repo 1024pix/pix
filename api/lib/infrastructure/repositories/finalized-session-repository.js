@@ -26,7 +26,7 @@ module.exports = {
 
   async findFinalizedSessionsToPublish() {
     const publishableFinalizedSessions = await FinalizedSessionBookshelf
-      .where({ isPublishable: true, publishedAt: null })
+      .where({ isPublishable: true, publishedAt: null, assignedCertificationOfficerName: null })
       .orderBy('finalizedAt')
       .fetchAll();
 

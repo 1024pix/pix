@@ -117,6 +117,7 @@ describe('Integration | Repository | Finalized-session', () => {
         const publishableFinalizedSession2 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2019-01-01') });
         const publishableFinalizedSession3 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2021-01-01') });
 
+        databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2020-01-01'), assignedCertificationOfficerName: 'Ruppert Giles' });
         databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null });
         databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: '2021-01-01' });
 
