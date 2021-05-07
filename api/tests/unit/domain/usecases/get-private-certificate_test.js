@@ -1,69 +1,55 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const getPrivateCertificate = require('../../../../lib/domain/usecases/certificate/get-private-certificate');
-const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
 
 describe('Unit | UseCase | getPrivateCertificate', async () => {
 
-  const userId = 2;
-  const certificationId = '23';
-  const cleaCertificationStatus = 'someStatus';
-  const verificationCode = 'P-XXXXXXXX';
-
   const certificationRepository = {
-    hasVerificationCode: sinon.stub().resolves(true),
-    saveVerificationCode: sinon.stub().resolves(),
+    hasVerificationCode: undefined,
+    saveVerificationCode: undefined,
   };
   const privateCertificateRepository = {
     get: () => undefined,
   };
-  const assessmentResultRepository = {
-    findLatestByCertificationCourseIdWithCompetenceMarks: () => undefined,
-  };
-  const competenceTreeRepository = {
-    get: () => undefined,
-  };
-  const cleaCertificationStatusRepository = {
-    getCleaCertificationStatus: () => undefined,
-  };
-
   const verifyCertificateCodeService = {
-    generateCertificateVerificationCode: sinon.stub().resolves(verificationCode),
+    generateCertificateVerificationCode: undefined,
   };
+  const resultCompetenceTreeService = {
+    computeForCertification: undefined,
+  };
+  const assessmentResultRepository = 'assessmentResultRepository';
+  const competenceTreeRepository = 'competenceTreeRepository';
 
   const dependencies = {
     certificationRepository,
     privateCertificateRepository,
-    cleaCertificationStatusRepository,
     assessmentResultRepository,
     competenceTreeRepository,
     verifyCertificateCodeService,
+    resultCompetenceTreeService,
   };
 
   beforeEach(() => {
     privateCertificateRepository.get = sinon.stub();
-    assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks = sinon.stub();
-    competenceTreeRepository.get = sinon.stub();
-    cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
+    verifyCertificateCodeService.generateCertificateVerificationCode = sinon.stub();
+    certificationRepository.hasVerificationCode = sinon.stub();
+    certificationRepository.saveVerificationCode = sinon.stub();
+    resultCompetenceTreeService.computeForCertification = sinon.stub();
   });
 
   context('when the user is not owner of the certification', async () => {
 
-    const randomOtherUserId = 666;
-    let certificate;
-
-    beforeEach(() => {
+    it('should throw an error if user is not the owner of the certificate', async () => {
       // given
-      certificate = domainBuilder.buildPrivateCertificate({
-        userId: randomOtherUserId,
-        id: certificationId,
+      const privateCertificate = domainBuilder.buildPrivateCertificate({
+        id: 123,
+        userId: 789,
       });
-      privateCertificateRepository.get.resolves(certificate);
-    });
+      certificationRepository.hasVerificationCode.withArgs(123).resolves(true);
+      privateCertificateRepository.get.withArgs(123).resolves(privateCertificate);
 
-    it('Should throw an error if user is not the owner of the certificate', async () => {
-      // given
-      const error = await catchErr(getPrivateCertificate)({ certificationId, userId, ...dependencies });
+      // when
+      const error = await catchErr(getPrivateCertificate)({ certificationId: 123, userId: 456, ...dependencies });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -72,114 +58,81 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
 
   context('when the user is owner of the certification', async () => {
 
-    const assessmentResultId = 123;
-    let assessmentResult;
-    let certificate;
-    let competenceTree;
+    context('certification has no verification code', () => {
 
-    beforeEach(() => {
-      // given
-      certificate = domainBuilder.buildPrivateCertificate({
-        userId,
-        id: certificationId,
+      it('should generate and save a verification code', async () => {
+        // given
+        const privateCertificate = domainBuilder.buildPrivateCertificate({
+          id: 123,
+          userId: 456,
+        });
+        certificationRepository.hasVerificationCode.withArgs(123).resolves(false);
+        privateCertificateRepository.get.withArgs(123).resolves(privateCertificate);
+        verifyCertificateCodeService.generateCertificateVerificationCode.resolves('P-SOMECODE');
+        certificationRepository.saveVerificationCode.resolves();
+        resultCompetenceTreeService.computeForCertification.resolves();
+
+        // when
+        await getPrivateCertificate({ certificationId: 123, userId: 456, ...dependencies });
+
+        // then
+        expect(verifyCertificateCodeService.generateCertificateVerificationCode).to.have.been.calledOnce;
+        expect(certificationRepository.saveVerificationCode).to.have.been.calledWithExactly(123, 'P-SOMECODE');
       });
-      privateCertificateRepository.get.resolves(certificate);
-
-      assessmentResult = domainBuilder.buildAssessmentResult({ id: assessmentResultId });
-      assessmentResult.competenceMarks = [domainBuilder.buildCompetenceMark()];
-      assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks.resolves(assessmentResult);
-
-      competenceTree = domainBuilder.buildCompetenceTree();
-      competenceTreeRepository.get.resolves(competenceTree);
     });
 
-    it('should get the certification from the repository', async () => {
+    context('certification already has verification code', () => {
+
+      it('should not generate another verification code', async () => {
+        // given
+        const privateCertificate = domainBuilder.buildPrivateCertificate({
+          id: 123,
+          userId: 456,
+        });
+        certificationRepository.hasVerificationCode.withArgs(123).resolves(true);
+        privateCertificateRepository.get.withArgs(123).resolves(privateCertificate);
+        verifyCertificateCodeService.generateCertificateVerificationCode.rejects(new Error('I should not run.'));
+        certificationRepository.saveVerificationCode.resolves(new Error('I should not run.'));
+        resultCompetenceTreeService.computeForCertification.resolves();
+
+        // when
+        await getPrivateCertificate({ certificationId: 123, userId: 456, ...dependencies });
+
+        // then
+        expect(verifyCertificateCodeService.generateCertificateVerificationCode).to.not.have.been.called;
+        expect(certificationRepository.saveVerificationCode).to.not.have.been.called;
+      });
+    });
+
+    it('should get the private certificate enhanced with the result competence tree', async () => {
       // given
-      certificationRepository.hasVerificationCode.withArgs(certificationId).resolves(true);
-      const competenceTree = {
-        'areas': [
-          {
-            'code': '1',
-            'color': 'jaffa',
-            'id': 'recvoGdo7z2z7pXWa',
-            'name': '1. Information et données',
-            'resultCompetences': [
-              {
-                'id': 'recsvLz0W2ShyfD63',
-                'index': '1.1',
-                'level': 2,
-                'name': 'Mener une recherche et une veille d’information',
-                'score': 13,
-              },
-              {
-                'id': 'recNv8qhaY887jQb2',
-                'index': '1.2',
-                'level': -1,
-                'name': 'Mener une recherche et une veille d’information',
-                'score': 0,
-              },
-              {
-                'id': 'recIkYm646lrGvLNT',
-                'index': '1.3',
-                'level': -1,
-                'name': 'Mener une recherche et une veille d’information',
-                'score': 0,
-              },
-            ],
-            'title': 'Information et données',
-          },
-        ],
-        'id': '23-123',
-      };
+      const privateCertificate = domainBuilder.buildPrivateCertificate({
+        id: 123,
+        userId: 456,
+      });
+      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
+      certificationRepository.hasVerificationCode.withArgs(123).resolves(true);
+      privateCertificateRepository.get.withArgs(123).resolves(privateCertificate);
+      verifyCertificateCodeService.generateCertificateVerificationCode.rejects(new Error('I should not run.'));
+      certificationRepository.saveVerificationCode.resolves(new Error('I should not run.'));
+      resultCompetenceTreeService.computeForCertification
+        .withArgs({
+          certificationId: 123,
+          assessmentResultRepository,
+          competenceTreeRepository,
+        })
+        .resolves(resultCompetenceTree);
 
       // when
-      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
+      const actualPrivateCertificate = await getPrivateCertificate({ certificationId: 123, userId: 456, ...dependencies });
 
       // then
-      expect(result).to.deep.equal({
-        ...certificate,
-        resultCompetenceTree: competenceTree,
-        cleaCertificationStatus,
+      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate({
+        id: 123,
+        userId: 456,
       });
-    });
-
-    it('should save a certification code and return the filled certification', async () => {
-      // given
-      certificationRepository.hasVerificationCode.withArgs(certificationId).resolves(false);
-
-      // when
-      await getPrivateCertificate({ certificationId, userId, ...dependencies });
-
-      // then
-      expect(certificationRepository.saveVerificationCode).to.have.been.calledWith(certificationId, verificationCode);
-    });
-
-    it('should return the certification with the resultCompetenceTree', async () => {
-      const expectedResultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
-        competenceTree,
-        competenceMarks: assessmentResult.competenceMarks,
-      });
-      expectedResultCompetenceTree.id = `${certificationId}-${assessmentResult.id}`;
-      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
-
-      // then
-      expect(result.resultCompetenceTree).to.be.an.instanceOf(ResultCompetenceTree);
-      expect(result.resultCompetenceTree).to.deep.equal(expectedResultCompetenceTree);
-
-    });
-
-    it('should set the included resultCompetenceTree id to certificationID-assessmentResultId', async () => {
-      const expectedId = `${certificationId}-${assessmentResult.id}`;
-      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
-
-      // then
-      expect(result.resultCompetenceTree.id).to.equal(expectedId);
-    });
-
-    it('should set cleaCertificationStatus', async () => {
-      const result = await getPrivateCertificate({ certificationId, userId, ...dependencies });
-
-      expect(result.cleaCertificationStatus).to.equal(cleaCertificationStatus);
+      expectedPrivateCertificate.setResultCompetenceTree(resultCompetenceTree);
+      expect(actualPrivateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
   });
 });

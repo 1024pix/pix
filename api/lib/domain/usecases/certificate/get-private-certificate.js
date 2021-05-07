@@ -1,4 +1,3 @@
-const { decorateWithCleaStatusAndCompetenceTree } = require('./decorate-with-clea-status-and-competence-tree');
 const { NotFoundError } = require('../../errors');
 
 module.exports = async function getPrivateCertificate({
@@ -6,26 +5,27 @@ module.exports = async function getPrivateCertificate({
   userId,
   certificationRepository,
   privateCertificateRepository,
-  cleaCertificationStatusRepository,
   assessmentResultRepository,
   competenceTreeRepository,
   verifyCertificateCodeService,
+  resultCompetenceTreeService,
 }) {
   const hasCode = await certificationRepository.hasVerificationCode(certificationId);
   if (!hasCode) {
     const code = await verifyCertificateCodeService.generateCertificateVerificationCode();
     await certificationRepository.saveVerificationCode(certificationId, code);
   }
-  const certificate = await privateCertificateRepository.get(certificationId);
-  if (certificate.userId !== userId) {
+  const privateCertificate = await privateCertificateRepository.get(certificationId);
+  if (privateCertificate.userId !== userId) {
     throw new NotFoundError();
   }
 
-  return decorateWithCleaStatusAndCompetenceTree({
+  const resultCompetenceTree = await resultCompetenceTreeService.computeForCertification({
     certificationId,
-    toBeDecorated: certificate,
-    cleaCertificationStatusRepository,
     assessmentResultRepository,
     competenceTreeRepository,
   });
+  privateCertificate.setResultCompetenceTree(resultCompetenceTree);
+
+  return privateCertificate;
 };
