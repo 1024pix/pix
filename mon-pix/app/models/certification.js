@@ -10,19 +10,20 @@ export default class Certification extends Model {
 
   static PARTNER_KEY_CLEA = 'PIX_EMPLOI_CLEA';
   // attributes
+  @attr('string') firstName;
+  @attr('string') lastName;
   @attr('date-only') birthdate;
   @attr('string') birthplace;
+  @attr('date') date;
+  @attr('date') deliveredAt;
+  @attr('boolean') isPublished;
   @attr('string') certificationCenter;
   @attr('string') commentForCandidate;
-  @attr('date') date;
-  @attr('string') firstName;
-  @attr('boolean') isPublished;
-  @attr('string') lastName;
   @attr('number') pixScore;
   @attr('string') status;
   @attr('string') verificationCode;
   @attr() cleaCertificationStatus;
-  @attr('date') deliveredAt;
+  @attr() certifiedBadgeImages;
   @attr('number') maxReachableLevelOnCertificationDate;
 
   // includes
@@ -32,6 +33,11 @@ export default class Certification extends Model {
   @computed('cleaCertificationStatus')
   get hasCleaCertif() {
     return this.cleaCertificationStatus === ACQUIRED;
+  }
+
+  @computed('certifiedBadgeImages.length', 'hasCleaCertif')
+  get hasAcquiredComplementaryCertifications() {
+    return this.hasCleaCertif || this.certifiedBadgeImages.length > 0;
   }
 
   @computed('firstName', 'lastName')
