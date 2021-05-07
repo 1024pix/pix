@@ -371,7 +371,7 @@ describe('Acceptance | API | Certifications', () => {
               'last-name': certificationCourse.lastName,
               'pix-score': assessmentResult.pixScore,
               'status': assessmentResult.status,
-              'clea-certification-status': 'not_passed',
+              'clea-certification-status': 'not_taken',
               'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
             },
             'id': `${certificationCourse.id}`,
