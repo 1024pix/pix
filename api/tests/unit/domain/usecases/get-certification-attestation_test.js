@@ -20,6 +20,7 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
       id: certificationId,
       deliveredAt,
       status: 'validated',
+      pixScore: 31,
     });
     assessmentResult = domainBuilder.buildAssessmentResult({ id: assessmentResultId, status: 'validated' });
     assessmentResult.competenceMarks = [domainBuilder.buildCompetenceMark({ assessmentResultId: assessmentResult.id })];

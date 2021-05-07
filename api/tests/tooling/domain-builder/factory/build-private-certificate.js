@@ -1,5 +1,4 @@
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
-const buildAssessmentResult = require('./build-assessment-result');
 const buildCleaCertificationResult = require('./build-clea-certification-result');
 
 const buildPrivateCertificate = function({
@@ -13,16 +12,15 @@ const buildPrivateCertificate = function({
   certificationCenter = 'L’univeristé du Pix',
   date = new Date('2018-12-01T01:02:03Z'),
   deliveredAt = new Date('2018-10-03T01:02:03Z'),
-  commentForCandidate,
-  pixScore,
-  status,
+  commentForCandidate = null,
+  pixScore = 156,
+  status = PrivateCertificate.status.VALIDATED,
   cleaCertificationResult = buildCleaCertificationResult.notTaken(),
   certifiedBadgeImages = [],
   resultCompetenceTree = null,
   verificationCode = 'P-BBBCCCDD',
   maxReachableLevelOnCertificationDate = 5,
 } = {}) {
-  const assessmentResult = buildAssessmentResult();
   return new PrivateCertificate({
     id,
     firstName,
@@ -34,9 +32,9 @@ const buildPrivateCertificate = function({
     certificationCenter,
     date,
     deliveredAt,
-    commentForCandidate: commentForCandidate || assessmentResult.commentForCandidate,
-    pixScore: pixScore || assessmentResult.pixScore,
-    status: status || assessmentResult.status,
+    commentForCandidate,
+    pixScore,
+    status,
     resultCompetenceTree,
     cleaCertificationResult,
     certifiedBadgeImages,
