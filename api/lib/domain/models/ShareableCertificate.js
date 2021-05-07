@@ -32,6 +32,10 @@ class ShareableCertificate {
     this.resultCompetenceTree = resultCompetenceTree;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
   }
+
+  setResultCompetenceTree(resultCompetenceTree) {
+    this.resultCompetenceTree = resultCompetenceTree;
+  }
 }
 
 module.exports = ShareableCertificate;
