@@ -1,6 +1,7 @@
 'use strict';
 require('dotenv').config();
-
+const fs = require('fs');
+const { find } = require('lodash');
 const smartRandom = require('../../api/lib/domain/services/smart-random/smart-random');
 const dataFetcher = require('../../api/lib/domain/services/smart-random/data-fetcher');
 const challengeRepository = require('../../api/lib/infrastructure/repositories/challenge-repository');
@@ -14,7 +15,17 @@ const KnowledgeElement = require('../../api/lib/domain/models/KnowledgeElement')
 
 const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
 
-function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId, userResult }) {
+function _read(path) {
+  if (path) {
+    const file = fs.readFileSync(path, 'utf-8');
+    if (file) {
+      return JSON.parse(file);
+    }
+  }
+  return [];
+}
+
+function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId, userResult, userKE }) {
 
   let result;
   const isFirstAnswer = !allAnswers.length;
@@ -34,10 +45,16 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
     case 'firstKOthenOK':
       isFirstAnswer ? result = AnswerStatus.KO : result = AnswerStatus.OK;
       break;
+    case 'KE': {
+      const ke = find(userKE, (ke) => find(challenge.skills, (skill) => skill.id === ke.skillId));
+      const status = ke ? ke.status : KnowledgeElement.StatusType.INVALIDATED;
+      result = status === KnowledgeElement.StatusType.VALIDATED ? AnswerStatus.OK : AnswerStatus.KO;
+      break;
+    }
     default:
       result = AnswerStatus.OK;
   }
-
+  console.log(`Result : ${result.status}`);
   const newAnswer = new Answer({ challengeId: challenge.id, result });
 
   const _getSkillsFilteredByStatus = (knowledgeElements, targetSkills, status) => {
@@ -76,6 +93,11 @@ async function _getReferentiel({
         return targetProfile;
       },
     };
+    const campaignParticipationRepositoryStub = {
+      isRetrying: () => {
+        return false;
+      },
+    };
 
     const { targetSkills, challenges } = await dataFetcher.fetchForCampaigns({
       assessment,
@@ -84,6 +106,7 @@ async function _getReferentiel({
       challengeRepository,
       knowledgeElementRepository,
       improvementService,
+      campaignParticipationRepository: campaignParticipationRepositoryStub,
     });
 
     return { targetSkills, challenges };
@@ -133,7 +156,7 @@ async function _getChallenge({
 
 async function launchTest(argv) {
 
-  const { competenceId, targetProfileId, locale, userResult } = argv;
+  const { competenceId, targetProfileId, locale, userResult, userKEFile } = argv;
 
   let allAnswers = [];
   let knowledgeElements = [];
@@ -150,6 +173,8 @@ async function launchTest(argv) {
   const answerRepository = {
     findByAssessment: () => [],
   };
+
+  const userKE = _read(userKEFile);
 
   let isAssessmentOver = false;
 
@@ -183,6 +208,7 @@ async function launchTest(argv) {
         allKnowledgeElements: knowledgeElements,
         targetSkills,
         userResult,
+        userKE,
       });
       allAnswers = updatedAnswers;
       knowledgeElements = updatedKnowledgeElements;
