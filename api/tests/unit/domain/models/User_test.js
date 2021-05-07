@@ -248,4 +248,70 @@ describe('Unit | Domain | Models | User', () => {
     });
   });
 
+  describe('#shouldChangePassword', () => {
+
+    context('when there is a Pix authentication method', () => {
+
+      it('should return true', () => {
+        // given
+        const oneTimePassword = 'Azerty123*';
+
+        const pixAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+          hashedPassword: oneTimePassword,
+          shouldChangePassword: true,
+        });
+
+        const user = new User({
+          id: 1,
+          email: 'email@example.net',
+          authenticationMethods: [pixAuthenticationMethod],
+        });
+
+        // when
+        const shouldChangePassword = user.shouldChangePassword;
+
+        // then
+        expect(shouldChangePassword).to.be.true;
+      });
+
+      it('should return false when should not change password', () => {
+        // given
+        const pixAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+          shouldChangePassword: false,
+        });
+
+        const user = new User({
+          id: 1,
+          email: 'email@example.net',
+          authenticationMethods: [pixAuthenticationMethod],
+        });
+
+        // when
+        const shouldChangePassword = user.shouldChangePassword;
+
+        // then
+        expect(shouldChangePassword).to.be.false;
+      });
+    });
+
+    context('when there is no Pix authentication method', () => {
+
+      it('should return null', () => {
+        // given
+        const poleEmploiAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod();
+
+        const user = new User({
+          id: 1,
+          authenticationMethods: [poleEmploiAuthenticationMethod],
+        });
+
+        // when
+        const shouldChangePassword = user.shouldChangePassword;
+
+        // then
+        expect(shouldChangePassword).to.be.null;
+      });
+    });
+  });
+
 });
