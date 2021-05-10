@@ -88,6 +88,7 @@ const dependencies = {
   sessionPublicationService: require('../../domain/services/session-publication-service'),
   sessionRepository: require('../../infrastructure/repositories/session-repository'),
   settings: require('../../config'),
+  shareableCertificateRepository: require('../../infrastructure/repositories/shareable-certificate-repository'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   stageRepository: require('../../infrastructure/repositories/stage-repository'),
   studentRepository: require('../../infrastructure/repositories/student-repository'),
