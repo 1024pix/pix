@@ -49,7 +49,7 @@ describe('Integration | Repository | Campaign-Report', () => {
       await databaseBuilder.commit();
 
       filter = {};
-      page = { number: 1, size: 3 };
+      page = { number: 1, size: 4 };
     });
 
     context('when the given organization has no campaign', () => {
@@ -120,7 +120,8 @@ describe('Integration | Repository | Campaign-Report', () => {
 
         const campaignBInThePastId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: createdAtInThePast }).id;
         const campaignAInThePresentId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'A', createdAt: createdAtInThePresent }).id;
-        const campaignBInTheFutureId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: createdAtInTheFuture }).id;
+        const campaignCInTheFutureId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'C', createdAt: createdAtInTheFuture }).id;
+        databaseBuilder.factory.buildCampaign({ organizationId, name: 'D', createdAt: createdAtInThePast, archivedAt: createdAtInThePresent });
         await databaseBuilder.commit();
 
         // when
@@ -128,7 +129,7 @@ describe('Integration | Repository | Campaign-Report', () => {
 
         // then
         expect(campaignsWithReports).to.have.lengthOf(3);
-        expect(_.map(campaignsWithReports, 'id')).to.deep.equal([campaignBInTheFutureId, campaignAInThePresentId, campaignBInThePastId]);
+        expect(_.map(campaignsWithReports, 'id')).to.deep.equal([campaignCInTheFutureId, campaignAInThePresentId, campaignBInThePastId]);
       });
 
       context('when campaigns have participants', async () => {
@@ -150,7 +151,7 @@ describe('Integration | Repository | Campaign-Report', () => {
 
           // then
           expect(campaignReports[0]).to.be.instanceOf(CampaignReport);
-          expect(campaignReports[0]).to.include({ id: campaign.id, participationsCount: 0, sharedParticipationsCount: 0 });
+          expect(campaignReports[0]).to.include({ id: campaign.id, participationsCount: 3, sharedParticipationsCount: 1 });
         });
       });
 
@@ -294,8 +295,8 @@ describe('Integration | Repository | Campaign-Report', () => {
         let expectedPagination;
 
         beforeEach(() => {
-          _.times(4, () => databaseBuilder.factory.buildCampaign({ organizationId }));
-          expectedPagination = { page: page.number, pageSize: page.size, pageCount: 2, rowCount: 4 };
+          _.times(5, () => databaseBuilder.factory.buildCampaign({ organizationId }));
+          expectedPagination = { page: page.number, pageSize: page.size, pageCount: 2, rowCount: 5 };
           return databaseBuilder.commit();
         });
 
@@ -304,7 +305,7 @@ describe('Integration | Repository | Campaign-Report', () => {
           const { models: campaignsWithReports, meta: pagination } = await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
 
           // then
-          expect(campaignsWithReports).to.have.lengthOf(3);
+          expect(campaignsWithReports).to.have.lengthOf(4);
           expect(pagination).to.include(expectedPagination);
         });
       });

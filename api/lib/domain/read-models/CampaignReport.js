@@ -17,8 +17,8 @@ class CampaignReport {
     targetProfileId,
     targetProfileName,
     targetProfileImageUrl,
-    participationsCount = 0,
-    sharedParticipationsCount = 0,
+    participationsCount,
+    sharedParticipationsCount,
     badges = [],
     stages = [],
   } = {}) {
