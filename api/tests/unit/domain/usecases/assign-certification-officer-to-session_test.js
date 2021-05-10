@@ -70,10 +70,11 @@ describe('Unit | UseCase | assign-certification-officer-to-session', () => {
           .withArgs({ sessionId })
           .resolves(finalizedSession);
 
-        const userRepository = { get: sinon.stub() };
-        userRepository.get
+        const certificationOfficerRepository = { get: sinon.stub() };
+        const certificationOfficer = domainBuilder.buildCertificationOfficer();
+        certificationOfficerRepository.get
           .withArgs(2)
-          .resolves({ firstName: 'Severus', lastName: 'Snape' });
+          .resolves(certificationOfficer);
 
         // when
         const actualSessionId = await assignCertificationOfficerToJurySession({
@@ -81,15 +82,15 @@ describe('Unit | UseCase | assign-certification-officer-to-session', () => {
           certificationOfficerId,
           jurySessionRepository,
           finalizedSessionRepository,
-          userRepository,
+          certificationOfficerRepository,
         });
 
         // then
         expect(
           jurySessionRepository.assignCertificationOfficer,
         ).to.have.been.calledWith({
-          id: sessionId,
-          assignedCertificationOfficerId: certificationOfficerId,
+          id: finalizedSession.sessionId,
+          assignedCertificationOfficerId: certificationOfficer.id,
         });
         expect(
           finalizedSessionRepository.save,

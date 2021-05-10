@@ -21,6 +21,7 @@ module.exports = {
   buildCertificationAssessment: require('./build-certification-assessment'),
   buildCertificationCandidate: require('./build-certification-candidate'),
   buildCertificationIssueReport: require('./build-certification-issue-report'),
+  buildCertificationOfficer: require('./build-certification-officer'),
   buildSCOCertificationCandidate: require('./build-sco-certification-candidate'),
   buildCertificationCenter: require('./build-certification-center'),
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
