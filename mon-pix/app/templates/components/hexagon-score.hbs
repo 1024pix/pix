@@ -11,6 +11,7 @@
                  @backgroundColor="transparent"
                  @isBorderVisible={{false}}
                  @triggerAction={{this.toggleTooltip}}
+                 {{on 'focusout' this.hideHelp}}
                  aria-describedby="hexagon-score-tooltip">
         <FaIcon @icon="info-circle"/>
       </PixButton>
@@ -18,7 +19,10 @@
   </div>
 
   {{#if this.displayHelp}}
-    <div role="tooltip" id="hexagon-score-tooltip" class="hexagon-score__information hexagon-score-information__text" {{on-key 'Escape' this.hideHelp}}>
+    <div role="tooltip"
+         id="hexagon-score-tooltip"
+         class="hexagon-score__information hexagon-score-information__text"
+         {{on-key 'Escape' this.hideHelp event='keyup'}}>
       <span class="hexagon-score-information__text--strong">{{t 'pages.profile.total-score-helper.title'}}</span>
       <br><br>
       {{t 'pages.profile.total-score-helper.explanation' maxReachablePixCount=this.maxReachablePixCount maxReachableLevel=this.maxReachableLevel htmlSafe=true}}

@@ -85,13 +85,28 @@ describe('Integration | Component | hexagon-score', function() {
 
     describe('on ‘Escape‘ key pressed', () => {
       it('should hide tooltip', async () => {
-        // when
+        // given
         await triggerEvent('.hexagon-score', 'mouseenter');
         expect(find(tooltip)).to.exist;
 
-        // then
+        // when
         const escapeKeyCode = 27;
-        await triggerKeyEvent('.hexagon-score__information', 'keydown', escapeKeyCode);
+        await triggerKeyEvent('.hexagon-score__information', 'keyup', escapeKeyCode);
+
+        // then
+        expect(find(tooltip)).not.to.exist;
+      });
+    });
+
+    describe('on button focusout', () => {
+      it('should hide tooltip', async () => {
+        // given
+        const button = find('.hexagon-score-content__pix-total button');
+        await click(button);
+        expect(find(tooltip)).to.exist;
+
+        // when
+        await triggerEvent(button, 'focusout');
 
         // then
         expect(find(tooltip)).not.to.exist;
