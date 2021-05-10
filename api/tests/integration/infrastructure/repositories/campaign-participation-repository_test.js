@@ -830,4 +830,60 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
+  describe('#countParticipationsByStage', () => {
+    let campaignId;
+
+    const stagesBoundaries = [
+      { id: 1, from: 0, to: 4 },
+      { id: 2, from: 5, to: 9 },
+      { id: 3, from: 10, to: 19 },
+    ];
+
+    beforeEach(async () => {
+      campaignId = databaseBuilder.factory.buildCampaign().id;
+      await databaseBuilder.commit();
+    });
+
+    it('returns an empty object when no participations', async () => {
+      await databaseBuilder.commit();
+
+      const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
+
+      expect(result).to.deep.equal({});
+    });
+
+    it('returns the distribution for the campaign', async () => {
+      databaseBuilder.factory.buildCampaignParticipation({ validatedSkillsCount: 0 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 0 });
+      await databaseBuilder.commit();
+
+      const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
+
+      expect(result).to.deep.equal({ '1': 1, '2': 0, '3': 0 });
+    });
+
+    it('returns the distribution for only isImproved=false participations', async () => {
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 0, isImproved: false });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 0, isImproved: true });
+      await databaseBuilder.commit();
+
+      const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
+
+      expect(result).to.deep.equal({ '1': 1, '2': 0, '3': 0 });
+    });
+
+    it('returns the distribution of participations by stage', async () => {
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 0 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 5 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 6 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 10 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 12 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 19 });
+      await databaseBuilder.commit();
+
+      const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
+
+      expect(result).to.deep.equal({ '1': 1, '2': 2, '3': 3 });
+    });
+  });
 });

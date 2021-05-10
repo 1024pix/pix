@@ -201,6 +201,25 @@ module.exports = {
     return campaignParticipations.length > 1 && campaignParticipations.some(
       (participation) => !participation.isImproved && !participation.sharedAt);
   },
+
+  async countParticipationsByStage(campaignId, stagesBoundaries) {
+    const participationCounts = stagesBoundaries.map((boundary) => {
+      return knex.raw(
+        'COUNT("id") FILTER (WHERE "validatedSkillsCount" between ?? and ??) OVER (PARTITION BY "campaignId") AS ??',
+        [boundary.from, boundary.to, String(boundary.id)],
+      );
+    });
+
+    const result = await knex.select(participationCounts)
+      .from('campaign-participations')
+      .where('campaign-participations.campaignId', '=', campaignId)
+      .where('campaign-participations.isImproved', '=', false)
+      .limit(1);
+
+    if (!result.length) return {};
+
+    return result[0];
+  },
 };
 
 function _adaptModelToDb(campaignParticipation) {
