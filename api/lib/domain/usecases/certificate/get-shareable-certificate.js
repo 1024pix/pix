@@ -1,20 +1,18 @@
-const { decorateWithCleaStatusAndCompetenceTree } = require('./decorate-with-clea-status-and-competence-tree');
-
 module.exports = async function getShareableCertificate({
   verificationCode,
-  certificationRepository,
-  cleaCertificationStatusRepository,
+  shareableCertificateRepository,
   competenceTreeRepository,
   assessmentResultRepository,
+  resultCompetenceTreeService,
 }) {
-  const certificate = await certificationRepository.getShareableCertificateByVerificationCode({ verificationCode });
+  const shareableCertificate = await shareableCertificateRepository.getByVerificationCode(verificationCode);
 
-  return decorateWithCleaStatusAndCompetenceTree({
-    certificationId: certificate.id,
-    toBeDecorated: certificate,
-    maxReachableLevelOnCertificationDate: certificate.maxReachableLevelOnCertificationDate,
-    cleaCertificationStatusRepository,
+  const resultCompetenceTree = await resultCompetenceTreeService.computeForCertification({
+    certificationId: shareableCertificate.id,
     assessmentResultRepository,
     competenceTreeRepository,
   });
+  shareableCertificate.setResultCompetenceTree(resultCompetenceTree);
+
+  return shareableCertificate;
 };

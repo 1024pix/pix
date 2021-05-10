@@ -1,16 +1,13 @@
 const { expect, databaseBuilder, catchErr, knex } = require('../../../test-helper');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
-const { NotFoundError, CertificationCourseNotPublishableError } = require('../../../../lib/domain/errors');
+const { CertificationCourseNotPublishableError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { status } = require('../../../../lib/domain/models/AssessmentResult');
-const ShareableCertificate = require('../../../../lib/domain/models/ShareableCertificate');
 const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
 
 const CertificationCourseBookshelf = require('../../../../lib/infrastructure/data/certification-course');
 const PARTNER_CLEA_KEY = 'BANANA';
 const verificationCode = 'P-123498NN';
-const notPublishedSessionVerificationCode = 'P-123498XX';
-const rejectedSessionVerificationCode = 'P-123498ZZ';
 
 describe('Integration | Repository | Certification ', () => {
 
@@ -158,59 +155,6 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
-  describe('#getCertificationByVerificationCode', () => {
-
-    context('when verificationCode match', () => {
-      it('should return a certification when a correct verificationCode matches a correct pixScore', async () => {
-        // when
-        const certificate = await certificationRepository.getShareableCertificateByVerificationCode({ verificationCode });
-
-        // then
-        expect(certificate).to.be.instanceOf(ShareableCertificate);
-      });
-    });
-
-    context('when verificationCode match a not published certificate', () => {
-      it('should throw an error', async () => {
-        // given
-        _buildNotPublishedCertificationData({ verificationCode: notPublishedSessionVerificationCode, certificationCenterId, certificationCenter, userId, type, pixScore });
-        await databaseBuilder.commit();
-
-        // when
-        const error = await catchErr(certificationRepository.getShareableCertificateByVerificationCode)({ verificationCode: notPublishedSessionVerificationCode });
-
-        // then
-        expect(error).to.be.instanceOf(NotFoundError);
-      });
-    });
-
-    context('when verificationCode match an rejected certificate', () => {
-      it('should throw an error', async () => {
-        // given
-        _buildRejectedCertificationData({ verificationCode: rejectedSessionVerificationCode, certificationCenterId, certificationCenter, userId, type, pixScore });
-        await databaseBuilder.commit();
-        // when
-        const error = await catchErr(certificationRepository.getShareableCertificateByVerificationCode)({ verificationCode: rejectedSessionVerificationCode });
-
-        // then
-        expect(error).to.be.instanceOf(NotFoundError);
-      });
-    });
-
-    context('when verificationCode does not match', () => {
-      it('should throw an error', async () => {
-        //given
-        const wrongVerificationCode = 'P-BBBCCC$$';
-
-        // when
-        const error = await catchErr(certificationRepository.getShareableCertificateByVerificationCode)({ verificationCode: wrongVerificationCode });
-
-        // then
-        expect(error).to.be.instanceOf(NotFoundError);
-      });
-    });
-  });
-
   describe('#getCertificationAttestation', () => {
 
     it('should return a certification attestation for a given certification', async () => {
@@ -265,14 +209,6 @@ describe('Integration | Repository | Certification ', () => {
 
 function _buildValidatedPublishedCertificationData({ certificationCenterId, certificationCenter, verificationCode, userId, type, pixScore }) {
   return _buildCertificationData({ certificationCenterId, certificationCenter, isPublished: true, status: status.VALIDATED, verificationCode, userId, type, pixScore });
-}
-
-function _buildNotPublishedCertificationData({ certificationCenterId, certificationCenter, verificationCode, userId, type, pixScore }) {
-  return _buildCertificationData({ certificationCenterId, certificationCenter, isPublished: false, status: status.VALIDATED, verificationCode, userId, type, pixScore });
-}
-
-function _buildRejectedCertificationData({ certificationCenterId, certificationCenter, verificationCode, userId, type, pixScore }) {
-  return _buildCertificationData({ certificationCenterId, certificationCenter, isPublished: true, status: status.REJECTED, verificationCode, userId, type, pixScore });
 }
 
 function _buildCertificationData({ isPublished, status, verificationCode, certificationCenterId, certificationCenter, userId, type, pixScore }) {

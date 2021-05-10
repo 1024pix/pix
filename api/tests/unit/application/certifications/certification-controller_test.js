@@ -2,7 +2,6 @@ const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
 const events = require('../../../../lib/domain/events');
 const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
@@ -12,7 +11,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
   describe('#findUserCertifications', () => {
 
-    it('should return a serialized private certificates array found in the usecase', async () => {
+    it('should return the serialized private certificates of the user', async () => {
       // given
       const userId = 1;
       const request = { auth: { credentials: { userId } } };
@@ -75,7 +74,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
   describe('#getCertification', () => {
 
-    it('should return a serialized private certificate found in the usecase', async () => {
+    it('should return a serialized private certificate given by id', async () => {
       // given
       const userId = 1;
       const certificationId = 2;
@@ -139,27 +138,59 @@ describe('Unit | Controller | certifications-controller', () => {
   });
 
   describe('#getCertificationByVerificationCode', () => {
-    const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
-    const serializedCertification = '{JSON}';
 
-    const verificationCode = 'P-123456BB';
-    const request = { payload: { verificationCode } };
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'getShareableCertificate');
-      sinon.stub(certificationSerializer, 'serializeForSharing');
-    });
-
-    it('should return a serialized certification when use case returns a certification', async () => {
+    it('should return a serialized shareable certificate given by verification code', async () => {
       // given
-      usecases.getShareableCertificate.withArgs({ verificationCode }).resolves(certification);
-      certificationSerializer.serializeForSharing.withArgs(certification).returns(serializedCertification);
+      const request = { payload: { verificationCode: 'P-123456BB' } };
+      const shareableCertificate = domainBuilder.buildShareableCertificate({
+        id: 123,
+        firstName: 'Dorothé',
+        lastName: '2Pac',
+        birthdate: '2000-01-01',
+        birthplace: 'Sin City',
+        isPublished: true,
+        date: new Date('2020-01-01T00:00:00Z'),
+        deliveredAt: new Date('2021-01-01T00:00:00Z'),
+        certificationCenter: 'Centre des choux de Bruxelles',
+        pixScore: 456,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+        certifiedBadgeImages: ['/img/1'],
+        maxReachableLevelOnCertificationDate: 6,
+      });
+      sinon.stub(usecases, 'getShareableCertificate');
+      usecases.getShareableCertificate.withArgs({ verificationCode: 'P-123456BB' }).resolves(shareableCertificate);
 
       // when
       const response = await certificationController.getCertificationByVerificationCode(request, hFake);
 
       // then
-      expect(response).to.deep.equal(serializedCertification);
+      expect(response).to.deep.equal({
+        data: {
+          'id': '123',
+          'type': 'certifications',
+          'attributes': {
+            'first-name': 'Dorothé',
+            'last-name': '2Pac',
+            'birthdate': '2000-01-01',
+            'birthplace': 'Sin City',
+            'certification-center': 'Centre des choux de Bruxelles',
+            'date': new Date('2020-01-01T00:00:00Z'),
+            'delivered-at': new Date('2021-01-01T00:00:00Z'),
+            'is-published': true,
+            'pix-score': 456,
+            'clea-certification-status': 'acquired',
+            'certified-badge-images': [
+              '/img/1',
+            ],
+            'max-reachable-level-on-certification-date': 6,
+          },
+          'relationships': {
+            'result-competence-tree': {
+              'data': null,
+            },
+          },
+        },
+      });
     });
   });
 

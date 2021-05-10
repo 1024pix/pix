@@ -1,7 +1,7 @@
 const usecases = require('../../domain/usecases');
 const events = require('../../domain/events');
-const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const privateCertificateSerializer = require('../../infrastructure/serializers/jsonapi/private-certificate-serializer');
+const shareableCertificateSerializer = require('../../infrastructure/serializers/jsonapi/shareable-certificate-serializer');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
 
 module.exports = {
@@ -23,11 +23,11 @@ module.exports = {
     return privateCertificateSerializer.serialize(privateCertificate);
   },
 
-  getCertificationByVerificationCode(request) {
+  async getCertificationByVerificationCode(request) {
     const verificationCode = request.payload.verificationCode;
 
-    return usecases.getShareableCertificate({ verificationCode })
-      .then((certificate) => certificationSerializer.serializeForSharing(certificate));
+    const shareableCertificate = await usecases.getShareableCertificate({ verificationCode });
+    return shareableCertificateSerializer.serialize(shareableCertificate);
   },
 
   async getPDFAttestation(request, h) {
