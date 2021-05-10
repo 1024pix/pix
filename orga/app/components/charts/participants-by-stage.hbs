@@ -1,0 +1,18 @@
+<Charts::Card @title={{t 'charts.participants-by-stage.title'}} ...attributes>
+  {{#each this.data as |stage|}}
+    <div class="participants-by-stage">
+      <PixStars @count={{stage.stage}} @total={{@maxStage}} @color="blue" class="stage-stars" />
+      <div class="participants-by-stage__values">
+        {{t 'charts.participants-by-stage.participants' count=stage.value}}
+      </div>
+      <PixTooltip role="tooltip" @text={{stage.tooltip}} @position="bottom-right" @isWide={{true}} @isLight={{true}} class="participants-by-stage__tooltip">
+        <div class="participants-by-stage__graph" role="button" {{on "click" (fn this.onClickBar stage.id)}}>
+          <div class="participants-by-stage__bar" style={{stage.barWidth}} />
+          <div class="participants-by-stage__percentage">
+            {{t 'charts.participants-by-stage.percentage' percentage=stage.percentage}}
+          </div>
+        </div>
+      </PixTooltip>
+    </div>
+  {{/each}}
+</Charts::Card>
