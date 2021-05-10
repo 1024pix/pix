@@ -5,7 +5,7 @@ module.exports = async function getShareableCertificate({
   assessmentResultRepository,
   resultCompetenceTreeService,
 }) {
-  const shareableCertificate = await shareableCertificateRepository.getByVerificationCode({ verificationCode });
+  const shareableCertificate = await shareableCertificateRepository.getByVerificationCode(verificationCode);
 
   const resultCompetenceTree = await resultCompetenceTreeService.computeForCertification({
     certificationId: shareableCertificate.id,
