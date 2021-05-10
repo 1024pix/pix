@@ -18,6 +18,10 @@
   background-color: $white;
   border-radius: 10px;
 
+  @include device-is('mobile') {
+    width: 95%;
+  }
+
   &__logo {
     margin-bottom: 20px;
 
@@ -33,7 +37,7 @@
     text-align: center;
     color: $grey-100;
     font-family: $roboto;
-    font-size: 18px;
+    font-size: 1.15em;
     font-weight: 300;
   }
 
@@ -52,6 +56,10 @@
     overflow-y: scroll;
     overflow-x: hidden;
     font-family: $open-sans;
+
+    @include device-is('mobile') {
+      margin: 0;
+    }
   }
 
   &__actions {
@@ -59,10 +67,28 @@
     flex-direction: row;
     justify-content: flex-end;
     margin: 0 100px;
+
+    @include device-is('mobile') {
+      flex-direction: column;
+      align-items: center;
+      margin: 15px 10px 0 10px;
+    }
   }
 
   &__submit {
     margin-left: 10px;
+
+    @include device-is('mobile') {
+      margin: 10px 0 0 0;
+    }
+
+    &:focus,
+    &:hover,
+    &:focus-within {
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px $blue;
+      padding: 0;
+    }
   }
 
 }
