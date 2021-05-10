@@ -16,10 +16,12 @@ export const certificationIssueReportSubcategories = {
   LEFT_EXAM_ROOM: 'LEFT_EXAM_ROOM',
   SIGNATURE_ISSUE: 'SIGNATURE_ISSUE',
   IMAGE_NOT_DISPLAYING: 'IMAGE_NOT_DISPLAYING',
+  LINK_NOT_WORKING: 'LINK_NOT_WORKING',
   EMBED_NOT_WORKING: 'EMBED_NOT_WORKING',
   FILE_NOT_OPENING: 'FILE_NOT_OPENING',
   WEBSITE_UNAVAILABLE: 'WEBSITE_UNAVAILABLE',
   WEBSITE_BLOCKED: 'WEBSITE_BLOCKED',
+  OTHER: 'OTHER',
   EXTRA_TIME_EXCEEDED: 'EXTRA_TIME_EXCEEDED',
   SOFTWARE_NOT_WORKING: 'SOFTWARE_NOT_WORKING',
 };
@@ -44,6 +46,8 @@ export const subcategoryToLabel = {
   [certificationIssueReportSubcategories.FILE_NOT_OPENING]: 'Le fichier à télécharger ne s\'ouvre pas',
   [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'Le site à visiter est indisponible/en maintenance/inaccessible',
   [certificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'Le site est bloqué par les restrictions réseau de l\'établissement (réseaux sociaux par ex.)',
+  [certificationIssueReportSubcategories.LINK_NOT_WORKING]: 'Le lien ne fonctionne pas',
+  [certificationIssueReportSubcategories.OTHER]: 'Autre incident lié à une question',
   [certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'Le candidat bénéficie d\'un temps majoré et n\'a pas pu répondre à la question dans le temps imparti',
   [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'Le logiciel installé sur l\'ordinateur n\'a pas fonctionné',
 };
@@ -68,6 +72,8 @@ export const subcategoryToCode = {
   [certificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E3',
   [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E4',
   [certificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
+  [certificationIssueReportSubcategories.LINK_NOT_WORKING]: 'E6',
+  [certificationIssueReportSubcategories.OTHER]: 'E7',
   [certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'E8',
   [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'E9',
 };
