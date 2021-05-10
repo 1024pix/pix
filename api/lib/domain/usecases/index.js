@@ -93,6 +93,7 @@ const dependencies = {
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   stageRepository: require('../../infrastructure/repositories/stage-repository'),
   studentRepository: require('../../infrastructure/repositories/student-repository'),
+  tagRepository: require('../../infrastructure/repositories/tag-repository'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
   targetProfileShareRepository: require('../../infrastructure/repositories/target-profile-share-repository'),
   targetProfileWithLearningContentRepository: require('../../infrastructure/repositories/target-profile-with-learning-content-repository'),
