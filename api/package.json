@@ -66,6 +66,7 @@
     "sax": "^1.2.4",
     "saxpath": "^0.6.5",
     "sib-api-v3-sdk": "^8.2.0",
+    "uuid": "^8.3.2",
     "xlsx": "^0.16.1",
     "xml-buffer-tostring": "^0.2.0",
     "xml2js": "^0.4.23",
