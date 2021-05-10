@@ -78,6 +78,7 @@ const dependencies = {
   privateCertificateRepository: require('../../infrastructure/repositories/private-certificate-repository'),
   resetPasswordService: require('../../domain/services/reset-password-service'),
   resetPasswordDemandRepository: require('../../infrastructure/repositories/reset-password-demands-repository'),
+  resultCompetenceTreeService: require('../services/result-competence-tree-service'),
   schoolingRegistrationRepository: require('../../infrastructure/repositories/schooling-registration-repository'),
   schoolingRegistrationsXmlService: require('../../domain/services/schooling-registrations-xml-service'),
   scoCertificationCandidateRepository: require('../../infrastructure/repositories/sco-certification-candidate-repository'),

@@ -198,6 +198,7 @@ function _createPixDroitBadge(databaseBuilder) {
     message: 'avez validé le badge Pix+ Droit MAITRE',
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
+    certifiedImageUrl: 'https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/cartman.svg',
   });
 
   const pixDroitExpertBadge = databaseBuilder.factory.buildBadge({
@@ -209,6 +210,7 @@ function _createPixDroitBadge(databaseBuilder) {
     message: 'avez validé le badge Pix+ Droit EXPERT (et MAITRE)',
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
+    certifiedImageUrl: 'https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/android.svg',
   });
 
   const badgePartnerCompetencesMasterIds = _associatePixDroitMasterBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForPixDroitBadge, pixDroitMasterBadge);

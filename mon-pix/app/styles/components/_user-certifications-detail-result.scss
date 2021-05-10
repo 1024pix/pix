@@ -19,9 +19,14 @@
     font-weight: normal;
   }
 
-  &__badge-clea {
-    margin: 24px;
+  &__complementary-certification {
+    margin: 16px;
     text-align: center;
+
+    img {
+      width: 110px;
+      height: 110px;
+    }
   }
 
   &__jury {

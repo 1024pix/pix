@@ -1,45 +1,26 @@
-const { expect, sinon } = require('../../../test-helper');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const findUserPrivateCertificates = require('../../../../lib/domain/usecases/find-user-private-certificates');
 
 describe('Unit | UseCase | find-user-private-certificates', () => {
 
   const privateCertificateRepository = {};
-  const cleaCertificationStatusRepository = {};
-  const cleaCertificationStatus = 'someStatus';
 
   beforeEach(() => {
     privateCertificateRepository.findByUserId = sinon.stub();
-    cleaCertificationStatusRepository.getCleaCertificationStatus = sinon.stub().resolves(cleaCertificationStatus);
   });
 
-  it('should return all the needed informations about certifications', function() {
+  it('should return the private certificates', async () => {
     // given
-    const userId = 1;
-    const assessmentResult = new AssessmentResult({
-      pixScore: 23,
-      status: 'rejected',
-    });
-    const completedCertificates = new PrivateCertificate({
-      id: 1000,
-      certificationCenter: 'Université des chocolats',
-      date: '2000-02-12',
-      isPublished: true,
-      assessmentState: 'completed',
-      assessmentResults: [assessmentResult],
-    });
-    privateCertificateRepository.findByUserId.resolves([completedCertificates]);
+    const privateCertificate1 = domainBuilder.buildPrivateCertificate();
+    const privateCertificate2 = domainBuilder.buildPrivateCertificate();
+    privateCertificateRepository.findByUserId
+      .withArgs({ userId: 123 })
+      .resolves([privateCertificate1, privateCertificate2]);
 
     // when
-    const promise = findUserPrivateCertificates({ userId, privateCertificateRepository, cleaCertificationStatusRepository });
+    const privateCertificates = await findUserPrivateCertificates({ userId: 123, privateCertificateRepository });
 
     // then
-    return promise.then((certifications) => {
-      expect(privateCertificateRepository.findByUserId).to.have.been.calledWith({ userId });
-      expect(certifications).to.have.lengthOf(1);
-      expect(certifications[0].id).to.equal(1000);
-      expect(certifications[0].cleaCertificationStatus).to.equal(cleaCertificationStatus);
-    });
+    expect(privateCertificates).to.deep.equal([privateCertificate1, privateCertificate2]);
   });
 });
