@@ -6,6 +6,7 @@ const RedisCache = require('./RedisCache');
 const settings = require('../../config');
 
 const LEARNING_CONTENT_CHANNEL = 'Learning content';
+const LEARNING_CONTENT_CACHE_KEY = 'LearningContent';
 
 class LearningContentCache extends Cache {
 
@@ -21,12 +22,12 @@ class LearningContentCache extends Cache {
     }
   }
 
-  get(key, generator) {
-    return this._underlyingCache.get(key, generator);
+  get(generator) {
+    return this._underlyingCache.get(LEARNING_CONTENT_CACHE_KEY, generator);
   }
 
-  set(key, object) {
-    return this._underlyingCache.set(key, object);
+  set(object) {
+    return this._underlyingCache.set(LEARNING_CONTENT_CACHE_KEY, object);
   }
 
   flushAll() {

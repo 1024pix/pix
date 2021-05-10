@@ -22,6 +22,7 @@ module.exports = [
   require('./application/feature-toggles'),
   require('./application/feedbacks'),
   require('./application/healthcheck'),
+  require('./application/lcms'),
   require('./application/memberships'),
   require('./application/organization-invitations'),
   require('./application/organizations'),
