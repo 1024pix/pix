@@ -82,6 +82,36 @@
     },
     "template-name": "import-template"
   },
+  "csv-import-values": {
+    "higher-schooling-registrations": {
+      "diplomas": {
+        "license": "Diplôme National de Licence contrôlé par l'Etat",
+        "master": "Diplôme National de Master contrôlé par l'Etat",
+        "doctorat": "Diplôme National de Doctorat contrôlé par l'Etat",
+        "dnmade": "DNMADE contrôlé par l'Etat",
+        "dma ": "DMA contrôlé par l'Etat",
+        "bts": "BTS contrôlé par l'Etat",
+        "dut": "DUT contrôlé par l'Etat",
+        "dts": "DTS contrôlé par l'Etat",
+        "dcg ": "DCG contrôlé par l'Etat",
+        "deust": "DEUST contrôlé par l'Etat",
+        "etat-controle": "Diplôme d'Etat contrôlé",
+        "ingenieur": "Diplôme d'ingénieur contrôlé par l'Etat",
+        "license-grade": "Diplôme conférant le grade de licence contrôlé par l'Etat",
+        "master-grade": "Diplôme conférant le grade de master contrôlé par l'Etat",
+        "vise": "Diplôme visé contrôlé par l'Etat",
+        "classe-preparatoire": "Classe préparatoire contrôlée par l'Etat",
+        "other": "Autre"
+      },
+      "study-schemes": {
+        "initial-training": "Formation initiale hors apprentissage",
+        "training": "Apprentissage",
+        "continuous-training": "Formation continue",
+        "other": "Autre"
+      },
+      "unknown": "Not recognised"
+    }
+  },
   "current-lang": "en",
   "email-change-email": {
     "body": {

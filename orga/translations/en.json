@@ -530,7 +530,12 @@
       "import": {
         "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please edit your file and try to import it again.</div>",
         "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">the help form</a></div>",
-        "global-success": "The list has been successfully imported."
+        "global-success": "The list has been successfully imported.",
+        "global-success-with-warnings": "<div>The list has been successfully imported.<br/><br/>However some values were not recognised:<br/>{warnings}<br/><br/>They have been replaced by \"Not recognised\". If you need other values, please contact us at <a href=\"mailto:sup@pix.fr\">sup@pix.fr</a></div>",
+        "warnings": {
+          "diploma": "Diplomas unknown: {diplomas}; ",
+          "study-scheme": "Study schemes unknown: {studySchemes}; "
+        }
       },
       "table": {
         "column": {
