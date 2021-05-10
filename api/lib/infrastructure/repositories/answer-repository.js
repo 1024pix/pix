@@ -13,7 +13,7 @@ function _adaptModelToDb(answer) {
   return {
     id: answer.id,
     result: answerStatusDatabaseAdapter.toSQLString(answer.result),
-    resultDetails: jsYaml.safeDump(answer.resultDetails),
+    resultDetails: jsYaml.dump(answer.resultDetails),
     value: answer.value,
     timeout: answer.timeout,
     challengeId: answer.challengeId,

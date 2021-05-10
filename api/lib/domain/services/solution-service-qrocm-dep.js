@@ -146,9 +146,9 @@ module.exports = {
     // Convert Yaml to JS objects
     let answers, solutions, scoring;
     try {
-      answers = jsYaml.safeLoad(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
-      solutions = jsYaml.safeLoad(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
-      scoring = jsYaml.safeLoad(yamlScoring || '', { schema: jsYaml.FAILSAFE_SCHEMA });
+      answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
+      solutions = jsYaml.load(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
+      scoring = jsYaml.load(yamlScoring || '', { schema: jsYaml.FAILSAFE_SCHEMA });
     } catch (error) {
       throw new YamlParsingError();
     }
