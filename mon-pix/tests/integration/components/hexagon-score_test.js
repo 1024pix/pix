@@ -25,7 +25,7 @@ describe('Integration | Component | hexagon-score', function() {
       expect(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML).to.equal('–');
     });
 
-    it('should display provided score in pastille', async function() {
+    it('should display provided score in hexagon', async function() {
       // given
       const pixScore = '777';
       this.set('pixScore', pixScore);
@@ -37,7 +37,7 @@ describe('Integration | Component | hexagon-score', function() {
   });
 
   describe('Tooltip behaviour', () => {
-    const tooltip = '.hexagon-score__information--visible';
+    const tooltip = '.hexagon-score__information';
 
     beforeEach(async () => {
       await render(hbs`<HexagonScore />`);
@@ -45,7 +45,7 @@ describe('Integration | Component | hexagon-score', function() {
     });
 
     describe('on click', () => {
-      it('when tooltip is hidden, should display tooltip on click', async function() {
+      it('should display tooltip on click when tooltip is hidden', async function() {
         // when
         await click('.hexagon-score-content__pix-total button');
 
@@ -53,7 +53,7 @@ describe('Integration | Component | hexagon-score', function() {
         expect(find(tooltip)).to.exist;
       });
 
-      it('when tooltip is displayed, should hide tooltip on click', async function() {
+      it('should hide tooltip on click when tooltip is displayed', async function() {
         // when
         await click('.hexagon-score-content__pix-total button');
         await click('.hexagon-score-content__pix-total button');
@@ -65,18 +65,18 @@ describe('Integration | Component | hexagon-score', function() {
 
     describe('on hover', () => {
 
-      it('should display tooltip on mouseover', async function() {
+      it('should display tooltip when mouse enters the score hexagon', async function() {
         // when
-        await triggerEvent('.hexagon-score', 'mouseover');
+        await triggerEvent('.hexagon-score', 'mouseenter');
 
         // then
         expect(find(tooltip)).to.exist;
       });
 
-      it('should hide tooltip on mouseout', async function() {
+      it('should hide tooltip when mouse leaves the score hexagon', async function() {
         // when
-        await triggerEvent('.hexagon-score', 'mouseover');
-        await triggerEvent('.hexagon-score', 'mouseout');
+        await triggerEvent('.hexagon-score', 'mouseenter');
+        await triggerEvent('.hexagon-score', 'mouseleave');
 
         // then
         expect(find(tooltip)).to.not.exist;
