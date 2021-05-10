@@ -49,44 +49,35 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
 
     it('should resolve a valid JWT token when authentication succeeds (should not change password)', async () => {
       // given
-      const expectedToken = Symbol();
-      const userId = 1;
+      const password = 'Azerty123*';
+      const { user } = createUserWithValidCredentials({
+        password,
+        authenticationService,
+        userRepository,
+      });
+
+      const externalUserToken = 'external user token';
+      createValidConditionsForAddingGarAuthenticationMethod({
+        user,
+        externalUserToken,
+        tokenService,
+        userRepository,
+        authenticationMethodRepository,
+      });
+
+      const expectedToken = 'expected returned token';
       const source = 'external';
-      const samlId = 'samlId';
       tokenService.createAccessTokenFromUser.withArgs(
-        userId,
+        user.id,
         source,
       ).resolves(expectedToken);
 
-      const email = 'john.doe@example.net';
-      const password = 'Azerty123*';
-      const emailAuthenticationMethod = domainBuilder.buildAuthenticationMethod({
-        authenticationComplement: {
-          password,
-          shouldChangePassword: false,
-        },
-      });
-      const user = domainBuilder.buildUser({
-        id: userId,
-        email,
-        authenticationMethods: [emailAuthenticationMethod],
-      });
-
-      authenticationService.getUserByUsernameAndPassword.withArgs({
-        username: email,
-        password,
-        userRepository,
-      }).resolves(user);
-
-      tokenService.extractSamlId.returns(samlId);
-      userRepository.getBySamlId.withArgs(samlId).resolves(user);
-      authenticationMethodRepository.create.resolves();
-
       // when
       const token = await authenticateExternalUser({
-        username: email,
+        username: user.email,
         password,
-        expectedUserId: userId,
+        externalUserToken,
+        expectedUserId: user.id,
         tokenService,
         authenticationService,
         obfuscationService,
@@ -101,42 +92,27 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
 
     it('should throw an UnexpectedUserAccount when the authenticated user does not match the expected one', async () => {
       // given
-      const userId = 1;
-      const email = 'john.doe@example.net';
-      const emailObfusced = 'j*****@e*****.n**';
-      const externalUserToken = 'EXTERNAL_USER_TOKEN';
-      const expectedUserId = 7;
-      const password = 'a password';
-
-      const emailAuthenticationMethod = domainBuilder.buildAuthenticationMethod({
-        authenticationComplement: {
-          password,
-          shouldChangePassword: false,
-        },
-      });
-      const user = domainBuilder.buildUser({
-        id: userId,
-        email,
-        authenticationMethods: [emailAuthenticationMethod],
-      });
-
-      authenticationService.getUserByUsernameAndPassword.withArgs({
-        username: email,
+      const password = 'Azerty123*';
+      const { user } = createUserWithValidCredentials({
         password,
+        authenticationService,
         userRepository,
-      }).resolves(user);
+      });
 
+      const emailObfusced = 'j*****@e*****.n**';
       const authenticatedByAndValue = { value: emailObfusced };
       obfuscationService.getUserAuthenticationMethodWithObfuscation
         .withArgs(user)
         .resolves(authenticatedByAndValue);
 
+      const invalidExpectedUserId = user.id + 1;
+
       // when
       const error = await catchErr(authenticateExternalUser)({
-        username: email,
+        username: user.email,
         password,
-        externalUserToken,
-        expectedUserId,
+        externalUserToken: 'an external user token',
+        expectedUserId: invalidExpectedUserId,
         tokenService,
         authenticationService,
         obfuscationService,
@@ -155,36 +131,22 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
 
       it('should throw an error if external user token is invalid', async () => {
         // given
-        const userId = 1;
-        const email = 'john.doe@example.net';
         const password = 'Azerty123*';
-        const invalidExternalUserToken = 'INVALID_EXTERNAL_USER_TOKEN';
-
-        const emailAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-          hashedPassword: password,
-          shouldChangePassword: false,
-        });
-
-        const user = domainBuilder.buildUser({
-          id: userId,
-          email,
-          authenticationMethods: [emailAuthenticationMethod],
-        });
-
-        authenticationService.getUserByUsernameAndPassword.withArgs({
-          username: email,
-          password: password,
+        const { user } = createUserWithValidCredentials({
+          password,
+          authenticationService,
           userRepository,
-        }).resolves(user);
+        });
 
+        const invalidExternalUserToken = 'INVALID_EXTERNAL_USER_TOKEN';
         tokenService.extractSamlId.withArgs(invalidExternalUserToken).returns(null);
 
         // when
         const error = await catchErr(authenticateExternalUser)({
-          username: email,
+          username: user.email,
           password,
           externalUserToken: invalidExternalUserToken,
-          expectedUserId: userId,
+          expectedUserId: user.id,
           tokenService,
           authenticationService,
           authenticationMethodRepository,
@@ -197,38 +159,26 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
 
       it('should throw an error if user from external user token is not the same as found user from credentials', async () => {
         // given
-        const userId = 1;
-        const email = 'john.doe@example.net';
         const password = 'Azerty123*';
-        const externalUserToken = 'EXTERNAL_USER_TOKEN';
-        const samlId = Symbol('samlId');
-
-        const emailAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-          hashedPassword: password,
-          shouldChangePassword: false,
-        });
-        const userFromCredentials = domainBuilder.buildUser({
-          id: userId,
-          email,
-          authenticationMethods: [emailAuthenticationMethod],
-        });
-        authenticationService.getUserByUsernameAndPassword.withArgs({
-          username: email,
-          password: password,
+        const { user: userFromCredentials } = createUserWithValidCredentials({
+          password,
+          authenticationService,
           userRepository,
-        }).resolves(userFromCredentials);
+        });
 
+        const externalUserToken = 'EXTERNAL_USER_TOKEN';
+        const samlId = 'samlId';
         tokenService.extractSamlId.withArgs(externalUserToken).returns(samlId);
 
-        const userFromExternalUserToken = domainBuilder.buildUser({ id: userId + 1 });
+        const userFromExternalUserToken = domainBuilder.buildUser({ id: userFromCredentials.id + 1 });
         userRepository.getBySamlId.withArgs(samlId).resolves(userFromExternalUserToken);
 
         // when
         const error = await catchErr(authenticateExternalUser)({
-          username: email,
+          username: userFromCredentials.email,
           password,
           externalUserToken: externalUserToken,
-          expectedUserId: userId,
+          expectedUserId: userFromCredentials.id,
           tokenService,
           authenticationService,
           authenticationMethodRepository,
@@ -241,37 +191,30 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
 
       it('should add GAR authentication method', async () => {
         // given
-        const userId = 1;
-        const email = 'john.doe@example.net';
         const password = 'Azerty123*';
-        const externalIdentifier = 'EXTERNAL_IDENTIFIER';
-        const externalUserToken = 'EXTERNAL_USER_TOKEN';
-
-        const emailAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-          hashedPassword: password,
-          shouldChangePassword: false,
-        });
-
-        const user = domainBuilder.buildUser({
-          id: userId,
-          email,
-          authenticationMethods: [emailAuthenticationMethod],
-        });
-
-        authenticationService.getUserByUsernameAndPassword.withArgs({
-          username: email,
-          password: password,
+        const { user } = createUserWithValidCredentials({
+          password,
+          authenticationService,
           userRepository,
-        }).resolves(user);
+        });
 
-        tokenService.extractSamlId.withArgs(externalUserToken).returns(externalIdentifier);
+        const externalUserToken = 'external user token';
+        const samlId = 'samlId';
+        createValidConditionsForAddingGarAuthenticationMethod({
+          user,
+          externalUserToken,
+          samlId,
+          tokenService,
+          userRepository,
+          authenticationMethodRepository,
+        });
 
         // when
         await authenticateExternalUser({
-          username: email,
+          username: user.email,
           password,
           externalUserToken,
-          expectedUserId: userId,
+          expectedUserId: user.id,
           tokenService,
           authenticationService,
           authenticationMethodRepository,
@@ -281,8 +224,8 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
         // then
         const expectedAuthenticationMethod = new AuthenticationMethod({
           identityProvider: AuthenticationMethod.identityProviders.GAR,
-          externalIdentifier,
-          userId,
+          externalIdentifier: samlId,
+          userId: user.id,
         });
         expect(authenticationMethodRepository.create).to.have.been.calledWith({ authenticationMethod: expectedAuthenticationMethod });
       });
@@ -293,37 +236,29 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
 
       it('should also add GAR authentication method', async () => {
         // given
-        const userId = 1;
-        const email = 'john.doe@example.net';
         const oneTimePassword = 'Azerty123*';
-        const externalIdentifier = 'EXTERNAL_IDENTIFIER';
-        const externalUserToken = 'EXTERNAL_USER_TOKEN';
-
-        const emailAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-          hashedPassword: oneTimePassword,
-          shouldChangePassword: true,
-        });
-
-        const user = domainBuilder.buildUser({
-          id: userId,
-          email,
-          authenticationMethods: [emailAuthenticationMethod],
-        });
-
-        authenticationService.getUserByUsernameAndPassword.withArgs({
-          username: email,
-          password: oneTimePassword,
+        const { user } = createUserWithValidCredentialsWhoShouldChangePassword({
+          authenticationService,
           userRepository,
-        }).resolves(user);
+        });
 
-        tokenService.extractSamlId.withArgs(externalUserToken).returns(externalIdentifier);
+        const externalUserToken = 'EXTERNAL_USER_TOKEN';
+        const externalIdentifier = 'EXTENAL_IDENTIFIER';
+        createValidConditionsForAddingGarAuthenticationMethod({
+          user,
+          externalUserToken,
+          samlId: externalIdentifier,
+          tokenService,
+          userRepository,
+          authenticationMethodRepository,
+        });
 
         // when
         await catchErr(authenticateExternalUser)({
-          username: email,
+          username: user.email,
           password: oneTimePassword,
           externalUserToken,
-          expectedUserId: userId,
+          expectedUserId: user.id,
           tokenService,
           authenticationService,
           authenticationMethodRepository,
@@ -334,44 +269,36 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
         const expectedAuthenticationMethod = new AuthenticationMethod({
           identityProvider: AuthenticationMethod.identityProviders.GAR,
           externalIdentifier,
-          userId,
+          userId: user.id,
         });
         expect(authenticationMethodRepository.create).to.have.been.calledWith({ authenticationMethod: expectedAuthenticationMethod });
       });
 
       it('should throw UserShouldChangePasswordError', async () => {
         // given
-        const userId = 1;
-        const email = 'john.doe@example.net';
         const oneTimePassword = 'Azerty123*';
-        const samlId = 'samlId';
-
-        const emailAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-          hashedPassword: oneTimePassword,
-          shouldChangePassword: true,
-        });
-
-        const user = domainBuilder.buildUser({
-          id: userId,
-          email,
-          authenticationMethods: [emailAuthenticationMethod],
-        });
-
-        authenticationService.getUserByUsernameAndPassword.withArgs({
-          username: email,
-          password: oneTimePassword,
+        const { user } = createUserWithValidCredentialsWhoShouldChangePassword({
+          authenticationService,
           userRepository,
-        }).resolves(user);
+        });
 
-        tokenService.extractSamlId.returns(samlId);
-        userRepository.getBySamlId.withArgs(samlId).resolves(user);
-        authenticationMethodRepository.create.resolves();
+        const externalUserToken = 'EXTERNAL_USER_TOKEN';
+        const externalIdentifier = 'EXTENAL_IDENTIFIER';
+        createValidConditionsForAddingGarAuthenticationMethod({
+          user,
+          externalUserToken,
+          samlId: externalIdentifier,
+          tokenService,
+          userRepository,
+          authenticationMethodRepository,
+        });
 
         // when
         const error = await catchErr(authenticateExternalUser)({
-          username: email,
+          username: user.email,
           password: oneTimePassword,
-          expectedUserId: userId,
+          externalUserToken,
+          expectedUserId: user.id,
           tokenService,
           authenticationService,
           authenticationMethodRepository,
@@ -388,7 +315,6 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
   context('when credentials are invalid', () => {
 
     it('should reject when user not found', async () => {
-
       // given
       const unknownUserEmail = 'foo@example.net';
       const password = 'Azerty123*';
@@ -413,7 +339,6 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
     });
 
     it('should reject when password does not match', async () => {
-
       // given
       const email = 'foo@example.net';
       const invalidPassword = 'oups123*';
@@ -439,3 +364,73 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
   });
 
 });
+
+function createUserWithValidCredentials({
+  password = 'Azerty123*',
+  authenticationService,
+  userRepository,
+}) {
+  const email = 'john.doe@example.net';
+  const emailAuthenticationMethod = domainBuilder.buildAuthenticationMethod({
+    authenticationComplement: {
+      password,
+      shouldChangePassword: false,
+    },
+  });
+  const user = domainBuilder.buildUser({
+    email,
+    authenticationMethods: [emailAuthenticationMethod],
+  });
+
+  authenticationService.getUserByUsernameAndPassword.withArgs({
+    username: email,
+    password,
+    userRepository,
+  }).resolves(user);
+
+  return {
+    authenticationService,
+    user,
+  };
+}
+
+function createUserWithValidCredentialsWhoShouldChangePassword({
+  oneTimePassword = 'Azerty123*',
+  authenticationService,
+  userRepository,
+}) {
+  const email = 'john.doe@example.net';
+  const emailAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+    hashedPassword: oneTimePassword,
+    shouldChangePassword: true,
+  });
+
+  const user = domainBuilder.buildUser({
+    email,
+    authenticationMethods: [emailAuthenticationMethod],
+  });
+
+  authenticationService.getUserByUsernameAndPassword.withArgs({
+    username: email,
+    password: oneTimePassword,
+    userRepository,
+  }).resolves(user);
+
+  return {
+    authenticationService,
+    user,
+  };
+}
+
+function createValidConditionsForAddingGarAuthenticationMethod({
+  user,
+  externalUserToken,
+  samlId = 'samlId',
+  tokenService,
+  userRepository,
+  authenticationMethodRepository,
+}) {
+  tokenService.extractSamlId.withArgs(externalUserToken).returns(samlId);
+  userRepository.getBySamlId.withArgs(samlId).resolves(user);
+  authenticationMethodRepository.create.resolves();
+}
