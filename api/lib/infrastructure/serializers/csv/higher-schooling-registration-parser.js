@@ -12,7 +12,7 @@ const ERRORS = {
 class HigherSchoolingRegistrationParser extends CsvRegistrationParser {
 
   constructor(input, organizationId, i18n) {
-    const registrationSet = new HigherSchoolingRegistrationSet();
+    const registrationSet = new HigherSchoolingRegistrationSet(i18n);
 
     const columns = new HigherSchoolingRegistrationColumns(i18n).columns;
 

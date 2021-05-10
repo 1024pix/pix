@@ -35,7 +35,7 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
         const buffer =
           `${higherSchoolingRegistrationColumns}\n` +
           'Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1990;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend\n' +
-          'O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;';
+          'O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;Autre;';
 
         const options = {
           method: 'POST',
@@ -48,10 +48,21 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
 
         const response = await server.inject(options);
         const registrations = await knex('schooling-registrations').where({ organizationId: organization.id });
-
-        expect(response.statusCode).to.equal(204);
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal({
+          data: {
+            id: String(organization.id),
+            type: 'higher-schooling-registration-warnings',
+            attributes: {
+              warnings: [
+                { code: 'unknown', field: 'study-scheme', studentNumber: '12346', value: 'hello darkness my old friend' },
+                { code: 'unknown', field: 'diploma', studentNumber: '12346', value: 'Master' },
+                { code: 'unknown', field: 'diploma', studentNumber: '789', value: 'DUT' },
+              ],
+            },
+          },
+        });
         expect(registrations).to.have.lengthOf(2);
-
       });
 
       it('fails when the file payload is too large', async () => {
