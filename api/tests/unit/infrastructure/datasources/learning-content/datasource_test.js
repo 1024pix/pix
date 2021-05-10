@@ -17,7 +17,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
   describe('#get', () => {
 
     beforeEach(() => {
-      cache.get.withArgs('LearningContent').callsFake((cacheKey, generator) => generator());
+      cache.get.callsFake((generator) => generator());
     });
 
     context('(success cases)', () => {
@@ -31,7 +31,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
             { id: 'rec2', property: 'value2' },
           ],
         };
-        sinon.stub(lcms, 'getCurrentContent').resolves(learningContent);
+        sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
       });
 
       it('should fetch a single record from LCMS API (or its cached copy)', async () => {
@@ -58,7 +58,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
         await someDatasource.get('rec1');
 
         // then
-        expect(cache.get).to.have.been.calledWith('LearningContent');
+        expect(cache.get).to.have.been.called;
       });
     });
 
@@ -72,7 +72,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
             { id: 'rec2', property: 'value2' },
           ],
         };
-        sinon.stub(lcms, 'getCurrentContent').resolves(learningContent);
+        sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
 
         // when
         const promise = someDatasource.get('UNKNOWN_RECORD_ID');
@@ -84,7 +84,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       it('should dispatch error in case of generic error', () => {
         // given
         const err = new Error();
-        sinon.stub(lcms, 'getCurrentContent').rejects(err);
+        sinon.stub(lcms, 'getLatestRelease').rejects(err);
 
         // when
         const promise = someDatasource.get('rec1');
@@ -99,7 +99,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
     let learningContent;
 
     beforeEach(() => {
-      cache.get.withArgs('LearningContent').callsFake((cacheKey, generator) => generator());
+      cache.get.callsFake((generator) => generator());
 
       learningContent = {
         learningContentModel: [
@@ -107,7 +107,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
           { id: 'rec2', property: 'value2' },
         ],
       };
-      sinon.stub(lcms, 'getCurrentContent').resolves(learningContent);
+      sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
     });
 
     it('should fetch all the records of a given type from LCMS API (or its cached copy)', async () => {
@@ -134,7 +134,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       await someDatasource.list();
 
       // then
-      expect(cache.get).to.have.been.calledWith('LearningContent');
+      expect(cache.get).to.have.been.called;
     });
   });
 
@@ -143,7 +143,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
     let learningContent;
 
     beforeEach(() => {
-      cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
+      cache.get.withArgs(someDatasource.modelName).callsFake((generator) => generator());
       sinon.stub(cache, 'set');
       learningContent = {
         learningContentModel: [
@@ -151,7 +151,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
           { id: 'rec2', property: 'value2' },
         ],
       };
-      sinon.stub(lcms, 'getCurrentContent').resolves(learningContent);
+      sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
     });
 
     it('should load all the learning content table content in the cache (and return them)', async () => {
@@ -167,7 +167,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       await dataSource.refreshLearningContentCacheRecords();
 
       // then
-      expect(cache.set).to.have.been.calledWith('LearningContent', learningContent);
+      expect(cache.set).to.have.been.calledWith(learningContent);
     });
   });
 
@@ -185,8 +185,8 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
           { id: 'rec3', property: 'value3' },
         ],
       };
-      cache.get.withArgs('LearningContent').resolves(learningContent);
-      sinon.stub(cache, 'set').callsFake((key, value) => value);
+      cache.get.resolves(learningContent);
+      sinon.stub(cache, 'set').callsFake((value) => value);
 
       // when
       const entry = await someDatasource.refreshLearningContentCacheRecord('rec1', record);
@@ -196,7 +196,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
         id: 'rec1',
         property: 'updatedValue',
       });
-      expect(cache.set).to.have.been.deep.calledWith('LearningContent', {
+      expect(cache.set).to.have.been.deep.calledWith({
         learningContentModel: [
           { id: 'rec2', property: 'value2' },
           { id: 'rec1', property: 'updatedValue' },

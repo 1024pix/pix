@@ -7,7 +7,7 @@ const cache = require('../../../../../lib/infrastructure/caches/learning-content
 describe('Unit | Infrastructure | Datasource | Learning Content | TubeDatasource', () => {
 
   beforeEach(() => {
-    sinon.stub(cache, 'get').callsFake((key, generator) => generator());
+    sinon.stub(cache, 'get').callsFake((generator) => generator());
   });
 
   describe('#findByNames', () => {
@@ -20,7 +20,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | TubeDatasource
       const rawTube4 = { id: 'rectTube4', name: 'FAKE_NAME_RAW_TUBE_4' };
 
       const records = [rawTube1, rawTube2, rawTube3, rawTube4];
-      sinon.stub(lcms, 'getCurrentContent').resolves({ tubes: records });
+      sinon.stub(lcms, 'getLatestRelease').resolves({ tubes: records });
 
       // when
       const foundTubes = await tubeDatasource.findByNames([
@@ -32,7 +32,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | TubeDatasource
       // then
       expect(foundTubes).to.be.an('array');
       expect(_.map(foundTubes, 'name')).to.deep.equal([rawTube1.name, rawTube2.name, rawTube4.name]);
-      expect(lcms.getCurrentContent).to.have.been.called;
+      expect(lcms.getLatestRelease).to.have.been.called;
     });
   });
 
@@ -46,7 +46,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | TubeDatasource
       const rawTube4 = { id: 'RECORD_ID_RAW_TUBE_4' };
 
       const records = [rawTube1, rawTube2, rawTube3, rawTube4];
-      sinon.stub(lcms, 'getCurrentContent').resolves({ tubes: records });
+      sinon.stub(lcms, 'getLatestRelease').resolves({ tubes: records });
       const expectedTubeIds = [
         rawTube1.id,
         rawTube2.id,
@@ -64,7 +64,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | TubeDatasource
       const rawTube1 = { id: 'RECORD_ID_RAW_TUBE_1' };
 
       const records = [rawTube1];
-      sinon.stub(lcms, 'getCurrentContent').resolves({ tubes: records });
+      sinon.stub(lcms, 'getLatestRelease').resolves({ tubes: records });
 
       // when
       const foundTubes = await tubeDatasource.findByRecordIds(['some_other_id']);

@@ -9,7 +9,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource
     it('should return an array of matching learning content area data objects', async function() {
       // given
       const records = [ { id: 'recArea0' }, { id: 'recArea1' }, { id: 'recArea2' }];
-      sinon.stub(lcms, 'getCurrentContent').resolves({ areas: records });
+      sinon.stub(lcms, 'getLatestRelease').resolves({ areas: records });
       const expectedAreaIds = [
         'recArea0', 'recArea1',
       ];
@@ -23,7 +23,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource
     it('should return an empty array when there are no objects matching the ids', async function() {
       // given
       const records = [{ id: 'recArea0' }];
-      sinon.stub(lcms, 'getCurrentContent').resolves({ areas: records });
+      sinon.stub(lcms, 'getLatestRelease').resolves({ areas: records });
 
       // when
       const foundAreas = await areaDatasource.findByRecordIds(['some_other_id']);
