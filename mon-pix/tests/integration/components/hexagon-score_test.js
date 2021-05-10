@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { click, find, render, triggerEvent } from '@ember/test-helpers';
+import { click, find, render, triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | hexagon-score', function() {
@@ -80,6 +80,21 @@ describe('Integration | Component | hexagon-score', function() {
 
         // then
         expect(find(tooltip)).to.not.exist;
+      });
+    });
+
+    describe('on ‘Escape‘ key pressed', () => {
+      it('should hide tooltip', async () => {
+        // when
+        await triggerEvent('.hexagon-score', 'mouseenter');
+        expect(find(tooltip)).to.exist;
+
+        // then
+        const escapeKeyCode = 27;
+        await triggerKeyEvent('.hexagon-score__information', 'keydown', escapeKeyCode);
+
+        // then
+        expect(find(tooltip)).not.to.exist;
       });
     });
 
