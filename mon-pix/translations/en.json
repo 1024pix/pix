@@ -176,13 +176,16 @@
       "candidate-birth-complete": "Born on {birthdate} in {birthplace}",
       "certification-center": "Certification centre:",
       "clea": {
-        "title": "CléA certified",
         "alternative": "Digital CléA certification"
       },
       "competences": {
         "title": "Certified competences",
         "information": "Your certified score was calculated based on the answers you gave whilst taking the certification. It may be different from the score shown on your profile. When you took the certification, it was possible to reach a maximum of level {maxReachableLevelOnCertificationDate} in each competence and {maxReachablePixCountOnCertificationDate} pix.",
         "subtitle": "(levels out of {maxReachableLevel})"
+      },
+      "complementary": {
+        "title": "Other acquired certification",
+        "alternative": "Complementary certification"
       },
       "exam-date": "Completion date:",
       "hexagon-score": {

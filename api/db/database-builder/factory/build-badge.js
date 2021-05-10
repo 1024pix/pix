@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const databaseBuffer = require('../database-buffer');
 const buildTargetProfile = require('./build-target-profile');
 
@@ -10,6 +11,7 @@ module.exports = function buildBadge({
   key = 'key',
   isCertifiable = false,
   targetProfileId,
+  certifiedImageUrl = '/img_pretty.svg',
 } = {}) {
   targetProfileId = targetProfileId ? targetProfileId : buildTargetProfile().id;
 
@@ -22,9 +24,11 @@ module.exports = function buildBadge({
     key,
     isCertifiable,
     targetProfileId,
+    certifiedImageUrl,
   };
-  return databaseBuffer.pushInsertable({
+  const insertedValues = databaseBuffer.pushInsertable({
     tableName: 'badges',
     values,
   });
+  return _.omit(insertedValues, 'certifiedImageUrl');
 };

@@ -19,7 +19,8 @@ describe('Unit | Domain | Models | PrivateCertificate', () => {
       certificationCenter: 'Centre des fruits et légumes',
       pixScore: 250,
       commentForCandidate: 'Bravo !',
-      cleaCertificationStatus: 'someCleaStatus',
+      cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+      certifiedBadgeImages: [],
       resultCompetenceTree: null,
       verificationCode: 'someVerifCode',
       maxReachableLevelOnCertificationDate: 5,
@@ -73,6 +74,21 @@ describe('Unit | Domain | Models | PrivateCertificate', () => {
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started(commonData);
       expect(privateCertificate).to.be.instanceOf(PrivateCertificate);
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+    });
+  });
+
+  context('#setResultCompetenceTree', () => {
+
+    it('should set the resultCompetenceTree on PrivateCertificate model', () => {
+      // given
+      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({ id: 'someId' });
+      const privateCertificate = domainBuilder.buildPrivateCertificate();
+
+      // when
+      privateCertificate.setResultCompetenceTree(resultCompetenceTree);
+
+      // expect
+      expect(privateCertificate.resultCompetenceTree).to.deep.equal(resultCompetenceTree);
     });
   });
 });

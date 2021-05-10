@@ -12,61 +12,129 @@ describe('Unit | Controller | certifications-controller', () => {
 
   describe('#findUserCertifications', () => {
 
-    const retrievedCertifications = [];
-    const serializedCertifications = [];
-    const userId = 1;
-
-    const request = { auth: { credentials: { userId } } };
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'findUserPrivateCertificates');
-      sinon.stub(certificationSerializer, 'serialize').returns(serializedCertifications);
-    });
-
-    it('should return a serialized certifications array when use case return a array of Certifications', async () => {
+    it('should return a serialized private certificates array found in the usecase', async () => {
       // given
-      usecases.findUserPrivateCertificates.resolves(retrievedCertifications);
+      const userId = 1;
+      const request = { auth: { credentials: { userId } } };
+      const privateCertificate1 = domainBuilder.buildPrivateCertificate.validated({
+        id: 123,
+        firstName: 'Dorothé',
+        lastName: '2Pac',
+        birthdate: '2000-01-01',
+        birthplace: 'Sin City',
+        isPublished: true,
+        date: new Date('2020-01-01T00:00:00Z'),
+        deliveredAt: new Date('2021-01-01T00:00:00Z'),
+        certificationCenter: 'Centre des choux de Bruxelles',
+        pixScore: 456,
+        commentForCandidate: 'Cette personne est impolie !',
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+        certifiedBadgeImages: [],
+        verificationCode: 'P-SUPERCODE',
+        maxReachableLevelOnCertificationDate: 6,
+      });
+      sinon.stub(usecases, 'findUserPrivateCertificates');
+      usecases.findUserPrivateCertificates.withArgs({ userId }).resolves([privateCertificate1]);
 
       // when
       const response = await certificationController.findUserCertifications(request, hFake);
 
       // then
-      expect(usecases.findUserPrivateCertificates).to.have.been.calledWith({ userId });
-      expect(certificationSerializer.serialize).to.have.been.calledWith(retrievedCertifications);
-      expect(response).to.deep.equal(serializedCertifications);
+      expect(response).to.deep.equal({
+        data: [
+          {
+            'id': '123',
+            'type': 'certifications',
+            'attributes': {
+              'first-name': 'Dorothé',
+              'last-name': '2Pac',
+              'birthdate': '2000-01-01',
+              'birthplace': 'Sin City',
+              'certification-center': 'Centre des choux de Bruxelles',
+              'date': new Date('2020-01-01T00:00:00Z'),
+              'delivered-at': new Date('2021-01-01T00:00:00Z'),
+              'is-published': true,
+              'pix-score': 456,
+              'status': 'validated',
+              'comment-for-candidate': 'Cette personne est impolie !',
+              'clea-certification-status': 'acquired',
+              'certified-badge-images': [],
+              'verification-code': 'P-SUPERCODE',
+              'max-reachable-level-on-certification-date': 6,
+            },
+            'relationships': {
+              'result-competence-tree': {
+                'data': null,
+              },
+            },
+          },
+        ],
+      });
     });
   });
 
   describe('#getCertification', () => {
 
-    const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
-    const serializedCertification = '{JSON}';
-    const userId = 1;
-
-    const request = {
-      auth: { credentials: { userId } },
-      params: { id: certification.id },
-    };
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'getPrivateCertificate');
-      sinon.stub(certificationSerializer, 'serialize').returns(serializedCertification);
-    });
-
-    it('should return a serialized certification when use case returns a certification', async () => {
+    it('should return a serialized private certificate found in the usecase', async () => {
       // given
-      usecases.getPrivateCertificate.resolves(certification);
+      const userId = 1;
+      const certificationId = 2;
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: certificationId },
+      };
+      const privateCertificate = domainBuilder.buildPrivateCertificate.validated({
+        id: certificationId,
+        firstName: 'Dorothé',
+        lastName: '2Pac',
+        birthdate: '2000-01-01',
+        birthplace: 'Sin City',
+        isPublished: true,
+        date: new Date('2020-01-01T00:00:00Z'),
+        deliveredAt: new Date('2021-01-01T00:00:00Z'),
+        certificationCenter: 'Centre des choux de Bruxelles',
+        pixScore: 456,
+        commentForCandidate: 'Cette personne est impolie !',
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+        certifiedBadgeImages: [],
+        verificationCode: 'P-SUPERCODE',
+        maxReachableLevelOnCertificationDate: 6,
+      });
+      sinon.stub(usecases, 'getPrivateCertificate');
+      usecases.getPrivateCertificate.withArgs({ userId, certificationId }).resolves(privateCertificate);
 
       // when
       const response = await certificationController.getCertification(request, hFake);
 
       // then
-      expect(usecases.getPrivateCertificate).to.have.been.calledWith({
-        userId,
-        certificationId: certification.id,
+      expect(response).to.deep.equal({
+        data: {
+          'id': '2',
+          'type': 'certifications',
+          'attributes': {
+            'first-name': 'Dorothé',
+            'last-name': '2Pac',
+            'birthdate': '2000-01-01',
+            'birthplace': 'Sin City',
+            'certification-center': 'Centre des choux de Bruxelles',
+            'date': new Date('2020-01-01T00:00:00Z'),
+            'delivered-at': new Date('2021-01-01T00:00:00Z'),
+            'is-published': true,
+            'pix-score': 456,
+            'status': 'validated',
+            'comment-for-candidate': 'Cette personne est impolie !',
+            'clea-certification-status': 'acquired',
+            'certified-badge-images': [],
+            'verification-code': 'P-SUPERCODE',
+            'max-reachable-level-on-certification-date': 6,
+          },
+          'relationships': {
+            'result-competence-tree': {
+              'data': null,
+            },
+          },
+        },
       });
-      expect(certificationSerializer.serialize).to.have.been.calledWith(certification);
-      expect(response).to.deep.equal(serializedCertification);
     });
   });
 
