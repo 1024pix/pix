@@ -5,7 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import ENV from 'mon-pix/config/environment';
 
 export default class HexagonScore extends Component {
-  @tracked displayHelp = 'hexagon-score__information--hidden';
+  @tracked displayHelp = false;
 
   get score() {
     const score = this.args.pixScore;
@@ -20,26 +20,18 @@ export default class HexagonScore extends Component {
     return ENV.APP.MAX_REACHABLE_LEVEL;
   }
 
-  get isTooltipDisplayed() {
-    return this.displayHelp === 'hexagon-score__information--visible';
-  }
-
   @action
   hideHelp() {
-    this.displayHelp = 'hexagon-score__information--hidden';
+    this.displayHelp = false;
   }
 
   @action
   showHelp() {
-    this.displayHelp = 'hexagon-score__information--visible';
+    this.displayHelp = true;
   }
 
   @action
   toggleTooltip() {
-    if (this.isTooltipDisplayed) {
-      this.hideHelp();
-      return;
-    }
-    this.showHelp();
+    this.displayHelp = !this.displayHelp;
   }
 }
