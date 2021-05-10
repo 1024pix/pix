@@ -71,6 +71,13 @@
       "result-by-page": "Voir"
     }
   },
+  "charts": {
+    "participants-by-stage": {
+      "participants": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}}",
+      "percentage": "{percentage} %",
+      "title": "Répartition des participants par paliers"
+    }
+  },
   "navigation": {
     "credits": {
       "number": "{count, plural, =0 {0 crédit} =1 {1 crédit} other {{count, number} crédits}}",
