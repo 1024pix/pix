@@ -40,10 +40,12 @@ const categoryInChallengeJoiSchema = Joi.object({
   questionNumber: Joi.number().min(1).max(500).required(),
   subcategory: Joi.string().required().valid(
     CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+    CertificationIssueReportSubcategories.LINK_NOT_WORKING,
     CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
     CertificationIssueReportSubcategories.FILE_NOT_OPENING,
     CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
     CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+    CertificationIssueReportSubcategories.OTHER,
     CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
     CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
   ),
@@ -84,6 +86,8 @@ const subcategoryCodeRequiredAction = {
   [CertificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E3',
   [CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E4',
   [CertificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
+  [CertificationIssueReportSubcategories.LINK_NOT_WORKING]: 'E6',
+  [CertificationIssueReportSubcategories.OTHER]: 'E7',
   [CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'E8',
   [CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'E9',
 };
