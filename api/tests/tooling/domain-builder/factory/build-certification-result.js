@@ -22,6 +22,7 @@ module.exports = function buildCertificationResult({
   hasSeenEndTestScreen = true,
   assessmentId,
   sessionId,
+  isCourseCancelled = false,
 } = {}) {
   lastAssessmentResult = buildAssessmentResult({ ...lastAssessmentResult });
   return new CertificationResult({
@@ -43,5 +44,6 @@ module.exports = function buildCertificationResult({
     hasSeenEndTestScreen,
     assessmentId,
     sessionId,
+    isCourseCancelled,
   });
 };
