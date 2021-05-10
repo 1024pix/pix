@@ -11,7 +11,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
   describe('#findUserCertifications', () => {
 
-    it('should return a serialized private certificates array found in the usecase', async () => {
+    it('should return the serialized private certificates of the user', async () => {
       // given
       const userId = 1;
       const request = { auth: { credentials: { userId } } };
@@ -74,7 +74,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
   describe('#getCertification', () => {
 
-    it('should return a serialized private certificate found in the usecase', async () => {
+    it('should return a serialized private certificate given by id', async () => {
       // given
       const userId = 1;
       const certificationId = 2;
@@ -139,7 +139,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
   describe('#getCertificationByVerificationCode', () => {
 
-    it('should return a serialized shareable certificate found in the usecase', async () => {
+    it('should return a serialized shareable certificate given by verification code', async () => {
       // given
       const request = { payload: { verificationCode: 'P-123456BB' } };
       const shareableCertificate = domainBuilder.buildShareableCertificate({
