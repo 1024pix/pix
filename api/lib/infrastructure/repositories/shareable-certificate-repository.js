@@ -8,7 +8,7 @@ const { NotFoundError } = require('../../../lib/domain/errors');
 
 module.exports = {
 
-  async getByVerificationCode({ verificationCode }) {
+  async getByVerificationCode(verificationCode) {
     const shareableCertificateDTO = await _selectShareableCertificates()
       .where({ verificationCode })
       .first();

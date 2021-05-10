@@ -13,7 +13,6 @@ const typeForAttribute = (attribute) => {
 const resultCompetenceTree = {
   included: true,
   ref: 'id',
-  // XXX: the jsonapi-serializer lib needs at least one attribute outside relationships
   attributes: ['id', 'areas'],
 
   areas: {

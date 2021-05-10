@@ -12,7 +12,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
 
     it('should throw a NotFoundError when shareable certificate does not exist', async () => {
       // when
-      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)({ verificationCode: 'P-SOMECODE' });
+      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)('P-SOMECODE');
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -59,7 +59,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)({ verificationCode: 'P-SOMECODE' });
+      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)('P-SOMECODE');
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -111,7 +111,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)({ verificationCode: 'P-SOMECODE' });
+      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)('P-SOMECODE');
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -163,7 +163,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)({ verificationCode: 'P-SOMECODE' });
+      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)('P-SOMECODE');
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -215,7 +215,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)({ verificationCode: 'P-SOMECODE' });
+      const error = await catchErr(shareableCertificateRepository.getByVerificationCode)('P-SOMECODE');
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -268,7 +268,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       await databaseBuilder.commit();
 
       // when
-      const shareableCertificate = await shareableCertificateRepository.getByVerificationCode({ verificationCode: 'P-SOMECODE' });
+      const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
 
       // then
       const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
@@ -327,7 +327,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       await databaseBuilder.commit();
 
       // when
-      const shareableCertificate = await shareableCertificateRepository.getByVerificationCode({ verificationCode: 'P-SOMECODE' });
+      const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
 
       // then
       const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
@@ -396,7 +396,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
         await databaseBuilder.commit();
 
         // when
-        const shareableCertificate = await shareableCertificateRepository.getByVerificationCode({ verificationCode: 'P-SOMECODE' });
+        const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
 
         // then
         const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
@@ -460,7 +460,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
         await databaseBuilder.commit();
 
         // when
-        const shareableCertificate = await shareableCertificateRepository.getByVerificationCode({ verificationCode: 'P-SOMECODE' });
+        const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
 
         // then
         const expectedShareableCertificate = domainBuilder.buildShareableCertificate({

@@ -25,7 +25,7 @@ describe('Unit | UseCase | get-shareable-certificate', () => {
       resultCompetenceTree: null,
     });
     shareableCertificateRepository.getByVerificationCode
-      .withArgs({ verificationCode: 'P-123456CC' })
+      .withArgs('P-123456CC')
       .resolves(shareableCertificate);
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
     resultCompetenceTreeService.computeForCertification
