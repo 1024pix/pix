@@ -1,5 +1,4 @@
 const { Serializer } = require('jsonapi-serializer');
-const AssessmentResult = require('../../../domain/models/AssessmentResult');
 
 const typeForAttribute = (attribute) => {
   if (attribute === 'resultCompetenceTree') {
@@ -39,7 +38,6 @@ const attributes = [
   'isPublished',
   'isCancelled',
   'lastName',
-  'status',
   'pixScore',
   'resultCompetenceTree',
   'cleaCertificationStatus',
@@ -54,7 +52,6 @@ module.exports = {
       typeForAttribute,
       transform(shareableCertificate) {
         shareableCertificate.cleaCertificationStatus = shareableCertificate.cleaCertificationResult.status;
-        shareableCertificate.status = AssessmentResult.status.VALIDATED;
         return shareableCertificate;
       },
       attributes,
