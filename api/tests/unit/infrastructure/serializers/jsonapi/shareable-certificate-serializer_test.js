@@ -69,7 +69,6 @@ describe('Unit | Serializer | JSONAPI | shareable-certificate-serializer', () =>
           'delivered-at': new Date('2021-01-01T00:00:00Z'),
           'is-published': true,
           'pix-score': 456,
-          'status': 'validated',
           'clea-certification-status': 'not_taken',
           'certified-badge-images': [
             '/img/1',
