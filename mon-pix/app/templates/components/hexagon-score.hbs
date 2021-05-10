@@ -6,16 +6,17 @@
     <div class="hexagon-score-content__pix-total">
       1024
       <PixButton role="button"
+                 aria-label={{t 'pages.profile.total-score-helper.title'}}
                  @backgroundColor="transparent"
                  @isBorderVisible={{false}}
                  @triggerAction={{this.toggleTooltip}}
-                 aria-describedby="hexagon-score-information__text">
+                 aria-describedby="hexagon-score-tooltip">
         <FaIcon @icon="info-circle"/>
       </PixButton>
     </div>
   </div>
 
-  <div role="tooltip" class="hexagon-score__information hexagon-score-information__text {{this.displayHelp}}">
+  <div role="tooltip" id="hexagon-score-tooltip" class="hexagon-score__information hexagon-score-information__text {{this.displayHelp}}">
     <span class="hexagon-score-information__text--strong">{{t 'pages.profile.total-score-helper.title'}}</span>
     <br><br>
     {{t 'pages.profile.total-score-helper.explanation' maxReachablePixCount=this.maxReachablePixCount maxReachableLevel=this.maxReachableLevel htmlSafe=true}}
