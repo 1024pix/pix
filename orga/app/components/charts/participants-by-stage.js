@@ -11,6 +11,7 @@ export default class ParticipantsByStage extends Component {
 
   @tracked data = [];
   @tracked totalStage = [];
+  @tracked loading = true;
 
   constructor(...args) {
     super(...args);
@@ -39,6 +40,7 @@ export default class ParticipantsByStage extends Component {
             tooltip: buildTooltipText(stage.title, stage.description),
           };
         });
+        this.loading = false;
       });
   }
 
