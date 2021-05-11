@@ -72,14 +72,14 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
     });
 
     databaseBuilder.factory.buildKnowledgeElement({
-      skillId: 'recndXqXiv4pv2Ukp',
+      skillId: 'recGd7oJ2wVEyKmPS',
       assessmentId,
       userId,
       competenceId: 'recIhdrmCuEmCDAzj',
       answerId,
     });
     databaseBuilder.factory.buildKnowledgeElement({
-      skillId: 'rectL2ZZeWPc7yezp',
+      skillId: 'recVv1eoSLW7yFgXv',
       assessmentId,
       userId,
       competenceId: 'recIhdrmCuEmCDAzj',
@@ -87,7 +87,7 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
       source: KnowledgeElement.SourceType.INFERRED,
     });
     databaseBuilder.factory.buildKnowledgeElement({
-      skillId: 'recMOy4S8XnaWblYI',
+      skillId: 'recVywppdS4hGEekR',
       assessmentId,
       userId,
       competenceId: 'recIhdrmCuEmCDAzj',
@@ -97,7 +97,7 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
 
     if (addInferredKE) {
       databaseBuilder.factory.buildKnowledgeElement({
-        skillId: 'recgOc2OreHCosoRp',
+        skillId: 'recDZTKszXX02aXD1',
         assessmentId,
         userId,
         competenceId: 'recIhdrmCuEmCDAzj',
