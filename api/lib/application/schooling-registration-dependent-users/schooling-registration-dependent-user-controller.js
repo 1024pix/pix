@@ -40,7 +40,7 @@ module.exports = {
       token,
     });
 
-    const accessToken = tokenService.createAccessTokenFromUser(createdUser.id, 'external');
+    const accessToken = tokenService.createAccessTokenFromExternalUser(createdUser.id);
 
     const response = {
       data: {

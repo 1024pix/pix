@@ -1,5 +1,3 @@
-// TODO: export to AuthenticationMethod entity OR tokenService OR Token entity (better)
-// TODO: replace in existing code (3 occurences)
 const {
   MissingOrInvalidCredentialsError,
   UserNotFoundError,
@@ -11,8 +9,6 @@ const {
 } = require('../errors');
 
 const AuthenticationMethod = require('../models/AuthenticationMethod');
-
-const TOKEN_SOURCE_FOR_GAR = 'external';
 
 async function authenticateExternalUser({
   username,
@@ -55,7 +51,7 @@ async function authenticateExternalUser({
       throw new UserShouldChangePasswordError();
     }
 
-    return tokenService.createAccessTokenFromUser(foundUser.id, TOKEN_SOURCE_FOR_GAR);
+    return tokenService.createAccessTokenFromExternalUser(foundUser.id);
 
   } catch (error) {
     if ((error instanceof UserNotFoundError) || (error instanceof PasswordNotMatching)) {
