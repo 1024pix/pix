@@ -1,6 +1,21 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | ShareableCertificate', () => {
+describe('Unit | Domain | Models | CertificationAttestation', () => {
+
+  context('#setResultCompetenceTree', () => {
+
+    it('should set the resultCompetenceTree on CertificationAttestation model', () => {
+      // given
+      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({ id: 'someId' });
+      const certificationAttestation = domainBuilder.buildCertificationAttestation();
+
+      // when
+      certificationAttestation.setResultCompetenceTree(resultCompetenceTree);
+
+      // expect
+      expect(certificationAttestation.resultCompetenceTree).to.deep.equal(resultCompetenceTree);
+    });
+  });
 
   context('#get hasAcquiredCleaCertification', () => {
 
