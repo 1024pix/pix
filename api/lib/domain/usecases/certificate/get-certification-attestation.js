@@ -5,12 +5,12 @@ const CertificationAttestation = require('../../models/CertificationAttestation'
 module.exports = async function getCertificationAttestation({
   userId,
   certificationId,
-  certificationRepository,
+  certificationAttestationRepository,
   cleaCertificationStatusRepository,
   assessmentResultRepository,
   competenceTreeRepository,
 }) {
-  const certificationAttestation = await certificationRepository.getCertificationAttestation({ id: certificationId });
+  const certificationAttestation = await certificationAttestationRepository.get(certificationId);
   if (certificationAttestation.userId !== userId) {
     throw new NotFoundError();
   }

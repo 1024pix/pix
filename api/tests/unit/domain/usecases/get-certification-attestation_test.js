@@ -1,32 +1,33 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
-const getCertificationAttestation = require('../../../../lib/domain/usecases/certificate/get-certification-attestation');
+const get = require('../../../../lib/domain/usecases/certificate/get-certification-attestation');
 
-describe('Unit | UseCase | getCertificationAttestation', async () => {
+describe('Unit | UseCase | get', async () => {
 
   const userId = 2;
   const certificationId = '23';
   let dependencies;
-  let certificate;
+  let certificationAttestation;
   const deliveredAt = new Date('2020-09-17T01:02:03Z');
   const cleaCertificationStatus = 'someStatus';
   let assessmentResult;
   const assessmentResultId = 1;
 
   beforeEach(() => {
-    certificate = domainBuilder.buildPrivateCertificate({
+    certificationAttestation = domainBuilder.buildCertificationAttestation({
       userId,
       id: certificationId,
       deliveredAt,
       status: 'validated',
       pixScore: 31,
+      verificationCode: 'P-MYCODE',
     });
     assessmentResult = domainBuilder.buildAssessmentResult({ id: assessmentResultId, status: 'validated' });
     assessmentResult.competenceMarks = [domainBuilder.buildCompetenceMark({ assessmentResultId: assessmentResult.id })];
     const competenceTree = domainBuilder.buildCompetenceTree();
-    const certificationRepository = {
-      getCertificationAttestation: sinon.stub().withArgs(certificationId).resolves(certificate),
+    const certificationAttestationRepository = {
+      get: sinon.stub().withArgs(certificationId).resolves(certificationAttestation),
     };
     const cleaCertificationStatusRepository = {
       getCleaCertificationStatus: sinon.stub().withArgs({ id: certificationId }).resolves(cleaCertificationStatus),
@@ -37,7 +38,7 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
     };
 
     dependencies = {
-      certificationRepository,
+      certificationAttestationRepository,
       cleaCertificationStatusRepository,
       assessmentResultRepository,
       competenceTreeRepository,
@@ -46,12 +47,12 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
 
   context('when the user is not owner of the certification attestation', async () => {
 
-    it('should throw an error if user is not the owner of the certificate', async () => {
+    it('should throw an error if user is not the owner of the certificationAttestation', async () => {
       // given
       const randomOtherUserId = 666;
 
       // when
-      const error = await catchErr(getCertificationAttestation)({ certificationId, userId: randomOtherUserId, ...dependencies });
+      const error = await catchErr(get)({ certificationId, userId: randomOtherUserId, ...dependencies });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -68,7 +69,7 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
         'certificationCenter': 'L’univeristé du Pix',
         cleaCertificationStatus,
         'commentForCandidate': 'Comment for Candidate',
-        'date': certificate.date,
+        'date': certificationAttestation.date,
         'deliveredAt': deliveredAt,
         'firstName': 'Jean',
         'id': '23',
@@ -112,12 +113,12 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
         },
         'status': 'validated',
         'userId': 2,
-        'verificationCode': 'P-BBBCCCDD',
+        'verificationCode': 'P-MYCODE',
         maxReachableLevelOnCertificationDate: 5,
       });
 
       // when
-      const result = await getCertificationAttestation({ certificationId, userId, ...dependencies });
+      const result = await get({ certificationId, userId, ...dependencies });
 
       // then
       expect(result).to.deep.equal(expectedData);
