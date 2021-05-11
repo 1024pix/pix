@@ -36,10 +36,12 @@ module.exports = {
       'expected-user-id': expectedUserId,
     } = request.payload.data.attributes;
 
-    const accessToken = await usecases.authenticateUser({ username, password, source: 'external' });
-    const userId = tokenService.extractUserId(accessToken);
-
-    await usecases.addGarAuthenticationMethodToUser({ userId, externalUserToken, expectedUserId });
+    const accessToken = await usecases.authenticateExternalUser({
+      username,
+      password,
+      externalUserToken,
+      expectedUserId,
+    });
 
     const response = {
       data: {

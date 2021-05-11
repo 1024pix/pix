@@ -62,66 +62,37 @@ describe('Unit | Application | Controller | Authentication', () => {
   });
 
   describe('#authenticateExternalUser', () => {
-    let request;
-    const accessToken = 'jwt.access.token';
-    const user = {
-      username: 'saml.jackson1234',
-      password: 'Pix123',
-    };
 
-    beforeEach(() => {
-      request = {
+    it('should return an access token', async () => {
+      // given
+      const accessToken = 'jwt.access.token';
+      const user = {
+        username: 'saml.jackson1234',
+        password: 'Pix123',
+      };
+      const externalUserToken = 'SamlJacksonToken';
+      const expectedUserId = 1;
+
+      const request = {
         payload: {
           data: {
             attributes: {
               username: user.username,
               password: user.password,
-              'external-user-token': 'SamlJacksonToken',
-              'expected-user-id': 1,
+              'external-user-token': externalUserToken,
+              'expected-user-id': expectedUserId,
             },
             type: 'external-user-authentication-requests',
           },
         },
       };
 
-      sinon.stub(tokenService, 'extractUserId').returns(1);
-      sinon.stub(usecases, 'addGarAuthenticationMethodToUser').resolves();
-    });
-
-    it('should check user credentials', async () => {
-      // given
-      const source = 'external';
-      sinon.stub(usecases, 'authenticateUser').resolves(accessToken);
-
-      // when
-      await authenticationController.authenticateExternalUser(request, hFake);
-
-      // then
-      expect(usecases.authenticateUser).to.have.been.calledWith({
+      sinon.stub(usecases, 'authenticateExternalUser').withArgs({
         username: user.username,
         password: user.password,
-        source,
-      });
-    });
-
-    it('should update user samlId', async () => {
-      // given
-      sinon.stub(usecases, 'authenticateUser').resolves(accessToken);
-
-      // when
-      await authenticationController.authenticateExternalUser(request, hFake);
-
-      // then
-      expect(usecases.addGarAuthenticationMethodToUser).to.have.been.calledWith({
-        userId: 1,
-        externalUserToken: 'SamlJacksonToken',
-        expectedUserId: 1,
-      });
-    });
-
-    it('should return an access token', async () => {
-      // given
-      sinon.stub(usecases, 'authenticateUser').resolves(accessToken);
+        externalUserToken,
+        expectedUserId,
+      }).resolves(accessToken);
 
       // when
       const response = await authenticationController.authenticateExternalUser(request, hFake);

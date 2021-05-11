@@ -111,9 +111,12 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
   describe('POST /api/token-from-external-user', () => {
 
-    let options;
+    afterEach(async () => {
+      await knex('authentication-methods').delete();
+    });
 
-    beforeEach(async () => {
+    it('should return an 200 with accessToken when authentication is ok', async () => {
+      // given
       const password = 'Pix123';
       const userAttributes = {
         firstName: 'saml',
@@ -126,7 +129,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       });
       const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
 
-      options = {
+      const options = {
         method: 'POST',
         url: '/api/token-from-external-user',
         payload: {
@@ -143,13 +146,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
       };
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await knex('authentication-methods').delete();
-    });
-
-    it('should return an 200 with accessToken when authentication is ok', async () => {
       // when
       const response = await server.inject(options);
 
@@ -162,7 +158,33 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
       it('should return a 401 Unauthorized', async () => {
         // given
-        options.payload.data.attributes.username = 'unknown';
+        const password = 'Pix123';
+        const userAttributes = {
+          firstName: 'saml',
+          lastName: 'jackson',
+          samlId: 'SAMLJACKSONID',
+        };
+        const user = databaseBuilder.factory.buildUser.withRawPassword({
+          username: 'saml.jackson1234',
+          rawPassword: password,
+        });
+        const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
+
+        const options = {
+          method: 'POST',
+          url: '/api/token-from-external-user',
+          payload: {
+            data: {
+              attributes: {
+                username: 'unknown',
+                password: password,
+                'external-user-token': expectedExternalToken,
+                'expected-user-id': user.id,
+              },
+              type: 'external-user-authentication-requests',
+            },
+          },
+        };
 
         // when
         const response = await server.inject(options);
@@ -182,10 +204,30 @@ describe('Acceptance | Controller | authentication-controller', () => {
           rawPassword,
           shouldChangePassword: true,
         });
-        await databaseBuilder.commit();
 
-        options.payload.data.attributes.username = user.email;
-        options.payload.data.attributes.password = rawPassword;
+        const expectedExternalToken = tokenService.createIdTokenForUserReconciliation({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          samlId: 'SAMLJACKSONID',
+        });
+
+        const options = {
+          method: 'POST',
+          url: '/api/token-from-external-user',
+          payload: {
+            data: {
+              attributes: {
+                username: user.email,
+                password: rawPassword,
+                'external-user-token': expectedExternalToken,
+                'expected-user-id': user.id,
+              },
+              type: 'external-user-authentication-requests',
+            },
+          },
+        };
+
+        await databaseBuilder.commit();
 
         // when
         const response = await server.inject(options);
@@ -201,6 +243,34 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
       it('should return a 409 Conflict', async () => {
         // given
+        const password = 'Pix123';
+        const userAttributes = {
+          firstName: 'saml',
+          lastName: 'jackson',
+          samlId: 'SAMLJACKSONID',
+        };
+        const user = databaseBuilder.factory.buildUser.withRawPassword({
+          username: 'saml.jackson1234',
+          rawPassword: password,
+        });
+        const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
+
+        const options = {
+          method: 'POST',
+          url: '/api/token-from-external-user',
+          payload: {
+            data: {
+              attributes: {
+                username: user.username,
+                password: password,
+                'external-user-token': expectedExternalToken,
+                'expected-user-id': user.id,
+              },
+              type: 'external-user-authentication-requests',
+            },
+          },
+        };
+
         const invalidUserId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
         options.payload.data.attributes['expected-user-id'] = invalidUserId;
