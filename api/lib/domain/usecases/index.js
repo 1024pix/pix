@@ -116,7 +116,6 @@ module.exports = injectDependencies({
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
   addCertificationCandidateToSession: require('./add-certification-candidate-to-session'),
-  addGarAuthenticationMethodToUser: require('./add-gar-authentication-method-to-user'),
   addTutorialEvaluation: require('./add-tutorial-evaluation'),
   addTutorialToUser: require('./add-tutorial-to-user'),
   anonymizeUser: require('./anonymize-user'),

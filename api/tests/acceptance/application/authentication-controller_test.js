@@ -146,6 +146,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       };
 
       await databaseBuilder.commit();
+
       // when
       const response = await server.inject(options);
 
