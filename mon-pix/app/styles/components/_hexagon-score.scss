@@ -74,7 +74,7 @@
   padding: 20px 36px;
   margin: 150px 0 0 -80px;
 
-  @include device-is('desktop') {
+  @include device-is('large-screen') {
     height: 161px;
     width: 587px;
     padding: 20px 36px;
@@ -92,7 +92,7 @@
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
 
-    @include device-is('desktop') {
+    @include device-is('large-screen') {
       right: 0;
       border-right: none;
     }
