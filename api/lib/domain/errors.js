@@ -252,6 +252,12 @@ class InvalidCertificationIssueReportForSaving extends DomainError {
   }
 }
 
+class DeprecatedCertificationIssueReportSubcategory extends DomainError {
+  constructor(message = 'La catégorie de signalement choisie est dépréciée.') {
+    super(message);
+  }
+}
+
 class SendingEmailToResultRecipientError extends DomainError {
   constructor(failedEmailsRecipients) {
     super(`Échec lors de l'envoi des résultats au(x) destinataire(s) : ${failedEmailsRecipients.join(', ')}`);
@@ -821,6 +827,7 @@ module.exports = {
   CompetenceResetError,
   CsvImportError,
   CsvParsingError,
+  DeprecatedCertificationIssueReportSubcategory,
   DomainError,
   EntityValidationError,
   FileValidationError,
