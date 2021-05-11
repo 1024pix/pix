@@ -4,7 +4,7 @@ import EmberObject from '@ember/object';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | Challenge item qroc', function() {
+describe('Unit | Component | Challenge item QROC', function() {
 
   setupTest();
 
