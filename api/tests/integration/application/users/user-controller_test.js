@@ -18,7 +18,6 @@ describe('Integration | Application | Users | user-controller', () => {
 
     sandbox.stub(usecases, 'getUserCampaignParticipationToCampaign');
     sandbox.stub(usecases, 'getUserProfileSharedForCampaign');
-    sandbox.stub(usecases, 'addGarAuthenticationMethodToUser');
     sandbox.stub(usecases, 'dissociateSchoolingRegistrations');
     sandbox.stub(usecases, 'removeAuthenticationMethod');
 
