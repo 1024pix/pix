@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { InvalidCertificationIssueReportForSaving } = require('../errors');
+const { InvalidCertificationIssueReportForSaving, DeprecatedCertificationIssueReportSubcategory } = require('../errors');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('./CertificationIssueReportCategory');
 
 const categoryOtherJoiSchema = Joi.object({
@@ -40,10 +40,12 @@ const categoryInChallengeJoiSchema = Joi.object({
   questionNumber: Joi.number().min(1).max(500).required(),
   subcategory: Joi.string().required().valid(
     CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+    CertificationIssueReportSubcategories.LINK_NOT_WORKING,
     CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
     CertificationIssueReportSubcategories.FILE_NOT_OPENING,
     CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
     CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+    CertificationIssueReportSubcategories.OTHER,
     CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
     CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
   ),
@@ -84,8 +86,15 @@ const subcategoryCodeRequiredAction = {
   [CertificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E3',
   [CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E4',
   [CertificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
+  [CertificationIssueReportSubcategories.LINK_NOT_WORKING]: 'E6',
+  [CertificationIssueReportSubcategories.OTHER]: 'E7',
   [CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'E8',
   [CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'E9',
+};
+
+const deprecatedSubcategories = {
+  [CertificationIssueReportSubcategories.LINK_NOT_WORKING]: 'E6',
+  [CertificationIssueReportSubcategories.OTHER]: 'E7',
 };
 
 class CertificationIssueReport {
@@ -144,9 +153,14 @@ class CertificationIssueReport {
     if (!schemaToUse) {
       throw new InvalidCertificationIssueReportForSaving(`Unknown category : ${this.category}`);
     }
+
     const { error } = schemaToUse.validate(this, { allowUnknown: true });
     if (error) {
       throw new InvalidCertificationIssueReportForSaving(error);
+    }
+
+    if (_isSubcategoryDeprecated(this.subcategory)) {
+      throw new DeprecatedCertificationIssueReportSubcategory();
     }
   }
 }
@@ -155,4 +169,8 @@ module.exports = CertificationIssueReport;
 
 function _isActionRequired({ category, subcategory }) {
   return Boolean(subcategoryCodeRequiredAction[subcategory] || categoryCodeWithRequiredAction[category]);
+}
+
+function _isSubcategoryDeprecated(subcategory) {
+  return Boolean(deprecatedSubcategories[subcategory]);
 }
