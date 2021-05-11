@@ -21,7 +21,9 @@ describe('Unit | Service | ImprovementService', () => {
     });
 
     context('when the campaign participation is retrying', () => {
-      let assessment, knowledgeElements ;
+      let assessment, knowledgeElements;
+      const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
+
       beforeEach(() => {
         constants['MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING'] = 3;
         const assessmentDate = '2020-07-30';
@@ -33,6 +35,10 @@ describe('Unit | Service | ImprovementService', () => {
           domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: '2020-07-27' }),
           domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: '2020-07-28' }),
         ];
+      });
+
+      afterEach(() => {
+        constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = originalConstantValue;
       });
 
       it('should return the same list of knowledge-elements if assessment is not improving', () => {
