@@ -131,6 +131,7 @@ module.exports = injectDependencies({
   authenticateExternalUser: require('./authenticate-external-user'),
   authenticateApplicationLivretScolaire: require('./authenticate-application-livret-scolaire'),
   beginCampaignParticipationImprovement: require('./begin-campaign-participation-improvement'),
+  cancelCertificationCourse: require('./cancel-certification-course'),
   completeAssessment: require('./complete-assessment'),
   computeCampaignAnalysis: require('./compute-campaign-analysis'),
   computeCampaignCollectiveResult: require('./compute-campaign-collective-result'),
