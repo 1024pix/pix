@@ -120,6 +120,12 @@ class NoCampaignParticipationForUserAndCampaign extends DomainError {
   }
 }
 
+class NoStagesForCampaign extends DomainError {
+  constructor(message = 'The campaign does not have stages.') {
+    super(message);
+  }
+}
+
 class SchoolingRegistrationsCouldNotBeSavedError extends DomainError {
   constructor() {
     super('An error occurred during process');
@@ -858,6 +864,7 @@ module.exports = {
   MissingOrInvalidCredentialsError,
   NoCampaignParticipationForUserAndCampaign,
   NoCertificationResultForDivision,
+  NoStagesForCampaign,
   NotEligibleCandidateError,
   NotFoundError,
   NotImplementedError,
