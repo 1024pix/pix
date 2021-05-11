@@ -869,7 +869,11 @@
         "continue": "Continuez votre expérience Pix"
       },
       "explanation": "Vous avez déjà envoyé le profil ci-dessous à l'organisation {organization}'<br>'le {date} à {hour,time,hhmm}",
-      "first-title": "Tout ne se passe pas comme prévu"
+      "first-title": "Tout ne se passe pas comme prévu",
+      "retry": {
+          "message": "{organization} vous invite à renvoyer votre profil pour mesurer votre progression.",
+          "button": "Renvoyer mon profil"
+      }
     },
     "proposals": {
       "answer": {
