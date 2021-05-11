@@ -1,5 +1,6 @@
 const { knex } = require('../bookshelf');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');
+const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 
@@ -14,9 +15,10 @@ module.exports = {
       throw new NotFoundError(`There is no certification course with id "${id}"`);
     }
 
+    const cleaCertificationResult = await _getCleaCertificationResult(certificationCourseDTO.id);
     return new CertificationAttestation({
       ...certificationCourseDTO,
-      cleaCertificationStatus: null,
+      cleaCertificationResult,
     });
   },
 };
@@ -52,4 +54,17 @@ function _selectCertificationAttestations() {
     .where('assessment-results.status', AssessmentResult.status.VALIDATED)
     .where('certification-courses.isPublished', true)
     .where('certification-courses.isCancelled', false);
+}
+
+async function _getCleaCertificationResult(certificationCourseId) {
+  const result = await knex
+    .select('acquired')
+    .from('partner-certifications')
+    .where({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey })
+    .first();
+
+  if (!result) {
+    return CleaCertificationResult.buildNotTaken();
+  }
+  return CleaCertificationResult.buildFrom(result);
 }

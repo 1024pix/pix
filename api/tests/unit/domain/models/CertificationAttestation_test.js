@@ -21,8 +21,9 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
 
     it('should return true if clea is acquired', () => {
       // given
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        cleaCertificationStatus: 'acquired',
+        cleaCertificationResult,
       });
 
       // when
@@ -34,8 +35,9 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
 
     it('should return true if clea is not acquired', () => {
       // given
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        cleaCertificationStatus: 'not_acquired',
+        cleaCertificationResult,
       });
 
       // when
