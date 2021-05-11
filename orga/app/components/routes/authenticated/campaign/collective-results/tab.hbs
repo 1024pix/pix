@@ -1,36 +1,18 @@
-<div class="panel participant-row participant-row__result">
+{{#if @hasStages}}
+  <Charts::ParticipantsByStage
+    @campaignId={{@campaignId}}
+    @onSelectStage={{@goToParticipantsForStage}}
+    class="participant-row__result"
+  />
+{{else}}
+  <Routes::Authenticated::Campaign::CollectiveResults::ResultsStats
+    @validatedSkills={{@campaignCollectiveResult.averageValidatedSkillsSum}}
+    @totalSkills={{@campaignCollectiveResult.totalSkills}}
+    @averageResult={{@campaignCollectiveResult.averageResult}}
+  />
+{{/if}}
 
-  <div class="participant-results-content__summary">
-    <div class="participant-content participant-content--large participant-content--wide">
-      <div class="label-text participant-content__label-text">{{t 'pages.campaign-collective-results.table.column.validated-items'}}</div>
-      <div class="content-text content-text--big">
-        {{ @campaignCollectiveResult.averageValidatedSkillsSum }}
-      </div>
-    </div>
-    <div class="participant-content participant-content--large participant-content--wide">
-      <div class="label-text participant-content__label-text">{{t 'pages.campaign-collective-results.table.column.tested-items'}}</div>
-      <div class="content-text content-text--big">
-        {{ @campaignCollectiveResult.totalSkills }}
-      </div>
-    </div>
-  </div>
-
-  <div class="participant-content participant-results-content">
-    <div aria-label={{t 'pages.campaign-collective-results.average'}} class="participant-results-content__score">
-      <div class="content-text content-text--big content-text--bold">{{t 'pages.campaign-collective-results.result'}}</div>
-      <div class="participant-results-content__circle-chart">
-        <CircleChart @value={{@campaignCollectiveResult.averageResult}}>
-          <span class="participant-results-content__circle-chart-value">
-            {{@campaignCollectiveResult.averageResult}}%
-          </span>
-        </CircleChart>
-      </div>
-    </div>
-  </div>
-
-</div>
 <div class="panel panel--light-shadow participant-results__details content-text content-text--small">
-
 
   <table aria-label={{t 'pages.campaign-collective-results.table.title'}}>
     <thead>
