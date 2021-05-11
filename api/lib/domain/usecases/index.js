@@ -25,6 +25,7 @@ const dependencies = {
   campaignToJoinRepository: require('../../infrastructure/repositories/campaign-to-join-repository'),
   campaignCsvExportService: require('../../domain/services/campaign-csv-export-service'),
   certificationAssessmentRepository: require('../../infrastructure/repositories/certification-assessment-repository'),
+  certificationAttestationRepository: require('../../infrastructure/repositories/certification-attestation-repository'),
   certificationAttestationPdf: require('../../infrastructure/utils/pdf/certification-attestation-pdf'),
   certificationBadgesService: require('../../domain/services/certification-badges-service'),
   certificationCandidateRepository: require('../../infrastructure/repositories/certification-candidate-repository'),

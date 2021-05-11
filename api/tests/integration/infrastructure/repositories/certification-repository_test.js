@@ -3,18 +3,14 @@ const certificationRepository = require('../../../../lib/infrastructure/reposito
 const { CertificationCourseNotPublishableError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { status } = require('../../../../lib/domain/models/AssessmentResult');
-const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
-
 const CertificationCourseBookshelf = require('../../../../lib/infrastructure/orm-models/CertificationCourse');
 const PARTNER_CLEA_KEY = 'BANANA';
-const verificationCode = 'P-123498NN';
 
 describe('Integration | Repository | Certification ', () => {
 
   const pixScore = 400;
 
   let userId;
-  let completeCertificationCourse;
   const type = Assessment.types.CERTIFICATION;
 
   let sessionLatestAssessmentRejected;
@@ -35,8 +31,6 @@ describe('Integration | Repository | Certification ', () => {
       id: certificationCenterId,
       name: certificationCenter,
     } = databaseBuilder.factory.buildCertificationCenter({ name: 'Certif College' }));
-    ({ certificationCourse: completeCertificationCourse }
-      = _buildValidatedPublishedCertificationData({ verificationCode, certificationCenterId, certificationCenter, userId, type, pixScore }));
 
     sessionLatestAssessmentRejectedCertifCourseIds = [];
     sessionWithStartedAndErrorCertifCourseIds = [];
@@ -152,19 +146,6 @@ describe('Integration | Repository | Certification ', () => {
         const certifCourse = await get(id);
         expect(certifCourse.isPublished).to.be.false;
       }));
-    });
-  });
-
-  describe('#getCertificationAttestation', () => {
-
-    it('should return a certification attestation for a given certification', async () => {
-      // when
-      const certificationAttestation = await certificationRepository.getCertificationAttestation({ id: completeCertificationCourse.id });
-
-      // then
-      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-      expect(certificationAttestation.pixScore).to.equal(pixScore);
-      expect(certificationAttestation.firsName).to.equal(userId.firstName);
     });
   });
 
