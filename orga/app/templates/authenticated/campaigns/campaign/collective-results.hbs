@@ -1,1 +1,6 @@
-<Routes::Authenticated::Campaign::CollectiveResults::Tab @campaignCollectiveResult={{@model.campaignCollectiveResult}} @sharedParticipationsCount={{@model.sharedParticipationsCount}} />
+<Routes::Authenticated::Campaign::CollectiveResults::Tab
+  @campaignId={{@model.id}}
+  @hasStages={{@model.hasStages}}
+  @campaignCollectiveResult={{@model.campaignCollectiveResult}}
+  @sharedParticipationsCount={{@model.sharedParticipationsCount}}
+/>
