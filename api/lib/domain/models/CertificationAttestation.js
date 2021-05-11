@@ -16,6 +16,7 @@ class CertificationAttestation {
     pixScore,
     status,
     cleaCertificationResult,
+    certifiedBadgeImages,
     resultCompetenceTree = null,
     verificationCode,
     maxReachableLevelOnCertificationDate,
@@ -33,6 +34,7 @@ class CertificationAttestation {
     this.pixScore = pixScore;
     this.status = status;
     this.cleaCertificationResult = cleaCertificationResult;
+    this.certifiedBadgeImages = certifiedBadgeImages;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;

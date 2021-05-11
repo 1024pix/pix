@@ -17,6 +17,7 @@ module.exports = function buildCertificationAttestation({
   verificationCode = 'P-SOMECODE',
   status = 'validated',
   cleaCertificationResult = buildCleaCertificationResult.notTaken(),
+  certifiedBadgeImages = [],
   resultCompetenceTree = null,
 } = {}) {
   return new CertificationAttestation({
@@ -35,6 +36,7 @@ module.exports = function buildCertificationAttestation({
     maxReachableLevelOnCertificationDate,
     verificationCode,
     cleaCertificationResult,
+    certifiedBadgeImages,
     resultCompetenceTree,
   });
 };
