@@ -42,6 +42,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
     };
     userRepository = {
       getBySamlId: sinon.stub(),
+      getForObfuscation: sinon.stub(),
     };
   });
 
@@ -86,7 +87,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
 
     });
 
-    it('should throw an UnexpectedUserAccount when the authenticated user does not match the expected one', async () => {
+    it('should throw an UnexpectedUserAccount (with expected user\'s username or email) when the authenticated user does not match the expected one', async () => {
       // given
       const password = 'Azerty123*';
       const { user } = createUserWithValidCredentials({
@@ -95,20 +96,25 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
         userRepository,
       });
 
-      const emailObfusced = 'j*****@e*****.n**';
-      const authenticatedByAndValue = { value: emailObfusced };
+      const emailObfuscated = 'j*****@e*****.n**';
+      const authenticatedByAndValue = { value: emailObfuscated };
+
+      const expectedUserId = user.id + 1;
+      const expectedUser = domainBuilder.buildUser({ id: expectedUserId });
       obfuscationService.getUserAuthenticationMethodWithObfuscation
-        .withArgs(user)
+        .withArgs(expectedUser)
         .resolves(authenticatedByAndValue);
 
-      const invalidExpectedUserId = user.id + 1;
+      userRepository.getForObfuscation
+        .withArgs(expectedUserId)
+        .resolves(expectedUser);
 
       // when
       const error = await catchErr(authenticateExternalUser)({
         username: user.email,
         password,
         externalUserToken: 'an external user token',
-        expectedUserId: invalidExpectedUserId,
+        expectedUserId,
         tokenService,
         authenticationService,
         obfuscationService,
@@ -120,7 +126,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
       expect(error).to.be.an.instanceof(UnexpectedUserAccount);
       expect(error.message).to.equal('Ce compte utilisateur n\'est pas celui qui est attendu.');
       expect(error.code).to.equal('UNEXPECTED_USER_ACCOUNT');
-      expect(error.meta.value).to.equal(emailObfusced);
+      expect(error.meta.value).to.equal(emailObfuscated);
     });
 
     context('when adding GAR authentication method', () => {
