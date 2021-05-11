@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const { NotFoundError } = require('../../domain/errors');
 
 const FinalizedSessionBookshelf = require('../data/finalized-session');
 
@@ -7,15 +8,27 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 module.exports = {
 
   async save(finalizedSession) {
-    return await new FinalizedSessionBookshelf(_toDTO(finalizedSession)).save();
+    const foundSession = await FinalizedSessionBookshelf.where({ sessionId: finalizedSession.sessionId }).fetch({ require: false });
+
+    if (foundSession) {
+      return FinalizedSessionBookshelf
+        .where({ sessionId: finalizedSession.sessionId })
+        .save(_toDTO(finalizedSession), { method: 'update', require: false });
+    }
+
+    return new FinalizedSessionBookshelf(_toDTO(finalizedSession), { method: 'insert' }).save();
   },
 
   async get({ sessionId }) {
     const bookshelfFinalizedSession = await FinalizedSessionBookshelf
       .where({ sessionId })
-      .fetch();
+      .fetch({ require: false });
 
-    return bookshelfToDomainConverter.buildDomainObject(FinalizedSessionBookshelf, bookshelfFinalizedSession);
+    if (bookshelfFinalizedSession) {
+      return bookshelfToDomainConverter.buildDomainObject(FinalizedSessionBookshelf, bookshelfFinalizedSession);
+    }
+
+    throw new NotFoundError(`Session of id ${sessionId} does not exist.`);
   },
 
   async updatePublishedAt({ sessionId, publishedAt }) {
@@ -26,7 +39,7 @@ module.exports = {
 
   async findFinalizedSessionsToPublish() {
     const publishableFinalizedSessions = await FinalizedSessionBookshelf
-      .where({ isPublishable: true, publishedAt: null })
+      .where({ isPublishable: true, publishedAt: null, assignedCertificationOfficerName: null })
       .orderBy('finalizedAt')
       .fetchAll();
 
@@ -40,12 +53,6 @@ module.exports = {
       .fetchAll();
 
     return bookshelfToDomainConverter.buildDomainObjects(FinalizedSessionBookshelf, publishableFinalizedSessions);
-  },
-
-  async assignCertificationOfficer({ sessionId, assignedCertificationOfficerName }) {
-    await FinalizedSessionBookshelf
-      .where({ sessionId })
-      .save({ assignedCertificationOfficerName }, { method: 'update', require: false });
   },
 };
 

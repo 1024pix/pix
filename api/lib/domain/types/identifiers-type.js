@@ -34,7 +34,6 @@ const typesPositiveInteger32bits = [
   'organizationInvitationId',
   'schoolingRegistrationId',
   'sessionId',
-  'sessionId',
   'stageId',
   'targetProfileId',
   'userId',
