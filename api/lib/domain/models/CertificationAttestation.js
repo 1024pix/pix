@@ -36,9 +36,12 @@ class CertificationAttestation {
     this.cleaCertificationStatus = cleaCertificationStatus;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
-    this.hasAcquiredCleaCertification = cleaCertificationStatus === statuses.ACQUIRED;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
     this.maxReachableScore = this.maxReachableLevelOnCertificationDate * PIX_COUNT_BY_LEVEL * COMPETENCE_COUNT;
+  }
+
+  get hasAcquiredCleaCertification() {
+    return this.cleaCertificationStatus === statuses.ACQUIRED;
   }
 }
 
