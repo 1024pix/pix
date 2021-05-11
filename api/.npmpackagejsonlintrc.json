@@ -2,6 +2,7 @@
   "rules": {
     "prefer-alphabetical-scripts": "error",
     "prefer-caret-version-dependencies": "error",
-    "prefer-caret-version-devDependencies": "error"
+    "prefer-caret-version-devDependencies": "error",
+    "engines-type": "error"
   }
 }
