@@ -40,6 +40,10 @@ class CertificationAttestation {
     this.maxReachableScore = this.maxReachableLevelOnCertificationDate * PIX_COUNT_BY_LEVEL * COMPETENCE_COUNT;
   }
 
+  setResultCompetenceTree(resultCompetenceTree) {
+    this.resultCompetenceTree = resultCompetenceTree;
+  }
+
   get hasAcquiredCleaCertification() {
     return this.cleaCertificationStatus === statuses.ACQUIRED;
   }
