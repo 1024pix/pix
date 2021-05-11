@@ -61,6 +61,10 @@ class CertificationCourse {
       maxReachableLevelOnCertificationDate,
     });
   }
+
+  cancel() {
+    this.isCancelled = true;
+  }
 }
 
 module.exports = CertificationCourse;
