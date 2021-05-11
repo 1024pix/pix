@@ -1,7 +1,7 @@
 const { domainBuilder, expect, sinon } = require('../../../../test-helper');
+const constants = require('../../../../../lib/domain/constants');
 const AssessmentResult = require('../../../../../lib/domain/read-models/participant-results/AssessmentResult');
 const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
-const constants = require('../../../../../lib/domain/constants');
 
 describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', () => {
 
@@ -148,16 +148,18 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
   });
 
   describe('#canRetry', () => {
+    const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
     const now = new Date('2020-01-05T05:06:07Z');
     let clock;
 
     beforeEach(() => {
-      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 3;
       clock = sinon.useFakeTimers(now);
+      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 4;
     });
 
     afterEach(() => {
       clock.restore();
+      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = originalConstantValue;
     });
 
     context('when the campaign does not allow multiple sendings', () => {
