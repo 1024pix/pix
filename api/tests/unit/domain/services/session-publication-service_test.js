@@ -6,7 +6,7 @@ const {
 } = require('../../../test-helper');
 
 const { publishSession } = require('../../../../lib/domain/services/session-publication-service');
-
+const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 const { SendingEmailToResultRecipientError, SessionAlreadyPublishedError } = require('../../../../lib/domain/errors');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
@@ -31,7 +31,8 @@ describe('Unit | UseCase | session-publication-service', () => {
       getWithCertificationCandidates: sinon.stub(),
     };
     finalizedSessionRepository = {
-      updatePublishedAt: sinon.stub().resolves(),
+      get: sinon.stub(),
+      save: sinon.stub(),
     };
     sessionRepository.flagResultsAsSentToPrescriber = sinon.stub();
     mailService.sendCertificationResultEmail = sinon.stub();
@@ -97,6 +98,11 @@ describe('Unit | UseCase | session-publication-service', () => {
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
         sessionRepository.flagResultsAsSentToPrescriber.withArgs({ id: sessionId, resultsSentToPrescriberAt: now }).resolves(updatedSessionWithResultSent);
+        const finalizedSession = new FinalizedSession({
+          sessionId,
+          publishedAt: null,
+        });
+        finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
         mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success(recipient1));
         mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success(recipient2));
 
@@ -110,7 +116,8 @@ describe('Unit | UseCase | session-publication-service', () => {
         });
 
         // then
-        expect(finalizedSessionRepository.updatePublishedAt).to.have.been.calledWith({ sessionId, publishedAt: now });
+        expect(finalizedSession.publishedAt).to.equal(now);
+        expect(finalizedSessionRepository.save).to.have.been.calledWith(finalizedSession);
       });
 
       it('should send result emails', async () => {
@@ -118,6 +125,11 @@ describe('Unit | UseCase | session-publication-service', () => {
         const updatedSession = { ...originalSession, publishedAt: now };
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
+        const finalizedSession = new FinalizedSession({
+          sessionId,
+          publishedAt: null,
+        });
+        finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
         mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success(recipient1));
         mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success(recipient2));
 
@@ -150,6 +162,11 @@ describe('Unit | UseCase | session-publication-service', () => {
         const updatedSession = { ...originalSession, publishedAt: now };
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
+        const finalizedSession = new FinalizedSession({
+          sessionId,
+          publishedAt: null,
+        });
+        finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
         mailService.sendCertificationResultEmail.withArgs({ sessionId, resultRecipientEmail: 'email1@example.net', daysBeforeExpiration: 30 }).returns('token-1');
         mailService.sendCertificationResultEmail.withArgs({ sessionId, resultRecipientEmail: 'email2@example.net', daysBeforeExpiration: 30 }).returns('token-2');
         mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success(recipient1));
@@ -182,6 +199,11 @@ describe('Unit | UseCase | session-publication-service', () => {
           certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
           sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
           sessionRepository.flagResultsAsSentToPrescriber.withArgs({ id: sessionId, resultsSentToPrescriberAt: now }).resolves(updatedSessionWithResultSent);
+          const finalizedSession = new FinalizedSession({
+            sessionId,
+            publishedAt: null,
+          });
+          finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
           mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success(recipient1));
           mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success(recipient2));
 
@@ -216,6 +238,11 @@ describe('Unit | UseCase | session-publication-service', () => {
           const updatedSessionWithPublishedAt = { ...sessionWithoutResultsRecipient, publishedAt: now };
           certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
           sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
+          const finalizedSession = new FinalizedSession({
+            sessionId,
+            publishedAt: null,
+          });
+          finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
 
           // when
           await publishSession({
@@ -239,6 +266,11 @@ describe('Unit | UseCase | session-publication-service', () => {
         const publishedAt = new Date();
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
         sessionRepository.updatePublishedAt.resolves({ ...originalSession, publishedAt: publishedAt });
+        const finalizedSession = new FinalizedSession({
+          sessionId,
+          publishedAt: null,
+        });
+        finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
         mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.failure('\'email1@example.net\''));
         mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success('\'email2@example.net\''));
 

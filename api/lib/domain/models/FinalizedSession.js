@@ -45,6 +45,14 @@ module.exports = class FinalizedSession {
     });
   }
 
+  publish(now) {
+    this.publishedAt = now;
+  }
+
+  unpublish() {
+    this.publishedAt = null;
+  }
+
   assignCertificationOfficer({ certificationOfficerName }) {
     this.isPublishable = false;
     this.assignedCertificationOfficerName = certificationOfficerName;

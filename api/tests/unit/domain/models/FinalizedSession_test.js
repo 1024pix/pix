@@ -126,6 +126,54 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.assignedCertificationOfficerName).to.equal(certificationOfficerName);
     });
   });
+
+  context('#publish', () => {
+    it('publishes the session', () => {
+      // given
+      const now = new Date();
+      const session = new FinalizedSession({
+        sessionId: 1234,
+        certificationCenterName: 'a certification center',
+        sessionDate: '2021-01-29',
+        sessionTime: '16:00',
+        hasExaminerGlobalComment: false,
+        juryCertificationSummaries: _noneWithRequiredActionNorErrorOrStartedStatus(),
+        finalizedAt: new Date('2020-01-01T00:00:00Z'),
+        isPublishable: true,
+        publishedAt: null,
+        assignedCertificationOfficerName: null,
+      });
+
+      // when
+      session.publish(now);
+
+      // then
+      expect(session.publishedAt).to.equal(now);
+    });
+  });
+
+  context('#unpublish', () => {
+    it('unpublishes the session', () => {
+      const session = new FinalizedSession({
+        sessionId: 1234,
+        certificationCenterName: 'a certification center',
+        sessionDate: '2021-01-29',
+        sessionTime: '16:00',
+        hasExaminerGlobalComment: false,
+        juryCertificationSummaries: _noneWithRequiredActionNorErrorOrStartedStatus(),
+        finalizedAt: new Date('2020-01-01T00:00:00Z'),
+        isPublishable: true,
+        publishedAt: new Date(),
+        assignedCertificationOfficerName: null,
+      });
+
+      // when
+      session.unpublish();
+
+      // then
+      expect(session.publishedAt).to.be.null;
+    });
+  });
 });
 
 function _noneWithRequiredActionNorErrorOrStartedStatus() {
