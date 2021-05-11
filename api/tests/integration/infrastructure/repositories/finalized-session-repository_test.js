@@ -28,14 +28,14 @@ describe('Integration | Repository | Finalized-session', () => {
         await finalizedSessionRepository.save(finalizedSession);
 
         // then
-        const result = await knex('finalized-sessions');
-        expect(result).to.have.lengthOf(1);
-        expect(result[0]).to.deep.equal({
+        const savedSession = await finalizedSessionRepository.get({ sessionId: 1234 });
+        expect(savedSession).to.be.an.instanceof(FinalizedSession);
+        expect(savedSession).to.deep.equal({
           sessionId: 1234,
           finalizedAt: new Date('2021-02-01T11:48:00Z'),
           certificationCenterName: 'A certification center name',
-          date: '2021-01-01',
-          time: '14:00:00',
+          sessionDate: '2021-01-01',
+          sessionTime: '14:00:00',
           isPublishable: true,
           publishedAt: null,
           assignedCertificationOfficerName: null,
@@ -45,10 +45,28 @@ describe('Integration | Repository | Finalized-session', () => {
 
     context('When the session does exist', () => {
 
+      it('is idempotent', async () => {
+        // given
+        const finalizedSession = new FinalizedSession({
+          sessionId: 1234,
+          finalizedAt: new Date('2021-02-01T11:48:00Z'),
+          certificationCenterName: 'A certification center name',
+          sessionDate: '2021-01-01',
+          sessionTime: '14:00:00',
+          isPublishable: true,
+        });
+
+        // when
+        expect(async () => {
+          await finalizedSessionRepository.save(finalizedSession);
+          await finalizedSessionRepository.save(finalizedSession);
+        }).not.to.throw();
+      });
+
       it('updates a finalized session', async () => {
         // given
-        const finalizedSession = databaseBuilder.factory.buildFinalizedSession({
-          sessionId: 1234,
+        databaseBuilder.factory.buildFinalizedSession({
+          sessionId: 1235,
           isPublishable: true,
           finalizedAt: new Date('2021-02-01T11:48:00Z'),
           certificationCenterName: 'A certification center name',
@@ -57,25 +75,23 @@ describe('Integration | Repository | Finalized-session', () => {
         });
 
         await databaseBuilder.commit();
+        const sessionToBeUpdated = await finalizedSessionRepository.get({ sessionId: 1235 });
+        sessionToBeUpdated.assignCertificationOfficer({ certificationOfficerName: 'David Gilmour' });
 
         // when
-        await finalizedSessionRepository.save({
-          ...finalizedSession,
-          isPublishable: false,
-        });
+        await finalizedSessionRepository.save(sessionToBeUpdated);
 
         // then
-        const result = await knex('finalized-sessions');
-        expect(result).to.have.lengthOf(1);
-        expect(result[0]).to.deep.equal({
-          sessionId: 1234,
+        const result = await finalizedSessionRepository.get({ sessionId: 1235 });
+        expect(result).to.deep.equal({
+          sessionId: 1235,
           finalizedAt: new Date('2021-02-01T11:48:00Z'),
           certificationCenterName: 'A certification center name',
-          date: '2021-01-01',
-          time: '14:00:00',
+          sessionDate: '2021-01-01',
+          sessionTime: '14:00:00',
           isPublishable: false,
           publishedAt: null,
-          assignedCertificationOfficerName: null,
+          assignedCertificationOfficerName: 'David Gilmour',
         });
       });
     });
