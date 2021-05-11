@@ -151,22 +151,37 @@ class TargetProfileWithLearningContent {
     return skillMaxDifficulty ? skillMaxDifficulty.difficulty : null;
   }
 
+  getStageSkillsBoundaries() {
+    const totalSkills = this.skills.length;
+    const boundaries = [];
+    let lastTo = null;
+
+    this.stages.forEach((currentStage, index) => {
+      let to, from;
+
+      if (lastTo === null) {
+        from = currentStage.getMinSkillsCountToReachStage(totalSkills);
+      } else {
+        from = lastTo + 1;
+      }
+
+      if (index + 1 >= this.stages.length) {
+        to = totalSkills;
+      } else {
+        const nextSkillCount = this.stages[index + 1].getMinSkillsCountToReachStage(totalSkills);
+        to = Math.max(from, nextSkillCount - 1);
+      }
+
+      lastTo = to;
+      boundaries.push({ id: currentStage.id, from, to });
+    });
+
+    return boundaries;
+  }
+
   getSkillsCountBoundariesFromStages(stageIds) {
     if (!stageIds || stageIds.length === 0) return null;
-
-    const totalSkills = this.skills.length;
-
-    return stageIds.map((stageId) => {
-      const boundary = {};
-      const stageIndex = this.stages.findIndex((stage) => stage.id == stageId);
-      boundary.from = this.stages[stageIndex].getMinSkillsCountToReachStage(totalSkills);
-      if (stageIndex !== this.stages.length - 1) {
-        boundary.to = this.stages[stageIndex + 1].getMinSkillsCountToReachStage(totalSkills) - 1;
-      } else {
-        boundary.to = totalSkills;
-      }
-      return boundary;
-    });
+    return this.getStageSkillsBoundaries().filter((boundary) => stageIds.includes(boundary.id));
   }
 }
 
