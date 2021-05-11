@@ -5,6 +5,13 @@
   justify-content: space-between;
   margin-bottom: 8px;
 
+  &__stars {
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
   &__values {
     color: $grey-50;
     font-size: 0.75rem;
