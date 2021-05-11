@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const campaignController = require('./campaign-controller');
+const campaignStatsController = require('./campaign-stats-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
@@ -228,6 +229,21 @@ exports.register = async function(server) {
           '- Récupération des classes des participants à la campagne',
         ],
         tags: ['api', 'division'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/stats/participations-by-stage',
+      config: {
+        validate: {
+          params: Joi.object({ id: identifiersType.campaignId }),
+        },
+        handler: campaignStatsController.getParticipationsByStage,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des statistiques de participations par paliers',
+        ],
+        tags: ['api', 'campaign', 'stats'],
       },
     },
   ]);
