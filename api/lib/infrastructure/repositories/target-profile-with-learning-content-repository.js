@@ -157,7 +157,7 @@ async function _findTargetedAreas(competences, locale) {
 
 async function _findStages(targetProfileId) {
   const stageRows = await knex('stages')
-    .select('stages.id', 'stages.threshold', 'stages.message', 'stages.title')
+    .select('stages.id', 'stages.threshold', 'stages.message', 'stages.title', 'stages.prescriberTitle', 'stages.prescriberDescription')
     .where('stages.targetProfileId', targetProfileId);
 
   if (_.isEmpty(stageRows)) {
