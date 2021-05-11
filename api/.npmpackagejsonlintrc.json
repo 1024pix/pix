@@ -1,5 +1,6 @@
 {
   "rules": {
-    "prefer-alphabetical-scripts": "error"
+    "prefer-alphabetical-scripts": "error",
+    "prefer-caret-version-dependencies": "error"
   }
 }
