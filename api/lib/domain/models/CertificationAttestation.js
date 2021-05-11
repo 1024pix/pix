@@ -1,4 +1,3 @@
-const { statuses } = require('../../infrastructure/repositories/clea-certification-status-repository');
 const PIX_COUNT_BY_LEVEL = 8;
 const COMPETENCE_COUNT = 16;
 
@@ -16,7 +15,7 @@ class CertificationAttestation {
     certificationCenter,
     pixScore,
     status,
-    cleaCertificationStatus,
+    cleaCertificationResult,
     resultCompetenceTree = null,
     verificationCode,
     maxReachableLevelOnCertificationDate,
@@ -33,7 +32,7 @@ class CertificationAttestation {
     this.certificationCenter = certificationCenter;
     this.pixScore = pixScore;
     this.status = status;
-    this.cleaCertificationStatus = cleaCertificationStatus;
+    this.cleaCertificationResult = cleaCertificationResult;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
@@ -45,7 +44,7 @@ class CertificationAttestation {
   }
 
   get hasAcquiredCleaCertification() {
-    return this.cleaCertificationStatus === statuses.ACQUIRED;
+    return this.cleaCertificationResult.isAcquired();
   }
 }
 
