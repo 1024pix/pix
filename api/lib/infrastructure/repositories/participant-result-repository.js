@@ -20,7 +20,7 @@ const ParticipantResultRepository = {
 
 async function _getParticipationResults(userId, campaignId) {
 
-  const { isCompleted, campaignParticipationId, sharedAt, participantExternalId } = await _getParticipationAttributes(userId, campaignId);
+  const { isCompleted, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId } = await _getParticipationAttributes(userId, campaignId);
 
   const knowledgeElements = await _findTargetedKnowledgeElements(campaignId, userId, sharedAt);
 
@@ -30,6 +30,7 @@ async function _getParticipationResults(userId, campaignId) {
     campaignParticipationId,
     isCompleted,
     sharedAt,
+    assessmentCreatedAt,
     participantExternalId,
     knowledgeElements,
     acquiredBadgeIds: acquiredBadgeIds.map(({ badgeId }) => badgeId),
@@ -37,15 +38,15 @@ async function _getParticipationResults(userId, campaignId) {
 }
 
 async function _getParticipationAttributes(userId, campaignId) {
-  const { state, campaignParticipationId, sharedAt, participantExternalId } = await knex('campaign-participations')
-    .select(['state', 'campaignParticipationId AS campaignParticipationId', 'sharedAt', 'participantExternalId'])
+  const { state, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId } = await knex('campaign-participations')
+    .select(['state', 'campaignParticipationId', 'sharedAt', 'assessments.createdAt AS assessmentCreatedAt', 'participantExternalId'])
     .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
     .where({ 'campaign-participations.campaignId': campaignId })
     .andWhere({ 'campaign-participations.userId': userId })
     .orderBy('assessments.createdAt', 'DESC')
     .first();
 
-  return { isCompleted: state === Assessment.states.COMPLETED, campaignParticipationId, sharedAt, participantExternalId };
+  return { isCompleted: state === Assessment.states.COMPLETED, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId };
 }
 
 async function _findTargetedKnowledgeElements(campaignId, userId, sharedAt) {
