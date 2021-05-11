@@ -24,8 +24,7 @@
          id="hexagon-score-tooltip"
          class="hexagon-score__information hexagon-score-information__text"
          {{on-key 'Escape' this.hideHelp event='keyup'}}>
-      <span class="hexagon-score-information__text--strong">{{t 'pages.profile.total-score-helper.title'}}</span>
-      <br><br>
+      <p class="hexagon-score-information__text--strong">{{t 'pages.profile.total-score-helper.title'}}</p>
       {{t 'pages.profile.total-score-helper.explanation' maxReachablePixCount=this.maxReachablePixCount maxReachableLevel=this.maxReachableLevel htmlSafe=true}}
     </div>
   {{/if}}
