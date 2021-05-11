@@ -1,6 +1,7 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const finalizedSessionRepository = require('../../../../lib/infrastructure/repositories/finalized-session-repository');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Finalized-session', () => {
 
@@ -10,32 +11,72 @@ describe('Integration | Repository | Finalized-session', () => {
       return knex('finalized-sessions').delete();
     });
 
-    it('saves a finalized session', async () => {
-      // given
-      const finalizedSession = new FinalizedSession({
-        sessionId: 1234,
-        finalizedAt: new Date('2021-02-01T11:48:00Z'),
-        certificationCenterName: 'A certification center name',
-        sessionDate: '2021-01-01',
-        sessionTime: '14:00:00',
-        isPublishable: true,
+    context('When the session does not exist', () => {
+
+      it('saves a finalized session', async () => {
+        // given
+        const finalizedSession = new FinalizedSession({
+          sessionId: 1234,
+          finalizedAt: new Date('2021-02-01T11:48:00Z'),
+          certificationCenterName: 'A certification center name',
+          sessionDate: '2021-01-01',
+          sessionTime: '14:00:00',
+          isPublishable: true,
+        });
+
+        // when
+        await finalizedSessionRepository.save(finalizedSession);
+
+        // then
+        const result = await knex('finalized-sessions');
+        expect(result).to.have.lengthOf(1);
+        expect(result[0]).to.deep.equal({
+          sessionId: 1234,
+          finalizedAt: new Date('2021-02-01T11:48:00Z'),
+          certificationCenterName: 'A certification center name',
+          date: '2021-01-01',
+          time: '14:00:00',
+          isPublishable: true,
+          publishedAt: null,
+          assignedCertificationOfficerName: null,
+        });
       });
+    });
 
-      // when
-      await finalizedSessionRepository.save(finalizedSession);
+    context('When the session does exist', () => {
 
-      // then
-      const result = await knex('finalized-sessions');
-      expect(result).to.have.lengthOf(1);
-      expect(result[0]).to.deep.equal({
-        sessionId: 1234,
-        finalizedAt: new Date('2021-02-01T11:48:00Z'),
-        certificationCenterName: 'A certification center name',
-        date: '2021-01-01',
-        time: '14:00:00',
-        isPublishable: true,
-        publishedAt: null,
-        assignedCertificationOfficerName: null,
+      it('updates a finalized session', async () => {
+        // given
+        const finalizedSession = databaseBuilder.factory.buildFinalizedSession({
+          sessionId: 1234,
+          isPublishable: true,
+          finalizedAt: new Date('2021-02-01T11:48:00Z'),
+          certificationCenterName: 'A certification center name',
+          date: '2021-01-01',
+          time: '14:00:00',
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        await finalizedSessionRepository.save({
+          ...finalizedSession,
+          isPublishable: false,
+        });
+
+        // then
+        const result = await knex('finalized-sessions');
+        expect(result).to.have.lengthOf(1);
+        expect(result[0]).to.deep.equal({
+          sessionId: 1234,
+          finalizedAt: new Date('2021-02-01T11:48:00Z'),
+          certificationCenterName: 'A certification center name',
+          date: '2021-01-01',
+          time: '14:00:00',
+          isPublishable: false,
+          publishedAt: null,
+          assignedCertificationOfficerName: null,
+        });
       });
     });
   });
@@ -46,26 +87,38 @@ describe('Integration | Repository | Finalized-session', () => {
       return knex('finalized-sessions').delete();
     });
 
-    it('retrieves a finalized session', async () => {
-      // given
-      const finalizedSession = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
-      await databaseBuilder.commit();
+    context('When the session does exist', () => {
 
-      // when
-      const result = await finalizedSessionRepository.get({ sessionId: finalizedSession.sessionId });
+      it('retrieves a finalized session', async () => {
+        // given
+        const finalizedSession = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
+        await databaseBuilder.commit();
 
-      // then
-      expect(result).to.deep.equal({
-        sessionId: finalizedSession.sessionId,
-        finalizedAt: finalizedSession.finalizedAt,
-        certificationCenterName: finalizedSession.certificationCenterName,
-        sessionDate: finalizedSession.date,
-        sessionTime: finalizedSession.time,
-        isPublishable: finalizedSession.isPublishable,
-        publishedAt: null,
-        assignedCertificationOfficerName: null,
+        // when
+        const result = await finalizedSessionRepository.get({ sessionId: finalizedSession.sessionId });
+
+        // then
+        expect(result).to.deep.equal({
+          sessionId: finalizedSession.sessionId,
+          finalizedAt: finalizedSession.finalizedAt,
+          certificationCenterName: finalizedSession.certificationCenterName,
+          sessionDate: finalizedSession.date,
+          sessionTime: finalizedSession.time,
+          isPublishable: finalizedSession.isPublishable,
+          publishedAt: null,
+          assignedCertificationOfficerName: null,
+        });
       });
     });
+
+    context('When the session does not exist', () => {
+      it('throws a not found error', async() => {
+        // when
+        const error = await catchErr(finalizedSessionRepository.get)({ sessionId: 404 });
+        expect(error).to.be.an.instanceOf(NotFoundError);
+      });
+    });
+
   });
 
   describe('#updatePublishedAt', () => {
@@ -117,6 +170,7 @@ describe('Integration | Repository | Finalized-session', () => {
         const publishableFinalizedSession2 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2019-01-01') });
         const publishableFinalizedSession3 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2021-01-01') });
 
+        databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2020-01-01'), assignedCertificationOfficerName: 'Ruppert Giles' });
         databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null });
         databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: '2021-01-01' });
 
@@ -237,45 +291,6 @@ describe('Integration | Repository | Finalized-session', () => {
 
         // then
         expect(result).to.have.lengthOf(0);
-      });
-    });
-  });
-
-  describe('#assignCertificationOfficer', () => {
-    it('should add the name to the finalized session', async () => {
-      // given
-      const session = databaseBuilder.factory.buildFinalizedSession();
-      const sessionId = session.sessionId;
-      await databaseBuilder.commit();
-
-      // when
-      await finalizedSessionRepository.assignCertificationOfficer({
-        sessionId,
-        assignedCertificationOfficerName: 'Severus Snape',
-      });
-
-      // then
-      const updatedFinalizedSession = await knex('finalized-sessions').where({ sessionId }).first();
-      expect(updatedFinalizedSession.assignedCertificationOfficerName)
-        .to.deep.equal('Severus Snape');
-    });
-
-    context('when sessionId does not exist', () => {
-
-      it('should not throw when trying to assign certification officer on non-existent finalized session', async () => {
-        // given
-        const sessionId = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 }).sessionId;
-        await databaseBuilder.commit();
-        const unknownSessionId = sessionId + 1;
-
-        // when
-        const promise = finalizedSessionRepository.assignCertificationOfficer({
-          sessionId: unknownSessionId,
-          assignedCertificationOfficerName: 'Severus Snape',
-        });
-
-        // then
-        return expect(promise).to.be.fulfilled;
       });
     });
   });
