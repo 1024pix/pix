@@ -14,7 +14,6 @@ class CertificationAttestation {
     deliveredAt,
     certificationCenter,
     pixScore,
-    status,
     cleaCertificationResult,
     certifiedBadgeImages,
     resultCompetenceTree = null,
@@ -32,7 +31,6 @@ class CertificationAttestation {
     this.deliveredAt = deliveredAt;
     this.certificationCenter = certificationCenter;
     this.pixScore = pixScore;
-    this.status = status;
     this.cleaCertificationResult = cleaCertificationResult;
     this.certifiedBadgeImages = certifiedBadgeImages;
     this.resultCompetenceTree = resultCompetenceTree;
