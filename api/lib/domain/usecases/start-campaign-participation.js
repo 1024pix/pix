@@ -1,6 +1,7 @@
 const Assessment = require('../models/Assessment');
 const CampaignParticipationStarted = require('../events/CampaignParticipationStarted');
 const CampaignParticipation = require('../models/CampaignParticipation');
+const { EntityValidationError } = require('../../domain/errors');
 
 module.exports = async function startCampaignParticipation({
   campaignParticipation,
@@ -11,6 +12,9 @@ module.exports = async function startCampaignParticipation({
   domainTransaction,
 }) {
   const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId, domainTransaction);
+
+  if (campaignToJoin.idPixLabel && !campaignParticipation.participantExternalId)
+    throw new EntityValidationError('Un identifiant externe est requis pour accèder à la campagne.');
 
   await campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
   let createdCampaignParticipation;

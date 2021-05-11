@@ -63,6 +63,19 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/campaign-participations',
       config: {
+        validate: {
+          payload: Joi.object({
+            data: Joi.object({
+              type: Joi.string(),
+              attributes: Joi.object({
+                'participant-external-id': Joi.string().allow(null).max(255),
+              }).required(),
+            }).required(),
+          }).required(),
+          options: {
+            allowUnknown: true,
+          },
+        },
         handler: campaignParticipationController.save,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
