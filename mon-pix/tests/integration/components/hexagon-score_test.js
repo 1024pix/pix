@@ -7,6 +7,8 @@ import hbs from 'htmlbars-inline-precompile';
 describe('Integration | Component | hexagon-score', function() {
   setupIntlRenderingTest();
 
+  const buttonClass = '.hexagon-score-content-pix-total__button';
+
   describe('Component rendering', function() {
 
     it('should render component', async function() {
@@ -47,7 +49,7 @@ describe('Integration | Component | hexagon-score', function() {
     describe('on click', () => {
       it('should display tooltip on click when tooltip is hidden', async function() {
         // when
-        await click('.hexagon-score-content__pix-total button');
+        await click(buttonClass);
 
         // then
         expect(find(tooltip)).to.exist;
@@ -55,8 +57,8 @@ describe('Integration | Component | hexagon-score', function() {
 
       it('should hide tooltip on click when tooltip is displayed', async function() {
         // when
-        await click('.hexagon-score-content__pix-total button');
-        await click('.hexagon-score-content__pix-total button');
+        await click(buttonClass);
+        await click(buttonClass);
 
         // then
         expect(find(tooltip)).not.to.exist;
@@ -101,7 +103,7 @@ describe('Integration | Component | hexagon-score', function() {
     describe('on button focusout', () => {
       it('should hide tooltip', async () => {
         // given
-        const button = find('.hexagon-score-content__pix-total button');
+        const button = find(buttonClass);
         await click(button);
         expect(find(tooltip)).to.exist;
 
@@ -112,6 +114,5 @@ describe('Integration | Component | hexagon-score', function() {
         expect(find(tooltip)).not.to.exist;
       });
     });
-
   });
 });

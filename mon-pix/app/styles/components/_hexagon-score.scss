@@ -58,6 +58,9 @@
     left: 31px;
     top: 100px;
     padding-top: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -116,4 +119,9 @@
   @include device-is('desktop') {
     display: none;
   }
+}
+
+.hexagon-score-content-pix-total__button {
+  padding: 0 0 0 4px;
+  border: none;
 }
