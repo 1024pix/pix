@@ -5,6 +5,7 @@
     "prefer-caret-version-devDependencies": "error",
     "engines-type": "error",
     "no-git-dependencies": "error",
-    "prefer-alphabetical-dependencies": "error"
+    "prefer-alphabetical-dependencies": "error",
+    "prefer-alphabetical-devDependencies": "error"
   }
 }
