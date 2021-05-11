@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.54.0 (11/05/2021)
+
+- [#2971](https://github.com/1024pix/pix/pull/2971) [FEATURE] Passer les sessions assignées comme sessions "à traiter" (PIX-2571)
+- [#2972](https://github.com/1024pix/pix/pull/2972) [FEATURE] Affichage des macarons Pix+Droit sur le certificat utilisateur sur PixApp (PIX-2369)
+- [#2974](https://github.com/1024pix/pix/pull/2974) [FEATURE] Graphe de répartition des participants par palier (PIX-2550)
+- [#2973](https://github.com/1024pix/pix/pull/2973) [FEATURE] Affichage des macarons Pix+Droit sur le certificat partagé de l'utilisateur (PIX-2370)
+- [#2943](https://github.com/1024pix/pix/pull/2943) [FEATURE] Vérifier les diplômes et régimes dans l'import SUP (PIX-2416)
+- [#2926](https://github.com/1024pix/pix/pull/2926) [FEATURE] Afficher le statut Annulé dans le fichier des résultats de certification (PIX-2404)
+- [#2948](https://github.com/1024pix/pix/pull/2948) [FEATURE] Crée une release du référentiel et rafraîchit le cache dans l'admin (PIX-2453)
+- [#2954](https://github.com/1024pix/pix/pull/2954) [FEATURE] Ajout de sous-catégories de support pour les embed (PIX-2436).
+- [#2952](https://github.com/1024pix/pix/pull/2952) [FEATURE] Ajouter le statut Annulé dans Pix Admin (PIX-2402)
+- [#2964](https://github.com/1024pix/pix/pull/2964) [BUGFIX] Restaurer les catégories de signalements E6 et E7 (PIX-2556)
+- [#2961](https://github.com/1024pix/pix/pull/2961) [BUGFIX] Lors d'un rescoring manuel sur PixAdmin, les competence-marks n'étaient pas enregistrées correctement (PIX-2566)
+- [#2983](https://github.com/1024pix/pix/pull/2983) [TECH] Mets à jour handlebars vers 4.7.7
+- [#2982](https://github.com/1024pix/pix/pull/2982) [TECH] Supprimer le package inutilisé dezalgo.
+- [#2956](https://github.com/1024pix/pix/pull/2956) [TECH] Pouvoir spécifier des KE dans les tests d'algo
+- [#2967](https://github.com/1024pix/pix/pull/2967) [CLEAN] Nettoie le CHANGELOG des entrées créées par erreur lors d'essais avec pix-bot.
+
 ## v3.53.0 (06/05/2021)
 
 - [#2963](https://github.com/1024pix/pix/pull/2963) [TECH] Empêcher les rôles dupliqués.
