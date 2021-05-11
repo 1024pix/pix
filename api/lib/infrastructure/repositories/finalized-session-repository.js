@@ -28,12 +28,6 @@ module.exports = {
     throw new NotFoundError(`Session of id ${sessionId} does not exist.`);
   },
 
-  async updatePublishedAt({ sessionId, publishedAt }) {
-    await FinalizedSessionBookshelf
-      .where({ sessionId })
-      .save({ publishedAt }, { method: 'update', require: false });
-  },
-
   async findFinalizedSessionsToPublish() {
     const publishableFinalizedSessions = await FinalizedSessionBookshelf
       .where({ isPublishable: true, publishedAt: null, assignedCertificationOfficerName: null })

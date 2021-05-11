@@ -137,45 +137,6 @@ describe('Integration | Repository | Finalized-session', () => {
 
   });
 
-  describe('#updatePublishedAt', () => {
-
-    afterEach(() => {
-      return knex('finalized-sessions').delete();
-    });
-
-    it('should update the publication date of a finalized session', async () => {
-      // given
-      const publishedAt = new Date('2021-01-01');
-      const finalizedSession = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
-      await databaseBuilder.commit();
-
-      // when
-      await finalizedSessionRepository.updatePublishedAt({
-        sessionId: finalizedSession.sessionId,
-        publishedAt,
-      });
-
-      // then
-      const { publishedAt: actualPublishedAt } = await knex.select('publishedAt').from('finalized-sessions').where({ sessionId: 1234 }).first();
-      expect(actualPublishedAt).to.deep.equal(publishedAt);
-    });
-
-    it('should not throw when trying to setup publishedAt date on non-existent finalized session', async () => {
-      // given
-      databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
-      await databaseBuilder.commit();
-
-      // when
-      const promise = finalizedSessionRepository.updatePublishedAt({
-        sessionId: 7894,
-        publishedAt: new Date(),
-      });
-
-      // then
-      return expect(promise).to.be.fulfilled;
-    });
-  });
-
   describe('#findFinalizedSessionsToPublish', () => {
 
     context('when there are publishable sessions', () => {
