@@ -23,15 +23,17 @@ async function authenticateExternalUser({
 }) {
 
   try {
-    const foundUser = await authenticationService.getUserByUsernameAndPassword({
+    const userFromCredentials = await authenticationService.getUserByUsernameAndPassword({
       username,
       password,
       userRepository,
     });
 
-    if (foundUser.id !== expectedUserId) {
+    if (userFromCredentials.id !== expectedUserId) {
+
+      const expectedUser = await userRepository.getForObfuscation(expectedUserId);
       const authenticationMethod = await obfuscationService
-        .getUserAuthenticationMethodWithObfuscation(foundUser);
+        .getUserAuthenticationMethodWithObfuscation(expectedUser);
 
       throw new UnexpectedUserAccount({
         code: 'UNEXPECTED_USER_ACCOUNT',
@@ -40,18 +42,18 @@ async function authenticateExternalUser({
     }
 
     await _addGarAuthenticationMethod({
-      userId: foundUser.id,
+      userId: userFromCredentials.id,
       externalUserToken,
       tokenService,
       authenticationMethodRepository,
       userRepository,
     });
 
-    if (foundUser.shouldChangePassword) {
+    if (userFromCredentials.shouldChangePassword) {
       throw new UserShouldChangePasswordError();
     }
 
-    return tokenService.createAccessTokenFromExternalUser(foundUser.id);
+    return tokenService.createAccessTokenFromExternalUser(userFromCredentials.id);
 
   } catch (error) {
     if ((error instanceof UserNotFoundError) || (error instanceof PasswordNotMatching)) {
@@ -74,10 +76,7 @@ async function _addGarAuthenticationMethod({
     throw new InvalidExternalUserTokenError('Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.');
   }
 
-  const foundUserBySamlId = await userRepository.getBySamlId(samlId);
-  if (foundUserBySamlId && foundUserBySamlId.id !== userId) {
-    throw new UserAlreadyExistsWithAuthenticationMethodError();
-  }
+  await _checkIfSamlIdIsNotReconciledWithAnotherUser({ samlId, userId, userRepository });
 
   const garAuthenticationMethod = new AuthenticationMethod({
     identityProvider: AuthenticationMethod.identityProviders.GAR,
@@ -86,5 +85,12 @@ async function _addGarAuthenticationMethod({
   });
   await authenticationMethodRepository.create({ authenticationMethod: garAuthenticationMethod });
 }
+
+const _checkIfSamlIdIsNotReconciledWithAnotherUser = async ({ samlId, userId, userRepository }) => {
+  const userFromCredentialsBySamlId = await userRepository.getBySamlId(samlId);
+  if (userFromCredentialsBySamlId && userFromCredentialsBySamlId.id !== userId) {
+    throw new UserAlreadyExistsWithAuthenticationMethodError();
+  }
+};
 
 module.exports = authenticateExternalUser;
