@@ -53,6 +53,17 @@ describe('Unit | Component | routes/campaigns/fill-in-participant-external-id', 
       // then
       expect(component.errorMessage).to.equal(`Merci de renseigner votre ${component.args.campaign.idPixLabel}.`);
     });
+
+    it('should display error when participant external id exceed 255 characters', async () => {
+      // given
+      component.participantExternalId = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
+
+      // when
+      await component.actions.submit.call(component, eventStub);
+
+      // then
+      expect(component.errorMessage).to.equal(`Votre ${component.args.campaign.idPixLabel} ne doit pas dépasser les 255 caractères.`);
+    });
   });
 
   describe('#cancel', () => {
