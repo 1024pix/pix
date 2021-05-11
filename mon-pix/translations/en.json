@@ -869,7 +869,11 @@
         "continue": "Continue my Pix experience"
       },
       "explanation": "You already submitted the profile below to the organisation {organization}'<br>'on {date} at {hour,time,hhmm}",
-      "first-title": "There was a problem"
+      "first-title": "There was a problem",
+      "retry": {
+        "message": "{organization} encourages you to resend your profile in order to measure your progress.",
+        "button": "Resend my profile"
+      }
     },
     "proposals": {
       "answer": {
