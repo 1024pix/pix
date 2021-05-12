@@ -738,6 +738,7 @@ class UserAccountNotFoundForPoleEmploiError extends DomainError {
     this.authenticationKey = authenticationKey;
   }
 }
+
 class WrongDateFormatError extends DomainError {
   constructor(message = 'Format de date invalide.') {
     super(message);
@@ -784,6 +785,12 @@ class GeneratePoleEmploiTokensError extends DomainError {
 
 class InvalidMembershipOrganizationRoleError extends DomainError {
   constructor(message = 'Le rôle du membre est invalide.') {
+    super(message);
+  }
+}
+
+class UnexpectedPoleEmploiStateError extends DomainError {
+  constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
     super(message);
   }
 }
@@ -872,6 +879,7 @@ module.exports = {
   SiecleXmlImportError,
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
+  UnexpectedPoleEmploiStateError,
   UnexpectedUserAccountError,
   UserAccountNotFoundForPoleEmploiError,
   UserAlreadyExistsWithAuthenticationMethodError,
