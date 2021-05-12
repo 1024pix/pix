@@ -13,10 +13,6 @@ describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions
     sinon.stub(console, 'log');
   });
 
-  afterEach(() => {
-    databaseBuilder.clean();
-  });
-
   describe('#main', () => {
     it('should update the campaignParticipationId of BadgeAcquisition', async ()=> {
       // given

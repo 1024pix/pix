@@ -26,10 +26,6 @@ describe('Acceptance | Controller | users-controller', () => {
 
       });
 
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
       context('user is valid', () => {
 
         let response;
