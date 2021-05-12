@@ -3,29 +3,19 @@ const {
   HttpTestServer,
   sinon,
 } = require('../../../test-helper');
-
 const moduleUnderTest = require('../../../../lib/application/answers');
+const answerController = require('../../../../lib/application/answers/answer-controller');
 
-const AnswerController = require('../../../../lib/application/answers/answer-controller');
+describe('Unit | Application | Router | answer-router', () => {
 
-describe('Unit | Router | answer-router', function() {
+  describe('POST /api/answers', () => {
 
-  let httpTestServer;
-
-  beforeEach(async function() {
-    sinon.stub(AnswerController, 'save').callsFake((request, h) => h.response().code(201));
-    sinon.stub(AnswerController, 'get').callsFake((request, h) => h.response().code(200));
-    sinon.stub(AnswerController, 'find').callsFake((request, h) => h.response().code(200));
-    sinon.stub(AnswerController, 'update').callsFake((request, h) => h.response().code(204));
-
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
-  describe('POST /api/answers', function() {
-
-    it('should exist', async () => {
+    it('should return 201', async () => {
       // given
+      sinon.stub(answerController, 'save').callsFake((request, h) => h.response().created());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const payload = {
         data: {
           attributes: {
@@ -40,44 +30,60 @@ describe('Unit | Router | answer-router', function() {
           type: 'answers',
         },
       };
+
       // when
-      const result = await httpTestServer.request('POST', '/api/answers', payload);
+      const response = await httpTestServer.request('POST', '/api/answers', payload);
 
       // then
-      expect(result.statusCode).to.equal(201);
+      expect(response.statusCode).to.equal(201);
     });
   });
 
-  describe('GET /api/answers/{id}', function() {
+  describe('GET /api/answers/{id}', () => {
 
-    it('should exist', async () => {
+    it('should return 200', async () => {
+      //given
+      sinon.stub(answerController, 'get').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
-      const result = await httpTestServer.request('GET', '/api/answers/1');
+      const response = await httpTestServer.request('GET', '/api/answers/1');
 
       // then
-      expect(result.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(200);
     });
   });
 
-  describe('GET /api/answers?assessment=<assessment_id>&challenge=<challenge_id>', function() {
+  describe('PATCH /api/answers/{id}', () => {
 
-    it('should exist', async () => {
+    it('should return 204', async () => {
+      // given
+      sinon.stub(answerController, 'update').callsFake((request, h) => h.response('ok').code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
-      const result = await httpTestServer.request('GET', '/api/answers');
+      const response = await httpTestServer.request('PATCH', '/api/answers/1');
 
       // then
-      expect(result.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(204);
     });
   });
 
-  describe('PATCH /api/answers/{id}', function() {
+  describe('GET /api/answers', () => {
 
-    it('should exist', async () => {
+    it('should return 200', async () => {
+      // given
+      sinon.stub(answerController, 'find').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
-      const result = await httpTestServer.request('PATCH', '/api/answers/1');
+      const response = await httpTestServer.request('GET', '/api/answers');
 
       // then
-      expect(result.statusCode).to.equal(204);
+      expect(response.statusCode).to.equal(200);
     });
   });
 
