@@ -61,7 +61,8 @@ module.exports = (function() {
 
     logging: {
       enabled: isFeatureEnabled(process.env.LOG_ENABLED),
-      colorEnabled: (process.env.NODE_ENV === 'development'),
+      colorEnabled: false,
+      shouldLog5XXErrors: isFeatureEnabled(process.env.SHOULD_LOG_5XX_ERRORS),
       logLevel: (process.env.LOG_LEVEL || 'info'),
     },
 
@@ -179,7 +180,11 @@ module.exports = (function() {
     ],
   };
 
-  if (process.env.NODE_ENV === 'test') {
+  if (config.environment === 'development') {
+    config.enabled = true;
+    config.logging.colorEnabled = true;
+    config.logging.shouldLog5XXErrors = true;
+  } else if (process.env.NODE_ENV === 'test') {
     config.port = 0;
 
     config.lcms.apiKey = 'test-api-key';
