@@ -8,7 +8,7 @@ chai.use(require('sinon-chai'));
 const cache = require('../lib/infrastructure/caches/learning-content-cache');
 const { livretScolaireAuthentication } = require('../lib/config');
 
-const { knex } = require('../db/knex-database-connection');
+const { knex, disconnect } = require('../db/knex-database-connection');
 
 const DatabaseBuilder = require('../db/database-builder/database-builder');
 const databaseBuilder = new DatabaseBuilder({ knex });
@@ -26,6 +26,10 @@ afterEach(function() {
   cache.flushAll();
   nock.cleanAll();
   return databaseBuilder.clean();
+});
+
+after(function() {
+  return disconnect();
 });
 
 function generateValidRequestAuthorizationHeader(userId = 1234, source = 'pix') {
