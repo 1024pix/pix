@@ -109,7 +109,7 @@
                  class={{if (v-get this.form 'canCollectProfiles' 'isInvalid') "form-control is-invalid" "form-control"}}
                  @checked={{this.form.canCollectProfiles}} />
         </div>
-        <div class="form-actions">
+        <div>
           <button class="btn btn-outline-default" aria-label="Annuler" type="button" {{on "click" this.cancel}}>Annuler</button>
           <button class="btn btn-success" aria-label="Enregistrer" type="submit">Enregistrer</button>
         </div>
@@ -133,19 +133,19 @@
       <div class="organization-information-section__content">
         <div>
           <p>
-            Type : <span class="organization__type">{{@organization.type}}</span><br>
+            Type : <span>{{@organization.type}}</span><br>
             {{#if @organization.externalId}}
-              Identifiant externe : <span class="organization__externalId">{{@organization.externalId}}</span><br>
+              Identifiant externe : <span>{{@organization.externalId}}</span><br>
             {{/if}}
             {{#if @organization.provinceCode}}
-              Département : <span class="organization__provinceCode">{{@organization.provinceCode}}</span><br>
+              Département : <span>{{@organization.provinceCode}}</span><br>
             {{/if}}
             {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
               Gestion d’élèves/étudiants : <span class="organization__isManagingStudents">{{if @organization.isManagingStudents 'Oui' 'Non'}}</span><br>
             {{/if}}
             Adresse e-mail: <span class ="organization'__email">{{@organization.email}}</span><br>
             Collecte de profils : <span class="organization__canCollectProfiles">{{if @organization.canCollectProfiles 'Oui' 'Non'}}</span><br>
-            Crédits : <span class="organization__credit">{{@organization.credit}}</span>
+            Crédits : <span>{{@organization.credit}}</span>
           </p>
           <button type="button" class="btn btn-outline-default" aria-label="Editer" {{on "click" this.toggleEditMode}}>Editer</button>
         </div>

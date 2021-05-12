@@ -2,7 +2,7 @@
 <td>{{@membership.user.firstName}}</td>
 <td>{{@membership.user.lastName}}</td>
 <td>{{@membership.user.email}}</td>
-<td class="editable-cell">
+<td data-test-id="editable-cell">
   {{#if this.isEditionMode}}
     <PowerSelect @options={{this.organizationRoles}}
                  @selected={{this.selectedNewRole}}

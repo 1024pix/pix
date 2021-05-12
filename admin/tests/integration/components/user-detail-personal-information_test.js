@@ -43,7 +43,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.dom('.user__first-name').hasText(this.user.firstName);
+        assert.contains(this.user.firstName);
       });
 
       test('should display user’s last name', async function(assert) {
@@ -54,7 +54,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.dom('.user__last-name').hasText(this.user.lastName);
+        assert.contains(this.user.lastName);
       });
 
       test('should display user’s email', async function(assert) {
@@ -65,7 +65,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.dom('.user__email').hasText(this.user.email);
+        assert.contains(this.user.email);
       });
 
       test('should display user’s username', async function(assert) {
@@ -76,7 +76,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.dom('.user__username').hasText(this.user.username);
+        assert.contains(this.user.username);
       });
     });
 
@@ -90,7 +90,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.dom('.user__cgu').hasText('OUI');
+        assert.contains('OUI');
       });
 
       test('should display "NON" when user not accepted Pix App terms of service', async function(assert) {
@@ -101,7 +101,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.dom('.user__cgu').hasText('NON');
+        assert.contains('NON');
       });
 
       test('should display "OUI" when user accepted Pix Orga terms of service', async function(assert) {
@@ -112,7 +112,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.dom('.user__pix-orga-terms-of-service-accepted').hasText('OUI');
+        assert.contains('OUI');
       });
 
       test('should display "NON" when user not accepted Pix Orga terms of service', async function(assert) {
@@ -123,7 +123,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.dom('.user__pix-orga-terms-of-service-accepted').hasText('NON');
+        assert.contains('NON');
       });
 
       test('should display "OUI" when user accepted Pix Certif terms of service', async function(assert) {
@@ -134,7 +134,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.dom('.user__pix-certif-terms-of-service-accepted').hasText('OUI');
+        assert.contains('OUI');
       });
 
       test('should display "NON" when user not accepted Pix Certif terms of service', async function(assert) {
@@ -145,7 +145,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.dom('.user__pix-certif-terms-of-service-accepted').hasText('NON');
+        assert.contains('NON');
       });
     });
 
@@ -312,7 +312,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await clickByLabel('Modifier');
 
         // then
-        assert.dom('.user-edit-form__username').doesNotExist();
+        assert.notContains('Identifiant :');
       });
 
     });
@@ -352,7 +352,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         await clickByLabel('Modifier');
 
         // then
-        assert.dom('.user-edit-form__email').doesNotExist();
+        assert.notContains('E-mail :');
       });
     });
 
@@ -365,9 +365,8 @@ module('Integration | Component | user-detail-personal-information', function(ho
       await clickByLabel('Modifier');
 
       // then
-      assert.dom('.user__cgu').doesNotExist();
-      assert.dom('.user__pix-orga-terms-of-service-accepted').doesNotExist();
-      assert.dom('.user__pix-certif-terms-of-service-accepted').doesNotExist();
+      assert.notContains('CGU Pix Orga validé :');
+      assert.notContains('CGU Pix Certif validé :');
     });
   });
 

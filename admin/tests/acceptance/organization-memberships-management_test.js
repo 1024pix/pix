@@ -92,7 +92,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       await click('[aria-label="Ajouter un membre"] button');
 
       // then
-      assert.equal(this.element.querySelectorAll('div.member-list table > tbody > tr').length, 1);
+      assert.equal(this.element.querySelectorAll('div[data-test-id="member-list"] table > tbody > tr').length, 1);
       assert.contains('Denise');
       assert.dom('#userEmailToAdd').hasValue('denise@example.com');
     });
@@ -108,7 +108,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       await click('[aria-label="Ajouter un membre"] button');
 
       // then
-      assert.equal(this.element.querySelectorAll('div.member-list table > tbody > tr').length, 1);
+      assert.equal(this.element.querySelectorAll('div[data-test-id="member-list"] table > tbody > tr').length, 1);
       assert.contains('Erica');
       assert.dom('#userEmailToAdd').hasValue('unexisting@example.com');
     });
@@ -158,7 +158,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       await visit(`/organizations/${organization.id}/members`);
       await click('button[aria-label="Modifier le rôle"]');
 
-      await selectChoose('.editable-cell', 'Membre');
+      await selectChoose('[data-test-id="editable-cell"]', 'Membre');
       await click('button[aria-label="Enregistrer"]');
 
       // then

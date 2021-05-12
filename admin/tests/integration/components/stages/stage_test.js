@@ -50,6 +50,6 @@ module('Integration | Component | Stages::Stage', function(hooks) {
     //then
     assert.contains('Annuler');
     assert.contains('Enregistrer');
-    assert.dom('.stage__edit-form').exists();
+    assert.contains('Titre pour le prescripteur');
   });
 });

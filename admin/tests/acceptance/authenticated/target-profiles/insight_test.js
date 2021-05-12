@@ -57,7 +57,7 @@ module('Acceptance | authenticated/targets-profile/target-profile/insight', func
     fillIn('.insight__section:nth-child(2) tbody tr td:nth-child(4) input', 'My stage title');
     fillIn('.insight__section:nth-child(2) tbody tr td:nth-child(5) input', 'My stage message');
 
-    await click('button.form-action--submit');
+    await click('button[data-test="form-action-submit"]');
     assert.notContains('Enregistrer');
 
     const newStageCount = findAll('.insight__section:nth-child(2) tbody tr').length;
@@ -70,7 +70,7 @@ module('Acceptance | authenticated/targets-profile/target-profile/insight', func
     const stageCount = findAll('.insight__section:nth-child(2) tbody tr').length;
     assert.equal(stageCount, 1);
     await click('button[data-test=\'Nouveau palier\']');
-    await click('button.form-action--cancel');
+    await click('button[data-test="form-action-cancel"]');
 
     // then
     const newStageCount = findAll('.insight__section:nth-child(2) tbody tr').length;
