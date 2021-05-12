@@ -20,7 +20,7 @@ export default OIDCAuthenticator.extend({
 
   session: service(),
 
-  async authenticate({ code, redirectUri, authenticationKey }) {
+  async authenticate({ code, redirectUri, state, authenticationKey }) {
     let request;
     let serverTokenEndpoint;
 
@@ -38,6 +38,8 @@ export default OIDCAuthenticator.extend({
         code,
         client_id: clientId,
         redirect_uri: redirectUri,
+        state_sent: this.session.data.state,
+        state_received: state,
       };
 
       const body = Object.keys(bodyObject)
