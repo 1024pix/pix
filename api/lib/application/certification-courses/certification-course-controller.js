@@ -63,4 +63,10 @@ module.exports = {
     const certifiedProfile = await certifiedProfileRepository.get(certificationCourseId);
     return certifiedProfileSerializer.serialize(certifiedProfile);
   },
+
+  async cancel(request) {
+    const certificationCourseId = request.params.id;
+    const cancelledCertificationCourse = await usecases.cancelCertificationCourse({ certificationCourseId });
+    return certificationCourseSerializer.serialize(cancelledCertificationCourse);
+  },
 };
