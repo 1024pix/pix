@@ -348,6 +348,7 @@ describe('Acceptance | Application | organization-controller', () => {
     beforeEach(async () => {
       userId = databaseBuilder.factory.buildUser({}).id;
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
+      databaseBuilder.factory.buildMembership({ organizationId, userId });
       otherOrganizationId = databaseBuilder.factory.buildOrganization({}).id;
       campaignsData = _.map([
         { name: 'Quand Peigne numba one', code: 'ATDGRK343', organizationId },
@@ -397,6 +398,29 @@ describe('Acceptance | Application | organization-controller', () => {
       });
     });
 
+    context('when the user is not a member of the organization', () => {
+
+      it('should respond with a 403', () => {
+        // given
+        userId = databaseBuilder.factory.buildUser({}).id;
+        options = {
+          method: 'GET',
+          url: `/api/organizations/${organizationId}/campaigns`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(userId),
+          },
+        };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+
     context('Retrieve campaigns', () => {
 
       it('should return 200 status code the organization campaigns', async () => {
@@ -415,6 +439,7 @@ describe('Acceptance | Application | organization-controller', () => {
         // given
         organizationId = databaseBuilder.factory.buildOrganization({}).id;
         const creatorId = databaseBuilder.factory.buildUser({ firstName: 'Daenerys', lastName: 'Targaryen' }).id;
+        databaseBuilder.factory.buildMembership({ organizationId, userId });
         databaseBuilder.factory.buildCampaign({ organizationId, creatorId });
         await databaseBuilder.commit();
         options.url = `/api/organizations/${organizationId}/campaigns`;
@@ -445,6 +470,8 @@ describe('Acceptance | Application | organization-controller', () => {
 
       it('should return report with the campaigns', async () => {
         // given
+        databaseBuilder.factory.buildMembership({ organizationId: otherOrganizationId, userId });
+        await databaseBuilder.commit();
         options.url = `/api/organizations/${otherOrganizationId}/campaigns`;
 
         // when
