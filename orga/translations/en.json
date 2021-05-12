@@ -642,6 +642,9 @@
     "team-new-item": {
       "input-label": "Email address(es)",
       "invite-button": "Invite"
+    },
+    "terms-of-service": {
+      "accept" : "I accept the terms and conditions"
     }
   }
 }
