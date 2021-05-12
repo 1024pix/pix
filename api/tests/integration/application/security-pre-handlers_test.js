@@ -5,7 +5,7 @@ describe('Integration | Application | SecurityPreHandlers', () => {
   describe('#checkUserBelongsToOrganization', () => {
     let httpServerTest;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       const moduleUnderTest = {
         name: 'security-test',
         register: async function(server) {
@@ -21,7 +21,8 @@ describe('Integration | Application | SecurityPreHandlers', () => {
           }]);
         },
       };
-      httpServerTest = new HttpTestServer(moduleUnderTest);
+      httpServerTest = new HttpTestServer();
+      await httpServerTest.register(moduleUnderTest);
       httpServerTest.setupAuthentication();
     });
 
@@ -34,7 +35,6 @@ describe('Integration | Application | SecurityPreHandlers', () => {
         method: 'GET',
         url: `/check/${organizationId}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-
       };
 
       const response = await httpServerTest.requestObject(options);
