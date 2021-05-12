@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v3.54.1 (12/05/2021)
+
+- [#3003](https://github.com/1024pix/pix/pull/3003) [HOTFIX] Sécuriser la route GET /api/organizations/{id}/campaigns (PIX-2492)
+
 ## v3.54.0 (11/05/2021)
 
 - [#2971](https://github.com/1024pix/pix/pull/2971) [FEATURE] Passer les sessions assignées comme sessions "à traiter" (PIX-2571)
