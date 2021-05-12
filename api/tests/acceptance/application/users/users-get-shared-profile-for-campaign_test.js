@@ -32,7 +32,6 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
 
   beforeEach(async () => {
     server = await createServer();
-    databaseBuilder.clean();
   });
 
   describe('GET /users/{userId}/campaigns/{campaignId}/profile', () => {
