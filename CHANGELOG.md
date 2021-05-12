@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v3.56.0 (12/05/2021)
+
+- [#3004](https://github.com/1024pix/pix/pull/3004) [HOTFIX] Merge du hotfix v3.54.1
+
 ## v3.55.0 (12/05/2021)
 
 - [#2950](https://github.com/1024pix/pix/pull/2950) [FEATURE] Afficher les CGUs suivant la langue de l'utilisateur dans Pix Orga (PIX-2354).
