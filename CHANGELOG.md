@@ -9,6 +9,9 @@
 - [#2985](https://github.com/1024pix/pix/pull/2985) [FEATURE] Améliorer l'accessibilité de l'infobulle sur le nombre de pix total
 - [#2996](https://github.com/1024pix/pix/pull/2996) [BUGFIX] Les macarons de certifications complémentaires ne s'affichaient que si le candidat avait obtenu son CléA dans le certificat partagé par code (PIX-2582)
 - [#3000](https://github.com/1024pix/pix/pull/3000) [TECH] Corrige un test flacky en supprimant du code (ce n'est pas ce que vous croyez)
+## v3.54.1 (12/05/2021)
+
+- [#3003](https://github.com/1024pix/pix/pull/3003) [HOTFIX] Sécuriser la route GET /api/organizations/{id}/campaigns (PIX-2492)
 
 ## v3.54.0 (11/05/2021)
 
