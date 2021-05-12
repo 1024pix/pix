@@ -1,14 +1,5 @@
 # Pix Changelog
 
-## v3.54.3 (12/05/2021)
-
-
-## v3.54.2 (12/05/2021)
-
-
-## v3.54.1 (12/05/2021)
-
-
 ## v3.54.0 (11/05/2021)
 
 - [#2971](https://github.com/1024pix/pix/pull/2971) [FEATURE] Passer les sessions assignées comme sessions "à traiter" (PIX-2571)
