@@ -3,8 +3,8 @@
 <div class="certification-list-page">
 
   <header class="certification-list-page__header">
-    <h2 class="certification-list-page__title">Certifications</h2>
-    <div class="btn-group certification-list-page__actions" role="group">
+    <h2>Certifications</h2>
+    <div class="btn-group" role="group">
 
       {{#if this.model.isPublished}}
         <button class="btn btn-primary" {{on 'click' this.displayCertificationStatusUpdateConfirmationModal}} type="button">
@@ -27,7 +27,7 @@
     </div>
   </header>
 
-  <div class="certification-list-page__body">
+  <div>
     <Certification::CertificationList @certifications={{this.model.juryCertificationSummaries}} />
   </div>
 </div>

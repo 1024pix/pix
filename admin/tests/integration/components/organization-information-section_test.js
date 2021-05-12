@@ -28,7 +28,7 @@ module('Integration | Component | organization-information-section', function(ho
     await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
     // then
-    assert.dom('.organization__credit').hasText('350');
+    assert.contains('350');
   });
 
   test('it should display canCollectProfiles', async function(assert) {
@@ -223,9 +223,9 @@ module('Integration | Component | organization-information-section', function(ho
       await click('button[aria-label=\'Annuler\']');
 
       // then
-      assert.dom('.organization__name').hasText(organization.name);
-      assert.dom('.organization__externalId').hasText(organization.externalId);
-      assert.dom('.organization__provinceCode').hasText(organization.provinceCode);
+      assert.contains(organization.name);
+      assert.contains(organization.externalId);
+      assert.contains(organization.provinceCode);
       assert.dom('.organization__isManagingStudents').hasText('Non');
       assert.dom('.organization__canCollectProfiles').hasText('Non');
     });
@@ -248,9 +248,9 @@ module('Integration | Component | organization-information-section', function(ho
 
       // then
       assert.dom('.organization__name').hasText('new name');
-      assert.dom('.organization__externalId').hasText('new externalId');
-      assert.dom('.organization__provinceCode').doesNotExist();
-      assert.dom('.organization__credit').hasText('50');
+      assert.contains('new externalId');
+      assert.notContains('Département : ');
+      assert.contains('50');
       assert.dom('.organization__canCollectProfiles').hasText('Oui');
       assert.dom('.organization__isManagingStudents').hasText('Oui');
     });

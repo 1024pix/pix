@@ -11,7 +11,7 @@ module('Integration | Component | menu-bar', function(hooks) {
     await render(hbs`{{menu-bar}}`);
 
     // then
-    assert.dom('a.menu-bar__link--organizations').exists();
+    assert.dom('a[data-test-id="menu-bar-link-organizations"]').exists();
   });
 
   test('should contain link to "users" management page', async function(assert) {
@@ -19,7 +19,7 @@ module('Integration | Component | menu-bar', function(hooks) {
     await render(hbs`{{menu-bar}}`);
 
     // then
-    assert.dom('a.menu-bar__link--users').exists();
+    assert.dom('a[data-test-id="menu-bar-link-users"]').exists();
   });
 
   test('should contain link to "sessions" management page', async function(assert) {
@@ -27,7 +27,7 @@ module('Integration | Component | menu-bar', function(hooks) {
     await render(hbs`{{menu-bar}}`);
 
     // then
-    assert.dom('a.menu-bar__link--sessions').exists();
+    assert.dom('a[data-test-id="menu-bar__link--sessions"]').exists();
   });
 
   test('should contain link to "certifications" management page', async function(assert) {
@@ -35,7 +35,7 @@ module('Integration | Component | menu-bar', function(hooks) {
     await render(hbs`{{menu-bar}}`);
 
     // then
-    assert.dom('a.menu-bar__link--certifications').exists();
+    assert.dom('a[data-test-id="menu-bar-link-certifications"').exists();
   });
 
   test('should contain link to "target-profiles" management page', async function(assert) {
@@ -43,7 +43,7 @@ module('Integration | Component | menu-bar', function(hooks) {
     await render(hbs`{{menu-bar}}`);
 
     // then
-    assert.dom('a.menu-bar__link--target-profiles').exists();
+    assert.dom('a[data-test-id="menu-bar-link--target-profiles"]').exists();
   });
 
   test('should contain link to "tools" management page', async function(assert) {
@@ -51,7 +51,7 @@ module('Integration | Component | menu-bar', function(hooks) {
     await render(hbs`{{menu-bar}}`);
 
     // then
-    assert.dom('a.menu-bar__link--tools').exists();
+    assert.dom('a[data-test-id="menu-bar-link-tools"]').exists();
   });
 
   test('should contain link to "logout"', async function(assert) {
@@ -59,6 +59,6 @@ module('Integration | Component | menu-bar', function(hooks) {
     await render(hbs`{{menu-bar}}`);
 
     // then
-    assert.dom('a.menu-bar__link--logout').exists();
+    assert.dom('a[data-test-id="menu-bar-link-logout"').exists();
   });
 });

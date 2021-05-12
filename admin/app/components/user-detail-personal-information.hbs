@@ -1,6 +1,6 @@
 <section class="page-section mb_10">
   {{#if this.isEditionMode}}
-    <form class="form user-edit-form" {{on "submit" this.updateUserDetails}}>
+    <form class="form" {{on "submit" this.updateUserDetails}}>
       <span class="form__instructions col-md-4">
         Les champs marqués de <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> sont obligatoires.
       </span>
@@ -15,8 +15,7 @@
         {{/if}}
         <Input id="firstName"
                @type="text"
-               class={{if (v-get this.form 'firstName' 'isInvalid') "user-edit-form__first-name form-control is-invalid"
-                          "user-edit-form__first-name form-control"}}
+               class="form-control user-edit-form__first-name {{if (v-get this.form 'firstName' 'isInvalid') "is-invalid"}}"
                @value={{this.form.firstName}} />
       </div>
       <div class="form-field col-md-4">
@@ -30,8 +29,7 @@
         {{/if}}
         <Input id="lastName"
                @type="text"
-               class={{if (v-get this.form 'lastName' 'isInvalid') "user-edit-form__last-name form-control is-invalid"
-                          "user-edit-form__last-name form-control"}}
+               class="form-control user-edit-form__last-name {{if (v-get this.form 'lastName' 'isInvalid') "is-invalid"}}"
                @value={{this.form.lastName}} />
       </div>
       {{#if @user.email}}
@@ -46,8 +44,7 @@
           {{/if}}
           <Input id="email"
                  @type="email"
-                 class={{if (v-get this.form 'email' 'isInvalid') "user-edit-form__email form-control is-invalid"
-                            "user-edit-form__email form-control"}}
+                 class="form-control user-edit-form__email {{if (v-get this.form 'email' 'isInvalid') "is-invalid"}}"
                  @value={{this.form.email}} />
         </div>
       {{/if}}
@@ -63,8 +60,7 @@
           {{/if}}
           <Input id="username"
                  @type="text"
-                 class={{if (v-get this.form 'username' 'isInvalid') "user-edit-form__username form-control is-invalid"
-                            "user-edit-form__username form-control"}}
+                 class="form-control user-edit-form__username {{if (v-get this.form 'username' 'isInvalid') "is-invalid"}}"
                  @value={{this.form.username}} />
         </div>
       {{/if}}
@@ -74,45 +70,45 @@
       </div>
     </form>
   {{else}}
-    <form class="form user-read-only-form">
+    <form class="form">
       <section class="page-section mb_10">
         <div class="user-detail-personal-information-section__content">
-          <div class="user-detail-personal-information-section__item">
-            <div class="attribute first-name">
-              <span class="attibute__label">Prénom : </span>
-              <span class="attribute__value user__first-name">{{@user.firstName}}</span>
+          <div>
+            <div>
+              <span>Prénom : </span>
+              <span>{{@user.firstName}}</span>
             </div>
-            <div class="attribute last-name">
-              <span class="attibute__label">Nom : </span>
-              <span class="attribute__value user__last-name">{{@user.lastName}}</span>
+            <div>
+              <span>Nom : </span>
+              <span>{{@user.lastName}}</span>
             </div>
-            <div class="attribute email">
-              <span class="attibute__label">E-mail : </span>
-              <span class="attribute__value user__email">{{@user.email}}</span>
+            <div>
+              <span>E-mail : </span>
+              <span>{{@user.email}}</span>
             </div>
-            <div class="attribute username">
-              <span class="attibute__label">Identifiant : </span>
-              <span class="attribute__value user__username">{{@user.username}}</span>
+            <div>
+              <span>Identifiant : </span>
+              <span>{{@user.username}}</span>
             </div>
             <br>
-            <div class="attribute cgu">
-              <span class="attibute__label">CGU Pix App validé : </span>
-              <span class="attribute__value user__cgu">{{if @user.cgu 'OUI' 'NON'}}</span>
+            <div>
+              <span>CGU Pix App validé : </span>
+              <span>{{if @user.cgu 'OUI' 'NON'}}</span>
             </div>
-            <div class="attribute pix-orga-terms-of-service-accepted">
-              <span class="attibute__label">CGU Pix Orga validé : </span>
-              <span class="attribute__value user__pix-orga-terms-of-service-accepted">{{if
-                      @user.pixOrgaTermsOfServiceAccepted 'OUI' 'NON'}}
+            <div>
+              <span>CGU Pix Orga validé : </span>
+              <span>
+                {{if @user.pixOrgaTermsOfServiceAccepted 'OUI' 'NON'}}
               </span>
             </div>
-            <div class="attribute pix-certif-terms-of-service-accepted">
-              <span class="attibute__label">CGU Pix Certif validé : </span>
-              <span class="attribute__value user__pix-certif-terms-of-service-accepted">{{if
-                      @user.pixCertifTermsOfServiceAccepted 'OUI' 'NON'}}
+            <div>
+              <span>CGU Pix Certif validé : </span>
+              <span>
+                {{if @user.pixCertifTermsOfServiceAccepted 'OUI' 'NON'}}
               </span>
             </div>
           </div>
-          <div class="user-detail-personal-information-section__item">
+          <div>
             <a class="btn btn-outline-default" aria-label="Tableau de bord" href="{{this.externalURL}}" target="_blank" rel="noopener noreferrer">Tableau de bord</a>
           </div>
         </div>

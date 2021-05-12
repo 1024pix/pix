@@ -31,7 +31,7 @@ module('Acceptance | tools page', function(hooks) {
     });
 
     test('Should content "Learning content" section', async function(assert) {
-      assert.dom('section.learning-content').exists();
+      assert.dom('section[data-test-id="learning-content"]').exists();
       assert.dom('button').exists();
     });
   });

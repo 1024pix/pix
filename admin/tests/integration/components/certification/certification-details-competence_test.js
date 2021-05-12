@@ -61,11 +61,11 @@ module('Integration | Component | <Certification::CertificationDetailsCompetence
     await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} juryRate={{70}} @onUpdateRate={{externalAction}} />`);
 
     // then
-    assert.dom('.jury.competence-level').exists();
+    assert.dom('[data-test-id="jury-competence-level"]').exists();
+    assert.dom('[data-test-id="jury-competence-level"]').hasText('2');
     assert.dom('.jury.competence-score').exists();
-    assert.dom('.jury.competence-level').hasText('2');
     assert.dom('.jury.competence-score').hasText('18 Pix');
-    assert.dom('.progress-bar.competence-level.certificate').hasText('-1');
+    assert.dom('[data-test-id="progress-bar-competence-level-certificate"]').hasText('-1');
   });
 
 });

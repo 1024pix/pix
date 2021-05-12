@@ -15,12 +15,16 @@ module('Integration | Component | certification-center-form', function(hooks) {
     this.certificationCenter = EmberObject.create();
   });
 
-  test('it renders', async function(assert) {
+  test('it renders the new certification center form component', async function(assert) {
     // when
     await render(hbs`<CertificationCenterForm @certificationCenter={{this.certificationCenter}} @onSubmit={{this.onSubmit}} @onCancel={{this.onCancel}} />`);
 
     // then
-    assert.dom('.certification-center-form').exists();
+    assert.contains('Nom :');
+    assert.contains('Type :');
+    assert.contains('Identifiant externe :');
+    assert.contains('Annuler');
+    assert.contains('Ajouter');
   });
 
   module('#selectCertificationCenterType', function() {

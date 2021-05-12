@@ -8,7 +8,8 @@
 
   <div class="login-form__control">
     <Input id="identification"
-           @class="login-form__field login-form__field--identification"
+           data-test-id="login-form-field-identification"
+           @class="login-form__field"
            @placeholder="Enter Login"
            @required="true"
            @value={{this.email}}
@@ -17,7 +18,8 @@
 
   <div class="login-form__control">
     <Input id="password"
-           @class="login-form__field login-form__field--password"
+           data-test-id="login-form-field-password"
+           @class="login-form__field"
            @placeholder="Enter Password"
            @required="true"
            @type="password"
