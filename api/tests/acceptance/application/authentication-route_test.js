@@ -227,6 +227,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
       const code = 'code';
       const client_id = 'client_id';
       const redirect_uri = 'redirect_uri';
+      const state_sent = 'state';
+      const state_received = 'state';
 
       options = {
         method: 'POST',
@@ -238,6 +240,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
           code,
           client_id,
           redirect_uri,
+          state_sent,
+          state_received,
         }),
       };
 
@@ -262,6 +266,26 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
     afterEach(() => {
       clock.restore();
+    });
+
+    context('When the state sent does not match the state received', () => {
+
+      it('should return http code 400', async () => {
+        // given
+        options.payload = querystring.stringify({
+          code: 'code',
+          client_id: 'client_id',
+          redirect_uri: 'redirect_uri',
+          state_sent: 'a_state',
+          state_received: 'another_state',
+        });
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
     });
 
     context('When user is not connected to Pix', () => {

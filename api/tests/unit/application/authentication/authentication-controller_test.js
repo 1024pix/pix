@@ -108,6 +108,8 @@ describe('Unit | Application | Controller | Authentication', () => {
     const code = 'ABCD';
     const client_id = 'CLIENT_ID';
     const redirect_uri = 'http://redirectUri.fr';
+    const state_sent = 'state';
+    const state_received = 'state';
 
     let request;
 
@@ -118,6 +120,8 @@ describe('Unit | Application | Controller | Authentication', () => {
           code,
           client_id,
           redirect_uri,
+          state_sent,
+          state_received,
         },
       };
 
@@ -145,6 +149,8 @@ describe('Unit | Application | Controller | Authentication', () => {
         clientId: client_id,
         redirectUri: redirect_uri,
         authenticatedUserId: undefined,
+        stateSent: state_sent,
+        stateReceived: state_received,
       };
 
       // when
