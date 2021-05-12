@@ -4,8 +4,9 @@ const authenticatePoleEmploiUser = require('../../../../lib/domain/usecases/auth
 
 const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const { UnexpectedUserAccountError, UserAccountNotFoundForPoleEmploiError } = require('../../../../lib/domain/errors');
+const { UnexpectedUserAccountError, UnexpectedPoleEmploiStateError, UserAccountNotFoundForPoleEmploiError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const logger = require('../../../../lib/infrastructure/logger');
 
 const moment = require('moment');
 
@@ -14,6 +15,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
   const code = 'code';
   const redirectUri = 'redirectUri';
   const clientId = 'clientId';
+  const state = 'state';
 
   const accessToken = 'accessToken';
   const idToken = 'idToken';
@@ -74,12 +76,32 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     clock.restore();
   });
 
+  context('When the request state does not match the response state', () => {
+
+    it('should throw an UnexpectedPoleEmploiStateError', async () => {
+      // given
+      const stateSent = 'stateSent';
+      const stateReceived = 'stateReceived';
+      sinon.stub(logger, 'error');
+
+      // when
+      const error = await catchErr(authenticatePoleEmploiUser)({
+        code, redirectUri, clientId, authenticatedUserId: userId, stateSent, stateReceived,
+        userRepository, authenticationMethodRepository, authenticationService, tokenService,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(UnexpectedPoleEmploiStateError);
+      expect(logger.error).to.have.been.calledWith(`State sent ${stateSent} did not match the state received ${stateReceived}`);
+    });
+  });
+
   context('When user has an account', () => {
 
     it('should call authenticate pole emploi user with code, redirectUri and clientId parameters', async () => {
       // when
       await authenticatePoleEmploiUser({
-        code, redirectUri, clientId, authenticatedUserId: userId,
+        code, redirectUri, clientId, authenticatedUserId: userId, stateSent: state, stateReceived: state,
         userRepository, authenticationMethodRepository, authenticationService, tokenService,
       });
 
@@ -90,7 +112,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     it('should call get pole emploi user info with id token parameter', async () => {
       // when
       await authenticatePoleEmploiUser({
-        code, redirectUri, clientId, authenticatedUserId: userId,
+        code, redirectUri, clientId, authenticatedUserId: userId, stateSent: state, stateReceived: state,
         userRepository, authenticationMethodRepository, authenticationService, tokenService,
       });
 
@@ -107,7 +129,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
       // when
       await authenticatePoleEmploiUser({
-        code, redirectUri, clientId,
+        code, redirectUri, clientId, stateSent: state, stateReceived: state,
         userRepository, authenticationMethodRepository, authenticationService, tokenService,
       });
 
@@ -126,7 +148,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
       // when
       const result = await authenticatePoleEmploiUser({
-        code, redirectUri, clientId, authenticatedUserId: userId,
+        code, redirectUri, clientId, authenticatedUserId: userId, stateSent: state, stateReceived: state,
         userRepository, authenticationMethodRepository, authenticationService, tokenService,
       });
 
@@ -147,7 +169,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
         // when
         await authenticatePoleEmploiUser({
-          code, redirectUri, clientId,
+          code, redirectUri, clientId, stateSent: state, stateReceived: state,
           userRepository, authenticationMethodRepository, authenticationService, tokenService,
         });
 
@@ -181,7 +203,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
           // when
           await authenticatePoleEmploiUser({
-            code, redirectUri, clientId, authenticatedUserId: userId,
+            code, redirectUri, clientId, authenticatedUserId: userId, stateSent: state, stateReceived: state,
             userRepository, authenticationMethodRepository, authenticationService, tokenService,
           });
 
@@ -205,7 +227,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
           // when
           await authenticatePoleEmploiUser({
-            code, redirectUri, clientId, authenticatedUserId: userId,
+            code, redirectUri, clientId, authenticatedUserId: userId, stateSent: state, stateReceived: state,
             userRepository, authenticationMethodRepository, authenticationService, tokenService,
           });
 
@@ -221,7 +243,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
           // when
           const error = await catchErr(authenticatePoleEmploiUser)({
-            code, redirectUri, clientId, authenticatedUserId: userId,
+            code, redirectUri, clientId, authenticatedUserId: userId, stateSent: state, stateReceived: state,
             userRepository, authenticationMethodRepository, authenticationService, tokenService,
           });
 
@@ -240,7 +262,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
       // when
       const error = await catchErr(authenticatePoleEmploiUser)({
-        code, redirectUri, clientId,
+        code, redirectUri, clientId, stateSent: state, stateReceived: state,
         userRepository, authenticationMethodRepository,
         authenticationService, tokenService, authenticationCache,
       });
@@ -257,7 +279,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
       // when
       await catchErr(authenticatePoleEmploiUser)({
-        code, redirectUri, clientId,
+        code, redirectUri, clientId, stateSent: state, stateReceived: state,
         userRepository, authenticationMethodRepository,
         authenticationService, tokenService, authenticationCache,
       });
