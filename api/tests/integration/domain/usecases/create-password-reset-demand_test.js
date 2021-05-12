@@ -20,10 +20,6 @@ describe('Integration | UseCases | create-password-reset-demand', () => {
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
-
   it('should return a password reset demand', async () => {
     // when
     const result = await createPasswordResetDemand({

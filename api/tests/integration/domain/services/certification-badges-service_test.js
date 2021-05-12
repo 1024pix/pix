@@ -43,10 +43,6 @@ describe('Integration | Service | Certification-Badges Service', () => {
 
   describe('#findStillValidBadgeAcquisitions', () => {
 
-    afterEach(async() => {
-      await databaseBuilder.clean();
-    });
-
     it('should return one badgeAcquisition', async () => {
       // given
       const { id: userId } = databaseBuilder.factory.buildUser();

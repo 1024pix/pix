@@ -94,7 +94,6 @@ describe('Integration | Event | Handle Badge Acquisition Service', function() {
 
     afterEach(async() => {
       await knex('badge-acquisitions').delete();
-      await databaseBuilder.clean();
     });
 
     it('should save only the validated badges', async () => {
