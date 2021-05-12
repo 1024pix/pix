@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.55.0 (12/05/2021)
+
+- [#2950](https://github.com/1024pix/pix/pull/2950) [FEATURE] Afficher les CGUs suivant la langue de l'utilisateur dans Pix Orga (PIX-2354).
+- [#2988](https://github.com/1024pix/pix/pull/2988) [FEATURE] Ré-afficher les colonnes supprimées suite à l'ajout de l'index en base de donnée (PIX-2552)
+- [#2992](https://github.com/1024pix/pix/pull/2992) [FEATURE] Inverser les listes de session à publier et à traiter dans ADMIN (PIX-2433)
+- [#2955](https://github.com/1024pix/pix/pull/2955) [FEATURE] Afficher le block "repasser" pour une campagne de collecte de profils à envois multiples (PIX-2537).
+- [#2985](https://github.com/1024pix/pix/pull/2985) [FEATURE] Améliorer l'accessibilité de l'infobulle sur le nombre de pix total
+- [#2996](https://github.com/1024pix/pix/pull/2996) [BUGFIX] Les macarons de certifications complémentaires ne s'affichaient que si le candidat avait obtenu son CléA dans le certificat partagé par code (PIX-2582)
+- [#3000](https://github.com/1024pix/pix/pull/3000) [TECH] Corrige un test flacky en supprimant du code (ce n'est pas ce que vous croyez)
+
 ## v3.54.0 (11/05/2021)
 
 - [#2971](https://github.com/1024pix/pix/pull/2971) [FEATURE] Passer les sessions assignées comme sessions "à traiter" (PIX-2571)
