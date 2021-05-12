@@ -8,6 +8,7 @@ module.exports = async function getUserProfileSharedForCampaign({
   userId,
   campaignId,
   campaignParticipationRepository,
+  campaignRepository,
   knowledgeElementRepository,
   competenceRepository,
 }) {
@@ -17,6 +18,7 @@ module.exports = async function getUserProfileSharedForCampaign({
     throw new NoCampaignParticipationForUserAndCampaign();
   }
 
+  const { multipleSendings: campaignAllowsRetry } = await campaignRepository.get(campaignId);
   const [knowledgeElementsGroupedByCompetenceId, competencesWithArea] = await Promise.all([
     knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId, limitDate: campaignParticipation.sharedAt }),
     competenceRepository.listPixCompetencesOnly(),
@@ -36,6 +38,7 @@ module.exports = async function getUserProfileSharedForCampaign({
   return new SharedProfileForCampaign({
     id: campaignParticipation.id,
     sharedAt: campaignParticipation.sharedAt,
+    campaignAllowsRetry,
     scorecards,
   });
 };

@@ -1,8 +1,20 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
+const { expect, domainBuilder, sinon } = require('../../../../test-helper');
 const SharedProfileForCampaign = require('../../../../../lib/domain/models/SharedProfileForCampaign');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer');
+const constants = require('../../../../../lib/domain/constants');
 
 describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer', () => {
+  let clock;
+  afterEach(() => {
+    clock.restore();
+  });
+
+  beforeEach(() => {
+    constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 1;
+    const now = new Date('2020-01-02');
+    clock = sinon.useFakeTimers(now);
+  });
+
   describe('#serialize()', () => {
     const area1 = {
       id: '1',
@@ -24,6 +36,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
     const profileSharedForCampaign = new SharedProfileForCampaign({
       id: '1',
       sharedAt: new Date('2020-01-01'),
+      campaignAllowsRetry: true,
       scorecards: expectedScorecards,
     });
 
@@ -34,6 +47,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
         attributes: {
           'pix-score': profileSharedForCampaign.pixScore,
           'shared-at': profileSharedForCampaign.sharedAt,
+          'can-retry': true,
         },
         relationships: {
           scorecards: {
