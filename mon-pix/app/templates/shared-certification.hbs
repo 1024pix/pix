@@ -14,8 +14,8 @@
             @resultCompetenceTree={{this.model.resultCompetenceTree}}
             @maxReachableLevelOnCertificationDate={{this.model.maxReachableLevelOnCertificationDate}}
     />
-    {{#if this.model.hasCleaCertif}}
-      <UserCertificationsDetailResult @certification={{this.model}} />
+    {{#if this.shouldDisplayDetailsSection}}
+      <UserCertificationsDetailResult @certification={{@model}} />
     {{/if}}
   </div>
 
