@@ -1,7 +1,7 @@
 const omit = require('lodash/omit');
 const jsonwebtoken = require('jsonwebtoken');
 
-const { catchErr, expect } = require('../../../test-helper');
+const { catchErr, expect, sinon } = require('../../../test-helper');
 
 const { InvalidTemporaryKeyError, InvalidExternalUserTokenError, InvalidResultRecipientTokenError, InvalidSessionResultError } = require('../../../../lib/domain/errors');
 const settings = require('../../../../lib/config');
@@ -9,6 +9,47 @@ const settings = require('../../../../lib/config');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
 describe('Unit | Domain | Service | Token Service', () => {
+
+  describe('#createAccessTokenFromUser', () => {
+
+    it('should create access token with user id and source', () => {
+      // given
+      const userId = 123;
+      const source = 'pix';
+      settings.authentication.secret = 'a secret';
+      settings.authentication.tokenLifespan = '7d';
+      sinon.stub(jsonwebtoken, 'sign');
+
+      // when
+      tokenService.createAccessTokenFromUser(userId, source);
+
+      // then
+      const firstParameter = { user_id: userId, source };
+      const secondParameter = 'a secret';
+      const thirdParameter = { expiresIn: '7d' };
+      expect(jsonwebtoken.sign).to.be.calledWith(firstParameter, secondParameter, thirdParameter);
+    });
+  });
+
+  describe('#createAccessTokenFromExternalUser', () => {
+
+    it('should create access token with user id and source', () => {
+      // given
+      const userId = 123;
+      settings.authentication.secret = 'a secret';
+      settings.authentication.tokenLifespan = '7d';
+      sinon.stub(jsonwebtoken, 'sign');
+
+      // when
+      tokenService.createAccessTokenFromExternalUser(userId);
+
+      // then
+      const firstParameter = { user_id: userId, source: 'external' };
+      const secondParameter = 'a secret';
+      const thirdParameter = { expiresIn: '7d' };
+      expect(jsonwebtoken.sign).to.be.calledWith(firstParameter, secondParameter, thirdParameter);
+    });
+  });
 
   describe('#createIdTokenForUserReconciliation', () => {
 

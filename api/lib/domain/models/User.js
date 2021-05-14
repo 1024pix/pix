@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const AuthenticationMethod = require('./AuthenticationMethod');
 
 class User {
 
@@ -52,6 +53,15 @@ class User {
 
   get hasRolePixMaster() {
     return !!this.pixRoles.find((pixRole) => pixRole.name === 'PIX_MASTER');
+  }
+
+  get shouldChangePassword() {
+    const pixAuthenticationMethod = this.authenticationMethods
+      .find((authenticationMethod) => authenticationMethod.identityProvider === AuthenticationMethod.identityProviders.PIX);
+
+    return pixAuthenticationMethod
+      ? pixAuthenticationMethod.authenticationComplement.shouldChangePassword
+      : null;
   }
 
   isLinkedToOrganizations() {

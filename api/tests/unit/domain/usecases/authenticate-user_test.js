@@ -1,9 +1,18 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+const {
+  expect,
+  sinon,
+  domainBuilder,
+  catchErr,
+} = require('../../../test-helper');
 
 const authenticateUser = require('../../../../lib/domain/usecases/authenticate-user');
 const User = require('../../../../lib/domain/models/User');
+
 const {
-  UserNotFoundError, MissingOrInvalidCredentialsError, ForbiddenAccess, UserShouldChangePasswordError,
+  UserNotFoundError,
+  MissingOrInvalidCredentialsError,
+  ForbiddenAccess,
+  UserShouldChangePasswordError,
 } = require('../../../../lib/domain/errors');
 
 const authenticationService = require('../../../../lib/domain/services/authentication-service');
@@ -12,7 +21,6 @@ const appMessages = require('../../../../lib/domain/constants');
 describe('Unit | Application | UseCase | authenticate-user', () => {
 
   let tokenService;
-  let certificationCenterMembershipRepository;
   let userRepository;
 
   const userEmail = 'user@example.net';
@@ -22,13 +30,9 @@ describe('Unit | Application | UseCase | authenticate-user', () => {
     tokenService = {
       createAccessTokenFromUser: sinon.stub(),
     };
-    certificationCenterMembershipRepository = {
-      findByUserId: sinon.stub(),
-    };
     userRepository = {
       getByUsernameOrEmailWithRoles: sinon.stub(),
     };
-
     sinon.stub(authenticationService, 'getUserByUsernameAndPassword');
   });
 
@@ -47,7 +51,6 @@ describe('Unit | Application | UseCase | authenticate-user', () => {
       password,
       source,
       tokenService,
-      certificationCenterMembershipRepository,
       userRepository,
     });
 
@@ -71,7 +74,6 @@ describe('Unit | Application | UseCase | authenticate-user', () => {
       username: unknownUserEmail,
       password,
       tokenService,
-      certificationCenterMembershipRepository,
       userRepository,
     });
 
@@ -88,7 +90,6 @@ describe('Unit | Application | UseCase | authenticate-user', () => {
       username: userEmail,
       password,
       tokenService,
-      certificationCenterMembershipRepository,
       userRepository,
     });
 
@@ -112,7 +113,6 @@ describe('Unit | Application | UseCase | authenticate-user', () => {
         password,
         scope,
         tokenService,
-        certificationCenterMembershipRepository,
         userRepository,
       });
 
@@ -135,7 +135,6 @@ describe('Unit | Application | UseCase | authenticate-user', () => {
         password,
         scope,
         tokenService,
-        certificationCenterMembershipRepository,
         userRepository,
       });
 
@@ -158,7 +157,6 @@ describe('Unit | Application | UseCase | authenticate-user', () => {
         password,
         scope,
         tokenService,
-        certificationCenterMembershipRepository,
         userRepository,
       });
 
@@ -187,7 +185,6 @@ describe('Unit | Application | UseCase | authenticate-user', () => {
         username: userEmail,
         password,
         tokenService,
-        certificationCenterMembershipRepository,
         userRepository,
       });
 

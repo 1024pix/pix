@@ -5,6 +5,42 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 
 describe('Unit | Domain | Models | AuthenticationMethod', () => {
 
+  describe('buildPixAuthenticationMethod', () => {
+    it('should build PixAuthenticationMethod', () => {
+      // given
+      const id = 1;
+      const userId = 1;
+      const password = 'foo';
+      const shouldChangePassword = true;
+      const createdAt = Date.now();
+      const updatedAt = Date.now();
+
+      // when
+      const result = AuthenticationMethod.buildPixAuthenticationMethod({
+        id,
+        password,
+        shouldChangePassword,
+        createdAt,
+        updatedAt,
+        userId,
+      });
+
+      // then
+      const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({ password, shouldChangePassword });
+
+      const expectedResult = {
+        id,
+        identityProvider: AuthenticationMethod.identityProviders.PIX,
+        authenticationComplement,
+        externalIdentifier: undefined,
+        userId,
+        createdAt,
+        updatedAt,
+      };
+      expect(result).to.deep.equal(expectedResult);
+    });
+  });
+
   describe('constructor', () => {
 
     it('should successfully instantiate object when identityProvider is GAR and externalIdentifier is defined', () => {

@@ -78,6 +78,26 @@ class AuthenticationMethod {
 
     validateEntity(validationSchema, this);
   }
+
+  static buildPixAuthenticationMethod({
+    id,
+    password,
+    shouldChangePassword = false,
+    createdAt,
+    updatedAt,
+    userId,
+  }) {
+    const authenticationComplement = new PixAuthenticationComplement({ password, shouldChangePassword });
+    return new AuthenticationMethod({
+      id,
+      identityProvider: identityProviders.PIX,
+      authenticationComplement,
+      externalIdentifier: undefined,
+      createdAt,
+      updatedAt,
+      userId,
+    });
+  }
 }
 
 AuthenticationMethod.identityProviders = identityProviders;
