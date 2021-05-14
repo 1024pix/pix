@@ -115,44 +115,92 @@ describe('Acceptance | Controller | authentication-controller', () => {
       await knex('authentication-methods').delete();
     });
 
-    it('should return an 200 with accessToken when authentication is ok', async () => {
-      // given
-      const password = 'Pix123';
-      const userAttributes = {
-        firstName: 'saml',
-        lastName: 'jackson',
-        samlId: 'SAMLJACKSONID',
-      };
-      const user = databaseBuilder.factory.buildUser.withRawPassword({
-        username: 'saml.jackson1234',
-        rawPassword: password,
-      });
-      const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
+    describe('when user has a reconciled Pix account, then connect to Pix from GAR', () => {
 
-      const options = {
-        method: 'POST',
-        url: '/api/token-from-external-user',
-        payload: {
-          data: {
-            attributes: {
-              username: user.username,
-              password: password,
-              'external-user-token': expectedExternalToken,
-              'expected-user-id': user.id,
+      it('should return an 200 with accessToken', async () => {
+        // given
+        const password = 'Pix123';
+        const userAttributes = {
+          firstName: 'saml',
+          lastName: 'jackson',
+          samlId: 'SAMLJACKSONID',
+        };
+        const user = databaseBuilder.factory.buildUser.withRawPassword({
+          username: 'saml.jackson1234',
+          rawPassword: password,
+        });
+        const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
+
+        const options = {
+          method: 'POST',
+          url: '/api/token-from-external-user',
+          payload: {
+            data: {
+              attributes: {
+                username: user.username,
+                password: password,
+                'external-user-token': expectedExternalToken,
+                'expected-user-id': user.id,
+              },
+              type: 'external-user-authentication-requests',
             },
-            type: 'external-user-authentication-requests',
           },
-        },
-      };
+        };
 
-      await databaseBuilder.commit();
+        await databaseBuilder.commit();
 
-      // when
-      const response = await server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.data.attributes['access-token']).to.exist;
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.attributes['access-token']).to.exist;
+      });
+
+      it('should add GAR authentication method', async () => {
+        // given
+        const password = 'Pix123';
+        const userAttributes = {
+          firstName: 'saml',
+          lastName: 'jackson',
+          samlId: 'SAMLJACKSONID',
+        };
+        const user = databaseBuilder.factory.buildUser.withRawPassword({
+          username: 'saml.jackson1234',
+          rawPassword: password,
+        });
+        const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
+
+        const options = {
+          method: 'POST',
+          url: '/api/token-from-external-user',
+          payload: {
+            data: {
+              attributes: {
+                username: user.username,
+                password: password,
+                'external-user-token': expectedExternalToken,
+                'expected-user-id': user.id,
+              },
+              type: 'external-user-authentication-requests',
+            },
+          },
+        };
+
+        await databaseBuilder.commit();
+
+        // when
+        await server.inject(options);
+
+        // then
+        const authenticationMethods = await knex('authentication-methods')
+          .where({
+            identityProvider: AuthenticationMethod.identityProviders.GAR,
+            userId: user.id,
+            externalIdentifier: 'SAMLJACKSONID',
+          });
+        expect(authenticationMethods.length).to.equal(1);
+      });
     });
   });
 
