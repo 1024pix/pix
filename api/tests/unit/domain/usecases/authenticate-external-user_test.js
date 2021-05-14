@@ -51,7 +51,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
     it('should resolve a valid JWT token when authentication succeeds (should not change password)', async () => {
       // given
       const password = 'Azerty123*';
-      const { user } = createUserWithValidCredentials({
+      const user = createUserWithValidCredentials({
         password,
         authenticationService,
         userRepository,
@@ -90,7 +90,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
     it('should throw an UnexpectedUserAccountError (with expected user\'s username or email) when the authenticated user does not match the expected one', async () => {
       // given
       const password = 'Azerty123*';
-      const { user } = createUserWithValidCredentials({
+      const user = createUserWithValidCredentials({
         password,
         authenticationService,
         userRepository,
@@ -134,7 +134,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
       it('should throw an error if external user token is invalid', async () => {
         // given
         const password = 'Azerty123*';
-        const { user } = createUserWithValidCredentials({
+        const user = createUserWithValidCredentials({
           password,
           authenticationService,
           userRepository,
@@ -162,7 +162,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
       it('should throw an error if user from external user token is not the same as found user from credentials', async () => {
         // given
         const password = 'Azerty123*';
-        const { user: userFromCredentials } = createUserWithValidCredentials({
+        const userFromCredentials = createUserWithValidCredentials({
           password,
           authenticationService,
           userRepository,
@@ -194,7 +194,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
       it('should add GAR authentication method', async () => {
         // given
         const password = 'Azerty123*';
-        const { user } = createUserWithValidCredentials({
+        const user = createUserWithValidCredentials({
           password,
           authenticationService,
           userRepository,
@@ -239,7 +239,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
       it('should also add GAR authentication method', async () => {
         // given
         const oneTimePassword = 'Azerty123*';
-        const { user } = createUserWithValidCredentialsWhoShouldChangePassword({
+        const user = createUserWithValidCredentialsWhoShouldChangePassword({
           authenticationService,
           userRepository,
         });
@@ -279,7 +279,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
       it('should throw UserShouldChangePasswordError', async () => {
         // given
         const oneTimePassword = 'Azerty123*';
-        const { user } = createUserWithValidCredentialsWhoShouldChangePassword({
+        const user = createUserWithValidCredentialsWhoShouldChangePassword({
           authenticationService,
           userRepository,
         });
@@ -368,7 +368,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
 });
 
 function createUserWithValidCredentials({
-  password = 'Azerty123*',
+  password,
   authenticationService,
   userRepository,
 }) {
@@ -390,10 +390,7 @@ function createUserWithValidCredentials({
     userRepository,
   }).resolves(user);
 
-  return {
-    authenticationService,
-    user,
-  };
+  return user;
 }
 
 function createUserWithValidCredentialsWhoShouldChangePassword({
@@ -418,10 +415,7 @@ function createUserWithValidCredentialsWhoShouldChangePassword({
     userRepository,
   }).resolves(user);
 
-  return {
-    authenticationService,
-    user,
-  };
+  return user;
 }
 
 function createValidConditionsForAddingGarAuthenticationMethod({
