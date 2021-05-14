@@ -245,7 +245,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
         });
 
         const externalUserToken = 'EXTERNAL_USER_TOKEN';
-        const externalIdentifier = 'EXTENAL_IDENTIFIER';
+        const externalIdentifier = 'EXTERNAL_IDENTIFIER';
         createValidConditionsForAddingGarAuthenticationMethod({
           user,
           externalUserToken,
@@ -285,7 +285,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
         });
 
         const externalUserToken = 'EXTERNAL_USER_TOKEN';
-        const externalIdentifier = 'EXTENAL_IDENTIFIER';
+        const externalIdentifier = 'EXTERNAL_IDENTIFIER';
         createValidConditionsForAddingGarAuthenticationMethod({
           user,
           externalUserToken,
@@ -372,18 +372,14 @@ function createUserWithValidCredentials({
   authenticationService,
   userRepository,
 }) {
+  const userId = 1;
   const email = 'john.doe@example.net';
-  const emailAuthenticationMethod = domainBuilder.buildAuthenticationMethod({
-    authenticationComplement: {
-      password,
-      shouldChangePassword: false,
-    },
-  });
+  const pixAuthenticationMethod = AuthenticationMethod.buildPixAuthenticationMethod({ password, userId });
   const user = domainBuilder.buildUser({
+    id: userId,
     email,
-    authenticationMethods: [emailAuthenticationMethod],
+    authenticationMethods: [pixAuthenticationMethod],
   });
-
   authenticationService.getUserByUsernameAndPassword.withArgs({
     username: email,
     password,
