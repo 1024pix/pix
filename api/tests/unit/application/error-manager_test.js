@@ -107,6 +107,9 @@ describe('Unit | Application | ErrorManager', () => {
         ],
       });
     });
+  });
+
+  describe('#_mapToHttpError', () => {
 
     it('should instantiate UnauthorizedError when MissingOrInvalidCredentialsError', async () => {
 
