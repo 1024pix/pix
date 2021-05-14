@@ -240,6 +240,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
         // given
         const oneTimePassword = 'Azerty123*';
         const user = createUserWithValidCredentialsWhoShouldChangePassword({
+          oneTimePassword,
           authenticationService,
           userRepository,
         });
@@ -280,6 +281,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
         // given
         const oneTimePassword = 'Azerty123*';
         const user = createUserWithValidCredentialsWhoShouldChangePassword({
+          oneTimePassword,
           authenticationService,
           userRepository,
         });
@@ -390,7 +392,7 @@ function createUserWithValidCredentials({
 }
 
 function createUserWithValidCredentialsWhoShouldChangePassword({
-  oneTimePassword = 'Azerty123*',
+  oneTimePassword,
   authenticationService,
   userRepository,
 }) {
