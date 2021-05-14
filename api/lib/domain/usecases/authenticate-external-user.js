@@ -36,6 +36,7 @@ async function authenticateExternalUser({
         .getUserAuthenticationMethodWithObfuscation(expectedUser);
 
       throw new UnexpectedUserAccount({
+        message: undefined,
         code: 'UNEXPECTED_USER_ACCOUNT',
         meta: { value: authenticationMethod.value },
       });
