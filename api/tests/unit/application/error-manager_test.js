@@ -1,5 +1,6 @@
-const { expect, hFake } = require('../../test-helper');
-const { EntityValidationError } = require('../../../lib/domain/errors');
+const { expect, hFake, sinon } = require('../../test-helper');
+const { EntityValidationError, MissingOrInvalidCredentialsError } = require('../../../lib/domain/errors');
+const HttpErrors = require('../../../lib/application/http-errors.js');
 
 const { handle } = require('../../../lib/application/error-manager');
 
@@ -100,6 +101,20 @@ describe('Unit | Application | ErrorManager', () => {
           },
         ],
       });
+    });
+
+    it('should instantiate UnauthorizedError when MissingOrInvalidCredentialsError', async () => {
+
+      // given
+      const error = new MissingOrInvalidCredentialsError();
+      sinon.stub(HttpErrors, 'UnauthorizedError');
+
+      // when
+      const params = { request: {}, h: hFake, error };
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
     });
   });
 
