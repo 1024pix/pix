@@ -1,7 +1,7 @@
 const { expect, hFake } = require('../../test-helper');
 const { EntityValidationError } = require('../../../lib/domain/errors');
 
-const { handle: errorManager } = require('../../../lib/application/error-manager');
+const { handle } = require('../../../lib/application/error-manager');
 
 describe('Unit | Application | ErrorManager', () => {
 
@@ -20,7 +20,7 @@ describe('Unit | Application | ErrorManager', () => {
       });
 
       // when
-      const response = await errorManager(request, hFake, error);
+      const response = await handle(request, hFake, error);
 
       // then
       expect(response.statusCode).to.equal(422);
@@ -52,7 +52,7 @@ describe('Unit | Application | ErrorManager', () => {
       });
 
       // when
-      const response = await errorManager(request, hFake, error);
+      const response = await handle(request, hFake, error);
 
       // then
       expect(response.statusCode).to.equal(422);
@@ -84,7 +84,7 @@ describe('Unit | Application | ErrorManager', () => {
       });
 
       // when
-      const response = await errorManager(request, hFake, error);
+      const response = await handle(request, hFake, error);
 
       // then
       expect(response.statusCode).to.equal(422);
