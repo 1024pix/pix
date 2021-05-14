@@ -111,107 +111,95 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
   describe('POST /api/token-from-external-user', () => {
 
-    let options;
-
-    beforeEach(async () => {
-      const password = 'Pix123';
-      const userAttributes = {
-        firstName: 'saml',
-        lastName: 'jackson',
-        samlId: 'SAMLJACKSONID',
-      };
-      const user = databaseBuilder.factory.buildUser.withRawPassword({
-        username: 'saml.jackson1234',
-        rawPassword: password,
-      });
-      const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
-
-      options = {
-        method: 'POST',
-        url: '/api/token-from-external-user',
-        payload: {
-          data: {
-            attributes: {
-              username: user.username,
-              password: password,
-              'external-user-token': expectedExternalToken,
-              'expected-user-id': user.id,
-            },
-            type: 'external-user-authentication-requests',
-          },
-        },
-      };
-
-      await databaseBuilder.commit();
-    });
-
     afterEach(async () => {
       await knex('authentication-methods').delete();
     });
 
-    it('should return an 200 with accessToken when authentication is ok', async () => {
-      // when
-      const response = await server.inject(options);
+    describe('when user has a reconciled Pix account, then connect to Pix from GAR', () => {
 
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.data.attributes['access-token']).to.exist;
-    });
-
-    context('When credentials are not valid', () => {
-
-      it('should return a 401 Unauthorized', async () => {
+      it('should return an 200 with accessToken', async () => {
         // given
-        options.payload.data.attributes.username = 'unknown';
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-        expect(response.result.errors[0].detail).to.equal('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
-      });
-    });
-
-    context('When user should change password', () => {
-
-      it('should return a 401 Unauthorized', async () => {
-        // given
-        const rawPassword = 'Password123';
+        const password = 'Pix123';
+        const userAttributes = {
+          firstName: 'saml',
+          lastName: 'jackson',
+          samlId: 'SAMLJACKSONID',
+        };
         const user = databaseBuilder.factory.buildUser.withRawPassword({
-          rawPassword,
-          shouldChangePassword: true,
+          username: 'saml.jackson1234',
+          rawPassword: password,
         });
-        await databaseBuilder.commit();
+        const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
 
-        options.payload.data.attributes.username = user.email;
-        options.payload.data.attributes.password = rawPassword;
+        const options = {
+          method: 'POST',
+          url: '/api/token-from-external-user',
+          payload: {
+            data: {
+              attributes: {
+                username: user.username,
+                password: password,
+                'external-user-token': expectedExternalToken,
+                'expected-user-id': user.id,
+              },
+              type: 'external-user-authentication-requests',
+            },
+          },
+        };
+
+        await databaseBuilder.commit();
 
         // when
         const response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(401);
-        expect(response.result.errors[0].title).to.equal('PasswordShouldChange');
-        expect(response.result.errors[0].detail).to.equal('Erreur, vous devez changer votre mot de passe.');
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.attributes['access-token']).to.exist;
       });
-    });
 
-    context('When the authentified user does not match the expected one', () => {
-
-      it('should return a 409 Conflict', async () => {
+      it('should add GAR authentication method', async () => {
         // given
-        const invalidUserId = databaseBuilder.factory.buildUser().id;
+        const password = 'Pix123';
+        const userAttributes = {
+          firstName: 'saml',
+          lastName: 'jackson',
+          samlId: 'SAMLJACKSONID',
+        };
+        const user = databaseBuilder.factory.buildUser.withRawPassword({
+          username: 'saml.jackson1234',
+          rawPassword: password,
+        });
+        const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
+
+        const options = {
+          method: 'POST',
+          url: '/api/token-from-external-user',
+          payload: {
+            data: {
+              attributes: {
+                username: user.username,
+                password: password,
+                'external-user-token': expectedExternalToken,
+                'expected-user-id': user.id,
+              },
+              type: 'external-user-authentication-requests',
+            },
+          },
+        };
+
         await databaseBuilder.commit();
-        options.payload.data.attributes['expected-user-id'] = invalidUserId;
 
         // when
-        const response = await server.inject(options);
+        await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(409);
-        expect(response.result.errors[0].code).to.equal('UNEXPECTED_USER_ACCOUNT');
-        expect(response.result.errors[0].detail).to.equal('Ce compte utilisateur n\'est pas celui qui est attendu.');
+        const authenticationMethods = await knex('authentication-methods')
+          .where({
+            identityProvider: AuthenticationMethod.identityProviders.GAR,
+            userId: user.id,
+            externalIdentifier: 'SAMLJACKSONID',
+          });
+        expect(authenticationMethods.length).to.equal(1);
       });
     });
   });

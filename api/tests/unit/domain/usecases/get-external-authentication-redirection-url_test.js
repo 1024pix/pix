@@ -21,7 +21,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', () => {
 
     tokenService = {
       createIdTokenForUserReconciliation: () => { return 'external-user-token'; },
-      createAccessTokenFromUser: () => { return 'access-token'; },
+      createAccessTokenFromExternalUser: () => { return 'access-token'; },
     };
   });
 

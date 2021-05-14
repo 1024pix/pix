@@ -4,7 +4,7 @@ const authenticatePoleEmploiUser = require('../../../../lib/domain/usecases/auth
 
 const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const { UnexpectedUserAccount, UserAccountNotFoundForPoleEmploiError } = require('../../../../lib/domain/errors');
+const { UnexpectedUserAccountError, UserAccountNotFoundForPoleEmploiError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 const moment = require('moment');
@@ -213,7 +213,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
           expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith({ authenticationComplement: expectedAuthenticationComplement, userId });
         });
 
-        it('should throw an UnexpectedUserAccount error if the external identifier does not match the one in the pole emploi id token', async () => {
+        it('should throw an UnexpectedUserAccountError error if the external identifier does not match the one in the pole emploi id token', async () => {
           // given
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
             externalIdentifier: 'other_external_identifier',
@@ -226,7 +226,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
           });
 
           // then
-          expect(error).to.be.instanceOf(UnexpectedUserAccount);
+          expect(error).to.be.instanceOf(UnexpectedUserAccountError);
         });
       });
     });

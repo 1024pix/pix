@@ -1,7 +1,18 @@
-const { expect, hFake } = require('../../test-helper');
-const { EntityValidationError } = require('../../../lib/domain/errors');
+const {
+  expect,
+  hFake,
+  sinon,
+} = require('../../test-helper');
 
-const { handle: errorManager } = require('../../../lib/application/error-manager');
+const {
+  EntityValidationError,
+  MissingOrInvalidCredentialsError,
+  UserShouldChangePasswordError,
+  UnexpectedUserAccountError,
+} = require('../../../lib/domain/errors');
+const HttpErrors = require('../../../lib/application/http-errors.js');
+
+const { handle } = require('../../../lib/application/error-manager');
 
 describe('Unit | Application | ErrorManager', () => {
 
@@ -20,7 +31,7 @@ describe('Unit | Application | ErrorManager', () => {
       });
 
       // when
-      const response = await errorManager(request, hFake, error);
+      const response = await handle(request, hFake, error);
 
       // then
       expect(response.statusCode).to.equal(422);
@@ -52,7 +63,7 @@ describe('Unit | Application | ErrorManager', () => {
       });
 
       // when
-      const response = await errorManager(request, hFake, error);
+      const response = await handle(request, hFake, error);
 
       // then
       expect(response.statusCode).to.equal(422);
@@ -84,7 +95,7 @@ describe('Unit | Application | ErrorManager', () => {
       });
 
       // when
-      const response = await errorManager(request, hFake, error);
+      const response = await handle(request, hFake, error);
 
       // then
       expect(response.statusCode).to.equal(422);
@@ -100,6 +111,54 @@ describe('Unit | Application | ErrorManager', () => {
           },
         ],
       });
+    });
+  });
+
+  describe('#_mapToHttpError', () => {
+
+    it('should instantiate UnauthorizedError when MissingOrInvalidCredentialsError', async () => {
+
+      // given
+      const error = new MissingOrInvalidCredentialsError();
+      sinon.stub(HttpErrors, 'UnauthorizedError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      const message = 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.';
+      expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(message);
+    });
+
+    it('should instantiate PasswordShouldChangeError when UserShouldChangePasswordError', async () => {
+      // given
+      const message = 'Erreur, vous devez changer votre mot de passe.';
+      const error = new UserShouldChangePasswordError(message);
+      sinon.stub(HttpErrors, 'PasswordShouldChangeError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.PasswordShouldChangeError).to.have.been.calledWithExactly(message);
+    });
+
+    it('should instantiate ConflictError when UnexpectedUserAccountError', async () => {
+      // given
+      const message = undefined;
+      const code = 'UNEXPECTED_USER_ACCOUNT';
+      const meta = { value: 'j*****@e*****.n**' };
+      const error = new UnexpectedUserAccountError({ message, code, meta });
+      sinon.stub(HttpErrors, 'ConflictError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message, error.code, error.meta);
     });
   });
 

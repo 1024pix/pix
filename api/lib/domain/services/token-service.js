@@ -3,10 +3,15 @@ const { InvalidTemporaryKeyError, InvalidExternalUserTokenError, InvalidResultRe
 const settings = require('../../config');
 
 function createAccessTokenFromUser(userId, source) {
-  return jsonwebtoken.sign({
-    user_id: userId,
-    source,
-  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
+  return jsonwebtoken.sign(
+    { user_id: userId, source },
+    settings.authentication.secret,
+    { expiresIn: settings.authentication.tokenLifespan },
+  );
+}
+
+function createAccessTokenFromExternalUser(userId) {
+  return createAccessTokenFromUser(userId, 'external');
 }
 
 function createAccessTokenFromApplication(clientId, source, scope, secret = settings.authentication.secret, expiresIn = settings.authentication.tokenLifespan) {
@@ -139,6 +144,7 @@ async function extractPayloadFromPoleEmploiIdToken(idToken) {
 
 module.exports = {
   createAccessTokenFromUser,
+  createAccessTokenFromExternalUser,
   createAccessTokenFromApplication,
   createTokenForCampaignResults,
   createIdTokenForUserReconciliation,

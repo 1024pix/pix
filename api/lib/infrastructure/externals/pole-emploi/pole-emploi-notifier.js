@@ -6,7 +6,7 @@ const authenticationMethodRepository = require('../../repositories/authenticatio
 const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
 const httpAgent = require('../../http/http-agent');
 const settings = require('../../../config');
-const { UnexpectedUserAccount } = require('../../../domain/errors');
+const { UnexpectedUserAccountError } = require('../../../domain/errors');
 const logger = require('../../logger');
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
     const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI });
     let accessToken = get(authenticationMethod, 'authenticationComplement.accessToken');
     if (!accessToken) {
-      throw new UnexpectedUserAccount({ message: 'Le compte utilisateur n\'est pas rattaché à l\'organisation Pôle Emploi' });
+      throw new UnexpectedUserAccountError({ message: 'Le compte utilisateur n\'est pas rattaché à l\'organisation Pôle Emploi' });
     }
 
     const expiredDate = get(authenticationMethod, 'authenticationComplement.expiredDate');

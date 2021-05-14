@@ -2,7 +2,7 @@ const querystring = require('querystring');
 const moment = require('moment');
 const { expect, sinon, catchErr, domainBuilder } = require('../../../../test-helper');
 const settings = require('../../../../../lib/config');
-const { UnexpectedUserAccount } = require('../../../../../lib/domain/errors');
+const { UnexpectedUserAccountError } = require('../../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const { notify } = require('../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
@@ -65,7 +65,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       const error = await catchErr(notify)(userId, payload);
 
       // then
-      expect(error).to.be.instanceOf(UnexpectedUserAccount);
+      expect(error).to.be.instanceOf(UnexpectedUserAccountError);
       expect(error.message).to.equal('Le compte utilisateur n\'est pas rattaché à l\'organisation Pôle Emploi');
     });
 
