@@ -155,47 +155,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
       expect(response.result.data.attributes['access-token']).to.exist;
     });
 
-    context('When credentials are not valid', () => {
-
-      it('should return a 401 Unauthorized', async () => {
-        // given
-        const password = 'Pix123';
-        const userAttributes = {
-          firstName: 'saml',
-          lastName: 'jackson',
-          samlId: 'SAMLJACKSONID',
-        };
-        const user = databaseBuilder.factory.buildUser.withRawPassword({
-          username: 'saml.jackson1234',
-          rawPassword: password,
-        });
-        const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
-
-        const options = {
-          method: 'POST',
-          url: '/api/token-from-external-user',
-          payload: {
-            data: {
-              attributes: {
-                username: 'unknown',
-                password: password,
-                'external-user-token': expectedExternalToken,
-                'expected-user-id': user.id,
-              },
-              type: 'external-user-authentication-requests',
-            },
-          },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-        expect(response.result.errors[0].detail).to.equal('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
-      });
-    });
-
     context('When user should change password', () => {
 
       it('should return a 401 Unauthorized', async () => {
