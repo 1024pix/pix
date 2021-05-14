@@ -3,7 +3,7 @@ const {
   UserNotFoundError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
-  UnexpectedUserAccount,
+  UnexpectedUserAccountError,
   InvalidExternalUserTokenError,
   UserAlreadyExistsWithAuthenticationMethodError,
 } = require('../errors');
@@ -35,7 +35,7 @@ async function authenticateExternalUser({
       const authenticationMethod = await obfuscationService
         .getUserAuthenticationMethodWithObfuscation(expectedUser);
 
-      throw new UnexpectedUserAccount({
+      throw new UnexpectedUserAccountError({
         message: undefined,
         code: 'UNEXPECTED_USER_ACCOUNT',
         meta: { value: authenticationMethod.value },

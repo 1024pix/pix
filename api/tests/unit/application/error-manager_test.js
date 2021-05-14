@@ -3,7 +3,7 @@ const {
   EntityValidationError,
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
-  UnexpectedUserAccount,
+  UnexpectedUserAccountError,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -139,12 +139,12 @@ describe('Unit | Application | ErrorManager', () => {
       expect(HttpErrors.PasswordShouldChangeError).to.have.been.calledWithExactly(message);
     });
 
-    it('should instantiate ConflictError when UnexpectedUserAccount', async () => {
+    it('should instantiate ConflictError when UnexpectedUserAccountError', async () => {
       // given
       const message = undefined;
       const code = 'UNEXPECTED_USER_ACCOUNT';
       const meta = { value: 'j*****@e*****.n**' };
-      const error = new UnexpectedUserAccount({ message, code, meta });
+      const error = new UnexpectedUserAccountError({ message, code, meta });
       sinon.stub(HttpErrors, 'ConflictError');
 
       // when

@@ -151,7 +151,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.NoCertificationResultForDivision) {
     return new HttpErrors.NotFoundError(error.message);
   }
-  if (error instanceof DomainErrors.UnexpectedUserAccount) {
+  if (error instanceof DomainErrors.UnexpectedUserAccountError) {
     return new HttpErrors.ConflictError(error.message, error.code, error.meta);
   }
   if (error instanceof DomainErrors.AlreadyExistingEntityError) {

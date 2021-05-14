@@ -12,7 +12,7 @@ const {
   UserNotFoundError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
-  UnexpectedUserAccount,
+  UnexpectedUserAccountError,
   InvalidExternalUserTokenError,
   UserAlreadyExistsWithAuthenticationMethodError,
 } = require('../../../../lib/domain/errors');
@@ -87,7 +87,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
 
     });
 
-    it('should throw an UnexpectedUserAccount (with expected user\'s username or email) when the authenticated user does not match the expected one', async () => {
+    it('should throw an UnexpectedUserAccountError (with expected user\'s username or email) when the authenticated user does not match the expected one', async () => {
       // given
       const password = 'Azerty123*';
       const { user } = createUserWithValidCredentials({
@@ -123,7 +123,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', () => {
       });
 
       // then
-      expect(error).to.be.an.instanceof(UnexpectedUserAccount);
+      expect(error).to.be.an.instanceof(UnexpectedUserAccountError);
       expect(error.message).to.equal('Ce compte utilisateur n\'est pas celui qui est attendu.');
       expect(error.code).to.equal('UNEXPECTED_USER_ACCOUNT');
       expect(error.meta.value).to.equal(emailObfuscated);
