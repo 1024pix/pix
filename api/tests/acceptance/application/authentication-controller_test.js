@@ -154,52 +154,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.attributes['access-token']).to.exist;
     });
-
-    context('When the authentified user does not match the expected one', () => {
-
-      it('should return a 409 Conflict', async () => {
-        // given
-        const password = 'Pix123';
-        const userAttributes = {
-          firstName: 'saml',
-          lastName: 'jackson',
-          samlId: 'SAMLJACKSONID',
-        };
-        const user = databaseBuilder.factory.buildUser.withRawPassword({
-          username: 'saml.jackson1234',
-          rawPassword: password,
-        });
-        const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
-
-        const options = {
-          method: 'POST',
-          url: '/api/token-from-external-user',
-          payload: {
-            data: {
-              attributes: {
-                username: user.username,
-                password: password,
-                'external-user-token': expectedExternalToken,
-                'expected-user-id': user.id,
-              },
-              type: 'external-user-authentication-requests',
-            },
-          },
-        };
-
-        const invalidUserId = databaseBuilder.factory.buildUser().id;
-        await databaseBuilder.commit();
-        options.payload.data.attributes['expected-user-id'] = invalidUserId;
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(409);
-        expect(response.result.errors[0].code).to.equal('UNEXPECTED_USER_ACCOUNT');
-        expect(response.result.errors[0].detail).to.equal('Ce compte utilisateur n\'est pas celui qui est attendu.');
-      });
-    });
   });
 
   describe('POST /api/pole-emploi/token', () => {
