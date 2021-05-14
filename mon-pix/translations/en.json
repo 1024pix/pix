@@ -721,10 +721,10 @@
             "label": "Student number",
             "modify": "Change student number",
             "not-existing": "I don't have a student number"
-          },
-        "message": "This is the first time you have accepted the invitation from {organizationName}.\nPlease fill in these 4 fields as accurately as possible: Pix will then be able to find you in the student database and link your Pix account to it once and for all.",
-        "title": "{organizationName} has invited you to use Pix as part of your training."
-        }
+          }
+        },
+        "message": "Enter the information as it appears on your student card to access the test and submit the results. Pix will remember it next time.",
+        "title": "Register your Pix account with {organizationName}."
       }
     },
     "learning-more": {

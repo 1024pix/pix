@@ -721,10 +721,10 @@
             "label": "Numéro étudiant",
             "modify": "Modifier le numéro étudiant",
             "not-existing": "Je n'ai pas de numéro étudiant"
-          },
-        "message": "C’est la première fois que vous répondez à l’invitation de {organizationName}. Saisissez ces 4 données avec précision : Pix pourra ainsi vous retrouver dans la base des étudiants et y associer une fois pour toutes votre compte Pix.",
-        "title": "{organizationName} vous invite à utiliser Pix dans le cadre de votre formation."
-        }
+          }
+        },
+        "message": "Saisissez les informations telles qu’elles figurent sur votre carte d’étudiant pour accéder au test et envoyer les résultats. Pix s’en rappellera la prochaine fois.",
+        "title": "Déclarez votre compte Pix auprès de {organizationName}."
       }
     },
     "learning-more": {
