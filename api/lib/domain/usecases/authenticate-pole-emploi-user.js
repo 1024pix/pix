@@ -1,5 +1,5 @@
 const AuthenticationMethod = require('../models/AuthenticationMethod');
-const { UnexpectedUserAccount, UserAccountNotFoundForPoleEmploiError } = require('../errors');
+const { UnexpectedUserAccountError, UserAccountNotFoundForPoleEmploiError } = require('../errors');
 const moment = require('moment');
 const uuidv4 = require('uuid/v4');
 
@@ -33,7 +33,7 @@ module.exports = async function authenticatePoleEmploiUser({
 
     if (authenticationMethod) {
       if (authenticationMethod.externalIdentifier !== userInfo.externalIdentityId) {
-        throw new UnexpectedUserAccount({ message: 'Le compte Pix connecté n\'est pas celui qui est attendu.' });
+        throw new UnexpectedUserAccountError({ message: 'Le compte Pix connecté n\'est pas celui qui est attendu.' });
       }
 
       await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId: authenticatedUserId });

@@ -497,7 +497,7 @@ class InvalidTemporaryKeyError extends DomainError {
   }
 }
 
-class UnexpectedUserAccount extends DomainError {
+class UnexpectedUserAccountError extends DomainError {
   constructor({ message = 'Ce compte utilisateur n\'est pas celui qui est attendu.', code, meta }) {
     super(message);
     this.code = code;
@@ -872,7 +872,7 @@ module.exports = {
   SiecleXmlImportError,
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
-  UnexpectedUserAccount,
+  UnexpectedUserAccountError,
   UserAccountNotFoundForPoleEmploiError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserAlreadyLinkedToCandidateInSessionError,
