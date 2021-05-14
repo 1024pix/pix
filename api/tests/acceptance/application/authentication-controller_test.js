@@ -155,50 +155,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
       expect(response.result.data.attributes['access-token']).to.exist;
     });
 
-    context('When user should change password', () => {
-
-      it('should return a 401 Unauthorized', async () => {
-        // given
-        const rawPassword = 'Password123';
-        const user = databaseBuilder.factory.buildUser.withRawPassword({
-          rawPassword,
-          shouldChangePassword: true,
-        });
-
-        const expectedExternalToken = tokenService.createIdTokenForUserReconciliation({
-          firstName: user.firstName,
-          lastName: user.lastName,
-          samlId: 'SAMLJACKSONID',
-        });
-
-        const options = {
-          method: 'POST',
-          url: '/api/token-from-external-user',
-          payload: {
-            data: {
-              attributes: {
-                username: user.email,
-                password: rawPassword,
-                'external-user-token': expectedExternalToken,
-                'expected-user-id': user.id,
-              },
-              type: 'external-user-authentication-requests',
-            },
-          },
-        };
-
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-        expect(response.result.errors[0].title).to.equal('PasswordShouldChange');
-        expect(response.result.errors[0].detail).to.equal('Erreur, vous devez changer votre mot de passe.');
-      });
-    });
-
     context('When the authentified user does not match the expected one', () => {
 
       it('should return a 409 Conflict', async () => {
