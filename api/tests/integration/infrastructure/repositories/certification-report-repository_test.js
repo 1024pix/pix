@@ -36,7 +36,7 @@ describe('Integration | Repository | CertificationReport', function() {
           certificationCourseId: certificationCourse1.id,
           firstName: certificationCourse1.firstName,
           lastName: certificationCourse1.lastName,
-          certificationIssueReports: [ { ...certificationIssueReport1, isImpactful: true } ],
+          certificationIssueReports: [ { ...certificationIssueReport1, isImpactful: true, isAutoNeutralizable: false } ],
           hasSeenEndTestScreen: certificationCourse1.hasSeenEndTestScreen,
         });
         const expectedCertificationReport2 = domainBuilder.buildCertificationReport({
