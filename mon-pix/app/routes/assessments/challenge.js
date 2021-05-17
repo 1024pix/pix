@@ -68,7 +68,7 @@ export default class ChallengeRoute extends Route {
     catch (error) {
       answer.rollbackAttributes();
 
-      return this.send('error');
+      return this.intermediateTransitionTo('error', undefined);
     }
   }
 
