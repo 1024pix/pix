@@ -113,7 +113,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await click('.challenge-actions__action-validate');
 
         // when
-        await triggerEvent('input', 'keydown');
+        await triggerEvent('input', 'keyup');
         await fillIn('input[data-uid="qroc-proposal-uid"]', 'Test');
 
         // then
@@ -289,7 +289,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await click('.challenge-actions__action-validate');
 
         // when
-        await triggerEvent('textarea', 'keydown');
+        await triggerEvent('textarea', 'keyup');
         await fillIn('textarea[data-uid="qroc-proposal-uid"]', 'Test');
 
         // then

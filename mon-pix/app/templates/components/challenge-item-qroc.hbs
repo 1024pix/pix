@@ -30,7 +30,7 @@
                     <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
                               rows="5"
                               id="qroc_input"
-                      {{on 'keydown' this.answerChanged}}
+                      {{on 'keyup' this.answerChanged}}
                               name={{block.randomName}}
                               placeholder={{block.placeholder}}
                               autocomplete="nope"
@@ -42,7 +42,7 @@
                     <input class="challenge-response__proposal challenge-response__proposal--sentence"
                            type="text"
                            id="qroc_input"
-                      {{on 'keydown' this.answerChanged}}
+                      {{on 'keyup' this.answerChanged}}
                            name={{block.randomName}}
                            placeholder={{block.placeholder}}
                            autocomplete="nope"
@@ -53,7 +53,7 @@
                     <input class="challenge-response__proposal challenge-response__proposal--number"
                            type="number"
                            id="qroc_input"
-                      {{on 'keydown' this.answerChanged}}
+                      {{on 'keyup' this.answerChanged}}
                            name={{block.randomName}}
                            placeholder={{block.placeholder}}
                            autocomplete="nope"
@@ -65,7 +65,7 @@
                            size="{{get-qroc-input-size @challenge.format}}"
                            type="text"
                            id="qroc_input"
-                      {{on 'keydown' this.answerChanged}}
+                      {{on 'keyup' this.answerChanged}}
                            name={{block.randomName}}
                            placeholder={{block.placeholder}}
                            autocomplete="nope"
