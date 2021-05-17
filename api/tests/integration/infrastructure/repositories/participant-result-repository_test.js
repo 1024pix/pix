@@ -523,7 +523,6 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
           expect(participantResult.competenceResults).to.have.lengthOf(2);
           expect(partnerCompetenceResult1).to.deep.equal({
             id: 1,
-            color: 'BadgeCompt1Color',
             name: 'BadgeCompt1',
             testedSkillsCount: 2,
             totalSkillsCount: 2,
@@ -533,7 +532,6 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
 
           expect(partnerCompetenceResult2).to.deep.equal({
             id: 2,
-            color: 'BadgeCompt2Color',
             name: 'BadgeCompt2',
             testedSkillsCount: 2,
             totalSkillsCount: 2,

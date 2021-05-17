@@ -3,7 +3,6 @@ const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartn
 module.exports = function buildBadgePartnerCompetence({
   id = 1,
   name = 'name',
-  color = null,
   skillIds = [
     'recABC',
     'recDEF',
@@ -12,7 +11,6 @@ module.exports = function buildBadgePartnerCompetence({
   return new BadgePartnerCompetence({
     id,
     name,
-    color,
     skillIds,
   });
 };

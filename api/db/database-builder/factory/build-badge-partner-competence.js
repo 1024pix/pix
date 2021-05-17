@@ -4,7 +4,6 @@ const _ = require('lodash');
 module.exports = function buildBadgePartnerCompetence({
   id = databaseBuffer.getNextId(),
   name = 'name',
-  color = null,
   skillIds = [],
   badgeId,
 } = {}) {
@@ -19,7 +18,6 @@ module.exports = function buildBadgePartnerCompetence({
   const values = {
     id,
     name,
-    color,
     skillIds,
     badgeId,
   };
