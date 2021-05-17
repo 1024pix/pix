@@ -8,80 +8,78 @@
   {{/if}}
 
   {{#if this.displayChallenge}}
-    <div class="challenge-item-container">
+    <div class="challenge-item__container">
       <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 
       <form {{on "submit" this.validateAnswer}} class="rounded-panel">
         {{#if this.showProposal}}
           <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}} {{if this.hasChallengeTimedOut 'challenge-response--locked'}}">
             <h2 class="sr-only">{{t 'pages.challenge.parts.answer-input'}}</h2>
-            <div class="challenge-proposals">
-              <div class="qroc-proposal">
-                {{#each this._blocks as |block|}}
-                  {{#if block.text}}
-                    <label for="qroc_input">
-                      <MarkdownToHtml class="qroc_input-label"
-                                      @extensions="remove-paragraph-tags"
-                                      @markdown={{block.text}} />
-                    </label>
-                  {{/if}}
+            <div class="challenge-proposals qroc-proposal">
+              {{#each this._blocks as |block|}}
+                {{#if block.text}}
+                  <label for="qroc_input">
+                    <MarkdownToHtml class="qroc_input-label"
+                                    @extensions="remove-paragraph-tags"
+                                    @markdown={{block.text}} />
+                  </label>
+                {{/if}}
 
-                  {{#if block.input}}
-                    {{#if (eq @challenge.format 'paragraphe')}}
-                      <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
-                                rows="5"
-                                id="qroc_input"
-                        {{on 'keydown' this.answerChanged}}
-                                name={{block.randomName}}
-                                placeholder={{block.placeholder}}
-                                autocomplete="nope"
-                                value="{{this.userAnswer}}"
-                                data-uid="qroc-proposal-uid"
-                                disabled={{@answer}}>
-                      </textarea>
-                    {{else if (eq @challenge.format 'phrase')}}
-                      <input class="challenge-response__proposal challenge-response__proposal--sentence"
-                             type="text"
-                             id="qroc_input"
-                        {{on 'keydown' this.answerChanged}}
-                             name={{block.randomName}}
-                             placeholder={{block.placeholder}}
-                             autocomplete="nope"
-                             value="{{this.userAnswer}}"
-                             data-uid="qroc-proposal-uid"
-                             disabled={{@answer}}>
-                    {{else if (eq @challenge.format 'nombre')}}
-                      <input class="challenge-response__proposal challenge-response__proposal--number"
-                             type="number"
-                             id="qroc_input"
-                        {{on 'keydown' this.answerChanged}}
-                             name={{block.randomName}}
-                             placeholder={{block.placeholder}}
-                             autocomplete="nope"
-                             value="{{this.userAnswer}}"
-                             data-uid="qroc-proposal-uid"
-                             disabled={{@answer}}>
-                    {{else}}
-                      <input class="challenge-response__proposal"
-                             size="{{get-qroc-input-size @challenge.format}}"
-                             type="text"
-                             id="qroc_input"
-                        {{on 'keydown' this.answerChanged}}
-                             name={{block.randomName}}
-                             placeholder={{block.placeholder}}
-                             autocomplete="nope"
-                             value="{{this.userAnswer}}"
-                             data-uid="qroc-proposal-uid"
-                             disabled={{@answer}}>
-                    {{/if}}
+                {{#if block.input}}
+                  {{#if (eq @challenge.format 'paragraphe')}}
+                    <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
+                              rows="5"
+                              id="qroc_input"
+                      {{on 'keydown' this.answerChanged}}
+                              name={{block.randomName}}
+                              placeholder={{block.placeholder}}
+                              autocomplete="nope"
+                              value="{{this.userAnswer}}"
+                              data-uid="qroc-proposal-uid"
+                              disabled={{@answer}}>
+                    </textarea>
+                  {{else if (eq @challenge.format 'phrase')}}
+                    <input class="challenge-response__proposal challenge-response__proposal--sentence"
+                           type="text"
+                           id="qroc_input"
+                      {{on 'keydown' this.answerChanged}}
+                           name={{block.randomName}}
+                           placeholder={{block.placeholder}}
+                           autocomplete="nope"
+                           value="{{this.userAnswer}}"
+                           data-uid="qroc-proposal-uid"
+                           disabled={{@answer}}>
+                  {{else if (eq @challenge.format 'nombre')}}
+                    <input class="challenge-response__proposal challenge-response__proposal--number"
+                           type="number"
+                           id="qroc_input"
+                      {{on 'keydown' this.answerChanged}}
+                           name={{block.randomName}}
+                           placeholder={{block.placeholder}}
+                           autocomplete="nope"
+                           value="{{this.userAnswer}}"
+                           data-uid="qroc-proposal-uid"
+                           disabled={{@answer}}>
+                  {{else}}
+                    <input class="challenge-response__proposal"
+                           size="{{get-qroc-input-size @challenge.format}}"
+                           type="text"
+                           id="qroc_input"
+                      {{on 'keydown' this.answerChanged}}
+                           name={{block.randomName}}
+                           placeholder={{block.placeholder}}
+                           autocomplete="nope"
+                           value="{{this.userAnswer}}"
+                           data-uid="qroc-proposal-uid"
+                           disabled={{@answer}}>
                   {{/if}}
+                {{/if}}
 
-                  {{#if block.breakline}}
-                    <br>
-                  {{/if}}
+                {{#if block.breakline}}
+                  <br>
+                {{/if}}
 
-                {{/each}}
-              </div>
+              {{/each}}
             </div>
 
             {{#if @answer}}
