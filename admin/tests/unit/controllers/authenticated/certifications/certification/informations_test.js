@@ -21,13 +21,14 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     competence_code,
     score,
     level,
+    competenceId,
   }) => {
     return {
       competence_code,
       level,
       score,
       area_code: competence_code.substr(0, 1),
-      'competence-id': undefined,
+      competenceId: competenceId,
     };
   };
 
@@ -382,11 +383,13 @@ module('Unit | Controller | authenticated/certifications/certification/informati
             competence_code: anExistingCompetenceCode,
             level: anExistingCompetence.level + 1,
             score: anExistingCompetence.score + 1,
+            competenceId: 'recComp1',
           }),
           createMark({
             competence_code: aNewCompetenceCode,
             level: 5,
             score: 6,
+            competenceId: 'recComp2',
           }),
         ];
 
@@ -397,10 +400,12 @@ module('Unit | Controller | authenticated/certifications/certification/informati
             [anExistingCompetenceCode]: {
               level: anExistingCompetence.level + 1,
               score: anExistingCompetence.score + 1,
+              competenceId: 'recComp1',
             },
             [aNewCompetenceCode]: {
               level: 5,
               score: 6,
+              competenceId: 'recComp2',
             },
           },
         });
