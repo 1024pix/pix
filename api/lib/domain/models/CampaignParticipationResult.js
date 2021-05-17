@@ -132,7 +132,7 @@ function _getTestedCompetenceResults(competence, targetedKnowledgeElements) {
   const testedSkillsCount = targetedKnowledgeElementsForCompetence.length;
   const validatedSkillsCount = validatedKnowledgeElementsForCompetence.length;
   const totalSkillsCount = competence.skillIds.length;
-  const areaColor = _getCompetenceColor(competence);
+  const areaColor = competence.area ? competence.area.color : null;
   const areaName = _getAreaName(competence);
 
   return new CompetenceResult({
@@ -151,18 +151,6 @@ function _getTestedCompetenceResults(competence, targetedKnowledgeElements) {
 function _getAreaName(competence) {
   if (!competence.area) return;
   return competence.area.name;
-}
-
-function _getCompetenceColor(competence) {
-  let areaColor;
-  const isBadgePartnerCompetenceColorAvailable = competence.color !== undefined;
-
-  if (isBadgePartnerCompetenceColorAvailable) {
-    areaColor = competence.color;
-  } else {
-    areaColor = competence.area.color;
-  }
-  return areaColor;
 }
 
 module.exports = CampaignParticipationResult;
