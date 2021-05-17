@@ -57,8 +57,8 @@ describe('Integration | Repository | General certification information', functio
           birthdate: certificationCourseDTO.birthdate,
           birthplace: certificationCourseDTO.birthplace,
           certificationIssueReports: [
-            { ...firstCertificationReport, isImpactful: true, resolution: 'challenge neutralized', resolvedAt: new Date('2021-01-01T00:00:00Z') },
-            { ...secondCertificationReport, isImpactful: true, resolution: null, resolvedAt: null },
+            { ...firstCertificationReport, isAutoNeutralizable: false, isImpactful: true, resolution: 'challenge neutralized', resolvedAt: new Date('2021-01-01T00:00:00Z') },
+            { ...secondCertificationReport, isAutoNeutralizable: false, isImpactful: true, resolution: null, resolvedAt: null },
           ],
         };
         expect(result).to.be.instanceOf(GeneralCertificationInformation);
