@@ -56,7 +56,7 @@ module('Acceptance | authenticated/badges/badge', function(hooks) {
     const badgeElement = find('.page-section__details');
     assert.ok(badgeElement.textContent.match(badge.title));
     assert.contains('20');
-    assert.contains('Internet for dummies - red');
+    assert.contains('Internet for dummies');
     assert.contains('@skill2');
     assert.contains('Practical title of tube');
   });
