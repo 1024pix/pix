@@ -314,4 +314,44 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       });
     });
   });
+
+  describe('The improve block', function() {
+    context('when user can improve', function() {
+      beforeEach(async function() {
+        const campaign = {};
+        const campaignParticipationResult = {
+          campaignParticipationBadges: [],
+          canImprove: true,
+        };
+        this.set('model', { campaign, campaignParticipationResult });
+
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      });
+
+      it('should display improve block', function() {
+        // Then
+        expect(contains(this.intl.t('pages.skill-review.improve.title'))).to.exist;
+      });
+    });
+
+    context('when user cannot retry', function() {
+      beforeEach(async function() {
+        const campaign = {};
+        const campaignParticipationResult = {
+          campaignParticipationBadges: [],
+          canRetry: false,
+        };
+        this.set('model', { campaign, campaignParticipationResult });
+
+        // When
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      });
+
+      it('should not display improve block', function() {
+        // Then
+        expect(contains(this.intl.t('pages.skill-review.improve.title'))).to.not.exist;
+      });
+    });
+  });
 });

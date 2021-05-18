@@ -220,7 +220,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(contains(this.intl.t('pages.skill-review.already-shared'))).to.exist;
         expect(contains(this.intl.t('pages.skill-review.actions.continue'))).to.exist;
         expect(contains(this.intl.t('pages.skill-review.send-results'))).to.be.null;
-        expect(contains(this.intl.t('pages.skill-review.actions.try-again'))).to.be.null;
+        expect(contains(this.intl.t('pages.skill-review.actions.improve'))).to.be.null;
       });
 
       it('should redirect to default page on click', async function() {
