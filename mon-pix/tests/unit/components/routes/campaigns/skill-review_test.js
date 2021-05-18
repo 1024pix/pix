@@ -9,7 +9,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
 
   setupTest();
 
-  let component;
+  let component, adapter;
 
   beforeEach(function() {
 
@@ -22,29 +22,66 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       model,
     });
 
+    const store = this.owner.lookup('service:store');
+    adapter = store.adapterFor('campaign-participation-result');
+    sinon.stub(adapter, 'share').rejects();
+
     component.router.transitionTo = sinon.stub();
     component.disconnectUser = sinon.stub();
   });
 
   describe('#shareCampaignParticipation', function() {
 
-    it('should set isShared to true', async function() {
+    it('should call adapter', async function() {
       // when
       await component.actions.shareCampaignParticipation.call(component);
 
       // then
-      expect(component.args.model.campaignParticipation.isShared).to.equal(true);
+      sinon.assert.calledWithExactly(adapter.share, 12345);
     });
 
-    it('should disconnect user if campaign has simplified access', async function() {
-      // given
-      component.args.model.campaignParticipation.campaign.isSimplifiedAccess = true;
+    context('when share is effective', function() {
+      beforeEach(() => {
+        adapter.share.resolves();
+      });
 
-      // when
-      await component.actions.shareCampaignParticipation.call(component);
+      it('should set isShared to true', async function() {
+        // when
+        await component.actions.shareCampaignParticipation.call(component);
 
-      // then
-      sinon.assert.called(component.disconnectUser);
+        // then
+        expect(component.args.model.campaignParticipationResult.isShared).to.equal(true);
+      });
+
+      it('should disconnect user if campaign has simplified access', async function() {
+        // given
+        component.args.model.campaign.isSimplifiedAccess = true;
+
+        // when
+        await component.actions.shareCampaignParticipation.call(component);
+
+        // then
+        sinon.assert.called(component.disconnectUser);
+      });
+    });
+
+    context('when an error occured during share', function() {
+      it('should keep isShared to false', async function() {
+        component.args.model.campaignParticipationResult.isShared = false;
+        adapter.share.rejects();
+
+        await component.actions.shareCampaignParticipation.call(component);
+
+        expect(component.args.model.campaignParticipationResult.isShared).to.equal(false);
+      });
+
+      it('should display error message', async function() {
+        adapter.share.rejects();
+
+        await component.actions.shareCampaignParticipation.call(component);
+
+        expect(component.displayErrorMessage).to.equal(true);
+      });
     });
   });
 

@@ -11,4 +11,9 @@ export default class CampaignParticipationResult extends ApplicationAdapter {
     }
     return super.urlForQueryRecord(...arguments);
   }
+
+  share(id) {
+    const url = `${this.host}/${this.namespace}/campaign-participations/${id}`;
+    return this.ajax(url, 'PATCH');
+  }
 }
