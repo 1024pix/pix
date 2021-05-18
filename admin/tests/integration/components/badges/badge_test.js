@@ -60,7 +60,7 @@ module('Integration | Component | Badges::Badge', function(hooks) {
     assert.ok(detailsContent.match('Certifiable'), 'Certifiable');
     assert.dom('.page-section__details img').exists();
     assert.contains('L‘évalué doit obtenir 85% sur l‘ensemble des acquis du target profile');
-    assert.contains('Competence - red');
+    assert.contains('Competence');
     assert.contains('@skill2');
     assert.contains('Mon tube');
   });
