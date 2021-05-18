@@ -119,23 +119,23 @@ export default class SkillReview extends Component {
   }
 
   @action
-  shareCampaignParticipation() {
+  async shareCampaignParticipation() {
     this.displayErrorMessage = false;
-    this.displayLoadingButton = true;
-    const campaignParticipation = this.args.model.campaignParticipation;
-    return campaignParticipation.save()
-      .then(async () => {
-        campaignParticipation.isShared = true;
+    const campaignParticipationResult = this.args.model.campaignParticipationResult;
 
-        const isSimplifiedAccessCampaign = await this.args.model.campaignParticipation.campaign.get('isSimplifiedAccess');
-        if (isSimplifiedAccessCampaign) {
-          return this.disconnectUser();
-        }
-      })
-      .catch(() => {
-        campaignParticipation.rollbackAttributes();
-        this.displayErrorMessage = true;
-      });
+    const adapter = this.store.adapterFor('campaign-participation-result');
+    try {
+      await adapter.share(campaignParticipationResult.id);
+    } catch (err) {
+      this.displayErrorMessage = true;
+      return;
+    }
+
+    campaignParticipationResult.isShared = true;
+    const isSimplifiedAccessCampaign = this.args.model.campaign.isSimplifiedAccess;
+    if (isSimplifiedAccessCampaign) {
+      return this.disconnectUser();
+    }
   }
 
   @action

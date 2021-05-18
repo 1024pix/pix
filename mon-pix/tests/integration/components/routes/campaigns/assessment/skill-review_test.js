@@ -26,46 +26,27 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         expect(contains(this.intl.t('pages.skill-review.actions.send'))).to.exist;
       });
 
-      it('displays an error message and a resume button', async function() {
+      it('displays an error message and a resume button on share', async function() {
         // Given
-        const model = {
-          campaignParticipation: {
-            id: 8654,
-            save: sinon.stub().rejects(),
-            set: sinon.stub().resolves(),
-            get: sinon.stub(),
-            rollbackAttributes: sinon.stub(),
-            campaignParticipationResult: {
-              masteryPercentage: 90,
-              totalSkillsCount: 5,
-              testedSkillsCount: 3,
-              validatedSkillsCount: 3,
-              stageCount: 2,
-              get: sinon.stub().returns([]),
-            },
-            campaign: {
-              get: sinon.stub().returns([]),
-            },
-          },
+        const campaign = {};
+        const campaignParticipationResult = {
+          isShared: false,
+          campaignParticipationBadges: [],
         };
-        model.campaignParticipation.get.withArgs('isShared').returns(false);
+        this.set('model', { campaign, campaignParticipationResult });
 
-        this.set('model', model);
-        this.set('assessmentId', 'BADGES123');
-        this.set('acquiredBadges', null);
+        const store = this.owner.lookup('service:store');
+        const adapter = store.adapterFor('campaign-participation-result');
+        adapter.share = sinon.stub().rejects();
 
         // When
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview
-          @model={{model}}
-          @assessmentId={{assessmentId}}
-          @acquiredBadges={{acquiredBadge}}
-         />`);
-
-        await click('.skill-review-share__button');
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // Then
-        expect(find('.skill-review-share-error__message')).to.exist;
-        expect(find('.skill-review-share-error__resume-button')).to.exist;
+        expect(contains(this.intl.t('pages.skill-review.not-finished'))).to.exist;
+        expect(contains(this.intl.t('pages.profile.resume-campaign-banner.accessibility.resume'))).to.exist;
+        expect(contains(this.intl.t('pages.profile.resume-campaign-banner.actions.resume'))).to.exist;
       });
 
     });
