@@ -8,6 +8,7 @@ import getUserCampaignParticipationOverviews from './get-user-campaign-participa
 import getUserCampaignParticipationToCampaign from './get-user-campaign-participation-to-campaign';
 import getUserSharedProfileForCampaign from './get-user-shared-profile-for-campaign';
 import resetScorecard from './reset-scorecard';
+import getCampaignParticipationResult from '../get-campaign-participation-result';
 
 export default function index(config) {
   config.get('/users/me', getAuthenticatedUser);
@@ -17,6 +18,7 @@ export default function index(config) {
 
   config.get('/users/:userId/campaigns/:campaignId/campaign-participations', getUserCampaignParticipationToCampaign);
   config.get('/users/:userId/campaigns/:campaignId/profile', getUserSharedProfileForCampaign);
+  config.get('/users/:userId/campaigns/:campaignId/assessment-result', getCampaignParticipationResult);
   config.get('/users/:id/is-certifiable', isCertifiable);
   config.get('/users/:id/scorecards', getScorecards);
   config.get('/users/:id/profile', getProfile);
