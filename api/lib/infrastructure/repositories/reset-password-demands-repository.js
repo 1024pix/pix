@@ -1,4 +1,4 @@
-const ResetPasswordDemand = require('../data/ResetPasswordDemand');
+const ResetPasswordDemand = require('../orm-models/ResetPasswordDemand');
 const { PasswordResetDemandNotFoundError } = require('../../../lib/domain/errors');
 
 module.exports = {

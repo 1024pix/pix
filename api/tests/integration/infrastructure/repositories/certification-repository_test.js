@@ -5,7 +5,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const { status } = require('../../../../lib/domain/models/AssessmentResult');
 const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
 
-const CertificationCourseBookshelf = require('../../../../lib/infrastructure/data/CertificationCourse');
+const CertificationCourseBookshelf = require('../../../../lib/infrastructure/orm-models/CertificationCourse');
 const PARTNER_CLEA_KEY = 'BANANA';
 const verificationCode = 'P-123498NN';
 

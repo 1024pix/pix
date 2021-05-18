@@ -1,5 +1,5 @@
 const { NotFoundError } = require('../../domain/errors');
-const CertificationIssueReportBookshelf = require('../data/CertificationIssueReport');
+const CertificationIssueReportBookshelf = require('../orm-models/CertificationIssueReport');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const omit = require('lodash/omit');
 

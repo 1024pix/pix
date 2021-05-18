@@ -2,7 +2,7 @@ const pick = require('lodash/pick');
 
 const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 
-const BookshelfCertificationCenterMembership = require('../../../../lib/infrastructure/data/CertificationCenterMembership');
+const BookshelfCertificationCenterMembership = require('../../../../lib/infrastructure/orm-models/CertificationCenterMembership');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const User = require('../../../../lib/domain/models/User');

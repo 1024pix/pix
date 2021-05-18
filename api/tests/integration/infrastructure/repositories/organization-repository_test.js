@@ -1,7 +1,7 @@
 const { catchErr, expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const Organization = require('../../../../lib/domain/models/Organization');
-const BookshelfOrganization = require('../../../../lib/infrastructure/data/Organization');
+const BookshelfOrganization = require('../../../../lib/infrastructure/orm-models/Organization');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const _ = require('lodash');
 

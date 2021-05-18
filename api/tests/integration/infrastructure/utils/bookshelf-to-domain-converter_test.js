@@ -7,10 +7,10 @@ const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Tag = require('../../../../lib/domain/models/Tag');
 
-const BookshelfUser = require('../../../../lib/infrastructure/data/User');
-const BookshelfCampaign = require('../../../../lib/infrastructure/data/Campaign');
-const BookshelfCampaignParticipation = require('../../../../lib/infrastructure/data/CampaignParticipation');
-const BookshelfOrganization = require('../../../../lib/infrastructure/data/Organization');
+const BookshelfUser = require('../../../../lib/infrastructure/orm-models/User');
+const BookshelfCampaign = require('../../../../lib/infrastructure/orm-models/Campaign');
+const BookshelfCampaignParticipation = require('../../../../lib/infrastructure/orm-models/CampaignParticipation');
+const BookshelfOrganization = require('../../../../lib/infrastructure/orm-models/Organization');
 
 describe('Integration | Infrastructure | Utils | Bookshelf to domain converter', function() {
 

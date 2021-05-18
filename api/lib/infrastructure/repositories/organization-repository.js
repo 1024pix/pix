@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
 const Bookshelf = require('../bookshelf');
-const BookshelfOrganization = require('../data/Organization');
+const BookshelfOrganization = require('../orm-models/Organization');
 const Organization = require('../../domain/models/Organization');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');

@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const { knex } = require('../bookshelf');
-const BookshelfKnowledgeElementSnapshot = require('../data/KnowledgeElementSnapshot');
+const BookshelfKnowledgeElementSnapshot = require('../orm-models/KnowledgeElementSnapshot');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const { AlreadyExistingEntityError } = require('../../domain/errors');
 const bookshelfUtils = require('../utils/knex-utils');

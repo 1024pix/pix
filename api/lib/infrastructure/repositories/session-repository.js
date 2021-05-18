@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const BookshelfSession = require('../data/Session');
+const BookshelfSession = require('../orm-models/Session');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');

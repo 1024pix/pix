@@ -1,4 +1,4 @@
-const BookshelfPoleEmploiSending = require('../data/PoleEmploiSending');
+const BookshelfPoleEmploiSending = require('../orm-models/PoleEmploiSending');
 
 module.exports = {
   create({ poleEmploiSending }) {

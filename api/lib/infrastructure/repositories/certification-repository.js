@@ -1,5 +1,5 @@
-const AssessmentResultBookshelf = require('../data/AssessmentResult');
-const CertificationCourseBookshelf = require('../data/CertificationCourse');
+const AssessmentResultBookshelf = require('../orm-models/AssessmentResult');
+const CertificationCourseBookshelf = require('../orm-models/CertificationCourse');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const Bookshelf = require('../bookshelf');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');

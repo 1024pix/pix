@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
-const CertificationCandidateBookshelf = require('../data/CertificationCandidate');
+const CertificationCandidateBookshelf = require('../orm-models/CertificationCandidate');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
 const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 const {

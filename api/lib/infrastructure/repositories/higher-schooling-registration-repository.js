@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/errors');
 const { knex } = require('../bookshelf');
-const BookshelfSchoolingRegistration = require('../data/SchoolingRegistration');
+const BookshelfSchoolingRegistration = require('../orm-models/SchoolingRegistration');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
 
