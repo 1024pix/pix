@@ -4,6 +4,7 @@ const {
   expect,
 } = require('../../../test-helper');
 const unpublishSession = require('../../../../lib/domain/usecases/unpublish-session');
+const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
 describe('Unit | UseCase | unpublish-session', () => {
   let certificationRepository;
@@ -19,7 +20,8 @@ describe('Unit | UseCase | unpublish-session', () => {
       getWithCertificationCandidates: sinon.stub(),
     };
     finalizedSessionRepository = {
-      updatePublishedAt: sinon.stub(),
+      get: sinon.stub(),
+      save: sinon.stub(),
     };
     sessionRepository.flagResultsAsSentToPrescriber = sinon.stub();
   });
@@ -32,6 +34,8 @@ describe('Unit | UseCase | unpublish-session', () => {
       publishedAt: new Date('2020-01-01'),
     });
     sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(expectedSession);
+    const finalizedSession = new FinalizedSession({ sessionId, publishSession: new Date('2020-01-01') });
+    finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
 
     // when
     const actualSession = await unpublishSession({
@@ -44,7 +48,8 @@ describe('Unit | UseCase | unpublish-session', () => {
     // then
     expect(certificationRepository.unpublishCertificationCoursesBySessionId).to.have.been.calledWithExactly(sessionId);
     expect(sessionRepository.updatePublishedAt).to.have.been.calledWithExactly({ id: sessionId, publishedAt: null });
-    expect(finalizedSessionRepository.updatePublishedAt).to.have.been.calledWithExactly({ sessionId, publishedAt: null });
+    expect(finalizedSession.publishedAt).to.be.null;
+    expect(finalizedSessionRepository.save).to.be.calledWith(finalizedSession);
     expect(actualSession).to.deep.equal({
       ...expectedSession,
       publishedAt: null,

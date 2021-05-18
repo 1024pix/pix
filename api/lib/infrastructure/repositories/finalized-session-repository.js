@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
+const { knex } = require('../bookshelf');
 
 const FinalizedSessionBookshelf = require('../data/finalized-session');
 
@@ -8,15 +9,11 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 module.exports = {
 
   async save(finalizedSession) {
-    const foundSession = await FinalizedSessionBookshelf.where({ sessionId: finalizedSession.sessionId }).fetch({ require: false });
-
-    if (foundSession) {
-      return FinalizedSessionBookshelf
-        .where({ sessionId: finalizedSession.sessionId })
-        .save(_toDTO(finalizedSession), { method: 'update', require: false });
-    }
-
-    return new FinalizedSessionBookshelf(_toDTO(finalizedSession), { method: 'insert' }).save();
+    await knex('finalized-sessions')
+      .insert(_toDTO(finalizedSession))
+      .onConflict('sessionId')
+      .merge();
+    return finalizedSession;
   },
 
   async get({ sessionId }) {
@@ -29,12 +26,6 @@ module.exports = {
     }
 
     throw new NotFoundError(`Session of id ${sessionId} does not exist.`);
-  },
-
-  async updatePublishedAt({ sessionId, publishedAt }) {
-    await FinalizedSessionBookshelf
-      .where({ sessionId })
-      .save({ publishedAt }, { method: 'update', require: false });
   },
 
   async findFinalizedSessionsToPublish() {
