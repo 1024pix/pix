@@ -159,7 +159,7 @@ export default class CertificationInformationsController extends Controller {
       const newCompetences = Object.entries(state.marks)
         .map(([code, mark]) => {
           return {
-            'competence-id': mark.competenceId,
+            competenceId: mark.competenceId,
             competence_code: code,
             area_code: code.substr(0, 1),
             level: mark.level,
