@@ -126,10 +126,10 @@
     </div>
   {{/if}}
 
-  {{#if @model.displayImprovementButton}}
-    <SkillReviewTryAgain
+  {{#if @model.campaignParticipationResult.canImprove}}
+    <SkillReviewImprove
             @isShared={{@model.campaignParticipationResult.isShared}}
-            @improvementCampaignParticipation={{this.improvementCampaignParticipation}}/>
+            @improve={{this.improve}}/>
   {{/if}}
 
 

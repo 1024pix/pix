@@ -16,4 +16,9 @@ export default class CampaignParticipationResult extends ApplicationAdapter {
     const url = `${this.host}/${this.namespace}/campaign-participations/${id}`;
     return this.ajax(url, 'PATCH');
   }
+
+  beginImprovement(id) {
+    const url = `${this.host}/${this.namespace}/campaign-participations/${id}/begin-improvement`;
+    return this.ajax(url, 'PATCH');
+  }
 }

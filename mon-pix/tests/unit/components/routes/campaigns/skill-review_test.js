@@ -25,6 +25,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     const store = this.owner.lookup('service:store');
     adapter = store.adapterFor('campaign-participation-result');
     sinon.stub(adapter, 'share').rejects();
+    sinon.stub(adapter, 'beginImprovement').resolves();
 
     component.router.transitionTo = sinon.stub();
     component.disconnectUser = sinon.stub();
@@ -85,18 +86,18 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
   });
 
-  describe('#improvementCampaignParticipation', function() {
+  describe('#improve', function() {
     it('should save the campaignParticipation to start the improvement', async function() {
       // when
-      await component.actions.improvementCampaignParticipation.call(component);
+      await component.actions.improve.call(component);
 
       // then
-      sinon.assert.calledWith(component.args.model.campaignParticipation.save, { adapterOptions: { beginImprovement: true } });
+      sinon.assert.calledWithExactly(adapter.beginImprovement, 12345);
     });
 
     it('should redirect to campaigns.start-or-resume', async function() {
       // when
-      await component.actions.improvementCampaignParticipation.call(component);
+      await component.actions.improve.call(component);
 
       // then
       sinon.assert.calledWith(component.router.transitionTo, 'campaigns.start-or-resume');
