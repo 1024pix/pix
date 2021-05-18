@@ -161,26 +161,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         assessmentRepository.get.resolves(assessment);
       });
 
-      it('should call the usecase getNextChallengeForCampaignAssessment with tryImproving at false when the query not exists', async () => {
+      it('should call the usecase getNextChallengeForCampaignAssessment', async () => {
         // when
-        await assessmentController.getNextChallenge({ params: { id: 1 }, query: {} });
+        await assessmentController.getNextChallenge({ params: { id: 1 } });
 
         // then
         expect(usecases.getNextChallengeForCampaignAssessment).to.have.been.calledWith({
           assessment,
-          tryImproving: false,
-          locale: defaultLocale,
-        });
-      });
-
-      it('should call the usecase getNextChallengeForCampaignAssessment with the query tryImproving', async () => {
-        // when
-        await assessmentController.getNextChallenge({ params: { id: 1 }, query: { tryImproving: true } });
-
-        // then
-        expect(usecases.getNextChallengeForCampaignAssessment).to.have.been.calledWith({
-          assessment,
-          tryImproving: true,
           locale: defaultLocale,
         });
       });
@@ -191,7 +178,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
         // when
         await assessmentController.getNextChallenge({
-          params: { id: 1 }, query: { tryImproving: true },
+          params: { id: 1 },
           headers: {
             'accept-language': locale,
           },
@@ -200,7 +187,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         // then
         expect(usecases.getNextChallengeForCampaignAssessment).to.have.been.calledWith({
           assessment,
-          tryImproving: true,
           locale,
         });
       });
