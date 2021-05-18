@@ -1,51 +1,11 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const { ReproducibilityRate } = require('../../../../lib/domain/models/ReproducibilityRate');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const {
   MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED,
 } = require('../../../../lib/domain/constants');
 
 describe('Unit | Domain | Models | ReproducibilityRate', function() {
 
-  context('#static fromAnswers', () => {
-
-    it('is equal to 0% if no answers', () => {
-      // when
-      const reproducibilityRate = ReproducibilityRate.fromAnswers({ answers: [] });
-
-      // then
-      expect(reproducibilityRate.value).to.equal(0);
-    });
-
-    it('is equal to 50% if 1 answer is correct and 1 is non-correct', () => {
-      // given
-      const answers = [
-        domainBuilder.buildAnswer({ result: AnswerStatus.OK }),
-        domainBuilder.buildAnswer({ result: AnswerStatus.KO }),
-      ];
-
-      // when
-      const reproducibilityRate = ReproducibilityRate.fromAnswers({ answers });
-
-      // then
-      expect(reproducibilityRate.value).to.equal(50);
-    });
-
-    it('is equal to 33% if 1 answer is correct and 2 are non-correct', () => {
-      // given
-      const answers = [
-        domainBuilder.buildAnswer({ result: AnswerStatus.OK }),
-        domainBuilder.buildAnswer({ result: AnswerStatus.TIMEDOUT }),
-        domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED }),
-      ];
-
-      // when
-      const reproducibilityRate = ReproducibilityRate.fromAnswers({ answers });
-
-      // then
-      expect(reproducibilityRate.value).to.equal(33);
-    });
-  });
   context('#static from', () => {
 
     it('is equal to 0% non non-neutralizedAnswers', () => {
