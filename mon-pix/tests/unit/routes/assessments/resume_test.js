@@ -183,7 +183,7 @@ describe('Unit | Route | Assessments | Resume', function() {
 
               // then
               return promise.then(() => {
-                sinon.assert.calledWith(route.replaceWith, 'campaigns.assessment.skill-review', 'konami', 123);
+                sinon.assert.calledWith(route.replaceWith, 'campaigns.assessment.skill-review', 'konami');
               });
             });
           });
@@ -219,7 +219,7 @@ describe('Unit | Route | Assessments | Resume', function() {
             route.redirect(assessment);
 
             // then
-            sinon.assert.calledWith(route.replaceWith, 'campaigns.assessment.skill-review', 'konami', 123);
+            sinon.assert.calledWith(route.replaceWith, 'campaigns.assessment.skill-review', 'konami');
           });
         });
       });

@@ -1,8 +1,11 @@
 import { click, find, findAll, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateByEmail, authenticateByGAR } from '../helpers/authentication';
+import { authenticateByEmail } from '../helpers/authentication';
+import { contains } from '../helpers/contains';
 import visit from '../helpers/visit';
+import setupIntl from '../helpers/setup-intl';
+import { clickByLabel } from '../helpers/click-by-label';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -10,6 +13,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
   setupApplicationTest();
   setupMirage();
+  setupIntl();
 
   let user;
   let campaign;
@@ -27,7 +31,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
       beforeEach(async function() {
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
       });
 
       it('should be redirect to connexion page', async function() {
@@ -67,10 +71,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
       it('should access to the page', async function() {
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+        expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/resultats`);
       });
 
       it('should display results', async function() {
@@ -78,7 +82,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         const COMPETENCE_MASTERY_PERCENTAGE = '85%';
 
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
         expect(find('table tbody tr th span:nth-child(2)').textContent).to.equal(competenceResultName);
@@ -110,7 +114,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         });
 
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
         expect(find('table tbody tr th span:nth-child(2)').textContent).to.equal(partnerCompetenceResultName);
@@ -128,7 +132,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         campaignParticipationResult.update({ campaignParticipationBadges: [badge] });
 
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
         expect(find('.badge-acquired-card')).to.exist;
@@ -137,7 +141,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
       it('should not display the Pix emploi badge when badge is not acquired', async function() {
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
         expect(find('.skill-review-result__badge')).to.not.exist;
@@ -160,7 +164,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         campaignParticipationResult.update({ campaignParticipationBadges: [acquiredBadge, unacquiredBadge] });
 
         // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
         expect(findAll('.badge-acquired-card').length).to.equal(1);
@@ -180,7 +184,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           campaignParticipationResult.update({ stageCount: 5 });
 
           // when
-          await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+          await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
           expect(find('.reached-stage')).to.exist;
@@ -209,7 +213,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           campaignParticipationResult.update({ reachedStage });
 
           // when
-          await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
+          await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
           expect(find('.reached-stage')).to.not.exist;
@@ -228,10 +232,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
       it('should share the results', async function() {
         // when
-        await visit(`/campagnes/${campaign.code}`);
-        await click('.campaign-tutorial__ignore-button');
-        await click('.checkpoint__continue-button');
-        await click('.skill-review-share__button');
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+
+        // when
+        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // then
         expect(find('.skill-review-share__thanks')).to.exist;
@@ -252,10 +256,8 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
       it('should redirect to default page on click', async function() {
         // given
-        await visit(`/campagnes/${campaign.code}`);
-        await click('.campaign-tutorial__ignore-button');
-        await click('.checkpoint__continue-button');
-        await click('.skill-review-share__button');
+        await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+        await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // when
         await click('.skill-review-share__back-to-home');
