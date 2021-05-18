@@ -1,7 +1,9 @@
 /* eslint-disable ember/no-computed-properties-in-native-classes */
 
+import { set } from '@ember/object';
 import { computed } from '@ember/object';
 import Model, { attr, hasMany } from '@ember-data/model';
+import { memberAction } from 'ember-api-actions';
 
 export const ACQUIRED = 'acquired';
 export const REJECTED = 'rejected';
@@ -101,4 +103,13 @@ export default class Certification extends Model {
   get pixPlusDroitExpertCertificationStatusLabel() {
     return partnerCertificationStatusToDisplayName[this.pixPlusDroitExpertCertificationStatus];
   }
+
+  cancel = memberAction({
+    type: 'post',
+    urlType: 'cancel',
+
+    after() {
+      set(this, 'status', 'cancelled');
+    },
+  });
 }

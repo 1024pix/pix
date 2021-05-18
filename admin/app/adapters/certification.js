@@ -36,4 +36,24 @@ export default class Certification extends ApplicationAdapter {
     }
     return hash;
   }
+
+  buildURL(
+    modelName,
+    id,
+    snapshot,
+    requestType,
+    query,
+  ) {
+    if (requestType === 'cancel') {
+      return `${this.host}/${this.namespace}/admin/certification-courses/${id}/cancel`;
+    } else {
+      return super.buildURL(
+        modelName,
+        id,
+        snapshot,
+        requestType,
+        query,
+      );
+    }
+  }
 }
