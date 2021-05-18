@@ -327,6 +327,51 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
     });
   });
 
+  describe('#findAnswersAndChallengesForCertifiableBadgeKey', () => {
+
+    it('returns the answers and challenges for a certifiableBadgeKey', () => {
+      // given
+      const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_1' });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallenge({ challengeId: 'chal2', certifiableBadgeKey: 'BADGE_2' });
+      const certificationChallenge3 = domainBuilder.buildCertificationChallenge({ challengeId: 'chal3', certifiableBadgeKey: 'BADGE_1' });
+      const certificationChallenge4 = domainBuilder.buildCertificationChallenge({ challengeId: 'chal4', certifiableBadgeKey: null });
+      const certificationAnswer1 = domainBuilder.buildAnswer({ challengeId: 'chal1' });
+      const certificationAnswer2 = domainBuilder.buildAnswer({ challengeId: 'chal2' });
+      const certificationAnswer3 = domainBuilder.buildAnswer({ challengeId: 'chal3' });
+      const certificationAnswer4 = domainBuilder.buildAnswer({ challengeId: 'chal4' });
+
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [certificationChallenge1, certificationChallenge2, certificationChallenge3, certificationChallenge4],
+        certificationAnswersByDate: [certificationAnswer1, certificationAnswer2, certificationAnswer3, certificationAnswer4],
+      });
+
+      // when
+      const { certificationChallenges, certificationAnswers } = certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey('BADGE_1');
+
+      // then
+      expect(certificationAnswers).to.deep.equals([certificationAnswer1, certificationAnswer3]);
+      expect(certificationChallenges).to.deep.equals([certificationChallenge1, certificationChallenge3]);
+    });
+
+    it('returns empty arrays if there are no answers nor challenges for given key', () => {
+      // given
+      const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_1' });
+      const certificationAnswer1 = domainBuilder.buildAnswer({ challengeId: 'chal1' });
+
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [certificationChallenge1],
+        certificationAnswersByDate: [certificationAnswer1],
+      });
+
+      // when
+      const { certificationChallenges, certificationAnswers } = certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey('BADGE_TOTO');
+
+      // then
+      expect(certificationAnswers).to.be.empty;
+      expect(certificationChallenges).to.be.empty;
+    });
+  });
+
   describe('#isCompleted', () => {
     it('returns true when completed', () => {
       // given
