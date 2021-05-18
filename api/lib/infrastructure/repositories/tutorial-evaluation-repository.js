@@ -1,4 +1,4 @@
-const BookshelfTutorialEvaluation = require('../data/TutorialEvaluation');
+const BookshelfTutorialEvaluation = require('../orm-models/TutorialEvaluation');
 
 module.exports = {
   async addEvaluation({ userId, tutorialId }) {

@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 const { expect, databaseBuilder, knex } = require('../../test-helper');
 
-const BookshelfOrganizationInvitation = require('../../../lib/infrastructure/data/OrganizationInvitation');
+const BookshelfOrganizationInvitation = require('../../../lib/infrastructure/orm-models/OrganizationInvitation');
 const {
   getOrganizationByExternalId, buildInvitation, prepareDataForSending, sendJoinOrganizationInvitations,
 } = require('../../../scripts/send-invitations-to-sco-organizations');

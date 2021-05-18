@@ -1,8 +1,8 @@
 const { _ } = require('lodash');
 const { knex } = require('../bookshelf');
 
-const CertificationCourseBookshelf = require('../data/CertificationCourse');
-const AssessmentBookshelf = require('../data/Assessment');
+const CertificationCourseBookshelf = require('../orm-models/CertificationCourse');
+const AssessmentBookshelf = require('../orm-models/Assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
 const CertificationCourse = require('../../domain/models/CertificationCourse');

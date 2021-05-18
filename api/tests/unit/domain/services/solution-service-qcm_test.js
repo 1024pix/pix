@@ -1,7 +1,7 @@
 const { expect } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/solution-service-qcm');
-const Answer = require('../../../../lib/infrastructure/data/Answer');
+const Answer = require('../../../../lib/infrastructure/orm-models/Answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const Solution = require('../../../../lib/domain/models/Solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');

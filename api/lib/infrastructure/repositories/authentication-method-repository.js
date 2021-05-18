@@ -9,7 +9,7 @@ const {
 
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 
-const BookshelfAuthenticationMethod = require('../data/AuthenticationMethod');
+const BookshelfAuthenticationMethod = require('../orm-models/AuthenticationMethod');
 
 function _toDomainEntity(bookshelfAuthenticationMethod) {
   const attributes = bookshelfAuthenticationMethod.toJSON();

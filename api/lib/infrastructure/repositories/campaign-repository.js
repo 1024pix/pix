@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const BookshelfCampaign = require('../data/Campaign');
+const BookshelfCampaign = require('../orm-models/Campaign');
 const { NotFoundError } = require('../../domain/errors');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 

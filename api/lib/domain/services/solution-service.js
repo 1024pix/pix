@@ -1,4 +1,4 @@
-const BookshelfAnswer = require('../../infrastructure/data/Answer');
+const BookshelfAnswer = require('../../infrastructure/orm-models/Answer');
 const Answer = require('../../domain/models/Answer');
 const AnswerStatus = require('../../domain/models/AnswerStatus');
 const AnswerStatusJsonApiAdapter = require('../../infrastructure/adapters/answer-status-json-api-adapter');

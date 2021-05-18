@@ -1,6 +1,6 @@
 const { expect, knex, databaseBuilder, mockLearningContent, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const BookshelfAnswer = require('../../../../lib/infrastructure/data/Answer');
+const BookshelfAnswer = require('../../../../lib/infrastructure/orm-models/Answer');
 const { FRENCH_FRANCE, ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Acceptance | Controller | answer-controller-save', () => {

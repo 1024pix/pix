@@ -1,5 +1,5 @@
 const bookshelfUtils = require('../utils/knex-utils');
-const BookshelfCertificationCenterMembership = require('../data/CertificationCenterMembership');
+const BookshelfCertificationCenterMembership = require('../orm-models/CertificationCenterMembership');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
 const { CertificationCenterMembershipCreationError, AlreadyExistingMembershipError } = require('../../domain/errors');

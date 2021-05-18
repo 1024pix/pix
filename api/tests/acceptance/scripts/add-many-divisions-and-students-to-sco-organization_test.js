@@ -2,7 +2,7 @@ const { expect } = require('../../test-helper');
 const { SCO_MIDDLE_SCHOOL_ID } = require('../../../db/seeds/data/organizations-sco-builder');
 
 const { knex } = require('../../../lib/infrastructure/bookshelf');
-const BookshelfSchoolingRegistration = require('../../../lib/infrastructure/data/SchoolingRegistration');
+const BookshelfSchoolingRegistration = require('../../../lib/infrastructure/orm-models/SchoolingRegistration');
 const { databaseBuilder } = require('../../test-helper');
 
 const { addManyDivisionsAndStudentsToScoCertificationCenter } = require('../../../scripts/data-generation/add-many-divisions-and-students-to-sco-organization');

@@ -4,7 +4,7 @@ const bluebird = require('bluebird');
 const Bookshelf = require('../bookshelf');
 const CertificationReport = require('../../domain/models/CertificationReport');
 
-const CertificationCourseBookshelf = require('../data/CertificationCourse');
+const CertificationCourseBookshelf = require('../orm-models/CertificationCourse');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
 const { CertificationCourseUpdateError } = require('../../domain/errors');
 

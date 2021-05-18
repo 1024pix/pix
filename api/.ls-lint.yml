@@ -12,7 +12,7 @@ ls:
         .dir: camelCase
 
     infrastructure:
-      data:
+      orm-models:
         .js: PascalCase
 
   tests:

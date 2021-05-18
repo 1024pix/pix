@@ -5,7 +5,7 @@ const { NotFoundError } = require('../lib/domain/errors');
 const { parseCsvWithHeader } = require('../scripts/helpers/csvHelpers');
 
 const bookshelfToDomainConverter = require('../lib/infrastructure/utils/bookshelf-to-domain-converter');
-const BookshelfOrganization = require('../lib/infrastructure/data/Organization');
+const BookshelfOrganization = require('../lib/infrastructure/orm-models/Organization');
 
 const organizationInvitationService = require('../lib/domain/services/organization-invitation-service');
 

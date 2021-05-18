@@ -1,7 +1,7 @@
 const Bookshelf = require('../bookshelf');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
-const CertificationChallengeBookshelf = require('../data/CertificationChallenge');
+const CertificationChallengeBookshelf = require('../orm-models/CertificationChallenge');
 const logger = require('../../infrastructure/logger');
 
 const { AssessmentEndedError } = require('../../domain/errors');
