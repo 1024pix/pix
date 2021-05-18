@@ -1,4 +1,4 @@
-const BookshelfMembership = require('../data/membership');
+const BookshelfMembership = require('../data/Membership');
 const { MembershipCreationError, MembershipUpdateError, NotFoundError } = require('../../domain/errors');
 const Membership = require('../../domain/models/Membership');
 const User = require('../../domain/models/User');

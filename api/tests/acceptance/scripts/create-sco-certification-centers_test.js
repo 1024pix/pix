@@ -1,6 +1,6 @@
 const { expect } = require('../../test-helper');
 
-const BookshelfCertificationCenter = require('../../../lib/infrastructure/data/certification-center');
+const BookshelfCertificationCenter = require('../../../lib/infrastructure/data/CertificationCenter');
 
 const { createScoCertificationCenters } = require('../../../scripts/create-sco-certification-centers');
 

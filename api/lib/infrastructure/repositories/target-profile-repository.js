@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
 const bluebird = require('bluebird');
-const BookshelfTargetProfile = require('../../infrastructure/data/target-profile');
+const BookshelfTargetProfile = require('../data/TargetProfile');
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');

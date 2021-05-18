@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const BookshelfCertificationCenter = require('../data/certification-center');
+const BookshelfCertificationCenter = require('../data/CertificationCenter');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
 const { NotFoundError } = require('../../domain/errors');
 

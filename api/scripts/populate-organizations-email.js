@@ -2,7 +2,7 @@ const bluebird = require('bluebird');
 
 const { parseCsvWithHeader } = require('../scripts/helpers/csvHelpers');
 
-const BookshelfOrganization = require('../lib/infrastructure/data/organization');
+const BookshelfOrganization = require('../lib/infrastructure/data/Organization');
 
 async function updateOrganizationEmailByExternalId(externalId, email) {
   return BookshelfOrganization

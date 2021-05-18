@@ -1,6 +1,6 @@
 const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
+const BookshelfAssessment = require('../../../../lib/infrastructure/data/Assessment');
 
 describe('Acceptance | API | Assessments POST', () => {
 

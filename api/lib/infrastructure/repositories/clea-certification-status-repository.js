@@ -1,4 +1,4 @@
-const PartnerCertificationBookshelf = require('../data/partner-certification');
+const PartnerCertificationBookshelf = require('../data/PartnerCertification');
 const Badge = require('../../../lib/domain/models/Badge');
 
 const statuses = {

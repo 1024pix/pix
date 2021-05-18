@@ -1,4 +1,4 @@
-const BookshelfCompetenceMark = require('../data/competence-mark');
+const BookshelfCompetenceMark = require('../data/CompetenceMark');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 const { knex } = require('../bookshelf');
 const DomainTransaction = require('../DomainTransaction');

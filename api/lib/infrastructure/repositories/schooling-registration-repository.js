@@ -16,7 +16,7 @@ const SchoolingRegistration = require('../../domain/models/SchoolingRegistration
 const studentRepository = require('./student-repository');
 
 const Bookshelf = require('../bookshelf');
-const BookshelfSchoolingRegistration = require('../data/schooling-registration');
+const BookshelfSchoolingRegistration = require('../data/SchoolingRegistration');
 
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const bookshelfUtils = require('../utils/knex-utils');

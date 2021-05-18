@@ -1,4 +1,4 @@
-const BookshelfAssessment = require('../data/assessment');
+const BookshelfAssessment = require('../data/Assessment');
 const DomainTransaction = require('../DomainTransaction');
 const Assessment = require('../../domain/models/Assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
