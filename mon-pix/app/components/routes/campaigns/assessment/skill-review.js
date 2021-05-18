@@ -7,16 +7,17 @@ import Component from '@glimmer/component';
 
 export default class SkillReview extends Component {
 
-  @service intl
-  @service router
+  @service intl;
+  @service router;
   @service session;
   @service currentUser;
-  @service url
+  @service url;
+  @service store;
 
   @tracked displayErrorMessage = false;
 
   get showCleaCompetences() {
-    const cleaBadge = this.args.model.campaignParticipation.campaignParticipationResult.get('cleaBadge');
+    const cleaBadge = this.args.model.campaignParticipationResult.cleaBadge;
     return !!cleaBadge;
   }
 
@@ -34,7 +35,7 @@ export default class SkillReview extends Component {
   }
 
   get acquiredBadges() {
-    const badges = this.args.model.campaignParticipation.campaignParticipationResult.get('campaignParticipationBadges');
+    const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
     return badges.filter((badge) => badge.isAcquired);
   }
 
@@ -43,15 +44,15 @@ export default class SkillReview extends Component {
   }
 
   get reachedStage() {
-    return this.args.model.campaignParticipation.campaignParticipationResult.get('reachedStage');
+    return this.args.model.campaignParticipationResult.reachedStage;
   }
 
   get stageCount() {
-    return this.args.model.campaignParticipation.campaignParticipationResult.get('stageCount');
+    return this.args.model.campaignParticipationResult.stageCount;
   }
 
   get isShared() {
-    return this.args.model.campaignParticipation.get('isShared');
+    return this.args.model.campaignParticipationResult.isShared;
   }
 
   get displayPixLink() {
@@ -63,19 +64,7 @@ export default class SkillReview extends Component {
   }
 
   get showOrganizationMessage() {
-    return Boolean(this.organizationMessage);
-  }
-
-  get organizationMessage() {
-    return this.args.model.campaignParticipation.campaign.get('customResultPageText');
-  }
-
-  get organizationLogoUrl() {
-    return this.args.model.campaignParticipation.campaign.get('organizationLogoUrl');
-  }
-
-  get organizationName() {
-    return this.args.model.campaignParticipation.campaign.get('organizationName');
+    return Boolean(this.args.model.campaign.customResultPageText);
   }
 
   get showOrganizationButton() {
@@ -83,15 +72,15 @@ export default class SkillReview extends Component {
   }
 
   get masteryPercentage() {
-    return this.args.model.campaignParticipation.campaignParticipationResult.get('masteryPercentage');
+    return this.args.model.campaignParticipationResult.masteryPercentage;
   }
 
   get participantExternalId() {
-    return this.args.model.campaignParticipation.get('participantExternalId');
+    return this.args.model.campaignParticipationResult.participantExternalId;
   }
 
   get customButtonUrl() {
-    const buttonUrl = this.args.model.campaignParticipation.campaign.get('customResultPageButtonUrl');
+    const buttonUrl = this.args.model.campaign.customResultPageButtonUrl;
     if (buttonUrl) {
       const params = {};
 
@@ -113,12 +102,8 @@ export default class SkillReview extends Component {
     }
   }
 
-  get canRetry() {
-    return this.args.model.campaignParticipation.campaignParticipationResult.get('canRetry');
-  }
-
   get customButtonText() {
-    return this.args.model.campaignParticipation.campaign.get('customResultPageButtonText');
+    return this.args.model.campaign.customResultPageButtonText;
   }
 
   _buildUrl(baseUrl, params) {
