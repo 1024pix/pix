@@ -11,7 +11,7 @@
     {{#each @partnerCompetenceResults as |partnerCompetence|}}
       <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
         <th scope="row">
-          <span class="skill-review-competence__border skill-review-competence__border--{{partnerCompetence.areaColor}}" aria-hidden="true"></span>
+          <span class="skill-review-competence__border" aria-hidden="true"></span>
           <span>{{partnerCompetence.name}}</span>
         </th>
         <td>
@@ -21,7 +21,7 @@
         </td>
       </tr>
     {{/each}}
-    {{else}}
+  {{else}}
     {{#each @competenceResults as |competence|}}
       <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
         <th scope="row">
