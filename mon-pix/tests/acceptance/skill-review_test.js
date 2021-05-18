@@ -1,4 +1,4 @@
-import { click, find, findAll, currentURL } from '@ember/test-helpers';
+import { findAll, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
@@ -7,6 +7,7 @@ import visit from '../helpers/visit';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
 import { setupApplicationTest } from 'ember-mocha';
+import { currentSession } from 'ember-simple-auth/test-support';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Campaigns | Campaigns Result', function() {
@@ -18,6 +19,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
   let user;
   let campaign;
   let campaignParticipation;
+  let campaignParticipationResult;
 
   beforeEach(function() {
     user = server.create('user', 'withEmail');
@@ -46,27 +48,14 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       const competenceResultName = 'Competence Nom';
       const partnerCompetenceResultName = 'badge partner competence nom';
 
-      let campaignParticipationResult;
-
       beforeEach(async function() {
         // given
         await authenticateByEmail(user);
-        const totalSkillsCount = 10;
-        const testedSkillsCount = 10;
-        const validatedSkillsCount = 9;
-        const masteryPercentage = 85;
         const competenceResult = server.create('competence-result', {
           name: competenceResultName,
-          totalSkillsCount, testedSkillsCount, validatedSkillsCount, masteryPercentage });
-        campaignParticipationResult = server.create('campaign-participation-result', {
-          masteryPercentage,
-          totalSkillsCount,
-          testedSkillsCount,
-          validatedSkillsCount,
-          competenceResults: [competenceResult],
-          campaignParticipationBadges: [],
+          masteryPercentage: 85,
         });
-        campaignParticipation.update({ campaignParticipationResult });
+        campaignParticipationResult = server.create('campaign-participation-result', { id: campaignParticipation.id, competenceResults: [competenceResult], masteryPercentage: 85 });
       });
 
       it('should access to the page', async function() {
@@ -85,8 +74,8 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(find('table tbody tr th span:nth-child(2)').textContent).to.equal(competenceResultName);
-        expect(find('.progress-gauge__tooltip').textContent).to.include(COMPETENCE_MASTERY_PERCENTAGE);
+        expect(contains(competenceResultName)).to.exist;
+        expect(contains(COMPETENCE_MASTERY_PERCENTAGE)).to.exist;
       });
 
       it('should display different competences results when the badge key is PIX_EMPLOI_CLEA', async function() {
@@ -117,8 +106,8 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(find('table tbody tr th span:nth-child(2)').textContent).to.equal(partnerCompetenceResultName);
-        expect(find('.progress-gauge__tooltip').textContent).to.include(BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE);
+        expect(contains(partnerCompetenceResultName)).to.exist;
+        expect(contains(BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE)).to.exist;
       });
 
       it('should display the Pix emploi badge when badge is acquired', async function() {
@@ -135,8 +124,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(find('.badge-acquired-card')).to.exist;
-        expect(find('.skill-review-result-detail__badge-subtitle')).to.exist;
+        expect(contains('Congrats, you won a Pix Emploi badge')).to.exist;
       });
 
       it('should not display the Pix emploi badge when badge is not acquired', async function() {
@@ -144,7 +132,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(find('.skill-review-result__badge')).to.not.exist;
+        expect(contains(this.intl.t('pages.skill-review.badges-title'))).to.not.exist;
       });
 
       it('should display only one badge when badge is acquired', async function() {
@@ -187,7 +175,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
-          expect(find('.reached-stage')).to.exist;
+          expect(contains('You reached Stage 1')).to.exist;
         });
 
         it('should not display reached stage when CLEA badge acquired', async function() {
@@ -216,18 +204,9 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
-          expect(find('.reached-stage')).to.not.exist;
-          expect(find('.skill-review-result__badge-subtitle')).to.not.exist;
-          expect(find('.badge-acquired-card')).to.exist;
+          expect(contains('You reached Stage 1')).to.not.exist;
+          expect(contains(cleaBadge.message)).to.exist;
         });
-      });
-
-      it('should not display reached stage when campaign has no stages', async function() {
-        // when
-        await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
-
-        // then
-        expect(find('.reached-stage')).to.not.exist;
       });
 
       it('should share the results', async function() {
@@ -238,20 +217,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // then
-        expect(find('.skill-review-share__thanks')).to.exist;
-        expect(find('.skill-review-share__back-to-home')).to.exist;
-        expect(find('.skill-review-share__legal')).to.be.null;
-        expect(find('.skill-review__improvement-button')).to.be.null;
-      });
-
-      it('should not display the archivation block if the campaign has not been archived', async () => {
-        // when
-        await visit(`/campagnes/${campaign.code}`);
-        await click('.campaign-tutorial__ignore-button');
-        await click('.checkpoint__continue-button');
-
-        // then
-        expect(find('.skill-review__campaign-archived')).not.to.exist;
+        expect(contains(this.intl.t('pages.skill-review.already-shared'))).to.exist;
+        expect(contains(this.intl.t('pages.skill-review.actions.continue'))).to.exist;
+        expect(contains(this.intl.t('pages.skill-review.send-results'))).to.be.null;
+        expect(contains(this.intl.t('pages.skill-review.actions.try-again'))).to.be.null;
       });
 
       it('should redirect to default page on click', async function() {
@@ -260,7 +229,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // when
-        await click('.skill-review-share__back-to-home');
+        await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
         // then
         expect(currentURL()).to.equal('/accueil');
@@ -269,34 +238,31 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
   });
 
   context('when campaign is for Novice and isSimplifiedAccess', async function() {
-    let campaignForNovice, anonymousUser;
+    let campaignForNovice;
 
     beforeEach(function() {
       campaignForNovice = server.create('campaign', { isForAbsoluteNovice: true, isSimplifiedAccess: true });
-      campaignParticipation = server.create('campaign-participation', { campaign });
-      anonymousUser = server.create('user', 'withEmail', {
-        isAnonymous: true,
-      });
+      campaignParticipation = server.create('campaign-participation', { campaign: campaignForNovice });
     });
 
     it('should redirect to default page on click when user is connected', async function() {
       // given
       await authenticateByEmail(user);
       await visit(`/campagnes/${campaignForNovice.code}`);
-      await click('.checkpoint__continue-button');
-      await click('a[data-link-to-continue-pix]');
+      await clickByLabel(this.intl.t('pages.checkpoint.actions.next-page.results'));
+      await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
       // then
       expect(currentURL()).to.equal('/accueil');
     });
 
-    it('should redirect to sign up page on click when user is not connected', async function() {
+    it('should redirect to sign up page on click when user is anonymous', async function() {
       // given
-      await authenticateByGAR(anonymousUser);
+      await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
 
       await visit(`/campagnes/${campaignForNovice.code}`);
-      await click('.checkpoint__continue-button');
-      await click('a[data-link-to-continue-pix]');
+      await clickByLabel(this.intl.t('pages.checkpoint.actions.next-page.results'));
+      await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
       // then
       expect(currentURL()).to.equal('/inscription');
