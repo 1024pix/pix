@@ -5,12 +5,10 @@
   <div
     class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner join-restricted-campaign__container">
     <div class="join-restricted-campaign">
-      <div class="join-restricted-campaign__title">{{t 'pages.join.first-title' organizationName=@model.organizationName}}</div>
-      <div class="join-restricted-campaign__subtitle">{{t 'pages.join.subtitle'}}</div>
       {{#if (eq @model.organizationType "SCO")}}
-        <Routes::Campaigns::Restricted::JoinSco @campaignCode={{@model.code}} @onSubmitToCreateAndReconcile={{this.createAndReconcile}} @onSubmitToReconcile={{this.reconcile}} />
+        <Routes::Campaigns::Restricted::JoinSco @organizationName={{@model.organizationName}} @campaignCode={{@model.code}} @onSubmitToCreateAndReconcile={{this.createAndReconcile}} @onSubmitToReconcile={{this.reconcile}} />
       {{else}}
-        <Routes::Campaigns::Restricted::JoinSup @campaignCode={{@model.code}} @onSubmitToReconcile={{this.reconcile}} />
+        <Routes::Campaigns::Restricted::JoinSup @organizationName={{@model.organizationName}} @campaignCode={{@model.code}} @onSubmitToReconcile={{this.reconcile}} />
       {{/if}}
     </div>
   </div>
