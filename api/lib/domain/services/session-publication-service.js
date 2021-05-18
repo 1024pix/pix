@@ -19,7 +19,7 @@ async function publishSession({
 
   await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
 
-  await finalizedSessionRepository.updatePublishedAt({ sessionId, publishedAt });
+  await _updateFinalizedSession(finalizedSessionRepository, sessionId, publishedAt);
 
   const emailingAttempts = await _sendPrescriberEmails(session);
   if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
@@ -73,6 +73,12 @@ function _someHaveFailed(emailingAttempts) {
 function _failedAttemptsRecipients(emailingAttempts) {
   return emailingAttempts.filter((emailAttempt) => emailAttempt.hasFailed())
     .map((emailAttempt) => emailAttempt.recipientEmail);
+}
+
+async function _updateFinalizedSession(finalizedSessionRepository, sessionId, publishedAt) {
+  const finalizedSession = await finalizedSessionRepository.get({ sessionId });
+  finalizedSession.publish(publishedAt);
+  await finalizedSessionRepository.save(finalizedSession);
 }
 
 module.exports = {

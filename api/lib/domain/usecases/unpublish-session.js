@@ -12,7 +12,13 @@ module.exports = async function unpublishSession({
 
   await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt: session.publishedAt });
 
-  await finalizedSessionRepository.updatePublishedAt({ sessionId, publishedAt: session.publishedAt });
+  await _updateFinalizedSession(finalizedSessionRepository, sessionId);
 
   return sessionRepository.getWithCertificationCandidates(sessionId);
 };
+
+async function _updateFinalizedSession(finalizedSessionRepository, sessionId) {
+  const finalizedSession = await finalizedSessionRepository.get({ sessionId });
+  finalizedSession.unpublish();
+  await finalizedSessionRepository.save(finalizedSession);
+}

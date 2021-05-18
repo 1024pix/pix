@@ -79,6 +79,7 @@ describe('PATCH /api/admin/sessions/:id/unpublish', () => {
 
         beforeEach(() => {
           sessionId = databaseBuilder.factory.buildSession({ publishedAt: date }).id;
+          databaseBuilder.factory.buildFinalizedSession({ sessionId, publishedAt: date });
           options.url = `/api/admin/sessions/${sessionId}/unpublish`;
           certificationId = databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: true }).id;
 
