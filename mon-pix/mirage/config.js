@@ -1,4 +1,3 @@
-import getCampaignParticipationResult from './routes/get-campaign-participation-result';
 import getCampaigns from './routes/get-campaigns';
 import getCertifications from './routes/get-certifications';
 import getChallenge from './routes/get-challenge';
@@ -44,8 +43,6 @@ export default function() {
   this.get('/assessments/:id/competence-evaluations', getCompetenceEvaluationsByAssessment);
 
   this.get('/campaigns', getCampaigns);
-
-  this.get('/campaign-participations/:id/campaign-participation-result', getCampaignParticipationResult);
 
   this.get('/certifications', getCertifications);
 
