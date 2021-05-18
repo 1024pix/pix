@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, knex } = require('../../test-helper');
 
 const Membership = require('../../../lib/domain/models/Membership');
-const BookshelfCertificationCenterMembership = require('../../../lib/infrastructure/data/certification-center-membership');
+const BookshelfCertificationCenterMembership = require('../../../lib/infrastructure/data/CertificationCenterMembership');
 
 const {
   getCertificationCenterIdWithMembershipsUserIdByExternalId,

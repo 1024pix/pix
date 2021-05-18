@@ -1,4 +1,4 @@
-const BookshelfTag = require('../data/tag');
+const BookshelfTag = require('../data/Tag');
 const bookshelfUtils = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { AlreadyExistingEntityError } = require('../../domain/errors');

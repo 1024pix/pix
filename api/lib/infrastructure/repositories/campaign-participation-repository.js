@@ -1,4 +1,4 @@
-const BookshelfCampaignParticipation = require('../data/campaign-participation');
+const BookshelfCampaignParticipation = require('../data/CampaignParticipation');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
 const Assessment = require('../../domain/models/Assessment');

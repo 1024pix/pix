@@ -1,5 +1,5 @@
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const BookshelfBadge = require('../../infrastructure/data/badge');
+const BookshelfBadge = require('../data/Badge');
 
 module.exports = {
 

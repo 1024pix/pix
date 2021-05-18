@@ -2,7 +2,7 @@ const omit = require('lodash/omit');
 const moment = require('moment');
 
 const DomainTransaction = require('../DomainTransaction');
-const BookshelfUser = require('../data/user');
+const BookshelfUser = require('../data/User');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 const {

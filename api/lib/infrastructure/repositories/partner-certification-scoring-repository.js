@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const DomainTransaction = require('../DomainTransaction');
-const PartnerCertificationBookshelf = require('../data/partner-certification');
+const PartnerCertificationBookshelf = require('../data/PartnerCertification');
 const CleaCertificationScoring = require('../../domain/models/CleaCertificationScoring');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 const Badge = require('../../domain/models/Badge');

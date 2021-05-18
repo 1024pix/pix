@@ -1,8 +1,8 @@
 const fp = require('lodash/fp');
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
-const BookshelfAnswer = require('../data/answer');
-const BookshelfKnowledgeElement = require('../data/knowledge-element');
+const BookshelfAnswer = require('../data/Answer');
+const BookshelfKnowledgeElement = require('../data/KnowledgeElement');
 
 const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');

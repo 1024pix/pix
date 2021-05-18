@@ -1,4 +1,4 @@
-const BookshelfTutorialEvaluation = require('../data/tutorial-evaluation');
+const BookshelfTutorialEvaluation = require('../data/TutorialEvaluation');
 
 module.exports = {
   async addEvaluation({ userId, tutorialId }) {

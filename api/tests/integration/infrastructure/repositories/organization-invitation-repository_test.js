@@ -4,7 +4,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const organizationInvitationRepository = require('../../../../lib/infrastructure/repositories/organization-invitation-repository');
-const BookshelfOrganizationInvitation = require('../../../../lib/infrastructure/data/organization-invitation');
+const BookshelfOrganizationInvitation = require('../../../../lib/infrastructure/data/OrganizationInvitation');
 
 describe('Integration | Repository | OrganizationInvitationRepository', () => {
 

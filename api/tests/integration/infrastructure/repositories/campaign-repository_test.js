@@ -1,7 +1,7 @@
 const { expect, domainBuilder, databaseBuilder, knex } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
-const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
+const BookshelfCampaign = require('../../../../lib/infrastructure/data/Campaign');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 

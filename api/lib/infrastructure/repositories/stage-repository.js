@@ -1,4 +1,4 @@
-const BookshelfStage = require('../../infrastructure/data/stage');
+const BookshelfStage = require('../data/Stage');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const _ = require('lodash');
 const { NotFoundError, ObjectValidationError } = require('../../domain/errors');
