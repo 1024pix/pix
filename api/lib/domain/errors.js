@@ -801,6 +801,12 @@ class UnexpectedPoleEmploiStateError extends DomainError {
   }
 }
 
+class YamlParsingError extends DomainError {
+  constructor(message = 'Une erreur s\'est produite lors de l\'interprétation des réponses.') {
+    super(message);
+  }
+}
+
 module.exports = {
   AlreadyExistingEntityError,
   AlreadyExistingCampaignParticipationError,
@@ -910,4 +916,5 @@ module.exports = {
   UserOrgaSettingsCreationError,
   UserShouldChangePasswordError,
   WrongDateFormatError,
+  YamlParsingError,
 };

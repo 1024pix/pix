@@ -3,6 +3,7 @@ const levenshtein = require('fast-levenshtein');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const logger = require('../../infrastructure/logger');
 const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
+const { YamlParsingError } = require('../../domain/errors');
 
 const AnswerStatus = require('../models/AnswerStatus');
 
@@ -77,8 +78,14 @@ module.exports = {
     const preTreatedSolutions = applyPreTreatments(yamlSolution);
 
     // Convert YAML to JSObject
-    const answers = jsYaml.safeLoad(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
-    const solutions = jsYaml.safeLoad(preTreatedSolutions, { schema: jsYaml.FAILSAFE_SCHEMA });
+    let answers, solutions;
+
+    try {
+      answers = jsYaml.safeLoad(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
+      solutions = jsYaml.safeLoad(preTreatedSolutions, { schema: jsYaml.FAILSAFE_SCHEMA });
+    } catch (error) {
+      throw new YamlParsingError();
+    }
 
     // Treatments
     const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments);
