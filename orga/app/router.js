@@ -36,6 +36,7 @@ Router.map(function() {
       });
       this.route('new', { path: '/creation' });
     });
+    this.route('charts');
     this.route('campaigns', { path: '/campagnes' }, function() {
       this.route('list', { path: '/' });
       this.route('new', { path: '/creation' });
