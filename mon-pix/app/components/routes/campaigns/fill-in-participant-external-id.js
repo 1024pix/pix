@@ -13,13 +13,19 @@ export default class FillInParticipantExternalId extends Component {
   @action
   submit(event) {
     event.preventDefault();
-    this.errorMessage = null;
 
-    if (this.participantExternalId) {
-      return this.args.onSubmit(this.participantExternalId);
-    } else {
+    if (!this.participantExternalId) {
       this.errorMessage = this.intl.t('pages.fill-in-participant-external-id.errors.missing-id-pix-label', { idPixLabel: this.args.campaign.idPixLabel });
+      return;
     }
+
+    if (this.participantExternalId.length > 255) {
+      this.errorMessage = this.intl.t('pages.fill-in-participant-external-id.errors.max-length-id-pix-label', { idPixLabel: this.args.campaign.idPixLabel });
+      return;
+    }
+
+    this.errorMessage = null;
+    return this.args.onSubmit(this.participantExternalId);
   }
 
   @action
