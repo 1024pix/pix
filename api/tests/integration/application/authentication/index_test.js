@@ -281,6 +281,8 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     const code = 'ABCD';
     const client_id = 'CLIENT_ID';
     const redirect_uri = 'http://redirectUri.fr';
+    const state_sent = 'state_sent';
+    const state_received = 'state_received';
 
     let payload;
 
@@ -291,6 +293,8 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
         code,
         client_id,
         redirect_uri,
+        state_sent,
+        state_received,
       });
     });
 
