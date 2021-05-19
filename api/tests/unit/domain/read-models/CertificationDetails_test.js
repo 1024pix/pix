@@ -77,6 +77,26 @@ describe('Unit | Domain | Read-models | CertificationDetails', () => {
       expect(certificationDetails.percentageCorrectAnswers).to.equal(50);
     });
 
+    it('should take into account neutralized challenges when compution the reproducibility rate', () => {
+      // given
+      const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec123', isNeutralized: true });
+      const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123' });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec456' });
+      const answer2 = domainBuilder.buildAnswer.ko({ challengeId: 'rec456' });
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [certificationChallenge1, certificationChallenge2],
+        certificationAnswersByDate: [answer1, answer2],
+      });
+      const competenceMarks = [];
+      const placementProfile = null;
+
+      // when
+      const certificationDetails = CertificationDetails.from({ certificationAssessment, placementProfile, competenceMarks });
+
+      // then
+      expect(certificationDetails.percentageCorrectAnswers).to.equal(0);
+    });
+
     it('should create competencesWithMark', () => {
       // given
       const certificationChallenge = domainBuilder.buildCertificationChallenge({ challengeId: 'rec123' });
