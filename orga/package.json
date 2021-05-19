@@ -95,5 +95,7 @@
     "qunit-dom": "^1.6.0",
     "sass": "^1.32.8"
   },
-  "dependencies": {}
+  "dependencies": {
+    "chart.js": "^3.2.1"
+  }
 }
