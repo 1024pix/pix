@@ -74,7 +74,6 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       id: 1,
       badgeId: 1,
       name: 'Pix Emploi',
-      color: 'emerald',
       skillIds,
     });
 
@@ -219,7 +218,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
         },
         included: [{
           attributes: {
-            'area-color': 'emerald',
+            'area-color': undefined,
             'mastery-percentage': 38,
             name: 'Pix Emploi',
             'tested-skills-count': 5,

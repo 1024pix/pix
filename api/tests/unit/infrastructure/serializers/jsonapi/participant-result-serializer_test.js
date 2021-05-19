@@ -103,7 +103,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         included: [
           {
             attributes: {
-              'area-color': 'BadgeColor',
+              'area-color': undefined,
               'mastery-percentage': 100,
               name: 'BadgeC1',
               'tested-skills-count': 1,

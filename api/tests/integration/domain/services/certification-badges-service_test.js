@@ -85,7 +85,6 @@ describe('Integration | Service | Certification-Badges Service', () => {
         {
           id: badgePartnerCompetence.id,
           name: badgePartnerCompetence.name,
-          color: badgePartnerCompetence.color,
           skillIds: badgePartnerCompetence.skillIds,
         },
       ];

@@ -9,7 +9,7 @@ async function _buildDomainAndDatabaseBadge(key, targetProfileId) {
   badgeCriterion1.id = undefined;
   const badgeCriterion2 = domainBuilder.buildBadgeCriterion();
   badgeCriterion2.id = undefined;
-  const badgePartnerCompetence1 = domainBuilder.buildBadgePartnerCompetence({ color: 'someColor' });
+  const badgePartnerCompetence1 = domainBuilder.buildBadgePartnerCompetence();
   badgePartnerCompetence1.id = undefined;
   const badgePartnerCompetence2 = domainBuilder.buildBadgePartnerCompetence();
   badgePartnerCompetence2.id = undefined;

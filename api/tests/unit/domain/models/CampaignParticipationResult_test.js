@@ -289,13 +289,12 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             badgePartnerCompetences: [{
               id: 18,
               name: 'Yellow',
-              color: 'emerald',
               skillIds: [1, 2, 4],
             }],
             targetProfileId: targetProfile.id,
             partnerCompetenceResults: [{
               id: 18,
-              areaColor: 'emerald',
+              areaColor: null,
               areaName: undefined,
               index: undefined,
               name: 'Yellow',
@@ -421,13 +420,12 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             badgePartnerCompetences: [{
               id: 42,
               name: 'Green',
-              color: 'jaffa',
               skillIds: [1, 2, 4],
             }],
             partnerCompetenceResults: [{
               id: 42,
               name: 'Green',
-              areaColor: 'jaffa',
+              areaColor: null,
               areaName: undefined,
               testedSkillsCount: 2,
               totalSkillsCount: 3,
@@ -576,14 +574,13 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             badgePartnerCompetences: [{
               id: 42,
               name: 'Green',
-              color: 'jaffa',
               skillIds: [1, 2, 4],
             }],
             partnerCompetenceResults: [{
               id: 42,
               index: undefined,
               name: 'Green',
-              areaColor: 'jaffa',
+              areaColor: null,
               areaName: undefined,
               totalSkillsCount: 3,
               testedSkillsCount: 2,
@@ -611,7 +608,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               domainBuilder.buildBadgePartnerCompetence({
                 id: 48,
                 name: 'Yellow',
-                color: 'emerald',
                 skillIds: [2],
               }),
             ],
@@ -620,7 +616,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               index: undefined,
               name: 'Yellow',
               areaName: undefined,
-              areaColor: 'emerald',
+              areaColor: null,
               totalSkillsCount: 1,
               testedSkillsCount: 1,
               validatedSkillsCount: 0,
