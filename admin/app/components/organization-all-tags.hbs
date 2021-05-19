@@ -5,7 +5,7 @@
       {{#each this.allTags as |tag|}}
         <li class="organization-all-tags-list__tag">
 
-          {{#if tag.isTagAssociateToOrganization}}
+          {{#if tag.isTagAssignedToOrganization}}
             <PixTag @compact="true" @color='purple-light'>
               {{tag.name}}
             </PixTag>
