@@ -23,6 +23,23 @@ module('Integration | Component | organization-all-tags', function(hooks) {
     assert.contains('AEFE');
   });
 
+  test('it should display tags in alphabetical order', async function(assert) {
+    // given
+    const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
+    const tag2 = EmberObject.create({ id: 2, name: 'AEFE' });
+    const tag3 = EmberObject.create({ id: 3, name: 'CFA' });
+    const tag4 = EmberObject.create({ id: 4, name: 'POLE EMPLOI' });
+
+    this.set('allOrganizationTags', { allTags: [tag1, tag2, tag3, tag4], organizationTags: [] });
+
+    // when
+    await render(hbs`<OrganizationAllTags @model={{this.allOrganizationTags}} />`);
+
+    // then
+    assert.dom('.organization-all-tags-list__tag:first-child > .pix-tag').containsText('AEFE');
+    assert.dom('.organization-all-tags-list__tag:last-child > .pix-tag').containsText('POLE EMPLOI');
+  });
+
   test('it should display an active tag when it is associate to an organization', async function(assert) {
     // given
     const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
