@@ -426,7 +426,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
             .sort((a, b) => a.id <= b.id);
           expect(partnerCompetenceResults[0]).to.deep.equal({
             id: 1,
-            areaColor: 'BadgeCompt1Color',
+            areaColor: null,
             areaName: undefined,
             index: undefined,
             name: 'BadgeCompt1',
@@ -437,7 +437,7 @@ describe('Integration | Repository | Campaign Participation Result', () => {
 
           expect(partnerCompetenceResults[1]).to.deep.equal({
             id: 2,
-            areaColor: 'BadgeCompt2Color',
+            areaColor: null,
             areaName: undefined,
             index: undefined,
             name: 'BadgeCompt2',

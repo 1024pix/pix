@@ -200,7 +200,7 @@ async function _fillBadgesWithCriteria(badges) {
 async function _fillBadgesWithPartnerCompetences(badges) {
   const badgeIds = badges.map((badge) => badge.id);
   const partnerCompetencesRows = await knex('badge-partner-competences')
-    .select('badge-partner-competences.id', 'badge-partner-competences.name', 'badge-partner-competences.color', 'badge-partner-competences.skillIds', 'badge-partner-competences.badgeId')
+    .select('badge-partner-competences.id', 'badge-partner-competences.name', 'badge-partner-competences.skillIds', 'badge-partner-competences.badgeId')
     .whereIn('badge-partner-competences.badgeId', badgeIds);
 
   const partnerCompetencesRowsByBadgeId = _.groupBy(partnerCompetencesRows, 'badgeId');

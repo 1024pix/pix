@@ -23,7 +23,6 @@ describe('Unit | Domain | Read-Models | ParticipantResults | PartnerCompetenceRe
     expect(partnerCompetenceResult).to.deep.equal({
       id: 'rec1',
       name: 'C1',
-      color: 'Couleur1',
       testedSkillsCount: 2,
       totalSkillsCount: 3,
       validatedSkillsCount: 1,

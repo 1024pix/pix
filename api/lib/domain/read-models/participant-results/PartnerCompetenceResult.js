@@ -4,7 +4,6 @@ class PartnerCompetenceResult {
     const validatedSkillsCount = knowledgeElements.filter(({ isValidated }) => isValidated).length;
 
     this.id = competence.id;
-    this.color = competence.color;
     this.name = competence.name;
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = knowledgeElements.length;

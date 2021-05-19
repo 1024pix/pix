@@ -131,7 +131,6 @@ describe('Integration | Repository | Badge Acquisition', () => {
         {
           id: badgePartnerCompetence.id,
           name: badgePartnerCompetence.name,
-          color: badgePartnerCompetence.color,
           skillIds: badgePartnerCompetence.skillIds,
         },
       ];
