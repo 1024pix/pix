@@ -1,32 +1,34 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const {
+  expect,
+  sinon,
+  domainBuilder,
+} = require('../../../test-helper');
 
 const tagController = require('../../../../lib/application/tags/tag-controller');
-
 const usecases = require('../../../../lib/domain/usecases');
-
 const tagSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tag-serializer');
 
 describe('Unit | Application | Tags | tag-controller', () => {
 
-  describe('#findAllOrganizationsTags', () => {
+  describe('#findAllTags', () => {
 
-    it('should call findAllOrganizationsTags usecase and tag serializer', async () => {
+    it('should call findAllTags usecase and tag serializer', async () => {
       // given
       const tag1 = domainBuilder.buildTag({ id: 1, name: 'TAG1' });
       const tag2 = domainBuilder.buildTag({ id: 2, name: 'TAG2' });
       const tag3 = domainBuilder.buildTag({ id: 3, name: 'TAG3' });
 
-      const allOrganizationTags = [ tag1, tag2, tag3 ];
+      const tags = [ tag1, tag2, tag3 ];
 
-      sinon.stub(usecases, 'findAllOrganizationsTags').resolves(allOrganizationTags);
+      sinon.stub(usecases, 'findAllTags').resolves(tags);
       sinon.stub(tagSerializer, 'serialize').resolves();
 
       // when
-      await tagController.findAllOrganizationsTags();
+      await tagController.findAllTags();
 
       // then
-      expect(usecases.findAllOrganizationsTags).to.have.been.called;
-      expect(tagSerializer.serialize).to.have.been.calledWithExactly(allOrganizationTags);
+      expect(usecases.findAllTags).to.have.been.calledOnce;
+      expect(tagSerializer.serialize).to.have.been.calledWithExactly(tags);
     });
 
   });

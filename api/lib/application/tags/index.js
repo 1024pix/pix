@@ -1,15 +1,20 @@
+const securityPreHandlers = require('../security-pre-handlers');
 const tagController = require('./tag-controller');
 
 exports.register = async (server) => {
   server.route([
     {
       method: 'GET',
-      path: '/api/tags',
+      path: '/api/admin/tags',
       config: {
-        handler: tagController.findAllOrganizationsTags,
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: tagController.findAllTags,
         notes: [
-          '- ** Cette route est accessible aux utilisateurs Pix authentifiés \n' +
-          '- ** Récupère la liste de tout les tags.',
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Renvoie tous les tags.',
         ],
         tags: ['api', 'tags'],
       },
