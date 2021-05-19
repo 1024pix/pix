@@ -22,7 +22,7 @@ describe('Acceptance | Timed challenge', () => {
         timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
 
         // when
-        await visit(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
+        await visit(`/assessments/${assessment.id}/challenges/`);
       });
 
       it('should hide the challenge statement', async () => {
@@ -44,7 +44,7 @@ describe('Acceptance | Timed challenge', () => {
           timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
 
           // when
-          await visit(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
+          await visit(`/assessments/${assessment.id}/challenges/`);
           await click('.timed-challenge-instructions button');
         });
 
@@ -75,7 +75,7 @@ describe('Acceptance | Timed challenge', () => {
           });
 
           // when
-          await visit(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
+          await visit(`/assessments/${assessment.id}/challenges/`);
         });
 
         it('should hide the warning button', () => {
@@ -105,7 +105,7 @@ describe('Acceptance | Timed challenge', () => {
 
     it('should display the challenge statement', async () => {
       // when
-      await visit(`/assessments/${assessment.id}/challenges/${notTimedChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/`);
 
       // then
       expect(find('.challenge-statement')).to.exist;

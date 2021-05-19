@@ -19,7 +19,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
   describe('When challenge is not already answered', () => {
     beforeEach(async () => {
       // when
-      await visit(`/assessments/${assessment.id}/challenges/${qcmChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges`);
     });
 
     it('should render challenge information and question', () => {

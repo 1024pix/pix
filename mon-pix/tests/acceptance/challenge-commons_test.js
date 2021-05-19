@@ -19,7 +19,7 @@ describe('Acceptance | Common behavior to all challenges', function() {
       const challenge = server.create('challenge', 'forCompetenceEvaluation');
       const answer = server.create('answer', 'skipped', { assessment, challenge });
 
-      await visit(`/assessments/${answer.assessmentId}/challenges/${answer.challengeId}`);
+      await visit(`/assessments/${answer.assessmentId}/challenges`);
     });
 
     it('should display the lock overlay', function() {
@@ -30,7 +30,6 @@ describe('Acceptance | Common behavior to all challenges', function() {
       expect(find('.challenge-actions__action-continue')).to.exist;
       expect(find('.challenge-actions__already-answered')).to.exist;
     });
-
   });
 
   context('Challenge not answered', function() {
@@ -42,7 +41,7 @@ describe('Acceptance | Common behavior to all challenges', function() {
       await authenticateByEmail(user);
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCM', { instruction: 'Instruction [lien](http://www.a.link.example.url)' });
-      await visit(`/assessments/${assessment.id}/challenges/${challenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges`);
     });
 
     it('should display the name of the test', async function() {
@@ -98,7 +97,7 @@ describe('Acceptance | Common behavior to all challenges', function() {
       await authenticateByEmail(user);
 
       // when
-      await visit(`/assessments/${assessment.id}/challenges/${challenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/`);
 
       // then
       expect(find('.assessment-banner__home-link')).to.not.exist;
