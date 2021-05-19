@@ -35,7 +35,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
   beforeEach(function() {
     // define stubs
     createRecordStub = sinon.stub();
-    queryRecordStub = sinon.stub();
+    queryRecordStub = sinon.stub().resolves(model.challenge);
     findRecordStub = sinon.stub();
     storeStub = EmberService.create({
       createRecord: createRecordStub,
@@ -47,7 +47,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
     currentUserStub = { user: { firstName: 'John', lastname: 'Doe' } };
     route.currentUser = currentUserStub;
     route.store = storeStub;
-    route.transitionTo = sinon.stub();
+    route.replaceWith = sinon.stub();
     route.modelFor = sinon.stub().returns(assessment);
   });
 
@@ -58,7 +58,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
 
       // then
       sinon.assert.calledWith(route.modelFor, 'assessments');
-      sinon.assert.calledWith(findRecordStub, 'challenge', params.challenge_id);
+      sinon.assert.calledWith(queryRecordStub, 'challenge', { assessmentId: assessment.id });
     });
     it('should call queryRecord to find answer', async function() {
       // given
@@ -69,10 +69,9 @@ describe('Unit | Route | Assessments | Challenge', function() {
       await route.model(params);
 
       // then
-      sinon.assert.calledOnce(queryRecordStub);
       sinon.assert.calledWith(queryRecordStub, 'answer', {
         assessmentId: assessment.id,
-        challengeId: params.challenge_id,
+        challengeId: model.challenge.id,
       });
     });
   });
@@ -182,7 +181,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
         await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
         // then
-        sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), { queryParams: {} });
+        sinon.assert.calledWithExactly(route.replaceWith, 'assessments.resume', assessment.get('id'), { queryParams: {} });
       });
 
       context('when user has reached a new level', function() {
@@ -206,7 +205,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
           await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
           // then
-          sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), expectedQueryParams);
+          sinon.assert.calledWithExactly(route.replaceWith, 'assessments.resume', assessment.get('id'), expectedQueryParams);
         });
 
         it('should redirect to assessment-resume route without level up information when user is anonymous', async function() {
@@ -219,7 +218,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
           await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
           // then
-          sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), expectedQueryParams);
+          sinon.assert.calledWithExactly(route.replaceWith, 'assessments.resume', assessment.get('id'), expectedQueryParams);
         });
 
         it('should redirect to assessment-resume route without level up information when there is no currentUser', async function() {
@@ -231,7 +230,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
           await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
           // then
-          sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), expectedQueryParams);
+          sinon.assert.calledWithExactly(route.replaceWith, 'assessments.resume', assessment.get('id'), expectedQueryParams);
         });
 
       });

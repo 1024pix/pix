@@ -36,7 +36,6 @@ export default class ResumeRoute extends Route {
 
   _resumeAssessmentWithoutCheckpoint(assessment, nextChallenge) {
     const {
-      nextChallengeId,
       assessmentHasNoMoreQuestions,
       assessmentIsCompleted,
     } = this._parseState(assessment, nextChallenge);
@@ -44,12 +43,11 @@ export default class ResumeRoute extends Route {
     if (assessmentHasNoMoreQuestions || assessmentIsCompleted) {
       return this._rateAssessment(assessment);
     }
-    return this._routeToNextChallenge(assessment, nextChallengeId);
+    return this._routeToNextChallenge(assessment);
   }
 
   _resumeAssessmentWithCheckpoint(assessment, nextChallenge) {
     const {
-      nextChallengeId,
       assessmentHasNoMoreQuestions,
       assessmentIsCompleted,
       userHasSeenCheckpoint,
@@ -69,9 +67,9 @@ export default class ResumeRoute extends Route {
       return this._routeToCheckpoint(assessment);
     }
     if (userHasReachedCheckpoint && userHasSeenCheckpoint) {
-      return this._routeToNextChallenge(assessment, nextChallengeId);
+      return this._routeToNextChallenge(assessment);
     }
-    return this._routeToNextChallenge(assessment, nextChallengeId);
+    return this._routeToNextChallenge(assessment);
   }
 
   _parseState(assessment, nextChallenge) {
@@ -81,21 +79,19 @@ export default class ResumeRoute extends Route {
     const quantityOfAnswersInAssessment = assessment.get('answers.length');
     const userHasReachedCheckpoint = quantityOfAnswersInAssessment > 0 && quantityOfAnswersInAssessment % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS === 0;
 
-    const nextChallengeId = !assessmentHasNoMoreQuestions && nextChallenge.id;
     const assessmentIsCompleted = assessment.isCompleted;
 
     return {
       assessmentHasNoMoreQuestions,
       userHasSeenCheckpoint,
       userHasReachedCheckpoint,
-      nextChallengeId,
       nextChallenge,
       assessmentIsCompleted,
     };
   }
 
-  _routeToNextChallenge(assessment, nextChallengeId) {
-    return this.replaceWith('assessments.challenge', assessment.id, nextChallengeId, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
+  _routeToNextChallenge(assessment) {
+    return this.replaceWith('assessments.challenge', assessment.id, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
   }
 
   async _rateAssessment(assessment) {
