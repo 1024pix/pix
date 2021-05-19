@@ -183,14 +183,14 @@ describe('Acceptance | Certification | Start Certification Course', function() {
 
             it('should be redirected on the first challenge of an assessment', async function() {
               // then
-              expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges/rec`)).to.be.true;
+              expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges`)).to.be.true;
             });
 
             it('should navigate to next challenge when we click pass', async function() {
               // when
               await click('.challenge-actions__action-skip-text');
               // then
-              expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges/rec`)).to.be.true;
+              expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges`)).to.be.true;
             });
 
             context('after skipping the all challenges of the certification course', function() {
@@ -221,7 +221,7 @@ describe('Acceptance | Certification | Start Certification Course', function() {
               await visit(`/certifications/${certificationCourse.id}`);
 
               // then
-              expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges/rec`)).to.be.true;
+              expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges`)).to.be.true;
             });
           });
         });

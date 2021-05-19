@@ -23,7 +23,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         const qrocChallengeWithAutoReply = server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withAutoReply', 'withEmbed');
 
         // when
-        await visit(`/assessments/${assessment.id}/challenges/${qrocChallengeWithAutoReply.id}`);
+        await visit(`/assessments/${assessment.id}/challenges`);
       });
 
       it('should render challenge information and question', () => {
@@ -51,7 +51,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         await click('.challenge-actions__action-validate');
-        expect(currentURL()).to.contains(`/assessments/${assessment.id}/challenges/${qrocChallenge.id}`);
+        expect(currentURL()).to.contains(`/assessments/${assessment.id}/challenges/`);
       });
     });
 
@@ -61,7 +61,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         const qrocChallengeWithAutoReply = server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withEmbed');
 
         // when
-        await visit(`/assessments/${assessment.id}/challenges/${qrocChallengeWithAutoReply.id}`);
+        await visit(`/assessments/${assessment.id}/challenges/`);
       });
 
       it('should display the alert box when user validates without successfully answering', async () => {
@@ -81,7 +81,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
     describe('When challenge is not already answered', () => {
       beforeEach(async () => {
         // when
-        await visit(`/assessments/${assessment.id}/challenges/${qrocChallenge.id}`);
+        await visit(`/assessments/${assessment.id}/challenges/`);
       });
 
       it('should render challenge information and question', () => {
@@ -142,7 +142,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         });
 
         // when
-        await visit(`/assessments/${assessment.id}/challenges/${qrocChallenge.id}`);
+        await visit(`/assessments/${assessment.id}/challenges/`);
       });
 
       it('should set the input value with the current answer and propose to continue', async () => {
@@ -223,7 +223,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         qrocWithFile2Challenge = server.create('challenge', 'forDemo', 'QROCwithFile2');
         assessment = server.create('assessment', 'ofDemoType');
 
-        await visit(`/assessments/${assessment.id}/challenges/${qrocWithFile1Challenge.id}`);
+        await visit(`/assessments/${assessment.id}/challenges/`);
       });
 
       it('should display the correct challenge for first one', async function() {
@@ -258,7 +258,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
     describe('When challenge is not already answered', () => {
       beforeEach(async () => {
         // when
-        await visit(`/assessments/${assessment.id}/challenges/${qrocChallenge.id}`);
+        await visit(`/assessments/${assessment.id}/challenges/`);
       });
 
       it('should render challenge information and question', () => {
@@ -318,7 +318,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         });
 
         // when
-        await visit(`/assessments/${assessment.id}/challenges/${qrocChallenge.id}`);
+        await visit(`/assessments/${assessment.id}/challenges/`);
       });
 
       it('should set the input value with the current answer and propose to continue', async () => {

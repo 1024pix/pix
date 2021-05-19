@@ -19,7 +19,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
   describe('When challenge is not already answered', () => {
     beforeEach(async () => {
       // when
-      await visit(`/assessments/${assessment.id}/challenges/${qrocmDepChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/`);
     });
 
     it('should render challenge information and question', () => {
@@ -82,7 +82,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       });
 
       // when
-      await visit(`/assessments/${assessment.id}/challenges/${qrocmDepChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/`);
     });
 
     it('should set the input text with previous answers and propose to continue', async () => {

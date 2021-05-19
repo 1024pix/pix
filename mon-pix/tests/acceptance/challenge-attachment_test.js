@@ -1,4 +1,4 @@
-import { find } from '@ember/test-helpers';
+import { find, click } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import visit from '../helpers/visit';
@@ -21,7 +21,7 @@ describe('Acceptance | Download an attachment from a challenge', function() {
   describe('When the challenge has an attachment', function() {
 
     beforeEach(async function() {
-      await visit(`/assessments/${assessment.id}/challenges/${challengeWithAttachment.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/`);
     });
 
     it('should have a way to download the attachment', function() {
@@ -42,7 +42,8 @@ describe('Acceptance | Download an attachment from a challenge', function() {
   describe('When the challenge does not contain an attachment', function() {
 
     beforeEach(async function() {
-      await visit(`/assessments/${assessment.id}/challenges/${challengeWithNoAttachment.id}`);
+      await visit(`/assessments/${assessment.id}/challenges`);
+      await click('.challenge-actions__action-skip-text');
     });
 
     it('should hide the download section for the attachment', function() {

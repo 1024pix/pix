@@ -50,7 +50,7 @@ describe('Acceptance | Campaigns | Simplified access | Anonymous user access to 
         expect(currentSession(this.application).get('isAuthenticated')).to.be.true;
 
         // when
-        const CHALLENGE_ROUTE = `/assessments/${ID_ASSESSMENT}/challenges/${CODE_CHALLENGE}`;
+        const CHALLENGE_ROUTE = `/assessments/${ID_ASSESSMENT}/challenges/`;
         await visit(`${CHALLENGE_ROUTE}`);
         // then
         expect(currentURL()).to.equal(CHALLENGE_ROUTE);
