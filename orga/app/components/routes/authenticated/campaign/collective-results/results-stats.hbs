@@ -1,0 +1,28 @@
+<div class="panel participant-row participant-row__result">
+  <div class="participant-results-content__summary">
+    <div class="participant-content participant-content--large participant-content--wide">
+      <div class="label-text participant-content__label-text">{{t 'pages.campaign-collective-results.table.column.validated-items'}}</div>
+      <div class="content-text content-text--big">
+        {{ @validatedSkills }}
+      </div>
+    </div>
+    <div class="participant-content participant-content--large participant-content--wide">
+      <div class="label-text participant-content__label-text">{{t 'pages.campaign-collective-results.table.column.tested-items'}}</div>
+      <div class="content-text content-text--big">
+        {{ @totalSkills }}
+      </div>
+    </div>
+  </div>
+  <div class="participant-content participant-results-content">
+    <div aria-label={{t 'pages.campaign-collective-results.average'}} class="participant-results-content__score">
+      <div class="content-text content-text--big content-text--bold">{{t 'pages.campaign-collective-results.result'}}</div>
+      <div class="participant-results-content__circle-chart">
+        <CircleChart @value={{ @averageResult }}>
+          <span class="participant-results-content__circle-chart-value">
+            {{ @averageResult }}%
+          </span>
+        </CircleChart>
+      </div>
+    </div>
+  </div>
+</div>

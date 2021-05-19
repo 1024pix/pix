@@ -5,11 +5,29 @@
   justify-content: space-between;
   margin-bottom: 8px;
 
+  &__stars {
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &--loader {
+      height: 20px;
+      min-width: 100px;
+    }
+  }
+
   &__values {
     color: $grey-50;
     font-size: 0.75rem;
     min-width: 140px;
     margin-left: 32px;
+
+    &--loader {
+      height: 20px;
+      min-width: 100px;
+      margin: 0 16px;
+    }
   }
 
   &__tooltip {
@@ -26,6 +44,11 @@
     width: 100%;
     display: flex;
     align-items: center;
+
+    &--loader {
+      flex-grow: 1;
+      height: 20px;
+    }
   }
 
   &__bar {

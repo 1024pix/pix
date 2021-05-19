@@ -8,6 +8,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const moduleUnderTest = require('../../../../lib/application/campaigns');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
+const campaignStatsController = require('../../../../lib/application/campaigns/campaign-stats-controller');
 
 describe('Unit | Application | Router | campaign-router ', function() {
 
@@ -27,6 +28,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
     sinon.stub(campaignController, 'findProfilesCollectionParticipations').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'findAssessmentParticipations').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'division').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(campaignStatsController, 'getParticipationsByStage').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
@@ -447,6 +449,25 @@ describe('Unit | Application | Router | campaign-router ', function() {
     it('should return 400 with an invalid campaign id', async () => {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/invalid/divisions');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+  });
+
+  describe('GET /api/campaigns/{id}/stats/participations-by-stage', () => {
+
+    it('should return 200', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/stats/participations-by-stage');
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 400 with an invalid campaign id', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/invalid/stats/participations-by-stage');
 
       // then
       expect(result.statusCode).to.equal(400);

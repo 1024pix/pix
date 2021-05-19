@@ -736,6 +736,60 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
+  describe('getStageSkillsBoundaries()', () => {
+    it('should return skill count boundaries for all stages', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill();
+      const skill2 = domainBuilder.buildTargetedSkill();
+      const skill3 = domainBuilder.buildTargetedSkill();
+
+      const stage1 = domainBuilder.buildStage({ id: 'stage1', threshold: 40 });
+      const stage2 = domainBuilder.buildStage({ id: 'stage2', threshold: 70 });
+      const stage3 = domainBuilder.buildStage({ id: 'stage3', threshold: 90 });
+
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2, skill3],
+        stages: [stage1, stage2, stage3],
+      });
+
+      // when
+      const skillCountBoundaries = targetProfile.getStageSkillsBoundaries();
+
+      // then
+      expect(skillCountBoundaries).to.deep.equal([
+        { id: 'stage1', from: 1, to: 1 },
+        { id: 'stage2', from: 2, to: 2 },
+        { id: 'stage3', from: 3, to: 3 },
+      ]);
+    });
+
+    it('should return skill count boundaries with a stage threshold 0', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill();
+      const skill2 = domainBuilder.buildTargetedSkill();
+      const skill3 = domainBuilder.buildTargetedSkill();
+
+      const stage1 = domainBuilder.buildStage({ id: 'stage1', threshold: 0 });
+      const stage2 = domainBuilder.buildStage({ id: 'stage2', threshold: 20 });
+      const stage3 = domainBuilder.buildStage({ id: 'stage3', threshold: 90 });
+
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2, skill3],
+        stages: [stage1, stage2, stage3],
+      });
+
+      // when
+      const skillCountBoundaries = targetProfile.getStageSkillsBoundaries();
+
+      // then
+      expect(skillCountBoundaries).to.deep.equal([
+        { id: 'stage1', from: 0, to: 0 },
+        { id: 'stage2', from: 1, to: 1 },
+        { id: 'stage3', from: 2, to: 3 },
+      ]);
+    });
+  });
+
   describe('getSkillsCountBoundariesFromStages()', () => {
 
     it('should return skill count boundary for the given stage id', () => {
@@ -761,7 +815,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
 
       // then
       expect(skillCountBoundaries).to.deep.equal([
-        { from: 2, to: 3 },
+        { id: 'stage2', from: 2, to: 3 },
       ]);
     });
 
@@ -788,8 +842,8 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
 
       // then
       expect(skillCountBoundaries).to.deep.equal([
-        { from: 0, to: 1 },
-        { from: 2, to: 3 },
+        { id: 'stage1', from: 0, to: 1 },
+        { id: 'stage2', from: 2, to: 3 },
       ]);
     });
 
@@ -816,7 +870,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
 
       // then
       expect(skillCountBoundaries).to.deep.equal([
-        { from: 4, to: 6 },
+        { id: 'stage3', from: 4, to: 6 },
       ]);
     });
 
