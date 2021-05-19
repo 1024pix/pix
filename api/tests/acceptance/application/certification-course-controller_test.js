@@ -621,6 +621,29 @@ describe('Acceptance | API | Certification Course', () => {
                 },
               ],
             },
+            {
+              id: 'recCompetence5',
+              tubes: [{
+                id: 'recTube0_0',
+                skills: [
+                  {
+                    id: 'recSkill5_0',
+                    nom: '@recSkill5_0',
+                    challenges: [
+                      { id: 'recChallenge5_0_0', langues: ['Franco Français'] },
+                      { id: 'recChallenge5_0_1' },
+                    ],
+                  },
+                  {
+                    id: 'recSkill5_1',
+                    nom: '@recSkill5_1',
+                    challenges: [
+                      { id: 'recChallenge5_1_1', langues: ['Franco Français'] },
+                    ],
+                  },
+                ],
+              }],
+            },
           ],
         },
       ];
@@ -669,6 +692,14 @@ describe('Acceptance | API | Certification Course', () => {
         expect(certificationCourses[0].birthdate).to.equal(certificationCandidate.birthdate);
         expect(certificationCourses[0].birthplace).to.equal(certificationCandidate.birthCity);
         expect(certificationCourses[0].externalId).to.equal(certificationCandidate.externalId);
+      });
+
+      it('should have only fr-fr challenges associated with certification-course', async () => {
+        // then
+        const certificationChallenges = await knex('certification-challenges');
+        expect(certificationChallenges.length).to.equal(2);
+        expect(certificationChallenges[0].challengeId).to.equal('recChallenge5_1_1');
+        expect(certificationChallenges[1].challengeId).to.equal('recChallenge5_0_0');
       });
 
     });
