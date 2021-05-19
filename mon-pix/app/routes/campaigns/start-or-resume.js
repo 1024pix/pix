@@ -83,10 +83,12 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       await this._createCampaignParticipation(campaign);
     }
 
-    if (campaign.isProfilesCollection) {
-      this.replaceWith('campaigns.profiles-collection.start-or-resume', campaign);
-    } else {
-      return this.replaceWith('campaigns.assessment.start-or-resume', campaign);
+    if (this.state.doesUserHaveOngoingParticipation) {
+      if (campaign.isProfilesCollection) {
+        this.replaceWith('campaigns.profiles-collection.start-or-resume', campaign);
+      } else {
+        return this.replaceWith('campaigns.assessment.start-or-resume', campaign);
+      }
     }
   }
 
@@ -146,14 +148,23 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   async _createCampaignParticipation(campaign) {
+    const campaignParticipation = this.store.createRecord('campaign-participation', { campaign, participantExternalId: this.state.participantExternalId });
+
     try {
-      const campaignParticipation = await this.store.createRecord('campaign-participation', { campaign, participantExternalId: this.state.participantExternalId }).save();
+      await campaignParticipation.save();
       this._updateStateFrom({ ongoingCampaignParticipation: campaignParticipation });
     } catch (err) {
-      if (get(err, 'errors[0].status') === 403) {
+      const error = get(err, 'errors[0]', {});
+      campaignParticipation.deleteRecord();
+
+      if (error.status == 403) {
         this.session.invalidate();
+
         return this.transitionTo('campaigns.start-or-resume', campaign);
+      } else if (error.status == 400 && error.detail.includes('participant-external-id')) {
+        return this.replaceWith('campaigns.fill-in-participant-external-id', campaign);
       }
+
       return this.send('error', err, this.transitionTo('campaigns.start-or-resume'));
     }
   }

@@ -258,6 +258,19 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           });
         });
 
+        context('When participant external id exceeds 255 characters', function() {
+          beforeEach(async function() {
+            const externalId256Characters = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
+            campaign = server.create('campaign', { isRestricted: false, idPixLabel: 'toto', type: ASSESSMENT });
+            await startCampaignByCodeAndExternalId(campaign.code, externalId256Characters);
+          });
+
+          it('should redirect to fill in external participant id page', async function() {
+            // then
+            expect(currentURL()).to.contains('/identifiant');
+          });
+        });
+
         context('When participant external id is set in the url', function() {
           beforeEach(async function() {
             campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman', type: ASSESSMENT });

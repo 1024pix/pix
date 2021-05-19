@@ -7,8 +7,8 @@ export async function startCampaignByCode(campaignCode) {
   await click('.campaign-landing-page__start-button');
 }
 
-export async function startCampaignByCodeAndExternalId(campaignCode) {
-  await visit(`/campagnes/${campaignCode}?participantExternalId=a73at01r3`);
+export async function startCampaignByCodeAndExternalId(campaignCode, externalId = 'a73at01r3') {
+  await visit(`/campagnes/${campaignCode}?participantExternalId=${externalId}`);
   await click('.campaign-landing-page__start-button');
 }
 

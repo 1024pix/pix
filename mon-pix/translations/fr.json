@@ -675,6 +675,7 @@
         "continue": "Continuer"
       },
       "errors": {
+        "max-length-id-pix-label": "Votre { idPixLabel } ne doit pas dépasser les 255 caractères.",
         "missing-id-pix-label": "Merci de renseigner votre { idPixLabel }."
       },
       "first-title": "Avant de commencer"

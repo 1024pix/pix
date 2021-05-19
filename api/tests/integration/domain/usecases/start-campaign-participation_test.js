@@ -4,6 +4,7 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const campaignToJoinRepository = require('../../../../lib/infrastructure/repositories/campaign-to-join-repository');
+const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Integration | UseCases | start-campaign-participation', () => {
 
@@ -82,5 +83,22 @@ describe('Integration | UseCases | start-campaign-participation', () => {
     expect(campaignParticipations).to.have.lengthOf(0);
     const assessments = await knex('assessments');
     expect(assessments).to.have.lengthOf(0);
+  });
+
+  it('should throw an error and not create anything when campaign has idPixLabel and no participantExternalId', async () => {
+    // given
+    campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', idPixLabel: 'toto', creatorId: userId, organizationId, targetProfileId }).id;
+    await databaseBuilder.commit();
+    const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, participantExternalId: null });
+
+    // when
+    const error = await catchErr(startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository });
+
+    // then
+    const campaignParticipations = await knex('campaign-participations');
+    expect(campaignParticipations).to.have.lengthOf(0);
+    const assessments = await knex('assessments');
+    expect(assessments).to.have.lengthOf(0);
+    expect(error).to.be.instanceOf(EntityValidationError);
   });
 });
