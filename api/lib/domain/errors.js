@@ -411,6 +411,12 @@ class ChallengeAlreadyAnsweredError extends DomainError {
   }
 }
 
+class ChallengeNotAskedError extends DomainError {
+  constructor(message = 'La question à laquelle vous essayez de répondre ne vous a pas été proposée.') {
+    super(message);
+  }
+}
+
 class ChallengeToBeNeutralizedNotFoundError extends DomainError {
   constructor() {
     super('La question à neutraliser n\'a pas été posée lors du test de certification');
@@ -841,6 +847,7 @@ module.exports = {
   CertificationCourseNotPublishableError,
   CertificationCourseUpdateError,
   ChallengeAlreadyAnsweredError,
+  ChallengeNotAskedError,
   ChallengeToBeNeutralizedNotFoundError,
   ChallengeToBeDeneutralizedNotFoundError,
   CompetenceResetError,
