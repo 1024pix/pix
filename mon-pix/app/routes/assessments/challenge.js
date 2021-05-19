@@ -6,12 +6,19 @@ import { inject as service } from '@ember/service';
 export default class ChallengeRoute extends Route {
   @service currentUser;
 
-  async model() {
+  async model(params) {
     const store = this.store;
 
     const assessment = await this.modelFor('assessments');
     await assessment.certificationCourse;
-    const challenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
+    let challenge;
+
+    if (assessment.isPreview) {
+      challenge = await this.store.findRecord('challenge', params.challengeId);
+    }
+    else {
+      challenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
+    }
 
     return RSVP.hash({
       assessment,
@@ -23,6 +30,7 @@ export default class ChallengeRoute extends Route {
         return this.transitionTo('index');
       }
     });
+
   }
 
   serialize(model) {
