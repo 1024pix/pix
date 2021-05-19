@@ -5,8 +5,8 @@ module.exports = function buildStage({
   title = 'Courage',
   message = 'Insister',
   threshold = 1,
-  prescriberTitle,
-  prescriberDescription,
+  prescriberTitle = null,
+  prescriberDescription = null,
 } = {}) {
 
   return new Stage({
