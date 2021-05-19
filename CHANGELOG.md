@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.57.0 (19/05/2021)
+
+- [#2990](https://github.com/1024pix/pix/pull/2990) [FEATURE] Ajout d'un wording pour l'étudiant dans la page de réconciliation SUP (PIX-2547).
+- [#3013](https://github.com/1024pix/pix/pull/3013) [FEATURE] Correctif graphique de la progress bar dans l'onglet Résultats par compétence (PIX-2553).
+- [#3012](https://github.com/1024pix/pix/pull/3012) [BUGFIX] Le taux de repro est incorrect après une neutralisation sur la page de détails d'une certification dans PixAdmin (PIX-2599)
+- [#2995](https://github.com/1024pix/pix/pull/2995) [BUGFIX] Rendre la finalisation de session idempotente (PIX-2580)
+- [#3011](https://github.com/1024pix/pix/pull/3011) [BUGFIX] Homogéneiser des incohérences de clé json pour les ids de compétence lors de la modification jury (PIX-2594)
+- [#2975](https://github.com/1024pix/pix/pull/2975) [BUGFIX] Correction de l'erreur Ember "Cannot read property 'targetName' of undefined"
+- [#2998](https://github.com/1024pix/pix/pull/2998) [BUGFIX] Ajouter la méthode de connexion au GAR même quand l'utilisateur doit changer son mot de passe (PIX-2345).
+- [#3001](https://github.com/1024pix/pix/pull/3001) [TECH] Déplacer la vérification du paramètre state dans l'API lors des requêtes Pole Emploi (PIX-2597).
+- [#3014](https://github.com/1024pix/pix/pull/3014) [TECH] Supprimer la colonne color des BadgePartnerCompetences (PIX-2523).
+- [#3009](https://github.com/1024pix/pix/pull/3009) [FIX] Afficher un message lorsque l'external id dépasse la limité autorisé (PIX-2505)
+- [#2997](https://github.com/1024pix/pix/pull/2997) [INFRA] Loguer les traces d'erreurs dont le code est 500 ou plus en dev
+
 ## v3.56.0 (12/05/2021)
 
 - [#3004](https://github.com/1024pix/pix/pull/3004) [HOTFIX] Merge du hotfix v3.54.1
