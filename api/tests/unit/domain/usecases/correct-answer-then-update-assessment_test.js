@@ -5,7 +5,7 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const correctAnswerThenUpdateAssessment = require('../../../../lib/domain/usecases/correct-answer-then-update-assessment');
 
-const { ChallengeAlreadyAnsweredError, NotFoundError, ForbiddenAccess } = require('../../../../lib/domain/errors');
+const { ChallengeAlreadyAnsweredError, ChallengeNotAskedError, NotFoundError, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const dateUtils = require('../../../../lib/infrastructure/utils/date-utils');
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', () => {
@@ -48,8 +48,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
     sinon.stub(dateUtils, 'getNowDate');
 
+    const challengeId = 'oneChallengeId';
     assessment = domainBuilder.buildAssessment({ userId, lastQuestionDate: nowDate });
-    answer = domainBuilder.buildAnswer({ assessmentId: assessment.id, value: correctAnswerValue });
+    answer = domainBuilder.buildAnswer({ assessmentId: assessment.id, value: correctAnswerValue, challengeId });
     answer.id = undefined;
     answer.result = undefined;
     answer.resultDetails = undefined;
@@ -86,6 +87,34 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
       // then
       return expect(error).to.be.an.instanceOf(ChallengeAlreadyAnsweredError);
+    });
+  });
+
+  context('when an answer for that challenge is not for an asked challenge', () => {
+
+    beforeEach(() => {
+      // given
+      assessment.type = Assessment.types.CERTIFICATION;
+      assessment.lastChallengeId = 'anotherChallenge';
+      assessmentRepository.get.resolves(assessment);
+      answerRepository.findByChallengeAndAssessment.withArgs({ assessmentId: assessment.id, challengeId: challenge.id }).resolves(true);
+    });
+
+    it('should fail because Challenge Not Asked', async () => {
+      // when
+      const error = await catchErr(correctAnswerThenUpdateAssessment)({
+        answer,
+        userId,
+        answerRepository,
+        assessmentRepository,
+        challengeRepository,
+        targetProfileRepository,
+        knowledgeElementRepository,
+        scorecardService,
+      });
+
+      // then
+      return expect(error).to.be.an.instanceOf(ChallengeNotAskedError);
     });
   });
 
