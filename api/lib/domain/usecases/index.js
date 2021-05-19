@@ -161,7 +161,7 @@ module.exports = injectDependencies({
   dissociateSchoolingRegistrations: require('./dissociate-schooling-registrations'),
   enrollStudentsToSession: require('./enroll-students-to-session'),
   finalizeSession: require('./finalize-session'),
-  findAllOrganizationsTags: require('./find-all-organizations-tags'),
+  findAllTags: require('./find-all-tags'),
   findAnswerByAssessment: require('./find-answer-by-assessment'),
   findAnswerByChallengeAndAssessment: require('./find-answer-by-challenge-and-assessment'),
   findAssociationBetweenUserAndSchoolingRegistration: require('./find-association-between-user-and-schooling-registration'),

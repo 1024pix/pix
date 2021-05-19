@@ -3,8 +3,8 @@ const usecases = require('../../domain/usecases');
 
 module.exports = {
 
-  async findAllOrganizationsTags() {
-    const organizationsTags = await usecases.findAllOrganizationsTags();
+  async findAllTags() {
+    const organizationsTags = await usecases.findAllTags();
     return tagSerializer.serialize(organizationsTags);
   },
 

@@ -70,28 +70,20 @@ describe('Integration | Repository | TagRepository', () => {
 
     it('should return all the tags', async () => {
       // given
-      const tagNameA = 'PUBLIC';
-      databaseBuilder.factory.buildTag({ id: 100000, name: tagNameA });
-      const tagNameB = 'PRIVE';
-      databaseBuilder.factory.buildTag({ id: 100001, name: tagNameB });
+      const tag1 = new Tag({ id: 100000, name: 'PUBLIC' });
+      const tag2 = new Tag({ id: 100001, name: 'PRIVE' });
+
+      databaseBuilder.factory.buildTag(tag1);
+      databaseBuilder.factory.buildTag(tag2);
       await databaseBuilder.commit();
-      const expectedResult = [
-        {
-          'id': 100000,
-          'name': 'PUBLIC',
-        },
-        {
-          'id': 100001,
-          'name': 'PRIVE',
-        },
-      ];
+
+      const expectedResult = [tag1, tag2];
 
       // when
       const result = await tagRepository.findAll();
 
       // then
       expect(result).to.be.deep.equal(expectedResult);
-      expect(result[0]).to.be.instanceOf(Tag);
     });
   });
 

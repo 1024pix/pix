@@ -6,22 +6,24 @@ const {
 } = require('../../../test-helper');
 
 const moduleUnderTest = require('../../../../lib/application/tags');
-
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const tagController = require('../../../../lib/application/tags/tag-controller');
 
 describe('Unit | Application | Router | tag-router', () => {
 
   it('return a response with an http status code OK', async () => {
     // given
-    const tag1 = domainBuilder.buildTag({ name: 'TAG1' });
-    const tag2 = domainBuilder.buildTag({ name: 'TAG2' });
-    const tag3 = domainBuilder.buildTag({ name: 'TAG3' });
-    const allOrganizationsTags = [tag1, tag2, tag3];
+    const tags = [
+      domainBuilder.buildTag({ name: 'TAG1' }),
+      domainBuilder.buildTag({ name: 'TAG2' }),
+      domainBuilder.buildTag({ name: 'TAG3' }),
+    ];
 
     const method = 'GET';
-    const url = '/api/tags';
+    const url = '/api/admin/tags';
 
-    sinon.stub(tagController, 'findAllOrganizationsTags').returns(allOrganizationsTags);
+    sinon.stub(tagController, 'findAllTags').returns(tags);
+    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
     const httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
 
@@ -30,7 +32,7 @@ describe('Unit | Application | Router | tag-router', () => {
 
     // then
     expect(response.statusCode).to.equal(200);
-    sinon.assert.calledOnce(tagController.findAllOrganizationsTags);
+    sinon.assert.calledOnce(tagController.findAllTags);
   });
 
 });
