@@ -93,30 +93,35 @@ module.exports = {
 
 async function _getChallenge(assessment, request) {
   const locale = extractLocaleFromRequest(request);
-
+  let challenge;
   if (assessment.isStarted()) {
     await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
   }
 
   if (assessment.isPreview()) {
-    return usecases.getNextChallengeForPreview({});
+    challenge = await usecases.getNextChallengeForPreview({});
   }
 
   if (assessment.isCertification()) {
-    return usecases.getNextChallengeForCertification({ assessment });
+    challenge = await usecases.getNextChallengeForCertification({ assessment });
   }
 
   if (assessment.isDemo()) {
-    return usecases.getNextChallengeForDemo({ assessment });
+    challenge = await usecases.getNextChallengeForDemo({ assessment });
   }
 
   if (assessment.isForCampaign()) {
     const tryImproving = Boolean(request.query.tryImproving);
-    return usecases.getNextChallengeForCampaignAssessment({ assessment, tryImproving, locale });
+    challenge = await usecases.getNextChallengeForCampaignAssessment({ assessment, tryImproving, locale });
   }
 
   if (assessment.isCompetenceEvaluation()) {
     const userId = extractUserIdFromRequest(request);
-    return usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
+    challenge = await usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
   }
+  if (challenge) {
+    await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challenge.id });
+  }
+
+  return challenge;
 }
