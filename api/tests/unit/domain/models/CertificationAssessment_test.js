@@ -284,9 +284,9 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
     });
   });
 
-  describe('#findAnswersForCertifiableBadgeKey', () => {
+  describe('#findAnswersAndChallengesForCertifiableBadgeKey', () => {
 
-    it('returns the answers for a certifiableBadgeKey', () => {
+    it('returns the answers and challenges for a certifiableBadgeKey', () => {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_1' });
       const certificationChallenge2 = domainBuilder.buildCertificationChallenge({ challengeId: 'chal2', certifiableBadgeKey: 'BADGE_2' });
@@ -303,13 +303,14 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       });
 
       // when
-      const answersByCertifiableBadgeKey = certificationAssessment.findAnswersForCertifiableBadgeKey('BADGE_1');
+      const { certificationChallenges, certificationAnswers } = certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey('BADGE_1');
 
       // then
-      expect(answersByCertifiableBadgeKey).to.deep.equals([certificationAnswer1, certificationAnswer3]);
+      expect(certificationAnswers).to.deep.equals([certificationAnswer1, certificationAnswer3]);
+      expect(certificationChallenges).to.deep.equals([certificationChallenge1, certificationChallenge3]);
     });
 
-    it('returns an empty array if there are no answers for given key', () => {
+    it('returns empty arrays if there are no answers nor challenges for given key', () => {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_1' });
       const certificationAnswer1 = domainBuilder.buildAnswer({ challengeId: 'chal1' });
@@ -320,10 +321,11 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       });
 
       // when
-      const answersByCertifiableBadgeKey = certificationAssessment.findAnswersForCertifiableBadgeKey('BADGE_TOTO');
+      const { certificationChallenges, certificationAnswers } = certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey('BADGE_TOTO');
 
       // then
-      expect(answersByCertifiableBadgeKey).to.be.empty;
+      expect(certificationAnswers).to.be.empty;
+      expect(certificationChallenges).to.be.empty;
     });
   });
 

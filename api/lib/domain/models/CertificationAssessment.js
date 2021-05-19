@@ -77,10 +77,14 @@ class CertificationAssessment {
       .value();
   }
 
-  findAnswersForCertifiableBadgeKey(certifiableBadgeKey) {
+  findAnswersAndChallengesForCertifiableBadgeKey(certifiableBadgeKey) {
     const certificationChallengesForBadge = _.filter(this.certificationChallenges, { certifiableBadgeKey });
     const challengeIds = _.map(certificationChallengesForBadge, 'challengeId');
-    return _.filter(this.certificationAnswersByDate, ({ challengeId }) => _.includes(challengeIds, challengeId));
+    const answersForBadge = _.filter(this.certificationAnswersByDate, ({ challengeId }) => _.includes(challengeIds, challengeId));
+    return {
+      certificationChallenges: certificationChallengesForBadge,
+      certificationAnswers: answersForBadge,
+    };
   }
 
   isCompleted() {

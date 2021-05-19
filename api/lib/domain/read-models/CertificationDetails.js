@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 
 class CertificationDetails {
@@ -29,7 +30,14 @@ class CertificationDetails {
     competenceMarks,
     placementProfile,
   }) {
-    const reproducibilityRate = ReproducibilityRate.fromAnswers({ answers: certificationAssessment.certificationAnswersByDate });
+    const answerCollection = AnswerCollectionForScoring.from({
+      answers: certificationAssessment.certificationAnswersByDate,
+      challenges: certificationAssessment.certificationChallenges,
+    });
+    const reproducibilityRate = ReproducibilityRate.from({
+      numberOfNonNeutralizedChallenges: answerCollection.numberOfNonNeutralizedChallenges(),
+      numberOfCorrectAnswers: answerCollection.numberOfCorrectAnswers(),
+    });
     const competencesWithMark = _buildCompetencesWithMark({ competenceMarks, placementProfile });
     const listChallengesAndAnswers = _buildListChallengesAndAnswers({ certificationAssessment, competencesWithMark });
 
