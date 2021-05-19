@@ -1,4 +1,4 @@
-import { find } from '@ember/test-helpers';
+import { find, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
