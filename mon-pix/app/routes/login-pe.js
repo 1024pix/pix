@@ -43,16 +43,11 @@ export default class LoginPeRoute extends Route {
   }
 
   async _handleCallbackRequest(code, state) {
-    if (state !== this.session.data.state) {
-      throw new Error('State did not match');
-    }
-
-    this.session.set('data.state', undefined);
-
     try {
       await this.session.authenticate('authenticator:oidc', {
         code,
         redirectUri: this.redirectUri,
+        state,
       });
     } catch (response) {
       const shouldValidateCgu = get(response, 'errors[0].code') === 'SHOULD_VALIDATE_CGU';
@@ -61,6 +56,8 @@ export default class LoginPeRoute extends Route {
         return this.replaceWith('terms-of-service-pe', { queryParams: { authenticationKey } });
       }
       throw new Error(JSON.stringify(response.errors));
+    } finally {
+      this.session.set('data.state', undefined);
     }
   }
 

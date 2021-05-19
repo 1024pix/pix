@@ -59,9 +59,15 @@ module.exports = {
       throw new BadRequestError('This feature is not enable!');
     }
     const authenticatedUserId = get(request.auth, 'credentials.userId');
-    const { code, 'client_id': clientId, 'redirect_uri': redirectUri } = request.payload;
+    const {
+      code,
+      'client_id': clientId,
+      'redirect_uri': redirectUri,
+      'state_sent': stateSent,
+      'state_received': stateReceived,
+    } = request.payload;
 
-    const response = await usecases.authenticatePoleEmploiUser({ code, clientId, redirectUri, authenticatedUserId });
+    const response = await usecases.authenticatePoleEmploiUser({ code, clientId, redirectUri, authenticatedUserId, stateSent, stateReceived });
 
     return h.response(response).code(200);
   },

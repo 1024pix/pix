@@ -148,6 +148,8 @@ exports.register = async (server) => {
             code: Joi.string().required(),
             client_id: Joi.string().required(),
             redirect_uri: Joi.string().required(),
+            state_sent: Joi.string().required(),
+            state_received: Joi.string().required(),
           }),
         },
         handler: AuthenticationController.authenticatePoleEmploiUser,
