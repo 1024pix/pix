@@ -240,7 +240,8 @@ describe('Unit | Route | Assessments | Challenge', function() {
     context('when saving fails', function() {
       it('should remove temporary answer and send error', async function() {
         // given
-        answerToChallengeOne.save = sinon.stub().rejects();
+        const error = { message: 'error' };
+        answerToChallengeOne.save = sinon.stub().rejects(error);
         route.intermediateTransitionTo = sinon.stub().rejects();
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
 
@@ -251,7 +252,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
           })
           .catch(function() {
             sinon.assert.called(answerToChallengeOne.rollbackAttributes);
-            sinon.assert.calledWith(route.intermediateTransitionTo, 'error', undefined);
+            sinon.assert.calledWith(route.intermediateTransitionTo, 'error', error);
           });
       });
     });
