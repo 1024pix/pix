@@ -296,6 +296,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           type: PLACEMENT,
           isImproving: false,
           lastQuestionDate,
+          lastChallengeId: null,
           campaignParticipationId: null,
           certificationCourseId: null,
           competenceId: johnAssessmentToRemember.competenceId,
@@ -720,4 +721,35 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       });
     });
   });
+
+  describe('#updateLastChallengeIdAsked', () => {
+    it('should update lastChallengeId', async () => {
+      // given
+      const lastChallengeId = 'recLastChallenge';
+      const assessment = databaseBuilder.factory.buildAssessment({
+        lastChallengeId: null,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId });
+
+      // then
+      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastChallengeId');
+      expect(assessmentsInDb.lastChallengeId).to.deep.equal(lastChallengeId);
+    });
+
+    context('when assessment does not exist', () => {
+      it('should return null', async () => {
+        const notExistingAssessmentId = 1;
+
+        // when
+        const result = await assessmentRepository.updateLastChallengeIdAsked({ id: notExistingAssessmentId, lastChallengeId: 'test' });
+
+        // then
+        expect(result).to.equal(null);
+      });
+    });
+  });
+
 });
