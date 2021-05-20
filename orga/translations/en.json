@@ -127,7 +127,8 @@
           "validatedSkills": "Items successfully completed"
         },
         "empty": "Results pending"
-      }
+      },
+      "title": "Results of {firstName} {lastName}"
     },
     "assessment-participants-list": {
       "table": {
@@ -143,7 +144,8 @@
         },
         "empty": "No participants",
         "row-title": "Participant"
-      }
+      },
+      "title": "Participants"
     },
     "campaign": {
       "actions": {
@@ -249,6 +251,9 @@
       "shared-date": "Sent on",
       "start-date": "Started on"
     },
+    "campaign-individual-review": {
+      "title": "Review for {firstName} {lastName}"
+    },
     "campaign-modification": {
       "actions": {
         "edit": "Edit"
@@ -260,7 +265,6 @@
     },
     "campaign-review": {
       "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following topics, sorted by relevance ({bubble}).",
-      "page-title": "Review for {firstName} {lastName}",
       "sub-table": {
         "column": {
           "source": {
