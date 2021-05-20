@@ -1,10 +1,11 @@
 const { checkEventTypes } = require('./check-event-types');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted');
+const CertificationRescoringCompleted = require('./CertificationRescoringCompleted');
 const PixPlusCertificationScoring = require('../models/PixPlusCertificationScoring');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
 
-const eventTypes = [ CertificationScoringCompleted ];
+const eventTypes = [ CertificationScoringCompleted, CertificationRescoringCompleted ];
 
 async function handlePixPlusCertificationsScoring({
   event,
