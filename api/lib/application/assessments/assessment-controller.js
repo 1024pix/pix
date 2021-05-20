@@ -92,36 +92,42 @@ module.exports = {
 };
 
 async function _getChallenge(assessment, request) {
-  const locale = extractLocaleFromRequest(request);
-  let challenge;
   if (assessment.isStarted()) {
     await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
   }
+  const challenge = await _getChallengeByAssessmentType({ assessment, request });
 
-  if (assessment.isPreview()) {
-    challenge = await usecases.getNextChallengeForPreview({});
-  }
-
-  if (assessment.isCertification()) {
-    challenge = await usecases.getNextChallengeForCertification({ assessment });
-  }
-
-  if (assessment.isDemo()) {
-    challenge = await usecases.getNextChallengeForDemo({ assessment });
-  }
-
-  if (assessment.isForCampaign()) {
-    const tryImproving = Boolean(request.query.tryImproving);
-    challenge = await usecases.getNextChallengeForCampaignAssessment({ assessment, tryImproving, locale });
-  }
-
-  if (assessment.isCompetenceEvaluation()) {
-    const userId = extractUserIdFromRequest(request);
-    challenge = await usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
-  }
   if (challenge) {
     await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challenge.id });
   }
 
   return challenge;
+}
+
+async function _getChallengeByAssessmentType({ assessment, request }) {
+  const locale = extractLocaleFromRequest(request);
+
+  if (assessment.isPreview()) {
+    return usecases.getNextChallengeForPreview({});
+  }
+
+  if (assessment.isCertification()) {
+    return usecases.getNextChallengeForCertification({ assessment });
+  }
+
+  if (assessment.isDemo()) {
+    return usecases.getNextChallengeForDemo({ assessment });
+  }
+
+  if (assessment.isForCampaign()) {
+    const tryImproving = Boolean(request.query.tryImproving);
+    return usecases.getNextChallengeForCampaignAssessment({ assessment, tryImproving, locale });
+  }
+
+  if (assessment.isCompetenceEvaluation()) {
+    const userId = extractUserIdFromRequest(request);
+    return usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
+  }
+
+  return null;
 }
