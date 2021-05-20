@@ -229,7 +229,6 @@ module.exports = injectDependencies({
   getNextChallengeForPreview: require('./get-next-challenge-for-preview'),
   getOrganizationDetails: require('./get-organization-details'),
   getOrganizationInvitation: require('./get-organization-invitation'),
-  getParticipantResult: require('./get-participant-result'),
   getParticipantsDivision: require('./get-participants-division'),
   getPrescriber: require('./get-prescriber'),
   getPrivateCertificate: require('./certificate/get-private-certificate'),
