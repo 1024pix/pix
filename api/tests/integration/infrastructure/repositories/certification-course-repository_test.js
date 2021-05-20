@@ -392,8 +392,8 @@ describe('Integration | Repository | Certification Course', function() {
 
       // then
       expect(certificationCourses).to.have.lengthOf(2);
-      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(firstCertifCourse));
-      expect(_cleanCertificationCourse(certificationCourses[1])).to.deep.equal(_cleanCertificationCourse(secondCertifCourse));
+      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(new CertificationCourse(firstCertifCourse)));
+      expect(_cleanCertificationCourse(certificationCourses[1])).to.deep.equal(_cleanCertificationCourse(new CertificationCourse(secondCertifCourse)));
     });
 
     it('should return empty array when no certification course found', async () => {
@@ -425,7 +425,7 @@ describe('Integration | Repository | Certification Course', function() {
 
       // then
       expect(certificationCourses).to.have.lengthOf(1);
-      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(firstCertifCourse));
+      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(new CertificationCourse(firstCertifCourse)));
     });
   });
 
@@ -455,7 +455,7 @@ describe('Integration | Repository | Certification Course', function() {
       // then
       expect(certificationCourses).to.have.lengthOf(1);
       expect(certificationCourses[0]).to.be.an.instanceof(CertificationCourse);
-      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(certifCourse));
+      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(new CertificationCourse(certifCourse)));
     });
 
     it('returns only the certification course that is linked to the candidate\'s session', async () => {
@@ -474,7 +474,7 @@ describe('Integration | Repository | Certification Course', function() {
       const certificationCourses = await certificationCourseRepository.findCertificationCoursesByCandidateIds({ candidateIds: [certificationCandidateId] });
       // then
       expect(certificationCourses).to.have.lengthOf(1);
-      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(certifCourse));
+      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(new CertificationCourse(certifCourse)));
     });
 
     it('returns only the certification course that is linked to the candidate\'s user', async () => {
@@ -493,7 +493,7 @@ describe('Integration | Repository | Certification Course', function() {
       const certificationCourses = await certificationCourseRepository.findCertificationCoursesByCandidateIds({ candidateIds: [certificationCandidateId] });
       // then
       expect(certificationCourses).to.have.lengthOf(1);
-      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(certifCourse));
+      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(new CertificationCourse(certifCourse)));
     });
   });
 });

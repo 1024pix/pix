@@ -23,7 +23,7 @@ describe('Unit | UseCase | cancel-certification-course', () => {
     });
 
     // then
-    expect(actualCertificationCourse.isCancelled).to.be.true;
+    expect(actualCertificationCourse.isCancelled()).to.be.true;
     expect(certificationCourseRepository.update).to.have.been.calledWith(certificationCourse);
   });
 
@@ -52,6 +52,6 @@ describe('Unit | UseCase | cancel-certification-course', () => {
     });
 
     // then
-    expect(actualCertificationCourse.isCancelled).to.be.true;
+    expect(actualCertificationCourse.isCancelled()).to.be.true;
   });
 });

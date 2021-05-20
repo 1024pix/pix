@@ -5,6 +5,7 @@ const { Serializer, Deserializer } = require('jsonapi-serializer');
 const { WrongDateFormatError } = require('../../../domain/errors');
 const { NO_EXAMINER_COMMENT } = require('../../../domain/models/CertificationReport');
 const { isValidDate } = require('../../utils/date-utils');
+const CertificationCourse = require('../../../domain/models/CertificationCourse');
 
 module.exports = {
 
@@ -26,17 +27,19 @@ module.exports = {
 
     return new Deserializer({ keyForAttribute: 'camelCase' })
       .deserialize(json)
-      .then(((certifications) => {
+      .then(((certification) => {
         if (birthdate) {
           if (!isValidDate(birthdate, 'YYYY-MM-DD')) {
             return Promise.reject(new WrongDateFormatError());
           }
         }
 
-        if (!_isOmitted(certifications.examinerComment) && _hasNoExaminerComment(certifications.examinerComment)) {
-          certifications.examinerComment = NO_EXAMINER_COMMENT;
+        const certificationDomainModel = new CertificationCourse(certification);
+
+        if (!_isOmitted(certification.examinerComment) && _hasNoExaminerComment(certification.examinerComment)) {
+          certificationDomainModel.examinerComment = NO_EXAMINER_COMMENT;
         }
-        return certifications;
+        return certificationDomainModel;
       }));
   },
 };
