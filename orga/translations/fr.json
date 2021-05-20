@@ -415,7 +415,8 @@
         },
         "empty": "En attente de résultats",
         "row-title": "Compétence"
-      }
+      },
+      "title": "Profil de {firstName} {lastName}"
     },
     "profiles-list": {
       "table": {
@@ -435,7 +436,8 @@
         },
         "empty": "En attente de profils",
         "row-title": "Profil"
-      }
+      },
+      "title": "Participants"
     },
     "students-sco": {
       "title": "Élèves",
