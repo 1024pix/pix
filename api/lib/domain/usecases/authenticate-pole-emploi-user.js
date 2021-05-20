@@ -1,7 +1,7 @@
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const { UnexpectedUserAccountError, UnexpectedPoleEmploiStateError, UserAccountNotFoundForPoleEmploiError } = require('../errors');
 const moment = require('moment');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 const logger = require('../../infrastructure/logger');
 
 module.exports = async function authenticatePoleEmploiUser({

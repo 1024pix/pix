@@ -81,8 +81,8 @@ module.exports = {
     let answers, solutions;
 
     try {
-      answers = jsYaml.safeLoad(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
-      solutions = jsYaml.safeLoad(preTreatedSolutions, { schema: jsYaml.FAILSAFE_SCHEMA });
+      answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
+      solutions = jsYaml.load(preTreatedSolutions, { schema: jsYaml.FAILSAFE_SCHEMA });
     } catch (error) {
       throw new YamlParsingError();
     }

@@ -1,0 +1,21 @@
+ignores: ["good-console", "good-squeeze", "bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha"]
+
+# "good-console" is used in file ./lib/plugins.js
+# code => module: 'good-console'
+# see https://github.com/hapijs/good/blob/master/API.md#log-to-console
+
+# "good-squeeze" is used in file ./lib/plugins.js
+# code => module: 'good-squeeze'
+# see https://github.com/hapijs/good/blob/master/API.md#log-to-console
+
+# "bookshelf-validate" is used in ./lib/infrastructure/bookshelf.js
+# code => bookshelf.plugin('bookshelf-validate',
+# see https://github.com/kripod/bookshelf-validate#configuration
+
+# "mocha-junit-reporter" is used in ../.circleci/config.yml
+# code =>  MOCHA_REPORTER: mocha-junit-reporter
+# see https://github.com/michaelleeallen/mocha-junit-reporter#usage
+
+# "eslint-plugin-mocha" is used in ../.eslintrc.yaml
+# code =>  plugins: - mocha
+# see https://github.com/lo1tuma/eslint-plugin-mocha#install-and-configure
