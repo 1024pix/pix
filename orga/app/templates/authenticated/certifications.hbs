@@ -1,3 +1,4 @@
+{{page-title (t 'pages.certifications.title')}}
 <div class="certifications-page">
   <h1 class="page__title page-title">{{t 'pages.certifications.title'}}</h1>
   <p class="certifications-page__text">
@@ -6,7 +7,7 @@
 
   <form class="certifications-page__action" {{on 'submit' this.downloadSessionResultFile}}>
     <label for="certifications-page-action__select">{{t 'pages.certifications.select-label'}}</label>
-    <PixSelect id="certifications-page-action__select" 
+    <PixSelect id="certifications-page-action__select"
       @options={{@model.options}}
       @selectedOption={{this.selectedDivision}}
       @onChange={{this.onSelectDivision}}
