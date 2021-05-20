@@ -4,7 +4,7 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 
 describe('Integration | Repository | ParticipantResultRepository', () => {
 
-  describe('#getByParticipationId', () => {
+  describe('#getByUserIdAndCampaignId', () => {
 
     let targetProfileId;
 
@@ -56,7 +56,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
       databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed', createdAt: new Date('2021-01-02') });
       await databaseBuilder.commit();
 
-      const participantResult = await participantResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+      const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
 
       expect(participantResult).to.deep.include({
         isCompleted: true,
@@ -75,7 +75,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
         await databaseBuilder.commit();
 
-        const participantResult = await participantResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
 
         expect(participantResult.canRetry).to.equal(true);
       });
@@ -87,7 +87,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
         await databaseBuilder.commit();
 
-        const participantResult = await participantResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
 
         expect(participantResult.canRetry).to.equal(false);
       });
@@ -136,7 +136,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
           knowledgeElementsAttributes,
         });
       await databaseBuilder.commit();
-      const participantResult = await participantResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+      const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
 
       expect(participantResult).to.deep.include({
         id: campaignParticipationId,
@@ -182,7 +182,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
           knowledgeElementsAttributes,
         });
       await databaseBuilder.commit();
-      const participantResult = await participantResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+      const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
 
       expect(participantResult).to.deep.include({
         testedSkillsCount: 1,
@@ -243,7 +243,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
           knowledgeElementsAttributes,
         });
       await databaseBuilder.commit();
-      const participantResult = await participantResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+      const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
       const competenceResult1 = participantResult.competenceResults.find(({ id }) => id === 'rec1');
       const competenceResult2 = participantResult.competenceResults.find(({ id }) => id === 'rec2');
       expect(competenceResult1).to.deep.equal({
@@ -307,7 +307,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
         ];
         knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
         await databaseBuilder.commit();
-        const participantResult = await participantResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
 
         expect(participantResult).to.deep.include({
           id: campaignParticipationId,
@@ -377,7 +377,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
             knowledgeElementsAttributes,
           });
         await databaseBuilder.commit();
-        const participantResult = await participantResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
         expect(participantResult.reachedStage).to.deep.include({
           id: 2,
           message: 'Message2',
@@ -400,7 +400,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
           sharedAt: new Date('2020-01-02'),
         });
 
-        const badge1 = databaseBuilder.factory.buildBadge({
+        databaseBuilder.factory.buildBadge({
           id: 1,
           message: 'Badge1 Message',
           altMessage: 'Badge1 AltMessage',
@@ -410,7 +410,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
           targetProfileId,
         });
 
-        const badge2 = databaseBuilder.factory.buildBadge({
+        databaseBuilder.factory.buildBadge({
           id: 2,
           altMessage: 'Badge2 AltMessage',
           message: 'Badge2 Message',
@@ -435,7 +435,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
             knowledgeElementsAttributes: [],
           });
         await databaseBuilder.commit();
-        const participantResult = await participantResultRepository.getByParticipationId(campaignParticipationId, [badge1, badge2], [badge1.id], 'FR');
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
         const badgeResult1 = participantResult.badgeResults.find(({ id }) => id === 1);
         const badgeResult2 = participantResult.badgeResults.find(({ id }) => id === 2);
         expect(badgeResult1).to.deep.include({
@@ -517,7 +517,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
             });
           await databaseBuilder.commit();
           badge.badgePartnerCompetences = [badgePartnerCompetence1, badgePartnerCompetence2];
-          const participantResult = await participantResultRepository.getByParticipationId(campaignParticipationId, [badge], [badge.id], 'FR');
+          const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
           const partnerCompetenceResult1 = participantResult.badgeResults[0].partnerCompetenceResults.find(({ id }) => id === 1);
           const partnerCompetenceResult2 = participantResult.badgeResults[0].partnerCompetenceResults.find(({ id }) => id === 2);
           expect(participantResult.competenceResults).to.have.lengthOf(2);
