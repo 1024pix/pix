@@ -91,7 +91,7 @@ export default class ResumeRoute extends Route {
   }
 
   _routeToNextChallenge(assessment) {
-    return this.replaceWith('assessments.challenge', assessment.id, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
+    return this.replaceWith('assessments.challenge', assessment.id, assessment.currentChallengeNumber, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
   }
 
   async _rateAssessment(assessment) {
