@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const BookshelfAssessmentResults = require('../../../../lib/infrastructure/orm-models/AssessmentResult');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -64,6 +64,53 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
       };
       expect(result).to.be.instanceOf(AssessmentResult);
       expect(result).to.deep.equal(startedAssessmentResult);
+    });
+  });
+
+  describe('#isValidated', () => {
+
+    it('should return true if the assessment result is validated', () => {
+      // given
+      const assessmentResult = domainBuilder.buildAssessmentResult.validated();
+
+      // when
+      const isValidated = assessmentResult.isValidated();
+
+      // then
+      expect(isValidated).to.be.true;
+    });
+
+    it('should return false if the assessment result is rejected', () => {
+      // given
+      const assessmentResult = domainBuilder.buildAssessmentResult.rejected();
+
+      // when
+      const isValidated = assessmentResult.isValidated();
+
+      // then
+      expect(isValidated).to.be.false;
+    });
+
+    it('should return false if the assessment result is in error', () => {
+      // given
+      const assessmentResult = domainBuilder.buildAssessmentResult.error();
+
+      // when
+      const isValidated = assessmentResult.isValidated();
+
+      // then
+      expect(isValidated).to.be.false;
+    });
+
+    it('should return false if the assessment result is started', () => {
+      // given
+      const assessmentResult = domainBuilder.buildAssessmentResult.started();
+
+      // when
+      const isValidated = assessmentResult.isValidated();
+
+      // then
+      expect(isValidated).to.be.false;
     });
   });
 });
