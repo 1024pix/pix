@@ -9,19 +9,18 @@ describe('Acceptance | Download an attachment from a challenge', function() {
   setupApplicationTest();
   setupMirage();
   let challengeWithAttachment;
-  let challengeWithNoAttachment;
   let assessment;
 
   beforeEach(function() {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     challengeWithAttachment = server.create('challenge', 'forCompetenceEvaluation', 'withAttachment');
-    challengeWithNoAttachment = server.create('challenge', 'forCompetenceEvaluation');
+    server.create('challenge', 'forCompetenceEvaluation');
   });
 
   describe('When the challenge has an attachment', function() {
 
     beforeEach(async function() {
-      await visit(`/assessments/${assessment.id}/challenges/`);
+      await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
     it('should have a way to download the attachment', function() {
@@ -42,7 +41,7 @@ describe('Acceptance | Download an attachment from a challenge', function() {
   describe('When the challenge does not contain an attachment', function() {
 
     beforeEach(async function() {
-      await visit(`/assessments/${assessment.id}/challenges`);
+      await visit(`/assessments/${assessment.id}/challenges/0`);
       await click('.challenge-actions__action-skip-text');
     });
 

@@ -40,8 +40,7 @@ Router.map(function() {
 
   this.route('assessments', { path: '/assessments/:assessment_id' }, function() {
     this.route('resume');
-    this.route('challenge', { path: '/challenges' });
-    this.route('challenge-old', { path: '/challenges/:id' });
+    this.route('challenge', { path: '/challenges/:challenge_number' });
     this.route('results');
     this.route('checkpoint');
   });

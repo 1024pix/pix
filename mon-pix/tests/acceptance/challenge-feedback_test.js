@@ -35,7 +35,7 @@ describe('Acceptance | Giving feedback about a challenge', function() {
   context('From a challenge', function() {
 
     beforeEach(async function() {
-      await visit(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
+      await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
     it('should be able to directly send a feedback', async () => {

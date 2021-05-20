@@ -9,7 +9,6 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 const EXPECTED_ROUTE_CAMPAIGN = '/campagnes';
 const SIMPLIFIED_CODE_CAMPAIGN = 'SIMPLIFIE';
 const ID_ASSESSMENT = '10000029';
-const CODE_CHALLENGE = 'rec1lRuv6iIYn5Ek2';
 
 describe('Acceptance | Campaigns | Simplified access | Anonymous user access to not allowed pages', function() {
 

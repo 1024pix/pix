@@ -1,10 +1,8 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
-import Model, { attr, hasMany, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { equal, or } from '@ember/object/computed';
-import { computed } from '@ember/object';
 import ENV from 'mon-pix/config/environment';
-
 export default class Assessment extends Model {
 
   // attributes
@@ -38,7 +36,6 @@ export default class Assessment extends Model {
   @or('isCompetenceEvaluation', 'isForCampaign') showLevelup;
   @or('isCompetenceEvaluation', 'isForCampaign', 'isDemo') showProgressBar;
 
-  @computed('answers.[]')
   get answersSinceLastCheckpoints() {
     const answers = this.answers.toArray();
     const howManyAnswersSinceTheLastCheckpoint = answers.length % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
@@ -46,6 +43,10 @@ export default class Assessment extends Model {
       ? -ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS
       : -howManyAnswersSinceTheLastCheckpoint;
     return answers.slice(sliceAnswersFrom);
+  }
+
+  get currentChallengeNumber() {
+    return this.answers.length;
   }
 
 }

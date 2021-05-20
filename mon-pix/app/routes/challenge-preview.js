@@ -10,7 +10,7 @@ export default class ChallengePreviewRoute extends Route {
     const assessment = store.createRecord('assessment', { type: 'PREVIEW' });
 
     return assessment.save().then(() => {
-      return this.replaceWith('assessments.challenge', assessment.id, { queryParams: { challengeId: this.challengeId } });
+      return this.replaceWith('assessments.challenge', assessment.id, assessment.currentChallengeNumber, { queryParams: { challengeId: this.challengeId } });
     });
   }
 }

@@ -1,4 +1,4 @@
-import { find, currentURL } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
@@ -19,7 +19,7 @@ describe('Acceptance | Common behavior to all challenges', function() {
       const challenge = server.create('challenge', 'forCompetenceEvaluation');
       const answer = server.create('answer', 'skipped', { assessment, challenge });
 
-      await visit(`/assessments/${answer.assessmentId}/challenges`);
+      await visit(`/assessments/${answer.assessmentId}/challenges/0`);
     });
 
     it('should display the lock overlay', function() {
@@ -34,18 +34,24 @@ describe('Acceptance | Common behavior to all challenges', function() {
 
   context('Challenge not answered', function() {
     let assessment;
-    let challenge;
+    let challengeBis;
 
     beforeEach(async function() {
       user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCM', { instruction: 'Instruction [lien](http://www.a.link.example.url)' });
-      await visit(`/assessments/${assessment.id}/challenges`);
+      server.create('challenge', 'forCompetenceEvaluation', 'QROCM', { instruction: 'Instruction [lien](http://www.a.link.example.url)' });
+      challengeBis = server.create('challenge', 'forCompetenceEvaluation', 'QROCM', { instruction: 'Second instruction' });
+      await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
     it('should display the name of the test', async function() {
       expect(find('.assessment-banner__title').textContent).to.contain(assessment.title);
+    });
+
+    it('should display the challenge to answered instead of challenge asked', async function() {
+      await visit(`/assessments/${assessment.id}/challenges/${challengeBis.id}`);
+      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal('Instruction lien');
     });
 
     it('should display the challenge instruction', function() {
@@ -89,7 +95,7 @@ describe('Acceptance | Common behavior to all challenges', function() {
     it('should not display home link', async () => {
       //given
       const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      const challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCM', { instruction: 'Instruction [lien](http://www.a.link.example.url)' });
+      server.create('challenge', 'forCompetenceEvaluation', 'QROCM', { instruction: 'Instruction [lien](http://www.a.link.example.url)' });
       const user = server.create('user', 'withEmail', {
         isAnonymous: true,
       });

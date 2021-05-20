@@ -19,7 +19,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
   describe('When challenge is not already answered', () => {
     beforeEach(async () => {
       // when
-      await visit(`/assessments/${assessment.id}/challenges/`);
+      await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
     it('should render challenge information and question', () => {
@@ -81,7 +81,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       });
 
       // when
-      await visit(`/assessments/${assessment.id}/challenges/`);
+      await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
     it('should mark radio button corresponding to the answer and propose to continue', async () => {
