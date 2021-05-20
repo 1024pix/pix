@@ -1,28 +1,28 @@
 const { knex } = require('../bookshelf');
 const _ = require('lodash');
 const Assessment = require('../../domain/models/Assessment');
-const AssessmentResult = require('../../../lib/domain/read-models/participant-results/AssessmentResult');
+const AssessmentResult = require('../../domain/read-models/participant-results/AssessmentResult');
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const competenceRepository = require('./competence-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 
 const ParticipantResultRepository = {
-  async getByParticipationId(campaignParticipationId, locale) {
+  async getByUserIdAndCampaignId({ userId, campaignId, locale }) {
     const [participationResults, targetProfile, isCampaignMultipleSendings] = await Promise.all([
-      _getParticipationResults(campaignParticipationId),
-      _getTargetProfile(campaignParticipationId, locale),
-      _isCampaignMultipleSendings(campaignParticipationId),
+      _getParticipationResults(userId, campaignId),
+      _getTargetProfile(campaignId, locale),
+      _isCampaignMultipleSendings(campaignId),
     ]);
 
     return new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings);
   },
 };
 
-async function _getParticipationResults(campaignParticipationId) {
+async function _getParticipationResults(userId, campaignId) {
 
-  const { isCompleted, userId, sharedAt } = await _getParticipationAttributes(campaignParticipationId);
+  const { isCompleted, campaignParticipationId, sharedAt } = await _getParticipationAttributes(userId, campaignId);
 
-  const knowledgeElements = await _findTargetedKnowledgeElements(campaignParticipationId, userId, sharedAt);
+  const knowledgeElements = await _findTargetedKnowledgeElements(campaignId, userId, sharedAt);
 
   const acquiredBadgeIds = await _getAcquiredBadgeIds(userId);
 
@@ -35,19 +35,20 @@ async function _getParticipationResults(campaignParticipationId) {
   };
 }
 
-async function _getParticipationAttributes(campaignParticipationId) {
-  const { state, userId, sharedAt } = await knex('campaign-participations')
-    .select(['state', 'campaign-participations.userId', 'sharedAt'])
+async function _getParticipationAttributes(userId, campaignId) {
+  const { state, campaignParticipationId, sharedAt } = await knex('campaign-participations')
+    .select(['state', 'campaignParticipationId AS campaignParticipationId', 'sharedAt'])
     .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
-    .where({ 'campaign-participations.id': campaignParticipationId })
+    .where({ 'campaign-participations.campaignId': campaignId })
+    .andWhere({ 'campaign-participations.userId': userId })
     .orderBy('assessments.createdAt', 'DESC')
     .first();
 
-  return { isCompleted: state === Assessment.states.COMPLETED, userId, sharedAt };
+  return { isCompleted: state === Assessment.states.COMPLETED, campaignParticipationId, sharedAt };
 }
 
-async function _findTargetedKnowledgeElements(campaignParticipationId, userId, sharedAt) {
-  const { targetProfileId } = await _getTargetProfileId(campaignParticipationId);
+async function _findTargetedKnowledgeElements(campaignId, userId, sharedAt) {
+  const { targetProfileId } = await _getTargetProfileId(campaignId);
   const targetedSkillIds = await _findTargetedSkillIds(targetProfileId);
   const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({ [userId]: sharedAt });
   return knowledgeElementsByUser[userId].filter(({ skillId }) => targetedSkillIds.includes(skillId));
@@ -57,8 +58,8 @@ async function _getAcquiredBadgeIds(userId) {
   return knex('badge-acquisitions').select('badgeId').where({ userId });
 }
 
-async function _getTargetProfile(campaignParticipationId, locale) {
-  const { targetProfileId } = await _getTargetProfileId(campaignParticipationId);
+async function _getTargetProfile(campaignId, locale) {
+  const { targetProfileId } = await _getTargetProfileId(campaignId);
 
   const competences = await _findTargetedCompetences(targetProfileId, locale);
   const stages = await _getStages(targetProfileId);
@@ -67,11 +68,10 @@ async function _getTargetProfile(campaignParticipationId, locale) {
   return { competences, stages, badges };
 }
 
-async function _getTargetProfileId(campaignParticipationId) {
-  return knex('campaign-participations')
+async function _getTargetProfileId(campaignId) {
+  return knex('campaigns')
     .select('targetProfileId')
-    .join('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
-    .where({ 'campaign-participations.id': campaignParticipationId })
+    .where({ 'campaigns.id': campaignId })
     .first();
 }
 
@@ -125,13 +125,12 @@ async function _findTargetedSkillIds(targetProfileId) {
   return targetedSkills.map(({ id }) => id);
 }
 
-async function _isCampaignMultipleSendings(campaignParticipationId) {
-  const campaignParticipation = await knex('campaign-participations')
+async function _isCampaignMultipleSendings(campaignId) {
+  const campaign = await knex('campaigns')
     .select('multipleSendings')
-    .join('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
-    .where({ 'campaign-participations.id': campaignParticipationId })
+    .where({ 'campaigns.id': campaignId })
     .first();
-  return campaignParticipation.multipleSendings;
+  return campaign.multipleSendings;
 }
 
 module.exports = ParticipantResultRepository;
