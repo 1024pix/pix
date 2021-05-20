@@ -4,6 +4,11 @@ const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
+    /**
+     * @deprecated
+     * Route in no longer maintained
+     * Use instead GET /api/users/{userId}/campaigns/{campaignId}/assessment-result
+     */
     {
       method: 'GET',
       path: '/api/campaign-participations/{id}/campaign-participation-result',
