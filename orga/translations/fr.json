@@ -648,7 +648,8 @@
       "invite-button": "Inviter"
     },
     "terms-of-service": {
-      "accept" : "J’accepte les conditions d’utilisation"
+      "accept" : "J’accepte les conditions d’utilisation",
+      "title": "Conditions d'utilisation"
     }
   }
 }
