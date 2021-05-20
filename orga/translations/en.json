@@ -194,7 +194,8 @@
         },
         "empty": "Results pending",
         "row-title": "Competence"
-      }
+      },
+      "title": "Collective results"
     },
     "campaign-creation": {
       "title": "Create a campaign",
@@ -241,51 +242,54 @@
       "external-user-id-label": "External user ID label",
       "landing-page-text": "Text to display on the starting page",
       "personalised-test-title": "Title of the customised test",
-      "target-profile": "Target profile"
+      "target-profile": "Target profile",
+      "title": "Details"
     },
     "campaign-individual-results": {
       "shared-date": "Sent on",
       "start-date": "Started on"
     },
     "campaign-modification": {
-      "title": "Edit a campaign",
       "actions": {
         "edit": "Edit"
       },
       "campaign-name": "Name of the campaign",
       "landing-page-text": "Text to display on the starting page",
-      "personalised-test-title": "Title of the customised test"
+      "personalised-test-title": "Title of the personalised test",
+      "title": "Edit a campaign"
     },
     "campaign-review": {
-      "title": "Recommendations of topics to focus on",
       "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following topics, sorted by relevance ({bubble}).",
+      "page-title": "Review for {firstName} {lastName}",
       "sub-table": {
-        "title": "{count, plural, =1 {1 tutorial} other{{count} tutorials}} recommended by the Pix community",
         "column": {
           "source": {
             "value": "By {source}"
           }
         },
-        "row-title": "Tutorial"
+        "row-title": "Tutorial",
+        "title": "{count, plural, =1 {1 tutorial} other{{count} tutorials}} recommended by the Pix community"
       },
+      "sub-title": "Recommendations of topics to focus on",
       "table": {
-        "title": "Review by topic",
         "column": {
-          "relevance": "Relevance",
           "subjects": "Topics ({count, plural, =0 {-} other {{count}}})",
-          "tutorial": {
-            "aria-label": "Show all tutorials"
-          },
+          "relevance": "Relevance",
           "tutorial-count": {
             "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
+          },
+          "tutorial": {
+            "aria-label": "Show all tutorials"
           }
         },
         "empty": "Results pending",
         "row-title": "Topic",
         "sort": {
           "relevance": "Sort by relevance"
-        }
-      }
+        },
+        "title": "Review by topic"
+      },
+      "title": "Review"
     },
     "campaigns-list": {
       "action": {
@@ -317,6 +321,10 @@
           "by-name": "Search for a campaign"
         },
         "row-title": "Campaign"
+      },
+      "title": {
+        "archived": "Archived campaigns",
+        "active": "Active campaigns"
       }
     },
     "certifications": {

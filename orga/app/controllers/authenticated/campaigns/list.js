@@ -15,6 +15,7 @@ export default class ListController extends Controller {
   @tracked status = null;
 
   @service currentUser;
+  @service intl;
 
   get isArchived() {
     return this.status === 'archived';
@@ -22,6 +23,14 @@ export default class ListController extends Controller {
 
   get displayNoCampaignPanel() {
     return !this.model.meta.hasCampaigns;
+  }
+
+  get pageTitle() {
+    let title = this.intl.t('pages.campaigns-list.title.active');
+    if (this.model.query.filter.status === 'archived') {
+      title = this.intl.t('pages.campaigns-list.title.archived');
+    }
+    return title;
   }
 
   updateFilters(filters) {
