@@ -80,6 +80,50 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     expect(competenceMarkRepository.save).to.have.been.calledWithExactly(competenceMarkData2);
   });
 
+  it('returns a CertificationRescoringCompleted event', async () => {
+    // given
+    const assessmentResultRepository = { save: sinon.stub() };
+    const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
+    const competenceMarkRepository = { save: sinon.stub() };
+    const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+
+    const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
+    const certificationAssessment = domainBuilder.buildCertificationAssessment({
+      userId: 123,
+      certificationCourseId: 1,
+    });
+    certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: 1 }).resolves(certificationAssessment);
+
+    const certificationAssessmentScore = {
+      competenceMarks: [],
+      percentageCorrectAnswers: 80,
+    };
+    scoringCertificationService.calculateCertificationAssessmentScore.withArgs(certificationAssessment)
+      .resolves(certificationAssessmentScore);
+    assessmentResultRepository.save.resolves(domainBuilder.buildAssessmentResult());
+
+    const dependendencies = {
+      assessmentResultRepository,
+      certificationAssessmentRepository,
+      competenceMarkRepository,
+      scoringCertificationService,
+    };
+
+    // when
+    const returnedEvent = await handleCertificationRescoring({
+      ...dependendencies,
+      event,
+    });
+
+    // then
+    const expectedReturnedEvent = domainBuilder.buildCertificationRescoringCompletedEvent({
+      certificationCourseId: 1,
+      userId: 123,
+      reproducibilityRate: 80,
+    });
+    expect(returnedEvent).to.deep.equal(expectedReturnedEvent);
+  });
+
   it('computes and persists the assessment result in error when computation fails', async () => {
     // given
     const assessmentResultRepository = { save: sinon.stub() };
