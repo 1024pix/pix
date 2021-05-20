@@ -33,10 +33,12 @@ module.exports = function(environment) {
 
     APP: {
       API_HOST: process.env.API_HOST || '',
+      BANNER_CONTENT: process.env.BANNER_CONTENT || '',
+      BANNER_TYPE: process.env.BANNER_TYPE || '',
       CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL,
+      IS_DISSOCIATE_BUTTON_ENABLED: _isFeatureEnabled(process.env.IS_DISSOCIATE_BUTTON_ENABLED),
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
-      IS_DISSOCIATE_BUTTON_ENABLED: _isFeatureEnabled(process.env.IS_DISSOCIATE_BUTTON_ENABLED),
     },
 
     googleFonts: [
