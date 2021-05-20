@@ -108,7 +108,7 @@ module.exports = {
         qb.whereIn('certification-candidates.id', candidateIds);
       })
       .fetchAll();
-    return bookshelfToDomainConverter.buildDomainObjects(CertificationCourseBookshelf, bookshelfCertificationCourses);
+    return bookshelfCertificationCourses.map(_toDomain);
   },
 
   async findBySessionIdAndUserIds({ sessionId, userIds }) {
@@ -116,7 +116,8 @@ module.exports = {
       .where({ sessionId })
       .where('userId', 'in', userIds)
       .fetchAll();
-    return bookshelfToDomainConverter.buildDomainObjects(CertificationCourseBookshelf, bookshelfCertificationCourses);
+
+    return bookshelfCertificationCourses.map(_toDomain);
   },
 };
 
@@ -145,15 +146,24 @@ function _toDomain(bookshelfCertificationCourse) {
       'isPublished',
       'isV2Certification',
       'hasSeenEndTestScreen',
+      'isCancelled',
+      'maxReachableLevelOnCertificationDate',
+      'verificationCode',
     ]),
   });
 }
 
 function _adaptModelToDb(certificationCourse) {
-  return _.omit(certificationCourse, [
+
+  const dto = _.omit(certificationCourse, [
     'certificationIssueReports',
     'assessment',
     'challenges',
     'createdAt',
+    '_isCancelled',
   ]);
+
+  dto.isCancelled = certificationCourse.isCancelled();
+
+  return dto;
 }
