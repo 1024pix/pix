@@ -3,6 +3,7 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
 const { normalizeAndRemoveAccents: t1, removeSpecialCharacters: t2, applyPreTreatments } = require('./validation-treatments');
+const { YamlParsingError } = require('../../domain/errors');
 
 const AnswerStatus = require('../models/AnswerStatus');
 
@@ -143,9 +144,14 @@ module.exports = {
     const preTreatedAnswers = applyPreTreatments(yamlAnswer);
 
     // Convert Yaml to JS objects
-    const answers = jsYaml.safeLoad(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
-    const solutions = jsYaml.safeLoad(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
-    const scoring = jsYaml.safeLoad(yamlScoring || '', { schema: jsYaml.FAILSAFE_SCHEMA });
+    let answers, solutions, scoring;
+    try {
+      answers = jsYaml.safeLoad(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
+      solutions = jsYaml.safeLoad(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
+      scoring = jsYaml.safeLoad(yamlScoring || '', { schema: jsYaml.FAILSAFE_SCHEMA });
+    } catch (error) {
+      throw new YamlParsingError();
+    }
 
     // Treatments
     const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations);
