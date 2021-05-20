@@ -1,7 +1,8 @@
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
-module.exports = function buildAssessmentResult({
+const buildAssessmentResult = function({
   id = 123,
   pixScore = 31,
   status = assessmentResultStatuses.VALIDATED,
@@ -29,3 +30,113 @@ module.exports = function buildAssessmentResult({
     competenceMarks,
   });
 };
+
+buildAssessmentResult.validated = function({
+  id,
+  pixScore,
+  emitter,
+  commentForJury,
+  commentForCandidate,
+  commentForOrganization,
+  createdAt,
+  juryId,
+  assessmentId,
+  competenceMarks,
+} = {}) {
+  return buildAssessmentResult({
+    id,
+    pixScore,
+    status: assessmentResultStatuses.VALIDATED,
+    emitter,
+    commentForJury,
+    commentForCandidate,
+    commentForOrganization,
+    createdAt,
+    juryId,
+    assessmentId,
+    competenceMarks,
+  });
+};
+
+buildAssessmentResult.rejected = function({
+  id,
+  pixScore,
+  emitter,
+  commentForJury,
+  commentForCandidate,
+  commentForOrganization,
+  createdAt,
+  juryId,
+  assessmentId,
+  competenceMarks,
+} = {}) {
+  return buildAssessmentResult({
+    id,
+    pixScore,
+    status: assessmentResultStatuses.REJECTED,
+    emitter,
+    commentForJury,
+    commentForCandidate,
+    commentForOrganization,
+    createdAt,
+    juryId,
+    assessmentId,
+    competenceMarks,
+  });
+};
+
+buildAssessmentResult.error = function({
+  id,
+  pixScore,
+  emitter,
+  commentForJury,
+  commentForCandidate,
+  commentForOrganization,
+  createdAt,
+  juryId,
+  assessmentId,
+  competenceMarks,
+} = {}) {
+  return buildAssessmentResult({
+    id,
+    pixScore,
+    status: assessmentResultStatuses.ERROR,
+    emitter,
+    commentForJury,
+    commentForCandidate,
+    commentForOrganization,
+    createdAt,
+    juryId,
+    assessmentId,
+    competenceMarks,
+  });
+};
+
+buildAssessmentResult.started = function({
+  id,
+  pixScore,
+  emitter,
+  commentForJury,
+  commentForCandidate,
+  commentForOrganization,
+  createdAt,
+  juryId,
+  assessmentId,
+  competenceMarks,
+} = {}) {
+  return buildAssessmentResult({
+    id,
+    pixScore,
+    status: Assessment.states.STARTED,
+    emitter,
+    commentForJury,
+    commentForCandidate,
+    commentForOrganization,
+    createdAt,
+    juryId,
+    assessmentId,
+    competenceMarks,
+  });
+};
+
+module.exports = buildAssessmentResult;
