@@ -9,6 +9,8 @@ const certifiedProfileSerializer = require('../../infrastructure/serializers/jso
 const usecases = require('../../domain/usecases');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+
 module.exports = {
 
   computeResult(request) {
@@ -39,9 +41,10 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const accessCode = request.payload.data.attributes['access-code'];
     const sessionId = request.payload.data.attributes['session-id'];
+    const locale = extractLocaleFromRequest(request);
 
     const { created, certificationCourse } = await DomainTransaction.execute((domainTransaction) => {
-      return usecases.retrieveLastOrCreateCertificationCourse({ domainTransaction, sessionId, accessCode, userId });
+      return usecases.retrieveLastOrCreateCertificationCourse({ domainTransaction, sessionId, accessCode, userId, locale });
     });
 
     const serialized = await certificationCourseSerializer.serialize(certificationCourse);
