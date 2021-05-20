@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const BookshelfAssessmentResults = require('../../../../lib/infrastructure/data/assessment-result');
+const BookshelfAssessmentResults = require('../../../../lib/infrastructure/orm-models/AssessmentResult');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 

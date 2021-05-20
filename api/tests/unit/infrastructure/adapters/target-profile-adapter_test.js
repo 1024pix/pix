@@ -1,6 +1,6 @@
 const { sinon, databaseBuilder, expect, domainBuilder } = require('../../../test-helper');
-const BookshelfTargetProfile = require('../../../../lib/infrastructure/data/target-profile');
-const BookshelfTargetProfileShare = require('../../../../lib/infrastructure/data/target-profile-share');
+const BookshelfTargetProfile = require('../../../../lib/infrastructure/orm-models/TargetProfile');
+const BookshelfTargetProfileShare = require('../../../../lib/infrastructure/orm-models/TargetProfileShare');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const targetProfileAdapter = require('../../../../lib/infrastructure/adapters/target-profile-adapter');
 

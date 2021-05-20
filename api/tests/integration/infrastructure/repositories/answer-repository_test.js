@@ -1,7 +1,7 @@
 const { expect, knex, domainBuilder, databaseBuilder, sinon, catchErr, compareDatabaseObject } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adapters/answer-status-database-adapter');
-const BookshelfKnowledgeElement = require('../../../../lib/infrastructure/data/knowledge-element');
+const BookshelfKnowledgeElement = require('../../../../lib/infrastructure/orm-models/KnowledgeElement');
 
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');

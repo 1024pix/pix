@@ -1,9 +1,9 @@
 const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const settings = require('../../config');
-const BookshelfUser = require('../data/user');
-const BookshelfMembership = require('../data/membership');
-const BookshelfUserOrgaSettings = require('../data/user-orga-settings');
+const BookshelfUser = require('../orm-models/User');
+const BookshelfMembership = require('../orm-models/Membership');
+const BookshelfUserOrgaSettings = require('../orm-models/UserOrgaSettings');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { ForbiddenAccess, UserNotFoundError } = require('../../domain/errors');
 const Prescriber = require('../../domain/read-models/Prescriber');

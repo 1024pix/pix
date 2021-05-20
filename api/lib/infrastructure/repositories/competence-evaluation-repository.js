@@ -1,5 +1,5 @@
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const BookshelfCompetenceEvaluation = require('../data/competence-evaluation');
+const BookshelfCompetenceEvaluation = require('../orm-models/CompetenceEvaluation');
 const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');

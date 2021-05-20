@@ -1,4 +1,4 @@
-const BookshelfUser = require('../data/user');
+const BookshelfUser = require('../orm-models/User');
 
 const {
   UserNotFoundError,
