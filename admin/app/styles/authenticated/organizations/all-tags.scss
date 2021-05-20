@@ -1,0 +1,12 @@
+.organization-all-tags-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 27px;
+
+  &__tag {
+    margin-right: 27px;
+    margin-top: 21px;
+  }
+}

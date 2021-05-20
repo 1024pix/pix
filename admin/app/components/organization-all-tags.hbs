@@ -1,0 +1,23 @@
+<section class="page-section mb_10">
+
+  {{#if this.allTags}}
+    <ul class="organization-all-tags-list">
+      {{#each this.allTags as |tag|}}
+        <li class="organization-all-tags-list__tag">
+
+          {{#if tag.isTagAssignedToOrganization}}
+            <PixTag @compact="true" @color='purple-light'>
+              {{tag.name}}
+            </PixTag>
+          {{else}}
+            <PixTag @compact="true" @color='grey-light'>
+              {{tag.name}}
+            </PixTag>
+          {{/if}}
+
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+</section>

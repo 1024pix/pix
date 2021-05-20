@@ -32,6 +32,10 @@
     <LinkTo @route="authenticated.organizations.get.campaigns" @model={{@model}} class="navbar-item">
       Campagnes
     </LinkTo>
+
+    <LinkTo @route="authenticated.organizations.get.all-tags" @model={{@model}} class="navbar-item">
+      Tags
+    </LinkTo>
   </nav>
 
   {{outlet}}

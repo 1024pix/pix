@@ -37,6 +37,7 @@ module.exports = [
   require('./application/sessions'),
   require('./application/simulateErrors'),
   require('./application/stages'),
+  require('./application/tags'),
   require('./application/target-profiles'),
   require('./application/tutorial-evaluations'),
   require('./application/user-orga-settings'),
