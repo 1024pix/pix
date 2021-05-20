@@ -116,4 +116,35 @@ describe('Integration | Repository | Certification Issue Report', function() {
     });
   });
 
+  describe('#findByCertificationCourseId', () => {
+    it('should return certification issue reports for a certification course id', async () => {
+      // given
+      const targetCertificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const otherCertificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const issueReportForTargetCourse1 = databaseBuilder.factory.buildCertificationIssueReport({ certificationCourseId: targetCertificationCourse.id });
+      const issueReportForTargetCourse2 = databaseBuilder.factory.buildCertificationIssueReport({ certificationCourseId: targetCertificationCourse.id });
+      databaseBuilder.factory.buildCertificationIssueReport({ certificationCourseId: otherCertificationCourse.id });
+      await databaseBuilder.commit();
+
+      // when
+      const results = await certificationIssueReportRepository.findByCertificationCourseId(targetCertificationCourse.id);
+
+      // then
+      const expectedIssueReports = [
+        new CertificationIssueReport(issueReportForTargetCourse1),
+        new CertificationIssueReport(issueReportForTargetCourse2),
+      ];
+      expect(results).to.deep.equal(expectedIssueReports);
+      expect(results[0]).to.be.instanceOf(CertificationIssueReport);
+    });
+
+    it('should throw a notFound error', async () => {
+      // when
+      const error = await catchErr(certificationIssueReportRepository.get)(1234);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+    });
+  });
+
 });
