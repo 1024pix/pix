@@ -1,4 +1,4 @@
-const BookshelfOrganizationInvitation = require('../data/organization-invitation');
+const BookshelfOrganizationInvitation = require('../orm-models/OrganizationInvitation');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { NotFoundError } = require('../../domain/errors');
 const OrganizationInvitation = require('../../domain/models/OrganizationInvitation');

@@ -6,7 +6,7 @@ const {
 
 const { cloneDeep } = require('lodash');
 
-const Feedback = require('../../../../lib/infrastructure/data/feedback');
+const Feedback = require('../../../../lib/infrastructure/orm-models/Feedback');
 
 const moduleUnderTest = require('../../../../lib/application/feedbacks');
 

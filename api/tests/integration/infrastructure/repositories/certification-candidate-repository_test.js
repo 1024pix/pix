@@ -1,5 +1,5 @@
 const { databaseBuilder, expect, knex, domainBuilder, catchErr } = require('../../../test-helper');
-const BookshelfCertificationCandidate = require('../../../../lib/infrastructure/data/certification-candidate');
+const BookshelfCertificationCandidate = require('../../../../lib/infrastructure/orm-models/CertificationCandidate');
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
 const {
   NotFoundError,

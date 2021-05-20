@@ -1,4 +1,4 @@
-const BookshelfOrganizationTag = require('../data/organization-tag');
+const BookshelfOrganizationTag = require('../orm-models/OrganizationTag');
 const Bookshelf = require('../bookshelf');
 const bookshelfUtils = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');

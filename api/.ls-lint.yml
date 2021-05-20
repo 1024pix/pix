@@ -11,6 +11,10 @@ ls:
       simulateErrors:
         .dir: camelCase
 
+    infrastructure:
+      orm-models:
+        .js: PascalCase
+
   tests:
     integration:
       application:

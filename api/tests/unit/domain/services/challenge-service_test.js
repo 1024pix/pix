@@ -1,7 +1,7 @@
 const { expect } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/challenge-service');
-const Answer = require('../../../../lib/infrastructure/data/answer');
+const Answer = require('../../../../lib/infrastructure/orm-models/Answer');
 
 function _buildAnswer(result) {
   const answer = new Answer({ id: 'answer_id' });
