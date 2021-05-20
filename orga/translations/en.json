@@ -355,7 +355,6 @@
       "show-password": "Show password"
     },
     "login-or-register": {
-      "invitation": "You have been invited to join the organisation",
       "login-form": {
         "title": "Already have an account?",
         "button": "Log in"
@@ -392,7 +391,8 @@
           }
         },
         "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific customised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr."
-      }
+      },
+      "title": "You have been invited to join the organisation {organizationName}"
     },
     "profiles-individual-results": {
       "certifiable": "Eligible for certification",
@@ -581,7 +581,8 @@
           "aria-label": "Pending invitation",
           "message": "Sent on"
         }
-      }
+      },
+      "title": "Team invitations"
     },
     "team-list": {
       "title": "My team",
@@ -624,7 +625,8 @@
         },
         "empty": "No members yet",
         "row-title": "Member"
-      }
+      },
+      "title": "Team members"
     },
     "team-new": {
       "title": "Invite a member",
