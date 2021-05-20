@@ -1,7 +1,8 @@
-const { expect } = require('../../../test-helper');
+const { expect, catchErr } = require('../../../test-helper');
 
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const service = require('../../../../lib/domain/services/solution-service-qrocm-ind');
+const { YamlParsingError } = require('../../../../lib/domain/errors');
 
 const ANSWER_OK = AnswerStatus.OK;
 const ANSWER_KO = AnswerStatus.KO;
@@ -290,6 +291,17 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
   });
 
   describe('match, strong focus on treatments', function() {
+
+    it('when yaml is not valid, should throw an error', async function() {
+      const answer = 'lecteur: [ a';
+      const solution = 'lecteur:\n- G\n- Perso G\n\ndossier1:\n- Eureka\n\ndossier2:\n- Concept\n\nnom:\n- Logo\n\next:\n- gif';
+      const enabledTreatments = ['t1', 't2', 't3'];
+
+      const error = await catchErr(service.match)(answer, solution, enabledTreatments);
+
+      expect(error).to.be.an.instanceOf(YamlParsingError);
+      expect(error.message).to.equal('Une erreur s\'est produite lors de l\'interprétation des réponses.');
+    });
 
     const allCases = [
       {

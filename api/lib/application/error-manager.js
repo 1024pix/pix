@@ -312,6 +312,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
 
+  if (error instanceof DomainErrors.YamlParsingError) {
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
+  }
+
   return new HttpErrors.BaseHttpError(error.message);
 }
 
