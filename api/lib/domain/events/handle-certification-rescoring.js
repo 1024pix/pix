@@ -1,5 +1,6 @@
 const AssessmentResult = require('../models/AssessmentResult');
 const CompetenceMark = require('../models/CompetenceMark');
+const CertificationRescoringCompleted = require('./CertificationRescoringCompleted.js');
 const bluebird = require('bluebird');
 const {
   CertificationComputeError,
@@ -21,14 +22,13 @@ async function handleCertificationRescoring({
   checkEventTypes(event, eventTypes);
 
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: event.certificationCourseId });
-  await _calculateCertificationScore({
+  return await _calculateCertificationScore({
     certificationAssessment,
     assessmentResultRepository,
     competenceMarkRepository,
     scoringCertificationService,
     juryId: event.juryId,
   });
-  return null;
 }
 
 async function _calculateCertificationScore({
@@ -46,6 +46,11 @@ async function _calculateCertificationScore({
       assessmentResultRepository,
       competenceMarkRepository,
       juryId,
+    });
+    return new CertificationRescoringCompleted({
+      userId: certificationAssessment.userId,
+      certificationCourseId: certificationAssessment.certificationCourseId,
+      reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
     });
   } catch (error) {
     if (!(error instanceof CertificationComputeError)) {
