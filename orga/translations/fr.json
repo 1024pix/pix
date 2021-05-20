@@ -127,7 +127,8 @@
           "validatedSkills": "Acquis validés"
         },
         "empty": "En attente de résultats"
-      }
+      },
+      "title": "Résultats de {firstName} {lastName}"
     },
     "assessment-participants-list": {
       "table": {
@@ -143,7 +144,8 @@
         },
         "empty": "Aucun participant",
         "row-title": "Participant"
-      }
+      },
+      "title": "Participants"
     },
     "campaign": {
       "actions": {
@@ -249,6 +251,9 @@
       "shared-date": "Envoyé le",
       "start-date": "Commencé le"
     },
+    "campaign-individual-review": {
+      "title": "Analyse pour {firstName} {lastName}"
+    },
     "campaign-modification": {
       "actions": {
         "edit": "Modifier"
@@ -260,7 +265,6 @@
     },
     "campaign-review": {
       "description": "En fonction du référentiel testé et des résultats de la campagne, Pix vous recommande ces sujets à travailler, classés par degré de pertinence ({bubble}).",
-      "page-title": "Analyse pour {firstName} {lastName}",
       "sub-table": {
         "column": {
           "source": {
