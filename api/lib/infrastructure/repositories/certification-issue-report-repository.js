@@ -25,6 +25,13 @@ module.exports = {
     }
   },
 
+  async findByCertificationCourseId(certificationCourseId) {
+    const certificationIssueReports = await CertificationIssueReportBookshelf
+      .where({ certificationCourseId })
+      .fetchAll();
+    return bookshelfToDomainConverter.buildDomainObjects(CertificationIssueReportBookshelf, certificationIssueReports);
+  },
+
   async delete(id) {
     try {
       await CertificationIssueReportBookshelf
