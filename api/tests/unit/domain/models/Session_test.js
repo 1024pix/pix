@@ -168,4 +168,51 @@ describe('Unit | Domain | Models | Session', () => {
       expect(isPublished).to.be.false;
     });
   });
+
+  context('#isAccessible', () => {
+
+    it('returns true when the session is created', () => {
+      // given
+      const session = domainBuilder.buildSession.created();
+
+      // when
+      const isAccessible = session.isAccessible();
+
+      // then
+      expect(isAccessible).to.be.true;
+    });
+
+    it('returns false when the session is finalized', () => {
+      // given
+      const session = domainBuilder.buildSession.finalized();
+
+      // when
+      const isAccessible = session.isAccessible();
+
+      // then
+      expect(isAccessible).to.be.false;
+    });
+
+    it('returns false when the session is in process', () => {
+      // given
+      const session = domainBuilder.buildSession.inProcess();
+
+      // when
+      const isAccessible = session.isAccessible();
+
+      // then
+      expect(isAccessible).to.be.false;
+    });
+
+    it('returns false when the session is processed', () => {
+      // given
+      const session = domainBuilder.buildSession.processed();
+
+      // when
+      const isAccessible = session.isAccessible();
+
+      // then
+      expect(isAccessible).to.be.false;
+    });
+  });
 });
