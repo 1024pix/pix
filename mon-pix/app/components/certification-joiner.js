@@ -14,6 +14,10 @@ function _isMatchingReconciledStudentNotFoundError(err) {
   return _get(err, 'errors[0].code') === 'MATCHING_RECONCILED_STUDENT_NOT_FOUND';
 }
 
+function _isSessionNotAccessibleError(err) {
+  return _get(err, 'errors[0].status') === '412';
+}
+
 export default class CertificationJoiner extends Component {
   @service store;
   @service peeker;
@@ -97,6 +101,8 @@ export default class CertificationJoiner extends Component {
 
       if (_isMatchingReconciledStudentNotFoundError(err)) {
         this.errorMessage = 'Oups ! Il semble que vous n’utilisiez pas le bon compte Pix pour rejoindre cette session de certification.\nPour continuer, connectez-vous au bon compte Pix ou demandez de l’aide au surveillant.';
+      } else if (_isSessionNotAccessibleError(err)) {
+        this.errorMessage = 'Oups ! La session de certification que vous tentez de rejoindre n\'est plus accessible.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.';
       } else {
         this.errorMessage = 'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.';
       }
