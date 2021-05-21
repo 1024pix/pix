@@ -1,6 +1,14 @@
 .certification-informations {
   padding: 20px;
 
+  .buttons-row {
+  display: flex;
+  justify-content: flex-end;
+      .cancel-btn {
+        margin-bottom: 20px;
+      }
+  }
+
   .card {
     margin-bottom: 20px;
   }

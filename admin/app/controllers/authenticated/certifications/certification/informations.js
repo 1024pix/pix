@@ -62,6 +62,11 @@ export default class CertificationInformationsController extends Controller {
     return Boolean(this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isActionRequired).length);
   }
 
+  @computed('certification.status')
+  get isCertificationCancelled() {
+    return this.certification.status === 'cancelled';
+  }
+
   @action
   onEdit() {
     this.edition = true;
@@ -176,6 +181,27 @@ export default class CertificationInformationsController extends Controller {
   @action
   onUpdateCertificationBirthdate(selectedDates, lastSelectedDateFormatted) {
     this.certification.birthdate = lastSelectedDateFormatted;
+  }
+
+  @action
+  onCancelCourseButtonClick() {
+    const confirmMessage = 'Êtes vous sur de vouloir annuler cette certification ? Cliquer sur confirmer pour poursuivre';
+
+    this.confirmAction = 'onCancelCourseConfirmation';
+    this.confirmMessage = confirmMessage;
+    this.displayConfirm = true;
+  }
+
+  @action
+  async onCancelCourseConfirmation() {
+
+    try {
+      await this.certification.cancel();
+    } catch (error) {
+      this.notifications.error('Une erreur est survenue.');
+    }
+
+    this.displayConfirm = false;
   }
 
   // Private methods

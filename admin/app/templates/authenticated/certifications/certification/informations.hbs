@@ -1,5 +1,15 @@
 {{!-- template-lint-disable no-action --}}
 <div class="certification-informations">
+  <div class="buttons-row">
+    <PixButton
+      class="form-action cancel-btn"
+      @backgroundColor="red"
+      @isDisabled={{this.isCertificationCancelled}}
+      @border="squircle-small"
+      @triggerAction={{this.onCancelCourseButtonClick}}>
+      Annuler la certification
+      </PixButton>
+  </div>
   <div class="row">
     <div class="col">
       <div class="card">

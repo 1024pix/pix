@@ -2,6 +2,7 @@ const { expect, EMPTY_BLANK_AND_NULL } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 const { NO_EXAMINER_COMMENT } = require('../../../../../lib/domain/models/CertificationReport');
+const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
@@ -26,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
         },
       };
 
-      certificationCourseObject = {
+      certificationCourseObject = new CertificationCourse({
         id: 1,
         firstName: 'Freezer',
         lastName: 'The all mighty',
@@ -35,7 +36,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
         deliveredAt: '2020-10-24',
         externalId: 'xenoverse2',
         examinerComment: 'Un signalement surveillant',
-      };
+      });
     });
 
     it('should convert a JSON API data into a Certification Course object', async function() {
