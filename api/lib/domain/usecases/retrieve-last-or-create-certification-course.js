@@ -10,6 +10,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   accessCode,
   sessionId,
   userId,
+  locale,
   assessmentRepository,
   competenceRepository,
   certificationCandidateRepository,
@@ -40,6 +41,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     domainTransaction,
     sessionId,
     userId,
+    locale,
     assessmentRepository,
     competenceRepository,
     certificationCandidateRepository,
@@ -54,6 +56,7 @@ async function _startNewCertification({
   domainTransaction,
   sessionId,
   userId,
+  locale,
   assessmentRepository,
   certificationCandidateRepository,
   certificationCourseRepository,
@@ -61,7 +64,7 @@ async function _startNewCertification({
   placementProfileService,
   certificationBadgesService,
 }) {
-  const challengesForPixCertification = await _createPixCertification(placementProfileService, certificationChallengesService, userId);
+  const challengesForPixCertification = await _createPixCertification(placementProfileService, certificationChallengesService, userId, locale);
 
   // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
   // In case the simultaneous call finished earlier than the current one, we want to return its result
@@ -73,7 +76,7 @@ async function _startNewCertification({
     };
   }
 
-  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({ userId, certificationBadgesService, certificationChallengesService, domainTransaction });
+  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({ userId, certificationBadgesService, certificationChallengesService, domainTransaction, locale });
   const challengesForCertification = challengesForPixCertification.concat(challengesForPixPlusCertification);
 
   return _createCertificationCourse({
@@ -87,10 +90,10 @@ async function _startNewCertification({
   });
 }
 
-async function _findChallengesFromPixPlus({ userId, domainTransaction, certificationBadgesService, certificationChallengesService }) {
+async function _findChallengesFromPixPlus({ userId, domainTransaction, certificationBadgesService, certificationChallengesService, locale }) {
   const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({ userId, domainTransaction });
   const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(highestCertifiableBadgeAcquisitions,
-    ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId));
+    ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId, locale));
   return _.flatMap(challengesPixPlusByCertifiableBadges);
 }
 
@@ -102,14 +105,14 @@ async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepo
   });
 }
 
-async function _createPixCertification(placementProfileService, certificationChallengesService, userId) {
+async function _createPixCertification(placementProfileService, certificationChallengesService, userId, locale) {
   const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
 
   if (!placementProfile.isCertifiable()) {
     throw new UserNotAuthorizedToCertifyError();
   }
 
-  return certificationChallengesService.pickCertificationChallenges(placementProfile);
+  return certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 }
 
 async function _createCertificationCourse({ certificationCandidateRepository, certificationCourseRepository, assessmentRepository, userId, sessionId, certificationChallenges, domainTransaction }) {

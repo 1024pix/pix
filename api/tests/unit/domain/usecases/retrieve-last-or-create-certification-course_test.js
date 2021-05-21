@@ -28,8 +28,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   const placementProfileService = {
     getPlacementProfile: sinon.stub(),
   };
+  const locale = 'fr';
 
   const parameters = {
+    locale,
     domainTransaction,
     assessmentRepository,
     competenceRepository,
