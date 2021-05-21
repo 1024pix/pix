@@ -1,7 +1,10 @@
 const BookshelfTag = require('../orm-models/Tag');
 const bookshelfUtils = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { AlreadyExistingEntityError } = require('../../domain/errors');
+const {
+  AlreadyExistingEntityError,
+  NotFoundError,
+} = require('../../domain/errors');
 const omit = require('lodash/omit');
 
 module.exports = {
@@ -32,4 +35,19 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfTag, allTags);
 
   },
+
+  async get(id) {
+    try {
+      const tag = await BookshelfTag
+        .where({ id })
+        .fetch();
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfTag, tag);
+    } catch (err) {
+      if (err instanceof BookshelfTag.NotFoundError) {
+        throw new NotFoundError('Le tag n\'existe pas');
+      }
+      throw err;
+    }
+  },
+
 };
