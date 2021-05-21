@@ -24,6 +24,7 @@ const certifiableProfileForLearningContentRepository = require('../../../../lib/
 describe('Unit | Service | Certification Challenge Service', () => {
 
   const userId = 63731;
+  const locale = 'fr-fr';
 
   function _createCompetence(id, index, name, areaCode) {
     const competence = new Competence();
@@ -116,7 +117,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
     let userCompetence2;
 
     beforeEach(() => {
-      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves([
+      sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves([
         challengeForSkillCitation4,
         anotherChallengeForSkillCitation4,
         challengeForSkillCitation4AndMoteur3,
@@ -180,7 +181,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       const expectedCertificationChallenge = _createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2);
 
       // when
-      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
       // then
       expect(certificationChallenges).to.deep.equal([expectedCertificationChallenge]);
@@ -208,7 +209,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         answerRepository.findChallengeIdsFromAnswerIds.withArgs([123]).resolves(['whatever']);
 
         // when
-        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
         // then
         expect(certificationChallenges).to.deep.equal([]);
@@ -226,7 +227,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
           .resolves(['challengeRecordIdEleven']);
 
         // when
-        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
         // then
         expect(certificationChallenges).to.deep.equal([]);
@@ -251,7 +252,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
           .resolves(['challengeRecordIdOne']);
 
         // when
-        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
         // then
         expect(certificationChallenges[0].challengeId).to.be.oneOf(['challengeRecordIdTen', 'challengeRecordIdTwo']);
@@ -279,7 +280,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         const expectedSkills = [skillCitation4.name, skillRecherche4.name, skillMoteur3.name];
 
         // when
-        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
         // then
         const skillsForChallenges = _.uniq(_.map(certificationChallenges, 'associatedSkillName'));
@@ -308,7 +309,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
 
         // when
-        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+        const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
         // then
         const skillsForChallenges = _.uniq(_.map(certificationChallenges, 'associatedSkillName'));
@@ -351,7 +352,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       ];
 
       // when
-      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
       // then
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
@@ -388,7 +389,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       ];
 
       // when
-      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
       // then
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
@@ -430,7 +431,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       ];
 
       // when
-      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
       // then
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
@@ -457,7 +458,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         'anotherChallengeForSkillRemplir2',
       ]);
       // when
-      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
       // then
       expect(certificationChallenges).to.deep.equal([_createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2)]);
@@ -477,7 +478,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         challengeForSkillRequin5,
         challengeForSkillRequin8,
       ];
-      challengeRepository.findFrenchFranceOperative.resolves(onlyOneChallengeForCitation4AndMoteur3);
+      challengeRepository.findOperativeHavingLocale.withArgs(locale).resolves(onlyOneChallengeForCitation4AndMoteur3);
       placementProfile.userCompetences = [
         new UserCompetence({
           ...userCompetence1,
@@ -496,7 +497,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         'challengeRecordIdTwo',
       ]);
       // when
-      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
       // then
       expect(_.map(certificationChallenges, 'challengeId')).to.deep.equal(['challengeRecordIdTwo']);
@@ -513,7 +514,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         'nonExistentchallengeRecordId',
       ]);
       // when
-      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
       // then
       expect(certificationChallenges).to.deep.equal([]);
@@ -530,7 +531,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         'challengeRecordIdThree',
       ]);
       // when
-      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+      const certificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
       // then
       expect(certificationChallenges).to.deep.equal([]);
@@ -686,11 +687,11 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
-      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+      sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
       const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456, locale);
 
       // then
       let expectedCertificationChallenges = [];
@@ -803,11 +804,11 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 2));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
-      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+      sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
       const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456, locale);
 
       // then
       let expectedCertificationChallenges = [];
@@ -926,11 +927,11 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', [{ id: 'faireSonLit5_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
-      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+      sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
       const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456, locale);
 
       // then
       let expectedCertificationChallenges = [];
@@ -1050,11 +1051,11 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', [{ id: 'faireSonLit5_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
-      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+      sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
       const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456, locale);
 
       // then
       let expectedCertificationChallenges = [];
@@ -1146,11 +1147,11 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', [{ id: 'laverLesDents2_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit', [{ id: 'faireSonLit6_id' }, { id: 'faireSonLit4_id' }], 1));
-      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+      sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
       const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456, locale);
 
       // then
       let expectedCertificationChallenges = [];
@@ -1258,11 +1259,11 @@ describe('Unit | Service | Certification Challenge Service', () => {
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', [{ id: 'laverLesDents3_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', [{ id: 'faireSonLit4_id' }], 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', [{ id: 'faireSonLit6_id' }], 1));
-      sinon.stub(challengeRepository, 'findFrenchFranceOperative').resolves(challenges);
+      sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
       const certifiableBadge = domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 });
 
       // when
-      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456);
+      const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(certifiableBadge, 456, locale);
 
       // then
       let expectedCertificationChallenges = [];
