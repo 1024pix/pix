@@ -151,12 +151,13 @@ describe('Integration | Repository | challenge-repository', () => {
     });
   });
 
-  describe('#findFrenchFranceOperative', () => {
+  describe('#findOperativeHavingLocale', () => {
     it('should return only french france operative challenges with skills', async () => {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const frfrOperativeChallenge = domainBuilder.buildChallenge({ skills: [skill], locales: ['fr-fr'] });
       const nonFrfrOperativeChallenge = domainBuilder.buildChallenge({ skills: [skill], locales: ['en'] });
+      const locale = 'fr-fr';
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
         challenges: [
@@ -167,7 +168,7 @@ describe('Integration | Repository | challenge-repository', () => {
       mockLearningContent(learningContent);
 
       // when
-      const actualChallenges = await challengeRepository.findFrenchFranceOperative();
+      const actualChallenges = await challengeRepository.findOperativeHavingLocale(locale);
 
       // then
       expect(actualChallenges).to.have.lengthOf(1);
@@ -175,6 +176,7 @@ describe('Integration | Repository | challenge-repository', () => {
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
 
+    // TODO: remove duplicate test
     it('should setup the expected validator and solution on found challenges', async () => {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
