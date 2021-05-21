@@ -123,12 +123,9 @@ describe('Unit | Component | certification-starter', function() {
 
           context('when the error is known', function() {
 
-            beforeEach(() => {
-              err = { errors: [{ status: '404' }] };
-            });
-
-            it('should display a specific error', async function() {
+            it('should display a specific error when code not found', async function() {
               // given
+              err = { errors: [{ status: '404' }] };
               storeSaveStub.rejects(err);
 
               // when
@@ -138,6 +135,20 @@ describe('Unit | Component | certification-starter', function() {
               sinon.assert.calledWithExactly(storeCreateRecordStub, 'certification-course', { accessCode, sessionId });
               await sinon.assert.called(courseDeleteRecordStub);
               expect(component.get('errorMessage')).to.equal('Ce code n’existe pas ou n’est plus valide.');
+            });
+
+            it('should display a specific error when session is not accessible', async function() {
+              // given
+              err = { errors: [{ status: '412' }] };
+              storeSaveStub.rejects(err);
+
+              // when
+              await component.send('submit');
+
+              // then
+              sinon.assert.calledWithExactly(storeCreateRecordStub, 'certification-course', { accessCode, sessionId });
+              await sinon.assert.called(courseDeleteRecordStub);
+              expect(component.get('errorMessage')).to.equal('La session de certification n\'est plus accessible.');
             });
           });
 
@@ -157,7 +168,7 @@ describe('Unit | Component | certification-starter', function() {
               // then
               sinon.assert.calledWithExactly(storeCreateRecordStub, 'certification-course', { accessCode, sessionId });
               await sinon.assert.called(courseDeleteRecordStub);
-              expect(component.get('errorMessage')).to.equal('Une erreur serveur inattendue vient de se produire');
+              expect(component.get('errorMessage')).to.equal('Une erreur serveur inattendue vient de se produire.');
             });
           });
         });

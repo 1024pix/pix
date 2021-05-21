@@ -46,8 +46,10 @@ export default Component.extend({
         this.getCurrentCertificationCourse().deleteRecord();
         if (err.errors && err.errors[0] && err.errors[0].status === '404') {
           this.set('errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
+        } else if (err.errors && err.errors[0] && err.errors[0].status === '412') {
+          this.set('errorMessage', 'La session de certification n\'est plus accessible.');
         } else {
-          this.set('errorMessage', 'Une erreur serveur inattendue vient de se produire');
+          this.set('errorMessage', 'Une erreur serveur inattendue vient de se produire.');
         }
         this.set('isLoading', false);
       }
