@@ -24,12 +24,12 @@ module('Integration | Component | routes/login-or-register', function(hooks) {
 
   test('it display the organization name the user is invited to', async function(assert) {
     // when
-    const invitationMessage = this.intl.t('pages.login-or-register.invitation');
+    const invitationMessage = this.intl.t('pages.login-or-register.title', { organizationName: 'Organization Aztec' });
 
     await render(hbs`<Routes::LoginOrRegister @organizationName='Organization Aztec'/>`);
 
     // then
-    assert.dom('.login-or-register-panel__invitation').hasText(`${invitationMessage} Organization Aztec`);
+    assert.dom('.login-or-register-panel__invitation').hasText(`${invitationMessage}`);
   });
 
   test('it toggle the register form by default', async function(assert) {

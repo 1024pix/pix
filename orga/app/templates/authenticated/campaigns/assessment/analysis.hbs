@@ -1,4 +1,7 @@
+{{page-title this.pageTitle}}
 <Routes::Authenticated::Campaign::Analysis::Tab
-  @campaignTubeRecommendations={{@model.campaignTubeRecommendations}}
-  @displayAnalysis={{gt @model.campaignTubeRecommendations.length 0}}
+  @campaignTubeRecommendations={{@model.campaignAnalysis.campaignTubeRecommendations}}
+  @displayAnalysis={{gt @model.campaignAnalysis.campaignTubeRecommendations.length 0}}
+  @participantFirstName= {{@model.firstName}}
+  @participantLastName= {{@model.lastName}}
 />
