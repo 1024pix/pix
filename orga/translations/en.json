@@ -92,6 +92,7 @@
       "students-sup": "Students",
       "team": "Team"
     },
+    "pix-orga": "Pix Orga",
     "user-logged-menu": {
       "logout": "Log out",
       "summary": "User summary"
@@ -126,7 +127,8 @@
           "validatedSkills": "Items successfully completed"
         },
         "empty": "Results pending"
-      }
+      },
+      "title": "Results of {firstName} {lastName}"
     },
     "assessment-participants-list": {
       "table": {
@@ -142,7 +144,8 @@
         },
         "empty": "No participants",
         "row-title": "Participant"
-      }
+      },
+      "title": "Participants"
     },
     "campaign": {
       "actions": {
@@ -193,7 +196,8 @@
         },
         "empty": "Results pending",
         "row-title": "Competence"
-      }
+      },
+      "title": "Collective results"
     },
     "campaign-creation": {
       "title": "Create a campaign",
@@ -240,51 +244,56 @@
       "external-user-id-label": "External user ID label",
       "landing-page-text": "Text to display on the starting page",
       "personalised-test-title": "Title of the customised test",
-      "target-profile": "Target profile"
+      "target-profile": "Target profile",
+      "title": "Details"
     },
     "campaign-individual-results": {
       "shared-date": "Sent on",
       "start-date": "Started on"
     },
+    "campaign-individual-review": {
+      "title": "Review for {firstName} {lastName}"
+    },
     "campaign-modification": {
-      "title": "Edit a campaign",
       "actions": {
         "edit": "Edit"
       },
       "campaign-name": "Name of the campaign",
       "landing-page-text": "Text to display on the starting page",
-      "personalised-test-title": "Title of the customised test"
+      "personalised-test-title": "Title of the personalised test",
+      "title": "Edit a campaign"
     },
     "campaign-review": {
-      "title": "Recommendations of topics to focus on",
       "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following topics, sorted by relevance ({bubble}).",
       "sub-table": {
-        "title": "{count, plural, =1 {1 tutorial} other{{count} tutorials}} recommended by the Pix community",
         "column": {
           "source": {
             "value": "By {source}"
           }
         },
-        "row-title": "Tutorial"
+        "row-title": "Tutorial",
+        "title": "{count, plural, =1 {1 tutorial} other{{count} tutorials}} recommended by the Pix community"
       },
+      "sub-title": "Recommendations of topics to focus on",
       "table": {
-        "title": "Review by topic",
         "column": {
-          "relevance": "Relevance",
           "subjects": "Topics ({count, plural, =0 {-} other {{count}}})",
-          "tutorial": {
-            "aria-label": "Show all tutorials"
-          },
+          "relevance": "Relevance",
           "tutorial-count": {
             "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
+          },
+          "tutorial": {
+            "aria-label": "Show all tutorials"
           }
         },
         "empty": "Results pending",
         "row-title": "Topic",
         "sort": {
           "relevance": "Sort by relevance"
-        }
-      }
+        },
+        "title": "Review by topic"
+      },
+      "title": "Review"
     },
     "campaigns-list": {
       "action": {
@@ -316,6 +325,10 @@
           "by-name": "Search for a campaign"
         },
         "row-title": "Campaign"
+      },
+      "title": {
+        "archived": "Archived campaigns",
+        "active": "Active campaigns"
       }
     },
     "certifications": {
@@ -354,7 +367,6 @@
       "show-password": "Show password"
     },
     "login-or-register": {
-      "invitation": "You have been invited to join the organisation",
       "login-form": {
         "title": "Already have an account?",
         "button": "Log in"
@@ -391,7 +403,8 @@
           }
         },
         "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific customised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr."
-      }
+      },
+      "title": "You have been invited to join the organisation {organizationName}"
     },
     "profiles-individual-results": {
       "certifiable": "Eligible for certification",
@@ -406,7 +419,8 @@
         },
         "empty": "Results pending",
         "row-title": "Competence"
-      }
+      },
+      "title": "Profile of {firstName} {lastName}"
     },
     "profiles-list": {
       "table": {
@@ -426,7 +440,8 @@
         },
         "empty": "Waiting for profiles",
         "row-title": "Profile"
-      }
+      },
+      "title": "Participants"
     },
     "students-sco": {
       "title": "Students",
@@ -580,7 +595,8 @@
           "aria-label": "Pending invitation",
           "message": "Sent on"
         }
-      }
+      },
+      "title": "Team invitations"
     },
     "team-list": {
       "title": "My team",
@@ -623,7 +639,8 @@
         },
         "empty": "No members yet",
         "row-title": "Member"
-      }
+      },
+      "title": "Team members"
     },
     "team-new": {
       "title": "Invite a member",
@@ -645,7 +662,8 @@
       "invite-button": "Invite"
     },
     "terms-of-service": {
-      "accept" : "I accept the terms and conditions"
+      "accept" : "I accept the terms and conditions",
+      "title": "Terms and conditions of use"
     }
   }
 }

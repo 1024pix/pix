@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import ArrayProxy from '@ember/array/proxy';
 import sinon from 'sinon';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
-  setupTest(hooks);
+  setupIntlRenderingTest(hooks);
   let controller;
 
   hooks.beforeEach(function() {
@@ -79,6 +79,20 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
         // then
         assert.equal(isArchived, true);
       });
+
+      test('it should display page title as archived', async function(assert) {
+        // given
+        const pageTitle = 'Campagnes archivées';
+
+        controller.model = { query: {
+          filter: {
+            status: 'archived',
+          },
+        } };
+
+        // then
+        assert.equal(controller.pageTitle, pageTitle);
+      });
     });
 
     module('when status is not archived', function() {
@@ -92,6 +106,20 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
 
         // then
         assert.equal(isArchived, false);
+      });
+
+      test('it should display page title as active', async function(assert) {
+        // given
+        const pageTitle = 'Campagnes actives';
+
+        controller.model = { query: {
+          filter: {
+            status: null,
+          },
+        } };
+
+        // then
+        assert.equal(controller.pageTitle, pageTitle);
       });
     });
   });
