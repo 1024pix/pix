@@ -6,6 +6,7 @@ const {
   MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   UserAlreadyLinkedToCandidateInSessionError,
+  SessionNotAccessible,
 } = require('../errors');
 const UserLinkedToCertificationCandidate = require('../events/UserLinkedToCertificationCandidate');
 const UserAlreadyLinkedToCertificationCandidate = require('../events/UserAlreadyLinkedToCertificationCandidate');
@@ -20,7 +21,12 @@ async function linkUserToSessionCertificationCandidate({
   certificationCenterRepository,
   organizationRepository,
   schoolingRegistrationRepository,
+  sessionRepository,
 }) {
+  const session = await sessionRepository.get(sessionId);
+  if (!session.isAccessible()) {
+    throw new SessionNotAccessible();
+  }
   const participatingCertificationCandidate = new CertificationCandidate({
     firstName,
     lastName,
