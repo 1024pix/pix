@@ -298,6 +298,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.NoStagesForCampaign) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
+  if (error instanceof DomainErrors.SessionNotAccessible) {
+    return new HttpErrors.PreconditionFailedError(error.message);
+  }
 
   if (error instanceof DomainErrors.TargetProfileCannotBeCreated) {
     return new HttpErrors.UnprocessableEntityError(error.message);
