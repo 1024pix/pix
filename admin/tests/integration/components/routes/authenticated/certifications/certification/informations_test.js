@@ -14,6 +14,44 @@ module('Integration | Component | routes/authenticated/certifications/certificat
     await createAuthenticateSession({ userId: user.id });
   });
 
+  module('When certification is not cancelled', () => {
+
+    test('the certification cancellation button is not disabled ', async function(assert) {
+      // given
+      const certification = this.server.create('certification', {
+        status: 'started',
+        competencesWithMark: [],
+      });
+
+      const cancellationButtonSelector = '.buttons-row .pix-button';
+
+      // when
+      await visit(`/certifications/${certification.id}`);
+
+      // then
+      assert.dom(cancellationButtonSelector).doesNotHaveAttribute('disabled');
+    });
+  });
+
+  module('When certification is cancelled', () => {
+
+    test('the certification cancellation button is disabled ', async function(assert) {
+      // given
+      const certification = this.server.create('certification', {
+        status: 'cancelled',
+        competencesWithMark: [],
+      });
+
+      const cancellationButtonSelector = '.buttons-row .pix-button';
+
+      // when
+      await visit(`/certifications/${certification.id}`);
+
+      // then
+      assert.dom(cancellationButtonSelector).hasAttribute('disabled');
+    });
+  });
+
   module('certification issue report container', function() {
 
     module('when there is no certification issue report', function() {

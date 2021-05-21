@@ -39,7 +39,7 @@ async function getCertificationResultByCertifCourse({ certificationCourse }) {
     certificationIssueReports: certificationCourse.certificationIssueReports,
     hasSeenEndTestScreen: certificationCourse.hasSeenEndTestScreen,
     sessionId: certificationCourse.sessionId,
-    isCourseCancelled: certificationCourse.isCancelled,
+    isCourseCancelled: certificationCourse.isCancelled(),
   });
 }
 

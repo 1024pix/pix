@@ -115,4 +115,15 @@ describe('Unit | Application | Certifications Course | Route', function() {
       expect(response.statusCode).to.equal(200);
     });
   });
+
+  describe('POST /api/admin/certification-courses/{id}/cancel', () => {
+
+    it('should check pixMaster role', async () => {
+      // when
+      await httpTestServer.request('POST', '/api/admin/certification-courses/1/cancel');
+
+      // then
+      expect(securityPreHandlers.checkUserHasRolePixMaster).to.have.been.called;
+    });
+  });
 });

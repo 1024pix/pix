@@ -39,7 +39,7 @@ class CertificationCourse {
     this.userId = userId;
     this.sessionId = sessionId;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
-    this.isCancelled = isCancelled;
+    this._isCancelled = isCancelled;
   }
 
   reportIssue(issueReport) {
@@ -60,6 +60,14 @@ class CertificationCourse {
       verificationCode,
       maxReachableLevelOnCertificationDate,
     });
+  }
+
+  cancel() {
+    this._isCancelled = true;
+  }
+
+  isCancelled() {
+    return this._isCancelled === true;
   }
 }
 

@@ -701,4 +701,26 @@ describe('Acceptance | API | Certification Course', () => {
     });
 
   });
+
+  describe('POST /api/admin/certification-courses/{id}/cancel', () => {
+
+    it('should respond with a 200', async () => {
+      // given
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const options = {
+        method: 'POST',
+        url: `/api/admin/certification-courses/${certificationCourse.id}/cancel`,
+        headers: {},
+      };
+      await databaseBuilder.commit();
+      const userPixMaster = await insertUserWithRolePixMaster();
+      options.headers.authorization = generateValidRequestAuthorizationHeader(userPixMaster.id);
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });

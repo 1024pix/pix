@@ -485,4 +485,50 @@ describe('Unit | Controller | certification-course-controller', () => {
       });
     });
   });
+
+  describe('#cancelCertificationCourse', () => {
+
+    it('should cancel certification course', async () => {
+      // given
+      sinon.stub(usecases, 'cancelCertificationCourse');
+      const certificationCourseId = 1234;
+      const request = {
+        params: {
+          id: certificationCourseId,
+        },
+      };
+      const cancelledCertificationCourse = domainBuilder.buildCertificationCourse({
+        id: certificationCourseId,
+        isCancelled: true,
+      });
+      usecases.cancelCertificationCourse
+        .withArgs({ certificationCourseId })
+        .resolves(cancelledCertificationCourse);
+
+      // when
+      const response = await certificationCourseController.cancel(request, hFake);
+
+      // then
+      expect(response).to.deep.equal({
+        data: {
+          attributes: {
+            'examiner-comment': 'A cassé le clavier',
+            'first-name': 'Gandhi',
+            'has-seen-end-test-screen': false,
+            'last-name': 'Matmatah',
+            'nb-challenges': 0,
+          },
+          id: '1234',
+          relationships: {
+            assessment: {
+              links: {
+                related: '/api/assessments/123',
+              },
+            },
+          },
+          type: 'certification-courses',
+        },
+      });
+    });
+  });
 });
