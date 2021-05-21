@@ -438,6 +438,7 @@ describe('Acceptance | API | Certification Course', () => {
         url: '/api/certification-courses',
         headers: {
           authorization: generateValidRequestAuthorizationHeader(userId),
+          'accept-language': 'fr-fr',
         },
         payload,
       };
@@ -644,64 +645,124 @@ describe('Acceptance | API | Certification Course', () => {
                 ],
               }],
             },
+            {
+              id: 'recCompetence6',
+              tubes: [{
+                id: 'recTube0_0',
+                skills: [
+                  {
+                    id: 'recSkill6_0',
+                    nom: '@recSkill6_0',
+                    challenges: [
+                      { id: 'recChallenge6_0_0', langues: ['Anglais'] },
+                    ],
+                  },
+                  {
+                    id: 'recSkill6_1',
+                    nom: '@recSkill6_1',
+                    challenges: [
+                      { id: 'recChallenge6_1_0', langues: ['Anglais'] },
+                    ],
+                  },
+                ],
+              }],
+            },
           ],
         },
       ];
 
-      beforeEach(async () => {
-        // given
-        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
-        mockLearningContent(learningContentObjects);
-        certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
-        databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent({
-          learningContent,
-          userId,
-          earnedPix: 4,
+      context('when locale is fr-fr', () => {
+
+        beforeEach(async () => {
+          // given
+          const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+          mockLearningContent(learningContentObjects);
+          certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+          databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent({
+            learningContent,
+            userId,
+            earnedPix: 4,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          response = await server.inject(options);
         });
 
-        await databaseBuilder.commit();
+        afterEach(async () => {
+          await knex('knowledge-elements').delete();
+          await knex('answers').delete();
+          await knex('assessments').delete();
+          await knex('certification-challenges').delete();
+          await knex('certification-courses').delete();
+        });
 
-        // when
-        response = await server.inject(options);
+        it('should respond with 201 status code', () => {
+          // then
+          expect(response.statusCode).to.equal(201);
+        });
+
+        it('should have created a certification course', async () => {
+          // then
+          const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
+          expect(certificationCourses).to.have.length(1);
+        });
+
+        it('should have copied matching certification candidate info into created certification course', async () => {
+          // then
+          const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
+          expect(certificationCourses[0].firstName).to.equal(certificationCandidate.firstName);
+          expect(certificationCourses[0].lastName).to.equal(certificationCandidate.lastName);
+          expect(certificationCourses[0].birthdate).to.equal(certificationCandidate.birthdate);
+          expect(certificationCourses[0].birthplace).to.equal(certificationCandidate.birthCity);
+          expect(certificationCourses[0].externalId).to.equal(certificationCandidate.externalId);
+        });
+
+        it('should have only fr-fr challenges associated with certification-course', async () => {
+          // then
+          const certificationChallenges = await knex('certification-challenges');
+          expect(certificationChallenges.length).to.equal(2);
+          expect(certificationChallenges[0].challengeId).to.equal('recChallenge5_1_1');
+          expect(certificationChallenges[1].challengeId).to.equal('recChallenge5_0_0');
+        });
       });
 
-      afterEach(async () => {
-        await knex('knowledge-elements').delete();
-        await knex('answers').delete();
-        await knex('assessments').delete();
-        await knex('certification-challenges').delete();
-        await knex('certification-courses').delete();
-      });
+      context('when locale is en', () => {
+        beforeEach(async () => {
+          // given
+          const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+          mockLearningContent(learningContentObjects);
+          certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+          databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent({
+            learningContent,
+            userId,
+            earnedPix: 4,
+          });
+          options.headers['accept-language'] = 'en';
 
-      it('should respond with 201 status code', () => {
-        // then
-        expect(response.statusCode).to.equal(201);
-      });
+          await databaseBuilder.commit();
 
-      it('should have created a certification course', async () => {
-        // then
-        const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
-        expect(certificationCourses).to.have.length(1);
-      });
+          // when
+          response = await server.inject(options);
+        });
 
-      it('should have copied matching certification candidate info into created certification course', async () => {
-        // then
-        const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
-        expect(certificationCourses[0].firstName).to.equal(certificationCandidate.firstName);
-        expect(certificationCourses[0].lastName).to.equal(certificationCandidate.lastName);
-        expect(certificationCourses[0].birthdate).to.equal(certificationCandidate.birthdate);
-        expect(certificationCourses[0].birthplace).to.equal(certificationCandidate.birthCity);
-        expect(certificationCourses[0].externalId).to.equal(certificationCandidate.externalId);
-      });
+        afterEach(async () => {
+          await knex('knowledge-elements').delete();
+          await knex('answers').delete();
+          await knex('assessments').delete();
+          await knex('certification-challenges').delete();
+          await knex('certification-courses').delete();
+        });
 
-      it('should have only fr-fr challenges associated with certification-course', async () => {
-        // then
-        const certificationChallenges = await knex('certification-challenges');
-        expect(certificationChallenges.length).to.equal(2);
-        expect(certificationChallenges[0].challengeId).to.equal('recChallenge5_1_1');
-        expect(certificationChallenges[1].challengeId).to.equal('recChallenge5_0_0');
+        it('should have only en challenges associated with certification-course', async () => {
+          // then
+          const certificationChallenges = await knex('certification-challenges');
+          expect(certificationChallenges.length).to.equal(2);
+          expect(certificationChallenges[0].challengeId).to.equal('recChallenge6_1_0');
+          expect(certificationChallenges[1].challengeId).to.equal('recChallenge6_0_0');
+        });
       });
-
     });
 
     context('when the certification course already exists', () => {
