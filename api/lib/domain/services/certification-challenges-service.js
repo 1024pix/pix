@@ -17,7 +17,7 @@ const certifiableProfileForLearningContentRepository = require('../../infrastruc
 
 module.exports = {
 
-  async pickCertificationChallenges(placementProfile) {
+  async pickCertificationChallenges(placementProfile, locale) {
     const knowledgeElementsByCompetence = await knowledgeElementRepository
       .findUniqByUserIdGroupedByCompetenceId({ userId: placementProfile.userId, limitDate: placementProfile.profileDate });
     const knowledgeElements = KnowledgeElement.findDirectlyValidatedFromGroups(knowledgeElementsByCompetence);
@@ -26,19 +26,19 @@ module.exports = {
       UserCompetence.orderSkillsOfCompetenceByDifficulty(placementProfile.userCompetences)
         .filter((uc) => uc.isCertifiable());
 
-    const allFrFrOperativeChallenges = await challengeRepository.findFrenchFranceOperative();
+    const allOperativeChallenges = await challengeRepository.findOperativeHavingLocale(locale);
     const alreadyAnsweredChallengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
-    return _pickCertificationChallengesForAllCompetences(certifiableUserCompetencesWithOrderedSkills, alreadyAnsweredChallengeIds, allFrFrOperativeChallenges);
+    return _pickCertificationChallengesForAllCompetences(certifiableUserCompetencesWithOrderedSkills, alreadyAnsweredChallengeIds, allOperativeChallenges);
   },
 
-  async pickCertificationChallengesForPixPlus(certifiableBadge, userId) {
+  async pickCertificationChallengesForPixPlus(certifiableBadge, userId, locale) {
     const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({ id: certifiableBadge.targetProfileId });
     const certifiableProfile = await certifiableProfileForLearningContentRepository.get({ id: userId, profileDate: new Date(), targetProfileWithLearningContent });
     const excludedOrigins = [PIX_ORIGIN];
     const skillIdsByArea = certifiableProfile.getOrderedCertifiableSkillsByAreaId(excludedOrigins);
 
     const alreadyAnsweredChallengeIds = certifiableProfile.getAlreadyAnsweredChallengeIds();
-    const allFrFrOperativeChallenges = await challengeRepository.findFrenchFranceOperative();
+    const allFrFrOperativeChallenges = await challengeRepository.findOperativeHavingLocale(locale);
     return _pickCertificationChallengesForAllAreas(skillIdsByArea, alreadyAnsweredChallengeIds, allFrFrOperativeChallenges, targetProfileWithLearningContent, certifiableBadge.key);
   },
 };

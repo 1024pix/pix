@@ -9,6 +9,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
   const certificationDate = _addOneDayToDate(placementDate);
   const sufficientPixValueToBeCertifiableOnCompetence = PIX_COUNT_BY_LEVEL;
   const unsufficientPixValueToBeCertifiableOnCompetence = 1;
+  const locale = 'fr-fr';
   let certifiableUserId;
 
   beforeEach(() => {
@@ -82,7 +83,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     });
 
     // when
-    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
     //then
     expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(['recArea1_Competence1_Tube1_Skill2_Challenge1']);
@@ -156,7 +157,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     });
 
     // when
-    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
     //then
     expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(['recArea1_Competence1_Tube1_Skill2_Challenge1']);
@@ -237,7 +238,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     });
 
     // when
-    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
     //then
     expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(['recArea1_Competence2_Tube1_Skill1_Challenge1']);
@@ -318,7 +319,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     });
 
     // when
-    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
     //then
     expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(['recArea1_Competence2_Tube1_Skill1_Challenge1']);
@@ -383,7 +384,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     });
 
     // when
-    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
     expect(challenges.length).to.equal(1);
     expect(challenges[0].challengeId).to.be.oneOf(['recArea1_Competence1_Tube1_Skill1_Challenge2', 'recArea1_Competence1_Tube1_Skill1_Challenge3']);
   });
@@ -464,7 +465,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     });
 
     // when
-    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
     expect(challenges.length).to.equal(1);
     expect(['recArea1_Competence1_Tube1_Skill1_Challenge1', 'recArea1_Competence1_Tube1_Skill1_Challenge2', 'recArea1_Competence1_Tube1_Skill1_Challenge3']).to.include(challenges[0].challengeId);
   });
@@ -577,7 +578,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     });
 
     // when
-    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
     expect(challenges.length).to.equal(3);
     expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(
       [
@@ -655,7 +656,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     });
 
     // when
-    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+    const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
     expect(challenges.length).to.equal(1);
     expect(challenges[0].challengeId).to.equal('recArea1_Competence1_Tube1_Skill1_And_Skill2_Challenge');
   });

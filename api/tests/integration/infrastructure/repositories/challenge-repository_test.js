@@ -151,12 +151,13 @@ describe('Integration | Repository | challenge-repository', () => {
     });
   });
 
-  describe('#findFrenchFranceOperative', () => {
+  describe('#findOperativeHavingLocale', () => {
     it('should return only french france operative challenges with skills', async () => {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const frfrOperativeChallenge = domainBuilder.buildChallenge({ skills: [skill], locales: ['fr-fr'] });
       const nonFrfrOperativeChallenge = domainBuilder.buildChallenge({ skills: [skill], locales: ['en'] });
+      const locale = 'fr-fr';
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
         challenges: [
@@ -167,36 +168,12 @@ describe('Integration | Repository | challenge-repository', () => {
       mockLearningContent(learningContent);
 
       // when
-      const actualChallenges = await challengeRepository.findFrenchFranceOperative();
+      const actualChallenges = await challengeRepository.findOperativeHavingLocale(locale);
 
       // then
       expect(actualChallenges).to.have.lengthOf(1);
       expect(actualChallenges[0]).to.be.instanceOf(Challenge);
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
-    });
-
-    it('should setup the expected validator and solution on found challenges', async () => {
-      // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const frfrOperativeChallenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill], locales: ['fr-fr'] });
-      const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
-        challenges: [{ ...frfrOperativeChallenge, skillIds: ['recSkill1'], t1Status: 'Activé', t2Status: 'Activé', t3Status: 'Désactivé' }],
-      };
-      mockLearningContent(learningContent);
-
-      // when
-      const [actualChallenge] = await challengeRepository.findOperative();
-
-      // then
-      expect(actualChallenge.validator).to.be.instanceOf(Validator);
-      expect(actualChallenge.validator.solution.id).to.equal(frfrOperativeChallenge.id);
-      expect(actualChallenge.validator.solution.isT1Enabled).to.equal(true);
-      expect(actualChallenge.validator.solution.isT2Enabled).to.equal(true);
-      expect(actualChallenge.validator.solution.isT3Enabled).to.equal(false);
-      expect(actualChallenge.validator.solution.scoring).to.equal('');
-      expect(actualChallenge.validator.solution.type).to.equal(frfrOperativeChallenge.type);
-      expect(actualChallenge.validator.solution.value).to.equal(frfrOperativeChallenge.solution);
     });
   });
 
