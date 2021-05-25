@@ -12,7 +12,7 @@ module.exports = {
         result.examinerComment =
           get(juryCertificationSummary, 'certificationIssueReports[0].description');
         result.numberOfCertificationIssueReports = juryCertificationSummary.certificationIssueReports.length;
-        result.numberOfCertificationIssueReportsWithRequiredAction = juryCertificationSummary.certificationIssueReports.filter((issueReport) => issueReport.isActionRequired).length;
+        result.numberOfCertificationIssueReportsWithRequiredAction = juryCertificationSummary.certificationIssueReports.filter((issueReport) => issueReport.isImpactful && issueReport.resolvedAt === null).length;
         result.cleaCertificationStatus = result.cleaCertificationResult.status;
         result.pixPlusDroitMaitreCertificationStatus = result.pixPlusDroitMaitreCertificationResult.status;
         result.pixPlusDroitExpertCertificationStatus = result.pixPlusDroitExpertCertificationResult.status;
