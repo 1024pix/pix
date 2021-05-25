@@ -2,6 +2,8 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import ChallengeItemGeneric from './challenge-item-generic';
 import { inject as service } from '@ember/service';
+import generateRandomString from 'mon-pix/utils/generate-random-string';
+import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
 export default class ChallengeItemQroc extends ChallengeItemGeneric {
   @service intl;
@@ -91,5 +93,18 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
     window.removeEventListener('message', this.postMessageHandler);
   }
 
+  get _blocks() {
+    return proposalsAsBlocks(this.args.challenge.proposals).map((block) => {
+      block.randomName = generateRandomString(block.input);
+      block.ariaLabel = block.autoAriaLabel ? this.intl.t('pages.challenge.answer-input.numbered-label', { number: block.ariaLabel }) : block.ariaLabel;
+      return block;
+    });
+  }
+
+  get userAnswer() {
+    const answerIfExist = this.args.answer && this.args.answer.value;
+    const answer = answerIfExist || '';
+    return answer.indexOf('#ABAND#') > -1 ? '' : answer;
+  }
 }
 
