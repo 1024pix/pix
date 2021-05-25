@@ -92,14 +92,14 @@ module('Integration | Component | routes/authenticated/certifications/certificat
 
     module('when there are certification issue reports', function() {
 
-      module('when there are only certification issue reports with required action', function() {
+      module('when there are only impactful certification issue reports', function() {
 
-        test('it renders only certifications issue reports with required action', async function(assert) {
+        test('it renders only impactful certifications issue reports', async function(assert) {
           // given
           const certificationIssueReport = this.server.create('certification-issue-report', {
             category: 'OTHER',
             description: 'Un signalement impactant',
-            isActionRequired: true,
+            isImpactful: true,
           });
           const certification = this.server.create('certification', {
             competencesWithMark: [
@@ -133,17 +133,65 @@ module('Integration | Component | routes/authenticated/certifications/certificat
           assert.dom('.card-text ul li').hasText('Autre (si aucune des catégories ci-dessus ne correspond au signalement) - Un signalement impactant');
           assert.notContains('Signalement(s) non impactant(s)');
         });
+
+        module('when the impactful certification issue report is resolved', function() {
+
+          test('it renders the certifications issue report with the resolved icon', async function(assert) {
+            // given
+            const resolvedCertificationIssueReport = this.server.create('certification-issue-report', {
+              category: 'OTHER',
+              description: 'Un signalement impactant',
+              isImpactful: true,
+              resolvedAt: Date.now(),
+            });
+            const certification = this.server.create('certification', {
+              competencesWithMark: [],
+              certificationIssueReports: [resolvedCertificationIssueReport],
+            });
+
+            // when
+            await visit(`/certifications/${certification.id}`);
+
+            // then
+            assert.dom('.certification-informations__certification-issue-report--resolved').exists();
+            assert.dom('.certification-informations__certification-issue-report--unresolved').doesNotExist();
+          });
+        });
+
+        module('when the impactful certification issue report is not resolved', function() {
+
+          test('it renders the certifications issue report with the unresolved icon', async function(assert) {
+            // given
+            const unresolvedCertificationIssueReport = this.server.create('certification-issue-report', {
+              category: 'OTHER',
+              description: 'Un signalement impactant',
+              isImpactful: true,
+              resolvedAt: null,
+            });
+            const certification = this.server.create('certification', {
+              competencesWithMark: [],
+              certificationIssueReports: [unresolvedCertificationIssueReport],
+            });
+
+            // when
+            await visit(`/certifications/${certification.id}`);
+
+            // then
+            assert.dom('.certification-informations__certification-issue-report--unresolved').exists();
+            assert.dom('.certification-informations__certification-issue-report--resolved').doesNotExist();
+          });
+        });
       });
 
-      module('when there are only certification issue reports without required action', function() {
+      module('when there are only unimpactful certification issue reports', function() {
 
-        test('it renders only certifications issue reports without required action', async function(assert) {
+        test('it renders only unimpactful certifications issue reports', async function(assert) {
           // given
           const certificationIssueReport = this.server.create('certification-issue-report', {
             category: 'CANDIDATE_INFORMATIONS_CHANGES',
             subcategory: 'EXTRA_TIME_PERCENTAGE',
             description: 'Un signalement non impactant',
-            isActionRequired: false,
+            isImpactful: false,
           });
           const certification = this.server.create('certification', {
             competencesWithMark: [
@@ -186,7 +234,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
           subcategory: 'IMAGE_NOT_DISPLAYING',
           description: 'image disparue',
           questionNumber: 666,
-          isActionRequired: true,
+          isImpactful: true,
         });
         const certification = this.server.create('certification', {
           competencesWithMark: [
