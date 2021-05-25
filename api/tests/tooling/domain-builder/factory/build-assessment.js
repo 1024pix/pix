@@ -23,6 +23,7 @@ function buildAssessment({
   campaignParticipation = null,
   competenceId = null,
   lastQuestionDate = new Date('1992-06-12T01:02:03Z'),
+  lastChallengeId = null,
 } = {}) {
   return new Assessment({
     // attributes
@@ -38,6 +39,7 @@ function buildAssessment({
     isImproving,
     competenceId,
     lastQuestionDate,
+    lastChallengeId,
     // relationships
     answers,
     course,
@@ -55,6 +57,7 @@ buildAssessment.ofTypeCampaign = function({
   state = Assessment.states.COMPLETED,
   isImproving = false,
   lastQuestionDate = new Date(),
+  lastChallengeId = null,
   answers = [buildAnswer()],
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
@@ -87,6 +90,7 @@ buildAssessment.ofTypeCampaign = function({
     isImproving,
     campaignParticipationId,
     lastQuestionDate,
+    lastChallengeId,
     // relationships
     answers,
     course,
@@ -106,6 +110,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
   isImproving = false,
   campaignParticipationId = null,
   lastQuestionDate = new Date(),
+  lastChallengeId = null,
   answers = [buildAnswer()],
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
@@ -129,6 +134,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
     state,
     isImproving,
     lastQuestionDate,
+    lastChallengeId,
     // relationships
     answers,
     course,

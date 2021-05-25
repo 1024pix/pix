@@ -101,12 +101,30 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
         expect(response.result.data.id).to.equal(secondChallengeId);
       });
+
+      it('should save the asked challenge', async () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: `/api/assessments/${assessmentId}/next`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastChallengeId');
+        expect(assessmentsInDb.lastChallengeId).to.deep.equal(secondChallengeId);
+        expect(response.result.data.id).to.equal(secondChallengeId);
+      });
     });
 
     context('When there is no more challenges to answer', () => {
+      const lastChallengeId = 'lastChallengeId';
       beforeEach(async () => {
         databaseBuilder.factory.buildUser({ id: userId });
-        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId });
+        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId, lastChallengeId });
         const { id: answerId1 } = databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any good answer', result: 'ok' });
         const { id: answerId2 } = databaseBuilder.factory.buildAnswer({ challengeId: secondChallengeId, assessmentId, value: 'any bad answer', result: 'ko' });
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
@@ -155,6 +173,23 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           data: null,
         });
       });
+
+      it('should not save a null challenge for the lastChallengeId', async () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: `/api/assessments/${assessmentId}/next`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+
+        // when
+        await server.inject(options);
+
+        // then
+        const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastChallengeId');
+        expect(assessmentsInDb.lastChallengeId).to.deep.equal(lastChallengeId);
+      });
+
     });
   });
 });

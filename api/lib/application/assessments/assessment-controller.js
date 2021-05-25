@@ -92,11 +92,20 @@ module.exports = {
 };
 
 async function _getChallenge(assessment, request) {
-  const locale = extractLocaleFromRequest(request);
-
   if (assessment.isStarted()) {
     await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
   }
+  const challenge = await _getChallengeByAssessmentType({ assessment, request });
+
+  if (challenge) {
+    await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challenge.id });
+  }
+
+  return challenge;
+}
+
+async function _getChallengeByAssessmentType({ assessment, request }) {
+  const locale = extractLocaleFromRequest(request);
 
   if (assessment.isPreview()) {
     return usecases.getNextChallengeForPreview({});
@@ -119,4 +128,6 @@ async function _getChallenge(assessment, request) {
     const userId = extractUserIdFromRequest(request);
     return usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
   }
+
+  return null;
 }
