@@ -63,6 +63,17 @@ function _buildCertificationCourse(databaseBuilder, { id, assessmentId, userId, 
       category: CertificationIssueReportCategories.OTHER,
       description: examinerComment,
     });
+    databaseBuilder.factory.buildCertificationIssueReport({
+      certificationCourseId,
+      category: CertificationIssueReportCategories.OTHER,
+      description: examinerComment,
+      resolvedAt: '2020-05-01T00:00:00Z',
+    });
+    databaseBuilder.factory.buildCertificationIssueReport({
+      certificationCourseId,
+      category: CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
+      description: examinerComment,
+    });
   }
   databaseBuilder.factory.buildAssessment({
     id: assessmentId, certificationCourseId, type: 'CERTIFICATION', state: 'completed', userId, competenceId: null,

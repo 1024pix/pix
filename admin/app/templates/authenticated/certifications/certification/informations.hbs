@@ -58,12 +58,12 @@
           <div class="card-body">
             <h5 class="card-title">Signalements</h5>
 
-            {{#if this.hasIssueReportsWithRequiredAction}}
+            {{#if this.hasImpactfulIssueReports}}
               <div class="card-text">
                 <h6 class="certification-informations__certification-issue-report-title--with-required-action">Signalement(s) impactant(s)</h6>
-                <ul>
-                  {{#each this.certificationIssueReportsWithRequiredAction as |issueReport| }}
-                    <li>
+                <ul class="certification-informations__certification-issue-reports-list">
+                  {{#each this.impactfulCertificationIssueReports as |issueReport| }}
+                    <li class={{if issueReport.resolvedAt "certification-informations__certification-issue-report--resolved" "certification-informations__certification-issue-report--unresolved"}}>
                       {{issueReport.categoryLabel}}
                       {{#if issueReport.subcategoryLabel}}: {{issueReport.subcategoryLabel}}{{/if}}
                       {{#if issueReport.description}}- {{issueReport.description}}{{/if}}
@@ -74,11 +74,11 @@
               </div>
             {{/if}}
 
-            {{#if this.hasIssueReportsWithoutRequiredAction}}
+            {{#if this.hasUnimpactfulIssueReports}}
               <div class="card-text">
                 <h6>Signalement(s) non impactant(s)</h6>
                 <ul>
-                  {{#each this.certificationIssueReportsWithoutRequiredAction as |issueReport| }}
+                  {{#each this.unimpactfulCertificationIssueReports as |issueReport| }}
                     <li>
                       {{issueReport.categoryLabel}}
                       {{#if issueReport.subcategoryLabel}}: {{issueReport.subcategoryLabel}}{{/if}}
