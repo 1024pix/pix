@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
+const { expect, domainBuilder, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const certificationIssueReportRepository = require('../../../../lib/infrastructure/repositories/certification-issue-report-repository');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
@@ -16,29 +16,34 @@ describe('Integration | Repository | Certification Issue Report', function() {
     it('should persist the certif issue report in db', async () => {
       // given
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
-      const certificationIssueReport = new CertificationIssueReport({
+      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
         certificationCourseId,
         category: CertificationIssueReportCategories.IN_CHALLENGE,
         description: 'Un gros problème',
         subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
         questionNumber: 5,
+        resolvedAt: new Date('2020-01-01'),
+        resolution: 'coucou',
       });
+      certificationIssueReport.id = undefined;
       await databaseBuilder.commit();
 
       // when
       const savedCertificationIssueReport = await certificationIssueReportRepository.save(certificationIssueReport);
 
       // then
-      const expectedSavedCertificationIssueReport = {
+      const expectedSavedCertificationIssueReport = domainBuilder.buildCertificationIssueReport({
         certificationCourseId,
         category: CertificationIssueReportCategories.IN_CHALLENGE,
         description: 'Un gros problème',
         isActionRequired: true,
         subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
         questionNumber: 5,
-      };
+        resolvedAt: new Date('2020-01-01'),
+        resolution: 'coucou',
+      });
 
-      expect(_.omit(savedCertificationIssueReport, 'id')).to.deep.equal(expectedSavedCertificationIssueReport);
+      expect(_.omit(savedCertificationIssueReport, 'id')).to.deep.equal(_.omit(expectedSavedCertificationIssueReport, 'id'));
       expect(savedCertificationIssueReport).to.be.an.instanceOf(CertificationIssueReport);
     });
   });

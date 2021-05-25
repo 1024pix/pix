@@ -4,7 +4,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const GeneralCertificationInformation = require('../../../../lib/domain/read-models/GeneralCertificationInformation');
 
-describe('Integration | Repository | Certification Course', function() {
+describe('Integration | Repository | General certification information', function() {
 
   describe('#get', function() {
 

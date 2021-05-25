@@ -106,6 +106,8 @@ class CertificationIssueReport {
       description,
       subcategory,
       questionNumber,
+      resolvedAt,
+      resolution,
     } = {}) {
     this.id = id;
     this.certificationCourseId = certificationCourseId;
@@ -113,6 +115,8 @@ class CertificationIssueReport {
     this.subcategory = subcategory;
     this.description = description;
     this.questionNumber = questionNumber;
+    this.resolvedAt = resolvedAt;
+    this.resolution = resolution;
     this.isActionRequired = _isActionRequired({ category, subcategory });
 
     if ([CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN, CertificationIssueReportCategories.OTHER].includes(this.category)) {
@@ -143,6 +147,8 @@ class CertificationIssueReport {
       description,
       subcategory,
       questionNumber,
+      resolvedAt: null,
+      resolution: null,
     });
     certificationIssueReport.validate();
     return certificationIssueReport;
