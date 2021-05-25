@@ -9,10 +9,7 @@ module('Integration | Component | routes/authenticated/users | list-items', func
 
   hooks.beforeEach(async function() {
     const triggerFiltering = function() {};
-    const goToUserDetailPage = function() {};
-
     this.triggerFiltering = triggerFiltering;
-    this.goToUserDetailPage = goToUserDetailPage;
   });
 
   test('it should display user list', async function(assert) {
@@ -29,7 +26,7 @@ module('Integration | Component | routes/authenticated/users | list-items', func
     this.users = users;
 
     // when
-    await render(hbs`<Users::ListItems @users={{this.users}} @triggerFiltering={{this.triggerFiltering}} @goToUserDetailPage={{this.goToUserDetailPage}} />`);
+    await render(hbs `<Users::ListItems @users={{this.users}} @triggerFiltering={{this.triggerFiltering}} />`);
 
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText('1');
