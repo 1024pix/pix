@@ -175,31 +175,6 @@ describe('Integration | Repository | challenge-repository', () => {
       expect(actualChallenges[0]).to.be.instanceOf(Challenge);
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
-
-    // TODO: remove duplicate test
-    it('should setup the expected validator and solution on found challenges', async () => {
-      // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const frfrOperativeChallenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill], locales: ['fr-fr'] });
-      const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
-        challenges: [{ ...frfrOperativeChallenge, skillIds: ['recSkill1'], t1Status: 'Activé', t2Status: 'Activé', t3Status: 'Désactivé' }],
-      };
-      mockLearningContent(learningContent);
-
-      // when
-      const [actualChallenge] = await challengeRepository.findOperative();
-
-      // then
-      expect(actualChallenge.validator).to.be.instanceOf(Validator);
-      expect(actualChallenge.validator.solution.id).to.equal(frfrOperativeChallenge.id);
-      expect(actualChallenge.validator.solution.isT1Enabled).to.equal(true);
-      expect(actualChallenge.validator.solution.isT2Enabled).to.equal(true);
-      expect(actualChallenge.validator.solution.isT3Enabled).to.equal(false);
-      expect(actualChallenge.validator.solution.scoring).to.equal('');
-      expect(actualChallenge.validator.solution.type).to.equal(frfrOperativeChallenge.type);
-      expect(actualChallenge.validator.solution.value).to.equal(frfrOperativeChallenge.solution);
-    });
   });
 
   describe('#findValidatedByCompetenceId', () => {
