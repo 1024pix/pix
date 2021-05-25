@@ -132,7 +132,7 @@ class CertificationIssueReport {
     }
   }
 
-  static new({
+  static create({
     id,
     certificationCourseId,
     category,
