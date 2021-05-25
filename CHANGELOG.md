@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.58.0 (25/05/2021)
+
+- [#3026](https://github.com/1024pix/pix/pull/3026) [FEATURE] Filtrer les épreuves de certif selon la langue de l'utilisateur (PIX-2557).
+- [#2959](https://github.com/1024pix/pix/pull/2959) [FEATURE] Ajout des titres à toutes les pages de Pix Orga (Pix-2504).
+- [#3015](https://github.com/1024pix/pix/pull/3015) [FEATURE] Annuler une certification (PIX-2572)
+- [#3010](https://github.com/1024pix/pix/pull/3010) [FEATURE] Afficher les tags sur l'onglet organisation dans Pix Admin (PIX-1332).
+- [#3008](https://github.com/1024pix/pix/pull/3008) [FEATURE] Ajout des titres des pages de Pix Admin (PIX-2181)
+- [#2989](https://github.com/1024pix/pix/pull/2989) [FEATURE] Afficher le graphique de répartition des participants par paliers (PIX-2549)
+- [#3016](https://github.com/1024pix/pix/pull/3016) [FEATURE] Ajout de la traduction anglaise du bouton repasser une campagne (PIX-2598)
+- [#3005](https://github.com/1024pix/pix/pull/3005) [TECH] Suppression du composant qroc-proposal (PIX-2448).
+- [#2984](https://github.com/1024pix/pix/pull/2984) [TECH] Prévenir les dépendances incorrectes.
+- [#3018](https://github.com/1024pix/pix/pull/3018) [TECH] Retourner un code HTTP 422 lorsque le YAML n'est pas valide
+- [#3017](https://github.com/1024pix/pix/pull/3017) [TECH] Expliciter les modèles Bookshelf.
+- [#3023](https://github.com/1024pix/pix/pull/3023) [CLEAN] Filtrer les réponses à enregistrer (PIX-2610).
+- [#3019](https://github.com/1024pix/pix/pull/3019) [SCRIPT] Ecriture d'un script pour annuler massivement des certifications (PIX-2583)
+
 ## v3.57.0 (19/05/2021)
 
 - [#2990](https://github.com/1024pix/pix/pull/2990) [FEATURE] Ajout d'un wording pour l'étudiant dans la page de réconciliation SUP (PIX-2547).
