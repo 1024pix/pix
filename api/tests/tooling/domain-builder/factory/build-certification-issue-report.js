@@ -1,7 +1,7 @@
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 
-module.exports = function buildCertificationIssueReport({
+const buildCertificationIssueReport = function({
   id = 123,
   certificationCourseId,
   category = CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
@@ -22,3 +22,45 @@ module.exports = function buildCertificationIssueReport({
     resolution,
   });
 };
+
+buildCertificationIssueReport.impactful = function({
+  id,
+  certificationCourseId,
+  description,
+  questionNumber,
+  resolvedAt,
+  resolution,
+} = {}) {
+  return buildCertificationIssueReport({
+    id,
+    certificationCourseId,
+    description,
+    questionNumber,
+    resolvedAt,
+    resolution,
+    category: CertificationIssueReportCategories.FRAUD,
+    subcategory: null,
+  });
+};
+
+buildCertificationIssueReport.notImpactful = function({
+  id,
+  certificationCourseId,
+  description,
+  questionNumber,
+  resolvedAt,
+  resolution,
+} = {}) {
+  return buildCertificationIssueReport({
+    id,
+    certificationCourseId,
+    description,
+    questionNumber,
+    resolvedAt,
+    resolution,
+    category: CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
+    subcategory: null,
+  });
+};
+
+module.exports = buildCertificationIssueReport;

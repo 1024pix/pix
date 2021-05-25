@@ -53,8 +53,8 @@ describe('Integration | Repository | General certification information', functio
           birthdate: certificationCourseDTO.birthdate,
           birthplace: certificationCourseDTO.birthplace,
           certificationIssueReports: [
-            { ...firstCertificationReport, isActionRequired: true },
-            { ...secondCertificationReport, isActionRequired: true },
+            { ...firstCertificationReport, isImpactful: true },
+            { ...secondCertificationReport, isImpactful: true },
           ],
         };
         expect(result).to.be.instanceOf(GeneralCertificationInformation);

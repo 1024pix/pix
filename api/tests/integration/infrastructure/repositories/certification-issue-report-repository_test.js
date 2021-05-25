@@ -98,7 +98,7 @@ describe('Integration | Repository | Certification Issue Report', function() {
       const result = await certificationIssueReportRepository.get(issueReport.id);
 
       // then
-      const expectedIssueReport = { ...issueReport, isActionRequired: true };
+      const expectedIssueReport = domainBuilder.buildCertificationIssueReport(issueReport);
       expect(result).to.deep.equal(expectedIssueReport);
       expect(result).to.be.instanceOf(CertificationIssueReport);
     });

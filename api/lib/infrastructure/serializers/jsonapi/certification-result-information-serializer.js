@@ -43,7 +43,9 @@ module.exports = {
           'description',
           'subcategory',
           'questionNumber',
-          'isActionRequired',
+          'isImpactful',
+          'resolvedAt',
+          'resolution',
         ],
       },
     }).serialize(certificationResultInformation);
