@@ -34,6 +34,7 @@ class Assessment {
     title,
     type,
     isImproving,
+    lastChallengeId,
     answers = [],
     campaignParticipation,
     course,
@@ -52,6 +53,7 @@ class Assessment {
     this.title = title;
     this.type = type;
     this.isImproving = isImproving;
+    this.lastChallengeId = lastChallengeId;
     this.answers = answers;
     this.campaignParticipation = campaignParticipation;
     this.course = course;
