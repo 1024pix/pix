@@ -32,6 +32,8 @@ function _toDomain({ certificationCourseDTO, certificationIssueReportsDTO }) {
         description: certificationIssueReport.description,
         subcategory: certificationIssueReport.subcategory,
         questionNumber: certificationIssueReport.questionNumber,
+        resolvedAt: certificationIssueReport.resolvedAt,
+        resolution: certificationIssueReport.resolution,
       }),
     );
 

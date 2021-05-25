@@ -8,6 +8,8 @@ module.exports = function buildCertificationIssueReport({
   subcategory = CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
   description = 'Une super description',
   questionNumber = null,
+  resolvedAt = null,
+  resolution = null,
 } = {}) {
   return new CertificationIssueReport({
     id,
@@ -16,5 +18,7 @@ module.exports = function buildCertificationIssueReport({
     subcategory,
     description,
     questionNumber,
+    resolvedAt,
+    resolution,
   });
 };
