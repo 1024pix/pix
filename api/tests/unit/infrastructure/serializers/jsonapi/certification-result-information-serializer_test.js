@@ -10,7 +10,11 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
     it('should serialize results of a certification', () => {
       // given
       const certificationCourseId = 123;
-      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ certificationCourseId });
+      const certificationIssueReport = domainBuilder.buildCertificationIssueReport.impactful({
+        certificationCourseId,
+        resolvedAt: new Date(),
+        resolution: 'le challenge est neutralisé',
+      });
       const certificationIssueReports = [ certificationIssueReport ];
       const competenceMarks = [ domainBuilder.buildCompetenceMark() ];
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
@@ -85,7 +89,9 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
           attributes: {
             category: certificationIssueReport.category,
             description: certificationIssueReport.description,
-            'is-action-required': certificationIssueReport.isActionRequired,
+            'is-impactful': true,
+            'resolved-at': certificationIssueReport.resolvedAt,
+            'resolution': certificationIssueReport.resolution,
             'question-number': certificationIssueReport.questionNumber,
             subcategory: certificationIssueReport.subcategory,
           },

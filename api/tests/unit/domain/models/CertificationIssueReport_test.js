@@ -303,7 +303,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       });
     });
 
-    context('Adds isActionRequired boolean to certif issue report when an action is needed', function() {
+    context('Adds isImpactful boolean to certif issue report when the category or subcategory is impactful', function() {
       [
         { certificationCourseId: 42, category: 'OTHER', subcategory: undefined, description: 'toto' },
         { certificationCourseId: 42, category: 'CANDIDATE_INFORMATIONS_CHANGES', subcategory: 'NAME_OR_BIRTHDATE', description: 'toto' },
@@ -319,8 +319,8 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'SOFTWARE_NOT_WORKING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'TECHNICAL_PROBLEM', description: 'toto' },
       ].forEach((certificationIssueReportDTO) => {
-        it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isActionRequired to true`, () => {
-          expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isActionRequired).to.be.true;
+        it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isImpactful to true`, () => {
+          expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isImpactful).to.be.true;
         });
       });
 
@@ -329,8 +329,8 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         { certificationCourseId: 42, category: 'LATE_OR_LEAVING', subcategory: 'SIGNATURE_ISSUE' },
         { certificationCourseId: 42, category: 'CONNECTION_OR_END_SCREEN' },
       ].forEach((certificationIssueReportDTO) => {
-        it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isActionRequired to false`, () => {
-          expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isActionRequired).to.be.false;
+        it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isImpactful to false`, () => {
+          expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isImpactful).to.be.false;
         });
       });
     });

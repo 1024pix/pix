@@ -72,13 +72,13 @@ const categorySchemas = {
   [CertificationIssueReportCategories.TECHNICAL_PROBLEM]: categoryTechnicalProblemJoiSchema,
 };
 
-const categoryCodeWithRequiredAction = {
+const categoryCodeImpactful = {
   [CertificationIssueReportCategories.TECHNICAL_PROBLEM]: 'A1',
   [CertificationIssueReportCategories.OTHER]: 'A2',
   [CertificationIssueReportCategories.FRAUD]: 'C6',
 };
 
-const subcategoryCodeRequiredAction = {
+const subcategoryCodeImpactful = {
   [CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'C1',
   [CertificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'C3',
   [CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: 'E1',
@@ -117,7 +117,7 @@ class CertificationIssueReport {
     this.questionNumber = questionNumber;
     this.resolvedAt = resolvedAt;
     this.resolution = resolution;
-    this.isActionRequired = _isActionRequired({ category, subcategory });
+    this.isImpactful = _isImpactful({ category, subcategory });
 
     if ([CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN, CertificationIssueReportCategories.OTHER].includes(this.category)) {
       this.subcategory = null;
@@ -173,8 +173,8 @@ class CertificationIssueReport {
 
 module.exports = CertificationIssueReport;
 
-function _isActionRequired({ category, subcategory }) {
-  return Boolean(subcategoryCodeRequiredAction[subcategory] || categoryCodeWithRequiredAction[category]);
+function _isImpactful({ category, subcategory }) {
+  return Boolean(subcategoryCodeImpactful[subcategory] || categoryCodeImpactful[category]);
 }
 
 function _isSubcategoryDeprecated(subcategory) {
