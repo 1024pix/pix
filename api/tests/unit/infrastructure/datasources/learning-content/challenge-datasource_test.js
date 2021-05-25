@@ -147,10 +147,11 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     });
   });
 
-  describe('#findFrenchFranceOperative', () => {
+  describe('#findOperativeHavingLocale', () => {
 
     it('should retrieve the operative Challenges of given locale only', async () => {
       // given
+      const locale = 'fr-fr';
       sinon.stub(lcms, 'getLatestRelease').resolves({ 'challenges': [
         challenge_web1,
         challenge_web1_notValidated,
@@ -159,7 +160,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       ] });
 
       // when
-      const result = await challengeDatasource.findFrenchFranceOperative();
+      const result = await challengeDatasource.findOperativeHavingLocale(locale);
 
       // then
       expect(_.map(result, 'id')).to.deep.equal([

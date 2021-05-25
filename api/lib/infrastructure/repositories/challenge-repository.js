@@ -38,8 +38,8 @@ module.exports = {
     return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
   },
 
-  async findFrenchFranceOperative() {
-    const challengeDataObjects = await challengeDatasource.findFrenchFranceOperative();
+  async findOperativeHavingLocale(locale) {
+    const challengeDataObjects = await challengeDatasource.findOperativeHavingLocale(locale);
     const operativeSkills = await skillDatasource.findOperative();
     return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
   },
