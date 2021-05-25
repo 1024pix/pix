@@ -43,8 +43,16 @@
       {{#if @organizations}}
         <tbody>
         {{#each @organizations as |organization|}}
-          <tr aria-label="Organisation" role="button" {{on "click" (fn @goToOrganizationPage organization.id)}} class="tr--clickable">
-            <td>{{organization.id}}</td>
+          <tr aria-label="Organisation">
+            <td>
+              <LinkTo
+                @route="authenticated.organizations.get"
+                @model={{organization.id}}
+                data-test-orga={{organization.id}}
+              >
+                {{organization.id}}
+              </LinkTo>
+            </td>
             <td>{{organization.name}}</td>
             <td>{{organization.type}}</td>
             <td>{{organization.externalId}}</td>
