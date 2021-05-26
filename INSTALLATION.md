@@ -14,19 +14,19 @@ Assurez-vous aussi de ne pas avoir de process écoutant le port 5432 (PostgreSQL
 
 ## Instructions
 
-**1.** Récupérer le code source.
+### 1. Récupérer le code source.
 
 ```bash
 git clone git@github.com:1024pix/pix.git
 ```
 
-**2.** Se déplacer dans le répertoire projet.
+### 2. Se déplacer dans le répertoire projet.
 
 ```bash
 cd pix
 ```
 
-**2.1** ⚠️ Sous Windows seulement
+#### 2.1 (Windows uniquement) Installer windows-build-tools
 
 Il se peut que la dernière version `windows-build-tools` ne s'installe pas sur votre machine. La `windows-build-tools@4.0.0` semble plus stable à l'installation.
 ```bash
@@ -44,7 +44,9 @@ npm config set script-shell "C:\\Program Files (x86)\\git\\bin\\bash.exe"
 ```
 Votre windows devrait être prêt pour l'instanciation du projet Pix.
 
-**3.** Exécuter le script de configuration de l'environnement de développement (compter entre 10 et 15mn).
+### 3. Configurer de l'environnement de développement 
+
+⚠️ Compter entre 10 et 15mn pour l'exécution du script.
 
 ```bash
 npm run configure
@@ -54,13 +56,13 @@ npm run configure
 
 Si besoin, éditer le fichier `.env` généré par le script pour l'adapter à vos besoins.
 
-**4.** Démarrer les applications.
+### 4. Démarrer les applications.
 
 ```bash
 npm start
 ```
 
-**5.** Accéder aux applications.
+### 5. Accéder aux applications.
 
 - [Pix API](http://localhost:3000) sur le port 3000
 - [Pix App](http://localhost:4200) sur le port 4200
