@@ -1,8 +1,17 @@
 .table-admin {
 
+  a {
+    color: $pix-blue;
+  }
+
+  thead label {
+    margin-bottom: 0;
+  }
+
   tbody > tr:nth-child(odd) {
     background-color: rgba(0, 0, 0, 0.03);
   }
+
   tbody > tr, thead > tr {
     border-bottom: 1px solid $grey-22;
 
@@ -38,3 +47,4 @@
   margin: 48px auto 36px auto;
   text-align: center;
 }
+
