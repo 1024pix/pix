@@ -1,27 +1,18 @@
 {{#if this.displayNewYearSchoolingRegistrationsImportBanner}}
-  <PixBanner class="information-banner">
-    <FaIcon @icon="exclamation-triangle" class="icon--warning icon--margin"/>
+  <PixBanner  @type='information'>
     <TranslateExtended
       @key='banners.import.message'
       @options={{hash
         faIcon=(component 'fa-icon' icon='external-link-alt')
-        linkTo=(component 'link-to' (t 'banners.import.link-to') 'authenticated.sco-students' class="link link--white link--bold link--underlined")
+        linkTo=(component 'link-to' (t 'banners.import.link-to') 'authenticated.sco-students' class="link link--banner link--bold link--underlined")
         middleSchoolDocumentationLink='"https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"'
         highSchoolDocumentationLink='"https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"'
-        externalLinkClasses='"link link--white link--bold link--underlined"'
+        externalLinkClasses='"link link--banner link--bold link--underlined"'
       }}
     />
   </PixBanner>
 {{else if this.displayNewYearCampaignsBanner}}
-  <PixBanner class="information-banner">
-    <FaIcon @icon="bullhorn" class="icon--margin"/>
-    <TranslateExtended
-      @key='banners.campaigns.message'
-      @options={{hash
-        faIcon=(component 'fa-icon' icon='external-link-alt')
-        documentationLink=this.documentationLink
-        externalLinkClasses='"link link--white link--bold link--underlined"'
-    }}
-    />
+  <PixBanner @type='information' @actionLabel={{t 'banners.campaigns.actionLabel'}} @actionUrl={{this.documentationLink}}>
+    {{t 'banners.campaigns.message' htmlSafe=true}}
   </PixBanner>
 {{/if}}

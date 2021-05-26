@@ -81,24 +81,8 @@ module('Integration | Component | information-banner', function(hooks) {
         await render(hbs`<InformationBanner/>`);
 
         // then
-        assert.dom('a[href="https://view.genial.ly/5fda0b5aebe82c0d17f177ea"]').exists();
-        assert.dom('.pix-banner').includesText('Il est important de vérifier que les élèves soient certifiables avant de les inscrire en session de certification. Vous pouvez faire une campagne de collecte de profils pour vous en assurer.');
-      });
-
-      test('should render the campaign banner with specific link for agriculture', async function(assert) {
-        // given
-        class CurrentUserStub extends Service {
-          prescriber = { areNewYearSchoolingRegistrationsImported: true }
-          isSCOManagingStudents = true;
-          isAgriculture = true;
-        }
-        this.owner.register('service:current-user', CurrentUserStub);
-
-        // when
-        await render(hbs`<InformationBanner/>`);
-
-        // then
-        assert.dom('a[href="https://view.genial.ly/6034cdf633f5220dc1eb101d"]').exists();
+        assert.dom('a[href="https://view.genial.ly/6077017b8b37870d98620200"]').exists();
+        assert.dom('.pix-banner').includesText('La certification en collège et lycée est possible jusqu\'au 25 juin. Pour reporter des sessions déjà programmées, il vous suffit, dans Pix Certif, de changer la date de la session en cliquant sur « modifier ».');
       });
     });
 
