@@ -1,6 +1,6 @@
 const CertificationCourse = require('../models/CertificationCourse');
 const Assessment = require('../models/Assessment');
-const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../errors');
+const { UserNotAuthorizedToCertifyError, NotFoundError, SessionNotAccessible } = require('../errors');
 const { features } = require('../../config');
 const _ = require('lodash');
 const bluebird = require('bluebird');
@@ -23,6 +23,9 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   const session = await sessionRepository.get(sessionId);
   if (session.accessCode !== accessCode) {
     throw new NotFoundError('Session not found');
+  }
+  if (!session.isAccessible()) {
+    throw new SessionNotAccessible();
   }
 
   const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({

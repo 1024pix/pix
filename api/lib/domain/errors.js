@@ -655,6 +655,12 @@ class SessionAlreadyPublishedError extends DomainError {
   }
 }
 
+class SessionNotAccessible extends DomainError {
+  constructor(message = 'La session de certification n\'est plus accessible.') {
+    super(message);
+  }
+}
+
 class TargetProfileInvalidError extends DomainError {
   constructor(message = 'Le profil cible ne possède aucun acquis ciblé.') {
     super(message);
@@ -896,6 +902,7 @@ module.exports = {
   SendingEmailToResultRecipientError,
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
+  SessionNotAccessible,
   SiecleXmlImportError,
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,

@@ -71,6 +71,10 @@ class Session {
   isPublished() {
     return this.publishedAt !== null;
   }
+
+  isAccessible() {
+    return this.status === statuses.CREATED;
+  }
 }
 
 module.exports = Session;
