@@ -825,6 +825,12 @@ class YamlParsingError extends DomainError {
   }
 }
 
+class InvalidExternalAPIResponseError extends DomainError {
+  constructor(message = 'L\'API externe a renvoyé une réponse incorrecte') {
+    super(message);
+  }
+}
+
 module.exports = {
   AlreadyExistingEntityError,
   AlreadyExistingCampaignParticipationError,
@@ -877,6 +883,7 @@ module.exports = {
   InvalidCertificationReportForFinalization,
   InvalidCertificationIssueReportForSaving,
   InvalidExternalUserTokenError,
+  InvalidExternalAPIResponseError,
   InvalidMembershipOrganizationRoleError,
   InvalidPasswordForUpdateEmailError,
   InvalidResultRecipientTokenError,
