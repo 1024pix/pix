@@ -1,3 +1,4 @@
+/* eslint-disable  no-restricted-syntax */
 const checkUserHasRolePixMasterUseCase = require('./usecases/checkUserHasRolePixMaster');
 const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents');

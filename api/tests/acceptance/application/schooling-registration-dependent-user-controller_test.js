@@ -192,7 +192,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
 
     it('should return a 404 status when schoolingRegistration does not exist', async () => {
       // given
-      options.payload.data.attributes['schooling-registration-id'] = 0;
+      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId + 1;
 
       // when
       const response = await server.inject(options);
@@ -220,7 +220,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
 
     it('should return a 403 status when student does not belong to the same organization as schoolingRegistration', async () => {
       // given
-      options.payload.data.attributes['organization-id'] = 0;
+      options.payload.data.attributes['organization-id'] = organizationId + 1;
       options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
 
       // when
@@ -295,7 +295,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
 
     it('should return a 404 status when schoolingRegistration does not exist', async () => {
       // given
-      options.payload.data.attributes['schooling-registration-id'] = 0;
+      options.payload.data.attributes['schooling-registration-id'] = 1;
 
       // when
       const response = await server.inject(options);

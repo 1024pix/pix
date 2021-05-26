@@ -49,7 +49,7 @@ describe('Unit | Controller | stages-controller', () => {
       sinon.stub(usecases, 'updateStage');
       request = {
         params: {
-          id: '44',
+          id: 44,
         },
         payload: {
           data: {
@@ -81,7 +81,7 @@ describe('Unit | Controller | stages-controller', () => {
       sinon.stub(usecases, 'getStageDetails');
       request = {
         params: {
-          id: '44',
+          id: 44,
         },
       };
     });

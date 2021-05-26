@@ -14,7 +14,7 @@ module.exports = {
 
   async getCertification(request) {
     const userId = request.auth.credentials.userId;
-    const certificationId = parseInt(request.params.id);
+    const certificationId = request.params.id;
 
     const privateCertificate = await usecases.getPrivateCertificate({
       userId,
@@ -32,7 +32,7 @@ module.exports = {
 
   async getPDFAttestation(request, h) {
     const userId = request.auth.credentials.userId;
-    const certificationId = parseInt(request.params.id);
+    const certificationId = request.params.id;
     const attestation = await usecases.getCertificationAttestation({
       userId,
       certificationId,

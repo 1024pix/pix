@@ -3,7 +3,7 @@ const badgeWithLearningContentSerializer = require('../../infrastructure/seriali
 
 module.exports = {
   async getBadge(request) {
-    const badgeId = parseInt(request.params.id);
+    const badgeId = request.params.id;
     const badgeWithLearningContent = await usecases.getBadgeDetails({ badgeId });
     return badgeWithLearningContentSerializer.serialize(badgeWithLearningContent);
   },

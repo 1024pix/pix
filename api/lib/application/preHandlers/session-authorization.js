@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 const { NotFoundError } = require('../http-errors');
 const sessionAuthorizationService = require('../../domain/services/session-authorization-service');
 

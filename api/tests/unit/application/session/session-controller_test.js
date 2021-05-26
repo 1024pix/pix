@@ -113,7 +113,7 @@ describe('Unit | Controller | sessionController', () => {
       request = {
         auth: { credentials: { userId } },
         params: {
-          id: sessionId.toString(),
+          id: sessionId,
         },
       };
     });
@@ -146,7 +146,7 @@ describe('Unit | Controller | sessionController', () => {
       request = {
         auth: { credentials: { userId } },
         params: {
-          id: sessionId.toString(),
+          id: sessionId,
         },
       };
     });

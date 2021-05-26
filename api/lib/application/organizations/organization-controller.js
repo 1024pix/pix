@@ -20,7 +20,7 @@ const certificationResultUtils = require('../../infrastructure/utils/csv/certifi
 module.exports = {
 
   getOrganizationDetails: (request) => {
-    const organizationId = parseInt(request.params.id);
+    const organizationId = request.params.id;
 
     return usecases.getOrganizationDetails({ organizationId })
       .then(organizationSerializer.serialize);
@@ -57,7 +57,7 @@ module.exports = {
   },
 
   async findPaginatedFilteredCampaigns(request) {
-    const organizationId = parseInt(request.params.id);
+    const organizationId = request.params.id;
     const options = queryParamsUtils.extractParameters(request.query);
 
     if (options.filter.status === 'archived') {
@@ -69,7 +69,7 @@ module.exports = {
   },
 
   async findPaginatedCampaignManagements(request) {
-    const organizationId = parseInt(request.params.id);
+    const organizationId = request.params.id;
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
 
     const { models: campaigns, meta } = await usecases.findPaginatedCampaignManagements({ organizationId, filter, page });
@@ -77,7 +77,7 @@ module.exports = {
   },
 
   async findPaginatedFilteredMemberships(request) {
-    const organizationId = parseInt(request.params.id);
+    const organizationId = request.params.id;
     const options = queryParamsUtils.extractParameters(request.query);
 
     const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({ organizationId, filter: options.filter, page: options.page });
@@ -85,7 +85,7 @@ module.exports = {
   },
 
   async downloadCertificationResults(request, h) {
-    const organizationId = parseInt(request.params.id);
+    const organizationId = request.params.id;
     const { division } = request.query;
 
     const certificationResults = await usecases.getScoCertificationResultsByDivision({ organizationId, division });
@@ -101,28 +101,29 @@ module.exports = {
   },
 
   async findTargetProfiles(request) {
-    const requestedOrganizationId = parseInt(request.params.id);
+    const requestedOrganizationId = request.params.id;
 
     const targetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(requestedOrganizationId);
     return targetProfileSerializer.serialize(targetProfiles);
   },
 
   async attachTargetProfiles(request, h) {
-    const requestedOrganizationId = parseInt(request.params.id);
+    const requestedOrganizationId = request.params.id;
     const targetProfileIdsToAttach = request.payload.data.attributes['target-profiles-to-attach']
+      // eslint-disable-next-line no-restricted-syntax
       .map((targetProfileToAttach) => parseInt(targetProfileToAttach));
     await usecases.attachTargetProfilesToOrganization({ organizationId: requestedOrganizationId, targetProfileIdsToAttach });
     return h.response().code(204);
   },
 
   async getDivisions(request) {
-    const organizationId = parseInt(request.params.id);
+    const organizationId = request.params.id;
     const divisions = await usecases.findDivisionsByOrganization({ organizationId });
     return divisionSerializer.serialize(divisions);
   },
 
   async findPaginatedFilteredSchoolingRegistrations(request) {
-    const organizationId = parseInt(request.params.id);
+    const organizationId = request.params.id;
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
 
     const { data, pagination } = await usecases.findPaginatedFilteredSchoolingRegistrations({ organizationId, filter, page });
@@ -130,7 +131,7 @@ module.exports = {
   },
 
   async importSchoolingRegistrationsFromSIECLE(request, h) {
-    const organizationId = parseInt(request.params.id);
+    const organizationId = request.params.id;
     const { format } = request.query;
 
     await usecases.importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload: request.payload, format, i18n: request.i18n });
@@ -138,7 +139,7 @@ module.exports = {
   },
 
   async importHigherSchoolingRegistrations(request, h) {
-    const organizationId = parseInt(request.params.id);
+    const organizationId = request.params.id;
     const buffer = request.payload;
     const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(buffer, organizationId, request.i18n);
     const warnings = await usecases.importHigherSchoolingRegistrations({ higherSchoolingRegistrationParser });
@@ -171,7 +172,7 @@ module.exports = {
   },
 
   async getSchoolingRegistrationsCsvTemplate(request, h) {
-    const organizationId = parseInt(request.params.id);
+    const organizationId = request.params.id;
     const token = request.query.accessToken;
     const userId = tokenService.extractUserId(token);
     const template = await usecases.getSchoolingRegistrationsCsvTemplate({ userId, organizationId, i18n: request.i18n });
