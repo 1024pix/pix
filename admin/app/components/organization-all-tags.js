@@ -17,10 +17,14 @@ export default class OrganizationAllTags extends Component {
   }
 
   @action
-  async addTagToOrganization(tag) {
-    const organizationTags = this.args.model.organization.tags.toArray();
-    organizationTags.push(tag);
-    this.args.model.organization.set('tags', organizationTags);
+  async addTagToOrganization(tagToAdd) {
+    this.args.model.organization.tags.pushObject(tagToAdd);
+    await this.args.model.organization.save();
+  }
+
+  @action
+  async removeTagToOrganization(tagToRemove) {
+    this.args.model.organization.tags.removeObject(tagToRemove);
     await this.args.model.organization.save();
   }
 }
