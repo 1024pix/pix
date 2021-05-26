@@ -83,7 +83,7 @@ describe('Integration | Repository | answerRepository', () => {
 
         // then
         expect(foundAnswers[0]).to.be.an.instanceof(Answer);
-        expect(_.map(foundAnswers, 'id')).to.deep.equal(answerIds);
+        expect(_.map(foundAnswers, 'id')).to.have.members(answerIds);
       });
     });
   });
