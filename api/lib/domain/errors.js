@@ -826,7 +826,7 @@ class YamlParsingError extends DomainError {
 }
 
 class InvalidExternalAPIResponseError extends DomainError {
-  constructor(message = 'L\'API externe a renvoyé une réponse incorrecte') {
+  constructor(message = 'L\'API externe a renvoyé une réponse incorrecte.') {
     super(message);
   }
 }
