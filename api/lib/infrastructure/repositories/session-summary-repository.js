@@ -28,7 +28,9 @@ module.exports = {
           .andOn('certification-courses.sessionId', 'certification-candidates.sessionId');
       })
       .where({ certificationCenterId })
-      .orderBy('sessions.createdAt', 'DESC');
+      .orderBy('sessions.date', 'DESC')
+      .orderBy('sessions.time', 'DESC')
+      .orderBy('sessions.id', 'ASC');
 
     const { results, pagination } = await fetchPage(query, page);
     const atLeastOneSession = await knex('sessions').select('id').where({ certificationCenterId }).first();
