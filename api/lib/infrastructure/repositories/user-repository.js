@@ -179,7 +179,7 @@ module.exports = {
     const userToCreate = _adaptModelToDb(user);
     return new BookshelfUser(userToCreate)
       .save(null, { transacting: domainTransaction.knexTransaction })
-      .then((bookshelfUser) => bookshelfUser.toDomainEntity());
+      .then((bookshelfUser) => _toDomain(bookshelfUser));
   },
 
   isEmailAvailable(email) {
@@ -209,7 +209,7 @@ module.exports = {
     return BookshelfUser
       .where({ id })
       .save({ password: hashedPassword }, { patch: true, method: 'update' })
-      .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .then((bookshelfUser) => _toDomain(bookshelfUser))
       .catch((err) => {
         if (err instanceof BookshelfUser.NoRowsUpdatedError) {
           throw new UserNotFoundError(`User not found for ID ${id}`);
@@ -222,7 +222,7 @@ module.exports = {
     return BookshelfUser
       .where({ id })
       .save({ email }, { patch: true, method: 'update' })
-      .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .then((bookshelfUser) => _toDomain(bookshelfUser))
       .catch((err) => {
         if (err instanceof BookshelfUser.NoRowsUpdatedError) {
           throw new UserNotFoundError(`User not found for ID ${id}`);
@@ -318,7 +318,7 @@ module.exports = {
           method: 'update',
         },
       )
-      .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .then((bookshelfUser) => _toDomain(bookshelfUser))
       .catch((err) => {
         if (err instanceof BookshelfUser.NoRowsUpdatedError) {
           throw new UserNotFoundError(`User not found for ID ${id}`);
@@ -331,7 +331,7 @@ module.exports = {
     return BookshelfUser
       .where({ id })
       .save({ username }, { patch: true, method: 'update' })
-      .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .then((bookshelfUser) => _toDomain(bookshelfUser))
       .catch((err) => {
         if (err instanceof BookshelfUser.NoRowsUpdatedError) {
           throw new UserNotFoundError(`User not found for ID ${id}`);
@@ -345,7 +345,7 @@ module.exports = {
       const bookshelfUser = await BookshelfUser
         .where({ id })
         .save(userAttributes, { patch: true, method: 'update' });
-      return bookshelfUser.toDomainEntity();
+      return _toDomain(bookshelfUser);
 
     } catch (err) {
       if (err instanceof BookshelfUser.NoRowsUpdatedError) {
@@ -521,6 +521,11 @@ function _toDomain(userBookshelf) {
     password: userBookshelf.get('password'),
     shouldChangePassword: Boolean(userBookshelf.get('shouldChangePassword')),
     cgu: Boolean(userBookshelf.get('cgu')),
+    lang: userBookshelf.get('lang'),
+    isAnonymous: Boolean(userBookshelf.get('isAnonymous')),
+    lastTermsOfServiceValidatedAt: userBookshelf.get('lastTermsOfServiceValidatedAt'),
+    hasSeenNewDashboardInfo: Boolean(userBookshelf.get('hasSeenNewDashboardInfo')),
+    mustValidateTermsOfService: Boolean(userBookshelf.get('mustValidateTermsOfService')),
     pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
     pixCertifTermsOfServiceAccepted: Boolean(userBookshelf.get('pixCertifTermsOfServiceAccepted')),
     memberships: _toMembershipsDomain(userBookshelf.related('memberships')),
