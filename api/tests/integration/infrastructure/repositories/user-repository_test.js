@@ -7,6 +7,7 @@ const times = require('lodash/times');
 const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 
 const {
+  AlreadyExistingEntityError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   NotFoundError,
@@ -743,53 +744,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#isEmailAllowedToUseForCurrentUser', () => {
-
-    let firstUser;
-    let secondUser;
-
-    const secondUserToInsert = {
-      firstName: 'laura',
-      lastName: 'lune',
-      email: 'alreadyexist@example.net',
-      cgu: true,
-      shouldChangePassword: false,
-    };
-
-    beforeEach(async () => {
-      firstUser = databaseBuilder.factory.buildUser(userToInsert);
-      secondUser = databaseBuilder.factory.buildUser(secondUserToInsert);
-      await databaseBuilder.commit();
-    });
-
-    it('should return true when the email is not registered', async () => {
-      // when
-      const email = await userRepository.isEmailAllowedToUseForCurrentUser(firstUser.id, firstUser.email);
-
-      // then
-      expect(email).to.equal(true);
-    });
-
-    it('should reject an AlreadyRegisteredEmailError when it already exists for another user', async () => {
-      // when
-      const result = await catchErr(userRepository.isEmailAllowedToUseForCurrentUser)(firstUser.id, secondUser.email);
-
-      // then
-      expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);
-    });
-
-    it('should reject an AlreadyRegisteredEmailError when email case insensitive already exists', async () => {
-      // given
-      const uppercaseEmailAlreadyInDb = secondUserToInsert.email.toUpperCase();
-
-      // when
-      const result = await catchErr(userRepository.isEmailAllowedToUseForCurrentUser)(firstUser.id, uppercaseEmailAlreadyInDb);
-
-      // then
-      expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);
-    });
-  });
-
   describe('#updateEmail', () => {
 
     let userInDb;
@@ -891,6 +845,51 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       // then
       expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
       expect(updatedUser.email).to.equal(patchUserFirstNameLastNameEmail.email);
+    });
+
+    it('should update username of the user', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser({
+        email: null,
+        username: 'current.username',
+      }).id;
+      await databaseBuilder.commit();
+
+      const userPropertiesToUpdate = {
+        username: 'username.updated',
+      };
+
+      // when
+      const updatedUser = await userRepository.updateUserDetailsForAdministration(userId, userPropertiesToUpdate);
+
+      // then
+      expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
+      expect(updatedUser.username).to.equal(userPropertiesToUpdate.username);
+    });
+
+    it('should throw AlreadyExistingEntityError when username is already used', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser({
+        email: null,
+        username: 'current.username',
+      }).id;
+      databaseBuilder.factory.buildUser({
+        email: null,
+        username: 'already.exist.username',
+      });
+      await databaseBuilder.commit();
+
+      const userPropertiesToUpdate = {
+        username: 'already.exist.username',
+      };
+      const expectedErrorMessage = 'Cette adresse e-mail ou cet identifiant est déjà utilisé(e).';
+
+      // when
+      const error = await catchErr(userRepository.updateUserDetailsForAdministration)(userId, userPropertiesToUpdate);
+
+      // then
+      expect(error).to.be.instanceOf(AlreadyExistingEntityError);
+      expect(error.message).to.equal(expectedErrorMessage);
     });
 
     it('should throw UserNotFoundError when user id not found', async () => {
@@ -1336,6 +1335,103 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       // then
       expect(actualUser.hasSeenNewDashboardInfo).to.be.true;
+    });
+  });
+
+  describe('#findAnotherUserByEmail', () => {
+
+    it('should return a list of a single user if email already used', async () => {
+      // given
+      const currentUser = databaseBuilder.factory.buildUser({
+        email: 'current.user@example.net',
+      });
+      const anotherUser = databaseBuilder.factory.buildUser({
+        email: 'another.user@example.net',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const foundUsers = await userRepository.findAnotherUserByEmail(
+        currentUser.id, anotherUser.email,
+      );
+
+      // then
+      expect(foundUsers).to.be.an('array').that.have.lengthOf(1);
+      expect(foundUsers[0]).to.be.an.instanceof(User);
+      expect(foundUsers[0].email).to.equal(anotherUser.email);
+    });
+
+    it('should return a list of a single user if email case insensitive already used', async () => {
+      // given
+      const currentUser = databaseBuilder.factory.buildUser({
+        email: 'current.user@example.net',
+      });
+      const anotherUser = databaseBuilder.factory.buildUser({
+        email: 'another.user@example.net',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const foundUsers = await userRepository.findAnotherUserByEmail(
+        currentUser.id, anotherUser.email.toUpperCase(),
+      );
+
+      // then
+      expect(foundUsers).to.be.an('array').that.have.lengthOf(1);
+      expect(foundUsers[0]).to.be.an.instanceof(User);
+      expect(foundUsers[0].email).to.equal(anotherUser.email);
+    });
+
+    it('should return an empty list if email is not used', async () => {
+      // given
+      const currentUser = databaseBuilder.factory.buildUser({
+        email: 'current.user@example.net',
+      });
+      const email = 'not.used@example.net';
+
+      // when
+      const foundUsers = await userRepository.findAnotherUserByEmail(currentUser.id, email);
+
+      // then
+      expect(foundUsers).to.be.an('array').that.is.empty;
+    });
+  });
+
+  describe('#findAnotherUserByUsername', () => {
+
+    it('should return a list of a single user if username already used', async () => {
+      // given
+      const currentUser = databaseBuilder.factory.buildUser({
+        username: 'current.user.name',
+      });
+      const anotherUser = databaseBuilder.factory.buildUser({
+        username: 'another.user.name',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const foundUsers = await userRepository.findAnotherUserByUsername(
+        currentUser.id, anotherUser.username,
+      );
+
+      // then
+      expect(foundUsers).to.be.an('array').that.have.lengthOf(1);
+      expect(foundUsers[0]).to.be.an.instanceof(User);
+      expect(foundUsers[0].username).to.equal(anotherUser.username);
+    });
+
+    it('should return an empty list if username is not used', async () => {
+      // given
+      const currentUser = databaseBuilder.factory.buildUser({
+        username: 'current.user.name',
+      });
+      const username = 'not.user.name';
+
+      // when
+      const foundUsers = await userRepository.findAnotherUserByUsername(currentUser.id, username);
+
+      // then
+      expect(foundUsers).to.be.an('array').that.is.empty;
     });
   });
 

@@ -3,9 +3,11 @@ const moment = require('moment');
 
 const DomainTransaction = require('../DomainTransaction');
 const BookshelfUser = require('../orm-models/User');
+const { isUniqConstraintViolated } = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 const {
+  AlreadyExistingEntityError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
@@ -194,19 +196,6 @@ module.exports = {
       });
   },
 
-  async isEmailAllowedToUseForCurrentUser(userId, email) {
-    const userFound = await BookshelfUser
-      .where('id', '!=', userId)
-      .where({ email: email.toLowerCase() })
-      .fetch({ require: false });
-    if (userFound) {
-      throw new AlreadyRegisteredEmailError();
-    }
-    else {
-      return true;
-    }
-  },
-
   isUserExistingByEmail(email) {
     return BookshelfUser
       .where({ email: email.toLowerCase() })
@@ -253,6 +242,9 @@ module.exports = {
     } catch (err) {
       if (err instanceof BookshelfUser.NoRowsUpdatedError) {
         throw new UserNotFoundError(`User not found for ID ${id}`);
+      }
+      if (isUniqConstraintViolated(err)) {
+        throw new AlreadyExistingEntityError('Cette adresse e-mail ou cet identifiant est déjà utilisé(e).');
       }
       throw err;
     }
@@ -375,6 +367,22 @@ module.exports = {
       })
       .fetch({ require: false, withRelated: 'authenticationMethods' });
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
+  },
+
+  async findAnotherUserByEmail(userId, email) {
+    return BookshelfUser
+      .where('id', '!=', userId)
+      .where({ email: email.toLowerCase() })
+      .fetchAll()
+      .then((users) => bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, users));
+  },
+
+  async findAnotherUserByUsername(userId, username) {
+    return BookshelfUser
+      .where('id', '!=', userId)
+      .where({ username })
+      .fetchAll()
+      .then((users) => bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, users));
   },
 };
 

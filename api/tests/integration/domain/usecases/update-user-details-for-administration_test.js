@@ -1,6 +1,9 @@
 const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
 
-const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
+const {
+  AlreadyRegisteredEmailError,
+  AlreadyRegisteredUsernameError,
+} = require('../../../../lib/domain/errors');
 
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
@@ -95,4 +98,30 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', () => {
     expect(error.message).to.equal('Cette adresse e-mail est déjà utilisée.');
   });
 
+  it('should throw AlreadyRegisteredUsernameError when username is already used', async () => {
+    // given
+    const userToUpdate = databaseBuilder.factory.buildUser({
+      email: null,
+      username: 'current.username',
+    });
+
+    const anotherUser = databaseBuilder.factory.buildUser({
+      email: null,
+      username: 'already.exist.username',
+    });
+    await databaseBuilder.commit();
+
+    const expectedErrorMessage = 'Cet identifiant est déjà utilisé.';
+
+    // when
+    const error = await catchErr(updateUserDetailsForAdministration)({
+      userId: userToUpdate.id,
+      userDetailsForAdministration: { username: anotherUser.username },
+      userRepository,
+    });
+
+    // then
+    expect(error).to.be.instanceOf(AlreadyRegisteredUsernameError);
+    expect(error.message).to.equal(expectedErrorMessage);
+  });
 });
