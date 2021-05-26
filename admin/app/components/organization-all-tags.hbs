@@ -10,9 +10,11 @@
               {{tag.name}}
             </PixTag>
           {{else}}
-            <PixTag @compact="true" @color='grey-light'>
-              {{tag.name}}
-            </PixTag>
+            <button onClick={{fn this.addTagToOrganization tag}}>
+              <PixTag @compact="true" @color='grey-light'>
+                {{tag.name}}
+              </PixTag>
+            </button>
           {{/if}}
 
         </li>
