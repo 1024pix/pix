@@ -3,6 +3,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import sinon from 'sinon';
 
 module('Integration | Component | organization-all-tags', function(hooks) {
   setupRenderingTest(hooks);
@@ -38,8 +40,8 @@ module('Integration | Component | organization-all-tags', function(hooks) {
     await render(hbs`<OrganizationAllTags @model={{this.allOrganizationTags}} />`);
 
     // then
-    assert.dom('.organization-all-tags-list__tag:first-child > .pix-tag').containsText('AEFE');
-    assert.dom('.organization-all-tags-list__tag:last-child > .pix-tag').containsText('POLE EMPLOI');
+    assert.dom('.organization-all-tags-list__tag:first-child .pix-tag').containsText('AEFE');
+    assert.dom('.organization-all-tags-list__tag:last-child .pix-tag').containsText('POLE EMPLOI');
   });
 
   test('it should display an active tag when it is associate to an organization', async function(assert) {
@@ -69,5 +71,27 @@ module('Integration | Component | organization-all-tags', function(hooks) {
 
     // then
     assert.dom('.pix-tag--grey-light').exists();
+  });
+
+  module('when clicking on a tag', () => {
+
+    module('when the tag is not yet associated to the organization', () => {
+
+      test('it should associate the tag to the organization', async function(assert) {
+        // given
+        const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
+        const tag2 = EmberObject.create({ id: 1, name: 'AGRICULTURE' });
+        const save = sinon.stub();
+        const organization = EmberObject.create({ tags: [], save });
+        this.set('allOrganizationTags', { organization, allTags: [tag1, tag2] });
+
+        // when
+        await render(hbs`<OrganizationAllTags @model={{this.allOrganizationTags}} />`);
+        await clickByLabel('AGRICULTURE');
+
+        // then
+        assert.ok(save.called);
+      });
+    });
   });
 });
