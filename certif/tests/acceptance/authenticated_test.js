@@ -56,7 +56,8 @@ module('Acceptance | authenticated', function(hooks) {
       await visit('/sessions/liste');
 
       // then
-      assert.dom('.sco-temporary-banner').hasText('La certification en collège et lycée est possible jusqu\'au 25 juin. Pour reporter des sessions déjà programmées, il vous suffit de changer la date de la session en cliquant sur « modifier ». En savoir plus');
+      assert.dom('.sco-temporary-banner').includesText('La certification en collège et lycée est possible jusqu\'au 25 juin. Pour reporter des sessions déjà programmées, il vous suffit de changer la date de la session en cliquant sur « modifier ». En savoir plus');
+      assert.dom('[aria-label="Fermer la bannière d\'informations"]').exists();
     });
 
     test('it should not display the banner when User is NOT SCO isManagingStudent', async function(assert) {
