@@ -12,18 +12,8 @@ module.exports = {
         ref: 'id',
         included: true,
         attributes: [
-          'name', 'type', 'externalId', 'isRelatedOrganizationManagingStudents', 'sessions',
+          'name', 'type', 'externalId', 'isRelatedOrganizationManagingStudents',
         ],
-        sessions: {
-          ref: 'id',
-          ignoreRelationshipData: true,
-          nullIfMissing: true,
-          relationshipLinks: {
-            related: function(record, current, parent) {
-              return `/api/certification-centers/${parent.id}/sessions`;
-            },
-          },
-        },
       },
     }).serialize(certificationPointOfContact);
   },
