@@ -21,6 +21,6 @@ export default class InformationBanner extends Component {
   }
 
   get documentationLink() {
-    return this.currentUser.isAgriculture ? 'https://view.genial.ly/6034cdf633f5220dc1eb101d' : 'https://view.genial.ly/5fda0b5aebe82c0d17f177ea';
+    return 'https://view.genial.ly/6077017b8b37870d98620200';
   }
 }

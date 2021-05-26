@@ -46,7 +46,8 @@
   },
   "banners": {
     "campaigns": {
-      "message": "Il est important de vérifier que les élèves soient '<strong>'certifiables'</strong>' avant de les inscrire en session de certification. Vous pouvez faire une '<'a href={documentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'campagne de collecte de profils {faIcon}'</a>' pour vous en assurer."
+      "message": "La certification en collège et lycée est possible jusqu'au 25 juin. Pour reporter des sessions déjà programmées, il vous suffit, dans Pix Certif, de changer la date de la session en cliquant sur « modifier ».",
+      "actionLabel": "En savoir plus"
     },
     "import": {
       "link-to": "importer ou ré-importer la base élèves",
