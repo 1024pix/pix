@@ -27,7 +27,6 @@ const PIX_MASTER_ROLE_ID = 1;
 
 module.exports = {
 
-  // TODO use _toDomain()
   getByEmail(email) {
     return BookshelfUser
       .query((qb) => {
@@ -35,7 +34,7 @@ module.exports = {
       })
       .fetch()
       .then((bookshelfUser) => {
-        return bookshelfUser.toDomainEntity();
+        return _toDomain(bookshelfUser);
       })
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
