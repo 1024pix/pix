@@ -13,21 +13,26 @@
         <div class="participants-by-stage__values">
           {{t 'charts.participants-by-stage.participants' count=stage.value}}
         </div>
-        <PixTooltip
-          role="tooltip"
-          @text={{stage.tooltip}}
-          @position="bottom-right"
-          @isWide={{true}}
-          @isLight={{true}}
-          class="participants-by-stage__tooltip"
-          >
-          <div class="participants-by-stage__graph" role="button" {{on "click" (fn this.onClickBar stage.id)}}>
-            <div class="participants-by-stage__bar" style={{stage.barWidth}} />
-            <div class="participants-by-stage__percentage">
+        {{#if stage.displayTooltip}}
+          <PixTooltip
+            role="tooltip"
+            @text={{stage.tooltip}}
+            @position="bottom-right"
+            @isWide={{true}}
+            @isLight={{true}}
+            class="participants-by-stage__container"
+            >
+              <Charts::ParticipantsByStageBar @onClickBar={{this.onClickBar}} @stageId={{stage.id}} @barWidth={{stage.barWidth}}>
+                {{t 'charts.participants-by-stage.percentage' percentage=stage.percentage}}
+              </Charts::ParticipantsByStageBar>
+          </PixTooltip>
+        {{else}}
+          <div class="participants-by-stage__container">
+            <Charts::ParticipantsByStageBar @onClickBar={{this.onClickBar}} @stageId={{stage.id}} @barWidth={{stage.barWidth}}>
               {{t 'charts.participants-by-stage.percentage' percentage=stage.percentage}}
-            </div>
+            </Charts::ParticipantsByStageBar>
           </div>
-        </PixTooltip>
+        {{/if}}
       </div>
     {{/each}}
   {{/if}}
