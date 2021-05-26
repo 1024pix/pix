@@ -42,13 +42,16 @@
     {{#if @certificationCenters}}
       <tbody>
       {{#each @certificationCenters as |certificationCenter|}}
-        <tr
-          aria-label="Centre de certification"
-          role="button"
-          class="tr--clickable"
-          {{on "click" (fn @goToCertificationCenterPage certificationCenter.id)}}
-        >
-          <td>{{certificationCenter.id}}</td>
+        <tr aria-label="Centre de certification">
+          <td>
+            <LinkTo
+              @route="authenticated.certification-centers.get"
+              @model={{certificationCenter.id}}
+              data-test-certification={{certificationCenter.id}}
+            >
+              {{certificationCenter.id}}
+            </LinkTo>
+          </td>
           <td>{{certificationCenter.name}}</td>
           <td>{{certificationCenter.type}}</td>
           <td>{{certificationCenter.externalId}}</td>

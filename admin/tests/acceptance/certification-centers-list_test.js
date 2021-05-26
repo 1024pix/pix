@@ -7,6 +7,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Certification-centers List', function(hooks) {
+
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -66,7 +67,7 @@ module('Acceptance | Certification-centers List', function(hooks) {
       await visit('/certification-centers/list');
 
       // when
-      await click('tr[aria-label="Centre de certification"]:first-child');
+      await click('[data-test-certification="1"]');
 
       // then
       assert.equal(currentURL(), '/certification-centers/1');
