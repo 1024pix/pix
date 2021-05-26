@@ -7,7 +7,7 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | Charts::ParticipantsByStage', function(hooks) {
   setupIntlRenderingTest(hooks);
   const campaignId = 1;
-  let onSelectStage;
+  let onSelectStage, dataFetcher;
 
   hooks.beforeEach(async function() {
     // given
@@ -17,14 +17,14 @@ module('Integration | Component | Charts::ParticipantsByStage', function(hooks) 
 
     const store = this.owner.lookup('service:store');
     const adapter = store.adapterFor('campaign-stats');
-    const dataFetcher = sinon.stub(adapter, 'getParticipationsByStage');
+    dataFetcher = sinon.stub(adapter, 'getParticipationsByStage');
 
     dataFetcher.withArgs(campaignId).resolves({
       data: {
         attributes: {
           data: [
-            { id: 100498, value: 0, title: 'title1', description: 'description1' },
-            { id: 100499, value: 5, title: 'title2', description: 'description2' },
+            { id: 100498, value: 0 },
+            { id: 100499, value: 5 },
           ],
         },
       },
@@ -51,12 +51,9 @@ module('Integration | Component | Charts::ParticipantsByStage', function(hooks) 
     assert.contains('100 %');
   });
 
-  test('it should contains tooltip info', async function(assert) {
+  test('it should not display empty tooltip', async function(assert) {
     // then
-    assert.contains('title1');
-    assert.contains('description1');
-    assert.contains('title2');
-    assert.contains('description2');
+    assert.dom('[role="tooltip"]').doesNotExist();
   });
 
   test('it should call onSelectStage when user click on a bar', async function(assert) {
@@ -65,5 +62,77 @@ module('Integration | Component | Charts::ParticipantsByStage', function(hooks) 
     // then
     assert.dom('[role=button]').exists();
     sinon.assert.calledWith(onSelectStage, 100498);
+  });
+
+  module('when there is tooltip info', async function() {
+    module('when there is title and description', async function() {
+      test('it should contains tooltip info', async function(assert) {
+        // given
+        dataFetcher.withArgs(campaignId).resolves({
+          data: {
+            attributes: {
+              data: [
+                { id: 100498, value: 0, title: 'title1', description: 'description1' },
+                { id: 100499, value: 5, title: 'title2', description: 'description2' },
+              ],
+            },
+          },
+        });
+
+        // when
+        await render(hbs`<Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
+
+        // then
+        assert.dom('[role="tooltip"]').exists();
+        assert.contains('title1');
+        assert.contains('description1');
+        assert.contains('title2');
+        assert.contains('description2');
+      });
+    });
+
+    module('when there is only title', async function() {
+      test('tooltip should contains title', async function(assert) {
+        // given
+        dataFetcher.withArgs(campaignId).resolves({
+          data: {
+            attributes: {
+              data: [
+                { id: 100498, value: 0, title: 'title1' },
+              ],
+            },
+          },
+        });
+
+        // when
+        await render(hbs`<Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
+
+        // then
+        assert.dom('[role="tooltip"]').exists();
+        assert.contains('title1');
+      });
+    });
+
+    module('when there is only description', async function() {
+      test('tooltip should contains description', async function(assert) {
+        // given
+        dataFetcher.withArgs(campaignId).resolves({
+          data: {
+            attributes: {
+              data: [
+                { id: 100498, value: 0, description: 'description1' },
+              ],
+            },
+          },
+        });
+
+        // when
+        await render(hbs`<Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
+
+        // then
+        assert.dom('[role="tooltip"]').exists();
+        assert.contains('description1');
+      });
+    });
   });
 });
