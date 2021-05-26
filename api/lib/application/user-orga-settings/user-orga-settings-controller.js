@@ -6,7 +6,7 @@ module.exports = {
 
   async createOrUpdate(request) {
     const authenticatedUserId = request.auth.credentials.userId;
-    const userId = parseInt(request.params.id);
+    const userId = request.params.id;
     const organizationId = request.payload.data.relationships.organization.data.id;
 
     if (userId !== authenticatedUserId) {

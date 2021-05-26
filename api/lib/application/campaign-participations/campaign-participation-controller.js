@@ -13,7 +13,7 @@ const { extractLocaleFromRequest } = require('../../infrastructure/utils/request
 module.exports = {
 
   async getById(request) {
-    const campaignParticipationId = parseInt(request.params.id);
+    const campaignParticipationId = request.params.id;
     const userId = request.auth.credentials.userId;
     const options = queryParamsUtils.extractParameters(request.query);
 
@@ -48,7 +48,7 @@ module.exports = {
 
   async shareCampaignResult(request) {
     const userId = request.auth.credentials.userId;
-    const campaignParticipationId = parseInt(request.params.id);
+    const campaignParticipationId = request.params.id;
 
     const event = await usecases.shareCampaignResult({
       userId,
@@ -60,7 +60,7 @@ module.exports = {
 
   async beginImprovement(request) {
     const userId = request.auth.credentials.userId;
-    const campaignParticipationId = parseInt(request.params.id);
+    const campaignParticipationId = request.params.id;
 
     await usecases.beginCampaignParticipationImprovement({
       campaignParticipationId,

@@ -28,7 +28,9 @@ module.exports = {
       'id-pix-label': idPixLabel,
       'custom-landing-page-text': customLandingPageText,
     } = request.payload.data.attributes;
+    // eslint-disable-next-line no-restricted-syntax
     const targetProfileId = parseInt(_.get(request, 'payload.data.relationships.target-profile.data.id')) || null;
+    // eslint-disable-next-line no-restricted-syntax
     const organizationId = parseInt(_.get(request, 'payload.data.relationships.organization.data.id')) || null;
 
     const campaign = { name, type, title, idPixLabel, customLandingPageText, creatorId: userId, organizationId, targetProfileId };
@@ -57,7 +59,7 @@ module.exports = {
   async getCsvAssessmentResults(request) {
     const token = request.query.accessToken;
     const userId = tokenService.extractUserIdForCampaignResults(token);
-    const campaignId = parseInt(request.params.id);
+    const campaignId = request.params.id;
 
     const writableStream = new PassThrough();
 
@@ -79,7 +81,7 @@ module.exports = {
   async getCsvProfilesCollectionResults(request) {
     const token = request.query.accessToken;
     const userId = tokenService.extractUserIdForCampaignResults(token);
-    const campaignId = parseInt(request.params.id);
+    const campaignId = request.params.id;
 
     const writableStream = new PassThrough();
 
@@ -100,7 +102,7 @@ module.exports = {
 
   update(request) {
     const { userId } = request.auth.credentials;
-    const campaignId = parseInt(request.params.id);
+    const campaignId = request.params.id;
     const { name, title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
 
     return usecases.updateCampaign({ userId, campaignId, name, title, customLandingPageText })
@@ -109,7 +111,7 @@ module.exports = {
 
   archiveCampaign(request) {
     const { userId } = request.auth.credentials;
-    const campaignId = parseInt(request.params.id);
+    const campaignId = request.params.id;
 
     return usecases.archiveCampaign({ userId, campaignId })
       .then(campaignReportSerializer.serialize);
@@ -117,7 +119,7 @@ module.exports = {
 
   unarchiveCampaign(request) {
     const { userId } = request.auth.credentials;
-    const campaignId = parseInt(request.params.id);
+    const campaignId = request.params.id;
 
     return usecases.unarchiveCampaign({ userId, campaignId })
       .then(campaignReportSerializer.serialize);
@@ -125,7 +127,7 @@ module.exports = {
 
   async getCollectiveResult(request) {
     const { userId } = request.auth.credentials;
-    const campaignId = parseInt(request.params.id);
+    const campaignId = request.params.id;
     const locale = extractLocaleFromRequest(request);
 
     const campaignCollectiveResult = await usecases.computeCampaignCollectiveResult({ userId, campaignId, locale });

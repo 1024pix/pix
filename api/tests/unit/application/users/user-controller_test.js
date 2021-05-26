@@ -398,7 +398,7 @@ describe('Unit | Controller | user-controller', () => {
     let request;
 
     beforeEach(() => {
-      request = { params: { id: '123' } };
+      request = { params: { id: 123 } };
 
       sinon.stub(usecases, 'getUserDetailsForAdmin');
       sinon.stub(userDetailsForAdminSerializer, 'serialize');

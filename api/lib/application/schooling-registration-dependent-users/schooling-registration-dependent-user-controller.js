@@ -56,9 +56,10 @@ module.exports = {
 
   async updatePassword(request, h) {
     const payload = request.payload.data.attributes;
+    // eslint-disable-next-line no-restricted-syntax
     const userId = parseInt(request.auth.credentials.userId);
-    const organizationId = parseInt(payload['organization-id']);
-    const schoolingRegistrationId = parseInt(payload['schooling-registration-id']);
+    const organizationId = payload['organization-id'];
+    const schoolingRegistrationId = payload['schooling-registration-id'];
 
     const generatedPassword = await usecases.updateSchoolingRegistrationDependentUserPassword({
       userId,
@@ -80,8 +81,8 @@ module.exports = {
 
   async generateUsernameWithTemporaryPassword(request, h) {
     const payload = request.payload.data.attributes;
-    const organizationId = parseInt(payload['organization-id']);
-    const schoolingRegistrationId = parseInt(payload['schooling-registration-id']);
+    const organizationId = payload['organization-id'];
+    const schoolingRegistrationId = payload['schooling-registration-id'];
 
     const result = await usecases.generateUsernameWithTemporaryPassword({
       schoolingRegistrationId,

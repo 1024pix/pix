@@ -24,7 +24,7 @@ module.exports = {
 
   async update(request) {
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
-    const answerId = parseInt(request.params.id);
+    const answerId = request.params.id;
     const answer = await usecases.getAnswer({ answerId, userId });
 
     return answerSerializer.serialize(answer);

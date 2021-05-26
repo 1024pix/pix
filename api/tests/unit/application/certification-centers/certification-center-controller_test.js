@@ -16,8 +16,8 @@ describe('Unit | Controller | certifications-center-controller', () => {
           credentials: { userId: '111' },
         },
         params: {
-          certificationCenterId: '99',
-          sessionId: '88',
+          certificationCenterId: 99,
+          sessionId: 88,
         },
         query: { 'page[size]': 10, 'page[number]': 1, 'filter[divisions][]': '3A' },
       };
@@ -59,10 +59,10 @@ describe('Unit | Controller | certifications-center-controller', () => {
       // given
       const request = {
         auth: {
-          credentials: { userId: '111' },
+          credentials: { userId: 111 },
         },
         params: {
-          certificationCenterId: '99',
+          certificationCenterId: 99,
         },
       };
 
