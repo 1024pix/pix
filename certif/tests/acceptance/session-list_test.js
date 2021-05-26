@@ -7,8 +7,6 @@ import {
   createCertificationCenter,
   authenticateSession,
 } from '../helpers/test-init';
-import { statusToDisplayName } from 'pix-certif/models/session';
-import moment from 'moment';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -58,49 +56,29 @@ module('Acceptance | Session List', function(hooks) {
     });
 
     module('when some sessions exist', function() {
-      const nbExtraSessions = 11;
 
-      test('it should list the sessions and their attributes with status', async function(assert) {
+      test('it should list the sessions', async function(assert) {
         // given
-        const firstSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
-        server.createList('session', nbExtraSessions, { certificationCenterId, date: '2019-01-01' });
+        server.createList('session-summary', 5, { certificationCenterId, date: '2019-01-01' });
 
         // when
         await visit('/sessions/liste');
 
         // then
-        const formattedDate = moment(firstSession.date, 'YYYY-MM-DD').format('DD/MM/YYYY');
-        assert.dom('table tbody tr').exists({ count: nbExtraSessions + 1 });
-        assert.dom('table tbody tr:first-child').hasText(`${firstSession.id} ${firstSession.address} ${firstSession.room} ${formattedDate} ${firstSession.time} ${firstSession.examiner} ${statusToDisplayName.created}`);
+        assert.dom('table tbody tr').exists({ count: 5 });
       });
 
-      test('it should sort the sessions from recent to older', async function(assert) {
+      test('it should redirect to detail page of clicked session-summary', async function(assert) {
         // given
-        const lessLessRecentSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2019-01-01', time: '13:00' });
-        const mostRecentSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
-        const lessRecentSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2019-01-01', time: '14:00' });
-
-        // when
-        await visit('/sessions/liste');
-
-        // then
-        assert.dom('table tbody tr').exists({ count: 3 });
-        assert.dom('table tbody tr:nth-child(1) td').hasText(`${mostRecentSession.id}`);
-        assert.dom('table tbody tr:nth-child(2) td').hasText(`${lessRecentSession.id}`);
-        assert.dom('table tbody tr:nth-child(3) td').hasText(`${lessLessRecentSession.id}`);
-      });
-
-      test('it should redirect to detail page of session id 1 on click on first row', async function(assert) {
-        // given
-        const firstSession = server.create('session', { address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
-        server.createList('session', nbExtraSessions, { certificationCenterId, date: '2019-01-01' });
+        server.create('session-summary', { id: 123, address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
+        server.create('session', { id: 123, address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
         await visit('/sessions/liste');
 
         // when
-        await click(`[data-test-id="session-list-row__${firstSession.id}"]`);
+        await click('[aria-label="Session de certification"]');
 
         // then
-        assert.equal(currentURL(), `/sessions/${firstSession.id}`);
+        assert.equal(currentURL(), '/sessions/123');
       });
 
       test('it should update message display when selected certif center changes', async function(assert) {
@@ -113,9 +91,7 @@ module('Acceptance | Session List', function(hooks) {
         });
         certificationCenterId = certificationPointOfContact.certificationCenterId;
         await authenticateSession(certificationPointOfContact.id);
-
-        server.create('session', { certificationCenterId: centerManagingStudents.id, date: '2019-01-01' });
-        server.create('session', { certificationCenterId: centerNotManagingStudents.id, date: '2019-01-01' });
+        server.create('session-summary', { certificationCenterId: centerManagingStudents.id });
 
         // when
         await visit('/sessions/liste');
