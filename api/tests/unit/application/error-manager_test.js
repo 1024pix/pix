@@ -9,6 +9,7 @@ const {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   EntityValidationError,
+  InvalidExternalAPIResponseError,
   MissingOrInvalidCredentialsError,
   UnexpectedUserAccountError,
   UserShouldChangePasswordError,
@@ -201,6 +202,19 @@ describe('Unit | Application | ErrorManager', () => {
 
       // then
       expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate ServiceUnavailableError when InvalidExternalAPIResponseError', async () => {
+      // given
+      const error = new InvalidExternalAPIResponseError();
+      sinon.stub(HttpErrors, 'ServiceUnavailableError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ServiceUnavailableError).to.have.been.calledWithExactly(error.message);
     });
   });
 
