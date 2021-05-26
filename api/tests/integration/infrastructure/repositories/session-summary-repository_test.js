@@ -79,23 +79,20 @@ describe('Integration | Repository | Session Summary', () => {
         expect(meta.hasSessions).to.be.true;
       });
 
-      it('should sort sessions by descending creation date', async () => {
+      it('should sort sessions by descending date and time, and finally by ID ascending', async () => {
         // given
-        const createdAtInThePast = new Date('2010-07-30T09:35:45Z');
-        const createdAtInThePresent = new Date('2020-07-30T09:35:45Z');
-        const createdAtInTheFuture = new Date('2030-07-30T09:35:45Z');
-
-        const sessionInThePastId = databaseBuilder.factory.buildSession({ certificationCenterId, createdAt: createdAtInThePast }).id;
-        const sessionInTheFutureId = databaseBuilder.factory.buildSession({ certificationCenterId, createdAt: createdAtInTheFuture }).id;
-        const sessionInThePresentId = databaseBuilder.factory.buildSession({ certificationCenterId, createdAt: createdAtInThePresent }).id;
+        databaseBuilder.factory.buildSession({ id: 1, certificationCenterId, date: '2020-01-01', time: '18:00:00' }).id;
+        databaseBuilder.factory.buildSession({ id: 2, certificationCenterId, date: '2020-01-01', time: '15:00:00' }).id;
+        databaseBuilder.factory.buildSession({ id: 3, certificationCenterId, date: '2021-01-01' }).id;
+        databaseBuilder.factory.buildSession({ id: 4, certificationCenterId, date: '2020-01-01', time: '15:00:00' }).id;
         await databaseBuilder.commit();
 
         // when
         const { models: sessionSummaries } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({ certificationCenterId, page });
 
         // then
-        expect(sessionSummaries).to.have.lengthOf(3);
-        expect(_.map(sessionSummaries, 'id')).to.deep.equal([sessionInTheFutureId, sessionInThePresentId, sessionInThePastId]);
+        expect(sessionSummaries).to.have.lengthOf(4);
+        expect(_.map(sessionSummaries, 'id')).to.deep.equal([3, 1, 2, 4]);
       });
 
       context('when sessions have candidates', async () => {
