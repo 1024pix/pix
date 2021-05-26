@@ -104,23 +104,6 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/certification-centers/{id}/sessions',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.certificationCenterId,
-          }),
-        },
-        handler: certificationCenterController.getSessions,
-        tags: ['api', 'certification-center'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n',
-          '- Elle retourne les sessions rattachées au centre de certification.',
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/certification-centers/{id}/session-summaries',
       config: {
         validate: {
