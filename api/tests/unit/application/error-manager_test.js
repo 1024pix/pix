@@ -5,10 +5,13 @@ const {
 } = require('../../test-helper');
 
 const {
+  AlreadyRegisteredEmailAndUsernameError,
+  AlreadyRegisteredEmailError,
+  AlreadyRegisteredUsernameError,
   EntityValidationError,
   MissingOrInvalidCredentialsError,
-  UserShouldChangePasswordError,
   UnexpectedUserAccountError,
+  UserShouldChangePasswordError,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -159,6 +162,45 @@ describe('Unit | Application | ErrorManager', () => {
 
       // then
       expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message, error.code, error.meta);
+    });
+
+    it('should instantiate BadRequestError when AlreadyRegisteredEmailError', async () => {
+      // given
+      const error = new AlreadyRegisteredEmailError();
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate BadRequestError when AlreadyRegisteredUsernameError', async () => {
+      // given
+      const error = new AlreadyRegisteredUsernameError();
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate BadRequestError when AlreadyRegisteredEmailAndUsernameError', async () => {
+      // given
+      const error = new AlreadyRegisteredEmailAndUsernameError();
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
     });
   });
 

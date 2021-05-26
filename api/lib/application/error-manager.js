@@ -253,7 +253,13 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.InvalidTemporaryKeyError) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
+  if (error instanceof DomainErrors.AlreadyRegisteredEmailAndUsernameError) {
+    return new HttpErrors.BadRequestError(error.message);
+  }
   if (error instanceof DomainErrors.AlreadyRegisteredEmailError) {
+    return new HttpErrors.BadRequestError(error.message);
+  }
+  if (error instanceof DomainErrors.AlreadyRegisteredUsernameError) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.WrongDateFormatError) {

@@ -90,6 +90,12 @@ class AssessmentResultNotCreatedError extends DomainError {
   }
 }
 
+class AlreadyRegisteredEmailAndUsernameError extends DomainError {
+  constructor(message = 'Cette adresse e-mail et cet identifiant sont déjà utilisés.') {
+    super(message);
+  }
+}
+
 class AlreadyRegisteredEmailError extends DomainError {
   constructor(message = 'Cette adresse e-mail est déjà utilisée.') {
     super(message);
@@ -825,6 +831,7 @@ module.exports = {
   AlreadyExistingMembershipError,
   AlreadyExistingOrganizationInvitationError,
   AlreadyRatedAssessmentError,
+  AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   AlreadySharedCampaignParticipationError,
