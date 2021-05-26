@@ -14,6 +14,7 @@ module.exports = function() {
       'eye',
       'eye-slash',
       'exclamation-triangle',
+      'exclamation-circle',
       'external-link-alt',
       'hourglass-half',
       'info-circle',
