@@ -6,7 +6,7 @@ export default class OrganizationAllTags extends Component {
 
   get allTags() {
 
-    const organizationTagsNames = map(this.args.model.organizationTags.toArray(), 'name');
+    const organizationTagsNames = map(this.args.model.organization.tags.toArray(), 'name');
     const allTags = sortBy(this.args.model.allTags.toArray(), 'name');
 
     return map(allTags, (tag) => {

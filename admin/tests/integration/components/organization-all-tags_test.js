@@ -12,8 +12,9 @@ module('Integration | Component | organization-all-tags', function(hooks) {
     const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
     const tag2 = EmberObject.create({ id: 2, name: 'AEFE' });
     const organizationTag1 = EmberObject.create({ name: 'MEDNUM' });
+    const organization = EmberObject.create({ tags: [organizationTag1] });
 
-    this.set('allOrganizationTags', { allTags: [tag1, tag2], organizationTags: [organizationTag1] });
+    this.set('allOrganizationTags', { organization, allTags: [tag1, tag2] });
 
     // when
     await render(hbs`<OrganizationAllTags @model={{this.allOrganizationTags}} />`);
@@ -29,8 +30,9 @@ module('Integration | Component | organization-all-tags', function(hooks) {
     const tag2 = EmberObject.create({ id: 2, name: 'AEFE' });
     const tag3 = EmberObject.create({ id: 3, name: 'CFA' });
     const tag4 = EmberObject.create({ id: 4, name: 'POLE EMPLOI' });
+    const organization = EmberObject.create({ tags: [] });
 
-    this.set('allOrganizationTags', { allTags: [tag1, tag2, tag3, tag4], organizationTags: [] });
+    this.set('allOrganizationTags', { organization, allTags: [tag1, tag2, tag3, tag4] });
 
     // when
     await render(hbs`<OrganizationAllTags @model={{this.allOrganizationTags}} />`);
@@ -44,8 +46,9 @@ module('Integration | Component | organization-all-tags', function(hooks) {
     // given
     const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
     const organizationTag1 = EmberObject.create({ name: 'MEDNUM' });
+    const organization = EmberObject.create({ tags: [organizationTag1] });
 
-    this.set('allOrganizationTags', { allTags: [tag1], organizationTags: [organizationTag1] });
+    this.set('allOrganizationTags', { organization, allTags: [tag1] });
 
     // when
     await render(hbs`<OrganizationAllTags @model={{this.allOrganizationTags}} />`);
@@ -57,8 +60,9 @@ module('Integration | Component | organization-all-tags', function(hooks) {
   test('it should display an inactive tag when it is not associate to an organization', async function(assert) {
     // given
     const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
+    const organization = EmberObject.create({ tags: [] });
 
-    this.set('allOrganizationTags', { allTags: [tag1], organizationTags: [] });
+    this.set('allOrganizationTags', { organization, allTags: [tag1] });
 
     // when
     await render(hbs`<OrganizationAllTags @model={{this.allOrganizationTags}} />`);
