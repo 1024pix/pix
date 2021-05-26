@@ -1,0 +1,62 @@
+<div class="table--with-row-clickable" role="tabpanel">
+  <div class="panel">
+    <div class="table content-text content-text--small">
+      <table>
+        <thead>
+          <tr>
+            <th class="table__column table__column--small">
+              ID session
+            </th>
+            <th class="table__column table__column--small">
+              Nom du site
+            </th>
+            <th class="table__column table__column--small">
+              Salle
+            </th>
+            <th class="table__column table__column--small">
+              Date
+            </th>
+            <th class="table__column table__column--small">
+              Heure
+            </th>
+            <th class="table__column table__column--small">
+              Surveillant(s)
+            </th>
+            <th class="table__column table__column">
+              Nombre de candidats inscrits
+            </th>
+            <th class="table__column table__column">
+              Nombre de certifications passées
+            </th>
+            <th class="table__column table__column--small">
+              Statut
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {{#each @sessionSummaries as |sessionSummary|}}
+          <tr aria-label="Session de certification" role="button" {{on 'click' (fn @goToSessionDetails sessionSummary.id)}} class="tr--clickable">
+            <td>{{sessionSummary.id}}</td>
+            <td>{{sessionSummary.address}}</td>
+            <td>{{sessionSummary.room}}</td>
+            <td>{{moment-format sessionSummary.date 'DD/MM/YYYY' allow-empty=true}}</td>
+            <td>{{moment-format sessionSummary.time 'HH:mm' 'HH:mm:ss' allow-empty=true}}</td>
+            <td>{{sessionSummary.examiner}}</td>
+            <td>{{sessionSummary.enrolledCandidatesCount}}</td>
+            <td>{{sessionSummary.effectiveCandidatesCount}}</td>
+            <td>{{sessionSummary.statusLabel}}</td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+      {{#if (eq @sessionSummaries.length 0)}}
+        <div class="table__empty content-text">
+          Aucune session trouvée
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>
+
+<PaginationControl @pagination={{@sessionSummaries.meta}}/>
