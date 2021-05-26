@@ -9,15 +9,12 @@ module('Integration | Component | routes/authenticated/organizations | list-item
 
   hooks.beforeEach(async function() {
     const triggerFiltering = function() {};
-    const goToOrganizationPage = function() {};
-
     this.triggerFiltering = triggerFiltering;
-    this.goToOrganizationPage = goToOrganizationPage;
   });
 
   test('it should display header with id, name, type and externalId', async function(assert) {
     // when
-    await render(hbs`<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} @goToOrganizationPage={{this.goToOrganizationPage}} />`);
+    await render(hbs `<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
 
     // then
     assert.dom('table thead tr:first-child th:first-child').hasText('ID');
@@ -28,7 +25,7 @@ module('Integration | Component | routes/authenticated/organizations | list-item
 
   test('if should display search inputs', async function(assert) {
     // when
-    await render(hbs`<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} @goToOrganizationPage={{this.goToOrganizationPage}} />`);
+    await render(hbs `<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
 
     // then
     assert.dom('table thead tr:nth-child(2) input#id').exists();
@@ -51,7 +48,7 @@ module('Integration | Component | routes/authenticated/organizations | list-item
     this.organizations = organizations;
 
     // when
-    await render(hbs`<Organizations::ListItems @organizations={{this.organizations}} @triggerFiltering={{this.triggerFiltering}} @goToOrganizationPage={{this.goToOrganizationPage}} />`);
+    await render(hbs `<Organizations::ListItems @organizations={{this.organizations}} @triggerFiltering={{this.triggerFiltering}} />`);
 
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText('1');
