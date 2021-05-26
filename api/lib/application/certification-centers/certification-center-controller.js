@@ -5,6 +5,7 @@ const certificationCenterMembershipSerializer = require('../../infrastructure/se
 const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const studentCertificationSerializer = require('../../infrastructure/serializers/jsonapi/student-certification-serializer');
+const sessionSummarySerializer = require('../../infrastructure/serializers/jsonapi/session-summary-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
@@ -35,6 +36,20 @@ module.exports = {
 
     return usecases.findSessionsForCertificationCenter({ userId, certificationCenterId })
       .then((sessions) => sessionSerializer.serialize(sessions));
+  },
+
+  async findPaginatedSessionSummaries(request) {
+    const certificationCenterId = parseInt(request.params.id);
+    const userId = parseInt(request.auth.credentials.userId);
+    const options = queryParamsUtils.extractParameters(request.query);
+
+    const { models: sessionSummaries, meta } = await usecases.findPaginatedCertificationCenterSessionSummaries({
+      userId,
+      certificationCenterId,
+      page: options.page,
+    });
+
+    return sessionSummarySerializer.serialize(sessionSummaries, meta);
   },
 
   async getStudents(request) {
