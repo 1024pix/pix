@@ -26,7 +26,13 @@
       </div>
 
       <div class="campaign-details-header-report__shared">
-        <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign.shared-participations-count'}}</h4>
+        <h4 class="label-text campaign-details-content__label">
+          {{#if (eq @campaign.type "PROFILES_COLLECTION")}}
+            {{t 'pages.campaign.shared-profiles-count'}}
+          {{else}}
+            {{t 'pages.campaign.shared-results-count'}}
+          {{/if}}
+        </h4>
         <span class="content-text content-text--big campaign-details-content__text">
           {{this.sharedParticipationsCount}}
         </span>
