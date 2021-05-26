@@ -69,3 +69,32 @@ npm start
 - [Pix Orga](http://localhost:4201) sur le port 4201
 - [Pix Admin](http://localhost:4202) sur le port 4202
 - [Pix Certif](http://localhost:4203) sur le port 4203
+
+### 6. (Facultatif) Configurer les domaines locaux.
+
+Il est possible d'accéder aux applications Pix avec des domaines `*.pix.local` 
+plutôt que `localhost:port` :
+
+- http://app.pix.local/
+- http://orga.pix.local/
+- http://admin.pix.local/
+- http://certif.pix.local/
+
+Pour configurer les domaines locaux, exécuter le script :
+
+```bash
+npm run domains:install
+```
+
+On peut ensuite démarrer le container docker nécessaire avec :
+
+```bash
+npm run domains:start
+```
+
+Et arrêter le container avec :
+
+```bash
+npm run domains:stop
+```
+
