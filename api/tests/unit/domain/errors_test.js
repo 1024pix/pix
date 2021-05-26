@@ -75,6 +75,10 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.AuthenticationMethodNotFoundError).to.exist;
   });
 
+  it('should export a SessionNotAccessible error', () => {
+    expect(errors.SessionNotAccessible).to.exist;
+  });
+
   describe('#SameNationalStudentIdInOrganizationError', () => {
 
     context('When errorDetail is provided', () => {

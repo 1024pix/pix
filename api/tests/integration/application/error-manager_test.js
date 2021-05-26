@@ -122,6 +122,13 @@ describe('Integration | API | Controller Error', () => {
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
+
+    it('responds Precondition Failed when a SessionNotAccessible error occurs', async () => {
+      routeHandler.throws(new DomainErrors.SessionNotAccessible());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+    });
   });
 
   context('404 Not Found', () => {
