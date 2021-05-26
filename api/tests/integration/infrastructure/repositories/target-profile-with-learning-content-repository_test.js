@@ -1,3 +1,4 @@
+const { omit } = require('lodash');
 const { expect, databaseBuilder, mockLearningContent, domainBuilder, catchErr } = require('../../../test-helper');
 const TargetProfileWithLearningContent = require('../../../../lib/domain/models/TargetProfileWithLearningContent');
 const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
@@ -37,6 +38,12 @@ async function buildDomainAndDatabaseStage(targetProfileId) {
 
   return stage;
 }
+
+const checkBadge = (actual, expected) => {
+  expect(omit(actual, ['badgeCriteria', 'badgePartnerCompetences'])).to.deep.include(omit(expected, ['badgeCriteria', 'badgePartnerCompetences']));
+  expect(actual.badgeCriteria).to.have.deep.members(expected.badgeCriteria);
+  expect(actual.badgePartnerCompetences).to.have.deep.members(expected.badgePartnerCompetences);
+};
 
 describe('Integration | Repository | Target-profile-with-learning-content', () => {
 
@@ -211,7 +218,16 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const targetProfile = await targetProfileWithLearningContentRepository.get({ id: targetProfileDB.id });
 
       // then
-      expect(targetProfile.badges).to.have.deep.members([ { ...badge1, imageUrl: null }, { ...badge2, imageUrl: null } ]);
+      const actualBadge1 = targetProfile.badges.find((badge) => badge.id === badge1.id);
+      checkBadge(actualBadge1, {
+        ...badge1,
+        imageUrl: null,
+      });
+      const actualBadge2 = targetProfile.badges.find((badge) => badge.id === badge2.id);
+      checkBadge(actualBadge2, {
+        ...badge2,
+        imageUrl: null,
+      });
     });
 
     it('should return target profile stages', async () => {
@@ -588,7 +604,17 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
 
       // then
-      expect(targetProfile.badges).to.have.deep.members([ { ...badge1, imageUrl: null }, { ...badge2, imageUrl: null } ]);
+      const actualBadge1 = targetProfile.badges.find((badge) => badge.id === badge1.id);
+      checkBadge(actualBadge1, {
+        ...badge1,
+        imageUrl: null,
+      });
+      const actualBadge2 = targetProfile.badges.find((badge) => badge.id === badge2.id);
+      checkBadge(actualBadge2, {
+        ...badge2,
+        imageUrl: null,
+      });
+
     });
 
     it('should return target profile filled with objects with appropriate translation', async () => {
