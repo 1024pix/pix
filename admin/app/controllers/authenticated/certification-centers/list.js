@@ -2,7 +2,6 @@
 
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { task, timeout } from 'ember-concurrency';
 import config from 'pix-admin/config/environment';
 
@@ -29,9 +28,4 @@ export default class ListController extends Controller {
     this.pendingFilters = {};
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }).restartable()) triggerFiltering;
-
-  @action
-  goToCertificationCenterPage(certificationCenterId) {
-    this.transitionToRoute('authenticated.certification-centers.get', certificationCenterId);
-  }
 }

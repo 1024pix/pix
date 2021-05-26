@@ -29,9 +29,4 @@ export default class ListController extends Controller {
   triggerFiltering(fieldName, event) {
     this.debouncedUpdateFilters({ [fieldName]: event.target.value });
   }
-
-  @action
-  goToOrganizationPage(organizationId) {
-    this.transitionToRoute('authenticated.organizations.get', organizationId);
-  }
 }

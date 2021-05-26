@@ -84,7 +84,7 @@ module('Acceptance | Organization List', function(hooks) {
       await visit('/organizations/list');
 
       // when
-      await click('.organization-list .table-admin tbody tr:first-child');
+      await click('[data-test-orga="1"]');
 
       // then
       assert.equal(currentURL(), '/organizations/1/members');
