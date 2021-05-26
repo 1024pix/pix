@@ -1,42 +1,42 @@
 <div class="certification-center-list content-text content-text--small">
   <table class="table-admin">
     <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nom</th>
-      <th>Type</th>
-      <th>ID externe</th>
-    </tr>
-    <tr>
-      <th>
-        <input id="id"
-               type="text"
-               value={{@id}}
-               oninput={{perform @triggerFiltering 'id'}}
-               class="table-admin-input" />
-      </th>
-      <th>
-        <input id="name"
-               type="text"
-               value={{@name}}
-               oninput={{perform @triggerFiltering 'name'}}
-               class="table-admin-input" />
-      </th>
-      <th>
-        <input id="type"
-               type="text"
-               value={{@type}}
-               oninput={{perform @triggerFiltering 'type'}}
-               class="table-admin-input" />
-      </th>
-      <th>
-        <input id="externalId"
-               type="text"
-               value={{@externalId}}
-               oninput={{perform @triggerFiltering 'externalId'}}
-               class="table-admin-input" />
-      </th>
-    </tr>
+      <tr>
+        <th><label for="id">ID</label></th>
+        <th><label for="name">Nom</label></th>
+        <th><label for="type">Type</label></th>
+        <th><label for="externalId">ID externe</label></th>
+      </tr>
+      <tr>
+        <td>
+          <input id="id"
+                 type="text"
+                 value={{@id}}
+                 oninput={{perform @triggerFiltering 'id'}}
+                 class="table-admin-input" />
+        </td>
+        <td>
+          <input id="name"
+                 type="text"
+                 value={{@name}}
+                 oninput={{perform @triggerFiltering 'name'}}
+                 class="table-admin-input" />
+        </td>
+        <td>
+          <input id="type"
+                 type="text"
+                 value={{@type}}
+                 oninput={{perform @triggerFiltering 'type'}}
+                 class="table-admin-input" />
+        </td>
+        <td>
+          <input id="externalId"
+                 type="text"
+                 value={{@externalId}}
+                 oninput={{perform @triggerFiltering 'externalId'}}
+                 class="table-admin-input" />
+        </td>
+      </tr>
     </thead>
 
     {{#if @certificationCenters}}
