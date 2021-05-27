@@ -3,7 +3,7 @@ const moment = require('moment');
 
 const EMPTY_ARRAY = [];
 
-class CampaignProfileCollectionResultLine {
+class CampaignProfilesCollectionResultLine {
 
   constructor(campaign, organization, campaignParticipationResult, competences, placementProfile, translate) {
     this.organization = organization;
@@ -101,4 +101,4 @@ class CampaignProfileCollectionResultLine {
   }
 }
 
-module.exports = CampaignProfileCollectionResultLine;
+module.exports = CampaignProfilesCollectionResultLine;
