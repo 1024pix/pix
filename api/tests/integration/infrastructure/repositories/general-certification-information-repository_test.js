@@ -4,7 +4,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const GeneralCertificationInformation = require('../../../../lib/domain/read-models/GeneralCertificationInformation');
 
-describe('Integration | Repository | Certification Course', function() {
+describe('Integration | Repository | General certification information', function() {
 
   describe('#get', function() {
 
@@ -30,10 +30,14 @@ describe('Integration | Repository | Certification Course', function() {
         const firstCertificationReport = databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId,
           description: 'Houston nous avons un problème',
+          resolvedAt: new Date('2021-01-01T00:00:00Z'),
+          resolution: 'challenge neutralized',
         });
         const secondCertificationReport = databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId,
           description: 'Un autre problème',
+          resolvedAt: null,
+          resolution: null,
         });
         await databaseBuilder.commit();
 
@@ -53,8 +57,8 @@ describe('Integration | Repository | Certification Course', function() {
           birthdate: certificationCourseDTO.birthdate,
           birthplace: certificationCourseDTO.birthplace,
           certificationIssueReports: [
-            { ...firstCertificationReport, isActionRequired: true },
-            { ...secondCertificationReport, isActionRequired: true },
+            { ...firstCertificationReport, isImpactful: true, resolution: 'challenge neutralized', resolvedAt: new Date('2021-01-01T00:00:00Z') },
+            { ...secondCertificationReport, isImpactful: true, resolution: null, resolvedAt: null },
           ],
         };
         expect(result).to.be.instanceOf(GeneralCertificationInformation);

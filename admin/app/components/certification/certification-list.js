@@ -24,7 +24,7 @@ export default class CertificationList extends Component {
 
     {
       propertyName: 'numberOfCertificationIssueReportsWithRequiredActionLabel',
-      title: 'Signalements impactants',
+      title: 'Signalements impactants non résolus',
       className: 'certification-list-page__cell--important',
     },
     {

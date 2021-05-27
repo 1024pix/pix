@@ -1,8 +1,6 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
 const JuryCertificationSummary = require('../../../../../lib/domain/read-models/JuryCertificationSummary');
-const CertificationIssueReport = require('../../../../../lib/domain/models/CertificationIssueReport');
-const { CertificationIssueReportCategories } = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
 
 describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', function() {
 
@@ -12,10 +10,10 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
     let expectedJsonApi;
 
     beforeEach(() => {
-      const issueReport = new CertificationIssueReport({
+      const issueReport = domainBuilder.buildCertificationIssueReport.impactful({
         certificationCourseId: 1,
         description: 'someComment',
-        category: CertificationIssueReportCategories.OTHER,
+        resolvedAt: null,
       });
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
       const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();

@@ -7,6 +7,7 @@ const { CertificationIssueReportCategories, CertificationIssueReportSubcategorie
 describe('Unit | Domain | Models | FinalizedSession', () => {
 
   context('#isPublishable', () => {
+
     it('is not publishable when session has an examiner global comment', () => {
       // given / when
       const finalizedSession = FinalizedSession.from({
@@ -37,7 +38,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
-    it('is not publishable when at least one issue report require action', () => {
+    it('is not publishable when has at least one unresolved issue report that requires action', () => {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -45,7 +46,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
         sessionDate: '2021-01-29',
         sessionTime: '16:00',
         hasExaminerGlobalComment: false,
-        juryCertificationSummaries: _someWithRequiredActionButNoErrorOrStartedStatus(),
+        juryCertificationSummaries: _someWithUnresolvedRequiredActionButNoErrorOrStartedStatus(),
         finalizedAt: new Date('2020-01-01T00:00:00Z'),
       });
       // then
@@ -96,6 +97,21 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
         finalizedAt: new Date('2020-01-01T00:00:00Z'),
       });
 
+      // then
+      expect(finalizedSession.isPublishable).to.be.true;
+    });
+
+    it('is publishable when has no unresolved issue reports that requires action', () => {
+      // given / when
+      const finalizedSession = FinalizedSession.from({
+        sessionId: 1234,
+        certificationCenterName: 'a certification center',
+        sessionDate: '2021-01-29',
+        sessionTime: '16:00',
+        hasExaminerGlobalComment: false,
+        juryCertificationSummaries: _someWithResolvedRequiredActionButNoErrorOrStartedStatus(),
+        finalizedAt: new Date('2020-01-01T00:00:00Z'),
+      });
       // then
       expect(finalizedSession.isPublishable).to.be.true;
     });
@@ -286,7 +302,7 @@ function _noneWithRequiredActionButSomeStartedStatus() {
   ];
 }
 
-function _someWithRequiredActionButNoErrorOrStartedStatus() {
+function _someWithUnresolvedRequiredActionButNoErrorOrStartedStatus() {
   return [
     new JuryCertificationSummary({
       id: 1,
@@ -302,6 +318,32 @@ function _someWithRequiredActionButNoErrorOrStartedStatus() {
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
           category: CertificationIssueReportCategories.FRAUD,
+          resolvedAt: null,
+          resolution: null,
+        }),
+      ],
+    }),
+  ];
+}
+
+function _someWithResolvedRequiredActionButNoErrorOrStartedStatus() {
+  return [
+    new JuryCertificationSummary({
+      id: 1,
+      firstName: 'firstName',
+      lastName: 'lastName',
+      status: 'validated',
+      pixScore: 120,
+      createdAt: new Date(),
+      completedAt: new Date(),
+      isPublished: false,
+      hasSeenEndTestScreen: true,
+      cleaCertificationStatus: 'not_passed',
+      certificationIssueReports: [
+        domainBuilder.buildCertificationIssueReport({
+          category: CertificationIssueReportCategories.FRAUD,
+          resolvedAt: new Date('2020-01-01'),
+          resolution: 'des points gratos offerts',
         }),
       ],
     }),
