@@ -4,6 +4,10 @@ import { action } from '@ember/object';
 
 export default class CertificationInformationsRoute extends Route {
 
+  model() {
+    return this.modelFor('authenticated.certifications.certification').reload();
+  }
+
   setupController(controller, model) {
     super.setupController(...arguments);
     controller.certificationId = model.id;
