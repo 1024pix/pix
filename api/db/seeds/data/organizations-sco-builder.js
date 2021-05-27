@@ -117,6 +117,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     lastName: userWithEmailAndUsername.lastName,
     birthdate: '2012-01-07',
     division: '3A',
+    sex: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithEmailAndUsername.id,
     nationalStudentId: '123123123B',
