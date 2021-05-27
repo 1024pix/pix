@@ -59,6 +59,7 @@ function _mapStudentInformationToSchoolingRegistration(studentNode) {
     firstName: _getValueFromParsedElement(studentNode.PRENOM),
     middleName: _getValueFromParsedElement(studentNode.PRENOM2),
     thirdName: _getValueFromParsedElement(studentNode.PRENOM3),
+    sex: _convertSexCode(studentNode.CODE_SEXE),
     birthdate: moment(studentNode.DATE_NAISS, 'DD/MM/YYYY').format('YYYY-MM-DD') || null,
     birthCountryCode: _getValueFromParsedElement(studentNode.CODE_PAYS),
     birthProvinceCode: _getValueFromParsedElement(studentNode.CODE_DEPARTEMENT_NAISS),
@@ -68,6 +69,13 @@ function _mapStudentInformationToSchoolingRegistration(studentNode) {
     status: _getValueFromParsedElement(studentNode.CODE_STATUT),
     nationalStudentId: _getValueFromParsedElement(studentNode.ID_NATIONAL),
   };
+}
+
+function _convertSexCode(obj) {
+  const value = _getValueFromParsedElement(obj);
+  if (value === '1') return 'M';
+  if (value === '2') return 'F';
+  return null;
 }
 
 function _getValueFromParsedElement(obj) {
