@@ -34,10 +34,30 @@ module.exports = {
   },
 
   async save({ partnerCertificationScoring, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return new PartnerCertificationBookshelf(_adaptModelToDB({
+    const partnerCertificationToSave = new PartnerCertificationBookshelf(_adaptModelToDB({
       ...partnerCertificationScoring,
       acquired: partnerCertificationScoring.isAcquired(),
-    })).save(null, { transacting: domainTransaction.knexTransaction });
+    }));
+
+    const exists = await knex
+      .select('acquired')
+      .from('partner-certifications')
+      .where({
+        certificationCourseId: partnerCertificationScoring.certificationCourseId,
+        partnerKey: partnerCertificationScoring.partnerKey,
+      })
+      .first();
+
+    if (exists) {
+      return partnerCertificationToSave
+        .where({
+          certificationCourseId: partnerCertificationScoring.certificationCourseId,
+          partnerKey: partnerCertificationScoring.partnerKey,
+        })
+        .save(null, { transacting: domainTransaction.knexTransaction, method: 'update' });
+    }
+
+    return partnerCertificationToSave.save(null, { transacting: domainTransaction.knexTransaction, method: 'insert' });
   },
 };
 
