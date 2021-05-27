@@ -213,10 +213,12 @@ module.exports = {
   async getUserProfileSharedForCampaign(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const campaignId = request.params.campaignId;
+    const locale = extractLocaleFromRequest(request);
 
     const sharedProfileForCampaign = await usecases.getUserProfileSharedForCampaign({
       userId: authenticatedUserId,
       campaignId,
+      locale,
     });
 
     return sharedProfileForCampaignSerializer.serialize(sharedProfileForCampaign);
