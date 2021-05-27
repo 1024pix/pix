@@ -32,4 +32,7 @@ function certificationUserProfilesBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = certificationUserProfilesBuilder;
+module.exports = {
+  certificationUserProfilesBuilder,
+  CERTIF_SUCCESS_USER_ID,
+};
