@@ -173,7 +173,8 @@
       },
       "name": "Name of the campaign",
       "participations-count": "Participants",
-      "shared-participations-count": "Profiles submitted",
+      "shared-profiles-count": "Profiles submitted",
+      "shared-results-count": "Results submitted",
       "tab": {
         "collective-results": "Collective results",
         "details": "Details",

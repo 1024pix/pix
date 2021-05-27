@@ -78,6 +78,32 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       // then
       assert.contains('4');
     });
+    test('it should display correct label for a PROFILES_COLLECTION campaign ', async function(assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        type: 'PROFILES_COLLECTION',
+      });
+      this.set('campaign', campaign);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+
+      // then
+      assert.contains('Profils reçus');
+    });
+    test('it should display correct label for an ASSESSMENT campaign ', async function(assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        type: 'ASSESSMENT',
+      });
+      this.set('campaign', campaign);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+
+      // then
+      assert.contains('Résultats reçus');
+    });
   });
 
   module('When there is no results', function() {
