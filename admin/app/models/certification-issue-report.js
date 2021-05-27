@@ -90,7 +90,9 @@ export default class CertificationIssueReportModel extends Model {
   @attr('string') subcategory;
   @attr('string') description;
   @attr('string') questionNumber;
-  @attr('boolean') isActionRequired;
+  @attr('boolean') isImpactful;
+  @attr() resolvedAt;
+  @attr() resolution;
 
   @belongsTo('certification') certification;
 

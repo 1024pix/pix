@@ -54,71 +54,71 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
-  module('#hasIssueReportsWithRequiredAction', () => {
+  module('#hasImpactfulIssueReports', () => {
     test('it should return true when there are some issue reports with required action', async function(assert) {
       // given
       const certificationIssueReports = [
-        EmberObject.create({ isActionRequired: true }),
-        EmberObject.create({ isActionRequired: false }),
-        EmberObject.create({ isActionRequired: false }),
-        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isImpactful: true }),
+        EmberObject.create({ isImpactful: false }),
+        EmberObject.create({ isImpactful: false }),
+        EmberObject.create({ isImpactful: false }),
       ];
       controller.certification = EmberObject.create({
         certificationIssueReports,
       });
 
       // when/then
-      assert.equal(controller.hasIssueReportsWithRequiredAction, true);
+      assert.equal(controller.hasImpactfulIssueReports, true);
     });
 
     test('it should return false when there are no issue reports with required action', async function(assert) {
       // given
       const certificationIssueReports = [
-        EmberObject.create({ isActionRequired: false }),
-        EmberObject.create({ isActionRequired: false }),
-        EmberObject.create({ isActionRequired: false }),
-        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isImpactful: false }),
+        EmberObject.create({ isImpactful: false }),
+        EmberObject.create({ isImpactful: false }),
+        EmberObject.create({ isImpactful: false }),
       ];
       controller.certification = EmberObject.create({
         certificationIssueReports,
       });
 
       // when/then
-      assert.equal(controller.hasIssueReportsWithRequiredAction, false);
+      assert.equal(controller.hasImpactfulIssueReports, false);
     });
   });
 
-  module('#hasIssueReportsWithoutRequiredAction', () => {
+  module('#hasUnimpactfulIssueReports', () => {
     test('it should return true when there are some issue reports without required action', async function(assert) {
       // given
       const certificationIssueReports = [
-        EmberObject.create({ isActionRequired: false }),
-        EmberObject.create({ isActionRequired: true }),
-        EmberObject.create({ isActionRequired: true }),
-        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isImpactful: false }),
+        EmberObject.create({ isImpactful: true }),
+        EmberObject.create({ isImpactful: true }),
+        EmberObject.create({ isImpactful: true }),
       ];
       controller.certification = EmberObject.create({
         certificationIssueReports,
       });
 
       // when/then
-      assert.equal(controller.hasIssueReportsWithoutRequiredAction, true);
+      assert.equal(controller.hasUnimpactfulIssueReports, true);
     });
 
     test('it should return false when there are no issue reports without required action', async function(assert) {
       // given
       const certificationIssueReports = [
-        EmberObject.create({ isActionRequired: true }),
-        EmberObject.create({ isActionRequired: true }),
-        EmberObject.create({ isActionRequired: true }),
-        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isImpactful: true }),
+        EmberObject.create({ isImpactful: true }),
+        EmberObject.create({ isImpactful: true }),
+        EmberObject.create({ isImpactful: true }),
       ];
       controller.certification = EmberObject.create({
         certificationIssueReports,
       });
 
       // when/then
-      assert.equal(controller.hasIssueReportsWithoutRequiredAction, false);
+      assert.equal(controller.hasUnimpactfulIssueReports, false);
     });
   });
 
@@ -126,10 +126,10 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     test('it should return true when there are some issue reports', async function(assert) {
       // given
       const certificationIssueReports = [
-        EmberObject.create({ isActionRequired: true }),
-        EmberObject.create({ isActionRequired: false }),
-        EmberObject.create({ isActionRequired: true }),
-        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isImpactful: true }),
+        EmberObject.create({ isImpactful: false }),
+        EmberObject.create({ isImpactful: true }),
+        EmberObject.create({ isImpactful: false }),
       ];
       controller.certification = EmberObject.create({
         certificationIssueReports,
@@ -164,40 +164,40 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
-  module('#certificationIssueReportsWithRequiredAction', () => {
+  module('#impactfulCertificationIssueReports', () => {
     test('it should return certification issue reports with action required', async function(assert) {
       // given
       const certificationIssueReports = [
-        EmberObject.create({ isActionRequired: true }),
-        EmberObject.create({ isActionRequired: false }),
-        EmberObject.create({ isActionRequired: true }),
-        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isImpactful: true }),
+        EmberObject.create({ isImpactful: false }),
+        EmberObject.create({ isImpactful: true }),
+        EmberObject.create({ isImpactful: false }),
       ];
       controller.certification = EmberObject.create({
         certificationIssueReports,
       });
 
       // when/then
-      assert.equal(controller.certificationIssueReportsWithRequiredAction.length, 2);
+      assert.equal(controller.impactfulCertificationIssueReports.length, 2);
     });
   });
 
-  module('#certificationIssueReportsWithoutRequiredAction', () => {
+  module('#unimpactfulCertificationIssueReports', () => {
     test('it should return certification issue reports without action required', async function(assert) {
       // given
       const certificationIssueReports = [
-        EmberObject.create({ isActionRequired: true }),
-        EmberObject.create({ isActionRequired: false }),
-        EmberObject.create({ isActionRequired: true }),
-        EmberObject.create({ isActionRequired: false }),
-        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isImpactful: true }),
+        EmberObject.create({ isImpactful: false }),
+        EmberObject.create({ isImpactful: true }),
+        EmberObject.create({ isImpactful: false }),
+        EmberObject.create({ isImpactful: false }),
       ];
       controller.certification = EmberObject.create({
         certificationIssueReports,
       });
 
       // when/then
-      assert.equal(controller.certificationIssueReportsWithoutRequiredAction.length, 3);
+      assert.equal(controller.unimpactfulCertificationIssueReports.length, 3);
     });
   });
 

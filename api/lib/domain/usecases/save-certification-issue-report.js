@@ -15,6 +15,6 @@ module.exports = async function saveCertificationIssueReport({
     throw new NotFoundError('Erreur lors de la sauvegarde du signalement. Veuillez vous connecter et réessayer.');
   }
 
-  const certificationIssueReport = CertificationIssueReport.new(certificationIssueReportDTO);
+  const certificationIssueReport = CertificationIssueReport.create(certificationIssueReportDTO);
   return certificationIssueReportRepository.save(certificationIssueReport);
 };

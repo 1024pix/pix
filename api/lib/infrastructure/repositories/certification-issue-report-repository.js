@@ -6,7 +6,7 @@ const omit = require('lodash/omit');
 module.exports = {
   async save(certificationIssueReport) {
     const newCertificationIssueReport = await new CertificationIssueReportBookshelf(
-      omit(certificationIssueReport, ['isActionRequired']),
+      omit(certificationIssueReport, ['isImpactful']),
     ).save();
     return bookshelfToDomainConverter.buildDomainObject(CertificationIssueReportBookshelf, newCertificationIssueReport);
   },

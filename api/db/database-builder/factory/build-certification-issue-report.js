@@ -10,6 +10,8 @@ module.exports = function buildCertificationIssueReport({
   description = 'Une super description',
   subcategory = null,
   questionNumber = null,
+  resolvedAt = null,
+  resolution = null,
 } = {}) {
 
   certificationCourseId = _.isUndefined(certificationCourseId)
@@ -23,6 +25,8 @@ module.exports = function buildCertificationIssueReport({
     description,
     subcategory,
     questionNumber,
+    resolvedAt,
+    resolution,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-issue-reports',

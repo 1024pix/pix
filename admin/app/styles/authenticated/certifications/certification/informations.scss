@@ -34,4 +34,19 @@
     font-weight: bold;
     color: $information-dark;
   }
+
+  &__certification-issue-reports-list {
+    list-style-type: none;
+    padding-left: 16px;
+  }
+
+  &__certification-issue-report--resolved::before {
+    content: "✅";
+    margin-right: 8px;
+  }
+
+  &__certification-issue-report--unresolved::before {
+    content: "🚨";
+    margin-right: 8px;
+  }
 }

@@ -91,6 +91,8 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
             subcategory: null,
             questionNumber: null,
             category: CertificationIssueReportCategories.OTHER,
+            resolvedAt: null,
+            resolution: null,
           })],
         });
         expect(juryCertificationSummaries).to.have.length(3);
@@ -195,6 +197,8 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
             description: 'first certification issue report',
             subcategory: null,
             questionNumber: null,
+            resolvedAt: null,
+            resolution: null,
           }),
           new CertificationIssueReport({
             id: issueReport2.id,
@@ -203,6 +207,8 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
             description: 'second certification issue report',
             subcategory: null,
             questionNumber: null,
+            resolvedAt: null,
+            resolution: null,
           }),
         ]);
       });

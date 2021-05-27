@@ -37,29 +37,29 @@ export default class CertificationInformationsController extends Controller {
     return this.certification.status !== 'missing-assessment';
   }
 
-  @computed('certification.certificationIssueReports.@each.isActionRequired')
-  get certificationIssueReportsWithRequiredAction() {
-    return this.certification.certificationIssueReports.filter((issueReport) => issueReport.isActionRequired);
+  @computed('certification.certificationIssueReports.@each.isImpactful')
+  get impactfulCertificationIssueReports() {
+    return this.certification.certificationIssueReports.filter((issueReport) => issueReport.isImpactful);
   }
 
-  @computed('certification.certificationIssueReports.@each.isActionRequired')
-  get certificationIssueReportsWithoutRequiredAction() {
-    return this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isActionRequired);
+  @computed('certification.certificationIssueReports.@each.isImpactful')
+  get unimpactfulCertificationIssueReports() {
+    return this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isImpactful);
   }
 
-  @computed('certification.certificationIssueReports.@each.isActionRequired')
+  @computed('certification.certificationIssueReports.@each.isImpactful')
   get hasIssueReports() {
     return Boolean(this.certification.certificationIssueReports.length);
   }
 
-  @computed('certification.certificationIssueReports.@each.isActionRequired')
-  get hasIssueReportsWithRequiredAction() {
-    return Boolean(this.certification.certificationIssueReports.filter((issueReport) => issueReport.isActionRequired).length);
+  @computed('certification.certificationIssueReports.@each.isImpactful')
+  get hasImpactfulIssueReports() {
+    return Boolean(this.certification.certificationIssueReports.filter((issueReport) => issueReport.isImpactful).length);
   }
 
-  @computed('certification.certificationIssueReports.@each.isActionRequired')
-  get hasIssueReportsWithoutRequiredAction() {
-    return Boolean(this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isActionRequired).length);
+  @computed('certification.certificationIssueReports.@each.isImpactful')
+  get hasUnimpactfulIssueReports() {
+    return Boolean(this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isImpactful).length);
   }
 
   @computed('certification.status')
