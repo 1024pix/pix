@@ -1,0 +1,6 @@
+<div class="participants-by-stage__graph" role="button" {{on "click" (fn @onClickBar @stageId)}}>
+  <div class="participants-by-stage__bar" style={{@barWidth}} />
+  <div class="participants-by-stage__percentage">
+    {{yield}}
+  </div>
+</div>
