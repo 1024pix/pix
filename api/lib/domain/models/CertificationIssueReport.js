@@ -169,6 +169,10 @@ class CertificationIssueReport {
       throw new DeprecatedCertificationIssueReportSubcategory();
     }
   }
+
+  isResolved() {
+    return Boolean(this.resolvedAt);
+  }
 }
 
 module.exports = CertificationIssueReport;

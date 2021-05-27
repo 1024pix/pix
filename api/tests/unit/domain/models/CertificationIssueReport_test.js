@@ -1,4 +1,4 @@
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories, DeprecatedCertificationIssueReportCategory } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const { InvalidCertificationIssueReportForSaving } = require('../../../../lib/domain/errors');
@@ -333,6 +333,35 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
           expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isImpactful).to.be.false;
         });
       });
+    });
+  });
+
+  describe('#isResolved', () => {
+
+    it('returns false when the certification issue report is not resolved', () => {
+      // given
+      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+        resolvedAt: null,
+      });
+
+      // when
+      const isResolved = certificationIssueReport.isResolved();
+
+      // then
+      expect(isResolved).to.be.false;
+    });
+
+    it('returns true when the certification issue report is resolved', () => {
+      // given
+      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+        resolvedAt: new Date(),
+      });
+
+      // when
+      const isResolved = certificationIssueReport.isResolved();
+
+      // then
+      expect(isResolved).to.be.true;
     });
   });
 });
