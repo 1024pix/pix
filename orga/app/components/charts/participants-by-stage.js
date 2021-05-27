@@ -38,6 +38,7 @@ export default class ParticipantsByStage extends Component {
             percentage,
             barWidth: `width: ${width}%`,
             tooltip: buildTooltipText(stage.title, stage.description),
+            displayTooltip: stage.title || stage.description,
           };
         });
         this.loading = false;
