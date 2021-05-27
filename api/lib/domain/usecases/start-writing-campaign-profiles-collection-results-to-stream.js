@@ -32,7 +32,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
   const [allPixCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
-    competenceRepository.listPixCompetencesOnly(i18n.getLocale()),
+    competenceRepository.listPixCompetencesOnly({ locale: i18n.getLocale() }),
     organizationRepository.get(campaign.organizationId),
     campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id),
   ]);
