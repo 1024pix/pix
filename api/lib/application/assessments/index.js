@@ -59,6 +59,20 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'GET',
+      path: '/api/assessments/{id}/last-challenge-id',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
+        handler: assessmentController.getLastChallengeId,
+        tags: ['api'],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/assessments/{id}/complete-assessment',
       config: {

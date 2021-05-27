@@ -29,6 +29,14 @@ module.exports = {
     return assessmentSerializer.serialize(assessment);
   },
 
+  async getLastChallengeId(request, h) {
+    const assessmentId = parseInt(request.params.id);
+
+    const lastChallengeId = await usecases.getLastChallengeIdFromAssessmentId({ assessmentId });
+
+    return h.response(lastChallengeId).code(200);
+  },
+
   async findByFilters(request) {
     let assessments = [];
     const userId = extractUserIdFromRequest(request);
