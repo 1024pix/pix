@@ -11,6 +11,7 @@ module.exports = async function getUserProfileSharedForCampaign({
   campaignRepository,
   knowledgeElementRepository,
   competenceRepository,
+  locale,
 }) {
   const campaignParticipation = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
 
@@ -21,7 +22,7 @@ module.exports = async function getUserProfileSharedForCampaign({
   const { multipleSendings: campaignAllowsRetry } = await campaignRepository.get(campaignId);
   const [knowledgeElementsGroupedByCompetenceId, competencesWithArea] = await Promise.all([
     knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId, limitDate: campaignParticipation.sharedAt }),
-    competenceRepository.listPixCompetencesOnly(),
+    competenceRepository.listPixCompetencesOnly({ locale }),
   ]);
 
   const scorecards = _.map(competencesWithArea, (competence) => {
