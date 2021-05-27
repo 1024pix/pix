@@ -1,6 +1,3 @@
-const User = require('../../domain/models/User');
-const PixRole = require('../../domain/models/PixRole');
-
 const Bookshelf = require('../bookshelf');
 const BookshelfPixRole = require('./PixRole');
 const BookshelfUserPixRole = require('./UserPixRole');
@@ -51,21 +48,6 @@ module.exports = Bookshelf.model(modelName, {
   authenticationMethods() {
     return this.hasMany('AuthenticationMethod', 'userId');
   },
-
-  toDomainEntity() {
-    const model = this.toJSON();
-    if (model.pixRoles) {
-      model.pixRoles = model.pixRoles.map((pixRoleJson) => new PixRole(pixRoleJson));
-    }
-    model.cgu = Boolean(model.cgu);
-    model.pixOrgaTermsOfServiceAccepted = Boolean(model.pixOrgaTermsOfServiceAccepted);
-    model.pixCertifTermsOfServiceAccepted = Boolean(model.pixCertifTermsOfServiceAccepted);
-    model.hasSeenAssessmentInstructions = Boolean(model.hasSeenAssessmentInstructions);
-    model.hasSeenNewDashboardInfo = Boolean(model.hasSeenNewDashboardInfo);
-
-    return new User(model);
-  },
-
 }, {
   modelName,
 });

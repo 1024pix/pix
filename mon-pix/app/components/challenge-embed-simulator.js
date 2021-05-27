@@ -34,8 +34,6 @@ export default class ChallengeEmbedSimulator extends Component {
   @action
   launchSimulator(event) {
     const iframe = this._getIframe(event);
-
-    // TODO: use correct targetOrigin once the embeds are hosted behind our domain
     iframe.contentWindow.postMessage('launch', '*');
     iframe.focus();
     this.isSimulatorLaunched = true;
