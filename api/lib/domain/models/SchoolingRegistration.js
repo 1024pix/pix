@@ -11,6 +11,7 @@ class SchoolingRegistration {
     firstName,
     middleName,
     thirdName,
+    sex = null,
     birthdate,
     birthCity,
     birthCityCode,
@@ -31,6 +32,7 @@ class SchoolingRegistration {
     this.firstName = firstName;
     this.middleName = middleName;
     this.thirdName = thirdName;
+    this.sex = sex;
     this.birthdate = birthdate;
     this.birthCity = birthCity;
     this.birthCityCode = birthCityCode;

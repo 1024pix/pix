@@ -475,10 +475,23 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         schoolingRegistration_1 = new SchoolingRegistration({
-          firstName: 'Lucy',
-          lastName: 'Handmade',
-          birthdate: '1990-12-31',
-          nationalStudentId: 'INE1',
+          lastName: 'Pipeau',
+          preferredLastName: 'Toto',
+          firstName: 'Corinne',
+          middleName: 'Dorothée',
+          thirdName: 'Driss',
+          sex: 'F',
+          birthdate: '2000-01-01',
+          birthCity: 'Perpi',
+          birthCityCode: '123456',
+          birthProvinceCode: '66',
+          birthCountryCode: '100',
+          MEFCode: 'MEF123456',
+          status: 'ST',
+          nationalStudentId: null,
+          nationalApprenticeId: null,
+          division: '4B',
+          userId: null,
           organizationId,
         });
 
@@ -494,12 +507,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
 
         // then
-        const actualSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
-
-        expect(actualSchoolingRegistrations).to.have.lengthOf(1);
-        expect(actualSchoolingRegistrations[0].firstName).to.be.equal(schoolingRegistration_1.firstName);
-        expect(actualSchoolingRegistrations[0].nationalStudentId).to.be.equal(schoolingRegistration_1.nationalStudentId);
-        expect(actualSchoolingRegistrations[0].nationalApprenticeId).to.be.null;
+        const actualSchoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationId({ organizationId });
+        expect(actualSchoolingRegistrations).to.have.length(1);
+        expect(_.omit(actualSchoolingRegistrations[0], ['updatedAt', 'id'])).to.deep.equal(_.omit(schoolingRegistration_1, ['updatedAt', 'id']));
       });
     });
 
