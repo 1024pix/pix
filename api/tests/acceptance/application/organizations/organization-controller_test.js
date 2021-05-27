@@ -151,14 +151,12 @@ describe('Acceptance | Application | organization-controller', () => {
   });
 
   describe('PATCH /api/organizations/{id}', () => {
-    let payload;
-    let options;
-    let organization;
 
-    beforeEach(async () => {
-      organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: false });
+    it('should return the updated organization and status code 200', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: false });
       await databaseBuilder.commit();
-      payload = {
+      const payload = {
         data: {
           type: 'organizations',
           id: organization.id,
@@ -171,27 +169,19 @@ describe('Acceptance | Application | organization-controller', () => {
           },
         },
       };
-      options = {
+      const options = {
         method: 'PATCH',
         url: `/api/organizations/${organization.id}`,
         payload,
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
-    });
 
-    it('should return 200 HTTP status code', async () => {
       // when
       const response = await server.inject(options);
 
       // then
       expect(response.statusCode).to.equal(200);
-    });
 
-    it('should return the updated organization', async () => {
-      // when
-      const response = await server.inject(options);
-
-      // then
       expect(response.result.data.attributes['external-id']).to.equal('0446758F');
       expect(response.result.data.attributes['province-code']).to.equal('044');
       expect(response.result.data.attributes['can-collect-profiles']).to.equal('true');
@@ -204,7 +194,27 @@ describe('Acceptance | Application | organization-controller', () => {
 
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
-        options.headers.authorization = 'invalid.access.token';
+        const organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: false });
+        await databaseBuilder.commit();
+        const payload = {
+          data: {
+            type: 'organizations',
+            id: organization.id,
+            attributes: {
+              'external-id': '0446758F',
+              'province-code': '044',
+              'email': 'sco.generic.newaccount@example.net',
+              'credit': 50,
+              'can-collect-profiles': 'true',
+            },
+          },
+        };
+        const options = {
+          method: 'PATCH',
+          url: `/api/organizations/${organization.id}`,
+          payload,
+          headers: { authorization: 'invalid.access.token' },
+        };
 
         // when
         const response = await server.inject(options);
@@ -216,7 +226,27 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
         // given
         const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+        const organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: false });
+        await databaseBuilder.commit();
+        const payload = {
+          data: {
+            type: 'organizations',
+            id: organization.id,
+            attributes: {
+              'external-id': '0446758F',
+              'province-code': '044',
+              'email': 'sco.generic.newaccount@example.net',
+              'credit': 50,
+              'can-collect-profiles': 'true',
+            },
+          },
+        };
+        const options = {
+          method: 'PATCH',
+          url: `/api/organizations/${organization.id}`,
+          payload,
+          headers: { authorization: generateValidRequestAuthorizationHeader(nonPixMAsterUserId) },
+        };
 
         // when
         const response = await server.inject(options);
