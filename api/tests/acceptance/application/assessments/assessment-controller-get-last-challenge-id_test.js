@@ -1,4 +1,4 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
@@ -34,7 +34,14 @@ describe('Acceptance | API | assessment-controller-get-last-challenge-id', () =>
         options = {
           method: 'GET',
           url: `/api/assessments/${assessmentId}/last-challenge-id`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(userId),
+          },
         };
+      });
+
+      afterEach(async () => {
+        return knex('assessments').delete();
       });
 
       it('should return 200 HTTP status code', async () => {

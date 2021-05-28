@@ -68,6 +68,10 @@ exports.register = async (server) => {
             id: identifiersType.assessmentId,
           }),
         },
+        pre: [{
+          method: assessmentAuthorization.verify,
+          assign: 'authorizationCheck',
+        }],
         handler: assessmentController.getLastChallengeId,
         tags: ['api'],
       },
