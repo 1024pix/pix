@@ -10,18 +10,14 @@ const healthcheckController = require('../../../../lib/application/healthcheck/h
 
 describe('Unit | Router | HealthcheckRouter', function() {
 
-  let httpTestServer;
-
-  beforeEach(async() => {
-    sinon.stub(healthcheckController, 'get').returns('ok');
-
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
   describe('GET /api', function() {
 
     it('should exist', async function() {
+      // given
+      sinon.stub(healthcheckController, 'get').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api');
 

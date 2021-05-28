@@ -10,18 +10,14 @@ const progressionController = require('../../../../lib/application/progressions/
 
 describe('Unit | Router | progression-router', () => {
 
-  let httpTestServer;
-
-  beforeEach(async() => {
-    sinon.stub(progressionController, 'get').callsFake((request, h) => h.response().code(200));
-
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
   describe('GET /api/progressions/{id}', function() {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(progressionController, 'get').callsFake((request, h) => h.response().code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api/progressions/1');
 

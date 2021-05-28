@@ -12,19 +12,15 @@ const prescriberController = require('../../../../lib/application/prescribers/pr
 
 describe('Unit | Router | prescriber-router', () => {
 
-  let httpTestServer;
-
   describe('GET /api/prescription/prescribers/{id}', () => {
 
-    beforeEach(async() => {
-      sinon.stub(prescriberController, 'get').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
-
-      httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-    });
-
     it('should exist', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon.stub(prescriberController, 'get').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api/prescription/prescribers/1');
 

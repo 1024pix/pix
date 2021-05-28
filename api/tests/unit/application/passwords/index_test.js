@@ -6,17 +6,6 @@ const passwordController = require('../../../../lib/application/passwords/passwo
 
 describe('Unit | Router | Password router', () => {
 
-  let httpTestServer;
-
-  beforeEach(async() => {
-    sinon.stub(passwordController, 'checkResetDemand');
-    sinon.stub(passwordController, 'createResetDemand');
-    sinon.stub(passwordController, 'updateExpiredPassword').callsFake((request, h) => h.response().created());
-
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
   describe('POST /api/password-reset-demands', () => {
 
     const method = 'POST';
@@ -24,7 +13,9 @@ describe('Unit | Router | Password router', () => {
 
     it('should return 200 http status code', async () => {
       // given
-      passwordController.createResetDemand.returns('ok');
+      sinon.stub(passwordController, 'createResetDemand').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       const payload = {
         data: {
@@ -47,6 +38,9 @@ describe('Unit | Router | Password router', () => {
 
       it('should return 400 http status code', async () => {
         // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
         const payload = {
           data: {
             attributes: {},
@@ -69,7 +63,9 @@ describe('Unit | Router | Password router', () => {
 
     it('should return 201 http status code', async () => {
       // given
-      passwordController.checkResetDemand.resolves('ok');
+      sinon.stub(passwordController, 'checkResetDemand').resolves('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       // when
       const response = await httpTestServer.request(method, url);
@@ -86,6 +82,10 @@ describe('Unit | Router | Password router', () => {
 
     it('should return 201 http status code', async () => {
       // given
+      sinon.stub(passwordController, 'updateExpiredPassword').callsFake((request, h) => h.response().created());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const payload = {
         data: {
           attributes: {
@@ -108,6 +108,9 @@ describe('Unit | Router | Password router', () => {
 
       it('should return 400 http status code', async () => {
         // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
         const payload = {
           data: {
             attributes: {
