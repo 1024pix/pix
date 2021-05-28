@@ -15,8 +15,9 @@ class PoleEmploiAuthenticationTemporaryStorage {
   }
 
   async getdel(key) {
-    await this._get(KEY_PREFIX + key);
+    const value = await this._get(KEY_PREFIX + key);
     await this._del(KEY_PREFIX + key);
+    return value;
   }
 
   async set(key, object) {
@@ -26,4 +27,4 @@ class PoleEmploiAuthenticationTemporaryStorage {
 
 }
 
-module.exports = PoleEmploiAuthenticationTemporaryStorage;
+module.exports = new PoleEmploiAuthenticationTemporaryStorage();

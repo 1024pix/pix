@@ -1,37 +1,17 @@
 const redis = require('redis');
 const { expect, sinon } = require('../../../test-helper');
 
-const PoleEmploiAuthenticationTemporaryStorage = require('../../../../lib/infrastructure/temporary-storage/pole-emploi-authentication-temporary-storage');
+const storage = require('../../../../lib/infrastructure/temporary-storage/pole-emploi-authentication-temporary-storage');
 
 describe('Unit | Infrastructure | PoleEmploiAuthenticationTemporaryStorage', () => {
 
   const KEY_PREFIX = 'authentication_';
-
-  describe('#constructor', () => {
-
-    it('should instantiate a redis client', async () => {
-      // given
-      sinon.stub(redis, 'createClient');
-      redis.createClient.returns({
-        del: () => {},
-        get: () => {},
-        set: () => {},
-      });
-
-      // when
-      new PoleEmploiAuthenticationTemporaryStorage();
-
-      // then
-      expect(redis.createClient).to.have.been.calledOnce;
-    });
-  });
 
   describe('#getdel', () => {
 
     it('should call _get method with prefixed key', async () => {
       // given
       const key = 'my_key';
-      const storage = new PoleEmploiAuthenticationTemporaryStorage();
       const getStub = sinon.stub(storage, '_get');
 
       // when
@@ -44,7 +24,6 @@ describe('Unit | Infrastructure | PoleEmploiAuthenticationTemporaryStorage', () 
     it('should call _del method with prefixed key', async () => {
       // given
       const key = 'my_key';
-      const storage = new PoleEmploiAuthenticationTemporaryStorage();
       const delStub = sinon.stub(storage, '_del');
 
       // when
@@ -62,7 +41,6 @@ describe('Unit | Infrastructure | PoleEmploiAuthenticationTemporaryStorage', () 
       const key = 'my_key';
       const value = 'value';
       const expirationDelaySeconds = 10;
-      const storage = new PoleEmploiAuthenticationTemporaryStorage();
       const setStub = sinon.stub(storage, '_set');
 
       // when
