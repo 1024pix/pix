@@ -14,6 +14,11 @@ export default class OrganizationCampaignsRoute extends Route {
       'page[number]': params.pageNumber || 1,
       'page[size]': params.pageSize || 10,
     };
-    return this.store.query('campaign', query);
+    const campaigns = await this.store.query('campaign', query);
+
+    return {
+      campaigns,
+      organizationId,
+    };
   }
 }
