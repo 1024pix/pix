@@ -7,7 +7,7 @@ export default class CompetenceEvaluationService extends Service {
   async improve({ userId, competenceId, scorecardId }) {
     try {
       await this.store.queryRecord('competence-evaluation', { improve: true, userId, competenceId });
-      return this.router.transitionTo('competences.resume', competenceId);
+      this.router.transitionTo('competences.resume', competenceId);
     } catch (error) {
       const title = ('errors' in error) ? error.errors.get('firstObject').title : null;
       if (title === 'ImproveCompetenceEvaluationForbidden') {
