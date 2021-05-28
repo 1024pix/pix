@@ -13,6 +13,10 @@ export default Factory.extend({
     return 'SCO';
   },
 
+  certificationCenterId() {
+    return 1234;
+  },
+
   address() {
     return faker.address.streetName();
   },

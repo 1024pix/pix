@@ -7,7 +7,14 @@
   <div class="session-info__details">
     <div class="row">
       <div class="col">Centre :</div>
-      <div class="col">{{this.sessionModel.certificationCenterName}}</div>
+      <div class="col">
+        <LinkTo
+          @route="authenticated.certification-centers.get"
+          @model={{this.sessionModel.certificationCenterId}}
+        >
+          {{this.sessionModel.certificationCenterName}}
+        </LinkTo>
+      </div>
     </div>
     <div class="row">
       <div class="col">Adresse :</div>
