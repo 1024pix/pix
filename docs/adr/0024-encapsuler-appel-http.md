@@ -1,4 +1,4 @@
-# 23. Faut-il encapsuler les appels http dans l'API ?
+# 24. Faut-il encapsuler les appels http dans l'API ?
 
 Date : 2020-04-22
 
