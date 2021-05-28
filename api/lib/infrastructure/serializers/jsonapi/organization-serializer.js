@@ -1,4 +1,6 @@
 const { Serializer } = require('jsonapi-serializer');
+const Organization = require('../../../domain/models/Organization');
+const Tag = require('../../../domain/models/Tag');
 
 module.exports = {
 
@@ -41,6 +43,32 @@ module.exports = {
       },
       meta,
     }).serialize(organizations);
+  },
+
+  deserialize(json) {
+    const attributes = json.data.attributes;
+    const relationships = json.data.relationships;
+
+    let tags = [];
+    if (relationships && relationships.tags) {
+      tags = relationships.tags.data.map((tag) => new Tag({ id: parseInt(tag.id) }));
+    }
+
+    const organization = new Organization({
+      id: parseInt(json.data.id),
+      name: attributes.name,
+      type: attributes.type,
+      email: attributes.email,
+      credit: attributes.credit,
+      logoUrl: attributes.logoUrl,
+      externalId: attributes['external-id'],
+      provinceCode: attributes['province-code'],
+      isManagingStudents: attributes['is-managing-students'],
+      canCollectProfiles: attributes['can-collect-profiles'],
+      tags,
+    });
+
+    return organization;
   },
 
 };
