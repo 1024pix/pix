@@ -35,6 +35,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
           attributes: {
             'certification-center-name': 'someCenterName',
             'certification-center-type': 'someCenterType',
+            'certification-center-id': 'someCenterId',
             address: 'someAddress',
             room: 'someRoom',
             examiner: 'someExaminer',
@@ -61,6 +62,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
         id: 1,
         certificationCenterName: 'someCenterName',
         certificationCenterType: 'someCenterType',
+        certificationCenterId: 'someCenterId',
         address: 'someAddress',
         room: 'someRoom',
         examiner: 'someExaminer',

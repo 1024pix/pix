@@ -12,13 +12,16 @@ describe('Integration | Repository | JurySession', function() {
 
     context('when id of session exists', () => {
       let sessionId;
+      let certificationCenterId;
+      let assignedCertificationOfficer;
 
       beforeEach(() => {
-        const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({
+        assignedCertificationOfficer = databaseBuilder.factory.buildUser({
           firstName: 'Pix',
           lastName: 'Doe',
-        }).id;
-        sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId }).id;
+        });
+        certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: assignedCertificationOfficer.id, certificationCenterId: certificationCenterId }).id;
 
         return databaseBuilder.commit();
       });
@@ -29,7 +32,28 @@ describe('Integration | Repository | JurySession', function() {
 
         // then
         expect(expectedJurySession).to.be.an.instanceOf(JurySession);
-        expect(expectedJurySession.assignedCertificationOfficer).be.an.instanceOf(CertificationOfficer);
+        expect(expectedJurySession).to.deep.equal({
+          id: sessionId,
+          certificationCenterName: 'Centre de certif Pix',
+          certificationCenterType: 'SUP',
+          certificationCenterId: certificationCenterId,
+          address: '3 rue des églantines',
+          room: 'B315',
+          examiner: 'Ginette',
+          date: '2020-01-15',
+          time: '15:30:00',
+          accessCode: 'ACC123A',
+          description: 'La session se déroule dans le jardin',
+          examinerGlobalComment: '',
+          finalizedAt: null,
+          resultsSentToPrescriberAt: null,
+          publishedAt: null,
+          assignedCertificationOfficer: {
+            id: assignedCertificationOfficer.id,
+            firstName: assignedCertificationOfficer.firstName,
+            lastName: assignedCertificationOfficer.lastName,
+          },
+        });
       });
 
     });

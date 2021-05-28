@@ -12,6 +12,7 @@ module.exports = {
       attributes: [
         'certificationCenterName',
         'certificationCenterType',
+        'certificationCenterId',
         'address',
         'room',
         'examiner',
