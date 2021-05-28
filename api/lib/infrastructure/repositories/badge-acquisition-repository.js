@@ -20,6 +20,31 @@ module.exports = {
     return collectionResult.map((obj) => obj.attributes.badgeId);
   },
 
+  async getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds }) {
+    const results = await BookshelfBadgeAcquisition
+      .query((qb) => {
+        qb.join('badges', 'badges.id', 'badge-acquisitions.badgeId');
+        qb.where('badge-acquisitions.campaignParticipationId', 'IN', campaignParticipationsIds);
+      })
+      .fetchAll({
+        withRelated: ['badge'],
+        require: false,
+      });
+
+    const badgeAcquisitions = results.map((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadgeAcquisition, result));
+
+    const acquiredBadgesByCampaignParticipations = {};
+    for (const badgeAcquisition of badgeAcquisitions) {
+      const { campaignParticipationId, badge } = badgeAcquisition;
+      if (acquiredBadgesByCampaignParticipations[campaignParticipationId]) {
+        acquiredBadgesByCampaignParticipations[campaignParticipationId].push(badge);
+      } else {
+        acquiredBadgesByCampaignParticipations[campaignParticipationId] = [badge];
+      }
+    }
+    return acquiredBadgesByCampaignParticipations;
+  },
+
   async getCampaignAcquiredBadgesByUsers({ campaignId, userIds }) {
     const results = await BookshelfBadgeAcquisition
       .query((qb) => {

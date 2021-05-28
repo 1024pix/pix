@@ -7,8 +7,8 @@ module.exports = async function getCampaignAssessmentParticipation({ userId, cam
 
   const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
-  const acquiredBadgesByUser = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({ campaignId, userIds: [campaignAssessmentParticipation.userId] });
-  const badges = acquiredBadgesByUser[campaignAssessmentParticipation.userId];
+  const acquiredBadgesByCampaignParticipations = await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds: [campaignParticipationId] });
+  const badges = acquiredBadgesByCampaignParticipations[campaignAssessmentParticipation.campaignParticipationId];
   campaignAssessmentParticipation.setBadges(badges);
 
   return campaignAssessmentParticipation;
