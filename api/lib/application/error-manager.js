@@ -151,6 +151,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.InvalidCertificationReportForFinalization) {
     return new HttpErrors.BadRequestError(error.message);
   }
+  if (error instanceof DomainErrors.InvalidExternalAPIResponseError) {
+    return new HttpErrors.ServiceUnavailableError(error.message);
+  }
   if (error instanceof DomainErrors.NoCertificationResultForDivision) {
     return new HttpErrors.NotFoundError(error.message);
   }
