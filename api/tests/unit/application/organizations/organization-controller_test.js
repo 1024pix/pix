@@ -161,67 +161,65 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
   describe('#updateOrganizationInformation', () => {
 
-    let organization;
-
-    beforeEach(() => {
-      organization = domainBuilder.buildOrganization();
-      sinon.stub(usecases, 'updateOrganizationInformation');
-      sinon.stub(organizationSerializer, 'serialize');
-
+    it('should return the serialized organization', async () => {
+      // given
+      const organizationAttributes = {
+        id: 7,
+        name: 'Acme',
+        type: 'SCO',
+        logoUrl: 'logo',
+        externalId: '02A2145V',
+        provinceCode: '02A',
+        email: 'sco.generic.newaccount@example.net',
+        credit: 50,
+      };
+      const tagAttributes = { id: '4', type: 'tags' };
       request = {
         payload: {
           data: {
-            id: organization.id,
+            id: organizationAttributes.id,
             attributes: {
-              name: 'Acme',
-              type: 'SCO',
-              'logo-url': 'logo',
-              'external-id': '02A2145V',
-              'province-code': '02A',
-              email: 'sco.generic.newaccount@example.net',
-              credit: 50,
+              name: organizationAttributes.name,
+              type: organizationAttributes.type,
+              'logo-url': organizationAttributes.logoUrl,
+              'external-id': organizationAttributes.externalId,
+              'province-code': organizationAttributes.provinceCode,
+              email: organizationAttributes.email,
+              credit: organizationAttributes.credit,
+            },
+          },
+          relationships: {
+            tags: {
+              data: [ tagAttributes ],
             },
           },
         },
       };
-    });
-
-    context('successful case', () => {
-
-      let serializedOrganization;
-
-      beforeEach(() => {
-        serializedOrganization = { foo: 'bar' };
-
-        usecases.updateOrganizationInformation.resolves(organization);
-        organizationSerializer.serialize.withArgs(organization).returns(serializedOrganization);
+      const tagWithoutName = domainBuilder.buildTag({ id: tagAttributes.id, name: undefined });
+      const tag = domainBuilder.buildTag({ id: tagAttributes.id, name: 'SCO' });
+      const organizationDeserialized = domainBuilder.buildOrganization({
+        ...organizationAttributes,
+        tags: [ tagWithoutName ],
       });
-
-      it('should update an organization', async () => {
-        // when
-        await organizationController.updateOrganizationInformation(request, hFake);
-
-        // then
-        expect(usecases.updateOrganizationInformation).to.have.been.calledOnce;
-        expect(usecases.updateOrganizationInformation).to.have.been.calledWithMatch({ id: organization.id, name: 'Acme', type: 'SCO', logoUrl: 'logo', externalId: '02A2145V', provinceCode: '02A', email: 'sco.generic.newaccount@example.net', credit: 50 });
+      const updatedOrganization = domainBuilder.buildOrganization({
+        ...organizationAttributes,
+        tags: [ tag ],
       });
+      const serializedOrganization = Symbol('the updated and serialized organization');
 
-      it('should serialized organization into JSON:API', async () => {
-        // when
-        await organizationController.updateOrganizationInformation(request, hFake);
+      sinon.stub(usecases, 'updateOrganizationInformation');
+      sinon.stub(organizationSerializer, 'serialize');
+      sinon.stub(organizationSerializer, 'deserialize');
 
-        // then
-        expect(organizationSerializer.serialize).to.have.been.calledOnce;
-        expect(organizationSerializer.serialize).to.have.been.calledWith(organization);
-      });
+      organizationSerializer.deserialize.withArgs(request.payload).returns(organizationDeserialized);
+      usecases.updateOrganizationInformation.withArgs({ organization: organizationDeserialized }).resolves(updatedOrganization);
+      organizationSerializer.serialize.withArgs(updatedOrganization).returns(serializedOrganization);
 
-      it('should return the serialized organization', async () => {
-        // when
-        const response = await organizationController.updateOrganizationInformation(request, hFake);
+      // when
+      const response = await organizationController.updateOrganizationInformation(request, hFake);
 
-        // then
-        expect(response).to.deep.equal(serializedOrganization);
-      });
+      // then
+      expect(response).to.deep.equal(serializedOrganization);
     });
   });
 

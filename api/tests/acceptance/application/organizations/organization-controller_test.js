@@ -152,20 +152,39 @@ describe('Acceptance | Application | organization-controller', () => {
 
   describe('PATCH /api/organizations/{id}', () => {
 
+    afterEach(async () => {
+      await knex('organization-tags').delete();
+    });
+
     it('should return the updated organization and status code 200', async () => {
       // given
-      const organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: false });
+      const organizationAttributes = {
+        externalId: '0446758F',
+        provinceCode: '044',
+        email: 'sco.generic.newaccount@example.net',
+        credit: 50,
+        canCollectProfiles: false,
+      };
+      const organization = databaseBuilder.factory.buildOrganization({ ...organizationAttributes });
+      const tag1 = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' });
       await databaseBuilder.commit();
+
+      const newAttribute = 'true';
       const payload = {
         data: {
           type: 'organizations',
           id: organization.id,
           attributes: {
-            'external-id': '0446758F',
-            'province-code': '044',
-            'email': 'sco.generic.newaccount@example.net',
-            'credit': 50,
-            'can-collect-profiles': 'true',
+            'external-id': organizationAttributes.externalId,
+            'province-code': organizationAttributes.provinceCode,
+            'email': organizationAttributes.email,
+            'credit': organizationAttributes.credit,
+            'can-collect-profiles': newAttribute,
+          },
+          relationships: {
+            tags: {
+              data: [ { type: 'tags', id: tag1.id } ],
+            },
           },
         },
       };
@@ -181,12 +200,12 @@ describe('Acceptance | Application | organization-controller', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
-
       expect(response.result.data.attributes['external-id']).to.equal('0446758F');
       expect(response.result.data.attributes['province-code']).to.equal('044');
-      expect(response.result.data.attributes['can-collect-profiles']).to.equal('true');
+      expect(response.result.data.attributes['can-collect-profiles']).to.equal(true);
       expect(response.result.data.attributes['email']).to.equal('sco.generic.newaccount@example.net');
       expect(response.result.data.attributes['credit']).to.equal(50);
+      expect(response.result.data.relationships.tags.data[0]).to.deep.equal({ type: 'tags', id: tag1.id.toString() });
       expect(parseInt(response.result.data.id)).to.equal(organization.id);
     });
 
