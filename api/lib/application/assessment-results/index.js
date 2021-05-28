@@ -1,7 +1,7 @@
 const AssessmentResultController = require('./assessment-result-controller');
 const securityPreHandlers = require('../security-pre-handlers');
 
-exports.register = async function(server) {
+exports.register = async (server) => {
   server.route([
     {
       method: 'POST',

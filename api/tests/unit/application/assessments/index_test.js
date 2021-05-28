@@ -3,34 +3,20 @@ const {
   HttpTestServer,
   sinon,
 } = require('../../../test-helper');
-
 const assessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-
 const moduleUnderTest = require('../../../../lib/application/assessments');
-
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 
-describe('Integration | Route | AssessmentRoute', () => {
-
-  let httpTestServer;
-
-  beforeEach(async() => {
-    sinon.stub(assessmentController, 'save').returns('ok');
-    sinon.stub(assessmentController, 'getNextChallenge').returns('ok');
-    sinon.stub(assessmentController, 'findByFilters').returns('ok');
-    sinon.stub(assessmentController, 'get').returns('ok');
-    sinon.stub(assessmentController, 'findCompetenceEvaluations').returns('ok');
-    sinon.stub(assessmentAuthorization, 'verify').returns('userId');
-    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
+describe('Unit | Application | Router | assessment-router', () => {
 
   describe('POST /api/assessments', () => {
 
-    it('should exist', async () => {
+    it('should return 200', async () => {
+      // given
+      sinon.stub(assessmentController, 'save').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('POST', '/api/assessments');
 
@@ -39,22 +25,32 @@ describe('Integration | Route | AssessmentRoute', () => {
     });
   });
 
-  describe('GET /api/assessments/assessment_id/next', () => {
+  describe('GET /api/assessments', () => {
 
-    it('should exist', async () => {
+    it('should return 200', async () => {
+      // given
+      sinon.stub(assessmentController, 'findByFilters').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
-      const response = await httpTestServer.request('GET', '/api/assessments/1/next');
+      const response = await httpTestServer.request('GET', '/api/assessments');
 
       // then
       expect(response.statusCode).to.equal(200);
     });
   });
 
-  describe('GET /api/assessments', () => {
+  describe('GET /api/assessments/{id}/next', () => {
 
-    it('should exist', async () => {
+    it('should return 200', async () => {
+      // given
+      sinon.stub(assessmentController, 'getNextChallenge').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
-      const response = await httpTestServer.request('GET', '/api/assessments');
+      const response = await httpTestServer.request('GET', '/api/assessments/1/next');
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -66,7 +62,13 @@ describe('Integration | Route | AssessmentRoute', () => {
     const method = 'GET';
     const url = '/api/assessments/1';
 
-    it('should exist', async () => {
+    it('should return 200', async () => {
+      // given
+      sinon.stub(assessmentAuthorization, 'verify').callsFake((request, h) => h.response(null));
+      sinon.stub(assessmentController, 'get').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request(method, url);
 
@@ -75,6 +77,11 @@ describe('Integration | Route | AssessmentRoute', () => {
     });
 
     it('should call pre-handler', async () => {
+      // given
+      sinon.stub(assessmentAuthorization, 'verify').callsFake((request, h) => h.response(null));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       await httpTestServer.request(method, url);
 
@@ -85,7 +92,12 @@ describe('Integration | Route | AssessmentRoute', () => {
 
   describe('GET /api/assessments/{id}/competence-evaluations', () => {
 
-    it('should exist', async () => {
+    it('should return 200', async () => {
+      // given
+      sinon.stub(assessmentController, 'findCompetenceEvaluations').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api/assessments/123/competence-evaluations');
 
@@ -94,6 +106,10 @@ describe('Integration | Route | AssessmentRoute', () => {
     });
 
     it('should do throw a 400 status code when assessmentId provided is not a number', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api/assessments/not_a_number/competence-evaluations');
 
