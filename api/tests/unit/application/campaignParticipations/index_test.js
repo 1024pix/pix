@@ -10,18 +10,14 @@ const campaignParticipationController = require('../../../../lib/application/cam
 
 describe('Unit | Application | Router | campaign-participation-router ', function() {
 
-  let httpTestServer;
-
-  beforeEach(async () => {
-    sinon.stub(campaignParticipationController, 'save').callsFake((request, h) => h.response('ok').code(200));
-
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
   describe('POST /api/campaign-participations', () => {
 
     it('should return 200 when participant have external id', async () => {
+      // given
+      sinon.stub(campaignParticipationController, 'save').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const participantExternalId = 'toto';
       const response = await httpTestServer.request('POST', '/api/campaign-participations', {
@@ -38,6 +34,10 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
     });
 
     it('should return 400 when participant external id exceeds 255 characters', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const participantExternalId256Characters = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
       const response = await httpTestServer.request('POST', '/api/campaign-participations', {

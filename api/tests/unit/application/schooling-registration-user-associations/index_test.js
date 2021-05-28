@@ -16,18 +16,6 @@ describe('Unit | Application | Router | schooling-registration-user-associations
   const studentId = '1234';
   const userId = 2;
 
-  let httpTestServer;
-
-  beforeEach(async() => {
-    sinon.stub(preHandler, 'checkUserIsAdminInSUPOrganizationManagingStudents');
-
-    sinon.stub(schoolingRegistrationUserAssociationController, 'dissociate').returns('ok');
-    sinon.stub(schoolingRegistrationUserAssociationController, 'updateStudentNumber').returns('ok');
-
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
   describe('PATCH /api/organizations/id/schooling-registration-user-associations/studentId', () => {
 
     const method = 'PATCH';
@@ -35,33 +23,23 @@ describe('Unit | Application | Router | schooling-registration-user-associations
       authorization: generateValidRequestAuthorizationHeader(userId),
     };
 
-    let payload;
-    let url;
-
-    beforeEach(() => {
-      payload = {
-        data: {
-          attributes: {
-            'student-number': '1234',
-          },
-        },
-      };
-    });
-
-    afterEach(() => {
-      preHandler.checkUserIsAdminInSUPOrganizationManagingStudents.restore();
-    });
-
     context('when the user is authenticated', () => {
-
-      beforeEach(() => {
-        preHandler.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake((request, h) => h.response(true));
-      });
 
       it('should exist', async () => {
         // given
-        url = `/api/organizations/${organizationId}/schooling-registration-user-associations/${studentId}`;
+        sinon.stub(preHandler, 'checkUserIsAdminInSUPOrganizationManagingStudents').callsFake((request, h) => h.response(true));
+        sinon.stub(schoolingRegistrationUserAssociationController, 'updateStudentNumber').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
+        const url = `/api/organizations/${organizationId}/schooling-registration-user-associations/${studentId}`;
+        const payload = {
+          data: {
+            attributes: {
+              'student-number': '1234',
+            },
+          },
+        };
         // when
         const response = await httpTestServer.request(method, url, payload, null, headers);
 
@@ -71,8 +49,17 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
       it('should return a 422 status error when student-number parameter is not a string', async () => {
         // given
-        url = `/api/organizations/${organizationId}/schooling-registration-user-associations/${studentId}`;
-        payload.data.attributes['student-number'] = 1234;
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const url = `/api/organizations/${organizationId}/schooling-registration-user-associations/${studentId}`;
+        const payload = {
+          data: {
+            attributes: {
+              'student-number': 1234,
+            },
+          },
+        };
 
         // when
         const response = await httpTestServer.request(method, url, payload, null, headers);
@@ -86,7 +73,17 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
       it('should return a 404 status error when organizationId parameter is not a number', async () => {
         // given
-        url = `/api/organizations/FAKE_ORGANIZATION_ID/schooling-registration-user-associations/${studentId}`;
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const url = `/api/organizations/FAKE_ORGANIZATION_ID/schooling-registration-user-associations/${studentId}`;
+        const payload = {
+          data: {
+            attributes: {
+              'student-number': '1234',
+            },
+          },
+        };
 
         // when
         const response = await httpTestServer.request(method, url, payload, null, headers);
@@ -100,7 +97,17 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
       it('should return a 404 status error when studentId parameter is not a number', async () => {
         // given
-        url = `/api/organizations/${organizationId}/schooling-registration-user-associations/FAKE_STUDENT_ID`;
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const url = `/api/organizations/${organizationId}/schooling-registration-user-associations/FAKE_STUDENT_ID`;
+        const payload = {
+          data: {
+            attributes: {
+              'student-number': '1234',
+            },
+          },
+        };
 
         // when
         const response = await httpTestServer.request(method, url, payload, null, headers);
@@ -115,13 +122,20 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
     context('when the user is not authenticated', () => {
 
-      beforeEach(() => {
-        preHandler.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake((request, h) => h.response().code(403).takeover());
-      });
-
       it('should return an error when the user is not authenticated', async () => {
         // given
-        url = `/api/organizations/${organizationId}/schooling-registration-user-associations/${studentId}`;
+        sinon.stub(preHandler, 'checkUserIsAdminInSUPOrganizationManagingStudents').callsFake((request, h) => h.response().code(403).takeover());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const url = `/api/organizations/${organizationId}/schooling-registration-user-associations/${studentId}`;
+        const payload = {
+          data: {
+            attributes: {
+              'student-number': '1234',
+            },
+          },
+        };
 
         // when
         const response = await httpTestServer.request(method, url, payload, null, headers);
@@ -140,11 +154,13 @@ describe('Unit | Application | Router | schooling-registration-user-associations
     };
     const payload = null;
 
-    let url;
-
     it('should return a HTTP status code 200', async () => {
       // given
-      url = '/api/schooling-registration-user-associations/1';
+      sinon.stub(schoolingRegistrationUserAssociationController, 'dissociate').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/schooling-registration-user-associations/1';
 
       // when
       const response = await httpTestServer.request(method, url, payload, null, headers);
@@ -155,7 +171,10 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
     it('should return a HTTP status code 400 if id parameter is not a number', async () => {
       // given
-      url = '/api/schooling-registration-user-associations/ABC';
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/schooling-registration-user-associations/ABC';
 
       // when
       const response = await httpTestServer.request(method, url, payload, null, headers);

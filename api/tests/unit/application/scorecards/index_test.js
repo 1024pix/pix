@@ -2,20 +2,16 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 const scorecardController = require('../../../../lib/application/scorecards/scorecard-controller');
 const moduleUnderTest = require('../../../../lib/application/scorecards');
 
-let httpTestServer;
-
 describe('Unit | Router | scorecard-router', () => {
 
   describe('GET /api/scorecards/{id}', () => {
 
-    beforeEach(async() => {
-      sinon.stub(scorecardController, 'getScorecard').returns('ok');
-      httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-    });
-
     it('should exist', async () => {
       // given
+      sinon.stub(scorecardController, 'getScorecard').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const options = {
         method: 'GET',
         url: '/api/scorecards/foo',
@@ -31,14 +27,12 @@ describe('Unit | Router | scorecard-router', () => {
 
   describe('GET /api/scorecards/{id}/tutorials', () => {
 
-    beforeEach(async() => {
-      sinon.stub(scorecardController, 'findTutorials').returns('ok');
-      httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-    });
-
     it('should exist', async () => {
       // given
+      sinon.stub(scorecardController, 'findTutorials').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const options = {
         method: 'GET',
         url: '/api/scorecards/foo/tutorials',
