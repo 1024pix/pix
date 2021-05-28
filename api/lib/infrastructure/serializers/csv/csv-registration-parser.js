@@ -129,12 +129,15 @@ class CsvRegistrationParser {
     const missingMandatoryColumn = this._columns
       .filter((c) => c.isRequired)
       .find((c) => !parsedColumns.includes(c.label));
+
     if (missingMandatoryColumn) {
       throw new CsvImportError(ERRORS.HEADER_REQUIRED, { field: missingMandatoryColumn.label });
     }
 
     // Expected columns
-    if (this._columns.some((column) => !parsedColumns.includes(column.label))) {
+    const acceptedColumns = this._columns.map((column) => column.label);
+
+    if (_atLeastOneParsedColumnDoesNotMatchAcceptedColumns(parsedColumns, acceptedColumns)) {
       throw new CsvImportError(ERRORS.HEADER_UNKNOWN);
     }
   }
@@ -171,6 +174,14 @@ class CsvRegistrationParser {
     }
     throw err;
   }
+}
+
+function _atLeastOneParsedColumnDoesNotMatchAcceptedColumns(parsedColumns, acceptedColumns) {
+  return parsedColumns.some((parsedColumn) => {
+    if (parsedColumn !== '') {
+      return !acceptedColumns.includes(parsedColumn);
+    }
+  });
 }
 
 module.exports = {
