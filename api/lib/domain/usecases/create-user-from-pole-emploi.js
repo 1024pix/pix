@@ -2,15 +2,15 @@ const moment = require('moment');
 const User = require('../models/User');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const authenticationCache = require('../../infrastructure/caches/authentication-cache');
 
 module.exports = async function createUserFromPoleEmploi({
   authenticationKey,
   userRepository,
   authenticationMethodRepository,
   authenticationService,
+  poleEmploiAuthenticationTemporaryStorage,
 }) {
-  const userCredentials = await authenticationCache.get(authenticationKey);
+  const userCredentials = await poleEmploiAuthenticationTemporaryStorage.getdel(authenticationKey);
   const userInfo = await authenticationService.getPoleEmploiUserInfo(userCredentials.idToken);
 
   const authenticationMethod = await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({

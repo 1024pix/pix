@@ -3,15 +3,14 @@ const createUserFromPoleEmploi = require('../../../../lib/domain/usecases/create
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const User = require('../../../../lib/domain/models/User');
-const authenticationCache = require('../../../../lib/infrastructure/caches/authentication-cache');
+const poleEmploiAuthenticationTemporaryStorage = require('../../../../lib/infrastructure/temporary-storage/pole-emploi-authentication-temporary-storage');
 const moment = require('moment');
 
 describe('Unit | UseCase | create-user-from-pole-emploi', () => {
 
   const domainTransaction = Symbol();
-
   let clock;
-  let authenticationCacheGetStub;
+  let storageGetStub;
   let userRepository;
   let authenticationMethodRepository;
   let authenticationService;
@@ -19,7 +18,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
   beforeEach(() => {
     clock = sinon.useFakeTimers(Date.now());
     DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
-    authenticationCacheGetStub = sinon.stub(authenticationCache, 'get');
+    storageGetStub = sinon.stub(poleEmploiAuthenticationTemporaryStorage, 'getdel');
     userRepository = {
       findByPoleEmploiExternalIdentifier: sinon.stub(),
       create: sinon.stub(),
@@ -49,7 +48,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
         expiresIn: 10,
         refreshToken: 'refreshToken',
       };
-      authenticationCacheGetStub.withArgs(authenticationKey).resolves(userCredentials);
+      storageGetStub.withArgs(authenticationKey).resolves(userCredentials);
       const decodedUserInfo = {
         firstName: 'Jean',
         lastName: 'Heymar',
@@ -87,6 +86,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
         userRepository,
         authenticationMethodRepository,
         authenticationService,
+        poleEmploiAuthenticationTemporaryStorage,
       });
 
       // then
@@ -109,7 +109,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
         expiresIn: 10,
         refreshToken: 'refreshToken',
       };
-      authenticationCacheGetStub.withArgs(authenticationKey).resolves(userCredentials);
+      storageGetStub.withArgs(authenticationKey).resolves(userCredentials);
       const decodedUserInfo = {
         firstName: 'Jean',
         lastName: 'Heymar',
@@ -129,6 +129,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
         userRepository,
         authenticationMethodRepository,
         authenticationService,
+        poleEmploiAuthenticationTemporaryStorage,
       });
 
       // then

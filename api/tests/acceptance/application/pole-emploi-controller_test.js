@@ -1,6 +1,6 @@
 const { expect, knex } = require('../../test-helper');
 const createServer = require('../../../server');
-const authenticationCache = require('../../../lib/infrastructure/caches/authentication-cache');
+const storage = require('../../../lib/infrastructure/temporary-storage/pole-emploi-authentication-temporary-storage');
 const jsonwebtoken = require('jsonwebtoken');
 
 describe('Acceptance | API | Pole Emploi Controller', () => {
@@ -19,7 +19,7 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
     const lastName = 'lastName';
     const externalIdentifier = 'idIdentiteExterne';
 
-    beforeEach(() => {
+    beforeEach(async () => {
       const idToken = jsonwebtoken.sign({
         'given_name': firstName,
         'family_name': lastName,
@@ -33,7 +33,7 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
         expiresIn: 10,
         refreshToken: 'refreshToken',
       };
-      authenticationCache.set(userAuthenticationKey, userCredentials);
+      await storage.set(userAuthenticationKey, userCredentials);
 
       request = {
         method: 'POST',
