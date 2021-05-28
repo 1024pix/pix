@@ -14,6 +14,7 @@ class SchoolingRegistrationColumns {
       new CsvColumn({ name: 'thirdName', label: this.translate('csv-template.schooling-registrations.third-name') }),
       new CsvColumn({ name: 'lastName', label: this.translate('csv-template.schooling-registrations.last-name'), isRequired: true }),
       new CsvColumn({ name: 'preferredLastName', label: this.translate('csv-template.schooling-registrations.preferred-last-name') }),
+      new CsvColumn({ name: 'sex', label: this.translate('csv-template.schooling-registrations.sex'), isRequired: false }),
       new CsvColumn({ name: 'birthdate', label: this.translate('csv-template.schooling-registrations.birthdate'), isRequired: true, isDate: true }),
       new CsvColumn({ name: 'birthCityCode', label: this.translate('csv-template.schooling-registrations.birth-city-code') }),
       new CsvColumn({ name: 'birthCity', label: this.translate('csv-template.schooling-registrations.birth-city') }),
