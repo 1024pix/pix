@@ -40,7 +40,7 @@ module.exports = {
       .then(organizationSerializer.serialize);
   },
 
-  updateOrganizationInformation: (request) => {
+  async updateOrganizationInformation(request) {
     const id = request.payload.data.id;
     const {
       name,
@@ -54,8 +54,19 @@ module.exports = {
       'can-collect-profiles': canCollectProfiles,
     } = request.payload.data.attributes;
 
-    return usecases.updateOrganizationInformation({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, canCollectProfiles, email, credit })
-      .then(organizationSerializer.serialize);
+    const organization = await usecases.updateOrganizationInformation({
+      id,
+      name,
+      type,
+      logoUrl,
+      externalId,
+      provinceCode,
+      isManagingStudents,
+      canCollectProfiles,
+      email,
+      credit,
+    });
+    return organizationSerializer.serialize(organization);
   },
 
   async findPaginatedFilteredOrganizations(request) {
