@@ -2,7 +2,8 @@ const Joi = require('joi');
 const answerController = require('./answer-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 const { NotFoundError } = require('../../domain/errors');
-exports.register = async function(server) {
+
+exports.register = async (server) => {
   server.route([
     {
       method: 'POST',
