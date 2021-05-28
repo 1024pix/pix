@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-campaign-assessment-participation', () => {
       getByCampaignIdAndCampaignParticipationId: sinon.stub(),
     };
     badgeAcquisitionRepository = {
-      getCampaignAcquiredBadgesByUsers: sinon.stub(),
+      getAcquiredBadgesByCampaignParticipations: sinon.stub(),
     };
   });
 
@@ -34,7 +34,7 @@ describe('Unit | UseCase | get-campaign-assessment-participation', () => {
       const participantId = domainBuilder.buildUser().id;
       const campaignAssessmentParticipation = new CampaignAssessmentParticipation({ userId: participantId });
       campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId.withArgs({ campaignId, campaignParticipationId }).resolves(campaignAssessmentParticipation);
-      badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers.withArgs({ campaignId, userIds: [participantId] }).resolves({});
+      badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations.withArgs({ campaignParticipationsIds: [campaignParticipationId] }).resolves({});
 
       // when
       const result = await getCampaignAssessmentParticipation({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationRepository, badgeAcquisitionRepository });
@@ -46,10 +46,9 @@ describe('Unit | UseCase | get-campaign-assessment-participation', () => {
     it('should set badges', async () => {
       // given
       const badges = Symbol('badges');
-      const participantId = domainBuilder.buildUser().id;
-      const campaignAssessmentParticipation = new CampaignAssessmentParticipation({ userId: participantId });
+      const campaignAssessmentParticipation = new CampaignAssessmentParticipation({ campaignParticipationId });
       campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId.withArgs({ campaignId, campaignParticipationId }).resolves(campaignAssessmentParticipation);
-      badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers.withArgs({ campaignId, userIds: [participantId] }).resolves({ [participantId]: badges });
+      badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations.withArgs({ campaignParticipationsIds: [campaignParticipationId] }).resolves({ [campaignParticipationId]: badges });
 
       // when
       const result = await getCampaignAssessmentParticipation({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationRepository, badgeAcquisitionRepository });
