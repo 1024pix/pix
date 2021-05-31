@@ -1,8 +1,9 @@
 const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
 const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag');
-const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
+const { AlreadyExistingEntityError, OrganizationTagNotFound } = require('../../../../lib/domain/errors');
 const organizationTagRepository = require('../../../../lib/infrastructure/repositories/organization-tag-repository');
 const omit = require('lodash/omit');
+const BookshelfOrganizationTag = require('../../../../lib/infrastructure/orm-models/OrganizationTag');
 
 describe('Integration | Repository | OrganizationTagRepository', () => {
 
@@ -42,6 +43,54 @@ describe('Integration | Repository | OrganizationTagRepository', () => {
 
         // then
         expect(error).to.be.an.instanceof(AlreadyExistingEntityError);
+      });
+    });
+  });
+
+  describe('#delete', () => {
+
+    it('should delete an organization tag', async () => {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const tagId = databaseBuilder.factory.buildTag({ name: 'SCO' }).id;
+      const otherTagId = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' }).id;
+      const organizationTagToBeDeleteId = databaseBuilder.factory.buildOrganizationTag({
+        organizationId,
+        tagId,
+      }).id;
+      databaseBuilder.factory.buildOrganizationTag({
+        organizationId,
+        tagId: otherTagId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await organizationTagRepository.delete({ organizationTagId: organizationTagToBeDeleteId });
+
+      // then
+      const nbOrganizationTagAfterDeletion = await BookshelfOrganizationTag.count();
+      expect(nbOrganizationTagAfterDeletion).to.equal(1);
+    });
+
+    context('when organization tag does not exist', () => {
+
+      it('should throw an OrganizationTagNotFound', async () => {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const tagId = databaseBuilder.factory.buildTag({ name: 'SCO' }).id;
+        const organizationTagId = databaseBuilder.factory.buildOrganizationTag({
+          organizationId,
+          tagId,
+        }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const inexistingOranizationTagId = organizationTagId + 1;
+        const error = await catchErr(organizationTagRepository.delete)({ organizationTagId: inexistingOranizationTagId });
+
+        // then
+        expect(error).to.be.an.instanceof(OrganizationTagNotFound);
+        expect(error.message).to.be.equal('An error occurred while deleting the organization tag');
       });
     });
   });
