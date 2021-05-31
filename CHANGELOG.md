@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.59.0 (31/05/2021)
+
+- [#3037](https://github.com/1024pix/pix/pull/3037) [FEATURE] Améliorer l'accessibilité de la bannière d'info de Pix Certif (PIX-2632)
+- [#3043](https://github.com/1024pix/pix/pull/3043) [FEATURE] Importer l'information sur le sexe lors de l'import SIECLE (PIX-2637)
+- [#3033](https://github.com/1024pix/pix/pull/3033) [FEATURE] Marquer des signalements comme étant "résolus" (PIX-2620)
+- [#3032](https://github.com/1024pix/pix/pull/3032) [FEATURE] Renommer le libellé "Profils Reçus" pour les campagnes d'évaluation en "Résultats reçus" (PIX-2603).
+- [#3025](https://github.com/1024pix/pix/pull/3025) [FEATURE] Permettre l'affichage d'une bannière d'informations sur Pix Orga en cas de problème sur la production (Pix-2430)
+- [#3030](https://github.com/1024pix/pix/pull/3030) [FEATURE] Dans Pix Admin, permettre d'ouvrir les pages de détail d'une organisation et d'un centre de certification, dans un nouvel onglet (PIX-2570).
+- [#2944](https://github.com/1024pix/pix/pull/2944) [FEATURE] Changer le texte de la bannière pour les orga SCO sur Pix Orga (PIX-2545)
+- [#3029](https://github.com/1024pix/pix/pull/3029) [FEATURE] Empêcher l'accès à une session de certification déjà finalisée (PIX-2584)
+- [#3041](https://github.com/1024pix/pix/pull/3041) [BUGFIX] Ajouter l'id de l'organisation dans le titre de certaines pages de Pix Admin (PIX-2627).
+- [#2987](https://github.com/1024pix/pix/pull/2987) [BUGFIX] Corriger l'erreur "TransitionAborted" lors du clic sur "Retenter" une compétence.
+- [#3039](https://github.com/1024pix/pix/pull/3039) [BUGFIX] Ne pas afficher de tooltip vide sur le graphique de répartition des participants par paliers lorsqu'il n'y a ni titre ni description pour le prescripteur (PIX-2629).
+- [#3007](https://github.com/1024pix/pix/pull/3007) [BUGFIX] Afficher correctement le message d'erreur lors de la modification d'un identifiant déjà existant dans Pix Admin (PIX-2470).
+- [#3034](https://github.com/1024pix/pix/pull/3034) [TECH] Contrôler le retour de /userinfo sur PoleEmploi (PIX-2639).
+- [#3002](https://github.com/1024pix/pix/pull/3002) [TECH] Nettoyer les tests unitaires des routes
+- [#3038](https://github.com/1024pix/pix/pull/3038) [TECH] Supprimer des TODO.
+- [#2945](https://github.com/1024pix/pix/pull/2945) [TECH] Ajoute des logs de debug sur http agent
+
 ## v3.58.0 (25/05/2021)
 
 - [#3026](https://github.com/1024pix/pix/pull/3026) [FEATURE] Filtrer les épreuves de certif selon la langue de l'utilisateur (PIX-2557).
