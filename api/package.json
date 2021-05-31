@@ -19,7 +19,7 @@
     "@hapi/accept": "^5.0.2",
     "@hapi/hapi": "^20.1.3",
     "@hapi/inert": "^6.0.3",
-    "@hapi/vision": "^6.0.1",
+    "@hapi/vision": "^6.1.0",
     "@joi/date": "^2.0.1",
     "@pdf-lib/fontkit": "^1.1.1",
     "axios": "^0.21.1",
