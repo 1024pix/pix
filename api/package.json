@@ -31,7 +31,7 @@
     "bookshelf-validate": "^2.0.3",
     "boom": "^7.3.0",
     "bunyan": "^1.8.15",
-    "dotenv": "^8.2.0",
+    "dotenv": "^10.0.0",
     "fast-levenshtein": "^3.0.0",
     "file-type": "^16.3.0",
     "good": "^8.1.2",
