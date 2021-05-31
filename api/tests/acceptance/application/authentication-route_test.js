@@ -1,15 +1,16 @@
 const querystring = require('querystring');
 const jsonwebtoken = require('jsonwebtoken');
 const moment = require('moment');
-const authenticationCache = require('../../../lib/infrastructure/caches/authentication-cache');
 
 const { expect, databaseBuilder, knex, sinon, nock, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 
 const settings = require('../../../lib/config');
-const createServer = require('../../../server');
 const tokenService = require('../../../lib/domain/services/token-service');
-
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
+const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
+const poleEmploiTokensRepository = require('../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
+
+const createServer = require('../../../server');
 
 describe('Acceptance | Controller | authentication-controller', () => {
 
@@ -322,20 +323,22 @@ describe('Acceptance | Controller | authentication-controller', () => {
           expect(response.result.errors[0].code).to.equal('SHOULD_VALIDATE_CGU');
         });
 
-        it('should return an authenticationKey in meta which match to cached object', async () => {
-          // when
-          const response = await server.inject(options);
-          const expectedObject = {
+        it('should return an authenticationKey in meta which match to stored poleEmploiTokens', async () => {
+          // given
+          const poleEmploiTokens = new PoleEmploiTokens({
             accessToken: 'access_token',
             idToken: idToken,
             expiresIn: 60,
             refreshToken: 'refresh_token',
-          };
+          });
+
+          // when
+          const response = await server.inject(options);
 
           // then
-          const actualObject = await authenticationCache.get(response.result.errors[0].meta.authenticationKey);
-          expect(actualObject).to.exist;
-          expect(actualObject).to.deep.equal(expectedObject);
+          const key = response.result.errors[0].meta.authenticationKey;
+          const result = await poleEmploiTokensRepository.getByKey(key);
+          expect(result).to.deep.equal(poleEmploiTokens);
         });
 
       });
