@@ -56,60 +56,131 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
 
     context('when there are lines', () => {
       context('when the data are correct', () => {
-        it('returns a schooling registration for each line', () => {
-          const input = `${schoolingRegistrationCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
-          456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
-          `;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, 456, i18n);
 
-          const { registrations } = parser.parse();
-          expect(registrations).to.have.lengthOf(2);
-        });
+        context('when csv has \'Sex code\' column', () => {
 
-        it('returns schooling registrations for each line using the CSV column', () => {
-          const input = `${schoolingRegistrationCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
-          0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
-          `;
-          const organizationId = 789;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, organizationId, i18n);
+          it('returns a schooling registration for each line', () => {
+            const input = `${schoolingRegistrationCsvColumns}
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+            456F;O-Ren;;;Ishii;Cottonmouth;2;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
+            `;
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new SchoolingRegistrationParser(encodedInput, 456, i18n);
 
-          const { registrations } = parser.parse();
-          expect(registrations[0]).to.includes({
-            nationalStudentId: '123F',
-            nationalApprenticeId: undefined,
-            firstName: 'Beatrix',
-            middleName: 'The',
-            thirdName: 'Bride',
-            lastName: 'Kiddo',
-            preferredLastName: 'Black Mamba',
-            birthdate: '1970-01-01',
-            birthCityCode: '97422',
-            birthProvinceCode: '974',
-            birthCountryCode: '100',
-            status: 'ST',
-            MEFCode: 'MEF1',
-            division: 'Division 1',
-            organizationId,
+            const { registrations } = parser.parse();
+            expect(registrations).to.have.lengthOf(2);
           });
 
-          expect(registrations[1]).to.includes({
-            nationalStudentId: '0123456789F',
-            nationalApprenticeId: undefined,
-            firstName: 'O-Ren',
-            lastName: 'Ishii',
-            preferredLastName: 'Cottonmouth',
-            birthdate: '1980-01-01',
-            birthCity: 'Shangai',
-            birthProvinceCode: '99',
-            birthCountryCode: '132',
-            status: 'AP',
-            MEFCode: 'MEF1',
-            division: 'Division 2',
-            organizationId,
+          it('returns schooling registrations for each line using the CSV column', () => {
+            const input = `${schoolingRegistrationCsvColumns}
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
+            0123456789F;O-Ren;;;Ishii;Cottonmouth;2;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
+            `;
+            const organizationId = 789;
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new SchoolingRegistrationParser(encodedInput, organizationId, i18n);
+
+            const { registrations } = parser.parse();
+            expect(registrations[0]).to.includes({
+              nationalStudentId: '123F',
+              nationalApprenticeId: undefined,
+              firstName: 'Beatrix',
+              middleName: 'The',
+              thirdName: 'Bride',
+              lastName: 'Kiddo',
+              preferredLastName: 'Black Mamba',
+              sex: 'M',
+              birthdate: '1970-01-01',
+              birthCityCode: '97422',
+              birthProvinceCode: '974',
+              birthCountryCode: '100',
+              status: 'ST',
+              MEFCode: 'MEF1',
+              division: 'Division 1',
+              organizationId,
+            });
+
+            expect(registrations[1]).to.includes({
+              nationalStudentId: '0123456789F',
+              nationalApprenticeId: undefined,
+              firstName: 'O-Ren',
+              lastName: 'Ishii',
+              preferredLastName: 'Cottonmouth',
+              sex: 'F',
+              birthdate: '1980-01-01',
+              birthCity: 'Shangai',
+              birthProvinceCode: '99',
+              birthCountryCode: '132',
+              status: 'AP',
+              MEFCode: 'MEF1',
+              division: 'Division 2',
+              organizationId,
+            });
+          });
+        });
+
+        context('when csv does not have \'Sex code\' column', () => {
+
+          const COL_TO_REMOVE = 'Code sexe';
+          const schoolingRegistrationCsvColumnsWithoutSexCode = new SchoolingRegistrationColumns(i18n).columns.map((column) => column.label).filter((col) => col !== COL_TO_REMOVE).join(';');
+
+          it('returns a schooling registration for each line', () => {
+            const input = `${schoolingRegistrationCsvColumnsWithoutSexCode}
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+            456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
+            `;
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new SchoolingRegistrationParser(encodedInput, 456, i18n);
+
+            const { registrations } = parser.parse();
+            expect(registrations).to.have.lengthOf(2);
+          });
+
+          it('returns schooling registrations for each line using the CSV column', () => {
+            const input = `${schoolingRegistrationCsvColumnsWithoutSexCode}
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
+            0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
+            `;
+            const organizationId = 789;
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new SchoolingRegistrationParser(encodedInput, organizationId, i18n);
+
+            const { registrations } = parser.parse();
+            expect(registrations[0]).to.includes({
+              nationalStudentId: '123F',
+              nationalApprenticeId: undefined,
+              firstName: 'Beatrix',
+              middleName: 'The',
+              thirdName: 'Bride',
+              lastName: 'Kiddo',
+              preferredLastName: 'Black Mamba',
+              sex: null,
+              birthdate: '1970-01-01',
+              birthCityCode: '97422',
+              birthProvinceCode: '974',
+              birthCountryCode: '100',
+              status: 'ST',
+              MEFCode: 'MEF1',
+              division: 'Division 1',
+              organizationId,
+            });
+
+            expect(registrations[1]).to.includes({
+              nationalStudentId: '0123456789F',
+              nationalApprenticeId: undefined,
+              firstName: 'O-Ren',
+              lastName: 'Ishii',
+              preferredLastName: 'Cottonmouth',
+              sex: null,
+              birthdate: '1980-01-01',
+              birthCity: 'Shangai',
+              birthProvinceCode: '99',
+              birthCountryCode: '132',
+              status: 'AP',
+              MEFCode: 'MEF1',
+              division: 'Division 2',
+              organizationId,
+            });
           });
         });
       });
@@ -118,7 +189,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
         it('should throw an EntityValidationError with malformated National Apprentice Id', async () => {
           //given
           const input = `${schoolingRegistrationCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;aaaaa;97422;;200;99100;AP;MEF1;Division 1;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;aaaaa;97422;;200;99100;AP;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
@@ -134,7 +205,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           //given
           const wrongData = 'FRANC';
           const input = `${schoolingRegistrationCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1980;97422;;200;${wrongData};ST;MEF1;Division 1;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1980;97422;;200;${wrongData};ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
@@ -150,7 +221,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           //given
           const wrongData = 'A1234';
           const input = `${schoolingRegistrationCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1980;${wrongData};;974;99100;ST;MEF1;Division 1;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1980;${wrongData};;974;99100;ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
@@ -166,7 +237,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
         context('When the organization is Agriculture and file contain status AP', () => {
           it('should return schooling registration with nationalApprenticeId', () => {
             const input = `${schoolingRegistrationCsvColumns}
-            0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
+            0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
             `;
             const organizationId = 789;
             const encodedInput = iconv.encode(input, 'utf8');
@@ -185,8 +256,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           context('when organization is SCO', () => {
             it('should throw an CsvImportError even with different status', async () => {
               const input = `${schoolingRegistrationCsvColumns}
-              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;ST;MEF1;Division 1;
-              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
+              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/05/1986;97422;;200;99100;ST;MEF1;Division 1;
+              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
               `;
 
               const encodedInput = iconv.encode(input, 'utf8');
@@ -205,8 +276,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
 
             it('should not return error given nationalIdentifier with different status', () => {
               const input = `${schoolingRegistrationCsvColumns}
-              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
-              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
+              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
+              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
               `;
               const organizationId = 789;
               const encodedInput = iconv.encode(input, 'utf8');
@@ -229,8 +300,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
 
             it('should throw an CsvImportError, with same status', async () => {
               const input = `${schoolingRegistrationCsvColumns}
-              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
-              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
+              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
+              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
               `;
 
               const encodedInput = iconv.encode(input, 'utf8');

@@ -75,8 +75,8 @@ describe('Integration | Scripts | import-apprentices', () => {
           };
 
           const input = `${schoolingRegistrationCsvColumns}
-          9876543210F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;
-          0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;54321;
+          9876543210F;Beatrix;The;Bride;Kiddo;Black Mamba;;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;
+          0123456789F;O-Ren;;;Ishii;Cottonmouth;;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;54321;
           `;
 
           const encodedInput = iconv.encode(input, 'utf8');
@@ -97,8 +97,8 @@ describe('Integration | Scripts | import-apprentices', () => {
             await databaseBuilder.commit();
 
             const input = `${schoolingRegistrationCsvColumns}
-            9876543210F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;
-            0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;54321;
+            9876543210F;Beatrix;The;Bride;Kiddo;Black Mamba;;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;
+            0123456789F;O-Ren;;;Ishii;Cottonmouth;;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;54321;
             `;
 
             const encodedInput = iconv.encode(input, 'utf8');
@@ -115,7 +115,7 @@ describe('Integration | Scripts | import-apprentices', () => {
             await databaseBuilder.commit();
 
             const header = schoolingRegistrationCsvColumns;
-            const lineWithoutUniqueIdentifier = ';Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;';
+            const lineWithoutUniqueIdentifier = ';Beatrix;The;Bride;Kiddo;Black Mamba;;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;';
             const input =
             `${header}
             ${lineWithoutUniqueIdentifier}`;
@@ -131,7 +131,7 @@ describe('Integration | Scripts | import-apprentices', () => {
     });
     context('when the header is not correctly formed', () => {
       const columns = new SchoolingRegistrationColumns(i18n).columns;
-      const requiredColumns = [...columns, { label: 'UAI*' }].map((column) => column.label);
+      const requiredColumns = [...columns, { label: 'UAI*' }].filter((column) => column.isRequired).map((column) => column.label);
 
       requiredColumns.forEach((missingColumn) => {
         it('throws a CsvImportError', async () => {
