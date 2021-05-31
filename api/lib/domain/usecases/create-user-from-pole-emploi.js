@@ -2,18 +2,18 @@ const moment = require('moment');
 const User = require('../models/User');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const authenticationCache = require('../../infrastructure/caches/authentication-cache');
 const { InvalidExternalAPIResponseError } = require('../errors');
 const logger = require('../../infrastructure/logger');
 
 module.exports = async function createUserFromPoleEmploi({
   authenticationKey,
-  userRepository,
   authenticationMethodRepository,
+  poleEmploiTokensRepository,
+  userRepository,
   authenticationService,
 }) {
-  const userCredentials = await authenticationCache.get(authenticationKey);
-  const userInfo = await authenticationService.getPoleEmploiUserInfo(userCredentials.idToken);
+  const poleEmploiTokens = await poleEmploiTokensRepository.getByKey(authenticationKey);
+  const userInfo = await authenticationService.getPoleEmploiUserInfo(poleEmploiTokens.idToken);
 
   if (!userInfo.firstName || !userInfo.lastName || !userInfo.externalIdentityId) {
     logger.error(`Un des champs obligatoires n'a pas été renvoyé par /userinfo: ${JSON.stringify(userInfo)}.`);
@@ -28,7 +28,7 @@ module.exports = async function createUserFromPoleEmploi({
   if (authenticationMethod) {
     return {
       userId: authenticationMethod.userId,
-      idToken: userCredentials.idToken,
+      idToken: poleEmploiTokens.idToken,
     };
   }
 
@@ -47,9 +47,9 @@ module.exports = async function createUserFromPoleEmploi({
       userId: createdUserId,
       externalIdentifier: userInfo.externalIdentityId,
       authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
-        accessToken: userCredentials.accessToken,
-        refreshToken: userCredentials.refreshToken,
-        expiredDate: moment().add(userCredentials.expiresIn, 's').toDate(),
+        accessToken: poleEmploiTokens.accessToken,
+        refreshToken: poleEmploiTokens.refreshToken,
+        expiredDate: moment().add(poleEmploiTokens.expiresIn, 's').toDate(),
       }),
     });
     await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
@@ -57,6 +57,6 @@ module.exports = async function createUserFromPoleEmploi({
 
   return {
     userId: createdUserId,
-    idToken: userCredentials.idToken,
+    idToken: poleEmploiTokens.idToken,
   };
 };
