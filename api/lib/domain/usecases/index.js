@@ -223,6 +223,7 @@ module.exports = injectDependencies({
   getCurrentUser: require('./get-current-user'),
   getExternalAuthenticationRedirectionUrl: require('./get-external-authentication-redirection-url'),
   getJurySession: require('./get-jury-session'),
+  getLastChallengeIdFromAssessmentId: require('./get-last-challenge-id-from-assessment-id'),
   getNextChallengeForCampaignAssessment: require('./get-next-challenge-for-campaign-assessment'),
   getNextChallengeForCertification: require('./get-next-challenge-for-certification'),
   getNextChallengeForCompetenceEvaluation: require('./get-next-challenge-for-competence-evaluation'),
