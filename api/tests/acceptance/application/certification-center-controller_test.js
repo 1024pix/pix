@@ -338,78 +338,6 @@ describe('Acceptance | API | Certification Center', () => {
     });
   });
 
-  describe('GET /api/certification-centers/{id}/sessions', () => {
-    let certificationCenter;
-    let expectedSessions;
-    let user, otherUser;
-
-    beforeEach(async() => {
-      certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
-      user = databaseBuilder.factory.buildUser({});
-      otherUser = databaseBuilder.factory.buildUser({});
-      databaseBuilder.factory.buildCertificationCenterMembership({ certificationCenterId: certificationCenter.id, userId: user.id });
-      expectedSessions = [
-        databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id }),
-        databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id }),
-      ];
-      databaseBuilder.factory.buildSession();
-      await databaseBuilder.commit();
-      request = {
-        method: 'GET',
-        url: '/api/certification-centers/' + certificationCenter.id + '/sessions',
-      };
-    });
-
-    context('when user is linked to the certification center', () => {
-      beforeEach(() => {
-        request.headers = { authorization: generateValidRequestAuthorizationHeader(user.id) };
-      });
-
-      it('should return 200 HTTP status', async () => {
-        // when
-        const response = await server.inject(request);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return the list of sessions', async () => {
-        // when
-        const response = await server.inject(request);
-
-        // then
-        expect(response.result.data).to.have.lengthOf(expectedSessions.length);
-        expect(response.result.data.map((sessions) => sessions.id))
-          .to.have.members(expectedSessions.map((sessions) => sessions.id.toString()));
-      });
-
-    });
-
-    context('when user is not linked to certification center', () => {
-      beforeEach(async () => {
-        request.headers = { authorization: generateValidRequestAuthorizationHeader(otherUser.id) };
-      });
-
-      it('should return 403 HTTP status code ', async () => {
-        // when
-        const response = await server.inject(request);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-    });
-
-    context('when user is not connected', () => {
-      it('should return 401 HTTP status code if user is not authenticated', async () => {
-        // when
-        const response = await server.inject(request);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
-    });
-  });
-
   describe('GET /api/certification-centers/{id}/certification-center-memberships', () => {
 
     let certificationCenter;
@@ -505,6 +433,56 @@ describe('Acceptance | API | Certification Center', () => {
 
         expect(response.result.included).to.deep.equal(expectedIncluded);
       });
+    });
+  });
+
+  describe('GET /api/certification-centers/{id}/session-summaries', () => {
+
+    it('should return 200 http status with serialized sessions summaries', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+      databaseBuilder.factory.buildSession({
+        id: 123,
+        address: 'ici',
+        room: 'labas',
+        date: '2021-05-05',
+        time: '17:00:00',
+        examiner: 'Jeanine',
+        finalizedAt: null,
+        publishedAt: null,
+        certificationCenterId,
+      });
+      databaseBuilder.factory.buildCertificationCandidate({ sessionId: 123 });
+      await databaseBuilder.commit();
+      const request = {
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(userId),
+        },
+        method: 'GET',
+        url: `/api/certification-centers/${certificationCenterId}/session-summaries?page[number]=1&page[size]=10`,
+      };
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal([{
+        type: 'session-summaries',
+        id: '123',
+        attributes: {
+          address: 'ici',
+          room: 'labas',
+          date: '2021-05-05',
+          time: '17:00:00',
+          examiner: 'Jeanine',
+          'enrolled-candidates-count': 1,
+          'effective-candidates-count': 0,
+          status: 'created',
+        },
+      }]);
     });
   });
 

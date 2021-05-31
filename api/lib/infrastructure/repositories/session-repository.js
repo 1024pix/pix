@@ -86,18 +86,6 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
   },
 
-  async findByCertificationCenterId(certificationCenterId) {
-    const foundSessions = await BookshelfSession
-      .where({ certificationCenterId })
-      .query((qb) => {
-        qb.orderBy('date', 'desc');
-        qb.orderBy('time', 'desc');
-      })
-      .fetchAll({});
-
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSession, foundSessions);
-  },
-
   async doesUserHaveCertificationCenterMembershipForSession(userId, sessionId) {
     const session = await BookshelfSession
       .where({ 'sessions.id': sessionId, 'certification-center-memberships.userId': userId })

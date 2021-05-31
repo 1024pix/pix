@@ -46,13 +46,6 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'external-id': certificationCenter.externalId,
               'is-related-organization-managing-students': certificationCenter.isRelatedOrganizationManagingStudents,
             },
-            relationships: {
-              sessions: {
-                links: {
-                  related: `/api/certification-centers/${certificationCenter.id}/sessions`,
-                },
-              },
-            },
           },
         ],
       });

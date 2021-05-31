@@ -58,13 +58,6 @@ describe('Unit | Controller | certifications-point-of-contact-controller', () =>
               'external-id': certificationCenter.externalId,
               'is-related-organization-managing-students': certificationCenter.isRelatedOrganizationManagingStudents,
             },
-            relationships: {
-              sessions: {
-                links: {
-                  related: `/api/certification-centers/${certificationCenter.id}/sessions`,
-                },
-              },
-            },
           },
         ],
       });
