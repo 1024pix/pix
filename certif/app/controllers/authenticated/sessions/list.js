@@ -1,24 +1,22 @@
-/* eslint-disable ember/no-computed-properties-in-native-classes*/
-
+import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
-import { action } from '@ember/object';
-import { notEmpty, sort } from '@ember/object/computed';
+import { tracked } from '@glimmer/tracking';
 
-const SORTING_ORDER = ['date:desc', 'time:desc'];
+const DEFAULT_PAGE_NUMBER = 1;
 
-export default class SessionsListController extends Controller {
+export default class ListController extends Controller {
+  @tracked pageNumber = DEFAULT_PAGE_NUMBER;
+  @tracked pageSize = 25;
   @service currentUser;
 
-  sortingOrder = SORTING_ORDER;
-
-  @notEmpty('model') hasSession;
-
-  @sort('model.[]', 'sortingOrder') sortedSessions;
+  get displayNoSessionPanel() {
+    return !this.model.meta.hasSessions;
+  }
 
   @action
-  goToDetails(session) {
-    this.transitionToRoute('authenticated.sessions.details', session.id);
+  goToSessionDetails(sessionId) {
+    this.transitionToRoute('authenticated.sessions.details', sessionId);
   }
 
   get shouldDisplayResultRecipientInfoMessage() {

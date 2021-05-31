@@ -16,12 +16,6 @@ export default function() {
   this.namespace = 'api';
   this.timing = 0;
 
-  this.get('/certification-centers/:id/sessions', (schema, request) => {
-    const certificationCenterId = request.params.id;
-
-    return schema.sessions.where({ certificationCenterId });
-  });
-
   this.get('/certification-centers/:certificationCenterId/sessions/:sessionId/students', findPaginatedStudents);
 
   this.post('/revoke', () => {});
@@ -159,5 +153,14 @@ export default function() {
 
   this.get('/certification-centers/:id/divisions', (schema, _) => {
     return schema.divisions.all();
+  });
+
+  this.get('/certification-centers/:id/session-summaries', (schema, request) => {
+    const certificationCenterId = request.params.id;
+    const results = schema.sessionSummaries.where({ certificationCenterId });
+    const json = this.serializerOrRegistry.serialize(results, request);
+    json.meta = { hasSessions: results.length > 0 };
+
+    return json;
   });
 }

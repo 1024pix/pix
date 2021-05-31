@@ -70,6 +70,7 @@ module.exports = {
   buildSchoolingRegistration: require('./build-schooling-registration'),
   buildSchoolingRegistrationForAdmin: require('./build-schooling-registration-for-admin'),
   buildSession: require('./build-session'),
+  buildSessionSummary: require('./build-session-summary'),
   buildShareableCertificate: require('./build-shareable-certificate'),
   buildSkill: require('./build-skill'),
   buildSkillLearningContentDataObject: require('./build-skill-learning-content-data-object'),

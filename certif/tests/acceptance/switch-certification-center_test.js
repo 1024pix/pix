@@ -51,7 +51,7 @@ module('Acceptance | Switch Certification Center', function(hooks) {
       currentCertificationCenter.save();
 
       otherCertificationCenter = server.create('certification-center', { name: 'otherCertificationCenterName', externalId: 'otherCertificationCenterExternalId' });
-      otherCertificationCenterSession = server.create('session', { certificationCenterId: otherCertificationCenter.id, address: `Session ${otherCertificationCenter.id}` });
+      otherCertificationCenterSession = server.create('session-summary', { certificationCenterId: otherCertificationCenter.id, address: `Session ${otherCertificationCenter.id}` });
       otherCertificationCenter.save();
       otherCertificationCenterSession.save();
 
@@ -106,7 +106,7 @@ module('Acceptance | Switch Certification Center', function(hooks) {
         await click('.logged-user-menu-item');
 
         // then
-        assert.dom(`tr[data-test-id="session-list-row__${otherCertificationCenterSession.id}"] > td:nth-child(2)`).hasText(otherCertificationCenterSession.address);
+        assert.contains(otherCertificationCenterSession.address);
       });
     });
   });
