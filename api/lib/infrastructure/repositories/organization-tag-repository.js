@@ -2,7 +2,7 @@ const BookshelfOrganizationTag = require('../orm-models/OrganizationTag');
 const Bookshelf = require('../bookshelf');
 const bookshelfUtils = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { AlreadyExistingEntityError } = require('../../domain/errors');
+const { AlreadyExistingEntityError, OrganizationTagNotFound } = require('../../domain/errors');
 const { omit } = require('lodash');
 const DomainTransaction = require('../DomainTransaction');
 
@@ -18,6 +18,16 @@ module.exports = {
         throw new AlreadyExistingEntityError(`The tag ${organizationTag.tagId} already exists for the organization ${organizationTag.organizationId}.`);
       }
       throw err;
+    }
+  },
+
+  async delete({ organizationTagId }) {
+    try {
+      await BookshelfOrganizationTag
+        .where({ id: organizationTagId })
+        .destroy({ require: true });
+    } catch (err) {
+      throw new OrganizationTagNotFound('An error occurred while deleting the organization tag');
     }
   },
 
