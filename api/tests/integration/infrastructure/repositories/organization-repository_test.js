@@ -74,25 +74,30 @@ describe('Integration | Repository | Organization', function() {
   });
 
   describe('#update', () => {
-    let organization;
 
-    beforeEach(async () => {
+    it('should return an Organization domain object with related tags', async () => {
+      // given
       const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1 });
-      organization = domainBuilder.buildOrganization(bookshelfOrganization);
+      const tagId = databaseBuilder.factory.buildTag().id;
+      databaseBuilder.factory.buildOrganizationTag({ organizationId: 1, tagId });
       await databaseBuilder.commit();
-    });
 
-    it('should return an Organization domain object', async () => {
       // when
+      const organization = domainBuilder.buildOrganization(bookshelfOrganization);
       const organizationSaved = await organizationRepository.update(organization);
 
       // then
       expect(organizationSaved).to.be.an.instanceof(Organization);
+      expect(organizationSaved.tags[0].id).to.be.equal(tagId);
     });
 
     it('should not add row in table "organizations"', async () => {
       // given
+      const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1 });
+      await databaseBuilder.commit();
       const nbOrganizationsBeforeUpdate = await BookshelfOrganization.count();
+
+      const organization = domainBuilder.buildOrganization(bookshelfOrganization);
 
       // when
       await organizationRepository.update(organization);
@@ -104,15 +109,21 @@ describe('Integration | Repository | Organization', function() {
 
     it('should update model in database', async () => {
       // given
-      organization.name = 'New name';
-      organization.type = 'SCO';
-      organization.logoUrl = 'http://new.logo.url';
-      organization.externalId = '999Z527F';
-      organization.provinceCode = '999';
-      organization.isManagingStudents = true;
-      organization.canCollectProfiles = true;
-      organization.credit = 50;
-      organization.email = 'email@example.net';
+      const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1 });
+      await databaseBuilder.commit();
+
+      const organization = domainBuilder.buildOrganization({
+        id: bookshelfOrganization.id,
+        name: 'New name',
+        type: 'SCO',
+        logoUrl: 'http://new.logo.url',
+        externalId: '999Z527F',
+        provinceCode: '999',
+        isManagingStudents: true,
+        canCollectProfiles: true,
+        credit: 50,
+        email: 'email@example.net',
+      });
 
       // when
       const organizationSaved = await organizationRepository.update(organization);
