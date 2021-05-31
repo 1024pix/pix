@@ -5,6 +5,7 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const { AlreadyExistingEntityError, OrganizationTagNotFound } = require('../../domain/errors');
 const { omit } = require('lodash');
 const DomainTransaction = require('../DomainTransaction');
+const OrganizationTagBookshelf = require('../orm-models/OrganizationTag');
 
 module.exports = {
 
@@ -29,6 +30,19 @@ module.exports = {
     } catch (err) {
       throw new OrganizationTagNotFound('An error occurred while deleting the organization tag');
     }
+  },
+
+  async findOneByOrganizationIdAndTagId({ organizationId, tagId }) {
+    const bookshelfOrganizationTags = await BookshelfOrganizationTag
+      .query((qb) => {
+        qb.where('organizationId', organizationId);
+        qb.where('tagId', tagId);
+      })
+      .fetchAll();
+
+    return bookshelfOrganizationTags.length > 0
+      ? bookshelfToDomainConverter.buildDomainObjects(OrganizationTagBookshelf, bookshelfOrganizationTags)[0]
+      : [];
   },
 
   async batchCreate(organizationsTags, domainTransaction = DomainTransaction.emptyTransaction()) {
