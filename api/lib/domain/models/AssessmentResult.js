@@ -62,6 +62,10 @@ class AssessmentResult {
       status: Assessment.states.STARTED,
     });
   }
+
+  isValidated() {
+    return this.status === status.VALIDATED;
+  }
 }
 
 AssessmentResult.status = status;

@@ -57,7 +57,6 @@ async function _calculateCertificationScore({
       userId: certificationAssessment.userId,
       certificationCourseId: certificationAssessment.certificationCourseId,
       reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
-      isValidated: certificationAssessmentScore.status === AssessmentResult.status.VALIDATED,
     });
   }
   catch (error) {
