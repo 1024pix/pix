@@ -23,7 +23,7 @@
         </li>
       </ul>
     </nav>
-    
+
   </aside>
 
   <div class="app__main-content main-content">
@@ -41,7 +41,7 @@
             <a href="https://view.genial.ly/6077017b8b37870d98620200" target="_blank" rel="noopener noreferrer"> En savoir plus <FaIcon @icon="external-link-alt"/></a>
           </p>
         </span>
-        <button type="button" class="sco-temporary-banner-button" {{on 'click' this.closeBanner}}>
+        <button type="button" class="sco-temporary-banner-button" aria-label="Fermer la bannière d'informations" {{on 'click' this.closeBanner}}>
           <FaIcon @icon="times" class="sco-temporary-banner-button__times-icon" />
         </button>
       </PixBanner>
