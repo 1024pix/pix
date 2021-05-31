@@ -38,7 +38,7 @@ export default class ParticipationFilters extends Component {
   }
 
   get isDivisionsLoaded() {
-    return this.args.campaign.divisions.content.isLoaded;
+    return this.args.campaign.divisions.content.length > 0;
   }
 
   get displayDivisionFilter() {
