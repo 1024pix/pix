@@ -5,7 +5,6 @@ const {
 } = require('../../../test-helper');
 
 const moduleUnderTest = require('../../../../lib/application/feedbacks');
-
 const feedbackController = require('../../../../lib/application/feedbacks/feedback-controller');
 
 describe('Unit | Router | feedback-router', () => {

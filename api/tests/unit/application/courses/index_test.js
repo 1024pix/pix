@@ -5,7 +5,6 @@ const {
 } = require('../../../test-helper');
 
 const moduleUnderTest = require('../../../../lib/application/courses');
-
 const courseController = require('../../../../lib/application/courses/course-controller');
 
 describe('Unit | Router | course-router', () => {

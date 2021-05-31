@@ -1,6 +1,9 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
 const userOrgaSettingsController = require('../../../../lib/application/user-orga-settings/user-orga-settings-controller');
-
 const moduleUnderTest = require('../../../../lib/application/user-orga-settings');
 
 describe('Unit | Router | user-orga-settings-router', () => {

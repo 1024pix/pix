@@ -5,9 +5,7 @@ const {
 } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-
 const moduleUnderTest = require('../../../../lib/application/prescribers');
-
 const prescriberController = require('../../../../lib/application/prescribers/prescriber-controller');
 
 describe('Unit | Router | prescriber-router', () => {

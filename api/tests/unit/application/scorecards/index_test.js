@@ -1,4 +1,8 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
 const scorecardController = require('../../../../lib/application/scorecards/scorecard-controller');
 const moduleUnderTest = require('../../../../lib/application/scorecards');
 

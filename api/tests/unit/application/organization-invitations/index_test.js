@@ -5,7 +5,6 @@ const {
 } = require('../../../test-helper');
 
 const moduleUnderTest = require('../../../../lib/application/organization-invitations');
-
 const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
 
 describe('Unit | Router | organization-invitation-router', () => {
