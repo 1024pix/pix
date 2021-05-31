@@ -5,7 +5,6 @@ const {
 } = require('../../../test-helper');
 
 const moduleUnderTest = require('../../../../lib/application/campaign-participations');
-
 const campaignParticipationController = require('../../../../lib/application/campaign-participations/campaign-participation-controller');
 
 describe('Unit | Application | Router | campaign-participation-router ', function() {

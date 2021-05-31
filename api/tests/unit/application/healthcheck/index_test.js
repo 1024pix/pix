@@ -5,7 +5,6 @@ const {
 } = require('../../../test-helper');
 
 const moduleUnderTest = require('../../../../lib/application/healthcheck');
-
 const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
 
 describe('Unit | Router | HealthcheckRouter', function() {

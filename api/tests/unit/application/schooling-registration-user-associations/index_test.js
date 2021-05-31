@@ -7,7 +7,6 @@ const {
 
 const preHandler = require('../../../../lib/application/security-pre-handlers');
 const schoolingRegistrationUserAssociationController = require('../../../../lib/application/schooling-registration-user-associations/schooling-registration-user-association-controller');
-
 const moduleUnderTest = require('../../../../lib/application/schooling-registration-user-associations');
 
 describe('Unit | Application | Router | schooling-registration-user-associations-router', function() {

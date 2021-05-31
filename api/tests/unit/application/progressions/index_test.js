@@ -5,7 +5,6 @@ const {
 } = require('../../../test-helper');
 
 const moduleUnderTest = require('../../../../lib/application/progressions');
-
 const progressionController = require('../../../../lib/application/progressions/progression-controller');
 
 describe('Unit | Router | progression-router', () => {

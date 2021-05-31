@@ -5,9 +5,7 @@ const {
 } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-
 const moduleUnderTest = require('../../../../lib/application/cache');
-
 const cacheController = require('../../../../lib/application/cache/cache-controller');
 
 describe('Unit | Router | cache-router', () => {

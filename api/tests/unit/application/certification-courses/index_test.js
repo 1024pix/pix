@@ -6,7 +6,6 @@ const {
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const moduleUnderTest = require('../../../../lib/application/certification-courses');
-
 const certificationCoursesController = require('../../../../lib/application/certification-courses/certification-course-controller');
 
 describe('Unit | Application | Certifications Course | Route', function() {

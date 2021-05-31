@@ -1,4 +1,8 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');

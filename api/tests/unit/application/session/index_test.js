@@ -14,7 +14,6 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const finalizedSessionController = require('../../../../lib/application/sessions/finalized-session-controller');
 const sessionAuthorization = require('../../../../lib/application/preHandlers/session-authorization');
-
 const moduleUnderTest = require('../../../../lib/application/sessions');
 
 describe('Unit | Application | Sessions | Routes', () => {

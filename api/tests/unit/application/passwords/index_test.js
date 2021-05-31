@@ -1,7 +1,10 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
 
 const moduleUnderTest = require('../../../../lib/application/passwords');
-
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 
 describe('Unit | Router | Password router', () => {

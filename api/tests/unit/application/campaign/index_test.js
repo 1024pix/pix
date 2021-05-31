@@ -6,7 +6,6 @@ const {
 
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const moduleUnderTest = require('../../../../lib/application/campaigns');
-
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 const campaignStatsController = require('../../../../lib/application/campaigns/campaign-stats-controller');
 
