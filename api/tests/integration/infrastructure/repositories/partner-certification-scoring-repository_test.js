@@ -27,7 +27,7 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
       await knex('badges').delete();
     });
 
-    it('should persist the certification partner in db', async () => {
+    it('should insert the certification partner in db if it does not already exists', async () => {
       // given
       sinon.stub(partnerCertificationScoring, 'isAcquired').returns(true);
 
@@ -35,11 +35,34 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
       await partnerCertificationScoringRepository.save({ partnerCertificationScoring });
 
       // then
-      const partnerCertificationSaved = await knex(PARTNER_CERTIFICATIONS_TABLE_NAME).first().select();
-      expect(partnerCertificationSaved).to.deep.equal({
+      const partnerCertificationSaved = await knex(PARTNER_CERTIFICATIONS_TABLE_NAME).select();
+      expect(partnerCertificationSaved).to.have.length(1);
+      expect(partnerCertificationSaved[0]).to.deep.equal({
         certificationCourseId: partnerCertificationScoring.certificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
         acquired: true,
+      });
+    });
+
+    it('should update the existing certification partner if it exists', async () => {
+      // given
+      databaseBuilder.factory.buildPartnerCertification({
+        certificationCourseId: partnerCertificationScoring.certificationCourseId,
+        partnerKey: partnerCertificationScoring.partnerKey,
+      });
+      await databaseBuilder.commit();
+      sinon.stub(partnerCertificationScoring, 'isAcquired').returns(false);
+
+      // when
+      await partnerCertificationScoringRepository.save({ partnerCertificationScoring });
+
+      // then
+      const partnerCertificationSaved = await knex(PARTNER_CERTIFICATIONS_TABLE_NAME).select();
+      expect(partnerCertificationSaved).to.have.length(1);
+      expect(partnerCertificationSaved[0]).to.deep.equal({
+        certificationCourseId: partnerCertificationScoring.certificationCourseId,
+        partnerKey: partnerCertificationScoring.partnerKey,
+        acquired: false,
       });
     });
 

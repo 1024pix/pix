@@ -1,4 +1,4 @@
-class CertificationScoringCompleted {
+class CertificationRescoringCompleted {
   constructor({ certificationCourseId, userId, reproducibilityRate }) {
     this.certificationCourseId = certificationCourseId;
     this.userId = userId;
@@ -6,4 +6,4 @@ class CertificationScoringCompleted {
   }
 }
 
-module.exports = CertificationScoringCompleted;
+module.exports = CertificationRescoringCompleted;
