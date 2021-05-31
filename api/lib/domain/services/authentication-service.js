@@ -6,6 +6,8 @@ const httpAgent = require('../../infrastructure/http/http-agent');
 
 const { GeneratePoleEmploiTokensError } = require('../errors');
 
+const PoleEmploiTokens = require('../models/PoleEmploiTokens');
+
 const encryptionService = require('./encryption-service');
 const tokenService = require('./token-service');
 
@@ -45,12 +47,12 @@ async function generatePoleEmploiTokens({ code, clientId, redirectUri }) {
     throw new GeneratePoleEmploiTokensError(errorMessage, tokensResponse.code);
   }
 
-  return {
+  return new PoleEmploiTokens({
     accessToken: tokensResponse.data['access_token'],
     idToken: tokensResponse.data['id_token'],
     expiresIn: tokensResponse.data['expires_in'],
     refreshToken: tokensResponse.data['refresh_token'],
-  };
+  });
 }
 
 async function getPoleEmploiUserInfo(idToken) {

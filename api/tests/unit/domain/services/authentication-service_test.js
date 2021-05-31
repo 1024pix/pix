@@ -5,6 +5,8 @@ const {
   PasswordNotMatching,
   UserNotFoundError,
 } = require('../../../../lib/domain/errors');
+
+const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
 const User = require('../../../../lib/domain/models/User');
 
 const settings = require('../../../../lib/config');
@@ -13,7 +15,7 @@ const httpAgent = require('../../../../lib/infrastructure/http/http-agent');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
-const service = require('../../../../lib/domain/services/authentication-service');
+const authenticationService = require('../../../../lib/domain/services/authentication-service');
 
 describe('Unit | Domain | Services | authentication-service', () => {
 
@@ -49,7 +51,7 @@ describe('Unit | Domain | Services | authentication-service', () => {
 
       it('should call the user repository', async () => {
         // when
-        await service.getUserByUsernameAndPassword({
+        await authenticationService.getUserByUsernameAndPassword({
           username, password, userRepository,
         });
 
@@ -62,7 +64,7 @@ describe('Unit | Domain | Services | authentication-service', () => {
         const expectedPasswordHash = authenticationMethod.authenticationComplement.password;
 
         // when
-        await service.getUserByUsernameAndPassword({
+        await authenticationService.getUserByUsernameAndPassword({
           username, password, userRepository,
         });
 
@@ -75,7 +77,7 @@ describe('Unit | Domain | Services | authentication-service', () => {
 
       it('should return user found', async () => {
         // when
-        const foundUser = await service.getUserByUsernameAndPassword({ username, password, userRepository });
+        const foundUser = await authenticationService.getUserByUsernameAndPassword({ username, password, userRepository });
 
         // then
         expect(foundUser).to.be.an.instanceof(User);
@@ -90,7 +92,7 @@ describe('Unit | Domain | Services | authentication-service', () => {
         userRepository.getByUsernameOrEmailWithRolesAndPassword.rejects(new UserNotFoundError());
 
         // when
-        const error = await catchErr(service.getUserByUsernameAndPassword)({ username, password, userRepository });
+        const error = await catchErr(authenticationService.getUserByUsernameAndPassword)({ username, password, userRepository });
 
         // then
         expect(error).to.be.an.instanceof(UserNotFoundError);
@@ -102,7 +104,7 @@ describe('Unit | Domain | Services | authentication-service', () => {
         encryptionService.checkPassword.rejects(new PasswordNotMatching());
 
         // when
-        const error = await catchErr(service.getUserByUsernameAndPassword)({ username, password, userRepository });
+        const error = await catchErr(authenticationService.getUserByUsernameAndPassword)({ username, password, userRepository });
 
         // then
         expect(error).to.be.an.instanceof(PasswordNotMatching);
@@ -121,38 +123,40 @@ describe('Unit | Domain | Services | authentication-service', () => {
       const code = 'code';
       const clientId = 'clientId';
       const redirectUri = 'redirectUri';
-      const accessToken = 'accessToken';
-      const idToken = 'idToken';
-      const expiresIn = 60;
-      const refreshToken = 'refreshToken';
-
-      const expectedResult = { accessToken, idToken, expiresIn, refreshToken };
 
       const expectedUrl = settings.poleEmploi.tokenUrl;
       const expectedData = `client_secret=${settings.poleEmploi.clientSecret}&grant_type=authorization_code&code=${code}&client_id=${clientId}&redirect_uri=${redirectUri}`;
       const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
 
+      const poleEmploiTokens = new PoleEmploiTokens({
+        accessToken: 'accessToken',
+        expiresIn: 60,
+        idToken: 'idToken',
+        refreshToken: 'refreshToken',
+      });
+
       const response = {
         isSuccessful: true,
         data: {
-          access_token: accessToken,
-          id_token: idToken,
-          expires_in: expiresIn,
-          refresh_token: refreshToken,
+          access_token: poleEmploiTokens.accessToken,
+          expires_in: poleEmploiTokens.expiresIn,
+          id_token: poleEmploiTokens.idToken,
+          refresh_token: poleEmploiTokens.refreshToken,
         },
       };
       httpAgent.post.resolves(response);
 
       // when
-      const result = await service.generatePoleEmploiTokens({ code, clientId, redirectUri });
+      const result = await authenticationService.generatePoleEmploiTokens({ code, clientId, redirectUri });
 
       // then
-      expect(result).to.deep.equal(expectedResult);
       expect(httpAgent.post).to.have.been.calledWith({
         url: expectedUrl,
         payload: expectedData,
         headers: expectedHeaders,
       });
+      expect(result).to.be.an.instanceOf(PoleEmploiTokens);
+      expect(result).to.deep.equal(poleEmploiTokens);
     });
 
     context('when PE tokens generation fails', () => {
@@ -177,7 +181,7 @@ describe('Unit | Domain | Services | authentication-service', () => {
         httpAgent.post.resolves(response);
 
         // when
-        const error = await catchErr(service.generatePoleEmploiTokens)({ code, clientId, redirectUri });
+        const error = await catchErr(authenticationService.generatePoleEmploiTokens)({ code, clientId, redirectUri });
 
         // then
         expect(error).to.be.an.instanceOf(GeneratePoleEmploiTokensError);
@@ -212,7 +216,7 @@ describe('Unit | Domain | Services | authentication-service', () => {
       };
 
       // when
-      const result = await service.getPoleEmploiUserInfo(idToken);
+      const result = await authenticationService.getPoleEmploiUserInfo(idToken);
 
       // then
       expect(result).to.deep.equal(expectedResult);
