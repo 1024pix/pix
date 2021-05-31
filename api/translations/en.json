@@ -73,6 +73,7 @@
       "division": "Class*",
       "first-name": "First name*",
       "last-name": "Last name*",
+      "sex": "Sex code",
       "mef-code": "MEF code*",
       "middle-name": "Middle name #1",
       "national-identifier": "Unique identifier*",

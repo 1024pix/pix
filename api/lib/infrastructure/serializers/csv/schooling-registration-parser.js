@@ -31,6 +31,7 @@ class SchoolingRegistrationSet {
   _transform(registrationAttributes) {
     let nationalStudentId;
     let nationalApprenticeId;
+    let sex;
     const { birthCountryCode, nationalIdentifier, status } = registrationAttributes;
 
     if (!this.hasApprentice || status === STATUS.STUDENT) {
@@ -39,13 +40,26 @@ class SchoolingRegistrationSet {
       nationalApprenticeId = nationalIdentifier;
     }
 
+    if (registrationAttributes.sex) {
+      sex = _convertSexCode(registrationAttributes.sex);
+    } else {
+      sex = null;
+    }
+
     return {
       ...registrationAttributes,
       birthCountryCode: birthCountryCode.slice(-3),
       nationalApprenticeId,
       nationalStudentId,
+      sex,
     };
   }
+}
+
+function _convertSexCode(sexCode) {
+  if (sexCode === '1') return 'M';
+  if (sexCode === '2') return 'F';
+  return null;
 }
 
 class SchoolingRegistrationParser extends CsvRegistrationParser {
