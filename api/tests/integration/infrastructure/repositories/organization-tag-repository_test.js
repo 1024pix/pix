@@ -95,6 +95,39 @@ describe('Integration | Repository | OrganizationTagRepository', () => {
     });
   });
 
+  describe('#findOneByOrganizationIdAndTagId', () => {
+
+    it('should find the first matching organization tag', async () => {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const tagId = databaseBuilder.factory.buildTag({ name: 'SCO' }).id;
+      const organizationTagInDatabase = databaseBuilder.factory.buildOrganizationTag({
+        organizationId,
+        tagId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const organizationTagFound = await organizationTagRepository.findOneByOrganizationIdAndTagId({ organizationId, tagId });
+
+      // then
+      expect(organizationTagFound).to.deep.equal(organizationTagInDatabase);
+    });
+
+    it('should not throw an error and return empty array if there is no matching organization tag', async () => {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const tagId = databaseBuilder.factory.buildTag({ name: 'SCO' }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationTagRepository.findOneByOrganizationIdAndTagId({ organizationId, tagId: tagId + 1 });
+
+      // then
+      expect(result).to.deep.equal([]);
+    });
+  });
+
   describe('#isExistingByOrganizationIdAndTagId', () => {
 
     it('should return true if organization tag exists', async () => {
