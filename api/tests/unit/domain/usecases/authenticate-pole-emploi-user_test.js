@@ -2,7 +2,9 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 
 const authenticatePoleEmploiUser = require('../../../../lib/domain/usecases/authenticate-pole-emploi-user');
 
+const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
 const User = require('../../../../lib/domain/models/User');
+
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const { UnexpectedUserAccountError, UnexpectedPoleEmploiStateError, UserAccountNotFoundForPoleEmploiError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
@@ -51,7 +53,12 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
       set: sinon.stub().resolves() };
 
     authenticationService = {
-      generatePoleEmploiTokens: sinon.stub().resolves({ accessToken, idToken, expiresIn, refreshToken }),
+      generatePoleEmploiTokens: sinon.stub().resolves(new PoleEmploiTokens({
+        accessToken,
+        expiresIn,
+        idToken,
+        refreshToken,
+      })),
       getPoleEmploiUserInfo: sinon.stub().resolves(userInfo),
     };
 
