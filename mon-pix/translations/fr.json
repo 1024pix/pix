@@ -207,6 +207,9 @@
     "certification-joiner": {
       "title": "Rejoindre une session de certification",
       "congratulation-banner": {
+        "clea-eligibility": "Vous êtes également éligible à la certification CléA numérique.",
+        "pix-plus-droit-maitre-eligibility": "Vous êtes également éligible à la certification Pix+ Droit Maître.",
+        "pix-plus-droit-expert-eligibility": "Vous êtes également éligible à la certification Pix+ Droit Expert.",
         "link": {
           "text": "Comment se certifier ?",
           "url": "https://support.pix.fr/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"
