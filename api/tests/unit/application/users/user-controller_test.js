@@ -649,6 +649,7 @@ describe('Unit | Controller | user-controller', () => {
       const certificationEligibility = domainBuilder.buildCertificationEligibility({
         id: 123,
         pixCertificationEligible: true,
+        cleaCertificationEligible: false,
       });
       sinon.stub(usecases, 'getUserCertificationEligibility')
         .withArgs({ userId: 123 })
@@ -671,6 +672,7 @@ describe('Unit | Controller | user-controller', () => {
           type: 'isCertifiables',
           attributes: {
             'is-certifiable': true,
+            'clea-certification-eligible': false,
           },
         },
       });
