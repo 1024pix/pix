@@ -20,6 +20,7 @@ export default Component.extend(ProgressionTrackerMixin, {
 
   actions: {
     didMove() {
+      this.onStepChange();
       this.next();
     },
   },

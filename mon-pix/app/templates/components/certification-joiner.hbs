@@ -1,8 +1,4 @@
 {{!-- template-lint-disable no-unknown-arguments-for-builtin-components no-bare-strings --}}
-{{#if this.showCongratulationsBanner }}
-  <CongratulationsCertificationBanner @fullName={{this.currentUser.user.fullName}} @closeBanner={{this.closeBanner}}/>
-{{/if}}
-
 <section class="certification-joiner">
   <h1 class="certification-joiner__title">{{t "pages.certification-joiner.first-title"}}</h1>
     <form autocomplete="off" {{on "submit" this.attemptNext}}>

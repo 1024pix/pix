@@ -21,7 +21,6 @@ function _isSessionNotAccessibleError(err) {
 export default class CertificationJoiner extends Component {
   @service store;
   @service peeker;
-  @service currentUser;
   @service intl;
 
   SESSION_ID_VALIDATION_PATTERN = '^[0-9]*$';
@@ -30,7 +29,6 @@ export default class CertificationJoiner extends Component {
   @tracked errorMessage = null;
   @tracked sessionIdIsNotANumberError = null;
   @tracked validationClassName = '';
-  @tracked showCongratulationsBanner = true;
   @tracked sessionId = null;
   @tracked firstName = null;
   @tracked lastName = null;
@@ -57,11 +55,6 @@ export default class CertificationJoiner extends Component {
         ? lastName.trim()
         : null,
     });
-  }
-
-  @action
-  closeBanner() {
-    this.showCongratulationsBanner = false;
   }
 
   _isANumber(value) {

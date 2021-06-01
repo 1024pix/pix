@@ -15,6 +15,7 @@ export default Mixin.create({
   stepsAhead: null,
   stepsActivated: null,
   progressions: null,
+  onStepChange: null,
 
   init() {
     this._super(...arguments);
