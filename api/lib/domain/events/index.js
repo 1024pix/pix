@@ -14,6 +14,7 @@ const dependencies = {
   certificationAssessmentRepository: require('../../infrastructure/repositories/certification-assessment-repository'),
   certificationCourseRepository: require('../../infrastructure/repositories/certification-course-repository'),
   cleaCertificationResultRepository: require('../../infrastructure/repositories/clea-certification-result-repository'),
+  certificationIssueReportRepository: require('../../infrastructure/repositories/certification-issue-report-repository'),
   competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
@@ -36,6 +37,7 @@ const partnerCertificationScoringRepository = injectDependencies(
 dependencies.partnerCertificationScoringRepository = partnerCertificationScoringRepository;
 
 const handlersToBeInjected = {
+  handleAutoJury: require('./handle-auto-jury'),
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
   handleCertificationScoring: require('./handle-certification-scoring'),
   handleCertificationRescoring: require('./handle-certification-rescoring'),
