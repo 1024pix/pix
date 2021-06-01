@@ -9,6 +9,8 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
   const userId = Symbol('user id');
   const campaignId = Symbol('campaign id');
   const expectedCampaignParticipation = { id: '1', sharedAt };
+  const locale = 'fr';
+
   let campaignParticipationRepository;
   let knowledgeElementRepository;
   let competenceRepository;
@@ -35,7 +37,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
       // given
       campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ userId, campaignId }).resolves(expectedCampaignParticipation);
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: sharedAt }).resolves(knowledgeElements);
-      competenceRepository.listPixCompetencesOnly.resolves(competences);
+      competenceRepository.listPixCompetencesOnly.withArgs({ locale: 'fr' }).resolves(competences);
       campaignRepository.get.withArgs(campaignId).resolves(campaign);
       Scorecard
         .buildFrom
@@ -54,6 +56,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
         knowledgeElementRepository,
         competenceRepository,
         campaignRepository,
+        locale,
       });
 
       // then

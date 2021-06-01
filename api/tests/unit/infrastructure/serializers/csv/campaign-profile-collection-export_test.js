@@ -1,10 +1,10 @@
 const { PassThrough } = require('stream');
 const { domainBuilder, expect, sinon, streamToPromise } = require('../../../../test-helper');
 
-const CampaignProfileCollectionExport = require('../../../../../lib/infrastructure/serializers/csv/campaign-profile-collection-export');
+const CampaignProfilesCollectionExport = require('../../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export');
 const { getI18n } = require('../../../../tooling/i18n/i18n');
 
-describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
+describe('Unit | Serializer | CSV | campaign-profiles-collection-export', () => {
   describe('#export', () => {
     let writableStream, csvPromise, organization, campaign, competences;
 
@@ -42,7 +42,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
 
     it('should display common header parts of csv', async () => {
       //given
-      const campaignProfile = new CampaignProfileCollectionExport(writableStream, organization, campaign, competences, translate);
+      const campaignProfile = new CampaignProfilesCollectionExport(writableStream, organization, campaign, competences, translate);
 
       const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
           '"ID Campagne";' +
@@ -74,7 +74,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
       organization.isSco = true;
       organization.isManagingStudents = true;
 
-      const campaignProfile = new CampaignProfileCollectionExport(writableStream, organization, campaign, competences, translate);
+      const campaignProfile = new CampaignProfilesCollectionExport(writableStream, organization, campaign, competences, translate);
 
       const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
           '"ID Campagne";' +
@@ -107,7 +107,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
       organization.isSup = true;
       organization.isManagingStudents = true;
 
-      const campaignProfile = new CampaignProfileCollectionExport(writableStream, organization, campaign, competences, translate);
+      const campaignProfile = new CampaignProfilesCollectionExport(writableStream, organization, campaign, competences, translate);
 
       const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
           '"ID Campagne";' +
@@ -138,7 +138,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
     it('should display idPixLabel header when campaign has one', async () => {
       //given
       campaign.idPixLabel = 'email';
-      const campaignProfile = new CampaignProfileCollectionExport(writableStream, organization, campaign, competences, translate);
+      const campaignProfile = new CampaignProfilesCollectionExport(writableStream, organization, campaign, competences, translate);
 
       const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
           '"ID Campagne";' +
