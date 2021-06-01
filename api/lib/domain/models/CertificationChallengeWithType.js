@@ -1,3 +1,5 @@
+const { Type } = require('./Challenge');
+
 class CertificationChallengeWithType {
   constructor({
     id,
@@ -11,7 +13,10 @@ class CertificationChallengeWithType {
     this.id = id;
     this.associatedSkillName = associatedSkillName;
     this.challengeId = challengeId;
-    this.type = type;
+    const possibleTypeValues = Object.values(Type);
+    this.type = possibleTypeValues.includes(type)
+      ? type
+      : 'EmptyType';
     this.competenceId = competenceId;
     this.isNeutralized = isNeutralized;
     this.certifiableBadgeKey = certifiableBadgeKey;
