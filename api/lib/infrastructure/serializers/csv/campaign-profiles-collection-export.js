@@ -2,8 +2,8 @@ const _ = require('lodash');
 const bluebird = require('bluebird');
 const csvSerializer = require('./csv-serializer');
 const constants = require('../../constants');
-const CampaignProfileCollectionResultLine = require('../../exports/campaigns/campaign-profile-collection-result-line');
-class CampaignProfileCollectionExport {
+const CampaignProfilesCollectionResultLine = require('../../exports/campaigns/campaign-profiles-collection-result-line');
+class CampaignProfilesCollectionExport {
 
   constructor(outputStream, organization, campaign, competences, translate) {
     this.stream = outputStream;
@@ -73,7 +73,7 @@ class CampaignProfileCollectionExport {
     for (const placementProfile of placementProfiles) {
       const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) => userId === placementProfile.userId);
 
-      const line = new CampaignProfileCollectionResultLine(this.campaign, this.organization, campaignParticipationResultData, this.competences, placementProfile, this.translate);
+      const line = new CampaignProfilesCollectionResultLine(this.campaign, this.organization, campaignParticipationResultData, this.competences, placementProfile, this.translate);
       csvLines = csvLines.concat(line.toCsvLine());
     }
     return csvLines;
@@ -87,4 +87,4 @@ class CampaignProfileCollectionExport {
   }
 }
 
-module.exports = CampaignProfileCollectionExport;
+module.exports = CampaignProfilesCollectionExport;
