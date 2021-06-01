@@ -5,41 +5,22 @@ const CertificationEligibility = require('../../../../lib/domain/read-models/Cer
 describe('Unit | UseCase | get-user-certification-eligibility', () => {
 
   let clock;
-  const cleaBadgeKey = CertificationEligibility.cleaBadgeKey;
   const pixPlusDroitMaitreBadgeKey = CertificationEligibility.pixPlusDroitMaitreBadgeKey;
   const pixPlusDroitExpertBadgeKey = CertificationEligibility.pixPlusDroitExpertBadgeKey;
   const now = new Date(2020, 1, 1);
   const placementProfileService = {
     getPlacementProfile: () => undefined,
   };
-  const badgeAcquisitionRepository = {
-    hasAcquiredBadge: () => undefined,
-  };
-  const badgeRepository = {
-    getByKey: () => undefined,
-  };
-  const targetProfileRepository = {
-    get: () => undefined,
-  };
-  const knowledgeElementRepository = {
-    findUniqByUserId: () => undefined,
-  };
-  const badgeCriteriaService = {
-    areBadgeCriteriaFulfilled: () => undefined,
-  };
   const certificationBadgesService = {
     findStillValidBadgeAcquisitions: () => undefined,
+    hasStillValidCleaBadgeAcquisition: () => undefined,
   };
 
   beforeEach(() => {
     clock = sinon.useFakeTimers(now);
     placementProfileService.getPlacementProfile = sinon.stub();
-    badgeAcquisitionRepository.hasAcquiredBadge = sinon.stub();
-    badgeRepository.getByKey = sinon.stub();
-    targetProfileRepository.get = sinon.stub();
-    knowledgeElementRepository.findUniqByUserId = sinon.stub();
-    badgeCriteriaService.areBadgeCriteriaFulfilled = sinon.stub();
     certificationBadgesService.findStillValidBadgeAcquisitions = sinon.stub();
+    certificationBadgesService.hasStillValidCleaBadgeAcquisition = sinon.stub();
   });
 
   afterEach(() => {
@@ -56,18 +37,13 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
       placementProfileService.getPlacementProfile
         .withArgs({ userId: 2, limitDate: now })
         .resolves(placementProfile);
-      badgeAcquisitionRepository.hasAcquiredBadge.throws(new Error('I should not be called'));
+      certificationBadgesService.hasStillValidCleaBadgeAcquisition.throws(new Error('I should not be called'));
       certificationBadgesService.findStillValidBadgeAcquisitions.throws(new Error('I should not be called'));
 
       // when
       const certificationEligibility = await getUserCertificationEligibility({
         userId: 2,
         placementProfileService,
-        badgeAcquisitionRepository,
-        badgeRepository,
-        targetProfileRepository,
-        knowledgeElementRepository,
-        badgeCriteriaService,
         certificationBadgesService,
       });
 
@@ -83,9 +59,9 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
     });
   });
 
-  context('when clea badge is not acquired', () => {
+  context('when clea badge is acquired and still valid', () => {
 
-    it('should return the user certification eligibility with not eligible clea', async () => {
+    it('should return the user certification eligibility with eligible clea', async () => {
       // given
       const placementProfile = {
         isCertifiable: () => true,
@@ -93,81 +69,13 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
       placementProfileService.getPlacementProfile
         .withArgs({ userId: 2, limitDate: now })
         .resolves(placementProfile);
-      badgeAcquisitionRepository.hasAcquiredBadge
-        .withArgs({
-          badgeKey: cleaBadgeKey,
-          userId: 2,
-        }).resolves(false);
-      badgeRepository.getByKey.throws(new Error('I should not be called'));
+      certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(true);
       certificationBadgesService.findStillValidBadgeAcquisitions.resolves([]);
 
       // when
       const certificationEligibility = await getUserCertificationEligibility({
         userId: 2,
         placementProfileService,
-        badgeAcquisitionRepository,
-        badgeRepository,
-        targetProfileRepository,
-        knowledgeElementRepository,
-        badgeCriteriaService,
-        certificationBadgesService,
-      });
-
-      // then
-      expect(certificationEligibility.cleaCertificationEligible).to.be.false;
-    });
-  });
-
-  context('when clea badge is acquired', () => {
-
-    it('should recompute the current eligibility of clea based on knowledge elements calculation', async () => {
-      // given
-      const placementProfile = {
-        isCertifiable: () => true,
-      };
-      placementProfileService.getPlacementProfile
-        .withArgs({ userId: 2, limitDate: now })
-        .resolves(placementProfile);
-      badgeAcquisitionRepository.hasAcquiredBadge
-        .withArgs({
-          badgeKey: cleaBadgeKey,
-          userId: 2,
-        }).resolves(true);
-      const cleaBadge = domainBuilder.buildBadge({
-        key: cleaBadgeKey,
-        targetProfileId: 789,
-      });
-      badgeRepository.getByKey
-        .withArgs(cleaBadgeKey)
-        .resolves(cleaBadge);
-      const targetProfile = domainBuilder.buildTargetProfile({ id: 789 });
-      targetProfileRepository.get
-        .withArgs(789)
-        .resolves(targetProfile);
-      const knowledgeElement = domainBuilder.buildKnowledgeElement();
-      knowledgeElementRepository.findUniqByUserId
-        .withArgs({
-          userId: 2,
-          limitDate: now,
-        }).resolves([knowledgeElement]);
-      badgeCriteriaService.areBadgeCriteriaFulfilled.returns('coucou');
-      badgeCriteriaService.areBadgeCriteriaFulfilled
-        .withArgs({
-          knowledgeElements: [knowledgeElement],
-          targetProfile,
-          badge: cleaBadge,
-        }).returns(true);
-      certificationBadgesService.findStillValidBadgeAcquisitions.resolves([]);
-
-      // when
-      const certificationEligibility = await getUserCertificationEligibility({
-        userId: 2,
-        placementProfileService,
-        badgeAcquisitionRepository,
-        badgeRepository,
-        targetProfileRepository,
-        knowledgeElementRepository,
-        badgeCriteriaService,
         certificationBadgesService,
       });
 
@@ -186,11 +94,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
       placementProfileService.getPlacementProfile
         .withArgs({ userId: 2, limitDate: now })
         .resolves(placementProfile);
-      badgeAcquisitionRepository.hasAcquiredBadge
-        .withArgs({
-          badgeKey: cleaBadgeKey,
-          userId: 2,
-        }).resolves(false);
+      certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
       const someOtherBadge = domainBuilder.buildBadge({
         key: 'someKey',
       });
@@ -203,11 +107,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
       const certificationEligibility = await getUserCertificationEligibility({
         userId: 2,
         placementProfileService,
-        badgeAcquisitionRepository,
-        badgeRepository,
-        targetProfileRepository,
-        knowledgeElementRepository,
-        badgeCriteriaService,
         certificationBadgesService,
       });
 
@@ -226,11 +125,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
       placementProfileService.getPlacementProfile
         .withArgs({ userId: 2, limitDate: now })
         .resolves(placementProfile);
-      badgeAcquisitionRepository.hasAcquiredBadge
-        .withArgs({
-          badgeKey: cleaBadgeKey,
-          userId: 2,
-        }).resolves(false);
+      certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
       const maitreBadge = domainBuilder.buildBadge({
         key: pixPlusDroitMaitreBadgeKey,
       });
@@ -243,11 +138,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
       const certificationEligibility = await getUserCertificationEligibility({
         userId: 2,
         placementProfileService,
-        badgeAcquisitionRepository,
-        badgeRepository,
-        targetProfileRepository,
-        knowledgeElementRepository,
-        badgeCriteriaService,
         certificationBadgesService,
       });
 
@@ -266,11 +156,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
       placementProfileService.getPlacementProfile
         .withArgs({ userId: 2, limitDate: now })
         .resolves(placementProfile);
-      badgeAcquisitionRepository.hasAcquiredBadge
-        .withArgs({
-          badgeKey: cleaBadgeKey,
-          userId: 2,
-        }).resolves(false);
+      certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
       const someOtherBadge = domainBuilder.buildBadge({
         key: 'someKey',
       });
@@ -283,11 +169,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
       const certificationEligibility = await getUserCertificationEligibility({
         userId: 2,
         placementProfileService,
-        badgeAcquisitionRepository,
-        badgeRepository,
-        targetProfileRepository,
-        knowledgeElementRepository,
-        badgeCriteriaService,
         certificationBadgesService,
       });
 
@@ -306,11 +187,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
       placementProfileService.getPlacementProfile
         .withArgs({ userId: 2, limitDate: now })
         .resolves(placementProfile);
-      badgeAcquisitionRepository.hasAcquiredBadge
-        .withArgs({
-          badgeKey: cleaBadgeKey,
-          userId: 2,
-        }).resolves(false);
+      certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
       const expertBadge = domainBuilder.buildBadge({
         key: pixPlusDroitExpertBadgeKey,
       });
@@ -323,11 +200,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
       const certificationEligibility = await getUserCertificationEligibility({
         userId: 2,
         placementProfileService,
-        badgeAcquisitionRepository,
-        badgeRepository,
-        targetProfileRepository,
-        knowledgeElementRepository,
-        badgeCriteriaService,
         certificationBadgesService,
       });
 
