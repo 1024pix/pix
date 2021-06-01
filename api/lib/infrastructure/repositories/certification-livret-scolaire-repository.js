@@ -4,7 +4,6 @@ const { knex } = require('../bookshelf');
 module.exports = {
 
   async getCertificatesByOrganizationUAI(uai) {
-
     const result = await knex.select(
       {
         id: 'certification-courses.id',
@@ -20,10 +19,7 @@ module.exports = {
         certificationCenter: 'sessions.certificationCenter',
         isPublished: 'certification-courses.isPublished',
         status: 'assessment-results.status',
-        assessmentResultsCreatedAt: 'assessment-results.createdAt',
         pixScore: 'assessment-results.pixScore',
-        userId: 'schooling-registrations.userId',
-        assessmentId: 'assessments.id',
       },
     )
       .select(knex.raw('\'[\' || (string_agg(\'{ "level":\' || "competence-marks".level::VARCHAR || \', "competenceId":"\' || "competence-marks"."competence_code" || \'"}\', \',\')) || \']\' as "competenceResultsJson"'))
@@ -53,7 +49,8 @@ module.exports = {
       .groupBy('schooling-registrations.id', 'certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
 
       .orderBy('lastName', 'ASC')
-      .orderBy('firstName', 'ASC');
+      .orderBy('firstName', 'ASC')
+      .orderBy('id', 'ASC');
 
     return result.map(Certificate.from);
   },
