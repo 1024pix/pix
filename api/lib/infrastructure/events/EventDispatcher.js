@@ -21,8 +21,18 @@ class EventDispatcher {
     const subscriptions = this._subscriptions.filter(({ event }) => dispatchedEvent instanceof event);
 
     for (const { eventHandler } of subscriptions) {
-      const returnedEvent = await eventHandler({ domainTransaction, event: dispatchedEvent });
-      await this.dispatch(returnedEvent, domainTransaction);
+      const returnedEventOrEvents = await eventHandler({ domainTransaction, event: dispatchedEvent });
+      await this._dispatchEventOrEvents(returnedEventOrEvents, domainTransaction);
+    }
+  }
+
+  async _dispatchEventOrEvents(eventOrEvents, domainTransaction) {
+    if (!Array.isArray(eventOrEvents)) {
+      await this.dispatch(eventOrEvents, domainTransaction);
+    } else {
+      for (const event of eventOrEvents) {
+        await this.dispatch(event, domainTransaction);
+      }
     }
   }
 }
