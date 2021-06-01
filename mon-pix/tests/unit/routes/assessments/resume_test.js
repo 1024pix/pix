@@ -93,7 +93,7 @@ describe('Unit | Route | Assessments | Resume', function() {
               // then
               return promise.then(() => {
                 sinon.assert.calledOnce(route.replaceWith);
-                sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123, 456);
+                sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123);
               });
             });
           });
@@ -126,7 +126,7 @@ describe('Unit | Route | Assessments | Resume', function() {
             // then
             return promise.then(() => {
               sinon.assert.calledOnce(route.replaceWith);
-              sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123, 456);
+              sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123);
             });
           });
         });
@@ -143,7 +143,7 @@ describe('Unit | Route | Assessments | Resume', function() {
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(route.replaceWith);
-            sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123, 456);
+            sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123);
           });
         });
       });

@@ -23,6 +23,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
     id: 'assessment_id',
     get: sinon.stub().callsFake(() => 'ASSESSMENT_TYPE'),
     type: 'PLACEMENT',
+    answers: [],
   };
 
   const model = {
@@ -33,9 +34,8 @@ describe('Unit | Route | Assessments | Challenge', function() {
   };
 
   beforeEach(function() {
-    // define stubs
     createRecordStub = sinon.stub();
-    queryRecordStub = sinon.stub();
+    queryRecordStub = sinon.stub().resolves(model.challenge);
     findRecordStub = sinon.stub();
     storeStub = EmberService.create({
       createRecord: createRecordStub,
@@ -58,7 +58,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
 
       // then
       sinon.assert.calledWith(route.modelFor, 'assessments');
-      sinon.assert.calledWith(findRecordStub, 'challenge', params.challenge_id);
+      sinon.assert.calledWith(queryRecordStub, 'challenge', { assessmentId: assessment.id });
     });
     it('should call queryRecord to find answer', async function() {
       // given
@@ -69,11 +69,64 @@ describe('Unit | Route | Assessments | Challenge', function() {
       await route.model(params);
 
       // then
-      sinon.assert.calledOnce(queryRecordStub);
       sinon.assert.calledWith(queryRecordStub, 'answer', {
         assessmentId: assessment.id,
-        challengeId: params.challenge_id,
+        challengeId: model.challenge.id,
       });
+    });
+    context('when the assessment is a Preview', async function() {
+      beforeEach(function() {
+        const assessmentForPreview = {
+          answers: [],
+          type: 'PREVIEW',
+          isPreview: true,
+        };
+        route.modelFor.returns(assessmentForPreview);
+        storeStub.findRecord.resolves({ id: 'recId' });
+      });
+
+      it('should call findRecord to find the asked challenge', async function() {
+        // given
+        const params = {
+          challengeId: 'recId',
+          challenge_number: 0,
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.calledWith(findRecordStub, 'challenge', 'recId');
+      });
+    });
+
+    context('when the asked challenges is already answered', async function() {
+      beforeEach(function() {
+        const assessmentWithAnswers = {
+          answers: [{ id: 3, challenge: {
+            id: 'oldRecId',
+            get: () => 'oldRecId',
+          } }],
+          type: 'COMPETENCE',
+        };
+        route.modelFor.returns(assessmentWithAnswers);
+        storeStub.findRecord.resolves({ id: 'recId' });
+      });
+
+      it('should call findRecord to find the asked challenge', async function() {
+        // given
+        const params = {
+          challengeId: 'recId',
+          challenge_number: 0,
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.calledWith(findRecordStub, 'challenge', 'oldRecId');
+      });
+
     });
   });
 

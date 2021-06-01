@@ -8,7 +8,7 @@ const defaultPageTitle = 'pages.challenge.title';
 const timedOutPageTitle = 'pages.challenge.timed-out-title';
 
 export default class ChallengeController extends Controller {
-  queryParams = ['newLevel', 'competenceLeveled'];
+  queryParams = ['newLevel', 'competenceLeveled', 'challengeId'];
   @service intl;
   @service currentUser;
   @tracked newLevel = null;
