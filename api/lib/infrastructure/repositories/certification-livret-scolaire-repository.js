@@ -33,41 +33,30 @@ module.exports = {
       .innerJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
       .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
       .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-      .modify(_filterMostRecentCertificationCourse)
+      .whereNotExists(
+        knex.select(1)
+          .from({ 'last-certification-courses': 'certification-courses' })
+          .whereRaw('"last-certification-courses"."userId" = "certification-courses"."userId"')
+          .whereRaw('"last-certification-courses"."isCancelled"= false')
+          .whereRaw('"certification-courses"."createdAt" < "last-certification-courses"."createdAt"'),
+      )
+      .whereNotExists(
+        knex.select(1)
+          .from({ 'last-assessment-results': 'assessment-results' })
+          .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
+          .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
+      )
+
       .where('certification-courses.isCancelled', '=', false)
       .where('schooling-registrations.organizationId', '=', knex.select('id').from('organizations').whereRaw('LOWER("externalId") = LOWER(?)', uai))
+
       .groupBy('schooling-registrations.id', 'certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id'),
     )
       .select(knex.ref('*').withSchema(withName))
       .from(withName)
-      .modify(_filterMostRecentAssessmentsResults)
       .orderBy(`${withName}.lastName`, 'ASC')
       .orderBy(`${withName}.firstName`, 'ASC');
 
     return result.map(Certificate.from);
-
-    function _filterMostRecentAssessmentsResults(queryBuilder) {
-      const lastAssessmentAlias = 'last-assessment';
-      queryBuilder
-        .leftJoin({ [lastAssessmentAlias]: 'assessment-results' }, function() {
-          this.on(`${lastAssessmentAlias}.assessmentId`, `${withName}.assessmentId`)
-            .andOn(`${withName}.assessmentResultsCreatedAt`, '<', knex.ref(`${lastAssessmentAlias}.createdAt`));
-        })
-        .whereNull(lastAssessmentAlias);
-
-    }
-
-    function _filterMostRecentCertificationCourse(queryBuilder) {
-      const lastCertificationAlias = 'last-certification';
-      queryBuilder
-        .leftJoin({ [lastCertificationAlias]: 'certification-courses' }, function() {
-          this.on(`${lastCertificationAlias}.userId`, 'certification-courses.userId')
-            .andOn('certification-courses.createdAt', '<', knex.ref(`${lastCertificationAlias}.createdAt`))
-            .andOn(`${lastCertificationAlias}.isCancelled`, '=', knex.raw('?', [false]));
-        })
-        .whereNull(lastCertificationAlias);
-
-    }
-
   },
 };
