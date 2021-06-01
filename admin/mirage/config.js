@@ -88,7 +88,7 @@ export default function() {
     });
   });
 
-  this.post('/memberships', createMembership);
+  this.post('/admin/memberships', createMembership);
   this.get('/organizations');
   this.get('/organizations/:id');
   this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);

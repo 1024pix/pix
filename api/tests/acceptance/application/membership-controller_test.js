@@ -12,7 +12,7 @@ describe('Acceptance | Controller | membership-controller', () => {
     server = await createServer();
   });
 
-  describe('POST /api/memberships', () => {
+  describe('POST /api/admin/memberships', () => {
 
     let options;
     let userId;
@@ -26,7 +26,7 @@ describe('Acceptance | Controller | membership-controller', () => {
 
       options = {
         method: 'POST',
-        url: '/api/memberships',
+        url: '/api/admin/memberships',
         payload: {
           data: {
             type: 'memberships',

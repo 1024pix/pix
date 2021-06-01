@@ -8,7 +8,7 @@ exports.register = async function(server) {
   server.route([
     {
       method: 'POST',
-      path: '/api/memberships',
+      path: '/api/admin/memberships',
       config: {
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
