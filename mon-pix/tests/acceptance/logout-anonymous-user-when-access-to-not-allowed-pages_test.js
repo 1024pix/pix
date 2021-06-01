@@ -9,7 +9,6 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 const EXPECTED_ROUTE_CAMPAIGN = '/campagnes';
 const SIMPLIFIED_CODE_CAMPAIGN = 'SIMPLIFIE';
 const ID_ASSESSMENT = '10000029';
-const CODE_CHALLENGE = 'rec1lRuv6iIYn5Ek2';
 
 describe('Acceptance | Campaigns | Simplified access | Anonymous user access to not allowed pages', function() {
 
@@ -50,7 +49,7 @@ describe('Acceptance | Campaigns | Simplified access | Anonymous user access to 
         expect(currentSession(this.application).get('isAuthenticated')).to.be.true;
 
         // when
-        const CHALLENGE_ROUTE = `/assessments/${ID_ASSESSMENT}/challenges/${CODE_CHALLENGE}`;
+        const CHALLENGE_ROUTE = `/assessments/${ID_ASSESSMENT}/challenges/`;
         await visit(`${CHALLENGE_ROUTE}`);
         // then
         expect(currentURL()).to.equal(CHALLENGE_ROUTE);

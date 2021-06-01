@@ -7,22 +7,36 @@ export default class ChallengeRoute extends Route {
   @service currentUser;
 
   async model(params) {
-    const store = this.store;
-
     const assessment = await this.modelFor('assessments');
     await assessment.certificationCourse;
-    const challengeId = params.challenge_id;
+    await assessment.answers;
+
+    let challenge;
+
+    const isBackToPreviousChallenge = parseInt(params.challenge_number) < assessment.answers.length;
+    if (isBackToPreviousChallenge) {
+      const answers = assessment.answers.toArray();
+      const challengeId = answers[params.challenge_number].challenge.get('id');
+      challenge = await this.store.findRecord('challenge', challengeId);
+    } else {
+      if (assessment.isPreview) {
+        challenge = await this.store.findRecord('challenge', params.challengeId);
+      } else {
+        challenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
+      }
+    }
 
     return RSVP.hash({
       assessment,
-      challenge: store.findRecord('challenge', challengeId),
-      answer: store.queryRecord('answer', { assessmentId: assessment.id, challengeId: challengeId }),
+      challenge,
+      answer: this.store.queryRecord('answer', { assessmentId: assessment.id, challengeId: challenge.id }),
     }).catch((err) => {
       const meta = ('errors' in err) ? err.errors.get('firstObject').meta : null;
       if (meta.field === 'authorization') {
         return this.transitionTo('index');
       }
     });
+
   }
 
   serialize(model) {
