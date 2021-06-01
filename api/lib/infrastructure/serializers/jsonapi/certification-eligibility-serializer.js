@@ -9,7 +9,12 @@ module.exports = {
         clone.isCertifiable = clone.pixCertificationEligible;
         return clone;
       },
-      attributes: ['isCertifiable', 'cleaCertificationEligible'],
+      attributes: [
+        'isCertifiable',
+        'cleaCertificationEligible',
+        'pixPlusDroitMaitreCertificationEligible',
+        'pixPlusDroitExpertCertificationEligible',
+      ],
     }).serialize(certificationEligibility);
   },
 };

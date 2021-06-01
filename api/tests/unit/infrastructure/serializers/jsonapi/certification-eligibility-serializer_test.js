@@ -11,6 +11,8 @@ describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', f
         id: 123,
         pixCertificationEligible: false,
         cleaCertificationEligible: true,
+        pixPlusDroitMaitreCertificationEligible: false,
+        pixPlusDroitExpertCertificationEligible: true,
       });
 
       // when
@@ -24,6 +26,8 @@ describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', f
           attributes: {
             'is-certifiable': false,
             'clea-certification-eligible': true,
+            'pix-plus-droit-maitre-certification-eligible': false,
+            'pix-plus-droit-expert-certification-eligible': true,
           },
         },
       });

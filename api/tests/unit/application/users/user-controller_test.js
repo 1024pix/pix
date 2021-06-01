@@ -650,6 +650,8 @@ describe('Unit | Controller | user-controller', () => {
         id: 123,
         pixCertificationEligible: true,
         cleaCertificationEligible: false,
+        pixPlusDroitMaitreCertificationEligible: true,
+        pixPlusDroitExpertCertificationEligible: false,
       });
       sinon.stub(usecases, 'getUserCertificationEligibility')
         .withArgs({ userId: 123 })
@@ -673,6 +675,8 @@ describe('Unit | Controller | user-controller', () => {
           attributes: {
             'is-certifiable': true,
             'clea-certification-eligible': false,
+            'pix-plus-droit-maitre-certification-eligible': true,
+            'pix-plus-droit-expert-certification-eligible': false,
           },
         },
       });
