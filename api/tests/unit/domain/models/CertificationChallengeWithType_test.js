@@ -1,6 +1,30 @@
 const { expect, domainBuilder } = require('../../../test-helper');
+const CertificationChallengeWithType = require('../../../../lib/domain/models/CertificationChallengeWithType');
+const { Type } = require('../../../../lib/domain/models/Challenge');
 
 describe('Unit | Domain | Models | CertificationChallengeWithType', () => {
+
+  describe('#constructor', () => {
+
+    const validTypes = Object.values(Type);
+    validTypes.forEach((validType) => {
+      it(`should initialize CertificationChallengeWithType with type ${validType}`, () => {
+        // when
+        const certificationChallengeWithType = new CertificationChallengeWithType({ type: validType });
+
+        // then
+        expect(certificationChallengeWithType.type).to.equal(validType);
+      });
+    });
+
+    it('should initialize type to EmptyType when type is not valid', () => {
+      // when
+      const certificationChallengeWithType = new CertificationChallengeWithType({ type: 'COUCOUCOUCOCUCUO' });
+
+      // then
+      expect(certificationChallengeWithType.type).to.equal('EmptyType');
+    });
+  });
 
   describe('#neutralize', () => {
 

@@ -3,7 +3,6 @@ const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
 const CertificationAssessment = require('../../../../../lib/domain/models/CertificationAssessment');
 const { states } = require('../../../../../lib/domain/models/CertificationAssessment');
-const challengeRepository = require('../../../../../lib/infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
 const placementProfileService = require('../../../../../lib/domain/services/placement-profile-service');
 const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
@@ -79,37 +78,20 @@ const answersWithReproducibilityRateLessThan80 = () => _.map([
   { challengeId: 'challenge_L_for_competence_4', result: 'ok' },
 ], domainBuilder.buildAnswer);
 
-const challengesFromLearningContent = _.map([
-  { id: 'challenge_A_for_competence_1', competenceId: 'competence_1', type: 'QCM' },
-  { id: 'challenge_B_for_competence_1', competenceId: 'competence_1', type: 'QCM' },
-  { id: 'challenge_C_for_competence_1', competenceId: 'competence_1', type: 'QCM' },
-  { id: 'challenge_D_for_competence_2', competenceId: 'competence_2', type: 'QCM' },
-  { id: 'challenge_E_for_competence_2', competenceId: 'competence_2', type: 'QCM' },
-  { id: 'challenge_F_for_competence_2', competenceId: 'competence_2', type: 'QCM' },
-  { id: 'challenge_G_for_competence_3', competenceId: 'competence_3', type: 'QCM' },
-  { id: 'challenge_H_for_competence_3', competenceId: 'competence_3', type: 'QCM' },
-  { id: 'challenge_I_for_competence_3', competenceId: 'competence_3', type: 'QCM' },
-  { id: 'challenge_J_for_competence_4', competenceId: 'competence_4', type: 'QCM' },
-  { id: 'challenge_K_for_competence_4', competenceId: 'competence_4', type: 'QCM' },
-  { id: 'challenge_L_for_competence_4', competenceId: 'competence_4', type: 'QCM' },
-  { id: 'challenge_M_for_competence_5', competenceId: 'competence_5', type: 'QCM' },
-  { id: 'challenge_N_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
-], domainBuilder.buildChallenge);
-
 const challenges = _.map([
-  { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1' },
-  { challengeId: 'challenge_C_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeC_1' },
-  { challengeId: 'challenge_B_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeB_1' },
-  { challengeId: 'challenge_D_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeD_2' },
-  { challengeId: 'challenge_E_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeE_2' },
-  { challengeId: 'challenge_F_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeF_2' },
-  { challengeId: 'challenge_G_for_competence_3', competenceId: 'competence_3', associatedSkillName: '@skillChallengeG_3' },
-  { challengeId: 'challenge_H_for_competence_3', competenceId: 'competence_3', associatedSkillName: '@skillChallengeH_3' },
-  { challengeId: 'challenge_I_for_competence_3', competenceId: 'competence_3', associatedSkillName: '@skillChallengeI_3' },
-  { challengeId: 'challenge_J_for_competence_4', competenceId: 'competence_4', associatedSkillName: '@skillChallengeJ_4' },
-  { challengeId: 'challenge_K_for_competence_4', competenceId: 'competence_4', associatedSkillName: '@skillChallengeK_4' },
-  { challengeId: 'challenge_L_for_competence_4', competenceId: 'competence_4', associatedSkillName: '@skillChallengeL_4' },
-], domainBuilder.buildCertificationChallenge);
+  { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1', type: 'QCM' },
+  { challengeId: 'challenge_C_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeC_1', type: 'QCM' },
+  { challengeId: 'challenge_B_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeB_1', type: 'QCM' },
+  { challengeId: 'challenge_D_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeD_2', type: 'QCM' },
+  { challengeId: 'challenge_E_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeE_2', type: 'QCM' },
+  { challengeId: 'challenge_F_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeF_2', type: 'QCM' },
+  { challengeId: 'challenge_G_for_competence_3', competenceId: 'competence_3', associatedSkillName: '@skillChallengeG_3', type: 'QCM' },
+  { challengeId: 'challenge_H_for_competence_3', competenceId: 'competence_3', associatedSkillName: '@skillChallengeH_3', type: 'QCM' },
+  { challengeId: 'challenge_I_for_competence_3', competenceId: 'competence_3', associatedSkillName: '@skillChallengeI_3', type: 'QCM' },
+  { challengeId: 'challenge_J_for_competence_4', competenceId: 'competence_4', associatedSkillName: '@skillChallengeJ_4', type: 'QCM' },
+  { challengeId: 'challenge_K_for_competence_4', competenceId: 'competence_4', associatedSkillName: '@skillChallengeK_4', type: 'QCM' },
+  { challengeId: 'challenge_L_for_competence_4', competenceId: 'competence_4', associatedSkillName: '@skillChallengeL_4', type: 'QCM' },
+], domainBuilder.buildCertificationChallengeWithType);
 
 const competence_1 = domainBuilder.buildCompetence({ id: 'competence_1', index: '1.1', area: { code: '1' }, name: 'Mener une recherche' });
 const competence_2 = domainBuilder.buildCompetence({ id: 'competence_2', index: '2.2', area: { code: '2' }, name: 'Partager' });
@@ -202,7 +184,6 @@ describe('Unit | Service | Certification Result Service', function() {
         });
 
         sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
-        sinon.stub(challengeRepository, 'findOperative').resolves(challengesFromLearningContent);
         sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
@@ -216,14 +197,6 @@ describe('Unit | Service | Certification Result Service', function() {
 
         // then
         sinon.assert.calledOnce(placementProfileService.getPlacementProfile);
-      });
-
-      it('should retrieve validated challenges', async () => {
-        // when
-        await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-        // then
-        sinon.assert.calledOnce(challengeRepository.findOperative);
       });
 
       it('should retrieve competences list', async () => {
@@ -625,7 +598,7 @@ describe('Unit | Service | Certification Result Service', function() {
                 { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1' },
                 { challengeId: 'challenge_B_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeB_1' },
                 { challengeId: 'challenge_C_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeC_1' },
-              ], domainBuilder.buildCertificationChallenge);
+              ], domainBuilder.buildCertificationChallengeWithType);
 
               const userCompetences = [
                 _buildUserCompetence(competence_1, positionedScore, positionedLevel),
@@ -662,20 +635,11 @@ describe('Unit | Service | Certification Result Service', function() {
         certificationAssessment.certificationAnswersByDate = wrongAnswersForAllChallenges();
         certificationAssessment.certificationChallenges = challenges;
         sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
-        sinon.stub(challengeRepository, 'findOperative').resolves(challengesFromLearningContent);
         sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
           isV2Certification: certificationAssessment.isV2Certification,
         }).resolves({ userCompetences });
-      });
-
-      it('should retrieve challenges list', async () => {
-        // when
-        await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-        // then
-        sinon.assert.calledOnce(challengeRepository.findOperative);
       });
 
       it('should retrieve competences list', async () => {
@@ -954,12 +918,6 @@ describe('Unit | Service | Certification Result Service', function() {
       context('when only one challenge is asked for a competence', () => {
         it('certifies a level below the estimated one if reproducibility rate is < 70%', async () => {
           // given
-          const listChallengeComp5WithTwoChallenges = _.map([
-            { id: 'challenge_A_for_competence_5', competenceId: 'competence_5', type: 'QCM' },
-            { id: 'challenge_A_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
-            { id: 'challenge_B_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
-            { id: 'challenge_C_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
-          ], domainBuilder.buildChallenge);
           const userCompetences = [
             _buildUserCompetence(competence_5, 50, 5),
             _buildUserCompetence(competence_6, 36, 3),
@@ -969,12 +927,10 @@ describe('Unit | Service | Certification Result Service', function() {
             { challengeId: 'challenge_A_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeA_6' },
             { challengeId: 'challenge_B_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeB_6' },
             { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6' },
-          ], domainBuilder.buildCertificationChallenge);
+          ], domainBuilder.buildCertificationChallengeWithType);
           certificationAssessment.certificationChallenges = challenges;
 
-          challengeRepository.findOperative.restore();
           placementProfileService.getPlacementProfile.restore();
-          sinon.stub(challengeRepository, 'findOperative').resolves(listChallengeComp5WithTwoChallenges);
           sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
             userId: certificationAssessment.userId,
             limitDate: certificationAssessment.createdAt,
@@ -1019,31 +975,21 @@ describe('Unit | Service | Certification Result Service', function() {
 
       context('when challenges contains one QROCM-dep challenge to validate two skills', () => {
         beforeEach(() => {
-          const listChallengeComp5WithOneQROCMDEPChallengeAndAnother = _.map([
-            { id: 'challenge_A_for_competence_5', competenceId: 'competence_5', type: 'QCM' },
-            { id: 'challenge_B_for_competence_5', competenceId: 'competence_5', type: 'QROCM-dep' },
-            { id: 'challenge_A_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
-            { id: 'challenge_B_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
-            { id: 'challenge_C_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
-          ], domainBuilder.buildChallenge);
-
           const userCompetences = [
             _buildUserCompetence(competence_5, 50, 5),
             _buildUserCompetence(competence_6, 36, 3),
           ];
 
           const challenges = _.map([
-            { challengeId: 'challenge_A_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeA_5' },
-            { challengeId: 'challenge_B_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeB_5' },
-            { challengeId: 'challenge_A_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeA_6' },
-            { challengeId: 'challenge_B_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeB_6' },
-            { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6' },
-          ], domainBuilder.buildCertificationChallenge);
+            { challengeId: 'challenge_A_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeA_5', type: 'QCM' },
+            { challengeId: 'challenge_B_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeB_5', type: 'QROCM-dep' },
+            { challengeId: 'challenge_A_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeA_6', type: 'QCM' },
+            { challengeId: 'challenge_B_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeB_6', type: 'QCM' },
+            { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6', type: 'QCM' },
+          ], domainBuilder.buildCertificationChallengeWithType);
           certificationAssessment.certificationChallenges = challenges;
 
-          challengeRepository.findOperative.restore();
           placementProfileService.getPlacementProfile.restore();
-          sinon.stub(challengeRepository, 'findOperative').resolves(listChallengeComp5WithOneQROCMDEPChallengeAndAnother);
           sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
             userId: certificationAssessment.userId,
             limitDate: certificationAssessment.createdAt,
@@ -1138,7 +1084,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
             { challengeId: 'challenge_M_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeM_5' },
             { challengeId: 'challenge_N_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeN_6' },
-          ], domainBuilder.buildCertificationChallenge);
+          ], domainBuilder.buildCertificationChallengeWithType);
           certificationAssessment.certificationChallenges = challenges;
 
           const answers = _.map([

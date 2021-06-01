@@ -3,19 +3,22 @@ const DomainTransaction = require('../DomainTransaction');
 const CertificationAssessment = require('../../domain/models/CertificationAssessment');
 const CertificationChallengeWithType = require('../../domain/models/CertificationChallengeWithType');
 const Answer = require('../../domain/models/Answer');
+const challengeRepository = require('./challenge-repository');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
 const { knex } = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
 
 async function _getCertificationChallenges(certificationCourseId, knexConn) {
+  const allChallenges = await challengeRepository.findOperative();
   const certificationChallengeRows = await knexConn('certification-challenges')
     .where({ courseId: certificationCourseId })
     .orderBy('challengeId', 'asc');
 
   return _.map(certificationChallengeRows, (certificationChallengeRow) => {
+    const challenge = _.find(allChallenges, { id: certificationChallengeRow.challengeId });
     return new CertificationChallengeWithType({
       ...certificationChallengeRow,
-      type: null,
+      type: challenge?.type,
     });
   });
 }

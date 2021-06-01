@@ -2,7 +2,6 @@ const _ = require('lodash');
 
 const CertificationContract = require('../../domain/models/CertificationContract');
 const scoringService = require('./scoring/scoring-service');
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const placementProfileService = require('./placement-profile-service');
 const { CertifiedLevel } = require('../models/CertifiedLevel');
@@ -135,7 +134,6 @@ async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
 module.exports = {
   async getCertificationResult({ certificationAssessment, continueOnError }) {
     const allPixCompetences = await competenceRepository.listPixCompetencesOnly();
-    const allChallenges = await challengeRepository.findOperative();
 
     // userService.getPlacementProfile() + filter level > 0 => avec allCompetence (bug)
     const testedCompetences = await _getTestedCompetences({
@@ -146,12 +144,6 @@ module.exports = {
 
     // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
     const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationAssessment.certificationChallenges, testedCompetences);
-
-    // decoration des challenges en ajoutant le type
-    matchingCertificationChallenges.forEach((certifChallenge) => {
-      const challenge = _.find(allChallenges, { id: certifChallenge.challengeId });
-      certifChallenge.type = challenge ? challenge.type : 'EmptyType';
-    });
 
     // map sur challenges filtre sur challenge Id
     const matchingAnswers = _selectAnswersMatchingCertificationChallenges(certificationAssessment.certificationAnswersByDate, matchingCertificationChallenges);
