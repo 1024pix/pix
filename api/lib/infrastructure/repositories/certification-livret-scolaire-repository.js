@@ -30,14 +30,13 @@ module.exports = {
         .select(knex.raw('\'[\' || (string_agg(\'{ "level":\' || "competence-marks".level::VARCHAR || \', "competenceId":"\' || "competence-marks"."competence_code" || \'"}\', \',\') over (partition by "assessment-results".id)) || \']\' as "competenceResultsJson"'))
         .from('certification-courses')
         .innerJoin('schooling-registrations', 'schooling-registrations.userId', 'certification-courses.userId')
-        .innerJoin('organizations', 'schooling-registrations.organizationId', 'organizations.id')
         .innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
         .innerJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
         .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
         .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
         .modify(_filterMostRecentCertificationCourse)
         .where('certification-courses.isCancelled', '=', false)
-        .whereRaw('LOWER("organizations"."externalId") = LOWER(?)', uai),
+        .where('schooling-registrations.organizationId', '=', knex.select('id').from('organizations').whereRaw('LOWER("externalId") = LOWER(?)', uai)),
     )
       .select(knex.ref('*').withSchema(withName))
       .from(withName)
