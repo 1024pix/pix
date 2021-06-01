@@ -58,7 +58,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(2);
     });
 
-    it('counts answered as well as unanswered challenges indifferently', () => {
+    it('counts only answered challenges and ignore unanswered ones', () => {
       // given
       const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
       const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QCM' });
@@ -73,7 +73,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       const numberOfChallenges = answerCollection.numberOfNonNeutralizedChallenges();
 
       // then
-      expect(numberOfChallenges).to.equal(3);
+      expect(numberOfChallenges).to.equal(0);
     });
   });
   context('#numberOfCorrectAnswers', () => {
@@ -292,21 +292,19 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(3);
     });
 
-    it('counts answered as well as unanswered challenges indifferently for given competence', () => {
+    it('counts all challenges with or without answer for given competence', () => {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
       const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', competenceId: aCompetenceId, type: 'QCM' });
-      const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', competenceId: aCompetenceId, type: 'QCM' });
+      const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', competenceId: anotherCompetenceId, type: 'QCM' });
       const challenge3 = _buildDecoratedCertificationChallenge({ challengeId: 'chal3', competenceId: aCompetenceId, type: 'QCM' });
 
-      const challenge4 = _buildDecoratedCertificationChallenge({ challengeId: 'chal4', competenceId: anotherCompetenceId, type: 'QCM' });
-      const challenge5 = _buildDecoratedCertificationChallenge({ challengeId: 'chal5', competenceId: anotherCompetenceId, type: 'QCM' });
-      const answer4 = domainBuilder.buildAnswer({ challengeId: challenge4.challengeId });
-      const answer5 = domainBuilder.buildAnswer({ challengeId: challenge5.challengeId });
+      const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId });
+      const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.challengeId });
 
       const answerCollection = AnswerCollectionForScoring.from({
-        answers: [answer4, answer5],
+        answers: [answer1, answer2],
         challenges: [challenge1, challenge2, challenge3],
       });
 
@@ -314,7 +312,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       const numberOfChallenges = answerCollection.numberOfChallengesForCompetence(aCompetenceId);
 
       // then
-      expect(numberOfChallenges).to.equal(3);
+      expect(numberOfChallenges).to.equal(2);
     });
   });
   context('#numberOfCorrectAnswersForCompetence', () => {
@@ -331,7 +329,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       const answer3 = domainBuilder.buildAnswer({ challengeId: challenge3.challengeId });
       const answerCollection = AnswerCollectionForScoring.from({
         answers: [answer1, answer2, answer3],
-        challenges: [],
+        challenges: [challenge1, challenge2, challenge3],
       });
 
       // when
