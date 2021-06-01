@@ -46,7 +46,6 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       challenges: [{
         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
         skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        skills: ['@recArea1_Competence1_Tube1_Skill1'],
         competenceId: 'recArea1_Competence1',
         status: '', // unoperative
         locales: ['fr-fr'],
@@ -119,7 +118,6 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       challenges: [{
         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
         skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        skills: ['@recArea1_Competence1_Tube1_Skill1'],
         competenceId: 'recArea1_Competence1',
         status: 'validé',
         locales: ['fr', 'en'],
@@ -201,7 +199,6 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       challenges: [{
         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
         skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        skills: ['@recArea1_Competence1_Tube1_Skill1'],
         competenceId: 'recArea1_Competence1',
         status: 'validé',
         locales: ['fr-fr'],
@@ -282,7 +279,6 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       challenges: [{
         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
         skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        skills: ['@recArea1_Competence1_Tube1_Skill1'],
         competenceId: 'recArea1_Competence1',
         status: 'validé',
         locales: ['fr-fr'],
@@ -349,7 +345,6 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       challenges: [{
         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
         skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        skills: ['@recArea1_Competence1_Tube1_Skill1'],
         competenceId: 'recArea1_Competence1',
         status: 'validé',
         locales: ['fr-fr'],
@@ -413,7 +408,6 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       challenges: [{
         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
         skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        skills: ['@recArea1_Competence1_Tube1_Skill1'],
         competenceId: 'recArea1_Competence1',
         status: 'validé',
         locales: ['fr-fr'],
@@ -512,7 +506,6 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
       challenges: [{
         id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
         skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        skills: ['@recArea1_Competence1_Tube1_Skill1'],
         competenceId: 'recArea1_Competence1',
         status: 'validé',
         locales: ['fr-fr'],
