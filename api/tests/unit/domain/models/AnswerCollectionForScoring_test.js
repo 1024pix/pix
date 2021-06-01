@@ -587,7 +587,5 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
 });
 
 function _buildDecoratedCertificationChallenge({ challengeId, type, isNeutralized, competenceId }) {
-  const challenge = domainBuilder.buildCertificationChallenge({ challengeId, isNeutralized, competenceId });
-  challenge.type = type; // TODO : CertificationChallenge are decorated with type in certification-result-service, find a better way.
-  return challenge;
+  return domainBuilder.buildCertificationChallengeWithType({ type, challengeId, isNeutralized, competenceId });
 }

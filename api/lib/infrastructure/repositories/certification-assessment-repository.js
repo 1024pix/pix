@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const DomainTransaction = require('../DomainTransaction');
 const CertificationAssessment = require('../../domain/models/CertificationAssessment');
-const CertificationChallenge = require('../../domain/models/CertificationChallenge');
+const CertificationChallengeWithType = require('../../domain/models/CertificationChallengeWithType');
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
 const { knex } = require('../bookshelf');
@@ -10,12 +10,14 @@ const { NotFoundError } = require('../../domain/errors');
 async function _getCertificationChallenges(certificationCourseId, knexConn) {
   const certificationChallengeRows = await knexConn('certification-challenges')
     .where({ courseId: certificationCourseId })
-    .orderBy('id', 'asc');
+    .orderBy('challengeId', 'asc');
 
-  return _.map(certificationChallengeRows, (certificationChallengeRow) => new CertificationChallenge({
-    ...certificationChallengeRow,
-    associatedSkillName: certificationChallengeRow.associatedSkill,
-  }));
+  return _.map(certificationChallengeRows, (certificationChallengeRow) => {
+    return new CertificationChallengeWithType({
+      ...certificationChallengeRow,
+      type: null,
+    });
+  });
 }
 
 async function _getCertificationAnswersByDate(certificationAssessmentId, knexConn) {
