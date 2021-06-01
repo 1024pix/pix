@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, knex } = require('../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
 
 const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
@@ -263,11 +263,11 @@ describe('Acceptance | Controller | membership-controller', () => {
     let organizationId;
 
     beforeEach(async () => {
-      await insertUserWithRolePixMaster();
-
       organizationId = databaseBuilder.factory.buildOrganization().id;
       const userId = databaseBuilder.factory.buildUser().id;
       membershipId = databaseBuilder.factory.buildMembership({ organizationId, userId }).id;
+      const organizationAdminUserId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({ userId: organizationAdminUserId, organizationId, organizationRole: Membership.roles.ADMIN });
 
       await databaseBuilder.commit();
 
@@ -295,33 +295,14 @@ describe('Acceptance | Controller | membership-controller', () => {
           },
         },
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(),
+          authorization: generateValidRequestAuthorizationHeader(organizationAdminUserId),
         },
       };
     });
 
     context('Success cases', () => {
 
-      context('When user is Pix Master', () => {
-        it('should return a 204', async () => {
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(204);
-        });
-      });
-
       context('When user is admin of the organization', () => {
-
-        beforeEach(async () => {
-          // given
-          const organizationAdminUserId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildMembership({ userId: organizationAdminUserId, organizationId, organizationRole: Membership.roles.ADMIN });
-          options.headers.authorization = generateValidRequestAuthorizationHeader(organizationAdminUserId);
-
-          await databaseBuilder.commit();
-        });
 
         it('should return a 204', async () => {
           // when
@@ -336,10 +317,10 @@ describe('Acceptance | Controller | membership-controller', () => {
 
     context('Error cases', () => {
 
-      it('should respond with a 403 if user does not have the role PIX MASTER', async () => {
+      it('should respond with a 403 if user does not have the role Admin in organization', async () => {
         // given
-        const notPixMasterUserId = 1;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(notPixMasterUserId);
+        const notOrganizationAdminUserId = databaseBuilder.factory.buildUser().id;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(notOrganizationAdminUserId);
 
         // when
         const response = await server.inject(options);
