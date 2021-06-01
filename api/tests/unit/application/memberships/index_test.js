@@ -48,4 +48,41 @@ describe('Unit | Router | membership-router', () => {
       expect(membershipController.update).to.have.not.been.called;
     });
   });
+
+  describe('POST /api/admin/memberships/{id}/disable', () => {
+
+    it('should return 204 if user is Pix Admin', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(membershipController, 'disable').callsFake((request, h) => h.response().code(204));
+
+      const httpTestServer = new HttpTestServer();
+      httpTestServer.register(moduleUnderTest);
+      const membershipId = 123;
+
+      // when
+      const response = await httpTestServer.request('POST', `/api/admin/memberships/${membershipId}/disable`);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      expect(membershipController.disable).to.have.been.called;
+    });
+
+    it('should return 403 if user is not Pix Admin', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      sinon.stub(membershipController, 'disable');
+
+      const httpTestServer = new HttpTestServer();
+      httpTestServer.register(moduleUnderTest);
+      const membershipId = 123;
+
+      // when
+      const response = await httpTestServer.request('POST', `/api/admin/memberships/${membershipId}/disable`);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      expect(membershipController.disable).to.have.not.been.called;
+    });
+  });
 });

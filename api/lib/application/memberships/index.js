@@ -99,6 +99,26 @@ exports.register = async function(server) {
         },
         handler: membershipController.disable,
         notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés en tant qu\'administrateur de l\'organisation et avec le rôle Pix Master**\n' +
+          '- Elle permet la désactivation d\'un membre',
+        ],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/memberships/{id}/disable',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.membershipId,
+          }),
+        },
+        handler: membershipController.disable,
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
           '- Elle permet la désactivation d\'un membre',
         ],
