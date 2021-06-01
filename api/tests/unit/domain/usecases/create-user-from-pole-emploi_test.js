@@ -128,8 +128,8 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
 
       // then
       expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
-      expect(error.message).to.be.equal('API PE: les informations utilisateurs récupérées sont incorrectes.');
-      const expectedMessage = `Un des champs obligatoires n'a pas été renvoyé par /userinfo: ${JSON.stringify(decodedUserInfo)}.`;
+      expect(error.message).to.be.equal('PE API: retrieved user properties are invalid.');
+      const expectedMessage = `A mandatory field has not been returned by /userinfo: ${JSON.stringify(decodedUserInfo)}.`;
       expect(logger.error).to.have.been.calledWith(expectedMessage);
     });
   });

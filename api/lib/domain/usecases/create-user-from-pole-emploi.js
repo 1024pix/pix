@@ -16,8 +16,8 @@ module.exports = async function createUserFromPoleEmploi({
   const userInfo = await authenticationService.getPoleEmploiUserInfo(userCredentials.idToken);
 
   if (!userInfo.firstName || !userInfo.lastName || !userInfo.externalIdentityId) {
-    logger.error(`Un des champs obligatoires n'a pas été renvoyé par /userinfo: ${JSON.stringify(userInfo)}.`);
-    throw new InvalidExternalAPIResponseError('API PE: les informations utilisateurs récupérées sont incorrectes.');
+    logger.error(`A mandatory field has not been returned by /userinfo: ${JSON.stringify(userInfo)}.`);
+    throw new InvalidExternalAPIResponseError('PE API: retrieved user properties are invalid.');
   }
 
   const authenticationMethod = await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({
