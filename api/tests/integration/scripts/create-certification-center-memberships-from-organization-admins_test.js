@@ -91,7 +91,7 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
       // then
       const expectedUserIds = [adminUserId1, adminUserId2];
-      expect(userIds).exactlyContainInOrder(expectedUserIds);
+      expect(userIds).to.have.deep.members(expectedUserIds);
     });
 
     it('should return an empty array if organization has no admin membership', async () => {
