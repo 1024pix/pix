@@ -50,8 +50,8 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () =
         certificationCourseId: 123,
         userId: 456,
         createdAt: new Date('2020-01-01'),
-        certificationChallenges: [domainBuilder.buildCertificationChallenge({ certifiableBadgeKey: null, challengeId: 'chal1' })],
-        certificationAnswersByDate: [domainBuilder.buildCertificationChallenge({ challengeId: 'chal1' })],
+        certificationChallenges: [domainBuilder.buildCertificationChallengeWithType({ certifiableBadgeKey: null, challengeId: 'chal1' })],
+        certificationAnswersByDate: [domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1' })],
       });
       certificationAssessmentRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId: 123 })
@@ -73,8 +73,8 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () =
         certificationCourseId: 123,
         userId: 456,
       });
-      const certificationChallengeMangue = domainBuilder.buildCertificationChallenge({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_MANGUE' });
-      const certificationChallengePasteque = domainBuilder.buildCertificationChallenge({ challengeId: 'chal2', certifiableBadgeKey: 'BADGE_PASTEQUE' });
+      const certificationChallengeMangue = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_MANGUE' });
+      const certificationChallengePasteque = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal2', certifiableBadgeKey: 'BADGE_PASTEQUE' });
       const certificationAnswerMangue = domainBuilder.buildAnswer({ challengeId: 'chal1' });
       const certificationAnswerPasteque = domainBuilder.buildAnswer({ challengeId: 'chal2' });
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
@@ -106,7 +106,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () =
           certificationCourseId: 123,
           userId: 456,
         });
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_MANGUE' });
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_MANGUE' });
         const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: 'chal1' });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationCourseId: 123,
@@ -141,8 +141,8 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () =
           certificationCourseId: 123,
           userId: 456,
         });
-        const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_MANGUE' });
-        const certificationChallenge2 = domainBuilder.buildCertificationChallenge({ challengeId: 'chal2', certifiableBadgeKey: 'BADGE_MANGUE' });
+        const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_MANGUE' });
+        const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal2', certifiableBadgeKey: 'BADGE_MANGUE' });
         const certificationAnswer1 = domainBuilder.buildAnswer.ko({ challengeId: 'chal1' });
         const certificationAnswer2 = domainBuilder.buildAnswer.ok({ challengeId: 'chal2' });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
@@ -178,8 +178,8 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () =
           certificationCourseId: 123,
           userId: 456,
         });
-        const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_MANGUE' });
-        const certificationChallenge2 = domainBuilder.buildCertificationChallenge({ challengeId: 'chal2', certifiableBadgeKey: 'BADGE_MANGUE' });
+        const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_MANGUE' });
+        const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal2', certifiableBadgeKey: 'BADGE_MANGUE' });
         const certificationAnswer1 = domainBuilder.buildAnswer.ok({ challengeId: 'chal1' });
         const certificationAnswer2 = domainBuilder.buildAnswer.ok({ challengeId: 'chal2' });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
