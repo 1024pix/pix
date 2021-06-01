@@ -1,3 +1,5 @@
+const logger = require('../../../infrastructure/logger');
+
 function _csvFormulaEscapingPrefix(data) {
   const mayBeInterpretedAsFormula = /^[-@=+]/.test(data);
   return mayBeInterpretedAsFormula ? '\'' : '';
@@ -13,15 +15,13 @@ function _csvSerializeValue(data) {
       return `"${_csvFormulaEscapingPrefix(data)}${data.replace(/"/g, '""')}"`;
     }
   } else {
-    throw new Error(`Unknown value type in _csvSerializeValue: ${typeof data}: ${data}`);
+    logger.error(`Unknown value type in _csvSerializeValue: ${typeof data}: ${data}`);
+    return '""';
   }
 }
 
 module.exports = {
-
   serializeLine(lineArray) {
     return lineArray.map(_csvSerializeValue).join(';') + '\n';
   },
-
 };
-
