@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const CertificationEligibility = require('../read-models/CertificationEligibility');
 
 module.exports = async function getUserCertificationEligibility({
@@ -8,6 +9,7 @@ module.exports = async function getUserCertificationEligibility({
   targetProfileRepository,
   knowledgeElementRepository,
   badgeCriteriaService,
+  certificationBadgesService,
 }) {
   const now = new Date();
   const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: now });
@@ -22,11 +24,21 @@ module.exports = async function getUserCertificationEligibility({
     knowledgeElementRepository,
     badgeCriteriaService,
   });
+  const {
+    pixPlusDroitMaitreCertificationEligible,
+    pixPlusDroitExpertCertificationEligible,
+  } = await _computePixPlusDroitCertificationEligibility({
+    userId,
+    pixCertificationEligible,
+    certificationBadgesService,
+  });
 
   return new CertificationEligibility({
     id: userId,
     pixCertificationEligible,
     cleaCertificationEligible,
+    pixPlusDroitMaitreCertificationEligible,
+    pixPlusDroitExpertCertificationEligible,
   });
 };
 
@@ -59,4 +71,26 @@ async function _computeCleaCertificationEligibility({
     targetProfile,
     badge,
   });
+}
+
+async function _computePixPlusDroitCertificationEligibility({
+  userId,
+  pixCertificationEligible,
+  certificationBadgesService,
+}) {
+  if (!pixCertificationEligible) {
+    return {
+      pixPlusDroitMaitreCertificationEligible: false,
+      pixPlusDroitExpertCertificationEligible: false,
+    };
+  }
+  const stillValidCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({ userId });
+  const pixPlusDroitMaitreBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, { badgeKey: CertificationEligibility.pixPlusDroitMaitreBadgeKey });
+  const pixPlusDroitExpertBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, { badgeKey: CertificationEligibility.pixPlusDroitExpertBadgeKey });
+  const pixPlusDroitMaitreCertificationEligible = Boolean(pixPlusDroitMaitreBadgeAcquisition);
+  const pixPlusDroitExpertCertificationEligible = Boolean(pixPlusDroitExpertBadgeAcquisition);
+  return {
+    pixPlusDroitMaitreCertificationEligible,
+    pixPlusDroitExpertCertificationEligible,
+  };
 }
