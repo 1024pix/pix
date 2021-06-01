@@ -4,8 +4,8 @@ const { knex } = require('../bookshelf');
 module.exports = {
 
   async getCertificatesByOrganizationUAI(uai) {
-    const withName = 'last-certifications';
-    const result = await knex.with(withName, knex.select(
+
+    const result = await knex.select(
       {
         id: 'certification-courses.id',
         firstName: 'schooling-registrations.firstName',
@@ -50,12 +50,10 @@ module.exports = {
       .where('certification-courses.isCancelled', '=', false)
       .where('schooling-registrations.organizationId', '=', knex.select('id').from('organizations').whereRaw('LOWER("externalId") = LOWER(?)', uai))
 
-      .groupBy('schooling-registrations.id', 'certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id'),
-    )
-      .select(knex.ref('*').withSchema(withName))
-      .from(withName)
-      .orderBy(`${withName}.lastName`, 'ASC')
-      .orderBy(`${withName}.firstName`, 'ASC');
+      .groupBy('schooling-registrations.id', 'certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
+
+      .orderBy('lastName', 'ASC')
+      .orderBy('firstName', 'ASC');
 
     return result.map(Certificate.from);
   },
