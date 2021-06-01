@@ -9,7 +9,7 @@
       {{#if model.isCertifiable}}
         <PixBlock @shadow="heavy" class="certification-start-page__block">
           {{#if this.showCongratulationsBanner }}
-            <CongratulationsCertificationBanner @fullName={{this.currentUser.user.fullName}} @closeBanner={{this.closeBanner}}/>
+            <CongratulationsCertificationBanner @certificationEligibility={{this.model}} @fullName={{this.currentUser.user.fullName}} @closeBanner={{this.closeBanner}}/>
           {{/if}}
           <Stepper @steps={{array "certification-stepper-join" "certification-stepper-start"}} @onStepChange={{this.closeBanner}}/>
         </PixBlock>

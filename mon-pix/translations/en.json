@@ -207,6 +207,9 @@
     "certification-joiner": {
       "title": "Join a certification session",
       "congratulation-banner": {
+        "clea-eligibility": "TODO",
+        "pix-plus-droit-maitre-eligibility": "TODO",
+        "pix-plus-droit-expert-eligibility": "TODO",
         "link": {
           "text": "How do I certify my digital skills?",
           "url": "https://support.pix.fr/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"

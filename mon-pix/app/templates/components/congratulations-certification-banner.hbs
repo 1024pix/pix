@@ -7,6 +7,15 @@
     {{t "pages.certification-joiner.congratulation-banner.message"
     fullName=@fullName htmlSafe=true}}
   </p>
+  {{#if @certificationEligibility.cleaCertificationEligible}}
+    <p data-test-eligible-clea>{{t "pages.certification-joiner.congratulation-banner.clea-eligibility"}}</p>
+  {{/if}}
+  {{#if @certificationEligibility.pixPlusDroitMaitreCertificationEligible}}
+    <p data-test-eligible-pix-plus-droit-maitre>{{t "pages.certification-joiner.congratulation-banner.pix-plus-droit-maitre-eligibility"}}</p>
+  {{/if}}
+  {{#if @certificationEligibility.pixPlusDroitExpertCertificationEligible}}
+    <p data-test-eligible-pix-plus-droit-expert>{{t "pages.certification-joiner.congratulation-banner.pix-plus-droit-expert-eligibility"}}</p>
+  {{/if}}
   <a href={{t "pages.certification-joiner.congratulation-banner.link.url" }}
     class="congratulations-banner__link"
     target="_blank"
