@@ -1,6 +1,5 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 
-const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
 const User = require('../../../../lib/domain/models/User');
 
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -645,29 +644,36 @@ describe('Unit | Controller | user-controller', () => {
 
   describe('#isCertifiable', () => {
 
-    beforeEach(() => {
-      sinon.stub(usecases, 'isUserCertifiable').resolves(new PlacementProfile());
-    });
-
-    it('should return wether the user is certifiable', async () => {
+    it('should return user certification eligibility', async () => {
       // given
-      const userId = '76';
+      const certificationEligibility = domainBuilder.buildCertificationEligibility({
+        id: 123,
+        pixCertificationEligible: true,
+      });
+      sinon.stub(usecases, 'getUserCertificationEligibility')
+        .withArgs({ userId: 123 })
+        .resolves(certificationEligibility);
       const request = {
         auth: {
           credentials: {
-            userId,
+            userId: 123,
           },
-        },
-        params: {
-          id: userId,
         },
       };
 
       // when
-      await userController.isCertifiable(request);
+      const serializedEligibility = await userController.isCertifiable(request);
 
       // then
-      expect(usecases.isUserCertifiable).to.have.been.calledWith({ userId });
+      expect(serializedEligibility).to.deep.equal({
+        data: {
+          id: '123',
+          type: 'isCertifiables',
+          attributes: {
+            'is-certifiable': true,
+          },
+        },
+      });
     });
   });
 
