@@ -85,11 +85,12 @@ describe('Acceptance | users-controller-is-certifiable', () => {
         // given
         const expectedResponse = {
           data: {
-            attributes: {
-              'is-certifiable': false,
-            },
             id: `${user.id}`,
             type: 'isCertifiables',
+            attributes: {
+              'is-certifiable': false,
+              'clea-certification-eligible': false,
+            },
           },
         };
 

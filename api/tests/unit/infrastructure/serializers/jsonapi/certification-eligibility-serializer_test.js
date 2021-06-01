@@ -10,6 +10,7 @@ describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', f
       const certificationEligibility = domainBuilder.buildCertificationEligibility({
         id: 123,
         pixCertificationEligible: false,
+        cleaCertificationEligible: true,
       });
 
       // when
@@ -22,6 +23,7 @@ describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', f
           type: 'isCertifiables',
           attributes: {
             'is-certifiable': false,
+            'clea-certification-eligible': true,
           },
         },
       });
