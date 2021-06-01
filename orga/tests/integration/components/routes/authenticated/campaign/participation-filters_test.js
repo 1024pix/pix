@@ -33,52 +33,67 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
       isSCOManagingStudents = true;
     }
 
-    test('it displays the division filter', async function(assert) {
-      this.owner.register('service:current-user', CurrentUserStub);
+    module('when there is no division', function() {
+      test('it should not display division filter', async function(assert) {
+        this.owner.register('service:current-user', CurrentUserStub);
+        const campaign = store.createRecord('campaign', { id: 1 });
+        campaign.set('divisions', []);
+        this.set('campaign', campaign);
 
-      // given
-      const division = store.createRecord('division', {
-        id: 'd1',
-        name: 'd1',
-      });
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-      });
-      campaign.set('divisions', [division]);
-      this.set('campaign', campaign);
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters @campaign={{campaign}} />`);
 
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters @campaign={{campaign}} />`);
-      // then
-      assert.contains('Classes');
-      assert.contains('d1');
+        // then
+        assert.notContains('Classes');
+      });
     });
 
-    test('it triggers the filter when a division is selected', async function(assert) {
-      this.owner.register('service:current-user', CurrentUserStub);
+    module('when there are some divisions', function() {
+      test('it displays the division filter', async function(assert) {
+        this.owner.register('service:current-user', CurrentUserStub);
 
-      // given
-      const division = store.createRecord('division', {
-        id: 'd1',
-        name: 'd1',
+        // given
+        const division = store.createRecord('division', {
+          id: 'd1',
+          name: 'd1',
+        });
+        const campaign = store.createRecord('campaign', { id: 1 });
+        campaign.set('divisions', [division]);
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters @campaign={{campaign}} />`);
+        // then
+        assert.contains('Classes');
+        assert.contains('d1');
       });
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        stages: [],
+
+      test('it triggers the filter when a division is selected', async function(assert) {
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        // given
+        const division = store.createRecord('division', {
+          id: 'd1',
+          name: 'd1',
+        });
+        const campaign = store.createRecord('campaign', {
+          id: 1,
+          name: 'campagne 1',
+          stages: [],
+        });
+        campaign.set('divisions', [division]);
+
+        const triggerFiltering = sinon.stub();
+        this.set('campaign', campaign);
+        this.set('triggerFiltering', triggerFiltering);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters @campaign={{campaign}} @triggerFiltering={{triggerFiltering}}/>`);
+        await click('[for="division-d1"]');
+
+        // then
+        assert.ok(triggerFiltering.calledWith({ divisions: ['d1'] }));
       });
-      campaign.set('divisions', [division]);
-
-      const triggerFiltering = sinon.stub();
-      this.set('campaign', campaign);
-      this.set('triggerFiltering', triggerFiltering);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters @campaign={{campaign}} @triggerFiltering={{triggerFiltering}}/>`);
-      await click('[for="division-d1"]');
-
-      // then
-      assert.ok(triggerFiltering.calledWith({ divisions: ['d1'] }));
     });
   });
 
