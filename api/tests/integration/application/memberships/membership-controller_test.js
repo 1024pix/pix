@@ -41,7 +41,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
         securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
 
         // when
-        const response = await httpTestServer.request('POST', '/api/memberships', payload);
+        const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
 
         // then
         expect(response.statusCode).to.equal(201);
@@ -55,7 +55,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
         securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
 
         // when
-        const response = await httpTestServer.request('POST', '/api/memberships', payload);
+        const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
 
         // then
         expect(response.result.data.type).to.equal('memberships');
@@ -73,7 +73,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
           });
 
           // when
-          const promise = httpTestServer.request('POST', '/api/memberships', payload);
+          const promise = httpTestServer.request('POST', '/api/admin/memberships', payload);
 
           // then
           return promise.then((response) => {
