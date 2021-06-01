@@ -14,7 +14,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
     sinon.stub(usecases, 'updateMembership');
     sinon.stub(usecases, 'disableMembership');
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
+    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
   });
@@ -101,7 +101,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
         usecases.updateMembership
           .withArgs({ membership })
           .resolves(updatedMembership);
-        securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
+        securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
 
         // when
         const payload = {
@@ -134,7 +134,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
         it('should resolve a 400 HTTP response', async () => {
           // given
-          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
+          securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
           const idGivenInRequestParams = 1;
           const idGivenInPayload = 44;
 
@@ -179,7 +179,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
         it('should resolve a 403 HTTP response', async () => {
           // given
-          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => {
+          securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
 
@@ -195,7 +195,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
         it('should resolve a 400 HTTP response', async () => {
           // given
-          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
+          securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
           usecases.updateMembership.throws(new InvalidMembershipOrganizationRoleError());
 
           // when
@@ -232,7 +232,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
         // given
         const membershipId = domainBuilder.buildMembership().id;
         usecases.disableMembership.resolves();
-        securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
+        securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
 
         // when
         const response = await httpTestServer.request('POST', `/api/memberships/${membershipId}/disable`);
@@ -249,7 +249,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
         it('should resolve a 403 HTTP response', async () => {
           // given
           const membershipId = domainBuilder.buildMembership({ organizationRole: Membership.roles.MEMBER }).id;
-          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => {
+          securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
 
