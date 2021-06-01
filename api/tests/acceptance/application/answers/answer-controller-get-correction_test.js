@@ -38,7 +38,6 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
           id: 'q_first_challenge',
           status: 'validé',
           competenceId: 'competence_id',
-          skills: ['@web3'],
           solution: 'fromage',
           solutionToDisplay: 'camembert',
           skillIds: ['q_first_acquis'],
