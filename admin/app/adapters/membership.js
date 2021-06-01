@@ -1,6 +1,7 @@
 import ApplicationAdapter from './application';
 
 export default class MembershipAdapter extends ApplicationAdapter {
+  namespace = 'api/admin';
 
   updateRecord(store, type, snapshot) {
     if (snapshot.adapterOptions && snapshot.adapterOptions.disable) {
