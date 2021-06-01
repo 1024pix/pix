@@ -4,11 +4,6 @@ const CertificationEligibility = require('../read-models/CertificationEligibilit
 module.exports = async function getUserCertificationEligibility({
   userId,
   placementProfileService,
-  badgeAcquisitionRepository,
-  badgeRepository,
-  targetProfileRepository,
-  knowledgeElementRepository,
-  badgeCriteriaService,
   certificationBadgesService,
 }) {
   const now = new Date();
@@ -16,13 +11,8 @@ module.exports = async function getUserCertificationEligibility({
   const pixCertificationEligible = placementProfile.isCertifiable();
   const cleaCertificationEligible = await _computeCleaCertificationEligibility({
     userId,
-    date: now,
     pixCertificationEligible,
-    badgeAcquisitionRepository,
-    badgeRepository,
-    targetProfileRepository,
-    knowledgeElementRepository,
-    badgeCriteriaService,
+    certificationBadgesService,
   });
   const {
     pixPlusDroitMaitreCertificationEligible,
@@ -44,33 +34,11 @@ module.exports = async function getUserCertificationEligibility({
 
 async function _computeCleaCertificationEligibility({
   userId,
-  date,
   pixCertificationEligible,
-  badgeAcquisitionRepository,
-  badgeRepository,
-  targetProfileRepository,
-  knowledgeElementRepository,
-  badgeCriteriaService,
+  certificationBadgesService,
 }) {
   if (!pixCertificationEligible) return false;
-  const hasAcquiredCleaBadge = await badgeAcquisitionRepository.hasAcquiredBadge({
-    badgeKey: CertificationEligibility.cleaBadgeKey,
-    userId,
-  });
-  if (!hasAcquiredCleaBadge) return false;
-
-  const badge = await badgeRepository.getByKey(CertificationEligibility.cleaBadgeKey);
-  const targetProfile = await targetProfileRepository.get(badge.targetProfileId);
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
-    userId,
-    limitDate: date,
-  });
-
-  return badgeCriteriaService.areBadgeCriteriaFulfilled({
-    knowledgeElements,
-    targetProfile,
-    badge,
-  });
+  return certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId });
 }
 
 async function _computePixPlusDroitCertificationEligibility({

@@ -1,9 +1,11 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const certificationBadgesService = require('./../../../../lib/domain/services/certification-badges-service');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
+const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
+const { PIX_EMPLOI_CLEA } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Service | Certification Badges Service', () => {
 
@@ -129,6 +131,61 @@ describe('Unit | Service | Certification Badges Service', () => {
           // then
           expect(badgesAcquisitions).to.deep.equal([expertBadgeAcquisition]);
         });
+      });
+    });
+  });
+
+  describe('#hasStillValidCleaBadgeAcquisition', () => {
+
+    beforeEach(() => {
+      sinon.stub(badgeAcquisitionRepository, 'hasAcquiredBadge');
+      sinon.stub(badgeRepository, 'getByKey');
+      sinon.stub(targetProfileRepository, 'get');
+      sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
+      sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
+    });
+
+    context('when user has never acquired CleA badge', () => {
+
+      it('should return false', async () => {
+        // given
+        badgeAcquisitionRepository.hasAcquiredBadge
+          .withArgs({ badgeKey: PIX_EMPLOI_CLEA, userId: 123 })
+          .resolves(false);
+        badgeRepository.getByKey.throws(new Error('"badgeRepository.getByKey" should not be called'));
+
+        // when
+        const hasAcquiredBadge = await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId: 123 });
+
+        // then
+        expect(hasAcquiredBadge).to.be.false;
+      });
+    });
+
+    context('when user has acquired CleA badge', () => {
+
+      it('should return the result computed by the calculation of the criteria', async () => {
+        // given
+        badgeAcquisitionRepository.hasAcquiredBadge
+          .withArgs({ badgeKey: PIX_EMPLOI_CLEA, userId: 123 })
+          .resolves(true);
+        const badge = domainBuilder.buildBadge({ key: PIX_EMPLOI_CLEA, targetProfileId: 456 });
+        badgeRepository.getByKey
+          .withArgs(PIX_EMPLOI_CLEA)
+          .resolves(badge);
+        const targetProfile = domainBuilder.buildTargetProfile({ id: 456 });
+        targetProfileRepository.get.withArgs(456).resolves(targetProfile);
+        const knowledgeElement = domainBuilder.buildKnowledgeElement({ userId: 123 });
+        knowledgeElementRepository.findUniqByUserId.withArgs({ userId: 123 }).resolves([knowledgeElement]);
+        badgeCriteriaService.areBadgeCriteriaFulfilled
+          .withArgs({ knowledgeElements: [knowledgeElement], targetProfile, badge })
+          .resolves('The boolean result');
+
+        // when
+        const hasAcquiredBadge = await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId: 123 });
+
+        // then
+        expect(hasAcquiredBadge).to.equal('The boolean result');
       });
     });
   });
