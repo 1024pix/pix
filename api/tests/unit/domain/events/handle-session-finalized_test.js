@@ -3,7 +3,7 @@ const handleFinalizedSession = require('../../../../lib/domain/events/handle-ses
 const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const SessionFinalized = require('../../../../lib/domain/events/SessionFinalized');
+const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
 describe('Unit | Domain | Events | handle-session-finalized', () => {
@@ -31,7 +31,7 @@ describe('Unit | Domain | Events | handle-session-finalized', () => {
 
   it('saves a finalized session', async () => {
     // given
-    const event = new SessionFinalized({
+    const event = new AutoJuryDone({
       sessionId: 1234,
       finalizedAt: new Date(),
       hasExaminerGlobalComment: false,
