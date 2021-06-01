@@ -74,7 +74,7 @@ describe('Integration | Infrastructure | EventHandler', () => {
     expect(eventHandler).not.to.have.been.calledWith({ domainTransaction, otherEvent });
   });
 
-  it('dispatches events returned by eventHandlers', async () => {
+  it('dispatches event returned by eventHandlers', async () => {
     // given
     const returnedEvent = new AnotherTestEvent();
     const originEventEmitter = () => returnedEvent;
@@ -87,5 +87,22 @@ describe('Integration | Infrastructure | EventHandler', () => {
 
     // then
     expect(eventHandler).to.have.been.calledWith({ domainTransaction, event: returnedEvent });
+  });
+
+  it('dispatches events returned by eventHandlers', async () => {
+    // given
+    const returnedEvent1 = new AnotherTestEvent();
+    const returnedEvent2 = new AnotherTestEvent();
+    const originEventEmitter = () => [returnedEvent1, returnedEvent2];
+    const eventHandler = getEventHandlerMock();
+    eventDispatcher.subscribe(TestEvent, originEventEmitter);
+    eventDispatcher.subscribe(AnotherTestEvent, eventHandler);
+
+    // when
+    await eventDispatcher.dispatch(event, domainTransaction);
+
+    // then
+    expect(eventHandler).to.have.been.calledWith({ domainTransaction, event: returnedEvent1 });
+    expect(eventHandler).to.have.been.calledWith({ domainTransaction, event: returnedEvent2 });
   });
 });
