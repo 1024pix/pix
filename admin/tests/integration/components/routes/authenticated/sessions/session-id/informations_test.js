@@ -31,6 +31,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       // then
       assert.equal(currentURL(), `/sessions/${session.id}`);
       assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenterName);
+      assert.dom('.session-info__details div:nth-child(1) div:last-child a').hasAttribute('href', '/certification-centers/' + session.certificationCenterId);
       assert.dom('.session-info__details div:nth-child(2) div:last-child').hasText(session.address);
       assert.dom('.session-info__details div:nth-child(3) div:last-child').hasText(session.room);
       assert.dom('.session-info__details div:nth-child(4) div:last-child').hasText(session.examiner);

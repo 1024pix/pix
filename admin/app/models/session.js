@@ -31,6 +31,7 @@ export default class Session extends Model {
 
   @attr() certificationCenterType;
   @attr() certificationCenterName;
+  @attr() certificationCenterId;
   @attr() address;
   @attr() room;
   @attr() examiner;

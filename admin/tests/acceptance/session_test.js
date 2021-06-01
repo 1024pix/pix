@@ -7,6 +7,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import sinon from 'sinon';
 
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Acceptance | Session pages', function(hooks) {
   setupApplicationTest(hooks);
@@ -34,6 +35,7 @@ module('Acceptance | Session pages', function(hooks) {
       session = server.create('session', {
         id: 1,
         certificationCenterName: 'Centre des Staranne',
+        certificationCenterId: 1234,
         status: FINALIZED,
         finalizedAt: new Date('2020-01-01T03:00:00Z'),
         examinerGlobalComment: 'Commentaire du surveillant',
@@ -101,6 +103,17 @@ module('Acceptance | Session pages', function(hooks) {
           assert.dom('.session-info__details .row div:last-child').hasText(session.certificationCenterName);
           assert.dom('[data-test-id="session-info__finalized-at"]').hasText('01/01/2020');
           assert.dom('[data-test-id="session-info__examiner-global-comment"]').hasText(session.examinerGlobalComment);
+        });
+
+        test('it displays a link to a certification center and redirects to it', async function(assert) {
+          // given
+          server.create('certification-center', { id: 1234 });
+
+          // when
+          await clickByLabel(session.certificationCenterName);
+
+          // then
+          assert.equal(currentURL(), '/certification-centers/1234');
         });
       });
 
