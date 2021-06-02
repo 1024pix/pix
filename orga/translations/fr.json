@@ -135,8 +135,8 @@
       "table": {
         "column": {
           "badges": "Résultats Thématiques",
-          "first-name": "Nom",
-          "last-name": "Prénom",
+          "first-name": "Prénom",
+          "last-name": "Nom",
           "results": {
             "label": "Résultats",
             "on-hold": " En attente d'envoi",
@@ -429,8 +429,8 @@
         "column": {
           "certifiable": "Certifiable",
           "competences-certifiables": "Comp. certifiables",
-          "first-name": "Nom",
-          "last-name": "Prénom",
+          "first-name": "Prénom",
+          "last-name": "Nom",
           "pix-score": {
             "label": "Score Pix",
             "value": "{score, number}"
