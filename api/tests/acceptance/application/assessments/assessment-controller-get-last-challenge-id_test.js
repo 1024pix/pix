@@ -1,13 +1,15 @@
-const { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const config = require('../../../../lib/config');
 
 describe('Acceptance | API | assessment-controller-get-last-challenge-id', () => {
 
-  let server;
+  let server, pixAutoAnswerApiKey;
 
   beforeEach(async () => {
     server = await createServer();
+    pixAutoAnswerApiKey = config.pixAutoAnswer.apiKey;
   });
 
   describe('GET /api/assessments/:id/last-challenge-id', () => {
@@ -35,7 +37,7 @@ describe('Acceptance | API | assessment-controller-get-last-challenge-id', () =>
           method: 'GET',
           url: `/api/assessments/${assessmentId}/last-challenge-id`,
           headers: {
-            authorization: generateValidRequestAuthorizationHeader(userId),
+            authorization: `Bearer ${pixAutoAnswerApiKey}`,
           },
         };
       });
@@ -71,15 +73,14 @@ describe('Acceptance | API | assessment-controller-get-last-challenge-id', () =>
       });
     });
 
-    context('When trying to read an assessment that doesn\'t belong to the current user', () => {
+    context('When the given pixAutoAnswerApiKey is not correct', () => {
       it('should return 401 HTTP status code', async () => {
-        const wrongUserId = 'I do not own this assessment';
 
         options = {
           method: 'GET',
           url: `/api/assessments/${assessmentId}/last-challenge-id`,
           headers: {
-            authorization: generateValidRequestAuthorizationHeader(wrongUserId),
+            authorization: 'Bearer wrong-api-key',
           },
         };
 
