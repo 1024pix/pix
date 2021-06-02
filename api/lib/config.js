@@ -161,6 +161,10 @@ module.exports = (function() {
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
+      temporaryStorage: {
+        expirationDelaySeconds: parseInt(process.env.POLE_EMPLOI_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
+        redisUrl: process.env.REDIS_URL,
+      },
     },
 
     graviteeRegisterApplicationsCredentials: [
