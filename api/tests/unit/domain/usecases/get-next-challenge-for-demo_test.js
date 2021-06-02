@@ -18,8 +18,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
     let secondChallenge;
 
     beforeEach(() => {
-      firstChallenge = domainBuilder.buildChallenge({ id: 'first_challenge', skills: ['@url2'] });
-      secondChallenge = domainBuilder.buildChallenge({ id: 'second_challenge', skills: ['@cnil5'] });
+      firstChallenge = domainBuilder.buildChallenge({ id: 'first_challenge' });
+      secondChallenge = domainBuilder.buildChallenge({ id: 'second_challenge' });
       course = domainBuilder.buildCourse({ id: 18415, challenges: [firstChallenge.id, secondChallenge.id] });
       assessment = domainBuilder.buildAssessment({ id: 1165, courseId: course.id });
 
