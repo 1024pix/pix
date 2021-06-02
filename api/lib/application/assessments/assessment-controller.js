@@ -37,6 +37,14 @@ module.exports = {
     return h.response(lastChallengeId).code(200);
   },
 
+  async getChallengeAnswerForPixButton(request, h) {
+    const assessmentId = parseInt(request.params.id);
+
+    const answer = await usecases.getChallengeAnswerForPixButton({ assessmentId });
+
+    return h.response(answer).code(200);
+  },
+
   async findByFilters(request) {
     let assessments = [];
     const userId = extractUserIdFromRequest(request);

@@ -78,6 +78,24 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'GET',
+      path: '/api/assessments/{id}/challenge-answer-for-pix-auto-answer',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkHasPrivateApiKey,
+          assign: 'authorizationCheck',
+        }],
+        handler: assessmentController.getChallengeAnswerForPixButton,
+        tags: ['api'],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/assessments/{id}/complete-assessment',
       config: {

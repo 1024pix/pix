@@ -33,6 +33,7 @@ const buildLearningContent = function(learningContent) {
                 competenceId: competence.id,
                 skillIds: [skill.id],
                 status: challenge.statut || 'validé',
+                solution: challenge.solution,
                 locales: _convertLanguesToLocales(challenge.langues || ['Francophone']),
                 type: challenge.type,
                 instruction: challenge.instruction,
