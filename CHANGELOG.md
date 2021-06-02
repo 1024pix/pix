@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.60.0 (02/06/2021)
+
+- [#3020](https://github.com/1024pix/pix/pull/3020) [FEATURE] Ne plus afficher les recID des challenges dans l'URL des assessments (PIX-327).
+- [#3050](https://github.com/1024pix/pix/pull/3050) [FEATURE] Ajouter sur le détail d'une session un lien vers le centre de certification associé (PIX-2644)
+- [#3024](https://github.com/1024pix/pix/pull/3024) [FEATURE] Déclencher le re-scoring des certifications complémentaires lorsque la certification Pix est rescorée (PIX-2451)
+- [#3035](https://github.com/1024pix/pix/pull/3035) [FEATURE] Afficher la liste des sessions de façon paginée sur PixCertif (PIX-2631)
+- [#3049](https://github.com/1024pix/pix/pull/3049) [FEATURE] Importer l'information sur le sexe lors de l'import CSV (PIX-2638)
+- [#3053](https://github.com/1024pix/pix/pull/3053) [BUGFIX] Corriger le problème d'affichage du filtre de classes lorsqu'il n'y en a aucune (PIX-2605).
+- [#3027](https://github.com/1024pix/pix/pull/3027) [BUGFIX] Ne pas empêcher l'export des résultats même en cas de champs manquant (PIX-2512)
+- [#3045](https://github.com/1024pix/pix/pull/3045) [BUGFIX] Correction de référentiel en français alors que la langue est configurée comme l'anglais (PIX-2609).
+- [#3036](https://github.com/1024pix/pix/pull/3036) [TECH] Prévenir les faux positifs liés à la BDD dans les tests.
+- [#3051](https://github.com/1024pix/pix/pull/3051) [TECH] Mise à jour des dépendances de l'API
+- [#3046](https://github.com/1024pix/pix/pull/3046) [TECH] Afficher les RT dans le détail d'un participant,  à partir de l'id de la campaignParticipation (PIX-2623)
+- [#3055](https://github.com/1024pix/pix/pull/3055) [CLEAN] Supprime le champ non utilisé `skills` des objets `challenge` du référentiel.
+
 ## v3.59.0 (31/05/2021)
 
 - [#3037](https://github.com/1024pix/pix/pull/3037) [FEATURE] Améliorer l'accessibilité de la bannière d'info de Pix Certif (PIX-2632)
