@@ -219,6 +219,7 @@ module.exports = injectDependencies({
   getCertificationResultInformation: require('./get-certification-result-information'),
   getCertificationsResultsForLS: require('./certificate/get-certifications-results-for-ls'),
   getCertificationPointOfContact: require('./get-certification-point-of-contact'),
+  getChallengeAnswerForPixButton: require('./get-challenge-answer-for-pix-button'),
   getCorrectionForAnswer: require('./get-correction-for-answer'),
   getCurrentUser: require('./get-current-user'),
   getExternalAuthenticationRedirectionUrl: require('./get-external-authentication-redirection-url'),
