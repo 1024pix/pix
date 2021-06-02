@@ -11,17 +11,15 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 const _ = require('lodash');
 
 function _replyWithAuthorizationError(h) {
-  return Promise.resolve().then(() => {
-    const errorHttpStatusCode = 403;
+  const errorHttpStatusCode = 403;
 
-    const jsonApiError = new JSONAPIError({
-      code: errorHttpStatusCode,
-      title: 'Forbidden access',
-      detail: 'Missing or insufficient permissions.',
-    });
-
-    return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
+  const jsonApiError = new JSONAPIError({
+    code: errorHttpStatusCode,
+    title: 'Forbidden access',
+    detail: 'Missing or insufficient permissions.',
   });
+
+  return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
 }
 
 function checkUserHasRolePixMaster(request, h) {
