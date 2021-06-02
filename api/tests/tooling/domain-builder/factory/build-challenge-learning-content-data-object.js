@@ -10,7 +10,6 @@ module.exports = function buildChallengeLearningContentDataObject({
   scoring = '1: @outilsTexte2\n2: @outilsTexte4',
   status = 'validé',
   skillIds = ['recUDrCWD76fp5MsE'],
-  skills = ['@modèleEco3'],
   timer = 1234,
   illustrationUrl = 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
   attachments = [
@@ -38,7 +37,6 @@ module.exports = function buildChallengeLearningContentDataObject({
     scoring,
     status,
     skillIds,
-    skills,
     timer,
     illustrationUrl,
     attachments,
