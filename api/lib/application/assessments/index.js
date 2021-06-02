@@ -70,7 +70,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: securityPreHandlers.checkHasPixAutoAnswerApiKey,
+          method: securityPreHandlers.checkHasPrivateApiKey,
           assign: 'authorizationCheck',
         }],
         handler: assessmentController.getLastChallengeId,
