@@ -66,19 +66,15 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
       context('when user is not allowed to access resource', () => {
 
-        it('should resolve a 403 HTTP response', () => {
+        it('should resolve a 403 HTTP response', async () => {
           // given
-          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
-            return Promise.resolve(h.response().code(403).takeover());
-          });
+          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
 
           // when
-          const promise = httpTestServer.request('POST', '/api/admin/memberships', payload);
+          const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
 
           // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(403);
-          });
+          expect(response.statusCode).to.equal(403);
         });
       });
     });
@@ -179,9 +175,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
         it('should resolve a 403 HTTP response', async () => {
           // given
-          securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => {
-            return Promise.resolve(h.response().code(403).takeover());
-          });
+          securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response().code(403).takeover());
 
           // when
           const response = await httpTestServer.request('PATCH', '/api/memberships/1');
@@ -228,7 +222,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
     context('Success cases', () => {
 
-      it('should return a 200 HTTP response', async () => {
+      it('should return a 204 HTTP response', async () => {
         // given
         const membershipId = domainBuilder.buildMembership().id;
         usecases.disableMembership.resolves();
@@ -244,7 +238,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
     context('Error cases', () => {
 
-      context('when user is not admin of the organization nor has pix master role', () => {
+      context('when user is not allowed to access resource', () => {
 
         it('should resolve a 403 HTTP response', async () => {
           // given
