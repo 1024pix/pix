@@ -20,7 +20,7 @@ describe('Unit | Router | membership-router', () => {
       sinon.stub(membershipController, 'update').callsFake((request, h) => h.response().code(200));
 
       const httpTestServer = new HttpTestServer();
-      httpTestServer.register(moduleUnderTest);
+      await httpTestServer.register(moduleUnderTest);
       const id = 123;
 
       // when
@@ -37,7 +37,7 @@ describe('Unit | Router | membership-router', () => {
       sinon.stub(membershipController, 'update');
 
       const httpTestServer = new HttpTestServer();
-      httpTestServer.register(moduleUnderTest);
+      await httpTestServer.register(moduleUnderTest);
       const id = 123;
 
       // when
@@ -51,13 +51,30 @@ describe('Unit | Router | membership-router', () => {
 
   describe('PATCH /api/memberships/{id}', () => {
 
+    it('should return 200 if user is admin in organization', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
+      sinon.stub(membershipController, 'update').callsFake((request, h) => h.response().code(200));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const membershipId = 123;
+
+      // when
+      const response = await httpTestServer.request('PATCH', `/api/memberships/${membershipId}`);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(membershipController.update).to.have.been.called;
+    });
+
     it('should return 403 if user is not admin in organization', async () => {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response().code(403).takeover());
       sinon.stub(membershipController, 'update');
 
       const httpTestServer = new HttpTestServer();
-      httpTestServer.register(moduleUnderTest);
+      await httpTestServer.register(moduleUnderTest);
       const id = 123;
 
       // when
@@ -77,7 +94,7 @@ describe('Unit | Router | membership-router', () => {
       sinon.stub(membershipController, 'disable').callsFake((request, h) => h.response().code(204));
 
       const httpTestServer = new HttpTestServer();
-      httpTestServer.register(moduleUnderTest);
+      await httpTestServer.register(moduleUnderTest);
       const membershipId = 123;
 
       // when
@@ -94,7 +111,7 @@ describe('Unit | Router | membership-router', () => {
       sinon.stub(membershipController, 'disable');
 
       const httpTestServer = new HttpTestServer();
-      httpTestServer.register(moduleUnderTest);
+      await httpTestServer.register(moduleUnderTest);
       const membershipId = 123;
 
       // when
@@ -108,13 +125,30 @@ describe('Unit | Router | membership-router', () => {
 
   describe('POST /api/memberships/{id}/disable', () => {
 
+    it('should return 204 if user is admin in organization', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
+      sinon.stub(membershipController, 'disable').callsFake((request, h) => h.response().code(204));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const membershipId = 123;
+
+      // when
+      const response = await httpTestServer.request('POST', `/api/memberships/${membershipId}/disable`);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      expect(membershipController.disable).to.have.been.called;
+    });
+
     it('should return 403 if user is not admin in organization', async () => {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response().code(403).takeover());
       sinon.stub(membershipController, 'disable');
 
       const httpTestServer = new HttpTestServer();
-      httpTestServer.register(moduleUnderTest);
+      await httpTestServer.register(moduleUnderTest);
       const membershipId = 123;
 
       // when
