@@ -171,20 +171,6 @@ describe('Integration | Application | Memberships | membership-controller', () =
         });
       });
 
-      context('when user is not allowed to access resource', () => {
-
-        it('should resolve a 403 HTTP response', async () => {
-          // given
-          securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response().code(403).takeover());
-
-          // when
-          const response = await httpTestServer.request('PATCH', '/api/memberships/1');
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
-      });
-
       context('when organization role is not valid', () => {
 
         it('should resolve a 400 HTTP response', async () => {
@@ -220,40 +206,17 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
   describe('#disable', () => {
 
-    context('Success cases', () => {
+    it('should return a 204 HTTP response', async () => {
+      // given
+      const membershipId = domainBuilder.buildMembership().id;
+      usecases.disableMembership.resolves();
+      securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
 
-      it('should return a 204 HTTP response', async () => {
-        // given
-        const membershipId = domainBuilder.buildMembership().id;
-        usecases.disableMembership.resolves();
-        securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
+      // when
+      const response = await httpTestServer.request('POST', `/api/memberships/${membershipId}/disable`);
 
-        // when
-        const response = await httpTestServer.request('POST', `/api/memberships/${membershipId}/disable`);
-
-        // then
-        expect(response.statusCode).to.equal(204);
-      });
-    });
-
-    context('Error cases', () => {
-
-      context('when user is not allowed to access resource', () => {
-
-        it('should resolve a 403 HTTP response', async () => {
-          // given
-          const membershipId = domainBuilder.buildMembership({ organizationRole: Membership.roles.MEMBER }).id;
-          securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => {
-            return Promise.resolve(h.response().code(403).takeover());
-          });
-
-          // when
-          const response = await httpTestServer.request('POST', `/api/memberships/${membershipId}/disable`);
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
-      });
+      // then
+      expect(response.statusCode).to.equal(204);
     });
   });
 
