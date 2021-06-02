@@ -10,7 +10,7 @@ const Organization = require('../../lib/domain/models/Organization');
 const JSONAPIError = require('jsonapi-serializer').Error;
 const _ = require('lodash');
 
-function _replyWithAuthorizationError(h) {
+function _replyWithForbiddenError(h) {
   const errorHttpStatusCode = 403;
 
   const jsonApiError = new JSONAPIError({
@@ -24,7 +24,7 @@ function _replyWithAuthorizationError(h) {
 
 function checkUserHasRolePixMaster(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyWithAuthorizationError(h);
+    return _replyWithForbiddenError(h);
   }
 
   const userId = request.auth.credentials.userId;
@@ -34,25 +34,25 @@ function checkUserHasRolePixMaster(request, h) {
       if (hasRolePixMaster) {
         return h.response(true);
       }
-      return _replyWithAuthorizationError(h);
+      return _replyWithForbiddenError(h);
     })
-    .catch(() => _replyWithAuthorizationError(h));
+    .catch(() => _replyWithForbiddenError(h));
 }
 
 function checkRequestedUserIsAuthenticatedUser(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyWithAuthorizationError(h);
+    return _replyWithForbiddenError(h);
   }
 
   const authenticatedUserId = request.auth.credentials.userId;
   const requestedUserId = parseInt(request.params.userId) || parseInt(request.params.id);
 
-  return authenticatedUserId === requestedUserId ? h.response(true) : _replyWithAuthorizationError(h);
+  return authenticatedUserId === requestedUserId ? h.response(true) : _replyWithForbiddenError(h);
 }
 
 function checkUserIsAdminInOrganization(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyWithAuthorizationError(h);
+    return _replyWithForbiddenError(h);
   }
 
   const userId = request.auth.credentials.userId;
@@ -65,14 +65,14 @@ function checkUserIsAdminInOrganization(request, h) {
       if (isAdminInOrganization) {
         return h.response(true);
       }
-      return _replyWithAuthorizationError(h);
+      return _replyWithForbiddenError(h);
     })
-    .catch(() => _replyWithAuthorizationError(h));
+    .catch(() => _replyWithForbiddenError(h));
 }
 
 async function checkUserBelongsToOrganizationOrHasRolePixMaster(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyWithAuthorizationError(h);
+    return _replyWithForbiddenError(h);
   }
 
   const userId = request.auth.credentials.userId;
@@ -88,7 +88,7 @@ async function checkUserBelongsToOrganizationOrHasRolePixMaster(request, h) {
     return h.response(true);
   }
 
-  return _replyWithAuthorizationError(h);
+  return _replyWithForbiddenError(h);
 }
 
 function checkIsCertificationResultsInOrgaToggleEnabled(request, h) {
@@ -97,12 +97,12 @@ function checkIsCertificationResultsInOrgaToggleEnabled(request, h) {
     return h.response(true);
   }
 
-  return _replyWithAuthorizationError(h);
+  return _replyWithForbiddenError(h);
 }
 
 async function checkUserIsAdminInOrganizationOrHasRolePixMaster(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyWithAuthorizationError(h);
+    return _replyWithForbiddenError(h);
   }
 
   const userId = request.auth.credentials.userId;
@@ -119,12 +119,12 @@ async function checkUserIsAdminInOrganizationOrHasRolePixMaster(request, h) {
     return h.response(true);
   }
 
-  return _replyWithAuthorizationError(h);
+  return _replyWithForbiddenError(h);
 }
 
 async function checkUserBelongsToOrganizationManagingStudents(request, h) {
   if (!_.has(request, 'auth.credentials.userId')) {
-    return _replyWithAuthorizationError(h);
+    return _replyWithForbiddenError(h);
   }
 
   const userId = request.auth.credentials.userId;
@@ -135,14 +135,14 @@ async function checkUserBelongsToOrganizationManagingStudents(request, h) {
       return h.response(true);
     }
   } catch (err) {
-    return _replyWithAuthorizationError(h);
+    return _replyWithForbiddenError(h);
   }
-  return _replyWithAuthorizationError(h);
+  return _replyWithForbiddenError(h);
 }
 
 async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyWithAuthorizationError(h);
+    return _replyWithForbiddenError(h);
   }
 
   const userId = request.auth.credentials.userId;
@@ -152,14 +152,14 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   try {
     belongsToScoOrganizationAndManageStudents = await checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute(userId, organizationId);
   } catch (err) {
-    return _replyWithAuthorizationError(h);
+    return _replyWithForbiddenError(h);
   }
 
   if (belongsToScoOrganizationAndManageStudents) {
     return h.response(true);
   }
 
-  return _replyWithAuthorizationError(h);
+  return _replyWithForbiddenError(h);
 }
 
 async function checkUserIsAdminInSCOOrganizationManagingStudents(request, h) {
@@ -169,7 +169,7 @@ async function checkUserIsAdminInSCOOrganizationManagingStudents(request, h) {
   if (await checkUserIsAdminAndManagingStudentsForOrganization.execute(userId, organizationId, Organization.types.SCO)) {
     return h.response(true);
   }
-  return _replyWithAuthorizationError(h);
+  return _replyWithForbiddenError(h);
 }
 
 async function checkUserIsAdminInSUPOrganizationManagingStudents(request, h) {
@@ -180,12 +180,12 @@ async function checkUserIsAdminInSUPOrganizationManagingStudents(request, h) {
     return h.response(true);
   }
 
-  return _replyWithAuthorizationError(h);
+  return _replyWithForbiddenError(h);
 }
 
 async function checkUserBelongsToOrganization(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyWithAuthorizationError(h);
+    return _replyWithForbiddenError(h);
   }
 
   const userId = request.auth.credentials.userId;
@@ -195,7 +195,7 @@ async function checkUserBelongsToOrganization(request, h) {
   if (belongsToOrganization) {
     return h.response(true);
   }
-  return _replyWithAuthorizationError(h);
+  return _replyWithForbiddenError(h);
 }
 
 module.exports = {
