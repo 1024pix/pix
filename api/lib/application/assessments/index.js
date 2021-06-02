@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const assessmentController = require('./assessment-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 const assessmentAuthorization = require('../preHandlers/assessment-authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
 
@@ -69,7 +70,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: assessmentAuthorization.verify,
+          method: securityPreHandlers.checkHasPixAutoAnswerApiKey,
           assign: 'authorizationCheck',
         }],
         handler: assessmentController.getLastChallengeId,
