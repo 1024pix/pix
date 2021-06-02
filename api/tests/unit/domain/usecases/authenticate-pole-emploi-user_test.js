@@ -23,6 +23,12 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
   const idToken = 'idToken';
   const expiresIn = 60;
   const refreshToken = 'refreshToken';
+  const poleEmploiTokens = new PoleEmploiTokens({
+    accessToken,
+    expiresIn,
+    idToken,
+    refreshToken,
+  });
 
   const firstName = 'firstname';
   const lastName = 'lastname';
@@ -33,32 +39,25 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
   let authenticationService;
   let tokenService;
-  let authenticationCache;
 
-  let userRepository;
   let authenticationMethodRepository;
+  let poleEmploiTokensRepository;
+  let userRepository;
 
   let userInfo;
   let clock;
 
   beforeEach(() => {
     clock = sinon.useFakeTimers(Date.now());
+
     userInfo = {
       family_name: lastName,
       given_name: firstName,
       externalIdentityId,
     };
 
-    authenticationCache = {
-      set: sinon.stub().resolves() };
-
     authenticationService = {
-      generatePoleEmploiTokens: sinon.stub().resolves(new PoleEmploiTokens({
-        accessToken,
-        expiresIn,
-        idToken,
-        refreshToken,
-      })),
+      generatePoleEmploiTokens: sinon.stub().resolves(poleEmploiTokens),
       getPoleEmploiUserInfo: sinon.stub().resolves(userInfo),
     };
 
@@ -66,14 +65,18 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
       createAccessTokenFromUser: sinon.stub().returns(),
     };
 
-    userRepository = {
-      findByPoleEmploiExternalIdentifier: sinon.stub().resolves({}),
-    };
-
     authenticationMethodRepository = {
       create: sinon.stub().resolves(),
       updatePoleEmploiAuthenticationComplementByUserId: sinon.stub().resolves(),
       findOneByUserIdAndIdentityProvider: sinon.stub(),
+    };
+
+    poleEmploiTokensRepository = {
+      save: sinon.stub(),
+    };
+
+    userRepository = {
+      findByPoleEmploiExternalIdentifier: sinon.stub().resolves({}),
     };
 
     DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
@@ -93,8 +96,17 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
       // when
       const error = await catchErr(authenticatePoleEmploiUser)({
-        code, redirectUri, clientId, authenticatedUserId: userId, stateSent, stateReceived,
-        userRepository, authenticationMethodRepository, authenticationService, tokenService,
+        authenticatedUserId: userId,
+        clientId,
+        code,
+        redirectUri,
+        stateReceived,
+        stateSent,
+        authenticationService,
+        tokenService,
+        authenticationMethodRepository,
+        poleEmploiTokensRepository,
+        userRepository,
       });
 
       // then
@@ -108,19 +120,39 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     it('should call authenticate pole emploi user with code, redirectUri and clientId parameters', async () => {
       // when
       await authenticatePoleEmploiUser({
-        code, redirectUri, clientId, authenticatedUserId: userId, stateSent: state, stateReceived: state,
-        userRepository, authenticationMethodRepository, authenticationService, tokenService,
+        authenticatedUserId: userId,
+        clientId,
+        code,
+        redirectUri,
+        stateReceived: state,
+        stateSent: state,
+        authenticationService,
+        tokenService,
+        authenticationMethodRepository,
+        poleEmploiTokensRepository,
+        userRepository,
       });
 
       // then
-      expect(authenticationService.generatePoleEmploiTokens).to.have.been.calledWith({ code, redirectUri, clientId });
+      expect(authenticationService.generatePoleEmploiTokens).to.have.been.calledWith({
+        code, redirectUri, clientId,
+      });
     });
 
     it('should call get pole emploi user info with id token parameter', async () => {
       // when
       await authenticatePoleEmploiUser({
-        code, redirectUri, clientId, authenticatedUserId: userId, stateSent: state, stateReceived: state,
-        userRepository, authenticationMethodRepository, authenticationService, tokenService,
+        authenticatedUserId: userId,
+        clientId,
+        code,
+        redirectUri,
+        stateReceived: state,
+        stateSent: state,
+        authenticationService,
+        tokenService,
+        authenticationMethodRepository,
+        poleEmploiTokensRepository,
+        userRepository,
       });
 
       // then
@@ -136,8 +168,17 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
       // when
       await authenticatePoleEmploiUser({
-        code, redirectUri, clientId, stateSent: state, stateReceived: state,
-        userRepository, authenticationMethodRepository, authenticationService, tokenService,
+        authenticatedUserId: userId,
+        clientId,
+        code,
+        redirectUri,
+        stateReceived: state,
+        stateSent: state,
+        authenticationService,
+        tokenService,
+        authenticationMethodRepository,
+        poleEmploiTokensRepository,
+        userRepository,
       });
 
       // then
@@ -155,8 +196,17 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
       // when
       const result = await authenticatePoleEmploiUser({
-        code, redirectUri, clientId, authenticatedUserId: userId, stateSent: state, stateReceived: state,
-        userRepository, authenticationMethodRepository, authenticationService, tokenService,
+        authenticatedUserId: userId,
+        clientId,
+        code,
+        redirectUri,
+        stateReceived: state,
+        stateSent: state,
+        authenticationService,
+        tokenService,
+        authenticationMethodRepository,
+        poleEmploiTokensRepository,
+        userRepository,
       });
 
       // then
@@ -167,7 +217,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
       it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async () => {
         // given
-        userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: 1 });
+        userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: userId });
         const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
           accessToken,
           refreshToken,
@@ -176,12 +226,24 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
         // when
         await authenticatePoleEmploiUser({
-          code, redirectUri, clientId, stateSent: state, stateReceived: state,
-          userRepository, authenticationMethodRepository, authenticationService, tokenService,
+          authenticatedUserId: undefined,
+          clientId,
+          code,
+          redirectUri,
+          stateReceived: state,
+          stateSent: state,
+          authenticationService,
+          tokenService,
+          authenticationMethodRepository,
+          poleEmploiTokensRepository,
+          userRepository,
         });
 
         // then
-        expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith({ authenticationComplement: expectedAuthenticationComplement, userId });
+        expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith({
+          authenticationComplement: expectedAuthenticationComplement,
+          userId,
+        });
       });
     });
 
@@ -210,12 +272,23 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
           // when
           await authenticatePoleEmploiUser({
-            code, redirectUri, clientId, authenticatedUserId: userId, stateSent: state, stateReceived: state,
-            userRepository, authenticationMethodRepository, authenticationService, tokenService,
+            authenticatedUserId: userId,
+            clientId,
+            code,
+            redirectUri,
+            stateReceived: state,
+            stateSent: state,
+            authenticationService,
+            tokenService,
+            authenticationMethodRepository,
+            poleEmploiTokensRepository,
+            userRepository,
           });
 
           // then
-          expect(authenticationMethodRepository.create).to.have.been.calledWith({ authenticationMethod: expectedAuthenticationMethod });
+          expect(authenticationMethodRepository.create).to.have.been.calledWith({
+            authenticationMethod: expectedAuthenticationMethod,
+          });
         });
       });
 
@@ -234,12 +307,25 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
           // when
           await authenticatePoleEmploiUser({
-            code, redirectUri, clientId, authenticatedUserId: userId, stateSent: state, stateReceived: state,
-            userRepository, authenticationMethodRepository, authenticationService, tokenService,
+            authenticatedUserId: userId,
+            clientId,
+            code,
+            redirectUri,
+            stateReceived: state,
+            stateSent: state,
+            authenticationService,
+            tokenService,
+            authenticationMethodRepository,
+            poleEmploiTokensRepository,
+            userRepository,
           });
 
           // then
-          expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith({ authenticationComplement: expectedAuthenticationComplement, userId });
+          expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId)
+            .to.have.been.calledWith({
+              authenticationComplement: expectedAuthenticationComplement,
+              userId,
+            });
         });
 
         it('should throw an UnexpectedUserAccountError error if the external identifier does not match the one in the pole emploi id token', async () => {
@@ -250,8 +336,17 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
           // when
           const error = await catchErr(authenticatePoleEmploiUser)({
-            code, redirectUri, clientId, authenticatedUserId: userId, stateSent: state, stateReceived: state,
-            userRepository, authenticationMethodRepository, authenticationService, tokenService,
+            authenticatedUserId: userId,
+            clientId,
+            code,
+            redirectUri,
+            stateReceived: state,
+            stateSent: state,
+            authenticationService,
+            tokenService,
+            authenticationMethodRepository,
+            poleEmploiTokensRepository,
+            userRepository,
           });
 
           // then
@@ -263,36 +358,52 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
   context('When user has no account', () => {
 
+    it('should call poleEmploiTokens repository save method', async () => {
+      // given
+      poleEmploiTokensRepository.save.resolves();
+      userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
+
+      // when
+      await catchErr(authenticatePoleEmploiUser)({
+        authenticatedUserId: undefined,
+        clientId,
+        code,
+        redirectUri,
+        stateReceived: state,
+        stateSent: state,
+        authenticationService,
+        tokenService,
+        authenticationMethodRepository,
+        poleEmploiTokensRepository,
+        userRepository,
+      });
+
+      // then
+      expect(poleEmploiTokensRepository.save).to.have.been.calledWith(poleEmploiTokens);
+    });
+
     it('should throw an UserAccountNotFoundForPoleEmploiError', async () => {
       // given
+      poleEmploiTokensRepository.save.resolves();
       userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
 
       // when
       const error = await catchErr(authenticatePoleEmploiUser)({
-        code, redirectUri, clientId, stateSent: state, stateReceived: state,
-        userRepository, authenticationMethodRepository,
-        authenticationService, tokenService, authenticationCache,
+        authenticatedUserId: undefined,
+        clientId,
+        code,
+        redirectUri,
+        stateReceived: state,
+        stateSent: state,
+        authenticationService,
+        tokenService,
+        authenticationMethodRepository,
+        poleEmploiTokensRepository,
+        userRepository,
       });
 
       // then
       expect(error).to.be.instanceOf(UserAccountNotFoundForPoleEmploiError);
-    });
-
-    it('should call set Authentication Cache function', async () => {
-      // given
-      userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
-      const expectedObject = { accessToken, idToken, expiresIn, refreshToken };
-      authenticationCache.set.resolves(expectedObject);
-
-      // when
-      await catchErr(authenticatePoleEmploiUser)({
-        code, redirectUri, clientId, stateSent: state, stateReceived: state,
-        userRepository, authenticationMethodRepository,
-        authenticationService, tokenService, authenticationCache,
-      });
-
-      // then
-      expect(authenticationCache.set).to.have.been.called;
     });
   });
 });
