@@ -93,11 +93,11 @@ export default class CertificationJoiner extends Component {
       this.isLoading = false;
 
       if (_isMatchingReconciledStudentNotFoundError(err)) {
-        this.errorMessage = 'Oups ! Il semble que vous n’utilisiez pas le bon compte Pix pour rejoindre cette session de certification.\nPour continuer, connectez-vous au bon compte Pix ou demandez de l’aide au surveillant.';
+        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account');
       } else if (_isSessionNotAccessibleError(err)) {
-        this.errorMessage = 'Oups ! La session de certification que vous tentez de rejoindre n\'est plus accessible.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.';
+        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.session-not-accessible');
       } else {
-        this.errorMessage = 'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.';
+        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.generic');
       }
     }
   }
