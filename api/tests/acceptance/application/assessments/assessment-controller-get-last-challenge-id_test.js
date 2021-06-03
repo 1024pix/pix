@@ -77,19 +77,19 @@ describe('Acceptance | API | assessment-controller-get-last-challenge-id', () =>
       });
     });
 
-    context('When the given pixAutoAnswerApiKey is not correct', () => {
-      it('should return 401 HTTP status code', async () => {
-
+    context('When the user does not have role pixmaster', () => {
+      it('should return 403 HTTP status code', async () => {
+        const userId = 456;
         options = {
           method: 'GET',
           url: `/api/assessments/${assessmentId}/last-challenge-id`,
           headers: {
-            authorization: 'Bearer wrong-api-key',
+            authorization: `Bearer ${generateValidRequestAuthorizationHeader(userId)}`,
           },
         };
 
         const response = await server.inject(options);
-        expect(response.statusCode).to.equal(401);
+        expect(response.statusCode).to.equal(403);
       });
     });
   });
