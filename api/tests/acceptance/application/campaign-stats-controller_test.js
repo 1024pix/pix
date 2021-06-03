@@ -81,4 +81,43 @@ describe('Acceptance | API | Campaign Stats Controller', () => {
       expect(response.statusCode).to.equal(403);
     });
   });
+
+  describe('GET /api/campaigns/{id}/stats/participations-by-status', () => {
+    it('should return participations counts by status for the campaign', async () => {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({ organizationId: campaign.organizationId, userId });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/stats/participations-by-status`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.id).to.equal(campaign.id.toString());
+      expect(response.result.data.attributes).to.deep.equal({ started: 0, completed: 0, shared: 0 });
+    });
+
+    it('should return HTTP code 403 if the authenticated user is not authorize to access the campaign', async () => {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/stats/participations-by-status`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
 });
