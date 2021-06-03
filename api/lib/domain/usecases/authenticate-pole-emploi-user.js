@@ -3,7 +3,6 @@ const moment = require('moment');
 const {
   UnexpectedPoleEmploiStateError,
   UnexpectedUserAccountError,
-  UserAccountNotFoundForPoleEmploiError,
 } = require('../errors');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const logger = require('../../infrastructure/logger');
@@ -36,7 +35,7 @@ module.exports = async function authenticatePoleEmploiUser({
     expiredDate: moment().add(poleEmploiTokens.expiresIn, 's').toDate(),
   });
 
-  let accessToken;
+  let pixAccessToken;
 
   if (authenticatedUserId) {
     const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId: authenticatedUserId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI });
@@ -53,29 +52,23 @@ module.exports = async function authenticatePoleEmploiUser({
       await authenticationMethodRepository.create({ authenticationMethod });
     }
 
-    accessToken = tokenService.createAccessTokenFromUser(authenticatedUserId, 'pole_emploi_connect');
+    pixAccessToken = tokenService.createAccessTokenFromUser(authenticatedUserId, 'pole_emploi_connect');
 
   } else {
     const user = await userRepository.findByPoleEmploiExternalIdentifier(userInfo.externalIdentityId);
 
     if (!user) {
-      const responseCode = 'SHOULD_VALIDATE_CGU';
-      const message = 'L\'utilisateur n\'a pas de compte Pix';
-
       const authenticationKey = await poleEmploiTokensRepository.save(poleEmploiTokens);
-
-      throw new UserAccountNotFoundForPoleEmploiError({
-        message, responseCode, authenticationKey,
-      });
+      return { authenticationKey };
     } else {
       await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId: user.id });
-      accessToken = tokenService.createAccessTokenFromUser(user.id, 'pole_emploi_connect');
+      pixAccessToken = tokenService.createAccessTokenFromUser(user.id, 'pole_emploi_connect');
     }
   }
 
   return {
-    access_token: accessToken,
-    id_token: poleEmploiTokens.idToken,
+    pixAccessToken,
+    poleEmploiTokens,
   };
 };
 

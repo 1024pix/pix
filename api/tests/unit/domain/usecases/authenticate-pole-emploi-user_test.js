@@ -1,30 +1,35 @@
+const moment = require('moment');
+
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
-const authenticatePoleEmploiUser = require('../../../../lib/domain/usecases/authenticate-pole-emploi-user');
-
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
 const User = require('../../../../lib/domain/models/User');
 
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const { UnexpectedUserAccountError, UnexpectedPoleEmploiStateError, UserAccountNotFoundForPoleEmploiError } = require('../../../../lib/domain/errors');
+const {
+  UnexpectedPoleEmploiStateError,
+  UnexpectedUserAccountError,
+} = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const logger = require('../../../../lib/infrastructure/logger');
 
-const moment = require('moment');
+const authenticatePoleEmploiUser = require('../../../../lib/domain/usecases/authenticate-pole-emploi-user');
 
-describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => {
+describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
 
   const code = 'code';
   const redirectUri = 'redirectUri';
   const clientId = 'clientId';
   const state = 'state';
 
-  const accessToken = 'accessToken';
+  const pixAccessToken = 'pixAccessToken';
+
+  const poleEmploiAccessToken = 'poleEmploiAccessToken';
   const idToken = 'idToken';
   const expiresIn = 60;
   const refreshToken = 'refreshToken';
   const poleEmploiTokens = new PoleEmploiTokens({
-    accessToken,
+    accessToken: poleEmploiAccessToken,
     expiresIn,
     idToken,
     refreshToken,
@@ -188,11 +193,11 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     it('should return accessToken and idToken', async () => {
       // given
       const expectedResult = {
-        access_token: accessToken,
-        id_token: idToken,
+        pixAccessToken,
+        poleEmploiTokens,
       };
 
-      tokenService.createAccessTokenFromUser.returns(accessToken);
+      tokenService.createAccessTokenFromUser.returns(pixAccessToken);
 
       // when
       const result = await authenticatePoleEmploiUser({
@@ -219,9 +224,9 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
         // given
         userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: userId });
         const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
-          accessToken,
-          refreshToken,
-          expiredDate: moment().add(expiresIn, 's').toDate(),
+          accessToken: poleEmploiTokens.accessToken,
+          refreshToken: poleEmploiTokens.refreshToken,
+          expiredDate: moment().add(poleEmploiTokens.expiresIn, 's').toDate(),
         });
 
         // when
@@ -263,9 +268,9 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
             identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
             externalIdentifier: externalIdentityId,
             authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
-              accessToken,
-              refreshToken,
-              expiredDate: moment().add(expiresIn, 's').toDate(),
+              accessToken: poleEmploiTokens.accessToken,
+              refreshToken: poleEmploiTokens.refreshToken,
+              expiredDate: moment().add(poleEmploiTokens.expiresIn, 's').toDate(),
             }),
             userId,
           });
@@ -300,9 +305,9 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
             externalIdentifier: userInfo.externalIdentityId,
           }));
           const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
-            accessToken,
-            refreshToken,
-            expiredDate: moment().add(expiresIn, 's').toDate(),
+            accessToken: poleEmploiTokens.accessToken,
+            refreshToken: poleEmploiTokens.refreshToken,
+            expiredDate: moment().add(poleEmploiTokens.expiresIn, 's').toDate(),
           });
 
           // when
@@ -360,11 +365,12 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
     it('should call poleEmploiTokens repository save method', async () => {
       // given
-      poleEmploiTokensRepository.save.resolves();
+      const key = 'aaa-bbb-ccc';
+      poleEmploiTokensRepository.save.resolves(key);
       userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
 
       // when
-      await catchErr(authenticatePoleEmploiUser)({
+      await authenticatePoleEmploiUser({
         authenticatedUserId: undefined,
         clientId,
         code,
@@ -382,13 +388,14 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
       expect(poleEmploiTokensRepository.save).to.have.been.calledWith(poleEmploiTokens);
     });
 
-    it('should throw an UserAccountNotFoundForPoleEmploiError', async () => {
+    it('should return an authenticationKey', async () => {
       // given
-      poleEmploiTokensRepository.save.resolves();
+      const key = 'aaa-bbb-ccc';
+      poleEmploiTokensRepository.save.resolves(key);
       userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
 
       // when
-      const error = await catchErr(authenticatePoleEmploiUser)({
+      const result = await authenticatePoleEmploiUser({
         authenticatedUserId: undefined,
         clientId,
         code,
@@ -403,7 +410,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
       });
 
       // then
-      expect(error).to.be.instanceOf(UserAccountNotFoundForPoleEmploiError);
+      expect(result.authenticationKey).to.equal(key);
     });
   });
 });
