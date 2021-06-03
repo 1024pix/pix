@@ -1,7 +1,6 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | CertificationCourse', () => {
-
   describe('#cancel #isCancelled', () => {
 
     it('should cancel a certification course', () => {
