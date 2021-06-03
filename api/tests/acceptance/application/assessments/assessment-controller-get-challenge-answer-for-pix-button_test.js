@@ -1,7 +1,14 @@
-const { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  knex,
+  mockLearningContent,
+  learningContentBuilder,
+  insertUserWithRolePixMaster,
+  generateValidRequestAuthorizationHeader,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const config = require('../../../../lib/config');
 
 const lastChallengeAnswer = 'last challenge answer';
 const lastChallengeId = 'lastChallengeId';
@@ -25,21 +32,19 @@ const learningContent = [{
 }];
 
 describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-button', () => {
-  let server, pixAutoAnswerApiKey;
+  let server;
   let options;
-  let userId;
   let assessmentId;
 
   beforeEach(async () => {
     server = await createServer();
     const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
-    pixAutoAnswerApiKey = config.pixAutoAnswer.apiKey;
   });
 
   describe('GET /api/assessments/:id/challenge-answer-for-pix-auto-answer', () => {
     beforeEach(async () => {
-      userId = databaseBuilder.factory.buildUser().id;
+      const { id: userId } = await insertUserWithRolePixMaster();
       assessmentId = databaseBuilder.factory.buildAssessment(
         { state: Assessment.states.STARTED, type: Assessment.types.PREVIEW, lastChallengeId, userId }).id;
       await databaseBuilder.commit();
@@ -48,7 +53,7 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
         method: 'GET',
         url: `/api/assessments/${assessmentId}/challenge-answer-for-pix-auto-answer`,
         headers: {
-          authorization: `Bearer ${pixAutoAnswerApiKey}`,
+          authorization: `Bearer ${generateValidRequestAuthorizationHeader(userId)}`,
         },
       };
     });

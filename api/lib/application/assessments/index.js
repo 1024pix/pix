@@ -63,16 +63,15 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/assessments/{id}/last-challenge-id',
       config: {
-        auth: false,
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
         validate: {
           params: Joi.object({
             id: identifiersType.assessmentId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkHasPrivateApiKey,
-          assign: 'authorizationCheck',
-        }],
         handler: assessmentController.getLastChallengeId,
         tags: ['api'],
       },
@@ -81,16 +80,15 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/assessments/{id}/challenge-answer-for-pix-auto-answer',
       config: {
-        auth: false,
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
         validate: {
           params: Joi.object({
             id: identifiersType.assessmentId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkHasPrivateApiKey,
-          assign: 'authorizationCheck',
-        }],
         handler: assessmentController.getChallengeSolutionForPixButton,
         tags: ['api'],
       },
