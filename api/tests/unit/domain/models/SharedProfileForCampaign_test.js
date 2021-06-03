@@ -3,16 +3,22 @@ const constants = require('../../../../lib/domain/constants');
 const SharedProfileForCampaign = require('../../../../lib/domain/models/SharedProfileForCampaign');
 
 describe('Unit | Domain | Models | SharedProfileForCampaign', () => {
+  const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
   let clock;
+
+  beforeEach(() => {
+    constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 5;
+  });
+
   afterEach(() => {
     clock.restore();
+    constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = originalConstantValue;
   });
 
   describe('#canRetry', () => {
     context('when the campaign allows retry', () => {
       context('when the profile has been shared MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', () => {
         beforeEach(() => {
-          constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 5;
           const now = new Date('2020-01-06');
           clock = sinon.useFakeTimers(now);
         });
@@ -26,7 +32,6 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', () => {
 
       context('when the profile has been shared less than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', () => {
         beforeEach(() => {
-          constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 5;
           const now = new Date('2020-01-06');
           clock = sinon.useFakeTimers(now);
         });
@@ -40,7 +45,6 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', () => {
 
       context('when the profile has been shared more than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', () => {
         beforeEach(() => {
-          constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 5;
           const now = new Date('2020-01-09');
           clock = sinon.useFakeTimers(now);
         });
@@ -55,7 +59,6 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', () => {
 
     context('when the campaign does not allow retry', () => {
       beforeEach(() => {
-        constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 5;
         const now = new Date('2020-01-06');
         clock = sinon.useFakeTimers(now);
       });

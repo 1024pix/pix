@@ -4,6 +4,7 @@ const isCertifiableSerializer = require('../../infrastructure/serializers/jsonap
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
+const participantResultSerializer = require('../../infrastructure/serializers/jsonapi/participant-result-serializer');
 const sharedProfileForCampaignSerializer = require('../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const userDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
@@ -222,6 +223,20 @@ module.exports = {
     });
 
     return sharedProfileForCampaignSerializer.serialize(sharedProfileForCampaign);
+  },
+
+  async getUserCampaignAssessmentResult(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const campaignId = request.params.campaignId;
+    const locale = extractLocaleFromRequest(request);
+
+    const campaignAssessmentResult = await usecases.getUserCampaignAssessmentResult({
+      userId: authenticatedUserId,
+      campaignId,
+      locale,
+    });
+
+    return participantResultSerializer.serialize(campaignAssessmentResult);
   },
 
   async anonymizeUser(request, h) {

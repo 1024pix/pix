@@ -1,0 +1,15 @@
+{{#unless @isShared}}
+  <div class="skill-review__begin-improvement">
+    <div>
+      <h2 class="skill-review__subtitle">
+        {{t 'pages.skill-review.improve.title'}}
+      </h2>
+      <p class="skill-review__explain-text">
+        {{t 'pages.skill-review.improve.description'}}
+      </p>
+    </div>
+    <button class="button button--dark-grey button--big skill-review__improvement-button" {{on "click" @improve}} type="button">
+      {{t 'pages.skill-review.actions.improve'}}
+    </button>
+  </div>
+{{/unless}}

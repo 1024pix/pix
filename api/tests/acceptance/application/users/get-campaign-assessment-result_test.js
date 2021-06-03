@@ -1,8 +1,8 @@
-const createServer = require('../../../server');
-const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const createServer = require('../../../../server');
+const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const _ = require('lodash');
 
-describe('Acceptance | API | Campaign Participation Result', () => {
+describe('Acceptance | API | Campaign Assessment Result', () => {
 
   const JAFFA_COLOR = 'jaffa';
   const EMERALD_COLOR = 'emerald';
@@ -74,6 +74,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       id: 1,
       badgeId: 1,
       name: 'Pix Emploi',
+      color: 'emerald',
       skillIds,
     });
 
@@ -163,18 +164,18 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     await databaseBuilder.commit();
   });
 
-  describe('GET /api/campaign-participations/{id}/campaign-participation-result', () => {
+  describe('GET /api/users/{userId}/campaigns/{campaignId}/assessment-result', () => {
     let options;
 
     beforeEach(async () => {
       options = {
         method: 'GET',
-        url: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`,
+        url: `/api/users/${user.id}/campaigns/${campaign.id}/assessment-result`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     });
 
-    it('should return the campaignParticipationResult of the campaignParticipation', async () => {
+    it('should return the campaign assessment result', async () => {
       // given
       const expectedResponse = {
         data: {

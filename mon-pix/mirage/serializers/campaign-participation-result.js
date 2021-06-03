@@ -6,8 +6,11 @@ export default ApplicationSerializer.extend({
     'testedSkillsCount',
     'validatedSkillsCount',
     'masteryPercentage',
-    'isCompleted',
     'stageCount',
+    'canRetry',
+    'canImprove',
+    'isShared',
+    'participantExternalId',
   ],
   include: [
     'campaignParticipationBadges',

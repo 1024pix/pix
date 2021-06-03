@@ -11,13 +11,8 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   improvementService,
   assessment,
   pickChallengeService,
-  tryImproving,
   locale,
 }) {
-  if (tryImproving) {
-    assessment.isImproving = true;
-  }
-
   const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
 
   const {

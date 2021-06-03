@@ -267,6 +267,51 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
+  describe('GET /api/users/{userId}/campaigns/{campaignId}/assessment-result', function() {
+    const method = 'GET';
+
+    beforeEach(async() => {
+      sinon.stub(userController, 'getUserCampaignAssessmentResult').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      httpTestServer = await startServer();
+    });
+
+    it('should return 200', async () => {
+      // given
+      const url = '/api/users/12/campaigns/34/assessment-result';
+
+      // when
+      const result = await httpTestServer.request(method, url);
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 400 when userId is not a number', async () => {
+      // given
+      const userId = 'wrongId';
+      const url = `/api/users/${userId}/campaigns/34/assessment-result`;
+
+      // when
+      const result = await httpTestServer.request(method, url);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when campaignId is not a number', async () => {
+      // given
+      const campaignId = 'wrongId';
+      const url = `/api/users/12/campaigns/${campaignId}/assessment-result`;
+
+      // when
+      const result = await httpTestServer.request(method, url);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+  });
+
   describe('GET /api/users/{userId}/campaigns/{campaignId}/campaign-participations', function() {
 
     const method = 'GET';
