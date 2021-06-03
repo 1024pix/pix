@@ -91,7 +91,7 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkHasPrivateApiKey,
           assign: 'authorizationCheck',
         }],
-        handler: assessmentController.getChallengeAnswerForPixButton,
+        handler: assessmentController.getChallengeSolutionForPixButton,
         tags: ['api'],
       },
     },
