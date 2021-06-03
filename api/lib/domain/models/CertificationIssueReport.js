@@ -180,6 +180,11 @@ class CertificationIssueReport {
   isResolved() {
     return Boolean(this.resolvedAt);
   }
+
+  resolve(resolution) {
+    this.resolvedAt = new Date();
+    this.resolution = resolution;
+  }
 }
 
 module.exports = CertificationIssueReport;

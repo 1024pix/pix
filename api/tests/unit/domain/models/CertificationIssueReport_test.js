@@ -417,4 +417,21 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       expect(isResolved).to.be.true;
     });
   });
+  describe('#resolve', () => {
+
+    it('Sets the issue report as resolved', () => {
+      // given
+      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+        resolvedAt: null,
+      });
+
+      // when
+      certificationIssueReport.resolve('RESOLVED');
+
+      // then
+      expect(certificationIssueReport.resolvedAt).not.to.be.null;
+      expect(certificationIssueReport.resolution).to.equal('RESOLVED');
+    });
+
+  });
 });

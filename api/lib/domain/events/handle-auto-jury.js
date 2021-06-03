@@ -52,7 +52,11 @@ async function _autoNeutralizeChallenges({
   for (const neutralizableIssueReport of neutralizableIssueReports) {
     const questionNumber = neutralizableIssueReport.questionNumber;
     const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped(questionNumber);
-    if (neutralizationAttempt.hasSucceeded()) certificationImpacted++;
+    if (neutralizationAttempt.hasSucceeded()) {
+      neutralizableIssueReport.resolve('Cette question a été neutralisée automatiquement');
+      await certificationIssueReportRepository.save(neutralizableIssueReport);
+      certificationImpacted++;
+    }
   }
 
   if (certificationImpacted > 0) {
