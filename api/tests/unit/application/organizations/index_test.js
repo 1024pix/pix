@@ -105,6 +105,7 @@ describe('Unit | Router | organization-router', () => {
         },
       };
 
+    it('should return HTTP code 201', async () => {
       // when
       const response = await httpTestServer.request(method, url, payload);
 
@@ -175,6 +176,115 @@ describe('Unit | Router | organization-router', () => {
 
       // then
       expect(response.statusCode).to.equal(400);
+    });
+
+    it('should check if user admin in organization', async () => {
+      // given
+      securityPreHandlers.checkUserIsAdminInOrganization.resolves(false);
+
+      // when
+      await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(securityPreHandlers.checkUserIsAdminInOrganization).to.have.be.called;
+    });
+  });
+
+  describe('POST /api/admin/organizations/{id}/invitations', () => {
+
+    const method = 'POST';
+    const url = '/api/admin/organizations/1/invitations';
+
+    it('should return HTTP code 201', async () => {
+      // given
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+    });
+
+    it('should accept multiple emails', async () => {
+      // given
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org, user2@organization.org',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+    });
+
+    it('should reject request with HTTP code 400, when email is empty', async () => {
+      // given
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: '',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should reject request with HTTP code 400, when input is not a email', async () => {
+      // given
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'azerty',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should check if user is Pix Master', async () => {
+      // given
+      securityPreHandlers.checkUserHasRolePixMaster.resolves(false);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org',
+          },
+        },
+      };
+
+      // when
+      await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(securityPreHandlers.checkUserHasRolePixMaster).to.have.be.called;
     });
   });
 
