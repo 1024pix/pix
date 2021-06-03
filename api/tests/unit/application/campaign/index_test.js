@@ -667,4 +667,29 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
   });
+
+  describe('GET /api/campaigns/{id}/stats/participations-by-status', () => {
+
+    it('should return 200', async () => {
+      sinon.stub(campaignStatsController, 'getParticipationsByStatus').callsFake((request, h) => h.response('ok').code(200));
+
+      // when
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/stats/participations-by-status');
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 400 with an invalid campaign id', async () => {
+      // when
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const result = await httpTestServer.request('GET', '/api/campaigns/invalid/stats/participations-by-status');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+  });
 });
