@@ -2,6 +2,7 @@ const { checkEventTypes } = require('./check-event-types');
 const SessionFinalized = require('./SessionFinalized');
 const AutoJuryDone = require('./AutoJuryDone');
 const CertificationJuryDone = require('./CertificationJuryDone');
+const bluebird = require('bluebird');
 
 const eventTypes = [ SessionFinalized ];
 
@@ -46,15 +47,11 @@ async function _autoNeutralizeChallenges({
   }
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: certificationCourse.id });
 
-  const neutralizableIssueReports = certificationIssueReports.filter((issueReport) => issueReport.isAutoNeutralizable);
+  const resolutionAttempts = await bluebird.mapSeries(certificationIssueReports, async (certificationIssueReport) => {
+    return certificationIssueReport.resolutionStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+  });
 
-  let numberOfCertificationsImpacted = 0;
-  for (const certificationIssueReport of neutralizableIssueReports) {
-    const isCertificationImpacted = await certificationIssueReport.resolutionStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
-    if (isCertificationImpacted) numberOfCertificationsImpacted++;
-  }
-
-  if (numberOfCertificationsImpacted > 0) {
+  if (resolutionAttempts.some((attempt) => attempt.hasSucceeded())) {
     await certificationAssessmentRepository.save(certificationAssessment);
     return new CertificationJuryDone({ certificationCourseId: certificationCourse.id });
   }
