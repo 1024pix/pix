@@ -41,14 +41,11 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
       ],
     });
     const certificationCourse = domainBuilder.buildCertificationCourse();
-    const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
-    const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING, questionNumber: 2 });
-    const certificationIssueReport3 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING, questionNumber: 3 });
+    const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
+    sinon.stub(certificationIssueReport, 'resolutionStrategy').resolves(true);
     certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
-    certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport1, certificationIssueReport2, certificationIssueReport3 ]);
-    certificationIssueReportRepository.save.resolves();
+    certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport ]);
     certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
-    sinon.stub(certificationAssessment, 'neutralizeChallengeByNumberIfKoOrSkipped').returns(NeutralizationAttempt.neutralized(1));
     certificationAssessmentRepository.save.resolves();
     const event = new SessionFinalized({
       sessionId: 1234,
@@ -68,9 +65,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     });
 
     // then
-    expect(certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped).to.have.been.calledWith(1);
-    expect(certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped).to.have.been.calledWith(2);
-    expect(certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped).not.to.have.been.calledWith(3);
+    expect(certificationIssueReport.resolutionStrategy).to.have.been.calledWith({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
     expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
   });
 
