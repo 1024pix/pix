@@ -1,5 +1,5 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getChallengeSolutionForPixButton = require('../../../../lib/domain/usecases/get-challenge-solution-for-pix-button');
+const getChallengeSolutionForPixAutoAnswer = require('../../../../lib/domain/usecases/get-challenge-solution-for-pix-auto-answer');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 
@@ -23,7 +23,7 @@ describe('Unit | UseCase | get-challenge-answer-for-pix-button', () => {
     assessmentRepository.get.resolves(assessment);
     challengeRepository.getSolution.resolves(solution);
 
-    const result = await getChallengeSolutionForPixButton({ challengeId, assessmentRepository, challengeRepository });
+    const result = await getChallengeSolutionForPixAutoAnswer({ challengeId, assessmentRepository, challengeRepository });
 
     expect(result).to.equal(solution);
   });

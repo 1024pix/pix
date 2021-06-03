@@ -1,6 +1,6 @@
 const { NotFoundError } = require('../errors');
 
-module.exports = async function getChallengeSolutionForPixButton({
+module.exports = async function getChallengeSolutionForPixAutoAnswer({
   assessmentId,
   assessmentRepository,
   challengeRepository,
