@@ -886,4 +886,174 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(result).to.deep.equal({ '1': 1, '2': 2, '3': 3 });
     });
   });
+
+  describe('#countParticipationsByStatus', () => {
+    describe('For assessment campaign', () => {
+      let campaignId;
+      let campaignType;
+
+      beforeEach(async () => {
+        const campaign = databaseBuilder.factory.buildCampaign();
+        campaignId = campaign.id;
+        campaignType = campaign.type;
+        await databaseBuilder.commit();
+      });
+
+      it('returns a default object when no participations', async () => {
+        await databaseBuilder.commit();
+
+        const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+        expect(result).to.deep.equal({ started: 0, completed: 0, shared: 0 });
+      });
+
+      describe('Count shared Participation', async () => {
+        it('returns an object with 1 participation shared', async () => {
+          databaseBuilder.factory.buildCampaignParticipation({ isShared: true });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true });
+          await databaseBuilder.commit();
+
+          const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+          expect(result).to.deep.equal({ started: 0, completed: 0, shared: 1 });
+        });
+
+        it('returns an object with 1 participation shared and isImproved=false', async () => {
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, isImproved: true });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true });
+          await databaseBuilder.commit();
+
+          const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+          expect(result).to.deep.equal({ started: 0, completed: 0, shared: 1 });
+        });
+      });
+
+      describe('Count completed Participation', async () => {
+        it('returns an object with 1 participation completed', async () => {
+          const idSomeParticipation = databaseBuilder.factory.buildCampaignParticipation({ isShared: false }).id;
+          const idParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false }).id;
+
+          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idSomeParticipation });
+          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idParticipation });
+          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idParticipation, createdAt: new Date('2010-01-01') });
+
+          await databaseBuilder.commit();
+
+          const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+          expect(result).to.deep.equal({ started: 0, completed: 1, shared: 0 });
+        });
+
+        it('returns an object with 1 participation completed and isImproved=false', async () => {
+          const idSomeParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false, isImproved: true }).id;
+          const idParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false }).id;
+
+          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idSomeParticipation });
+          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idParticipation });
+
+          await databaseBuilder.commit();
+
+          const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+          expect(result).to.deep.equal({ started: 0, completed: 1, shared: 0 });
+        });
+      });
+
+      describe('Count started Participation', async () => {
+        it('returns an object with 1 participation started', async () => {
+          const idSomeParticipation = databaseBuilder.factory.buildCampaignParticipation({ isShared: false }).id;
+          const idParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false }).id;
+
+          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idSomeParticipation, state: Assessment.states.STARTED });
+          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idParticipation, state: Assessment.states.STARTED, createdAt: new Date('2010-01-01') });
+          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idParticipation, state: Assessment.states.STARTED });
+
+          await databaseBuilder.commit();
+
+          const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+          expect(result).to.deep.equal({ started: 1, completed: 0, shared: 0 });
+        });
+
+        it('returns an object with 1 participation started and isImproved=false', async () => {
+          const idSomeParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false, isImproved: true }).id;
+          const idParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false }).id;
+
+          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idSomeParticipation, state: Assessment.states.STARTED });
+          databaseBuilder.factory.buildAssessment({ campaignParticipationId: idParticipation, state: Assessment.states.STARTED });
+
+          await databaseBuilder.commit();
+
+          const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+          expect(result).to.deep.equal({ started: 1, completed: 0, shared: 0 });
+        });
+      });
+    });
+
+    describe('For profile collection campaign', () => {
+      let campaignId;
+      let campaignType;
+
+      beforeEach(async () => {
+        const campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+        campaignId = campaign.id;
+        campaignType = campaign.type;
+        await databaseBuilder.commit();
+      });
+
+      it('returns a default object when no participations', async () => {
+        await databaseBuilder.commit();
+
+        const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+        expect(result).to.deep.equal({ completed: 0, shared: 0 });
+      });
+
+      describe('Count shared Participation', async () => {
+        it('returns an object with 1 participation shared', async () => {
+          databaseBuilder.factory.buildCampaignParticipation({ isShared: true });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true });
+          await databaseBuilder.commit();
+
+          const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+          expect(result).to.deep.equal({ completed: 0, shared: 1 });
+        });
+
+        it('returns an object with 1 participation shared and isImproved=false', async () => {
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, isImproved: true });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true });
+          await databaseBuilder.commit();
+
+          const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+          expect(result).to.deep.equal({ completed: 0, shared: 1 });
+        });
+      });
+
+      describe('Count completed Participation', async () => {
+        it('returns an object with 1 participation completed', async () => {
+          databaseBuilder.factory.buildCampaignParticipation({ isShared: false });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false });
+          await databaseBuilder.commit();
+
+          const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+          expect(result).to.deep.equal({ completed: 1, shared: 0 });
+        });
+
+        it('returns an object with 1 participation completed and isImproved=false', async () => {
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false, isImproved: true });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false });
+          await databaseBuilder.commit();
+
+          const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+          expect(result).to.deep.equal({ completed: 1, shared: 0 });
+        });
+      });
+    });
+  });
 });
