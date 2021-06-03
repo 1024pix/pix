@@ -1,14 +1,15 @@
 .chart-card {
-  border-radius: 4px;
+  border-radius: 10px;
   border: none;
   box-shadow: 0 1px 1px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
   background-color: $white;
-  padding: 32px;
+  padding: 16px 20px;
 
   &__title {
-    font-size: 1rem;
-    font-weight: 500;
-    color: $grey-30;
+    font-size: 1.125rem;
+    font-family: $open-sans;
+    font-weight: 600;
+    color: $grey-60;
     margin-top: 0;
     margin-bottom: 32px;
   }
