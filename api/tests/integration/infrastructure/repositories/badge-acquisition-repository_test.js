@@ -1,5 +1,5 @@
 const { expect, databaseBuilder, knex } = require('../../../test-helper');
-
+const _ = require('lodash');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
@@ -177,6 +177,41 @@ describe('Integration | Repository | Badge Acquisition', () => {
         expect(acquiredBadgesByCampaignParticipations[campaignParticipationId2].length).to.eq(2);
         expect(acquiredBadgesByCampaignParticipations[campaignParticipationId1][0]).to.includes(badge2);
         expect(acquiredBadgesByCampaignParticipations[campaignParticipationId1].length).to.eq(1);
+      });
+    });
+
+    context('when the participant already has a badge and improve the assessment 4 days later', () => {
+      let campaignId;
+      let userId;
+      let badge1;
+      let badge2;
+      let campaignParticipationId;
+
+      beforeEach(async () => {
+        userId = databaseBuilder.factory.buildUser().id;
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id }).id;
+        badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: targetProfile.id });
+        badge2 = databaseBuilder.factory.buildBadge({ key: 'badge2', targetProfileId: targetProfile.id });
+        campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId }).id;
+
+        databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, createdAt: new Date('2021-05-01'), isImproving: true });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, campaignParticipationId, userId, createdAt: new Date('2021-05-01') });
+
+        databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, createdAt: new Date('2021-05-05'), isImproving: false });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, campaignParticipationId, userId, createdAt: new Date('2021-05-05') });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, campaignParticipationId, userId, createdAt: new Date('2021-05-05') });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return badge ids acquired by user for a campaignParticipation', async () => {
+        // when
+        const campaignParticipationsIds = [campaignParticipationId];
+        const acquiredBadgesByCampaignParticipations = await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds });
+
+        // then
+        expect(_.map(acquiredBadgesByCampaignParticipations[campaignParticipationId], 'id')).to.deep.equal([badge1.id, badge2.id]);
       });
     });
   });
