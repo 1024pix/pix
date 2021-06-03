@@ -12,6 +12,7 @@ export default Component.extend({
   peeker: service(),
   router: service(),
   currentUser: service(),
+  intl: service(),
 
   isLoading: false,
   inputAccessCode: null,
@@ -27,7 +28,7 @@ export default Component.extend({
     async submit() {
       this.set('errorMessage', null);
       if (!this.accessCode) {
-        return this.set('errorMessage', 'Merci de saisir un code d’accès valide.');
+        return this.set('errorMessage', this.intl.t('pages.certification-start.error-messages.access-code-error'));
       }
       this.set('isLoading', true);
 
@@ -45,11 +46,11 @@ export default Component.extend({
       } catch (err) {
         this.getCurrentCertificationCourse().deleteRecord();
         if (err.errors && err.errors[0] && err.errors[0].status === '404') {
-          this.set('errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
+          this.set('errorMessage', this.intl.t('pages.certification-start.error-messages.access-code-error'));
         } else if (err.errors && err.errors[0] && err.errors[0].status === '412') {
-          this.set('errorMessage', 'La session de certification n\'est plus accessible.');
+          this.set('errorMessage', this.intl.t('pages.certification-start.error-messages.session-not-accessible'));
         } else {
-          this.set('errorMessage', 'Une erreur serveur inattendue vient de se produire.');
+          this.set('errorMessage', this.intl.t('pages.certification-start.error-messages.generic'));
         }
         this.set('isLoading', false);
       }
