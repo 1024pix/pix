@@ -6,6 +6,12 @@ import { hbs } from 'ember-cli-htmlbars';
 module('Integration | Component | indicator-card', function(hooks) {
   setupRenderingTest(hooks);
 
+  test('it renders icon', async function(assert) {
+    await render(hbs`<IndicatorCard @icon="archive" />`);
+
+    assert.dom('[data-icon="archive"]').exists();
+  });
+
   test('it renders children', async function(assert) {
     await render(hbs`<IndicatorCard>Text</IndicatorCard>`);
 
