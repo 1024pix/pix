@@ -1,0 +1,55 @@
+@startuml
+actor Demandeur_d_emploi
+participant MonPix
+participant API_Pix
+participant Redis_Pix
+participant Bdd_Pix
+participant Pole_Emploi_Connect
+
+Demandeur_d_emploi -> MonPix: Se connecter via Pôle emploi
+MonPix -> Pole_Emploi_Connect: GET <PoleEmploi>/connexion/oauth2/authorize?realm=/individu
+note right: Redirection vers le site Pôle Emploi
+
+Demandeur_d_emploi -> Pole_Emploi_Connect: Saisie des credentials
+Pole_Emploi_Connect --> MonPix: Envoi de l'authorization code
+
+MonPix -> API_Pix: POST /api/token/pole-emploi
+note left: Transfert de l'authorization code, client_id,\nredirect_uri, state_sent et state_received
+API_Pix -> Pole_Emploi_Connect: POST <PoleEmploi>/connexion/oauth2/access_token
+note right: Génération de tokens (access, ID, refresh)
+Pole_Emploi_Connect --> API_Pix: Envoi des token
+
+API_Pix -> API_Pix: Décodage de l'id_token \n (family_name, given_name et idIdentiteExterne)
+API_Pix -> Redis_Pix: écriture des tokens PE
+note left: Stockage temporaire des tokens
+
+API_Pix -> MonPix: status: 401 \ncode: SHOULD_VALIDATE_CGU
+MonPix -> Demandeur_d_emploi: Affichage des CGU
+note left: Validation CGU Pix
+Demandeur_d_emploi -> MonPix: J'accepte les CGU
+MonPix -> API_Pix: POST ?
+
+API_Pix <-> Redis_Pix: lecture et suppression des tokens PE
+API_Pix -> Bdd_Pix: Création de l'utilisateur \n dans **users**
+API_Pix -> Bdd_Pix: Stockage des token \n dans **authentication-methods**
+
+API_Pix -> API_Pix: Génération d'un access_token Pix
+
+API_Pix -> MonPix: Envoi de l'access_token Pix
+
+Demandeur_d_emploi -> MonPix: Démarrer la campagne
+note left: Début de la campagne PE
+MonPix -> API_Pix: GET /me
+
+Demandeur_d_emploi -> MonPix: Déconnexion
+note left: Fin de la campagne PE
+MonPix -> Pole_Emploi_Connect: GET <PoleEmploi>/deconnexion\navec redirect_uri et id_token
+note right: Demande de déconnexion de l'utilisateur
+
+Demandeur_d_emploi -> Pole_Emploi_Connect: Confirmation de déconnexion
+
+Pole_Emploi_Connect -> MonPix: Déconnexion et Redirection
+
+note left: Redirection <Mon-Pix>/logout-pe\nSupprimer les jetons de la session
+
+@enduml
