@@ -1,10 +1,14 @@
 <Charts::Card @title={{t 'charts.participants-by-status.title'}} ...attributes>
-  <Charts::Chart
-    @type="doughnut"
-    @options={{this.options}}
-    @data={{this.data}}
-    aria-hidden={{true}}
-  />
+  {{#if this.loading}}
+    <Charts::ParticipantsByStatusLoader />
+  {{else}}
+    <Charts::Chart
+      @type="doughnut"
+      @options={{this.options}}
+      @data={{this.data}}
+      aria-hidden={{true}}
+    />
+  {{/if}}
   <ul class="participants-by-status__legend">
     <li class="participants-by-status__legend--started">
       {{t 'charts.participants-by-status.labels.started'}}

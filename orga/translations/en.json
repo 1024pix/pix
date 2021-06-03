@@ -80,12 +80,13 @@
       "title": "Distribution of participants grouped by success rate"
     },
     "participants-by-status": {
-      "title": "Statuses distribution",
       "labels": {
         "started": "Started",
         "finished": "Finished",
         "shared": "Shared"
-      }
+      },
+      "loader": "Loading statuses distribution",
+      "title": "Statuses distribution"
     }
   },
   "navigation": {

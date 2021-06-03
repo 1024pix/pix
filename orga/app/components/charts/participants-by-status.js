@@ -7,6 +7,7 @@ export default class ParticipantsByStatus extends Component {
   @service intl;
 
   @tracked data = {};
+  @tracked loading = true;
 
   constructor(...args) {
     super(...args);
@@ -28,6 +29,7 @@ export default class ParticipantsByStatus extends Component {
           },
         ],
       };
+      this.loading = false;
     });
   }
 

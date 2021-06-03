@@ -21,6 +21,7 @@
         content: ' ';
       }
     }
+  
     > li:last-child {
       padding-bottom: 0px;
     }
@@ -45,5 +46,14 @@
         background-color: #67bb0b;
       }
     }
+
+    &--loader {
+      height: 20px;
+      margin-top: 8px;
+    }
+  }
+
+  &--loader {
+    height: 200px;
   }
 }
