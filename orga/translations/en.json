@@ -82,8 +82,13 @@
     "participants-by-status": {
       "labels": {
         "started": "Started",
-        "finished": "Finished",
+        "completed": "Completed",
         "shared": "Shared"
+      },
+      "labels-a11y": {
+        "started": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} started",
+        "completed": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} completed",
+        "shared": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} shared"
       },
       "loader": "Loading statuses distribution",
       "title": "Statuses distribution"

@@ -82,8 +82,20 @@
     "participants-by-status": {
       "labels": {
         "started": "En cours",
-        "finished": "En attente d'envois",
+        "completed": "En attente d'envois",
         "shared": "Résultats reçus"
+      },
+      "labels-a11y": {
+        "started": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} en cours de test",
+        "completed": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} en attente d'envois",
+        "shared": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} ayant envoyés leurs résultats",
+        "shared-profile": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} ayant envoyés leurs profils"
+      },
+      "labels-legend": {
+        "started": "En cours ({count})",
+        "completed": "En attente d'envois ({count})",
+        "shared": "Résultats reçus ({count})",
+        "shared-profile": "Profils reçus ({count})"
       },
       "loader": "Chargement des proportions par statut",
       "title": "Proportions par statut"
