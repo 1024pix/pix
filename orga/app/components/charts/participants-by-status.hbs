@@ -1,0 +1,19 @@
+<Charts::Card @title={{t 'charts.participants-by-status.title'}} ...attributes>
+  <Charts::Chart
+    @type="doughnut"
+    @options={{this.options}}
+    @data={{this.data}}
+    aria-hidden={{true}}
+  />
+  <ul class="participants-by-status__legend">
+    <li class="participants-by-status__legend--started">
+      {{t 'charts.participants-by-status.labels.started'}}
+    </li>
+    <li class="participants-by-status__legend--finished">
+      {{t 'charts.participants-by-status.labels.finished'}}
+    </li>
+    <li class="participants-by-status__legend--shared">
+      {{t 'charts.participants-by-status.labels.shared'}}
+    </li>
+  </ul>
+</Charts::Card>
