@@ -1,5 +1,7 @@
 <section class="indicator-card">
-  <div class="indicator-card__icon" aria-hidden="true"><FaIcon @icon={{@icon}}/></div>
+  <div class="indicator-card__icon {{if @color (concat "indicator-card__icon--" @color)}}" aria-hidden="true">
+    <FaIcon @icon={{@icon}}/>
+  </div>
   <div class="indicator-card__content">
   <label class="indicator-card__title">
     {{@title}}

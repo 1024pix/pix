@@ -1,3 +1,8 @@
+@mixin colorize($color, $percentageDarkenForColor, $percentageLightenForBackground) {
+  color: darken($color, $percentageDarkenForColor);
+  background-color: lighten($color, $percentageLightenForBackground);
+}
+
 .indicator-card {
   display: flex;
   width: 100%;
@@ -16,6 +21,10 @@
     color: $grey-60;
     min-width: 96px;
     font-size: 1.5rem;
+
+    &--blue { @include colorize($blue, 0%, 32%); }
+    &--purple { @include colorize($purple, 6%, 32%); }
+    &--green { @include colorize($green, 0%, 70%); }
   }
 
   &__content {
