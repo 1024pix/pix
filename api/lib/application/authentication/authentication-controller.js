@@ -1,10 +1,10 @@
+const get = require('lodash/get');
+
 const { featureToggles } = require('../../config');
-const { BadRequestError } = require('../http-errors');
+const { BadRequestError, UnauthorizedError } = require('../http-errors');
 
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
-
-const get = require('lodash/get');
 
 module.exports = {
 
@@ -53,7 +53,7 @@ module.exports = {
     return h.response(response).code(200);
   },
 
-  async authenticatePoleEmploiUser(request, h) {
+  async authenticatePoleEmploiUser(request) {
     if (!featureToggles.isPoleEmploiEnabled) {
       throw new BadRequestError('This feature is not enable!');
     }
@@ -66,9 +66,26 @@ module.exports = {
       'state_received': stateReceived,
     } = request.payload;
 
-    const response = await usecases.authenticatePoleEmploiUser({ code, clientId, redirectUri, authenticatedUserId, stateSent, stateReceived });
+    const result = await usecases.authenticatePoleEmploiUser({
+      authenticatedUserId,
+      clientId,
+      code,
+      redirectUri,
+      stateReceived,
+      stateSent,
+    });
 
-    return h.response(response).code(200);
+    if (result.pixAccessToken && result.poleEmploiTokens) {
+      return {
+        access_token: result.pixAccessToken,
+        id_token: result.poleEmploiTokens.idToken,
+      };
+    } else {
+      const message = 'L\'utilisateur n\'a pas de compte Pix';
+      const responseCode = 'SHOULD_VALIDATE_CGU';
+      const meta = { authenticationKey: result.authenticationKey };
+      throw new UnauthorizedError(message, responseCode, meta);
+    }
   },
 
   async authenticateAnonymousUser(request, h) {
