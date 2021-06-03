@@ -72,36 +72,38 @@ const categorySchemas = {
   [CertificationIssueReportCategories.TECHNICAL_PROBLEM]: categoryTechnicalProblemJoiSchema,
 };
 
-const categoryCodeImpactful = {
-  [CertificationIssueReportCategories.TECHNICAL_PROBLEM]: 'A1',
-  [CertificationIssueReportCategories.OTHER]: 'A2',
-  [CertificationIssueReportCategories.FRAUD]: 'C6',
-};
+const categoryCodeImpactful = [
+  CertificationIssueReportCategories.TECHNICAL_PROBLEM,
+  CertificationIssueReportCategories.OTHER,
+  CertificationIssueReportCategories.FRAUD,
+];
 
-const subcategoryCodeImpactful = {
-  [CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'C1',
-  [CertificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'C3',
-  [CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: 'E1',
-  [CertificationIssueReportSubcategories.EMBED_NOT_WORKING]: 'E2',
-  [CertificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E3',
-  [CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E4',
-  [CertificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
-  [CertificationIssueReportSubcategories.LINK_NOT_WORKING]: 'E6',
-  [CertificationIssueReportSubcategories.OTHER]: 'E7',
-  [CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'E8',
-  [CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'E9',
-};
+const subcategoryCodeImpactful = [
+  CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
+  CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
+  CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+  CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+  CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+  CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
+  CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+  CertificationIssueReportSubcategories.LINK_NOT_WORKING,
+  CertificationIssueReportSubcategories.OTHER,
+  CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+  CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+];
 
-const deprecatedSubcategories = {
-  [CertificationIssueReportSubcategories.LINK_NOT_WORKING]: 'E6',
-  [CertificationIssueReportSubcategories.OTHER]: 'E7',
-};
+const deprecatedSubcategories = [
+  CertificationIssueReportSubcategories.LINK_NOT_WORKING,
+  CertificationIssueReportSubcategories.OTHER,
+];
 
-const autoNeutralizableSubcategories = {
-  [CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E4',
-  [CertificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
-  [CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'E9',
-};
+const autoNeutralizableSubcategories = [
+  CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
+  CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+  CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+  CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+  CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+];
 
 class CertificationIssueReport {
   constructor(
@@ -190,13 +192,14 @@ class CertificationIssueReport {
 module.exports = CertificationIssueReport;
 
 function _isImpactful({ category, subcategory }) {
-  return Boolean(subcategoryCodeImpactful[subcategory] || categoryCodeImpactful[category]);
+  return categoryCodeImpactful.includes(category)
+  || subcategoryCodeImpactful.includes(subcategory);
 }
 
 function _isSubcategoryDeprecated(subcategory) {
-  return Boolean(deprecatedSubcategories[subcategory]);
+  return deprecatedSubcategories.includes(subcategory);
 }
 
 function _isSubcategoryAutoNeutralizable(subcategory) {
-  return Boolean(autoNeutralizableSubcategories[subcategory]);
+  return autoNeutralizableSubcategories.includes(subcategory);
 }

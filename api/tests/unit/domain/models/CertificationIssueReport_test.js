@@ -360,6 +360,8 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'WEBSITE_BLOCKED', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'WEBSITE_UNAVAILABLE', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'SOFTWARE_NOT_WORKING', questionNumber: 42 },
+        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'IMAGE_NOT_DISPLAYING', questionNumber: 42 },
+        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'EMBED_NOT_WORKING', questionNumber: 42 },
       ].forEach((certificationIssueReportDTO) => {
         it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isAutoneutralizable to true`, () => {
           expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isAutoNeutralizable).to.be.true;
@@ -376,8 +378,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         { certificationCourseId: 42, category: 'FRAUD' },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'FILE_NOT_OPENING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'LINK_NOT_WORKING', questionNumber: 42 },
-        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'IMAGE_NOT_DISPLAYING', questionNumber: 42 },
-        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'EMBED_NOT_WORKING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'EXTRA_TIME_EXCEEDED', questionNumber: 42 },
         { certificationCourseId: 42, category: 'TECHNICAL_PROBLEM', description: 'toto' },
       ].forEach((certificationIssueReportDTO) => {
