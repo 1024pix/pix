@@ -67,36 +67,79 @@ describe('Integration | Repository | Badge Acquisition', () => {
   });
 
   describe('#getAcquiredBadgesByCampaignParticipations', () => {
-    let campaign;
-    let user1;
-    let badge1;
-    let badge2;
-    let campaignParticipationId;
+    context('when there is just one campaignParticipionId', () => {
+      let campaign;
+      let user1;
+      let badge1;
+      let badge2;
+      let campaignParticipationId;
 
-    beforeEach(async () => {
-      user1 = databaseBuilder.factory.buildUser();
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
-      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId: user1.id, campaignId: campaign.id }).id;
-      badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: targetProfile.id });
-      badge2 = databaseBuilder.factory.buildBadge({ key: 'badge2', targetProfileId: targetProfile.id });
-      databaseBuilder.factory.buildBadge({ key: 'badge3', targetProfileId: targetProfile.id });
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, campaignParticipationId, userId: user1.id });
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, campaignParticipationId, userId: user1.id });
+      beforeEach(async () => {
+        user1 = databaseBuilder.factory.buildUser();
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId: user1.id, campaignId: campaign.id }).id;
+        badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: targetProfile.id });
+        badge2 = databaseBuilder.factory.buildBadge({ key: 'badge2', targetProfileId: targetProfile.id });
+        databaseBuilder.factory.buildBadge({ key: 'badge3', targetProfileId: targetProfile.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, campaignParticipationId, userId: user1.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, campaignParticipationId, userId: user1.id });
 
-      await databaseBuilder.commit();
-    });
-
-    it('should return badge ids acquired by user for a campaignParticipation', async () => {
-      // when
-      const acquiredBadgeIdsByUsers = await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
-        campaignParticipationsIds: [campaignParticipationId],
+        await databaseBuilder.commit();
       });
 
-      // then
-      expect(acquiredBadgeIdsByUsers[campaignParticipationId][0]).to.includes(badge1);
-      expect(acquiredBadgeIdsByUsers[campaignParticipationId][1]).to.includes(badge2);
-      expect(acquiredBadgeIdsByUsers[campaignParticipationId].length).to.eq(2);
+      it('should return badge ids acquired by user for a campaignParticipation', async () => {
+        // when
+        const acquiredBadgesByCampaignParticipations = await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
+          campaignParticipationsIds: [campaignParticipationId],
+        });
+
+        // then
+        expect(acquiredBadgesByCampaignParticipations[campaignParticipationId][0]).to.includes(badge1);
+        expect(acquiredBadgesByCampaignParticipations[campaignParticipationId][1]).to.includes(badge2);
+        expect(acquiredBadgesByCampaignParticipations[campaignParticipationId].length).to.eq(2);
+      });
+    });
+
+    context('when there are several campaignParticipationsIds', () => {
+      let campaign;
+      let user1;
+      let user2;
+      let badge1;
+      let badge2;
+      let badge3;
+      let campaignParticipationId1;
+      let campaignParticipationId2;
+
+      beforeEach(async () => {
+        user1 = databaseBuilder.factory.buildUser();
+        user2 = databaseBuilder.factory.buildUser();
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        campaignParticipationId1 = databaseBuilder.factory.buildCampaignParticipation({ userId: user1.id, campaignId: campaign.id }).id;
+        campaignParticipationId2 = databaseBuilder.factory.buildCampaignParticipation({ userId: user2.id, campaignId: campaign.id }).id;
+        badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: targetProfile.id });
+        badge2 = databaseBuilder.factory.buildBadge({ key: 'badge2', targetProfileId: targetProfile.id });
+        badge3 = databaseBuilder.factory.buildBadge({ key: 'badge3', targetProfileId: targetProfile.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, campaignParticipationId: campaignParticipationId2, userId: user2.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, campaignParticipationId: campaignParticipationId1, userId: user1.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge3.id, campaignParticipationId: campaignParticipationId2, userId: user2.id });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return badge ids acquired by user for a campaignParticipation', async () => {
+        // when
+        const campaignParticipationsIds = [campaignParticipationId1, campaignParticipationId2];
+        const acquiredBadgesByCampaignParticipations = await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds });
+
+        // then
+        expect(acquiredBadgesByCampaignParticipations[campaignParticipationId2][0]).to.includes(badge1);
+        expect(acquiredBadgesByCampaignParticipations[campaignParticipationId2][1]).to.includes(badge3);
+        expect(acquiredBadgesByCampaignParticipations[campaignParticipationId2].length).to.eq(2);
+        expect(acquiredBadgesByCampaignParticipations[campaignParticipationId1][0]).to.includes(badge2);
+        expect(acquiredBadgesByCampaignParticipations[campaignParticipationId1].length).to.eq(1);
+      });
     });
   });
 
