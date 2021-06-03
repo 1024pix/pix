@@ -7,9 +7,10 @@ const {
 } = require('../errors');
 const ChallengeNeutralized = require('./ChallengeNeutralized');
 const ChallengeDeneutralized = require('./ChallengeDeneutralized');
+const CertificationJuryDone = require('./CertificationJuryDone');
 const { checkEventTypes } = require('./check-event-types');
 
-const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized];
+const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
 const EMITTER = 'PIX-ALGO-NEUTRALIZATION';
 
 async function handleCertificationRescoring({
