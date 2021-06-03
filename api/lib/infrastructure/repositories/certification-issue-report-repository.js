@@ -6,7 +6,7 @@ const omit = require('lodash/omit');
 module.exports = {
   async save(certificationIssueReport) {
     const newCertificationIssueReport = await new CertificationIssueReportBookshelf(
-      omit(certificationIssueReport, ['isImpactful']),
+      omit(certificationIssueReport, ['isImpactful', 'isAutoNeutralizable']),
     ).save();
     return bookshelfToDomainConverter.buildDomainObject(CertificationIssueReportBookshelf, newCertificationIssueReport);
   },
@@ -23,6 +23,13 @@ module.exports = {
       }
       throw err;
     }
+  },
+
+  async findByCertificationCourseId(certificationCourseId) {
+    const certificationIssueReports = await CertificationIssueReportBookshelf
+      .where({ certificationCourseId })
+      .fetchAll();
+    return bookshelfToDomainConverter.buildDomainObjects(CertificationIssueReportBookshelf, certificationIssueReports);
   },
 
   async delete(id) {

@@ -1,8 +1,8 @@
 const FinalizedSession = require('../models/FinalizedSession');
 const { checkEventTypes } = require('./check-event-types');
-const SessionFinalized = require('./SessionFinalized');
+const AutoJuryDone = require('./AutoJuryDone');
 
-const eventTypes = [ SessionFinalized ];
+const eventTypes = [ AutoJuryDone ];
 
 async function handleSessionFinalized({
   event,

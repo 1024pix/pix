@@ -37,6 +37,7 @@ describe('Integration | Repository | Certification Issue Report', function() {
         category: CertificationIssueReportCategories.IN_CHALLENGE,
         description: 'Un gros problème',
         isActionRequired: true,
+        isAutoNeutralizable: false,
         subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
         questionNumber: 5,
         resolvedAt: new Date('2020-01-01'),
@@ -98,9 +99,43 @@ describe('Integration | Repository | Certification Issue Report', function() {
       const result = await certificationIssueReportRepository.get(issueReport.id);
 
       // then
-      const expectedIssueReport = domainBuilder.buildCertificationIssueReport(issueReport);
+      const expectedIssueReport = domainBuilder.buildCertificationIssueReport({
+        ...issueReport,
+        isAutoNeutralizable: false,
+      });
       expect(result).to.deep.equal(expectedIssueReport);
       expect(result).to.be.instanceOf(CertificationIssueReport);
+    });
+
+    it('should throw a notFound error', async () => {
+      // when
+      const error = await catchErr(certificationIssueReportRepository.get)(1234);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+    });
+  });
+
+  describe('#findByCertificationCourseId', () => {
+    it('should return certification issue reports for a certification course id', async () => {
+      // given
+      const targetCertificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const otherCertificationCourse = databaseBuilder.factory.buildCertificationCourse();
+      const issueReportForTargetCourse1 = databaseBuilder.factory.buildCertificationIssueReport({ certificationCourseId: targetCertificationCourse.id });
+      const issueReportForTargetCourse2 = databaseBuilder.factory.buildCertificationIssueReport({ certificationCourseId: targetCertificationCourse.id });
+      databaseBuilder.factory.buildCertificationIssueReport({ certificationCourseId: otherCertificationCourse.id });
+      await databaseBuilder.commit();
+
+      // when
+      const results = await certificationIssueReportRepository.findByCertificationCourseId(targetCertificationCourse.id);
+
+      // then
+      const expectedIssueReports = [
+        new CertificationIssueReport(issueReportForTargetCourse1),
+        new CertificationIssueReport(issueReportForTargetCourse2),
+      ];
+      expect(results).to.deep.equal(expectedIssueReports);
+      expect(results[0]).to.be.instanceOf(CertificationIssueReport);
     });
 
     it('should throw a notFound error', async () => {
