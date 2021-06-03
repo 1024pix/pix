@@ -1,7 +1,20 @@
 <section class="indicator-card">
   <div class="indicator-card__icon" aria-hidden="true"><FaIcon @icon={{@icon}}/></div>
   <div class="indicator-card__content">
-    <label class="indicator-card__title">{{@title}} <FaIcon @icon="question-circle" class="indicator-card__info"/></label>
+  <label class="indicator-card__title">
+    {{@title}}
+    {{#if @info}}
+      <PixTooltip
+        role="tooltip"
+        @text={{@info}}
+        @position="top"
+        @isWide={{true}}
+        @isLight={{true}}
+      >
+        <FaIcon @icon="question-circle" class="indicator-card__info"/>
+      </PixTooltip>
+    {{/if}}
+  </label>
   {{yield}}
   </div>
 </section>
