@@ -42,7 +42,7 @@ describe('Acceptance | Campaigns | Simplified access | Anonymous user access to 
       it('should access to the page', async function() {
 
         // when
-        const CAMPAIGN_RESULT_ROUTE = `/campagnes/${SIMPLIFIED_CODE_CAMPAIGN}/evaluation/resultats/${ID_ASSESSMENT}`;
+        const CAMPAIGN_RESULT_ROUTE = `/campagnes/${SIMPLIFIED_CODE_CAMPAIGN}/evaluation/resultats`;
         await visit(CAMPAIGN_RESULT_ROUTE);
         // then
         expect(currentURL()).to.equal(CAMPAIGN_RESULT_ROUTE);

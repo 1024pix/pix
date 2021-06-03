@@ -11,7 +11,6 @@ export default function index(config) {
   config.get('/assessments/:id', getAssessment);
 
   config.get('/assessments/:id/next', getNextChallenge);
-  config.get('/assessments/:id/next?tryImproving', getNextChallenge);
 
   config.patch('/assessments/:id/complete-assessment', completeAssessment);
 }

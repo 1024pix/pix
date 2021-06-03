@@ -120,8 +120,7 @@ async function _getChallengeByAssessmentType({ assessment, request }) {
   }
 
   if (assessment.isForCampaign()) {
-    const tryImproving = Boolean(request.query.tryImproving);
-    return usecases.getNextChallengeForCampaignAssessment({ assessment, tryImproving, locale });
+    return usecases.getNextChallengeForCampaignAssessment({ assessment, locale });
   }
 
   if (assessment.isCompetenceEvaluation()) {

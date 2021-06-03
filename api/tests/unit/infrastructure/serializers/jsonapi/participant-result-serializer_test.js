@@ -30,6 +30,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         sharedAt: new Date('2020-01-01'),
         knowledgeElements: knowledgeElements,
         acquiredBadgeIds: [3],
+        participantExternalId: 'greg@lafleche.fr',
       };
 
       const competences = [
@@ -68,12 +69,15 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         data: {
           attributes: {
             'is-completed': true,
+            'is-shared': true,
             'mastery-percentage': 50,
             'tested-skills-count': 2,
             'total-skills-count': 2,
             'validated-skills-count': 1,
             'stage-count': 3,
             'can-retry': true,
+            'can-improve': true,
+            'participant-external-id': 'greg@lafleche.fr',
           },
           id: '1',
           relationships: {

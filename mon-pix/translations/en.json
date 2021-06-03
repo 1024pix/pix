@@ -1021,7 +1021,7 @@
       "actions": {
         "continue": "Continue my Pix experience",
         "send": "Submit my results",
-        "try-again": "Try again"
+        "improve": "Try again"
       },
       "already-shared": "Thank you, your results have been submitted!",
       "archived": "This customised test has been archived by the organiser.'<br>' It is no longer possible to submit results.",
@@ -1049,7 +1049,7 @@
         "masteryPercentage": "Success rate: {percentage} %",
         "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
       },
-      "try-again": {
+      "improve": {
         "title": "Want to improve your results?",
         "description": "You can retake some of the questions"
       }

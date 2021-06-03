@@ -367,7 +367,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
           it('should redirect to assessment results when retrying the campaign', async function() {
             // then
-            expect(currentURL()).to.contains('/evaluation/resultats/');
+            expect(currentURL()).to.contains('/evaluation/resultats');
           });
         });
       });

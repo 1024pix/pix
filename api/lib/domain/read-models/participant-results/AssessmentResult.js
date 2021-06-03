@@ -7,11 +7,13 @@ const moment = require('moment');
 class AssessmentResult {
 
   constructor(participationResults, targetProfile, isCampaignMultipleSendings) {
-    const { knowledgeElements, sharedAt } = participationResults;
+    const { knowledgeElements, sharedAt, assessmentCreatedAt } = participationResults;
     const { competences } = targetProfile;
 
     this.id = participationResults.campaignParticipationId;
     this.isCompleted = participationResults.isCompleted;
+    this.isShared = Boolean(participationResults.sharedAt);
+    this.participantExternalId = participationResults.participantExternalId;
 
     this.totalSkillsCount = competences.flatMap(({ skillIds }) => skillIds).length;
     this.testedSkillsCount = knowledgeElements.length;
@@ -25,6 +27,7 @@ class AssessmentResult {
     if (targetProfile.stages.length > 0) {
       this.reachedStage = new ReachedStage(this.masteryPercentage, targetProfile.stages);
     }
+    this.canImprove = this._computeCanImprove(knowledgeElements, assessmentCreatedAt);
     this.canRetry = this._computeCanRetry(isCampaignMultipleSendings, sharedAt);
   }
 
@@ -34,6 +37,14 @@ class AssessmentResult {
     } else {
       return 0;
     }
+  }
+
+  _computeCanImprove(knowledgeElements, assessmentCreatedAt) {
+    return knowledgeElements.filter((knowledgeElement) => {
+      const isOldEnoughToBeImproved = moment(assessmentCreatedAt)
+        .diff(knowledgeElement.createdAt, 'days', true) >= constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
+      return knowledgeElement.isInvalidated && isOldEnoughToBeImproved;
+    }).length > 0;
   }
 
   _computeCanRetry(isCampaignMultipleSendings, sharedAt) {

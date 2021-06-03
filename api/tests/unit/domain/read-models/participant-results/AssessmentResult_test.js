@@ -1,7 +1,7 @@
 const { domainBuilder, expect, sinon } = require('../../../../test-helper');
+const constants = require('../../../../../lib/domain/constants');
 const AssessmentResult = require('../../../../../lib/domain/read-models/participant-results/AssessmentResult');
 const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
-const constants = require('../../../../../lib/domain/constants');
 
 describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', () => {
 
@@ -16,7 +16,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
       domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: KnowledgeElement.StatusType.INVALIDATED }),
       domainBuilder.buildKnowledgeElement({ skillId: 'skill4', status: KnowledgeElement.StatusType.VALIDATED }),
     ];
-    const participationResults = { campaignParticipationId: 12, isCompleted: true, knowledgeElements, acquiredBadgeIds: [] };
+    const participationResults = { campaignParticipationId: 12, isCompleted: true, knowledgeElements, acquiredBadgeIds: [], sharedAt: new Date(), participantExternalId: 'greg@lafleche.fr' };
 
     const targetProfile = { competences, stages: [], badges: [] };
 
@@ -28,6 +28,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
       testedSkillsCount: 3,
       validatedSkillsCount: 2,
       isCompleted: true,
+      isShared: true,
+      participantExternalId: 'greg@lafleche.fr',
     });
   });
 
@@ -146,16 +148,18 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
   });
 
   describe('#canRetry', () => {
+    const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
     const now = new Date('2020-01-05T05:06:07Z');
     let clock;
 
     beforeEach(() => {
-      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 3;
       clock = sinon.useFakeTimers(now);
+      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 4;
     });
 
     afterEach(() => {
       clock.restore();
+      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = originalConstantValue;
     });
 
     context('when the campaign does not allow multiple sendings', () => {
@@ -223,6 +227,75 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
         const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings);
 
         expect(assessmentResult.canRetry).to.be.true;
+      });
+    });
+  });
+
+  describe('#canImprove', () => {
+    const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
+    const assessmentCreatedAt = new Date('2020-01-05T05:06:07Z');
+    let clock;
+
+    before(() => {
+      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = 4;
+    });
+
+    after(() => {
+      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = originalConstantValue;
+    });
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers(assessmentCreatedAt);
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    context('when the knowledge element has been created less than MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING days before assessment was created', () => {
+      it('returns false', () => {
+        const ke = domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED, createdAt: new Date('2020-01-03') });
+        const participationResults = {
+          knowledgeElements: [ke],
+          acquiredBadgeIds: [],
+          assessmentCreatedAt,
+        };
+        const targetProfile = { competences: [], stages: [], badges: [] };
+
+        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false);
+
+        expect(assessmentResult.canImprove).to.be.false;
+      });
+    });
+
+    context('when the knowledge element is validated', () => {
+      it('returns false', () => {
+        const ke = domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.VALIDATED, createdAt: new Date('2020-01-01') });
+        const participationResults = {
+          knowledgeElements: [ke],
+          acquiredBadgeIds: [],
+          assessmentCreatedAt,
+        };
+        const targetProfile = { competences: [], stages: [], badges: [] };
+
+        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false);
+
+        expect(assessmentResult.canImprove).to.be.false;
+      });
+    });
+
+    context('when the knowledge element is invalidated and has bee created more than MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING days before assessment was created', () => {
+      it('returns true', () => {
+        const ke = domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED, createdAt: new Date('2020-01-01') });
+        const participationResults = {
+          knowledgeElements: [ke],
+          acquiredBadgeIds: [],
+          assessmentCreatedAt,
+        };
+        const targetProfile = { competences: [], stages: [], badges: [] };
+        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false);
+
+        expect(assessmentResult.canImprove).to.be.true;
       });
     });
   });

@@ -1,7 +1,6 @@
 const { expect, domainBuilder, sinon } = require('../../../../test-helper');
 const SharedProfileForCampaign = require('../../../../../lib/domain/models/SharedProfileForCampaign');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer');
-const constants = require('../../../../../lib/domain/constants');
 
 describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer', () => {
   let clock;
@@ -10,7 +9,6 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
   });
 
   beforeEach(() => {
-    constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 1;
     const now = new Date('2020-01-02');
     clock = sinon.useFakeTimers(now);
   });

@@ -64,7 +64,6 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-as
         targetProfileRepository,
         improvementService,
         pickChallengeService,
-        tryImproving: true,
         locale,
       });
     });

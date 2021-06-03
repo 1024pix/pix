@@ -1021,7 +1021,7 @@
       "actions": {
         "continue": "Continuez votre expérience Pix",
         "send": "J'envoie mes résultats",
-        "try-again": "Je retente"
+        "improve": "Je retente"
       },
       "already-shared": "Merci, vos résultats ont bien été envoyés !",
       "archived": "Ce parcours a été archivé par l'organisateur.'<br>' L'envoi des résultats n'est plus possible.",
@@ -1049,7 +1049,7 @@
         "masteryPercentage": "{percentage} % de réussite",
         "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} other {# étoiles acquises}} sur {total}"
       },
-      "try-again": {
+      "improve": {
         "title": "Envie d'améliorer vos résultats ?",
         "description": "Vous pouvez retenter certaines questions"
       }
