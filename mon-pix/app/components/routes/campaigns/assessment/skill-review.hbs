@@ -97,7 +97,7 @@
         <p class="skill-review-organization-message__organization-name">{{@model.campaign.organizationName}}</p>
         {{#if this.showOrganizationMessage}}
           <div class="skill-review-organization-message__text">
-            <MarkdownToHtml @markdown={{this.organizationMessage}}/>
+            <MarkdownToHtml @markdown={{@model.campaign.customResultPageText}}/>
           </div>
         {{/if}}
         {{#if this.showOrganizationButton}}
