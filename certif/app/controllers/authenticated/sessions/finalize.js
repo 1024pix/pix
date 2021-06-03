@@ -22,6 +22,10 @@ export default class SessionsFinalizeController extends Controller {
   @tracked isLoading = false;
   @tracked showConfirmModal = false;
 
+  get pageTitle() {
+    return `Finalisation | Session ${this.session.id} | Pix Certif`;
+  }
+
   @computed('session.certificationReports.@each.hasSeenEndTestScreen')
   get uncheckedHasSeenEndTestScreenCount() {
     return sumBy(
