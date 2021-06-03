@@ -80,12 +80,13 @@
       "title": "Répartition des participants par paliers"
     },
     "participants-by-status": {
-      "title": "Proportions par statut",
       "labels": {
         "started": "En cours",
         "finished": "En attente d'envois",
         "shared": "Résultats reçus"
-      }
+      },
+      "loader": "Chargement des proportions par statut",
+      "title": "Proportions par statut"
     }
   },
   "navigation": {
