@@ -37,10 +37,10 @@ module.exports = {
     return h.response(lastChallengeId).code(200);
   },
 
-  async getChallengeSolutionForPixButton(request, h) {
+  async getChallengeSolutionForPixAutoAnswer(request, h) {
     const assessmentId = parseInt(request.params.id);
 
-    const answer = await usecases.getChallengeSolutionForPixButton({ assessmentId });
+    const answer = await usecases.getChallengeSolutionForPixAutoAnswer({ assessmentId });
 
     return h.response(answer).code(200);
   },

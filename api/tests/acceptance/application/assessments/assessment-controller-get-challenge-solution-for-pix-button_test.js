@@ -31,7 +31,7 @@ const learningContent = [{
   }],
 }];
 
-describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-button', () => {
+describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-auto-answer', () => {
   let server;
   let options;
   let assessmentId;

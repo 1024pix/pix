@@ -89,7 +89,7 @@ exports.register = async (server) => {
             id: identifiersType.assessmentId,
           }),
         },
-        handler: assessmentController.getChallengeSolutionForPixButton,
+        handler: assessmentController.getChallengeSolutionForPixAutoAnswer,
         tags: ['api'],
       },
     },
