@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const { InvalidCertificationIssueReportForSaving, DeprecatedCertificationIssueReportSubcategory } = require('../errors');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('./CertificationIssueReportCategory');
+const CertificationIssueReportStrategies = require('./CertificationIssueReportResolutionStrategies');
 
 const categoryOtherJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
@@ -127,6 +128,7 @@ class CertificationIssueReport {
     this.resolution = resolution;
     this.isImpactful = _isImpactful({ category, subcategory });
     this.isAutoNeutralizable = _isSubcategoryAutoNeutralizable(subcategory);
+    this.resolutionStrategy = _getResolutionStrategy(subcategory);
 
     if ([CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN, CertificationIssueReportCategories.OTHER].includes(this.category)) {
       this.subcategory = null;
@@ -202,4 +204,28 @@ function _isSubcategoryDeprecated(subcategory) {
 
 function _isSubcategoryAutoNeutralizable(subcategory) {
   return autoNeutralizableSubcategories.includes(subcategory);
+}
+
+function _getResolutionStrategy(subcategory) {
+  if (
+    subcategory === CertificationIssueReportSubcategories.WEBSITE_BLOCKED ||
+    subcategory === CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE ||
+    subcategory === CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING
+  ) {
+    return CertificationIssueReportStrategies.NEUTRALIZE_WITHOUT_CHECKING;
+  }
+
+  if (
+    subcategory === CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING
+  ) {
+    return CertificationIssueReportStrategies.NEUTRALIZE_IF_IMAGE;
+  }
+
+  if (
+    subcategory === CertificationIssueReportSubcategories.EMBED_NOT_WORKING
+  ) {
+    return CertificationIssueReportStrategies.NEUTRALIZE_IF_EMBED;
+  }
+
+  return CertificationIssueReportStrategies.NONE;
 }

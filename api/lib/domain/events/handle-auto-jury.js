@@ -48,18 +48,13 @@ async function _autoNeutralizeChallenges({
 
   const neutralizableIssueReports = certificationIssueReports.filter((issueReport) => issueReport.isAutoNeutralizable);
 
-  let certificationImpacted = 0;
-  for (const neutralizableIssueReport of neutralizableIssueReports) {
-    const questionNumber = neutralizableIssueReport.questionNumber;
-    const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped(questionNumber);
-    if (neutralizationAttempt.hasSucceeded()) {
-      neutralizableIssueReport.resolve('Cette question a été neutralisée automatiquement');
-      await certificationIssueReportRepository.save(neutralizableIssueReport);
-      certificationImpacted++;
-    }
+  let numberOfCertificationsImpacted = 0;
+  for (const certificationIssueReport of neutralizableIssueReports) {
+    const isCertificationImpacted = await certificationIssueReport.resolutionStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+    if (isCertificationImpacted) numberOfCertificationsImpacted++;
   }
 
-  if (certificationImpacted > 0) {
+  if (numberOfCertificationsImpacted > 0) {
     await certificationAssessmentRepository.save(certificationAssessment);
     return new CertificationJuryDone({ certificationCourseId: certificationCourse.id });
   }
