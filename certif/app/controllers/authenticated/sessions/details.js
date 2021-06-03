@@ -12,6 +12,10 @@ export default class SessionsDetailsController extends Controller {
   @alias('model.certificationCandidates') certificationCandidates;
   @alias('model.shouldDisplayPrescriptionScoStudentRegistrationFeature') shouldDisplayPrescriptionScoStudentRegistrationFeature;
 
+  get pageTitle() {
+    return `Détails | Session ${this.session.id} | Pix Certif`;
+  }
+
   @computed('certificationCandidates.length')
   get certificationCandidatesCount() {
     const certificationCandidatesCount = this.certificationCandidates.length;
