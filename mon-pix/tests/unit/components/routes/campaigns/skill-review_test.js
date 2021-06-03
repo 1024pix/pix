@@ -28,7 +28,6 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     sinon.stub(adapter, 'beginImprovement').resolves();
 
     component.router.transitionTo = sinon.stub();
-    component.disconnectUser = sinon.stub();
   });
 
   describe('#shareCampaignParticipation', function() {
@@ -42,27 +41,16 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
 
     context('when share is effective', function() {
-      beforeEach(() => {
-        adapter.share.resolves();
-      });
 
       it('should set isShared to true', async function() {
+        // given
+        adapter.share.resolves();
+
         // when
         await component.actions.shareCampaignParticipation.call(component);
 
         // then
         expect(component.args.model.campaignParticipationResult.isShared).to.equal(true);
-      });
-
-      it('should disconnect user if campaign has simplified access', async function() {
-        // given
-        component.args.model.campaign.isSimplifiedAccess = true;
-
-        // when
-        await component.actions.shareCampaignParticipation.call(component);
-
-        // then
-        sinon.assert.called(component.disconnectUser);
       });
     });
 

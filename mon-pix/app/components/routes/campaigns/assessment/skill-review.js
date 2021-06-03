@@ -132,10 +132,6 @@ export default class SkillReview extends Component {
     }
 
     campaignParticipationResult.isShared = true;
-    const isSimplifiedAccessCampaign = this.args.model.campaign.isSimplifiedAccess;
-    if (isSimplifiedAccessCampaign) {
-      return this.disconnectUser();
-    }
   }
 
   @action
@@ -144,11 +140,6 @@ export default class SkillReview extends Component {
     const adapter = this.store.adapterFor('campaign-participation-result');
     await adapter.beginImprovement(campaignParticipationResult.id);
     return this.router.transitionTo('campaigns.start-or-resume', this.args.model.campaign.code);
-  }
-
-  async disconnectUser() {
-    await this.session.invalidate();
-    return window.location.replace(this.url.homeUrl);
   }
 
   @action
