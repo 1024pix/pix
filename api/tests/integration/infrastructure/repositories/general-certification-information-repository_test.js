@@ -1,6 +1,7 @@
 const { catchErr, expect, databaseBuilder } = require('../../../test-helper');
 const generalCertificationInformationRepository = require('../../../../lib/infrastructure/repositories/general-certification-information-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const CertificationIssueReportResolutionStrategies = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
 
 const GeneralCertificationInformation = require('../../../../lib/domain/read-models/GeneralCertificationInformation');
 
@@ -57,8 +58,20 @@ describe('Integration | Repository | General certification information', functio
           birthdate: certificationCourseDTO.birthdate,
           birthplace: certificationCourseDTO.birthplace,
           certificationIssueReports: [
-            { ...firstCertificationReport, isAutoNeutralizable: false, isImpactful: true, resolution: 'challenge neutralized', resolvedAt: new Date('2021-01-01T00:00:00Z') },
-            { ...secondCertificationReport, isAutoNeutralizable: false, isImpactful: true, resolution: null, resolvedAt: null },
+            { ...firstCertificationReport,
+              isAutoNeutralizable: false,
+              isImpactful: true,
+              resolution: 'challenge neutralized',
+              resolvedAt: new Date('2021-01-01T00:00:00Z'),
+              resolutionStrategy: CertificationIssueReportResolutionStrategies.NONE,
+            },
+            { ...secondCertificationReport,
+              isAutoNeutralizable: false,
+              isImpactful: true,
+              resolution: null,
+              resolvedAt: null,
+              resolutionStrategy: CertificationIssueReportResolutionStrategies.NONE,
+            },
           ],
         };
         expect(result).to.be.instanceOf(GeneralCertificationInformation);
