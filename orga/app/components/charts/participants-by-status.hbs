@@ -6,15 +6,20 @@
       @type="doughnut"
       @options={{this.options}}
       @data={{this.data}}
-      aria-hidden={{true}}
+      aria-hidden="true"
+    />
+    <Charts::ParticipantsByStatusA11y
+      @started={{this.started}}
+      @completed={{this.completed}}
+      @shared={{this.shared}}
     />
   {{/if}}
-  <ul class="participants-by-status__legend">
+  <ul class="participants-by-status__legend" aria-hidden="true">
     <li class="participants-by-status__legend--started">
       {{t 'charts.participants-by-status.labels.started'}}
     </li>
-    <li class="participants-by-status__legend--finished">
-      {{t 'charts.participants-by-status.labels.finished'}}
+    <li class="participants-by-status__legend--completed">
+      {{t 'charts.participants-by-status.labels.completed'}}
     </li>
     <li class="participants-by-status__legend--shared">
       {{t 'charts.participants-by-status.labels.shared'}}

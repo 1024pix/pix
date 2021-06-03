@@ -19,7 +19,7 @@ export default class ParticipantsByStatus extends Component {
       this.data = {
         labels: [
           this.intl.t('charts.participants-by-status.labels.started'),
-          this.intl.t('charts.participants-by-status.labels.finished'),
+          this.intl.t('charts.participants-by-status.labels.completed'),
           this.intl.t('charts.participants-by-status.labels.shared'),
         ],
         datasets: [
@@ -41,5 +41,17 @@ export default class ParticipantsByStatus extends Component {
       },
       borderWidth: 0,
     };
+  }
+
+  get started() {
+    return this.data.datasets[0].data[0];
+  }
+
+  get completed() {
+    return this.data.datasets[0].data[1];
+  }
+
+  get shared() {
+    return this.data.datasets[0].data[2];
   }
 }
