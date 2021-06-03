@@ -1,26 +1,30 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  knex,
+  insertUserWithRolePixMaster,
+  generateValidRequestAuthorizationHeader,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const config = require('../../../../lib/config');
 
 describe('Acceptance | API | assessment-controller-get-last-challenge-id', () => {
 
-  let server, pixAutoAnswerApiKey;
+  let server;
 
   beforeEach(async () => {
     server = await createServer();
-    pixAutoAnswerApiKey = config.pixAutoAnswer.apiKey;
   });
 
   describe('GET /api/assessments/:id/last-challenge-id', () => {
 
     let options;
-    let userId;
     let assessmentId;
+    let userId;
     const lastChallengeId = 'lastChallengeId';
 
     beforeEach(async () => {
-      userId = databaseBuilder.factory.buildUser().id;
+      const { id: userId } = await insertUserWithRolePixMaster();
       assessmentId = databaseBuilder.factory.buildAssessment(
         { state: Assessment.states.STARTED, type: Assessment.types.PREVIEW, lastChallengeId, userId }).id;
       await databaseBuilder.commit();
@@ -37,7 +41,7 @@ describe('Acceptance | API | assessment-controller-get-last-challenge-id', () =>
           method: 'GET',
           url: `/api/assessments/${assessmentId}/last-challenge-id`,
           headers: {
-            authorization: `Bearer ${pixAutoAnswerApiKey}`,
+            authorization: `Bearer ${generateValidRequestAuthorizationHeader(userId)}`,
           },
         };
       });

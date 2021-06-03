@@ -22,18 +22,6 @@ function _replyWithForbiddenError(h) {
   return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
 }
 
-function _replyWithUnauthorizedError(h) {
-  const errorHttpStatusCode = 401;
-
-  const jsonApiError = new JSONAPIError({
-    code: errorHttpStatusCode,
-    title: 'Unauthorized access',
-    detail: 'Missing or wrong permissions.',
-  });
-
-  return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-}
-
 function checkUserHasRolePixMaster(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyWithForbiddenError(h);
