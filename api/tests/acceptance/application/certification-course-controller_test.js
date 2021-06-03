@@ -302,7 +302,6 @@ describe('Acceptance | API | Certification Course', () => {
         };
         await databaseBuilder.commit();
 
-        //const userId = 456;
         const response = await server.inject(options);
         expect(response.statusCode).to.equal(403);
       });
@@ -310,13 +309,15 @@ describe('Acceptance | API | Certification Course', () => {
 
     context('When the user does have role pixmaster', () => {
       let options;
+      let certificationCourseId;
 
       beforeEach(async () => {
         await insertUserWithRolePixMaster();
-        const { id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
+        certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          verificationCode: 'ABCD123',
           createdAt: new Date('2019-12-21T15:44:38Z'),
           completedAt: new Date('2017-12-21T15:48:38Z'),
-        });
+        }).id;
 
         options = {
           headers: { authorization: generateValidRequestAuthorizationHeader() },
@@ -339,20 +340,23 @@ describe('Acceptance | API | Certification Course', () => {
         return databaseBuilder.commit();
       });
 
-      it('should update the certification course', () => {
-      // when
-        const promise = server.inject(options);
+      it('should update the certification course', async () => {
+        // when
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-        // then
-          const result = response.result.data;
-          expect(result.attributes['first-name']).to.equal('Freezer');
-          expect(result.attributes['last-name']).to.equal('The all mighty');
-          expect(result.attributes['birthplace']).to.equal('Namek');
-          expect(result.attributes['birthdate']).to.equal('1989-10-24');
-          expect(result.attributes['external-id']).to.equal('xenoverse2');
-        });
+        const result = response.result.data;
+        expect(result.attributes['first-name']).to.equal('Freezer');
+        expect(result.attributes['last-name']).to.equal('The all mighty');
+        expect(result.attributes['birthplace']).to.equal('Namek');
+        expect(result.attributes['birthdate']).to.equal('1989-10-24');
+        const { isV2Certification, verificationCode } = await knex
+          .select('isV2Certification', 'verificationCode')
+          .from('certification-courses')
+          .where({ id: certificationCourseId })
+          .first();
+        expect(isV2Certification).to.be.true;
+        expect(verificationCode).to.equal('ABCD123');
       });
 
       it('should return a Wrong Error Format when birthdate is false', () => {
