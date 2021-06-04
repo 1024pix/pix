@@ -9,6 +9,7 @@
       position: relative;
       padding-bottom: 8px;
       padding-left: 24px;
+      color: $grey-70;
       
       &::before {
         position: absolute;
@@ -27,23 +28,20 @@
     }
 
     &--started {
-      color: #0090d7;
       &::before {
-        background-color: #0090d7;
+        background-color: $yellow;
       }
     }
 
     &--completed {
-      color: #502ec4;
       &::before {
-        background-color: #502ec4;
+        background-color: $purple;
       }
     }
 
     &--shared {
-      color: #67bb0b;
       &::before {
-        background-color: #67bb0b;
+        background-color: $green;
       }
     }
 
