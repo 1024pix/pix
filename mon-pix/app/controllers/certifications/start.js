@@ -4,12 +4,24 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
 export default class StartCertificationController extends Controller {
-
-  @tracked showCongratulationsBanner = true;
   @service currentUser;
+
+  @tracked displayCongratulationsBanner = true;
+  @tracked currentStep = 'join';
+  @tracked sessionId = null;
+
+  get showCongratulationsBanner() {
+    return this.displayCongratulationsBanner && this.currentStep === 'join';
+  }
 
   @action
   closeBanner() {
-    this.showCongratulationsBanner = false;
+    this.displayCongratulationsBanner = false;
+  }
+
+  @action
+  changeStep(sessionId) {
+    this.sessionId = sessionId;
+    this.currentStep = 'start';
   }
 }

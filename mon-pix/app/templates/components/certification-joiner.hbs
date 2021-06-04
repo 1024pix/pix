@@ -1,4 +1,4 @@
-{{!-- template-lint-disable no-unknown-arguments-for-builtin-components no-bare-strings --}}
+{{!-- template-lint-disable require-input-label no-unknown-arguments-for-builtin-components no-bare-strings --}}
 <section class="certification-joiner">
   <h1 class="certification-joiner__title">{{t "pages.certification-joiner.first-title"}}</h1>
     <form autocomplete="off" {{on "submit" this.attemptNext}}>
@@ -10,11 +10,11 @@
             pattern={{this.SESSION_ID_VALIDATION_PATTERN}}
             title={{t 'pages.certification-joiner.form.fields-validation.session-number-error'}}
             @type="text"
-            @size="6"
+            size="6"
             @value={{this.sessionId}}
             {{on "input" this.checkSessionIdIsValid}}
             inputmode="decimal"
-            @required="true" />
+            required="true" />
           <p class="certification-joiner__validation-error">{{this.sessionIdIsNotANumberError}}</p>
         </div>
         <div class="certification-joiner__row">
@@ -28,16 +28,16 @@
         <div class="certification-joiner__row">
           <label class="certification-joiner__label" for="certificationJoinerDayOfBirth">{{t "pages.certification-joiner.form.fields.birth-date"}}</label>
           <div class="certification-joiner__birthdate" id="certificationJoinerBirthDate">
-            <Input @min="1"
-              @max="31"
+            <Input min="1"
+              max="31"
               @type="number"
               @value={{this.dayOfBirth}} placeholder="JJ"
-              @id="certificationJoinerDayOfBirth"
+              id="certificationJoinerDayOfBirth"
               {{on "input" this.handleDayInputChange}}
               {{on "focus-in" this.handleInputFocus}}
               aria-label={{t 'pages.certification-joiner.form.fields.birth-day'}} />
               <div class="certification-joiner__divider"></div>
-            <Input @min="1"
+            <Input min="1"
               @max="12"
               @type="number"
               @value={{this.monthOfBirth}} placeholder="MM"

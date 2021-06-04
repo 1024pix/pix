@@ -1,8 +1,0 @@
-{{!-- template-lint-disable no-implicit-this no-action --}}
-<div class="stepper">
-  <section>
-    {{#component this.activeComponentName as |Active|}}
-      <Active.main @success={{action "didMove"}} @stepsData={{stepsData}} />
-    {{/component}}
-  </section>
-</div>

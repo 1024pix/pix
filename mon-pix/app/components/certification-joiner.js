@@ -20,7 +20,6 @@ function _isSessionNotAccessibleError(err) {
 
 export default class CertificationJoiner extends Component {
   @service store;
-  @service peeker;
   @service intl;
 
   SESSION_ID_VALIDATION_PATTERN = '^[0-9]*$';
@@ -74,7 +73,6 @@ export default class CertificationJoiner extends Component {
   @action
   async attemptNext(e) {
     e.preventDefault();
-    this.args.stepsData.joiner = { sessionId: this.sessionId };
     let currentCertificationCandidate = null;
     if (this.sessionId && !this._isANumber(this.sessionId)) {
       this.sessionIdIsNotANumberError = this.intl.t('pages.certification-joiner.form.fields-validation.session-number-error');
@@ -85,7 +83,7 @@ export default class CertificationJoiner extends Component {
       this.isLoading = true;
       currentCertificationCandidate = this.createCertificationCandidate();
       await currentCertificationCandidate.save({ adapterOptions: { joinSession: true, sessionId: this.sessionId } });
-      this.args.success();
+      this.args.onStepChange(this.sessionId);
     } catch (err) {
       if (currentCertificationCandidate) {
         currentCertificationCandidate.deleteRecord();

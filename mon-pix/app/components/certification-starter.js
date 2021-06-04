@@ -1,63 +1,51 @@
-/* eslint ember/no-actions-hash: 0 */
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
+import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
-import Component from '@ember/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  store: service(),
-  peeker: service(),
-  router: service(),
-  currentUser: service(),
-  intl: service(),
+export default class CertificationJoiner extends Component {
+  @service store;
+  @service router;
+  @service currentUser;
+  @service intl;
 
-  isLoading: false,
-  inputAccessCode: null,
-  accessCode: computed('inputAccessCode', function() {
+  @tracked isLoading = false;
+  @tracked inputAccessCode = null;
+  @tracked errorMessage = null;
+  @tracked classNames = [];
+  @tracked certificationCourse = null;
+
+  get accessCode() {
     return this.inputAccessCode.toUpperCase();
-  }),
-  errorMessage: null,
-  classNames: [],
+  }
 
-  certificationCourse: null,
+  @action
+  async submit(e) {
+    e.preventDefault();
+    this.errorMessage = null;
+    if (!this.accessCode) {
+      this.errorMessage = this.intl.t('pages.certification-start.error-messages.access-code-error');
+      return;
+    }
+    this.isLoading = true;
 
-  actions: {
-    async submit() {
-      this.set('errorMessage', null);
-      if (!this.accessCode) {
-        return this.set('errorMessage', this.intl.t('pages.certification-start.error-messages.access-code-error'));
+    const newCertificationCourse = this.store.createRecord('certification-course', {
+      accessCode: this.accessCode,
+      sessionId: this.args.sessionId,
+    });
+    try {
+      await newCertificationCourse.save();
+      this.router.replaceWith('certifications.resume', newCertificationCourse.id);
+    } catch (err) {
+      newCertificationCourse.deleteRecord();
+      if (err.errors?.[0]?.status === '404') {
+        this.errorMessage = this.intl.t('pages.certification-start.error-messages.access-code-error');
+      } else if (err.errors?.[0]?.status === '412') {
+        this.errorMessage = this.intl.t('pages.certification-start.error-messages.session-not-accessible');
+      } else {
+        this.errorMessage = this.intl.t('pages.certification-start.error-messages.generic');
       }
-      this.set('isLoading', true);
-
-      const existingCertificationCourse = this.getCurrentCertificationCourse();
-      if (existingCertificationCourse) {
-        return this.router.replaceWith('certifications.resume', existingCertificationCourse.id);
-      }
-      const newCertificationCourse = this.store.createRecord('certification-course', {
-        accessCode: this.accessCode,
-        sessionId: this.stepsData.joiner.sessionId,
-      });
-      try {
-        await newCertificationCourse.save();
-        this.router.replaceWith('certifications.resume', this.getCurrentCertificationCourse().id);
-      } catch (err) {
-        this.getCurrentCertificationCourse().deleteRecord();
-        if (err.errors && err.errors[0] && err.errors[0].status === '404') {
-          this.set('errorMessage', this.intl.t('pages.certification-start.error-messages.access-code-error'));
-        } else if (err.errors && err.errors[0] && err.errors[0].status === '412') {
-          this.set('errorMessage', this.intl.t('pages.certification-start.error-messages.session-not-accessible'));
-        } else {
-          this.set('errorMessage', this.intl.t('pages.certification-start.error-messages.generic'));
-        }
-        this.set('isLoading', false);
-      }
-    },
-  },
-
-  getCurrentCertificationCourse() {
-    return this.peeker.findOne('certification-course', { accessCode: this.accessCode, sessionId: this.stepsData.joiner.sessionId });
-  },
-});
+      this.isLoading = false;
+    }
+  }
+}
