@@ -18,7 +18,7 @@ module.exports = {
       return CertificationIssueReportResolutionAttempt.failure();
     }
 
-    const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped(questionNumber);
+    const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber);
     if (neutralizationAttempt.hasSucceeded()) {
       certificationIssueReport.resolve('Cette question a été neutralisée automatiquement');
       await certificationIssueReportRepository.save(certificationIssueReport);
@@ -28,7 +28,7 @@ module.exports = {
   },
   NEUTRALIZE_WITHOUT_CHECKING: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository }) => {
     const questionNumber = certificationIssueReport.questionNumber;
-    const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped(questionNumber);
+    const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber);
     if (neutralizationAttempt.hasSucceeded()) {
       certificationIssueReport.resolve('Cette question a été neutralisée automatiquement');
       await certificationIssueReportRepository.save(certificationIssueReport);
