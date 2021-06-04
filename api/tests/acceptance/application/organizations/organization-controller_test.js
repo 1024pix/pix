@@ -970,40 +970,40 @@ describe('Acceptance | Application | organization-controller', () => {
     let user2;
     let options;
 
-    context('Expected output', () => {
+    beforeEach(async () => {
+      const adminUserId = databaseBuilder.factory.buildUser().id;
+      organization = databaseBuilder.factory.buildOrganization();
+      databaseBuilder.factory.buildMembership({
+        userId: adminUserId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.ADMIN,
+      });
 
-      beforeEach(async () => {
-        const adminUserId = databaseBuilder.factory.buildUser().id;
-        organization = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildMembership({
-          userId: adminUserId,
-          organizationId: organization.id,
-          organizationRole: Membership.roles.ADMIN,
-        });
+      user1 = databaseBuilder.factory.buildUser();
+      user2 = databaseBuilder.factory.buildUser();
 
-        user1 = databaseBuilder.factory.buildUser();
-        user2 = databaseBuilder.factory.buildUser();
-
-        options = {
-          method: 'POST',
-          url: `/api/organizations/${organization.id}/invitations`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(adminUserId) },
-          payload: {
-            data: {
-              type: 'organization-invitations',
-              attributes: {
-                email: `${user1.email},${user2.email}`,
-              },
+      options = {
+        method: 'POST',
+        url: `/api/organizations/${organization.id}/invitations`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(adminUserId) },
+        payload: {
+          data: {
+            type: 'organization-invitations',
+            attributes: {
+              email: `${user1.email},${user2.email}`,
             },
           },
-        };
+        },
+      };
 
-        await databaseBuilder.commit();
-      });
+      await databaseBuilder.commit();
+    });
 
-      afterEach(async () => {
-        await knex('organization-invitations').delete();
-      });
+    afterEach(async () => {
+      await knex('organization-invitations').delete();
+    });
+
+    context('Expected output', () => {
 
       it('should return the matching organization-invitations as JSON API', async () => {
         // given
@@ -1041,40 +1041,6 @@ describe('Acceptance | Application | organization-controller', () => {
     });
 
     context('Resource access management', () => {
-
-      let user;
-
-      beforeEach(async () => {
-        const adminUserId = databaseBuilder.factory.buildUser().id;
-        organization = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildMembership({
-          userId: adminUserId,
-          organizationId: organization.id,
-          organizationRole: Membership.roles.ADMIN,
-        });
-
-        user = databaseBuilder.factory.buildUser();
-
-        options = {
-          method: 'POST',
-          url: `/api/organizations/${organization.id}/invitations`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(adminUserId) },
-          payload: {
-            data: {
-              type: 'organization-invitations',
-              attributes: {
-                email: user.email,
-              },
-            },
-          },
-        };
-
-        await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await knex('organization-invitations').delete();
-      });
 
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
