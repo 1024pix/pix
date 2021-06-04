@@ -1,6 +1,17 @@
-const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
+const {
+  expect,
+  knex,
+  domainBuilder,
+  databaseBuilder,
+  catchErr,
+} = require('../../../test-helper');
+
+const {
+  AlreadyExistingEntityError,
+  NotFoundError,
+} = require('../../../../lib/domain/errors');
+
 const Tag = require('../../../../lib/domain/models/Tag');
-const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
 const tagRepository = require('../../../../lib/infrastructure/repositories/tag-repository');
 
 describe('Integration | Repository | TagRepository', () => {
@@ -85,6 +96,33 @@ describe('Integration | Repository | TagRepository', () => {
       // then
       expect(result).to.be.deep.equal(expectedResult);
     });
+  });
+
+  describe('#get', () => {
+
+    it('should return a tag by provided id', async () => {
+      // given
+      const insertedTag = databaseBuilder.factory.buildTag({ id: 1, name: 'AEFE' });
+      await databaseBuilder.commit();
+
+      // when
+      const foundTag = await tagRepository.get(insertedTag.id);
+
+      // then
+      expect(foundTag).to.deep.equal({ id: 1, name: 'AEFE' });
+    });
+
+    it('should throw NotFoundError when tag id is not found', async () => {
+      // given
+      const nonExistentId = 10083;
+
+      // when
+      const error = await catchErr(tagRepository.get)(nonExistentId);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+    });
+
   });
 
 });
