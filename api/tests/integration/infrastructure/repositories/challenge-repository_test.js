@@ -53,25 +53,6 @@ describe('Integration | Repository | challenge-repository', () => {
     });
   });
 
-  describe('#getSolution', () => {
-    it('should return the solution of the requested challenge', async () => {
-      // given
-      const challengeId = 'challenge_id';
-      const challengeSolution = 'solution';
-      const learningContent = {
-        challenges: [{ id: challengeId, solution: challengeSolution }],
-      };
-
-      mockLearningContent(learningContent);
-
-      // when
-      const solution = await challengeRepository.getSolution(challengeId);
-
-      // then
-      expect(solution).to.equal(challengeSolution);
-    });
-  });
-
   describe('#findValidated', () => {
     it('should return only validated challenges with skills', async () => {
       // given

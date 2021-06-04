@@ -25,7 +25,7 @@ const learningContent = [{
       skills: [{
         id: 'skillWeb2Id',
         nom: '@web2',
-        challenges: [{ id: lastChallengeId, solution: lastChallengeAnswer }],
+        challenges: [{ id: lastChallengeId, solution: lastChallengeAnswer, type: 'QROC', autoReply: false }],
       }],
     }],
   }],
@@ -42,7 +42,7 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
     mockLearningContent(learningContentObjects);
   });
 
-  describe('GET /api/assessments/:id/challenge-answer-for-pix-auto-answer', () => {
+  describe('GET /api/assessments/:id/challenge-for-pix-auto-answer', () => {
     let userId;
 
     beforeEach(async () => {
@@ -62,7 +62,7 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
       beforeEach(() => {
         options = {
           method: 'GET',
-          url: `/api/assessments/${assessmentId}/challenge-answer-for-pix-auto-answer`,
+          url: `/api/assessments/${assessmentId}/challenge-for-pix-auto-answer`,
           headers: {
             authorization: `Bearer ${generateValidRequestAuthorizationHeader(userId)}`,
           },
@@ -77,21 +77,26 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return text/html; charset=utf-8', async () => {
+      it('should return application/json; charset=utf-8', async () => {
         // when
         const response = await server.inject(options);
 
         // then
         const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('text/html; charset=utf-8');
+        expect(contentType).to.contain('application/json; charset=utf-8');
       });
 
-      it('should return challenge\'s answer', async () => {
+      it('should return challengeForPixAutoAnswer', async () => {
         // when
         const response = await server.inject(options);
 
         // then
-        expect(response.result).to.equal(lastChallengeAnswer);
+        expect(response.result).to.deep.equal({
+          id: lastChallengeId,
+          type: 'QROC',
+          autoReply: false,
+          solution: lastChallengeAnswer,
+        });
       });
     });
 
@@ -100,7 +105,7 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
         const userId = 456;
         options = {
           method: 'GET',
-          url: `/api/assessments/${assessmentId}/challenge-answer-for-pix-auto-answer`,
+          url: `/api/assessments/${assessmentId}/challenge-for-pix-auto-answer`,
           headers: {
             authorization: `Bearer ${generateValidRequestAuthorizationHeader(userId)}`,
           },

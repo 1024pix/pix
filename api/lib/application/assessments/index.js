@@ -78,7 +78,7 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/assessments/{id}/challenge-answer-for-pix-auto-answer',
+      path: '/api/assessments/{id}/challenge-for-pix-auto-answer',
       config: {
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
@@ -89,7 +89,7 @@ exports.register = async (server) => {
             id: identifiersType.assessmentId,
           }),
         },
-        handler: assessmentController.getChallengeSolutionForPixAutoAnswer,
+        handler: assessmentController.getChallengeForPixAutoAnswer,
         tags: ['api'],
       },
     },
