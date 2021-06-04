@@ -56,17 +56,17 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     const knowledgeElementsByUserIdAndCompetenceId =
       await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent);
 
-    let acquiredBadgesByUsers;
+    let acquiredBadgesByCampaignParticipations;
     if (targetProfileWithLearningContent.hasBadges()) {
-      const userIds = campaignParticipationInfoChunk.map((campaignParticipationInfo) => campaignParticipationInfo.userId);
-      acquiredBadgesByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({ campaignId, userIds });
+      const campaignParticipationsIds = campaignParticipationInfoChunk.map((campaignParticipationInfo) => campaignParticipationInfo.campaignParticipationId);
+      acquiredBadgesByCampaignParticipations = await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds });
     }
 
     let csvLines = '';
     for (const [strParticipantId, participantKnowledgeElementsByCompetenceId] of Object.entries(knowledgeElementsByUserIdAndCompetenceId)) {
       const participantId = parseInt(strParticipantId);
       const campaignParticipationInfo = campaignParticipationInfoChunk.find((campaignParticipationInfo) => campaignParticipationInfo.userId === participantId);
-      const acquiredBadges = acquiredBadgesByUsers && acquiredBadgesByUsers[participantId] ? acquiredBadgesByUsers[participantId].map((badge) => badge.title) : [];
+      const acquiredBadges = acquiredBadgesByCampaignParticipations && acquiredBadgesByCampaignParticipations[campaignParticipationInfo.campaignParticipationId] ? acquiredBadgesByCampaignParticipations[campaignParticipationInfo.campaignParticipationId].map((badge) => badge.title) : [];
       const csvLine = campaignCsvExportService.createOneCsvLine({
         organization,
         campaign,
