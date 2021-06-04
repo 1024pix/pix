@@ -232,5 +232,63 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
       expect(events[0]).not.to.be.an.instanceOf(CertificationJuryDone);
     });
   });
+
+  context('when a resolution throws an exception', () => {
+    it('should go on and try to resolve the others certification issue reports', async () => {
+      // given
+      const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
+      const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+      const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal123', isNeutralized: false });
+      const challengeToBeNeutralized2 = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal456', isNeutralized: false });
+      const challengeNotToBeNeutralized = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal789', isNeutralized: false });
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({ challengeId: 'recChal123', result: AnswerStatus.SKIPPED }),
+          domainBuilder.buildAnswer({ challengeId: 'recChal456', result: AnswerStatus.KO }),
+          domainBuilder.buildAnswer({ challengeId: 'recChal789', result: AnswerStatus.OK }),
+        ],
+        certificationChallenges: [
+          challengeToBeNeutralized1,
+          challengeToBeNeutralized2,
+          challengeNotToBeNeutralized,
+        ],
+      });
+      const certificationCourse = domainBuilder.buildCertificationCourse();
+      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
+      const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.FRAUD, subcategory: undefined, questionNumber: 1 });
+      const anError = new Error('something bad happened');
+      sinon.stub(certificationIssueReport, 'resolutionStrategy').rejects(anError);
+      sinon.stub(certificationIssueReport2, 'resolutionStrategy').resolves(CertificationIssueReportResolutionAttempt.unresolved());
+      certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
+      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport, certificationIssueReport2 ]);
+      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
+      certificationAssessmentRepository.save.resolves();
+      const event = new SessionFinalized({
+        sessionId: 1234,
+        finalizedAt: new Date(),
+        hasExaminerGlobalComment: false,
+        certificationCenterName: 'A certification center name',
+        sessionDate: '2021-01-29',
+        sessionTime: '14:00',
+      });
+      const logger = {
+        error: sinon.stub(),
+      };
+
+      // when
+      await handleAutoJury({
+        event,
+        certificationIssueReportRepository,
+        certificationAssessmentRepository,
+        certificationCourseRepository,
+        logger,
+      });
+
+      // then
+      expect(certificationIssueReport2.resolutionStrategy).to.have.been.called;
+      expect(logger.error).to.have.been.calledWith(anError);
+    });
+  });
 });
 
