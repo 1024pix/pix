@@ -8,6 +8,7 @@ const validationSchema = Joi.object({
   participantExternalId: Joi.string().optional().allow(null),
   studentNumber: Joi.string().optional().allow(null),
   userId: Joi.number().integer().required(),
+  campaignParticipationId: Joi.number().integer().required(),
   isCompleted: Joi.boolean().required(),
   createdAt: Joi.date().required(),
   sharedAt: Joi.date().required().allow(null),
@@ -22,6 +23,7 @@ class CampaignParticipationInfo {
     participantExternalId = null,
     studentNumber = null,
     userId,
+    campaignParticipationId,
     isCompleted,
     createdAt,
     sharedAt,
@@ -32,6 +34,7 @@ class CampaignParticipationInfo {
     this.participantExternalId = participantExternalId;
     this.studentNumber = studentNumber;
     this.userId = userId;
+    this.campaignParticipationId = campaignParticipationId;
     this.isCompleted = isCompleted;
     this.createdAt = createdAt;
     this.sharedAt = sharedAt;
