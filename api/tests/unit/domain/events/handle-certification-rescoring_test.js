@@ -24,8 +24,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       state: CertificationAssessment.states.STARTED,
       isV2Certification: true,
       certificationChallenges: [
-        domainBuilder.buildCertificationChallenge({ isNeutralized: false }),
-        domainBuilder.buildCertificationChallenge({ isNeutralized: false }),
+        domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+        domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
       ],
       certificationAnswersByDate: ['answer'],
     });
@@ -141,8 +141,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       state: CertificationAssessment.states.STARTED,
       isV2Certification: true,
       certificationChallenges: [
-        domainBuilder.buildCertificationChallenge({ isNeutralized: false }),
-        domainBuilder.buildCertificationChallenge({ isNeutralized: false }),
+        domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+        domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
       ],
       certificationAnswersByDate: ['answer'],
     });

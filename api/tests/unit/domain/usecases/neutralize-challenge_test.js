@@ -19,7 +19,7 @@ describe('Unit | UseCase | neutralize-challenge', () => {
       certificationAssessmentRepository,
     };
 
-    const challengeToBeNeutralized = domainBuilder.buildCertificationChallenge({ isNeutralized: false });
+    const challengeToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false });
     const certificationAssessment = new CertificationAssessment({
       id: 123,
       userId: 123,
@@ -30,8 +30,8 @@ describe('Unit | UseCase | neutralize-challenge', () => {
       isV2Certification: true,
       certificationChallenges: [
         challengeToBeNeutralized,
-        domainBuilder.buildCertificationChallenge({ isNeutralized: false }),
-        domainBuilder.buildCertificationChallenge({ isNeutralized: false }),
+        domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+        domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
       ],
       certificationAnswersByDate: ['answer'],
     });
@@ -64,7 +64,7 @@ describe('Unit | UseCase | neutralize-challenge', () => {
       certificationAssessmentRepository,
     };
 
-    const challengeToBeNeutralized = domainBuilder.buildCertificationChallenge({ isNeutralized: false });
+    const challengeToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false });
     const certificationAssessment = new CertificationAssessment({
       id: 123,
       userId: 123,
@@ -75,8 +75,8 @@ describe('Unit | UseCase | neutralize-challenge', () => {
       isV2Certification: true,
       certificationChallenges: [
         challengeToBeNeutralized,
-        domainBuilder.buildCertificationChallenge({ isNeutralized: false }),
-        domainBuilder.buildCertificationChallenge({ isNeutralized: false }),
+        domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+        domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
       ],
       certificationAnswersByDate: ['answer'],
     });

@@ -2,16 +2,18 @@ const _ = require('lodash');
 const qrocmDepChallenge = 'QROCM-dep';
 
 module.exports = class AnswerCollectionForScoring {
-  constructor(answers) {
+  constructor(answers, challenges) {
     this.answers = answers;
+    this.challenges = challenges;
   }
 
   static from({ answers, challenges }) {
-    const answersForScoring = challenges.map((challenge) => {
-      const answer = _.find(answers, { challengeId: challenge.challengeId });
+    const answersForScoring = answers.map((answer) => {
+      const challenge = challenges.find((challenge) => answer.challengeId === challenge.challengeId);
       return new AnswerForScoring(answer, challenge);
     });
-    return new AnswerCollectionForScoring(answersForScoring);
+    const challengesForScoring = challenges.map((challenge) => new ChallengeForScoring(challenge));
+    return new AnswerCollectionForScoring(answersForScoring, challengesForScoring);
   }
 
   numberOfCorrectAnswers() {
@@ -37,9 +39,9 @@ module.exports = class AnswerCollectionForScoring {
   }
 
   numberOfChallengesForCompetence(competenceId) {
-    const answersForCompetence = this.answers.filter((answer) => answer.competenceId() === competenceId);
-    const numberOfChallenges = _(answersForCompetence).map((answer) => {
-      if (answersForCompetence.length < 3 && answer.isQROCMdep()) {
+    const challengesForCompetence = this.challenges.filter((challenge) => challenge.competenceId() === competenceId);
+    const numberOfChallenges = _(challengesForCompetence).map((challenge) => {
+      if (challengesForCompetence.length < 3 && challenge.isQROCMdep()) {
         return 2;
       } else {
         return 1;
@@ -109,6 +111,26 @@ class AnswerForScoring {
   isNeutralized() {
     return this.challenge.isNeutralized;
   }
+
+  competenceId() {
+    return this.challenge.competenceId;
+  }
+}
+
+class ChallengeForScoring {
+  constructor(challenge) {
+    this.challenge = challenge;
+  }
+
+  isQROCMdep() {
+    const challengeType = this.challenge ? this.challenge.type : '';
+    return challengeType === qrocmDepChallenge;
+  }
+
+  isNeutralized() {
+    return this.challenge.isNeutralized;
+  }
+
   competenceId() {
     return this.challenge.competenceId;
   }
