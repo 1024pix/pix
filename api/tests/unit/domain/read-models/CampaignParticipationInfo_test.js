@@ -13,6 +13,7 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
         participantExternalId: 'Christmas1990',
         studentNumber: 'SuperEtudiant',
         userId: 123,
+        campaignParticipationId: 999,
         isCompleted: true,
         createdAt: new Date('2019-04-01'),
         sharedAt: new Date('2019-05-01'),
@@ -127,6 +128,7 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
         participantLastName: 'Carey',
         participantExternalId: 'Christmas1990',
         userId: 123,
+        campaignParticipationId: 999,
         isCompleted: true,
         createdAt: new Date('2019-04-01'),
       };
