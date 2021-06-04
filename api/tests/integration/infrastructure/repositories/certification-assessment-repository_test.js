@@ -1,10 +1,61 @@
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, catchErr } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const certificationAssessmentRepository = require('../../../../lib/infrastructure/repositories/certification-assessment-repository');
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
+const Challenge = require('../../../../lib/domain/models/Challenge');
 const _ = require('lodash');
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', () => {
+
+  beforeEach(() => {
+    const learningContent = {
+      areas: [{
+        id: 'recArea1',
+        titleFrFr: 'area1_Title',
+        competenceIds: ['recArea1_Competence1'],
+      }],
+      competences: [{
+        id: 'recArea1_Competence1',
+        nameFrFr: 'competence1_1_name',
+        index: 'competence1_1_index',
+        areaId: 'recArea1',
+        skillIds: ['recArea1_Competence1_Tube1_Skill1', 'recArea1_Competence1_Tube1_Skill2'],
+      }],
+      tubes: [{
+        id: 'recArea1_Competence1_Tube1',
+        competenceId: 'recArea1_Competence1',
+        practicalTitleFrFr: 'tube1_1_1_practicalTitle',
+        practicalDescriptionFrFr: 'tube1_1_1_practicalDescription',
+      }],
+      skills: [{
+        id: 'recArea1_Competence1_Tube1_Skill1',
+        name: 'skill1_1_1_1_name',
+        status: 'actif',
+        tubeId: 'recArea1_Competence1_Tube1',
+        competenceId: 'recArea1_Competence1',
+        tutorialIds: [],
+      }, {
+        id: 'recArea1_Competence1_Tube1_Skill2',
+        name: 'skill1_1_1_2_name',
+        status: 'actif',
+        tubeId: 'recArea1_Competence1_Tube1',
+        competenceId: 'recArea1_Competence1',
+        tutorialIds: [],
+      }],
+      challenges: [{
+        id: 'recChalA',
+        type: Challenge.Type.QCU,
+        status: 'validé',
+        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+      }, {
+        id: 'recChalB',
+        type: Challenge.Type.QCM,
+        status: 'archivé',
+        skillIds: ['recArea1_Competence1_Tube1_Skill2'],
+      }],
+    };
+    mockLearningContent(learningContent);
+  });
 
   describe('#get', () => {
 
@@ -33,8 +84,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         }).id;
         dbf.buildAnswer({ assessmentId: certificationAssessmentId });
         dbf.buildAnswer({ assessmentId: certificationAssessmentId });
-        dbf.buildCertificationChallenge({ courseId: expectedCertificationCourseId, isNeutralized: true });
-        dbf.buildCertificationChallenge({ courseId: expectedCertificationCourseId });
+        dbf.buildCertificationChallenge({ challengeId: 'recChalA', courseId: expectedCertificationCourseId, isNeutralized: true });
+        dbf.buildCertificationChallenge({ challengeId: 'recChalB', courseId: expectedCertificationCourseId });
 
         return databaseBuilder.commit();
       });
@@ -54,6 +105,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
         expect(certificationAssessment.certificationChallenges).to.have.length(2);
         expect(certificationAssessment.certificationChallenges[0].isNeutralized).to.be.true;
+        expect(certificationAssessment.certificationChallenges[0].type).to.equal(Challenge.Type.QCU);
       });
     });
 
@@ -80,8 +132,6 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     context('when the certification assessment exists', () => {
       let firstAnswerInTime;
       let secondAnswerInTime;
-      let firstChallengeId;
-      let secondChallengeId;
 
       beforeEach(() => {
         const dbf = databaseBuilder.factory;
@@ -109,8 +159,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           createdAt: new Date('2020-06-24T00:00:00Z'),
         }).id;
 
-        secondChallengeId = dbf.buildCertificationChallenge({ courseId: certificationCourseId, id: 123 }).id;
-        firstChallengeId = dbf.buildCertificationChallenge({ courseId: certificationCourseId, id: 456 }).id;
+        dbf.buildCertificationChallenge({ challengeId: 'recChalA', courseId: certificationCourseId, id: 123 });
+        dbf.buildCertificationChallenge({ challengeId: 'recChalB', courseId: certificationCourseId, id: 456 });
 
         return databaseBuilder.commit();
       });
@@ -144,7 +194,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
 
         // then
-        expect(_.map(certificationAssessment.certificationChallenges, 'id')).to.deep.equal([secondChallengeId, firstChallengeId]);
+        expect(_.map(certificationAssessment.certificationChallenges, 'challengeId')).to.deep.equal(['recChalA', 'recChalB']);
+        expect(_.map(certificationAssessment.certificationChallenges, 'type')).to.deep.equal([Challenge.Type.QCU, Challenge.Type.QCM]);
       });
     });
 

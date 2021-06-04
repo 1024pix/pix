@@ -1,6 +1,6 @@
 const { _ } = require('lodash');
 const { knex } = require('../bookshelf');
-
+const bluebird = require('bluebird');
 const CertificationCourseBookshelf = require('../orm-models/CertificationCourse');
 const AssessmentBookshelf = require('../orm-models/Assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
@@ -17,11 +17,10 @@ module.exports = {
     const options = { transacting: domainTransaction.knexTransaction };
     const savedCertificationCourseDTO = await new CertificationCourseBookshelf(certificationCourseToSaveDTO).save(null, options);
 
-    // FIXME : Save all challenges in a single DB request
-    const savedChallenges = await Promise.all(certificationCourse.challenges.map((certificationChallenge) => {
+    const savedChallenges = await bluebird.mapSeries(certificationCourse.challenges, (certificationChallenge) => {
       const certificationChallengeWithCourseId = { ...certificationChallenge, courseId: savedCertificationCourseDTO.id };
       return certificationChallengeRepository.save({ certificationChallenge: certificationChallengeWithCourseId, domainTransaction });
-    }));
+    });
 
     const savedCertificationCourse = _toDomain(savedCertificationCourseDTO);
     savedCertificationCourse.challenges = savedChallenges;

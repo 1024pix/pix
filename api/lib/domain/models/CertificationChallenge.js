@@ -55,18 +55,6 @@ class CertificationChallenge {
       certifiableBadgeKey,
     });
   }
-
-  neutralize() {
-    this.isNeutralized = true;
-  }
-
-  deneutralize() {
-    this.isNeutralized = false;
-  }
-
-  isPixPlus() {
-    return Boolean(this.certifiableBadgeKey);
-  }
 }
 
 module.exports = CertificationChallenge;
