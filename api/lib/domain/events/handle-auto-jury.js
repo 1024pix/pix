@@ -51,7 +51,7 @@ async function _autoNeutralizeChallenges({
     return certificationIssueReport.resolutionStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
   });
 
-  if (resolutionAttempts.some((attempt) => attempt.hasSucceeded())) {
+  if (resolutionAttempts.some((attempt) => attempt.isResolvedWithEffect())) {
     await certificationAssessmentRepository.save(certificationAssessment);
     return new CertificationJuryDone({ certificationCourseId: certificationCourse.id });
   }

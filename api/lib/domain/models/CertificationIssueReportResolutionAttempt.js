@@ -3,24 +3,25 @@ module.exports = class CertificationIssueReportResolutionAttempt {
     this.status = status;
   }
 
-  static succeeded() {
-    return new CertificationIssueReportResolutionAttempt(ResolutionStatus.SUCCEEDED);
+  static resolvedWithEffect() {
+    return new CertificationIssueReportResolutionAttempt(ResolutionStatus.RESOLVED_WITH_EFFECT);
   }
 
-  static failure() {
-    return new CertificationIssueReportResolutionAttempt(ResolutionStatus.FAILURE);
+  static resolvedWithoutEffect() {
+    return new CertificationIssueReportResolutionAttempt(ResolutionStatus.RESOLVED_WITHOUT_EFFECT);
   }
 
-  hasFailed() {
-    return this.status === ResolutionStatus.FAILURE;
+  static unresolved() {
+    return new CertificationIssueReportResolutionAttempt(ResolutionStatus.UNRESOLVED);
   }
 
-  hasSucceeded() {
-    return this.status === ResolutionStatus.SUCCEEDED;
+  isResolvedWithEffect() {
+    return this.status === ResolutionStatus.RESOLVED_WITH_EFFECT;
   }
 };
 
 const ResolutionStatus = {
-  SUCCEEDED: 'SUCCEEDED',
-  FAILURE: 'FAILURE',
+  RESOLVED_WITH_EFFECT: 'RESOLVED_WITH_EFFECT',
+  RESOLVED_WITHOUT_EFFECT: 'RESOLVED_WITHOUT_EFFECT',
+  UNRESOLVED: 'UNRESOLVED',
 };

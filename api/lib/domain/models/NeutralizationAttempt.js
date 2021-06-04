@@ -23,6 +23,10 @@ module.exports = class NeutralizationAttempt {
   hasSucceeded() {
     return this.status === NeutralizationStatus.NEUTRALIZED;
   }
+
+  wasSkipped() {
+    return this.status === NeutralizationStatus.SKIPPED;
+  }
 };
 
 const NeutralizationStatus = {
