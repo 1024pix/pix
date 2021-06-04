@@ -10,10 +10,11 @@ describe('Integration | Component | certification-joiner', function() {
   setupIntlRenderingTest();
 
   describe('#submit', function() {
+
     it('should create certificate candidate with trimmed first and last name', async function() {
       // given
-      this.set('stepsData', {});
-      await render(hbs`<CertificationJoiner @stepsData={{this.stepsData}}/>`);
+      this.set('onStepChange', sinon.stub());
+      await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
       await fillIn('#certificationJoinerSessionId', '123456');
       await fillIn('#certificationJoinerFirstName', 'Robert  ');
       await fillIn('#certificationJoinerLastName', '  de Pix');
@@ -39,8 +40,8 @@ describe('Integration | Component | certification-joiner', function() {
 
     it('should create certificate candidate with padded numbers in birthday', async function() {
       // given
-      this.set('stepsData', {});
-      await render(hbs`<CertificationJoiner @stepsData={{this.stepsData}}/>`);
+      this.set('onStepChange', sinon.stub());
+      await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
       await fillIn('#certificationJoinerSessionId', '123456');
       await fillIn('#certificationJoinerFirstName', 'Robert  ');
       await fillIn('#certificationJoinerLastName', '  de Pix');
@@ -64,10 +65,33 @@ describe('Integration | Component | certification-joiner', function() {
       });
     });
 
+    it('should call the stepChange action when certification candidate creation is successful', async function() {
+      // given
+      const stepChangeStub = sinon.stub();
+      this.set('onStepChange', stepChangeStub);
+      await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
+      await fillIn('#certificationJoinerSessionId', '123456');
+      await fillIn('#certificationJoinerFirstName', 'Robert  ');
+      await fillIn('#certificationJoinerLastName', '  de Pix');
+      await fillIn('#certificationJoinerDayOfBirth', '2');
+      await fillIn('#certificationJoinerMonthOfBirth', '1');
+      await fillIn('#certificationJoinerYearOfBirth', '2000');
+      const store = this.owner.lookup('service:store');
+      const createRecordMock = sinon.mock();
+      createRecordMock.returns({ save: function() {} });
+      store.createRecord = createRecordMock;
+
+      // when
+      await click('[type="submit"]');
+
+      // then
+      sinon.assert.calledWith(stepChangeStub, '123456');
+    });
+
     it('should display an error message if session id contains letters', async function() {
       // given
-      this.set('stepsData', {});
-      await render(hbs`<CertificationJoiner @stepsData={{this.stepsData}}/>`);
+      this.set('onStepChange', sinon.stub());
+      await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
       await fillIn('#certificationJoinerSessionId', '123AAA456AAA');
       await fillIn('#certificationJoinerFirstName', 'Robert');
       await fillIn('#certificationJoinerLastName', 'de Pix');
@@ -88,8 +112,8 @@ describe('Integration | Component | certification-joiner', function() {
 
     it('should display an error message on student mismatch error', async function() {
       // given
-      this.set('stepsData', {});
-      await render(hbs`<CertificationJoiner @stepsData={{this.stepsData}}/>`);
+      this.set('onStepChange', sinon.stub());
+      await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
       await fillIn('#certificationJoinerSessionId', '123456');
       await fillIn('#certificationJoinerFirstName', 'Robert');
       await fillIn('#certificationJoinerLastName', 'de Pix');
@@ -122,8 +146,8 @@ describe('Integration | Component | certification-joiner', function() {
 
     it('should display an error message on candidate not found', async function() {
       // given
-      this.set('stepsData', {});
-      await render(hbs`<CertificationJoiner @stepsData={{this.stepsData}}/>`);
+      this.set('onStepChange', sinon.stub());
+      await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
       await fillIn('#certificationJoinerSessionId', '123456');
       await fillIn('#certificationJoinerFirstName', 'Robert');
       await fillIn('#certificationJoinerLastName', 'de Pix');
@@ -148,8 +172,8 @@ describe('Integration | Component | certification-joiner', function() {
 
     it('should display an error message on session not accessible', async function() {
       // given
-      this.set('stepsData', {});
-      await render(hbs`<CertificationJoiner @stepsData={{this.stepsData}}/>`);
+      this.set('onStepChange', sinon.stub());
+      await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
       await fillIn('#certificationJoinerSessionId', '123456');
       await fillIn('#certificationJoinerFirstName', 'Robert');
       await fillIn('#certificationJoinerLastName', 'de Pix');
@@ -169,7 +193,7 @@ describe('Integration | Component | certification-joiner', function() {
       await click('[type="submit"]');
 
       // then
-      expect(contains('Oups ! La session de certification que vous tentez de rejoindre n\'est plus accessible.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.')).to.exist;
+      expect(contains('Oups ! La session est en cours de traitement par les équipes Pix et n\'est plus accessible.')).to.exist;
     });
   });
 });

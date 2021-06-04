@@ -1,4 +1,3 @@
-{{!-- template-lint-disable no-implicit-this  --}}
 {{page-title (t 'pages.certification-start.title')}}
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
@@ -6,12 +5,16 @@
     <NavbarHeader @burger={{burger}} />
     <PixBackgroundHeader id="main">
 
-      {{#if model.isCertifiable}}
+      {{#if this.model.isCertifiable}}
         <PixBlock @shadow="heavy" class="certification-start-page__block">
           {{#if this.showCongratulationsBanner }}
             <CongratulationsCertificationBanner @certificationEligibility={{this.model}} @fullName={{this.currentUser.user.fullName}} @closeBanner={{this.closeBanner}}/>
           {{/if}}
-          <Stepper @steps={{array "certification-stepper-join" "certification-stepper-start"}} @onStepChange={{this.closeBanner}}/>
+          {{#if (eq this.currentStep 'join')}}
+            <CertificationJoiner @onStepChange={{this.changeStep}}/>
+          {{else}}
+            <CertificationStarter @sessionId={{this.sessionId}}/>
+          {{/if}}
         </PixBlock>
       {{else}}
         <CertificationNotCertifiable />
