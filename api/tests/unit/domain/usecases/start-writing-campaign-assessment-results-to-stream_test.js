@@ -12,7 +12,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
   const organizationRepository = { get: () => undefined };
   const campaignParticipationInfoRepository = { findByCampaignId: () => undefined };
   const knowledgeElementRepository = { findTargetedGroupedByCompetencesForUsers: () => undefined };
-  const badgeAcquisitionRepository = { getCampaignAcquiredBadgesByUsers: () => undefined };
+  const badgeAcquisitionRepository = { getAcquiredBadgesByCampaignParticipations: () => undefined };
   let writableStream;
   let csvPromise;
 
@@ -465,8 +465,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
         [targetProfile.competences[0].id]: [knowledgeElement],
       },
     });
-    sinon.stub(badgeAcquisitionRepository, 'getCampaignAcquiredBadgesByUsers').resolves({
-      [participantInfo.userId]: [badge],
+    sinon.stub(badgeAcquisitionRepository, 'getAcquiredBadgesByCampaignParticipations').resolves({
+      [participantInfo.campaignParticipationId]: [badge],
     });
 
     const csvHeaderExpected = '\uFEFF"Nom de l\'organisation";' +
