@@ -464,4 +464,46 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(certificationAssessment.isCompleted()).to.be.false;
     });
   });
+
+  describe('#getChallengeRecIdByQuestionNumber', () => {
+    it('returns the recId when question number exists', () => {
+      // given
+      const certificationChallenge1 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec1234' });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec456' });
+      const certificationChallenge3 = domainBuilder.buildCertificationChallenge({ challengeId: 'rec789' });
+
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [certificationChallenge1, certificationChallenge2, certificationChallenge3],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({ challengeId: certificationChallenge1.challengeId, result: AnswerStatus.KO.status }),
+          domainBuilder.buildAnswer({ challengeId: certificationChallenge2.challengeId, result: AnswerStatus.KO.status }),
+          domainBuilder.buildAnswer({ challengeId: certificationChallenge3.challengeId, result: AnswerStatus.KO.status }),
+        ],
+      });
+
+      // when
+      const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(2);
+
+      // then
+      expect(recId).to.equal('rec456');
+    });
+
+    it('returns null when question number does not exist', () => {
+      // given
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234' });
+
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [certificationChallenge1],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({ challengeId: certificationChallenge1.challengeId, result: AnswerStatus.KO.status }),
+        ],
+      });
+
+      // when
+      const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(2);
+
+      // then
+      expect(recId).to.equal(null);
+    });
+  });
 });

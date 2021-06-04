@@ -107,6 +107,10 @@ class CertificationAssessment {
   isCompleted() {
     return this.state === states.COMPLETED;
   }
+
+  getChallengeRecIdByQuestionNumber(questionNumber) {
+    return this.certificationAnswersByDate[questionNumber - 1]?.challengeId || null;
+  }
 }
 
 function _isAnswerKoOrSkipped(answerStatus) {
