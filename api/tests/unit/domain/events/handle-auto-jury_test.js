@@ -43,8 +43,8 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     const certificationCourse = domainBuilder.buildCertificationCourse();
     const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
     const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.FRAUD, subcategory: undefined, questionNumber: 1 });
-    sinon.stub(certificationIssueReport, 'resolutionStrategy').resolves(CertificationIssueReportResolutionAttempt.succeeded());
-    sinon.stub(certificationIssueReport2, 'resolutionStrategy').resolves(CertificationIssueReportResolutionAttempt.failure());
+    sinon.stub(certificationIssueReport, 'resolutionStrategy').resolves(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
+    sinon.stub(certificationIssueReport2, 'resolutionStrategy').resolves(CertificationIssueReportResolutionAttempt.unresolved());
     certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
     certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport, certificationIssueReport2 ]);
     certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
@@ -205,7 +205,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
         ],
       });
       const certificationCourse = domainBuilder.buildCertificationCourse();
-      const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
+      const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.FRAUD, subcategory: null, questionNumber: 1 });
       certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
       certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport1 ]);
       certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
