@@ -28,6 +28,7 @@ const dependencies = {
   poleEmploiNotifier: require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier'),
   juryCertificationSummaryRepository: require('../../infrastructure/repositories/jury-certification-summary-repository'),
   finalizedSessionRepository: require('../../infrastructure/repositories/finalized-session-repository'),
+  logger: require('../../infrastructure/logger'),
 };
 
 const partnerCertificationScoringRepository = injectDependencies(
