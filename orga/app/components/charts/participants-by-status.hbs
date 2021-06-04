@@ -8,21 +8,19 @@
       @data={{this.data}}
       aria-hidden="true"
     />
-    <Charts::ParticipantsByStatusA11y
-      @started={{this.started}}
-      @completed={{this.completed}}
-      @shared={{this.shared}}
-    />
+  
+    <ul class="participants-by-status__legend" aria-hidden="true">
+      {{#each this.datasets as |dataset|}}
+        <li class="participants-by-status__legend--{{dataset.key}}">
+          {{dataset.legend}}
+        </li>
+      {{/each}}
+    </ul>
+  
+    <ul class="sr-only">
+      {{#each this.datasets as |dataset|}}
+        <li>{{dataset.a11y}}</li>
+      {{/each}}
+    </ul>
   {{/if}}
-  <ul class="participants-by-status__legend" aria-hidden="true">
-    <li class="participants-by-status__legend--started">
-      {{t 'charts.participants-by-status.labels-legend.started' count=this.started}}
-    </li>
-    <li class="participants-by-status__legend--completed">
-      {{t 'charts.participants-by-status.labels-legend.completed' count=this.completed}}
-    </li>
-    <li class="participants-by-status__legend--shared">
-      {{t 'charts.participants-by-status.labels-legend.shared' count=this.shared}}
-    </li>
-  </ul>
 </Charts::Card>

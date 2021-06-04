@@ -80,10 +80,11 @@
       "title": "Répartition des participants par paliers"
     },
     "participants-by-status": {
-      "labels": {
-        "started": "En cours",
-        "completed": "En attente d'envois",
-        "shared": "Résultats reçus"
+      "labels-tooltip": {
+        "started": "En cours : {percentage, number, ::percent .0}",
+        "completed": "En attente d'envois : {percentage, number, ::percent .0}",
+        "shared": "Résultats reçus : {percentage, number, ::percent .0}",
+        "shared-profile": "Profils reçus : {percentage, number, ::percent .0}"
       },
       "labels-a11y": {
         "started": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}} en cours de test",
@@ -97,14 +98,8 @@
         "shared": "Résultats reçus ({count})",
         "shared-profile": "Profils reçus ({count})"
       },
-      "labels-legend": {
-        "started": "En cours ({count})",
-        "completed": "En attente d'envois ({count})",
-        "shared": "Résultats reçus ({count})"
-      },
       "loader": "Chargement des proportions par statut",
-      "title": "Proportions par statut",
-      "tooltip": "{label} : {value, number, ::percent .0}"
+      "title": "Proportions par statut"
     }
   },
   "navigation": {
