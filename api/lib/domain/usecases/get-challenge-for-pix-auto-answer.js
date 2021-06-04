@@ -1,9 +1,9 @@
 const { NotFoundError } = require('../errors');
 
-module.exports = async function getChallengeSolutionForPixAutoAnswer({
+module.exports = async function getChallengeForPixAutoAnswer({
   assessmentId,
   assessmentRepository,
-  challengeRepository,
+  challengeForPixAutoAnswerRepository,
 }) {
   const assessment = await assessmentRepository.get(assessmentId);
   if (!assessment) {
@@ -11,5 +11,5 @@ module.exports = async function getChallengeSolutionForPixAutoAnswer({
   }
 
   const lastChallengeId = assessment.lastChallengeId;
-  return challengeRepository.getSolution(lastChallengeId);
+  return challengeForPixAutoAnswerRepository.get(lastChallengeId);
 };

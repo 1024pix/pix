@@ -38,6 +38,7 @@ const buildLearningContent = function(learningContent) {
                 type: challenge.type,
                 instruction: challenge.instruction,
                 proposals: challenge.proposals,
+                autoReply: challenge.autoReply,
               };
             } else {
               sameChallengeForAnotherSkill.skillIds.push(skill.id);

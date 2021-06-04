@@ -37,12 +37,12 @@ module.exports = {
     return h.response(lastChallengeId).code(200);
   },
 
-  async getChallengeSolutionForPixAutoAnswer(request, h) {
+  async getChallengeForPixAutoAnswer(request, h) {
     const assessmentId = parseInt(request.params.id);
 
-    const answer = await usecases.getChallengeSolutionForPixAutoAnswer({ assessmentId });
+    const challenge = await usecases.getChallengeForPixAutoAnswer({ assessmentId });
 
-    return h.response(answer).code(200);
+    return h.response(challenge).code(200);
   },
 
   async findByFilters(request) {

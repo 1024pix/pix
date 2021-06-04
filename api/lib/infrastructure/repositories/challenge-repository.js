@@ -26,11 +26,6 @@ module.exports = {
     }
   },
 
-  async getSolution(id) {
-    const challenge = await challengeDatasource.get(id);
-    return challenge.solution;
-  },
-
   async findValidated() {
     const challengeDataObjects = await challengeDatasource.findValidated();
     const activeSkills = await skillDatasource.findActive();
