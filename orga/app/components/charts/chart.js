@@ -3,6 +3,12 @@ import { action } from '@ember/object';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
+export const TOOLTIP_CONFIG = {
+  backgroundColor: '#091e42',
+  padding: 8,
+  displayColors: false,
+};
+
 export default class EmberChart extends Component {
 
   constructor() {
