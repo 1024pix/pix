@@ -126,9 +126,9 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         });
       });
 
-      context('when the organization has no message', function() {
+      context('when the organization has a customResultPageText', function() {
         beforeEach(async function() {
-          const campaign = { customResultPageText: null, organizationLogoUrl: 'www.logo-example.com', organizationName: 'Dragon & Co' };
+          const campaign = { customResultPageText: 'some message', organizationName: 'Dragon & Co' };
           const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
           this.set('model', { campaign, campaignParticipationResult });
 
@@ -136,9 +136,9 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
         });
 
-        it('should not display the block for the message', function() {
+        it('should display customResultPageText', function() {
           // Then
-          expect(contains(this.intl.t('pages.skill-review.organization-message'))).to.not.exist;
+          expect(contains('some message')).to.exist;
         });
       });
 
