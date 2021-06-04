@@ -1,10 +1,7 @@
 const CertificationIssueReportResolutionAttempt = require('./CertificationIssueReportResolutionAttempt');
 
 module.exports = {
-  NEUTRALIZE_IF_EMBED: async () => {
-    return CertificationIssueReportResolutionAttempt.failure();
-  },
-  NEUTRALIZE_IF_IMAGE: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) => {
+  NEUTRALIZE_IF_EMBED: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) => {
     const questionNumber = certificationIssueReport.questionNumber;
     const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
 
@@ -14,7 +11,29 @@ module.exports = {
 
     const challenge = await challengeRepository.get(recId);
 
-    if (!challenge.illustrationUrl) {
+    if (!challenge.hasEmbed()) {
+      return CertificationIssueReportResolutionAttempt.failure();
+    }
+
+    const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber);
+    if (neutralizationAttempt.hasSucceeded()) {
+      certificationIssueReport.resolve('Cette question a été neutralisée automatiquement');
+      await certificationIssueReportRepository.save(certificationIssueReport);
+      return CertificationIssueReportResolutionAttempt.succeeded();
+    }
+    return CertificationIssueReportResolutionAttempt.failure();
+  },
+  NEUTRALIZE_IF_ILLUSTRATION: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) => {
+    const questionNumber = certificationIssueReport.questionNumber;
+    const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
+
+    if (!recId) {
+      return CertificationIssueReportResolutionAttempt.failure();
+    }
+
+    const challenge = await challengeRepository.get(recId);
+
+    if (!challenge.hasIllustration()) {
       return CertificationIssueReportResolutionAttempt.failure();
     }
 
