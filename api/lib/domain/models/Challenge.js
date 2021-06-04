@@ -107,6 +107,14 @@ class Challenge {
     return _(this.skills).differenceWith(alreadyAssessedSkills, Skill.areEqual).size() > 0;
   }
 
+  hasIllustration() {
+    return Boolean(this.illustrationUrl);
+  }
+
+  hasEmbed() {
+    return Boolean(this.embedUrl);
+  }
+
   static createValidatorForChallengeType({ challengeType, solution }) {
     switch (challengeType) {
       case ChallengeType.QCU:
