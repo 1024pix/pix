@@ -1,6 +1,7 @@
 import ApplicationAdapter from './application';
 
 export default class OrganizationInvitation extends ApplicationAdapter {
+  namespace = 'api/admin';
 
   urlForCreateRecord(modelName, { adapterOptions }) {
     const { organizationId } = adapterOptions;

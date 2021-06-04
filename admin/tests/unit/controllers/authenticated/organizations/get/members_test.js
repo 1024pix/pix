@@ -23,12 +23,13 @@ module('Unit | Controller | authenticated/organizations/get/members', function(h
       controller.model = { organization: { id: 1 } };
 
       controller.userEmailToInvite = 'test@example.net';
+      const lang = 'en';
 
       // when
-      controller.createOrganizationInvitation();
+      controller.createOrganizationInvitation(lang);
 
       // then
-      assert.ok(createRecordStub.calledWith('organization-invitation', { email: 'test@example.net' }));
+      assert.ok(createRecordStub.calledWith('organization-invitation', { email: 'test@example.net', lang }));
       assert.equal(saveStub.callCount, 1);
     });
 
