@@ -671,6 +671,41 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
+  describe('#sendInvitationsByLang', () => {
+
+    it('should call the usecase to create invitation with organizationId, email and lang', async () => {
+      //given
+      const userId = 1;
+      const invitation = domainBuilder.buildOrganizationInvitation();
+
+      const organizationId = invitation.organizationId;
+      const email = invitation.email;
+      const lang = 'en';
+
+      sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: organizationId },
+        payload: {
+          data: {
+            type: 'organization-invitations',
+            attributes: {
+              email: invitation.email,
+              lang,
+            },
+          },
+        },
+      };
+
+      // when
+      await organizationController.sendInvitationsByLang(request, hFake);
+
+      // then
+      expect(usecases.createOrganizationInvitations).to.have.been.calledWith({ organizationId, emails: [email], locale: lang });
+    });
+  });
+
   describe('#findPendingInvitations', () => {
 
     const userId = 1;

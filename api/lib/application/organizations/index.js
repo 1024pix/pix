@@ -364,7 +364,7 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
-        handler: organizationController.sendInvitations,
+        handler: organizationController.sendInvitationsByLang,
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -375,7 +375,8 @@ exports.register = async (server) => {
           payload: Joi.object({
             data: {
               attributes: {
-                email: Joi.string().email({ multiple: true }).required(),
+                email: Joi.string().email().required(),
+                lang: Joi.string().valid('fr-fr', 'fr', 'en'),
               },
             },
           }),

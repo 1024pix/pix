@@ -1087,11 +1087,11 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user is not ADMIN in organization or PIXMASTER', async () => {
+      it('should respond with a 403 - forbidden access - if user is not ADMIN in organization', async () => {
         // given
-        const nonPixMasterUserId = databaseBuilder.factory.buildUser().id;
+        const nonAdminUserId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonAdminUserId);
 
         // when
         const response = await server.inject(options);
@@ -1100,10 +1100,7 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 201 - created - if user is PIXMASTER', async () => {
-        // given
-        options.headers.authorization = generateValidRequestAuthorizationHeader();
-
+      it('should respond with a 201 - created - if user is ADMIN in organization', async () => {
         // when
         const response = await server.inject(options);
 
