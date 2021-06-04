@@ -71,7 +71,7 @@ module.exports = {
 
     return new BookshelfOrganization({ id: organization.id })
       .save(organizationRawData, { patch: true })
-      .then((model) => model.refresh())
+      .then((model) => model.refresh({ withRelated: 'tags' }))
       .then(_toDomain);
   },
 

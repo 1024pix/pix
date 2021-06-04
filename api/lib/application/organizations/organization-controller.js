@@ -40,22 +40,13 @@ module.exports = {
       .then(organizationSerializer.serialize);
   },
 
-  updateOrganizationInformation: (request) => {
-    const id = request.payload.data.id;
-    const {
-      name,
-      type,
-      email,
-      credit,
-      'logo-url': logoUrl,
-      'external-id': externalId,
-      'province-code': provinceCode,
-      'is-managing-students': isManagingStudents,
-      'can-collect-profiles': canCollectProfiles,
-    } = request.payload.data.attributes;
+  async updateOrganizationInformation(request) {
+    const organizationDeserialized = organizationSerializer.deserialize(request.payload);
 
-    return usecases.updateOrganizationInformation({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, canCollectProfiles, email, credit })
-      .then(organizationSerializer.serialize);
+    const organizationUpdated = await usecases.updateOrganizationInformation({
+      organization: organizationDeserialized,
+    });
+    return organizationSerializer.serialize(organizationUpdated);
   },
 
   async findPaginatedFilteredOrganizations(request) {
