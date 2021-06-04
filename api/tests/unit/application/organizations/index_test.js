@@ -202,24 +202,7 @@ describe('Unit | Router | organization-router', () => {
           type: 'organization-invitations',
           attributes: {
             email: 'user1@organization.org',
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(201);
-    });
-
-    it('should accept multiple emails', async () => {
-      // given
-      const payload = {
-        data: {
-          type: 'organization-invitations',
-          attributes: {
-            email: 'user1@organization.org, user2@organization.org',
+            lang: 'fr',
           },
         },
       };
@@ -238,6 +221,7 @@ describe('Unit | Router | organization-router', () => {
           type: 'organization-invitations',
           attributes: {
             email: '',
+            lang: 'fr',
           },
         },
       };
@@ -256,6 +240,26 @@ describe('Unit | Router | organization-router', () => {
           type: 'organization-invitations',
           attributes: {
             email: 'azerty',
+            lang: 'fr',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should reject request with HTTP code 400, when lang is unknown', async () => {
+      // given
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org',
+            lang: 'pt',
           },
         },
       };
