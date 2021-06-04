@@ -97,8 +97,14 @@
         "shared": "Résultats reçus ({count})",
         "shared-profile": "Profils reçus ({count})"
       },
+      "labels-legend": {
+        "started": "En cours ({count})",
+        "completed": "En attente d'envois ({count})",
+        "shared": "Résultats reçus ({count})"
+      },
       "loader": "Chargement des proportions par statut",
-      "title": "Proportions par statut"
+      "title": "Proportions par statut",
+      "tooltip": "{label} : {value, number, ::percent .0}"
     }
   },
   "navigation": {

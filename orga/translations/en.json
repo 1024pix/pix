@@ -90,8 +90,14 @@
         "completed": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} completed",
         "shared": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} shared"
       },
+      "labels-legend": {
+        "started": "Started ({count})",
+        "completed": "Completed ({count})",
+        "shared": "Shared ({count})"
+      },
       "loader": "Loading statuses distribution",
-      "title": "Statuses distribution"
+      "title": "Statuses distribution",
+      "tooltip": "{label} : {value, number, ::percent .0}"
     }
   },
   "navigation": {
