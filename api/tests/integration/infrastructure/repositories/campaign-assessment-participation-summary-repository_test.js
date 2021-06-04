@@ -344,19 +344,27 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
     });
 
     context('when there is a filter on badges', () => {
-      it('returns participants which have one badge', async () => {
+      let badge1;
+      let badge2;
+      let user1;
+      let user2;
+
+      beforeEach(() => {
         campaign = databaseBuilder.factory.buildAssessmentCampaign({});
-        const badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: campaign.targetProfileId });
-        const badge2 = databaseBuilder.factory.buildBadge({ key: 'badge2', targetProfileId: campaign.targetProfileId });
+        badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: campaign.targetProfileId });
+        badge2 = databaseBuilder.factory.buildBadge({ key: 'badge2', targetProfileId: campaign.targetProfileId });
+        user1 = databaseBuilder.factory.buildUser();
+        user2 = databaseBuilder.factory.buildUser();
 
-        const participation1 = { participantExternalId: 'The good', campaignId: campaign.id };
-        const assessment1 = databaseBuilder.factory.buildAssessmentFromParticipation(participation1, { id: 1 });
-        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: assessment1.userId });
+      });
+      it('returns participants which have one badge', async () => {
+        const campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: user1.id, participantExternalId: 'The good' });
+        databaseBuilder.factory.buildAssessment({ userId: user1.id, campaignParticipationId: campaignParticipation1.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user1.id, campaignParticipationId: campaignParticipation1.id });
 
-        const participation2 = { participantExternalId: 'The bad', campaignId: campaign.id };
-        const assessment2 = databaseBuilder.factory.buildAssessmentFromParticipation(participation2, { id: 2 });
-        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, userId: assessment2.userId });
-
+        const campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: user2.id, participantExternalId: 'The bad' });
+        databaseBuilder.factory.buildAssessment({ userId: user2.id, campaignParticipationId: campaignParticipation2.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, userId: user2.id, campaignParticipationId: campaignParticipation2.id });
         await databaseBuilder.commit();
 
         // when
@@ -369,18 +377,14 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
       });
 
       it('returns participants which have several badges', async () => {
-        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
-        const badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: campaign.targetProfileId });
-        const badge2 = databaseBuilder.factory.buildBadge({ key: 'badge2', targetProfileId: campaign.targetProfileId });
+        const campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: user1.id, participantExternalId: 'The good' });
+        databaseBuilder.factory.buildAssessment({ userId: user1.id, campaignParticipationId: campaignParticipation1.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user1.id, campaignParticipationId: campaignParticipation1.id });
 
-        const participation1 = { participantExternalId: 'The good', campaignId: campaign.id };
-        const assessment1 = databaseBuilder.factory.buildAssessmentFromParticipation(participation1, { id: 1 });
-        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: assessment1.userId });
-
-        const participation2 = { participantExternalId: 'The bad', campaignId: campaign.id };
-        const assessment2 = databaseBuilder.factory.buildAssessmentFromParticipation(participation2, { id: 2 });
-        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: assessment2.userId });
-        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, userId: assessment2.userId });
+        const campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: user2.id, participantExternalId: 'The bad' });
+        databaseBuilder.factory.buildAssessment({ userId: user2.id, campaignParticipationId: campaignParticipation2.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user2.id, campaignParticipationId: campaignParticipation2.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, userId: user2.id, campaignParticipationId: campaignParticipation2.id });
 
         await databaseBuilder.commit();
 
@@ -394,17 +398,13 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
       });
 
       it('should not return participants which has not shared but has the badge', async () => {
-        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
-        const badge1 = databaseBuilder.factory.buildBadge({ targetProfileId: campaign.targetProfileId });
+        const campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: user1.id, participantExternalId: 'The good', isShared: true });
+        databaseBuilder.factory.buildAssessment({ userId: user1.id, campaignParticipationId: campaignParticipation1.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user1.id, campaignParticipationId: campaignParticipation1.id });
 
-        const participation1 = { participantExternalId: 'The good', campaignId: campaign.id, isShared: true };
-        const assessment1 = databaseBuilder.factory.buildAssessmentFromParticipation(participation1, { id: 1 });
-        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: assessment1.userId });
-
-        const participation2 = { participantExternalId: 'The bad', campaignId: campaign.id, isShared: false };
-        const assessment2 = databaseBuilder.factory.buildAssessmentFromParticipation(participation2, { id: 2 });
-        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: assessment2.userId });
-
+        const campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: user2.id, participantExternalId: 'The bad', isShared: false });
+        databaseBuilder.factory.buildAssessment({ userId: user2.id, campaignParticipationId: campaignParticipation2.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user2.id, campaignParticipationId: campaignParticipation2.id });
         await databaseBuilder.commit();
 
         // when

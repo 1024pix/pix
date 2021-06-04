@@ -128,11 +128,7 @@ function _filterByBadgeAcquisitionsIn(qb, filters) {
     qb.select(
       knex.raw('ARRAY_AGG("badgeId") OVER (PARTITION BY "campaign-participations"."id") as badges_acquired'),
     )
-      .join('badges', 'badges.targetProfileId', 'campaigns.targetProfileId')
-      .join('badge-acquisitions', function() {
-        this.on({ 'badge-acquisitions.badgeId': 'badges.id' })
-          .andOn({ 'badge-acquisitions.userId': 'campaign-participations.userId' });
-      })
+      .join('badge-acquisitions', 'badge-acquisitions.campaignParticipationId', 'campaign-participations.id')
       .where('campaign-participations.isShared', '=', true);
   }
 }
