@@ -33,10 +33,12 @@ const buildLearningContent = function(learningContent) {
                 competenceId: competence.id,
                 skillIds: [skill.id],
                 status: challenge.statut || 'validé',
+                solution: challenge.solution,
                 locales: _convertLanguesToLocales(challenge.langues || ['Francophone']),
                 type: challenge.type,
                 instruction: challenge.instruction,
                 proposals: challenge.proposals,
+                autoReply: challenge.autoReply,
               };
             } else {
               sameChallengeForAnotherSkill.skillIds.push(skill.id);

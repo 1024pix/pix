@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const assessmentController = require('./assessment-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 const assessmentAuthorization = require('../preHandlers/assessment-authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
 
@@ -55,6 +56,40 @@ exports.register = async (server) => {
           assign: 'authorizationCheck',
         }],
         handler: assessmentController.get,
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/assessments/{id}/last-challenge-id',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
+        handler: assessmentController.getLastChallengeId,
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/assessments/{id}/challenge-for-pix-auto-answer',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
+        handler: assessmentController.getChallengeForPixAutoAnswer,
         tags: ['api'],
       },
     },
