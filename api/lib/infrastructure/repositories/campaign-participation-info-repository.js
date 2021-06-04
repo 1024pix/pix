@@ -43,6 +43,7 @@ function _rowToCampaignParticipationInfo(row) {
     participantExternalId: row.participantExternalId,
     studentNumber: row.studentNumber,
     userId: row.userId,
+    campaignParticipationId: row.id,
     isCompleted: row.state === Assessment.states.COMPLETED,
     createdAt: new Date(row.createdAt),
     sharedAt: row.sharedAt ? new Date(row.sharedAt) : null,
