@@ -177,9 +177,9 @@
       "shared-results-count": "Results submitted",
       "tab": {
         "collective-results": "Collective results",
-        "details": "Details",
         "participants": "Participants ({count})",
-        "review": "Review"
+        "review": "Review",
+        "settings": "Settings"
       }
     },
     "campaign-collective-results": {
