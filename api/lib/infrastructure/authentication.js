@@ -66,8 +66,13 @@ module.exports = {
        },
      }, {
        name: 'jwt-livret-scolaire', configuration: {
-         //TODO rename var env to clientApplicationAuthentication
-         key: config.livretScolaireAuthentication.secret,
+         key: config.jwtConfig.livretScolaire.secret,
+         validate: validateClientApplication,
+       },
+     },
+     {
+       name: 'jwt-pole-emploi', configuration: {
+         key: config.jwtConfig.poleEmploi.secret,
          validate: validateClientApplication,
        },
      },
