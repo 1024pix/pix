@@ -20,6 +20,7 @@ module.exports = function() {
       'info-circle',
       'link',
       'power-off',
+      'question-circle',
       'search',
       'share-square',
       'sort',
