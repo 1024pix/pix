@@ -37,6 +37,44 @@ describe('Integration | Repository | Badge Acquisition', () => {
     });
   });
 
+  describe('#hasAcquiredBadge', () => {
+
+    it('should return true when user has acquired badge', async () => {
+      // given
+      databaseBuilder.factory.buildUser({ id: 123 });
+      databaseBuilder.factory.buildBadge({ id: 456, key: 'someKey' });
+      databaseBuilder.factory.buildBadgeAcquisition({
+        badgeId: 456,
+        userId: 123,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const hasAcquiredBadge = await badgeAcquisitionRepository.hasAcquiredBadge({ badgeKey: 'someKey', userId: 123 });
+
+      // then
+      expect(hasAcquiredBadge).to.be.true;
+    });
+
+    it('should return false when user has not acquired badge', async () => {
+      // given
+      databaseBuilder.factory.buildUser({ id: 123 });
+      databaseBuilder.factory.buildUser({ id: 789 });
+      databaseBuilder.factory.buildBadge({ id: 456, key: 'someKey' });
+      databaseBuilder.factory.buildBadgeAcquisition({
+        badgeId: 456,
+        userId: 789,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const hasAcquiredBadge = await badgeAcquisitionRepository.hasAcquiredBadge({ badgeKey: 'someKey', userId: 123 });
+
+      // then
+      expect(hasAcquiredBadge).to.be.false;
+    });
+  });
+
   describe('#getAcquiredBadgeIds', () => {
     let userId;
     let badgeId;

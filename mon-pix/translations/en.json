@@ -184,8 +184,8 @@
         "subtitle": "(levels out of {maxReachableLevel})"
       },
       "complementary": {
-        "title": "Other acquired certification",
-        "alternative": "Complementary certification"
+        "title": "Other certification(s) awarded",
+        "alternative": "Additional certification"
       },
       "exam-date": "Completion date:",
       "hexagon-score": {
@@ -207,6 +207,9 @@
     "certification-joiner": {
       "title": "Join a certification session",
       "congratulation-banner": {
+        "clea-eligibility": "You are also eligible for the CléA numérique certification.",
+        "pix-plus-droit-maitre-eligibility": "You are also eligible for the Pix+ Droit Maître certification.",
+        "pix-plus-droit-expert-eligibility": "You are also eligible for the Pix+ Droit Expert certification.",
         "link": {
           "text": "How do I certify my digital skills?",
           "url": "https://support.pix.fr/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"
@@ -230,6 +233,11 @@
         "fields-validation": {
           "session-number-error": "The session ID must only contain numbers."
         }
+      },
+      "error-messages": {
+        "wrong-account": "Oops! It seems that you are using the wrong Pix account to join this certification session.\nTo continue, please login to the correct Pix account or ask the invigilator for help.",
+        "session-not-accessible": "Oops! The session is being processed by the Pix team and is no longer available.",
+        "generic": "Oops! We can't find you.\nPlease check your details to continue or call the invigilator."
       }
     },
     "certification-not-certifiable": {
@@ -270,7 +278,12 @@
         },
         "info": "By clicking on “Start my test”, I agree to my identifying data, certification number and the circumstances in which the test was taken, as reported by the invigilator, being sent to Pix. Pix will use this information during the board of examiners’ deliberation to produce and archive my results and create my certificate. If this certification was ordered by an organisation, I agree to Pix sharing my results with them."
       },
-      "first-title": "You are about to begin your certification test."
+      "first-title": "You are about to begin your certification test.",
+      "error-messages": {
+        "access-code-error": "This code does not exist or is no longer valid.",
+        "session-not-accessible": "The certification session is no longer available.",
+        "generic": "An unexpected server error has occurred."
+      }
     },
     "certifications-list": {
       "title": "My Certifications",

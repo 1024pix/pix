@@ -81,26 +81,27 @@ describe('Acceptance | users-controller-is-certifiable', () => {
 
     describe('Success case', () => {
 
-      it('should return a 200 status code response with JSON API serialized isCertifiable', () => {
+      it('should return a 200 status code response with JSON API serialized isCertifiable', async () => {
         // given
         const expectedResponse = {
           data: {
-            attributes: {
-              'is-certifiable': false,
-            },
             id: `${user.id}`,
             type: 'isCertifiables',
+            attributes: {
+              'is-certifiable': false,
+              'clea-certification-eligible': false,
+              'pix-plus-droit-maitre-certification-eligible': false,
+              'pix-plus-droit-expert-certification-eligible': false,
+            },
           },
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal(expectedResponse);
-        });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedResponse);
       });
     });
   });

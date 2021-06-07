@@ -1,6 +1,6 @@
 const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const campaignParticipationOverviewSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer');
-const isCertifiableSerializer = require('../../infrastructure/serializers/jsonapi/is-certifiable-serializer');
+const certificationEligibilitySerializer = require('../../infrastructure/serializers/jsonapi/certification-eligibility-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
@@ -183,8 +183,8 @@ module.exports = {
   async isCertifiable(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
-    const isCertifiable = await usecases.isUserCertifiable({ userId: authenticatedUserId });
-    return isCertifiableSerializer.serialize({ isCertifiable, userId: authenticatedUserId });
+    const certificationEligibility = await usecases.getUserCertificationEligibility({ userId: authenticatedUserId });
+    return certificationEligibilitySerializer.serialize(certificationEligibility);
   },
 
   getProfile(request) {

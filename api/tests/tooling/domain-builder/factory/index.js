@@ -20,6 +20,7 @@ module.exports = {
   buildCampaignToJoin: require('./build-campaign-to-join'),
   buildCertificationAssessment: require('./build-certification-assessment'),
   buildCertificationCandidate: require('./build-certification-candidate'),
+  buildCertificationEligibility: require('./build-certification-eligibility'),
   buildCertificationIssueReport: require('./build-certification-issue-report'),
   buildCertificationOfficer: require('./build-certification-officer'),
   buildSCOCertificationCandidate: require('./build-sco-certification-candidate'),

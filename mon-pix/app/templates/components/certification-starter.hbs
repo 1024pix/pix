@@ -1,4 +1,4 @@
-{{!-- template-lint-disable no-action require-input-label no-unknown-arguments-for-builtin-components --}}
+{{!-- template-lint-disable require-input-label --}}
 <section class="certification-starter">
     <h2 class="certification-start-page__title">{{t "pages.certification-start.first-title"}}</h2>
 
@@ -7,7 +7,7 @@
     </p>
     <form autocomplete="off">
         <div class="certification-course-page__session-code-input">
-          <Input required={{true}} @id="certificationStarterSessionCode" @type="text" @value={{this.inputAccessCode}} @maxlength="6" @spellcheck={{false}} />
+          <Input required={{true}} id="certificationStarterSessionCode" @type="text" @value={{this.inputAccessCode}} maxlength="6" spellcheck={{false}} />
           {{#if this.errorMessage}}
               <div class="certification-course-page__errors">{{this.errorMessage}}</div>
           {{/if}}
@@ -20,7 +20,7 @@
               <span class="loader-in-button">&nbsp;</span>
             </button>
           {{else}}
-              <button type="submit" class="button button--thin certification-course-page__submit_button" {{ action "submit" }}>{{t "pages.certification-start.actions.submit"}}</button>
+              <button type="submit" class="button button--thin certification-course-page__submit_button" {{on "click" this.submit}}>{{t "pages.certification-start.actions.submit"}}</button>
           {{/if}}
         </div>
     </form>
