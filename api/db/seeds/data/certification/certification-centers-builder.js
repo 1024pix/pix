@@ -12,7 +12,7 @@ const DROIT_CERTIF_CENTER_NAME = 'Centre DROIT des Anne-Étoiles';
 const SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_ID = 6;
 const SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_NAME = 'Centre SCO NO MANAGING STUDENTS des Anne-Étoiles';
 const SCO_EXTERNAL_ID = '1237457A';
-const SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID = 'AEFE';
+const SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID = '1237457E';
 
 function certificationCentersBuilder({ databaseBuilder }) {
 

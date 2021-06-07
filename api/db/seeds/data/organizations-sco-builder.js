@@ -14,7 +14,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
   /* COLLEGE */
   const scoUser1 = databaseBuilder.factory.buildUser.withRawPassword({
     id: 4,
-    firstName: 'John',
+    firstName: 'Jon',
     lastName: 'Snow',
     email: 'sco.admin@example.net',
     rawPassword: DEFAULT_PASSWORD,
