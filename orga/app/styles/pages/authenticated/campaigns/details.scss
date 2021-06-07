@@ -40,9 +40,13 @@
 }
 
 .campaign-details-header-report {
-  &__info {
+  &__info, &__created-on, &__created-by {
     padding-right: 15px;
     margin-right: 15px;
+  }
+
+  &__info, &__created-on {
+    border-right: 1px solid $grey-20;
   }
 }
 

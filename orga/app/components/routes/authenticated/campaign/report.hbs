@@ -13,30 +13,46 @@
     <div class="campaign-details-header__report">
       <div class="campaign-details-header-report__info">
         <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign.code'}}</h4>
-        <span class="content-text content-text--big campaign-details-content__text">
+        <span class="content-text campaign-details-content__text">
           {{@campaign.code}}
         </span>
       </div>
 
-      <div class="campaign-details-header-report__info">
-        <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign.participations-count'}}</h4>
-        <span class="content-text content-text--big campaign-details-content__text">
-          {{this.participationsCount}}
-        </span>
-      </div>
+      {{#if this.participationsCount}}
+        <div class="campaign-details-header-report__info">
+          <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign.participations-count'}}</h4>
+          <span class="content-text campaign-details-content__text">
+            {{this.participationsCount}}
+          </span>
+        </div>
 
-      <div class="campaign-details-header-report__shared">
-        <h4 class="label-text campaign-details-content__label">
-          {{#if (eq @campaign.type "PROFILES_COLLECTION")}}
-            {{t 'pages.campaign.shared-profiles-count'}}
-          {{else}}
-            {{t 'pages.campaign.shared-results-count'}}
-          {{/if}}
-        </h4>
-        <span class="content-text content-text--big campaign-details-content__text">
-          {{this.sharedParticipationsCount}}
-        </span>
-      </div>
+        <div class="campaign-details-header-report__shared">
+          <h4 class="label-text campaign-details-content__label">
+            {{#if (eq @campaign.type "PROFILES_COLLECTION")}}
+              {{t 'pages.campaign.shared-profiles-count'}}
+            {{else}}
+              {{t 'pages.campaign.shared-results-count'}}
+            {{/if}}
+          </h4>
+          <span class="content-text campaign-details-content__text">
+            {{this.sharedParticipationsCount}}
+          </span>
+        </div>
+      {{else}}
+        <div class="campaign-details-header-report__created-on">
+          <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign.created-on'}}</h4>
+          <span class="content-text campaign-details-content__text">
+            {{moment-format this.creationDate 'DD/MM/YYYY' allow-empty=true}}
+          </span>
+        </div>
+
+        <div class="campaign-details-header-report__created-by">
+          <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign.created-by'}}</h4>
+          <span class="content-text campaign-details-content__text">
+            {{this.creatorName}}
+          </span>
+        </div>
+      {{/if}}
     </div>
   </div>
 

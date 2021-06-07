@@ -154,6 +154,8 @@
         "unarchive": "Unarchive the campaign"
       },
       "archived": "Archived campaign",
+      "created-by": "Created by",
+      "created-on": "Created on",
       "code": "Code",
       "filters": {
         "title": "Filters",

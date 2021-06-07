@@ -68,6 +68,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
     test('it should display campaign shared participations number', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
+        participationsCount: 1,
         sharedParticipationsCount: 4,
       });
       this.set('campaign', campaign);
@@ -81,6 +82,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
     test('it should display correct label for a PROFILES_COLLECTION campaign ', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
+        participationsCount: 1,
         type: 'PROFILES_COLLECTION',
       });
       this.set('campaign', campaign);
@@ -94,6 +96,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
     test('it should display correct label for an ASSESSMENT campaign ', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
+        participationsCount: 1,
         type: 'ASSESSMENT',
       });
       this.set('campaign', campaign);
@@ -107,11 +110,13 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
   });
 
   module('When there is no results', function() {
-    test('it should display "-" when no one participated', async function(assert) {
+    test('it should display the creation date and the campaign creator when no one participated', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
         participationsCount: 0,
-        sharedParticipationsCount: 2,
+        createdAt: new Date('2021-04-14'),
+        creatorLastName: 'Fa',
+        creatorFirstName: 'Mulan',
       });
       this.set('campaign', campaign);
 
@@ -119,7 +124,8 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
 
       // then
-      assert.contains('-');
+      assert.contains('Mulan Fa');
+      assert.contains('14/04/2021');
     });
 
     test('it should display "-" when no one shared his participation', async function(assert) {
