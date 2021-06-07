@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.61.0 (07/06/2021)
+
+- [#3070](https://github.com/1024pix/pix/pull/3070) [FEATURE] Création d'un composant de carte d'indicateur dans Pix Orga (Pix-2663).
+- [#3057](https://github.com/1024pix/pix/pull/3057) [FEATURE] Afficher la certificabilité de l'utilisateur sur les certifications complémentaires sur la page d'entrée en certification dans la bannière (PIX-2587)
+- [#3044](https://github.com/1024pix/pix/pull/3044) [FEATURE] Permettre de récupérer la solution du challenge en cours depuis le bouton magique (PIX-2618).
+- [#3031](https://github.com/1024pix/pix/pull/3031) [FEATURE] Ajouter et supprimer un tag à une organisation sur Pix Admin (PIX-2601)
+- [#3006](https://github.com/1024pix/pix/pull/3006) [FEATURE] Autoneutraliser les questions avec signalements sans vérification préalable nécessaire (PIX-2575)
+- [#3021](https://github.com/1024pix/pix/pull/3021) [FEATURE] Enlever l'assessmentId de l'url des parcours (PIX-2518).
+- [#3058](https://github.com/1024pix/pix/pull/3058) [BUGFIX] Corriger le calcul du taux de repro (PIX-2651)
+- [#3066](https://github.com/1024pix/pix/pull/3066) [BUGFIX] Afficher correctement le texte personnalisable d'une organisation à la fin d'un parcours prescrit (PIX-2676).
+- [#3061](https://github.com/1024pix/pix/pull/3061) [BUGFIX] Inverser le nom et prénom en anglais dans la liste des participants (PIX-2652).
+- [#3072](https://github.com/1024pix/pix/pull/3072) [TECH] Changer la manière d'afficher les RT dans l'export CSV d'une Campagne d’évaluation dans Pix Orga (PIX-2625)
+- [#3062](https://github.com/1024pix/pix/pull/3062) [TECH] Changer la manière d'afficher les RT dans la liste des participants dans Pix Orga (PIX-2624)
+- [#3059](https://github.com/1024pix/pix/pull/3059) Optimisation livret scolaire (PIX-2659)
+
 ## v3.60.0 (02/06/2021)
 
 - [#3020](https://github.com/1024pix/pix/pull/3020) [FEATURE] Ne plus afficher les recID des challenges dans l'URL des assessments (PIX-327).
