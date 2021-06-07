@@ -1,11 +1,7 @@
-<section class="page-section mb_10">
-  <header class="page-section__header">
-    <h2 class="page-section__title">Ajouter un membre</h2>
-    <h2 class="page-section__title">Inviter un membre</h2>
-  </header>
-
+<section class="page-section mb_10 organization-members-section">
   <div class="organization__forms-section">
     <form aria-label="Ajouter un membre">
+      <label for="userEmailToAdd">Inviter un membre</label>
       <div class="organization__sub-form">
         <Input
           id="userEmailToAdd"
@@ -23,21 +19,23 @@
     </form>
 
     <form aria-label="Inviter un membre">
+      <label for="userEmailToInvite">Ajouter un membre</label>
       <div class="organization__sub-form">
         <Input
           id="userEmailToInvite"
           aria-label="Adresse email"
           @value={{@userEmailToInvite}}
-          class={{if @userEmailToInviteError "organization-sub-form__input organization-sub-form__input__error form-control" "organization-sub-form__input form-control"}}
+          class="form-control {{if @userEmailToInviteError "organization-sub-form__input__error"}}"
           @placeholder="Adresse email de l'utilisateur à inviter" />
 
         <PixSelect
-          @options={{this.languages}}
+          @options={{this.languagesOptions}}
           @selectedOption={{this.organizationInvitationLang}}
           @onChange={{this.changeOrganizationInvitationLang}} />
 
         <PixButton
           type="button"
+          @size="small"
           @triggerAction={{fn @createOrganizationInvitation this.organizationInvitationLang}}>
             Inviter
         </PixButton>

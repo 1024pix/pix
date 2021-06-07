@@ -6,9 +6,9 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class OrganizationMembersSection extends Component {
-  @tracked organizationInvitationLang = this.languages[0].value;
+  @tracked organizationInvitationLang = this.languagesOptions[0].value;
 
-  get languages() {
+  get languagesOptions() {
     return [
       {
         'label': 'Français',
