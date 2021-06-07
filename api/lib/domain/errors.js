@@ -248,6 +248,9 @@ class InvalidCertificationCandidate extends DomainError {
     if (type === 'number.base' || type === 'number.integer') {
       error.why = 'not_a_number';
     }
+    if (type === 'any.only') {
+      error.why = 'not_a_valid_value';
+    }
     return new InvalidCertificationCandidate({ error });
   }
 }

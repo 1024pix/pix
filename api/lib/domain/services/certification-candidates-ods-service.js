@@ -35,6 +35,10 @@ async function extractCertificationCandidatesFromAttendanceSheet({ sessionId, od
   return _.map(certificationCandidatesDataByLine, (certificationCandidateData, line) => {
     let certificationCandidate;
     try {
+      if (version === '1.5') {
+        if (certificationCandidateData.sex === '1') certificationCandidateData.sex = 'M';
+        if (certificationCandidateData.sex === '2') certificationCandidateData.sex = 'F';
+      }
       certificationCandidate = new CertificationCandidate({
         ...certificationCandidateData,
         sessionId,

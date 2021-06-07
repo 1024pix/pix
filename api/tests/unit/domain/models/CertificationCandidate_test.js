@@ -48,7 +48,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
 
     const buildCertificationCandidate = (attributes) => new CertificationCandidate(attributes);
 
-    context('current version 1.4', () => {
+    context('previous version 1.4', () => {
       const version = '1.4';
 
       const validAttributes = {
@@ -187,6 +187,155 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal('extraTimePercentage');
         expect(error.why).to.equal('not_a_number');
+      });
+    });
+
+    context('current version 1.5', () => {
+      const version = '1.5';
+
+      const validAttributes = {
+        firstName: 'Oren',
+        lastName: 'Ishii',
+        sex: 'F',
+        birthPostalCode: '75001',
+        birthCountry: 'France',
+        birthdate: '2010-01-01',
+        sessionId: 123,
+        resultRecipientEmail: 'orga@example.net',
+      };
+
+      context('when all required fields are presents', () => {
+        it('should be ok when object is valid', () => {
+          try {
+            const certificationCandidate = buildCertificationCandidate(validAttributes);
+            certificationCandidate.validate(version);
+          } catch (e) {
+            expect.fail('certificationCandidate is valid when all required fields are present');
+          }
+        });
+      });
+
+      [
+        'firstName',
+        'lastName',
+        'birthCountry',
+      ].forEach((field) => {
+        it(`should throw an error when field ${field} is not a string`, async () => {
+          const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: 123 });
+          const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+          expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+          expect(error.key).to.equal(field);
+          expect(error.why).to.equal('not_a_string');
+        });
+
+        it(`should throw an error when field ${field} is not present`, async () => {
+          const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: undefined });
+          const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+          expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+          expect(error.key).to.equal(field);
+          expect(error.why).to.equal('required');
+        });
+
+        it(`should throw an error when field ${field} is not present because null`, async () => {
+          const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: null });
+          const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+          expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+          expect(error.key).to.equal(field);
+          expect(error.why).to.equal('required');
+        });
+      });
+
+      it('should throw an error when field sessionId is not a number', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: 'salut' });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('sessionId');
+        expect(error.why).to.equal('not_a_number');
+      });
+
+      it('should throw an error when field sessionId is not present', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: undefined });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('sessionId');
+        expect(error.why).to.equal('required');
+      });
+
+      it('should throw an error when field sessionId is not present because null', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: null });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('sessionId');
+        expect(error.why).to.equal('required');
+      });
+
+      it('should throw an error when field externalId is not a string', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, externalId: 1235 });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('externalId');
+        expect(error.why).to.equal('not_a_string');
+      });
+
+      it('should throw an error when birthdate is not a date', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: 'je mange des légumes' });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('birthdate');
+        expect(error.why).to.equal('date_format');
+      });
+
+      it('should throw an error when birthdate is not a valid format', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: '2020/02/01' });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('birthdate');
+        expect(error.why).to.equal('date_format');
+      });
+
+      it('should throw an error when birthdate is null', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: null });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('birthdate');
+        expect(error.why).to.equal('required');
+      });
+
+      it('should throw an error when birthdate is not present', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: undefined });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('birthdate');
+        expect(error.why).to.equal('required');
+      });
+
+      it('should throw an error when field extraTimePercentage is not a number', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, extraTimePercentage: 'salut' });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('extraTimePercentage');
+        expect(error.why).to.equal('not_a_number');
+      });
+
+      it('should throw an error when sex is neither M nor F', async () => {
+        const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sex: 'something_else' });
+        const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
+
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal('sex');
+        expect(error.why).to.equal('not_a_valid_value');
       });
     });
   });
