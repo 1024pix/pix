@@ -89,9 +89,15 @@ module.exports = (function() {
       tokenForStudentReconciliationLifespan: '1h',
     },
 
-    livretScolaireAuthentication: {
-      secret: process.env.LIVRET_SCOLAIRE_AUTH_SECRET,
-      tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '1h'),
+    jwtConfig: {
+      livretScolaire: {
+        secret: process.env.LIVRET_SCOLAIRE_AUTH_SECRET,
+        tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '1h'),
+      },
+      poleEmploi: {
+        secret: process.env.POLE_EMPLOI_AUTH_SECRET,
+        tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '1h'),
+      },
     },
 
     saml: {
@@ -173,7 +179,13 @@ module.exports = (function() {
         clientId: process.env.GRAVITEE_OSMOSE_CLIENT_ID,
         clientSecret: process.env.GRAVITEE_OSMOSE_CLIENT_SECRET,
         scope: 'organizations-certifications-result',
-        source: 'osmose',
+        source: 'livretScolaire',
+      },
+      {
+        clientId: process.env.GRAVITEE_POLE_EMPLOI_CLIENT_ID,
+        clientSecret: process.env.GRAVITEE_POLE_EMPLOI_CLIENT_SECRET,
+        scope: 'pole-emploi-participants-result',
+        source: 'poleEmploi',
       },
     ],
   };
@@ -210,7 +222,6 @@ module.exports = (function() {
     config.mailing.sendinblue.templates.emailChangeTemplateId = 'test-email-change-template-id';
 
     config.authentication.secret = 'test-jwt-key';
-    config.livretScolaireAuthentication.secret = 'test-livret-scolaire-secret';
     config.authentication.tokenLifespan = '1d';
 
     config.temporaryKey.secret = 'test-jwt-key';
@@ -223,8 +234,12 @@ module.exports = (function() {
     config.graviteeRegisterApplicationsCredentials = [
       { clientId: 'lsuClientId', clientSecret: 'lsuClientSecret', scope: 'organizations-certifications-result', source: 'lsu' },
       { clientId: 'lslClientId', clientSecret: 'lslClientSecret', scope: 'organizations-certifications-result', source: 'lsl' },
-      { clientId: 'graviteeOsmoseClientId', clientSecret: 'graviteeOsmoseClientSecret', scope: 'organizations-certifications-result', source: 'ósmose' },
+      { clientId: 'graviteeOsmoseClientId', clientSecret: 'graviteeOsmoseClientSecret', scope: 'organizations-certifications-result', source: 'livretScolaire' },
+      { clientId: 'poleEmploiClientId', clientSecret: 'poleEmploiClientSecret', scope: 'pole-emploi-participants-result', source: 'poleEmploi' },
     ];
+
+    config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };
+    config.jwtConfig.poleEmploi = { secret: 'secretPoleEmploi', tokenLifespan: '1h' };
 
     config.logging.enabled = false;
 
