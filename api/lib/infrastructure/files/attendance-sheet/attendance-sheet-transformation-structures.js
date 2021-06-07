@@ -67,12 +67,77 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_4 = [
   },
 ];
 
+const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_5 = [
+  {
+    header: 'Nom de naissance',
+    property: 'lastName',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Prénom',
+    property: 'firstName',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Identifiant local',
+    property: 'externalId',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Temps majoré ?',
+    property: 'extraTimePercentage',
+    transformFn: _toNonZeroValueOrNull,
+  },
+  {
+    header: 'Date de naissance (format : jj/mm/aaaa)',
+    property: 'birthdate',
+    transformFn: (cellVal) => {
+      return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' });
+    },
+  },
+  {
+    header: 'Code postal de naissance',
+    property: 'birthPostalCode',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Code INSEE de naissance',
+    property: 'birthINSEECode',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Pays de naissance',
+    property: 'birthCountry',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Adresse e-mail de convocation',
+    property: 'email',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Adresse e-mail du destinataire des résultats',
+    property: 'resultRecipientEmail',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+  {
+    header: 'Sexe',
+    property: 'sex',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
+  },
+];
+
 // ALL
 const TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION = {
   '1.4': {
     version: '1.4',
     transformStruct: _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_4,
     headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_4),
+  },
+  '1.5': {
+    version: '1.5',
+    transformStruct: _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_5,
+    headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_5),
   },
 };
 
