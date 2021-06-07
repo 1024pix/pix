@@ -5,6 +5,7 @@ const { badgeKey: cleaBadgeKey } = require('../../../../lib/domain/models/CleaCe
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const certificationAttestationRepository = require('../../../../lib/infrastructure/repositories/certification-attestation-repository');
+const { images } = require('../../../../lib/config');
 
 describe('Integration | Infrastructure | Repository | Certification Attestation', () => {
 
@@ -370,8 +371,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           pixScore: 51,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'image/to/expert',
-            'image/to/maitre',
+            images.certificationAttestation.macaronPixPlusDroitExpertUrl,
+            images.certificationAttestation.macaronPixPlusDroitMaitreUrl,
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -400,9 +401,9 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           pixScore: certificationAttestationData.pixScore,
           status: 'validated',
         });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/expert' });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/maitre' });
-        databaseBuilder.factory.buildBadge({ key: 'should_be_ignored', isCertifiable: true, certifiedImageUrl: 'some/horrible/image' });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
+        databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: 'should_be_ignored', acquired: true });
@@ -438,7 +439,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           pixScore: 51,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'image/to/expert',
+            images.certificationAttestation.macaronPixPlusDroitExpertUrl,
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -467,8 +468,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           pixScore: certificationAttestationData.pixScore,
           status: 'validated',
         });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/expert' });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/maitre' });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: false });
         await databaseBuilder.commit();

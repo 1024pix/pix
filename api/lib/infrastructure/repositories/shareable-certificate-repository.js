@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const ShareableCertificate = require('../../domain/models/ShareableCertificate');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
@@ -5,6 +6,7 @@ const CleaCertificationResult = require('../../../lib/domain/models/CleaCertific
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
+const { images } = require('../../config');
 
 module.exports = {
 
@@ -75,11 +77,15 @@ async function _getCleaCertificationResult(certificationCourseId) {
 async function _getCertifiedBadgeImages(certificationCourseId) {
   const handledBadgeKeys = [pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey];
   const results = await knex
-    .select('badges.certifiedImageUrl')
+    .select('partnerKey')
     .from('partner-certifications')
-    .join('badges', 'badges.key', 'partner-certifications.partnerKey')
-    .where({ certificationCourseId, acquired: true, isCertifiable: true })
-    .whereIn('partner-certifications.partnerKey', handledBadgeKeys);
+    .where({ certificationCourseId, acquired: true })
+    .whereIn('partnerKey', handledBadgeKeys)
+    .orderBy('partnerKey');
 
-  return results.map((result) => result.certifiedImageUrl);
+  return _.compact(_.map(results, (result) => {
+    if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return images.sharedCertificate.macaronPixPlusDroitMaitreUrl;
+    if (result.partnerKey === pixPlusDroitExpertBadgeKey) return images.sharedCertificate.macaronPixPlusDroitExpertUrl;
+    return null;
+  }));
 }

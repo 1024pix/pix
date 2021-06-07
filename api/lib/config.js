@@ -250,6 +250,18 @@ module.exports = (function() {
     config.sentry.enabled = false;
   }
 
+  // Images
+  config.images = {};
+  config.images.privateCertificate = {};
+  config.images.sharedCertificate = {};
+  config.images.certificationAttestation = {};
+  config.images.privateCertificate.macaronPixPlusDroitMaitreUrl = 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/maitre.svg';
+  config.images.sharedCertificate.macaronPixPlusDroitMaitreUrl = config.images.privateCertificate.macaronPixPlusDroitMaitreUrl;
+  config.images.certificationAttestation.macaronPixPlusDroitMaitreUrl = 'some/other/image';
+  config.images.privateCertificate.macaronPixPlusDroitExpertUrl = 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg';
+  config.images.sharedCertificate.macaronPixPlusDroitExpertUrl = config.images.privateCertificate.macaronPixPlusDroitExpertUrl;
+  config.images.certificationAttestation.macaronPixPlusDroitExpertUrl = 'some/other/image';
+
   return config;
 
 })();

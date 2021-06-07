@@ -5,6 +5,7 @@ const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertifi
 const { badgeKey: cleaBadgeKey } = require('../../../../lib/domain/models/CleaCertificationResult');
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const { images } = require('../../../../lib/config');
 
 describe('Integration | Infrastructure | Repository | Private Certificate', () => {
 
@@ -271,8 +272,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'image/to/expert',
-            'image/to/maitre',
+            images.privateCertificate.macaronPixPlusDroitExpertUrl,
+            images.privateCertificate.macaronPixPlusDroitMaitreUrl,
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -295,9 +296,9 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           userId,
         }).id;
         databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/expert' });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/maitre' });
-        databaseBuilder.factory.buildBadge({ key: 'should_be_ignored', isCertifiable: true, certifiedImageUrl: 'some/horrible/image' });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
+        databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: 'should_be_ignored', acquired: true });
@@ -333,7 +334,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'image/to/expert',
+            images.privateCertificate.macaronPixPlusDroitExpertUrl,
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -356,8 +357,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           userId,
         }).id;
         databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/expert' });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/maitre' });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: false });
         await databaseBuilder.commit();
@@ -666,8 +667,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'image/to/expert',
-            'image/to/maitre',
+            images.privateCertificate.macaronPixPlusDroitExpertUrl,
+            images.privateCertificate.macaronPixPlusDroitMaitreUrl,
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -690,9 +691,9 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           userId,
         }).id;
         databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/expert' });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/maitre' });
-        databaseBuilder.factory.buildBadge({ key: 'should_be_ignored', isCertifiable: true, certifiedImageUrl: 'some/horrible/image' });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
+        databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: 'should_be_ignored', acquired: true });
@@ -729,7 +730,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'image/to/expert',
+            images.privateCertificate.macaronPixPlusDroitExpertUrl,
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -752,8 +753,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           userId,
         }).id;
         databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/expert' });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/maitre' });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: false });
         await databaseBuilder.commit();
