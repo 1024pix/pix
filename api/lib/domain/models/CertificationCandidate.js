@@ -46,6 +46,9 @@ class CertificationCandidate {
       id,
       firstName,
       lastName,
+      sex,
+      birthPostalCode,
+      birthINSEECode,
       birthCity,
       birthProvinceCode,
       birthCountry,
@@ -65,6 +68,9 @@ class CertificationCandidate {
     this.birthCity = birthCity;
     this.birthProvinceCode = birthProvinceCode;
     this.birthCountry = birthCountry;
+    this.birthPostalCode = birthPostalCode;
+    this.birthINSEECode = birthINSEECode;
+    this.sex = sex;
     this.email = email;
     this.resultRecipientEmail = resultRecipientEmail;
     this.externalId = externalId;
