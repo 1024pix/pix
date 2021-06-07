@@ -1,6 +1,6 @@
 .congratulations-banner {
   text-rendering: optimizeLegibility;
-  background: $green-gradient;
+  background: $green-certif;
   position: relative;
   color: $grey-10;
   border-radius: 6px;
@@ -42,7 +42,7 @@
   @include textBannerStyle();
 
   font-size: 1.5rem;
-  margin-bottom: 5px;
+  margin-bottom: 16px;
 }
 
 .congratulations-banner__link {

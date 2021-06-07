@@ -20,8 +20,6 @@ function _isSessionNotAccessibleError(err) {
 
 export default class CertificationJoiner extends Component {
   @service store;
-  @service peeker;
-  @service currentUser;
   @service intl;
 
   SESSION_ID_VALIDATION_PATTERN = '^[0-9]*$';
@@ -30,7 +28,6 @@ export default class CertificationJoiner extends Component {
   @tracked errorMessage = null;
   @tracked sessionIdIsNotANumberError = null;
   @tracked validationClassName = '';
-  @tracked showCongratulationsBanner = true;
   @tracked sessionId = null;
   @tracked firstName = null;
   @tracked lastName = null;
@@ -59,11 +56,6 @@ export default class CertificationJoiner extends Component {
     });
   }
 
-  @action
-  closeBanner() {
-    this.showCongratulationsBanner = false;
-  }
-
   _isANumber(value) {
     return new RegExp(this.SESSION_ID_VALIDATION_PATTERN).test(value);
   }
@@ -81,7 +73,6 @@ export default class CertificationJoiner extends Component {
   @action
   async attemptNext(e) {
     e.preventDefault();
-    this.args.stepsData.joiner = { sessionId: this.sessionId };
     let currentCertificationCandidate = null;
     if (this.sessionId && !this._isANumber(this.sessionId)) {
       this.sessionIdIsNotANumberError = this.intl.t('pages.certification-joiner.form.fields-validation.session-number-error');
@@ -92,7 +83,7 @@ export default class CertificationJoiner extends Component {
       this.isLoading = true;
       currentCertificationCandidate = this.createCertificationCandidate();
       await currentCertificationCandidate.save({ adapterOptions: { joinSession: true, sessionId: this.sessionId } });
-      this.args.success();
+      this.args.onStepChange(this.sessionId);
     } catch (err) {
       if (currentCertificationCandidate) {
         currentCertificationCandidate.deleteRecord();
@@ -100,11 +91,11 @@ export default class CertificationJoiner extends Component {
       this.isLoading = false;
 
       if (_isMatchingReconciledStudentNotFoundError(err)) {
-        this.errorMessage = 'Oups ! Il semble que vous n’utilisiez pas le bon compte Pix pour rejoindre cette session de certification.\nPour continuer, connectez-vous au bon compte Pix ou demandez de l’aide au surveillant.';
+        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account');
       } else if (_isSessionNotAccessibleError(err)) {
-        this.errorMessage = 'Oups ! La session de certification que vous tentez de rejoindre n\'est plus accessible.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.';
+        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.session-not-accessible');
       } else {
-        this.errorMessage = 'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.';
+        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.generic');
       }
     }
   }
