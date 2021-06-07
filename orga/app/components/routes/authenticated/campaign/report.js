@@ -1,12 +1,15 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
-
+import { tracked } from '@glimmer/tracking';
 export default class Report extends Component {
 
   @service store;
   @service notifications;
   @service currentUser;
+  @service intl;
+
+  @tracked tooltipText = this.intl.t('pages.campaign-details.actions.copy-code');
 
   get participationsCount() {
     const participationsCount = this.args.campaign.participationsCount;
@@ -40,5 +43,15 @@ export default class Report extends Component {
     } catch (err) {
       this.notifications.error('Une erreur est survenue');
     }
+  }
+
+  @action
+  clipboardSuccess() {
+    this.tooltipText = this.intl.t('pages.campaign-details.actions.copied');
+  }
+
+  @action
+  clipboardOut() {
+    this.tooltipText = this.intl.t('pages.campaign-details.actions.copy-code');
   }
 }

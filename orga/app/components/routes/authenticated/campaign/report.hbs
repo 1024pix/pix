@@ -13,8 +13,23 @@
     <div class="campaign-details-header__report">
       <div class="campaign-details-header-report__info">
         <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign.code'}}</h4>
-        <span class="content-text campaign-details-content__text">
+        <span class="content-text campaign-details-content__text campaign-details-content--code">
           {{@campaign.code}}
+          {{#if (is-clipboard-supported)}}
+            <PixTooltip
+              @text={{this.tooltipText}}
+              @position='top'
+              @isInline={{true}}
+              class="campaign-details-content__tooltip">
+              <CopyButton
+                @clipboardText={{@campaign.code}}
+                @success={{this.clipboardSuccess}}
+                {{on 'mouseLeave' this.clipboardOut}}
+                @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey campaign-details-content__clipboard-button">
+                <FaIcon @icon='copy' @prefix='far'/>
+              </CopyButton>
+            </PixTooltip>
+          {{/if}}
         </span>
       </div>
 
