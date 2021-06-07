@@ -11,7 +11,7 @@ export default class Report extends Component {
   get participationsCount() {
     const participationsCount = this.args.campaign.participationsCount;
 
-    return participationsCount > 0 ? participationsCount : '-';
+    return participationsCount > 0 ? participationsCount : false;
   }
 
   get sharedParticipationsCount() {
@@ -22,6 +22,14 @@ export default class Report extends Component {
 
   get downloadUrl() {
     return this.args.campaign.urlToResult + `&lang=${this.currentUser.prescriber.lang}`;
+  }
+
+  get creatorName() {
+    return this.args.campaign.creatorFullName;
+  }
+
+  get creationDate() {
+    return this.args.campaign.createdAt;
   }
 
   @action
