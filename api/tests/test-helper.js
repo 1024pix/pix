@@ -6,7 +6,7 @@ chai.use(require('chai-as-promised'));
 chai.use(require('chai-sorted'));
 chai.use(require('sinon-chai'));
 const cache = require('../lib/infrastructure/caches/learning-content-cache');
-const { livretScolaireAuthentication } = require('../lib/config');
+const { graviteeRegisterApplicationsCredentials, jwtConfig } = require('../lib/config');
 
 const { knex, disconnect } = require('../db/knex-database-connection');
 
@@ -37,9 +37,12 @@ function generateValidRequestAuthorizationHeader(userId = 1234, source = 'pix') 
   return `Bearer ${accessToken}`;
 }
 
-function generateValidRequestAuthorizationHeaderForApplication(clientId = 'client-id-name', source = 'osmose', scope = 'scope') {
-  const accessToken = tokenService.createAccessTokenFromApplication(clientId, source, scope, livretScolaireAuthentication.secret);
-  return `Bearer ${accessToken}`;
+function generateValidRequestAuthorizationHeaderForApplication(clientId = 'client-id-name', source, scope) {
+  const application = _.find(graviteeRegisterApplicationsCredentials, { clientId });
+  if (application) {
+    const accessToken = tokenService.createAccessTokenFromApplication(application.clientId, source, scope, jwtConfig[application.source].secret);
+    return `Bearer ${accessToken}`;
+  }
 }
 
 function generateIdTokenForExternalUser(externalUser) {
