@@ -19,7 +19,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
     test('it renders "Aucune épreuve posée"', async function(assert) {
       // given
-      this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
       const certificationId = this.server.create('certification').id;
       this.server.create('certification-detail', {
         id: certificationId,
@@ -68,7 +67,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           },
         ];
 
-        this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
         const certificationId = this.server.create('certification').id;
         this.server.create('certification-detail', {
           id: certificationId,
@@ -95,7 +93,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           skill: '',
         }];
 
-        this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
         const certificationId = this.server.create('certification').id;
         this.server.create('certification-detail', {
           id: certificationId,
@@ -123,7 +120,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           isNeutralized: false,
         }];
 
-        this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
         const certificationId = this.server.create('certification').id;
         this.server.create('certification-detail', {
           id: certificationId,
@@ -150,7 +146,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           isNeutralized: true,
         }];
 
-        this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
         const certificationId = this.server.create('certification').id;
         this.server.create('certification-detail', {
           id: certificationId,
@@ -177,7 +172,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           isNeutralized: true,
         }];
 
-        this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
         const certificationId = this.server.create('certification').id;
         this.server.create('certification-detail', {
           id: certificationId,
@@ -205,7 +199,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           isNeutralized: false,
         }];
 
-        this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
         const certificationId = this.server.create('certification').id;
         this.server.create('certification-detail', {
           id: certificationId,
@@ -258,7 +251,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         },
       ];
 
-      this.server.create('feature-toggle', { isNeutralizationAutoEnabled: true });
       const certificationId = this.server.create('certification').id;
       this.server.create('certification-detail', {
         id: certificationId,

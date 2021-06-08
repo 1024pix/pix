@@ -6,7 +6,7 @@ export default class CertificationDetails extends JSONAPISerializer {
   @service featureToggles;
 
   normalizeFindRecordResponse(store, primaryModelClass, payload, id) {
-    if (!this.featureToggles.featureToggles.isNeutralizationAutoEnabled && !payload.data) {
+    if (!payload.data) {
       payload.data = {
         attributes: {
           competencesWithMark: payload.competencesWithMark,
@@ -23,13 +23,6 @@ export default class CertificationDetails extends JSONAPISerializer {
       payload.data.id = id;
     }
     return this.normalizeSingleResponse(...arguments);
-  }
-
-  keyForAttribute(key) {
-    if (!this.featureToggles.featureToggles.isNeutralizationAutoEnabled) {
-      return key;
-    }
-    return super.keyForAttribute(...arguments);
   }
 
   modelNameFromPayloadKey() {
