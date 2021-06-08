@@ -144,7 +144,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       this.owner.setupRouter();
     });
 
-    test('it should display campaign details item', async function(assert) {
+    test('it should display campaign settings item', async function(assert) {
 
       const campaign = store.createRecord('campaign', {
         id: 12,
@@ -153,7 +153,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       this.set('campaign', campaign);
 
       await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
-      assert.dom('nav a[href="/campagnes/12"]').hasText('Détails');
+      assert.dom('nav a[href="/campagnes/12"]').hasText('Paramètres');
     });
 
     module('When campaign type is ASSESSMENT', function(hooks) {
