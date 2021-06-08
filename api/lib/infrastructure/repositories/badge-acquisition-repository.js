@@ -30,25 +30,21 @@ module.exports = {
   },
 
   async getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds }) {
-    const results = await BookshelfBadgeAcquisition
-      .query((qb) => {
-        qb.join('badges', 'badges.id', 'badge-acquisitions.badgeId');
-        qb.where('badge-acquisitions.campaignParticipationId', 'IN', campaignParticipationsIds);
-      })
-      .fetchAll({
-        withRelated: ['badge'],
-        require: false,
-      });
-
-    const badgeAcquisitions = results.map((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadgeAcquisition, result));
+    const badges = await Bookshelf.knex('badges')
+      .distinct('badges.id')
+      .select('badge-acquisitions.campaignParticipationId AS campaignParticipationId', 'badges.*')
+      .from('badges')
+      .join('badge-acquisitions', 'badges.id', 'badge-acquisitions.badgeId')
+      .where('badge-acquisitions.campaignParticipationId', 'IN', campaignParticipationsIds)
+      .orderBy('badges.id');
 
     const acquiredBadgesByCampaignParticipations = {};
-    for (const badgeAcquisition of badgeAcquisitions) {
-      const { campaignParticipationId, badge } = badgeAcquisition;
-      if (acquiredBadgesByCampaignParticipations[campaignParticipationId]) {
-        acquiredBadgesByCampaignParticipations[campaignParticipationId].push(badge);
+    for (const badge of badges) {
+
+      if (acquiredBadgesByCampaignParticipations[badge.campaignParticipationId]) {
+        acquiredBadgesByCampaignParticipations[badge.campaignParticipationId].push(badge);
       } else {
-        acquiredBadgesByCampaignParticipations[campaignParticipationId] = [badge];
+        acquiredBadgesByCampaignParticipations[badge.campaignParticipationId] = [badge];
       }
     }
     return acquiredBadgesByCampaignParticipations;
