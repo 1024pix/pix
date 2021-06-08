@@ -14,46 +14,19 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const finalizedSessionController = require('../../../../lib/application/sessions/finalized-session-controller');
 const sessionAuthorization = require('../../../../lib/application/preHandlers/session-authorization');
-
 const moduleUnderTest = require('../../../../lib/application/sessions');
 
 describe('Unit | Application | Sessions | Routes', () => {
 
-  let httpTestServer;
-
-  beforeEach(async() => {
-    sinon.stub(sessionAuthorization, 'verify').returns(null);
-    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-
-    sinon.stub(sessionController, 'get').returns('ok');
-    sinon.stub(sessionController, 'getJurySession').returns('ok');
-    sinon.stub(sessionController, 'findPaginatedFilteredJurySessions').returns('ok');
-    sinon.stub(sessionController, 'save').returns('ok');
-    sinon.stub(sessionController, 'getAttendanceSheet').returns('ok');
-    sinon.stub(sessionController, 'update').returns('ok');
-    sinon.stub(sessionController, 'importCertificationCandidatesFromAttendanceSheet').returns('ok');
-    sinon.stub(sessionController, 'getCertificationCandidates').returns('ok');
-    sinon.stub(sessionController, 'addCertificationCandidate').returns('ok');
-    sinon.stub(sessionController, 'deleteCertificationCandidate').returns('ok');
-    sinon.stub(sessionController, 'getJuryCertificationSummaries').returns('ok');
-    sinon.stub(sessionController, 'createCandidateParticipation').returns('ok');
-    sinon.stub(sessionController, 'finalize').returns('ok');
-    sinon.stub(sessionController, 'publish').returns('ok');
-    sinon.stub(sessionController, 'unpublish').returns('ok');
-    sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
-    sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
-    sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
-    sinon.stub(sessionController, 'publishInBatch').returns('ok');
-    sinon.stub(finalizedSessionController, 'findFinalizedSessionsToPublish').returns('ok');
-    sinon.stub(finalizedSessionController, 'findFinalizedSessionsWithRequiredAction').returns('ok');
-
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
   describe('GET /api/sessions/{id}', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
+      sinon.stub(sessionController, 'get').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api/sessions/3');
 
@@ -65,6 +38,12 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('GET /api/admin/sessions/{id}', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'getJurySession').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api/admin/sessions/123');
 
@@ -76,6 +55,12 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('GET /api/admin/sessions', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'findPaginatedFilteredJurySessions').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api/admin/sessions');
 
@@ -87,6 +72,11 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('POST /api/session', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(sessionController, 'save').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       /// when
       const response = await httpTestServer.request('POST', '/api/sessions');
 
@@ -98,6 +88,11 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('GET /api/sessions/{id}/attendance-sheet', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(sessionController, 'getAttendanceSheet').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api/sessions/1/attendance-sheet');
 
@@ -109,6 +104,12 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('PATCH /api/sessions/{id}', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
+      sinon.stub(sessionController, 'update').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('PATCH', '/api/sessions/1');
 
@@ -120,14 +121,10 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('POST /api/sessions/{id}/certification-candidates/import', () => {
 
     const testFilePath = `${__dirname}/testFile_temp.ods`;
-
     const method = 'POST';
 
     let headers;
-    let url;
     let payload;
-
-    let sessionId;
 
     beforeEach(async () => {
       await writeFile(testFilePath, Buffer.alloc(0));
@@ -145,8 +142,13 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     it('should exist', async () => {
       // given
-      sessionId = 3;
-      url = `/api/sessions/${sessionId}/certification-candidates/import`;
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
+      sinon.stub(sessionController, 'importCertificationCandidatesFromAttendanceSheet').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const sessionId = 3;
+      const url = `/api/sessions/${sessionId}/certification-candidates/import`;
 
       // when
       const response = await httpTestServer.request(method, url, payload, null, headers);
@@ -159,8 +161,11 @@ describe('Unit | Application | Sessions | Routes', () => {
 
       it('should return 400', async () => {
         // given
-        sessionId = 'salut';
-        url = `/api/sessions/${sessionId}/certification-candidates/import`;
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const sessionId = 'salut';
+        const url = `/api/sessions/${sessionId}/certification-candidates/import`;
 
         // when
         const response = await httpTestServer.request(method, url, payload, null, headers);
@@ -174,8 +179,11 @@ describe('Unit | Application | Sessions | Routes', () => {
 
       it('should return 400', async () => {
         // given
-        sessionId = 9999999999;
-        url = `/api/sessions/${sessionId}/certification-candidates/import`;
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const sessionId = 9999999999;
+        const url = `/api/sessions/${sessionId}/certification-candidates/import`;
 
         // when
         const response = await httpTestServer.request(method, url, payload, null, headers);
@@ -189,6 +197,12 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('GET /api/sessions/{id}/certification-candidates', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
+      sinon.stub(sessionController, 'getCertificationCandidates').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api/sessions/3/certification-candidates');
 
@@ -200,6 +214,12 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('POST /api/sessions/{id}/certification-candidates', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
+      sinon.stub(sessionController, 'addCertificationCandidate').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('POST', '/api/sessions/3/certification-candidates');
 
@@ -211,6 +231,12 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('DELETE /api/sessions/{id}/certification-candidates/{certificationCandidateId}', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
+      sinon.stub(sessionController, 'deleteCertificationCandidate').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('DELETE', '/api/sessions/3/certification-candidates/1');
 
@@ -222,6 +248,12 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('GET /api/admin/sessions/{id}/jury-certification-summaries', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'getJuryCertificationSummaries').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api/admin/sessions/1/jury-certification-summaries');
 
@@ -233,6 +265,11 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('POST /api/sessions/{id}/candidate-participation', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(sessionController, 'createCandidateParticipation').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('POST', '/api/sessions/3/candidate-participation');
 
@@ -244,6 +281,12 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('PUT /api/sessions/{id}/finalization', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
+      sinon.stub(sessionController, 'finalize').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('PUT', '/api/sessions/3/finalization');
 
@@ -256,6 +299,11 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     it('should exist', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'publish').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const payload = {
         data: {
           attributes: {
@@ -275,6 +323,11 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     it('should exist', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'unpublish').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const payload = {
         data: {
           attributes: {
@@ -295,7 +348,10 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     it('is protected by a prehandler checking the Pix Master role', async () => {
       // given
-      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const payload = {
         data: {
           attributes: {
@@ -313,6 +369,11 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     it('should succeed with valid session ids', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'publishInBatch').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const payload = {
         data: {
           attributes: {
@@ -330,6 +391,9 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     it('should validate the session ids in payload', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const payload = {
         data: {
           attributes: {
@@ -350,6 +414,11 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     it('should exist', async () => {
       // when
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const response = await httpTestServer.request('PUT', '/api/admin/sessions/3/results-sent-to-prescriber');
 
       // then
@@ -360,6 +429,12 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/certification-officer-assignment');
 
@@ -402,6 +477,10 @@ describe('Unit | Application | Sessions | Routes', () => {
       { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/certification-officer-assignment' } },
     ].forEach(({ condition, request }) => {
       it(`should return 400 when ${condition}`, async () => {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
         // when
         const response = await httpTestServer.request(request.method, request.url, request.payload || null);
 
@@ -413,6 +492,12 @@ describe('Unit | Application | Sessions | Routes', () => {
 
   describe('PUT /api/session/{id}/enroll-students-to-session', () => {
     it('exists', async () => {
+      // given
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
+      sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('PUT', '/api/sessions/3/enroll-students-to-session');
 
@@ -421,6 +506,12 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
 
     it('validates the session id', async () => {
+      // given
+      sinon.stub(sessionAuthorization, 'verify').returns(null);
+      sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('PUT', '/api/sessions/invalidId/enroll-students-to-session');
 
@@ -430,7 +521,10 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     it('denies access if the session of the logged used is not authorized', async () => {
       // given
-      sessionAuthorization.verify.throws(new NotFoundError());
+      sinon.stub(sessionAuthorization, 'verify').throws(new NotFoundError());
+      sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       // when
       const response = await httpTestServer.request('PUT', '/api/sessions/3/enroll-students-to-session');
@@ -442,6 +536,12 @@ describe('Unit | Application | Sessions | Routes', () => {
 
   describe('GET /api/admin/sessions/to-publish', () => {
     it('exists', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(finalizedSessionController, 'findFinalizedSessionsToPublish').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
 
@@ -450,7 +550,9 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
     it('is protected by a prehandler checking the Pix Master role', async () => {
       // given
-      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       // when
       const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
@@ -462,6 +564,12 @@ describe('Unit | Application | Sessions | Routes', () => {
 
   describe('GET /api/admin/sessions/with-required-action', () => {
     it('exists', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(finalizedSessionController, 'findFinalizedSessionsWithRequiredAction').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const response = await httpTestServer.request('GET', '/api/admin/sessions/with-required-action');
 
@@ -471,7 +579,9 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     it('is protected by a prehandler checking the Pix Master role', async () => {
       // given
-      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       // when
       const response = await httpTestServer.request('GET', '/api/admin/sessions/with-required-action');

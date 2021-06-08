@@ -1,29 +1,26 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
 const userOrgaSettingsController = require('../../../../lib/application/user-orga-settings/user-orga-settings-controller');
-
 const moduleUnderTest = require('../../../../lib/application/user-orga-settings');
 
 describe('Unit | Router | user-orga-settings-router', () => {
 
-  let httpTestServer;
-
-  beforeEach(async() => {
-    sinon.stub(userOrgaSettingsController, 'createOrUpdate').returns('ok');
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
   describe('PUT /api/user-orga-settings/{id}', () => {
     const userId = 2;
     const auth = { credentials: { userId: userId }, strategy: {} };
-    let method;
-    let url;
-    let payload;
 
-    beforeEach(() => {
-      method = 'PUT';
-      url = `/api/user-orga-settings/${userId}`;
-      payload = {
+    it('should exist', async () => {
+      // given
+      sinon.stub(userOrgaSettingsController, 'createOrUpdate').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'PUT';
+      const url = `/api/user-orga-settings/${userId}`;
+      const payload = {
         data: {
           relationships: {
             organization: {
@@ -35,9 +32,7 @@ describe('Unit | Router | user-orga-settings-router', () => {
           },
         },
       };
-    });
 
-    it('should exist', async () => {
       // when
       const response = await httpTestServer.request(method, url, payload, auth);
 
@@ -49,7 +44,12 @@ describe('Unit | Router | user-orga-settings-router', () => {
 
       it('should be mandatory', async () => {
         // given
-        payload = undefined;
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'PUT';
+        const url = `/api/user-orga-settings/${userId}`;
+        const payload = undefined;
 
         // when
         const result = await httpTestServer.request(method, url, payload);
@@ -60,7 +60,23 @@ describe('Unit | Router | user-orga-settings-router', () => {
 
       it('should contain relationships.organization.data.id', async () => {
         // given
-        payload.data.relationships.organization.data.id = undefined;
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'PUT';
+        const url = `/api/user-orga-settings/${userId}`;
+        const payload = {
+          data: {
+            relationships: {
+              organization: {
+                data: {
+                  id: undefined,
+                  type: 'organizations',
+                },
+              },
+            },
+          },
+        };
 
         // when
         const response = await httpTestServer.request(method, url, payload);
@@ -71,7 +87,23 @@ describe('Unit | Router | user-orga-settings-router', () => {
 
       it('should contain relationships.organization.data.id as number', async () => {
         // given
-        payload.data.relationships.organization.data = { id: 'test' };
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'PUT';
+        const url = `/api/user-orga-settings/${userId}`;
+        const payload = {
+          data: {
+            relationships: {
+              organization: {
+                data: {
+                  id: 'test',
+                  type: 'organizations',
+                },
+              },
+            },
+          },
+        };
 
         // when
         const response = await httpTestServer.request(method, url, payload);

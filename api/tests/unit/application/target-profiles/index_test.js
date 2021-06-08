@@ -1,4 +1,8 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+const {
+  expect,
+  HttpTestServer,
+  sinon,
+} = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
@@ -6,27 +10,16 @@ const moduleUnderTest = require('../../../../lib/application/target-profiles');
 
 describe('Integration | Application | Target Profiles | Routes', () => {
 
-  let httpTestServer;
-
-  beforeEach(async() => {
-    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sinon.stub(targetProfileController, 'outdateTargetProfile').callsFake((request, h) => h.response('ok').code(204));
-    sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfiles').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(targetProfileController, 'getTargetProfileDetails').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(targetProfileController, 'updateTargetProfileName').callsFake((request, h) => h.response('ok').code(204));
-
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
   describe('POST /api/target-profiles', () => {
     it('should resolve with owner organization id to null', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'POST';
       const url = '/api/admin/target-profiles';
-
       const payload = {
         data: {
           attributes: {
@@ -48,9 +41,13 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should resolve with owner organization id to empty', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'POST';
       const url = '/api/admin/target-profiles';
-
       const payload = {
         data: {
           attributes: {
@@ -71,9 +68,11 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should reject with alphanumeric owner organization id ', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'POST';
       const url = '/api/admin/target-profiles';
-
       const payload = {
         data: {
           attributes: {
@@ -97,6 +96,11 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should resolve when there is no filter nor pagination', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfiles').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'GET';
       const url = '/api/admin/target-profiles';
 
@@ -109,6 +113,11 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should resolve when there are filters and pagination', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfiles').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'GET';
       const url = '/api/admin/target-profiles?filter[id]=1&filter[name]=azerty&page[size]=10&page[number]=1';
 
@@ -121,6 +130,9 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should reject request with HTTP code 400, when id is not an integer', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'GET';
       const url = '/api/admin/target-profiles?filter[id]=azerty';
 
@@ -133,6 +145,9 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should reject request with HTTP code 400, when page size is not an integer', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'GET';
       const url = '/api/admin/target-profiles?page[size]=azerty';
 
@@ -145,6 +160,9 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should reject request with HTTP code 400, when page number is not an integer', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'GET';
       const url = '/api/admin/target-profiles?page[number]=azerty';
 
@@ -160,6 +178,11 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should resolve with correct id', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(targetProfileController, 'getTargetProfileDetails').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'GET';
       const url = '/api/admin/target-profiles/1';
 
@@ -172,6 +195,9 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should reject request with HTTP code 400', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'GET';
       const url = '/api/admin/target-profiles/azerty';
 
@@ -187,6 +213,11 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should resolve when there is no filter nor pagination', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'GET';
       const url = '/api/admin/target-profiles/1/organizations';
 
@@ -199,6 +230,11 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should resolve when there are filters and pagination', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'GET';
       const url = '/api/admin/target-profiles/1/organizations?filter[name]=azerty&filter[type]=sco&filter[external-id]=abc&page[size]=10&page[number]=1';
 
@@ -211,6 +247,9 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should reject request with HTTP code 400, when id is not an integer', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'GET';
       const url = '/api/admin/target-profiles/azerty/organizations';
 
@@ -223,6 +262,9 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should reject request with HTTP code 400, when page size is not an integer', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'GET';
       const url = '/api/admin/target-profiles/1/organizations?page[size]=azerty';
 
@@ -235,6 +277,9 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should reject request with HTTP code 400, when page number is not an integer', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'GET';
       const url = '/api/admin/target-profiles/1/organizations?page[number]=azerty';
 
@@ -250,6 +295,11 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should exist', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(targetProfileController, 'updateTargetProfileName').callsFake((request, h) => h.response('ok').code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'PATCH';
       const payload = { data: {
         attributes: {
@@ -267,6 +317,9 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should return a 400 error when payload does not exist', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'PATCH';
       const payload = { data: {
         attributes: {
@@ -294,9 +347,9 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
       it('should resolve a 403 HTTP response', async () => {
         //Given
-        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
-          return Promise.resolve(h.response().code(403).takeover());
-        });
+        sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
         // when
         const response = await httpTestServer.request(method, url, payload);
@@ -313,6 +366,11 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
     it('should exist', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(targetProfileController, 'outdateTargetProfile').callsFake((request, h) => h.response('ok').code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const method = 'PUT';
       const payload = { };
       const url = '/api/admin/target-profiles/123/outdate';
@@ -332,9 +390,9 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
       it('should resolve a 403 HTTP response', async () => {
         //Given
-        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
-          return Promise.resolve(h.response().code(403).takeover());
-        });
+        sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
         // when
         const response = await httpTestServer.request(method, url, payload);

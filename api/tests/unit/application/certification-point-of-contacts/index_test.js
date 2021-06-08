@@ -10,22 +10,15 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 
 describe('Unit | Router | certification-point-of-contact-router', function() {
 
-  let httpTestServer;
-
-  beforeEach(async() => {
-    sinon.stub(certificationPointOfContactController, 'get').callsFake((request, h) => h.response().code(200));
-    sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').returns('ok');
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
-  afterEach(() => {
-    sinon.restore();
-  });
-
   describe('GET /api/certification-point-of-contacts/{userId}', () => {
 
     it('should exist', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').returns('ok');
+      sinon.stub(certificationPointOfContactController, 'get').callsFake((request, h) => h.response().code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       const result = await httpTestServer.request('GET', '/api/certification-point-of-contacts/123');
 
@@ -34,6 +27,11 @@ describe('Unit | Router | certification-point-of-contact-router', function() {
     });
 
     it('should call pre-handler', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       // when
       await httpTestServer.request('GET', '/api/certification-point-of-contacts/123');
 
