@@ -13,7 +13,7 @@ module('Unit | Service | feature toggles', function(hooks) {
     test('should load the feature toggles', async function(assert) {
       // Given
       const featureToggles = Object.create({
-        isCertificationResultsInOrgaEnabled: false,
+        aFakeFeatureToggle: false,
       });
       const storeStub = Service.create({
         queryRecord: () => resolve(featureToggles),
@@ -25,7 +25,7 @@ module('Unit | Service | feature toggles', function(hooks) {
       await featureToggleService.load();
 
       // Then
-      assert.equal(featureToggleService.featureToggles.isCertificationResultsInOrgaEnabled, false);
+      assert.equal(featureToggleService.featureToggles.aFakeFeatureToggle, false);
     });
   });
 });

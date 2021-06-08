@@ -22,40 +22,34 @@ module('Acceptance | Certifications page', function(hooks) {
     });
   });
 
-  module('When feature toggle for exporting certification results is enabled', function() {
-    hooks.beforeEach(async () => {
-      server.create('feature-toggle', { id: 0, isCertificationResultsInOrgaEnabled: true });
+  module('When user arrives on certifications page', function() {
+
+    test('should show Certifications page', async function(assert) {
+      // given / when
+      await visit('/certifications');
+
+      // then
+      assert.dom('.certifications-page__text').containsText('Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv. Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.');
+      assert.contains('Exporter les résultats');
+      assert.contains('Certifications');
+      assert.contains('Classe');
     });
 
-    module('When user arrives on certifications page', function() {
+    test('should not show any banner', async function(assert) {
+      // given / when
+      await visit('/certifications');
 
-      test('should show Certifications page', async function(assert) {
-        // given / when
-        await visit('/certifications');
+      // then
+      assert.dom('.information-banner').doesNotExist();
+      assert.dom('.pix-banner').doesNotExist();
+    });
 
-        // then
-        assert.dom('.certifications-page__text').containsText('Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv. Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.');
-        assert.contains('Exporter les résultats');
-        assert.contains('Certifications');
-        assert.contains('Classe');
-      });
+    test('should show documentation about certification results link', async function(assert) {
+      // given / when
+      await visit('/certifications');
 
-      test('should not show any banner', async function(assert) {
-        // given / when
-        await visit('/certifications');
-
-        // then
-        assert.dom('.information-banner').doesNotExist();
-        assert.dom('.pix-banner').doesNotExist();
-      });
-
-      test('should show documentation about certification results link', async function(assert) {
-        // given / when
-        await visit('/certifications');
-
-        // then
-        assert.dom('a[href="https://cloud.pix.fr/s/cRaeKT4ErrXs4X8"]').exists();
-      });
+      // then
+      assert.dom('a[href="https://cloud.pix.fr/s/cRaeKT4ErrXs4X8"]').exists();
     });
   });
 });
