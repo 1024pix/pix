@@ -150,6 +150,12 @@
     &:hover {
       color: $blue;
     }
+
+    &-separator {
+      height: 30px;
+      border-left: 1px solid $grey-25;
+      margin: 15px 0px;
+    }
   }
 
   &-item.active {

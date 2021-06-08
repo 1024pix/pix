@@ -58,10 +58,6 @@
 
   <div class="panel campaign-details__controls">
     <nav class="navbar campaign-details-controls__navbar-tabs">
-      <LinkTo @route="authenticated.campaigns.campaign.details" class="navbar-item" @model={{@campaign}} >
-        {{t 'pages.campaign.tab.details'}}
-      </LinkTo>
-
       <LinkTo
         @route={{if @campaign.isTypeAssessment "authenticated.campaigns.campaign.assessments" "authenticated.campaigns.campaign.profiles"}}
         @model={{@campaign}}
@@ -77,6 +73,11 @@
           {{t 'pages.campaign.tab.review'}}
         </LinkTo>
       {{/if}}
+
+      <div class="navbar-item-separator" aria-hidden="true"></div>
+      <LinkTo @route="authenticated.campaigns.campaign.details" class="navbar-item" @model={{@campaign}} >
+        {{t 'pages.campaign.tab.settings'}}
+      </LinkTo>
     </nav>
 
     <div class="campaign-details-controls__export-button">
