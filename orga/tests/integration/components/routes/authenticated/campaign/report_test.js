@@ -40,13 +40,14 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
     const campaign = store.createRecord('campaign', {
       code: '1234PixTest',
     });
+
     this.set('campaign', campaign);
 
     // when
     await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
 
     // then
-    assert.contains('1234PixTest');
+    assert.dom('.campaign-details-header-report__campaign-code').containsText('1234PixTest');
   });
 
   module('When there is some results', function() {
@@ -79,10 +80,12 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       // then
       assert.contains('4');
     });
+
     test('it should display correct label for a PROFILES_COLLECTION campaign ', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
         participationsCount: 1,
+        sharedParticipationsCount: 4,
         type: 'PROFILES_COLLECTION',
       });
       this.set('campaign', campaign);
@@ -93,6 +96,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       // then
       assert.contains('Profils reçus');
     });
+
     test('it should display correct label for an ASSESSMENT campaign ', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
