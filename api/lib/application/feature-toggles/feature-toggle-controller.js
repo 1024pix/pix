@@ -3,6 +3,10 @@ const serializer = require('../../infrastructure/serializers/jsonapi/feature-tog
 
 module.exports = {
   getActiveFeatures() {
-    return serializer.serialize(settings.featureToggles);
+    const toggles = {
+      ...settings.featureToggles,
+      isNeutralizationAutoEnabled: true,
+    };
+    return serializer.serialize(toggles);
   },
 };

@@ -15,7 +15,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
     it('should exist', async () => {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-      sinon.stub(certificationCoursesController, 'computeResult').returns('ok');
+      sinon.stub(certificationCoursesController, 'getCertificationDetails').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

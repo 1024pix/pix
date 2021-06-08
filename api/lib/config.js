@@ -130,7 +130,6 @@ module.exports = (function() {
     },
 
     featureToggles: {
-      isNeutralizationAutoEnabled: isFeatureEnabled(process.env.FT_IS_NEUTRALIZATION_AUTO_ENABLED),
       isPoleEmploiEnabled: isFeatureEnabled(process.env.IS_POLE_EMPLOI_ENABLED),
       isCertificationResultsInOrgaEnabled: isFeatureEnabled(process.env.FT_IS_CERTIFICATION_RESULTS_IN_ORGA_ENABLED),
     },
