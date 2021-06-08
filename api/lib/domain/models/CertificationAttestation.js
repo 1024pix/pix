@@ -50,6 +50,10 @@ class CertificationAttestation {
   get hasAcquiredPixPlusDroitCertification() {
     return this.pixPlusDroitCertificationImagePath !== null;
   }
+
+  get hasAcquiredAnyComplementaryCertifications() {
+    return this.hasAcquiredPixPlusDroitCertification || this.hasAcquiredCleaCertification;
+  }
 }
 
 module.exports = CertificationAttestation;

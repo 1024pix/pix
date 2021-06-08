@@ -3,9 +3,7 @@ const { readFile } = require('fs').promises;
 const moment = require('moment');
 const startCase = require('lodash/startCase');
 const sortBy = require('lodash/sortBy');
-
-const verificationCodeCoordinateWithClea = { x: 410, y: 452.5 };
-const verificationCodeCoordinateWithoutClea = { x: 410, y: 560 };
+const sharp = require('sharp');
 
 function formatDate(date) {
   return moment(date).locale('fr').format('LL');
@@ -92,8 +90,9 @@ function _drawHeaderUserInfo(data, page, font, fontSize, rgb) {
   });
 }
 
-function _drawVerificationCode(data, page, font, fontSize, rgb, verificationCodeCoordinates) {
+function _drawVerificationCode(data, page, font, fontSize, rgb) {
   const code = data.verificationCode;
+  const verificationCodeCoordinates = { x: 410, y: 560 };
 
   page.drawText(code, {
     ...verificationCodeCoordinates,
@@ -101,6 +100,40 @@ function _drawVerificationCode(data, page, font, fontSize, rgb, verificationCode
     size: fontSize,
     color: rgb(1, 1, 1),
   });
+}
+
+async function _drawComplementaryCertifications(pdfDoc, data, page, _rgb) {
+  let yCoordinate = data.hasAcquiredCleaCertification ? 400 : 385;
+  const stepY = -110;
+
+  if (data.hasAcquiredCleaCertification) {
+    const pngBuffer = await sharp(data.cleaCertificationImagePath)
+      .resize(80, 100, {
+        fit: 'inside',
+      })
+      .sharpen()
+      .toBuffer();
+    const pngImage = await pdfDoc.embedPng(pngBuffer);
+    page.drawImage(pngImage, {
+      x: 400,
+      y: yCoordinate,
+    });
+    yCoordinate += stepY;
+  }
+
+  if (data.hasAcquiredPixPlusDroitCertification) {
+    const pngBuffer = await sharp(data.pixPlusDroitCertificationImagePath)
+      .resize(100, 120, {
+        fit: 'inside',
+      })
+      .sharpen()
+      .toBuffer();
+    const pngImage = await pdfDoc.embedPng(pngBuffer);
+    page.drawImage(pngImage, {
+      x: 390,
+      y: yCoordinate,
+    });
+  }
 }
 
 function _drawCompetencesDetails(data, page, font, fontSize, rgb) {
@@ -169,22 +202,17 @@ async function _dynamicInformationsForAttestation({ pdfDoc, page, data, rgb }) {
   _drawFooter(data, page, footerFont, footerFontSize, rgb);
   _drawMaxScore(data, page, maxScoreFont, maxScoreFontSize, rgb);
   _drawMaxLevel(data, page, maxLevelFont, maxLevelFontSize, rgb);
-
-  let verificationCodeCoordinates;
-  if (data.hasAcquiredCleaCertification) {
-    verificationCodeCoordinates = verificationCodeCoordinateWithClea;
-  } else {
-    verificationCodeCoordinates = verificationCodeCoordinateWithoutClea;
+  _drawVerificationCode(data, page, codeFont, codeFontSize, rgb);
+  if (data.hasAcquiredAnyComplementaryCertifications) {
+    await _drawComplementaryCertifications(pdfDoc, data, page, rgb);
   }
-
-  _drawVerificationCode(data, page, codeFont, codeFontSize, rgb, verificationCodeCoordinates);
 }
 
 async function getCertificationAttestationPdfBuffer({
   certificate,
 }) {
-  const templateFileName = certificate.hasAcquiredCleaCertification
-    ? 'attestation-template-with-clea.pdf'
+  const templateFileName = certificate.hasAcquiredAnyComplementaryCertifications
+    ? 'attestation-template-with-complementary-certifications.pdf'
     : 'attestation-template.pdf';
 
   const formateDeliveryDate = moment(certificate.deliveredAt).format('YYYYMMDD');
