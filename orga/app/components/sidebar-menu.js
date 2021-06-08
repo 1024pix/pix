@@ -4,7 +4,6 @@ import Component from '@glimmer/component';
 export default class SidebarMenu extends Component {
   @service currentUser;
   @service url;
-  @service featureToggles;
 
   get documentationUrl() {
     if (!this.url.isFrenchDomainExtension) {
@@ -39,6 +38,6 @@ export default class SidebarMenu extends Component {
   }
 
   get shouldDisplayCertificationsEntry() {
-    return this.featureToggles.isCertificationResultsInOrgaEnabled && (this.currentUser.isAdminInOrganization && this.currentUser.isSCOManagingStudents);
+    return this.currentUser.isAdminInOrganization && this.currentUser.isSCOManagingStudents;
   }
 }

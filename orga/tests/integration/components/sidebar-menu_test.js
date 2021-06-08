@@ -152,7 +152,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
     });
   });
 
-  test('it should display Certifications menu in the sidebar-menu when FT_IS_CERTIFICATION_RESULTS_IN_ORGA_ENABLED is true and user is SCOManagingStudents', async function(assert) {
+  test('it should display Certifications menu in the sidebar-menu when user is SCOManagingStudents', async function(assert) {
     // given
     class CurrentUserStub extends Service {
       organization = Object.create({ id: 1, type: 'SCO' });
@@ -160,12 +160,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
       isSCOManagingStudents= true;
     }
 
-    class FeatureToggleStub extends Service {
-      isCertificationResultsInOrgaEnabled = true;
-    }
-
     this.owner.register('service:current-user', CurrentUserStub);
-    this.owner.register('service:feature-toggles', FeatureToggleStub);
     const intl = this.owner.lookup('service:intl');
     intl.setLocale(['fr', 'fr']);
 
@@ -184,12 +179,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
       isSCOManagingStudents= true;
     }
 
-    class FeatureToggleStub extends Service {
-      isCertificationResultsInOrgaEnabled = false;
-    }
-
     this.owner.register('service:current-user', CurrentUserStub);
-    this.owner.register('service:feature-toggles', FeatureToggleStub);
     const intl = this.owner.lookup('service:intl');
     intl.setLocale(['fr', 'fr']);
 

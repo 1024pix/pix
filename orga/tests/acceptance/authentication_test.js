@@ -285,8 +285,9 @@ module('Acceptance | authentication', function(hooks) {
           await visit('/');
 
           // then
-          assert.dom('.sidebar-menu a').exists({ count: 4 });
+          assert.dom('.sidebar-menu a').exists({ count: 5 });
           assert.dom('.sidebar-menu').containsText('Campagnes');
+          assert.dom('.sidebar-menu').containsText('Certifications');
           assert.dom('.sidebar-menu').containsText('Équipe');
           assert.dom('.sidebar-menu').containsText('Élèves');
           assert.dom('.sidebar-menu a:first-child ').hasClass('active');
@@ -300,41 +301,22 @@ module('Acceptance | authentication', function(hooks) {
 
           // then
           assert.dom('.sidebar-menu').containsText('Campagnes');
+          assert.dom('.sidebar-menu').containsText('Certifications');
           assert.dom('.sidebar-menu').containsText('Équipe');
           assert.dom('.sidebar-menu').containsText('Élèves');
-          assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
+          assert.dom('.sidebar-menu a:nth-child(3)').hasClass('active');
           assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
         });
 
-        module('when feature toggle for exporting certification results is enabled', function() {
+        test('should redirect to certifications page', async function(assert) {
+          // when
+          await visit('/');
+          await clickByLabel('Certifications');
 
-          test('should redirect to certifications page', async function(assert) {
-            // given
-            server.create('feature-toggle', { id: 0, isCertificationResultsInOrgaEnabled: true });
-
-            // when
-            await visit('/');
-            await clickByLabel('Certifications');
-
-            // then
-            assert.dom('.sidebar-menu').containsText('Certifications');
-            assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
-            assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
-          });
-        });
-
-        module('when feature toggle for exporting certification results is not enabled', function() {
-
-          test('should not show Certifications menu', async function(assert) {
-            // given
-            server.create('feature-toggle', { id: 0, isCertificationResultsInOrgaEnabled: false });
-
-            // when
-            await visit('/');
-
-            // then
-            assert.notContains('Certifications');
-          });
+          // then
+          assert.dom('.sidebar-menu').containsText('Certifications');
+          assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
+          assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
         });
 
         test('should have resources link', async function(assert) {
