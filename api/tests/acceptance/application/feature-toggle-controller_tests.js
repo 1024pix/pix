@@ -24,6 +24,7 @@ describe('Acceptance | Controller | feature-toggle-controller', () => {
           id: '0',
           attributes: {
             'is-pole-emploi-enabled': false,
+            'is-new-cpf-data-enabled': false,
           },
           type: 'feature-toggles',
         },
