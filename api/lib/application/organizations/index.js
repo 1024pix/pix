@@ -183,10 +183,6 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkIsCertificationResultsInOrgaToggleEnabled,
-            assign: 'isCertificationResultsInOrgaEnabled',
-          },
-          {
             method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
             assign: 'belongsToOrganizationManagingStudents',
           },

@@ -131,7 +131,6 @@ module.exports = (function() {
 
     featureToggles: {
       isPoleEmploiEnabled: isFeatureEnabled(process.env.IS_POLE_EMPLOI_ENABLED),
-      isCertificationResultsInOrgaEnabled: isFeatureEnabled(process.env.FT_IS_CERTIFICATION_RESULTS_IN_ORGA_ENABLED),
     },
 
     infra: {
@@ -198,8 +197,6 @@ module.exports = (function() {
     config.features.dayBeforeImproving = 4;
     config.features.dayBeforeCompetenceResetV2 = 7;
     config.features.garAccessV2 = false;
-
-    config.featureToggles.isCertificationResultsInOrgaEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
