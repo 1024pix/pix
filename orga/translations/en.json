@@ -154,6 +154,8 @@
         "unarchive": "Unarchive the campaign"
       },
       "archived": "Archived campaign",
+      "created-by": "Created by",
+      "created-on": "Created on",
       "code": "Code",
       "filters": {
         "title": "Filters",
@@ -236,10 +238,9 @@
     "campaign-details": {
       "actions": {
         "archive": "Archive",
-        "copy-link": {
-          "copied": "Copied!",
-          "copy": "Copy direct link"
-        },
+        "copied": "Copied!",
+        "copy-code": "Copy code",
+        "copy-link": "Copy direct link",
         "edit": "Edit"
       },
       "direct-link": "Direct link",

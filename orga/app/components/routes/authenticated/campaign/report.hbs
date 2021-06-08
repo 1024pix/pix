@@ -11,30 +11,31 @@
     </div>
 
     <div class="campaign-details-header__report">
-      <div class="campaign-details-header-report__info">
+       {{#if this.participationsCount}}
+        <CampaignParticipantsDetails @campaign={{@campaign}} @participationsCount={{this.participationsCount}} @sharedParticipationsCount={{this.sharedParticipationsCount}} />
+      {{else}}
+        <CampaignCreationDetails @creationDate={{this.creationDate}} @creatorName={{this.creatorName}} />
+      {{/if}}
+
+      <div class="campaign-details-header-report__campaign-code">
         <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign.code'}}</h4>
-        <span class="content-text content-text--big campaign-details-content__text">
+        <span class="content-text campaign-details-content__text">
           {{@campaign.code}}
-        </span>
-      </div>
-
-      <div class="campaign-details-header-report__info">
-        <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign.participations-count'}}</h4>
-        <span class="content-text content-text--big campaign-details-content__text">
-          {{this.participationsCount}}
-        </span>
-      </div>
-
-      <div class="campaign-details-header-report__shared">
-        <h4 class="label-text campaign-details-content__label">
-          {{#if (eq @campaign.type "PROFILES_COLLECTION")}}
-            {{t 'pages.campaign.shared-profiles-count'}}
-          {{else}}
-            {{t 'pages.campaign.shared-results-count'}}
+          {{#if (is-clipboard-supported)}}
+            <PixTooltip
+              @text={{this.tooltipText}}
+              @position='top'
+              @isInline={{true}}
+              class="campaign-details-content__tooltip">
+              <CopyButton
+                @clipboardText={{@campaign.code}}
+                @success={{this.clipboardSuccess}}
+                {{on 'mouseLeave' this.clipboardOut}}
+                @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey campaign-details-content__clipboard-button">
+                <FaIcon @icon='copy' @prefix='far'/>
+              </CopyButton>
+            </PixTooltip>
           {{/if}}
-        </h4>
-        <span class="content-text content-text--big campaign-details-content__text">
-          {{this.sharedParticipationsCount}}
         </span>
       </div>
     </div>
