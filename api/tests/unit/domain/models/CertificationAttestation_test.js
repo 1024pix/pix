@@ -74,4 +74,63 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
       expect(hasAcquiredPixPlusDroitCertification).to.be.false;
     });
   });
+
+  context('#get hasAcquiredAnyComplementaryCertifications', () => {
+
+    it('should return true if pix plus droit certification only has been acquired', () => {
+      // given
+      const certificationAttestation = domainBuilder.buildCertificationAttestation({
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: '/some/path',
+      });
+
+      // when
+      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications;
+
+      // expect
+      expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
+    });
+
+    it('should return true if clea certification only has been acquired', () => {
+      // given
+      const certificationAttestation = domainBuilder.buildCertificationAttestation({
+        cleaCertificationImagePath: '/some/path',
+        pixPlusDroitCertificationImagePath: null,
+      });
+
+      // when
+      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications;
+
+      // expect
+      expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
+    });
+
+    it('should return true if both pix plus droit and clea certifications have been acquired', () => {
+      // given
+      const certificationAttestation = domainBuilder.buildCertificationAttestation({
+        cleaCertificationImagePath: '/some/path',
+        pixPlusDroitCertificationImagePath: 'some/other/path',
+      });
+
+      // when
+      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications;
+
+      // expect
+      expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
+    });
+
+    it('should return false if none of clea or pix plus certifications have been acquired', () => {
+      // given
+      const certificationAttestation = domainBuilder.buildCertificationAttestation({
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
+      });
+
+      // when
+      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications;
+
+      // expect
+      expect(hasAcquiredAnyComplementaryCertifications).to.be.false;
+    });
+  });
 });
