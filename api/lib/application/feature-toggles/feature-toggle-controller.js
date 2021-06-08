@@ -3,10 +3,6 @@ const serializer = require('../../infrastructure/serializers/jsonapi/feature-tog
 
 module.exports = {
   getActiveFeatures() {
-    const featureToggles = {
-      ...settings.featureToggles,
-      isCertificationResultsInOrgaEnabled: true,
-    };
-    return serializer.serialize(featureToggles);
+    return serializer.serialize(settings.featureToggles);
   },
 };
