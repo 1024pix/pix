@@ -75,8 +75,12 @@ function _buildCertificationCourse(databaseBuilder, { id, assessmentId, userId, 
       description: examinerComment,
     });
   }
+  let assessmentState = 'completed';
+  if (assessmentId === ASSESSMENT_STARTED_IN_PROBLEMS_FINALIZED_SESSION_ID) {
+    assessmentState = 'started';
+  }
   databaseBuilder.factory.buildAssessment({
-    id: assessmentId, certificationCourseId, type: 'CERTIFICATION', state: 'completed', userId, competenceId: null,
+    id: assessmentId, certificationCourseId, type: 'CERTIFICATION', state: assessmentState, userId, competenceId: null,
     campaignParticipationId: null, isImproving: false, createdAt,
   });
   _.each(CERTIFICATION_CHALLENGES_DATA, (challenge) => {
