@@ -1,5 +1,4 @@
 const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
-const buildCleaCertificationResult = require('./build-clea-certification-result');
 
 module.exports = function buildCertificationAttestation({
   id = 1,
@@ -15,8 +14,8 @@ module.exports = function buildCertificationAttestation({
   pixScore = 123,
   maxReachableLevelOnCertificationDate = 5,
   verificationCode = 'P-SOMECODE',
-  cleaCertificationResult = buildCleaCertificationResult.notTaken(),
-  certifiedBadgeImages = [],
+  cleaCertificationImagePath = 'some/path',
+  pixPlusDroitCertificationImagePath = null,
   resultCompetenceTree = null,
 } = {}) {
   return new CertificationAttestation({
@@ -33,8 +32,8 @@ module.exports = function buildCertificationAttestation({
     pixScore,
     maxReachableLevelOnCertificationDate,
     verificationCode,
-    cleaCertificationResult,
-    certifiedBadgeImages,
+    cleaCertificationImagePath,
+    pixPlusDroitCertificationImagePath,
     resultCompetenceTree,
   });
 };

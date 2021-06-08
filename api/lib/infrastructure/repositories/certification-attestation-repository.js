@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
@@ -19,12 +18,12 @@ module.exports = {
       throw new NotFoundError(`There is no certification course with id "${id}"`);
     }
 
-    const cleaCertificationResult = await _getCleaCertificationResult(certificationCourseDTO.id);
-    const certifiedBadgeImages = await _getCertifiedBadgeImages(certificationCourseDTO.id);
+    const cleaCertificationImagePath = await _getCleaCertificationImagePath(certificationCourseDTO.id);
+    const pixPlusDroitCertificationImagePath = await _getPixPlusDroitCertificationImagePath(certificationCourseDTO.id);
     return new CertificationAttestation({
       ...certificationCourseDTO,
-      cleaCertificationResult,
-      certifiedBadgeImages,
+      cleaCertificationImagePath,
+      pixPlusDroitCertificationImagePath,
     });
   },
 };
@@ -61,31 +60,27 @@ function _selectCertificationAttestations() {
     .where('certification-courses.isCancelled', false);
 }
 
-async function _getCleaCertificationResult(certificationCourseId) {
+async function _getCleaCertificationImagePath(certificationCourseId) {
   const result = await knex
-    .select('acquired')
+    .select('partnerKey')
     .from('partner-certifications')
-    .where({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey })
+    .where({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey, acquired: true })
     .first();
 
-  if (!result) {
-    return CleaCertificationResult.buildNotTaken();
-  }
-  return CleaCertificationResult.buildFrom(result);
+  if (!result) return null;
+  return images.certificationAttestation.macaronCleaNumeriquePath;
 }
 
-async function _getCertifiedBadgeImages(certificationCourseId) {
+async function _getPixPlusDroitCertificationImagePath(certificationCourseId) {
   const handledBadgeKeys = [pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey];
-  const results = await knex
+  const result = await knex
     .select('partnerKey')
     .from('partner-certifications')
     .where({ certificationCourseId, acquired: true })
     .whereIn('partnerKey', handledBadgeKeys)
-    .orderBy('partnerKey');
+    .first();
 
-  return _.compact(_.map(results, (result) => {
-    if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return images.certificationAttestation.macaronPixPlusDroitMaitreUrl;
-    if (result.partnerKey === pixPlusDroitExpertBadgeKey) return images.certificationAttestation.macaronPixPlusDroitExpertUrl;
-    return null;
-  }));
+  if (!result) return null;
+  if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return images.certificationAttestation.macaronPixPlusDroitMaitrePath;
+  if (result.partnerKey === pixPlusDroitExpertBadgeKey) return images.certificationAttestation.macaronPixPlusDroitExpertPath;
 }
