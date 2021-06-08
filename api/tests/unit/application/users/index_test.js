@@ -277,14 +277,13 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{userId}/campaigns/{campaignId}/assessment-result', function() {
     const method = 'GET';
 
-    beforeEach(async() => {
-      sinon.stub(userController, 'getUserCampaignAssessmentResult').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
-      httpTestServer = await startServer();
-    });
-
     it('should return 200', async () => {
       // given
+      sinon.stub(userController, 'getUserCampaignAssessmentResult').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const url = '/api/users/12/campaigns/34/assessment-result';
 
       // when
@@ -296,6 +295,9 @@ describe('Unit | Router | user-router', () => {
 
     it('should return 400 when userId is not a number', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const userId = 'wrongId';
       const url = `/api/users/${userId}/campaigns/34/assessment-result`;
 
@@ -308,6 +310,9 @@ describe('Unit | Router | user-router', () => {
 
     it('should return 400 when campaignId is not a number', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const campaignId = 'wrongId';
       const url = `/api/users/12/campaigns/${campaignId}/assessment-result`;
 
