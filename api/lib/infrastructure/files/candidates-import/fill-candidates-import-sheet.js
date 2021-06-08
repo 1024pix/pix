@@ -6,6 +6,7 @@ const {
   IMPORT_CANDIDATES_TEMPLATE_VALUES,
   IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
 } = require('./candidates-import-placeholders');
+const { featureToggles } = require('../../../config');
 
 const moment = require('moment');
 const _ = require('lodash');
@@ -44,7 +45,9 @@ function _getCandidatesData(certificationCandidates) {
 }
 
 function _getCandidatesImportTemplatePath() {
-  return __dirname + '/candidates_import_template.ods';
+  return featureToggles.isNewCPFDataEnabled ?
+    __dirname + '/1.5/candidates_import_template.ods'
+    : __dirname + '/1.4/candidates_import_template.ods';
 }
 
 function _certificationCandidatesToCandidatesData(certificationCandidates) {
@@ -70,6 +73,9 @@ class CandidateData {
       id = null,
       firstName = null,
       lastName = null,
+      sex = null,
+      birthPostalCode = null,
+      birthINSEECode = null,
       birthCity = null,
       birthProvinceCode = null,
       birthCountry = null,
@@ -87,6 +93,9 @@ class CandidateData {
     this.id = this._emptyStringIfNull(id);
     this.firstName = this._emptyStringIfNull(firstName);
     this.lastName = this._emptyStringIfNull(lastName);
+    this.sex = this._convertSexCode(sex);
+    this.birthPostalCode = this._emptyStringIfNull(birthPostalCode);
+    this.birthINSEECode = this._emptyStringIfNull(birthINSEECode);
     this.birthCity = this._emptyStringIfNull(birthCity);
     this.birthProvinceCode = this._emptyStringIfNull(birthProvinceCode);
     this.birthCountry = this._emptyStringIfNull(birthCountry);
@@ -104,6 +113,12 @@ class CandidateData {
     this.userId = this._emptyStringIfNull(userId);
     this.schoolingRegistrationId = this._emptyStringIfNull(schoolingRegistrationId);
     this.count = number;
+  }
+
+  _convertSexCode(sex) {
+    if (sex === null) return '';
+    if (sex === 'M') return '1';
+    if (sex === 'F') return '2';
   }
 
   _emptyStringIfNull(value) {

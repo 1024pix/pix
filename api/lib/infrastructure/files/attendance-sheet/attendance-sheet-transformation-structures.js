@@ -69,12 +69,12 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_4 = [
 
 const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_5 = [
   {
-    header: 'Nom de naissance',
+    header: '* Nom de naissance',
     property: 'lastName',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: 'Prénom',
+    header: '* Prénom',
     property: 'firstName',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
@@ -89,11 +89,16 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_5 = [
     transformFn: _toNonZeroValueOrNull,
   },
   {
-    header: 'Date de naissance (format : jj/mm/aaaa)',
+    header: '* Date de naissance (format : jj/mm/aaaa)',
     property: 'birthdate',
     transformFn: (cellVal) => {
       return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' });
     },
+  },
+  {
+    header: 'Commune de naissance',
+    property: 'birthCity',
+    transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
     header: 'Code postal de naissance',
@@ -106,7 +111,7 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_5 = [
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: 'Pays de naissance',
+    header: '* Pays de naissance',
     property: 'birthCountry',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
@@ -121,7 +126,7 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_5 = [
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: 'Sexe',
+    header: '* Sexe (1 ou 2)',
     property: 'sex',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },

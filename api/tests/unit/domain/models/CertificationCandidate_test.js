@@ -335,7 +335,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
 
         expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal('sex');
-        expect(error.why).to.equal('not_a_valid_value');
+        expect(error.why).to.equal('not_a_sex_code');
       });
     });
   });
