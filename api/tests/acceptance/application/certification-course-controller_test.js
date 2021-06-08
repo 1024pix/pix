@@ -1,6 +1,5 @@
 const { expect, databaseBuilder, knex, learningContentBuilder, mockLearningContent, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
 const createServer = require('../../../server');
-const config = require('../../../lib/config');
 
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const Assessment = require('../../../lib/domain/models/Assessment');
@@ -17,13 +16,7 @@ describe('Acceptance | API | Certification Course', () => {
 
     describe('GET /api/admin/certifications/{id}/details', () => {
 
-      afterEach(function() {
-        config.featureToggles.isNeutralizationAutoEnabled = false;
-      });
-
       it('Should respond with a status 200', async () => {
-
-        config.featureToggles.isNeutralizationAutoEnabled = true;
 
         // given
         await insertUserWithRolePixMaster();
