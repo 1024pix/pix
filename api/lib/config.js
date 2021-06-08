@@ -257,10 +257,11 @@ module.exports = (function() {
   config.images.certificationAttestation = {};
   config.images.privateCertificate.macaronPixPlusDroitMaitreUrl = 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/maitre.svg';
   config.images.sharedCertificate.macaronPixPlusDroitMaitreUrl = config.images.privateCertificate.macaronPixPlusDroitMaitreUrl;
-  config.images.certificationAttestation.macaronPixPlusDroitMaitreUrl = 'some/other/image';
+  config.images.certificationAttestation.macaronPixPlusDroitMaitrePath = `${__dirname}/infrastructure/utils/pdf/files/macaron_maitre.png`;
   config.images.privateCertificate.macaronPixPlusDroitExpertUrl = 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg';
   config.images.sharedCertificate.macaronPixPlusDroitExpertUrl = config.images.privateCertificate.macaronPixPlusDroitExpertUrl;
-  config.images.certificationAttestation.macaronPixPlusDroitExpertUrl = 'some/other/image';
+  config.images.certificationAttestation.macaronPixPlusDroitExpertPath = `${__dirname}/infrastructure/utils/pdf/files/macaron_expert.png`;
+  config.images.certificationAttestation.macaronCleaNumeriquePath = `${__dirname}/infrastructure/utils/pdf/files/macaron_clea.png`;
 
   return config;
 

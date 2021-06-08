@@ -37,6 +37,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({
@@ -86,6 +88,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({
@@ -140,6 +144,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({
@@ -194,6 +200,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({
@@ -248,7 +256,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({
@@ -307,7 +316,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+        cleaCertificationImagePath: images.certificationAttestation.macaronCleaNumeriquePath,
+        pixPlusDroitCertificationImagePath: null,
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const sessionId = databaseBuilder.factory.buildSession({
@@ -352,7 +362,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
     context('acquired certifiable badges', () => {
 
-      it('should get the certified badge images of pixPlusDroitMaitre and/or pixPlusDroitExpert when those certifications were acquired', async () => {
+      it('should get the certified badge images of pixPlusDroitMaitre or pixPlusDroitExpert when those certifications were acquired', async () => {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const certificationAttestationData = {
@@ -369,11 +379,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           deliveredAt: new Date('2021-05-05'),
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: [
-            images.certificationAttestation.macaronPixPlusDroitExpertUrl,
-            images.certificationAttestation.macaronPixPlusDroitMaitreUrl,
-          ],
+          cleaCertificationImagePath: null,
+          pixPlusDroitCertificationImagePath: images.certificationAttestation.macaronPixPlusDroitExpertPath,
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const sessionId = databaseBuilder.factory.buildSession({
@@ -402,10 +409,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           status: 'validated',
         });
         databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
         databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
-        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: 'should_be_ignored', acquired: true });
         await databaseBuilder.commit();
 
@@ -437,10 +442,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           deliveredAt: new Date('2021-05-05'),
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
-          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: [
-            images.certificationAttestation.macaronPixPlusDroitExpertUrl,
-          ],
+          cleaCertificationImagePath: null,
+          pixPlusDroitCertificationImagePath: images.certificationAttestation.macaronPixPlusDroitMaitrePath,
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const sessionId = databaseBuilder.factory.buildSession({
@@ -468,10 +471,10 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           pixScore: certificationAttestationData.pixScore,
           status: 'validated',
         });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
         databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
-        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: false });
+        databaseBuilder.factory.buildBadge({ key: cleaBadgeKey });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: cleaBadgeKey, acquired: false });
         await databaseBuilder.commit();
 
         // when

@@ -14,8 +14,8 @@ class CertificationAttestation {
     deliveredAt,
     certificationCenter,
     pixScore,
-    cleaCertificationResult,
-    certifiedBadgeImages,
+    cleaCertificationImagePath,
+    pixPlusDroitCertificationImagePath,
     resultCompetenceTree = null,
     verificationCode,
     maxReachableLevelOnCertificationDate,
@@ -31,8 +31,8 @@ class CertificationAttestation {
     this.deliveredAt = deliveredAt;
     this.certificationCenter = certificationCenter;
     this.pixScore = pixScore;
-    this.cleaCertificationResult = cleaCertificationResult;
-    this.certifiedBadgeImages = certifiedBadgeImages;
+    this.cleaCertificationImagePath = cleaCertificationImagePath;
+    this.pixPlusDroitCertificationImagePath = pixPlusDroitCertificationImagePath;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
@@ -44,7 +44,11 @@ class CertificationAttestation {
   }
 
   get hasAcquiredCleaCertification() {
-    return this.cleaCertificationResult.isAcquired();
+    return this.cleaCertificationImagePath !== null;
+  }
+
+  get hasAcquiredPixPlusDroitCertification() {
+    return this.pixPlusDroitCertificationImagePath !== null;
   }
 }
 

@@ -19,11 +19,10 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
 
   context('#get hasAcquiredCleaCertification', () => {
 
-    it('should return true if clea is acquired', () => {
+    it('should return true if clea image path has been set', () => {
       // given
-      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        cleaCertificationResult,
+        cleaCertificationImagePath: '/some/path',
       });
 
       // when
@@ -33,11 +32,10 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
       expect(hasAcquiredCleaCertification).to.be.true;
     });
 
-    it('should return true if clea is not acquired', () => {
+    it('should return true if clea no image path has been set', () => {
       // given
-      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        cleaCertificationResult,
+        cleaCertificationImagePath: null,
       });
 
       // when
@@ -45,6 +43,35 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
 
       // expect
       expect(hasAcquiredCleaCertification).to.be.false;
+    });
+  });
+
+  context('#get hasAcquiredPixPlusDroitCertification', () => {
+
+    it('should return true if pix plus droit image path has been set', () => {
+      // given
+      const certificationAttestation = domainBuilder.buildCertificationAttestation({
+        pixPlusDroitCertificationImagePath: '/some/path',
+      });
+
+      // when
+      const hasAcquiredPixPlusDroitCertification = certificationAttestation.hasAcquiredPixPlusDroitCertification;
+
+      // expect
+      expect(hasAcquiredPixPlusDroitCertification).to.be.true;
+    });
+
+    it('should return true if not pix plus droit image path has been set', () => {
+      // given
+      const certificationAttestation = domainBuilder.buildCertificationAttestation({
+        pixPlusDroitCertificationImagePath: null,
+      });
+
+      // when
+      const hasAcquiredPixPlusDroitCertification = certificationAttestation.hasAcquiredPixPlusDroitCertification;
+
+      // expect
+      expect(hasAcquiredPixPlusDroitCertification).to.be.false;
     });
   });
 });
