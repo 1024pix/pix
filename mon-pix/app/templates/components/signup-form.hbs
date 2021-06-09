@@ -79,16 +79,26 @@
     </div>
 
     <div class="signup-form__cgu-container">
-      <label for="pix-cgu" class="signup-form__cgu-label">
-        {{t 'pages.sign-up.fields.cgu.label' cguUrl=this.cguUrl htmlSafe=true}}
-        <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer"> {{t 'pages.sign-up.fields.cgu.cgu' cguUrl=this.cguUrl htmlSafe=true}} </a>
+      <p class="signup-form__cgu-label">
+        {{t 'pages.sign-up.fields.cgu.accept'}}
+        <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
+          {{t 'pages.sign-up.fields.cgu.cgu'}}
+        </a>
+        {{t 'pages.sign-up.fields.cgu.and'}}
+        <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
+          {{t 'pages.sign-up.fields.cgu.data-protection-policy'}}
+        </a>
         {{#if @user.errors.cgu}}
           <div id="validationMessage-cgu" class="sign-form__validation-error" aria-live="polite">
             {{t 'pages.sign-up.fields.cgu.error'}}
           </div>
         {{/if}}
-      </label>
-      <Input @type="checkbox" class="signup-form__cgu" id="pix-cgu" @checked={{@user.cgu}}/>
+      </p>
+      <Input
+        @type="checkbox"
+        class="signup-form__cgu"
+        @checked={{@user.cgu}}
+        aria-label={{t 'pages.sign-up.fields.cgu.label'}}/>
     </div>
 
     </fieldset>

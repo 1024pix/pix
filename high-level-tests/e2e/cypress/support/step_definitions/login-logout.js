@@ -16,7 +16,7 @@ Given(`je m'inscris avec le prénom {string}, le nom {string}, le mail {string} 
   cy.get('input[id="lastName"]').type(lastname);
   cy.get('input[id=email]').type(email);
   cy.get('input[id=password]').type(password);
-  cy.get('input[id=pix-cgu]').check();
+  cy.get('.signup-form__cgu').check();
   cy.get('button[type=submit]').click();
 });
 
