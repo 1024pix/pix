@@ -77,7 +77,6 @@ describe('Acceptance | API | Certification Course', () => {
     context('when certification course has no assessment', () => {
 
       beforeEach(async () => {
-        await insertUserWithRolePixMaster();
         ({ id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
           createdAt: new Date('2017-12-21T15:44:38Z'),
           completedAt: new Date('2017-12-21T15:48:38Z'),
@@ -93,39 +92,55 @@ describe('Acceptance | API | Certification Course', () => {
         return databaseBuilder.commit();
       });
 
-      it('should return 200 HTTP status code', async () => {
-        // when
-        const response = await server.inject(options);
+      context('when user has no pixMaster role', () => {
+        it('should return 403 HTTP status code', async () => {
+          // when
+          const response = await server.inject(options);
 
-        // then
-        expect(response.statusCode).to.equal(200);
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
       });
 
-      it('should return application/json', async () => {
+      context('when user is pixMaster', () => {
+
+        beforeEach(async () => {
+          await insertUserWithRolePixMaster();
+          return databaseBuilder.commit();
+        });
+
+        it('should return 200 HTTP status code', async () => {
         // when
-        const response = await server.inject(options);
+          const response = await server.inject(options);
 
-        // then
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
-      });
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
 
-      it('should retrieve the certification total pix score and certified competences levels', async () => {
+        it('should return application/json', async () => {
         // when
-        const response = await server.inject(options);
+          const response = await server.inject(options);
 
-        // then
-        const result = response.result.data;
-        expect(result.attributes['competences-with-mark']).to.have.lengthOf(0);
-        expect(result.attributes['status']).to.equal('started');
+          // then
+          const contentType = response.headers['content-type'];
+          expect(contentType).to.contain('application/json');
+        });
+
+        it('should retrieve the certification total pix score and certified competences levels', async () => {
+        // when
+          const response = await server.inject(options);
+
+          // then
+          const result = response.result.data;
+          expect(result.attributes['competences-with-mark']).to.have.lengthOf(0);
+          expect(result.attributes['status']).to.equal('started');
+        });
+
       });
-
     });
 
     context('when certification course has an assessment', () => {
-
       beforeEach(async () => {
-        await insertUserWithRolePixMaster();
         ({ id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
           createdAt: new Date('2017-12-21T15:44:38Z'),
           completedAt: new Date('2017-12-21T15:48:38Z'),
@@ -169,151 +184,188 @@ describe('Acceptance | API | Certification Course', () => {
         return databaseBuilder.commit();
       });
 
-      it('should return 200 HTTP status code', async () => {
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return application/json', async () => {
-        // when
-        const response = await server.inject(options);
-
-        // then
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
-      });
-
-      it('should retrieve the certification total pix score and certified competences levels', async () => {
-        // given
-        const expectedCreatedAt = new Date('2017-12-21T15:44:38Z');
-        const expectedCompletedAt = new Date('2017-12-21T15:48:38Z');
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        const result = response.result.data;
-
-        expect(result.attributes['pix-score']).to.equal(42);
-        expect(result.attributes['created-at']).to.deep.equal(expectedCreatedAt);
-        expect(result.attributes['completed-at']).to.deep.equal(expectedCompletedAt);
-        expect(result.attributes['is-published']).to.not.be.ok;
-        expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
-
-        const firstCertifiedCompetence = result.attributes['competences-with-mark'][0];
-        expect(firstCertifiedCompetence.level).to.equal(2);
-        expect(firstCertifiedCompetence.competence_code).to.equal('4.3');
-
-        const secondCertifiedCompetence = result.attributes['competences-with-mark'][1];
-        expect(secondCertifiedCompetence.level).to.equal(4);
-        expect(secondCertifiedCompetence.competence_code).to.equal('2.1');
-      });
-
-      it('should return 404 HTTP status code if certification not found', async () => {
-        // given
-        const options = {
-          method: 'GET',
-          url: '/api/admin/certifications/200',
-          headers: { authorization: generateValidRequestAuthorizationHeader() },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
-
-      describe('Resource access management', () => {
-
-        it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
-          // given
-          options.headers.authorization = 'invalid.access.token';
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(401);
-        });
-
-        it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
-          // given
-          const nonPixMAsterUserId = 9999;
-          options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
-
+      context('when user has no pixMaster role', () => {
+        it('should return 403 HTTP status code', async () => {
           // when
           const response = await server.inject(options);
 
           // then
           expect(response.statusCode).to.equal(403);
         });
-
       });
 
+      context('when user is pixMaster', () => {
+        beforeEach(async() => {
+          await insertUserWithRolePixMaster();
+          return databaseBuilder.commit();
+        });
+        it('should return 200 HTTP status code', async () => {
+        // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
+
+        it('should return application/json', async () => {
+        // when
+          const response = await server.inject(options);
+
+          // then
+          const contentType = response.headers['content-type'];
+          expect(contentType).to.contain('application/json');
+        });
+
+        it('should retrieve the certification total pix score and certified competences levels', async () => {
+        // given
+          const expectedCreatedAt = new Date('2017-12-21T15:44:38Z');
+          const expectedCompletedAt = new Date('2017-12-21T15:48:38Z');
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          const result = response.result.data;
+
+          expect(result.attributes['pix-score']).to.equal(42);
+          expect(result.attributes['created-at']).to.deep.equal(expectedCreatedAt);
+          expect(result.attributes['completed-at']).to.deep.equal(expectedCompletedAt);
+          expect(result.attributes['is-published']).to.not.be.ok;
+          expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
+
+          const firstCertifiedCompetence = result.attributes['competences-with-mark'][0];
+          expect(firstCertifiedCompetence.level).to.equal(2);
+          expect(firstCertifiedCompetence.competence_code).to.equal('4.3');
+
+          const secondCertifiedCompetence = result.attributes['competences-with-mark'][1];
+          expect(secondCertifiedCompetence.level).to.equal(4);
+          expect(secondCertifiedCompetence.competence_code).to.equal('2.1');
+        });
+
+        it('should return 404 HTTP status code if certification not found', async () => {
+        // given
+          const options = {
+            method: 'GET',
+            url: '/api/admin/certifications/200',
+            headers: { authorization: generateValidRequestAuthorizationHeader() },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
+
+        describe('Resource access management', () => {
+
+          it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+          // given
+            options.headers.authorization = 'invalid.access.token';
+
+            // when
+            const response = await server.inject(options);
+
+            // then
+            expect(response.statusCode).to.equal(401);
+          });
+
+          it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
+          // given
+            const nonPixMAsterUserId = 9999;
+            options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+
+            // when
+            const response = await server.inject(options);
+
+            // then
+            expect(response.statusCode).to.equal(403);
+          });
+
+        });
+
+      });
     });
 
   });
 
   describe('PATCH /api/certification-courses/{id}', () => {
 
-    let options;
+    context('When the user does not have role pixmaster', () => {
+      it('should return 403 HTTP status code', async () => {
+        const options = {
+          headers: { authorization: generateValidRequestAuthorizationHeader() },
+          method: 'PATCH',
+          url: '/api/certification-courses/1', payload: {
+            data: {},
+          },
+        };
+        await databaseBuilder.commit();
 
-    beforeEach(() => {
-      const { id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
-        createdAt: new Date('2019-12-21T15:44:38Z'),
-        completedAt: new Date('2017-12-21T15:48:38Z'),
+        //const userId = 456;
+        const response = await server.inject(options);
+        expect(response.statusCode).to.equal(403);
       });
-      options = {
-        headers: { authorization: generateValidRequestAuthorizationHeader() },
-        method: 'PATCH',
-        url: `/api/certification-courses/${certificationCourseId}`, payload: {
-          data: {
-            type: 'certifications',
-            id: certificationCourseId,
-            attributes: {
-              'first-name': 'Freezer',
-              'last-name': 'The all mighty',
-              'birthplace': 'Namek',
-              'birthdate': '1989-10-24',
-              'external-id': 'xenoverse2',
+    });
+
+    context('When the user does have role pixmaster', () => {
+      let options;
+
+      beforeEach(async () => {
+        await insertUserWithRolePixMaster();
+        const { id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
+          createdAt: new Date('2019-12-21T15:44:38Z'),
+          completedAt: new Date('2017-12-21T15:48:38Z'),
+        });
+
+        options = {
+          headers: { authorization: generateValidRequestAuthorizationHeader() },
+          method: 'PATCH',
+          url: `/api/certification-courses/${certificationCourseId}`, payload: {
+            data: {
+              type: 'certifications',
+              id: certificationCourseId,
+              attributes: {
+                'first-name': 'Freezer',
+                'last-name': 'The all mighty',
+                'birthplace': 'Namek',
+                'birthdate': '1989-10-24',
+                'external-id': 'xenoverse2',
+              },
             },
           },
-        },
-      };
+        };
 
-      return databaseBuilder.commit();
-    });
-
-    it('should update the certification course', () => {
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        // then
-        const result = response.result.data;
-        expect(result.attributes['first-name']).to.equal('Freezer');
-        expect(result.attributes['last-name']).to.equal('The all mighty');
-        expect(result.attributes['birthplace']).to.equal('Namek');
-        expect(result.attributes['birthdate']).to.equal('1989-10-24');
-        expect(result.attributes['external-id']).to.equal('xenoverse2');
+        return databaseBuilder.commit();
       });
-    });
 
-    it('should return a Wrong Error Format when birthdate is false', () => {
-      // given
-      options.payload.data.attributes.birthdate = 'aaaaaaa';
-
+      it('should update the certification course', () => {
       // when
-      const promise = server.inject(options);
+        const promise = server.inject(options);
 
-      // then
-      return promise.then((err) => {
-        expect(err.statusCode).to.be.equal(400);
+        // then
+        return promise.then((response) => {
+        // then
+          const result = response.result.data;
+          expect(result.attributes['first-name']).to.equal('Freezer');
+          expect(result.attributes['last-name']).to.equal('The all mighty');
+          expect(result.attributes['birthplace']).to.equal('Namek');
+          expect(result.attributes['birthdate']).to.equal('1989-10-24');
+          expect(result.attributes['external-id']).to.equal('xenoverse2');
+        });
+      });
+
+      it('should return a Wrong Error Format when birthdate is false', () => {
+      // given
+        options.payload.data.attributes.birthdate = 'aaaaaaa';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((err) => {
+          expect(err.statusCode).to.be.equal(400);
+        });
       });
     });
 
@@ -789,23 +841,41 @@ describe('Acceptance | API | Certification Course', () => {
 
   describe('POST /api/admin/certification-courses/{id}/cancel', () => {
 
-    it('should respond with a 200', async () => {
-      // given
-      const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
-      const options = {
-        method: 'POST',
-        url: `/api/admin/certification-courses/${certificationCourse.id}/cancel`,
-        headers: {},
-      };
-      await databaseBuilder.commit();
-      const userPixMaster = await insertUserWithRolePixMaster();
-      options.headers.authorization = generateValidRequestAuthorizationHeader(userPixMaster.id);
+    context('when user has no pixMaster role', () => {
+      it('should return 403 HTTP status code', async () => {
+        const options = {
+          method: 'POST',
+          url: '/api/admin/certification-courses/1/cancel',
+          headers: { authorization: generateValidRequestAuthorizationHeader() },
+        };
 
-      // when
-      const response = await server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-      // then
-      expect(response.statusCode).to.equal(200);
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when user is pixMaster', () => {
+
+      it('should respond with a 200', async () => {
+        // given
+        const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+        const options = {
+          method: 'POST',
+          url: `/api/admin/certification-courses/${certificationCourse.id}/cancel`,
+          headers: { authorization: generateValidRequestAuthorizationHeader() },
+        };
+        await insertUserWithRolePixMaster();
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
     });
   });
 });
