@@ -44,9 +44,17 @@ function certificationScoresBuilder({ databaseBuilder }) {
 }
 
 function _buildAnswers({ answerData, databaseBuilder, assessmentId, createdAt }) {
+  let answerDate = createdAt;
   _.each(answerData, (answerData) => {
-    databaseBuilder.factory.buildAnswer({ ...answerData, value: 'Dummy value', assessmentId, createdAt });
+    databaseBuilder.factory.buildAnswer({ ...answerData, value: 'Dummy value', assessmentId, createdAt: answerDate });
+    answerDate = _addTenSeconds(answerDate);
   });
+}
+
+function _addTenSeconds(date) {
+  const returnedDate = new Date(date);
+  returnedDate.setSeconds(returnedDate.getSeconds() + 10);
+  return returnedDate;
 }
 
 function _buildSuccessScore(databaseBuilder, createdAt, assessmentId) {
