@@ -39,9 +39,9 @@ module.exports = {
 
 function _scoCandidateToDTOForSession(sessionId) {
   return (scoCandidate) => {
-    const dto = _.omit(scoCandidate, 'id');
+    const pickedAttributes = _.pick(scoCandidate, ['firstName', 'lastName', 'birthdate', 'schoolingRegistrationId']);
     return {
-      ...dto,
+      ...pickedAttributes,
       sessionId,
       birthCity: '',
     };
