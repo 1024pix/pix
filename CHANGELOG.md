@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.62.1 (09/06/2021)
+
+- [#3085](https://github.com/1024pix/pix/pull/3085) [TECH] Fix test requiring role pixMaster
+- [#2965](https://github.com/1024pix/pix/pull/2965) [TECH] Ajouter des détails dans les logs d'erreur du controller SAML.
+- [#3047](https://github.com/1024pix/pix/pull/3047) [TECH] Mettre à jour les dépendances présentant un risque pour la sécurité
+
 ## v3.62.0 (09/06/2021)
 
 - [#3077](https://github.com/1024pix/pix/pull/3077) [FEATURE] Générer un jeton d'accès pour l'application Pôle Emploi afin de consommer l'API Pix (Pix-2679).
