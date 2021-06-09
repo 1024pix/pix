@@ -12,6 +12,10 @@ export default class OrganizationMembersSection extends Component {
     return [
       {
         'label': 'Français',
+        'value': 'fr-fr',
+      },
+      {
+        'label': 'Francophone',
         'value': 'fr',
       },
       {
