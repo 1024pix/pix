@@ -140,7 +140,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               await fillIn('#lastName', prescritUser.lastName);
               await fillIn('#email', prescritUser.email);
               await fillIn('#password', prescritUser.password);
-              await click('#pix-cgu');
+              await click('.signup-form__cgu');
 
               // when
               await click('.button');
@@ -604,7 +604,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#lastName', prescritUser.lastName);
             await fillIn('#email', prescritUser.email);
             await fillIn('#password', prescritUser.password);
-            await click('#pix-cgu');
+            await click('.signup-form__cgu');
             await click('.button');
           });
 
@@ -624,7 +624,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               await fillIn('#lastName', prescritUser.lastName);
               await fillIn('#email', prescritUser.email);
               await fillIn('#password', prescritUser.password);
-              await click('#pix-cgu');
+              await click('.signup-form__cgu');
               await click('.button');
             });
 
@@ -640,7 +640,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           await fillIn('#lastName', prescritUser.lastName);
           await fillIn('#email', prescritUser.email);
           await fillIn('#password', prescritUser.password);
-          await click('#pix-cgu');
+          await click('.signup-form__cgu');
           await click('.button');
         });
       });

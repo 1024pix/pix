@@ -984,9 +984,12 @@
       },
       "fields": {
         "cgu": {
+          "accept": "I agree to the ",
+          "and": "and ",
           "cgu": "Pix terms of use",
-          "error": "You must agree to the Pix terms of use to create an account.",
-          "label": "I agree to the "
+          "data-protection-policy": "personal data protection policy",
+          "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
+          "label": "Agree Pix terms of use and personal data protection policy"
         },
         "email": {
           "error": "Your email address is invalid.",

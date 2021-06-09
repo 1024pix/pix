@@ -48,7 +48,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             await fillIn('#lastName', campaignParticipant.lastName);
             await fillIn('#email', campaignParticipant.email);
             await fillIn('#password', campaignParticipant.password);
-            await click('#pix-cgu');
+            await click('.signup-form__cgu');
             await click('.button');
           });
 
@@ -72,7 +72,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await fillIn('#lastName', campaignParticipant.lastName);
               await fillIn('#email', campaignParticipant.email);
               await fillIn('#password', campaignParticipant.password);
-              await click('#pix-cgu');
+              await click('.signup-form__cgu');
               await click('.button');
             });
 
@@ -121,7 +121,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           await fillIn('#lastName', campaignParticipant.lastName);
           await fillIn('#email', campaignParticipant.email);
           await fillIn('#password', campaignParticipant.password);
-          await click('#pix-cgu');
+          await click('.signup-form__cgu');
           await click('.button');
         });
 
@@ -139,7 +139,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           await fillIn('#lastName', campaignParticipant.lastName);
           await fillIn('#email', campaignParticipant.email);
           await fillIn('#password', campaignParticipant.password);
-          await click('#pix-cgu');
+          await click('.signup-form__cgu');
           await click('.button');
         });
 
