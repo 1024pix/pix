@@ -13,6 +13,10 @@ export default class CertificationCandidatesController extends Controller {
   @alias('model.reloadCertificationCandidate') reloadCertificationCandidate;
   @alias('model.shouldDisplayPrescriptionScoStudentRegistrationFeature') shouldDisplayPrescriptionScoStudentRegistrationFeature;
 
+  get pageTitle() {
+    return `Candidats | Session ${this.currentSession.id} | Pix Certif`;
+  }
+
   @computed('certificationCandidates', 'certificationCandidates.@each.isLinked')
   get importAllowed() {
     return every(this.certificationCandidates.toArray(), (certificationCandidate) => {

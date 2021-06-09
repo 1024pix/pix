@@ -8,6 +8,10 @@ export default class SessionsUpdateController extends Controller {
 
   @alias('model') session;
 
+  get pageTitle() {
+    return 'Modification d\'une session | Session ${this.session.id} | Pix Certif';
+  }
+
   @action
   async updateSession(event) {
     event.preventDefault();
