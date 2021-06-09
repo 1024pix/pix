@@ -1,0 +1,42 @@
+.organization-members-section {
+
+  label {
+    font-weight: bold;
+    font-size: 1.125rem;
+  }
+
+  form[aria-label="Inviter un membre"] {
+
+    input {
+      min-width: 300px;
+    }
+
+    .pix-select {
+      max-height: 38px;
+      margin: 0 10px;
+      min-width: 120px;
+
+      select {
+        max-height: 38px;
+      }
+    }
+
+    .pix-button {
+      padding: 0 20px;
+      max-height: 38px;
+    }
+  }
+
+  form[aria-label="Ajouter un membre"]{
+
+    input {
+      min-width: 300px;
+    }
+
+    .pix-button {
+      padding: 0 20px;
+      max-height: 38px;
+      margin-left: 10px;
+    }
+  }
+}

@@ -9,6 +9,7 @@ export default class OrganizationInvitation extends Model {
   @attr status;
   @attr createdAt;
   @attr organizationName;
+  @attr lang;
 
   @belongsTo('organization') organization;
 

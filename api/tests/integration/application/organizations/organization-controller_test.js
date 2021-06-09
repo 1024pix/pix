@@ -1,5 +1,4 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
-const _ = require('lodash');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const usecases = require('../../../../lib/domain/usecases');
@@ -206,59 +205,6 @@ describe('Integration | Application | Organizations | organization-controller', 
           // then
           expect(response.statusCode).to.equal(403);
         });
-      });
-    });
-  });
-
-  describe('#sendInvitations', () => {
-
-    context('Success cases', () => {
-
-      const status = OrganizationInvitation.StatusType.PENDING;
-      const invitation = domainBuilder.buildOrganizationInvitation({ status });
-
-      const payload = {
-        data: {
-          type: 'organization-invitations',
-          attributes: {
-            email: invitation.email,
-          },
-        },
-      };
-
-      beforeEach(() => {
-        securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.returns(true);
-      });
-
-      it('should return an HTTP response with status code 201', async () => {
-        // given
-        usecases.createOrganizationInvitations.resolves([invitation]);
-
-        // when
-        const response = await httpTestServer.request('POST', '/api/organizations/1/invitations', payload);
-
-        // then
-        expect(response.statusCode).to.equal(201);
-      });
-
-      it('should return the created invitation with status pending', async () => {
-        // given
-        const expectedResult = {
-          type: 'organization-invitations',
-          attributes: {
-            'organization-id': invitation.organizationId,
-            email: invitation.email,
-            status,
-            'updated-at': invitation.updatedAt,
-          },
-        };
-        usecases.createOrganizationInvitations.resolves([invitation]);
-
-        // when
-        const response = await httpTestServer.request('POST', `/api/organizations/${invitation.organizationId}/invitations`, payload);
-
-        // then
-        expect(_.omit(response.result.data[0], 'id', 'attributes.organization-name')).to.deep.equal(expectedResult);
       });
     });
   });
