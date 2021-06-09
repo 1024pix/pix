@@ -24,7 +24,7 @@ function certificationScoresBuilder({ databaseBuilder }) {
   // Idem for the "failed" user, but in a "failed" way.
   const createdAt = new Date('2020-01-31T00:00:00Z');
   _.each(
-    [ ASSESSMENT_SUCCESS_IN_SESSION_TO_FINALIZE_ID, ASSESSMENT_SUCCESS_IN_NO_PROBLEM_FINALIZED_SESSION_ID, ASSESSMENT_SUCCESS_IN_PROBLEMS_FINALIZED_SESSION_ID, ASSESSMENT_STARTED_IN_PROBLEMS_FINALIZED_SESSION_ID, ASSESSMENT_SUCCESS_PUBLISHED_SESSION_ID, ASSESSMENT_SUCCESS_PUBLISHED_SESSION_SCO_ID ],
+    [ ASSESSMENT_SUCCESS_IN_SESSION_TO_FINALIZE_ID, ASSESSMENT_SUCCESS_IN_NO_PROBLEM_FINALIZED_SESSION_ID, ASSESSMENT_SUCCESS_IN_PROBLEMS_FINALIZED_SESSION_ID, ASSESSMENT_SUCCESS_PUBLISHED_SESSION_ID, ASSESSMENT_SUCCESS_PUBLISHED_SESSION_SCO_ID ],
     (assessmentId) => {
       _buildSuccessScore(databaseBuilder, createdAt, assessmentId);
     });
@@ -33,33 +33,43 @@ function certificationScoresBuilder({ databaseBuilder }) {
     (assessmentId) => {
       _buildFailureScore(databaseBuilder, createdAt, assessmentId);
     });
+
+  // Special case : build answers only, has for this one, the assessment has not been completed
+  _buildAnswers({
+    answerData: CERTIFICATION_SUCCESS_ANSWERS_DATA.slice(0, -1),
+    databaseBuilder,
+    assessmentId: ASSESSMENT_STARTED_IN_PROBLEMS_FINALIZED_SESSION_ID,
+    createdAt,
+  });
+}
+
+function _buildAnswers({ answerData, databaseBuilder, assessmentId, createdAt }) {
+  let answerDate = createdAt;
+  _.each(answerData, (answerData) => {
+    databaseBuilder.factory.buildAnswer({ ...answerData, value: 'Dummy value', assessmentId, createdAt: answerDate });
+    answerDate = _addTenSeconds(answerDate);
+  });
+}
+
+function _addTenSeconds(date) {
+  const returnedDate = new Date(date);
+  returnedDate.setSeconds(returnedDate.getSeconds() + 10);
+  return returnedDate;
 }
 
 function _buildSuccessScore(databaseBuilder, createdAt, assessmentId) {
-  _.each(CERTIFICATION_SUCCESS_ANSWERS_DATA, (answerData) => {
-    databaseBuilder.factory.buildAnswer({ ...answerData, value: 'Dummy value', assessmentId, createdAt });
-  });
-  let assessmentResultId;
-  if (assessmentId === ASSESSMENT_STARTED_IN_PROBLEMS_FINALIZED_SESSION_ID) {
-    assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-      level: null, pixScore: 518, emitter: 'PIX-ALGO', status: 'started', commentForJury: null,
-      commentForCandidate: null, commentForOrganization: null, juryId: null, assessmentId, createdAt,
-    }).id;
-  } else {
-    assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-      level: null, pixScore: 518, emitter: 'PIX-ALGO', status: 'validated', commentForJury: null,
-      commentForCandidate: null, commentForOrganization: null, juryId: null, assessmentId, createdAt,
-    }).id;
-  }
+  _buildAnswers({ answerData: CERTIFICATION_SUCCESS_ANSWERS_DATA, databaseBuilder, assessmentId, createdAt });
+  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
+    level: null, pixScore: 518, emitter: 'PIX-ALGO', status: 'validated', commentForJury: null,
+    commentForCandidate: null, commentForOrganization: null, juryId: null, assessmentId, createdAt,
+  }).id;
   _.each(CERTIFICATION_SUCCESS_COMPETENCE_MARKS_DATA, (competenceMarkData) => {
     databaseBuilder.factory.buildCompetenceMark({ ...competenceMarkData, assessmentResultId, createdAt });
   });
 }
 
 function _buildFailureScore(databaseBuilder, createdAt, assessmentId) {
-  _.each(CERTIFICATION_FAILURE_ANSWERS_DATA, (answerData) => {
-    databaseBuilder.factory.buildAnswer({ ...answerData, value: 'Dummy value', assessmentId, createdAt });
-  });
+  _buildAnswers({ answerData: CERTIFICATION_FAILURE_ANSWERS_DATA, databaseBuilder, assessmentId, createdAt });
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
     level: -1, pixScore: 0, emitter: 'PIX-ALGO', status: 'rejected', commentForJury: null,
     commentForCandidate: null, commentForOrganization: null, juryId: null, assessmentId, createdAt,

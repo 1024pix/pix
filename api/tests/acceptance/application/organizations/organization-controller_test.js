@@ -10,7 +10,6 @@ const createServer = require('../../../../server');
 const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const config = require('../../../../lib/config');
 
 describe('Acceptance | Application | organization-controller', () => {
 
@@ -1446,81 +1445,41 @@ describe('Acceptance | Application | organization-controller', () => {
 
   describe('GET /api/organizations/{id}/certification-results', () => {
 
-    const ft = config.featureToggles.isCertificationResultsInOrgaEnabled;
+    it('should return HTTP status 200', async () => {
+      // given
 
-    afterEach(() => {
-      config.featureToggles.isCertificationResultsInOrgaEnabled = ft;
-    });
+      const user = databaseBuilder.factory.buildUser.withRawPassword();
 
-    context('when FT_IS_CERTIFICATION_RESULTS_IN_ORGA_ENABLED is enabled', () => {
+      const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
+      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.ADMIN });
 
-      it('should return HTTP status 200', async () => {
-        // given
-        config.featureToggles.isCertificationResultsInOrgaEnabled = true;
-
-        const user = databaseBuilder.factory.buildUser.withRawPassword();
-
-        const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.ADMIN });
-
-        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: organization.id,
-          division: 'aDivision',
-        });
-        const candidate = databaseBuilder.factory.buildCertificationCandidate({ schoolingRegistrationId: schoolingRegistration.id });
-        const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-          userId: candidate.userId,
-          sessionId: candidate.sessionId,
-          isPublished: true,
-        });
-
-        const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
-        databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id });
-
-        await databaseBuilder.commit();
-
-        const options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}/certification-results?division=aDivision`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
+      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: 'aDivision',
       });
-    });
-
-    context('when FT_IS_CERTIFICATION_RESULTS_IN_ORGA_ENABLED is not enabled', () => {
-
-      it('should return HTTP status 403', async () => {
-        // given
-        config.featureToggles.isCertificationResultsInOrgaEnabled = false;
-
-        const user = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildAuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
-          externalIdentifier: '234',
-          userId: user.id,
-        });
-        const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
-        await databaseBuilder.commit();
-
-        const options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}/certification-results`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403);
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({ schoolingRegistrationId: schoolingRegistration.id });
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+        userId: candidate.userId,
+        sessionId: candidate.sessionId,
+        isPublished: true,
       });
+
+      const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
+      databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/organizations/${organization.id}/certification-results?division=aDivision`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 
