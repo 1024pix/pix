@@ -78,17 +78,17 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       expect(actual).to.deep.equal(expected);
     });
 
-    it('should do nothing if there is no solutions for one input but answers', () => {
+    it('should throw an error if there is no solutions for one input but answers', async () => {
       // given
-      const answers = { 'phrase1': 'Le silence est d\'ours', 'phrase2': 'facebook', 'phraseSansSolution': 'lasagne' };
+      const answers = { 'phraseSansSolution': 'lasagne', 'phrase1': 'Le silence est d\'ours', 'phrase2': 'facebook' };
       const solutions = { 'phrase1': ['Le silence est d\'or'], 'phrase2': ['facebook'] };
-      const enabledTreatments = [];
+      const enabledTreatments = ['t3'];
 
       // when
-      const result = service._compareAnswersAndSolutions(answers, solutions, enabledTreatments);
-
+      const error = await catchErr(service._compareAnswersAndSolutions)(answers, solutions, enabledTreatments);
       // then
-      expect(result).to.deep.equal({ 'phrase1': false, 'phrase2': true });
+      expect(error).to.be.an.instanceOf(YamlParsingError);
+      expect(error.message).to.equal('Une erreur s\'est produite lors de l\'interprétation des réponses.');
     });
   });
 

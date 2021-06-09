@@ -35,13 +35,14 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments) {
   const results = {};
   _.map(answers, (answer, answerKey) => {
     const solutionVariants = solutions[answerKey];
+    if (!solutionVariants) {
+      logger.warn(`[ERREUR CLE ANSWER] La clé ${answerKey} n'existe pas. Première clé de l'épreuve : ${Object.keys(solutions)[0]}`);
+      throw new YamlParsingError();
+    }
     if (enabledTreatments.includes('t3')) {
       results[answerKey] = _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
     } else if (solutionVariants) {
       results[answerKey] = solutionVariants.includes(answer);
-    }
-    if (!solutionVariants) {
-      logger.warn(`[PROBLÈME RÉPONSE ÉPREUVE] La clé ${answerKey} n'existe pas.`);
     }
   });
   return results;
