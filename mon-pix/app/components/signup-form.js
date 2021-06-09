@@ -56,6 +56,10 @@ export default class SignupForm extends Component {
     return this.url.cguUrl;
   }
 
+  get dataProtectionPolicyUrl() {
+    return this.url.dataProtectionPolicyUrl;
+  }
+
   _getErrorMessage(status, key) {
     return (status === 'error') ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
   }
