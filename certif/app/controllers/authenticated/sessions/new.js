@@ -8,6 +8,10 @@ export default class SessionsNewController extends Controller {
 
   @alias('model') session;
 
+  get pageTitle() {
+    return 'Planification d\'une session | Pix Certif';
+  }
+
   @action
   async createSession(event) {
     event.preventDefault();
