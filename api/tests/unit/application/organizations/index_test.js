@@ -89,9 +89,9 @@ describe('Unit | Router | organization-router', () => {
     const method = 'POST';
     const url = '/api/organizations/1/invitations';
 
-    it('should exist', async () => {
+    it('should return HTTP code 201', async () => {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').returns(true);
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
       sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -105,7 +105,6 @@ describe('Unit | Router | organization-router', () => {
         },
       };
 
-    it('should return HTTP code 201', async () => {
       // when
       const response = await httpTestServer.request(method, url, payload);
 
@@ -115,7 +114,7 @@ describe('Unit | Router | organization-router', () => {
 
     it('should accept multiple emails', async () => {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').returns(true);
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
       sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -178,9 +177,20 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should check if user admin in organization', async () => {
+    it('should check if user is admin in organization', async () => {
       // given
-      securityPreHandlers.checkUserIsAdminInOrganization.resolves(false);
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').resolves(false);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org',
+          },
+        },
+      };
 
       // when
       await httpTestServer.request(method, url, payload);
@@ -197,6 +207,11 @@ describe('Unit | Router | organization-router', () => {
 
     it('should return HTTP code 201', async () => {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
+      sinon.stub(organizationController, 'sendInvitationsByLang').callsFake((request, h) => h.response().created());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const payload = {
         data: {
           type: 'organization-invitations',
@@ -216,6 +231,9 @@ describe('Unit | Router | organization-router', () => {
 
     it('should reject request with HTTP code 400, when email is empty', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const payload = {
         data: {
           type: 'organization-invitations',
@@ -235,6 +253,9 @@ describe('Unit | Router | organization-router', () => {
 
     it('should reject request with HTTP code 400, when input is not a email', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const payload = {
         data: {
           type: 'organization-invitations',
@@ -254,6 +275,9 @@ describe('Unit | Router | organization-router', () => {
 
     it('should reject request with HTTP code 400, when lang is unknown', async () => {
       // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
       const payload = {
         data: {
           type: 'organization-invitations',
@@ -273,13 +297,16 @@ describe('Unit | Router | organization-router', () => {
 
     it('should check if user is Pix Master', async () => {
       // given
-      securityPreHandlers.checkUserHasRolePixMaster.resolves(false);
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').resolves(false);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       const payload = {
         data: {
           type: 'organization-invitations',
           attributes: {
             email: 'user1@organization.org',
+            lang: 'fr',
           },
         },
       };
