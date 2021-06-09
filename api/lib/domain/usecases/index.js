@@ -132,7 +132,7 @@ module.exports = injectDependencies({
   authenticatePoleEmploiUser: require('./authenticate-pole-emploi-user'),
   authenticateUser: require('./authenticate-user'),
   authenticateExternalUser: require('./authenticate-external-user'),
-  authenticateApplicationLivretScolaire: require('./authenticate-application-livret-scolaire'),
+  authenticateApplication: require('./authenticate-application'),
   beginCampaignParticipationImprovement: require('./begin-campaign-participation-improvement'),
   cancelCertificationCourse: require('./cancel-certification-course'),
   completeAssessment: require('./complete-assessment'),

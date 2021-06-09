@@ -5,7 +5,7 @@ const {
 } = require('../../domain/errors');
 
 const { find } = require('lodash');
-const { graviteeRegisterApplicationsCredentials, livretScolaireAuthentication } = require('../../config');
+const { graviteeRegisterApplicationsCredentials, jwtConfig } = require('../../config');
 
 function _checkClientId(application, clientId) {
   if (!application || application.clientId !== clientId) {
@@ -25,7 +25,7 @@ function _checkAppScope(application, scope) {
   }
 }
 
-module.exports = async function authenticateApplicationLivretScolaire({
+module.exports = async function authenticateApplication({
   clientId,
   clientSecret,
   scope,
@@ -36,6 +36,6 @@ module.exports = async function authenticateApplicationLivretScolaire({
   _checkClientSecret(application, clientSecret);
   _checkAppScope(application, scope);
 
-  return tokenService.createAccessTokenFromApplication(clientId, application.source, scope, livretScolaireAuthentication.secret, livretScolaireAuthentication.tokenLifespan);
+  return tokenService.createAccessTokenFromApplication(clientId, application.source, scope, jwtConfig[application.source].secret, jwtConfig[application.source].tokenLifespan);
 
 };
