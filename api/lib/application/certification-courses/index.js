@@ -78,6 +78,10 @@ exports.register = async function(server) {
         },
         handler: certificationCourseController.update,
         tags: ['api'],
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
       },
     }, {
       method: 'POST',

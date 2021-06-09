@@ -215,7 +215,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         };
       });
 
-      it('should return 200 HTTP status code', async () => {
+      it('should return 403 HTTP status code', async () => {
         // when
         const response = await server.inject(options);
 
