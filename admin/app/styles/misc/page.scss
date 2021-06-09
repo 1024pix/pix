@@ -17,8 +17,12 @@
     .page-title {
       font-weight: 500;
 
+      a {
+        color: $pix-blue;
+      }
+
       .wire {
-        color: $grey-20;
+        color: $grey-45;
       }
     }
   }
