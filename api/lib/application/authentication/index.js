@@ -60,7 +60,7 @@ exports.register = async (server) => {
             403: responseErrorObjectDoc,
           },
         },
-        handler: AuthenticationController.authenticateApplicationLivretScolaire,
+        handler: AuthenticationController.authenticateApplication,
         tags: ['api', 'authorization-server'],
       },
     },

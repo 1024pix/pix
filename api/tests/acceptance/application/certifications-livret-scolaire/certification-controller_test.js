@@ -13,7 +13,7 @@ describe('Acceptance | API | Certifications', () => {
   let server, options;
   const OSMOSE_CLIENT_ID = 'graviteeOsmoseClientId';
   const OSMOSE_SCOPE = 'organizations-certifications-result';
-  const OSMOSE_SOURCE = 'osmose';
+  const OSMOSE_SOURCE = 'livretScolaire';
 
   describe('GET /api/organizations/:id/certifications', () => {
     const pixScore = 400;
