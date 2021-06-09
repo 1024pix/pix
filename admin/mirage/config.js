@@ -128,11 +128,12 @@ export default function() {
 
   this.get('/admin/sessions/:id/generate-results-download-link', { sessionResultsLink: 'http://link-to-results.fr' });
 
-  this.post('/organizations/:id/invitations', (schema, request) => {
+  this.post('/admin/organizations/:id/invitations', (schema, request) => {
     const params = JSON.parse(request.requestBody);
     const email = params.data.attributes.email;
+    const lang = params.data.attributes.lang;
 
-    schema.organizationInvitations.create({ email });
+    schema.organizationInvitations.create({ email, lang });
 
     return schema.organizationInvitations.where({ email });
   });

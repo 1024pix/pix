@@ -89,9 +89,9 @@ describe('Unit | Router | organization-router', () => {
     const method = 'POST';
     const url = '/api/organizations/1/invitations';
 
-    it('should exist', async () => {
+    it('should return HTTP code 201', async () => {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').returns(true);
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
       sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -114,7 +114,7 @@ describe('Unit | Router | organization-router', () => {
 
     it('should accept multiple emails', async () => {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').returns(true);
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
       sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -175,6 +175,147 @@ describe('Unit | Router | organization-router', () => {
 
       // then
       expect(response.statusCode).to.equal(400);
+    });
+
+    it('should check if user is admin in organization', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').resolves(false);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org',
+          },
+        },
+      };
+
+      // when
+      await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(securityPreHandlers.checkUserIsAdminInOrganization).to.have.be.called;
+    });
+  });
+
+  describe('POST /api/admin/organizations/{id}/invitations', () => {
+
+    const method = 'POST';
+    const url = '/api/admin/organizations/1/invitations';
+
+    it('should return HTTP code 201', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
+      sinon.stub(organizationController, 'sendInvitationsByLang').callsFake((request, h) => h.response().created());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org',
+            lang: 'fr',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+    });
+
+    it('should reject request with HTTP code 400, when email is empty', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: '',
+            lang: 'fr',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should reject request with HTTP code 400, when input is not a email', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'azerty',
+            lang: 'fr',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should reject request with HTTP code 400, when lang is unknown', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org',
+            lang: 'pt',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should check if user is Pix Master', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').resolves(false);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          type: 'organization-invitations',
+          attributes: {
+            email: 'user1@organization.org',
+            lang: 'fr',
+          },
+        },
+      };
+
+      // when
+      await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(securityPreHandlers.checkUserHasRolePixMaster).to.have.be.called;
     });
   });
 

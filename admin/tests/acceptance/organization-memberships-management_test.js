@@ -131,7 +131,7 @@ module('Acceptance | organization memberships management', function(hooks) {
 
     test('should display an error if the creation has failed', async function(assert) {
       // given
-      this.server.post('/organizations/:id/invitations', () => new Response(500, {}, { errors: [{ status: '500' }] }));
+      this.server.post('/admin/organizations/:id/invitations', () => new Response(500, {}, { errors: [{ status: '500' }] }));
 
       // when
       await visit(`/organizations/${organization.id}`);
