@@ -12,6 +12,8 @@ describe('Unit | Domain | Models | SCO Certification Candidate', () => {
       firstName: 'Oren',
       lastName: 'Ishii',
       birthdate: '2010-01-01',
+      sex: 'F',
+      birthINSEECode: '75001',
       sessionId: 123,
       schoolingRegistrationId: 456,
     };
@@ -53,6 +55,19 @@ describe('Unit | Domain | Models | SCO Certification Candidate', () => {
         expect(error).to.be.instanceOf(InvalidCertificationCandidate);
         expect(error.key).to.equal(field);
         expect(error.why).to.equal('required');
+      });
+    });
+
+    [
+      'sex',
+      'birthINSEECode',
+    ].forEach((field) => {
+      it(`should throw an error when field ${field} is not a string`, async () => {
+        const error = await catchErr(buildSCOCertificationCandidate)({ ...validAttributes, [field]: 123 });
+
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.key).to.equal(field);
+        expect(error.why).to.equal('not_a_string');
       });
     });
 
