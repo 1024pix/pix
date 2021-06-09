@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Adapter | certification details', function(hooks) {
+module('Unit | Adapter | certification', function(hooks) {
   setupTest(hooks);
 
   let adapter;
