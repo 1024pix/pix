@@ -88,7 +88,7 @@ export default function() {
     });
   });
 
-  this.post('/memberships', createMembership);
+  this.post('/admin/memberships', createMembership);
   this.get('/organizations');
   this.get('/organizations/:id');
   this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
@@ -137,7 +137,7 @@ export default function() {
     return schema.organizationInvitations.where({ email });
   });
 
-  this.patch('/memberships/:id', (schema, request) => {
+  this.patch('/admin/memberships/:id', (schema, request) => {
     const membershipId = request.params.id;
     const params = JSON.parse(request.requestBody);
     const organizationRole = params.data.attributes['organization-role'];
@@ -146,7 +146,7 @@ export default function() {
     return membership.update({ organizationRole });
   });
 
-  this.post('/memberships/:id/disable', (schema, request) => {
+  this.post('/admin/memberships/:id/disable', (schema, request) => {
     const membershipId = request.params.id;
 
     const membership = schema.memberships.findBy({ id: membershipId });

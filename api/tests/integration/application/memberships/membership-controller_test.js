@@ -14,7 +14,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
     sinon.stub(usecases, 'updateMembership');
     sinon.stub(usecases, 'disableMembership');
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
+    sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
   });
@@ -41,7 +41,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
         securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
 
         // when
-        const response = await httpTestServer.request('POST', '/api/memberships', payload);
+        const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
 
         // then
         expect(response.statusCode).to.equal(201);
@@ -55,7 +55,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
         securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
 
         // when
-        const response = await httpTestServer.request('POST', '/api/memberships', payload);
+        const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
 
         // then
         expect(response.result.data.type).to.equal('memberships');
@@ -66,19 +66,15 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
       context('when user is not allowed to access resource', () => {
 
-        it('should resolve a 403 HTTP response', () => {
+        it('should resolve a 403 HTTP response', async () => {
           // given
-          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
-            return Promise.resolve(h.response().code(403).takeover());
-          });
+          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
 
           // when
-          const promise = httpTestServer.request('POST', '/api/memberships', payload);
+          const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
 
           // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(403);
-          });
+          expect(response.statusCode).to.equal(403);
         });
       });
     });
@@ -101,7 +97,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
         usecases.updateMembership
           .withArgs({ membership })
           .resolves(updatedMembership);
-        securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
+        securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
 
         // when
         const payload = {
@@ -134,7 +130,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
         it('should resolve a 400 HTTP response', async () => {
           // given
-          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
+          securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
           const idGivenInRequestParams = 1;
           const idGivenInPayload = 44;
 
@@ -175,27 +171,11 @@ describe('Integration | Application | Memberships | membership-controller', () =
         });
       });
 
-      context('when user is not allowed to access resource', () => {
-
-        it('should resolve a 403 HTTP response', async () => {
-          // given
-          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => {
-            return Promise.resolve(h.response().code(403).takeover());
-          });
-
-          // when
-          const response = await httpTestServer.request('PATCH', '/api/memberships/1');
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
-      });
-
       context('when organization role is not valid', () => {
 
         it('should resolve a 400 HTTP response', async () => {
           // given
-          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
+          securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
           usecases.updateMembership.throws(new InvalidMembershipOrganizationRoleError());
 
           // when
@@ -226,40 +206,17 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
   describe('#disable', () => {
 
-    context('Success cases', () => {
+    it('should return a 204 HTTP response', async () => {
+      // given
+      const membershipId = domainBuilder.buildMembership().id;
+      usecases.disableMembership.resolves();
+      securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
 
-      it('should return a 200 HTTP response', async () => {
-        // given
-        const membershipId = domainBuilder.buildMembership().id;
-        usecases.disableMembership.resolves();
-        securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
+      // when
+      const response = await httpTestServer.request('POST', `/api/memberships/${membershipId}/disable`);
 
-        // when
-        const response = await httpTestServer.request('POST', `/api/memberships/${membershipId}/disable`);
-
-        // then
-        expect(response.statusCode).to.equal(204);
-      });
-    });
-
-    context('Error cases', () => {
-
-      context('when user is not admin of the organization nor has pix master role', () => {
-
-        it('should resolve a 403 HTTP response', async () => {
-          // given
-          const membershipId = domainBuilder.buildMembership({ organizationRole: Membership.roles.MEMBER }).id;
-          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => {
-            return Promise.resolve(h.response().code(403).takeover());
-          });
-
-          // when
-          const response = await httpTestServer.request('POST', `/api/memberships/${membershipId}/disable`);
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
-      });
+      // then
+      expect(response.statusCode).to.equal(204);
     });
   });
 
