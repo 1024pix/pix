@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.62.0 (09/06/2021)
+
+- [#3077](https://github.com/1024pix/pix/pull/3077) [FEATURE] Générer un jeton d'accès pour l'application Pôle Emploi afin de consommer l'API Pix (Pix-2679).
+- [#3078](https://github.com/1024pix/pix/pull/3078) [FEATURE] Permettre de choisir la langue d'envoie des invitation par email sur Pix Admin (PIX-2559).
+- [#3073](https://github.com/1024pix/pix/pull/3073) [FEATURE] Ajout des titres à toutes les pages de Pix Certif (PIX-2650)
+- [#3076](https://github.com/1024pix/pix/pull/3076) [FEATURE] Afficher la date de création et le nom du créateur d'une campagne dans le détail d'une campagne (PIX-2672)
+- [#3075](https://github.com/1024pix/pix/pull/3075) [FEATURE] Renommer l'onglet Détails en Paramètres et le placer à droite dans le nav menu d'une campagne (PIX-2673).
+- [#3060](https://github.com/1024pix/pix/pull/3060) [TECH] Séparer les routes commune d'Orga et Admin sur les memberships (PIX-2533).
+- [#3082](https://github.com/1024pix/pix/pull/3082) [TECH] Ajout d'un index dans la table "certification-candidates" pour améliorer les performances d'affichage de la liste de candidats en prescription de certification SCO (PIX-2698)
+- [#3052](https://github.com/1024pix/pix/pull/3052) [TECH] Supprimer les beforeEach des test unitaires des routes (PIX-2645).
+- [#3069](https://github.com/1024pix/pix/pull/3069) [TECH] Afficher qu'un exemplaire d'un RT (PIX-2658)
+- [#3080](https://github.com/1024pix/pix/pull/3080) [CLEANUP]  Suppression des toggles : recalcule des score dans l'onglet "détail" de Pix-Admin & téléchargement des résultats de certif dans Pix-Orga (PIX-2588)
+- [#3063](https://github.com/1024pix/pix/pull/3063) [INFRA] Corriger des erreurs dans les seeds
+
 ## v3.61.0 (07/06/2021)
 
 - [#3070](https://github.com/1024pix/pix/pull/3070) [FEATURE] Création d'un composant de carte d'indicateur dans Pix Orga (Pix-2663).
