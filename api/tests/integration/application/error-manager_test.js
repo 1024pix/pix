@@ -33,7 +33,7 @@ describe('Integration | API | Controller Error', () => {
         }]);
       },
     };
-    server = new HttpTestServer();
+    server = new HttpTestServer({ mustThrowOn5XXError: false });
     await server.register(moduleUnderTest);
   });
 
@@ -667,7 +667,9 @@ describe('Integration | API | Controller Error', () => {
     const INTERNAL_SERVER_ERROR = 500;
 
     it('responds Internal Server Error error when another error occurs', async () => {
+      // given
       routeHandler.throws(new Error('Unexpected Error'));
+
       // when
       const response = await server.requestObject(request);
 
@@ -682,6 +684,7 @@ describe('Integration | API | Controller Error', () => {
     const SERVICE_UNAVAILABLE_ERROR = 503;
     it('responds ServiceUnavailable when a SendingEmailToResultRecipientError error occurs', async () => {
       routeHandler.throws(new DomainErrors.SendingEmailToResultRecipientError(['toto@pix.fr', 'titi@pix.fr']));
+
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(SERVICE_UNAVAILABLE_ERROR);
