@@ -4,7 +4,6 @@ const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecase
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserBelongsToOrganizationUseCase = require('./usecases/checkUserBelongsToOrganization');
 const checkUserIsAdminAndManagingStudentsForOrganization = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
-const config = require('../config');
 const Organization = require('../../lib/domain/models/Organization');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
@@ -85,15 +84,6 @@ async function checkUserBelongsToOrganizationOrHasRolePixMaster(request, h) {
 
   const hasRolePixMaster = await checkUserHasRolePixMasterUseCase.execute(userId);
   if (hasRolePixMaster) {
-    return h.response(true);
-  }
-
-  return _replyForbiddenError(h);
-}
-
-function checkIsCertificationResultsInOrgaToggleEnabled(request, h) {
-  const isCertificationResultsInOrgaEnabled = config.featureToggles.isCertificationResultsInOrgaEnabled;
-  if (isCertificationResultsInOrgaEnabled) {
     return h.response(true);
   }
 
@@ -204,7 +194,6 @@ module.exports = {
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserHasRolePixMaster,
-  checkIsCertificationResultsInOrgaToggleEnabled,
   checkUserIsAdminInOrganization,
   checkUserIsAdminInOrganizationOrHasRolePixMaster,
   checkUserIsAdminInSCOOrganizationManagingStudents,

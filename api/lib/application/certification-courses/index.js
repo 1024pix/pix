@@ -4,7 +4,6 @@ const securityPreHandlers = require('../security-pre-handlers');
 const certificationCourseController = require('./certification-course-controller');
 
 const identifiersType = require('../../domain/types/identifiers-type');
-const config = require('../../config');
 
 exports.register = async function(server) {
   server.route([
@@ -21,13 +20,7 @@ exports.register = async function(server) {
             id: identifiersType.certificationCourseId,
           }),
         },
-        handler: (request) => {
-          if (config.featureToggles.isNeutralizationAutoEnabled) {
-            return certificationCourseController.getCertificationDetails(request);
-          } else {
-            return certificationCourseController.computeResult(request);
-          }
-        },
+        handler: certificationCourseController.getCertificationDetails,
         tags: ['api'],
         notes: [
           'Cette route est utilisé par Pix Admin',
