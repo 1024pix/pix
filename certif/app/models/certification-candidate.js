@@ -15,7 +15,7 @@ export default class CertificationCandidate extends Model {
   @attr('number') extraTimePercentage;
   @attr('boolean') isLinked;
   @attr('string') schoolingRegistrationId;
-  @attr('number') sex;
+  @attr('string') sex;
 
   get sexLabel() {
     if (this.sex === 'M') {

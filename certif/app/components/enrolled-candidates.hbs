@@ -103,6 +103,18 @@
             <td data-test-id='panel-candidate__extraTimePercentage__{{candidate.id}}'>{{format-percentage candidate.extraTimePercentage}}</td>
             <td>
               <div class="certification-candidates-actions">
+                {{#if @shouldDisplayCertificationCandidateDetailsModalButton}}
+                  <div class="certification-candidates-actions__display-details">
+                    <button
+                      type="button"
+                      class="button--showed-as-link"
+                      {{on 'click' (fn this.openCertificationCandidateDetailsModal candidate)}}
+                      aria-label="Voir le détail du candidat {{candidate.firstName}} {{candidate.lastName}}"
+                    >
+                      Voir le détail
+                    </button>
+                  </div>
+                {{/if}}
                 <div class="certification-candidates-actions__delete">
                   {{#if candidate.isLinked}}
                     <PixIconButton
@@ -138,3 +150,10 @@
     {{/if}}
   </div>
 </div>
+
+{{#if this.shouldDisplayCertificationCandidateModal}}
+  <CertificationCandidateDetailsModal
+    @closeModal={{this.closeCertificationCandidateDetailsModal}}
+    @candidate={{this.certificationCandidateInDetailsModal}}
+  />
+{{/if}}

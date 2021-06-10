@@ -51,4 +51,16 @@ export default Factory.extend({
   sessionId() {
     return faker.random.number();
   },
+
+  sex() {
+    return faker.random.arrayElement(['M', 'F']);
+  },
+
+  birthInseeCode() {
+    return faker.random.alphaNumeric(5);
+  },
+
+  birthPostalCode() {
+    return faker.random.alphaNumeric(5);
+  },
 });
