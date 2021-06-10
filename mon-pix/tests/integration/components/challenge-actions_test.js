@@ -149,7 +149,8 @@ describe('Integration | Component | challenge actions', function() {
                           @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
 
       // then
-      expect(findAll('.challenge-actions__action').length).to.equal(2);
+      expect(findAll('.challenge-actions__action').length).to.equal(1);
+      expect(find('.challenge-actions__action-continue')).to.exist;
     });
   });
 });
