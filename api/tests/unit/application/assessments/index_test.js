@@ -79,6 +79,7 @@ describe('Unit | Application | Router | assessment-router', () => {
     it('should call pre-handler', async () => {
       // given
       sinon.stub(assessmentAuthorization, 'verify').callsFake((request, h) => h.response(null));
+      sinon.stub(assessmentController, 'get').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

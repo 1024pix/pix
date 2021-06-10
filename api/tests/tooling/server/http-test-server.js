@@ -26,8 +26,9 @@ const routesConfig = {
  */
 class HttpTestServer {
 
-  constructor() {
+  constructor({ mustThrowOn5XXError = true } = {}) {
     this.hapiServer = Hapi.server(routesConfig);
+    this._mustThrow5XXOnError = mustThrowOn5XXError;
     this._setupErrorHandling();
   }
 
@@ -39,12 +40,18 @@ class HttpTestServer {
     this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
   }
 
-  request(method, url, payload, auth, headers) {
-    return this.hapiServer.inject({ method, url, payload, auth, headers });
+  async request(method, url, payload, auth, headers) {
+    const result = await this.hapiServer.inject({ method, url, payload, auth, headers });
+
+    if (this._mustThrowOn5XXError && result.statusCode >= 500) {
+      throw new Error('Request Failed');
+    }
+
+    return result;
   }
 
   requestObject({ method, url, payload, auth, headers }) {
-    return this.hapiServer.inject({ method, url, payload, auth, headers });
+    return this.request(method, url, payload, auth, headers);
   }
 
   setupAuthentication() {

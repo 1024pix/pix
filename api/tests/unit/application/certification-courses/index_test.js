@@ -146,6 +146,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
     it('should check pixMaster role', async () => {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(certificationCoursesController, 'cancel').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

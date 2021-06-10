@@ -29,6 +29,7 @@ describe('Unit | Router | certification-point-of-contact-router', function() {
     it('should call pre-handler', async () => {
       // given
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').returns('ok');
+      sinon.stub(certificationPointOfContactController, 'get').callsFake((request, h) => h.response().code(200));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -36,7 +37,7 @@ describe('Unit | Router | certification-point-of-contact-router', function() {
       await httpTestServer.request('GET', '/api/certification-point-of-contacts/123');
 
       // then
-      sinon.assert.called(securityPreHandlers.checkRequestedUserIsAuthenticatedUser);
+      expect(securityPreHandlers.checkRequestedUserIsAuthenticatedUser).to.have.been.called;
     });
   });
 });
