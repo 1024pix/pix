@@ -1,3 +1,4 @@
+const { AccessCode } = require('./AccessCode');
 const moment = require('moment');
 const Joi = require('joi');
 const { ObjectValidationError } = require('../errors/ObjectValidationError');
@@ -27,6 +28,32 @@ class Session {
     this._description = description;
 
     validate(this);
+  }
+
+  static schedule({
+    certificationCenterId,
+    certificationCenterName,
+    address,
+    examiner,
+    room,
+    date,
+    time,
+    description,
+  }, pickOneFrom) {
+    // On ne peut pas, avec certitude, valider la règle de "date ne doit pas être avant aujourd'hui"
+    // car on ne connaît pas la timezone du lieu où se déroule la session
+    return new Session({
+      id: null,
+      certificationCenterId,
+      certificationCenterName,
+      accessCode: AccessCode.generate(pickOneFrom),
+      address,
+      examiner,
+      room,
+      date,
+      time,
+      description,
+    });
   }
 
   toDTO() {
