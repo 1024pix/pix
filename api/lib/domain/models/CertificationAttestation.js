@@ -43,16 +43,16 @@ class CertificationAttestation {
     this.resultCompetenceTree = resultCompetenceTree;
   }
 
-  get hasAcquiredCleaCertification() {
+  hasAcquiredCleaCertification() {
     return this.cleaCertificationImagePath !== null;
   }
 
-  get hasAcquiredPixPlusDroitCertification() {
+  hasAcquiredPixPlusDroitCertification() {
     return this.pixPlusDroitCertificationImagePath !== null;
   }
 
-  get hasAcquiredAnyComplementaryCertifications() {
-    return this.hasAcquiredPixPlusDroitCertification || this.hasAcquiredCleaCertification;
+  hasAcquiredAnyComplementaryCertifications() {
+    return this.hasAcquiredPixPlusDroitCertification() || this.hasAcquiredCleaCertification();
   }
 }
 
