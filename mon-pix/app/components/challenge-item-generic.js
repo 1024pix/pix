@@ -10,6 +10,8 @@ export default class ChallengeItemGeneric extends Component {
   @tracked hasUserConfirmedWarning = false;
   @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
+  @tracked hasFocusedOut = false;
+  _watcher;
 
   constructor() {
     super(...arguments);
@@ -22,6 +24,19 @@ export default class ChallengeItemGeneric extends Component {
     if (document.hasFocus() === false) {
       console.log('user lost focus');
     }
+  }
+
+  startWatcher() {
+    this._watcher = setInterval(() => {
+      if (document.hasFocus() === false) {
+        this.hasFocusedOut = true;
+        this.stopWatcher();
+      }
+    }, 1000);
+  }
+
+  stopWatcher() {
+    clearInterval(this._watcher);
   }
 
   get isTimedChallenge() {
