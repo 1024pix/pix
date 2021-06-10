@@ -25,9 +25,9 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
     const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-    const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal123', isNeutralized: false });
-    const challengeToBeNeutralized2 = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal456', isNeutralized: false });
-    const challengeNotToBeNeutralized = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal789', isNeutralized: false });
+    const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false });
+    const challengeToBeNeutralized2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456', isNeutralized: false });
+    const challengeNotToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal789', isNeutralized: false });
     const certificationAssessment = domainBuilder.buildCertificationAssessment({
       certificationAnswersByDate: [
         domainBuilder.buildAnswer({ challengeId: 'recChal123', result: AnswerStatus.SKIPPED }),
@@ -116,7 +116,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
     const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-    const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal123', isNeutralized: false });
+    const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false });
     const certificationAssessment = domainBuilder.buildCertificationAssessment({
       certificationAnswersByDate: [
         domainBuilder.buildAnswer({ challengeId: 'recChal123', result: AnswerStatus.SKIPPED }),
@@ -195,7 +195,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
       const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
       const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub() };
       const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-      const challenge = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal123', isNeutralized: false });
+      const challenge = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false });
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         certificationAnswersByDate: [
           domainBuilder.buildAnswer({ challengeId: 'recChal123', result: AnswerStatus.OK }),
@@ -239,9 +239,9 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
       const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
       const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
       const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-      const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal123', isNeutralized: false });
-      const challengeToBeNeutralized2 = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal456', isNeutralized: false });
-      const challengeNotToBeNeutralized = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal789', isNeutralized: false });
+      const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false });
+      const challengeToBeNeutralized2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456', isNeutralized: false });
+      const challengeNotToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal789', isNeutralized: false });
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         certificationAnswersByDate: [
           domainBuilder.buildAnswer({ challengeId: 'recChal123', result: AnswerStatus.SKIPPED }),

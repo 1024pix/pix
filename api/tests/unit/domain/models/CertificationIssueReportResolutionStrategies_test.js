@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
       it('neutralizes successfully', async function() {
         // given
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({});
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
@@ -40,7 +40,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
       it('resolves the issue report', async function() {
         // given
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({});
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
@@ -68,7 +68,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
       it('returns a successful resolution without effect', async () => {
         // given
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({});
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
@@ -92,7 +92,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
       it('resolves the certification issue report anyway', async () => {
         // given
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({});
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
@@ -123,7 +123,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
       it('neutralizes successfully', async function() {
         // given
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({});
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
@@ -151,7 +151,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
       it('resolves the issue report', async function() {
         // given
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({});
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
@@ -193,7 +193,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           save: () => {},
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [domainBuilder.buildCertificationChallenge()],
+          certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
           certificationAnswersByDate: [],
         });
 
@@ -215,7 +215,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           save: sinon.stub(),
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [domainBuilder.buildCertificationChallenge()],
+          certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
           certificationAnswersByDate: [],
         });
 
@@ -244,7 +244,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const challengeRepository = {
           get: sinon.stub().resolves(challengeWithoutIllustration),
         };
-        const certificationChallenge = domainBuilder.buildCertificationChallenge();
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [domainBuilder.buildAnswer({ challengeId: certificationChallenge.challengeId })],
@@ -271,7 +271,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const challengeRepository = {
           get: sinon.stub().resolves(challengeWithoutIllustration),
         };
-        const certificationChallenge = domainBuilder.buildCertificationChallenge();
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [domainBuilder.buildAnswer({ challengeId: certificationChallenge.challengeId })],
@@ -290,7 +290,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
       it('returns a successful resolution attempt without effect', async () => {
         // given
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({});
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
@@ -318,7 +318,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
       it('resolves the certification issue report anyway', async () => {
         // given
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({});
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
@@ -352,7 +352,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
       it('neutralizes successfully', async function() {
         // given
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({});
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
@@ -380,7 +380,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
       it('resolves the issue report', async function() {
         // given
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({});
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
@@ -424,7 +424,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           save: () => {},
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [domainBuilder.buildCertificationChallenge()],
+          certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
           certificationAnswersByDate: [],
         });
 
@@ -446,7 +446,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           save: sinon.stub(),
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [domainBuilder.buildCertificationChallenge()],
+          certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
           certificationAnswersByDate: [],
         });
 
@@ -475,7 +475,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const challengeRepository = {
           get: sinon.stub().resolves(challengeWithoutEmbed),
         };
-        const certificationChallenge = domainBuilder.buildCertificationChallenge();
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [domainBuilder.buildAnswer({ challengeId: certificationChallenge.challengeId })],
@@ -502,7 +502,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const challengeRepository = {
           get: sinon.stub().resolves(challengeWithoutEmbed),
         };
-        const certificationChallenge = domainBuilder.buildCertificationChallenge();
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [domainBuilder.buildAnswer({ challengeId: certificationChallenge.challengeId })],
@@ -521,7 +521,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
       it('returns a successful resolution without effect', async () => {
         // given
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({});
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
@@ -549,7 +549,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
       it('resolves the certification issue report anyway', async () => {
         // given
-        const certificationChallenge = domainBuilder.buildCertificationChallenge({});
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
