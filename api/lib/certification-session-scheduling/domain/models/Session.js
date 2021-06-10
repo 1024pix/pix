@@ -15,32 +15,47 @@ class Session {
     time,
     description,
   }) {
-    this.id = id;
-    this.certificationCenterId = certificationCenterId;
-    this.certificationCenterName = certificationCenterName;
-    this.accessCode = accessCode;
-    this.address = address;
-    this.examiner = examiner;
-    this.room = room;
-    this.date = date;
-    this.time = time;
-    this.description = description;
+    this._id = id;
+    this._certificationCenterId = certificationCenterId;
+    this._certificationCenterName = certificationCenterName;
+    this._accessCode = accessCode;
+    this._address = address;
+    this._examiner = examiner;
+    this._room = room;
+    this._date = date;
+    this._time = time;
+    this._description = description;
 
     validate(this);
+  }
+
+  toDTO() {
+    return {
+      id: this._id,
+      certificationCenterId: this._certificationCenterId,
+      certificationCenterName: this._certificationCenterName,
+      address: this._address,
+      examiner: this._examiner,
+      room: this._room,
+      date: this._date,
+      time: this._time,
+      description: this._description,
+      accessCode: this._accessCode.value,
+    };
   }
 }
 
 const schema = Joi.object({
-  id: Joi.number().integer().positive().allow(null).required(),
-  certificationCenterId: Joi.number().integer().positive().required(),
-  certificationCenterName: Joi.any(),
-  accessCode: Joi.any().required(),
-  address: Joi.string().required(),
-  examiner: Joi.string().required(),
-  room: Joi.string().required(),
-  date: Joi.string().custom(_validateDate).required(),
-  time: Joi.string().custom(_validateTime).required(),
-  description: Joi.any(),
+  _id: Joi.number().integer().positive().allow(null).required(),
+  _certificationCenterId: Joi.number().integer().positive().required(),
+  _certificationCenterName: Joi.any(),
+  _accessCode: Joi.any().required(),
+  _address: Joi.string().required(),
+  _examiner: Joi.string().required(),
+  _room: Joi.string().required(),
+  _date: Joi.string().custom(_validateDate).required(),
+  _time: Joi.string().custom(_validateTime).required(),
+  _description: Joi.any(),
 });
 
 function validate(session) {
