@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v3.63.0 (10/06/2021)
+
+- [#3064](https://github.com/1024pix/pix/pull/3064) [FEATURE] Ajout du graphique de participants par statut (PIX-2662)
+- [#3086](https://github.com/1024pix/pix/pull/3086) [FEATURE] Ajout d'un lien vers la politique de confidentialité dans la page d'inscription sur Pix App (PIX-2694).
+- [#3068](https://github.com/1024pix/pix/pull/3068) [BUGFIX] Corriger l'affichage du détail d'une certification après sa modification (PIX-2661)
+- [#3087](https://github.com/1024pix/pix/pull/3087) [TECH] Forcer les tests unitaire HTTP à signaler leur échec.
+
 ## v3.62.1 (09/06/2021)
 
 - [#3085](https://github.com/1024pix/pix/pull/3085) [TECH] Fix test requiring role pixMaster
