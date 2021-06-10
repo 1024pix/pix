@@ -1,0 +1,8 @@
+.activity {
+  &__stats {
+    display: flex;
+    &--participations-by-status {
+      width: 200px;
+    }
+  }
+}

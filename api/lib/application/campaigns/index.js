@@ -246,6 +246,21 @@ exports.register = async function(server) {
         tags: ['api', 'campaign', 'stats'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/stats/participations-by-status',
+      config: {
+        validate: {
+          params: Joi.object({ id: identifiersType.campaignId }),
+        },
+        handler: campaignStatsController.getParticipationsByStatus,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des répartitions des participations par statut',
+        ],
+        tags: ['api', 'campaign', 'stats'],
+      },
+    },
   ]);
 };
 
