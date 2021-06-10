@@ -3,7 +3,6 @@ const { expect, sinon, hFake, catchErr } = require('../../../test-helper');
 
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const Session = require('../../../../lib/domain/models/Session');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const jurySessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer');
@@ -22,37 +21,39 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const { SessionPublicationBatchResult } = require('../../../../lib/domain/models/SessionPublicationBatchResult');
 const logger = require('../../../../lib/infrastructure/logger');
 const { SessionPublicationBatchError } = require('../../../../lib/application/http-errors');
+const usecaseScheduleSession = require('../../../../lib/certification-session-scheduling/domain/usecases');
+const SessionScheduled = require('../../../../lib/certification-session-scheduling/domain/events/SessionScheduled');
 
 describe('Unit | Controller | sessionController', () => {
 
   let request;
   let expectedSession;
   const userId = 274939274;
+  const sessionId = 1234;
 
-  describe('#create', () => {
+  describe('#schedule', () => {
 
     beforeEach(() => {
-      expectedSession = new Session({
-        certificationCenter: 'Université de dressage de loutres',
+      expectedSession = {
         address: 'Nice',
         room: '28D',
         examiner: 'Antoine Toutvenant',
         date: '2017-12-08',
         time: '14:30',
         description: 'ahah',
-        accessCode: 'ABCD12',
-      });
+        certificationCenterId: 12345,
+        referentId: 274939274,
+      };
 
-      sinon.stub(usecases, 'createSession').resolves();
-      sinon.stub(sessionSerializer, 'deserialize').returns(expectedSession);
-      sinon.stub(sessionSerializer, 'serialize');
+      sinon.stub(usecaseScheduleSession, 'scheduleSession').resolves(new SessionScheduled({ sessionId }));
+      sinon.stub(sessionSerializer, 'serializeSessionScheduledEvent');
 
       request = {
         payload: {
           data: {
             type: 'sessions',
             attributes: {
-              'certification-center': 'Université de dressage de loutres',
+              'certification-center-id': 12345,
               address: 'Nice',
               room: '28D',
               examiner: 'Antoine Toutvenant',
@@ -70,37 +71,24 @@ describe('Unit | Controller | sessionController', () => {
       };
     });
 
-    it('should save the session', async () => {
+    it('should schedule the session', async () => {
       // when
-      await sessionController.save(request, hFake);
+      await sessionController.schedule(request, hFake);
 
       // then
-      expect(usecases.createSession).to.have.been.calledWith({ userId, session: expectedSession });
+      expect(usecaseScheduleSession.scheduleSession).to.have.been.calledWith(expectedSession);
     });
 
-    it('should return the saved session in JSON API', async () => {
+    it('should return a serialized scheduled session event', async () => {
       // given
-      const jsonApiSession = {
-        data: {
-          type: 'sessions',
-          id: 12,
-          attributes: {},
-        },
-      };
-      const savedSession = new Session({
-        id: '12',
-        certificationCenter: 'Université de dressage de loutres',
-      });
-
-      usecases.createSession.resolves(savedSession);
-      sessionSerializer.serialize.returns(jsonApiSession);
+      const sessionScheduled = new SessionScheduled({ sessionId: 1234 });
+      usecaseScheduleSession.scheduleSession.resolves(sessionScheduled);
 
       // when
-      const response = await sessionController.save(request, hFake);
+      await sessionController.schedule(request, hFake);
 
       // then
-      expect(response).to.deep.equal(jsonApiSession);
-      expect(sessionSerializer.serialize).to.have.been.calledWith(savedSession);
+      expect(sessionSerializer.serializeSessionScheduledEvent).to.have.been.calledWith(sessionScheduled);
     });
   });
 

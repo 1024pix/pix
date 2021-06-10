@@ -152,7 +152,6 @@ module.exports = injectDependencies({
   createOrganizationInvitations: require('./create-organization-invitations'),
   createPasswordResetDemand: require('./create-password-reset-demand'),
   createProOrganizations: require('./create-pro-organizations-with-tags'),
-  createSession: require('./create-session'),
   createStage: require('./create-stage'),
   createTargetProfile: require('./create-target-profile'),
   createUser: require('./create-user'),

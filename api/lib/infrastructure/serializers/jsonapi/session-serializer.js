@@ -62,6 +62,14 @@ module.exports = {
     }).serialize(sessions);
   },
 
+  serializeSessionScheduledEvent(events) {
+    return new Serializer('session', {
+      transform(event) {
+        return { id: event.sessionId };
+      },
+    }).serialize(events);
+  },
+
   deserialize(json) {
     const attributes = json.data.attributes;
     if (!isValidDate(attributes.date, 'YYYY-MM-DD')) {
