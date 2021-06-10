@@ -59,7 +59,7 @@
             </div>
           {{else}}
             {{#if @model.campaign.isForAbsoluteNovice}}
-              <a href="#" {{on "click" this.redirectForNoviceCampaign}}
+              <a href="#" {{on "click" this.redirectToSignupIfUserIsAnonymous}}
                       class="skill-review-share__back-to-home link" data-link-to-continue-pix>
                 {{t 'pages.skill-review.actions.continue'}}
               </a>
@@ -68,6 +68,7 @@
                       @isShared={{this.isShared}}
                       @displayPixLink={{this.displayPixLink}}
                       @shareCampaignParticipation={{this.shareCampaignParticipation}}
+                      @redirectToSignupIfUserIsAnonymous={{this.redirectToSignupIfUserIsAnonymous}}
               />
             {{/if}}
           {{/if}}
