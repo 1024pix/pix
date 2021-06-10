@@ -1,13 +1,13 @@
-<div class="certification-status-select">
+<div>
   {{#if @edition}}
-    <label class="certification-status-select__label" for="certification-status-selector">Statut :</label>
-    <select class="certification-status-select__select" id="certification-status-selector" name="certification-status-selector" {{on 'change' this.selectOption}}>
+    <label for="certification-status-selector">Statut :</label>
+    <select id="certification-status-selector" name="certification-status-selector" {{on 'change' this.selectOption}}>
       {{#each this.options as |item|}}
         <option value={{item.value}} selected="{{if (eq this.selectedOption.value item.value) true}}">{{item.label}}</option>
       {{/each}}
     </select>
   {{else}}
-    <span class="certification-status-select__label">Statut :</span>
-    <span class="certification-status-select__value">{{@certification.statusLabelAndValue.label}}</span>
+    <span>Statut :</span>
+    <span>{{@certification.statusLabelAndValue.label}}</span>
   {{/if}}
 </div>

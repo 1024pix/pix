@@ -20,7 +20,7 @@ module('Integration | Component | organization-form', function(hooks) {
     await render(hbs`<OrganizationForm @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`);
 
     // then
-    assert.dom('.organization-form').exists();
+    assert.dom('[data-test-id="organization-form"]').exists();
   });
 
   module('#selectOrganizationType', function() {

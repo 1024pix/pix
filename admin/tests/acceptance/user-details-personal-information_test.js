@@ -55,9 +55,9 @@ module('Acceptance | User details personal information', function(hooks) {
       await clickByLabel('Editer');
 
       // then
-      assert.dom('.user__first-name').hasText('john');
-      assert.dom('.user__last-name').hasText('doe');
-      assert.dom('.user__email').hasText('john.doe@example.net');
+      assert.contains('john');
+      assert.contains('doe');
+      assert.contains('john.doe@example.net');
     });
 
     test('should update user firstName, lastName and username', async function(assert) {
@@ -74,9 +74,9 @@ module('Acceptance | User details personal information', function(hooks) {
       await clickByLabel('Editer');
 
       // then
-      assert.dom('.user__first-name').hasText('john');
-      assert.dom('.user__last-name').hasText('doe');
-      assert.dom('.user__username').hasText('john.doe0101');
+      assert.contains('john');
+      assert.contains('doe');
+      assert.contains('john.doe0101');
     });
   });
 

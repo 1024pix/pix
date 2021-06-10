@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -79,7 +80,6 @@ module('Acceptance | Session Finalization', function(hooks) {
           const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2 = '[data-test-id="finalization-report-certification-issue-reports_2"] .button--showed-as-link';
           const RADIO_BTN_OF_TYPE_OTHER = '#input-radio-for-category-other';
           const TEXT_AREA_OF_TYPE_OTHER = '#text-area-for-category-other';
-          const VALIDATE_CERTIFICATION_ISSUE_REPORT = '.add-issue-report-modal__actions .button.button--extra-thin';
 
           const certificationReportsWithoutCertificationIssueReport = server.create('certification-report', { certificationCourseId: 1 });
           const certificationReportsWithCertificationIssueReport = server.create('certification-report', { certificationCourseId: 2 });
@@ -92,7 +92,7 @@ module('Acceptance | Session Finalization', function(hooks) {
           await click(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2);
           await click(RADIO_BTN_OF_TYPE_OTHER);
           await fillIn(TEXT_AREA_OF_TYPE_OTHER, 'Coucou');
-          await click(VALIDATE_CERTIFICATION_ISSUE_REPORT);
+          await clickByLabel('Valider');
 
           // then
           assert.dom(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1).hasText(expectedTextWithoutIssueReport);

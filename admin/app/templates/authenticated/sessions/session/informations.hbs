@@ -114,9 +114,7 @@
 
       <div class="session-info__copy-button btn--right">
         {{#if this.isCopyButtonClicked}}
-          <p class="session-info__tooltip">
-            {{this.copyButtonText}}
-          </p>
+          <p>{{this.copyButtonText}}</p>
         {{/if}}
 
         <button type="button" class="btn btn-secondary" {{on 'click' this.copyResultsDownloadLink}}>

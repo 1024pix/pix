@@ -51,7 +51,7 @@ Then('je vois le formulaire de finalisation de session de certification', () => 
 });
 
 Then('je vois {int} candidat(s) à finaliser', (candidateCount) => {
-  cy.get('table.session-finalization-reports-informations-step__table tbody tr').should('have.length', candidateCount);
+  cy.get('.session-finalization-reports-informations-step table tbody tr').should('have.length', candidateCount);
 });
 
 Then('je vois le bouton de finalisation désactivé', () => {
@@ -101,7 +101,7 @@ When('je retire un candidat de la liste', () => {
 });
 
 When(`j'oublie de cocher une case d'Écran de fin de test vu`, () => {
-  cy.get('table.session-finalization-reports-informations-step__table tbody tr').each(function ($element, index, collection) {
+  cy.get('.session-finalization-reports-informations-step table tbody tr').each(function ($element, index, collection) {
     const checkBox = $element.find('td:nth-child(5) button');
     if(index !== collection.length - 1 && checkBox.hasClass('checkbox--unchecked')) {
       cy.wrap(checkBox).click();
@@ -112,7 +112,7 @@ When(`j'oublie de cocher une case d'Écran de fin de test vu`, () => {
 });
 
 When(`je coche toutes les cases d'Écran de fin de test vu`, () => {
-  cy.get('table.session-finalization-reports-informations-step__table tbody tr').each(function ($element) {
+  cy.get('.session-finalization-reports-informations-step table tbody tr').each(function ($element) {
     const checkBox = $element.find('td:nth-child(5) button');
     if(checkBox.hasClass('checkbox--unchecked')) {
       cy.wrap(checkBox).click();

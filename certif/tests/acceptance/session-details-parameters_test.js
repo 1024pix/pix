@@ -1,10 +1,11 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
 import { CREATED, FINALIZED } from 'pix-certif/models/session';
 
@@ -44,7 +45,7 @@ module('Acceptance | Session Details Parameters', function(hooks) {
             await visit(`/sessions/${sessionCreated.id}`);
 
             // then
-            assert.dom('.session-details-content__finalize-button').doesNotExist();
+            assert.notContains('Finaliser la session');
           });
 
           test('it should redirect to finalize page on click on finalize button', async function(assert) {
@@ -54,7 +55,7 @@ module('Acceptance | Session Details Parameters', function(hooks) {
 
             // when
             await visit(`/sessions/${sessionCreatedAndStarted.id}`);
-            await click('.session-details-content__finalize-button');
+            await clickByLabel('Finaliser la session');
 
             // then
             assert.equal(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
@@ -74,7 +75,7 @@ module('Acceptance | Session Details Parameters', function(hooks) {
         test('it should not redirect to finalize page on click on finalize button', async function(assert) {
           // when
           await visit(`/sessions/${sessionFinalized.id}`);
-          await click('.session-details-content__finalize-button');
+          await clickByLabel('Finaliser la session');
 
           // then
           assert.equal(currentURL(), `/sessions/${sessionFinalized.id}`);
