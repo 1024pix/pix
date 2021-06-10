@@ -5,7 +5,6 @@ const ShareableCertificate = require('../../../../lib/domain/models/ShareableCer
 const { badgeKey: cleaBadgeKey } = require('../../../../lib/domain/models/CleaCertificationResult');
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
-const { images } = require('../../../../lib/config');
 
 describe('Integration | Infrastructure | Repository | Shareable Certificate', () => {
 
@@ -359,8 +358,8 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
           pixScore: 51,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            images.sharedCertificate.macaronPixPlusDroitExpertUrl,
-            images.sharedCertificate.macaronPixPlusDroitMaitreUrl,
+            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg',
+            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/maitre.svg',
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -426,7 +425,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
           pixScore: 51,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            images.sharedCertificate.macaronPixPlusDroitExpertUrl,
+            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg',
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;

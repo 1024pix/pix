@@ -5,7 +5,6 @@ const { badgeKey: cleaBadgeKey } = require('../../../../lib/domain/models/CleaCe
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const certificationAttestationRepository = require('../../../../lib/infrastructure/repositories/certification-attestation-repository');
-const { images } = require('../../../../lib/config');
 
 describe('Integration | Infrastructure | Repository | Certification Attestation', () => {
 
@@ -316,7 +315,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        cleaCertificationImagePath: images.certificationAttestation.macaronCleaNumeriquePath,
+        cleaCertificationImagePath: certificationAttestationRepository.macaronCleaPath,
         pixPlusDroitCertificationImagePath: null,
       };
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -380,7 +379,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
           cleaCertificationImagePath: null,
-          pixPlusDroitCertificationImagePath: images.certificationAttestation.macaronPixPlusDroitExpertPath,
+          pixPlusDroitCertificationImagePath: certificationAttestationRepository.macaronPixPlusDroitExpertPath,
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const sessionId = databaseBuilder.factory.buildSession({
@@ -443,7 +442,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
           cleaCertificationImagePath: null,
-          pixPlusDroitCertificationImagePath: images.certificationAttestation.macaronPixPlusDroitMaitrePath,
+          pixPlusDroitCertificationImagePath: certificationAttestationRepository.macaronPixPlusDroitMaitrePath,
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const sessionId = databaseBuilder.factory.buildSession({

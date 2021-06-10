@@ -5,7 +5,6 @@ const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertifi
 const { badgeKey: cleaBadgeKey } = require('../../../../lib/domain/models/CleaCertificationResult');
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
-const { images } = require('../../../../lib/config');
 
 describe('Integration | Infrastructure | Repository | Private Certificate', () => {
 
@@ -272,8 +271,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            images.privateCertificate.macaronPixPlusDroitExpertUrl,
-            images.privateCertificate.macaronPixPlusDroitMaitreUrl,
+            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg',
+            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/maitre.svg',
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -334,7 +333,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            images.privateCertificate.macaronPixPlusDroitExpertUrl,
+            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg',
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -667,8 +666,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            images.privateCertificate.macaronPixPlusDroitExpertUrl,
-            images.privateCertificate.macaronPixPlusDroitMaitreUrl,
+            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg',
+            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/maitre.svg',
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -730,7 +729,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           commentForCandidate: null,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            images.privateCertificate.macaronPixPlusDroitExpertUrl,
+            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg',
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
