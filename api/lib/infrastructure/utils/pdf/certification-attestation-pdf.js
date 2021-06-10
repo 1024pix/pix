@@ -103,10 +103,10 @@ function _drawVerificationCode(data, page, font, fontSize, rgb) {
 }
 
 async function _drawComplementaryCertifications(pdfDoc, data, page, _rgb) {
-  let yCoordinate = data.hasAcquiredCleaCertification ? 400 : 385;
+  let yCoordinate = data.hasAcquiredCleaCertification() ? 400 : 385;
   const stepY = -110;
 
-  if (data.hasAcquiredCleaCertification) {
+  if (data.hasAcquiredCleaCertification()) {
     const pngBuffer = await sharp(data.cleaCertificationImagePath)
       .resize(80, 100, {
         fit: 'inside',
@@ -121,7 +121,7 @@ async function _drawComplementaryCertifications(pdfDoc, data, page, _rgb) {
     yCoordinate += stepY;
   }
 
-  if (data.hasAcquiredPixPlusDroitCertification) {
+  if (data.hasAcquiredPixPlusDroitCertification()) {
     const pngBuffer = await sharp(data.pixPlusDroitCertificationImagePath)
       .resize(100, 120, {
         fit: 'inside',
@@ -211,7 +211,7 @@ async function _dynamicInformationsForAttestation({ pdfDoc, page, data, rgb }) {
 async function getCertificationAttestationPdfBuffer({
   certificate,
 }) {
-  const templateFileName = certificate.hasAcquiredAnyComplementaryCertifications
+  const templateFileName = certificate.hasAcquiredAnyComplementaryCertifications()
     ? 'attestation-template-with-complementary-certifications.pdf'
     : 'attestation-template.pdf';
 

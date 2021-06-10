@@ -17,7 +17,7 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
     });
   });
 
-  context('#get hasAcquiredCleaCertification', () => {
+  context('#hasAcquiredCleaCertification', () => {
 
     it('should return true if clea image path has been set', () => {
       // given
@@ -26,7 +26,7 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
       });
 
       // when
-      const hasAcquiredCleaCertification = certificationAttestation.hasAcquiredCleaCertification;
+      const hasAcquiredCleaCertification = certificationAttestation.hasAcquiredCleaCertification();
 
       // expect
       expect(hasAcquiredCleaCertification).to.be.true;
@@ -39,14 +39,14 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
       });
 
       // when
-      const hasAcquiredCleaCertification = certificationAttestation.hasAcquiredCleaCertification;
+      const hasAcquiredCleaCertification = certificationAttestation.hasAcquiredCleaCertification();
 
       // expect
       expect(hasAcquiredCleaCertification).to.be.false;
     });
   });
 
-  context('#get hasAcquiredPixPlusDroitCertification', () => {
+  context('#hasAcquiredPixPlusDroitCertification', () => {
 
     it('should return true if pix plus droit image path has been set', () => {
       // given
@@ -55,7 +55,7 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
       });
 
       // when
-      const hasAcquiredPixPlusDroitCertification = certificationAttestation.hasAcquiredPixPlusDroitCertification;
+      const hasAcquiredPixPlusDroitCertification = certificationAttestation.hasAcquiredPixPlusDroitCertification();
 
       // expect
       expect(hasAcquiredPixPlusDroitCertification).to.be.true;
@@ -68,14 +68,14 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
       });
 
       // when
-      const hasAcquiredPixPlusDroitCertification = certificationAttestation.hasAcquiredPixPlusDroitCertification;
+      const hasAcquiredPixPlusDroitCertification = certificationAttestation.hasAcquiredPixPlusDroitCertification();
 
       // expect
       expect(hasAcquiredPixPlusDroitCertification).to.be.false;
     });
   });
 
-  context('#get hasAcquiredAnyComplementaryCertifications', () => {
+  context('#hasAcquiredAnyComplementaryCertifications', () => {
 
     it('should return true if pix plus droit certification only has been acquired', () => {
       // given
@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
       });
 
       // when
-      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications;
+      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications();
 
       // expect
       expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
@@ -99,7 +99,7 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
       });
 
       // when
-      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications;
+      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications();
 
       // expect
       expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
@@ -113,7 +113,7 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
       });
 
       // when
-      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications;
+      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications();
 
       // expect
       expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
@@ -127,7 +127,7 @@ describe('Unit | Domain | Models | CertificationAttestation', () => {
       });
 
       // when
-      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications;
+      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications();
 
       // expect
       expect(hasAcquiredAnyComplementaryCertifications).to.be.false;
