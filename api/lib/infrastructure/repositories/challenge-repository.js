@@ -103,5 +103,6 @@ function _toDomain({ challengeDataObject, skillDataObjects }) {
     format: challengeDataObject.format,
     locales: challengeDataObject.locales,
     autoReply: challengeDataObject.autoReply,
+    focused: challengeDataObject.focusable,
   });
 }
