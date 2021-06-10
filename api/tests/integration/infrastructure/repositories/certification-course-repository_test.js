@@ -291,7 +291,11 @@ describe('Integration | Repository | Certification Course', function() {
     beforeEach(async () => {
       // given
       const userId = databaseBuilder.factory.buildUser({}).id;
-      const bookshelfCertificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId });
+      const bookshelfCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
+        userId,
+        isCancelled: false,
+        isV2Certification: true,
+      });
       certificationCourse = domainBuilder.buildCertificationCourse(bookshelfCertificationCourse);
       await databaseBuilder.commit();
     });
@@ -316,10 +320,13 @@ describe('Integration | Repository | Certification Course', function() {
       expect(countCertificationCoursesAfterUpdate).to.equal(countCertificationCoursesBeforeUpdate);
     });
 
-    it('should update model in database', async () => {
+    it('should update whitelisted values in database', async () => {
       // given
       certificationCourse.firstName = 'Jean-Pix';
       certificationCourse.lastName = 'Compétan';
+      certificationCourse.birthdate = '2000-01-01';
+      certificationCourse.birthplace = 'Paris';
+      certificationCourse.cancel();
 
       // when
       const certificationCourseUpdated = await certificationCourseRepository.update(certificationCourse);
@@ -328,6 +335,20 @@ describe('Integration | Repository | Certification Course', function() {
       expect(certificationCourseUpdated.id).to.equal(certificationCourse.id);
       expect(certificationCourseUpdated.firstName).to.equal(certificationCourse.firstName);
       expect(certificationCourseUpdated.lastName).to.equal(certificationCourse.lastName);
+      expect(certificationCourseUpdated.birthdate).to.equal(certificationCourse.birthdate);
+      expect(certificationCourseUpdated.birthplace).to.equal(certificationCourse.birthplace);
+      expect(certificationCourseUpdated.isCancelled()).to.be.true;
+    });
+
+    it('should prevent other values to be updated', async () => {
+      // given
+      certificationCourse.isV2Certification = false;
+
+      // when
+      const certificationCourseUpdated = await certificationCourseRepository.update(certificationCourse);
+
+      // then
+      expect(certificationCourseUpdated.isV2Certification).to.be.true;
     });
 
     it('should return a NotFoundError when ID doesnt exist', function() {

@@ -68,7 +68,7 @@ module.exports = {
   },
 
   async update(certificationCourse) {
-    const certificationCourseData = _adaptModelToDb(certificationCourse);
+    const certificationCourseData = _pickUpdatableProperties(certificationCourse);
     const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourseData);
     try {
       const certificationCourse = await certificationCourseBookshelf.save();
@@ -160,6 +160,21 @@ function _adaptModelToDb(certificationCourse) {
     'challenges',
     'createdAt',
     '_isCancelled',
+  ]);
+
+  dto.isCancelled = certificationCourse.isCancelled();
+
+  return dto;
+}
+
+function _pickUpdatableProperties(certificationCourse) {
+
+  const dto = _.pick(certificationCourse, [
+    'id',
+    'firstName',
+    'lastName',
+    'birthdate',
+    'birthplace',
   ]);
 
   dto.isCancelled = certificationCourse.isCancelled();
