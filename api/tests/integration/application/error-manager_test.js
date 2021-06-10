@@ -1,6 +1,8 @@
 const { expect, sinon, HttpTestServer } = require('../../test-helper');
 const DomainErrors = require('../../../lib/domain/errors');
 
+const CertificationSessionSchedulingErrors = require('../../../lib/certification-session-scheduling/domain/errors');
+
 describe('Integration | API | Controller Error', () => {
 
   let server;
@@ -357,6 +359,13 @@ describe('Integration | API | Controller Error', () => {
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
       expect(responseDetail(response)).to.equal('Le niveau maximum est déjà atteint pour cette compétence.');
       expect(responseTitle(response)).to.equal('ImproveCompetenceEvaluationForbidden');
+    });
+
+    it('responds Forbidden when a ReferentIsNotAMemberOfCertificationCenterError error occurs', async () => {
+      routeHandler.throws(new CertificationSessionSchedulingErrors.ReferentIsNotAMemberOfCertificationCenterError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
     });
 
     it('responds Forbidden when a ApplicationScopeNotAllowedError error occurs', async () => {

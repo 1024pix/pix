@@ -5,6 +5,7 @@ const DomainErrors = require('../domain/errors');
 const errorSerializer = require('../infrastructure/serializers/jsonapi/error-serializer');
 const { extractLocaleFromRequest } = require('../infrastructure/utils/request-response-utils');
 const translations = require('../../translations');
+const CertificationSessionScheduling = require('../certification-session-scheduling/domain/errors');
 
 const NOT_VALID_RELATIONSHIPS = ['externalId'];
 
@@ -181,6 +182,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.ForbiddenAccess) {
     return new HttpErrors.ForbiddenError(error.message);
   }
+  if (error instanceof CertificationSessionScheduling.ReferentIsNotAMemberOfCertificationCenterError) {
+    return new HttpErrors.ForbiddenError(error.message);
+  }
   if (error instanceof DomainErrors.MembershipCreationError) {
     return new HttpErrors.BadRequestError(error.message);
   }
@@ -188,6 +192,9 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.ObjectValidationError) {
+    return new HttpErrors.UnprocessableEntityError(error.message);
+  }
+  if (error instanceof CertificationSessionScheduling.ObjectValidationError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
   if (error instanceof DomainErrors.OrganizationNotFoundError) {
