@@ -3,30 +3,34 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
 module('Unit | Service | url', function(hooks) {
+
   setupTest(hooks);
 
-  test('should have a frenchDomainExtension when the current domain contains pix.fr', function(assert) {
-    // given
-    const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+  module('#isFrenchDomainExtension', function() {
 
-    // when
-    const domainExtension = service.isFrenchDomainExtension;
+    test('should have a frenchDomainExtension when the current domain contains pix.fr', function(assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
 
-    // then
-    assert.equal(domainExtension, true);
-  });
+      // when
+      const domainExtension = service.isFrenchDomainExtension;
 
-  test('should not have frenchDomainExtension when the current domain contains pix.org', function(assert) {
-    // given
-    const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      // then
+      assert.equal(domainExtension, true);
+    });
 
-    // when
-    const domainExtension = service.isFrenchDomainExtension;
+    test('should not have frenchDomainExtension when the current domain contains pix.org', function(assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
 
-    // then
-    assert.equal(domainExtension, false);
+      // when
+      const domainExtension = service.isFrenchDomainExtension;
+
+      // then
+      assert.equal(domainExtension, false);
+    });
   });
 
   module('#campaignsRootUrl', function() {
