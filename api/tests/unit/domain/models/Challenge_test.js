@@ -38,6 +38,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         locales: ['fr'],
         autoReply: true,
         alternativeInstruction: 'Pour aider les personnes ne pouvant voir ou afficher les instructions',
+        focused: false,
       };
 
       // when
