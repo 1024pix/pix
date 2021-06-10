@@ -11,6 +11,19 @@ export default class ChallengeItemGeneric extends Component {
   @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
 
+  constructor() {
+    super(...arguments);
+    if (this.args.challenge.focused) {
+      setInterval(this.verifyUserIsStillFocusingOnPage, 1000);
+    }
+  }
+
+  verifyUserIsStillFocusingOnPage() {
+    if (document.hasFocus() === false) {
+      console.log('user lost focus');
+    }
+  }
+
   get isTimedChallenge() {
     return isInteger(this.args.challenge.timer);
   }
