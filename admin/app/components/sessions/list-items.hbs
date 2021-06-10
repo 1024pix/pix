@@ -28,7 +28,7 @@
                  class="table-admin-input" />
         </th>
         <th>
-          <select class="certification-center-type-selector" id="certificationCenterType" name="certificationCenterType" {{on 'change' this.selectCertificationCenterType}}>
+          <select id="certificationCenterType" name="certificationCenterType" {{on 'change' this.selectCertificationCenterType}}>
             {{#each this.certificationCenterTypeOptions as |item|}}
               <option value={{item.value}} selected="{{if (eq @certificationCenterType item.value) true}}">{{item.label}}</option>
             {{/each}}

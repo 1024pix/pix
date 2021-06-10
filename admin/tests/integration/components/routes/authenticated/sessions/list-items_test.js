@@ -91,7 +91,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await render(hbs`<Sessions::ListItems />`);
 
       // then
-      const elementOptions = this.element.querySelectorAll('.certification-center-type-selector > option');
+      const elementOptions = this.element.querySelectorAll('#certificationCenterType > option');
       assert.equal(elementOptions.length, 4);
       elementOptions.forEach((elementOption, index) => {
         const expectedOption = expectedOptions[index];
@@ -107,7 +107,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await render(hbs`<Sessions::ListItems @certificationCenterType={{this.certificationCenterType}} @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}/>`);
 
       // when
-      await fillIn('.certification-center-type-selector', 'PRO');
+      await fillIn('#certificationCenterType', 'PRO');
 
       // then
       assert.equal(this.certificationCenterType, 'PRO');

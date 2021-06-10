@@ -1,5 +1,5 @@
 <form class="form create-target-profile" {{on "submit" @onSubmit}}>
-  
+
   <section class="form-section">
     <span class="form__instructions">
       Les champs marqués de <abbr title="obligatoire" class="mandatory-mark">*</abbr> sont
@@ -53,7 +53,7 @@
   </section>
 
   <section class="form-section form-section--actions">
-    <button class="form-action form-action--cancel btn btn-outline-default btn-thin" type="button" {{on "click" @onCancel}}>Annuler</button>
-    <button class="form-action form-action--submit btn btn-success btn-thin" type="submit" disabled={{@isDisabled}}>Enregistrer</button>
+    <button class="btn btn-outline-default btn-thin" type="button" {{on "click" @onCancel}}>Annuler</button>
+    <button class="btn btn-success btn-thin" type="submit" disabled={{@isDisabled}}>Enregistrer</button>
   </section>
 </form>

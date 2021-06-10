@@ -7,7 +7,7 @@
           <div class="col-3">Positionné :</div>
           <div class="col">
             <div class="progress">
-              <div class="progress-bar competence-level" role="progressbar"
+              <div class="progress-bar" role="progressbar"
                    aria-valuenow="{{@competence.positionedLevel}}" aria-valuemin="0" aria-valuemax="8"
                    style={{this.positionedWidth}}>{{@competence.positionedLevel}}</div>
             </div>
@@ -18,7 +18,7 @@
           <div class="col-3">Certifié :</div>
           <div class="col">
             <div class="progress">
-              <div class="progress-bar competence-level certificate" role="progressbar"
+              <div data-test-id="progress-bar-competence-level-certificate" class="progress-bar certificate" role="progressbar"
                    aria-valuenow="{{@competence.obtainedLevel}}" aria-valuemin="0" aria-valuemax="8"
                    style={{this.certifiedWidth}}>{{@competence.obtainedLevel}}</div>
             </div>
@@ -30,7 +30,7 @@
             <div class="col-3">Corrigé :</div>
             <div class="col">
               <div class="progress">
-                <div class="progress-bar jury competence-level" role="progressbar"
+                <div data-test-id="jury-competence-level" class="progress-bar jury" role="progressbar"
                      aria-valuenow="{{this.competenceJury.level}}" aria-valuemin="0" aria-valuemax="8"
                      style={{this.competenceJury.width}}>{{this.competenceJury.level}}</div>
               </div>

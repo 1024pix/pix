@@ -56,7 +56,7 @@ module('Integration | Component | member-item', function(hooks) {
 
     test('it should update role on save', async function(assert) {
       // when
-      await selectChoose('.editable-cell', 'Membre');
+      await selectChoose('[data-test-id="editable-cell"]', 'Membre');
       await click('button[aria-label="Enregistrer"]');
 
       // then
@@ -67,7 +67,7 @@ module('Integration | Component | member-item', function(hooks) {
 
     test('it should not update role on cancel', async function(assert) {
       // when
-      await selectChoose('.editable-cell', 'Membre');
+      await selectChoose('[data-test-id="editable-cell"]', 'Membre');
       await click('button[aria-label="Annuler"]');
 
       // then

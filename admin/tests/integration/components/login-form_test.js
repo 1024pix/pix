@@ -18,8 +18,8 @@ module('Integration | Component | login-form', function(hooks) {
     await render(hbs`<LoginForm />`);
 
     // then
-    assert.dom('input.login-form__field--identification').exists();
-    assert.dom('input.login-form__field--password').exists();
+    assert.dom('input[data-test-id="login-form-field-identification"]').exists();
+    assert.dom('input[data-test-id="login-form-field-password"]').exists();
   });
 
   test('should hide error message by default', async function(assert) {

@@ -21,7 +21,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
         await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // then
-        assert.dom('.certification-status-select__label').hasText('Statut :');
+        assert.contains('Statut :');
       });
 
       test('it displays a select list', async function(assert) {
@@ -33,7 +33,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
         await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // then
-        assert.dom('.certification-status-select__select').exists();
+        assert.dom('#certification-status-selector').exists();
       });
 
       test('it has values', async function(assert) {
@@ -51,7 +51,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
         await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // then
-        const elementOptions = this.element.querySelectorAll('.certification-status-select__select > option');
+        const elementOptions = this.element.querySelectorAll('#certification-status-selector > option');
         assert.equal(elementOptions.length, 4);
         elementOptions.forEach((elementOption, index) => {
           const expectedOption = expectedOptions[index];
@@ -70,7 +70,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
         await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // when
-        await fillIn('.certification-status-select__select', 'validated');
+        await fillIn('#certification-status-selector', 'validated');
 
         // then
         assert.equal(certification.status, 'validated');
@@ -89,7 +89,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
       await render(hbs`<Certification::CertificationStatusSelect @certification={{this.certification}} />`);
 
       // then
-      assert.dom('.certification-status-select__select').doesNotExist();
+      assert.dom('#certification-status-selector').doesNotExist();
     });
   });
 });

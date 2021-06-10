@@ -19,7 +19,7 @@
         <Input id="targetProfileName" @type="text" class={{if (v-get this.form 'name' 'isInvalid'
           ) "form-control is-invalid" "form-control" }} @value={{this.form.name}} required={{true}} />
       </div>
-      <div class="form-actions">
+      <div>
         <button class="btn btn-outline-default" type="button" {{on "click" @toggleEditMode}}>Annuler</button>
         <button class="btn btn-success" type="submit">Enregistrer</button>
       </div>

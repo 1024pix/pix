@@ -87,7 +87,7 @@ module('Acceptance | Session Details', function(hooks) {
         assert.dom('.session-details-container .session-details-row:first-child div:nth-child(4) span').hasText(`${session.examiner}`);
         assert.dom('.session-details-container .session-details-row:first-child div:nth-child(5) span:first-child').hasText(`${session.accessCode}`);
         assert.dom('.session-details-header-datetime__date .content-text').hasText('lundi 18 févr. 2019');
-        assert.dom('.session-details-header-datetime__time .content-text').hasText('14:00');
+        assert.contains('14:00');
       });
 
       module('when FT_REPORTS_CATEGORISATION is on', function() {

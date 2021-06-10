@@ -44,7 +44,7 @@ module('Acceptance | Organization List', function(hooks) {
       await visit('/organizations/list');
 
       // then
-      assert.dom('.organization-list .table-admin tbody tr').exists({ count: 12 });
+      assert.dom('.table-admin tbody tr').exists({ count: 12 });
     });
 
     module('when filters are used', function(hooks) {

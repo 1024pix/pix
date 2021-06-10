@@ -1,6 +1,6 @@
-<form class="form organization-form" {{on "submit" @onSubmit}}>
+<form data-test-id="organization-form" class="form" {{on "submit" @onSubmit}}>
 
-  <section class="form-section form-section--organization">
+  <section class="form-section">
 
     <div class="form-field form-group">
       <label class="form-field__label" for="organizationName">Nom : </label>
@@ -34,7 +34,7 @@
   </section>
 
   <section class="form-section form-section--actions">
-    <button class="form-action form-action--cancel btn btn-outline-default btn-thin" type="button" {{on "click" @onCancel}}>Annuler</button>
-    <button class="form-action form-action--submit btn btn-success btn-thin" type="submit">Ajouter</button>
+    <button class="btn btn-outline-default btn-thin" type="button" {{on "click" @onCancel}}>Annuler</button>
+    <button class="btn btn-success btn-thin" type="submit">Ajouter</button>
   </section>
 </form>

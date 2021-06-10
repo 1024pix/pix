@@ -130,7 +130,7 @@ module('Acceptance | Session pages', function(hooks) {
           test('it should copy \'http://link-to-results.fr\' in navigator clipboard on click', async (assert) => {
             // given
 
-            // We were unable to access clipboard in test environement so we used a stub
+            // We were unable to access clipboard in test environment so we used a stub
             const writeTextStub = sinon.stub();
             sinon.stub(navigator, 'clipboard').value({ writeText: writeTextStub.returns() });
 
@@ -165,9 +165,9 @@ module('Acceptance | Session pages', function(hooks) {
 
         test('it shows certifications informations', function(assert) {
           // then
-          const circle = document.querySelector('.certification-list tbody tr td:last-child div svg circle');
-          assert.dom('.certification-list tbody tr td:nth-child(2)').hasText(juryCertificationSummary.firstName);
-          assert.dom('.certification-list tbody tr td:nth-child(3)').hasText(juryCertificationSummary.lastName);
+          const circle = document.querySelector('[data-test-id="certification-list"] tbody tr td:last-child div svg circle');
+          assert.contains(juryCertificationSummary.firstName);
+          assert.contains(juryCertificationSummary.lastName);
           assert.equal(circle.attributes.fill.value, '#39B97A');
         });
       });

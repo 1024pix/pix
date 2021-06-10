@@ -58,11 +58,6 @@
   flex-direction: column;
   padding: 22px 30px;
 
-  &--push-right {
-    margin-left: auto;
-    border-left: 1px solid $grey-20;
-  }
-
   &--multiple {
     &:first-child {
       width: 10%;
@@ -140,16 +135,4 @@
 
 .session-details-controls__navbar-tabs {
   display: flex;
-}
-
-.session-details-controls__actions {
-  display: flex;
-  align-items: center;
-  padding-right: 10px;
-}
-
-.session-details-controls__import-button {
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
 }
