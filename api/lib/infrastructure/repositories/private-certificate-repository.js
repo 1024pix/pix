@@ -5,7 +5,6 @@ const CleaCertificationResult = require('../../../lib/domain/models/CleaCertific
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
-const { images } = require('../../config');
 
 module.exports = {
 
@@ -102,8 +101,8 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     .orderBy('partnerKey');
 
   return _.compact(_.map(results, (result) => {
-    if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return images.privateCertificate.macaronPixPlusDroitMaitreUrl;
-    if (result.partnerKey === pixPlusDroitExpertBadgeKey) return images.privateCertificate.macaronPixPlusDroitExpertUrl;
+    if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/maitre.svg';
+    if (result.partnerKey === pixPlusDroitExpertBadgeKey) return 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg';
     return null;
   }));
 }

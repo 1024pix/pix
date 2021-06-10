@@ -5,9 +5,15 @@ const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../lib/domain/mo
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
-const { images } = require('../../config');
+
+const macaronCleaPath = `${__dirname}/../utils/pdf/files/macaron_clea.png`;
+const macaronPixPlusDroitMaitrePath = `${__dirname}/../utils/pdf/files/macaron_maitre.png`;
+const macaronPixPlusDroitExpertPath = `${__dirname}/../utils/pdf/files/macaron_expert.png`;
 
 module.exports = {
+  macaronCleaPath,
+  macaronPixPlusDroitMaitrePath,
+  macaronPixPlusDroitExpertPath,
 
   async get(id) {
     const certificationCourseDTO = await _selectCertificationAttestations()
@@ -68,7 +74,7 @@ async function _getCleaCertificationImagePath(certificationCourseId) {
     .first();
 
   if (!result) return null;
-  return images.certificationAttestation.macaronCleaNumeriquePath;
+  return macaronCleaPath;
 }
 
 async function _getPixPlusDroitCertificationImagePath(certificationCourseId) {
@@ -81,6 +87,6 @@ async function _getPixPlusDroitCertificationImagePath(certificationCourseId) {
     .first();
 
   if (!result) return null;
-  if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return images.certificationAttestation.macaronPixPlusDroitMaitrePath;
-  if (result.partnerKey === pixPlusDroitExpertBadgeKey) return images.certificationAttestation.macaronPixPlusDroitExpertPath;
+  if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return macaronPixPlusDroitMaitrePath;
+  if (result.partnerKey === pixPlusDroitExpertBadgeKey) return macaronPixPlusDroitExpertPath;
 }
