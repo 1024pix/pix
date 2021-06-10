@@ -1,7 +1,9 @@
 const { checkEventTypes } = require('./check-event-types');
 const SessionFinalized = require('./SessionFinalized');
+const CertificationIssueReportResolutionAttempt = require('../models/CertificationIssueReportResolutionAttempt');
 const AutoJuryDone = require('./AutoJuryDone');
 const CertificationJuryDone = require('./CertificationJuryDone');
+const bluebird = require('bluebird');
 
 const eventTypes = [ SessionFinalized ];
 
@@ -10,6 +12,7 @@ async function handleAutoJury({
   certificationIssueReportRepository,
   certificationAssessmentRepository,
   certificationCourseRepository,
+  logger,
 }) {
   checkEventTypes(event, eventTypes);
   const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({ sessionId: event.sessionId });
@@ -19,6 +22,7 @@ async function handleAutoJury({
       certificationCourse,
       certificationIssueReportRepository,
       certificationAssessmentRepository,
+      logger,
     })));
 
   const filteredCertificationJuryDoneEvents = certificationJuryDoneEvents.filter((certificationJuryDoneEvent) => Boolean(certificationJuryDoneEvent));
@@ -39,6 +43,7 @@ async function _autoNeutralizeChallenges({
   certificationCourse,
   certificationIssueReportRepository,
   certificationAssessmentRepository,
+  logger,
 }) {
   const certificationIssueReports = await certificationIssueReportRepository.findByCertificationCourseId(certificationCourse.id);
   if (certificationIssueReports.length === 0) {
@@ -46,20 +51,16 @@ async function _autoNeutralizeChallenges({
   }
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: certificationCourse.id });
 
-  const neutralizableIssueReports = certificationIssueReports.filter((issueReport) => issueReport.isAutoNeutralizable);
-
-  let certificationImpacted = 0;
-  for (const neutralizableIssueReport of neutralizableIssueReports) {
-    const questionNumber = neutralizableIssueReport.questionNumber;
-    const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped(questionNumber);
-    if (neutralizationAttempt.hasSucceeded()) {
-      neutralizableIssueReport.resolve('Cette question a été neutralisée automatiquement');
-      await certificationIssueReportRepository.save(neutralizableIssueReport);
-      certificationImpacted++;
+  const resolutionAttempts = await bluebird.mapSeries(certificationIssueReports, async (certificationIssueReport) => {
+    try {
+      return await certificationIssueReport.resolutionStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+    } catch (e) {
+      logger.error(e);
+      return CertificationIssueReportResolutionAttempt.unresolved();
     }
-  }
+  });
 
-  if (certificationImpacted > 0) {
+  if (resolutionAttempts.some((attempt) => attempt.isResolvedWithEffect())) {
     await certificationAssessmentRepository.save(certificationAssessment);
     return new CertificationJuryDone({ certificationCourseId: certificationCourse.id });
   }

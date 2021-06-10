@@ -212,4 +212,40 @@ describe('Unit | Domain | Models | Challenge', () => {
       });
     });
   });
+
+  describe('#hasIllustration', () => {
+    it('returns true when has illustration', () => {
+      // given
+      const challenge = domainBuilder.buildChallenge({ illustrationUrl: 'A_LINK' });
+
+      // when then
+      expect(challenge.hasIllustration()).to.be.true;
+    });
+
+    it('returns false when does not have illustration', () => {
+      // given
+      const challenge = domainBuilder.buildChallenge({ illustrationUrl: null });
+
+      // when then
+      expect(challenge.hasIllustration()).to.be.false;
+    });
+  });
+
+  describe('#hasEmbed', () => {
+    it('returns true when has embed', () => {
+      // given
+      const challenge = domainBuilder.buildChallenge({ embedUrl: 'A_LINK' });
+
+      // when then
+      expect(challenge.hasEmbed()).to.be.true;
+    });
+
+    it('returns false when does not have embed', () => {
+      // given
+      const challenge = domainBuilder.buildChallenge({ embedUrl: null });
+
+      // when then
+      expect(challenge.hasEmbed()).to.be.false;
+    });
+  });
 });
