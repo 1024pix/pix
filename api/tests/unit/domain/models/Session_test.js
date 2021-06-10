@@ -1,3 +1,5 @@
+// @ts-check
+
 const Session = require('../../../../lib/domain/models/Session');
 const { expect } = require('../../../test-helper');
 const _ = require('lodash');
@@ -27,7 +29,7 @@ describe('Unit | Domain | Models | Session', () => {
 
   beforeEach(() => {
     session = new Session({
-      id: 'id',
+      id: 1234,
       accessCode: '',
       address: '',
       certificationCenter: '',
@@ -37,14 +39,12 @@ describe('Unit | Domain | Models | Session', () => {
       room: '',
       time: '',
       examinerGlobalComment: '',
-      finalizedAt: '',
-      resultsSentToPrescriberAt: '',
-      publishedAt: '',
-      // includes
+      finalizedAt: null,
+      resultsSentToPrescriberAt: null,
+      publishedAt: null,
       certificationCandidates: [],
-      // references
-      certificationCenterId: '',
-      assignedCertificationOfficerId: '',
+      certificationCenterId: 2345,
+      assignedCertificationOfficerId: null,
     });
   });
 
