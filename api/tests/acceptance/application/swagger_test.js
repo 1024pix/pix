@@ -46,4 +46,22 @@ describe('Acceptance | lib | swagger', () => {
       });
     });
   });
+
+  describe('GET /pole-emploi/swagger.json', () => {
+    describe('Resource access management', () => {
+      it('should respond with a 200', async () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: '/pole-emploi/swagger.json',
+          headers: {},
+        };
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
 });
