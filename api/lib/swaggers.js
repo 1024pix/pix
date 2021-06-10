@@ -19,6 +19,15 @@ const swaggerOptionsLivretScolaire = {
   jsonPath: '/swagger.json',
 };
 
+const swaggerOptionsPoleEmploi = {
+  routeTag: 'pole-emploi',
+  info: {
+    'title': 'Pix Pôle emploi open api',
+    'version': applicationPackage.version,
+  },
+  jsonPath: '/swagger.json',
+};
+
 const swaggerOptionsIn = {
   basePath: '/api',
   grouping: 'tags',
@@ -41,6 +50,6 @@ function _buildSwaggerArgs(swaggerOptions)
   }];
 }
 
-const swaggers = [ swaggerOptionsAuthorizationServer, swaggerOptionsLivretScolaire, swaggerOptionsIn ].map(_buildSwaggerArgs);
+const swaggers = [ swaggerOptionsAuthorizationServer, swaggerOptionsLivretScolaire, swaggerOptionsPoleEmploi, swaggerOptionsIn ].map(_buildSwaggerArgs);
 
 module.exports = swaggers;
