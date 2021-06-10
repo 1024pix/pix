@@ -180,6 +180,7 @@ describe('Unit | Router | organization-router', () => {
     it('should check if user is admin in organization', async () => {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').resolves(false);
+      sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -298,6 +299,7 @@ describe('Unit | Router | organization-router', () => {
     it('should check if user is Pix Master', async () => {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').resolves(false);
+      sinon.stub(organizationController, 'sendInvitationsByLang').callsFake((request, h) => h.response().created());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
