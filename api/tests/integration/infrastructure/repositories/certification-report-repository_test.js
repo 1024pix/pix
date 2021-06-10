@@ -4,6 +4,7 @@ const CertificationReport = require('../../../../lib/domain/models/Certification
 const certificationReportRepository = require('../../../../lib/infrastructure/repositories/certification-report-repository');
 const { CertificationCourseUpdateError } = require('../../../../lib/domain/errors');
 const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const CertificationIssueReportResolutionStrategies = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
 
 describe('Integration | Repository | CertificationReport', function() {
 
@@ -36,7 +37,13 @@ describe('Integration | Repository | CertificationReport', function() {
           certificationCourseId: certificationCourse1.id,
           firstName: certificationCourse1.firstName,
           lastName: certificationCourse1.lastName,
-          certificationIssueReports: [ { ...certificationIssueReport1, isImpactful: true, isAutoNeutralizable: false } ],
+          certificationIssueReports: [
+            { ...certificationIssueReport1,
+              isImpactful: true,
+              isAutoNeutralizable: false,
+              resolutionStrategy: CertificationIssueReportResolutionStrategies.NONE,
+            },
+          ],
           hasSeenEndTestScreen: certificationCourse1.hasSeenEndTestScreen,
         });
         const expectedCertificationReport2 = domainBuilder.buildCertificationReport({

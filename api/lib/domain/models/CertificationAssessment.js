@@ -62,13 +62,13 @@ class CertificationAssessment {
     }
   }
 
-  neutralizeChallengeByNumberIfKoOrSkipped(questionNumber) {
+  neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber) {
     const toBeNeutralizedChallengeAnswer = this.certificationAnswersByDate[questionNumber - 1];
     if (!toBeNeutralizedChallengeAnswer) {
       return NeutralizationAttempt.failure(questionNumber);
     }
 
-    if (_isAnswerKoOrSkipped(toBeNeutralizedChallengeAnswer.result.status)) {
+    if (_isAnswerKoOrSkippedOrPartially(toBeNeutralizedChallengeAnswer.result.status)) {
       const challengeToBeNeutralized = _.find(this.certificationChallenges, { challengeId: toBeNeutralizedChallengeAnswer.challengeId });
       challengeToBeNeutralized.neutralize();
       return NeutralizationAttempt.neutralized(questionNumber);
@@ -107,12 +107,17 @@ class CertificationAssessment {
   isCompleted() {
     return this.state === states.COMPLETED;
   }
+
+  getChallengeRecIdByQuestionNumber(questionNumber) {
+    return this.certificationAnswersByDate[questionNumber - 1]?.challengeId || null;
+  }
 }
 
-function _isAnswerKoOrSkipped(answerStatus) {
+function _isAnswerKoOrSkippedOrPartially(answerStatus) {
   const isKo = AnswerStatus.isKO(answerStatus);
   const isSkipped = AnswerStatus.isSKIPPED(answerStatus);
-  return (isKo || isSkipped);
+  const isPartially = AnswerStatus.isPARTIALLY(answerStatus);
+  return (isKo || isSkipped || isPartially);
 }
 
 CertificationAssessment.states = states;

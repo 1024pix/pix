@@ -5,7 +5,7 @@ const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
 const CertificationJuryDone = require('../../../../lib/domain/events/CertificationJuryDone');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const { CertificationIssueReportSubcategories, CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const NeutralizationAttempt = require('../../../../lib/domain/models/NeutralizationAttempt');
+const CertificationIssueReportResolutionAttempt = require('../../../../lib/domain/models/CertificationIssueReportResolutionAttempt');
 
 describe('Unit | Domain | Events | handle-auto-jury', () => {
 
@@ -25,9 +25,9 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
     const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-    const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal123', isNeutralized: false });
-    const challengeToBeNeutralized2 = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal456', isNeutralized: false });
-    const challengeNotToBeNeutralized = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal789', isNeutralized: false });
+    const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false });
+    const challengeToBeNeutralized2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456', isNeutralized: false });
+    const challengeNotToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal789', isNeutralized: false });
     const certificationAssessment = domainBuilder.buildCertificationAssessment({
       certificationAnswersByDate: [
         domainBuilder.buildAnswer({ challengeId: 'recChal123', result: AnswerStatus.SKIPPED }),
@@ -41,14 +41,13 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
       ],
     });
     const certificationCourse = domainBuilder.buildCertificationCourse();
-    const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
-    const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING, questionNumber: 2 });
-    const certificationIssueReport3 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING, questionNumber: 3 });
+    const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
+    const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.FRAUD, subcategory: undefined, questionNumber: 1 });
+    sinon.stub(certificationIssueReport, 'resolutionStrategy').resolves(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
+    sinon.stub(certificationIssueReport2, 'resolutionStrategy').resolves(CertificationIssueReportResolutionAttempt.unresolved());
     certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
-    certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport1, certificationIssueReport2, certificationIssueReport3 ]);
-    certificationIssueReportRepository.save.resolves();
+    certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport, certificationIssueReport2 ]);
     certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
-    sinon.stub(certificationAssessment, 'neutralizeChallengeByNumberIfKoOrSkipped').returns(NeutralizationAttempt.neutralized(1));
     certificationAssessmentRepository.save.resolves();
     const event = new SessionFinalized({
       sessionId: 1234,
@@ -68,9 +67,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     });
 
     // then
-    expect(certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped).to.have.been.calledWith(1);
-    expect(certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped).to.have.been.calledWith(2);
-    expect(certificationAssessment.neutralizeChallengeByNumberIfKoOrSkipped).not.to.have.been.calledWith(3);
+    expect(certificationIssueReport.resolutionStrategy).to.have.been.calledWith({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
     expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
   });
 
@@ -119,7 +116,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
     const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-    const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal123', isNeutralized: false });
+    const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false });
     const certificationAssessment = domainBuilder.buildCertificationAssessment({
       certificationAnswersByDate: [
         domainBuilder.buildAnswer({ challengeId: 'recChal123', result: AnswerStatus.SKIPPED }),
@@ -132,9 +129,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
     certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
     certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport1 ]);
-    certificationIssueReportRepository.save.resolves();
     certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
-    sinon.stub(certificationAssessment, 'neutralizeChallengeByNumberIfKoOrSkipped').returns(NeutralizationAttempt.neutralized(1));
     certificationAssessmentRepository.save.resolves();
     const event = new SessionFinalized({
       sessionId: 1234,
@@ -200,7 +195,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
       const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
       const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub() };
       const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-      const challenge = domainBuilder.buildCertificationChallenge({ challengeId: 'recChal123', isNeutralized: false });
+      const challenge = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false });
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         certificationAnswersByDate: [
           domainBuilder.buildAnswer({ challengeId: 'recChal123', result: AnswerStatus.OK }),
@@ -210,11 +205,10 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
         ],
       });
       const certificationCourse = domainBuilder.buildCertificationCourse();
-      const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
+      const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.FRAUD, subcategory: null, questionNumber: 1 });
       certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
       certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport1 ]);
       certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
-      sinon.stub(certificationAssessment, 'neutralizeChallengeByNumberIfKoOrSkipped').returns(NeutralizationAttempt.skipped(1));
       certificationAssessmentRepository.save.resolves();
       const event = new SessionFinalized({
         sessionId: 1234,
@@ -236,6 +230,64 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
       // then
       expect(events.length).to.equal(1);
       expect(events[0]).not.to.be.an.instanceOf(CertificationJuryDone);
+    });
+  });
+
+  context('when a resolution throws an exception', () => {
+    it('should go on and try to resolve the others certification issue reports', async () => {
+      // given
+      const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
+      const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+      const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false });
+      const challengeToBeNeutralized2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456', isNeutralized: false });
+      const challengeNotToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal789', isNeutralized: false });
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({ challengeId: 'recChal123', result: AnswerStatus.SKIPPED }),
+          domainBuilder.buildAnswer({ challengeId: 'recChal456', result: AnswerStatus.KO }),
+          domainBuilder.buildAnswer({ challengeId: 'recChal789', result: AnswerStatus.OK }),
+        ],
+        certificationChallenges: [
+          challengeToBeNeutralized1,
+          challengeToBeNeutralized2,
+          challengeNotToBeNeutralized,
+        ],
+      });
+      const certificationCourse = domainBuilder.buildCertificationCourse();
+      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
+      const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.FRAUD, subcategory: undefined, questionNumber: 1 });
+      const anError = new Error('something bad happened');
+      sinon.stub(certificationIssueReport, 'resolutionStrategy').rejects(anError);
+      sinon.stub(certificationIssueReport2, 'resolutionStrategy').resolves(CertificationIssueReportResolutionAttempt.unresolved());
+      certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
+      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport, certificationIssueReport2 ]);
+      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
+      certificationAssessmentRepository.save.resolves();
+      const event = new SessionFinalized({
+        sessionId: 1234,
+        finalizedAt: new Date(),
+        hasExaminerGlobalComment: false,
+        certificationCenterName: 'A certification center name',
+        sessionDate: '2021-01-29',
+        sessionTime: '14:00',
+      });
+      const logger = {
+        error: sinon.stub(),
+      };
+
+      // when
+      await handleAutoJury({
+        event,
+        certificationIssueReportRepository,
+        certificationAssessmentRepository,
+        certificationCourseRepository,
+        logger,
+      });
+
+      // then
+      expect(certificationIssueReport2.resolutionStrategy).to.have.been.called;
+      expect(logger.error).to.have.been.calledWith(anError);
     });
   });
 });
