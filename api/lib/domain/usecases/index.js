@@ -211,6 +211,7 @@ module.exports = injectDependencies({
   getCampaignAssessmentParticipationResult: require('./get-campaign-assessment-participation-result'),
   getCampaignParticipation: require('./get-campaign-participation'),
   getCampaignParticipationsCountByStage: require('./get-campaign-participations-counts-by-stage'),
+  getCampaignParticipationsCountsByStatus: require('./get-campaign-participations-counts-by-status'),
   getCampaignProfile: require('./get-campaign-profile'),
   getCertificationAttestation: require('./certificate/get-certification-attestation'),
   getCertificationCandidate: require('./get-certification-candidate'),

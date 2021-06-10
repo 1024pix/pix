@@ -1,0 +1,57 @@
+.participants-by-status {
+  &__legend {
+    list-style: none;
+    padding-left: 8px;
+    padding-top: 16px;
+    font-size: 0.875rem;
+
+    > li {
+      position: relative;
+      padding-bottom: 8px;
+      padding-left: 24px;
+      color: $grey-70;
+      
+      &::before {
+        position: absolute;
+        left: 0px;
+        top: 2px;
+        display: block;
+        width: 0.875rem;
+        height: 0.875rem;
+        border-radius: 50%;
+        content: ' ';
+      }
+    }
+  
+    > li:last-child {
+      padding-bottom: 0px;
+    }
+
+    &--started {
+      &::before {
+        background-color: $yellow;
+      }
+    }
+
+    &--completed {
+      &::before {
+        background-color: $purple;
+      }
+    }
+
+    &--shared {
+      &::before {
+        background-color: $green;
+      }
+    }
+
+    &--loader {
+      height: 20px;
+      margin-top: 8px;
+    }
+  }
+
+  &--loader {
+    height: 200px;
+  }
+}
