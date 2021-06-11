@@ -30,6 +30,10 @@ class CleaCertificationResult {
   isTaken() {
     return this.status !== cleaStatuses.NOT_TAKEN;
   }
+
+  isAcquired() {
+    return this.status === cleaStatuses.ACQUIRED;
+  }
 }
 
 CleaCertificationResult.cleaStatuses = cleaStatuses;
