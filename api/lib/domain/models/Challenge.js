@@ -115,6 +115,10 @@ class Challenge {
     return Boolean(this.embedUrl);
   }
 
+  hasAtLeastOneAttachment() {
+    return Array.isArray(this.attachments) && this.attachments.length > 0;
+  }
+
   static createValidatorForChallengeType({ challengeType, solution }) {
     switch (challengeType) {
       case ChallengeType.QCU:
