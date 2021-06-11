@@ -15,8 +15,7 @@
         {{#if this.showProposal}}
           <div class="rounded-panel__row challenge-response
             {{if @answer 'challenge-response--locked'}}
-            {{if this.hasChallengeTimedOut 'challenge-response--locked'}}
-            {{if this.hasFocusedOut 'challenge-response--locked'}}">
+            {{if this.hasChallengeTimedOut 'challenge-response--locked'}}">
             <h2 class="sr-only">{{t 'pages.challenge.parts.answer-input'}}</h2>
             <div class="challenge-proposals qroc-proposal">
               {{#each this._blocks as |block|}}
@@ -111,6 +110,12 @@
           </div>
         {{/if}}
 
+        {{#if this.hasFocusedOut}}
+          <div class="alert alert-warning" role="alert">
+            {{t 'pages.challenge.has-focused-out'}}
+          </div>
+        {{/if}}
+
         {{#if @assessment}}
           <ChallengeActions @challenge={{@challenge}}
                             @answer={{@answer}}
@@ -119,7 +124,6 @@
                             @skipChallenge={{this.skipChallenge}}
                             @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
                             @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-                            @hasFocusedOut={{this.hasFocusedOut}}
                             @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>
         {{/if}}
       </form>
