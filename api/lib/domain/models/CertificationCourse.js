@@ -6,6 +6,9 @@ class CertificationCourse {
       lastName,
       birthdate,
       birthplace,
+      birthPostalCode,
+      birthINSEECode,
+      sex,
       externalId,
       hasSeenEndTestScreen,
       createdAt,
@@ -24,8 +27,11 @@ class CertificationCourse {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.birthplace = birthplace;
     this.birthdate = birthdate;
+    this.birthplace = birthplace;
+    this.birthPostalCode = birthPostalCode;
+    this.birthINSEECode = birthINSEECode;
+    this.sex = sex;
     this.externalId = externalId;
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     this.createdAt = createdAt;
@@ -53,6 +59,9 @@ class CertificationCourse {
       firstName: certificationCandidate.firstName,
       lastName: certificationCandidate.lastName,
       birthdate: certificationCandidate.birthdate,
+      birthPostalCode: certificationCandidate.birthPostalCode,
+      birthINSEECode: certificationCandidate.birthINSEECode,
+      sex: certificationCandidate.sex,
       birthplace: certificationCandidate.birthCity,
       externalId: certificationCandidate.externalId,
       isV2Certification: true,
