@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const dragonLogo = require('../../../../db/seeds/src/dragonAndCoBase64');
 
 const {
   expect, knex, learningContentBuilder, databaseBuilder, mockLearningContent,
@@ -157,17 +158,20 @@ describe('Acceptance | Application | organization-controller', () => {
 
     it('should return the updated organization and status code 200', async () => {
       // given
+      const logo = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
       const organizationAttributes = {
         externalId: '0446758F',
         provinceCode: '044',
         email: 'sco.generic.newaccount@example.net',
         credit: 50,
         canCollectProfiles: false,
+        logoUrl : logo,
       };
       const organization = databaseBuilder.factory.buildOrganization({ ...organizationAttributes });
       const tag1 = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' });
       await databaseBuilder.commit();
 
+      const newLogo = dragonLogo;
       const newAttribute = 'true';
       const payload = {
         data: {
@@ -179,6 +183,7 @@ describe('Acceptance | Application | organization-controller', () => {
             'email': organizationAttributes.email,
             'credit': organizationAttributes.credit,
             'can-collect-profiles': newAttribute,
+            'logo-url': newLogo,
           },
           relationships: {
             tags: {
@@ -204,6 +209,8 @@ describe('Acceptance | Application | organization-controller', () => {
       expect(response.result.data.attributes['can-collect-profiles']).to.equal(true);
       expect(response.result.data.attributes['email']).to.equal('sco.generic.newaccount@example.net');
       expect(response.result.data.attributes['credit']).to.equal(50);
+      // should update image, but does not (bug to fix)
+      expect(response.result.data.attributes['logo-url']).to.not.equal(newLogo);
       expect(response.result.data.relationships.tags.data[0]).to.deep.equal({ type: 'tags', id: tag1.id.toString() });
       expect(parseInt(response.result.data.id)).to.equal(organization.id);
     });
