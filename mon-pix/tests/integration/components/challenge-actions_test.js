@@ -131,26 +131,4 @@ describe('Integration | Component | challenge actions', function() {
       expect(find('.challenge-actions__action-continue')).to.exist;
     });
   });
-
-  describe('When the challenge is focused', function() {
-
-    it('should display continue action when user has focused out', async function() {
-      // given
-      this.set('isValidateButtonEnabled', true);
-      this.set('hasFocusedOut', true);
-      this.set('isSkipButtonEnabled', true);
-      this.set('validateActionStub', () => {});
-
-      // when
-      await render(hbs`<ChallengeActions
-                          @validateAnswer={{this.validateActionStub}}
-                          @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
-                          @hasFocusedOut={{this.hasFocusedOut}}
-                          @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
-
-      // then
-      expect(findAll('.challenge-actions__action').length).to.equal(1);
-      expect(find('.challenge-actions__action-continue')).to.exist;
-    });
-  });
 });
