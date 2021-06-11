@@ -75,7 +75,7 @@ async function _resolveWithNoImageInChallenge(certificationIssueReportRepository
 }
 
 async function _resolveWithNoEmbedInChallenge(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle ne contient pas d\'embed');
+  certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle ne contient pas d\'application/simulateur');
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
