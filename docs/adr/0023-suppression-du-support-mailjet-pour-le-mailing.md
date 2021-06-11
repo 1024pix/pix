@@ -1,4 +1,4 @@
-# 21. Suppression du support Mailjet pour le mailing
+# 23. Suppression du support Mailjet pour le mailing
 
 Date : 2021-02-26
 

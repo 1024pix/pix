@@ -1,45 +1,25 @@
-const { expect, knex } = require('../../test-helper');
-const createServer = require('../../../server');
-const authenticationCache = require('../../../lib/infrastructure/caches/authentication-cache');
 const jsonwebtoken = require('jsonwebtoken');
+
+const { expect, knex } = require('../../test-helper');
+
+const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
+const poleEmploiTokensRepository = require('../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
+
+const createServer = require('../../../server');
 
 describe('Acceptance | API | Pole Emploi Controller', () => {
 
-  let server, request;
+  let server;
 
   beforeEach(async () => {
     server = await createServer();
   });
 
-  describe('POST /api/certification-centers', () => {
-
-    const userAuthenticationKey = 'userAuthenticationKey';
+  describe('POST /api/pole-emplois/users?authentication-key=key', () => {
 
     const firstName = 'firstName';
     const lastName = 'lastName';
     const externalIdentifier = 'idIdentiteExterne';
-
-    beforeEach(() => {
-      const idToken = jsonwebtoken.sign({
-        'given_name': firstName,
-        'family_name': lastName,
-        nonce: 'nonce',
-        idIdentiteExterne: externalIdentifier,
-      }, 'secret');
-
-      const userCredentials = {
-        accessToken: 'accessToken',
-        idToken,
-        expiresIn: 10,
-        refreshToken: 'refreshToken',
-      };
-      authenticationCache.set(userAuthenticationKey, userCredentials);
-
-      request = {
-        method: 'POST',
-        url: `/api/pole-emplois/users?authentication-key=${userAuthenticationKey}`,
-      };
-    });
 
     afterEach(async () => {
       await knex('authentication-methods').delete();
@@ -47,6 +27,27 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
     });
 
     it('should return 200 HTTP status', async () => {
+      // given
+      const idToken = jsonwebtoken.sign({
+        'given_name': firstName,
+        'family_name': lastName,
+        nonce: 'nonce',
+        idIdentiteExterne: externalIdentifier,
+      }, 'secret');
+
+      const poleEmploiTokens = new PoleEmploiTokens({
+        accessToken: 'accessToken',
+        expiresIn: 10,
+        idToken,
+        refreshToken: 'refreshToken',
+      });
+      const userAuthenticationKey = await poleEmploiTokensRepository.save(poleEmploiTokens);
+
+      const request = {
+        method: 'POST',
+        url: `/api/pole-emplois/users?authentication-key=${userAuthenticationKey}`,
+      };
+
       // when
       const response = await server.inject(request);
 
