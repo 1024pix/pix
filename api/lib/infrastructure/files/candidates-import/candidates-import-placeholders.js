@@ -47,6 +47,18 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
     propertyName: 'birthdate',
   },
   {
+    placeholder: 'SEX',
+    propertyName: 'sex',
+  },
+  {
+    placeholder: 'BIRTH_POSTAL_CODE',
+    propertyName: 'birthPostalCode',
+  },
+  {
+    placeholder: 'BIRTH_INSEE_CODE',
+    propertyName: 'birthINSEECode',
+  },
+  {
     placeholder: 'BIRTH_CITY',
     propertyName: 'birthCity',
   },

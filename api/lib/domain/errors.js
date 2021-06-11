@@ -248,6 +248,9 @@ class InvalidCertificationCandidate extends DomainError {
     if (type === 'number.base' || type === 'number.integer') {
       error.why = 'not_a_number';
     }
+    if (type === 'any.only' && error.key === 'sex') {
+      error.why = 'not_a_sex_code';
+    }
     return new InvalidCertificationCandidate({ error });
   }
 }
@@ -393,6 +396,9 @@ class CertificationCandidatesImportError extends DomainError {
     }
     if (error.why === 'required') {
       contentPortion = `Le champ “${label}” est obligatoire.`;
+    }
+    if (error.why === 'not_a_sex_code') {
+      contentPortion = `Le champ “${label}” accepte les valeurs "1" pour un homme ou "2" pour une femme.`;
     }
 
     return new CertificationCandidatesImportError({ message: `${linePortion} ${contentPortion}` });
