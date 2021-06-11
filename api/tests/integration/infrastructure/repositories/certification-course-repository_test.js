@@ -19,6 +19,9 @@ describe('Integration | Repository | Certification Course', function() {
         lastName: 'Griezmann',
         birthplace: 'Macon',
         birthdate: '1991-03-21',
+        sex: 'F',
+        birthPostalCode: null,
+        birthINSEECode: '65550',
         externalId: 'xenoverse2',
         isPublished: false,
         hasSeenEndTestScreen: false,
@@ -451,6 +454,7 @@ describe('Integration | Repository | Certification Course', function() {
   });
 
   describe('#findCertificationCoursesByCandidateIds', () => {
+
     it('returns an empty array when none exists', async () => {
       // given
       const candidateIds = [1, 2, 3];
