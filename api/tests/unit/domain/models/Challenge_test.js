@@ -48,6 +48,24 @@ describe('Unit | Domain | Models | Challenge', () => {
       expect(challengeDataObject).to.be.an.instanceof(Challenge);
       expect(challengeDataObject).to.deep.equal(challengeRawData);
     });
+
+    it('should order the attachments with microsoft files first', () => {
+      // given
+      const challengeRawData = {
+        attachments: [
+          'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
+          'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.docx',
+        ],
+      };
+
+      // when
+      const challengeDataObject = new Challenge(challengeRawData);
+
+      // then
+      expect(challengeDataObject.attachments.length).to.equal(challengeRawData.attachments.length);
+      expect(challengeDataObject.attachments[0]).to.contains('docx');
+      expect(challengeDataObject.attachments[1]).to.contains('odp');
+    });
   });
 
   describe('#hasSkill', () => {
