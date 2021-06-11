@@ -485,6 +485,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfEmbed({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
 
         // then
+        expect(certificationIssueReport.resolution).to.equal('Cette question n\' a pas été neutralisée car elle ne contient pas d\'application/simulateur');
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
