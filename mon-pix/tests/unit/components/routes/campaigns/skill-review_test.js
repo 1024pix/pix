@@ -4,6 +4,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
+import Service from '@ember/service';
 
 describe('Unit | component | Campaigns | Evaluation | Skill Review', function() {
 
@@ -28,7 +29,6 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     sinon.stub(adapter, 'beginImprovement').resolves();
 
     component.router.transitionTo = sinon.stub();
-    component.disconnectUser = sinon.stub();
   });
 
   describe('#shareCampaignParticipation', function() {
@@ -42,27 +42,16 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
 
     context('when share is effective', function() {
-      beforeEach(() => {
-        adapter.share.resolves();
-      });
 
       it('should set isShared to true', async function() {
+        // given
+        adapter.share.resolves();
+
         // when
         await component.actions.shareCampaignParticipation.call(component);
 
         // then
         expect(component.args.model.campaignParticipationResult.isShared).to.equal(true);
-      });
-
-      it('should disconnect user if campaign has simplified access', async function() {
-        // given
-        component.args.model.campaign.isSimplifiedAccess = true;
-
-        // when
-        await component.actions.shareCampaignParticipation.call(component);
-
-        // then
-        sinon.assert.called(component.disconnectUser);
       });
     });
 
@@ -454,6 +443,37 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
 
       // then
       expect(result).to.be.true;
+    });
+  });
+
+  describe('#redirectToSignupIfUserIsAnonymous', function() {
+
+    it('should redirect to sign up page on click when user is anonymous', async function() {
+      // given
+      const session = this.owner.lookup('service:session');
+      class currentUser extends Service { user = { isAnonymous: true }}
+      this.owner.register('service:currentUser', currentUser);
+
+      session.invalidate = sinon.stub();
+
+      // when
+      await component.actions.redirectToSignupIfUserIsAnonymous.call(component);
+
+      // then
+      sinon.assert.called(session.invalidate);
+      sinon.assert.calledWith(component.router.transitionTo, 'inscription');
+    });
+
+    it('should redirect to home page when user is not anonymous', async function() {
+      // given
+      class currentUser extends Service { user = { isAnonymous: false }}
+      this.owner.register('service:currentUser', currentUser);
+
+      // when
+      await component.actions.redirectToSignupIfUserIsAnonymous.call(component);
+
+      // then
+      sinon.assert.calledWith(component.router.transitionTo, 'index');
     });
   });
 });

@@ -3,10 +3,11 @@
     <div class="skill-review-share__thanks">
       {{t 'pages.skill-review.already-shared'}}
     </div>
-    <LinkTo @route="index" class="skill-review-share__back-to-home link">
+    <a href="#" {{on "click" @redirectToSignupIfUserIsAnonymous}}
+       class="skill-review-share__back-to-home link" data-link-to-continue-pix>
       <FaIcon @icon='arrow-right' aria-hidden="true"></FaIcon>
       {{t 'pages.skill-review.actions.continue'}}
-    </LinkTo>
+    </a>
   {{/if}}
 {{else}}
   <PixButton

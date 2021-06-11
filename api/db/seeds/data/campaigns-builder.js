@@ -209,8 +209,11 @@ __Plus d'infos :)__
     organizationId: PRO_MED_NUM_ID,
     creatorId: 2,
     targetProfileId: TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
-    customLandingPageText: '',
     idPixLabel: null,
+    customLandingPageText: null,
+    customResultPageText: 'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.',
+    customResultPageButtonUrl: 'https://pix.fr/',
+    customResultPageButtonText: 'Voir Pix !',
     createdAt: new Date('2020-01-13'),
   });
 
