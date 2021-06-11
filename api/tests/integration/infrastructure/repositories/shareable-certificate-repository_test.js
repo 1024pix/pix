@@ -358,8 +358,8 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
           pixScore: 51,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'image/to/expert',
-            'image/to/maitre',
+            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg',
+            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/maitre.svg',
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -387,9 +387,9 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
           pixScore: shareableCertificateData.pixScore,
           status: 'validated',
         });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/expert' });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/maitre' });
-        databaseBuilder.factory.buildBadge({ key: 'should_be_ignored', isCertifiable: true, certifiedImageUrl: 'some/horrible/image' });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
+        databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: 'should_be_ignored', acquired: true });
@@ -425,7 +425,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
           pixScore: 51,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'image/to/expert',
+            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg',
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -453,8 +453,8 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
           pixScore: shareableCertificateData.pixScore,
           status: 'validated',
         });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/expert' });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey, isCertifiable: true, certifiedImageUrl: 'image/to/maitre' });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
+        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: false });
         await databaseBuilder.commit();

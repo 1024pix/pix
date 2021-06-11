@@ -1,4 +1,3 @@
-const { statuses } = require('../../infrastructure/repositories/clea-certification-status-repository');
 const PIX_COUNT_BY_LEVEL = 8;
 const COMPETENCE_COUNT = 16;
 
@@ -15,8 +14,8 @@ class CertificationAttestation {
     deliveredAt,
     certificationCenter,
     pixScore,
-    status,
-    cleaCertificationStatus,
+    cleaCertificationImagePath,
+    pixPlusDroitCertificationImagePath,
     resultCompetenceTree = null,
     verificationCode,
     maxReachableLevelOnCertificationDate,
@@ -32,13 +31,28 @@ class CertificationAttestation {
     this.deliveredAt = deliveredAt;
     this.certificationCenter = certificationCenter;
     this.pixScore = pixScore;
-    this.status = status;
-    this.cleaCertificationStatus = cleaCertificationStatus;
+    this.cleaCertificationImagePath = cleaCertificationImagePath;
+    this.pixPlusDroitCertificationImagePath = pixPlusDroitCertificationImagePath;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
-    this.hasAcquiredCleaCertification = cleaCertificationStatus === statuses.ACQUIRED;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
     this.maxReachableScore = this.maxReachableLevelOnCertificationDate * PIX_COUNT_BY_LEVEL * COMPETENCE_COUNT;
+  }
+
+  setResultCompetenceTree(resultCompetenceTree) {
+    this.resultCompetenceTree = resultCompetenceTree;
+  }
+
+  hasAcquiredCleaCertification() {
+    return this.cleaCertificationImagePath !== null;
+  }
+
+  hasAcquiredPixPlusDroitCertification() {
+    return this.pixPlusDroitCertificationImagePath !== null;
+  }
+
+  hasAcquiredAnyComplementaryCertifications() {
+    return this.hasAcquiredPixPlusDroitCertification() || this.hasAcquiredCleaCertification();
   }
 }
 

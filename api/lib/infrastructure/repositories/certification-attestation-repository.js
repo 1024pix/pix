@@ -1,35 +1,40 @@
-const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
-const ShareableCertificate = require('../../domain/models/ShareableCertificate');
-const AssessmentResult = require('../../domain/models/AssessmentResult');
+const CertificationAttestation = require('../../domain/models/CertificationAttestation');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const AssessmentResult = require('../../domain/models/AssessmentResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 
-module.exports = {
+const macaronCleaPath = `${__dirname}/../utils/pdf/files/macaron_clea.png`;
+const macaronPixPlusDroitMaitrePath = `${__dirname}/../utils/pdf/files/macaron_maitre.png`;
+const macaronPixPlusDroitExpertPath = `${__dirname}/../utils/pdf/files/macaron_expert.png`;
 
-  async getByVerificationCode(verificationCode) {
-    const shareableCertificateDTO = await _selectShareableCertificates()
-      .where({ verificationCode })
+module.exports = {
+  macaronCleaPath,
+  macaronPixPlusDroitMaitrePath,
+  macaronPixPlusDroitExpertPath,
+
+  async get(id) {
+    const certificationCourseDTO = await _selectCertificationAttestations()
+      .where('certification-courses.id', '=', id)
       .first();
 
-    if (!shareableCertificateDTO) {
-      throw new NotFoundError(`There is no certification course with verification code "${verificationCode}"`);
+    if (!certificationCourseDTO) {
+      throw new NotFoundError(`There is no certification course with id "${id}"`);
     }
 
-    const cleaCertificationResult = await _getCleaCertificationResult(shareableCertificateDTO.id);
-    const certifiedBadgeImages = await _getCertifiedBadgeImages(shareableCertificateDTO.id);
-
-    return new ShareableCertificate({
-      ...shareableCertificateDTO,
-      cleaCertificationResult,
-      certifiedBadgeImages,
+    const cleaCertificationImagePath = await _getCleaCertificationImagePath(certificationCourseDTO.id);
+    const pixPlusDroitCertificationImagePath = await _getPixPlusDroitCertificationImagePath(certificationCourseDTO.id);
+    return new CertificationAttestation({
+      ...certificationCourseDTO,
+      cleaCertificationImagePath,
+      pixPlusDroitCertificationImagePath,
     });
   },
 };
 
-function _selectShareableCertificates() {
+function _selectCertificationAttestations() {
   return knex
     .select({
       id: 'certification-courses.id',
@@ -41,6 +46,7 @@ function _selectShareableCertificates() {
       userId: 'certification-courses.userId',
       date: 'certification-courses.createdAt',
       deliveredAt: 'sessions.publishedAt',
+      verificationCode: 'certification-courses.verificationCode',
       certificationCenter: 'sessions.certificationCenter',
       maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
       pixScore: 'assessment-results.pixScore',
@@ -60,31 +66,27 @@ function _selectShareableCertificates() {
     .where('certification-courses.isCancelled', false);
 }
 
-async function _getCleaCertificationResult(certificationCourseId) {
+async function _getCleaCertificationImagePath(certificationCourseId) {
   const result = await knex
-    .select('acquired')
+    .select('partnerKey')
     .from('partner-certifications')
-    .where({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey })
+    .where({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey, acquired: true })
     .first();
 
-  if (!result) {
-    return CleaCertificationResult.buildNotTaken();
-  }
-  return CleaCertificationResult.buildFrom(result);
+  if (!result) return null;
+  return macaronCleaPath;
 }
 
-async function _getCertifiedBadgeImages(certificationCourseId) {
+async function _getPixPlusDroitCertificationImagePath(certificationCourseId) {
   const handledBadgeKeys = [pixPlusDroitExpertBadgeKey, pixPlusDroitMaitreBadgeKey];
-  const results = await knex
+  const result = await knex
     .select('partnerKey')
     .from('partner-certifications')
     .where({ certificationCourseId, acquired: true })
     .whereIn('partnerKey', handledBadgeKeys)
-    .orderBy('partnerKey');
+    .first();
 
-  return _.compact(_.map(results, (result) => {
-    if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/maitre.svg';
-    if (result.partnerKey === pixPlusDroitExpertBadgeKey) return 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg';
-    return null;
-  }));
+  if (!result) return null;
+  if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return macaronPixPlusDroitMaitrePath;
+  if (result.partnerKey === pixPlusDroitExpertBadgeKey) return macaronPixPlusDroitExpertPath;
 }

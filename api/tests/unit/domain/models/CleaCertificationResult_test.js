@@ -71,4 +71,40 @@ describe('Unit | Domain | Models | CleaCertificationResult', () => {
       expect(isTaken).to.be.false;
     });
   });
+
+  context('#isAcquired', () => {
+
+    it('returns true when CleaCertificationResult has a status acquired', async () => {
+      // given
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
+
+      // when
+      const isAcquired = cleaCertificationResult.isAcquired();
+
+      // then
+      expect(isAcquired).to.be.true;
+    });
+
+    it('returns true when CleaCertificationResult has a status rejected', async () => {
+      // given
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
+
+      // when
+      const isAcquired = cleaCertificationResult.isAcquired();
+
+      // then
+      expect(isAcquired).to.be.false;
+    });
+
+    it('returns false when CleaCertificationResult has a status not_taken', async () => {
+      // given
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
+
+      // when
+      const isAcquired = cleaCertificationResult.isAcquired();
+
+      // then
+      expect(isAcquired).to.be.false;
+    });
+  });
 });
