@@ -915,6 +915,9 @@
       "instruction": "Enter your new password",
       "succeed": "Your password has been changed successfully."
     },
+    "recovery-account-after-leaving-sco": {
+      "title": "TODO..."
+    },
     "result-item": {
       "aband": "No answer",
       "actions": {

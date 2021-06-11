@@ -915,6 +915,9 @@
       "instruction": "Saisissez votre nouveau mot de passe",
       "succeed": "Votre mot de passe a été modifié avec succès."
     },
+    "recovery-account-after-leaving-sco": {
+      "title": "Récupérer son compte Pix"
+    },
     "result-item": {
       "aband": "Pas de réponse",
       "actions": {
