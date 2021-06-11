@@ -165,7 +165,7 @@ describe('Acceptance | Application | organization-controller', () => {
         email: 'sco.generic.newaccount@example.net',
         credit: 50,
         canCollectProfiles: false,
-        logoUrl : logo,
+        logoUrl: logo,
       };
       const organization = databaseBuilder.factory.buildOrganization({ ...organizationAttributes });
       const tag1 = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' });
@@ -209,8 +209,7 @@ describe('Acceptance | Application | organization-controller', () => {
       expect(response.result.data.attributes['can-collect-profiles']).to.equal(true);
       expect(response.result.data.attributes['email']).to.equal('sco.generic.newaccount@example.net');
       expect(response.result.data.attributes['credit']).to.equal(50);
-      // should update image, but does not (bug to fix)
-      expect(response.result.data.attributes['logo-url']).to.not.equal(newLogo);
+      expect(response.result.data.attributes['logo-url']).to.equal(newLogo);
       expect(response.result.data.relationships.tags.data[0]).to.deep.equal({ type: 'tags', id: tag1.id.toString() });
       expect(parseInt(response.result.data.id)).to.equal(organization.id);
     });
