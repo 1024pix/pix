@@ -3,7 +3,9 @@ const { sinon, expect, catchErr, hFake } = require('../../../test-helper');
 const { featureToggles } = require('../../../../lib/config');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
-const { BadRequestError } = require('../../../../lib/application/http-errors');
+const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
+
+const { BadRequestError, UnauthorizedError } = require('../../../../lib/application/http-errors');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
@@ -111,6 +113,14 @@ describe('Unit | Application | Controller | Authentication', () => {
     const state_sent = 'state';
     const state_received = 'state';
 
+    const pixAccessToken = 'pixAccessToken';
+    const poleEmploiTokens = new PoleEmploiTokens({
+      accessToken: 'poleEmploiAccessToken',
+      expiresIn: 60,
+      idToken: 'idToken',
+      refreshToken: 'refreshToken',
+    });
+
     let request;
 
     beforeEach(() => {
@@ -125,11 +135,12 @@ describe('Unit | Application | Controller | Authentication', () => {
         },
       };
 
-      sinon.stub(usecases, 'authenticatePoleEmploiUser').resolves();
+      sinon.stub(usecases, 'authenticatePoleEmploiUser');
     });
 
-    it('should return 400 when feature is off', async () => {
+    it('should return 400 if feature is off', async () => {
       // given
+      usecases.authenticatePoleEmploiUser.resolves();
       featureToggles.isPoleEmploiEnabled = false;
       const expectedErrorMessage = 'This feature is not enable!';
 
@@ -139,18 +150,18 @@ describe('Unit | Application | Controller | Authentication', () => {
       // then
       expect(error).to.be.an.instanceOf(BadRequestError);
       expect(error.message).to.equal(expectedErrorMessage);
-
     });
 
     it('should call usecase with payload parameters', async () => {
       // given
+      usecases.authenticatePoleEmploiUser.resolves({ pixAccessToken, poleEmploiTokens });
       const expectedParameters = {
-        code,
-        clientId: client_id,
-        redirectUri: redirect_uri,
         authenticatedUserId: undefined,
-        stateSent: state_sent,
+        clientId: client_id,
+        code,
+        redirectUri: redirect_uri,
         stateReceived: state_received,
+        stateSent: state_sent,
       };
 
       // when
@@ -160,20 +171,37 @@ describe('Unit | Application | Controller | Authentication', () => {
       expect(usecases.authenticatePoleEmploiUser).to.have.been.calledWith(expectedParameters);
     });
 
-    it('should return http status code 200, access token and ID token', async () => {
+    it('should return PIX access token and Pole emploi ID token', async () => {
       // given
+      usecases.authenticatePoleEmploiUser.resolves({ pixAccessToken, poleEmploiTokens });
       const expectedResult = {
-        access_token: 'ACCESS TOKEN',
-        id_token: 'ID TOKEN',
+        access_token: pixAccessToken,
+        id_token: poleEmploiTokens.idToken,
       };
-      usecases.authenticatePoleEmploiUser.resolves(expectedResult);
 
       // when
       const response = await authenticationController.authenticatePoleEmploiUser(request, hFake);
 
       // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.source).to.deep.equal(expectedResult);
+      expect(response).to.deep.equal(expectedResult);
+    });
+
+    it('should return UnauthorizedError if pixAccessToken is not exist', async () => {
+      // given
+      const authenticationKey = 'aaa-bbb-ccc';
+      usecases.authenticatePoleEmploiUser.resolves({ authenticationKey });
+      const expectedErrorMessage = 'L\'utilisateur n\'a pas de compte Pix';
+      const expectedResponseCode = 'SHOULD_VALIDATE_CGU';
+      const expectedMeta = { authenticationKey };
+
+      // when
+      const error = await catchErr(authenticationController.authenticatePoleEmploiUser)(request, hFake);
+
+      // then
+      expect(error).to.be.an.instanceOf(UnauthorizedError);
+      expect(error.message).to.equal(expectedErrorMessage);
+      expect(error.code).to.equal(expectedResponseCode);
+      expect(error.meta).to.deep.equal(expectedMeta);
     });
   });
 

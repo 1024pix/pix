@@ -77,6 +77,7 @@ const dependencies = {
   pixPlusDroitExpertCertificationResultRepository: require('../../infrastructure/repositories/pix-plus-droit-expert-certification-result-repository'),
   placementProfileService: require('../../domain/services/placement-profile-service'),
   poleEmploiSendingRepository: require('../../infrastructure/repositories/pole-emploi-sending-repository'),
+  poleEmploiTokensRepository: require('../../infrastructure/repositories/pole-emploi-tokens-repository'),
   prescriberRepository: require('../../infrastructure/repositories/prescriber-repository'),
   privateCertificateRepository: require('../../infrastructure/repositories/private-certificate-repository'),
   resetPasswordService: require('../../domain/services/reset-password-service'),
