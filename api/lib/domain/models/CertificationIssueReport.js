@@ -218,7 +218,7 @@ function _getResolutionStrategy(subcategory) {
   if (
     subcategory === CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING
   ) {
-    return CertificationIssueReportStrategies.NEUTRALIZE_IF_IMAGE;
+    return CertificationIssueReportStrategies.NEUTRALIZE_IF_ILLUSTRATION;
   }
 
   if (

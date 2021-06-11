@@ -405,11 +405,11 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         });
       });
 
-      it('for IN_CHALLENGE IMAGE_NOT_DISPLAYING should match with NEUTRALIZE_IF_IMAGE', () => {
+      it('for IN_CHALLENGE IMAGE_NOT_DISPLAYING should match with NEUTRALIZE_IF_ILLUSTRATION', () => {
         expect(new CertificationIssueReport({
           category: 'IN_CHALLENGE',
           subcategory: 'IMAGE_NOT_DISPLAYING',
-        }).resolutionStrategy).to.equal(CertificationIssueReportResolutionStrategies.NEUTRALIZE_IF_IMAGE);
+        }).resolutionStrategy).to.equal(CertificationIssueReportResolutionStrategies.NEUTRALIZE_IF_ILLUSTRATION);
       });
 
       it('for IN_CHALLENGE EMBED_NOT_WORKING should match with NEUTRALIZE_IF_EMBED', () => {
