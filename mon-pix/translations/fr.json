@@ -441,6 +441,7 @@
       "illustration": {
         "placeholder": "Chargement de l'image en cours"
       },
+      "has-focused-out": "Nous avons détecté un changement de page/d'onglet. Cette question ne nécessite pas de recherche. Vous pouvez tout de même répondre à la question mais sachez qu'en certification, votre réponse serait invalidée.",
       "parts": {
         "answer-input": "Votre réponse",
         "feedback": "Signaler un problème",

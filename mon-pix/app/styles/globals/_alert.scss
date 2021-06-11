@@ -22,6 +22,11 @@
   background-color: $dark-error;
 }
 
+.alert-warning {
+  border: 1px solid $warning;
+  background-color: $warning;
+}
+
 abbr.mandatory-mark {
   cursor: help;
   color: $dark-error;
