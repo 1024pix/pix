@@ -35,6 +35,23 @@ module.exports = {
     return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
   },
 
+  NEUTRALIZE_IF_ATTACHMENT: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) => {
+    const questionNumber = certificationIssueReport.questionNumber;
+    const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
+
+    if (!recId) {
+      return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+    }
+
+    const challenge = await challengeRepository.get(recId);
+
+    if (!challenge.hasAtLeastOneAttachment()) {
+      return _resolveWithNoAttachmentInChallenge(certificationIssueReportRepository, certificationIssueReport);
+    }
+
+    return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
+  },
+
   NEUTRALIZE_WITHOUT_CHECKING: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository }) => {
     return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
   },
@@ -70,6 +87,12 @@ async function _resolveWithQuestionNeutralized(certificationIssueReportRepositor
 
 async function _resolveWithNoImageInChallenge(certificationIssueReportRepository, certificationIssueReport) {
   certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle ne contient pas d\'image');
+  await certificationIssueReportRepository.save(certificationIssueReport);
+  return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
+}
+
+async function _resolveWithNoAttachmentInChallenge(certificationIssueReportRepository, certificationIssueReport) {
+  certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle ne contient pas de fichier à télécharger');
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
