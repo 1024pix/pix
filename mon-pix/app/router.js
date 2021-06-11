@@ -20,7 +20,6 @@ export default class Router extends EmberRouter {
 
 /* eslint-disable max-statements */
 Router.map(function() {
-
   this.route('index', { path: '/' });
   this.route('inscription');
 
@@ -50,8 +49,9 @@ Router.map(function() {
   this.route('not-connected', { path: '/nonconnecte' });
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
-  this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
+  this.route('recovery-account-after-leaving-sco', { path: '/sos' });
 
+  this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
   this.route('certifications', function() {
     this.route('start', { path: '/' });
     this.route('resume', { path: '/:certification_course_id' });
@@ -61,9 +61,10 @@ Router.map(function() {
   this.route('user-certifications', { path: 'mes-certifications' }, function() {
     this.route('get', { path: '/:id' });
   });
-  this.route('fill-in-certificate-verification-code', { path: '/verification-certificat' });
 
+  this.route('fill-in-certificate-verification-code', { path: '/verification-certificat' });
   this.route('fill-in-campaign-code', { path: '/campagnes' });
+
   this.route('campaigns', { path: '/campagnes/:code' }, function() {
     this.route('start-or-resume', { path: '/' });
     this.route('campaign-landing-page', { path: '/presentation' });
@@ -91,11 +92,10 @@ Router.map(function() {
   });
 
   this.route('terms-of-service', { path: '/cgu' });
-
   this.route('login-pe', { path: '/connexion-pole-emploi' });
   this.route('terms-of-service-pe', { path: '/cgu-pole-emploi' });
-  this.route('sitemap', { path: '/plan-du-site' });
 
+  this.route('sitemap', { path: '/plan-du-site' });
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
   this.route('not-found', { path: '/*path' });
 });
