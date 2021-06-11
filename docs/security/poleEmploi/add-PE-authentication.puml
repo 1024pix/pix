@@ -1,0 +1,47 @@
+@startuml
+actor Demandeur_d_emploi
+participant MonPix
+participant API_Pix
+participant Redis_Pix
+participant Bdd_Pix
+participant Pole_Emploi_Connect
+
+Demandeur_d_emploi -> MonPix: Se connecter via Pôle emploi
+MonPix -> Pole_Emploi_Connect: GET <PoleEmploi>/connexion/oauth2/authorize?realm=/individu
+Pole_Emploi_Connect -> Demandeur_d_emploi : Fournissez vos identifiants PE
+note right: Redirection vers le site Pôle Emploi
+
+Demandeur_d_emploi -> Pole_Emploi_Connect: Saisie des credentials
+Pole_Emploi_Connect --> MonPix: authorization_code, client_id,\nredirect_uri, state_sent et state_received
+note right: Redirection vers MonPix
+
+MonPix -> API_Pix: POST /api/token/pole-emploi\n access_token Pix
+note left: Transfert des données PE à Pix
+API_Pix -> API_Pix: Décodage de l'access_token Pix \n => userId
+
+API_Pix -> Pole_Emploi_Connect: POST <PoleEmploi>/connexion/oauth2/access_token\n client_id, authorization_code
+note right: Génération de tokens (access, ID, refresh)
+Pole_Emploi_Connect --> API_Pix: id_token, access_token, refresh_token
+
+API_Pix -> API_Pix: Décodage de l'id_token \n => family_name, given_name et idIdentiteExterne
+API_Pix -> Bdd_Pix: existe-t-il une **authentication-method** PE sur le userId?
+Bdd_Pix -> API_Pix : non
+API_Pix -> Bdd_Pix: Création de **authentication-method** PE \n avec token dans **authentication-complement**
+API_Pix -> MonPix: OK_200 + access_token Pix\n + id_token PE
+
+Demandeur_d_emploi -> MonPix: Démarrer la campagne
+note left: Début de la campagne PE
+MonPix -> API_Pix: GET /me
+
+Demandeur_d_emploi -> MonPix: Déconnexion
+note left: Fin de la campagne PE
+MonPix -> Pole_Emploi_Connect: GET <PoleEmploi>/deconnexion\navec redirect_uri et id_token
+note right: Demande de déconnexion de l'utilisateur
+
+Demandeur_d_emploi -> Pole_Emploi_Connect: Confirmation de déconnexion
+
+Pole_Emploi_Connect -> MonPix: Déconnexion et Redirection
+
+note left: Redirection <Mon-Pix>/logout-pe\nSupprimer les jetons de la session
+
+@enduml
