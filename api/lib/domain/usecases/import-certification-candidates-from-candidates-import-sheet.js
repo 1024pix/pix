@@ -1,6 +1,6 @@
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
 
-module.exports = async function importCertificationCandidatesFromAttendanceSheet({
+module.exports = async function importCertificationCandidatesFromCandidatesImportSheet({
   sessionId,
   odsBuffer,
   certificationCandidatesOdsService,
@@ -13,7 +13,7 @@ module.exports = async function importCertificationCandidatesFromAttendanceSheet
   }
 
   const certificationCandidates = await certificationCandidatesOdsService
-    .extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
+    .extractCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer });
 
   return certificationCandidateRepository.setSessionCandidates(sessionId, certificationCandidates);
 };

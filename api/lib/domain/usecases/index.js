@@ -259,7 +259,7 @@ module.exports = injectDependencies({
   getUserProfile: require('./get-user-profile'),
   getUserProfileSharedForCampaign: require('./get-user-profile-shared-for-campaign'),
   getUserWithMemberships: require('./get-user-with-memberships'),
-  importCertificationCandidatesFromAttendanceSheet: require('./import-certification-candidates-from-attendance-sheet'),
+  importCertificationCandidatesFromCandidatesImportSheet: require('./import-certification-candidates-from-candidates-import-sheet'),
   importHigherSchoolingRegistrations: require('./import-higher-schooling-registrations'),
   importSchoolingRegistrationsFromSIECLEFormat: require('./import-schooling-registrations-from-siecle'),
   improveCompetenceEvaluation: require('./improve-competence-evaluation'),

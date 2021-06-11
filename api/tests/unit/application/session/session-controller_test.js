@@ -246,7 +246,7 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 
-  describe('#importCertificationCandidatesFromAttendanceSheet', () => {
+  describe('#importCertificationCandidatesFromCandidatesImportSheet', () => {
 
     const sessionId = 2;
     let request;
@@ -258,18 +258,18 @@ describe('Unit | Controller | sessionController', () => {
         payload: { file: odsBuffer },
       };
 
-      sinon.stub(usecases, 'importCertificationCandidatesFromAttendanceSheet').resolves();
+      sinon.stub(usecases, 'importCertificationCandidatesFromCandidatesImportSheet').resolves();
     });
 
     it('should call the usecase to import certification candidates', async () => {
       // given
-      usecases.importCertificationCandidatesFromAttendanceSheet.resolves();
+      usecases.importCertificationCandidatesFromCandidatesImportSheet.resolves();
 
       // when
-      await sessionController.importCertificationCandidatesFromAttendanceSheet(request);
+      await sessionController.importCertificationCandidatesFromCandidatesImportSheet(request);
 
       // then
-      expect(usecases.importCertificationCandidatesFromAttendanceSheet).to.have.been.calledWith({
+      expect(usecases.importCertificationCandidatesFromCandidatesImportSheet).to.have.been.calledWith({
         sessionId,
         odsBuffer,
       });

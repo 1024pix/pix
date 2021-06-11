@@ -8,8 +8,8 @@ const { UnprocessableEntityError } = require('../../../../../lib/application/htt
 
 const {
   TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,
-} = require('../../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
-const { CURRENT_ATTENDANCE_SHEET_VERSION } = require('../../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
+} = require('../../../../../lib/infrastructure/files/candidates-import/candidates-import-transformation-structures');
+const { PIX_CERTIF_CANDIDATES_IMPORT_SHEET_VERSION } = require('../../../../../lib/infrastructure/files/candidates-import/candidates-import-transformation-structures');
 
 const {
   getContentXml, extractTableDataFromOdsFile, getOdsVersionByHeaders, getSheetDataRowsFromOdsBuffer,
@@ -230,7 +230,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
         const version = await getOdsVersionByHeaders({ odsBuffer, transformationStructsByVersion });
 
         // then
-        expect(version).to.equal(CURRENT_ATTENDANCE_SHEET_VERSION);
+        expect(version).to.equal(PIX_CERTIF_CANDIDATES_IMPORT_SHEET_VERSION);
       });
     });
 
@@ -280,7 +280,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
     it('should read range rows and get the appropriate headers', async () => {
       // given
       const expectedHeaders = _.find(
-        TRANSFORMATION_STRUCTS_BY_VERSION, { 'version': CURRENT_ATTENDANCE_SHEET_VERSION },
+        TRANSFORMATION_STRUCTS_BY_VERSION, { 'version': PIX_CERTIF_CANDIDATES_IMPORT_SHEET_VERSION },
       ).headers;
 
       // when
