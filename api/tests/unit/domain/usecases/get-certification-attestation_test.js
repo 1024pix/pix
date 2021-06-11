@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const get = require('../../../../lib/domain/usecases/certificate/get-certification-attestation');
 
-describe('Unit | UseCase | get', async () => {
+describe('Unit | UseCase | get-certification-attestation', async () => {
 
   const certificationAttestationRepository = {
     get: () => undefined,
