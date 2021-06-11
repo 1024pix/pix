@@ -491,7 +491,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
-      it('resolves the certtification issue report anyway', async () => {
+      it('resolves the certification issue report anyway', async () => {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -727,7 +727,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
-      it('resolves the certtification issue report anyway', async () => {
+      it('resolves the certification issue report anyway', async () => {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
