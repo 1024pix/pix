@@ -5,7 +5,7 @@ const { CertificationCandidatesImportError } = require('../../../../../lib/domai
 const { readFile } = require('fs').promises;
 const _ = require('lodash');
 
-describe('Integration | Services | extractCertificationCandidatesFromAttendanceSheet', () => {
+describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', () => {
   let userId;
   let sessionId;
 
@@ -25,7 +25,7 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
       const odsBuffer = await readFile(odsFilePath);
 
       // when
-      const error = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
+      const error = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet)({ sessionId, odsBuffer });
 
       // then
       expect(error).to.be.instanceOf(CertificationCandidatesImportError);
@@ -41,7 +41,7 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
       const odsBuffer = await readFile(odsFilePath);
 
       // when
-      const error = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
+      const error = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet)({ sessionId, odsBuffer });
 
       // then
       expect(error).to.be.instanceOf(CertificationCandidatesImportError);
@@ -89,7 +89,7 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
 
       // when
       const actualCertificationCandidates =
-        await certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet({
+        await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
           sessionId,
           odsBuffer,
         });

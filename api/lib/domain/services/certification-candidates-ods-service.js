@@ -1,16 +1,16 @@
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
 const {
   TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,
-} = require('../../infrastructure/files/attendance-sheet/attendance-sheet-transformation-structures');
+} = require('../../infrastructure/files/candidates-import/candidates-import-transformation-structures');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const { CertificationCandidatesImportError } = require('../errors');
 const _ = require('lodash');
 
 module.exports = {
-  extractCertificationCandidatesFromAttendanceSheet,
+  extractCertificationCandidatesFromCandidatesImportSheet,
 };
 
-async function extractCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer }) {
+async function extractCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer }) {
   let version = null;
   try {
     version = await readOdsUtils.getOdsVersionByHeaders({
