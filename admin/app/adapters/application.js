@@ -1,10 +1,12 @@
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import { inject as service } from '@ember/service';
 import ENV from 'pix-admin/config/environment';
 
-export default class ApplicationAdapter extends JSONAPIAdapter.extend(DataAdapterMixin) {
+export default class ApplicationAdapter extends JSONAPIAdapter {
+
   @service ajaxQueue;
+  @service session;
+
   host = ENV.APP.API_HOST;
   namespace = 'api';
 
