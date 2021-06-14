@@ -2,7 +2,6 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories, DeprecatedCertificationIssueReportCategory } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const { InvalidCertificationIssueReportForSaving } = require('../../../../lib/domain/errors');
-const CertificationIssueReportResolutionStrategies = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
 
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';
@@ -387,45 +386,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
           expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isAutoNeutralizable).to.be.false;
         });
       });
-    });
-
-    context('Matches resolution strategy with issue report subcategory', function() {
-      [
-        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'WEBSITE_BLOCKED', questionNumber: 42 },
-        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'WEBSITE_UNAVAILABLE', questionNumber: 42 },
-        {
-          certificationCourseId: 42,
-          category: 'IN_CHALLENGE',
-          subcategory: 'SOFTWARE_NOT_WORKING',
-          questionNumber: 42,
-        },
-      ].forEach((certificationIssueReportDTO) => {
-        it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should match with NEUTRALIZE_WITHOUT_CHECKING`, () => {
-          expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).resolutionStrategy).to.equal(CertificationIssueReportResolutionStrategies.NEUTRALIZE_WITHOUT_CHECKING);
-        });
-      });
-
-      it('for IN_CHALLENGE IMAGE_NOT_DISPLAYING should match with NEUTRALIZE_IF_IMAGE', () => {
-        expect(new CertificationIssueReport({
-          category: 'IN_CHALLENGE',
-          subcategory: 'IMAGE_NOT_DISPLAYING',
-        }).resolutionStrategy).to.equal(CertificationIssueReportResolutionStrategies.NEUTRALIZE_IF_IMAGE);
-      });
-
-      it('for IN_CHALLENGE EMBED_NOT_WORKING should match with NEUTRALIZE_IF_EMBED', () => {
-        expect(new CertificationIssueReport({
-          category: 'IN_CHALLENGE',
-          subcategory: 'EMBED_NOT_WORKING',
-        }).resolutionStrategy).to.equal(CertificationIssueReportResolutionStrategies.NEUTRALIZE_IF_EMBED);
-      });
-
-      it('for IN_CHALLENGE FILE_NOT_OPENING should match with NEUTRALIZE_IF_ATTACHMENT', () => {
-        expect(new CertificationIssueReport({
-          category: 'IN_CHALLENGE',
-          subcategory: 'FILE_NOT_OPENING',
-        }).resolutionStrategy).to.equal(CertificationIssueReportResolutionStrategies.NEUTRALIZE_IF_ATTACHMENT);
-      });
-
     });
   });
 
