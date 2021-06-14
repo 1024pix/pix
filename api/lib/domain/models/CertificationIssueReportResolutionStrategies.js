@@ -18,7 +18,7 @@ module.exports = {
     return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
   },
 
-  NEUTRALIZE_IF_ILLUSTRATION: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) => {
+  NEUTRALIZE_IF_IMAGE: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) => {
     const questionNumber = certificationIssueReport.questionNumber;
     const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
 
@@ -30,6 +30,23 @@ module.exports = {
 
     if (!challenge.hasIllustration()) {
       return _resolveWithNoImageInChallenge(certificationIssueReportRepository, certificationIssueReport);
+    }
+
+    return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
+  },
+
+  NEUTRALIZE_IF_ATTACHMENT: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) => {
+    const questionNumber = certificationIssueReport.questionNumber;
+    const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
+
+    if (!recId) {
+      return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+    }
+
+    const challenge = await challengeRepository.get(recId);
+
+    if (!challenge.hasAtLeastOneAttachment()) {
+      return _resolveWithNoAttachmentInChallenge(certificationIssueReportRepository, certificationIssueReport);
     }
 
     return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
@@ -74,8 +91,14 @@ async function _resolveWithNoImageInChallenge(certificationIssueReportRepository
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
+async function _resolveWithNoAttachmentInChallenge(certificationIssueReportRepository, certificationIssueReport) {
+  certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle ne contient pas de fichier à télécharger');
+  await certificationIssueReportRepository.save(certificationIssueReport);
+  return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
+}
+
 async function _resolveWithNoEmbedInChallenge(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle ne contient pas d\'embed');
+  certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle ne contient pas d\'application/simulateur');
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }

@@ -25,6 +25,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
     const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+    const challengeRepository = { get: sinon.stub() };
     const challengeToBeNeutralized1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false });
     const challengeToBeNeutralized2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456', isNeutralized: false });
     const challengeNotToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal789', isNeutralized: false });
@@ -64,10 +65,11 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
       certificationIssueReportRepository,
       certificationAssessmentRepository,
       certificationCourseRepository,
+      challengeRepository,
     });
 
     // then
-    expect(certificationIssueReport.resolutionStrategy).to.have.been.calledWith({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+    expect(certificationIssueReport.resolutionStrategy).to.have.been.calledWith({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
     expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
   });
 

@@ -12,6 +12,7 @@ async function handleAutoJury({
   certificationIssueReportRepository,
   certificationAssessmentRepository,
   certificationCourseRepository,
+  challengeRepository,
   logger,
 }) {
   checkEventTypes(event, eventTypes);
@@ -22,6 +23,7 @@ async function handleAutoJury({
       certificationCourse,
       certificationIssueReportRepository,
       certificationAssessmentRepository,
+      challengeRepository,
       logger,
     })));
 
@@ -43,6 +45,7 @@ async function _autoNeutralizeChallenges({
   certificationCourse,
   certificationIssueReportRepository,
   certificationAssessmentRepository,
+  challengeRepository,
   logger,
 }) {
   const certificationIssueReports = await certificationIssueReportRepository.findByCertificationCourseId(certificationCourse.id);
@@ -53,7 +56,7 @@ async function _autoNeutralizeChallenges({
 
   const resolutionAttempts = await bluebird.mapSeries(certificationIssueReports, async (certificationIssueReport) => {
     try {
-      return await certificationIssueReport.resolutionStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+      return await certificationIssueReport.resolutionStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
     } catch (e) {
       logger.error(e);
       return CertificationIssueReportResolutionAttempt.unresolved();
