@@ -1,0 +1,68 @@
+<h1>Collègiens, lycéens, vous quittez le système scolaire et vous souhaitez récupérer votre accès à Pix</h1>
+
+<p>Si vous possédez un compte avec une adresse e-mail valide, <LinkTo @route="password-reset-demand" >réinitialisez votre mot de passe ici</LinkTo></p>
+
+<p>Tous les champs sont obligatoires.</p>
+
+<form>
+
+  <FormTextfield @label="INE (Identifiant National Élève)"
+                 @textfieldName="INE"
+                 @inputBindingValue={{this.INE}}
+                 @onValidate={{this.triggerInputStringValidation}}
+                 @validationStatus={{this.validation.INE.status}}
+                 @validationMessage={{this.validation.INE.message}}
+                 @disabled={{this.matchingStudentFound}}
+                 @require={{true}}
+                 @hideRequired="true"
+                 @placeholder="123456789XX" />
+
+  <FormTextfield @label="Nom"
+                 @textfieldName="lastName"
+                 @inputBindingValue={{this.lastName}}
+                 @onValidate={{this.triggerInputStringValidation}}
+                 @validationStatus={{this.validation.lastName.status}}
+                 @validationMessage={{this.validation.lastName.message}}
+                 @autocomplete="lastname"
+                 @require={{true}}
+                 @hideRequired="true"
+                 @placeholder="Nom" />
+
+  <FormTextfield @label="Prénom"
+                 @textfieldName="firstName"
+                 @inputBindingValue={{this.firstName}}
+                 @onValidate={{this.triggerInputStringValidation}}
+                 @validationStatus={{this.validation.firstName.status}}
+                 @validationMessage={{this.validation.firstName.message}}
+                 @autocomplete="firstname"
+                 @require={{true}}
+                 @hideRequired="true"
+                 @placeholder="Prénom" />
+
+  <FormTextfieldDate @label="Date de naissance"
+                     @dayTextfieldName="dayOfBirth"
+                     @monthTextfieldName="monthOfBirth"
+                     @yearTextfieldName="yearOfBirth"
+                     @dayInputBindingValue={{this.dayOfBirth}}
+                     @monthInputBindingValue={{this.monthOfBirth}}
+                     @yearInputBindingValue={{this.yearOfBirth}}
+                     @onValidateDay={{this.triggerInputDayValidation}}
+                     @onValidateMonth={{this.triggerInputMonthValidation}}
+                     @onValidateYear={{this.triggerInputYearValidation}}
+                     @dayValidationStatus={{this.validation.dayOfBirth.status}}
+                     @monthValidationStatus={{this.validation.monthOfBirth.status}}
+                     @yearValidationStatus={{this.validation.yearOfBirth.status}}
+                     @dayValidationMessage={{this.validation.dayOfBirth.message}}
+                     @monthValidationMessage={{this.validation.monthOfBirth.message}}
+                     @yearValidationMessage={{this.validation.yearOfBirth.message}}
+                     @require={{true}}
+                     @hideRequired="true" />
+
+
+  <PixButton
+    @type="submit"
+    @triggerAction={{ this.submitStudentInformationForm}}
+  >
+    Retrouvez-moi !
+  </PixButton>
+</form>
