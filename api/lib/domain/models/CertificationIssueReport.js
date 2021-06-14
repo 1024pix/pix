@@ -227,5 +227,11 @@ function _getResolutionStrategy(subcategory) {
     return CertificationIssueReportStrategies.NEUTRALIZE_IF_EMBED;
   }
 
+  if (
+    subcategory === CertificationIssueReportSubcategories.FILE_NOT_OPENING
+  ) {
+    return CertificationIssueReportStrategies.NEUTRALIZE_IF_ATTACHMENT;
+  }
+
   return CertificationIssueReportStrategies.NONE;
 }

@@ -418,6 +418,14 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
           subcategory: 'EMBED_NOT_WORKING',
         }).resolutionStrategy).to.equal(CertificationIssueReportResolutionStrategies.NEUTRALIZE_IF_EMBED);
       });
+
+      it('for IN_CHALLENGE FILE_NOT_OPENING should match with NEUTRALIZE_IF_ATTACHMENT', () => {
+        expect(new CertificationIssueReport({
+          category: 'IN_CHALLENGE',
+          subcategory: 'FILE_NOT_OPENING',
+        }).resolutionStrategy).to.equal(CertificationIssueReportResolutionStrategies.NEUTRALIZE_IF_ATTACHMENT);
+      });
+
     });
   });
 
