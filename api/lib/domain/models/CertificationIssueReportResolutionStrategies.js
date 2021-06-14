@@ -18,7 +18,7 @@ module.exports = {
     return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
   },
 
-  NEUTRALIZE_IF_ILLUSTRATION: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) => {
+  NEUTRALIZE_IF_IMAGE: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) => {
     const questionNumber = certificationIssueReport.questionNumber;
     const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
 
