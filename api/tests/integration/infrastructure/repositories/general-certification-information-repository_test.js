@@ -58,13 +58,11 @@ describe('Integration | Repository | General certification information', functio
           birthplace: certificationCourseDTO.birthplace,
           certificationIssueReports: [
             { ...firstCertificationReport,
-              isAutoNeutralizable: false,
               isImpactful: true,
               resolution: 'challenge neutralized',
               resolvedAt: new Date('2021-01-01T00:00:00Z'),
             },
             { ...secondCertificationReport,
-              isAutoNeutralizable: false,
               isImpactful: true,
               resolution: null,
               resolvedAt: null,
