@@ -101,6 +101,11 @@
       margin: 16px 10px;
       width: auto;
     }
+
+    &:first-child,
+    &:nth-child(4) {
+      margin: 16px 8px;
+    }
   }
 
   @include device-is('tablet') {
