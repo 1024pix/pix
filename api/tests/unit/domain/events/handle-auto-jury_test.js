@@ -5,7 +5,6 @@ const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
 const CertificationJuryDone = require('../../../../lib/domain/events/CertificationJuryDone');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const { CertificationIssueReportSubcategories, CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const CertificationIssueReportResolutionAttempt = require('../../../../lib/domain/models/CertificationIssueReportResolutionAttempt');
 
 describe('Unit | Domain | Events | handle-auto-jury', () => {
 
@@ -44,8 +43,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     const certificationCourse = domainBuilder.buildCertificationCourse();
     const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
     const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.FRAUD, subcategory: undefined, questionNumber: 1 });
-    sinon.stub(certificationIssueReport, 'resolutionStrategy').resolves(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
-    sinon.stub(certificationIssueReport2, 'resolutionStrategy').resolves(CertificationIssueReportResolutionAttempt.unresolved());
+
     certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
     certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport, certificationIssueReport2 ]);
     certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
@@ -69,7 +67,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     });
 
     // then
-    expect(certificationIssueReport.resolutionStrategy).to.have.been.calledWith({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+    expect(certificationIssueReport.isResolved()).to.be.true;
     expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
   });
 
@@ -257,11 +255,13 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
         ],
       });
       const certificationCourse = domainBuilder.buildCertificationCourse();
-      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
-      const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.FRAUD, subcategory: undefined, questionNumber: 1 });
+      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING, questionNumber: 1 });
+      const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
+      const challengeRepository = {
+        get: sinon.stub(),
+      };
       const anError = new Error('something bad happened');
-      sinon.stub(certificationIssueReport, 'resolutionStrategy').rejects(anError);
-      sinon.stub(certificationIssueReport2, 'resolutionStrategy').resolves(CertificationIssueReportResolutionAttempt.unresolved());
+      challengeRepository.get.rejects(anError);
       certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
       certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport, certificationIssueReport2 ]);
       certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
@@ -284,11 +284,12 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
         certificationIssueReportRepository,
         certificationAssessmentRepository,
         certificationCourseRepository,
+        challengeRepository,
         logger,
       });
 
       // then
-      expect(certificationIssueReport2.resolutionStrategy).to.have.been.called;
+      expect(certificationIssueReport2.isResolved()).to.be.true;
       expect(logger.error).to.have.been.calledWith(anError);
     });
   });
