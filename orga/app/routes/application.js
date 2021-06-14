@@ -4,17 +4,18 @@ import get from 'lodash/get';
 // eslint-disable-next-line ember/no-mixins
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
-const DEFAULT_LOCALE = 'fr';
+const DEFAULT_FRENCH_LOCALE = 'fr';
 
 export default class ApplicationRoute extends Route.extend(ApplicationRouteMixin) {
 
   routeAfterAuthentication = 'authenticated';
 
+  //@service currentDomain;
   @service currentUser;
-  @service url;
+  @service featureToggles;
   @service intl;
   @service moment;
-  @service featureToggles;
+  @service url;
 
   async beforeModel(transition) {
     await this.featureToggles.load();
@@ -34,22 +35,38 @@ export default class ApplicationRoute extends Route.extend(ApplicationRouteMixin
 
   async _getUserAndLocale(lang = null) {
     await this._loadCurrentUser();
-    await this._updatePrescriberLocale(lang);
+    await this._updatePrescriberLanguage(lang);
     this._setLocale(lang);
   }
 
-  _updatePrescriberLocale(lang) {
+  async _updatePrescriberLanguage(lang) {
     const prescriber = this.currentUser.prescriber;
     if (!prescriber || !lang) return;
     if (prescriber.lang === lang) return;
 
-    prescriber.lang = lang;
-    return prescriber.save({ adapterOptions: { lang } });
+    try {
+      prescriber.lang = lang;
+      await prescriber.save({ adapterOptions: { lang } });
+    } catch (error) {
+      const status = get(error, 'errors[0].status');
+      if (status === '400') {
+        prescriber.rollbackAttributes();
+      } else {
+        throw error;
+      }
+    }
   }
 
-  _setLocale(lang = null) {
-    const locale = lang || get(this.currentUser, 'prescriber.lang', DEFAULT_LOCALE);
-    this.intl.setLocale([locale, DEFAULT_LOCALE]);
+  _setLocale(lang) {
+    let locale = DEFAULT_FRENCH_LOCALE;
+
+    if (!this.url.isFrenchDomainExtension) {
+      locale = this.intl.get('locales').includes(lang)
+        ? lang
+        : DEFAULT_FRENCH_LOCALE;
+    }
+
+    this.intl.setLocale([locale, DEFAULT_FRENCH_LOCALE]);
     this.moment.setLocale(locale);
   }
 
