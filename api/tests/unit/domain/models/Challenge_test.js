@@ -248,4 +248,34 @@ describe('Unit | Domain | Models | Challenge', () => {
       expect(challenge.hasEmbed()).to.be.false;
     });
   });
+
+  describe('#hasAtLeastOneAttachment', () => {
+    it('returns true when attachments is not empty', () => {
+      // given
+      const challenge = domainBuilder.buildChallenge({
+        attachments: ['some/attachment/url'],
+      });
+
+      // when then
+      expect(challenge.hasAtLeastOneAttachment()).to.be.true;
+    });
+
+    it('returns false when attachment is empty', () => {
+      // given
+      const challenge = domainBuilder.buildChallenge({
+        attachments: [],
+      });
+      // when then
+      expect(challenge.hasAtLeastOneAttachment()).to.be.false;
+    });
+
+    it('returns false when attachment is not an array (null, undefined, ...)', () => {
+      // given
+      const challenge = domainBuilder.buildChallenge({
+        attachments: 'not an array',
+      });
+      // when then
+      expect(challenge.hasAtLeastOneAttachment()).to.be.false;
+    });
+  });
 });
