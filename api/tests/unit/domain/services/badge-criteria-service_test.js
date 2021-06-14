@@ -165,44 +165,88 @@ describe('Unit | Domain | Services | badge-criteria', () => {
     });
 
     context('when the SOME_PARTNER_COMPETENCES is the only badge criterion', function() {
-      const badgeCriteria = [
-        domainBuilder.buildBadgeCriterion({
-          id: 1,
-          scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
-          threshold: CRITERION_THRESHOLD.SOME_PARTNER_COMPETENCES,
-          partnerCompetenceIds: [COMPETENCE_RESULT_ID.SECOND],
-        }),
-      ];
-      const badge = domainBuilder.buildBadge({ badgeCriteria });
-
-      it('should return true when fulfilled', async () => {
-        // given
-        const masteryPercentage = 10;
-        const partnerCompetenceResults = [
-          { id: COMPETENCE_RESULT_ID.FIRST, masteryPercentage: 10 },
-          { id: COMPETENCE_RESULT_ID.SECOND, masteryPercentage: 60 },
+      context('when the list of partnerCompetencesIds contains one partnerCompetence', () => {
+        const badgeCriteria = [
+          domainBuilder.buildBadgeCriterion({
+            id: 1,
+            scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+            threshold: CRITERION_THRESHOLD.SOME_PARTNER_COMPETENCES,
+            partnerCompetenceIds: [COMPETENCE_RESULT_ID.SECOND],
+          }),
         ];
+        const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-        // when
-        const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+        it('should return true when fulfilled', async () => {
+          // given
+          const masteryPercentage = 10;
+          const partnerCompetenceResults = [
+            { id: COMPETENCE_RESULT_ID.FIRST, masteryPercentage: 10 },
+            { id: COMPETENCE_RESULT_ID.SECOND, masteryPercentage: 61 },
+          ];
 
-        // then
-        expect(result).to.be.equal(true);
+          // when
+          const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+
+          // then
+          expect(result).to.be.equal(true);
+        });
+
+        it('should return false when not fulfilled', async () => {
+
+          const masteryPercentage = 10;
+          const partnerCompetenceResults = [
+            { id: COMPETENCE_RESULT_ID.FIRST, masteryPercentage: 70 },
+            { id: COMPETENCE_RESULT_ID.SECOND, masteryPercentage: 50 },
+          ];
+
+          // when
+          const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+
+          // then
+          expect(result).to.be.equal(false);
+        });
       });
 
-      it('should return false when not fulfilled', async () => {
-
-        const masteryPercentage = 10;
-        const partnerCompetenceResults = [
-          { id: COMPETENCE_RESULT_ID.FIRST, masteryPercentage: 10 },
-          { id: COMPETENCE_RESULT_ID.SECOND, masteryPercentage: 50 },
+      context('when the list of partnerCompetencesIds contains more than one', () => {
+        const badgeCriteria = [
+          domainBuilder.buildBadgeCriterion({
+            id: 1,
+            scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+            threshold: CRITERION_THRESHOLD.SOME_PARTNER_COMPETENCES,
+            partnerCompetenceIds: [COMPETENCE_RESULT_ID.FIRST, COMPETENCE_RESULT_ID.SECOND],
+          }),
         ];
+        const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-        // when
-        const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+        it('should return true when fulfilled for all partnerCompetence', async () => {
+          // given
+          const masteryPercentage = 10;
+          const partnerCompetenceResults = [
+            { id: COMPETENCE_RESULT_ID.FIRST, masteryPercentage: 62 },
+            { id: COMPETENCE_RESULT_ID.SECOND, masteryPercentage: 60 },
+          ];
 
-        // then
-        expect(result).to.be.equal(false);
+          // when
+          const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+
+          // then
+          expect(result).to.be.equal(true);
+        });
+
+        it('should return false when one is not fulfilled', async () => {
+
+          const masteryPercentage = 10;
+          const partnerCompetenceResults = [
+            { id: COMPETENCE_RESULT_ID.FIRST, masteryPercentage: 10 },
+            { id: COMPETENCE_RESULT_ID.SECOND, masteryPercentage: 65 },
+          ];
+
+          // when
+          const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+
+          // then
+          expect(result).to.be.equal(false);
+        });
       });
     });
 

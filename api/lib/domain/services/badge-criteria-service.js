@@ -53,11 +53,11 @@ function verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults,
 }
 
 function _verifySomePartnerCompetenceResultsMasteryPercentageCriterion(partnerCompetenceResults, threshold, criterionPartnerCompetenceIds) {
-  const filteredPartnerCompetenceResults = _.filter(partnerCompetenceResults, (partnerCompetenceResult) => {
-    return criterionPartnerCompetenceIds.includes(partnerCompetenceResult.id) && partnerCompetenceResult.masteryPercentage >= threshold;
-  });
+  const filteredPartnerCompetenceResults = _.filter(partnerCompetenceResults,
+    (partnerCompetenceResult) => criterionPartnerCompetenceIds.includes(partnerCompetenceResult.id));
 
-  return !_.isEmpty(filteredPartnerCompetenceResults);
+  return _.every(filteredPartnerCompetenceResults,
+    (partnerCompetenceResult) => partnerCompetenceResult.masteryPercentage >= threshold);
 }
 
 function _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds) {
