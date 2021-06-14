@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { convertDateValue } = require('../../utils/date-utils');
 
-const CURRENT_ATTENDANCE_SHEET_VERSION = '1.4';
+const PIX_CERTIF_CANDIDATES_IMPORT_SHEET_VERSION = '1.4';
 // These are transformation structures. They provide all the necessary info
 // on how to transform cell values in an attendance sheet into a target JS object.
 // Such a structure is an array holding objects with 3 properties. One object
@@ -162,6 +162,6 @@ function _getHeadersFromTransformationStruct(transformationStruct) {
 }
 
 module.exports = {
-  CURRENT_ATTENDANCE_SHEET_VERSION,
+  PIX_CERTIF_CANDIDATES_IMPORT_SHEET_VERSION,
   TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,
 };

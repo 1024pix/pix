@@ -168,7 +168,7 @@ exports.register = async (server) => {
           method: sessionAuthorization.verify,
           assign: 'authorizationCheck',
         }],
-        handler: sessionController.importCertificationCandidatesFromAttendanceSheet,
+        handler: sessionController.importCertificationCandidatesFromCandidatesImportSheet,
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés et appartenant à un centre de certification ayant créé la session**\n' +
