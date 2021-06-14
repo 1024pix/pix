@@ -39,7 +39,6 @@ describe('Integration | Repository | CertificationReport', function() {
           certificationIssueReports: [
             { ...certificationIssueReport1,
               isImpactful: true,
-              isAutoNeutralizable: false,
             },
           ],
           hasSeenEndTestScreen: certificationCourse1.hasSeenEndTestScreen,
