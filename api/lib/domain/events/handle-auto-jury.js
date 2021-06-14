@@ -4,6 +4,7 @@ const CertificationIssueReportResolutionAttempt = require('../models/Certificati
 const AutoJuryDone = require('./AutoJuryDone');
 const CertificationJuryDone = require('./CertificationJuryDone');
 const bluebird = require('bluebird');
+const { CertificationIssueReportResolutionStrategies } = require('../models/CertificationIssueReportResolutionStrategies');
 
 const eventTypes = [ SessionFinalized ];
 
@@ -18,12 +19,17 @@ async function handleAutoJury({
   checkEventTypes(event, eventTypes);
   const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({ sessionId: event.sessionId });
 
+  const resolutionStrategies = new CertificationIssueReportResolutionStrategies({
+    certificationIssueReportRepository,
+    challengeRepository,
+  });
+
   const certificationJuryDoneEvents = await Promise.all(certificationCourses.map(async(certificationCourse) =>
     _autoNeutralizeChallenges({
       certificationCourse,
       certificationIssueReportRepository,
       certificationAssessmentRepository,
-      challengeRepository,
+      resolutionStrategies,
       logger,
     })));
 
@@ -45,7 +51,7 @@ async function _autoNeutralizeChallenges({
   certificationCourse,
   certificationIssueReportRepository,
   certificationAssessmentRepository,
-  challengeRepository,
+  resolutionStrategies,
   logger,
 }) {
   const certificationIssueReports = await certificationIssueReportRepository.findByCertificationCourseId(certificationCourse.id);
@@ -56,7 +62,7 @@ async function _autoNeutralizeChallenges({
 
   const resolutionAttempts = await bluebird.mapSeries(certificationIssueReports, async (certificationIssueReport) => {
     try {
-      return await certificationIssueReport.resolutionStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+      return await resolutionStrategies.resolve({ certificationIssueReport, certificationAssessment });
     } catch (e) {
       logger.error(e);
       return CertificationIssueReportResolutionAttempt.unresolved();

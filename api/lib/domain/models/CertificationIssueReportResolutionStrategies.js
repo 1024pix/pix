@@ -1,64 +1,116 @@
 const CertificationIssueReportResolutionAttempt = require('./CertificationIssueReportResolutionAttempt');
+const { CertificationIssueReportSubcategories } = require('./CertificationIssueReportCategory');
+
+async function neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) {
+  const questionNumber = certificationIssueReport.questionNumber;
+  const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
+
+  if (!recId) {
+    return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+  }
+
+  const challenge = await challengeRepository.get(recId);
+
+  if (!challenge.hasEmbed()) {
+    return _resolveWithNoEmbedInChallenge(certificationIssueReportRepository, certificationIssueReport);
+  }
+
+  return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
+}
+
+async function neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) {
+  const questionNumber = certificationIssueReport.questionNumber;
+  const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
+
+  if (!recId) {
+    return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+  }
+
+  const challenge = await challengeRepository.get(recId);
+
+  if (!challenge.hasIllustration()) {
+    return _resolveWithNoImageInChallenge(certificationIssueReportRepository, certificationIssueReport);
+  }
+
+  return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
+}
+
+async function neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) {
+  const questionNumber = certificationIssueReport.questionNumber;
+  const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
+
+  if (!recId) {
+    return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+  }
+
+  const challenge = await challengeRepository.get(recId);
+
+  if (!challenge.hasAtLeastOneAttachment()) {
+    return _resolveWithNoAttachmentInChallenge(certificationIssueReportRepository, certificationIssueReport);
+  }
+
+  return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
+}
+
+async function neutralizeWithoutCheckingStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository }) {
+  return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
+}
+
+async function doNotResolveStrategy() {
+  return CertificationIssueReportResolutionAttempt.unresolved();
+}
+
+class CertificationIssueReportResolutionStrategies {
+  constructor({
+    neutralizeWithoutChecking = neutralizeWithoutCheckingStrategy,
+    neutralizeIfImage = neutralizeIfImageStrategy,
+    neutralizeIfEmbed = neutralizeIfEmbedStrategy,
+    neutralizeIfAttachment = neutralizeIfAttachmentStrategy,
+    doNotResolve = doNotResolveStrategy,
+    certificationIssueReportRepository,
+    challengeRepository,
+  }) {
+    this._neutralizeWithoutChecking = neutralizeWithoutChecking;
+    this._neutralizeIfImage = neutralizeIfImage;
+    this._neutralizeIfEmbed = neutralizeIfEmbed;
+    this._neutralizeIfAttachment = neutralizeIfAttachment;
+    this._doNotResolve = doNotResolve;
+    this._certificationIssueReportRepository = certificationIssueReportRepository;
+    this._challengeRepository = challengeRepository;
+  }
+
+  async resolve({ certificationIssueReport, certificationAssessment }) {
+    const strategyParameters = {
+      certificationIssueReport,
+      certificationAssessment,
+      certificationIssueReportRepository: this._certificationIssueReportRepository,
+      challengeRepository: this._challengeRepository,
+    };
+
+    switch (certificationIssueReport.subcategory) {
+      case CertificationIssueReportSubcategories.WEBSITE_BLOCKED:
+      case CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE:
+      case CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING:
+        return await this._neutralizeWithoutChecking(strategyParameters);
+      case CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING:
+        return await this._neutralizeIfImage(strategyParameters);
+      case CertificationIssueReportSubcategories.EMBED_NOT_WORKING:
+        return await this._neutralizeIfEmbed(strategyParameters);
+      case CertificationIssueReportSubcategories.FILE_NOT_OPENING:
+        return await this._neutralizeIfAttachment(strategyParameters);
+      default:
+        return await this._doNotResolve(strategyParameters);
+    }
+  }
+}
 
 module.exports = {
-  NEUTRALIZE_IF_EMBED: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) => {
-    const questionNumber = certificationIssueReport.questionNumber;
-    const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
-
-    if (!recId) {
-      return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
-    }
-
-    const challenge = await challengeRepository.get(recId);
-
-    if (!challenge.hasEmbed()) {
-      return _resolveWithNoEmbedInChallenge(certificationIssueReportRepository, certificationIssueReport);
-    }
-
-    return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
-  },
-
-  NEUTRALIZE_IF_IMAGE: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) => {
-    const questionNumber = certificationIssueReport.questionNumber;
-    const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
-
-    if (!recId) {
-      return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
-    }
-
-    const challenge = await challengeRepository.get(recId);
-
-    if (!challenge.hasIllustration()) {
-      return _resolveWithNoImageInChallenge(certificationIssueReportRepository, certificationIssueReport);
-    }
-
-    return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
-  },
-
-  NEUTRALIZE_IF_ATTACHMENT: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) => {
-    const questionNumber = certificationIssueReport.questionNumber;
-    const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
-
-    if (!recId) {
-      return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
-    }
-
-    const challenge = await challengeRepository.get(recId);
-
-    if (!challenge.hasAtLeastOneAttachment()) {
-      return _resolveWithNoAttachmentInChallenge(certificationIssueReportRepository, certificationIssueReport);
-    }
-
-    return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
-  },
-
-  NEUTRALIZE_WITHOUT_CHECKING: async ({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository }) => {
-    return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
-  },
-
-  NONE: async () => {
-    return CertificationIssueReportResolutionAttempt.unresolved();
-  },
+  neutralizeWithoutCheckingStrategy,
+  neutralizeIfImageStrategy,
+  neutralizeIfEmbedStrategy,
+  neutralizeIfAttachmentStrategy,
+  doNotResolveStrategy,
+  CertificationIssueReportResolutionStrategies,
 };
 
 function _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport) {
