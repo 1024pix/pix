@@ -125,7 +125,7 @@ describe('Unit | Serializer | organization-serializer', () => {
             type: organizationAttributes.type,
             email: organizationAttributes.email,
             credit: organizationAttributes.credit,
-            logoUrl: organizationAttributes.logoUrl,
+            'logo-url': organizationAttributes.logoUrl,
             'external-id': organizationAttributes.externalId,
             'province-code': organizationAttributes.provinceCode,
             'is-managing-students': organizationAttributes.isManagingStudents,

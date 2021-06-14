@@ -60,7 +60,7 @@ module.exports = {
       type: attributes.type,
       email: attributes.email,
       credit: attributes.credit,
-      logoUrl: attributes.logoUrl,
+      logoUrl: attributes['logo-url'],
       externalId: attributes['external-id'],
       provinceCode: attributes['province-code'],
       isManagingStudents: attributes['is-managing-students'],
