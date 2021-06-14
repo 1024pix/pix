@@ -91,7 +91,7 @@ class Challenge {
   }
 
   _orderAttachments(attachments) {
-    if (!attachments) {
+    if (!attachments || !Array.isArray(attachments)) {
       return [];
     }
     const openSourceFormats = ['odp', 'ods', 'odt'];
