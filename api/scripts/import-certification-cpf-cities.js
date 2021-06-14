@@ -1,9 +1,10 @@
+#!/usr/bin/env node
+
 /* eslint-disable no-console */
 // Usage: node import-certification-cpf-cities path/file.csv
 // File downloaded from https://public.opendatasoft.com/explore/dataset/correspondance-code-insee-code-postal/export/?flg=fr
 
 'use strict';
-require('dotenv').config();
 const { parseCsv } = require('./helpers/csvHelpers');
 const { knex } = require('../lib/infrastructure/bookshelf');
 const { uniqBy } = require('lodash');
@@ -36,13 +37,11 @@ function buildCities({ csvData }) {
   return uniqBy(citiesWithAlternates, 'name');
 }
 
-async function main() {
+async function main(filePath) {
   console.log('Starting script import-certification-cpf-cities');
 
   let trx;
   try {
-    const filePath = process.argv[2];
-
     console.log('Reading and parsing csv data file... ');
     const csvData = await parseCsv(filePath, { header: true, delimiter: ';', skipEmptyLines: true });
     console.log('ok');
@@ -70,7 +69,8 @@ async function main() {
 }
 
 if (require.main === module) {
-  main().then(
+  const filePath = process.argv[2];
+  main(filePath).then(
     () => process.exit(0),
     (err) => {
       console.error(err);

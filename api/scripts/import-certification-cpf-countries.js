@@ -1,10 +1,11 @@
+#!/usr/bin/env node
+
 /* eslint-disable no-console */
 // Usage: node import-coutries-data path/file.csv
 // File Millésime 2021 : Liste des pays et territoires étrangers au 01/01/2021
 // downloaded from https://www.data.gouv.fr/fr/datasets/code-officiel-geographique-cog/
 
 'use strict';
-require('dotenv').config();
 const { parseCsv } = require('./helpers/csvHelpers');
 const { knex } = require('../lib/infrastructure/bookshelf');
 const { sanitizeAndSortChars } = require('../lib/infrastructure/utils/string-utils');
@@ -73,13 +74,11 @@ function checkTransformUnicity(countries) {
   if (hasError) throw new Error('There are more than 1 transformed name with distinct code');
 }
 
-async function main() {
+async function main(filePath) {
   console.log('Starting script import-certification-cpf-countries');
   const trx = await knex.transaction();
 
   try {
-    const filePath = process.argv[2];
-
     console.log('Reading and parsing csv data file... ');
     const csvData = await parseCsv(filePath, { header: true, delimiter: ',', skipEmptyLines: true });
     console.log('ok');
@@ -109,7 +108,8 @@ async function main() {
 }
 
 if (require.main === module) {
-  main().then(
+  const filePath = process.argv[2];
+  main(filePath).then(
     () => process.exit(0),
     (err) => {
       console.error(err);
