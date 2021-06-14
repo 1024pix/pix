@@ -164,12 +164,12 @@ module.exports = {
       .then((certificationReports) => certificationReportSerializer.serialize(certificationReports));
   },
 
-  async importCertificationCandidatesFromAttendanceSheet(request) {
+  async importCertificationCandidatesFromCandidatesImportSheet(request) {
     const sessionId = parseInt(request.params.id);
     const odsBuffer = request.payload.file;
 
     try {
-      await usecases.importCertificationCandidatesFromAttendanceSheet({ sessionId, odsBuffer });
+      await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer });
     } catch (err) {
       if (err instanceof CertificationCandidateAlreadyLinkedToUserError) {
         throw new BadRequestError(err.message);

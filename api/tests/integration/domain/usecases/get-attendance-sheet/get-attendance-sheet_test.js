@@ -30,10 +30,10 @@ describe('Integration | UseCases | getAttendanceSheet', () => {
     }).id;
 
     _.each([
-      { lastName: 'Jackson', firstName: 'Michael', birthCity: 'Paris', birthProvinceCode: '75', birthCountry: 'France', email: 'jackson@gmail.com', birthdate: '2004-04-04', sessionId, externalId: 'ABC123', extraTimePercentage: 0.6 },
-      { lastName: 'Jackson', firstName: 'Janet', birthCity: 'Ajaccio', birthProvinceCode: '2A', birthCountry: 'France', email: 'jaja@hotmail.fr', birthdate: '2005-12-05', sessionId, externalId: 'DEF456', extraTimePercentage: null },
-      { lastName: 'Mercury', firstName: 'Freddy', birthCity: 'Sainte-Anne', birthProvinceCode: '971', birthCountry: 'France', email: null, birthdate: '1925-06-28', sessionId, externalId: 'GHI789', extraTimePercentage: 1.5 },
-      { lastName: 'Gallagher', firstName: 'Jack', birthCity: 'Londres', birthProvinceCode: '99', birthCountry: 'Angleterre', email: 'jack@d.it', birthdate: '1980-08-10', sessionId, externalId: null, extraTimePercentage: 0.15 },
+      { lastName: 'Jackson', firstName: 'Michael', birthdate: '2004-04-04', sessionId, externalId: 'ABC123', extraTimePercentage: 0.6 },
+      { lastName: 'Jackson', firstName: 'Janet', birthdate: '2005-12-05', sessionId, externalId: 'DEF456', extraTimePercentage: null },
+      { lastName: 'Mercury', firstName: 'Freddy', birthdate: '1925-06-28', sessionId, externalId: 'GHI789', extraTimePercentage: 1.5 },
+      { lastName: 'Gallagher', firstName: 'Jack', birthdate: '1980-08-10', sessionId, externalId: null, extraTimePercentage: 0.15 },
     ], (candidate) => {
       databaseBuilder.factory.buildCertificationCandidate(candidate);
     });

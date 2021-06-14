@@ -1,12 +1,12 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
-const importCertificationCandidatesFromAttendanceSheet = require('../../../../lib/domain/usecases/import-certification-candidates-from-attendance-sheet');
+const importCertificationCandidatesFromCandidatesImportSheet = require('../../../../lib/domain/usecases/import-certification-candidates-from-candidates-import-sheet');
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
 const certificationCandidatesOdsService = require('../../../../lib/domain/services/certification-candidates-ods-service');
 
 describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', () => {
 
-  describe('#importCertificationCandidatesFromAttendanceSheet', () => {
+  describe('#importCertificationCandidatesFromCandidatesImportSheet', () => {
     const sessionId = 'sessionId';
     const odsBuffer = 'buffer';
     const certificationCandidates = 'extractedCandidates';
@@ -21,7 +21,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
 
       it('should throw a BadRequestError', async () => {
         // when
-        const result = await catchErr(importCertificationCandidatesFromAttendanceSheet)({
+        const result = await catchErr(importCertificationCandidatesFromCandidatesImportSheet)({
           sessionId,
           odsBuffer,
           certificationCandidatesOdsService,
@@ -40,7 +40,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
         sinon.stub(certificationCandidateRepository, 'doesLinkedCertificationCandidateInSessionExist')
           .withArgs({ sessionId })
           .resolves(false);
-        sinon.stub(certificationCandidatesOdsService, 'extractCertificationCandidatesFromAttendanceSheet')
+        sinon.stub(certificationCandidatesOdsService, 'extractCertificationCandidatesFromCandidatesImportSheet')
           .withArgs({ sessionId, odsBuffer })
           .resolves(certificationCandidates);
         sinon.stub(certificationCandidateRepository, 'setSessionCandidates')
@@ -50,7 +50,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
 
       it('should call the appropriate methods', async function() {
         // when
-        await importCertificationCandidatesFromAttendanceSheet({
+        await importCertificationCandidatesFromCandidatesImportSheet({
           sessionId,
           odsBuffer,
           certificationCandidatesOdsService,
@@ -59,9 +59,9 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
 
         // then
         expect(certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist).to.have.been.calledWith({ sessionId });
-        expect(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet).to.have.been.calledWith({ sessionId, odsBuffer });
+        expect(certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet).to.have.been.calledWith({ sessionId, odsBuffer });
         expect(certificationCandidateRepository.setSessionCandidates).to.have.been.calledWith(sessionId, certificationCandidates);
-        expect(certificationCandidateRepository.setSessionCandidates.calledAfter(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet))
+        expect(certificationCandidateRepository.setSessionCandidates.calledAfter(certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet))
           .to.be.true;
       });
     });
