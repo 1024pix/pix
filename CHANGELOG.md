@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.64.0 (14/06/2021)
+
+- [#3094](https://github.com/1024pix/pix/pull/3094) [FEATURE] Afficher les fichiers microsoft en premier dans les épreuves (PIX-2612).
+- [#3097](https://github.com/1024pix/pix/pull/3097) [FEATURE] Simplification de la feuille d'émargement (PIX-2656)
+- [#3088](https://github.com/1024pix/pix/pull/3088) [FEATURE] Détecter lorsque l'utilisateur perd le focus de l'onglet actif (PIX-2616).
+- [#3079](https://github.com/1024pix/pix/pull/3079) [FEATURE] Afficher toujours les pages en français sur orga.pix.fr (PIX-2560).
+- [#3093](https://github.com/1024pix/pix/pull/3093) [FEATURE] Prise en compte auto des signalements sur les fichiers qui ne s'ouvrent pas (PIX-2590)
+- [#3067](https://github.com/1024pix/pix/pull/3067) [FEATURE] Afficher une fin de parcours personnalisé à la fin d'une campagne à accès simplifié (PIX-2613).
+- [#3081](https://github.com/1024pix/pix/pull/3081) [FEATURE] Proposer un nouveau template de liste de candidats pour l'import qui contient les données pour le CPF (PIX-2654)
+- [#2994](https://github.com/1024pix/pix/pull/2994) [FEATURE] Affichage du macaron d'obtention de la certification Pix+ Droit sur l'attestation PDF (PIX-2527)
+- [#3074](https://github.com/1024pix/pix/pull/3074) [FEATURE] Auto neutraliser les questions portant sur les images ou simulateurs (PIX-2589).
+- [#3095](https://github.com/1024pix/pix/pull/3095) [BUGFIX] Permettre la mise à jour du logo d'une organisation (PIX-2711).
+- [#3096](https://github.com/1024pix/pix/pull/3096) [BUGFIX] Le critère "SomePartnerCompetences" pouvait ne pas prendre toutes les compétences (PIX-2720).
+- [#3054](https://github.com/1024pix/pix/pull/3054) [BUGFIX] Stocker les données d'authentification PE temporairement (PIX-2607).
+- [#2852](https://github.com/1024pix/pix/pull/2852) [TECH] Détecter via un script les classes css non utiles dans une app.
+- [#3084](https://github.com/1024pix/pix/pull/3084) [CLEAN] Lever une erreur lorsque la réponse donnée contient une clé inexistante (PIX-2424).
+
 ## v3.63.0 (10/06/2021)
 
 - [#3064](https://github.com/1024pix/pix/pull/3064) [FEATURE] Ajout du graphique de participants par statut (PIX-2662)
