@@ -2,25 +2,28 @@ const _ = require('lodash');
 const Badge = require('../models/Badge');
 const PartnerCertificationScoring = require('./PartnerCertificationScoring');
 const { NotEligibleCandidateError } = require('../errors');
-const Joi = require('joi')
-  .extend(require('@joi/date'));
+const Joi = require('joi');
 const { validateEntity } = require('../validators/entity-validator');
-
-const MIN_PERCENTAGE = 75;
 
 const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED, MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED } = require('../constants');
 
-function _isOverPercentage(value = 0, total, percentage = MIN_PERCENTAGE) {
-  return value >= (total * percentage / 100);
+function _isScoreOver75PercentOfExpectedScore(score, expectedScore) {
+  return score >= (expectedScore * 75 / 100);
 }
 
-function _hasRequiredPixValue({ maxReachablePixByCompetenceForClea, cleaCompetenceMarks }) {
-  const certifiableCompetenceIds = _.map(cleaCompetenceMarks, 'competenceId');
-  return !_.isEmpty(certifiableCompetenceIds)
-    && _.every(certifiableCompetenceIds, (competenceId) => _isOverPercentage(
-      _.find(cleaCompetenceMarks, { competenceId }).score,
-      maxReachablePixByCompetenceForClea[competenceId],
-    ));
+function _hasRequiredPixScoreForAtLeast75PercentOfCompetences({ maxReachablePixByCompetenceForClea, cleaCompetenceMarks }) {
+  if (cleaCompetenceMarks.length === 0) return false;
+
+  const countCompetencesWithRequiredPixScore = _(cleaCompetenceMarks)
+    .filter((cleaCompetenceMark) => {
+      const currentCompetenceScore = cleaCompetenceMark.score;
+      const expectedCompetenceScore = maxReachablePixByCompetenceForClea[cleaCompetenceMark.competenceId];
+      return _isScoreOver75PercentOfExpectedScore(currentCompetenceScore, expectedCompetenceScore);
+    })
+    .size();
+
+  const minimumCompetenceCountWithRequiredScore = _.floor(cleaCompetenceMarks.length * 0.75);
+  return countCompetencesWithRequiredPixScore >= minimumCompetenceCountWithRequiredScore;
 }
 
 function _hasSufficientReproducibilityRateToBeTrusted(reproducibilityRate) {
@@ -77,7 +80,7 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
 
     if (_hasSufficientReproducibilityRateToBeTrusted(this.reproducibilityRate)) return true;
 
-    return _hasRequiredPixValue({
+    return _hasRequiredPixScoreForAtLeast75PercentOfCompetences({
       cleaCompetenceMarks: this.cleaCompetenceMarks,
       maxReachablePixByCompetenceForClea: this.maxReachablePixByCompetenceForClea,
     });
