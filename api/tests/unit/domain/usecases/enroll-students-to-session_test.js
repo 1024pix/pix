@@ -25,6 +25,8 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
           firstName: sr.firstName,
           lastName: sr.lastName,
           birthdate: sr.birthdate,
+          birthINSEECode: sr.birthCityCode,
+          sex: sr.sex,
           sessionId: sessionId,
           schoolingRegistrationId: sr.id,
         });
@@ -72,6 +74,8 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
         firstName: 'Sarah Michelle ',
         lastName: ' Gellar',
         birthdate: '2020-01-01',
+        sex: 'F',
+        birthCityCode: '48512',
         organization: organizationForReferent,
       });
 
@@ -79,6 +83,8 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
         firstName: 'Sarah Michelle',
         lastName: 'Gellar',
         birthdate: '2020-01-01',
+        sex: 'F',
+        birthINSEECode: '48512',
         sessionId: sessionId,
         schoolingRegistrationId: 1,
       });

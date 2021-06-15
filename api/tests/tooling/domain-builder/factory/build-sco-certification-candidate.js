@@ -5,18 +5,19 @@ module.exports = function buildSCOCertificationCandidate({
   firstName = 'Myriam',
   lastName = 'Meilleure',
   birthdate = '2006-06-06',
+  sex = 'F',
+  birthINSEECode = '66001',
   sessionId = 456,
   schoolingRegistrationId = 789,
 } = {}) {
-
-  const scoCertificationCandidate = new SCOCertificationCandidate({
+  return new SCOCertificationCandidate({
     id,
     firstName,
     lastName,
     birthdate,
+    sex,
+    birthINSEECode,
     sessionId,
     schoolingRegistrationId,
   });
-
-  return scoCertificationCandidate;
 };
