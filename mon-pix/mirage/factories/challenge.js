@@ -128,4 +128,7 @@ export default Factory.extend({
     embedHeight: '100',
   }),
 
+  withFocused: trait({
+    focused: true,
+  }),
 });
