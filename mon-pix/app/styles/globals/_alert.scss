@@ -6,25 +6,25 @@
   color: $white;
   text-shadow: none;
   font-size: 0.875rem;
+
+  &--success {
+    border: 1px solid $green;
+    background-color: $green;
+  }
+
+  &--danger {
+    border: 1px solid $dark-error;
+    background-color: $dark-error;
+  }
+
+  &--warning {
+    border: 1px solid $warning;
+    background-color: $warning;
+  }
 }
 
 .challenge-response + .alert {
   margin: 0 5px;
-}
-
-.alert-success {
-  border: 1px solid $green;
-  background-color: $green;
-}
-
-.alert-danger {
-  border: 1px solid $dark-error;
-  background-color: $dark-error;
-}
-
-.alert-warning {
-  border: 1px solid $warning;
-  background-color: $warning;
 }
 
 abbr.mandatory-mark {
