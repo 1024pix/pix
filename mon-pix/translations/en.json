@@ -916,7 +916,21 @@
       "succeed": "Your password has been changed successfully."
     },
     "recovery-account-after-leaving-sco": {
-      "title": "TODO..."
+      "title": "TODO...",
+      "student-information": {
+        "title": "TODO...",
+        "subtitle": {
+          "link": "TODO...",
+          "text": "TODO..."
+        },
+        "form": {
+          "ine": "TODO...",
+          "last-name": "TODO...",
+          "first-name": "TODO...",
+          "birthdate": "TODO...",
+          "submit": "TODO..."
+        }
+      }
     },
     "result-item": {
       "aband": "No answer",

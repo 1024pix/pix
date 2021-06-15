@@ -916,7 +916,21 @@
       "succeed": "Votre mot de passe a été modifié avec succès."
     },
     "recovery-account-after-leaving-sco": {
-      "title": "Récupérer son compte Pix"
+      "title": "Récupérer son compte Pix",
+      "student-information": {
+        "title": "Collègiens, lycéens, vous quittez le système scolaire et vous souhaitez récupérer votre accès à Pix",
+        "subtitle": {
+          "link": "réinitialisez votre mot de passe ici",
+          "text": "Si vous possédez un compte avec une adresse e-mail valide, "
+        },
+        "form": {
+          "ine": "INE (Identifiant National Élève)",
+          "last-name": "Nom",
+          "first-name": "Prénom",
+          "birthdate": "Date de naissance",
+          "submit": "Retrouvez-moi !"
+        }
+      }
     },
     "result-item": {
       "aband": "Pas de réponse",
