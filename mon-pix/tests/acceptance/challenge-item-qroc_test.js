@@ -369,4 +369,31 @@ describe('Acceptance | Displaying a QROC challenge', () => {
     });
   });
 
+  describe('when user has focused out of document', function() {
+    it('should display a warning alert when challenge is set as focused', async function() {
+      // given
+      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+      server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
+
+      // when
+      await visit(`/assessments/${assessment.id}/challenges/0`);
+      await triggerEvent(document, 'blur');
+
+      // then
+      expect(find('.alert-warning')).to.exist;
+    });
+
+    it('should not display a warning alert when challenge is not set as focused', async function() {
+      // given
+      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+      server.create('challenge', 'forCompetenceEvaluation', 'QROC');
+
+      // when
+      await visit(`/assessments/${assessment.id}/challenges/0`);
+      await triggerEvent(document, 'blur');
+
+      // then
+      expect(find('.alert-warning')).to.not.exist;
+    });
+  });
 });

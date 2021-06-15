@@ -11,26 +11,24 @@ export default class ChallengeItemGeneric extends Component {
   @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
   @tracked hasFocusedOut = false;
-  _watcher;
 
   constructor() {
     super(...arguments);
+
     if (this.args.challenge.focused) {
-      this._startWatcher();
+      this._setOnBlurMethod();
     }
   }
 
-  _startWatcher() {
-    this._watcher = setInterval(() => {
-      if (document.hasFocus() === false) {
-        this.hasFocusedOut = true;
-        this._stopWatcher();
-      }
-    }, 1000);
+  _setOnBlurMethod() {
+    document.onblur = () => {
+      this.hasFocusedOut = true;
+      this._clearOnBlurMethod();
+    };
   }
 
-  _stopWatcher() {
-    clearInterval(this._watcher);
+  _clearOnBlurMethod() {
+    document.onblur = null;
   }
 
   get isTimedChallenge() {
