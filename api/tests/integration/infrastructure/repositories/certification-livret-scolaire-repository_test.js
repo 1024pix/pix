@@ -260,7 +260,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResults[0].id).to.equal(lastCertificationCourse.id);
     });
 
-    it('should return no negative competence level', async () => {
+    it('should return 0 (low level) and -1 (rejected) competence level', async () => {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
@@ -270,7 +270,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       buildValidatedPublishedCertificationData(
         {
           user, schoolingRegistration, verificationCode, pixScore, competenceMarks: [{
-            code: '1.1', level: 5,
+            code: '1.1', level: 0,
           }, {
             code: '5.2', level: -1,
           }],
@@ -280,9 +280,9 @@ describe('Integration | Repository | Certification-ls ', () => {
       await databaseBuilder.commit();
 
       const expectedCompetenceResults = [{
-        competenceId: '1.1', level: 5,
+        competenceId: '1.1', level: 0,
       }, {
-        competenceId: '5.2', level: 0,
+        competenceId: '5.2', level: -1,
       },
       ];
 
