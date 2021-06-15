@@ -18,7 +18,7 @@
       {{#if @challenge.hasSingleAttachment}}
         <div class="challenge-statement__action">
           <a class="challenge-statement__action-link"
-             href="{{@challenge.attachments.firstObject}}"
+             href="{{this.orderedAttachments.firstObject}}"
              target="_blank"
              rel="noopener noreferrer"
              download>
@@ -39,7 +39,7 @@
         </div>
         </p>
         <ul class="challenge-statement__file-options">
-          {{#each @challenge.attachments as |attachmentUrl index|}}
+          {{#each this.orderedAttachments as |attachmentUrl index|}}
             <li class="challenge-statement__file-option">
 
               {{!-- This radiobutton is hidden  - SVG displayed instead - but needed to handle behaviour. --}}
