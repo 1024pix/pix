@@ -17,9 +17,10 @@ describe('Integration | Component | recovery-account-student-information-form', 
     await render(hbs`<RecoveryAccountStudentInformationForm />`);
 
     // then
-    expect(contains('Collègiens, lycéens, vous quittez le système scolaire et vous souhaitez récupérer votre accès à Pix')).to.exist;
-    expect(contains('Si vous possédez un compte avec une adresse e-mail valide, réinitialisez votre mot de passe ici')).to.exist;
-    expect(contains('Tous les champs sont obligatoires.')).to.exist;
+    expect(contains(this.intl.t('pages.recovery-account-after-leaving-sco.student-information.title'))).to.exist;
+    expect(contains(this.intl.t('pages.recovery-account-after-leaving-sco.student-information.subtitle.text'))).to.exist;
+    expect(contains(this.intl.t('pages.recovery-account-after-leaving-sco.student-information.subtitle.link'))).to.exist;
+    expect(contains(this.intl.t('common.form.mandatory-all-fields'))).to.exist;
   });
 
   it('should call queryRecord store method', async function() {
@@ -40,13 +41,13 @@ describe('Integration | Component | recovery-account-student-information-form', 
     await render(hbs`<RecoveryAccountStudentInformationForm />`);
 
     // when
-    await fillInByLabel('INE (Identifiant National Élève)', ine);
-    await fillInByLabel('Nom', lastName);
-    await fillInByLabel('Prénom', firstName);
+    await fillInByLabel(this.intl.t('pages.recovery-account-after-leaving-sco.student-information.form.ine'), ine);
+    await fillInByLabel(this.intl.t('pages.recovery-account-after-leaving-sco.student-information.form.last-name'), lastName);
+    await fillInByLabel(this.intl.t('pages.recovery-account-after-leaving-sco.student-information.form.first-name'), firstName);
     await fillIn('#dayOfBirth', dayOfBirth);
     await fillIn('#monthOfBirth', monthOfBirth);
     await fillIn('#yearOfBirth', yearOfBirth);
-    await clickByLabel('Retrouvez-moi !');
+    await clickByLabel(this.intl.t('pages.recovery-account-after-leaving-sco.student-information.form.submit'));
 
     // then
     sinon.assert.calledWithExactly(queryRecordStub, 'user', { ine, lastName, firstName, birthdate: '2000-5-20' });

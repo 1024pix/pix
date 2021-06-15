@@ -1,12 +1,16 @@
-<h1>Collègiens, lycéens, vous quittez le système scolaire et vous souhaitez récupérer votre accès à Pix</h1>
+<h1>{{t 'pages.recovery-account-after-leaving-sco.student-information.title'}}</h1>
 
-<p>Si vous possédez un compte avec une adresse e-mail valide, <LinkTo @route="password-reset-demand" >réinitialisez votre mot de passe ici</LinkTo></p>
+<p>
+  {{t 'pages.recovery-account-after-leaving-sco.student-information.subtitle.text'}}
+  <LinkTo @route="password-reset-demand" >
+    {{t 'pages.recovery-account-after-leaving-sco.student-information.subtitle.link'}}
+  </LinkTo>
+</p>
 
-<p>Tous les champs sont obligatoires.</p>
+<p>{{t 'common.form.mandatory-all-fields'}}</p>
 
 <form>
-
-  <FormTextfield @label="INE (Identifiant National Élève)"
+  <FormTextfield @label={{t 'pages.recovery-account-after-leaving-sco.student-information.form.ine'}}
                  @textfieldName="INE"
                  @inputBindingValue={{this.INE}}
                  @onValidate={{this.triggerInputStringValidation}}
@@ -17,7 +21,7 @@
                  @hideRequired="true"
                  @placeholder="123456789XX" />
 
-  <FormTextfield @label="Nom"
+  <FormTextfield @label={{t 'pages.recovery-account-after-leaving-sco.student-information.form.last-name'}}
                  @textfieldName="lastName"
                  @inputBindingValue={{this.lastName}}
                  @onValidate={{this.triggerInputStringValidation}}
@@ -28,7 +32,7 @@
                  @hideRequired="true"
                  @placeholder="Nom" />
 
-  <FormTextfield @label="Prénom"
+  <FormTextfield @label={{t 'pages.recovery-account-after-leaving-sco.student-information.form.first-name'}}
                  @textfieldName="firstName"
                  @inputBindingValue={{this.firstName}}
                  @onValidate={{this.triggerInputStringValidation}}
@@ -39,7 +43,7 @@
                  @hideRequired="true"
                  @placeholder="Prénom" />
 
-  <FormTextfieldDate @label="Date de naissance"
+  <FormTextfieldDate @label={{t 'pages.recovery-account-after-leaving-sco.student-information.form.birthdate'}}
                      @dayTextfieldName="dayOfBirth"
                      @monthTextfieldName="monthOfBirth"
                      @yearTextfieldName="yearOfBirth"
@@ -60,11 +64,9 @@
                      @require={{true}}
                      @hideRequired="true" />
 
-
   <PixButton
     @type="submit"
-    @triggerAction={{ this.submitStudentInformationForm}}
-  >
-    Retrouvez-moi !
+    @triggerAction={{ this.submitStudentInformationForm}} >
+    {{t 'pages.recovery-account-after-leaving-sco.student-information.form.submit'}}
   </PixButton>
 </form>
