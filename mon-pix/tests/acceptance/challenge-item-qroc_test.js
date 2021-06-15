@@ -380,7 +380,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       await triggerEvent(document, 'blur');
 
       // then
-      expect(find('.alert-warning')).to.exist;
+      expect(find('.alert--warning')).to.exist;
     });
 
     it('should not display a warning alert when challenge is not set as focused', async function() {
@@ -393,7 +393,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       await triggerEvent(document, 'blur');
 
       // then
-      expect(find('.alert-warning')).to.not.exist;
+      expect(find('.alert--warning')).to.not.exist;
     });
   });
 });
