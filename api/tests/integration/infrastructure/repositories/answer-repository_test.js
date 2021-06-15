@@ -106,8 +106,8 @@ describe('Integration | Repository | answerRepository', () => {
           timeSpent: 20,
         });
         databaseBuilder.factory.buildAssessment({ id: 2 });
-        databaseBuilder.factory.buildAnswer({ ...firstAnswer, result: 'ok' });
         databaseBuilder.factory.buildAnswer({ ...secondAnswer, result: 'ko' });
+        databaseBuilder.factory.buildAnswer({ ...firstAnswer, result: 'ok' });
         databaseBuilder.factory.buildAnswer();
         await databaseBuilder.commit();
 
