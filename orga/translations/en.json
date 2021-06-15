@@ -81,25 +81,25 @@
     },
     "participants-by-status": {
       "labels-tooltip": {
-        "started": "Started: {percentage, number, ::percent .0}",
-        "completed": "Completed: {percentage, number, ::percent .0}",
-        "shared": "Shared: {percentage, number, ::percent .0}",
+        "started": "In progress: {percentage, number, ::percent .0}",
+        "completed": "Pending results: {percentage, number, ::percent .0}",
+        "shared": "Submitted results: {percentage, number, ::percent .0}",
         "shared-profile": "Shared profiles: {percentage, number, ::percent .0}"
       },
       "labels-a11y": {
-        "started": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} started",
-        "completed": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} completed",
-        "shared": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} shared",
-        "shared-profile": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} shared profiles"
+        "started": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} in progress",
+        "completed": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} with pending results",
+        "shared": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} with submitted results",
+        "shared-profile": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}} with shared profiles"
       },
       "labels-legend": {
-        "started": "Started ({count})",
-        "completed": "Completed ({count})",
-        "shared": "Shared ({count})",
+        "started": "In progress ({count})",
+        "completed": "Pending results ({count})",
+        "shared": "Submitted results ({count})",
         "shared-profile": "Shared profiles ({count})"
       },
       "loader": "Loading statuses distribution",
-      "title": "Statuses distribution"
+      "title": "Statuses"
     }
   },
   "navigation": {
