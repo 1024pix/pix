@@ -38,19 +38,27 @@ function _toDomain(bookshelfAnswer) {
   return null;
 }
 
+function _toDomainFromKnex(answerDTO) {
+  return new Answer({
+    ...answerDTO,
+    result: answerStatusDatabaseAdapter.fromSQLString(answerDTO.result),
+  });
+}
+
 module.exports = {
 
-  get(answerId) {
-    return BookshelfAnswer.where('id', answerId)
-      .fetch()
-      .then(_toDomain)
-      .catch((error) => {
-        if (error instanceof BookshelfAnswer.NotFoundError) {
-          throw new NotFoundError(`Not found answer for ID ${answerId}`);
-        }
+  async get(id) {
+    const result = await Bookshelf.knex
+      .select('id', 'result', 'resultDetails', 'timeout', 'value', 'assessmentId', 'challengeId', 'timeSpent')
+      .from('answers')
+      .where({ id })
+      .first();
 
-        throw error;
-      });
+    if (!result) {
+      throw new NotFoundError(`Not found answer for ID ${id}`);
+    }
+
+    return _toDomainFromKnex(result);
   },
 
   findByIds(answerIds) {
