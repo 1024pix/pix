@@ -1,5 +1,6 @@
 const { expect, knex, domainBuilder, databaseBuilder, sinon, catchErr, compareDatabaseObject } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
+const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const answerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adapters/answer-status-database-adapter');
 const BookshelfKnowledgeElement = require('../../../../lib/infrastructure/orm-models/KnowledgeElement');
 
@@ -36,20 +37,32 @@ describe('Integration | Repository | answerRepository', () => {
     });
 
     context('when there is an answer', () => {
-      let answerId;
-
-      beforeEach(() => {
-        answerId = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentId }).id;
-        return databaseBuilder.commit();
-      });
 
       it('should retrieve an answer from its id', async () => {
+        // given
+        const expectedAnswer = domainBuilder.buildAnswer({
+          id: 1,
+          result: AnswerStatus.OK,
+          resultDetails: 'some details',
+          timeout: 456,
+          value: 'Fruits',
+          assessmentId: 2,
+          challengeId: 'recChallenge123',
+          timeSpent: 20,
+        });
+        databaseBuilder.factory.buildAssessment({ id: 2 });
+        databaseBuilder.factory.buildAnswer({
+          ...expectedAnswer,
+          result: 'ok',
+        });
+        await databaseBuilder.commit();
+
         // when
-        const foundAnswer = await answerRepository.get(answerId);
+        const foundAnswer = await answerRepository.get(1);
 
         // then
         expect(foundAnswer).to.be.an.instanceof(Answer);
-        expect(foundAnswer.id).to.equal(answerId);
+        expect(foundAnswer).to.deep.equal(expectedAnswer);
       });
     });
   });
