@@ -1,11 +1,21 @@
 .certification-details-answer {
   .certification-details-answer-skill {
-    font-size: 0.8em;
+    font-size: 0.8125rem;
   }
 
-  .certification-details-answer-id,
+  .certification-details-answer-challenge {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 0.8125rem;
+  }
+
+  .certification-details-answer-challenge-link {
+    display: flex;
+    font-size: 0.8125rem;
+  }
+
   .certification-details-answer-order {
-    font-size: 10px;
+    font-size: 0.8125rem;
   }
 
 

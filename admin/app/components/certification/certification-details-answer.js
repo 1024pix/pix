@@ -31,6 +31,14 @@ export default class CertificationDetailsAnswer extends Component {
     return this.hasJuryResult ? 'answer-result jury' : 'answer-result';
   }
 
+  get linkToChallengePreviewInPixApp() {
+    return `https://app.recette.pix.fr/challenges/${this.args.answer.challengeId}/preview`;
+  }
+
+  get linkToChallengeInfoInPixEditor() {
+    return `https://editor.pix.fr/#/challenge/${this.args.answer.challengeId}`;
+  }
+
   @action
   selectOption(selected) {
     const answer = this.args.answer;
