@@ -99,7 +99,7 @@
         "shared-profile": "Profils reçus ({count})"
       },
       "loader": "Chargement des proportions par statut",
-      "title": "Proportions par statut"
+      "title": "Statuts"
     }
   },
   "navigation": {
