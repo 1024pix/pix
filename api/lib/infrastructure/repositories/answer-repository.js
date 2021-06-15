@@ -45,11 +45,13 @@ function _toDomainFromKnex(answerDTO) {
   });
 }
 
+const FIELDS = Object.freeze(['id', 'result', 'resultDetails', 'timeout', 'value', 'assessmentId', 'challengeId', 'timeSpent']);
+
 module.exports = {
 
   async get(id) {
     const result = await Bookshelf.knex
-      .select('id', 'result', 'resultDetails', 'timeout', 'value', 'assessmentId', 'challengeId', 'timeSpent')
+      .select(FIELDS)
       .from('answers')
       .where({ id })
       .first();
@@ -61,11 +63,14 @@ module.exports = {
     return _toDomainFromKnex(result);
   },
 
-  findByIds(answerIds) {
-    return BookshelfAnswer.where('id', 'in', answerIds)
-      .orderBy('id')
-      .fetchAll()
-      .then((answers) => answers.models.map(_toDomain));
+  async findByIds(ids) {
+    const answerDTOs = await Bookshelf.knex
+      .select(FIELDS)
+      .from('answers')
+      .whereIn('id', ids)
+      .orderBy('id');
+
+    return answerDTOs.map((answerDTO) => _toDomainFromKnex(answerDTO));
   },
 
   findByChallengeAndAssessment({ challengeId, assessmentId }) {
