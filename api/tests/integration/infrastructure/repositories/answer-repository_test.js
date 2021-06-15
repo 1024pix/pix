@@ -71,7 +71,7 @@ describe('Integration | Repository | answerRepository', () => {
 
     context('when there are no answers', () => {
 
-      it('should return an empty list if nothing is found', async () => {
+      it('should return an empty list', async () => {
         // when
         const foundAnswers = await answerRepository.findByIds([100]);
 
@@ -80,23 +80,43 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    context('when there is an answer', () => {
-      let answerIds;
-
-      beforeEach(() => {
-        const firstAnswerId = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentId }).id;
-        const secondAnswerId = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentId }).id;
-        answerIds = [firstAnswerId, secondAnswerId];
-        return databaseBuilder.commit();
-      });
+    context('when there are answers', () => {
 
       it('should retrieve all answers from its id', async () => {
+        // given
+        const firstAnswer = domainBuilder.buildAnswer({
+          id: 1,
+          result: AnswerStatus.OK,
+          resultDetails: 'some details',
+          timeout: 456,
+          value: 'Fruits',
+          assessmentId: 2,
+          challengeId: 'recChallenge123',
+          timeSpent: 20,
+        });
+
+        const secondAnswer = domainBuilder.buildAnswer({
+          id: 2,
+          result: AnswerStatus.KO,
+          resultDetails: 'some details',
+          timeout: null,
+          value: 'Fruits',
+          assessmentId: 2,
+          challengeId: 'recChallenge456',
+          timeSpent: 20,
+        });
+        databaseBuilder.factory.buildAssessment({ id: 2 });
+        databaseBuilder.factory.buildAnswer({ ...firstAnswer, result: 'ok' });
+        databaseBuilder.factory.buildAnswer({ ...secondAnswer, result: 'ko' });
+        databaseBuilder.factory.buildAnswer();
+        await databaseBuilder.commit();
+
         // when
-        const foundAnswers = await answerRepository.findByIds(answerIds);
+        const foundAnswers = await answerRepository.findByIds([1, 2]);
 
         // then
         expect(foundAnswers[0]).to.be.an.instanceof(Answer);
-        expect(_.map(foundAnswers, 'id')).to.have.members(answerIds);
+        expect(foundAnswers).to.deep.equal([firstAnswer, secondAnswer]);
       });
     });
   });
