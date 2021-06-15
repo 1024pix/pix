@@ -122,27 +122,48 @@ describe('Integration | Repository | answerRepository', () => {
   });
 
   describe('#findByChallengeAndAssessment', () => {
+    let expectedAnswer;
 
     beforeEach(() => {
+      expectedAnswer = domainBuilder.buildAnswer({ id: 1, value: 'answer value', challengeId, assessmentId, result: AnswerStatus.OK });
       _.each([
-        { value: 'answer value', challengeId, assessmentId }, // nominal case
-        { challengeId: otherChallengeId, assessmentId }, // same assessmentId, different challengeId
-        { challengeId, assessmentId: otherAssessmentId }, // different assessmentId, same challengeId
-      ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
+        expectedAnswer,
+        domainBuilder.buildAnswer({ id: 2, challengeId: otherChallengeId, assessmentId }),
+        domainBuilder.buildAnswer({ id: 3, challengeId, assessmentId: otherAssessmentId }),
+      ], (answer) => (databaseBuilder.factory.buildAnswer({ ...answer, result: 'ok' })));
       return databaseBuilder.commit();
     });
 
     it('should find the answer by challenge and assessment and return its in an object', async () => {
       // when
-      const foundAnswers = await answerRepository.findByChallengeAndAssessment({
+      const foundAnswer = await answerRepository.findByChallengeAndAssessment({
         challengeId,
         assessmentId,
       });
 
       // then
-      expect(foundAnswers).to.exist;
-      expect(foundAnswers).to.be.an.instanceOf(Answer);
-      expect(foundAnswers.value).to.equal('answer value');
+      expect(foundAnswer).to.be.an.instanceOf(Answer);
+      expect(foundAnswer).to.deep.equal(expectedAnswer);
+    });
+
+    it('should returns null if there is no assessment matching', async () => {
+      const foundAnswer = await answerRepository.findByChallengeAndAssessment({
+        challengeId,
+        assessmentId: 4,
+      });
+
+      // then
+      expect(foundAnswer).to.be.null;
+    });
+
+    it('should returns null if there is no challengeId matching', async () => {
+      const foundAnswer = await answerRepository.findByChallengeAndAssessment({
+        challengeId: 'myNonExistentChallengeid',
+        assessmentId,
+      });
+
+      // then
+      expect(foundAnswer).to.be.null;
     });
   });
 
