@@ -3,8 +3,18 @@
     <div class="certification-details-answer-skill">
       {{@answer.skill}}
     </div>
-    <div class="certification-details-answer-id">
-      {{@answer.challengeId}}
+    <div class="certification-details-answer-challenge">
+      <div data-test-answer-challengeId>
+        {{@answer.challengeId}}
+      </div>
+      <div class="certification-details-answer-challenge-links">
+        <a href={{this.linkToChallengePreviewInPixApp}} target="_blank" rel="noreferrer noopener" data-test-link-preview>
+          Preview
+        </a>|
+        <a href={{this.linkToChallengeInfoInPixEditor}} target="_blank" rel="noreferrer noopener" data-test-link-info>
+          Info
+        </a>
+      </div>
     </div>
     <div class="certification-details-answer-order">
       (numéro : {{@answer.order}})

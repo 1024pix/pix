@@ -57,7 +57,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
 
     // then
     assert.dom('.certification-details-answer-skill').hasText('@skill5');
-    assert.dom('.certification-details-answer-id').hasText('rec12345');
+    assert.dom('[data-test-answer-challengeId]').hasText('rec12345');
     assert.dom('.certification-details-answer-order').hasText('(numéro : 5)');
     assert.dom('.ember-power-select-selected-item').hasText('Succès partiel');
   });
@@ -109,4 +109,19 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     assert.equal(answerData.jury, null);
   });
 
+  test('it should render links to challenge preview and info', async function(assert) {
+    // given
+    this.setProperties({
+      answer: answerData,
+    });
+
+    // when
+    await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} />`);
+
+    // Then
+    assert.dom('[data-test-link-preview]').hasText('Preview');
+    assert.dom('[data-test-link-preview]').hasAttribute('href', 'https://app.recette.pix.fr/challenges/rec12345/preview');
+    assert.dom('[data-test-link-info]').hasText('Info');
+    assert.dom('[data-test-link-info]').hasAttribute('href', 'https://editor.pix.fr/#/challenge/rec12345');
+  });
 });
