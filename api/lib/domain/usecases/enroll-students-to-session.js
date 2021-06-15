@@ -31,6 +31,8 @@ module.exports = async function enrollStudentsToSession({
       firstName: student.firstName.trim(),
       lastName: student.lastName.trim(),
       birthdate: student.birthdate,
+      birthINSEECode: student.birthCityCode,
+      sex: student.sex,
       sessionId,
       schoolingRegistrationId: student.id,
     });

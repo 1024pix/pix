@@ -39,6 +39,11 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
         domainBuilder.buildSCOCertificationCandidate(scoCandidateAlreadySaved2),
         domainBuilder.buildSCOCertificationCandidate({
           id: null,
+          firstName: 'Bobby',
+          lastName: 'LaPointe',
+          birthdate: '2001-01-04',
+          sex: 'M',
+          birthINSEECode: '75005',
           schoolingRegistrationId: schoolingRegistrationId3,
           sessionId,
         }),
@@ -210,7 +215,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
 });
 
 function fieldsToBeCompared(candidate) {
-  return _.pick(candidate, ['firstName', 'lastName', 'birthdate', 'schoolingRegistrationId', 'sessionId']);
+  return _.pick(candidate, ['firstName', 'lastName', 'birthdate', 'sex', 'birthINSEECode', 'schoolingRegistrationId', 'sessionId']);
 }
 
 function candidatesToBeCompared(candidates) {
