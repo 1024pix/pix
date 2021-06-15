@@ -16,26 +16,20 @@ export default class ChallengeItemGeneric extends Component {
   constructor() {
     super(...arguments);
     if (this.args.challenge.focused) {
-      setInterval(this.verifyUserIsStillFocusingOnPage, 1000);
+      this._startWatcher();
     }
   }
 
-  verifyUserIsStillFocusingOnPage() {
-    if (document.hasFocus() === false) {
-      console.log('user lost focus');
-    }
-  }
-
-  startWatcher() {
+  _startWatcher() {
     this._watcher = setInterval(() => {
       if (document.hasFocus() === false) {
         this.hasFocusedOut = true;
-        this.stopWatcher();
+        this._stopWatcher();
       }
     }, 1000);
   }
 
-  stopWatcher() {
+  _stopWatcher() {
     clearInterval(this._watcher);
   }
 
