@@ -65,6 +65,7 @@ export default class ParticipantsByStatus extends Component {
     return {
       tooltip: this.intl.t(datasetLabels.tooltip, { percentage }),
       legend: this.intl.t(datasetLabels.legend, { count }),
+      legendTooltip: this.intl.t(datasetLabels.legendTooltip, { count }),
       a11y: this.intl.t(datasetLabels.a11y, { count }),
       color: datasetLabels.color,
     };
@@ -75,18 +76,21 @@ const LABELS_ASSESSMENT = {
   started: {
     tooltip: 'charts.participants-by-status.labels-tooltip.started',
     legend: 'charts.participants-by-status.labels-legend.started',
+    legendTooltip: 'charts.participants-by-status.labels-legend.started-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.started',
     color: '#FFBE00',
   },
   completed: {
     tooltip: 'charts.participants-by-status.labels-tooltip.completed',
     legend: 'charts.participants-by-status.labels-legend.completed',
+    legendTooltip: 'charts.participants-by-status.labels-legend.completed-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.completed',
     color: '#8a49ff',
   },
   shared: {
     tooltip: 'charts.participants-by-status.labels-tooltip.shared',
     legend: 'charts.participants-by-status.labels-legend.shared',
+    legendTooltip: 'charts.participants-by-status.labels-legend.shared-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.shared',
     color: '#038a25',
   },
@@ -96,18 +100,21 @@ const LABELS_PROFILE_COLLECTIONS = {
   started: {
     tooltip: 'charts.participants-by-status.labels-tooltip.started',
     legend: 'charts.participants-by-status.labels-legend.started',
+    legendTooltip: 'charts.participants-by-status.labels-legend.started-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.started',
     color: '#FFBE00',
   },
   completed: {
     tooltip: 'charts.participants-by-status.labels-tooltip.completed',
     legend: 'charts.participants-by-status.labels-legend.completed',
+    legendTooltip: 'charts.participants-by-status.labels-legend.completed-profile-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.completed',
     color: '#8a49ff',
   },
   shared: {
     tooltip: 'charts.participants-by-status.labels-tooltip.shared-profile',
     legend: 'charts.participants-by-status.labels-legend.shared-profile',
+    legendTooltip: 'charts.participants-by-status.labels-legend.shared-profile-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.shared-profile',
     color: '#038a25',
   },
