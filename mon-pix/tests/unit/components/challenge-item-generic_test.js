@@ -15,8 +15,8 @@ describe('Unit | Component | Challenge item Generic', function() {
     [
       { timer: undefined, answer: undefined, hasUserConfirmedWarning: false, expectedResult: true },
       { timer: undefined, answer: 'banana', hasUserConfirmedWarning: false, expectedResult: true },
-      { timer: 55, answer: 'banana', hasUserConfirmedWarning: false, expectedResult: true },
       { timer: 55, answer: undefined, hasUserConfirmedWarning: true, expectedResult: true },
+      { timer: 55, answer: 'banana', hasUserConfirmedWarning: false, expectedResult: true },
       { timer: 55, answer: undefined, hasUserConfirmedWarning: false, expectedResult: false },
     ].forEach((data) => {
 
