@@ -1,4 +1,3 @@
-const fp = require('lodash/fp');
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
 const BookshelfAnswer = require('../orm-models/Answer');
@@ -111,11 +110,14 @@ module.exports = {
     return _toDomainFromKnex(answerDTO);
   },
 
-  findChallengeIdsFromAnswerIds(answerIds) {
-    return Bookshelf.knex('answers')
-      .distinct('challengeId')
-      .whereIn('id', answerIds)
-      .then(fp.map('challengeId'));
+  async findChallengeIdsFromAnswerIds(ids) {
+    const answerPartialDTOs = await Bookshelf.knex
+      .select('challengeId')
+      .from('answers')
+      .whereIn('id', ids)
+      .orderBy('challengeId');
+
+    return _(answerPartialDTOs).map('challengeId').uniq().value();
   },
 
   findCorrectAnswersByAssessmentId(assessmentId) {
