@@ -1,40 +1,34 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
-export default class ApplicationRoute extends Route.extend(ApplicationRouteMixin) {
+export default class ApplicationRoute extends Route {
 
   @service currentUser;
-  @service notifications;
-  @service url;
   @service featureToggles;
+  @service notifications;
+  @service session;
+  @service url;
 
-  routeAfterAuthentication = 'authenticated';
+  constructor() {
+    super(...arguments);
+    this.session.on('invalidationSucceeded', () => this._handleInvalidation());
+  }
 
   async beforeModel() {
     await this.featureToggles.load();
     return this._loadCurrentUser();
   }
 
-  async sessionAuthenticated() {
-    await this._loadCurrentUser();
-    this.transitionTo(this.routeAfterAuthentication);
-  }
-
-  sessionInvalidated() {
-    const redirectionUrl = this._redirectionUrl();
-    this._clearStateAndRedirect(redirectionUrl);
-  }
-
-  _clearStateAndRedirect(url) {
-    return window.location.replace(url);
+  _handleInvalidation() {
+    const routeAfterInvalidation = this._getRouteAfterInvalidation();
+    this.session.handleInvalidation(routeAfterInvalidation);
   }
 
   _loadCurrentUser() {
     return this.currentUser.load();
   }
 
-  _redirectionUrl() {
+  _getRouteAfterInvalidation() {
     const alternativeRootURL = this.session.alternativeRootURL;
     this.session.alternativeRootURL = null;
 
