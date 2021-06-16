@@ -408,7 +408,7 @@ describe('Integration | Repository | answerRepository', () => {
 
     context('when assessment has some answers', () => {
 
-      it('should return the valid answers only', async () => {
+      it('should return the valid answers only ordered by id', async () => {
         // given
         const firstAnswer = domainBuilder.buildAnswer({
           id: 1,
@@ -441,9 +441,9 @@ describe('Integration | Repository | answerRepository', () => {
           timeSpent: 45,
         });
         databaseBuilder.factory.buildAssessment({ id: 123 });
+        databaseBuilder.factory.buildAnswer({ ...thirdAnswer, result: 'ok' });
         databaseBuilder.factory.buildAnswer({ ...firstAnswer, result: 'ok' });
         databaseBuilder.factory.buildAnswer({ ...secondAnswer, result: 'ko' });
-        databaseBuilder.factory.buildAnswer({ ...thirdAnswer, result: 'ok' });
         await databaseBuilder.commit();
 
         // when
