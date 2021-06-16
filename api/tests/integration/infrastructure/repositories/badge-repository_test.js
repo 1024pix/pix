@@ -53,7 +53,7 @@ describe('Integration | Repository | Badge', () => {
 
     badgeCriterionForBadgeWithPartnerCompetences = {
       id: 123,
-      scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+      scope: BadgeCriterion.SCOPES.SKILL_SET,
       threshold: 53,
       partnerCompetenceIds: [1, 2],
     };
