@@ -9,7 +9,7 @@ module.exports = {
   },
 
   async updateStage(request, h) {
-    const stageId = parseInt(request.params.id);
+    const stageId = request.params.id;
     const prescriberTitle = request.payload.data.attributes['prescriber-title'];
     const prescriberDescription = request.payload.data.attributes['prescriber-description'];
     await usecases.updateStage({ stageId, prescriberTitle, prescriberDescription });
@@ -17,7 +17,7 @@ module.exports = {
   },
 
   async getStageDetails(request) {
-    const stageId = parseInt(request.params.id);
+    const stageId = request.params.id;
     const stage = await usecases.getStageDetails({ stageId });
     return stageSerializer.serialize(stage);
   },

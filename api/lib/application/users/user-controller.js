@@ -41,13 +41,13 @@ module.exports = {
   },
 
   async getUserDetailsForAdmin(request) {
-    const userId = parseInt(request.params.id);
+    const userId = request.params.id;
     const userDetailsForAdmin = await usecases.getUserDetailsForAdmin({ userId });
     return userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
   },
 
   async updateEmail(request, h) {
-    const userId = parseInt(request.params.id);
+    const userId = request.params.id;
     const authenticatedUserId = request.auth.credentials.userId;
     const { email, password } = request.payload.data.attributes;
     const locale = extractLocaleFromRequest(request);
@@ -64,7 +64,7 @@ module.exports = {
   },
 
   async updatePassword(request) {
-    const userId = parseInt(request.params.id);
+    const userId = request.params.id;
     const password = request.payload.data.attributes.password;
 
     const updatedUser = await usecases.updateUserPassword({
@@ -77,7 +77,7 @@ module.exports = {
   },
 
   async updateUserDetailsForAdministration(request) {
-    const userId = parseInt(request.params.id);
+    const userId = request.params.id;
     const userDetailsForAdministration = userDetailsForAdminSerializer.deserialize(request.payload);
 
     const updatedUser = await usecases.updateUserDetailsForAdministration({
@@ -240,19 +240,19 @@ module.exports = {
   },
 
   async anonymizeUser(request, h) {
-    const userId = parseInt(request.params.id);
+    const userId = request.params.id;
     await usecases.anonymizeUser({ userId });
     return h.response({}).code(204);
   },
 
   async dissociateSchoolingRegistrations(request) {
-    const userId = parseInt(request.params.id);
+    const userId = request.params.id;
     const userDetailsForAdmin = await usecases.dissociateSchoolingRegistrations({ userId });
     return userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
   },
 
   async removeAuthenticationMethod(request, h) {
-    const userId = parseInt(request.params.id);
+    const userId = request.params.id;
     const type = request.payload.data.attributes.type;
     await usecases.removeAuthenticationMethod({ userId, type });
     return h.response().code(204);

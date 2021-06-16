@@ -21,7 +21,7 @@ module.exports = {
   },
 
   async get(request) {
-    const assessmentId = parseInt(request.params.id);
+    const assessmentId = request.params.id;
     const locale = extractLocaleFromRequest(request);
 
     const assessment = await usecases.getAssessment({ assessmentId, locale });
@@ -30,7 +30,7 @@ module.exports = {
   },
 
   async getLastChallengeId(request, h) {
-    const assessmentId = parseInt(request.params.id);
+    const assessmentId = request.params.id;
 
     const lastChallengeId = await usecases.getLastChallengeIdFromAssessmentId({ assessmentId });
 
@@ -38,7 +38,7 @@ module.exports = {
   },
 
   async getChallengeForPixAutoAnswer(request, h) {
-    const assessmentId = parseInt(request.params.id);
+    const assessmentId = request.params.id;
 
     const challenge = await usecases.getChallengeForPixAutoAnswer({ assessmentId });
 
@@ -61,16 +61,17 @@ module.exports = {
   },
 
   async getNextChallenge(request) {
+    const assessmentId = request.params.id;
 
     const logContext = {
       zone: 'assessmentController.getNextChallenge',
       type: 'controller',
-      assessmentId: parseInt(request.params.id),
+      assessmentId,
     };
     logger.trace(logContext, 'tracing assessmentController.getNextChallenge()');
 
     try {
-      const assessment = await assessmentRepository.get(parseInt(request.params.id));
+      const assessment = await assessmentRepository.get(assessmentId);
       logContext.assessmentType = assessment.type;
       logger.trace(logContext, 'assessment loaded');
 
@@ -89,8 +90,7 @@ module.exports = {
   },
 
   async completeAssessment(request) {
-    const assessmentId = parseInt(request.params.id);
-
+    const assessmentId = request.params.id;
     const event = await usecases.completeAssessment({ assessmentId });
     await events.eventDispatcher.dispatch(event);
 
@@ -99,7 +99,7 @@ module.exports = {
 
   async findCompetenceEvaluations(request) {
     const userId = request.auth.credentials.userId;
-    const assessmentId = parseInt(request.params.id);
+    const assessmentId = request.params.id;
 
     const competenceEvaluations = await usecases.findCompetenceEvaluationsByAssessment({ userId, assessmentId });
 

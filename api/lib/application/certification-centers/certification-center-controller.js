@@ -17,7 +17,7 @@ module.exports = {
   },
 
   getById(request) {
-    const certificationCenterId = parseInt(request.params.id);
+    const certificationCenterId = request.params.id;
     return usecases.getCertificationCenter({ id: certificationCenterId })
       .then(certificationCenterSerializer.serialize);
   },
@@ -30,7 +30,9 @@ module.exports = {
   },
 
   async findPaginatedSessionSummaries(request) {
-    const certificationCenterId = parseInt(request.params.id);
+    const certificationCenterId = request.params.id;
+    // As route is authenticated, token always contains an userId, so parseInt in useless
+    // eslint-disable-next-line no-restricted-syntax
     const userId = parseInt(request.auth.credentials.userId);
     const options = queryParamsUtils.extractParameters(request.query);
 
@@ -44,8 +46,8 @@ module.exports = {
   },
 
   async getStudents(request) {
-    const certificationCenterId = parseInt(request.params.certificationCenterId);
-    const sessionId = parseInt(request.params.sessionId);
+    const certificationCenterId = request.params.certificationCenterId;
+    const sessionId = request.params.sessionId;
 
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
     if (filter.divisions && !Array.isArray(filter.divisions)) {
@@ -62,7 +64,7 @@ module.exports = {
   },
 
   async getDivisions(request) {
-    const certificationCenterId = parseInt(request.params.certificationCenterId);
+    const certificationCenterId = request.params.certificationCenterId;
     const divisions = await usecases.findDivisionsByCertificationCenter({
       certificationCenterId,
     });
@@ -71,7 +73,7 @@ module.exports = {
   },
 
   async findCertificationCenterMembershipsByCertificationCenter(request) {
-    const certificationCenterId = parseInt(request.params.certificationCenterId);
+    const certificationCenterId = request.params.certificationCenterId;
     const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
       certificationCenterId,
     });
@@ -80,7 +82,7 @@ module.exports = {
   },
 
   async createCertificationCenterMembershipByEmail(request, h) {
-    const certificationCenterId = parseInt(request.params.certificationCenterId);
+    const certificationCenterId = request.params.certificationCenterId;
     const { email } = request.payload;
 
     const certificationCenterMembership = await usecases.createCertificationCenterMembershipByEmail({

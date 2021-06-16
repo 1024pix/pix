@@ -15,13 +15,13 @@ module.exports = {
   },
 
   async getTargetProfileDetails(request) {
-    const targetProfileId = parseInt(request.params.id);
+    const targetProfileId = request.params.id;
     const targetProfilesDetails = await usecases.getTargetProfileDetails({ targetProfileId });
     return targetProfileWithLearningContentSerializer.serialize(targetProfilesDetails);
   },
 
   async findPaginatedFilteredTargetProfileOrganizations(request) {
-    const targetProfileId = parseInt(request.params.id);
+    const targetProfileId = request.params.id;
     const options = queryParamsUtils.extractParameters(request.query);
 
     const { models: organizations, pagination } = await usecases.findPaginatedFilteredTargetProfileOrganizations({ targetProfileId, filter: options.filter, page: options.page });
@@ -29,7 +29,7 @@ module.exports = {
   },
 
   async findTargetProfileBadges(request) {
-    const targetProfileId = parseInt(request.params.id);
+    const targetProfileId = request.params.id;
 
     const badges = await usecases.findTargetProfileBadges({ targetProfileId });
     return badgeSerializer.serialize(badges);
@@ -43,14 +43,14 @@ module.exports = {
   },
 
   async updateTargetProfileName(request, h) {
-    const id = parseInt(request.params.id);
+    const id = request.params.id;
     const { name } = request.payload.data.attributes;
     await usecases.updateTargetProfileName({ id, name });
     return h.response({}).code(204);
   },
 
   async outdateTargetProfile(request, h) {
-    const id = parseInt(request.params.id);
+    const id = request.params.id;
 
     await usecases.outdateTargetProfile({ id });
     return h.response({}).code(204);
@@ -65,7 +65,7 @@ module.exports = {
   },
 
   async findByTargetProfileId(request) {
-    const targetProfileId = parseInt(request.params.id);
+    const targetProfileId = request.params.id;
 
     const stages = await usecases.findTargetProfileStages({ targetProfileId });
     return stageSerializer.serialize(stages);

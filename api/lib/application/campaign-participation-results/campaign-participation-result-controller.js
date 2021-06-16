@@ -6,7 +6,7 @@ const { extractLocaleFromRequest } = require('../../infrastructure/utils/request
 module.exports = {
   async get(request) {
     const locale = extractLocaleFromRequest(request);
-    const campaignParticipationId = parseInt(request.params.id);
+    const campaignParticipationId = request.params.id;
     const userId = request.auth.credentials.userId;
 
     const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId); // used only until deprecated route will be removed

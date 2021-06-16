@@ -14,7 +14,7 @@ describe('Unit | Controller | target-profile-controller', () => {
 
       request = {
         params: {
-          id: '123',
+          id: 123,
         },
         payload: {
           data: {

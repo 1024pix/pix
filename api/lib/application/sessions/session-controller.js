@@ -36,14 +36,14 @@ module.exports = {
   },
 
   async getJurySession(request) {
-    const sessionId = parseInt(request.params.id);
+    const sessionId = request.params.id;
     const jurySession = await usecases.getJurySession({ sessionId });
 
     return jurySessionSerializer.serialize(jurySession);
   },
 
   async get(request) {
-    const sessionId = parseInt(request.params.id);
+    const sessionId = request.params.id;
     const session = await usecases.getSession({ sessionId });
 
     return sessionSerializer.serialize(session);
@@ -61,7 +61,7 @@ module.exports = {
   async update(request) {
     const userId = request.auth.credentials.userId;
     const session = sessionSerializer.deserialize(request.payload);
-    session.id = parseInt(request.params.id);
+    session.id = request.params.id;
 
     const updatedSession = await usecases.updateSession({ userId, session });
 
@@ -69,7 +69,7 @@ module.exports = {
   },
 
   async getAttendanceSheet(request, h) {
-    const sessionId = parseInt(request.params.id);
+    const sessionId = request.params.id;
     const token = request.query.accessToken;
     const userId = tokenService.extractUserId(token);
     const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
@@ -81,7 +81,7 @@ module.exports = {
   },
 
   async getCandidatesImportSheet(request, h) {
-    const sessionId = parseInt(request.params.id);
+    const sessionId = request.params.id;
     const token = request.query.accessToken;
     const userId = tokenService.extractUserId(token);
 
@@ -94,14 +94,14 @@ module.exports = {
   },
 
   async getCertificationCandidates(request) {
-    const sessionId = parseInt(request.params.id);
+    const sessionId = request.params.id;
 
     return usecases.getSessionCertificationCandidates({ sessionId })
       .then((certificationCandidates) => certificationCandidateSerializer.serialize(certificationCandidates));
   },
 
   async addCertificationCandidate(request, h) {
-    const sessionId = parseInt(request.params.id);
+    const sessionId = request.params.id;
     const certificationCandidate = await certificationCandidateSerializer.deserialize(request.payload);
     const addedCertificationCandidate = await usecases.addCertificationCandidateToSession({
       sessionId,
@@ -112,7 +112,7 @@ module.exports = {
   },
 
   async deleteCertificationCandidate(request) {
-    const certificationCandidateId = parseInt(request.params.certificationCandidateId);
+    const certificationCandidateId = request.params.certificationCandidateId;
 
     await usecases.deleteUnlinkedCertificationCandidate({ certificationCandidateId });
 
@@ -158,14 +158,14 @@ module.exports = {
   },
 
   async getCertificationReports(request) {
-    const sessionId = parseInt(request.params.id);
+    const sessionId = request.params.id;
 
     return usecases.getSessionCertificationReports({ sessionId })
       .then((certificationReports) => certificationReportSerializer.serialize(certificationReports));
   },
 
   async importCertificationCandidatesFromCandidatesImportSheet(request) {
-    const sessionId = parseInt(request.params.id);
+    const sessionId = request.params.id;
     const odsBuffer = request.payload.file;
 
     try {
@@ -182,7 +182,7 @@ module.exports = {
 
   async enrollStudentsToSession(request, h) {
     const referentId = requestResponseUtils.extractUserIdFromRequest(request);
-    const sessionId = parseInt(request.params.id);
+    const sessionId = request.params.id;
     const studentIds = request.payload.data.attributes['student-ids'];
 
     await usecases.enrollStudentsToSession({ sessionId, referentId, studentIds });

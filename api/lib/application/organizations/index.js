@@ -204,6 +204,11 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/target-profiles',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
         handler: organizationController.findTargetProfiles,
         tags: ['api', 'target-profile'],
         notes: [
