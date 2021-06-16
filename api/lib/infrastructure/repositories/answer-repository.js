@@ -1,9 +1,9 @@
+const _ = require('lodash');
+const jsYaml = require('js-yaml');
+const { knex } = require('../../../db/knex-database-connection');
+const { NotFoundError } = require('../../domain/errors');
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
-const Bookshelf = require('../bookshelf');
-const { NotFoundError } = require('../../domain/errors');
-const jsYaml = require('js-yaml');
-const _ = require('lodash');
 
 function _adaptAnswerToDb(answer) {
   return {
@@ -30,7 +30,7 @@ const FIELDS = Object.freeze(['id', 'result', 'resultDetails', 'timeout', 'value
 module.exports = {
 
   async get(id) {
-    const answerDTO = await Bookshelf.knex
+    const answerDTO = await knex
       .select(FIELDS)
       .from('answers')
       .where({ id })
@@ -44,7 +44,7 @@ module.exports = {
   },
 
   async findByIds(ids) {
-    const answerDTOs = await Bookshelf.knex
+    const answerDTOs = await knex
       .select(FIELDS)
       .from('answers')
       .whereIn('id', ids)
@@ -54,7 +54,7 @@ module.exports = {
   },
 
   async findByChallengeAndAssessment({ challengeId, assessmentId }) {
-    const answerDTO = await Bookshelf.knex
+    const answerDTO = await knex
       .select(FIELDS)
       .from('answers')
       .where({ challengeId, assessmentId })
@@ -68,7 +68,7 @@ module.exports = {
   },
 
   async findByAssessment(assessmentId) {
-    const answerDTOs = await Bookshelf.knex
+    const answerDTOs = await knex
       .select(FIELDS)
       .from('answers')
       .where({ assessmentId })
@@ -78,7 +78,7 @@ module.exports = {
   },
 
   async findLastByAssessment(assessmentId) {
-    const answerDTO = await Bookshelf.knex
+    const answerDTO = await knex
       .select(FIELDS)
       .from('answers')
       .where({ assessmentId })
@@ -93,7 +93,7 @@ module.exports = {
   },
 
   async findChallengeIdsFromAnswerIds(ids) {
-    const answerPartialDTOs = await Bookshelf.knex
+    const answerPartialDTOs = await knex
       .select('challengeId')
       .from('answers')
       .whereIn('id', ids)
@@ -103,7 +103,7 @@ module.exports = {
   },
 
   async findCorrectAnswersByAssessmentId(assessmentId) {
-    const answerDTOs = await Bookshelf.knex
+    const answerDTOs = await knex
       .select(FIELDS)
       .from('answers')
       .where({ assessmentId, result: 'ok' })
@@ -114,7 +114,7 @@ module.exports = {
 
   async saveWithKnowledgeElements(answer, knowledgeElements) {
     const answerForDB = _adaptAnswerToDb(answer);
-    const trx = await Bookshelf.knex.transaction();
+    const trx = await knex.transaction();
     try {
       const [savedAnswerDTO] = await trx('answers').insert(answerForDB, FIELDS);
       const savedAnswer = _toDomain(savedAnswerDTO);
