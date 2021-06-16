@@ -1,5 +1,4 @@
 const { Serializer } = require('jsonapi-serializer');
-const BadgeCriterion = require('../../../domain/models/BadgeCriterion');
 
 const mapType = {
   badgeCriteria: 'badge-criteria',
@@ -42,15 +41,9 @@ module.exports = {
       transform(record) {
         const badge = record.badge;
         badge.badgeCriteria.forEach((badgeCriterion) => {
-          if (badgeCriterion.scope === BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE) {
-            badgeCriterion.partnerCompetences = badge.badgePartnerCompetences.map(({ id }) => {
-              return { id };
-            });
-          } else {
-            badgeCriterion.partnerCompetences = badgeCriterion.partnerCompetenceIds?.map((partnerCompetenceId) => {
-              return { id: partnerCompetenceId };
-            });
-          }
+          badgeCriterion.partnerCompetences = badgeCriterion.partnerCompetenceIds?.map((partnerCompetenceId) => {
+            return { id: partnerCompetenceId };
+          });
         });
         badge.badgePartnerCompetences.forEach((badgePartnerCompetence) => {
           badgePartnerCompetence.skills = badgePartnerCompetence.skillIds.map((skillId) => {
