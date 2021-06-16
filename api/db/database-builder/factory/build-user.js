@@ -105,11 +105,20 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
   const values = {
-    id, firstName, lastName, email, username,
+    id,
+    firstName,
+    lastName,
+    email,
+    username,
     cgu,
     lang,
-    lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
+    lastTermsOfServiceValidatedAt,
+    mustValidateTermsOfService,
+    pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
+    hasSeenAssessmentInstructions,
+    createdAt,
+    updatedAt,
   };
 
   const user = databaseBuffer.pushInsertable({

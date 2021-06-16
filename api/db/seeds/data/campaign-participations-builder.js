@@ -1,3 +1,4 @@
+const moment = require('moment');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const {
@@ -16,19 +17,19 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
   });
 
   const users = buildUsers([
-    { firstName: 'Jaune', lastName: 'Attend', email: 'jaune.attend@example.net' },
-    { firstName: 'Mélanie', lastName: 'Darboo' },
-    { firstName: 'Matteo', lastName: 'Lorenzio' },
-    { firstName: 'Jérémy', lastName: 'Bugietta' },
-    { firstName: 'Léo', lastName: 'Subzéro' },
-    { firstName: 'Forster', lastName: 'Gillay Djones' },
-    { firstName: 'Thierry', lastName: 'Donckele' },
-    { firstName: 'Stéphan', lastName: 'Deumonaco' },
-    { firstName: 'Lise', lastName: 'Nelkay' },
-    { firstName: 'Sébastien', lastName: 'Serra Oupas' },
-    { firstName: 'Thomas', lastName: 'Whiskas' },
-    { firstName: 'Antoine', lastName: 'Boiduvin' },
-    { firstName: 'Brandone', lastName: 'Bro' },
+    { firstName: 'Jaune', lastName: 'Attend', email: 'jaune.attend@example.net', createdAt: new Date('2020-01-01') },
+    { firstName: 'Mélanie', lastName: 'Darboo', createdAt: new Date('2020-01-02') },
+    { firstName: 'Matteo', lastName: 'Lorenzio', createdAt: new Date('2020-01-03') },
+    { firstName: 'Jérémy', lastName: 'Bugietta', createdAt: new Date('2020-01-03') },
+    { firstName: 'Léo', lastName: 'Subzéro', createdAt: new Date('2020-01-05') },
+    { firstName: 'Forster', lastName: 'Gillay Djones', createdAt: new Date('2020-01-05') },
+    { firstName: 'Thierry', lastName: 'Donckele', createdAt: new Date('2020-01-07') },
+    { firstName: 'Stéphan', lastName: 'Deumonaco', createdAt: new Date('2020-01-08') },
+    { firstName: 'Lise', lastName: 'Nelkay', createdAt: new Date('2020-01-09') },
+    { firstName: 'Sébastien', lastName: 'Serra Oupas', createdAt: new Date('2020-02-10') },
+    { firstName: 'Thomas', lastName: 'Whiskas', createdAt: new Date('2020-02-11') },
+    { firstName: 'Antoine', lastName: 'Boiduvin', createdAt: new Date('2020-02-11') },
+    { firstName: 'Brandone', lastName: 'Bro', createdAt: new Date('2020-02-13') },
   ]);
 
   const usersNotCompleted = [users[1], users[2], users[3]];
@@ -36,9 +37,10 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
   const usersCompletedShared = [users[0], users[9], users[10], users[11], users[12]];
 
   const participateToCampaignOfAssessment = (campaignId, user, isShared, validatedSkillsCount = null, isImproved = false) => {
-    const sharedAt = isShared ? new Date() : null;
+    const createdAt = user.createdAt;
+    const sharedAt = isShared ? moment(createdAt).add(1, 'days').toDate() : null;
     const participantExternalId = user.firstName.toLowerCase() + user.lastName.toLowerCase();
-    return databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: user.id, participantExternalId, isShared, sharedAt, validatedSkillsCount, isImproved });
+    return databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: user.id, participantExternalId, createdAt, isShared, sharedAt, validatedSkillsCount, isImproved });
   };
 
   const participateComplexAssessmentCampaign = (campaignId, user, state, isShared, isImproved = false) => {
