@@ -93,8 +93,9 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
         isCertifiable: false,
         badgeCriteria: [
           domainBuilder.buildBadgeCriterion({
-            scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
-            partnerCompetenceIds: null,
+            scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+            threshold: 40,
+            partnerCompetenceIds: [],
           }),
         ],
       });
