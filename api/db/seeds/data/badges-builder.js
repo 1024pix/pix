@@ -120,7 +120,7 @@ function _createProfessionalBasicsBadge(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_ONE_COMPETENCE_ID,
   });
 
-  _associateBadgeCriteria(databaseBuilder, basicsBadge);
+  _associateBadgeCriteria(databaseBuilder, basicsBadge, []);
 }
 
 function _createProfessionalToolsBadge(databaseBuilder) {
@@ -134,7 +134,7 @@ function _createProfessionalToolsBadge(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_ONE_COMPETENCE_ID,
   });
 
-  _associateBadgeCriteria(databaseBuilder, toolsBadge);
+  _associateBadgeCriteria(databaseBuilder, toolsBadge, []);
 }
 
 function _createPixDroitBadge(databaseBuilder) {
@@ -257,7 +257,7 @@ function _associateBadgeCriteria(databaseBuilder, badge, badgePartnerCompetences
   });
 
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
     threshold: 75,
     badgeId: badge.id,
     partnerCompetenceIds: badgePartnerCompetencesIds,

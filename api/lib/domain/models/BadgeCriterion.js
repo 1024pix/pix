@@ -15,7 +15,6 @@ class BadgeCriterion {
 
 BadgeCriterion.SCOPES = {
   CAMPAIGN_PARTICIPATION: 'CampaignParticipation',
-  EVERY_PARTNER_COMPETENCE: 'EveryPartnerCompetence',
   SOME_PARTNER_COMPETENCES: 'SomePartnerCompetences',
 };
 
