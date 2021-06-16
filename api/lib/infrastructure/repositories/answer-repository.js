@@ -9,7 +9,6 @@ const _ = require('lodash');
 
 function _adaptModelToDb(answer) {
   return {
-    id: answer.id,
     result: answerStatusDatabaseAdapter.toSQLString(answer.result),
     resultDetails: jsYaml.dump(answer.resultDetails),
     value: answer.value,
