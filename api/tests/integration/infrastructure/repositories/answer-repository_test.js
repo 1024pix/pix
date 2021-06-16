@@ -3,19 +3,9 @@ const Answer = require('../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const _ = require('lodash');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
 describe('Integration | Repository | answerRepository', () => {
-  let assessmentId, otherAssessmentId;
-  const challengeId = 'challenge_1234';
-  const otherChallengeId = 'challenge_4567';
-
-  beforeEach(() => {
-    assessmentId = databaseBuilder.factory.buildAssessment().id;
-    otherAssessmentId = databaseBuilder.factory.buildAssessment().id;
-    return databaseBuilder.commit();
-  });
 
   describe('#get', () => {
 
@@ -116,34 +106,16 @@ describe('Integration | Repository | answerRepository', () => {
   });
 
   describe('#findByChallengeAndAssessment', () => {
-    let expectedAnswer;
-
-    beforeEach(() => {
-      expectedAnswer = domainBuilder.buildAnswer({ id: 1, value: 'answer value', challengeId, assessmentId, result: AnswerStatus.OK });
-      _.each([
-        expectedAnswer,
-        domainBuilder.buildAnswer({ id: 2, challengeId: otherChallengeId, assessmentId }),
-        domainBuilder.buildAnswer({ id: 3, challengeId, assessmentId: otherAssessmentId }),
-      ], (answer) => (databaseBuilder.factory.buildAnswer({ ...answer, result: 'ok' })));
-      return databaseBuilder.commit();
-    });
-
-    it('should find the answer by challenge and assessment and return its in an object', async () => {
-      // when
-      const foundAnswer = await answerRepository.findByChallengeAndAssessment({
-        challengeId,
-        assessmentId,
-      });
-
-      // then
-      expect(foundAnswer).to.be.an.instanceOf(Answer);
-      expect(foundAnswer).to.deep.equal(expectedAnswer);
-    });
 
     it('should returns null if there is no assessment matching', async () => {
+      // given
+      databaseBuilder.factory.buildAssessment({ id: 123 });
+      databaseBuilder.factory.buildAnswer({ assessmentId: 123, challengeId: 'recChal1' });
+
+      // when
       const foundAnswer = await answerRepository.findByChallengeAndAssessment({
-        challengeId,
-        assessmentId: 4,
+        challengeId: 'recChal1',
+        assessmentId: 456,
       });
 
       // then
@@ -151,13 +123,48 @@ describe('Integration | Repository | answerRepository', () => {
     });
 
     it('should returns null if there is no challengeId matching', async () => {
+      // given
+      databaseBuilder.factory.buildAssessment({ id: 123 });
+      databaseBuilder.factory.buildAnswer({ assessmentId: 123, challengeId: 'recChal1' });
+
+      // when
       const foundAnswer = await answerRepository.findByChallengeAndAssessment({
-        challengeId: 'myNonExistentChallengeid',
-        assessmentId,
+        challengeId: 'recChal2',
+        assessmentId: 123,
       });
 
       // then
       expect(foundAnswer).to.be.null;
+    });
+
+    it('should find the answer by challenge and assessment', async () => {
+      // given
+      const expectedAnswer = domainBuilder.buildAnswer({
+        id: 1,
+        result: AnswerStatus.OK,
+        resultDetails: 'some details',
+        timeout: 456,
+        value: 'Fruits',
+        assessmentId: 123,
+        challengeId: 'recChallenge123',
+        timeSpent: 20,
+      });
+      databaseBuilder.factory.buildAssessment({ id: 123 });
+      databaseBuilder.factory.buildAnswer({
+        ...expectedAnswer,
+        result: 'ok',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const foundAnswer = await answerRepository.findByChallengeAndAssessment({
+        challengeId: 'recChallenge123',
+        assessmentId: 123,
+      });
+
+      // then
+      expect(foundAnswer).to.be.an.instanceOf(Answer);
+      expect(foundAnswer).to.deep.equal(expectedAnswer);
     });
   });
 
