@@ -34,7 +34,6 @@ export default class Badge extends Component {
   scopeExplanation(criterionScope) {
     switch (criterionScope) {
       case 'SomePartnerCompetences': return 'tous les groupes d‘acquis suivants :';
-      case 'EveryPartnerCompetences': return 'l‘ensemble des groupes d‘acquis liés au badge :';
       case 'CampaignParticipation': return 'l‘ensemble des acquis du target profile.';
     }
   }
