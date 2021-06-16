@@ -49,17 +49,17 @@ const FIELDS = Object.freeze(['id', 'result', 'resultDetails', 'timeout', 'value
 module.exports = {
 
   async get(id) {
-    const result = await Bookshelf.knex
+    const answerDTO = await Bookshelf.knex
       .select(FIELDS)
       .from('answers')
       .where({ id })
       .first();
 
-    if (!result) {
+    if (!answerDTO) {
       throw new NotFoundError(`Not found answer for ID ${id}`);
     }
 
-    return _toDomainFromKnex(result);
+    return _toDomainFromKnex(answerDTO);
   },
 
   async findByIds(ids) {
@@ -73,25 +73,27 @@ module.exports = {
   },
 
   async findByChallengeAndAssessment({ challengeId, assessmentId }) {
-    const result = await Bookshelf.knex
+    const answerDTO = await Bookshelf.knex
       .select(FIELDS)
       .from('answers')
       .where({ challengeId, assessmentId })
       .first();
 
-    if (!result) {
+    if (!answerDTO) {
       return null;
     }
 
-    return _toDomainFromKnex(result);
+    return _toDomainFromKnex(answerDTO);
   },
 
-  findByAssessment(assessmentId) {
-    return BookshelfAnswer
+  async findByAssessment(assessmentId) {
+    const answerDTOs = await Bookshelf.knex
+      .select(FIELDS)
+      .from('answers')
       .where({ assessmentId })
-      .orderBy('createdAt')
-      .fetchAll()
-      .then((answers) => answers.models.map(_toDomain));
+      .orderBy('createdAt');
+
+    return answerDTOs.map((answerDTO) => _toDomainFromKnex(answerDTO));
   },
 
   findLastByAssessment(assessmentId) {
