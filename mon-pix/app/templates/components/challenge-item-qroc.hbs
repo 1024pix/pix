@@ -7,6 +7,12 @@
     {{/unless}}
   {{/if}}
 
+  {{#if this.isFocusedChallengeWithoutAnswer}}
+    {{#unless this.hasUserConfirmedFocusWarning}}
+      <FocusChallengeInstructions @hasUserConfirmedWarning={{this.setUserFocusChallengeConfirmation}} />
+    {{/unless}}
+  {{/if}}
+
   {{#if this.displayChallenge}}
     <div class="challenge-item__container">
       <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />

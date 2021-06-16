@@ -8,6 +8,7 @@ export default class ChallengeItemGeneric extends Component {
   @tracked isValidateButtonEnabled = true;
   @tracked isSkipButtonEnabled = true;
   @tracked hasUserConfirmedWarning = false;
+  @tracked hasUserConfirmedFocusWarning = false;
   @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
   @tracked hasFocusedOut = false;
@@ -31,16 +32,12 @@ export default class ChallengeItemGeneric extends Component {
     document.onblur = null;
   }
 
-  get isTimedChallenge() {
-    return isInteger(this.args.challenge.timer);
-  }
-
   get displayTimer() {
     return this.isTimedChallengeWithoutAnswer && this.hasUserConfirmedWarning;
   }
 
   get displayChallenge() {
-    if (!this.isTimedChallenge) {
+    if (!this.isTimedChallenge && !this.isFocusedChallenge) {
       return true;
     }
 
@@ -48,15 +45,28 @@ export default class ChallengeItemGeneric extends Component {
       if (this.hasUserConfirmedWarning || this.args.answer) return true;
     }
 
+    if (this.isFocusedChallenge) {
+      if (this.hasUserConfirmedFocusWarning) return true;
+      if (this.args.answer) return true;
+    }
+
     return false;
+  }
+
+  get isTimedChallenge() {
+    return isInteger(this.args.challenge.timer);
+  }
+
+  get isFocusedChallenge() {
+    return this.args.challenge.focused;
   }
 
   get isTimedChallengeWithoutAnswer() {
     return this.isTimedChallenge && !this.args.answer;
   }
 
-  get _hasSeenWarningPage() {
-    return this.hasUserConfirmedWarning && this.isTimedChallenge;
+  get isFocusedChallengeWithoutAnswer() {
+    return this.isFocusedChallenge && !this.args.answer;
   }
 
   _getTimeout() {
