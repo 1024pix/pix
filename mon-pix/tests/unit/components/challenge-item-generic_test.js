@@ -12,36 +12,95 @@ describe('Unit | Component | Challenge item Generic', function() {
 
   describe('#displayChallenge', function() {
 
-    [
-      { timer: undefined, answer: undefined, hasUserConfirmedWarning: false, expectedResult: true },
-      { timer: undefined, answer: 'banana', hasUserConfirmedWarning: false, expectedResult: true },
-      { timer: 55, answer: undefined, hasUserConfirmedWarning: true, expectedResult: true },
-      { timer: 55, answer: 'banana', hasUserConfirmedWarning: false, expectedResult: true },
-      { timer: 55, answer: undefined, hasUserConfirmedWarning: false, expectedResult: false },
-    ].forEach((data) => {
+    context('when challenge is not focused and has no timer', function() {
+      [
+        { answer: undefined, hasUserConfirmedWarning: false, expectedResult: true },
+        { answer: 'banana', hasUserConfirmedWarning: false, expectedResult: true },
+      ].forEach((data) => {
+        const _hasUserConfirmedWarning = data.hasUserConfirmedWarning ? 'user has confirmed warning' : 'user has not confirmed warning';
+        const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
 
-      const _hasTimer = data.timer ? 'challenge has timer' : 'challenge has no timer';
-      const _hasUserConfirmedWarning = data.hasUserConfirmedWarning ? 'user has confirmed warning' : 'user has not confirmed warning';
-      const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
+        it(`should be ${data.expectedResult} when ${_hasUserConfirmedWarning}, ${_hasAnswer}`, function() {
+          // given
+          const challenge = EmberObject.create({
+            id: 'rec_123',
+            timer: undefined,
+            focused: false,
+          });
 
-      it(`should be ${data.expectedResult} when ${_hasTimer}, ${_hasUserConfirmedWarning}, ${_hasAnswer}`, function() {
-        // given
-        const challenge = EmberObject.create({
-          autoReply: true,
-          id: 'rec_123',
-          timer: data.timer,
+          const answer = data.answer;
+
+          component = createGlimmerComponent('component:challenge-item-generic', { challenge, answer });
+          component.hasUserConfirmedWarning = data.hasUserConfirmedWarning;
+
+          // when
+          const result = component.displayChallenge;
+
+          // then
+          expect(result).to.equal(data.expectedResult);
         });
+      });
+    });
 
-        const answer = data.answer;
+    context('when challenge has timer', function() {
+      [
+        { answer: undefined, hasUserConfirmedWarning: true, expectedResult: true },
+        { answer: 'banana', hasUserConfirmedWarning: false, expectedResult: true },
+        { answer: undefined, hasUserConfirmedWarning: false, expectedResult: false },
+      ].forEach((data) => {
 
-        component = createGlimmerComponent('component:challenge-item-generic', { challenge, answer });
-        component.hasUserConfirmedWarning = data.hasUserConfirmedWarning;
+        const _hasUserConfirmedWarning = data.hasUserConfirmedWarning ? 'user has confirmed warning' : 'user has not confirmed warning';
+        const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
 
-        // when
-        const result = component.displayChallenge;
+        it(`should be ${data.expectedResult} when ${_hasUserConfirmedWarning}, ${_hasAnswer}`, function() {
+          // given
+          const challenge = EmberObject.create({
+            id: 'rec_123',
+            timer: 55,
+          });
 
-        // then
-        expect(result).to.equal(data.expectedResult);
+          const answer = data.answer;
+
+          component = createGlimmerComponent('component:challenge-item-generic', { challenge, answer });
+          component.hasUserConfirmedWarning = data.hasUserConfirmedWarning;
+
+          // when
+          const result = component.displayChallenge;
+
+          // then
+          expect(result).to.equal(data.expectedResult);
+        });
+      });
+    });
+
+    context('when challenge is focused', function() {
+      [
+        { answer: undefined, hasUserConfirmedFocusWarning: true, expectedResult: true },
+        { answer: 'banana', hasUserConfirmedFocusWarning: false, expectedResult: true },
+        { answer: undefined, hasUserConfirmedFocusWarning: false, expectedResult: false },
+      ].forEach((data) => {
+
+        const _hasUserConfirmedFocusWarning = data.hasUserConfirmedFocusWarning ? 'user has confirmed warning' : 'user has not confirmed warning';
+        const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
+
+        it(`should be ${data.expectedResult} when ${_hasUserConfirmedFocusWarning}, ${_hasAnswer}`, function() {
+          // given
+          const challenge = EmberObject.create({
+            id: 'rec_123',
+            focused: true,
+          });
+
+          const answer = data.answer;
+
+          component = createGlimmerComponent('component:challenge-item-generic', { challenge, answer });
+          component.hasUserConfirmedFocusWarning = data.hasUserConfirmedFocusWarning;
+
+          // when
+          const result = component.displayChallenge;
+
+          // then
+          expect(result).to.equal(data.expectedResult);
+        });
       });
     });
   });
