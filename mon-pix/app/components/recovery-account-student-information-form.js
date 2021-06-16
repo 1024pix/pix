@@ -27,6 +27,24 @@ export default class RecoveryAccountStudentInformationFormComponent extends Comp
   }
 
   @action
+  handleDayInputChange(event) {
+    const { value } = event.target;
+
+    if (value.length === 2) {
+      document.getElementById('monthOfBirth').focus();
+    }
+  }
+
+  @action
+  handleMonthInputChange(event) {
+    const { value } = event.target;
+
+    if (value.length === 2) {
+      document.getElementById('yearOfBirth').focus();
+    }
+  }
+
+  @action
   triggerInputDayValidation() {
   }
   @action
