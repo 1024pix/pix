@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');

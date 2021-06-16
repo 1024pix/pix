@@ -53,6 +53,7 @@ module.exports = {
 
   findAssociation(request) {
     const authenticatedUserId = request.auth.credentials.userId;
+    // eslint-disable-next-line no-restricted-syntax
     const requestedUserId = parseInt(request.query.userId);
     const campaignCode = request.query.campaignCode;
 

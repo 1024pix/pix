@@ -4,6 +4,7 @@ const XRegExp = require('xregexp');
 const securityPreHandlers = require('../security-pre-handlers');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const { passwordValidationPattern } = require('../../config').account;
+const identifiersType = require('../../domain/types/identifiers-type');
 
 const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
 
@@ -86,8 +87,8 @@ exports.register = async function(server) {
           payload: Joi.object({
             data: {
               attributes: {
-                'organization-id': Joi.number().required(),
-                'schooling-registration-id': Joi.number().required(),
+                'organization-id': identifiersType.campaignId,
+                'schooling-registration-id': identifiersType.schoolingRegistrationId,
               },
             },
           }),
@@ -118,8 +119,8 @@ exports.register = async function(server) {
           payload: Joi.object({
             data: {
               attributes: {
-                'organization-id': Joi.number().required(),
-                'schooling-registration-id': Joi.number().required(),
+                'organization-id': identifiersType.organizationId,
+                'schooling-registration-id': identifiersType.schoolingRegistrationId,
               },
             },
           }),

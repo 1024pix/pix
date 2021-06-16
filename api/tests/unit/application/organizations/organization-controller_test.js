@@ -118,7 +118,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           credentials: { userId: '111' },
         },
         params: {
-          id: '99',
+          id: 99,
         },
       };
 
@@ -460,7 +460,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
   describe('#findTargetProfiles', () => {
     const connectedUserId = 1;
-    const organizationId = '145';
+    const organizationId = 145;
     let foundTargetProfiles;
 
     beforeEach(() => {
@@ -538,7 +538,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     beforeEach(() => {
       request = {
         auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId.toString() },
+        params: { id: organizationId },
       };
 
       sinon.stub(usecases, 'findPaginatedFilteredSchoolingRegistrations');
@@ -615,7 +615,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     beforeEach(() => {
       request = {
         auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId.toString() },
+        params: { id: organizationId },
         query: { format },
         payload: { path: 'path-to-file' },
         i18n,

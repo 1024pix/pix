@@ -19,7 +19,9 @@ module.exports = {
     const membershipId = request.params.id;
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
     const membership = membershipSerializer.deserialize(request.payload);
-    if (membershipId != membership.id) {
+    // eslint-disable-next-line no-restricted-syntax
+    const membershipIdFromPayload = parseInt(membership.id);
+    if (membershipId !== membershipIdFromPayload) {
       throw new BadRequestError();
     }
     membership.updatedByUserId = userId;

@@ -15,14 +15,14 @@ exports.register = async function(server) {
             allowUnknown: true,
           },
           params: Joi.object({
-            id: identifiersType.userOrgaSettingsId,
+            id: identifiersType.userId,
           }),
           payload: Joi.object({
             data: {
               relationships: {
                 organization: {
                   data: {
-                    id: Joi.number().integer().required(),
+                    id: identifiersType.organizationId,
                   },
                 },
               },
