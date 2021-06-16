@@ -3,7 +3,9 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import config from 'mon-pix/config/environment';
 import Component from '@glimmer/component';
-import get from 'lodash/get';
+import sortBy from 'lodash/sortBy';
+
+const PREFERRED_ATTACHMENT_FORMATS = ['docx', 'xlsx', 'pptx'];
 
 export default class ChallengeStatement extends Component {
   @service mailGenerator;
@@ -57,8 +59,21 @@ export default class ChallengeStatement extends Component {
     this.selectedAttachmentUrl = attachementUrl;
   }
 
+  get orderedAttachments() {
+    if (!this.args.challenge.attachments || !Array.isArray(this.args.challenge.attachments)) {
+      return [];
+    }
+
+    return sortBy(this.args.challenge.attachments,
+      (attachmentUrl) => {
+        const extension = attachmentUrl.split('.').pop();
+        const newFirstChar = PREFERRED_ATTACHMENT_FORMATS.indexOf(extension) >= 0 ? 'A' : 'Z';
+        return newFirstChar + extension;
+      });
+  }
+
   _initialiseDefaultAttachment() {
-    this.selectedAttachmentUrl = get(this.args.challenge, 'attachments.firstObject');
+    this.selectedAttachmentUrl = this.orderedAttachments[0];
   }
 
   _formattedEmailForInstruction() {

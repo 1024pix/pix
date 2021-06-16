@@ -48,4 +48,58 @@ describe('Unit | Component | challenge statement', function() {
     });
   });
 
+  describe('#orderedAttachments', () => {
+
+    it('should return empty array if no attachments', () => {
+      // given
+      const challenge = EmberObject.create({});
+      const component = createGlimmerComponent('component:challenge-statement', { challenge });
+
+      // when
+      const orderedAttachments = component.orderedAttachments;
+
+      // then
+      expect(orderedAttachments.length).to.equal(0);
+    });
+
+    it('should return files using the preferred formats first, then the others', () => {
+      // given
+      const attachments = [
+        'https://dl.airtable.com/test.odp',
+        'https://dl.airtable.com/test.docx',
+      ];
+      const challenge = EmberObject.create({ attachments });
+      const component = createGlimmerComponent('component:challenge-statement', { challenge });
+
+      // when
+      const orderedAttachments = component.orderedAttachments;
+
+      // then
+      expect(orderedAttachments.length).to.equal(attachments.length);
+      expect(orderedAttachments[0]).to.contains('docx');
+      expect(orderedAttachments[1]).to.contains('odp');
+    });
+
+    it('should return the attachments ordered alphabetically in each group', () => {
+      // given
+      const attachments = [
+        'https://dl.airtable.com/test1.ods',
+        'https://dl.airtable.com/test2.odp',
+        'https://dl.airtable.com/test3.pptx',
+        'https://dl.airtable.com/test6.docx',
+      ];
+      const challenge = EmberObject.create({ attachments });
+      const component = createGlimmerComponent('component:challenge-statement', { challenge });
+
+      // when
+      const orderedAttachments = component.orderedAttachments;
+
+      // then
+      expect(orderedAttachments.length).to.equal(attachments.length);
+      expect(orderedAttachments[0]).to.contain('docx');
+      expect(orderedAttachments[1]).to.contain('pptx');
+      expect(orderedAttachments[2]).to.contain('odp');
+      expect(orderedAttachments[3]).to.contain('ods');
+    });
+  });
 });

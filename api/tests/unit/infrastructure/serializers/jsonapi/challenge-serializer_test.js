@@ -73,7 +73,6 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             type: 'challenges',
             id: '1',
             attributes: {
-              attachments: [],
               competence: 'competence_id',
             },
           },
@@ -94,7 +93,6 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             type: 'challenges',
             id: '1',
             attributes: {
-              attachments: [],
               competence: 'N/A',
             },
           },

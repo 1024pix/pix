@@ -69,7 +69,7 @@ class Challenge {
     } = {}) {
     this.id = id;
     this.answer = answer;
-    this.attachments = this._orderAttachments(attachments);
+    this.attachments = attachments;
     this.embedHeight = embedHeight;
     this.embedTitle = embedTitle;
     this.embedUrl = embedUrl;
@@ -88,20 +88,6 @@ class Challenge {
     this.validator = validator;
     this.competenceId = competenceId;
     this.focused = focused;
-  }
-
-  _orderAttachments(attachments) {
-    if (!attachments || !Array.isArray(attachments)) {
-      return [];
-    }
-    const openSourceFormats = ['odp', 'ods', 'odt'];
-    return attachments.sort((attachmentA, attachmentB) => {
-      const formatB = attachmentB.split('.').pop();
-      if (openSourceFormats.includes(formatB)) {
-        return -1;
-      }
-      return 1;
-    });
   }
 
   addSkill(skill) {
