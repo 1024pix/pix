@@ -6,7 +6,7 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 
 const CRITERION_THRESHOLD = {
   CAMPAIGN_PARTICIPATION: 70,
-  SOME_PARTNER_COMPETENCES: 60,
+  SKILL_SET: 60,
 };
 
 const COMPETENCE_RESULT_ID = {
@@ -32,8 +32,8 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         }),
         domainBuilder.buildBadgeCriterion({
           id: 3,
-          scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
-          threshold: CRITERION_THRESHOLD.SOME_PARTNER_COMPETENCES,
+          scope: BadgeCriterion.SCOPES.SKILL_SET,
+          threshold: CRITERION_THRESHOLD.SKILL_SET,
           partnerCompetenceIds: [COMPETENCE_RESULT_ID.SECOND],
         }),
       ];
@@ -121,13 +121,13 @@ describe('Unit | Domain | Services | badge-criteria', () => {
       });
     });
 
-    context('when the SOME_PARTNER_COMPETENCES is the only badge criterion', function() {
+    context('when the SKILL_SET is the only badge criterion', function() {
       context('when the list of partnerCompetencesIds contains one partnerCompetence', () => {
         const badgeCriteria = [
           domainBuilder.buildBadgeCriterion({
             id: 1,
-            scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
-            threshold: CRITERION_THRESHOLD.SOME_PARTNER_COMPETENCES,
+            scope: BadgeCriterion.SCOPES.SKILL_SET,
+            threshold: CRITERION_THRESHOLD.SKILL_SET,
             partnerCompetenceIds: [COMPETENCE_RESULT_ID.SECOND],
           }),
         ];
@@ -168,8 +168,8 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         const badgeCriteria = [
           domainBuilder.buildBadgeCriterion({
             id: 1,
-            scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
-            threshold: CRITERION_THRESHOLD.SOME_PARTNER_COMPETENCES,
+            scope: BadgeCriterion.SCOPES.SKILL_SET,
+            threshold: CRITERION_THRESHOLD.SKILL_SET,
             partnerCompetenceIds: [COMPETENCE_RESULT_ID.FIRST, COMPETENCE_RESULT_ID.SECOND],
           }),
         ];
@@ -301,7 +301,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
           }),
           domainBuilder.buildBadgeCriterion({
             id: 17,
-            scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+            scope: BadgeCriterion.SCOPES.SKILL_SET,
             partnerCompetenceIds: [18, 19],
             threshold: 50,
           }),

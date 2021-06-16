@@ -257,7 +257,7 @@ function _associateBadgeCriteria(databaseBuilder, badge, badgePartnerCompetences
   });
 
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 75,
     badgeId: badge.id,
     partnerCompetenceIds: badgePartnerCompetencesIds,
@@ -323,19 +323,19 @@ function _associatePixDroitExpertBadgePartnerCompetences(databaseBuilder, target
 
 function _associatePixDroitMasterBadgeCriteria(databaseBuilder, badge, badgePartnerCompetencesIds) {
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 70,
     badgeId: badge.id,
     partnerCompetenceIds: [badgePartnerCompetencesIds[0]],
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 60,
     badgeId: badge.id,
     partnerCompetenceIds: [badgePartnerCompetencesIds[1]],
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 40,
     badgeId: badge.id,
     partnerCompetenceIds: [badgePartnerCompetencesIds[2], badgePartnerCompetencesIds[3]],
@@ -344,19 +344,19 @@ function _associatePixDroitMasterBadgeCriteria(databaseBuilder, badge, badgePart
 
 function _associatePixDroitExpertBadgeCriteria(databaseBuilder, badge, badgePartnerCompetencesIds) {
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 70,
     badgeId: badge.id,
     partnerCompetenceIds: [badgePartnerCompetencesIds[0]],
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 80,
     badgeId: badge.id,
     partnerCompetenceIds: [badgePartnerCompetencesIds[1]],
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 40,
     badgeId: badge.id,
     partnerCompetenceIds: [badgePartnerCompetencesIds[2], badgePartnerCompetencesIds[3]],
