@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { knex } = require('../../db/knex-database-connection');
+const moment = require('moment');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
 const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
@@ -10,7 +11,7 @@ const {
 } = require('../prod/generate-knowledge-element-snapshots-for-campaigns');
 const firstKECreatedAt = new Date('2020-05-01');
 const secondKECreatedAt = new Date('2020-05-02');
-const participationSharedAt = new Date('2020-05-03');
+const baseDate = new Date('2020-05-03');
 let lowRAMMode = false;
 let createSchoolingRegistration = false;
 let progression = 0;
@@ -304,11 +305,15 @@ async function _createAssessments({ userAndCampaignParticipationIds, trx }) {
 async function _createCampaignParticipations({ campaignId, userIds, trx }) {
   const participationData = [];
   for (const userId of userIds) {
+    const createdAt = moment(baseDate).add(_.random(0, 100), 'days').toDate();
+    const isShared = Boolean(_.random(0, 1));
+    const sharedAt = isShared ? moment(createdAt).add(_.random(1, 10), 'days').toDate() : null;
+
     participationData.push({
       campaignId,
-      createdAt: participationSharedAt,
-      isShared: true,
-      sharedAt: participationSharedAt,
+      createdAt,
+      isShared,
+      sharedAt,
       userId,
     });
   }
