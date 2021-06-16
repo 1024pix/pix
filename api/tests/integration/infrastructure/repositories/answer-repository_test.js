@@ -316,80 +316,58 @@ describe('Integration | Repository | answerRepository', () => {
   });
 
   describe('#findChallengeIdsFromAnswerIds', () => {
-    it('should return a list of corresponding challenge ids', async () => {
-      // given
-      const answerIds = [1, 2, 3, 4];
-      _.each(answerIds, (id) => (databaseBuilder.factory.buildAnswer({ id, challengeId: 'rec' + id })));
-      await databaseBuilder.commit();
 
-      const expectedChallengeIds = ['rec1', 'rec2', 'rec3', 'rec4'];
+    context('when provided answerIds collection is empty', () => {
 
-      // when
-      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
+      it('should return an empty array', async () => {
+        // when
+        const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([]);
 
-      // then
-      expect(challengeIds).to.deep.equal(expectedChallengeIds);
+        // then
+        expect(challengeIds).to.be.empty;
+      });
     });
 
-    it('should return an empty list when given an empty list', async () => {
-      // given
-      const answerIds = [];
+    context('when provided answerIds refer to non-existent answers', () => {
 
-      // when
-      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
+      it('should return an empty array', async () => {
+        // when
+        const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([1]);
 
-      // then
-      expect(challengeIds).to.deep.equal([]);
+        // then
+        expect(challengeIds).to.be.empty;
+      });
     });
 
-    it('should ignore a non existing answer', async () => {
-      // given
-      const answerIds = [1, 2, 3, 4];
-      _.each(answerIds, (id) => (databaseBuilder.factory.buildAnswer({ id, challengeId: 'rec' + id })));
-      await databaseBuilder.commit();
+    context('when provided answerIds list contains duplicate ids', () => {
 
-      const nonExistingAnswerId = 1234;
+      it('should return distinct challengeIds', async () => {
+        // given
+        databaseBuilder.factory.buildAnswer({ id: 123, challengeId: 'recABC' });
+        await databaseBuilder.commit();
 
-      const expectedChallengeIds = ['rec1', 'rec2', 'rec3', 'rec4'];
+        // when
+        const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([123, 123]);
 
-      // when
-      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(
-        answerIds.concat([nonExistingAnswerId]),
-      );
-
-      // then
-      expect(challengeIds).to.deep.equal(expectedChallengeIds);
+        // then
+        expect(challengeIds).to.have.length(1);
+        expect(challengeIds[0]).to.equal('recABC');
+      });
     });
 
-    it('should return one challenge which valid 2 distinct skills', async () => {
+    it('should return a list of corresponding distinct challenge ids', async () => {
       // given
-      const answerIds = [1, 1];
-
-      databaseBuilder.factory.buildAnswer({ id: 1, challengeId: 'rec10' });
+      databaseBuilder.factory.buildAnswer({ id: 123, challengeId: 'recABC' });
+      databaseBuilder.factory.buildAnswer({ id: 456, challengeId: 'recDEF' });
+      databaseBuilder.factory.buildAnswer({ id: 789, challengeId: 'recGHI' });
+      databaseBuilder.factory.buildAnswer({ id: 159, challengeId: 'recABC' });
       await databaseBuilder.commit();
 
-      const expectedChallengeIds = ['rec10'];
-
       // when
-      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
+      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([123, 456, 789, 159]);
 
       // then
-      expect(challengeIds).to.deep.equal(expectedChallengeIds);
-    });
-
-    it('should return only once a challengeId answered twice', async () => {
-      // given
-      const answerIds = [1, 2];
-      _.each(answerIds, (id) => (databaseBuilder.factory.buildAnswer({ id, challengeId: 'recChallenge10' })));
-      await databaseBuilder.commit();
-
-      const expectedChallengeIds = ['recChallenge10'];
-
-      // when
-      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
-
-      // then
-      expect(challengeIds).to.deep.equal(expectedChallengeIds);
+      expect(challengeIds).to.deep.equal(['recABC', 'recDEF', 'recGHI']);
     });
   });
 
