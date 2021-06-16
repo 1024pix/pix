@@ -915,7 +915,7 @@
       "instruction": "Enter your new password",
       "succeed": "Your password has been changed successfully."
     },
-    "recovery-account-after-leaving-sco": {
+    "recover-account-after-leaving-sco": {
       "title": "TODO...",
       "student-information": {
         "title": "TODO...",
@@ -924,11 +924,27 @@
           "text": "TODO..."
         },
         "form": {
-          "ine": "TODO...",
+          "ine-ina": "TODO...",
           "last-name": "TODO...",
           "first-name": "TODO...",
           "birthdate": "TODO...",
-          "submit": "TODO..."
+          "submit": "TODO...",
+          "label": {
+            "birth-day": "TODO...",
+            "birth-month": "mois de naissance",
+            "birth-year": "année de naissance"
+          },
+          "placeholder": {
+            "birth-day": "JJ",
+            "birth-month": "MM",
+            "birth-year": "AAAA"
+          }
+        },
+        "errors":{
+          "invalid-ine-ina-format": "TODO...",
+          "empty-ine-ina": "empty ine ina",
+          "empty-last-name": "empty last name",
+          "empty-first-name": "empty first name"
         }
       }
     },
