@@ -44,10 +44,7 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   get isTimedChallengeWithoutAnswer() {
-    if (this.isTimedChallenge && !this.args.answer) {
-      return true;
-    }
-    return false;
+    return this.isTimedChallenge && !this.args.answer;
   }
 
   get _hasSeenWarningPage() {
