@@ -373,32 +373,86 @@ describe('Integration | Repository | answerRepository', () => {
 
   describe('#findCorrectAnswersByAssessmentId', () => {
 
-    beforeEach(() => {
-      _.each([
-        { result: 'ok', challengeId, assessmentId },
-        { result: 'ok', challengeId, assessmentId: otherAssessmentId },
-        { result: 'ko', challengeId: otherChallengeId, assessmentId },
-      ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
-      return databaseBuilder.commit();
+    context('when assessment does not exist', () => {
+
+      it('should return an empty array', async () => {
+        // given
+        databaseBuilder.factory.buildAssessment({ id: 123 });
+        databaseBuilder.factory.buildAnswer({ assessmentId: 123 });
+        await databaseBuilder.commit();
+
+        // when
+        const foundAnswers = await answerRepository.findCorrectAnswersByAssessmentId(456);
+
+        // then
+        expect(foundAnswers).to.be.empty;
+      });
     });
 
-    it('should retrieve answers with ok status from assessment id provided', async () => {
-      // given
-      const expectedStatus = {
-        status: 'ok',
-      };
+    context('when assessment does not have any answers', () => {
 
-      // when
-      const answers = await answerRepository.findCorrectAnswersByAssessmentId(assessmentId);
+      it('should return an empty array', async () => {
+        // given
+        databaseBuilder.factory.buildAssessment({ id: 123 });
+        databaseBuilder.factory.buildAssessment({ id: 456 });
+        databaseBuilder.factory.buildAnswer({ assessmentId: 456 });
+        await databaseBuilder.commit();
 
-      // then
-      expect(answers).to.exist;
-      expect(answers).to.have.length.of(1);
+        // when
+        const foundAnswers = await answerRepository.findCorrectAnswersByAssessmentId(123);
 
-      const foundAnswer = answers[0];
+        // then
+        expect(foundAnswers).to.be.empty;
+      });
+    });
 
-      expect(foundAnswer.assessmentId).to.be.equal(assessmentId);
-      expect(foundAnswer.result).to.deep.equal(expectedStatus);
+    context('when assessment has some answers', () => {
+
+      it('should return the valid answers only', async () => {
+        // given
+        const firstAnswer = domainBuilder.buildAnswer({
+          id: 1,
+          result: AnswerStatus.OK,
+          resultDetails: 'some details',
+          timeout: 456,
+          value: 'Fruits',
+          assessmentId: 123,
+          challengeId: 'recChallenge123',
+          timeSpent: 20,
+        });
+        const secondAnswer = domainBuilder.buildAnswer({
+          id: 2,
+          result: AnswerStatus.KO,
+          resultDetails: 'some details',
+          timeout: null,
+          value: 'Fruits',
+          assessmentId: 123,
+          challengeId: 'recChallenge456',
+          timeSpent: 20,
+        });
+        const thirdAnswer = domainBuilder.buildAnswer({
+          id: 3,
+          result: AnswerStatus.OK,
+          resultDetails: 'some other details',
+          timeout: null,
+          value: 'Légumes',
+          assessmentId: 123,
+          challengeId: 'recChallenge789',
+          timeSpent: 45,
+        });
+        databaseBuilder.factory.buildAssessment({ id: 123 });
+        databaseBuilder.factory.buildAnswer({ ...firstAnswer, result: 'ok' });
+        databaseBuilder.factory.buildAnswer({ ...secondAnswer, result: 'ko' });
+        databaseBuilder.factory.buildAnswer({ ...thirdAnswer, result: 'ok' });
+        await databaseBuilder.commit();
+
+        // when
+        const foundAnswers = await answerRepository.findCorrectAnswersByAssessmentId(123);
+
+        // then
+        expect(foundAnswers[0]).to.be.an.instanceof(Answer);
+        expect(foundAnswers).to.deep.equal([firstAnswer, thirdAnswer]);
+      });
     });
   });
 
