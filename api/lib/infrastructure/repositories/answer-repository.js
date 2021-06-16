@@ -72,11 +72,18 @@ module.exports = {
     return answerDTOs.map((answerDTO) => _toDomainFromKnex(answerDTO));
   },
 
-  findByChallengeAndAssessment({ challengeId, assessmentId }) {
-    return BookshelfAnswer
+  async findByChallengeAndAssessment({ challengeId, assessmentId }) {
+    const result = await Bookshelf.knex
+      .select(FIELDS)
+      .from('answers')
       .where({ challengeId, assessmentId })
-      .fetch({ require: false })
-      .then(_toDomain);
+      .first();
+
+    if (!result) {
+      return null;
+    }
+
+    return _toDomainFromKnex(result);
   },
 
   findByAssessment(assessmentId) {
