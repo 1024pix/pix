@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.65.0 (16/06/2021)
+
+- [#3089](https://github.com/1024pix/pix/pull/3089) [FEATURE] Documenter le endpoint de récupération des résultats Pôle emploi (PIX-2681).
+- [#3092](https://github.com/1024pix/pix/pull/3092) [FEATURE] Reporter les informations CPF dans le certification-course du candidat lors du démarrage de son test de certification (PIX-2716)
+- [#3098](https://github.com/1024pix/pix/pull/3098) [FEATURE] Ajustement du scoring CléA numérique (PIX-2724)
+- [#3103](https://github.com/1024pix/pix/pull/3103) [FEATURE] Ajout de liens vers la preview et les informations d'une épreuve sur la page de détails d'une certification dans PixAdmin (PIX-2727)
+- [#3083](https://github.com/1024pix/pix/pull/3083) [FEATURE] Reporter les informations CPF lors de l'inscription de candidats de certification dans le cadre de la prescription de certification SCO (PIX-2695)
+- [#3091](https://github.com/1024pix/pix/pull/3091) [BUGFIX] Corriger le dysfonctionnement de la page login de Pix Admin (PIX-2133).
+- [#3100](https://github.com/1024pix/pix/pull/3100) [BUGFIX] Suppression de la barre de défilement horizontal sur la page compétences (PIX-2726).
+- [#3040](https://github.com/1024pix/pix/pull/3040) [TECH] Contrôler les requêtes entrantes uniquement dans le routeur.
+- [#3108](https://github.com/1024pix/pix/pull/3108) [TECH] Documenter la configuration Sentry.
+
 ## v3.64.0 (14/06/2021)
 
 - [#3094](https://github.com/1024pix/pix/pull/3094) [FEATURE] Afficher les fichiers microsoft en premier dans les épreuves (PIX-2612).
