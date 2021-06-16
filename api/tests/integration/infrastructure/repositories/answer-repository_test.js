@@ -166,6 +166,52 @@ describe('Integration | Repository | answerRepository', () => {
       expect(foundAnswer).to.be.an.instanceOf(Answer);
       expect(foundAnswer).to.deep.equal(expectedAnswer);
     });
+
+    it('should return the most recent answer when several answers match with challenge and assessment', async () => {
+      // given
+      const olderAnswer = domainBuilder.buildAnswer({
+        id: 1,
+        result: AnswerStatus.OK,
+        resultDetails: 'some details',
+        timeout: 456,
+        value: 'Fruits',
+        assessmentId: 123,
+        challengeId: 'recChallenge123',
+        timeSpent: 20,
+      });
+      const newerAnswer = domainBuilder.buildAnswer({
+        id: 2,
+        result: AnswerStatus.KO,
+        resultDetails: 'some other details',
+        timeout: null,
+        value: 'Légumes',
+        assessmentId: 123,
+        challengeId: 'recChallenge123',
+        timeSpent: 25,
+      });
+      databaseBuilder.factory.buildAssessment({ id: 123 });
+      databaseBuilder.factory.buildAnswer({
+        ...olderAnswer,
+        result: 'ok',
+        createdAt: new Date('2020-01-01'),
+      });
+      databaseBuilder.factory.buildAnswer({
+        ...newerAnswer,
+        result: 'ko',
+        createdAt: new Date('2021-01-01'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const foundAnswer = await answerRepository.findByChallengeAndAssessment({
+        challengeId: 'recChallenge123',
+        assessmentId: 123,
+      });
+
+      // then
+      expect(foundAnswer).to.be.an.instanceOf(Answer);
+      expect(foundAnswer).to.deep.equal(newerAnswer);
+    });
   });
 
   describe('#findByAssessment', () => {
