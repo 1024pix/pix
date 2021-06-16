@@ -355,7 +355,7 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    it('should return a list of corresponding distinct challenge ids', async () => {
+    it('should return a list of corresponding distinct challenge ids ordered by challenge id', async () => {
       // given
       databaseBuilder.factory.buildAnswer({ id: 123, challengeId: 'recABC' });
       databaseBuilder.factory.buildAnswer({ id: 456, challengeId: 'recDEF' });
@@ -364,7 +364,7 @@ describe('Integration | Repository | answerRepository', () => {
       await databaseBuilder.commit();
 
       // when
-      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([123, 456, 789, 159]);
+      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([456, 123, 789, 159]);
 
       // then
       expect(challengeIds).to.deep.equal(['recABC', 'recDEF', 'recGHI']);
