@@ -120,11 +120,14 @@ module.exports = {
     return _(answerPartialDTOs).map('challengeId').uniq().value();
   },
 
-  findCorrectAnswersByAssessmentId(assessmentId) {
-    return BookshelfAnswer
+  async findCorrectAnswersByAssessmentId(assessmentId) {
+    const answerDTOs = await Bookshelf.knex
+      .select(FIELDS)
+      .from('answers')
       .where({ assessmentId, result: 'ok' })
-      .fetchAll()
-      .then((answers) => answers.models.map(_toDomain));
+      .orderBy('id');
+
+    return answerDTOs.map((answerDTO) => _toDomainFromKnex(answerDTO));
   },
 
   async saveWithKnowledgeElements(answer, knowledgeElements) {
