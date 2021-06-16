@@ -58,6 +58,7 @@ module.exports = {
       .select(FIELDS)
       .from('answers')
       .where({ challengeId, assessmentId })
+      .orderBy('createdAt', 'desc')
       .first();
 
     if (!answerDTO) {
