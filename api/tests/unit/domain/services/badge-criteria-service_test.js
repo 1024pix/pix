@@ -6,7 +6,6 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 
 const CRITERION_THRESHOLD = {
   CAMPAIGN_PARTICIPATION: 70,
-  EVERY_PARTNER_COMPETENCE: 40,
   SOME_PARTNER_COMPETENCES: 60,
 };
 
@@ -113,48 +112,6 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         // given
         const masteryPercentage = 20;
         const partnerCompetenceResults = [];
-
-        // when
-        const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
-
-        // then
-        expect(result).to.be.equal(false);
-      });
-    });
-
-    context('when the EVERY_PARTNER_COMPETENCE is the only badge criterion', function() {
-      const badgeCriteria = [
-        domainBuilder.buildBadgeCriterion({
-          id: 1,
-          scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
-          threshold: CRITERION_THRESHOLD.EVERY_PARTNER_COMPETENCE,
-        }),
-      ];
-
-      const badge = domainBuilder.buildBadge({ badgeCriteria });
-
-      it('should return true when fulfilled', async () => {
-        // given
-        const masteryPercentage = 10;
-        const partnerCompetenceResults = [
-          { id: COMPETENCE_RESULT_ID.FIRST, masteryPercentage: 40 },
-          { id: COMPETENCE_RESULT_ID.SECOND, masteryPercentage: 40 },
-        ];
-
-        // when
-        const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
-
-        // then
-        expect(result).to.be.equal(true);
-      });
-
-      it('should return false when not fulfilled', async () => {
-        // given
-        const masteryPercentage = 10;
-        const partnerCompetenceResults = [
-          { id: COMPETENCE_RESULT_ID.FIRST, masteryPercentage: 30 },
-          { id: COMPETENCE_RESULT_ID.SECOND, masteryPercentage: 40 },
-        ];
 
         // when
         const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
@@ -293,7 +250,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         badgeCriteria: [
           domainBuilder.buildBadgeCriterion({
             id: 17,
-            scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+            scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
             threshold: 54,
           }),
         ],
@@ -320,6 +277,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
       const knowledgeElements = [
         new KnowledgeElement({ skillId: 1, status: 'validated' }),
         new KnowledgeElement({ skillId: 2, status: 'validated' }),
+        new KnowledgeElement({ skillId: 4, status: 'validated' }),
         new KnowledgeElement({ skillId: 7, status: 'validated' }),
       ];
       const skills = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
@@ -338,16 +296,26 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         badgeCriteria: [
           domainBuilder.buildBadgeCriterion({
             id: 17,
-            scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
-            threshold: 54,
+            scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+            threshold: 50,
+          }),
+          domainBuilder.buildBadgeCriterion({
+            id: 17,
+            scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+            partnerCompetenceIds: [18, 19],
+            threshold: 50,
           }),
         ],
         badgePartnerCompetences: [
           domainBuilder.buildBadgePartnerCompetence({
             id: 18,
             name: 'Yellow',
-            color: 'emerald',
-            skillIds: [1, 2, 4],
+            skillIds: [1, 2],
+          }),
+          domainBuilder.buildBadgePartnerCompetence({
+            id: 18,
+            name: 'Darken Yellow',
+            skillIds: [3, 4],
           }),
         ],
         targetProfileId: targetProfile.id,
