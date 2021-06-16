@@ -1,8 +1,7 @@
-const { expect, knex, domainBuilder, databaseBuilder, sinon, catchErr } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const BookshelfKnowledgeElement = require('../../../../lib/infrastructure/orm-models/KnowledgeElement');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
@@ -560,12 +559,10 @@ describe('Integration | Repository | answerRepository', () => {
           id: null,
           createdAt: null,
           assessmentId: 123,
-          userId: 456,
+          userId: 456, // constraint violation here
         });
-        databaseBuilder.factory.buildUser({ id: 456 });
         databaseBuilder.factory.buildAssessment({ id: 123 });
         await databaseBuilder.commit();
-        sinon.stub(BookshelfKnowledgeElement.prototype, 'save').rejects();
 
         // when
         await catchErr(answerRepository.saveWithKnowledgeElements)(answerToSave, [knowledgeElement]);

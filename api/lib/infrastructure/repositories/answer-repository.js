@@ -1,41 +1,24 @@
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
-const BookshelfAnswer = require('../orm-models/Answer');
-const BookshelfKnowledgeElement = require('../orm-models/KnowledgeElement');
 const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
 const jsYaml = require('js-yaml');
 const _ = require('lodash');
 
-function _adaptModelToDb(answer) {
+function _adaptAnswerToDb(answer) {
   return {
+    ..._.pick(answer, ['value', 'timeout', 'challengeId', 'assessmentId', 'timeSpent']),
     result: answerStatusDatabaseAdapter.toSQLString(answer.result),
     resultDetails: jsYaml.dump(answer.resultDetails),
-    value: answer.value,
-    timeout: answer.timeout,
-    challengeId: answer.challengeId,
-    assessmentId: answer.assessmentId,
-    timeSpent: answer.timeSpent,
   };
 }
 
-function _toDomain(bookshelfAnswer) {
-  if (bookshelfAnswer) {
-    return new Answer({
-      id: bookshelfAnswer.get('id'),
-      result: answerStatusDatabaseAdapter.fromSQLString(bookshelfAnswer.get('result')),
-      resultDetails: bookshelfAnswer.get('resultDetails'),
-      timeout: bookshelfAnswer.get('timeout'),
-      value: bookshelfAnswer.get('value'),
-      assessmentId: bookshelfAnswer.get('assessmentId'),
-      challengeId: bookshelfAnswer.get('challengeId'),
-      timeSpent: bookshelfAnswer.get('timeSpent'),
-    });
-  }
-  return null;
+function _adaptKnowledgeElementToDb(knowledgeElement) {
+  return _.pick(knowledgeElement, ['source', 'status', 'earnedPix',
+    'answerId', 'assessmentId', 'skillId', 'userId', 'competenceId']);
 }
 
-function _toDomainFromKnex(answerDTO) {
+function _toDomain(answerDTO) {
   return new Answer({
     ...answerDTO,
     result: answerStatusDatabaseAdapter.fromSQLString(answerDTO.result),
@@ -57,7 +40,7 @@ module.exports = {
       throw new NotFoundError(`Not found answer for ID ${id}`);
     }
 
-    return _toDomainFromKnex(answerDTO);
+    return _toDomain(answerDTO);
   },
 
   async findByIds(ids) {
@@ -67,7 +50,7 @@ module.exports = {
       .whereIn('id', ids)
       .orderBy('id');
 
-    return answerDTOs.map((answerDTO) => _toDomainFromKnex(answerDTO));
+    return answerDTOs.map((answerDTO) => _toDomain(answerDTO));
   },
 
   async findByChallengeAndAssessment({ challengeId, assessmentId }) {
@@ -81,7 +64,7 @@ module.exports = {
       return null;
     }
 
-    return _toDomainFromKnex(answerDTO);
+    return _toDomain(answerDTO);
   },
 
   async findByAssessment(assessmentId) {
@@ -91,7 +74,7 @@ module.exports = {
       .where({ assessmentId })
       .orderBy('createdAt');
 
-    return answerDTOs.map((answerDTO) => _toDomainFromKnex(answerDTO));
+    return answerDTOs.map((answerDTO) => _toDomain(answerDTO));
   },
 
   async findLastByAssessment(assessmentId) {
@@ -106,7 +89,7 @@ module.exports = {
       return null;
     }
 
-    return _toDomainFromKnex(answerDTO);
+    return _toDomain(answerDTO);
   },
 
   async findChallengeIdsFromAnswerIds(ids) {
@@ -126,22 +109,25 @@ module.exports = {
       .where({ assessmentId, result: 'ok' })
       .orderBy('id');
 
-    return answerDTOs.map((answerDTO) => _toDomainFromKnex(answerDTO));
+    return answerDTOs.map((answerDTO) => _toDomain(answerDTO));
   },
 
   async saveWithKnowledgeElements(answer, knowledgeElements) {
-    const answerForDB = _adaptModelToDb(answer);
-
-    return Bookshelf.transaction(async (transacting) => {
-      const answerSaved = await new BookshelfAnswer(answerForDB)
-        .save(null, { require: true, method: 'insert', transacting });
-      knowledgeElements.map((knowledgeElement) => knowledgeElement.answerId = answerSaved.id);
-      await Promise.all(knowledgeElements.map(async (knowledgeElement) => {
-        const knowledgeElementBookshelf = await new BookshelfKnowledgeElement(_.omit(knowledgeElement, ['id', 'createdAt']));
-        await knowledgeElementBookshelf.save(null, { transacting });
-      }));
-
-      return _toDomain(answerSaved);
-    });
+    const answerForDB = _adaptAnswerToDb(answer);
+    const trx = await Bookshelf.knex.transaction();
+    try {
+      const [savedAnswerDTO] = await trx('answers').insert(answerForDB, FIELDS);
+      const savedAnswer = _toDomain(savedAnswerDTO);
+      for (const knowledgeElement of knowledgeElements) {
+        knowledgeElement.answerId = savedAnswer.id;
+        const knowledgeElementForDB = _adaptKnowledgeElementToDb(knowledgeElement);
+        await trx('knowledge-elements').insert(knowledgeElementForDB);
+      }
+      await trx.commit();
+      return savedAnswer;
+    } catch (error) {
+      await trx.rollback();
+      throw error;
+    }
   },
 };
