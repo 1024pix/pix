@@ -138,9 +138,9 @@ describe('Unit | Domain | Models | CleaCertificationScoring', () => {
 
     context('reproducibility rate in grey zone', () => {
 
-      it('for 70 reproducibility rate, it should obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore', async () => {
+      it('for 70 reproducibility rate, it should obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore for at least 75% of them', async () => {
         // given
-        const cleaCertificationScoring = await _buildCleaCertificationScoringInGreyZoneAndCertifiableCompetences();
+        const cleaCertificationScoring = await _buildCleaCertificationScoringInGreyZoneAndAtLeast75PercentOfCertifiableCompetences();
 
         // when
         const hasAcquiredCertif = cleaCertificationScoring.isAcquired();
@@ -149,9 +149,37 @@ describe('Unit | Domain | Models | CleaCertificationScoring', () => {
         expect(hasAcquiredCertif).to.be.true;
       });
 
-      it('for 70 reproducibility rate, it should not obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore', async () => {
+      it('for 70 reproducibility rate, it should not obtain certification when there are no competence marks for clea eligible competences', async () => {
         // given
-        const cleaCertificationScoring = await _buildCleaCertificationScoringInGreyZoneAndNonCertifiableCompetences();
+        const competenceId1 = 'competenceId1', competenceId2 = 'competenceId2',
+          competenceId3 = 'competenceId3', competenceId4 = 'competenceId4';
+
+        const maxReachablePixByCompetenceForClea = {
+          [competenceId1]: 20,
+          [competenceId2]: 10,
+          [competenceId3]: 15,
+          [competenceId4]: 12,
+          'competenceId5': 30,
+        };
+
+        const cleaCompetenceMarks = [];
+        const cleaCertificationScoring = _buildCleaCertificationScoring({
+          withBadge: true,
+          reproducibilityRate: 70,
+          cleaCompetenceMarks,
+          maxReachablePixByCompetenceForClea,
+        });
+
+        // when
+        const hasAcquiredCertif = cleaCertificationScoring.isAcquired();
+
+        // then
+        expect(hasAcquiredCertif).to.be.false;
+      });
+
+      it('for 70 reproducibility rate, it should not obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore for less than 75% of them', async () => {
+        // given
+        const cleaCertificationScoring = await _buildCleaCertificationScoringInGreyZoneAndLessThan75PercentOfCertifiableCompetences();
 
         // when
         const hasAcquiredCertif = cleaCertificationScoring.isAcquired();
@@ -193,60 +221,73 @@ function _buildCleaCertificationScoringWithReproducibilityRate(reproducibilityRa
   return _buildCleaCertificationScoring({ withBadge: true, reproducibilityRate });
 }
 
-function _buildCleaCertificationScoringInGreyZoneAndCertifiableCompetences() {
-  const competenceId1 = 'competenceId1', competenceId2 = 'competenceId2';
+function _buildCleaCertificationScoringInGreyZoneAndAtLeast75PercentOfCertifiableCompetences() {
+  const competenceId1 = 'competenceId1', competenceId2 = 'competenceId2',
+    competenceId3 = 'competenceId3', competenceId4 = 'competenceId4';
 
   const maxReachablePixByCompetenceForClea = {
     [competenceId1]: 20,
     [competenceId2]: 10,
-    ['competenceId4']: 30,
+    [competenceId3]: 15,
+    [competenceId4]: 12,
+    'competenceId5': 30,
   };
 
   const cleaCompetenceMarks = [
-    domainBuilder.buildCompetenceMark(
-      {
-        competenceId: competenceId1,
-        score: 15,
-      },
-    ),
-    domainBuilder.buildCompetenceMark(
-      {
-        competenceId: competenceId2,
-        score: 8,
-      },
-    ),
+    domainBuilder.buildCompetenceMark({
+      competenceId: competenceId1,
+      score: 15,
+    }),
+    domainBuilder.buildCompetenceMark({
+      competenceId: competenceId2,
+      score: 8,
+    }),
+    domainBuilder.buildCompetenceMark({
+      competenceId: competenceId3,
+      score: 3,
+    }),
+    domainBuilder.buildCompetenceMark({
+      competenceId: competenceId4,
+      score: 10,
+    }),
   ];
-  return _buildCleaCertificationScoring(
-    {
-      withBadge: true,
-      reproducibilityRate: 70,
-      cleaCompetenceMarks,
-      maxReachablePixByCompetenceForClea,
-    });
+  return _buildCleaCertificationScoring({
+    withBadge: true,
+    reproducibilityRate: 70,
+    cleaCompetenceMarks,
+    maxReachablePixByCompetenceForClea,
+  });
 }
 
-function _buildCleaCertificationScoringInGreyZoneAndNonCertifiableCompetences() {
-  const competenceId1 = 'competenceId1', competenceId2 = 'competenceId2';
+function _buildCleaCertificationScoringInGreyZoneAndLessThan75PercentOfCertifiableCompetences() {
+  const competenceId1 = 'competenceId1', competenceId2 = 'competenceId2',
+    competenceId3 = 'competenceId3', competenceId4 = 'competenceId4';
 
   const maxReachablePixByCompetenceForClea = {
     [competenceId1]: 20,
     [competenceId2]: 10,
-    ['competenceId4']: 30,
+    [competenceId3]: 15,
+    [competenceId4]: 12,
+    'competenceId5': 30,
   };
 
   const cleaCompetenceMarks = [
-    domainBuilder.buildCompetenceMark(
-      {
-        competenceId: competenceId1,
-        score: 15,
-      },
-    ),
-    domainBuilder.buildCompetenceMark(
-      {
-        competenceId: competenceId2,
-        score: 7,
-      },
-    ),
+    domainBuilder.buildCompetenceMark({
+      competenceId: competenceId1,
+      score: 4,
+    }),
+    domainBuilder.buildCompetenceMark({
+      competenceId: competenceId2,
+      score: 8,
+    }),
+    domainBuilder.buildCompetenceMark({
+      competenceId: competenceId3,
+      score: 3,
+    }),
+    domainBuilder.buildCompetenceMark({
+      competenceId: competenceId4,
+      score: 10,
+    }),
   ];
   return _buildCleaCertificationScoring({
     withBadge: true,
