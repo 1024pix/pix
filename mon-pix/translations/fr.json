@@ -916,7 +916,7 @@
       "succeed": "Votre mot de passe a été modifié avec succès."
     },
     "recover-account-after-leaving-sco": {
-      "title": "Récupérer son compte Pix",
+      "title": "Récupérer mon compte",
       "student-information": {
         "title": "Collégiens, lycéens, vous quittez le système scolaire et vous souhaitez récupérer votre accès à Pix",
         "subtitle": {
@@ -940,11 +940,11 @@
             "birth-year": "AAAA"
           }
         },
-        "errors":{
-          "invalid-ine-ina-format": "TODO...",
-          "empty-ine-ina": "TODO...",
-          "empty-last-name": "TODO...",
-          "empty-first-name": "TODO..."
+        "errors": {
+          "invalid-ine-ina-format": "Le champ INE est obligatoire.",
+          "empty-ine-ina": "le champ INE n'est pas au bon format.",
+          "empty-last-name": "Le champ nom est obligatoire.",
+          "empty-first-name": "Le champ prénom est obligatoire."
         }
       }
     },
