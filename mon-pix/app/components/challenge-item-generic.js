@@ -13,25 +13,6 @@ export default class ChallengeItemGeneric extends Component {
   @tracked errorMessage = null;
   @tracked hasFocusedOut = false;
 
-  constructor() {
-    super(...arguments);
-
-    if (this.args.challenge.focused) {
-      this._setOnBlurMethod();
-    }
-  }
-
-  _setOnBlurMethod() {
-    document.onblur = () => {
-      this.hasFocusedOut = true;
-      this._clearOnBlurMethod();
-    };
-  }
-
-  _clearOnBlurMethod() {
-    document.onblur = null;
-  }
-
   get displayTimer() {
     return this.isTimedChallengeWithoutAnswer && this.hasUserConfirmedWarning;
   }
@@ -46,11 +27,25 @@ export default class ChallengeItemGeneric extends Component {
     }
 
     if (this.isFocusedChallenge) {
-      if (this.hasUserConfirmedFocusWarning) return true;
+      if (this.hasUserConfirmedFocusWarning) {
+        this._setOnBlurMethod();
+        return true;
+      }
       if (this.args.answer) return true;
     }
 
     return false;
+  }
+
+  _setOnBlurMethod() {
+    window.onblur = () => {
+      this.hasFocusedOut = true;
+      this._clearOnBlurMethod();
+    };
+  }
+
+  _clearOnBlurMethod() {
+    window.onblur = null;
   }
 
   get isTimedChallenge() {
