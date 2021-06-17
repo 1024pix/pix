@@ -14,6 +14,7 @@ describe('Unit | Service | feature-toggles', function() {
 
     const featureToggles = Object.create({
       isPoleEmploiEnabled: false,
+      isScoAccountRecoveryEnabled: false,
     });
 
     let storeStub;
