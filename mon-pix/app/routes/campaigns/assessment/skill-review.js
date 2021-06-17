@@ -5,7 +5,16 @@ export default class SkillReviewRoute extends Route.extend(SecuredRouteMixin) {
   async model() {
     const user = this.currentUser.user;
     const campaign = this.modelFor('campaigns');
-    const campaignParticipationResult = await this.store.queryRecord('campaignParticipationResult', { campaignId: campaign.id, userId: user.id });
-    return { campaign, campaignParticipationResult };
+    try {
+      const campaignParticipationResult = await this.store.queryRecord('campaignParticipationResult', {
+        campaignId: campaign.id,
+        userId: user.id,
+      });
+      return { campaign, campaignParticipationResult };
+    } catch (error) {
+      if (error.errors?.[0]?.status === '412') {
+        return this.transitionTo('campaigns.start-or-resume', campaign.code);
+      } else throw error;
+    }
   }
 }

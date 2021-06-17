@@ -8,7 +8,7 @@ import getUserCampaignParticipationOverviews from './get-user-campaign-participa
 import getUserCampaignParticipationToCampaign from './get-user-campaign-participation-to-campaign';
 import getUserSharedProfileForCampaign from './get-user-shared-profile-for-campaign';
 import resetScorecard from './reset-scorecard';
-import getCampaignParticipationResult from '../get-campaign-participation-result';
+import getCampaignParticipationResult from './get-campaign-participation-result';
 
 export default function index(config) {
   config.get('/users/me', getAuthenticatedUser);
