@@ -1,7 +1,6 @@
 const Joi = require('joi');
 const { InvalidCertificationIssueReportForSaving, DeprecatedCertificationIssueReportSubcategory } = require('../errors');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('./CertificationIssueReportCategory');
-const CertificationIssueReportStrategies = require('./CertificationIssueReportResolutionStrategies');
 
 const categoryOtherJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
@@ -98,14 +97,6 @@ const deprecatedSubcategories = [
   CertificationIssueReportSubcategories.OTHER,
 ];
 
-const autoNeutralizableSubcategories = [
-  CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
-  CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
-  CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-  CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
-  CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
-];
-
 class CertificationIssueReport {
   constructor(
     {
@@ -127,8 +118,6 @@ class CertificationIssueReport {
     this.resolvedAt = resolvedAt;
     this.resolution = resolution;
     this.isImpactful = _isImpactful({ category, subcategory });
-    this.isAutoNeutralizable = _isSubcategoryAutoNeutralizable(subcategory);
-    this.resolutionStrategy = _getResolutionStrategy(subcategory);
 
     if ([CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN, CertificationIssueReportCategories.OTHER].includes(this.category)) {
       this.subcategory = null;
@@ -200,38 +189,4 @@ function _isImpactful({ category, subcategory }) {
 
 function _isSubcategoryDeprecated(subcategory) {
   return deprecatedSubcategories.includes(subcategory);
-}
-
-function _isSubcategoryAutoNeutralizable(subcategory) {
-  return autoNeutralizableSubcategories.includes(subcategory);
-}
-
-function _getResolutionStrategy(subcategory) {
-  if (
-    subcategory === CertificationIssueReportSubcategories.WEBSITE_BLOCKED ||
-    subcategory === CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE ||
-    subcategory === CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING
-  ) {
-    return CertificationIssueReportStrategies.NEUTRALIZE_WITHOUT_CHECKING;
-  }
-
-  if (
-    subcategory === CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING
-  ) {
-    return CertificationIssueReportStrategies.NEUTRALIZE_IF_IMAGE;
-  }
-
-  if (
-    subcategory === CertificationIssueReportSubcategories.EMBED_NOT_WORKING
-  ) {
-    return CertificationIssueReportStrategies.NEUTRALIZE_IF_EMBED;
-  }
-
-  if (
-    subcategory === CertificationIssueReportSubcategories.FILE_NOT_OPENING
-  ) {
-    return CertificationIssueReportStrategies.NEUTRALIZE_IF_ATTACHMENT;
-  }
-
-  return CertificationIssueReportStrategies.NONE;
 }
