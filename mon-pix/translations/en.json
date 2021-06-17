@@ -694,6 +694,11 @@
       },
       "first-title": "Before starting"
     },
+    "focused-challenge-instructions": {
+      "action": "",
+      "primary": "",
+      "secondary": ""
+    },
     "join": {
       "title": "Join",
       "button": "Let's go!",

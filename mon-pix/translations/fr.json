@@ -694,6 +694,11 @@
       },
       "first-title": "Avant de commencer"
     },
+    "focused-challenge-instructions": {
+      "action": "Commencer",
+      "primary": "La prochaine question ne nécessite aucune recherche. Tout changement d'onglet, de fenêtre ou d'application entraînera la non-validation de l'épreuve.",
+      "secondary": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
+    },
     "join": {
       "title": "Rejoindre",
       "button": "C'est parti !",

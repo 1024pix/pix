@@ -9,7 +9,7 @@
 
   {{#if this.isFocusedChallengeWithoutAnswer}}
     {{#unless this.hasUserConfirmedFocusWarning}}
-      <FocusChallengeInstructions @hasUserConfirmedWarning={{this.setUserFocusChallengeConfirmation}} />
+      <FocusedChallengeInstructions @hasUserConfirmedWarning={{this.setUserFocusChallengeConfirmation}} />
     {{/unless}}
   {{/if}}
 
