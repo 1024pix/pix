@@ -13,7 +13,7 @@ describe('Acceptance | RecoverAccountAfterLeavingScoRoute', function() {
 
     it('should redirect to login page', async () => {
       // given / when
-      await visit('/sos');
+      await visit('/recuperer-mon-compte');
 
       // then
       expect(currentURL()).to.equal('/connexion');
@@ -27,10 +27,10 @@ describe('Acceptance | RecoverAccountAfterLeavingScoRoute', function() {
       server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
       //when
-      await visit('/sos');
+      await visit('/recuperer-mon-compte');
 
       // then
-      expect(currentURL()).to.equal('/sos');
+      expect(currentURL()).to.equal('/recuperer-mon-compte');
     });
   });
 
