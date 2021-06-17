@@ -35,5 +35,11 @@ module.exports = function(defaults) {
     ],
   });
 
+  app.import('node_modules/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.js', {
+    using: [
+      { transformation: 'amd', as: 'chartjs-adapter-date-fns.js' },
+    ],
+  });
+
   return app.toTree();
 };

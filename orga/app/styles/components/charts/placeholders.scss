@@ -1,10 +1,10 @@
 .placeholder-box {
   background-color: $grey-10;
   border-radius: 5px;
-  animation: placeholder-color 1s infinite alternate;
+  animation: placeholder-background-color 1s infinite alternate;
 }
 
-@keyframes placeholder-color {
+@keyframes placeholder-background-color {
   from { background-color: $grey-10; border-color: $grey-10;  }
   to { background-color: $grey-20; border-color: $grey-20; }
 }
