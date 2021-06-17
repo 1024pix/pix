@@ -346,7 +346,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           beforeEach(async function() {
             campaign = server.create('campaign', { type: ASSESSMENT, multipleSendings: true });
             const assessment = server.create('assessment', { type: 'CAMPAIGN', state: 'completed', codeCampaign: campaign.code });
-            server.create('campaign-participation', { sharedAt: new Date('2020-01-01'), isShared: true, createdAt: new Date('2020-01-01'), assessment, campaign });
+            const campaignParticipationResult = server.create('campaign-participation-result', {});
+            server.create('campaign-participation', { sharedAt: new Date('2020-01-01'), isShared: true, createdAt: new Date('2020-01-01'), assessment, campaign, campaignParticipationResult });
             await visit(`campagnes/${campaign.code}?retry=true`);
           });
 
