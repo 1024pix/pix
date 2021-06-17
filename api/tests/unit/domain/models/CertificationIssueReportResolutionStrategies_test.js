@@ -882,7 +882,6 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const certificationIssueReportRepository = {};
         const challengeRepository = {};
         const strategyStub = sinon.stub();
-        strategyStub.resolves();
 
         const strategies = new CertificationIssueReportResolutionStrategies({
           [strategyToBeApplied]: strategyStub,
