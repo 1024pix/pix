@@ -137,6 +137,7 @@ module.exports = (function() {
 
     featureToggles: {
       isPoleEmploiEnabled: isFeatureEnabled(process.env.IS_POLE_EMPLOI_ENABLED),
+      isScoAccountRecoveryEnabled: isFeatureEnabled(process.env.IS_SCO_ACCOUNT_RECOVERY_ENABLED),
       isNewCPFDataEnabled: isFeatureEnabled(process.env.FT_IS_NEW_CPF_DATA_ENABLED),
     },
 
