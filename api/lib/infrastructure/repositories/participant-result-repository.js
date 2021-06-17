@@ -5,6 +5,7 @@ const AssessmentResult = require('../../domain/read-models/participant-results/A
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const competenceRepository = require('./competence-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
+const { NotFoundError } = require('../../domain/errors');
 
 const ParticipantResultRepository = {
   async getByUserIdAndCampaignId({ userId, campaignId, locale }) {
@@ -38,7 +39,7 @@ async function _getParticipationResults(userId, campaignId) {
 }
 
 async function _getParticipationAttributes(userId, campaignId) {
-  const { state, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId } = await knex('campaign-participations')
+  const participationAttributes = await knex('campaign-participations')
     .select(['state', 'campaignParticipationId', 'sharedAt', 'assessments.createdAt AS assessmentCreatedAt', 'participantExternalId'])
     .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
     .where({ 'campaign-participations.campaignId': campaignId })
@@ -46,6 +47,11 @@ async function _getParticipationAttributes(userId, campaignId) {
     .orderBy('assessments.createdAt', 'DESC')
     .first();
 
+  if (!participationAttributes) {
+    throw new NotFoundError(`Participation not found for user ${userId} and campaign ${campaignId}`);
+  }
+
+  const { state, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId } = participationAttributes;
   return { isCompleted: state === Assessment.states.COMPLETED, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId };
 }
 

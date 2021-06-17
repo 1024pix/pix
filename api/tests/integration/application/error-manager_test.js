@@ -129,6 +129,13 @@ describe('Integration | API | Controller Error', () => {
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
+
+    it('responds Precondition Failed when a NoCampaignParticipationForUserAndCampaign error occurs', async () => {
+      routeHandler.throws(new DomainErrors.NoCampaignParticipationForUserAndCampaign());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+    });
   });
 
   context('404 Not Found', () => {
