@@ -1,10 +1,10 @@
 <div class="rounded-panel timed-challenge-instructions">
   <div class="timed-challenge-instructions__primary">
-    {{t 'pages.timed-challenge-instructions.primary' time=this.allocatedHumanTime htmlSafe=true}}
+    {{t 'pages.focused-challenge-instructions.primary'}}
   </div>
 
   <div class="timed-challenge-instructions__secondary">
-    {{t 'pages.timed-challenge-instructions.secondary'}}
+    {{t 'pages.focused-challenge-instructions.secondary'}}
   </div>
 
 
@@ -12,7 +12,7 @@
     <button {{on "click" @hasUserConfirmedWarning}}
             class="timed-challenge-instructions-action__confirmation-button"
             type="button">
-      {{t 'pages.timed-challenge-instructions.action'}}
+      {{t 'pages.focused-challenge-instructions.action'}}
     </button>
   </div>
 </div>
