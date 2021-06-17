@@ -133,4 +133,9 @@ export default class ChallengeItemGeneric extends Component {
   setUserConfirmation() {
     this.hasUserConfirmedWarning = true;
   }
+
+  @action
+  setUserFocusChallengeConfirmation() {
+    this.hasUserConfirmedFocusWarning = true;
+  }
 }
