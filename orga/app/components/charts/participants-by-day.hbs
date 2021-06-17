@@ -1,0 +1,32 @@
+<Charts::Card @title={{t 'charts.participants-by-day.title'}} ...attributes>
+  {{#if this.loading}}
+    <Charts::ParticipantsByDayLoader />
+  {{else}}
+    <Charts::Chart
+      @type="line"
+      @options={{this.options}}
+      @data={{this.data}}
+      aria-hidden="true"
+      class="participants-by-day"
+    />
+
+    {{#each this.datasets as |dataset|}}
+      <table class="sr-only">
+        <thead>
+          <tr>
+            <th>{{t 'charts.participants-by-day.labels-a11y.date'}}</th>
+            <th>{{t dataset.countLabel}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each dataset.entries as |entry|}}
+              <tr>
+                <td>{{moment-format entry.day 'DD/MM/YYYY' }}</td>
+                <td>{{entry.count}}</td>
+              </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/each}}
+  {{/if}}
+</Charts::Card>

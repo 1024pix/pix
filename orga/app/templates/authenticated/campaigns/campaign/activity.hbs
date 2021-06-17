@@ -1,7 +1,12 @@
 <div class="activity__stats">
+  <Charts::ParticipantsByDay
+    @campaignId={{@model.id}}
+    @isTypeAssessment={{@model.isTypeAssessment}}
+    class="activity__stats__participations-by-day"
+  />
   <Charts::ParticipantsByStatus
     @campaignId={{@model.id}}
     @isTypeAssessment={{@model.isTypeAssessment}}
-    class="activity__stats--participations-by-status"
+    class="activity__stats__participations-by-status"
   />
 </div>

@@ -87,6 +87,21 @@
       },
       "loader": "Chargement des proportions par statut",
       "title": "Statuts"
+    },
+    "participants-by-day": {
+      "labels-a11y": {
+        "date": "Date",
+        "started": "Total des participants",
+        "shared": "Total des participants ayant envoyé leurs résultats",
+        "shared-profile": "Total des participants ayant envoyé leurs profils"
+      },
+      "labels-legend": {
+        "started": "Total des participants",
+        "shared": "Résultats reçus",
+        "shared-profile": "Profils reçus"
+      },
+      "loader": "Chargement de l'activité des participants",
+      "title": "Activité des participants"
     }
   },
   "common": {

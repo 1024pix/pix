@@ -1,9 +1,18 @@
 .activity {
   &__stats {
     display: flex;
-    flex-flow: row-reverse;
-    &--participations-by-status {
-      width: 200px;
+    justify-content: space-between;
+
+    &__participations-by-day {
+      box-sizing: border-box;
+      flex: 0 0 auto;
+      width: 73%;
+    }
+
+    &__participations-by-status {
+      box-sizing: border-box;
+      flex: 0 0 auto;
+      width: 25%;
     }
   }
 }
