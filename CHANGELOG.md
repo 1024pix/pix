@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v3.66.0 (17/06/2021)
+
+- [#3107](https://github.com/1024pix/pix/pull/3107) [FEATURE] Recuperation des niveaux de compétence -1 (PIX-2737)
+- [#3106](https://github.com/1024pix/pix/pull/3106) [FEATURE] Ajout des tooltips et traduction sur le graphique des statuts (PIX-2728)
+- [#3105](https://github.com/1024pix/pix/pull/3105) [FEATURE] Afficher les fichiers microsoft en premier dans les épreuves (PIX-2729).
+- [#3115](https://github.com/1024pix/pix/pull/3115) [BUGFIX] La colonne "Ecran de fin de test" a été retirée par erreur de la feuille d'émargement (PIX-2747)
+
 ## v3.65.0 (16/06/2021)
 
 - [#3089](https://github.com/1024pix/pix/pull/3089) [FEATURE] Documenter le endpoint de récupération des résultats Pôle emploi (PIX-2681).
