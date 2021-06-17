@@ -1,6 +1,7 @@
-const { expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
+const { catchErr, expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const participantResultRepository = require('../../../../lib/infrastructure/repositories/participant-result-repository');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | ParticipantResultRepository', () => {
 
@@ -539,6 +540,18 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
             masteryPercentage: 50,
           });
         });
+      });
+    });
+
+    context('when no participation for given user and campaign', async () => {
+      it('should throw a not found error', async () => {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+        await databaseBuilder.commit();
+
+        const error = await catchErr(participantResultRepository.getByUserIdAndCampaignId)({ userId, campaignId, locale: 'FR' });
+
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });
