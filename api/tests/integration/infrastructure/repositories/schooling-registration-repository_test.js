@@ -1433,6 +1433,112 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
+  describe('#getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate', () => {
+
+    it('should return user id', async () => {
+      // given
+      const expectedUserId = databaseBuilder.factory.buildUser().id;
+
+      const studentInformation = {
+        nationalStudentId: '123456789AA',
+        firstName: 'Tom',
+        lastName: 'Jédusor',
+        birthdate: '2000-12-07',
+      };
+      databaseBuilder.factory.buildSchoolingRegistration({
+        userId: expectedUserId,
+        ...studentInformation,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const userId = await schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate(studentInformation);
+
+      // then
+      expect(userId).to.equal(expectedUserId);
+    });
+
+    it('should return a NotFoundError if INE is invalid', async () => {
+      // given
+      const studentInformation = {
+        nationalStudentId: '123456789AB',
+        firstName: 'Tom',
+        lastName: 'Jédusor',
+        birthdate: '2000-12-07',
+      };
+      databaseBuilder.factory.buildSchoolingRegistration({
+        ...studentInformation,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await catchErr(schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate)({
+        nationalStudentId: '222256789AB',
+        firstName: 'Tom',
+        lastName: 'Jédusor',
+        birthdate: '2000-12-07',
+      });
+
+      // then
+      expect(result).to.be.instanceOf(NotFoundError);
+    });
+
+    it('should return a NotFoundError if firstName is invalid', async () => {
+      // given
+      const studentInformation = {
+        nationalStudentId: '123456789AB',
+        firstName: 'Tom',
+        lastName: 'Jédusor',
+        birthdate: '2000-12-07',
+      };
+      databaseBuilder.factory.buildSchoolingRegistration({
+        ...studentInformation,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await catchErr(schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate)({
+        nationalStudentId: '123456789AB',
+        firstName: 'Tim',
+        lastName: 'Jédusor',
+        birthdate: '2000-12-07',
+      });
+
+      // then
+      expect(result).to.be.instanceOf(NotFoundError);
+    });
+
+    it('should return a NotFoundError if userId is null', async () => {
+      // given
+      const studentInformation = {
+        nationalStudentId: '123456789AB',
+        firstName: 'Tom',
+        lastName: 'Jédusor',
+        birthdate: '2000-12-07',
+      };
+      databaseBuilder.factory.buildSchoolingRegistration({
+        ...studentInformation,
+        userId: null,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await catchErr(schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate)({
+        nationalStudentId: '123456789AB',
+        firstName: 'Tom',
+        lastName: 'Jédusor',
+        birthdate: '2000-12-07',
+      });
+
+      // then
+      expect(result).to.be.instanceOf(NotFoundError);
+    });
+  });
+
   describe('#findPaginatedFilteredSchoolingRegistrations', () => {
 
     it('should return instances of UserWithSchoolingRegistration', async () => {
