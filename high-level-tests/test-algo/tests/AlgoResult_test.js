@@ -5,7 +5,7 @@ const AnswerStatus = require('../../../api/lib/domain/models/AnswerStatus');
 
 describe('AlgoResult', () => {
 
-  describe('#skillNames', () => {
+  describe('#log', () => {
     it('should return unique names of the skills', () => {
       // given
       const algoResult = new AlgoResult();
@@ -34,7 +34,7 @@ describe('AlgoResult', () => {
         algoResult.addAnswerStatus(new AnswerStatus({ status: 'ok' }));
         algoResult.addAnswerStatus(new AnswerStatus({ status: 'ko' }));
 
-        log = algoResult.print();
+        log = algoResult.log();
       });
 
       it('should return count of KO answers', () => {
