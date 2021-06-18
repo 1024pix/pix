@@ -55,7 +55,6 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
     default:
       result = AnswerStatus.OK;
   }
-  console.log(`Result : ${result.status}`);
   const newAnswer = new Answer({ challengeId: challenge.id, result });
 
   const _getSkillsFilteredByStatus = (knowledgeElements, targetSkills, status) => {
@@ -74,7 +73,7 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
     userId,
   });
 
-  return { updatedAnswers: [...allAnswers, newAnswer], updatedKnowledgeElements: [...allKnowledgeElements, ...newKnowledgeElements] };
+  return { answerStatus: result, updatedAnswers: [...allAnswers, newAnswer], updatedKnowledgeElements: [...allKnowledgeElements, ...newKnowledgeElements] };
 }
 
 async function _getReferentiel({
@@ -205,8 +204,7 @@ async function launchTest(argv) {
     algoResult.addEstimatedLevels(estimatedLevel);
 
     if (challenge) {
-      algoResult.addChallenge(challenge);
-      const { updatedAnswers, updatedKnowledgeElements } = answerTheChallenge({
+      const { answerStatus, updatedAnswers, updatedKnowledgeElements } = answerTheChallenge({
         challenge,
         allAnswers,
         userId: assessment.userId,
@@ -217,6 +215,8 @@ async function launchTest(argv) {
       });
       allAnswers = updatedAnswers;
       knowledgeElements = updatedKnowledgeElements;
+      algoResult.addChallenge(challenge);
+      algoResult.addAnswerStatus(answerStatus);
     }
 
     isAssessmentOver = hasAssessmentEnded;

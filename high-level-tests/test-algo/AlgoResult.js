@@ -5,6 +5,7 @@ class AlgoResult {
   constructor() {
     this._challenges = [];
     this._estimatedLevels = [];
+    this._answerStatuses = [];
   }
 
   addChallenge(challenge) {
@@ -13,6 +14,10 @@ class AlgoResult {
 
   addEstimatedLevels(level) {
     this._estimatedLevels.push(level);
+  }
+
+  addAnswerStatus(answerStatus) {
+    this._answerStatuses.push(answerStatus);
   }
 
   get skillNames() {
@@ -27,13 +32,26 @@ class AlgoResult {
 
   print() {
     const challengeIds = this._challenges.map((challenge) => challenge.id);
-    console.log('----- total challenges asked:', challengeIds.length);
-    console.log('----- challenge ids asked:');
-    console.log(challengeIds);
-    console.log('----- skill names:');
-    console.log(this.skillNames);
-    console.log('----- estimated levels evolution:');
-    console.log(this._estimatedLevels);
+    const log = `----- total challenges asked: ${challengeIds.length}
+        ----- challenge ids asked: ${challengeIds}
+        ----- skill names: ${this.skillNames}
+        ----- estimated levels evolution: ${this._estimatedLevels}
+        ----- total answer KO: ${this._answerKOCount}
+        ----- total answer OK: ${this._answerOKCount}`;
+    console.log(log);
+    return log;
+  }
+
+  get _answerKOCount() {
+    return this._answerStatuses
+      .filter((answerStatus) => answerStatus.isKO())
+      .length;
+  }
+
+  get _answerOKCount() {
+    return this._answerStatuses
+      .filter((answerStatus) => answerStatus.isOK())
+      .length;
   }
 }
 
