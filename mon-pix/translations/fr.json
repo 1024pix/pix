@@ -208,13 +208,18 @@
       "title": "Rejoindre une session de certification",
       "congratulation-banner": {
         "clea-eligibility": "Vous êtes également éligible à la certification CléA numérique.",
-        "pix-plus-droit-maitre-eligibility": "Vous êtes également éligible à la certification Pix+ Droit Maître.",
-        "pix-plus-droit-expert-eligibility": "Vous êtes également éligible à la certification Pix+ Droit Expert.",
         "link": {
           "text": "Comment se certifier ?",
           "url": "https://support.pix.fr/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"
         },
-        "message": "Bravo {fullName},'<br>'votre profil est certifiable."
+        "message": "Bravo {fullName},'<br>'votre profil est certifiable.",
+        "pix-plus-droit-expert-eligibility": "Vous êtes également éligible à la certification Pix+ Droit Expert.",
+        "pix-plus-droit-maitre-eligibility": "Vous êtes également éligible à la certification Pix+ Droit Maître."
+      },
+      "error-messages": {
+        "generic": "Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.",
+        "session-not-accessible": "Oups ! La session est en cours de traitement par les équipes Pix et n'est plus accessible.",
+        "wrong-account": "Oups ! Il semble que vous n’utilisiez pas le bon compte Pix pour rejoindre cette session de certification.\nPour continuer, connectez-vous au bon compte Pix ou demandez de l’aide au surveillant."
       },
       "first-title": "Rejoindre une session",
       "form": {
@@ -233,11 +238,6 @@
         "fields-validation": {
           "session-number-error": "Le numéro de session est composé uniquement de chiffres."
         }
-      },
-      "error-messages": {
-        "wrong-account": "Oups ! Il semble que vous n’utilisiez pas le bon compte Pix pour rejoindre cette session de certification.\nPour continuer, connectez-vous au bon compte Pix ou demandez de l’aide au surveillant.",
-        "session-not-accessible": "Oups ! La session est en cours de traitement par les équipes Pix et n'est plus accessible.",
-        "generic": "Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant."
       }
     },
     "certification-not-certifiable": {
@@ -278,12 +278,12 @@
         },
         "info": "En cliquant sur \"Commencer mon test\", j’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que renseignées par le surveillant soient communiquées à Pix. Pix les utilisera lors de la délibération du jury pour produire et archiver mes résultats et pour éditer mon certificat. Si cette certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats."
       },
-      "first-title": "Vous allez commencer votre test de certification",
       "error-messages": {
         "access-code-error": "Ce code n’existe pas ou n’est plus valide.",
-        "session-not-accessible": "La session de certification n'est plus accessible.",
-        "generic": "Une erreur serveur inattendue vient de se produire."
-      }
+        "generic": "Une erreur serveur inattendue vient de se produire.",
+        "session-not-accessible": "La session de certification n'est plus accessible."
+      },
+      "first-title": "Vous allez commencer votre test de certification"
     },
     "certifications-list": {
       "title": "Mes Certifications",
@@ -395,8 +395,8 @@
                   "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier. Vous pouvez arrêter là et reprendre sur un ordinateur.'<br>'Précisez votre problème en indiquant votre navigateur et votre système d'exploitation."
                 },
                 "embed-displayed-on-mobile-devices-with-problems": {
-                    "label": "Sur téléphone ou tablette, le simulateur s'affiche mais a un problème",
-                    "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier.'<br>'Précisez votre problème en indiquant votre type d'appareil (smartphone, tablette...), votre système d'exploitation et votre navigateur."
+                  "label": "Sur téléphone ou tablette, le simulateur s'affiche mais a un problème",
+                  "solution": "Nous faisons notre possible pour que les simulateurs fonctionnent sur tous les appareils, tous les OS et tous les navigateurs mais il se peut que vous utilisiez un système particulier.'<br>'Précisez votre problème en indiquant votre type d'appareil (smartphone, tablette...), votre système d'exploitation et votre navigateur."
                 },
                 "embed-not-displayed": {
                   "label": "Le simulateur / l’application ne s’affiche pas",
@@ -728,6 +728,7 @@
         "subtitle": "Remplissez les informations manquantes"
       },
       "sup": {
+        "title": "Déclarez votre compte Pix auprès de {organizationName}.",
         "error": "Veuillez vérifier les informations saisies, ou si vous avez déjà un compte Pix, connectez-vous avec celui-ci.",
         "fields": {
           "student-number": {
@@ -737,8 +738,7 @@
             "not-existing": "Je n'ai pas de numéro étudiant"
           }
         },
-        "message": "Saisissez les informations telles qu’elles figurent sur votre carte d’étudiant pour accéder au test et envoyer les résultats. Pix s’en rappellera la prochaine fois.",
-        "title": "Déclarez votre compte Pix auprès de {organizationName}."
+        "message": "Saisissez les informations telles qu’elles figurent sur votre carte d’étudiant pour accéder au test et envoyer les résultats. Pix s’en rappellera la prochaine fois."
       }
     },
     "learning-more": {
@@ -887,8 +887,8 @@
       "explanation": "Vous avez déjà envoyé le profil ci-dessous à l'organisation {organization}'<br>'le {date} à {hour,time,hhmm}",
       "first-title": "Tout ne se passe pas comme prévu",
       "retry": {
-          "message": "{organization} vous invite à renvoyer votre profil pour mesurer votre progression.",
-          "button": "Renvoyer mon profil"
+        "button": "Renvoyer mon profil",
+        "message": "{organization} vous invite à renvoyer votre profil pour mesurer votre progression."
       }
     },
     "proposals": {
@@ -1036,8 +1036,8 @@
       "abstract-title": "Votre résultat pour ce parcours",
       "actions": {
         "continue": "Continuez votre expérience Pix",
-        "send": "J'envoie mes résultats",
-        "improve": "Je retente"
+        "improve": "Je retente",
+        "send": "J'envoie mes résultats"
       },
       "already-shared": "Merci, vos résultats ont bien été envoyés !",
       "archived": "Ce parcours a été archivé par l'organisateur.'<br>' L'envoi des résultats n'est plus possible.",
@@ -1048,6 +1048,10 @@
         "header-skill": "Compétences testées",
         "result": "Résultat global",
         "result-by-skill": "Votre résultat pour la compétence"
+      },
+      "improve": {
+        "title": "Envie d'améliorer vos résultats ?",
+        "description": "Vous pouvez retenter certaines questions"
       },
       "information": "Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.",
       "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
@@ -1064,10 +1068,6 @@
       "stage": {
         "masteryPercentage": "{percentage} % de réussite",
         "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} other {# étoiles acquises}} sur {total}"
-      },
-      "improve": {
-        "title": "Envie d'améliorer vos résultats ?",
-        "description": "Vous pouvez retenter certaines questions"
       }
     },
     "terms-of-service": {

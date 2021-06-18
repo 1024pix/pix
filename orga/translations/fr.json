@@ -46,30 +46,12 @@
   },
   "banners": {
     "campaigns": {
-      "message": "La certification en collège et lycée est possible jusqu'au 25 juin. Pour reporter des sessions déjà programmées, il vous suffit, dans Pix Certif, de changer la date de la session en cliquant sur « modifier ».",
-      "actionLabel": "En savoir plus"
+      "actionLabel": "En savoir plus",
+      "message": "La certification en collège et lycée est possible jusqu'au 25 juin. Pour reporter des sessions déjà programmées, il vous suffit, dans Pix Certif, de changer la date de la session en cliquant sur « modifier »."
     },
     "import": {
       "link-to": "importer ou ré-importer la base élèves",
       "message": "Rentrée 2020 : l’'<strong>'administrateur'</strong>' doit {linkTo} pour initialiser Pix Orga. Plus d’info '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'collège {faIcon}'</a>' et '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'lycée (GT et Pro) {faIcon}'</a>'"
-    }
-  },
-  "common": {
-    "actions": {
-      "back": "Retour",
-      "cancel": "Annuler",
-      "close": "Fermer"
-    },
-    "help-form": "https://support.pix.fr/support/tickets/new",
-    "loading": "Chargement en cours",
-    "pagination": {
-      "action": {
-        "next": "Aller à la page suivante",
-        "previous": "Aller à la page précédente",
-        "select-page-size": "Sélectionner une pagination"
-      },
-      "page-number": "Page {current} / {total}",
-      "result-by-page": "Voir"
     }
   },
   "charts": {
@@ -107,6 +89,24 @@
       "title": "Statuts"
     }
   },
+  "common": {
+    "actions": {
+      "back": "Retour",
+      "cancel": "Annuler",
+      "close": "Fermer"
+    },
+    "help-form": "https://support.pix.fr/support/tickets/new",
+    "loading": "Chargement en cours",
+    "pagination": {
+      "action": {
+        "next": "Aller à la page suivante",
+        "previous": "Aller à la page précédente",
+        "select-page-size": "Sélectionner une pagination"
+      },
+      "page-number": "Page {current} / {total}",
+      "result-by-page": "Voir"
+    }
+  },
   "navigation": {
     "credits": {
       "number": "{count, plural, =0 {0 crédit} =1 {1 crédit} other {{count, number} crédits}}",
@@ -128,6 +128,7 @@
   },
   "pages": {
     "assessment-individual-results": {
+      "title": "Résultats de {firstName} {lastName}",
       "badges": "Résultats Thématiques",
       "mastery-percentage": "Résultat",
       "progression": "Avancement",
@@ -155,10 +156,10 @@
           "validatedSkills": "Acquis validés"
         },
         "empty": "En attente de résultats"
-      },
-      "title": "Résultats de {firstName} {lastName}"
+      }
     },
     "assessment-participants-list": {
+      "title": "Participants",
       "table": {
         "column": {
           "badges": "Résultats Thématiques",
@@ -172,8 +173,7 @@
         },
         "empty": "Aucun participant",
         "row-title": "Participant"
-      },
-      "title": "Participants"
+      }
     },
     "campaign": {
       "actions": {
@@ -181,9 +181,9 @@
         "unarchive": "Désarchiver la campagne"
       },
       "archived": "Campagne archivée",
+      "code": "Code",
       "created-by": "Créée par",
       "created-on": "Créée le",
-      "code": "Code",
       "filters": {
         "title": "Filtres",
         "actions": {
@@ -212,6 +212,7 @@
       }
     },
     "campaign-collective-results": {
+      "title": "Résultats collectifs",
       "average": "Moyenne des résultats",
       "result": "Résultat",
       "table": {
@@ -227,8 +228,7 @@
         },
         "empty": "En attente de résultats",
         "row-title": "Compétence"
-      },
-      "title": "Résultats collectifs"
+      }
     },
     "campaign-creation": {
       "title": "Création d'une campagne",
@@ -263,6 +263,7 @@
       "yes": "Oui"
     },
     "campaign-details": {
+      "title": "Détails",
       "actions": {
         "archive": "Archiver",
         "copied": "Copié !",
@@ -274,8 +275,7 @@
       "external-user-id-label": "Libellé de l'identifiant",
       "landing-page-text": "Texte de la page d'accueil",
       "personalised-test-title": "Titre du parcours",
-      "target-profile": "Profil cible",
-      "title": "Détails"
+      "target-profile": "Profil cible"
     },
     "campaign-individual-results": {
       "shared-date": "Envoyé le",
@@ -285,47 +285,51 @@
       "title": "Analyse pour {firstName} {lastName}"
     },
     "campaign-modification": {
+      "title": "Modification d'une campagne",
       "actions": {
         "edit": "Modifier"
       },
       "campaign-name": "Nom de la campagne",
       "landing-page-text": "Texte de la page d'accueil",
-      "personalised-test-title": "Titre du parcours",
-      "title": "Modification d'une campagne"
+      "personalised-test-title": "Titre du parcours"
     },
     "campaign-review": {
+      "title": "Analyse",
       "description": "En fonction du référentiel testé et des résultats de la campagne, Pix vous recommande ces sujets à travailler, classés par degré de pertinence ({bubble}).",
       "sub-table": {
+        "title": "{count, plural, =1 {1 tuto recommandé} other{{count} tutos recommandés}} par la communauté Pix",
         "column": {
           "source": {
             "value": "Par {source}"
           }
         },
-        "row-title": "Tutoriel",
-        "title": "{count, plural, =1 {1 tuto recommandé} other{{count} tutos recommandés}} par la communauté Pix"
+        "row-title": "Tutoriel"
       },
       "sub-title": "Recommandation de sujets à travailler",
       "table": {
+        "title": "Analyse par sujet",
         "column": {
-          "subjects": "Sujets ({count, plural, =0 {-} other {{count}}})",
           "relevance": "Pertinence",
-          "tutorial-count": {
-            "value": "{count, plural, =1 {1 tuto} other {{count} tutos}}"
-          },
+          "subjects": "Sujets ({count, plural, =0 {-} other {{count}}})",
           "tutorial": {
             "aria-label": "Afficher la liste des tutos"
+          },
+          "tutorial-count": {
+            "value": "{count, plural, =1 {1 tuto} other {{count} tutos}}"
           }
         },
         "empty": "En attente de résultats",
         "row-title": "Sujet",
         "sort": {
           "relevance": "Trier par pertinence"
-        },
-        "title": "Analyse par sujet"
-      },
-      "title": "Analyse"
+        }
+      }
     },
     "campaigns-list": {
+      "title": {
+        "active": "Campagnes actives",
+        "archived": "Campagnes archivées"
+      },
       "action": {
         "archived": {
           "aria-label": "Afficher les campagnes archivées",
@@ -355,10 +359,6 @@
           "by-name": "Rechercher une campagne"
         },
         "row-title": "Campagne"
-      },
-      "title": {
-        "archived": "Campagnes archivées",
-        "active": "Campagnes actives"
       }
     },
     "certifications": {
@@ -397,6 +397,7 @@
       "show-password": "rendre le mot de passe lisible"
     },
     "login-or-register": {
+      "title": "Vous êtes invité(e) à rejoindre l'organisation {organizationName}",
       "login-form": {
         "title": "J'ai déjà un compte",
         "button": "Se connecter"
@@ -433,10 +434,10 @@
           }
         },
         "legal-text": "Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « Informatique et Libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le Délégué à la Protection des Données de Pix à dpo@pix.fr."
-      },
-      "title": "Vous êtes invité(e) à rejoindre l'organisation {organizationName}"
+      }
     },
     "profiles-individual-results": {
+      "title": "Profil de {firstName} {lastName}",
       "certifiable": "Certifiable",
       "competences-certifiables": "COMP. CERTIFIABLES",
       "pix": "PIX",
@@ -449,10 +450,10 @@
         },
         "empty": "En attente de résultats",
         "row-title": "Compétence"
-      },
-      "title": "Profil de {firstName} {lastName}"
+      }
     },
     "profiles-list": {
+      "title": "Participants",
       "table": {
         "column": {
           "certifiable": "Certifiable",
@@ -470,8 +471,7 @@
         },
         "empty": "En attente de profils",
         "row-title": "Profil"
-      },
-      "title": "Participants"
+      }
     },
     "students-sco": {
       "title": "Élèves",
@@ -616,6 +616,7 @@
       }
     },
     "team-invitations": {
+      "title": "Invitations",
       "table": {
         "column": {
           "email-address": "Adresse e-mail",
@@ -625,8 +626,7 @@
           "aria-label": "Invitation en attente",
           "message": "Dernière invitation envoyée le"
         }
-      },
-      "title": "Invitations"
+      }
     },
     "team-list": {
       "title": "Mon équipe",
@@ -637,6 +637,7 @@
       }
     },
     "team-members": {
+      "title": "Membres",
       "actions": {
         "edit-organization-membership-role": "Modifier le rôle",
         "manage": "Gérer",
@@ -669,8 +670,7 @@
         },
         "empty": "En attente de membres",
         "row-title": "Membre"
-      },
-      "title": "Membres"
+      }
     },
     "team-new": {
       "title": "Inviter un membre",
@@ -692,8 +692,8 @@
       "invite-button": "Inviter"
     },
     "terms-of-service": {
-      "accept" : "J’accepte les conditions d’utilisation",
-      "title": "Conditions d'utilisation"
+      "title": "Conditions d'utilisation",
+      "accept": "J’accepte les conditions d’utilisation"
     }
   }
 }
