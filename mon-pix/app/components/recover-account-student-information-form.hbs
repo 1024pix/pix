@@ -10,7 +10,7 @@
 
 <p>{{t 'common.form.mandatory-all-fields'}}</p>
 
-<form>
+<form onSubmit={{this.submitStudentInformationForm}}>
   <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.ine-ina'}}
                  @textfieldName="ineIna"
                  @inputBindingValue={{this.ineIna}}
@@ -75,9 +75,7 @@
     </div>
   </div>
 
-  <PixButton
-    @type="submit"
-    @triggerAction={{ this.submitStudentInformationForm}} >
+  <PixButton @type="submit">
     {{t 'pages.recover-account-after-leaving-sco.student-information.form.submit'}}
   </PixButton>
 </form>
