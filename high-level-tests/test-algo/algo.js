@@ -152,7 +152,7 @@ async function _getChallenge({
     console.log(challenge.skills[0].name);
   }
 
-  return { challenge, hasAssessmentEnded: result.hasAssessmentEnded };
+  return { challenge, hasAssessmentEnded: result.hasAssessmentEnded, estimatedLevel: result.levelEstimated };
 }
 
 async function launchTest(argv) {
@@ -194,7 +194,7 @@ async function launchTest(argv) {
 
   while (!isAssessmentOver) {
 
-    const { challenge, hasAssessmentEnded } = await _getChallenge({
+    const { challenge, hasAssessmentEnded, estimatedLevel } = await _getChallenge({
       challenges,
       targetSkills,
       assessment,
@@ -202,6 +202,7 @@ async function launchTest(argv) {
       knowledgeElements,
       allAnswers,
     });
+    algoResult.addEstimatedLevels(estimatedLevel);
 
     if (challenge) {
       algoResult.addChallenge(challenge);
