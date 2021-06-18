@@ -283,7 +283,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
           payload: {
             data: {
               attributes: {
-                'examiner-global-comment': examinerGlobalComment,
+                'examiner-global-comment': '',
               },
               included: [
                 {
@@ -310,7 +310,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
             id: session.id.toString(),
             attributes: {
               'status': 'finalized',
-              'examiner-global-comment': examinerGlobalComment,
+              'examiner-global-comment': '',
             },
           },
         };
