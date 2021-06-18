@@ -915,6 +915,40 @@
       "instruction": "Saisissez votre nouveau mot de passe",
       "succeed": "Votre mot de passe a été modifié avec succès."
     },
+    "recover-account-after-leaving-sco": {
+      "title": "Récupérer mon compte",
+      "student-information": {
+        "title": "Collégiens, lycéens, vous quittez le système scolaire et vous souhaitez récupérer votre accès à Pix",
+        "subtitle": {
+          "link": "réinitialisez votre mot de passe ici",
+          "text": "Si vous possédez un compte avec une adresse e-mail valide, "
+        },
+        "form": {
+          "tooltip": "Où trouver mon INE ? '<br>' Cet identifiant se trouve souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.",
+          "ine-ina": "INE (Identifiant National Élève)",
+          "last-name": "Nom",
+          "first-name": "Prénom",
+          "birthdate": "Date de naissance",
+          "submit": "Retrouvez-moi !",
+          "label": {
+            "birth-day": "jour de naissance",
+            "birth-month": "mois de naissance",
+            "birth-year": "année de naissance"
+          },
+          "placeholder": {
+            "birth-day": "JJ",
+            "birth-month": "MM",
+            "birth-year": "AAAA"
+          }
+        },
+        "errors": {
+          "invalid-ine-ina-format": "Le champ INE est obligatoire.",
+          "empty-ine-ina": "le champ INE n'est pas au bon format.",
+          "empty-last-name": "Le champ nom est obligatoire.",
+          "empty-first-name": "Le champ prénom est obligatoire."
+        }
+      }
+    },
     "result-item": {
       "aband": "Pas de réponse",
       "actions": {
