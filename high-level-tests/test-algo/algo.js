@@ -222,7 +222,7 @@ async function launchTest(argv) {
     isAssessmentOver = hasAssessmentEnded;
   }
 
-  algoResult.print();
+  console.log(algoResult.log());
   process.exit(0);
 }
 

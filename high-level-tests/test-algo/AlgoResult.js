@@ -30,7 +30,7 @@ class AlgoResult {
     return new Set(skillsName);
   }
 
-  print() {
+  log() {
     const challengeIds = this._challenges.map((challenge) => challenge.id);
     const log = `----- total challenges asked: ${challengeIds.length}
         ----- challenge ids asked: ${challengeIds}
@@ -38,7 +38,6 @@ class AlgoResult {
         ----- estimated levels evolution: ${this._estimatedLevels}
         ----- total answer KO: ${this._answerKOCount}
         ----- total answer OK: ${this._answerOKCount}`;
-    console.log(log);
     return log;
   }
 
