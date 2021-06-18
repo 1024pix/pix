@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.68.0 (18/06/2021)
+
+- [#3116](https://github.com/1024pix/pix/pull/3116) [FEATURE] Ajouter le premier formulaire pour la sortie du SCO (PIX-2562).
+- [#3120](https://github.com/1024pix/pix/pull/3120) [BUGFIX] Le commentaire global n'était pas pris en compte lorsqu'on calculait si une session finalisée était publiable immédiatement (PIX-2749).
+- [#3104](https://github.com/1024pix/pix/pull/3104) [BUGFIX] Mise à jour de traductions anglaises.
+
 ## v3.67.0 (18/06/2021)
 
 - [#3099](https://github.com/1024pix/pix/pull/3099) [FEATURE] Rattraper la prise en compte auto des signalements de certif sur les session finalisées (PIX-2591)
