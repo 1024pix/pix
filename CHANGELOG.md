@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v3.67.0 (18/06/2021)
+
+- [#3099](https://github.com/1024pix/pix/pull/3099) [FEATURE] Rattraper la prise en compte auto des signalements de certif sur les session finalisées (PIX-2591)
+
 ## v3.66.0 (17/06/2021)
 
 - [#3107](https://github.com/1024pix/pix/pull/3107) [FEATURE] Recuperation des niveaux de compétence -1 (PIX-2737)
