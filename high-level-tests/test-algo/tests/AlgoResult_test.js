@@ -6,26 +6,71 @@ const AnswerStatus = require('../../../api/lib/domain/models/AnswerStatus');
 describe('AlgoResult', () => {
 
   describe('#log', () => {
+    it('should return total challenge asked', () => {
+      // given
+      const algoResult = new AlgoResult();
+      const challenge1 = { id: 'rec1', skills: [] };
+      const challenge2 = { id: 'rec2', skills: [] };
+      algoResult.addChallenge(challenge1);
+      algoResult.addChallenge(challenge2);
+
+      // when
+      const log = algoResult.log();
+
+      // expect
+      expect(log).contains('----- total challenges asked: 2');
+    });
+
+    it('should return challengeIds asked', () => {
+      // given
+      const algoResult = new AlgoResult();
+      const challenge1 = { id: 'rec1', skills: [] };
+      const challenge2 = { id: 'rec2', skills: [] };
+      algoResult.addChallenge(challenge1);
+      algoResult.addChallenge(challenge2);
+
+      // when
+      const log = algoResult.log();
+
+      // expect
+      expect(log).contains('----- challenge ids asked: rec1,rec2');
+    });
+
+    it('should return evolution of the estimated levels', () => {
+      // given
+      const algoResult = new AlgoResult();
+      const challenge1 = '2';
+      const challenge2 = '5';
+      const challenge3 = '4.5';
+      algoResult.addEstimatedLevels(challenge1);
+      algoResult.addEstimatedLevels(challenge2);
+      algoResult.addEstimatedLevels(challenge3);
+
+      // when
+      const log = algoResult.log();
+
+      // expect
+      expect(log).contains('----- estimated levels evolution: 2,5,4.5');
+    });
+
     it('should return unique names of the skills', () => {
       // given
       const algoResult = new AlgoResult();
       const challenge1 = { skills: [{ name: 'skill1' }] };
-      const challenge2 = { skills: [{ name: 'skill2' }] };
+      const challenge2 = { skills: [{ name: 'skill1' }] };
       const challenge3 = { skills: [{ name: 'skill2' }] };
       algoResult.addChallenge(challenge1);
       algoResult.addChallenge(challenge2);
       algoResult.addChallenge(challenge3);
 
       // when
-      const skillNames = algoResult.skillNames;
+      const log = algoResult.log();
 
       // expect
-      expect(skillNames).to.be.deep.equal(new Set(['skill1', 'skill2']));
+      expect(log).contains('----- skill names: skill1', 'skill2');
     });
-  });
 
-  describe('#print', () => {
-    describe('#display correct answer count', () => {
+    describe('display correct answer count', () => {
       let log;
 
       beforeEach(() => {
