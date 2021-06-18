@@ -12,6 +12,7 @@ const pickChallengeService = require('../../api/lib/domain/services/pick-challen
 const Answer = require('../../api/lib/domain/models/Answer');
 const AnswerStatus = require('../../api/lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../api/lib/domain/models/KnowledgeElement');
+const AlgoResult = require('./AlgoResult');
 
 const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
 
@@ -189,6 +190,8 @@ async function launchTest(argv) {
     targetProfileRepository,
   });
 
+  const algoResult = new AlgoResult();
+
   while (!isAssessmentOver) {
 
     const { challenge, hasAssessmentEnded } = await _getChallenge({
@@ -201,6 +204,7 @@ async function launchTest(argv) {
     });
 
     if (challenge) {
+      algoResult.addChallenge(challenge);
       const { updatedAnswers, updatedKnowledgeElements } = answerTheChallenge({
         challenge,
         allAnswers,
@@ -217,6 +221,7 @@ async function launchTest(argv) {
     isAssessmentOver = hasAssessmentEnded;
   }
 
+  algoResult.print();
   process.exit(0);
 }
 
