@@ -18,10 +18,12 @@
   </div>
 
   <div class="timed-challenge-instructions__action">
-    <button {{on "click" @hasUserConfirmedWarning}}
+    <PixButton {{on "click" @hasUserConfirmedWarning}}
             class="timed-challenge-instructions-action__confirmation-button"
-            type="button">
+            @shape="rounded"
+            @backgroundColor="green"
+    >
       {{t 'pages.timed-challenge-instructions.action'}}
-    </button>
+    </PixButton>
   </div>
 </div>
