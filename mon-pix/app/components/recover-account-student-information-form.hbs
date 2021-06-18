@@ -11,6 +11,9 @@
 <p>{{t 'common.form.mandatory-all-fields'}}</p>
 
 <form onSubmit={{this.submitStudentInformationForm}}>
+  <PixTooltip @text={{t 'pages.recover-account-after-leaving-sco.student-information.form.tooltip' htmlSafe=true}} @position='top-right'>
+    <FaIcon @icon="info-circle" />
+  </PixTooltip>
   <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.ine-ina'}}
                  @textfieldName="ineIna"
                  @inputBindingValue={{this.ineIna}}
