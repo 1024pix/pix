@@ -208,13 +208,18 @@
       "title": "Join a certification session",
       "congratulation-banner": {
         "clea-eligibility": "You are also eligible for the CléA numérique certification.",
-        "pix-plus-droit-maitre-eligibility": "You are also eligible for the Pix+ Droit Maître certification.",
-        "pix-plus-droit-expert-eligibility": "You are also eligible for the Pix+ Droit Expert certification.",
         "link": {
           "text": "How do I certify my digital skills?",
           "url": "https://support.pix.fr/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"
         },
-        "message": "Well done, {fullName},'<br>'your profile can now be certified."
+        "message": "Well done, {fullName},'<br>'your profile can now be certified.",
+        "pix-plus-droit-expert-eligibility": "You are also eligible for the Pix+ Droit Expert certification.",
+        "pix-plus-droit-maitre-eligibility": "You are also eligible for the Pix+ Droit Maître certification."
+      },
+      "error-messages": {
+        "generic": "Oops! We can't find you.\nPlease check your details to continue or call the invigilator.",
+        "session-not-accessible": "Oops! The session is being processed by the Pix team and is no longer available.",
+        "wrong-account": "Oops! It seems that you are using the wrong Pix account to join this certification session.\nTo continue, please login to the correct Pix account or ask the invigilator for help."
       },
       "first-title": "Join a session",
       "form": {
@@ -233,11 +238,6 @@
         "fields-validation": {
           "session-number-error": "The session ID must only contain numbers."
         }
-      },
-      "error-messages": {
-        "wrong-account": "Oops! It seems that you are using the wrong Pix account to join this certification session.\nTo continue, please login to the correct Pix account or ask the invigilator for help.",
-        "session-not-accessible": "Oops! The session is being processed by the Pix team and is no longer available.",
-        "generic": "Oops! We can't find you.\nPlease check your details to continue or call the invigilator."
       }
     },
     "certification-not-certifiable": {
@@ -278,12 +278,12 @@
         },
         "info": "By clicking on “Start my test”, I agree to my identifying data, certification number and the circumstances in which the test was taken, as reported by the invigilator, being sent to Pix. Pix will use this information during the board of examiners’ deliberation to produce and archive my results and create my certificate. If this certification was ordered by an organisation, I agree to Pix sharing my results with them."
       },
-      "first-title": "You are about to begin your certification test.",
       "error-messages": {
         "access-code-error": "This code does not exist or is no longer valid.",
-        "session-not-accessible": "The certification session is no longer available.",
-        "generic": "An unexpected server error has occurred."
-      }
+        "generic": "An unexpected server error has occurred.",
+        "session-not-accessible": "The certification session is no longer available."
+      },
+      "first-title": "You are about to begin your certification test."
     },
     "certifications-list": {
       "title": "My Certifications",
@@ -305,7 +305,7 @@
           "action": "details"
         },
         "not-published": {
-          "title": "Results pending"
+          "title": "Pending results"
         },
         "success": {
           "title": "Certification awarded",
@@ -391,12 +391,12 @@
                   "other": "I have another problem with the file"
                 },
                 "embed-displayed-on-desktop-with-problems": {
-                    "label": "On a computer, the simulator is displayed but has a problem",
-                    "solution": "We are doing our best to make the simulators work on all devices, all operating systems, and all browsers but you may be using a specific system.'<br>'You can stop your test and resume on a computer. Please specify your problem, as well as your browser and your operating system."
+                  "label": "On a computer, the simulator is displayed but has a problem",
+                  "solution": "We are doing our best to make the simulators work on all devices, all operating systems, and all browsers but you may be using a specific system.'<br>'You can stop your test and resume on a computer. Please specify your problem, as well as your browser and your operating system."
                 },
                 "embed-displayed-on-mobile-devices-with-problems": {
-                    "label": "On a smartphone or a tablet, the simulator is displayed but has a problem",
-                    "solution": "We are doing our best to make the simulators work on all devices, all operating systems, and all browsers but you may be using a specific system.'<br>'Please specify your problem, as well as your type of device (smartphone, tablet etc.), your browser and your operating system."
+                  "label": "On a smartphone or a tablet, the simulator is displayed but has a problem",
+                  "solution": "We are doing our best to make the simulators work on all devices, all operating systems, and all browsers but you may be using a specific system.'<br>'Please specify your problem, as well as your type of device (smartphone, tablet etc.), your browser and your operating system."
                 },
                 "embed-not-displayed": {
                   "label": "I cannot see the simulator/app",
@@ -728,6 +728,7 @@
         "subtitle": "Please fill in the missing information"
       },
       "sup": {
+        "title": "Register your Pix account with {organizationName}.",
         "error": "Please check the information you have entered. If you already have a Pix account, log in with this account.",
         "fields": {
           "student-number": {
@@ -737,8 +738,7 @@
             "not-existing": "I don't have a student number"
           }
         },
-        "message": "Enter the information as it appears on your student card to access the test and submit the results. Pix will remember it next time.",
-        "title": "Register your Pix account with {organizationName}."
+        "message": "Enter the information as it appears on your student card to access the test and submit the results. Pix will remember it next time."
       }
     },
     "learning-more": {
@@ -887,8 +887,8 @@
       "explanation": "You already submitted the profile below to the organisation {organization}'<br>'on {date} at {hour,time,hhmm}",
       "first-title": "There was a problem",
       "retry": {
-        "message": "{organization} encourages you to resubmit your profile to measure your progress.",
-        "button": "Resubmit my profile"
+        "button": "Resubmit my profile",
+        "message": "{organization} encourages you to resubmit your profile to measure your progress."
       }
     },
     "proposals": {
@@ -1036,8 +1036,8 @@
       "abstract-title": "Your result for this customised test",
       "actions": {
         "continue": "Continue my Pix experience",
-        "send": "Submit my results",
-        "improve": "Try again"
+        "improve": "Try again",
+        "send": "Submit my results"
       },
       "already-shared": "Thank you, your results have been submitted!",
       "archived": "This customised test has been archived by the organiser.'<br>' It is no longer possible to submit results.",
@@ -1048,6 +1048,10 @@
         "header-skill": "Competences tested",
         "result": "Overall result",
         "result-by-skill": "Your results for the competence"
+      },
+      "improve": {
+        "title": "Want to improve your results?",
+        "description": "You can retake some of the questions"
       },
       "information": "If you have already completed customised tests on Pix, questions you have previously answered have not been asked again. However, the result shown here is based on all of your answers.",
       "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
@@ -1064,10 +1068,6 @@
       "stage": {
         "masteryPercentage": "Success rate: {percentage} %",
         "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
-      },
-      "improve": {
-        "title": "Want to improve your results?",
-        "description": "You can retake some of the questions"
       }
     },
     "terms-of-service": {

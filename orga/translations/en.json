@@ -46,30 +46,12 @@
   },
   "banners": {
     "campaigns": {
-      "message": "Certification in middle and high schools is open until 25 June. To reschedule sessions already scheduled, simply change the date of the session by clicking on 'edit' in Pix Certif.",
-      "actionLabel": "Learn more."
+      "actionLabel": "Learn more.",
+      "message": "Certification in middle and high schools is open until 25 June. To reschedule sessions already scheduled, simply change the date of the session by clicking on 'edit' in Pix Certif."
     },
     "import": {
       "link-to": "import or reimport the students database",
       "message": "Start of school year: the '<strong>'admin'</strong>' must {linkTo} to start using Pix Orga. Learn more on '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'middle schools {faIcon}'</a>' and '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'high schools {faIcon}'</a>'"
-    }
-  },
-  "common": {
-    "actions": {
-      "back": "Back",
-      "cancel": "Cancel",
-      "close": "Close"
-    },
-    "help-form": "https://pix.org/en-gb/contact-form",
-    "loading": "Loading",
-    "pagination": {
-      "action": {
-        "next": "Go to next page",
-        "previous": "Go to previous page",
-        "select-page-size": "Select the number of items by page"
-      },
-      "page-number": "Page {current} / {total}",
-      "result-by-page": "See"
     }
   },
   "charts": {
@@ -107,6 +89,24 @@
       "title": "Statuses"
     }
   },
+  "common": {
+    "actions": {
+      "back": "Back",
+      "cancel": "Cancel",
+      "close": "Close"
+    },
+    "help-form": "https://pix.org/en-gb/contact-form",
+    "loading": "Loading",
+    "pagination": {
+      "action": {
+        "next": "Go to next page",
+        "previous": "Go to previous page",
+        "select-page-size": "Select the number of items by page"
+      },
+      "page-number": "Page {current} / {total}",
+      "result-by-page": "See"
+    }
+  },
   "navigation": {
     "credits": {
       "number": "{count, plural, =0 {0 credits} =1 {1 credit} other {{count, number} credits}}",
@@ -128,6 +128,7 @@
   },
   "pages": {
     "assessment-individual-results": {
+      "title": "Results of {firstName} {lastName}",
       "badges": "Thematic results",
       "mastery-percentage": "Result",
       "progression": "Progression",
@@ -136,7 +137,7 @@
         "value": "{count} / {total} ITEMS"
       },
       "stages": {
-        "label": "Steps",
+        "label": "Success rate",
         "value": "{count} out of {total} stars"
       },
       "tab": {
@@ -154,11 +155,11 @@
           "totalSkills": "Items assessed",
           "validatedSkills": "Items successfully completed"
         },
-        "empty": "Results pending"
-      },
-      "title": "Results of {firstName} {lastName}"
+        "empty": "Pending results"
+      }
     },
     "assessment-participants-list": {
+      "title": "Participants",
       "table": {
         "column": {
           "badges": "Thematic results",
@@ -172,8 +173,7 @@
         },
         "empty": "No participants",
         "row-title": "Participant"
-      },
-      "title": "Participants"
+      }
     },
     "campaign": {
       "actions": {
@@ -181,9 +181,9 @@
         "unarchive": "Unarchive the campaign"
       },
       "archived": "Archived campaign",
+      "code": "Code",
       "created-by": "Created by",
       "created-on": "Created on",
-      "code": "Code",
       "filters": {
         "title": "Filters",
         "actions": {
@@ -212,6 +212,7 @@
       }
     },
     "campaign-collective-results": {
+      "title": "Collective results",
       "average": "Average results",
       "result": "Result",
       "table": {
@@ -225,10 +226,9 @@
           "tested-items": "Items assessed",
           "validated-items": "Items successfully completed"
         },
-        "empty": "Results pending",
+        "empty": "Pending results",
         "row-title": "Competence"
-      },
-      "title": "Collective results"
+      }
     },
     "campaign-creation": {
       "title": "Create a campaign",
@@ -263,6 +263,7 @@
       "yes": "Yes"
     },
     "campaign-details": {
+      "title": "Details",
       "actions": {
         "archive": "Archive",
         "copied": "Copied!",
@@ -274,8 +275,7 @@
       "external-user-id-label": "External user ID label",
       "landing-page-text": "Text to display on the starting page",
       "personalised-test-title": "Title of the customised test",
-      "target-profile": "Target profile",
-      "title": "Details"
+      "target-profile": "Target profile"
     },
     "campaign-individual-results": {
       "shared-date": "Sent on",
@@ -285,47 +285,51 @@
       "title": "Review for {firstName} {lastName}"
     },
     "campaign-modification": {
+      "title": "Edit a campaign",
       "actions": {
         "edit": "Edit"
       },
       "campaign-name": "Name of the campaign",
       "landing-page-text": "Text to display on the starting page",
-      "personalised-test-title": "Title of the personalised test",
-      "title": "Edit a campaign"
+      "personalised-test-title": "Title of the personalised test"
     },
     "campaign-review": {
+      "title": "Review",
       "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following topics, sorted by relevance ({bubble}).",
       "sub-table": {
+        "title": "{count, plural, =1 {1 tutorial} other{{count} tutorials}} recommended by the Pix community",
         "column": {
           "source": {
             "value": "By {source}"
           }
         },
-        "row-title": "Tutorial",
-        "title": "{count, plural, =1 {1 tutorial} other{{count} tutorials}} recommended by the Pix community"
+        "row-title": "Tutorial"
       },
       "sub-title": "Recommendations of topics to focus on",
       "table": {
+        "title": "Review by topic",
         "column": {
-          "subjects": "Topics ({count, plural, =0 {-} other {{count}}})",
           "relevance": "Relevance",
-          "tutorial-count": {
-            "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
-          },
+          "subjects": "Topics ({count, plural, =0 {-} other {{count}}})",
           "tutorial": {
             "aria-label": "Show all tutorials"
+          },
+          "tutorial-count": {
+            "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
           }
         },
-        "empty": "Results pending",
+        "empty": "Pending results",
         "row-title": "Topic",
         "sort": {
           "relevance": "Sort by relevance"
-        },
-        "title": "Review by topic"
-      },
-      "title": "Review"
+        }
+      }
     },
     "campaigns-list": {
+      "title": {
+        "active": "Active campaigns",
+        "archived": "Archived campaigns"
+      },
       "action": {
         "archived": {
           "aria-label": "Display archived campaigns",
@@ -355,10 +359,6 @@
           "by-name": "Search for a campaign"
         },
         "row-title": "Campaign"
-      },
-      "title": {
-        "archived": "Archived campaigns",
-        "active": "Active campaigns"
       }
     },
     "certifications": {
@@ -397,6 +397,7 @@
       "show-password": "Show password"
     },
     "login-or-register": {
+      "title": "You have been invited to join the organisation {organizationName}",
       "login-form": {
         "title": "Already have an account?",
         "button": "Log in"
@@ -433,10 +434,10 @@
           }
         },
         "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific customised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr."
-      },
-      "title": "You have been invited to join the organisation {organizationName}"
+      }
     },
     "profiles-individual-results": {
+      "title": "Profile of {firstName} {lastName}",
       "certifiable": "Eligible for certification",
       "competences-certifiables": "COMP. ELIGIBLE FOR CERTIFICATION",
       "pix": "PIX",
@@ -447,12 +448,12 @@
           "pix-score": "Pix score",
           "skill": "Competence"
         },
-        "empty": "Results pending",
+        "empty": "Pending results",
         "row-title": "Competence"
-      },
-      "title": "Profile of {firstName} {lastName}"
+      }
     },
     "profiles-list": {
+      "title": "Participants",
       "table": {
         "column": {
           "certifiable": "Eligible for certification",
@@ -468,10 +469,9 @@
             "on-hold": "Pending"
           }
         },
-        "empty": "Waiting for profiles",
+        "empty": "No profiles yet",
         "row-title": "Profile"
-      },
-      "title": "Participants"
+      }
     },
     "students-sco": {
       "title": "Students",
@@ -616,6 +616,7 @@
       }
     },
     "team-invitations": {
+      "title": "Team invitations",
       "table": {
         "column": {
           "email-address": "Email address",
@@ -625,8 +626,7 @@
           "aria-label": "Pending invitation",
           "message": "Sent on"
         }
-      },
-      "title": "Team invitations"
+      }
     },
     "team-list": {
       "title": "My team",
@@ -637,6 +637,7 @@
       }
     },
     "team-members": {
+      "title": "Team members",
       "actions": {
         "edit-organization-membership-role": "Change role",
         "manage": "Manage",
@@ -669,8 +670,7 @@
         },
         "empty": "No members yet",
         "row-title": "Member"
-      },
-      "title": "Team members"
+      }
     },
     "team-new": {
       "title": "Invite a member",
@@ -692,8 +692,8 @@
       "invite-button": "Invite"
     },
     "terms-of-service": {
-      "accept" : "I accept the terms and conditions",
-      "title": "Terms and conditions of use"
+      "title": "Terms and conditions of use",
+      "accept": "I accept the terms and conditions"
     }
   }
 }
