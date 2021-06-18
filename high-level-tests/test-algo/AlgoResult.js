@@ -20,21 +20,22 @@ class AlgoResult {
     this._answerStatuses.push(answerStatus);
   }
 
-  get skillNames() {
+  get _skillNames() {
     const skillsName = _
       .chain(this._challenges)
       .map((challenge) => challenge.skills)
       .flatMap()
       .map((skill) => skill.name)
       .value();
-    return new Set(skillsName);
+    const uniqSkillNames = new Set(skillsName);
+    return [...uniqSkillNames].join(', ');
   }
 
   log() {
     const challengeIds = this._challenges.map((challenge) => challenge.id);
     const log = `----- total challenges asked: ${challengeIds.length}
         ----- challenge ids asked: ${challengeIds}
-        ----- skill names: ${this.skillNames}
+        ----- skill names: ${this._skillNames}
         ----- estimated levels evolution: ${this._estimatedLevels}
         ----- total answer KO: ${this._answerKOCount}
         ----- total answer OK: ${this._answerOKCount}`;
