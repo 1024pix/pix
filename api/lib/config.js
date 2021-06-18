@@ -160,6 +160,8 @@ module.exports = (function() {
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
+      poleEmploiSendingsLimit: _getNumber(process.env.POLE_EMPLOI_SENDING_LIMIT, 100),
+      poleEmploiIdentityProvider: (process.env.POLE_EMPLOI_IDENTITY_PROVIDER || 'POLE_EMPLOI'),
     },
 
     graviteeRegisterApplicationsCredentials: [
