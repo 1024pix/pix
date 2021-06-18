@@ -15,6 +15,7 @@ class AlgoResult {
 
   print() {
     const challengeIds = this._challenges.map((challenge) => challenge.id);
+    console.log('----- total challenges asked:', challengeIds.length);
     console.log('----- challenge ids asked:');
     console.log(challengeIds);
     console.log('----- estimated levels evolution:');
