@@ -1,6 +1,7 @@
 const { expect } = require('chai');
-const { describe, it } = require('mocha');
+const { beforeEach, describe, it } = require('mocha');
 const AlgoResult = require('../AlgoResult');
+const AnswerStatus = require('../../../api/lib/domain/models/AnswerStatus');
 
 describe('AlgoResult', () => {
 
@@ -22,4 +23,30 @@ describe('AlgoResult', () => {
       expect(skillNames).to.be.deep.equal(new Set(['skill1', 'skill2']));
     });
   });
+
+  describe('#print', () => {
+    describe('#display correct answer count', () => {
+      let log;
+
+      beforeEach(() => {
+        const algoResult = new AlgoResult();
+        algoResult.addAnswerStatus(new AnswerStatus({ status: 'ko' }));
+        algoResult.addAnswerStatus(new AnswerStatus({ status: 'ok' }));
+        algoResult.addAnswerStatus(new AnswerStatus({ status: 'ko' }));
+
+        log = algoResult.print();
+      });
+
+      it('should return count of KO answers', () => {
+        // expect
+        expect(log).to.contains('----- total answer KO: 2');
+      });
+
+      it('should return count of OK answers', () => {
+        // expect
+        expect(log).to.contains('----- total answer OK: 1');
+      });
+    });
+  });
+
 });
