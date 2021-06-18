@@ -12,6 +12,6 @@ module.exports = class AutoJuryDone {
     this.certificationCenterName = certificationCenterName;
     this.sessionDate = sessionDate;
     this.sessionTime = sessionTime;
-    this.hasExaminerlobalComment = hasExaminerGlobalComment;
+    this.hasExaminerGlobalComment = hasExaminerGlobalComment;
   }
 };
