@@ -18,6 +18,10 @@ class CertificationCpfCountry {
     return this.code === '99100';
   }
 
+  isForeign() {
+    return this.code !== '99100';
+  }
+
 }
 
 module.exports = CertificationCpfCountry;
