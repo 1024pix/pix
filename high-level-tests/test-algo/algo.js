@@ -149,11 +149,6 @@ async function _getChallenge({
 
   const challengeLevel = _getChallengeLevel({ assessment, result });
 
-  if (challenge) {
-    console.log(challenge.id);
-    console.log(challenge.skills[0].name);
-  }
-
   return { challenge, hasAssessmentEnded: result.hasAssessmentEnded, estimatedLevel: result.levelEstimated, challengeLevel };
 }
 
