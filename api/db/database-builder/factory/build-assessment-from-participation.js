@@ -4,8 +4,8 @@ const buildCampaignParticipation = require('./build-campaign-participation');
 
 module.exports = function buildAssessmentFromParticipation(campaignParticipation, participant) {
 
-  const participantId = buildUser({ ...participant }).id;
-  const campaignParticipationId = buildCampaignParticipation({ ...campaignParticipation, userId: participantId }).id;
+  const userId = buildUser(participant).id;
+  const campaignParticipationId = buildCampaignParticipation({ ...campaignParticipation, userId }).id;
 
-  return buildAssessment({ userId: participantId, campaignParticipationId: campaignParticipationId });
+  return buildAssessment({ userId, campaignParticipationId });
 };
