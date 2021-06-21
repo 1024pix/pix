@@ -12,24 +12,33 @@ describe('Integration | Repository | certificationCpfCityRepository', () => {
         // given
         const INSEECode = '12345';
 
-        const actualCity = domainBuilder.buildCertificationCpfCity({
+        const olderCity = domainBuilder.buildCertificationCpfCity({
           id: 1,
+          postalCode: '12345',
           INSEECode,
-          name: 'ACTUAL NAME',
-          postalCode: '56789',
-          isActualName: true,
+          name: 'OLDER NAME',
+          isActualName: false,
         });
 
         const oldCity = domainBuilder.buildCertificationCpfCity({
           id: 2,
+          postalCode: '12345',
           INSEECode,
           name: 'OLD NAME',
-          postalCode: '56789',
           isActualName: false,
+        });
+
+        const actualCity = domainBuilder.buildCertificationCpfCity({
+          id: 3,
+          postalCode: '12345',
+          INSEECode,
+          name: 'ACTUAL NAME',
+          isActualName: true,
         });
 
         databaseBuilder.factory.buildCertificationCpfCity(actualCity);
         databaseBuilder.factory.buildCertificationCpfCity(oldCity);
+        databaseBuilder.factory.buildCertificationCpfCity(olderCity);
         await databaseBuilder.commit();
 
         // when
@@ -38,7 +47,7 @@ describe('Integration | Repository | certificationCpfCityRepository', () => {
         // then
         expect(result).to.be.an.instanceOf(Array);
         expect(result[0]).to.be.an.instanceOf(CertificationCpfCity);
-        expect(result).to.deep.equal([actualCity, oldCity]);
+        expect(result).to.deep.equal([actualCity, olderCity, oldCity]);
       });
     });
 
@@ -54,4 +63,65 @@ describe('Integration | Repository | certificationCpfCityRepository', () => {
       });
     });
   });
+
+  describe('#findByPostalCode', () => {
+
+    context('when there are cities matching the postal code', () => {
+
+      it('should return an array of certificationCpfCity', async () => {
+        // given
+        const postalCode = '12345';
+
+        const olderCity = domainBuilder.buildCertificationCpfCity({
+          id: 1,
+          postalCode,
+          INSEECode: '56789',
+          name: 'OLDER NAME',
+          isActualName: false,
+        });
+
+        const oldCity = domainBuilder.buildCertificationCpfCity({
+          id: 2,
+          postalCode,
+          INSEECode: '56789',
+          name: 'OLD NAME',
+          isActualName: false,
+        });
+
+        const actualCity = domainBuilder.buildCertificationCpfCity({
+          id: 3,
+          postalCode,
+          INSEECode: '56789',
+          name: 'ACTUAL NAME',
+          isActualName: true,
+        });
+
+        databaseBuilder.factory.buildCertificationCpfCity(actualCity);
+        databaseBuilder.factory.buildCertificationCpfCity(oldCity);
+        databaseBuilder.factory.buildCertificationCpfCity(olderCity);
+        await databaseBuilder.commit();
+
+        // when
+        const result = await certificationCpfCityRepository.findByPostalCode({ postalCode });
+
+        // then
+        expect(result).to.be.an.instanceOf(Array);
+        expect(result[0]).to.be.an.instanceOf(CertificationCpfCity);
+        expect(result).to.deep.equal([actualCity, olderCity, oldCity]);
+      });
+    });
+
+    context('when there is no city matching the postal code', () => {
+
+      it('should return an empty array', async () => {
+        // when
+        const result = await certificationCpfCityRepository.findByPostalCode({ postalCode: 'unknown_postal_code' });
+
+        // then
+        expect(result).to.be.an.instanceOf(Array);
+        expect(result).to.have.lengthOf(0);
+      });
+    });
+  });
+
 });
