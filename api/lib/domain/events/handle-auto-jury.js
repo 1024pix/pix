@@ -35,15 +35,16 @@ async function handleAutoJury({
 
   const filteredCertificationJuryDoneEvents = certificationJuryDoneEvents.filter((certificationJuryDoneEvent) => Boolean(certificationJuryDoneEvent));
 
-  return [new AutoJuryDone({
-    sessionId: event.sessionId,
-    finalizedAt: event.finalizedAt,
-    certificationCenterName: event.certificationCenterName,
-    sessionDate: event.sessionDate,
-    sessionTime: event.sessionTime,
-    hasExaminerGlobalComment: event.hasExaminerGlobalComment,
-  }),
-  ...filteredCertificationJuryDoneEvents,
+  return [
+    ...filteredCertificationJuryDoneEvents,
+    new AutoJuryDone({
+      sessionId: event.sessionId,
+      finalizedAt: event.finalizedAt,
+      certificationCenterName: event.certificationCenterName,
+      sessionDate: event.sessionDate,
+      sessionTime: event.sessionTime,
+      hasExaminerGlobalComment: event.hasExaminerGlobalComment,
+    }),
   ];
 }
 
