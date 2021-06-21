@@ -120,5 +120,34 @@ describe('AlgoResult', () => {
         expect(log).contains('----- first challenge status: ko');
       });
     });
+
+    describe('challenge level gap', () => {
+      let algoResult;
+
+      beforeEach(() => {
+        algoResult = new AlgoResult();
+        algoResult.addChallengeLevel(2);
+        algoResult.addChallengeLevel(5);
+        algoResult.addChallengeLevel(6);
+        algoResult.addChallengeLevel(2);
+      });
+
+      it('should return the biggest ascending gap', () => {
+        // when
+        const log = algoResult.log();
+
+        // expect
+        expect(log).contains('----- biggest ASC gap: 3');
+      });
+
+      it('should return the biggest descending gap', () => {
+        // when
+        const log = algoResult.log();
+
+        // expect
+        expect(log).contains('----- biggest DESC gap: 4');
+      });
+    });
+
   });
 });

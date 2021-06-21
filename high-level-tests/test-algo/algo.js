@@ -1,5 +1,6 @@
 'use strict';
 require('dotenv').config();
+const hashInt = require('hash-int');
 const fs = require('fs');
 const { find } = require('lodash');
 const smartRandom = require('../../api/lib/domain/services/smart-random/smart-random');
@@ -146,12 +147,22 @@ async function _getChallenge({
     locale: locale,
   });
 
+  const challengeLevel = _getChallengeLevel({ assessment, result });
+
   if (challenge) {
     console.log(challenge.id);
     console.log(challenge.skills[0].name);
   }
 
-  return { challenge, hasAssessmentEnded: result.hasAssessmentEnded, estimatedLevel: result.levelEstimated };
+  return { challenge, hasAssessmentEnded: result.hasAssessmentEnded, estimatedLevel: result.levelEstimated, challengeLevel };
+}
+
+function _getChallengeLevel({ assessment, result }) {
+  const randomSeed = assessment.id;
+  const skills = result.possibleSkillsForNextChallenge;
+  const keyForSkill = Math.abs(hashInt(randomSeed));
+  const chosenSkill = skills[keyForSkill % skills.length];
+  return chosenSkill ? chosenSkill.difficulty : null;
 }
 
 async function launchTest(argv) {
@@ -193,7 +204,7 @@ async function launchTest(argv) {
 
   while (!isAssessmentOver) {
 
-    const { challenge, hasAssessmentEnded, estimatedLevel } = await _getChallenge({
+    const { challenge, hasAssessmentEnded, estimatedLevel, challengeLevel } = await _getChallenge({
       challenges,
       targetSkills,
       assessment,
@@ -216,6 +227,7 @@ async function launchTest(argv) {
       allAnswers = updatedAnswers;
       knowledgeElements = updatedKnowledgeElements;
       algoResult.addChallenge(challenge);
+      algoResult.addChallengeLevel(challengeLevel);
       algoResult.addAnswerStatus(answerStatus);
     }
 
