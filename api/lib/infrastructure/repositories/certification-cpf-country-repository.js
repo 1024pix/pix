@@ -4,14 +4,16 @@ const CertificationCpfCountry = require('../../domain/models/CertificationCpfCou
 module.exports = {
 
   async getByMatcher({ matcher }) {
+    const COLUMNS = [
+      'id',
+      'code',
+      'commonName',
+      'originalName',
+      'matcher',
+    ];
+
     const result = await knex
-      .select(
-        'id',
-        'code',
-        'commonName',
-        'originalName',
-        'matcher',
-      )
+      .select(COLUMNS)
       .from('certification-cpf-countries')
       .where({ matcher })
       .first();

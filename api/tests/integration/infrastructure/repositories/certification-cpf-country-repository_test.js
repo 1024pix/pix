@@ -1,5 +1,6 @@
 const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const certificationCpfCountryRepository = require('../../../../lib/infrastructure/repositories/certification-cpf-country-repository');
+const CertificationCpfCountry = require('../../../../lib/domain/models/CertificationCpfCountry');
 
 describe('Integration | Repository | certificationCpfCountryRepository', () => {
 
@@ -24,6 +25,7 @@ describe('Integration | Repository | certificationCpfCountryRepository', () => {
 
         // then
         expect(result).to.deep.equal(country);
+        expect(result).to.be.instanceOf(CertificationCpfCountry);
       });
     });
 
