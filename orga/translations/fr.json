@@ -105,10 +105,12 @@
     },
     "participants-count": {
       "information": "Retrouvez ici le nombre de participations totales de votre campagne. Ce chiffre comprend l’ensemble des participants ayant saisis le code et commencé son parcours ou son envoi profil.",
+      "loader": "Chargement du total de participants",
       "title": "Total de participants"
     },
     "submitted-count": {
       "information": "Retrouvez ici les résultats envoyés par vos participants. Ce chiffre comprend l’ensemble des participants ayant terminé et cliqué sur le bouton \"J'envoie mes résultats\" ou \"J'envoie mon profil\".",
+      "loader": "Chargement des résultats ou profils reçus",
       "title": "Résultats reçus",
       "title-profiles": "Profils reçus"
     }
