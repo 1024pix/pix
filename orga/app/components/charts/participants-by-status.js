@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import sumBy from 'lodash/sumBy';
 import { TOOLTIP_CONFIG } from './chart';
@@ -8,26 +7,14 @@ export default class ParticipantsByStatus extends Component {
   @service store;
   @service intl;
 
-  @tracked datasets = [];
-  @tracked total = 0;
-  @tracked loading = true;
+  get total() {
+    return sumBy(this.args.participantCountByStatus, ([_, count]) => count);
+  }
 
-  constructor(...args) {
-    super(...args);
-    const { campaignId, isTypeAssessment } = this.args;
-
-    const adapter = this.store.adapterFor('campaign-stats');
-
-    adapter.getParticipationsByStatus(campaignId).then((response) => {
-      const entries = Object.entries(response.data.attributes);
-      this.total = sumBy(entries, ([_, count]) => count);
-
-      this.datasets = entries.map(([key, count]) => {
-        const datasetLabels = this.getDatasetLabels(key, count, isTypeAssessment);
-        return { key, count, ...datasetLabels };
-      });
-
-      this.loading = false;
+  get datasets() {
+    return this.args.participantCountByStatus.map(([key, count]) => {
+      const datasetLabels = this.getDatasetLabels(key, count, this.args.isTypeAssessment);
+      return { key, count, ...datasetLabels };
     });
   }
 

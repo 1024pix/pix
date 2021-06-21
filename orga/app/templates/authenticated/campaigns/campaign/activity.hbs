@@ -1,18 +1,1 @@
-<div class="activity">
-  <div class="activity__line">
-    <IndicatorCard @title={{t 'charts.participants-count.title'}} @icon="users" @color="blue" @info={{t 'charts.participants-count.information'}}>143</IndicatorCard>
-    <IndicatorCard @title={{if @model.isTypeAssessment (t 'charts.submitted-count.title') (t 'charts.submitted-count.title-profiles')}} @icon="share" @color="green" @info={{t 'charts.submitted-count.information'}}>74</IndicatorCard>
-</div>
-  <div class="activity__line">
-    <Charts::ParticipantsByDay
-      @campaignId={{@model.id}}
-      @isTypeAssessment={{@model.isTypeAssessment}}
-      class="activity__stats__participations-by-day"
-    />
-    <Charts::ParticipantsByStatus
-      @campaignId={{@model.id}}
-      @isTypeAssessment={{@model.isTypeAssessment}}
-      class="activity__stats__participations-by-status"
-    />
-  </div>
-</div>
+<Charts::Activity @campaignId={{@model.id}} @isTypeAssessment={{@model.isTypeAssessment}}/>
