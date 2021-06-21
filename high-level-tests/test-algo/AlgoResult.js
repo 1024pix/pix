@@ -38,7 +38,8 @@ class AlgoResult {
         ----- skill names: ${this._skillNames}
         ----- estimated levels evolution: ${this._estimatedLevels}
         ----- total answer KO: ${this._answerKOCount}
-        ----- total answer OK: ${this._answerOKCount}`;
+        ----- total answer OK: ${this._answerOKCount}
+        ----- first challenge status: ${this._firstAnswerStatus}`;
     return log;
   }
 
@@ -52,6 +53,11 @@ class AlgoResult {
     return this._answerStatuses
       .filter((answerStatus) => answerStatus.isOK())
       .length;
+  }
+
+  get _firstAnswerStatus() {
+    if (this._answerStatuses.length === 0) return 'N/A';
+    return this._answerStatuses[0].status;
   }
 }
 
