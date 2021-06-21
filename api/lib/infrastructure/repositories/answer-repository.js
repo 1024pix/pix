@@ -25,13 +25,13 @@ function _toDomain(answerDTO) {
   });
 }
 
-const FIELDS = Object.freeze(['id', 'result', 'resultDetails', 'timeout', 'value', 'assessmentId', 'challengeId', 'timeSpent']);
+const COLUMNS = Object.freeze(['id', 'result', 'resultDetails', 'timeout', 'value', 'assessmentId', 'challengeId', 'timeSpent']);
 
 module.exports = {
 
   async get(id) {
     const answerDTO = await knex
-      .select(FIELDS)
+      .select(COLUMNS)
       .from('answers')
       .where({ id })
       .first();
@@ -45,7 +45,7 @@ module.exports = {
 
   async findByIds(ids) {
     const answerDTOs = await knex
-      .select(FIELDS)
+      .select(COLUMNS)
       .from('answers')
       .whereIn('id', ids)
       .orderBy('id');
@@ -55,7 +55,7 @@ module.exports = {
 
   async findByChallengeAndAssessment({ challengeId, assessmentId }) {
     const answerDTO = await knex
-      .select(FIELDS)
+      .select(COLUMNS)
       .from('answers')
       .where({ challengeId, assessmentId })
       .orderBy('createdAt', 'desc')
@@ -70,7 +70,7 @@ module.exports = {
 
   async findByAssessment(assessmentId) {
     const answerDTOs = await knex
-      .select(FIELDS)
+      .select(COLUMNS)
       .from('answers')
       .where({ assessmentId })
       .orderBy('createdAt');
@@ -80,7 +80,7 @@ module.exports = {
 
   async findLastByAssessment(assessmentId) {
     const answerDTO = await knex
-      .select(FIELDS)
+      .select(COLUMNS)
       .from('answers')
       .where({ assessmentId })
       .orderBy('createdAt', 'desc')
@@ -107,7 +107,7 @@ module.exports = {
     const answerForDB = _adaptAnswerToDb(answer);
     const trx = await knex.transaction();
     try {
-      const [savedAnswerDTO] = await trx('answers').insert(answerForDB, FIELDS);
+      const [savedAnswerDTO] = await trx('answers').insert(answerForDB, COLUMNS);
       const savedAnswer = _toDomain(savedAnswerDTO);
       for (const knowledgeElement of knowledgeElements) {
         knowledgeElement.answerId = savedAnswer.id;
