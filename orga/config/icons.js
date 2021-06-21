@@ -22,9 +22,11 @@ module.exports = function() {
       'power-off',
       'question-circle',
       'search',
+      'share',
       'share-square',
       'sort',
       'times',
+      'users',
     ],
     'free-regular-svg-icons': [
       'check-circle',
