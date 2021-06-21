@@ -1,7 +1,6 @@
 const get = require('lodash/get');
 
-const { featureToggles } = require('../../config');
-const { BadRequestError, UnauthorizedError } = require('../http-errors');
+const { UnauthorizedError } = require('../http-errors');
 
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
@@ -54,9 +53,6 @@ module.exports = {
   },
 
   async authenticatePoleEmploiUser(request) {
-    if (!featureToggles.isPoleEmploiEnabled) {
-      throw new BadRequestError('This feature is not enable!');
-    }
     const authenticatedUserId = get(request.auth, 'credentials.userId');
     const {
       code,

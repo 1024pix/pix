@@ -218,7 +218,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
     const externalIdentifier = 'idIdentiteExterne';
 
     beforeEach(() => {
-      sinon.stub(settings.featureToggles, 'isPoleEmploiEnabled').value(true);
 
       clock = sinon.useFakeTimers({
         now: Date.now(),
