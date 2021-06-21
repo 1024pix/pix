@@ -25,6 +25,10 @@ function _toDomain(answerDTO) {
   });
 }
 
+function _toDomainArray(answerDTOs) {
+  return _.map(answerDTOs, _toDomain);
+}
+
 const COLUMNS = Object.freeze(['id', 'result', 'resultDetails', 'timeout', 'value', 'assessmentId', 'challengeId', 'timeSpent']);
 
 module.exports = {
@@ -50,7 +54,7 @@ module.exports = {
       .whereIn('id', ids)
       .orderBy('id');
 
-    return answerDTOs.map((answerDTO) => _toDomain(answerDTO));
+    return _toDomainArray(answerDTOs);
   },
 
   async findByChallengeAndAssessment({ challengeId, assessmentId }) {
@@ -75,7 +79,7 @@ module.exports = {
       .where({ assessmentId })
       .orderBy('createdAt');
 
-    return answerDTOs.map((answerDTO) => _toDomain(answerDTO));
+    return _toDomainArray(answerDTOs);
   },
 
   async findLastByAssessment(assessmentId) {
