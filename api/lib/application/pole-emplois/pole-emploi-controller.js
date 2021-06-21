@@ -1,6 +1,5 @@
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
-
 module.exports = {
 
   async createUser(request, h) {
@@ -15,5 +14,10 @@ module.exports = {
       id_token: idToken,
     };
     return h.response(response).code(200);
+  },
+
+  async getSendings(_request, h) {
+    const sendings = await usecases.getPoleEmploiSendings();
+    return h.response(sendings).code(200);
   },
 };
