@@ -70,6 +70,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
     context('when user is authenticated', () => {
       let sessionId;
       let student;
+      const birthCityCode = 'Detroit313';
 
       afterEach(() => {
         return knex('certification-candidates').delete();
@@ -85,7 +86,10 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
         });
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
 
-        student = databaseBuilder.factory.buildSchoolingRegistration({ organizationId });
+        student = databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId,
+          birthCityCode,
+        });
 
         await databaseBuilder.commit();
         payload = {
@@ -120,11 +124,14 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
                 'last-name': student.lastName,
                 'birth-country': null,
                 'birth-province-code': null,
+                'birth-insee-code': birthCityCode,
+                'birth-postal-code': null,
                 'email': null,
                 'external-id': null,
                 'extra-time-percentage': null,
                 'result-recipient-email': null,
                 'schooling-registration-id': student.id,
+                'sex': 'M',
               },
               'id': sinon.match.string,
               'type': 'certification-candidates',
