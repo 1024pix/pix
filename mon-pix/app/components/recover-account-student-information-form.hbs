@@ -10,7 +10,7 @@
 
 <p>{{t 'common.form.mandatory-all-fields'}}</p>
 
-<form onSubmit={{this.submitStudentInformationForm}}>
+<form {{on 'submit' this.submit}}>
   <PixTooltip @text={{t 'pages.recover-account-after-leaving-sco.student-information.form.tooltip' htmlSafe=true}} @position='top-right'>
     <FaIcon @icon="info-circle" />
   </PixTooltip>
@@ -78,7 +78,7 @@
     </div>
   </div>
 
-  <PixButton @type="submit">
+  <PixButton @type="submit" @isDisabled={{not this.isFormValid}}>
     {{t 'pages.recover-account-after-leaving-sco.student-information.form.submit'}}
   </PixButton>
 </form>
