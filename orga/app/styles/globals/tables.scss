@@ -41,6 +41,12 @@ thead {
 tbody {
   color: $grey-60;
 
+  tr {
+    &:focus-within, &:hover {
+      background-color: $grey-15;
+    }
+  }
+
   tr.tr--clickable {
     cursor: pointer;
 
@@ -77,6 +83,10 @@ th::first-letter {
 
 .table__column {
   width: 16%;
+  
+  &--no-padding {
+    padding: 0;
+  }
 
   &--center {
     text-align: center;

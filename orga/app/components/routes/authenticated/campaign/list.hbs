@@ -43,8 +43,14 @@
 
         <tbody>
         {{#each @campaigns as |campaign|}}
-          <tr aria-label={{t 'pages.campaigns-list.table.row-title'}} role="button" {{on 'click' (fn @goToCampaignPage campaign.id)}} class="tr--clickable">
-            <td>{{campaign.name}}</td>
+          <tr aria-label={{t 'pages.campaigns-list.table.row-title'}} {{on 'click' (fn @goToCampaignPage campaign.id)}} class="tr--clickable">
+            <td class="table__column table__column--no-padding">
+              <LinkTo @route="authenticated.campaigns.campaign"
+                      @model={{campaign}} 
+                      class="campaign-list__link">
+                {{campaign.name}}
+              </LinkTo>
+            </td>
             <td class="table__column--truncated">{{campaign.creatorFullName}}</td>
             <td>{{moment-format campaign.createdAt 'DD/MM/YYYY' allow-empty=true}}</td>
             <td>{{campaign.participationsCount}}</td>
