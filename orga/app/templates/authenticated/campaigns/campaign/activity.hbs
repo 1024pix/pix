@@ -1,8 +1,8 @@
 <div class="activity">
   <div class="activity__line">
-    <IndicatorCard @title="Total de participants" @icon="users" @color="blue" @info='Retrouvez ici le nombre de participations totales à votre campagne. Ce chiffre comprend l’ensemble des participants ayant saisi le code et commencé la campagne.'>143</IndicatorCard>
-    <IndicatorCard @title="Résultats reçus" @icon="share" @color="green" @info='Retrouvez ici les résultats envoyés par vos participants. Ce chiffre comprend l’ensemble des participants ayant terminé et cliqué sur le bouton "J’envoie mes résultats".'>74</IndicatorCard>
-  </div>
+    <IndicatorCard @title={{t 'charts.participants-count.title'}} @icon="users" @color="blue" @info={{t 'charts.participants-count.information'}}>143</IndicatorCard>
+    <IndicatorCard @title={{if @model.isTypeAssessment (t 'charts.submitted-count.title') (t 'charts.submitted-count.title-profiles')}} @icon="share" @color="green" @info={{t 'charts.submitted-count.information'}}>74</IndicatorCard>
+</div>
   <div class="activity__line">
     <Charts::ParticipantsByDay
       @campaignId={{@model.id}}
