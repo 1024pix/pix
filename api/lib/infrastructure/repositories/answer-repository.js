@@ -103,16 +103,6 @@ module.exports = {
     return _(answerPartialDTOs).map('challengeId').uniq().value();
   },
 
-  async findCorrectAnswersByAssessmentId(assessmentId) {
-    const answerDTOs = await knex
-      .select(FIELDS)
-      .from('answers')
-      .where({ assessmentId, result: 'ok' })
-      .orderBy('id');
-
-    return answerDTOs.map((answerDTO) => _toDomain(answerDTO));
-  },
-
   async saveWithKnowledgeElements(answer, knowledgeElements) {
     const answerForDB = _adaptAnswerToDb(answer);
     const trx = await knex.transaction();
