@@ -71,7 +71,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
   });
 
-  it('returns an AutoJuryDone event', async () => {
+  it('returns an AutoJuryDone event as last event', async () => {
     // given
     const now = Date.now();
     const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
@@ -100,8 +100,9 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     });
 
     // then
-    expect(resultEvents[0]).to.be.an.instanceof(AutoJuryDone);
-    expect(resultEvents[0]).to.deep.equal(new AutoJuryDone({
+    const autoJuryDoneEvent = resultEvents[resultEvents.length - 1];
+    expect(autoJuryDoneEvent).to.be.an.instanceof(AutoJuryDone);
+    expect(autoJuryDoneEvent).to.deep.equal(new AutoJuryDone({
       sessionId: 1234,
       finalizedAt: now,
       hasExaminerGlobalComment: false,
@@ -111,7 +112,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     }));
   });
 
-  it('returns a CertificationJuryDone event', async () => {
+  it('returns a CertificationJuryDone event first in returned collection', async () => {
     // given
     const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
     const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
@@ -149,8 +150,8 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     });
 
     // then
-    expect(events[1]).to.be.an.instanceof(CertificationJuryDone);
-    expect(events[1]).to.deep.equal(new CertificationJuryDone({
+    expect(events[0]).to.be.an.instanceof(CertificationJuryDone);
+    expect(events[0]).to.deep.equal(new CertificationJuryDone({
       certificationCourseId: certificationCourse.id,
     }));
   });
