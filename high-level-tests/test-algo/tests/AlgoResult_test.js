@@ -92,6 +92,33 @@ describe('AlgoResult', () => {
         expect(log).to.contains('----- total answer OK: 1');
       });
     });
-  });
 
+    describe('display first answer status', () => {
+
+      it('should return N/A if there is no answer status', () => {
+        // given
+        const algoResult = new AlgoResult();
+
+        // when
+        const log = algoResult.log();
+
+        // expect
+        expect(log).contains('----- first challenge status: N/A');
+      });
+
+      it('should return the first challenge‘s answer status', () => {
+        // given
+        const algoResult = new AlgoResult();
+        algoResult.addAnswerStatus(new AnswerStatus({ status: 'ko' }));
+        algoResult.addAnswerStatus(new AnswerStatus({ status: 'ok' }));
+        algoResult.addAnswerStatus(new AnswerStatus({ status: 'ok' }));
+
+        // when
+        const log = algoResult.log();
+
+        // expect
+        expect(log).contains('----- first challenge status: ko');
+      });
+    });
+  });
 });
