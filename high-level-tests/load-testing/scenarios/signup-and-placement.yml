@@ -5,8 +5,6 @@ config:
     - duration: 120
       arrivalRate: 5
       rampTo: 50
-    - duration: 600
-      arrivalRate: 50
 scenarios:
   - name: 'Inscription et positionnement'
     flow:
