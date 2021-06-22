@@ -6,6 +6,7 @@
   {{#if this.hasOneOrMoreCandidates}}
   <EnrolledCandidates
         @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+        @shouldDisplayCertificationCandidateDetailsModalButton={{this.shouldDisplayCertificationCandidateDetailsModalButton}}
         @sessionId={{this.currentSession.id}}
         @certificationCandidates={{this.certificationCandidates}}
         @reloadCertificationCandidate={{this.reloadCertificationCandidateInController}} />
@@ -18,7 +19,9 @@
           @importAllowed={{this.importAllowed}}/>
   <EnrolledCandidates
           @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+          @shouldDisplayCertificationCandidateDetailsModalButton={{this.shouldDisplayCertificationCandidateDetailsModalButton}}
           @sessionId={{this.currentSession.id}}
           @certificationCandidates={{this.certificationCandidates}}
           @reloadCertificationCandidate={{this.reloadCertificationCandidateInController}} />
 {{/if}}
+

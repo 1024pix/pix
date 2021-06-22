@@ -7,6 +7,7 @@ import {
   authenticateSession,
 } from '../helpers/test-init';
 import { upload } from 'ember-file-upload/test-support';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -100,6 +101,37 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
         assert.contains(`${aCandidate.email}`);
         assert.contains(`${aCandidate.resultRecipientEmail}`);
         assert.contains(`${aCandidate.externalId}`);
+      });
+
+      module('when the CPF new data feature toggle is on', function() {
+        test('it should display details modal button', async function(assert) {
+          // given
+          server.create('feature-toggle', { id: 0, isNewCPFDataEnabled: true });
+
+          // when
+          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+
+          // then
+          assert.contains('Voir le détail');
+        });
+
+        module('when the details button is clicked', function() {
+          test('it should display the candidate details modal', async function(assert) {
+            // given
+            server.create('feature-toggle', { id: 0, isNewCPFDataEnabled: true });
+            const aCandidate = candidates[0];
+
+            // when
+            await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+            await clickByLabel(`Voir le détail du candidat ${aCandidate.firstName} ${aCandidate.lastName}`);
+
+            // then
+            assert.contains('Détail du candidat');
+            assert.contains('Commune de naissance');
+            assert.contains(aCandidate.birthCity);
+            assert.contains(aCandidate.sex === 'F' ? 'Femme' : 'Homme');
+          });
+        });
       });
 
       module('on import', function() {

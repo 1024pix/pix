@@ -26,6 +26,9 @@ module.exports = {
         'extraTimePercentage',
         'isLinked',
         'schoolingRegistrationId',
+        'sex',
+        'birthINSEECode',
+        'birthPostalCode',
       ],
     }).serialize(certificationCandidates);
   },

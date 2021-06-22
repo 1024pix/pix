@@ -38,6 +38,9 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
             birthdate: certificationCandidate.birthdate,
             'extra-time-percentage': certificationCandidate.extraTimePercentage,
             'has-seen-end-test-screen': certificationCandidate.hasSeenEndTestScreen,
+            'birth-insee-code': null,
+            'birth-postal-code': null,
+            'sex': null,
           },
         },
       };
@@ -85,6 +88,9 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
           'is-linked': false,
           'schooling-registration-id': null,
+          'birth-insee-code': null,
+          'birth-postal-code': null,
+          'sex': null,
         },
       };
 
