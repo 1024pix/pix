@@ -15,7 +15,7 @@
         <div id="add-candidate" class="certification-candidates-add-button__text">
           Ajouter un candidat
         </div>
-        <PixActionButton aria-describedby="add-candidate" @icon='plus' @withBackground={{true}} />
+        <PixIconButton aria-describedby="add-candidate" @icon='plus' @withBackground={{true}} />
       </div>
     {{/if}}
   </div>
@@ -103,9 +103,21 @@
             <td data-test-id='panel-candidate__extraTimePercentage__{{candidate.id}}'>{{format-percentage candidate.extraTimePercentage}}</td>
             <td>
               <div class="certification-candidates-actions">
+                {{#if @shouldDisplayCertificationCandidateDetailsModalButton}}
+                  <div class="certification-candidates-actions__display-details">
+                    <button
+                      type="button"
+                      class="button--showed-as-link"
+                      {{on 'click' (fn this.openCertificationCandidateDetailsModal candidate)}}
+                      aria-label="Voir le détail du candidat {{candidate.firstName}} {{candidate.lastName}}"
+                    >
+                      Voir le détail
+                    </button>
+                  </div>
+                {{/if}}
                 <div class="certification-candidates-actions__delete">
                   {{#if candidate.isLinked}}
-                    <PixActionButton
+                    <PixIconButton
                       @icon="trash-alt"
                       class="certification-candidates-actions__delete-button--disabled"
                       data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
@@ -115,7 +127,7 @@
                       Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.
                     </div>
                   {{else}}
-                    <PixActionButton
+                    <PixIconButton
                       @icon="trash-alt"
                       {{on 'click' (fn this.deleteCertificationCandidate candidate)}}
                       aria-label="Supprimer un élève"
@@ -138,3 +150,10 @@
     {{/if}}
   </div>
 </div>
+
+{{#if this.shouldDisplayCertificationCandidateModal}}
+  <CertificationCandidateDetailsModal
+    @closeModal={{this.closeCertificationCandidateDetailsModal}}
+    @candidate={{this.certificationCandidateInDetailsModal}}
+  />
+{{/if}}

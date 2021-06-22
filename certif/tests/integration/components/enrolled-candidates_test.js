@@ -23,35 +23,89 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
   const EMAIL_SELECTOR = 'panel-candidate__email__';
   const EXTRA_TIME_SELECTOR = 'panel-candidate__extraTimePercentage__';
 
-  test('it display candidates information', async function(assert) {
-
+  test('it displays candidates information', async function(assert) {
+    // given
     const candidate = _buildCertificationCandidate({
-      externalId: 'externalId',
-      birthdate: new Date('1980-07-01'),
-      isLinked: false,
-      extraTimePercentage: 0.1,
+      birthdate: new Date('2019-04-28'),
     });
     const certificationCandidates = [candidate];
 
     this.set('certificationCandidates', certificationCandidates);
 
+    // when
     await render(hbs`
       <EnrolledCandidates @sessionId="1" @certificationCandidates={{certificationCandidates}}>
       </EnrolledCandidates>
     `);
 
+    // then
     assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.externalId);
-    assert.dom(`[data-test-id=${BIRTHDATE_COLUMN_SELECTOR}${candidate.id}]`).hasText('01/07/1980');
+    assert.dom(`[data-test-id=${BIRTHDATE_COLUMN_SELECTOR}${candidate.id}]`).hasText('28/04/2019');
     assert.dom(`[data-test-id=${LAST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.lastName);
     assert.dom(`[data-test-id=${FIRST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.firstName);
     assert.dom(`[data-test-id=${BIRTH_CITY_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.birthCity);
     assert.dom(`[data-test-id=${BIRTH_PROVINCE_CODE_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.birthProvinceCode);
     assert.dom(`[data-test-id=${BIRTH_COUNTRY_SELECTOR}${candidate.id}]`).hasText(candidate.birthCountry);
     assert.dom(`[data-test-id=${EMAIL_SELECTOR}${candidate.id}]`).hasText(candidate.email);
-    assert.dom(`[data-test-id=${EXTRA_TIME_SELECTOR}${candidate.id}]`).hasText('10 %');
+    assert.dom(`[data-test-id=${EXTRA_TIME_SELECTOR}${candidate.id}]`).hasText('3000 %');
+  });
+
+  module('when details button should be displayed', async function() {
+    test('it should display details button', async function(assert) {
+      // given
+      const candidate = _buildCertificationCandidate({});
+      const certificationCandidates = [candidate];
+      const shouldDisplayCertificationCandidateDetailsModalButton = true;
+
+      this.set('certificationCandidates', certificationCandidates);
+      this.set('shouldDisplayCertificationCandidateDetailsModalButton', shouldDisplayCertificationCandidateDetailsModalButton);
+
+      // when
+      await render(hbs`
+        <EnrolledCandidates
+          @sessionId="1"
+          @certificationCandidates={{certificationCandidates}}
+          @shouldDisplayCertificationCandidateDetailsModalButton={{shouldDisplayCertificationCandidateDetailsModalButton}}
+        >
+        </EnrolledCandidates>
+      `);
+
+      // then
+      assert.dom(`[aria-label="Voir le détail du candidat ${candidate.firstName} ${candidate.lastName}"]`).isVisible();
+    });
+  });
+
+  module('when details button should not be displayed', async function() {
+    test('it should not display details button', async function(assert) {
+      // given
+      const candidate = _buildCertificationCandidate({
+        externalId: 'externalId',
+        birthdate: new Date('1980-07-01'),
+        isLinked: false,
+        extraTimePercentage: 0.1,
+      });
+      const certificationCandidates = [candidate];
+      const shouldDisplayCertificationCandidateDetailsModalButton = true;
+
+      this.set('certificationCandidates', certificationCandidates);
+      this.set('shouldDisplayCertificationCandidateDetailsModalButton', shouldDisplayCertificationCandidateDetailsModalButton);
+
+      // when
+      await render(hbs`
+        <EnrolledCandidates
+          @sessionId="1"
+          @certificationCandidates={{this.certificationCandidates}}
+        >
+        </EnrolledCandidates>
+      `);
+
+      // then
+      assert.dom(`[aria-label="Voir le détail du candidat ${candidate.firstName} ${candidate.lastName}"]`).isNotVisible();
+    });
   });
 
   test('it display candidates with delete disabled button if linked', async function(assert) {
+    // given
     const certificationCandidates = [
       _buildCertificationCandidate({ isLinked: false }),
       _buildCertificationCandidate({ isLinked: true }),
@@ -60,6 +114,7 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
 
     this.set('certificationCandidates', certificationCandidates);
 
+    // when
     await render(hbs`
       <EnrolledCandidates
         @sessionId="1"
@@ -67,6 +122,7 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
       </EnrolledCandidates>
     `);
 
+    // then
     assert.dom(`.${CERTIFICATION_CANDIDATES_TABLE_SELECTOR} tr`).isVisible({ count: 3 });
     assert.dom(`.${CERTIFICATION_CANDIDATES_TABLE_SELECTOR} tr .${CERTIFICATION_CANDIDATES_ACTION_DELETE_SELECTOR} button`).isVisible({ count: 3 });
 
@@ -90,10 +146,13 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
       },
     ].forEach(({ shouldDisplayPrescriptionScoStudentRegistrationFeature, multipleButtonVisible, it }) =>
       test(it, async function(assert) {
+        // given
         const certificationCandidates = [];
 
         this.set('certificationCandidates', certificationCandidates);
         this.set('shouldDisplayPrescriptionScoStudentRegistrationFeature', shouldDisplayPrescriptionScoStudentRegistrationFeature);
+
+        // when
         await render(hbs`
         <EnrolledCandidates
           @sessionId="1"
@@ -103,6 +162,7 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
         </EnrolledCandidates>
         `);
 
+        // then
         if (multipleButtonVisible) {
           assert.dom(`.${ADD_MULTIPLE_CANDIDATE_BUTTON_SELECTOR}`).isVisible();
           assert.dom(`.${ADD_SINGLE_CANDIDATE_BUTTON_SELECTOR}`).isNotVisible();
@@ -119,6 +179,7 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
     { shouldDisplayPrescriptionScoStudentRegistrationFeature: false, shouldColumnsBeEmpty: false, it: 'it shows externalId and email columns if prescription sco feature not allowed' },
   ].forEach(({ shouldDisplayPrescriptionScoStudentRegistrationFeature, shouldColumnsBeEmpty, it }) =>
     test(it, async function(assert) {
+      // given
       const candidate = _buildCertificationCandidate({});
       const certificationCandidates = [
         _buildCertificationCandidate({}),
@@ -127,6 +188,7 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
       this.set('certificationCandidates', certificationCandidates);
       this.set('shouldDisplayPrescriptionScoStudentRegistrationFeature', shouldDisplayPrescriptionScoStudentRegistrationFeature);
 
+      // when
       await render(hbs`
       <EnrolledCandidates
         @sessionId="1"
@@ -136,6 +198,7 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
       </EnrolledCandidates>
     `);
 
+      // then
       if (shouldColumnsBeEmpty) {
         assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
         assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();

@@ -1,0 +1,80 @@
+<AppModal @containerClass="pix-modal-dialog--wide" @onClose={{@closeModal}}>
+  <div class="certification-candidate-details-modal">
+    <div class="pix-modal__close-button">
+      <button aria-label="Fermer la fenêtre de détail du candidat" type="button" {{on "click" @closeModal}}>
+        Fermer
+        <img src="/icons/icon-close-modal.svg" alt="" role="presentation" width="24" height="24">
+      </button>
+    </div>
+
+    <div class="pix-modal__container pix-modal__container--white">
+      <div class="certification-candidate-details-modal__title">
+        <h1>Détail du candidat</h1>
+      </div>
+
+      <div class="certification-candidate-details-modal__content">
+        <ul class="certification-candidate-details-modal__list">
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Nom</span>
+            <span class="certification-candidate-details-modal__row__value">{{@candidate.lastName}}</span>
+          </li>
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Prénom</span>
+            <span class="certification-candidate-details-modal__row__value">{{@candidate.firstName}}</span>
+          </li>
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Date de naissance</span>
+            <span class="certification-candidate-details-modal__row__value">{{moment-format @candidate.birthdate "DD/MM/YYYY"}}</span>
+          </li>
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Sexe</span>
+            <span class="certification-candidate-details-modal__row__value">{{@candidate.sexLabel}}</span>
+          </li>
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Commune de naissance</span>
+              <span class="certification-candidate-details-modal__row__value" data-test-id="birth-city-row">
+                {{if @candidate.birthCity @candidate.birthCity "-"}}
+            </span>
+          </li>
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Code postal de naissance</span>
+            <span class="certification-candidate-details-modal__row__value" data-test-id="birth-postal-code-row">
+              {{if @candidate.birthPostalCode @candidate.birthPostalCode "-"}}
+            </span>
+          </li>
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Code INSEE de naissance</span>
+            <span class="certification-candidate-details-modal__row__value" data-test-id="birth-insee-code-row">
+              {{if @candidate.birthInseeCode @candidate.birthInseeCode "-"}}
+            </span>
+          </li>
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Pays de naissance</span>
+            <span class="certification-candidate-details-modal__row__value">{{@candidate.birthCountry}}</span>
+          </li>
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Adresse e-mail du destinataire des résultats</span>
+            <span class="certification-candidate-details-modal__row__value">{{@candidate.resultRecipientEmail}}</span>
+          </li>
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Adresse e-mail de convocation</span>
+            <span class="certification-candidate-details-modal__row__value">{{@candidate.email}}</span>
+          </li>
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Identifiant externe</span>
+            <span class="certification-candidate-details-modal__row__value">{{@candidate.externalId}}</span>
+          </li>
+          <li class="certification-candidate-details-modal__row">
+            <span class="certification-candidate-details-modal__row__label">Temps majoré (%)</span>
+            <span class="certification-candidate-details-modal__row__value">{{@candidate.extraTimePercentage}}</span>
+          </li>
+        </ul>
+
+        <div class="certification-candidate-details-modal__actions">
+          <PixButton aria-hidden="true" @size="small" {{on "click" @closeModal}}>Fermer</PixButton>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</AppModal>

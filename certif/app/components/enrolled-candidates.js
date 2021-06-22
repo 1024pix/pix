@@ -10,6 +10,8 @@ export default class EnrolledCandidates extends Component {
   @service store;
   @service notifications;
   @tracked candidatesInStaging = [];
+  @tracked shouldDisplayCertificationCandidateModal = false;
+  @tracked certificationCandidateInDetailsModal = null;
 
   get isCandidateBeingAdded() {
     return this.candidatesInStaging.length > 0;
@@ -91,6 +93,18 @@ export default class EnrolledCandidates extends Component {
 
       return false;
     }
+  }
+
+  @action
+  openCertificationCandidateDetailsModal(candidate) {
+    this.shouldDisplayCertificationCandidateModal = true;
+    this.certificationCandidateInDetailsModal = candidate;
+  }
+
+  @action
+  closeCertificationCandidateDetailsModal() {
+    this.shouldDisplayCertificationCandidateModal = false;
+    this.certificationCandidateInDetailsModal = null;
   }
 
   _createCertificationCandidateRecord(certificationCandidateData) {

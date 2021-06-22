@@ -5,8 +5,11 @@ import { alias } from '@ember/object/computed';
 import every from 'lodash/every';
 import { computed } from '@ember/object';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class CertificationCandidatesController extends Controller {
+
+  @service featureToggles;
 
   @alias('model.session') currentSession;
   @alias('model.certificationCandidates') certificationCandidates;
@@ -28,6 +31,10 @@ export default class CertificationCandidatesController extends Controller {
   get hasOneOrMoreCandidates() {
     const certificationCandidatesCount = this.model.certificationCandidates.length;
     return certificationCandidatesCount > 0;
+  }
+
+  get shouldDisplayCertificationCandidateDetailsModalButton() {
+    return this.featureToggles.featureToggles.isNewCpfDataEnabled;
   }
 
   @action
