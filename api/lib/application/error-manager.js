@@ -57,6 +57,7 @@ function _formatInvalidAttribute(locale, { attribute, message }) {
 }
 
 function _mapToHttpError(error) {
+  console.log(error);
   if (error instanceof HttpErrors.BaseHttpError) {
     return error;
   }

@@ -20,7 +20,7 @@ const campagne = Joi.object({
 const individu = Joi.object({
   nom: Joi.string().required().max(255).example('Martin').description('Nom du participant'),
   prenom: Joi.string().required().max(255).example('Paul').description('Prénom du participant'),
-  // idPoleEmploi: Joi.string().required().max(255).example('XXX').description('Identifiant Pôle emploi du demandeur d\'emploi'),
+  idPoleEmploi: Joi.string().required().max(255).example('XXX').description('Identifiant Pôle emploi du demandeur d\'emploi'),
 }).required();
 
 const evaluation = Joi.object({

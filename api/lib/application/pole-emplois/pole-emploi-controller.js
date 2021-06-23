@@ -16,7 +16,7 @@ module.exports = {
     return h.response(response).code(200);
   },
 
-  async getSendings(request, h) {
+  async getSendings(_request, h) {
     const sendings = await usecases.getPoleEmploiSendings();
     return h.response(sendings).code(200);
   },

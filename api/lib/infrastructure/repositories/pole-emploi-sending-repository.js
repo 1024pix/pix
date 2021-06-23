@@ -7,6 +7,7 @@ module.exports = {
   create({ poleEmploiSending }) {
     return new BookshelfPoleEmploiSending(poleEmploiSending).save();
   },
+
   async get() {
     const POLE_EMPLOI_SENDINGS_LIMIT = require('../../../lib/config').poleEmploi.poleEmploiSendingsLimit;
     const IDENTITY_PROVIDER_POLE_EMPLOI = settings.poleEmploi.poleEmploiIdentityProvider;
@@ -24,6 +25,7 @@ module.exports = {
       if (rawSending.idPoleEmploi) {
         rawSending.resultat.individu['idPoleEmploi'] = rawSending.idPoleEmploi;
       }
+      rawSending.idEnvoi = rawSending.idEnvoi.toString();
       sendings.push(_.omit(rawSending, 'idPoleEmploi'));
     }
     return sendings;

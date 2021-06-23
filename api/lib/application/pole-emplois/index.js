@@ -20,7 +20,7 @@ exports.register = async function(server) {
       path: '/api/pole-emploi/envois',
       config: {
         auth: 'jwt-pole-emploi',
-        handler: console.log,
+        handler: poleEmploiController.getSendings,
         notes: [
           '- **API for Pôle emploi qui nécessite une authentification de type client credential grant**\n' +
           '- Récupération des N derniers envois. Le résultat peut être paginé si plus de N entrées via le paramètre Link dans le header la réponse\n',
