@@ -5,7 +5,10 @@ const competenceRepository = require('../lib/infrastructure/repositories/compete
 const scoringService = require('../lib/domain/services/scoring/scoring-service');
 
 async function main() {
-
+  const knowledgeElementSnapshots = await knex('knowledge-element-snapshots').select();
+  for (const knowledgeElementSnapshot of knowledgeElementSnapshots) {
+    await createProfileSnapshot(knowledgeElementSnapshot);
+  }
 }
 
 if (require.main === module) {
@@ -51,7 +54,7 @@ function createProfileSnapshotJSON({
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;
-  return JSON.parse(snapshot).map((data) => new KnowledgeElement({
+  return snapshot.map((data) => new KnowledgeElement({
     ...data,
     createdAt: new Date(data.createdAt),
   }));

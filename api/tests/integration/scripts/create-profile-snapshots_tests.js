@@ -20,8 +20,10 @@ describe('Integration | Scripts | create profile snapshots', () => {
     mockLearningContent(learningContentObjects);
 
     const knowledgeElements = Array.from({ length: 4 }, () => databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'competence_id' }));
-    const knowledgeElementSnapshot = databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId: user.id, snapshot: JSON.stringify(knowledgeElements) });
+    databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId: user.id, snapshot: JSON.stringify(knowledgeElements) });
     await databaseBuilder.commit();
+
+    const knowledgeElementSnapshot = await knex('knowledge-element-snapshots').select().first();
 
     // when
     await createProfileSnapshot(knowledgeElementSnapshot);
