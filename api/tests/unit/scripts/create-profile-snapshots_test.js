@@ -1,5 +1,5 @@
 const { expect, domainBuilder, sinon } = require('../../test-helper');
-const { createProfileSnapshot } = require('../../../scripts/create-profile-snapshots');
+const { createProfileSnapshotJSON } = require('../../../scripts/create-profile-snapshots');
 
 describe('create profile snapshots', () => {
   describe('#createProfileSnapshot', () => {
@@ -24,7 +24,7 @@ describe('create profile snapshots', () => {
       };
 
       // when
-      const profileJson = createProfileSnapshot({ userId, knowledgeElements, competences, scoringService });
+      const profileJson = createProfileSnapshotJSON({ userId, knowledgeElements, competences, scoringService });
 
       // then
       expect(profileJson.pixScore).to.equal(9);

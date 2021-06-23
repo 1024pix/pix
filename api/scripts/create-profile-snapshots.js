@@ -1,4 +1,8 @@
 const _ = require('lodash');
+const { knex } = require('../db/knex-database-connection');
+const KnowledgeElement = require('../lib/domain/models/KnowledgeElement');
+const competenceRepository = require('../lib/infrastructure/repositories/competence-repository');
+const scoringService = require('../lib/domain/services/scoring/scoring-service');
 
 async function main() {
 
@@ -16,20 +20,18 @@ if (require.main === module) {
 
 module.exports = {
   createProfileSnapshot,
+  createProfileSnapshotJSON,
 };
 
-function createProfileSnapshot({
+function createProfileSnapshotJSON({
   userId,
   knowledgeElements,
   competences,
-  scoringService
+  scoringService,
 }) {
   const scorecards = competences.map((competence) => {
     const {
-      realTotalPixScoreForCompetence,
       pixScoreForCompetence,
-      currentLevel,
-      pixAheadForNextLevel,
     } = scoringService.calculateScoringInformationForCompetence({ knowledgeElements, allowExcessPix: false, allowExcessLevel: false });
 
     return {
@@ -45,4 +47,23 @@ function createProfileSnapshot({
     pixScore,
     scorecards,
   };
+}
+
+function _toKnowledgeElementCollection({ snapshot } = {}) {
+  if (!snapshot) return null;
+  return JSON.parse(snapshot).map((data) => new KnowledgeElement({
+    ...data,
+    createdAt: new Date(data.createdAt),
+  }));
+}
+
+async function createProfileSnapshot(knowledgeElementSnapshot) {
+  const userId = knowledgeElementSnapshot.userId;
+  const knowledgeElements = _toKnowledgeElementCollection(knowledgeElementSnapshot);
+  const competences = await competenceRepository.listPixCompetencesOnly();
+
+  const snapshot = createProfileSnapshotJSON({ userId, knowledgeElements, competences, scoringService });
+  const snappedAt = new Date();
+
+  await knex('profile-snapshots').insert({ snappedAt, userId, snapshot, knowledgeElementsSnapshotId: knowledgeElementSnapshot.id });
 }
