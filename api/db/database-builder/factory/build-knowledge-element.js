@@ -6,7 +6,6 @@ const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const _ = require('lodash');
 
 module.exports = function buildKnowledgeElement({
-  id = databaseBuffer.getNextId(),
   source = KnowledgeElement.SourceType.DIRECT,
   status = KnowledgeElement.StatusType.VALIDATED,
   createdAt = new Date('2020-01-01'),
@@ -23,7 +22,6 @@ module.exports = function buildKnowledgeElement({
   answerId = _.isUndefined(answerId) ? buildAnswer({ assessmentId }).id : answerId;
 
   const values = {
-    id,
     source,
     status,
     createdAt,

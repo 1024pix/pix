@@ -26,7 +26,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         answerId,
         competenceId: 'recABC',
       });
-      knowledgeElementToSave.id = undefined;
 
       return databaseBuilder.commit();
     });
@@ -37,8 +36,8 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
       // then
       let actualKnowledgeElement = await knex.select('*').from('knowledge-elements').first();
-      actualKnowledgeElement = _.omit(actualKnowledgeElement, ['id', 'createdAt', 'updatedAt']);
-      const expectedKnowledgeElement = _.omit(knowledgeElementToSave, ['id', 'createdAt', 'updatedAt']);
+      actualKnowledgeElement = _.omit(actualKnowledgeElement, ['createdAt', 'updatedAt']);
+      const expectedKnowledgeElement = _.omit(knowledgeElementToSave, ['createdAt', 'updatedAt']);
       expect(actualKnowledgeElement).to.deep.equal(expectedKnowledgeElement);
     });
 
@@ -240,7 +239,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
     it('should have the skill Id', async () => {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 12 });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '12' });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -252,7 +251,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         id: 1,
         status: 'validated',
         userId,
-        skillId: 12,
+        skillId: '12',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
@@ -266,7 +265,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
     it('should return nothing when there is no shared campaign participations', async () => {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '1' });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -277,7 +276,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         id: 1,
         status: 'validated',
         userId,
-        skillId: 1,
+        skillId: '1',
       });
       await databaseBuilder.commit();
 
@@ -290,9 +289,9 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
     it('should return a list of knowledge elements when there are shared campaign participations', async () => {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 2 });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 3 });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '1' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '2' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '3' });
       const otherUserId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
@@ -305,25 +304,22 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         campaignId,
         isShared: false,
       });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
+      const firstKE = databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         userId,
-        skillId: 1,
+        skillId: '1',
+        createdAt: new Date('2019-12-12T15:00:34Z'),
+      });
+      const secondKE = databaseBuilder.factory.buildKnowledgeElement({
+        status: 'validated',
+        userId,
+        skillId: '2',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
-        id: 2,
-        status: 'validated',
-        userId,
-        skillId: 2,
-        createdAt: new Date('2019-12-12T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 3,
         status: 'validated',
         userId: otherUserId,
-        skillId: 3,
+        skillId: '3',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
@@ -332,7 +328,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1, 2]);
+      expect(actualKnowledgeElements).to.deep.equal([firstKE, secondKE]);
     });
 
     it('should return a list of knowledge elements when there are validated knowledge elements', async () => {
@@ -345,8 +341,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
+      const firstKE = databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         userId,
         skillId: 'recSkill1',
@@ -354,7 +349,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
       });
       databaseBuilder.factory.buildKnowledgeElement({
-        id: 2,
         status: 'invalidated',
         userId,
         skillId: 'recSkill2',
@@ -366,7 +360,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
+      expect(actualKnowledgeElements).to.deep.equal([firstKE]);
     });
 
     it('should return a list of knowledge elements whose its skillId is included in the campaign target profile', async () => {
@@ -378,15 +372,13 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
+      const firstKE = databaseBuilder.factory.buildKnowledgeElement({
         skillId: 'recSkill1',
         status: 'validated',
         userId,
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
-        id: 2,
         skillId: 'recSkill2',
         status: 'validated',
         userId,
@@ -398,30 +390,28 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
+      expect(actualKnowledgeElements).to.deep.equal([firstKE]);
     });
 
     it('should return only knowledge elements before shared date', async () => {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '1' });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
         isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
+      const firstKE = databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         userId,
-        skillId: 1,
+        skillId: '1',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
-        id: 2,
         status: 'validated',
         userId,
-        skillId: 1,
+        skillId: '1',
         createdAt: new Date('2020-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
@@ -430,12 +420,12 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
+      expect(actualKnowledgeElements).to.deep.equal([firstKE]);
     });
 
-    it('should return only last knowledge element for a skill', async () => {
+    it('should return only latest knowledge element for a skill', async () => {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '1' });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -443,18 +433,16 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
         status: 'validated',
         userId,
-        skillId: 1,
-        createdAt: new Date('2019-12-12T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 2,
-        status: 'validated',
-        userId,
-        skillId: 1,
+        skillId: '1',
         createdAt: new Date('2020-11-11T15:00:34Z'),
+      });
+      const latestKE = databaseBuilder.factory.buildKnowledgeElement({
+        status: 'validated',
+        userId,
+        skillId: '1',
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
@@ -462,14 +450,14 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
 
       // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
+      expect(actualKnowledgeElements).to.deep.equal([latestKE]);
     });
 
     it('should return latest knowledge elements by skill for each user in the campaign', async () => {
       // given
       const userId2 = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 12 });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 13 });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '12' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '13' });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -480,7 +468,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         userId,
-        skillId: 12,
+        skillId: '12',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
@@ -492,13 +480,13 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         userId: userId2,
-        skillId: 12,
+        skillId: '12',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         userId: userId2,
-        skillId: 13,
+        skillId: '13',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
@@ -513,7 +501,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     it('should return only last knowledge element if validated for a skill within sharedAt date', async () => {
       // given
       const userId2 = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 12 });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '12' });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -525,7 +513,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         id: 1,
         status: 'validated',
         userId,
-        skillId: 12,
+        skillId: '12',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       }).id;
       databaseBuilder.factory.buildCampaignParticipation({
@@ -538,13 +526,13 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         id: 2,
         status: 'validated',
         userId: userId2,
-        skillId: 12,
+        skillId: '12',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'reset',
         userId: userId2,
-        skillId: 12,
+        skillId: '12',
         createdAt: new Date('2019-12-25T15:00:34Z'),
       });
       await databaseBuilder.commit();
@@ -569,9 +557,9 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
     it('should return a list of knowledge elements for a given user', async () => {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 2 });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 3 });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '1' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '2' });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '3' });
       const otherUserId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
@@ -585,25 +573,22 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
+      const firstKE = databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         userId,
-        skillId: 1,
+        skillId: '1',
+        createdAt: new Date('2019-12-12T15:00:34Z'),
+      });
+      const secondKE = databaseBuilder.factory.buildKnowledgeElement({
+        status: 'validated',
+        userId,
+        skillId: '2',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
-        id: 2,
-        status: 'validated',
-        userId,
-        skillId: 2,
-        createdAt: new Date('2019-12-12T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 3,
         status: 'validated',
         userId: otherUserId,
-        skillId: 3,
+        skillId: '3',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
@@ -612,30 +597,29 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
 
       // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1, 2]);
+      expect(actualKnowledgeElements).to.deep.equal([firstKE, secondKE]);
     });
 
     it('should return only knowledge elements before shared date', async () => {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '1' });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
         isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
+      const firstKE = databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         userId,
-        skillId: 1,
+        skillId: '1',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 2,
         status: 'validated',
         userId,
-        skillId: 1,
+        skillId: '1',
         createdAt: new Date('2020-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
@@ -644,37 +628,34 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
 
       // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
+      expect(actualKnowledgeElements).to.deep.equal([firstKE]);
     });
 
-    it('should return only last knowledge element if validated for a skill within sharedAt date', async () => {
+    it('should return nly last knowledge element if validated for a skill within sharedAt date', async () => {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '1' });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
         isShared: true,
         sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
+      const firstKE = databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         userId,
-        skillId: 1,
+        skillId: '1',
         createdAt: new Date('2019-12-13T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
-        id: 2,
         status: 'reset',
         userId,
-        skillId: 1,
+        skillId: '1',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
-        id: 3,
         status: 'validated',
         userId,
-        skillId: 1,
+        skillId: '1',
         createdAt: new Date('2019-12-11T15:00:34Z'),
       });
       await databaseBuilder.commit();
@@ -683,12 +664,12 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId });
 
       // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
+      expect(actualKnowledgeElements).to.deep.equal([firstKE]);
     });
 
     it('should not return any knowledge element if latest by skill is not validated', async () => {
       // given
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: '1' });
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
@@ -699,14 +680,14 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         id: 1,
         status: 'reset',
         userId,
-        skillId: 1,
+        skillId: '1',
         createdAt: new Date('2019-12-13T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 2,
         status: 'validated',
         userId,
-        skillId: 1,
+        skillId: '1',
         createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();

@@ -1,7 +1,6 @@
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
 const buildKnowledgeElement = function({
-  id = 123,
   source = KnowledgeElement.SourceType.DIRECT,
   status = KnowledgeElement.StatusType.VALIDATED,
   earnedPix = 4,
@@ -13,7 +12,6 @@ const buildKnowledgeElement = function({
   competenceId = 'recCOMP456',
 } = {}) {
   return new KnowledgeElement({
-    id,
     source,
     status,
     earnedPix,
@@ -27,7 +25,6 @@ const buildKnowledgeElement = function({
 };
 
 buildKnowledgeElement.directlyValidated = function({
-  id = 123,
   earnedPix = 4,
   createdAt,
   answerId = 456,
@@ -37,7 +34,6 @@ buildKnowledgeElement.directlyValidated = function({
   competenceId = 'recCOMP456',
 } = {}) {
   return new KnowledgeElement({
-    id,
     source: KnowledgeElement.SourceType.DIRECT,
     status: KnowledgeElement.StatusType.VALIDATED,
     earnedPix,
@@ -51,7 +47,6 @@ buildKnowledgeElement.directlyValidated = function({
 };
 
 buildKnowledgeElement.directlyInvalidated = function({
-  id = 123,
   earnedPix = 4,
   createdAt,
   answerId = 456,
@@ -61,7 +56,6 @@ buildKnowledgeElement.directlyInvalidated = function({
   competenceId = 'recCOMP456',
 } = {}) {
   return new KnowledgeElement({
-    id,
     source: KnowledgeElement.SourceType.DIRECT,
     status: KnowledgeElement.StatusType.INVALIDATED,
     earnedPix,
@@ -75,7 +69,6 @@ buildKnowledgeElement.directlyInvalidated = function({
 };
 
 buildKnowledgeElement.inferredValidated = function({
-  id = 123,
   earnedPix = 4,
   createdAt,
   answerId = 456,
@@ -85,7 +78,6 @@ buildKnowledgeElement.inferredValidated = function({
   competenceId = 'recCOMP456',
 } = {}) {
   return new KnowledgeElement({
-    id,
     source: KnowledgeElement.SourceType.INFERRED,
     status: KnowledgeElement.StatusType.VALIDATED,
     earnedPix,

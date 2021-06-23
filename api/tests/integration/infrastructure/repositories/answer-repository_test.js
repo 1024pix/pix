@@ -317,7 +317,7 @@ describe('Integration | Repository | answerRepository', () => {
       });
 
       it('should save knowledge elements', async () => {
-        const knowledgeElementsInDB = await knex('knowledge-elements').where({ answerId: savedAnswer.id }).orderBy('id');
+        const knowledgeElementsInDB = await knex('knowledge-elements').where({ answerId: savedAnswer.id }).orderBy('createdAt');
 
         expect(knowledgeElementsInDB).to.length(2);
         compareDatabaseObject(knowledgeElementsInDB[0], firstKnowledgeElement);

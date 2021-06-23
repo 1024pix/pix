@@ -20,7 +20,6 @@ const sources = {
 class KnowledgeElement {
 
   constructor({
-    id,
     createdAt,
     source,
     status,
@@ -31,7 +30,6 @@ class KnowledgeElement {
     userId,
     competenceId,
   } = {}) {
-    this.id = id;
     this.createdAt = createdAt;
     this.source = source;
     this.status = status;

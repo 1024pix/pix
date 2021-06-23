@@ -185,7 +185,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             userId: 3,
             competenceId: skill.competenceId,
           });
-          directKnowledgeElement.id = undefined;
 
           expect(createdKnowledgeElements).to.deep.equal([directKnowledgeElement]);
         });
@@ -230,7 +229,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: skill.competenceId,
             });
-            directKnowledgeElement.id = undefined;
             const inferredKnowledgeElementForEasierSkill = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.VALIDATED,
@@ -242,7 +240,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: easierSkill.competenceId,
             });
-            inferredKnowledgeElementForEasierSkill.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkill = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.VALIDATED,
@@ -254,7 +251,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: muchEasierSkill.competenceId,
             });
-            inferredKnowledgeElementForMuchEasierSkill.id = undefined;
             const expectedKnowledgeElements = [
               directKnowledgeElement,
               inferredKnowledgeElementForMuchEasierSkill,
@@ -294,7 +290,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: skill.competenceId,
             });
-            directKnowledgeElement.id = undefined;
             const inferredKnowledgeElementForHarderSkill = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.INVALIDATED,
@@ -305,7 +300,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: harderSkill.competenceId,
             });
-            inferredKnowledgeElementForHarderSkill.id = undefined;
             const inferredKnowledgeElementForMuchHarderSkill = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.INVALIDATED,
@@ -316,7 +310,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: muchHarderSkill.competenceId,
             });
-            inferredKnowledgeElementForMuchHarderSkill.id = undefined;
             const expectedKnowledgeElements = [
               directKnowledgeElement,
               inferredKnowledgeElementForHarderSkill,
@@ -413,7 +406,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             userId,
             competenceId: skillFromTube1.competenceId,
           });
-          directKnowledgeElementFromTube1.id = undefined;
           const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
             source: KnowledgeElement.SourceType.DIRECT,
             status: KnowledgeElement.StatusType.VALIDATED,
@@ -424,7 +416,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             userId,
             competenceId: skillFromTube3.competenceId,
           });
-          directKnowledgeElementFromTube3.id = undefined;
           const expectedKnowledgeElements = [directKnowledgeElementFromTube1, directKnowledgeElementFromTube3];
 
           expect(createdKnowledgeElements).to.deep.equal(expectedKnowledgeElements);
@@ -483,7 +474,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: skillFromTube1.competenceId,
             });
-            directKnowledgeElementFromTube1.id = undefined;
             const inferredKnowledgeElementForEasierSkillFromTube1 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.VALIDATED,
@@ -494,7 +484,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: easierSkillFromTube1.competenceId,
             });
-            inferredKnowledgeElementForEasierSkillFromTube1.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkillFromTube1 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.VALIDATED,
@@ -505,7 +494,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: muchEasierSkillFromTube1.competenceId,
             });
-            inferredKnowledgeElementForMuchEasierSkillFromTube1.id = undefined;
 
             const directKnowledgeElementFromTube2 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.DIRECT,
@@ -517,7 +505,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: skillFromTube2.competenceId,
             });
-            directKnowledgeElementFromTube2.id = undefined;
             const inferredKnowledgeElementForEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.VALIDATED,
@@ -528,7 +515,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: easierSkillFromTube2.competenceId,
             });
-            inferredKnowledgeElementForEasierSkillFromTube2.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.VALIDATED,
@@ -539,7 +525,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: muchEasierSkillFromTube2.competenceId,
             });
-            inferredKnowledgeElementForMuchEasierSkillFromTube2.id = undefined;
 
             const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.DIRECT,
@@ -551,7 +536,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: skillFromTube3.competenceId,
             });
-            directKnowledgeElementFromTube3.id = undefined;
             const inferredKnowledgeElementForEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.VALIDATED,
@@ -562,7 +546,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: easierSkillFromTube3.competenceId,
             });
-            inferredKnowledgeElementForEasierSkillFromTube3.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.VALIDATED,
@@ -573,7 +556,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: muchEasierSkillFromTube3.competenceId,
             });
-            inferredKnowledgeElementForMuchEasierSkillFromTube3.id = undefined;
 
             const expectedKnowledgeElements = [
               directKnowledgeElementFromTube1,
@@ -619,7 +601,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: skillFromTube1.competenceId,
             });
-            directKnowledgeElementFromTube1.id = undefined;
             const inferredKnowledgeElementForHarderSkillFromTube1 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.INVALIDATED,
@@ -630,7 +611,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: harderSkillFromTube1.competenceId,
             });
-            inferredKnowledgeElementForHarderSkillFromTube1.id = undefined;
             const inferredKnowledgeElementForMuchHarderSkillFromTube1 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.INVALIDATED,
@@ -641,7 +621,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: muchHarderSkillFromTube1.competenceId,
             });
-            inferredKnowledgeElementForMuchHarderSkillFromTube1.id = undefined;
 
             const directKnowledgeElementFromTube2 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.DIRECT,
@@ -653,7 +632,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: skillFromTube2.competenceId,
             });
-            directKnowledgeElementFromTube2.id = undefined;
             const inferredKnowledgeElementForHarderSkillFromTube2 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.INVALIDATED,
@@ -664,7 +642,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: harderSkillFromTube2.competenceId,
             });
-            inferredKnowledgeElementForHarderSkillFromTube2.id = undefined;
             const inferredKnowledgeElementForMuchHarderSkillFromTube2 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.INVALIDATED,
@@ -675,7 +652,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: muchHarderSkillFromTube2.competenceId,
             });
-            inferredKnowledgeElementForMuchHarderSkillFromTube2.id = undefined;
 
             const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.DIRECT,
@@ -687,7 +663,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: skillFromTube3.competenceId,
             });
-            directKnowledgeElementFromTube3.id = undefined;
             const inferredKnowledgeElementForHarderSkillFromTube3 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.INVALIDATED,
@@ -698,7 +673,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: harderSkillFromTube3.competenceId,
             });
-            inferredKnowledgeElementForHarderSkillFromTube3.id = undefined;
             const inferredKnowledgeElementForMuchHarderSkillFromTube3 = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.INFERRED,
               status: KnowledgeElement.StatusType.INVALIDATED,
@@ -709,7 +683,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               userId,
               competenceId: muchHarderSkillFromTube3.competenceId,
             });
-            inferredKnowledgeElementForMuchHarderSkillFromTube3.id = undefined;
 
             const expectedKnowledgeElements = [
               directKnowledgeElementFromTube1,
@@ -837,7 +810,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
                 userId,
                 competenceId: skillFromTube1.competenceId,
               });
-              directKnowledgeElementFromTube1.id = undefined;
 
               const directKnowledgeElementFromTube2 = domainBuilder.buildKnowledgeElement({
                 source: KnowledgeElement.SourceType.DIRECT,
@@ -849,7 +821,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
                 userId,
                 competenceId: skillFromTube2.competenceId,
               });
-              directKnowledgeElementFromTube2.id = undefined;
               const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
                 source: KnowledgeElement.SourceType.INFERRED,
                 status: KnowledgeElement.StatusType.VALIDATED,
@@ -860,7 +831,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
                 userId,
                 competenceId: muchEasierSkillFromTube2.competenceId,
               });
-              inferredKnowledgeElementForMuchEasierSkillFromTube2.id = undefined;
 
               const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
                 source: KnowledgeElement.SourceType.DIRECT,
@@ -872,7 +842,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
                 userId,
                 competenceId: skillFromTube3.competenceId,
               });
-              directKnowledgeElementFromTube3.id = undefined;
               const inferredKnowledgeElementForEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
                 source: KnowledgeElement.SourceType.INFERRED,
                 status: KnowledgeElement.StatusType.VALIDATED,
@@ -883,7 +852,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
                 userId,
                 competenceId: easierSkillFromTube3.competenceId,
               });
-              inferredKnowledgeElementForEasierSkillFromTube3.id = undefined;
               const inferredKnowledgeElementForMuchEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
                 source: KnowledgeElement.SourceType.INFERRED,
                 status: KnowledgeElement.StatusType.VALIDATED,
@@ -895,7 +863,6 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
                 competenceId: muchEasierSkillFromTube3.competenceId,
 
               });
-              inferredKnowledgeElementForMuchEasierSkillFromTube3.id = undefined;
 
               const expectedKnowledgeElements = [
                 directKnowledgeElementFromTube1,
