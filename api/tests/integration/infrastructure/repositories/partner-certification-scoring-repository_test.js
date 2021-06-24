@@ -1,9 +1,8 @@
-const _ = require('lodash');
-const { expect, databaseBuilder, domainBuilder, knex, sinon, mockLearningContent } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, knex, sinon, mockLearningContent, catchErr } = require('../../../test-helper');
 const partnerCertificationScoringRepository = require('../../../../lib/infrastructure/repositories/partner-certification-scoring-repository');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const Badge = require('../../../../lib/domain/models/Badge');
-const CleaCertificationScoring = require('../../../../lib/domain/models/CleaCertificationScoring');
+const { NotEligibleCandidateError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Partner Certification Scoring', function() {
   const PARTNER_CERTIFICATIONS_TABLE_NAME = 'partner-certifications';
@@ -68,154 +67,182 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
 
   });
 
-  describe('#buildCleaCertificationScoring', () => {
-    const pixValue = 5;
-    const competenceId = 'recCompetence1';
-    const reproducibilityRate = 13;
-    const certificationCourseId = 51;
-    const skill = {
-      id: 'recSkill0',
-      pixValue,
-      competenceId,
-      status: 'actif',
-    };
-    const learningContent = { skills: [skill] };
+  describe('#buildCleaCertificationScoring2', () => {
 
-    beforeEach(() => {
-      mockLearningContent(learningContent);
+    context('when the user does not have the badge', () => {
+
+      it('should build a CleaCertificationScoring that throws a NotEligibleCandidateError', async () => {
+        // given
+        const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+        const learningContent = { skills: [skill] };
+        mockLearningContent(learningContent);
+        const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
+        const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+          certificationCourseId,
+          userId,
+          reproducibilityRate: 75,
+          skillRepository,
+        });
+
+        // when
+        const error = await catchErr(cleaCertificationScoring.isAcquired, cleaCertificationScoring)();
+
+        // then
+        expect(error).to.be.instanceOf(NotEligibleCandidateError);
+      });
     });
 
-    it('should successfully build a CleaCertificationScoring with no clea competenceMarks', async () => {
-      // given
-      const { userId } = await _setUpCleaCertificationScoringWithBadge({ certificationCourseId, competenceId: 'otherCompetenceId', skill });
+    context('when the user has the badge', () => {
+      let userId;
+      let certificationCourseId;
+      let badgeId;
 
-      const expectedCleaCertificationScoring = new CleaCertificationScoring({
-        certificationCourseId,
-        hasAcquiredBadge: true,
-        reproducibilityRate,
-        cleaCompetenceMarks: [],
-        maxReachablePixByCompetenceForClea: { [competenceId]: pixValue },
+      beforeEach(() => {
+        userId = databaseBuilder.factory.buildUser().id;
+        certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
+        badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
+        databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId });
+        return databaseBuilder.commit();
       });
 
-      // when
-      const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
-        certificationCourseId, userId, reproducibilityRate, skillRepository,
+      context('when user reproducibility rate is below minimum rate', () => {
+
+        it('should build a not acquired CleaCertificationScoring', async () => {
+          // given
+          const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+          const learningContent = { skills: [skill] };
+          mockLearningContent(learningContent);
+
+          // when
+          const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+            certificationCourseId,
+            userId,
+            reproducibilityRate: 10,
+            skillRepository,
+          });
+
+          // then
+          expect(cleaCertificationScoring.isAcquired()).to.be.false;
+        });
       });
 
-      // then
-      expect(cleaCertificationScoring).to.be.instanceOf(CleaCertificationScoring);
-      expect(cleaCertificationScoring).to.deep.equal(expectedCleaCertificationScoring);
-    });
+      context('when user reproducibility rate is above trusted rate', () => {
 
-    it('should successfully build a CleaCertificationScoring with no competences for CleA', async () => {
-      // given
-      const { userId } = await _setUpNotExistingCleaCertificationScoring({ certificationCourseId, competenceId: 'otherCompetenceId' });
+        it('should build an acquired CleaCertificationScoring', async () => {
+          // given
+          const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+          const learningContent = { skills: [skill] };
+          mockLearningContent(learningContent);
 
-      const expectedCleaCertificationScoring = new CleaCertificationScoring({
-        certificationCourseId,
-        hasAcquiredBadge: false,
-        reproducibilityRate,
-        cleaCompetenceMarks: [],
-        maxReachablePixByCompetenceForClea: { },
+          // when
+          const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+            certificationCourseId,
+            userId,
+            reproducibilityRate: 95,
+            skillRepository,
+          });
+
+          // then
+          expect(cleaCertificationScoring.isAcquired()).to.be.true;
+        });
       });
 
-      // when
-      const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
-        certificationCourseId, userId, reproducibilityRate, skillRepository,
+      context('when user reproducibility rate is in between minimum repro rate and trusted repro rate (grey zone)', () => {
+
+        it('should build CleaCertificationScoring containing a hash of maxReachablePixByCompetenceForClea based on operative clea skills', async () => {
+          // given
+          const cleaSkill1Comp1 = domainBuilder.buildSkill({ id: 'recSkill1_1', competenceId: 'recCompetence1', pixValue: 3 });
+          const cleaSkill2Comp1 = domainBuilder.buildSkill({ id: 'recSkill1_2', competenceId: 'recCompetence1', pixValue: 6 });
+          const cleaSkill1Comp2 = domainBuilder.buildSkill({ id: 'recSkill2_1', competenceId: 'recCompetence2', pixValue: 4 });
+          const cleaSkill2Comp2 = domainBuilder.buildSkill({ id: 'recSkill2_2', competenceId: 'recCompetence2', pixValue: 1 });
+          const cleaSkill1Comp3 = domainBuilder.buildSkill({ id: 'recSkill3_1', competenceId: 'recCompetence3', pixValue: 2 });
+          const someOtherSkill = domainBuilder.buildSkill({ id: 'recSkillOther', competenceId: 'recComptence3', pixValue: 66 });
+          const learningContent = { skills: [
+            { ...cleaSkill1Comp1, status: 'actif' },
+            { ...cleaSkill2Comp1, status: 'actif' },
+            { ...cleaSkill1Comp2, status: 'actif' },
+            { ...cleaSkill2Comp2, status: 'périmé' },
+            { ...cleaSkill1Comp3, status: 'actif' },
+            { ...someOtherSkill, status: 'actif' },
+          ] };
+          await mockLearningContent(learningContent);
+          databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId, skillIds: ['recSkill1_1', 'recSkill2_2'], name: 'badgePart1' });
+          databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId, skillIds: ['recSkill1_2', 'recSkill2_1', 'recSkill3_1'], name: 'badgePart2' });
+          await databaseBuilder.commit();
+
+          // when
+          const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+            certificationCourseId,
+            userId,
+            reproducibilityRate: 60,
+            skillRepository,
+          });
+
+          // then
+          expect(cleaCertificationScoring.maxReachablePixByCompetenceForClea).to.deep.equal({
+            'recCompetence1': 9,
+            'recCompetence2': 4,
+            'recCompetence3': 2,
+          });
+        });
+
+        it('should build CleaCertificationScoring containing a the user competence marks of clea competences only', async () => {
+          // given
+          const cleaSkill1Comp1 = domainBuilder.buildSkill({ id: 'recSkill1_1', competenceId: 'recCompetence1' });
+          const cleaSkill1Comp2 = domainBuilder.buildSkill({ id: 'recSkill2_1', competenceId: 'recCompetence2' });
+          const learningContent = { skills: [
+            { ...cleaSkill1Comp1, status: 'actif' },
+            { ...cleaSkill1Comp2, status: 'actif' },
+          ] };
+          await mockLearningContent(learningContent);
+          databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId, skillIds: ['recSkill1_1', 'recSkill2_1'], name: 'badgePart1' });
+          const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId, userId }).id;
+          const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
+          const cleaCompetenceMark1 = domainBuilder.buildCompetenceMark({
+            id: 123,
+            assessmentResultId,
+            area_code: '1',
+            competence_code: '1.1',
+            competenceId: 'recCompetence1',
+            level: 0,
+            score: 13,
+          });
+          const cleaCompetenceMark2 = domainBuilder.buildCompetenceMark({
+            id: 456,
+            assessmentResultId,
+            area_code: '2',
+            competence_code: '2.1',
+            competenceId: 'recCompetence2',
+            level: 0,
+            score: 8,
+          });
+          const otherCompetenceMark = domainBuilder.buildCompetenceMark({
+            id: 789,
+            assessmentResultId,
+            area_code: '3',
+            competence_code: '3.1',
+            competenceId: 'recCompetence3',
+            level: 0,
+            score: 11,
+          });
+          databaseBuilder.factory.buildCompetenceMark(cleaCompetenceMark1);
+          databaseBuilder.factory.buildCompetenceMark(cleaCompetenceMark2);
+          databaseBuilder.factory.buildCompetenceMark(otherCompetenceMark);
+          await databaseBuilder.commit();
+
+          // when
+          const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+            certificationCourseId,
+            userId,
+            reproducibilityRate: 60,
+            skillRepository,
+          });
+
+          // then
+          expect(cleaCertificationScoring.cleaCompetenceMarks).to.deep.equal([cleaCompetenceMark1, cleaCompetenceMark2]);
+        });
       });
-
-      // then
-      expect(cleaCertificationScoring).to.be.instanceOf(CleaCertificationScoring);
-      expect(cleaCertificationScoring).to.deep.equal(expectedCleaCertificationScoring);
-    });
-
-    it('should successfully build a CleaCertificationScoring with badge', async () => {
-      // given
-
-      const { userId, competenceMark } = await _setUpCleaCertificationScoringWithBadge({ certificationCourseId, competenceId, skill });
-
-      const expectedCleaCertificationScoring = new CleaCertificationScoring({
-        certificationCourseId,
-        hasAcquiredBadge: true,
-        reproducibilityRate,
-        cleaCompetenceMarks: [_.omit(competenceMark, 'createdAt')],
-        maxReachablePixByCompetenceForClea: { [competenceId]: pixValue },
-      });
-
-      // when
-      const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
-        certificationCourseId, userId, reproducibilityRate, skillRepository,
-      });
-
-      // then
-      expect(cleaCertificationScoring).to.be.instanceOf(CleaCertificationScoring);
-      expect(cleaCertificationScoring).to.deep.equal(expectedCleaCertificationScoring);
-    });
-
-    it('should successfully build a cleaCertificationScoring without badge', async () => {
-      // given
-      const { userId, competenceMark } = await _setUpCleaCertificationScoringWithoutBadge({ certificationCourseId, competenceId, skill });
-
-      const expectedCleaCertificationScoring = new CleaCertificationScoring({
-        certificationCourseId,
-        hasAcquiredBadge: false,
-        reproducibilityRate,
-        cleaCompetenceMarks: [_.omit(competenceMark, 'createdAt')],
-        maxReachablePixByCompetenceForClea: { [competenceId]: pixValue },
-      });
-
-      // when
-      const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
-        certificationCourseId, userId, reproducibilityRate, skillRepository,
-      });
-
-      // then
-      expect(cleaCertificationScoring).to.be.instanceOf(CleaCertificationScoring);
-      expect(cleaCertificationScoring).to.deep.equal(expectedCleaCertificationScoring);
     });
   });
-
 });
-
-async function _setUpCleaCertificationScoringWithoutBadge({ certificationCourseId, competenceId, skill }) {
-  return _setUpCleaCertificationScoring({ certificationCourseId, competenceId, skill, withBadge: true, badgeAcquired: false });
-}
-
-async function _setUpCleaCertificationScoringWithBadge({ certificationCourseId, competenceId, skill }) {
-  return _setUpCleaCertificationScoring({ certificationCourseId, competenceId, skill, withBadge: true, badgeAcquired: true });
-}
-
-async function _setUpNotExistingCleaCertificationScoring({ certificationCourseId, competenceId }) {
-  return _setUpCleaCertificationScoring({ certificationCourseId, competenceId, skill: null, withBadge: false });
-}
-
-async function _setUpCleaCertificationScoring({ certificationCourseId, competenceId, skill, withBadge, badgeAcquired }) {
-
-  const badgeCompetenceName = 'badgeCompetenceName';
-  const userId = databaseBuilder.factory.buildUser().id;
-  databaseBuilder.factory.buildCertificationCourse({
-    userId,
-    id: certificationCourseId,
-  }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId, userId }).id;
-  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
-  const competenceMark = databaseBuilder.factory.buildCompetenceMark(
-    {
-      assessmentResultId,
-      competenceId,
-    },
-  );
-
-  if (withBadge) {
-    const badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
-    databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId, skillIds: [skill.id], name: badgeCompetenceName });
-    if (badgeAcquired) {
-      databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId });
-    }
-  }
-  await databaseBuilder.commit();
-  return {
-    userId,
-    competenceMark,
-  };
-}
