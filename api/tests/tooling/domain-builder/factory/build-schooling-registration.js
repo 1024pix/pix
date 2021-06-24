@@ -19,6 +19,7 @@ function buildSchoolingRegistration({
   status = 'ST',
   nationalStudentId = null,
   division = 'B1',
+  userId,
   updatedAt = new Date('2020-01-01'),
 } = {}) {
 
@@ -40,6 +41,7 @@ function buildSchoolingRegistration({
     nationalStudentId,
     division,
     updatedAt,
+    userId,
     organizationId: organization.id,
   });
 }

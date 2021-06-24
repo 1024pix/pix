@@ -154,6 +154,12 @@ class SameNationalStudentIdInOrganizationError extends DomainError {
   }
 }
 
+class MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError extends DomainError {
+  constructor(message = 'Multiple schooling registrations with different INE') {
+    super(message);
+  }
+}
+
 class SameNationalApprenticeIdInOrganizationError extends DomainError {
   constructor(errorDetail) {
     let message = 'INA is already in use for this organization.';
@@ -901,6 +907,7 @@ module.exports = {
   MembershipUpdateError,
   MissingAssessmentId,
   MissingOrInvalidCredentialsError,
+  MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
   NoCertificationResultForDivision,
   NoStagesForCampaign,
