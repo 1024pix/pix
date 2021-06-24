@@ -1,12 +1,10 @@
-/* eslint-disable ember/no-classic-classes */
-
 import Route from '@ember/routing/route';
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import { FINALIZED } from 'pix-admin/models/session';
 import trim from 'lodash/trim';
 
-export default Route.extend(AuthenticatedRouteMixin, {
-  queryParams: {
+export default class AuthenticatedSessionsAllRoute extends Route {
+
+  queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
     id: { refreshModel: true },
@@ -15,7 +13,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     status: { refreshModel: true },
     resultsSentToPrescriberAt: { refreshModel: true },
     assignedToSelfOnly: { refreshModel: true },
-  },
+  };
 
   async model(params) {
     let sessions;
@@ -39,7 +37,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     }
 
     return sessions;
-  },
+  }
 
   resetController(controller, isExiting) {
     if (isExiting) {
@@ -52,5 +50,5 @@ export default Route.extend(AuthenticatedRouteMixin, {
       controller.resultsSentToPrescriberAt = null;
       controller.assignedToSelfOnly = false;
     }
-  },
-});
+  }
+}
