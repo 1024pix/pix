@@ -6,83 +6,85 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { createAuthenticateSession } from '../helpers/test-init';
 
 module('Acceptance | routes protection', function(hooks) {
+
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  test('guest users can visit /about', async function(assert) {
-    // when
-    await visit('/about');
+  module('When route is /about', function() {
 
-    // then
-    assert.equal(currentURL(), '/about');
+    test('guest users can visit /about', async function(assert) {
+      // when
+      await visit('/about');
+
+      // then
+      assert.equal(currentURL(), '/about');
+    });
   });
 
-  //
-  // route /organizations/new
-  //
+  module('When route is /organizations/new', function() {
 
-  test('guest users are redirected to login page when visiting /organizations/new', async function(assert) {
-    // when
-    await visit('/organizations/new');
+    test('guest users are redirected to login page when visiting /organizations/new', async function(assert) {
+      // when
+      await visit('/organizations/new');
 
-    // then
-    assert.equal(currentURL(), '/login');
+      // then
+      assert.equal(currentURL(), '/login');
+    });
+
+    test('authenticated users can visit /organizations/new', async function(assert) {
+      // given
+      const user = this.server.create('user');
+      await createAuthenticateSession({ userId: user.id });
+
+      // when
+      await visit('/organizations/new');
+
+      // then
+      assert.equal(currentURL(), '/organizations/new');
+    });
   });
 
-  test('authenticated users can visit /organizations/new', async function(assert) {
-    // given
-    const user = this.server.create('user');
-    await createAuthenticateSession({ userId: user.id });
+  module('When route is /organizations/list', function() {
 
-    // when
-    await visit('/organizations/new');
+    test('guest users are redirected to login page when visiting /organizations/list', async function(assert) {
+      // when
+      await visit('/organizations/list');
 
-    // then
-    assert.equal(currentURL(), '/organizations/new');
+      // then
+      assert.equal(currentURL(), '/login');
+    });
   });
 
-  //
-  // route /organizations/list
-  //
+  module('When route is /certifications/menu', function() {
 
-  test('guest users are redirected to login page when visiting /organizations/list', async function(assert) {
-    // when
-    await visit('/organizations/list');
+    test('guest users are redirected to login page when visiting /certifications', async function(assert) {
+      // when
+      await visit('/certifications');
 
-    // then
-    assert.equal(currentURL(), '/login');
+      // then
+      assert.equal(currentURL(), '/login');
+    });
   });
 
-  //
-  // route /certifications/menu
-  //
-  test('guest users are redirected to login page when visiting /certifications', async function(assert) {
-    // when
-    await visit('/certifications');
+  module('When route is /certifications/single', function() {
 
-    // then
-    assert.equal(currentURL(), '/login');
+    test('guest users are redirected to login page when visiting /certifications/single', async function(assert) {
+      // when
+      await visit('/certifications/single');
+
+      // then
+      assert.equal(currentURL(), '/login');
+    });
   });
 
-  //
-  // route /certifications/single
-  //
-  test('guest users are redirected to login page when visiting /certifications/single', async function(assert) {
-    // when
-    await visit('/certifications/single');
+  module('When route is /sessions', function() {
 
-    // then
-    assert.equal(currentURL(), '/login');
-  });
+    test('guest users are redirected to login page when visiting /sessions', async function(assert) {
+      // when
+      await visit('/sessions');
 
-  //
-  // route /sessions
-  //
-  test('guest users are redirected to login page when visiting /sessions', async function(assert) {
-    // when
-    await visit('/sessions');
-
-    // then
-    assert.equal(currentURL(), '/login');
+      // then
+      assert.equal(currentURL(), '/login');
+    });
   });
 });

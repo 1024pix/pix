@@ -2,9 +2,8 @@ import RSVP from 'rsvp';
 
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default class CertificationCentersGetRoute extends Route.extend(AuthenticatedRouteMixin) {
+export default class CertificationCentersGetRoute extends Route {
 
   async model(params) {
     const certificationCenter = await this.store.findRecord('certification-center', params.certification_center_id);
