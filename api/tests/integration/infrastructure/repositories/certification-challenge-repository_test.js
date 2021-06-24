@@ -6,7 +6,7 @@ const certificationChallengeRepository = require('../../../../lib/infrastructure
 
 describe('Integration | Repository | Certification Challenge', function() {
 
-  describe('#saveInOrder', () => {
+  describe('#saveAll', () => {
 
     afterEach(() => {
       return knex('certification-challenges').delete();
@@ -21,7 +21,7 @@ describe('Integration | Repository | Certification Challenge', function() {
         domainBuilder.buildCertificationChallenge(),
         domainBuilder.buildCertificationChallenge(),
       ];
-      const savedCertificationChallenges = await certificationChallengeRepository.saveWithOrder({ certificationCourseId, certificationChallenges: challengesToBeSaved });
+      const savedCertificationChallenges = await certificationChallengeRepository.saveAll({ certificationCourseId, certificationChallenges: challengesToBeSaved });
 
       // then
       expect(savedCertificationChallenges).to.have.lengthOf(2);
@@ -33,6 +33,23 @@ describe('Integration | Repository | Certification Challenge', function() {
 
       expect(_.omit(savedCertificationChallenges[0], ['id', 'courseId'])).to.deep.equal(_.omit(challengesToBeSaved[0], ['id', 'courseId']));
       expect(_.omit(savedCertificationChallenges[1], ['id', 'courseId'])).to.deep.equal(_.omit(challengesToBeSaved[1], ['id', 'courseId']));
+    });
+
+    it('should persist the index of the challenges', async () => {
+      // given
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+      await databaseBuilder.commit();
+
+      const challengesToBeSaved = [
+        domainBuilder.buildCertificationChallenge(),
+        domainBuilder.buildCertificationChallenge(),
+      ];
+      await certificationChallengeRepository.saveAll({ certificationCourseId, certificationChallenges: challengesToBeSaved });
+
+      // then
+      const certificationChallengesRows = await knex('certification-challenges');
+      expect(certificationChallengesRows[0].index).to.equal(1);
+      expect(certificationChallengesRows[1].index).to.equal(2);
     });
   });
 

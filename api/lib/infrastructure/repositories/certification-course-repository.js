@@ -16,7 +16,7 @@ module.exports = {
     const options = { transacting: domainTransaction.knexTransaction };
     const savedCertificationCourseDTO = await new CertificationCourseBookshelf(certificationCourseToSaveDTO).save(null, options);
 
-    const savedChallenges = await certificationChallengeRepository.saveWithOrder({ certificationCourseId: savedCertificationCourseDTO.id, certificationChallenges: certificationCourse.challenges, domainTransaction });
+    const savedChallenges = await certificationChallengeRepository.saveAll({ certificationCourseId: savedCertificationCourseDTO.id, certificationChallenges: certificationCourse.challenges, domainTransaction });
 
     const savedCertificationCourse = _toDomain(savedCertificationCourseDTO);
     savedCertificationCourse.challenges = savedChallenges;

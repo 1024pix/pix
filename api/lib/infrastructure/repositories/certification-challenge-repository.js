@@ -15,9 +15,9 @@ const logContext = {
 
 module.exports = {
 
-  async saveWithOrder({ certificationCourseId, certificationChallenges, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  async saveAll({ certificationCourseId, certificationChallenges, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
-    const dtos = certificationChallenges.map((certificationChallenge) => {
+    const dtos = certificationChallenges.map((certificationChallenge, index) => {
       return {
         challengeId: certificationChallenge.challengeId,
         competenceId: certificationChallenge.competenceId,
@@ -25,6 +25,7 @@ module.exports = {
         associatedSkillId: certificationChallenge.associatedSkillId,
         courseId: certificationCourseId,
         certifiableBadgeKey: certificationChallenge.certifiableBadgeKey,
+        index: index + 1,
       };
     });
     const savedCertificationChallengesDTOs = await knexConn.batchInsert('certification-challenges', dtos).returning('*');
