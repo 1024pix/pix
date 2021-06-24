@@ -73,6 +73,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CompetenceResetError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
+  if (error instanceof DomainErrors.NoCampaignParticipationForUserAndCampaign) {
+    return new HttpErrors.PreconditionFailedError(error.message);
+  }
   if (error instanceof DomainErrors.ChallengeAlreadyAnsweredError) {
     return new HttpErrors.ConflictError('This challenge has already been answered.');
   }
