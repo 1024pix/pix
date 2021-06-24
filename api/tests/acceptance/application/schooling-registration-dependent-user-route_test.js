@@ -7,7 +7,7 @@ const {
 
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | Schooling-registration-dependent-user', () => {
+describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
 
   let server;
 
