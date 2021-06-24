@@ -441,7 +441,8 @@
       "illustration": {
         "placeholder": "Image loading"
       },
-        "has-focused-out": "We noticed that you switched page/tab. This question does not require some research. You can still answer the question but know that in certification, your answer would be invalidated.",
+      "is-focused-challenge": "",
+      "has-focused-out": "",
       "parts": {
         "answer-input": "Your answer",
         "feedback": "Report a problem",

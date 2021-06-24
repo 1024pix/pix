@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { find, render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | Challenge item QROC', function() {
@@ -183,6 +183,37 @@ describe('Integration | Component | Challenge item QROC', function() {
           });
         });
       });
+    });
+  });
+
+  describe('When focused challenge', () => {
+    it('should display a specific style', async function() {
+      this.set('challenge', {
+        timer: false,
+        focused: true,
+      });
+      this.set('answer', null);
+
+      await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} />`);
+      await click('.focused-challenge-instructions-action__confirmation-button');
+
+      expect(find('.challenge-item__container--focused')).to.exist;
+      expect(find('.alert.alert--info')).to.exist;
+    });
+  });
+
+  describe('When not a focused challenge', () => {
+    it('should not display focused challenges specific style', async function() {
+      this.set('challenge', {
+        timer: false,
+        focused: false,
+      });
+      this.set('answer', null);
+
+      await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} />`);
+
+      expect(find('.challenge-item__container--focused')).to.not.exist;
+      expect(find('.alert.alert--info')).to.not.exist;
     });
   });
 });
