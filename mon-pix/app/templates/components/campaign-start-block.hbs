@@ -10,24 +10,18 @@
       </div>
     {{/if}}
   </div>
-  <div class="campaign-landing-page__start__text">
-    <h1 class="campaign-landing-page__start__text__title">
-      {{@titleText}}
-    </h1>
-    <h2 class="campaign-landing-page__start__text__announcement">
-      {{{@announcementText}}}
-    </h2>
-      <PixButton
-         @type="submit"
-         class="campaign-landing-page__start-button button button--big"
-         @triggerAction={{action @startCampaignParticipation on="submit"}}
-         @loading-color='white'>
-        {{@buttonText}}
-      </PixButton>
 
-    <p class="campaign-landing-page__start__text__legal">
-      {{@legalText}}
-    </p>
+  <div class="campaign-landing-page__start__text">
+    <h1 class="campaign-landing-page__start__text__title">{{@titleText}}</h1>
+    <h2 class="campaign-landing-page__start__text__announcement">{{{@announcementText}}}</h2>
+    <PixButton
+      @type="submit"
+      class="campaign-landing-page__start-button button button--big"
+      @triggerAction={{action @startCampaignParticipation on="submit"}}
+      @loading-color='white'>
+      {{@buttonText}}
+    </PixButton>
+    <p class="campaign-landing-page__start__text__legal">{{@legalText}}</p>
   </div>
 
   {{#if @campaign.customLandingPageText}}
