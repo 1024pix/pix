@@ -1,7 +1,9 @@
 const Bookshelf = require('../bookshelf');
+const { knex } = require('../bookshelf');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
 const CertificationChallengeBookshelf = require('../orm-models/CertificationChallenge');
+const CertificationChallenge = require('../../domain/models/CertificationChallenge');
 const logger = require('../../infrastructure/logger');
 
 const { AssessmentEndedError } = require('../../domain/errors');
@@ -13,17 +15,20 @@ const logContext = {
 
 module.exports = {
 
-  async save({ certificationChallenge, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const certificationChallengeToSave = new CertificationChallengeBookshelf({
-      challengeId: certificationChallenge.challengeId,
-      competenceId: certificationChallenge.competenceId,
-      associatedSkillName: certificationChallenge.associatedSkillName,
-      associatedSkillId: certificationChallenge.associatedSkillId,
-      courseId: certificationChallenge.courseId,
-      certifiableBadgeKey: certificationChallenge.certifiableBadgeKey,
+  async saveWithOrder({ certificationCourseId, certificationChallenges, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const dtos = certificationChallenges.map((certificationChallenge) => {
+      return {
+        challengeId: certificationChallenge.challengeId,
+        competenceId: certificationChallenge.competenceId,
+        associatedSkillName: certificationChallenge.associatedSkillName,
+        associatedSkillId: certificationChallenge.associatedSkillId,
+        courseId: certificationCourseId,
+        certifiableBadgeKey: certificationChallenge.certifiableBadgeKey,
+      };
     });
-    const savedCertificationChallenge = await certificationChallengeToSave.save(null, { transacting: domainTransaction.knexTransaction });
-    return bookshelfToDomainConverter.buildDomainObject(CertificationChallengeBookshelf, savedCertificationChallenge);
+    const savedCertificationChallengesDTOs = await knexConn.batchInsert('certification-challenges', dtos).returning('*');
+    return savedCertificationChallengesDTOs.map((dto) => new CertificationChallenge(dto));
   },
 
   async getNextNonAnsweredChallengeByCourseId(assessmentId, courseId) {

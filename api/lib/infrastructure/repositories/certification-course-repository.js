@@ -1,6 +1,5 @@
 const { _ } = require('lodash');
 const { knex } = require('../bookshelf');
-const bluebird = require('bluebird');
 const CertificationCourseBookshelf = require('../orm-models/CertificationCourse');
 const AssessmentBookshelf = require('../orm-models/Assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
@@ -17,10 +16,7 @@ module.exports = {
     const options = { transacting: domainTransaction.knexTransaction };
     const savedCertificationCourseDTO = await new CertificationCourseBookshelf(certificationCourseToSaveDTO).save(null, options);
 
-    const savedChallenges = await bluebird.mapSeries(certificationCourse.challenges, (certificationChallenge) => {
-      const certificationChallengeWithCourseId = { ...certificationChallenge, courseId: savedCertificationCourseDTO.id };
-      return certificationChallengeRepository.save({ certificationChallenge: certificationChallengeWithCourseId, domainTransaction });
-    });
+    const savedChallenges = await certificationChallengeRepository.saveWithOrder({ certificationCourseId: savedCertificationCourseDTO.id, certificationChallenges: certificationCourse.challenges, domainTransaction });
 
     const savedCertificationCourse = _toDomain(savedCertificationCourseDTO);
     savedCertificationCourse.challenges = savedChallenges;
