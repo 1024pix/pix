@@ -132,6 +132,31 @@ exports.register = async function(server) {
         tags: ['api', 'schoolingRegistrationDependentUser', 'username'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/schooling-registration-dependent-users/recover-account',
+      config: {
+        auth: false,
+        handler: schoolingRegistrationDependentUserController.checkScoAccountRecovery,
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'ine-ina': Joi.string().required(),
+                birthdate: Joi.date().format('YYYY-MM-DD').required(),
+              },
+            },
+          }).options({ allowUnknown: true }),
+        },
+        notes: [
+          '- Recherche d\'un ancien élève par son ine/ina, prénom, nom, date de naissance \n' +
+          '- On renvoie les informations permettant de récupérer son compte Pix.',
+        ],
+        tags: ['api', 'schoolingRegistrationDependentUser', 'recovery'],
+      },
+    },
   ]);
 };
 
