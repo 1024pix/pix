@@ -138,7 +138,7 @@ describe('Unit | Domain | Models | CleaCertificationScoring', () => {
 
     context('reproducibility rate in grey zone', () => {
 
-      it('for 70 reproducibility rate, it should obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore for at least 75% of them', async () => {
+      it('for 70 reproducibility rate, it should obtain certification when the pixScore for each certifiable competences is above a floored 75% of Clea corresponding competence\'s pixScore for at least 75% of them', async () => {
         // given
         const cleaCertificationScoring = await _buildCleaCertificationScoringInGreyZoneAndAtLeast75PercentOfCertifiableCompetences();
 
@@ -177,7 +177,7 @@ describe('Unit | Domain | Models | CleaCertificationScoring', () => {
         expect(hasAcquiredCertif).to.be.false;
       });
 
-      it('for 70 reproducibility rate, it should not obtain certification when the pixScore for each certifiable competences is above 75% of Clea corresponding competence\'s pixScore for less than 75% of them', async () => {
+      it('for 70 reproducibility rate, it should not obtain certification when the pixScore for each certifiable competences is under a floored 75% of Clea corresponding competence\'s pixScore for less than 75% of them', async () => {
         // given
         const cleaCertificationScoring = await _buildCleaCertificationScoringInGreyZoneAndLessThan75PercentOfCertifiableCompetences();
 
@@ -264,7 +264,7 @@ function _buildCleaCertificationScoringInGreyZoneAndLessThan75PercentOfCertifiab
     competenceId3 = 'competenceId3', competenceId4 = 'competenceId4';
 
   const maxReachablePixByCompetenceForClea = {
-    [competenceId1]: 20,
+    [competenceId1]: 18,
     [competenceId2]: 10,
     [competenceId3]: 15,
     [competenceId4]: 12,
@@ -274,7 +274,7 @@ function _buildCleaCertificationScoringInGreyZoneAndLessThan75PercentOfCertifiab
   const cleaCompetenceMarks = [
     domainBuilder.buildCompetenceMark({
       competenceId: competenceId1,
-      score: 4,
+      score: 12,
     }),
     domainBuilder.buildCompetenceMark({
       competenceId: competenceId2,
