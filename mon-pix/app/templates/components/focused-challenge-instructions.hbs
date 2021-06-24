@@ -9,10 +9,12 @@
 
 
   <div class="focused-challenge-instructions__action">
-    <button {{on "click" @hasUserConfirmedWarning}}
+    <PixButton {{on "click" @hasUserConfirmedWarning}}
             class="focused-challenge-instructions-action__confirmation-button"
-            type="button">
+            @shape="rounded"
+            @backgroundColor="green"
+    >
       {{t 'pages.focused-challenge-instructions.action'}}
-    </button>
+    </PixButton>
   </div>
 </div>
