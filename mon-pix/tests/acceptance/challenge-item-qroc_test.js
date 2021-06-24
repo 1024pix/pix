@@ -369,4 +369,56 @@ describe('Acceptance | Displaying a QROC challenge', () => {
     });
   });
 
+  describe('when user has focused out of document', function() {
+
+    context('when challenge is set as focused', function() {
+
+      beforeEach(async function() {
+        // given
+        assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+        server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
+
+        // when
+        await visit(`/assessments/${assessment.id}/challenges/0`);
+      });
+
+      it('should display instructions', async function() {
+        // then
+        expect(find('.focused-challenge-instructions-action__confirmation-button')).to.exist;
+      });
+
+      it('should display a warning alert', async function() {
+        // when
+        await click('.focused-challenge-instructions-action__confirmation-button');
+        await triggerEvent(window, 'blur');
+
+        // then
+        expect(find('.alert--warning')).to.exist;
+      });
+    });
+
+    context('when challenge is not set as focused', function() {
+      beforeEach(async function() {
+        // given
+        assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+        server.create('challenge', 'forCompetenceEvaluation', 'QROC');
+
+        // when
+        await visit(`/assessments/${assessment.id}/challenges/0`);
+      });
+
+      it('should not display instructions', async function() {
+        // then
+        expect(find('.focused-challenge-instructions-action__confirmation-button')).to.not.exist;
+      });
+
+      it('should not display a warning alert', async function() {
+        // when
+        await triggerEvent(window, 'blur');
+
+        // then
+        expect(find('.alert--warning')).to.not.exist;
+      });
+    });
+  });
 });

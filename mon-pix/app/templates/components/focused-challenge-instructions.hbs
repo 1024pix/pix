@@ -1,0 +1,18 @@
+<div class="rounded-panel focused-challenge-instructions">
+  <div class="focused-challenge-instructions__primary">
+    {{t 'pages.focused-challenge-instructions.primary'}}
+  </div>
+
+  <div class="focused-challenge-instructions__secondary">
+    {{t 'pages.focused-challenge-instructions.secondary'}}
+  </div>
+
+
+  <div class="focused-challenge-instructions__action">
+    <button {{on "click" @hasUserConfirmedWarning}}
+            class="focused-challenge-instructions-action__confirmation-button"
+            type="button">
+      {{t 'pages.focused-challenge-instructions.action'}}
+    </button>
+  </div>
+</div>

@@ -441,6 +441,7 @@
       "illustration": {
         "placeholder": "Chargement de l'image en cours"
       },
+      "has-focused-out": "Nous avons détecté un changement de page/d'onglet. Cette question ne nécessite pas de recherche. Vous pouvez tout de même répondre à la question mais sachez qu'en certification, votre réponse serait invalidée.",
       "parts": {
         "answer-input": "Votre réponse",
         "feedback": "Signaler un problème",
@@ -692,6 +693,11 @@
         "missing-id-pix-label": "Merci de renseigner votre { idPixLabel }."
       },
       "first-title": "Avant de commencer"
+    },
+    "focused-challenge-instructions": {
+      "action": "Commencer",
+      "primary": "La prochaine question ne nécessite aucune recherche. Tout changement d'onglet, de fenêtre ou d'application entraînera la non-validation de l'épreuve.",
+      "secondary": "Vous pourrez continuer à répondre ensuite, mais la question ne sera pas considérée comme réussie."
     },
     "join": {
       "title": "Rejoindre",
