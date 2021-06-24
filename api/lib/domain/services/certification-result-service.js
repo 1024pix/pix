@@ -103,14 +103,74 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
   return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproducibilityRate.value };
 }
 
-function _getChallengeInformation(listAnswers, certificationChallenges, competences) {
-  return listAnswers.map((answer) => {
+async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate, isV2Certification });
+  return _(placementProfile.userCompetences)
+    .filter((uc) => uc.isCertifiable())
+    .map((uc) => _.pick(uc, ['id', 'area', 'index', 'name', 'estimatedLevel', 'pixScore']))
+    .value();
+}
 
-    const certificationChallengeRelatedToAnswer = certificationChallenges.find(
+module.exports = {
+  async getCertificationResult({ certificationAssessment, continueOnError }) {
+    const result = {
+      createdAt: certificationAssessment.createdAt,
+      userId: certificationAssessment.userId,
+      status: certificationAssessment.state,
+      completedAt: certificationAssessment.completedAt,
+    };
+
+    const scoreAndLevels = await _getScoreAndLevels(certificationAssessment, continueOnError);
+    result.competencesWithMark = scoreAndLevels.competencesWithMark;
+    result.totalScore = scoreAndLevels.totalScore;
+    result.percentageCorrectAnswers = scoreAndLevels.percentageCorrectAnswers;
+
+    const challengeInformation = await _getChallengeInformation(certificationAssessment);
+    result.listChallengesAndAnswers = challengeInformation;
+
+    return result;
+  },
+};
+
+async function _getScoreAndLevels(certificationAssessment, continueOnError) {
+  // userService.getPlacementProfile() + filter level > 0 => avec allCompetence (bug)
+  const testedCompetences = await _getTestedCompetences({
+    userId: certificationAssessment.userId,
+    limitDate: certificationAssessment.createdAt,
+    isV2Certification: certificationAssessment.isV2Certification,
+  });
+
+  // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
+  const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationAssessment.certificationChallenges, testedCompetences);
+
+  // map sur challenges filtre sur challenge Id
+  const matchingAnswers = _selectAnswersMatchingCertificationChallenges(certificationAssessment.certificationAnswersByDate, matchingCertificationChallenges);
+
+  return _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, continueOnError);
+}
+
+async function _getChallengeInformation(certificationAssessment) {
+  // userService.getPlacementProfile() + filter level > 0 => avec allCompetence (bug)
+  const testedCompetences = await _getTestedCompetences({
+    userId: certificationAssessment.userId,
+    limitDate: certificationAssessment.createdAt,
+    isV2Certification: certificationAssessment.isV2Certification,
+  });
+
+  // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
+  const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationAssessment.certificationChallenges, testedCompetences);
+
+  // map sur challenges filtre sur challenge Id
+  const matchingAnswers = _selectAnswersMatchingCertificationChallenges(certificationAssessment.certificationAnswersByDate, matchingCertificationChallenges);
+
+  const allPixCompetences = await competenceRepository.listPixCompetencesOnly();
+  return matchingAnswers.map((answer) => {
+
+    const certificationChallengeRelatedToAnswer = certificationAssessment.certificationChallenges.find(
       (certificationChallenge) => certificationChallenge.challengeId === answer.challengeId,
     ) || {};
 
-    const competenceValidatedByCertifChallenge = competences.find((competence) => competence.id === certificationChallengeRelatedToAnswer.competenceId) || {};
+    const competenceValidatedByCertifChallenge = allPixCompetences.find((competence) => competence.id === certificationChallengeRelatedToAnswer.competenceId) || {};
 
     return {
       result: answer.result.status,
@@ -122,40 +182,3 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
     };
   });
 }
-
-async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
-  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate, isV2Certification });
-  return _(placementProfile.userCompetences)
-    .filter((uc) => uc.isCertifiable())
-    .map((uc) => _.pick(uc, ['id', 'area', 'index', 'name', 'estimatedLevel', 'pixScore']))
-    .value();
-}
-
-module.exports = {
-  async getCertificationResult({ certificationAssessment, continueOnError }) {
-    const allPixCompetences = await competenceRepository.listPixCompetencesOnly();
-
-    // userService.getPlacementProfile() + filter level > 0 => avec allCompetence (bug)
-    const testedCompetences = await _getTestedCompetences({
-      userId: certificationAssessment.userId,
-      limitDate: certificationAssessment.createdAt,
-      isV2Certification: certificationAssessment.isV2Certification,
-    });
-
-    // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
-    const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationAssessment.certificationChallenges, testedCompetences);
-
-    // map sur challenges filtre sur challenge Id
-    const matchingAnswers = _selectAnswersMatchingCertificationChallenges(certificationAssessment.certificationAnswersByDate, matchingCertificationChallenges);
-
-    const result = _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, continueOnError);
-
-    result.createdAt = certificationAssessment.createdAt;
-    result.userId = certificationAssessment.userId;
-    result.status = certificationAssessment.state;
-    result.completedAt = certificationAssessment.completedAt;
-
-    result.listChallengesAndAnswers = _getChallengeInformation(matchingAnswers, certificationAssessment.certificationChallenges, allPixCompetences);
-    return result;
-  },
-};

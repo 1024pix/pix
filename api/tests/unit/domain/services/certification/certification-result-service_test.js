@@ -196,7 +196,7 @@ describe('Unit | Service | Certification Result Service', function() {
         await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
         // then
-        sinon.assert.calledOnce(placementProfileService.getPlacementProfile);
+        sinon.assert.called(placementProfileService.getPlacementProfile);
       });
 
       it('should retrieve competences list', async () => {
