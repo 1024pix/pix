@@ -8,7 +8,7 @@ const { validateEntity } = require('../validators/entity-validator');
 const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED, MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED } = require('../constants');
 
 function _isScoreOver75PercentOfExpectedScore(score, expectedScore) {
-  return score >= (expectedScore * 75 / 100);
+  return score >= _.floor(expectedScore * 0.75);
 }
 
 function _hasRequiredPixScoreForAtLeast75PercentOfCompetences({ maxReachablePixByCompetenceForClea, cleaCompetenceMarks }) {
