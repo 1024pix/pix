@@ -120,4 +120,32 @@ describe('Acceptance | API | Campaign Stats Controller', () => {
       expect(response.statusCode).to.equal(403);
     });
   });
+
+  describe('GET /api/campaigns/{id}/stats/participations-by-day', () => {
+    it('should return the activity by day', async () => {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({ organizationId: campaign.organizationId, userId });
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/stats/participations-by-day`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal({
+        type: 'campaign-participations-counts-by-days',
+        id: `${campaign.id}`,
+        attributes: {
+          'started-participations': [],
+          'shared-participations': [],
+        },
+      });
+    });
+  });
 });

@@ -87,6 +87,21 @@
       },
       "loader": "Loading statuses distribution",
       "title": "Statuses"
+    },
+    "participants-by-day": {
+      "labels-a11y": {
+        "date": "Date",
+        "started": "Total participants",
+        "shared": "Submitted results",
+        "shared-profile": "Submitted profiles"
+      },
+      "labels-legend": {
+        "started": "Total participants",
+        "shared": "Submitted results",
+        "shared-profile": "Submitted profiles"
+      },
+      "loader": "Loading participant's activity",
+      "title": "Participant's activity"
     }
   },
   "common": {
