@@ -13,18 +13,23 @@ describe('Integration | Component | challenge actions', function() {
   setupIntlRenderingTest();
 
   it('renders', async function() {
-    await render(hbs`{{challenge-actions}}`);
+    await render(hbs`<ChallengeActions/>`);
     expect(find('.challenge-actions__action')).to.exist;
   });
 
   describe('Validate button (and placeholding loader)', function() {
 
     it('should be displayed and enabled by default but not loader', async function() {
-      // when
+      // given
       this.set('isValidateButtonEnabled', true);
       this.set('isSkipButtonEnabled', true);
-      this.set('externalAction', () => {});
-      await render(hbs`{{challenge-actions validateAnswer=(action externalAction) isValidateButtonEnabled=isValidateButtonEnabled isSkipButtonEnabled=isSkipButtonEnabled}}`);
+      this.set('validateActionStub', () => {});
+
+      // when
+      await render(hbs`<ChallengeActions
+                          @validateAnswer={{this.validateActionStub}}
+                          @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+                          @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
 
       // then
       expect(find(VALIDATE_BUTTON)).to.exist;
@@ -35,8 +40,13 @@ describe('Integration | Component | challenge actions', function() {
       // given
       this.set('isValidateButtonEnabled', false);
       this.set('isSkipButtonEnabled', true);
-      this.set('externalAction', () => {});
-      await render(hbs`{{challenge-actions validateAnswer=(action externalAction) isValidateButtonEnabled=isValidateButtonEnabled isSkipButtonEnabled=isSkipButtonEnabled}}`);
+      this.set('validateActionStub', () => {});
+
+      // when
+      await render(hbs`<ChallengeActions
+                          @validateAnswer={{this.validateActionStub}}
+                          @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+                          @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
 
       // then
       expect(find(VALIDATE_BUTTON)).to.not.exist;
@@ -47,9 +57,14 @@ describe('Integration | Component | challenge actions', function() {
       // given
       this.set('isValidateButtonEnabled', true);
       this.set('isSkipButtonEnabled', true);
-      this.set('externalAction', () => RSVP.reject('Some error').catch(() => null));
-      this.set('externalAction2', () => {});
-      await render(hbs`{{challenge-actions validateAnswer=(action externalAction) skipChallenge=(action externalAction2) isValidateButtonEnabled=isValidateButtonEnabled isSkipButtonEnabled=isSkipButtonEnabled}}`);
+      this.set('validateAnswerStub', () => RSVP.reject('Some error').catch(() => null));
+      this.set('skipChallengeStub', () => {});
+
+      await render(hbs`<ChallengeActions
+                          @validateAnswer={{this.validateActionStub}}
+                          @skipChallenge={{this.skipChallengeStub}}
+                          @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+                          @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
 
       // when
       await click(VALIDATE_BUTTON);
@@ -63,10 +78,15 @@ describe('Integration | Component | challenge actions', function() {
   describe('Skip button', function() {
 
     it('should be displayed and enabled by default', async function() {
-      // when
+      // given
       this.set('isSkipButtonEnabled', true);
-      this.set('externalAction', () => {});
-      await render(hbs`{{challenge-actions skipChallenge=(action externalAction) isSkipButtonEnabled=isSkipButtonEnabled}}`);
+      this.set('skipChallengeStub', () => {});
+
+      // when
+      await render(hbs`<ChallengeActions
+                          @skipChallenge={{this.skipChallengeStub}}
+                          @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
+
       // then
       expect(find(SKIP_BUTTON)).to.exist;
     });
@@ -75,8 +95,13 @@ describe('Integration | Component | challenge actions', function() {
       // given
       this.set('isValidateButtonEnabled', true);
       this.set('isSkipButtonEnabled', false);
-      this.set('externalAction', () => {});
-      await render(hbs`{{challenge-actions skipChallenge=(action externalAction)}} isValidateButtonEnabled=isValidateButtonEnabled isSkipButtonEnabled=isSkipButtonEnabled`);
+      this.set('skipChallengeStub', () => {});
+
+      // when
+      await render(hbs`<ChallengeActions
+                          @skipChallenge={{this.skipChallengeStub}}
+                          @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+                          @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
 
       // then
       expect(find(SKIP_BUTTON)).to.not.exist;
@@ -92,14 +117,14 @@ describe('Integration | Component | challenge actions', function() {
       this.set('isValidateButtonEnabled', true);
       this.set('hasChallengeTimedOut', true);
       this.set('isSkipButtonEnabled', true);
-      this.set('externalAction', () => {});
+      this.set('validateActionStub', () => {});
 
       // when
-      await render(hbs`{{challenge-actions
-        validateAnswer=(action externalAction)
-        isValidateButtonEnabled=isValidateButtonEnabled
-        hasChallengeTimedOut=hasChallengeTimedOut
-        isSkipButtonEnabled=isSkipButtonEnabled}}`);
+      await render(hbs`<ChallengeActions
+                          @validateAnswer={{this.validateActionStub}}
+                          @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+                          @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+                          @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
 
       // then
       expect(findAll('.challenge-actions__action').length).to.equal(1);
