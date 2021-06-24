@@ -18,11 +18,11 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   get displayChallenge() {
-    if (!this.isTimedChallenge && !this.isFocusedChallenge) {
+    if (!this._isTimedChallenge && !this.isFocusedChallenge) {
       return true;
     }
 
-    if (this.isTimedChallenge) {
+    if (this._isTimedChallenge) {
       if (this.hasUserConfirmedWarning || this.args.answer) return true;
     }
 
@@ -48,7 +48,7 @@ export default class ChallengeItemGeneric extends Component {
     window.onblur = null;
   }
 
-  get isTimedChallenge() {
+  get _isTimedChallenge() {
     return isInteger(this.args.challenge.timer);
   }
 
@@ -57,7 +57,7 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   get isTimedChallengeWithoutAnswer() {
-    return this.isTimedChallenge && !this.args.answer;
+    return this._isTimedChallenge && !this.args.answer;
   }
 
   get isFocusedChallengeWithoutAnswer() {
@@ -65,7 +65,7 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   _getTimeout() {
-    if (this.isTimedChallenge) {
+    if (this._isTimedChallenge) {
       if (this.hasChallengeTimedOut) {
         return -1 ;
       } else {
