@@ -35,6 +35,7 @@ const dependencies = {
   certificationChallengeRepository: require('../../infrastructure/repositories/certification-challenge-repository'),
   certificationChallengesService: require('../../domain/services/certification-challenges-service'),
   certificationCourseRepository: require('../../infrastructure/repositories/certification-course-repository'),
+  countryRepository: require('../../infrastructure/repositories/country-repository'),
   certificationIssueReportRepository: require('../../infrastructure/repositories/certification-issue-report-repository'),
   certificationLsRepository: require('../../infrastructure/repositories/certification-livret-scolaire-repository'),
   certificationOfficerRepository: require('../../infrastructure/repositories/certification-officer-repository'),
