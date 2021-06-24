@@ -441,6 +441,7 @@
       "illustration": {
         "placeholder": "Chargement de l'image en cours"
       },
+      "is-focused-challenge": "Question focus : Testez-vous sans l'aide d'internet ou d'une application externe pour répondre à cette question. En certification, tout changement d'onglet, de fenêtre ou d'application entraînera la non-validation de l'épreuve.",
       "has-focused-out": "Nous avons détecté un changement de page/d'onglet. Cette question ne nécessite pas de recherche. Vous pouvez tout de même répondre à la question mais sachez qu'en certification, votre réponse serait invalidée.",
       "parts": {
         "answer-input": "Votre réponse",
