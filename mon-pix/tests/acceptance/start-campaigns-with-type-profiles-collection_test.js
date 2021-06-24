@@ -10,12 +10,15 @@ import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 const PROFILES_COLLECTION = 'PROFILES_COLLECTION';
 
 describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collection', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
   let campaign;
 
   beforeEach(function() {
@@ -183,7 +186,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
             await click('button[aria-label="Associer"]');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.campaign-landing.profiles-collection.action'));
             await fillIn('#id-pix-label', 'truc');
 
             // when
