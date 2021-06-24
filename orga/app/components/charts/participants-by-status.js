@@ -46,7 +46,7 @@ export default class ParticipantsByStatus extends Component {
   get options() {
     return {
       animation: false,
-      responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: false,
         tooltip: {

@@ -48,6 +48,8 @@
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "chart.js": "^3.3.2",
+    "chartjs-adapter-date-fns": "^2.0.0",
+    "date-fns": "^2.22.1",
     "ember-auto-import": "^1.8.0",
     "ember-cli": "~3.23.0",
     "ember-cli-app-version": "^5.0.0",

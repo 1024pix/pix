@@ -261,6 +261,21 @@ exports.register = async function(server) {
         tags: ['api', 'campaign', 'stats'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/stats/participations-by-day',
+      config: {
+        validate: {
+          params: Joi.object({ id: identifiersType.campaignId }),
+        },
+        handler: campaignStatsController.getParticipationsByDay,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des répartitions des participations par jour',
+        ],
+        tags: ['api', 'campaign', 'stats'],
+      },
+    },
   ]);
 };
 
