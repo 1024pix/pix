@@ -1,5 +1,6 @@
 'use strict';
 require('dotenv').config();
+const hashInt = require('hash-int');
 const fs = require('fs');
 const { find } = require('lodash');
 const smartRandom = require('../../api/lib/domain/services/smart-random/smart-random');
@@ -12,6 +13,7 @@ const pickChallengeService = require('../../api/lib/domain/services/pick-challen
 const Answer = require('../../api/lib/domain/models/Answer');
 const AnswerStatus = require('../../api/lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../api/lib/domain/models/KnowledgeElement');
+const AlgoResult = require('./AlgoResult');
 
 const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
 
@@ -54,7 +56,6 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
     default:
       result = AnswerStatus.OK;
   }
-  console.log(`Result : ${result.status}`);
   const newAnswer = new Answer({ challengeId: challenge.id, result });
 
   const _getSkillsFilteredByStatus = (knowledgeElements, targetSkills, status) => {
@@ -73,7 +74,7 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
     userId,
   });
 
-  return { updatedAnswers: [...allAnswers, newAnswer], updatedKnowledgeElements: [...allKnowledgeElements, ...newKnowledgeElements] };
+  return { answerStatus: result, updatedAnswers: [...allAnswers, newAnswer], updatedKnowledgeElements: [...allKnowledgeElements, ...newKnowledgeElements] };
 }
 
 async function _getReferentiel({
@@ -146,12 +147,17 @@ async function _getChallenge({
     locale: locale,
   });
 
-  if (challenge) {
-    console.log(challenge.id);
-    console.log(challenge.skills[0].name);
-  }
+  const challengeLevel = _getChallengeLevel({ assessment, result });
 
-  return { challenge, hasAssessmentEnded: result.hasAssessmentEnded };
+  return { challenge, hasAssessmentEnded: result.hasAssessmentEnded, estimatedLevel: result.levelEstimated, challengeLevel };
+}
+
+function _getChallengeLevel({ assessment, result }) {
+  const randomSeed = assessment.id;
+  const skills = result.possibleSkillsForNextChallenge;
+  const keyForSkill = Math.abs(hashInt(randomSeed));
+  const chosenSkill = skills[keyForSkill % skills.length];
+  return chosenSkill ? chosenSkill.difficulty : null;
 }
 
 async function launchTest(argv) {
@@ -189,9 +195,11 @@ async function launchTest(argv) {
     targetProfileRepository,
   });
 
+  const algoResult = new AlgoResult();
+
   while (!isAssessmentOver) {
 
-    const { challenge, hasAssessmentEnded } = await _getChallenge({
+    const { challenge, hasAssessmentEnded, estimatedLevel, challengeLevel } = await _getChallenge({
       challenges,
       targetSkills,
       assessment,
@@ -199,9 +207,10 @@ async function launchTest(argv) {
       knowledgeElements,
       allAnswers,
     });
+    algoResult.addEstimatedLevels(estimatedLevel);
 
     if (challenge) {
-      const { updatedAnswers, updatedKnowledgeElements } = answerTheChallenge({
+      const { answerStatus, updatedAnswers, updatedKnowledgeElements } = answerTheChallenge({
         challenge,
         allAnswers,
         userId: assessment.userId,
@@ -212,11 +221,15 @@ async function launchTest(argv) {
       });
       allAnswers = updatedAnswers;
       knowledgeElements = updatedKnowledgeElements;
+      algoResult.addChallenge(challenge);
+      algoResult.addChallengeLevel(challengeLevel);
+      algoResult.addAnswerStatus(answerStatus);
     }
 
     isAssessmentOver = hasAssessmentEnded;
   }
 
+  console.log(algoResult.log());
   process.exit(0);
 }
 
