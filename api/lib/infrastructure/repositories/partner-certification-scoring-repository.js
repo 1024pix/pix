@@ -105,15 +105,13 @@ async function _getLatestAssessmentResultIdByCertificationCourseIdQuery(queryBui
 }
 
 async function _getCleaSkills(skillRepository) {
-  const skillIds = await knex('badge-partner-competences')
+  const skillIdPacks = await knex('badge-partner-competences')
     .select('skillIds')
     .join('badges', 'badges.id', 'badge-partner-competences.badgeId')
     .where('badges.key', '=', Badge.keys.PIX_EMPLOI_CLEA);
 
-  if (_.isEmpty(skillIds)) {
-    return [];
-  }
-  return skillRepository.findOperativeByIds(skillIds[0].skillIds);
+  const cleaSkillIds = _.flatMap(skillIdPacks, 'skillIds');
+  return skillRepository.findOperativeByIds(cleaSkillIds);
 }
 
 function _getMaxReachablePixByCompetenceForClea(cleaSkills) {
