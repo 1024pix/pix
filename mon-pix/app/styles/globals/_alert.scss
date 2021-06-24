@@ -6,6 +6,11 @@
   color: $white;
   text-shadow: none;
   font-size: 0.875rem;
+  font-weight: $font-normal;
+  letter-spacing: 0.009rem;
+  line-height: 1.375rem;
+  display: flex;
+  align-items: center;
 
   &--success {
     border: 1px solid $green;
@@ -20,6 +25,13 @@
   &--warning {
     border: 1px solid $warning;
     background-color: $warning;
+    color: $grey-70;
+  }
+
+  &--info {
+    border: 1px solid $blue-10;
+    background-color: $blue-10;
+    color: $grey-70;
   }
 }
 
