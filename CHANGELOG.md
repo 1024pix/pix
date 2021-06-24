@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.69.0 (24/06/2021)
+
+- [#3117](https://github.com/1024pix/pix/pull/3117) [FEATURE] Gérer les épreuves "Focus" (PIX-2617).
+- [#3134](https://github.com/1024pix/pix/pull/3134) [FEATURE] Améliorations CléA mineures
+- [#3101](https://github.com/1024pix/pix/pull/3101) [FEATURE]  Ajouter une modale de détails à la liste des candidats d'une session de certification (PIX-2712)
+- [#3102](https://github.com/1024pix/pix/pull/3102) [FEATURE] Ajout de scripts d'import des villes et pays depuis des csv (PIX-2722)
+- [#3121](https://github.com/1024pix/pix/pull/3121) [BUGFIX] Une erreur lors du re-scoring d'une certification après une finalisation de session pouvait ne pas être pris en compte dans l'évaluation de la session comme étant directement publiable ou pas (PIX-2751)
+- [#3124](https://github.com/1024pix/pix/pull/3124) [TECH] Exposer les domaines Pix-app sur les PR/RA.
+- [#3122](https://github.com/1024pix/pix/pull/3122) [TECH] Supprimer le cache d'authentification plus utilisé (PIX-2733).
+
 ## v3.68.0 (18/06/2021)
 
 - [#3116](https://github.com/1024pix/pix/pull/3116) [FEATURE] Ajouter le premier formulaire pour la sortie du SCO (PIX-2562).
