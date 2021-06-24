@@ -5,7 +5,7 @@ const {
   catchErr,
 } = require('../../../test-helper');
 const { MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError } = require('../../../../lib/domain/errors');
-
+const StudentInformationForAccountRecovery = require('../../../../lib/domain/read-models/StudentInformationForAccountRecovery');
 const checkScoAccountRecovery = require('../../../../lib/domain/usecases/check-sco-account-recovery');
 
 describe('Unit | UseCase | check-sco-account-recovery', () => {
@@ -87,6 +87,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
           latestOrganizationName: 'Lycée Poudlard',
         };
         expect(result).to.deep.equal(expectedResult);
+        expect(result).to.be.instanceof(StudentInformationForAccountRecovery);
       });
     });
 

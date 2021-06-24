@@ -1,5 +1,6 @@
 const { MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError } = require('../../domain/errors');
 const _ = require('lodash');
+const StudentInformationForAccountRecovery = require('../read-models/StudentInformationForAccountRecovery');
 
 module.exports = async function checkScoAccountRecovery({
   studentInformation,
@@ -24,13 +25,13 @@ module.exports = async function checkScoAccountRecovery({
   const organization = await organizationRepository.get(latestOrganizationId);
   const user = await userRepository.get(userId);
 
-  return {
+  return new StudentInformationForAccountRecovery({
     firstName: user.firstName,
     lastName: user.lastName,
     username: user.username,
     email: user.email,
     latestOrganizationName: organization.name,
-  };
+  });
 };
 
 function _areThereMultipleStudentForSameAccount(schoolingRegistrations) {
