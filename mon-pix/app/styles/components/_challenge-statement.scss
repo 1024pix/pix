@@ -5,37 +5,66 @@
   overflow: visible;
 }
 
-.challenge-statement__instruction {
+.challenge-statement-instruction {
 
-  p {
-    overflow-wrap: break-word;
-  }
-
-  strong {
-    font-weight: $font-heavy;
-  }
-
-  a {
-    text-decoration: underline;
-    color: $blue;
+  &__tag {
+    width: 32px;
+    height: 32px;
+    margin-top: -21px;
+    margin-right: -20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 
     @include device-is('tablet') {
-      display: inline-block;
+      width: 60px;
+      height: 60px;
     }
 
-    &:active,
-    &:focus,
-    &:hover {
-      color: $blue-hover;
+    &--focused {
+      background-image: url('/images/tag-focused-challenge.svg');
+    }
+
+    &--regular {
+      background-image: url('/images/tag-regular-challenge.svg');
     }
   }
 
-  a::after {
-    @include external-link;
+  &__text {
+    width: 100%;
+
+    p {
+      overflow-wrap: break-word;
+    }
+
+    strong {
+      font-weight: $font-heavy;
+    }
+
+    a {
+      text-decoration: underline;
+      color: $blue;
+
+      @include device-is('tablet') {
+        display: inline-block;
+      }
+
+      &:active,
+      &:focus,
+      &:hover {
+        color: $blue-hover;
+      }
+    }
+
+    a::after {
+      @include external-link;
+    }
   }
 }
 
 .challenge-statement__instruction-section {
+  display: flex;
+  justify-content: space-between;
   font-size: 0.938rem;
   font-family: $font-open-sans;
   margin-bottom: 20px;

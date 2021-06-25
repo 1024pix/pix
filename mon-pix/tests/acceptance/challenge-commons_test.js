@@ -51,21 +51,21 @@ describe('Acceptance | Common behavior to all challenges', function() {
 
     it('should display the challenge to answered instead of challenge asked', async function() {
       await visit(`/assessments/${assessment.id}/challenges/${challengeBis.id}`);
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal('Instruction lien');
+      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal('Instruction lien');
     });
 
     it('should display the challenge instruction', function() {
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal('Instruction lien');
+      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal('Instruction lien');
     });
 
     it('should format content written as [foo](bar) as clickable link', function() {
-      expect(find('.challenge-statement__instruction a')).to.exist;
-      expect(find('.challenge-statement__instruction a').textContent).to.equal('lien');
-      expect(find('.challenge-statement__instruction a').getAttribute('href')).to.equal('http://www.a.link.example.url');
+      expect(find('.challenge-statement-instruction__text a')).to.exist;
+      expect(find('.challenge-statement-instruction__text a').textContent).to.equal('lien');
+      expect(find('.challenge-statement-instruction__text a').getAttribute('href')).to.equal('http://www.a.link.example.url');
     });
 
     it('should open links in a new tab', function() {
-      expect(find('.challenge-statement__instruction a').getAttribute('target')).to.equal('_blank');
+      expect(find('.challenge-statement-instruction__text a').getAttribute('target')).to.equal('_blank');
     });
 
     it('should display the skip button', function() {
