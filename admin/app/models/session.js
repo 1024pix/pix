@@ -97,9 +97,9 @@ export default class Session extends Model {
   }
 
   @computed('juryCertificationSummaries.@each.status')
-  get countNonValidatedCertifications() {
-    return _getNumberOf(this.juryCertificationSummaries, (juryCertificationSummary) =>
-      juryCertificationSummary.status !== 'validated');
+  get countStartedAndInErrorCertifications() {
+    return _getNumberOf(this.juryCertificationSummaries,
+      (juryCertificationSummary) => juryCertificationSummary.isCertificationStarted || juryCertificationSummary.isCertificationInError);
   }
 
   @computed('resultsSentToPrescriberAt', 'isFinalized')
