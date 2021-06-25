@@ -1,0 +1,37 @@
+<div class="activity">
+  <div class="activity__line">
+    <IndicatorCard
+      @title={{t 'charts.participants-count.title'}}
+      @icon="users"
+      @color="blue"
+      @info={{t 'charts.participants-count.information'}}
+      @loading={{this.participantsByStatusLoading}}
+      @loader={{t 'charts.participants-count.loader'}}
+    >
+      {{this.total}}
+    </IndicatorCard>
+    <IndicatorCard
+      @title={{if @isTypeAssessment (t 'charts.submitted-count.title') (t 'charts.submitted-count.title-profiles')}}
+      @icon="share"
+      @color="green"
+      @info={{t 'charts.submitted-count.information'}}
+      @loading={{this.participantsByStatusLoading}}
+      @loader={{t 'charts.submitted-count.loader'}}
+    >
+      {{this.shared}}
+    </IndicatorCard>
+  </div>
+  <div class="activity__line">
+    <Charts::ParticipantsByDay
+      @campaignId={{@campaignId}}
+      @isTypeAssessment={{@isTypeAssessment}}
+      class="activity__participations-by-day"
+    />
+    <Charts::ParticipantsByStatus
+      @loading={{this.participantsByStatusLoading}}
+      @participantCountByStatus={{this.participantCountByStatus}}
+      @isTypeAssessment={{@isTypeAssessment}}
+      class="activity__participations-by-status"
+    />
+  </div>
+</div>
