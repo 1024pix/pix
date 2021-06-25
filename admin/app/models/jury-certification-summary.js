@@ -57,4 +57,14 @@ export default class JuryCertificationSummary extends Model {
     const statusWithLabel = find(certificationStatuses, (certificationStatus) => certificationStatus.value === this.status);
     return statusWithLabel?.label;
   }
+
+  @computed('status')
+  get isCertificationStarted() {
+    return this.status === 'started';
+  }
+
+  @computed('status')
+  get isCertificationInError() {
+    return this.status === 'error';
+  }
 }

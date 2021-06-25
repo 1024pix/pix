@@ -255,33 +255,109 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
-  module('#countNonValidatedCertifications', function() {
+  module('#countStartedAndInErrorCertifications', function() {
 
-    let sessionWithOneNotValidatedCertif;
-    let sessionWithValidatedCertif;
-
-    hooks.beforeEach(async function() {
-      sessionWithOneNotValidatedCertif = run(() => {
-        const certif = store.createRecord('jury-certification-summary', { status: 'nonValidated' });
-        return store.createRecord('session', { juryCertificationSummaries: [certif] });
+    test('it should take into account started certifications', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'started' });
+      });
+      const session = run(() => {
+        return store.createRecord('session', { juryCertificationSummaries: [juryCertificationSummary] });
       });
 
-      sessionWithValidatedCertif = run(() => {
-        const certif = store.createRecord('jury-certification-summary', { status: 'validated' });
-        return store.createRecord('session', { juryCertificationSummaries: [certif] });
+      // when
+      const countStartedAndInErrorCertifications = session.countStartedAndInErrorCertifications;
+
+      // then
+      assert.equal(countStartedAndInErrorCertifications, 1);
+    });
+
+    test('it should take into account in error certifications', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'error' });
       });
+      const session = run(() => {
+        return store.createRecord('session', { juryCertificationSummaries: [juryCertificationSummary] });
+      });
+
+      // when
+      const countStartedAndInErrorCertifications = session.countStartedAndInErrorCertifications;
+
+      // then
+      assert.equal(countStartedAndInErrorCertifications, 1);
     });
 
-    test('it should count 1 non validated', function(assert) {
-      const countNonValidated = sessionWithOneNotValidatedCertif.countNonValidatedCertifications;
-      assert.equal(countNonValidated, 1);
+    test('it should ignore validated certifications', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'validated' });
+      });
+      const session = run(() => {
+        return store.createRecord('session', { juryCertificationSummaries: [juryCertificationSummary] });
+      });
+
+      // when
+      const countStartedAndInErrorCertifications = session.countStartedAndInErrorCertifications;
+
+      // then
+      assert.equal(countStartedAndInErrorCertifications, 0);
     });
 
-    test('it should count 0 non validated', function(assert) {
-      const countNonValidated = sessionWithValidatedCertif.countNonValidatedCertifications;
-      assert.equal(countNonValidated, 0);
+    test('it should ignore rejected certifications', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'validated' });
+      });
+      const session = run(() => {
+        return store.createRecord('session', { juryCertificationSummaries: [juryCertificationSummary] });
+      });
+
+      // when
+      const countStartedAndInErrorCertifications = session.countStartedAndInErrorCertifications;
+
+      // then
+      assert.equal(countStartedAndInErrorCertifications, 0);
     });
 
+    test('it should ignore cancelled certifications', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'validated' });
+      });
+      const session = run(() => {
+        return store.createRecord('session', { juryCertificationSummaries: [juryCertificationSummary] });
+      });
+
+      // when
+      const countStartedAndInErrorCertifications = session.countStartedAndInErrorCertifications;
+
+      // then
+      assert.equal(countStartedAndInErrorCertifications, 0);
+    });
+
+    test('it should return a sum of started and in error certifications', function(assert) {
+      // given
+      const juryCertificationSummary1 = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'started' });
+      });
+      const juryCertificationSummary2 = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'error' });
+      });
+      const juryCertificationSummary3 = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'started' });
+      });
+      const session = run(() => {
+        return store.createRecord('session', { juryCertificationSummaries: [juryCertificationSummary1, juryCertificationSummary2, juryCertificationSummary3] });
+      });
+
+      // when
+      const countStartedAndInErrorCertifications = session.countStartedAndInErrorCertifications;
+
+      // then
+      assert.equal(countStartedAndInErrorCertifications, 3);
+    });
   });
 
   module('#areResultsToBeSentToPrescriber', function() {
