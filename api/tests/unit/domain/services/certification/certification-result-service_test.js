@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
-const CertificationAssessment = require('../../../../../lib/domain/models/CertificationAssessment');
 const { states } = require('../../../../../lib/domain/models/CertificationAssessment');
 const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
 const placementProfileService = require('../../../../../lib/domain/services/placement-profile-service');
@@ -180,7 +179,7 @@ describe('Unit | Service | Certification Result Service', function() {
       const continueOnError = true;
 
       beforeEach(() => {
-        certificationAssessment = new CertificationAssessment({
+        certificationAssessment = domainBuilder.buildCertificationAssessment({
           ...certificationAssessmentData,
           certificationAnswersByDate: wrongAnswersForAllChallenges(),
           certificationChallenges: challenges,
@@ -217,7 +216,7 @@ describe('Unit | Service | Certification Result Service', function() {
         let startedCertificationAssessment;
 
         beforeEach(() => {
-          startedCertificationAssessment = new CertificationAssessment({
+          startedCertificationAssessment = domainBuilder.buildCertificationAssessment({
             ...certificationAssessment,
             certificationChallenges: certificationAssessment.listCertificationChallenges(),
             completedAt: null,
@@ -276,7 +275,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should ignore answers with no matching challenge', async () => {
           // when
-          certificationAssessment = new CertificationAssessment({
+          certificationAssessment = domainBuilder.buildCertificationAssessment({
             ...certificationAssessmentData,
             certificationAnswersByDate: wrongAnswersForAllChallenges(),
             certificationChallenges: [domainBuilder.buildCertificationChallenge()],
@@ -284,6 +283,7 @@ describe('Unit | Service | Certification Result Service', function() {
             createdAt: limitDate,
             isV2Certification,
           });
+
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
           // then
@@ -617,7 +617,7 @@ describe('Unit | Service | Certification Result Service', function() {
               const userCompetences = [
                 _buildUserCompetence(competence_1, positionedScore, positionedLevel),
               ];
-              certificationAssessment = new CertificationAssessment({
+              certificationAssessment = domainBuilder.buildCertificationAssessment({
                 ...certificationAssessmentData,
                 certificationAnswersByDate: answers,
                 certificationChallenges: challenges,
@@ -625,6 +625,7 @@ describe('Unit | Service | Certification Result Service', function() {
                 createdAt: limitDate,
                 isV2Certification,
               });
+
               placementProfileService.getPlacementProfile.restore();
               sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
                 userId: certificationAssessment.userId,
@@ -651,7 +652,7 @@ describe('Unit | Service | Certification Result Service', function() {
       const continueOnError = false;
 
       beforeEach(() => {
-        certificationAssessment = new CertificationAssessment({
+        certificationAssessment = domainBuilder.buildCertificationAssessment({
           ...certificationAssessmentData,
           certificationAnswersByDate: wrongAnswersForAllChallenges(),
           certificationChallenges: challenges,
@@ -659,6 +660,7 @@ describe('Unit | Service | Certification Result Service', function() {
           createdAt: limitDate,
           isV2Certification,
         });
+
         sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
         sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
           userId: certificationAssessment.userId,
@@ -954,7 +956,7 @@ describe('Unit | Service | Certification Result Service', function() {
             { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6' },
           ], domainBuilder.buildCertificationChallengeWithType);
 
-          certificationAssessment = new CertificationAssessment({
+          certificationAssessment = domainBuilder.buildCertificationAssessment({
             ...certificationAssessmentData,
             certificationAnswersByDate: wrongAnswersForAllChallenges(),
             certificationChallenges: challenges,
@@ -1021,7 +1023,7 @@ describe('Unit | Service | Certification Result Service', function() {
             { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6', type: 'QCM' },
           ], domainBuilder.buildCertificationChallengeWithType);
 
-          certificationAssessment = new CertificationAssessment({
+          certificationAssessment = domainBuilder.buildCertificationAssessment({
             ...certificationAssessmentData,
             certificationAnswersByDate: wrongAnswersForAllChallenges(),
             certificationChallenges: challenges,
@@ -1127,7 +1129,7 @@ describe('Unit | Service | Certification Result Service', function() {
             { challengeId: 'challenge_N_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeN_6' },
           ], domainBuilder.buildCertificationChallengeWithType);
 
-          certificationAssessment = new CertificationAssessment({
+          certificationAssessment = domainBuilder.buildCertificationAssessment({
             ...certificationAssessmentData,
             certificationAnswersByDate: wrongAnswersForAllChallenges(),
             certificationChallenges: challenges,

@@ -105,7 +105,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.listCertificationChallenges()).to.have.length(2);
       });
 
-      it('should sort challenges by index if available', async () => {
+      it.skip('should sort challenges by index if available', async () => {
         // given
         const dbf = databaseBuilder.factory;
         expectedUserId = dbf.buildUser().id;

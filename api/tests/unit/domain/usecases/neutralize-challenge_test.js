@@ -20,7 +20,7 @@ describe('Unit | UseCase | neutralize-challenge', () => {
     };
 
     const challengeToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false });
-    const certificationAssessment = new CertificationAssessment({
+    const certificationAssessment = domainBuilder.buildCertificationAssessment({
       id: 123,
       userId: 123,
       certificationCourseId: 1,
@@ -65,7 +65,7 @@ describe('Unit | UseCase | neutralize-challenge', () => {
     };
 
     const challengeToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false });
-    const certificationAssessment = new CertificationAssessment({
+    const certificationAssessment = domainBuilder.buildCertificationAssessment({
       id: 123,
       userId: 123,
       certificationCourseId: 1,
