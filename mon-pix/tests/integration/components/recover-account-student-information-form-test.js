@@ -42,8 +42,8 @@ describe('Integration | Component | recover-account-student-information-form', f
 
     // when
     await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.ine-ina'), ine);
-    await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.last-name'), lastName);
     await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.first-name'), firstName);
+    await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.last-name'), lastName);
     await fillIn('#dayOfBirth', dayOfBirth);
     await fillIn('#monthOfBirth', monthOfBirth);
     await fillIn('#yearOfBirth', yearOfBirth);
