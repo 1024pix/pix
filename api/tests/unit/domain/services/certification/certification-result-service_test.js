@@ -213,6 +213,7 @@ describe('Unit | Service | Certification Result Service', function() {
         beforeEach(() => {
           startedCertificationAssessment = new CertificationAssessment({
             ...certificationAssessment,
+            certificationChallenges: certificationAssessment.certificationChallenges,
             completedAt: null,
             state: states.STARTED,
           });
