@@ -477,6 +477,10 @@
           "description": "Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.",
           "file-type": "fichier .{fileExtension}",
           "help": "Besoin d'aide pour '<a href=\"https://support.pix.fr/fr/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\">'ouvrir, modifier ou retrouver ce fichier'</a>' ?"
+        },
+        "tooltip": {
+          "regular": "<p>Question libre :</p>Vous pouvez vous aider d'internet et d'applications externes.",
+          "focus": "<p>Question focus :</p>Testez-vous sans l'aide d'internet ou d'une application externe pour répondre à cette question."
         }
       },
       "timed": {
