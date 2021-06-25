@@ -12,7 +12,11 @@
         <Input required @id="id-pix-label" @value={{this.participantExternalId}} />
       </div>
 
-      <PixButton @type="submit" class="button button--big" @triggerAction={{action this.submit}} @loading-color="white">
+      <PixButton
+        @type="submit"
+        class="button button--big fill-in-participant-external-id__button"
+        @triggerAction={{action this.submit}}
+        @loading-color="white">
           {{t 'pages.fill-in-participant-external-id.buttons.continue'}}
       </PixButton>
       {{#if this.errorMessage}}
