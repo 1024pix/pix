@@ -68,7 +68,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
     context('when the certification assessment exists', () => {
 
-      beforeEach(() => {
+      it('should return the certification assessment with certification challenges and answers', async () => {
+        // given
         const dbf = databaseBuilder.factory;
         expectedUserId = dbf.buildUser().id;
         expectedCertificationCourseId = dbf.buildCertificationCourse({
@@ -84,13 +85,11 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         }).id;
         dbf.buildAnswer({ assessmentId: certificationAssessmentId });
         dbf.buildAnswer({ assessmentId: certificationAssessmentId });
-        dbf.buildCertificationChallenge({ challengeId: 'recChalA', courseId: expectedCertificationCourseId, isNeutralized: true });
+        dbf.buildCertificationChallenge({ challengeId: 'recChalA', courseId: expectedCertificationCourseId });
         dbf.buildCertificationChallenge({ challengeId: 'recChalB', courseId: expectedCertificationCourseId });
 
-        return databaseBuilder.commit();
-      });
+        await databaseBuilder.commit();
 
-      it('should return the certification assessment with certification challenges and answers', async () => {
         // when
         const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
 
@@ -104,8 +103,70 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
         expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
         expect(certificationAssessment.certificationChallenges).to.have.length(2);
-        expect(certificationAssessment.certificationChallenges[0].isNeutralized).to.be.true;
-        expect(certificationAssessment.certificationChallenges[0].type).to.equal(Challenge.Type.QCU);
+      });
+
+      it('should sort challenges by index if available', async () => {
+        // given
+        const dbf = databaseBuilder.factory;
+        expectedUserId = dbf.buildUser().id;
+        expectedCertificationCourseId = dbf.buildCertificationCourse({
+          userId: expectedUserId,
+          createdAt: expectedCreatedAt,
+          completedAt: expectedCompletedAt,
+          isV2Certification: true,
+        }).id;
+        certificationAssessmentId = dbf.buildAssessment({
+          userId: expectedUserId,
+          certificationCourseId: expectedCertificationCourseId,
+          state: expectedState,
+        }).id;
+        dbf.buildAnswer({ assessmentId: certificationAssessmentId });
+        dbf.buildAnswer({ assessmentId: certificationAssessmentId });
+        dbf.buildCertificationChallenge({ challengeId: 'recChalA', courseId: expectedCertificationCourseId, index: 2 });
+        dbf.buildCertificationChallenge({ challengeId: 'recChalB', courseId: expectedCertificationCourseId, index: 1 });
+        dbf.buildCertificationChallenge({ challengeId: 'recChalC', courseId: expectedCertificationCourseId, index: 3 });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
+
+        // then
+        expect(certificationAssessment.certificationChallenges[0].challengeId).to.equal('recChalB');
+        expect(certificationAssessment.certificationChallenges[1].challengeId).to.equal('recChalA');
+        expect(certificationAssessment.certificationChallenges[2].challengeId).to.equal('recChalC');
+      });
+
+      it('should sort challenges by id if index is not available (= retro-compatibility)', async () => {
+        // given
+        const dbf = databaseBuilder.factory;
+        expectedUserId = dbf.buildUser().id;
+        expectedCertificationCourseId = dbf.buildCertificationCourse({
+          userId: expectedUserId,
+          createdAt: expectedCreatedAt,
+          completedAt: expectedCompletedAt,
+          isV2Certification: true,
+        }).id;
+        certificationAssessmentId = dbf.buildAssessment({
+          userId: expectedUserId,
+          certificationCourseId: expectedCertificationCourseId,
+          state: expectedState,
+        }).id;
+        dbf.buildAnswer({ assessmentId: certificationAssessmentId });
+        dbf.buildAnswer({ assessmentId: certificationAssessmentId });
+        const firstChallengeByInsertionOrder = dbf.buildCertificationChallenge({ challengeId: 'recChalB', courseId: expectedCertificationCourseId });
+        const secondChallengeByInsertionOrder = dbf.buildCertificationChallenge({ challengeId: 'recChalA', courseId: expectedCertificationCourseId });
+        const thirdChallengeByInsertionOrder = dbf.buildCertificationChallenge({ challengeId: 'recChalC', courseId: expectedCertificationCourseId });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
+
+        // then
+        expect(certificationAssessment.certificationChallenges[0].challengeId).to.equal(firstChallengeByInsertionOrder.challengeId);
+        expect(certificationAssessment.certificationChallenges[1].challengeId).to.equal(secondChallengeByInsertionOrder.challengeId);
+        expect(certificationAssessment.certificationChallenges[2].challengeId).to.equal(thirdChallengeByInsertionOrder.challengeId);
       });
     });
 

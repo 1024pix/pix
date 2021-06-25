@@ -11,10 +11,16 @@ const { NotFoundError } = require('../../domain/errors');
 async function _getCertificationChallenges(certificationCourseId, knexConn) {
   const allChallenges = await challengeRepository.findOperative();
   const certificationChallengeRows = await knexConn('certification-challenges')
-    .where({ courseId: certificationCourseId })
-    .orderBy('challengeId', 'asc');
+    .where({ courseId: certificationCourseId });
 
-  return _.map(certificationChallengeRows, (certificationChallengeRow) => {
+  let sortedCertificationChallengesRows;
+  if (certificationChallengeRows.every((challengeRow) => Boolean(challengeRow.index))) {
+    sortedCertificationChallengesRows = _.sortBy(certificationChallengeRows, 'index');
+  } else {
+    sortedCertificationChallengesRows = _.sortBy(certificationChallengeRows, 'id');
+  }
+
+  return _.map(sortedCertificationChallengesRows, (certificationChallengeRow) => {
     const challenge = _.find(allChallenges, { id: certificationChallengeRow.challengeId });
     return new CertificationChallengeWithType({
       ...certificationChallengeRow,
