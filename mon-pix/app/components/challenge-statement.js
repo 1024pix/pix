@@ -49,6 +49,10 @@ export default class ChallengeStatement extends Component {
     return 'challenge_statement_' + this.args.challenge.id;
   }
 
+  get isFocusedChallenge() {
+    return this.args.challenge.focused;
+  }
+
   @action
   toggleAlternativeInstruction() {
     this.displayAlternativeInstruction = !this.displayAlternativeInstruction;

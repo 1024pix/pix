@@ -51,7 +51,7 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
     });
 
     it('should contain an instruction', async function() {
-      expect(find('.comparison-window--body .challenge-statement__instruction')).to.exist;
+      expect(find('.comparison-window--body .challenge-statement-instruction__text')).to.exist;
     });
 
     it('should contain a correction zone', async function() {

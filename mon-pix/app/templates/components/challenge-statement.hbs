@@ -2,7 +2,13 @@
   <h2 class="sr-only">{{t 'pages.challenge.parts.instruction'}}</h2>
   {{#if this.challengeInstruction}}
     <div class="challenge-statement__instruction-section">
-      <MarkdownToHtmlUnsafe @class="challenge-statement__instruction" @markdown={{this.challengeInstruction}} />
+      <MarkdownToHtmlUnsafe @class="challenge-statement-instruction__text" @markdown={{this.challengeInstruction}} />
+
+      {{#if this.isFocusedChallenge}}
+        <div class="challenge-statement-instruction__tag challenge-statement-instruction__tag--focused"></div>
+      {{else}}
+        <div class="challenge-statement-instruction__tag challenge-statement-instruction__tag--regular"></div>
+      {{/if}}
     </div>
   {{/if}}
 

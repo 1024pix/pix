@@ -19,7 +19,7 @@ Then(`le titre sur l'épreuve est {string}`, (titre) => {
 });
 
 When(`je vois l'épreuve {string}`, (texte) => {
-  cy.get('.challenge-statement__instruction').should('contain', texte);
+  cy.get('.challenge-statement-instruction__text').should('contain', texte);
 });
 
 Then(`je choisis la réponse {string}`, (number) => {

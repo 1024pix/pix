@@ -89,7 +89,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
       it('should render challenge information and question', () => {
         // then
-        expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocChallenge.instruction);
+        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocChallenge.instruction);
 
         expect(findAll('.challenge-response__proposal')).to.have.lengthOf(1);
         expect(find('.challenge-response__proposal').disabled).to.be.false;
@@ -197,7 +197,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
-        expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocChallenge.instruction);
+        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocChallenge.instruction);
 
         const goodAnswer = find('.comparison-window-solution__text');
         const badAnswerFromUserResult = find('.correction-qroc-box-answer');
@@ -230,7 +230,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       });
 
       it('should display the correct challenge for first one', async function() {
-        expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocWithFile1Challenge.instruction);
+        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocWithFile1Challenge.instruction);
         expect(find('.challenge-statement__action-link').href).to.contains(qrocWithFile1Challenge.attachments[0]);
 
         await click(find('#attachment1'));
@@ -241,7 +241,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await click(find('.challenge-actions__action-skip'));
 
         expect(currentURL()).to.equal(`/assessments/${assessment.id}/challenges/1`);
-        expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocWithFile2Challenge.instruction);
+        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocWithFile2Challenge.instruction);
         expect(find('.challenge-statement__action-link').href).to.contains(qrocWithFile2Challenge.attachments[0]);
 
         await click(find('#attachment1'));
@@ -266,7 +266,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
       it('should render challenge information and question', () => {
         // then
-        expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocChallenge.instruction);
+        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocChallenge.instruction);
 
         expect(findAll('.challenge-response__proposal')).to.have.lengthOf(1);
         expect(find('.challenge-response__proposal').disabled).to.be.false;
@@ -347,7 +347,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
-        expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocChallenge.instruction);
+        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocChallenge.instruction);
 
         const goodAnswer = find('.comparison-window-solution__text');
         const badAnswerFromUserResult = find('.correction-qroc-box-answer');

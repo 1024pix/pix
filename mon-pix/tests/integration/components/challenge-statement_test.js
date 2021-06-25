@@ -52,7 +52,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       await renderChallengeStatement();
 
       // then
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal('La consigne de mon test');
+      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal('La consigne de mon test');
     });
 
     it('should not render challenge instruction if it does not exist', async function() {
@@ -64,7 +64,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       await renderChallengeStatement();
 
       // then
-      expect(find('.challenge-statement__instruction')).to.not.exist;
+      expect(find('.challenge-statement-instruction__text')).to.not.exist;
     });
 
     it('should replace ${EMAIL} by a generated email', async function() {
@@ -79,7 +79,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       await renderChallengeStatement();
 
       // then
-      expect(find('.challenge-statement__instruction').textContent.trim())
+      expect(find('.challenge-statement-instruction__text').textContent.trim())
         .to.equal('Veuillez envoyer un email à l\'adresse recigAYl5bl96WGXj-267845-0502@pix-infra.ovh pour valider cette épreuve');
     });
 
@@ -95,8 +95,48 @@ describe('Integration | Component | ChallengeStatement', function() {
       await renderChallengeStatement();
 
       // then
-      const linkCount = find('.challenge-statement__instruction').innerHTML.match(/title="Nouvelle fenêtre"/g).length;
+      const linkCount = find('.challenge-statement-instruction__text').innerHTML.match(/title="Nouvelle fenêtre"/g).length;
       expect(linkCount).to.equal(2);
+    });
+
+    describe('When focused challenge', () => {
+      it('should display a specific style', async function() {
+        // given
+        addAssessmentToContext(this, { id: '267845' });
+        addChallengeToContext(this, {
+          instruction: 'La consigne de mon test',
+          id: 'rec_challenge',
+          type: 'QROC',
+          focused: true,
+        });
+
+        // when
+        await renderChallengeStatement();
+
+        // then
+        expect(find('.challenge-statement-instruction__tag--focused')).to.exist;
+        expect(find('.challenge-statement-instruction__tag--regular')).to.not.exist;
+      });
+    });
+
+    describe('When not a focused challenge', () => {
+      it('should not display focused challenges specific style', async function() {
+        // given
+        addAssessmentToContext(this, { id: '267845' });
+        addChallengeToContext(this, {
+          instruction: 'La consigne de mon test',
+          id: 'rec_challenge',
+          type: 'QROC',
+          focused: false,
+        });
+
+        // when
+        await renderChallengeStatement();
+
+        // then
+        expect(find('.challenge-statement-instruction__tag--focused')).to.not.exist;
+        expect(find('.challenge-statement-instruction__tag--regular')).to.exist;
+      });
     });
 
   });
