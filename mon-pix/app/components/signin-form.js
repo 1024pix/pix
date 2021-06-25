@@ -23,7 +23,7 @@ export default class SigninForm extends Component {
   }
 
   get displayPoleEmploiButton() {
-    return this.url.isFrenchDomainExtension && this.featureToggles.featureToggles.isPoleEmploiEnabled;
+    return this.url.isFrenchDomainExtension;
   }
 
   @action
