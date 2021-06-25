@@ -25,15 +25,6 @@ describe('Integration | Component | signin form', function() {
 
   setupIntlRenderingTest();
 
-  beforeEach(function() {
-    const featureTogglesStub = Service.extend({
-      featureToggles: {
-        isPoleEmploiEnabled: false,
-      },
-    });
-    this.owner.register('service:featureToggles', featureTogglesStub);
-  });
-
   describe('Rendering', async function() {
 
     it('should display an input for identifiant field', async function() {
@@ -136,13 +127,7 @@ describe('Integration | Component | signin form', function() {
             return false;
           }
         }
-        const featureTogglesStub = Service.extend({
-          featureToggles: {
-            isPoleEmploiEnabled: true,
-          },
-        });
 
-        this.owner.register('service:featureToggles', featureTogglesStub);
         this.owner.register('service:url', UrlServiceStub);
 
         // when
@@ -155,9 +140,8 @@ describe('Integration | Component | signin form', function() {
 
     context('when domain is pix.fr', function() {
 
-      let linkText ;
-
-      beforeEach(function() {
+      it('should display a Pole emploi button', async function() {
+        // given
         class UrlServiceStub extends Service {
           get isFrenchDomainExtension() {
             return true;
@@ -165,25 +149,7 @@ describe('Integration | Component | signin form', function() {
         }
         this.owner.register('service:url', UrlServiceStub);
 
-        linkText = this.intl.t('pages.sign-in.pole-emploi.title');
-      });
-
-      it('should not display a Pole emploi button when Pole emploi connection is disabled', async function() {
-        // when
-        await render(hbs `<SigninForm />`);
-
-        // then
-        expect(contains(linkText)).not.exist;
-      });
-
-      it('should display a Pole emploi button when Pole emploi connection is enabled', async function() {
-        // given
-        const featureTogglesStub = Service.extend({
-          featureToggles: {
-            isPoleEmploiEnabled: true,
-          },
-        });
-        this.owner.register('service:featureToggles', featureTogglesStub);
+        const linkText = this.intl.t('pages.sign-in.pole-emploi.title');
 
         // when
         await render(hbs `<SigninForm />`);
