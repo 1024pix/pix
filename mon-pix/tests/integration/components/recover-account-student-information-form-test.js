@@ -32,9 +32,9 @@ describe('Integration | Component | recover-account-student-information-form', f
     const monthOfBirth = 5;
     const yearOfBirth = 2000;
 
-    const queryRecordStub = sinon.stub();
+    const createRecordStub = sinon.stub();
     class StoreStubService extends Service {
-      queryRecord = queryRecordStub;
+      createRecord = createRecordStub;
     }
     this.owner.register('service:store', StoreStubService);
 
@@ -50,7 +50,7 @@ describe('Integration | Component | recover-account-student-information-form', f
     await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.submit'));
 
     // then
-    sinon.assert.calledWithExactly(queryRecordStub, 'user', { ineIna: ine, lastName, firstName, birthdate: '2000-5-20' });
+    sinon.assert.calledWithExactly(createRecordStub, 'student-information', { ineIna: ine, lastName, firstName, birthdate: '2000-5-20' });
   });
 
   context('ine field', function() {
