@@ -23,7 +23,6 @@ describe('Acceptance | Controller | feature-toggle-controller', () => {
         data: {
           id: '0',
           attributes: {
-            'is-pole-emploi-enabled': false,
             'is-sco-account-recovery-enabled': false,
             'is-new-cpf-data-enabled': false,
           },
