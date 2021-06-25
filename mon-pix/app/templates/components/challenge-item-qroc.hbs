@@ -1,4 +1,4 @@
-<article class="challenge-item"
+<article class="rounded-panel rounded-panel--no-margin-bottom challenge-item"
          data-challenge-id="{{@challenge.id}}"
          {{will-destroy this.removeEmbedAutoEventListener}}>
   {{#if this.isTimedChallengeWithoutAnswer}}
@@ -17,7 +17,7 @@
     <div class="challenge-item__container {{if this.isFocusedChallenge "challenge-item__container--focused"}}">
       <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 
-      <form {{on "submit" this.validateAnswer}} class="rounded-panel rounded-panel--no-margin-bottom">
+      <form {{on "submit" this.validateAnswer}}>
         {{#if this.showProposal}}
           <div class="rounded-panel__row challenge-response
             {{if @answer 'challenge-response--locked'}}
