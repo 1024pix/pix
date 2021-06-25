@@ -12,6 +12,10 @@ module.exports = {
         'creatorId',
         'creatorLastName',
         'creatorFirstName',
+        'organizationId',
+        'organizationName',
+        'targetProfileId',
+        'targetProfileName',
       ],
       meta,
     }).serialize(campaignManagement);

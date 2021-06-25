@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const campaignController = require('./campaign-controller');
+const campaignManagementController = require('./campaign-management-controller');
 const campaignStatsController = require('./campaign-stats-controller');
+const securityPreHandlers = require('../security-pre-handlers');
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
@@ -44,6 +46,24 @@ exports.register = async function(server) {
           '- Récupération d\'une campagne par son id',
         ],
         tags: ['api', 'campaign'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/campaigns/{id}',
+      config: {
+        pre: [{ method: securityPreHandlers.checkUserHasRolePixMaster }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignId,
+          }),
+        },
+        handler: campaignManagementController.getCampaignDetails,
+        tags: ['api', 'campaign', 'admin'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de récupérer le détail d\'une campagne.',
+        ],
       },
     },
     {
