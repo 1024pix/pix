@@ -21,7 +21,11 @@
           <tbody>
           {{#each @campaigns as |campaign|}}
             <tr aria-label="campagne">
-              <td class="table__column--medium">{{campaign.id}}</td>
+              <td class="table__column--medium">
+                <LinkTo @route="authenticated.campaigns.get" @model={{campaign.id}}>
+                  {{campaign.id}}
+                </LinkTo>
+              </td>
               <td class="table__column--medium">{{campaign.code}}</td>
               <td class="table__column--medium">
                   {{if (eq campaign.type 'ASSESSMENT') "Évaluation" "Collecte de profils"}}

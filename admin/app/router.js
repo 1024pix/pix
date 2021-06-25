@@ -38,6 +38,10 @@ Router.map(function() {
       });
     });
 
+    this.route('campaigns', function() {
+      this.route('get', { path: '/:campaign_id' });
+    });
+
     this.route('users', function() {
       this.route('list');
       this.route('get', { path: '/:user_id' });
