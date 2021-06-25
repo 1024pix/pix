@@ -1,18 +1,33 @@
 .activity {
-  &__stats {
+  display: flex;
+  flex-direction: column;
+
+  &__line {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
 
-    &__participations-by-day {
-      box-sizing: border-box;
-      flex: 0 0 auto;
-      width: 73%;
+    & >:not(:last-child) {
+      margin-right: 8px;
+    }
+    & >:not(:first-child) {
+      margin-left: 8px;
     }
 
-    &__participations-by-status {
-      box-sizing: border-box;
-      flex: 0 0 auto;
-      width: 25%;
+    &:not(:last-child) {
+      margin-bottom: 8px;
     }
+    &:not(:first-child) {
+      margin-top: 8px;
+    }
+  }
+
+  &__participations-by-day {
+    box-sizing: border-box;
+    flex: 6 2 auto;
+  }
+
+  &__participations-by-status {
+    box-sizing: border-box;
+    flex: 0 1 auto;
   }
 }
