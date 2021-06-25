@@ -948,8 +948,8 @@
           }
         },
         "errors": {
-          "invalid-ine-ina-format": "Le champ INE est obligatoire.",
-          "empty-ine-ina": "le champ INE n'est pas au bon format.",
+          "invalid-ine-ina-format": "Le champ INE n'est pas au bon format.",
+          "empty-ine-ina": "Le champ INE est obligatoire.",
           "empty-last-name": "Le champ nom est obligatoire.",
           "empty-first-name": "Le champ prénom est obligatoire."
         }
