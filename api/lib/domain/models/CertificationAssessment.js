@@ -57,7 +57,7 @@ class CertificationAssessment {
     return this._certificationChallenges;
   }
 
-  set certificationChallenges(certificationChallenges) {
+  setCertificationChallenges(certificationChallenges) {
     this._certificationChallenges = certificationChallenges;
   }
 

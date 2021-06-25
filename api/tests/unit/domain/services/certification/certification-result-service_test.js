@@ -270,7 +270,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should ignore answers with no matching challenge', async () => {
           // when
-          certificationAssessment.certificationChallenges = [];
+          certificationAssessment.setCertificationChallenges([]);
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
           // then
@@ -606,7 +606,7 @@ describe('Unit | Service | Certification Result Service', function() {
               ];
 
               certificationAssessment.certificationAnswersByDate = answers;
-              certificationAssessment.certificationChallenges = challenges;
+              certificationAssessment.setCertificationChallenges(challenges);
               placementProfileService.getPlacementProfile.restore();
               sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
                 userId: certificationAssessment.userId,
@@ -634,7 +634,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
       beforeEach(() => {
         certificationAssessment.certificationAnswersByDate = wrongAnswersForAllChallenges();
-        certificationAssessment.certificationChallenges = challenges;
+        certificationAssessment.setCertificationChallenges(challenges);
         sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
         sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
           userId: certificationAssessment.userId,
@@ -929,7 +929,7 @@ describe('Unit | Service | Certification Result Service', function() {
             { challengeId: 'challenge_B_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeB_6' },
             { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6' },
           ], domainBuilder.buildCertificationChallengeWithType);
-          certificationAssessment.certificationChallenges = challenges;
+          certificationAssessment.setCertificationChallenges(challenges);
 
           placementProfileService.getPlacementProfile.restore();
           sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
@@ -988,7 +988,7 @@ describe('Unit | Service | Certification Result Service', function() {
             { challengeId: 'challenge_B_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeB_6', type: 'QCM' },
             { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6', type: 'QCM' },
           ], domainBuilder.buildCertificationChallengeWithType);
-          certificationAssessment.certificationChallenges = challenges;
+          certificationAssessment.setCertificationChallenges(challenges);
 
           placementProfileService.getPlacementProfile.restore();
           sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
@@ -1086,7 +1086,7 @@ describe('Unit | Service | Certification Result Service', function() {
             { challengeId: 'challenge_M_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeM_5' },
             { challengeId: 'challenge_N_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeN_6' },
           ], domainBuilder.buildCertificationChallengeWithType);
-          certificationAssessment.certificationChallenges = challenges;
+          certificationAssessment.setCertificationChallenges(challenges);
 
           const answers = _.map([
             { challengeId: 'challenge_A_for_competence_1', result: 'ko' },
