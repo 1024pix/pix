@@ -112,6 +112,9 @@ describe('Unit | Service | Certification Result Service', function() {
 
   describe('#getCertificationResult', () => {
     let certificationAssessment;
+    const userId = 4321;
+    const limitDate = new Date('2000-01-01');
+    const isV2Certification = true;
     const certificationAssessmentData = {
       id: 1,
       userId: 11,
@@ -181,6 +184,9 @@ describe('Unit | Service | Certification Result Service', function() {
           ...certificationAssessmentData,
           certificationAnswersByDate: wrongAnswersForAllChallenges(),
           certificationChallenges: challenges,
+          userId,
+          createdAt: limitDate,
+          isV2Certification,
         });
 
         sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
@@ -270,7 +276,14 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should ignore answers with no matching challenge', async () => {
           // when
-          certificationAssessment.setCertificationChallenges([]);
+          certificationAssessment = new CertificationAssessment({
+            ...certificationAssessmentData,
+            certificationAnswersByDate: wrongAnswersForAllChallenges(),
+            certificationChallenges: [domainBuilder.buildCertificationChallenge()],
+            userId,
+            createdAt: limitDate,
+            isV2Certification,
+          });
           const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
           // then
@@ -604,9 +617,14 @@ describe('Unit | Service | Certification Result Service', function() {
               const userCompetences = [
                 _buildUserCompetence(competence_1, positionedScore, positionedLevel),
               ];
-
-              certificationAssessment.certificationAnswersByDate = answers;
-              certificationAssessment.setCertificationChallenges(challenges);
+              certificationAssessment = new CertificationAssessment({
+                ...certificationAssessmentData,
+                certificationAnswersByDate: answers,
+                certificationChallenges: challenges,
+                userId,
+                createdAt: limitDate,
+                isV2Certification,
+              });
               placementProfileService.getPlacementProfile.restore();
               sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
                 userId: certificationAssessment.userId,
@@ -633,8 +651,14 @@ describe('Unit | Service | Certification Result Service', function() {
       const continueOnError = false;
 
       beforeEach(() => {
-        certificationAssessment.certificationAnswersByDate = wrongAnswersForAllChallenges();
-        certificationAssessment.setCertificationChallenges(challenges);
+        certificationAssessment = new CertificationAssessment({
+          ...certificationAssessmentData,
+          certificationAnswersByDate: wrongAnswersForAllChallenges(),
+          certificationChallenges: challenges,
+          userId,
+          createdAt: limitDate,
+          isV2Certification,
+        });
         sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
         sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
           userId: certificationAssessment.userId,
@@ -929,7 +953,15 @@ describe('Unit | Service | Certification Result Service', function() {
             { challengeId: 'challenge_B_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeB_6' },
             { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6' },
           ], domainBuilder.buildCertificationChallengeWithType);
-          certificationAssessment.setCertificationChallenges(challenges);
+
+          certificationAssessment = new CertificationAssessment({
+            ...certificationAssessmentData,
+            certificationAnswersByDate: wrongAnswersForAllChallenges(),
+            certificationChallenges: challenges,
+            userId,
+            createdAt: limitDate,
+            isV2Certification,
+          });
 
           placementProfileService.getPlacementProfile.restore();
           sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
@@ -988,7 +1020,15 @@ describe('Unit | Service | Certification Result Service', function() {
             { challengeId: 'challenge_B_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeB_6', type: 'QCM' },
             { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6', type: 'QCM' },
           ], domainBuilder.buildCertificationChallengeWithType);
-          certificationAssessment.setCertificationChallenges(challenges);
+
+          certificationAssessment = new CertificationAssessment({
+            ...certificationAssessmentData,
+            certificationAnswersByDate: wrongAnswersForAllChallenges(),
+            certificationChallenges: challenges,
+            userId,
+            createdAt: limitDate,
+            isV2Certification,
+          });
 
           placementProfileService.getPlacementProfile.restore();
           sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
@@ -1086,7 +1126,15 @@ describe('Unit | Service | Certification Result Service', function() {
             { challengeId: 'challenge_M_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeM_5' },
             { challengeId: 'challenge_N_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeN_6' },
           ], domainBuilder.buildCertificationChallengeWithType);
-          certificationAssessment.setCertificationChallenges(challenges);
+
+          certificationAssessment = new CertificationAssessment({
+            ...certificationAssessmentData,
+            certificationAnswersByDate: wrongAnswersForAllChallenges(),
+            certificationChallenges: challenges,
+            userId,
+            createdAt: limitDate,
+            isV2Certification,
+          });
 
           const answers = _.map([
             { challengeId: 'challenge_A_for_competence_1', result: 'ko' },

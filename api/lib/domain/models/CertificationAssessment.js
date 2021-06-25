@@ -57,10 +57,6 @@ class CertificationAssessment {
     return this._certificationChallenges;
   }
 
-  setCertificationChallenges(certificationChallenges) {
-    this._certificationChallenges = certificationChallenges;
-  }
-
   neutralizeChallengeByRecId(recId) {
     const challengeToBeNeutralized = _.find(this._certificationChallenges, { challengeId: recId });
     if (challengeToBeNeutralized) {
