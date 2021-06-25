@@ -4,11 +4,24 @@
     <div class="challenge-statement__instruction-section">
       <MarkdownToHtmlUnsafe @class="challenge-statement-instruction__text" @markdown={{this.challengeInstruction}} />
 
-      {{#if this.isFocusedChallenge}}
-        <div class="challenge-statement-instruction__tag challenge-statement-instruction__tag--focused"></div>
-      {{else}}
-        <div class="challenge-statement-instruction__tag challenge-statement-instruction__tag--regular"></div>
-      {{/if}}
+      <div class="challenge-statement-instruction__tag challenge-statement-instruction__tag{{if this.isFocusedChallenge "--focused" "--regular"}}"
+        {{on 'mouseenter' this.showTagHelp}}
+        {{on 'mouseleave' this.hideTagHelp}}>
+        {{#if this.displayTagHelp}}
+          <div role="tooltip"
+             id="challenge-statement-tag--tooltip"
+             class="challenge-statement__tag-information"
+          {{on-key 'Escape' this.hideTagHelp event='keyup'}}>
+          <div class="challenge-statement-tag-information__text">
+            {{#if this.isFocusedChallenge}}
+              {{t 'pages.challenge.statement.tooltip.focus' htmlSafe=true}}
+            {{else}}
+              {{t 'pages.challenge.statement.tooltip.regular' htmlSafe=true}}
+            {{/if}}
+          </div>
+        </div>
+        {{/if}}
+      </div>
     </div>
   {{/if}}
 

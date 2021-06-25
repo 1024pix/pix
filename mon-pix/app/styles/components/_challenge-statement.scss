@@ -8,6 +8,7 @@
 .challenge-statement-instruction {
 
   &__tag {
+    position: relative;
     width: 32px;
     height: 32px;
     margin-top: -21px;
@@ -58,6 +59,73 @@
 
     a::after {
       @include external-link;
+    }
+  }
+}
+
+.challenge-statement__tag-information {
+  position: absolute;
+  background-color: $white;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  z-index: 300;
+  width: 260px;
+  padding: 20px 36px;
+  right: 20px;
+  top: 60px;
+  letter-spacing: 0.12rem;
+  word-spacing: 0.16rem;
+
+  @include device-is('tablet') {
+    max-width: 590px;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -17px;
+    right: 0;
+    border-bottom: 20px solid white;
+    border-left: 30px solid transparent;
+
+    @include device-is('tablet') {
+      right: 0;
+    }
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 2rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.challenge-statement-tag-information {
+
+  &__text {
+    font-family: $font-open-sans;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    display: block;
+
+    &--strong {
+      font-weight: $font-bold;
+    }
+  }
+
+  &__close {
+    float: right;
+    font-size: 1.25rem;
+    padding: 10px;
+    margin-top: -10px;
+
+    @include device-is('desktop') {
+      display: none;
     }
   }
 }
