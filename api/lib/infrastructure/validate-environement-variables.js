@@ -22,7 +22,6 @@ const schema = Joi.object({
   LOG_ENABLED: Joi.string().optional().valid('true', 'false'),
   LOG_LEVEL: Joi.string().optional().valid('fatal', 'error', 'warn', 'info', 'debug', 'trace'),
   AUTH_SECRET: Joi.string().required(),
-  IS_POLE_EMPLOI_ENABLED: Joi.string().optional().valid('true', 'false'),
   IS_SCO_ACCOUNT_RECOVERY_ENABLED: Joi.string().optional().valid('true', 'false'),
 }).options({ allowUnknown: true });
 

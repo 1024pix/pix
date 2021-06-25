@@ -13,7 +13,6 @@ describe('Unit | Service | feature-toggles', function() {
   describe('feature toggles are loaded', function() {
 
     const featureToggles = Object.create({
-      isPoleEmploiEnabled: false,
       isScoAccountRecoveryEnabled: false,
     });
 

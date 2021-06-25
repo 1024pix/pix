@@ -1,11 +1,9 @@
 const { sinon, expect, catchErr, hFake } = require('../../../test-helper');
-
-const { featureToggles } = require('../../../../lib/config');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
 
-const { BadRequestError, UnauthorizedError } = require('../../../../lib/application/http-errors');
+const { UnauthorizedError } = require('../../../../lib/application/http-errors');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
@@ -124,7 +122,6 @@ describe('Unit | Application | Controller | Authentication', () => {
     let request;
 
     beforeEach(() => {
-      featureToggles.isPoleEmploiEnabled = true;
       request = {
         payload: {
           code,
@@ -136,20 +133,6 @@ describe('Unit | Application | Controller | Authentication', () => {
       };
 
       sinon.stub(usecases, 'authenticatePoleEmploiUser');
-    });
-
-    it('should return 400 if feature is off', async () => {
-      // given
-      usecases.authenticatePoleEmploiUser.resolves();
-      featureToggles.isPoleEmploiEnabled = false;
-      const expectedErrorMessage = 'This feature is not enable!';
-
-      // when
-      const error = await catchErr(authenticationController.authenticatePoleEmploiUser)(request, hFake);
-
-      // then
-      expect(error).to.be.an.instanceOf(BadRequestError);
-      expect(error.message).to.equal(expectedErrorMessage);
     });
 
     it('should call usecase with payload parameters', async () => {
