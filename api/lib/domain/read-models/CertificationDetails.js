@@ -32,7 +32,7 @@ class CertificationDetails {
   }) {
     const answerCollection = AnswerCollectionForScoring.from({
       answers: certificationAssessment.certificationAnswersByDate,
-      challenges: certificationAssessment.certificationChallenges,
+      challenges: certificationAssessment.listCertificationChallenges(),
     });
     const reproducibilityRate = ReproducibilityRate.from({
       numberOfNonNeutralizedChallenges: answerCollection.numberOfNonNeutralizedChallenges(),

@@ -102,7 +102,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.isV2Certification).to.be.true;
 
         expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
-        expect(certificationAssessment.certificationChallenges).to.have.length(2);
+        expect(certificationAssessment.listCertificationChallenges()).to.have.length(2);
       });
 
       it('should sort challenges by index if available', async () => {
@@ -132,9 +132,10 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
 
         // then
-        expect(certificationAssessment.certificationChallenges[0].challengeId).to.equal('recChalB');
-        expect(certificationAssessment.certificationChallenges[1].challengeId).to.equal('recChalA');
-        expect(certificationAssessment.certificationChallenges[2].challengeId).to.equal('recChalC');
+        const certificationChallenges = certificationAssessment.listCertificationChallenges();
+        expect(certificationChallenges[0].challengeId).to.equal('recChalB');
+        expect(certificationChallenges[1].challengeId).to.equal('recChalA');
+        expect(certificationChallenges[2].challengeId).to.equal('recChalC');
       });
 
       it('should sort challenges by id if index is not available (= retro-compatibility)', async () => {
@@ -164,9 +165,10 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
 
         // then
-        expect(certificationAssessment.certificationChallenges[0].challengeId).to.equal(firstChallengeByInsertionOrder.challengeId);
-        expect(certificationAssessment.certificationChallenges[1].challengeId).to.equal(secondChallengeByInsertionOrder.challengeId);
-        expect(certificationAssessment.certificationChallenges[2].challengeId).to.equal(thirdChallengeByInsertionOrder.challengeId);
+        const certificationChallenges = certificationAssessment.listCertificationChallenges();
+        expect(certificationChallenges[0].challengeId).to.equal(firstChallengeByInsertionOrder.challengeId);
+        expect(certificationChallenges[1].challengeId).to.equal(secondChallengeByInsertionOrder.challengeId);
+        expect(certificationChallenges[2].challengeId).to.equal(thirdChallengeByInsertionOrder.challengeId);
       });
     });
 
@@ -239,7 +241,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.isV2Certification).to.be.true;
 
         expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
-        expect(certificationAssessment.certificationChallenges).to.have.length(2);
+        expect(certificationAssessment.listCertificationChallenges()).to.have.length(2);
       });
 
       it('should return the certification answers ordered by date', async () => {
@@ -255,8 +257,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
 
         // then
-        expect(_.map(certificationAssessment.certificationChallenges, 'challengeId')).to.deep.equal(['recChalA', 'recChalB']);
-        expect(_.map(certificationAssessment.certificationChallenges, 'type')).to.deep.equal([Challenge.Type.QCU, Challenge.Type.QCM]);
+        expect(_.map(certificationAssessment.listCertificationChallenges(), 'challengeId')).to.deep.equal(['recChalA', 'recChalB']);
+        expect(_.map(certificationAssessment.listCertificationChallenges(), 'type')).to.deep.equal([Challenge.Type.QCU, Challenge.Type.QCM]);
       });
     });
 
@@ -301,9 +303,10 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
       // then
       const persistedCertificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
-      expect(persistedCertificationAssessment.certificationChallenges[0].isNeutralized).to.be.true;
-      expect(persistedCertificationAssessment.certificationChallenges[1].isNeutralized).to.be.true;
-      expect(persistedCertificationAssessment.certificationChallenges[2].isNeutralized).to.be.false;
+      const persistedCertificationChallenges = persistedCertificationAssessment.listCertificationChallenges();
+      expect(persistedCertificationChallenges[0].isNeutralized).to.be.true;
+      expect(persistedCertificationChallenges[1].isNeutralized).to.be.true;
+      expect(persistedCertificationChallenges[2].isNeutralized).to.be.false;
     });
   });
 });

@@ -98,7 +98,7 @@ module.exports = {
   },
 
   async save(certificationAssessment) {
-    for (const challenge of certificationAssessment.certificationChallenges) {
+    for (const challenge of certificationAssessment.listCertificationChallenges()) {
       await knex('certification-challenges')
         .where({ id: challenge.id })
         .update(_.pick(challenge, ['isNeutralized']));

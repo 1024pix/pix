@@ -50,10 +50,10 @@ class CertificationAssessment {
   }
 
   getCertificationChallenge(challengeId) {
-    return _.find(this.certificationChallenges, { challengeId }) || null;
+    return _.find(this._certificationChallenges, { challengeId }) || null;
   }
 
-  get certificationChallenges() {
+  listCertificationChallenges() {
     return this._certificationChallenges;
   }
 
@@ -62,7 +62,7 @@ class CertificationAssessment {
   }
 
   neutralizeChallengeByRecId(recId) {
-    const challengeToBeNeutralized = _.find(this.certificationChallenges, { challengeId: recId });
+    const challengeToBeNeutralized = _.find(this._certificationChallenges, { challengeId: recId });
     if (challengeToBeNeutralized) {
       challengeToBeNeutralized.neutralize();
     } else {
@@ -77,7 +77,7 @@ class CertificationAssessment {
     }
 
     if (_isAnswerKoOrSkippedOrPartially(toBeNeutralizedChallengeAnswer.result.status)) {
-      const challengeToBeNeutralized = _.find(this.certificationChallenges, { challengeId: toBeNeutralizedChallengeAnswer.challengeId });
+      const challengeToBeNeutralized = _.find(this._certificationChallenges, { challengeId: toBeNeutralizedChallengeAnswer.challengeId });
       challengeToBeNeutralized.neutralize();
       return NeutralizationAttempt.neutralized(questionNumber);
     }
@@ -86,7 +86,7 @@ class CertificationAssessment {
   }
 
   deneutralizeChallengeByRecId(recId) {
-    const challengeToBeDeneutralized = _.find(this.certificationChallenges, { challengeId: recId });
+    const challengeToBeDeneutralized = _.find(this._certificationChallenges, { challengeId: recId });
     if (challengeToBeDeneutralized) {
       challengeToBeDeneutralized.deneutralize();
     } else {
@@ -95,7 +95,7 @@ class CertificationAssessment {
   }
 
   listCertifiableBadgeKeysTaken() {
-    return _(this.certificationChallenges)
+    return _(this._certificationChallenges)
       .filter((certificationChallenge) => certificationChallenge.isPixPlus())
       .uniqBy('certifiableBadgeKey')
       .map('certifiableBadgeKey')
@@ -103,7 +103,7 @@ class CertificationAssessment {
   }
 
   findAnswersAndChallengesForCertifiableBadgeKey(certifiableBadgeKey) {
-    const certificationChallengesForBadge = _.filter(this.certificationChallenges, { certifiableBadgeKey });
+    const certificationChallengesForBadge = _.filter(this._certificationChallenges, { certifiableBadgeKey });
     const challengeIds = _.map(certificationChallengesForBadge, 'challengeId');
     const answersForBadge = _.filter(this.certificationAnswersByDate, ({ challengeId }) => _.includes(challengeIds, challengeId));
     return {

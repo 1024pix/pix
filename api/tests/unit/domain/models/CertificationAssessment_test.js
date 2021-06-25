@@ -160,9 +160,10 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       certificationAssessment.neutralizeChallengeByRecId(challengeToBeNeutralized.challengeId);
 
       // then
-      expect(certificationAssessment.certificationChallenges[0].isNeutralized).to.be.true;
-      expect(certificationAssessment.certificationChallenges[1].isNeutralized).to.be.false;
-      expect(certificationAssessment.certificationChallenges[2].isNeutralized).to.be.false;
+      const certificationChallenges = certificationAssessment.listCertificationChallenges();
+      expect(certificationChallenges[0].isNeutralized).to.be.true;
+      expect(certificationChallenges[1].isNeutralized).to.be.false;
+      expect(certificationChallenges[2].isNeutralized).to.be.false;
     });
 
     it('throws when the challenge was not asked', async () => {
@@ -216,9 +217,10 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       certificationAssessment.deneutralizeChallengeByRecId(challengeToBeDeneutralized.challengeId);
 
       // then
-      expect(certificationAssessment.certificationChallenges[0].isNeutralized).to.be.false;
-      expect(certificationAssessment.certificationChallenges[1].isNeutralized).to.be.true;
-      expect(certificationAssessment.certificationChallenges[2].isNeutralized).to.be.true;
+      const certificationChallenges = certificationAssessment.listCertificationChallenges();
+      expect(certificationChallenges[0].isNeutralized).to.be.false;
+      expect(certificationChallenges[1].isNeutralized).to.be.true;
+      expect(certificationChallenges[2].isNeutralized).to.be.true;
     });
 
     it('throws when the challenge was not asked', async () => {

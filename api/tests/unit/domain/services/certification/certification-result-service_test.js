@@ -213,7 +213,7 @@ describe('Unit | Service | Certification Result Service', function() {
         beforeEach(() => {
           startedCertificationAssessment = new CertificationAssessment({
             ...certificationAssessment,
-            certificationChallenges: certificationAssessment.certificationChallenges,
+            certificationChallenges: certificationAssessment.listCertificationChallenges(),
             completedAt: null,
             state: states.STARTED,
           });
@@ -421,7 +421,7 @@ describe('Unit | Service | Certification Result Service', function() {
         it('should return a object contains information about competences and challenges', async () => {
           // given
           const certificationAssessmentWithNeutralizedChallenge = _.cloneDeep(certificationAssessment);
-          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[0].isNeutralized = true;
+          certificationAssessmentWithNeutralizedChallenge.listCertificationChallenges()[0].isNeutralized = true;
 
           const malusForFalseAnswer = 8;
           const expectedCertifiedCompetences = [{
