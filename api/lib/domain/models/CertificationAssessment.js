@@ -44,21 +44,35 @@ class CertificationAssessment {
     this.state = state;
     this.isV2Certification = isV2Certification;
     this._certificationChallengesWithIndex = certificationChallengesWithIndex;
+    /***
+     * [{index: 1, certificationChallenge: Object},...]
+     */
     this.certificationAnswersByDate = certificationAnswersByDate;
 
     validateEntity(certificationAssessmentSchema, this);
   }
 
   getCertificationChallenge(challengeId) {
-    return _.find(this.listCertificationChallenges(), { challengeId }) || null;
+    return _.find(this.certificationChallengesInTestOrder(), { challengeId }) || null;
   }
 
-  listCertificationChallenges() {
-    return _.map(this._certificationChallengesWithIndex, 'certificationChallenge');
+  certificationChallengesInTestOrder() {
+    const areChallengesOrderedViaIndex = this._certificationChallengesWithIndex.every((challengeAndIndex) => Boolean(challengeAndIndex.index));
+    if (areChallengesOrderedViaIndex) {
+      return _(this._certificationChallengesWithIndex)
+        .sortBy('index')
+        .map('certificationChallenge')
+        .value();
+    } else {
+      return _(this._certificationChallengesWithIndex)
+        .sortBy('id')
+        .map('certificationChallenge')
+        .value();
+    }
   }
 
   neutralizeChallengeByRecId(recId) {
-    const challengeToBeNeutralized = _.find(this.listCertificationChallenges(), { challengeId: recId });
+    const challengeToBeNeutralized = _.find(this.certificationChallengesInTestOrder(), { challengeId: recId });
     if (challengeToBeNeutralized) {
       challengeToBeNeutralized.neutralize();
     } else {
@@ -73,7 +87,7 @@ class CertificationAssessment {
     }
 
     if (_isAnswerKoOrSkippedOrPartially(toBeNeutralizedChallengeAnswer.result.status)) {
-      const challengeToBeNeutralized = _.find(this.listCertificationChallenges(), { challengeId: toBeNeutralizedChallengeAnswer.challengeId });
+      const challengeToBeNeutralized = _.find(this.certificationChallengesInTestOrder(), { challengeId: toBeNeutralizedChallengeAnswer.challengeId });
       challengeToBeNeutralized.neutralize();
       return NeutralizationAttempt.neutralized(questionNumber);
     }
@@ -82,7 +96,7 @@ class CertificationAssessment {
   }
 
   deneutralizeChallengeByRecId(recId) {
-    const challengeToBeDeneutralized = _.find(this.listCertificationChallenges(), { challengeId: recId });
+    const challengeToBeDeneutralized = _.find(this.certificationChallengesInTestOrder(), { challengeId: recId });
     if (challengeToBeDeneutralized) {
       challengeToBeDeneutralized.deneutralize();
     } else {
@@ -91,7 +105,7 @@ class CertificationAssessment {
   }
 
   listCertifiableBadgeKeysTaken() {
-    return _(this.listCertificationChallenges())
+    return _(this.certificationChallengesInTestOrder())
       .filter((certificationChallenge) => certificationChallenge.isPixPlus())
       .uniqBy('certifiableBadgeKey')
       .map('certifiableBadgeKey')
@@ -99,7 +113,7 @@ class CertificationAssessment {
   }
 
   findAnswersAndChallengesForCertifiableBadgeKey(certifiableBadgeKey) {
-    const certificationChallengesForBadge = _.filter(this.listCertificationChallenges(), { certifiableBadgeKey });
+    const certificationChallengesForBadge = _.filter(this.certificationChallengesInTestOrder(), { certifiableBadgeKey });
     const challengeIds = _.map(certificationChallengesForBadge, 'challengeId');
     const answersForBadge = _.filter(this.certificationAnswersByDate, ({ challengeId }) => _.includes(challengeIds, challengeId));
     return {

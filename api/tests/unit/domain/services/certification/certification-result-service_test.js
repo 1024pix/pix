@@ -218,7 +218,7 @@ describe('Unit | Service | Certification Result Service', function() {
         beforeEach(() => {
           startedCertificationAssessment = domainBuilder.buildCertificationAssessment({
             ...certificationAssessment,
-            certificationChallenges: certificationAssessment.listCertificationChallenges(),
+            certificationChallenges: certificationAssessment.certificationChallengesInTestOrder(),
             completedAt: null,
             state: states.STARTED,
           });
@@ -434,7 +434,7 @@ describe('Unit | Service | Certification Result Service', function() {
         it('should return a object contains information about competences and challenges', async () => {
           // given
           const certificationAssessmentWithNeutralizedChallenge = _.cloneDeep(certificationAssessment);
-          certificationAssessmentWithNeutralizedChallenge.listCertificationChallenges()[0].isNeutralized = true;
+          certificationAssessmentWithNeutralizedChallenge.certificationChallengesInTestOrder()[0].isNeutralized = true;
 
           const malusForFalseAnswer = 8;
           const expectedCertifiedCompetences = [{

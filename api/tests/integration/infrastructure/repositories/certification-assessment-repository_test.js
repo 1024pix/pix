@@ -102,10 +102,10 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.isV2Certification).to.be.true;
 
         expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
-        expect(certificationAssessment.listCertificationChallenges()).to.have.length(2);
+        expect(certificationAssessment.certificationChallengesInTestOrder()).to.have.length(2);
       });
 
-      it.skip('should sort challenges by index if available', async () => {
+      it('should sort challenges by index if available', async () => {
         // given
         const dbf = databaseBuilder.factory;
         expectedUserId = dbf.buildUser().id;
@@ -132,7 +132,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
 
         // then
-        const certificationChallenges = certificationAssessment.listCertificationChallenges();
+        const certificationChallenges = certificationAssessment.certificationChallengesInTestOrder();
         expect(certificationChallenges[0].challengeId).to.equal('recChalB');
         expect(certificationChallenges[1].challengeId).to.equal('recChalA');
         expect(certificationChallenges[2].challengeId).to.equal('recChalC');
@@ -165,7 +165,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
 
         // then
-        const certificationChallenges = certificationAssessment.listCertificationChallenges();
+        const certificationChallenges = certificationAssessment.certificationChallengesInTestOrder();
         expect(certificationChallenges[0].challengeId).to.equal(firstChallengeByInsertionOrder.challengeId);
         expect(certificationChallenges[1].challengeId).to.equal(secondChallengeByInsertionOrder.challengeId);
         expect(certificationChallenges[2].challengeId).to.equal(thirdChallengeByInsertionOrder.challengeId);
@@ -241,7 +241,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.isV2Certification).to.be.true;
 
         expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
-        expect(certificationAssessment.listCertificationChallenges()).to.have.length(2);
+        expect(certificationAssessment.certificationChallengesInTestOrder()).to.have.length(2);
       });
 
       it('should return the certification answers ordered by date', async () => {
@@ -257,8 +257,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
 
         // then
-        expect(_.map(certificationAssessment.listCertificationChallenges(), 'challengeId')).to.deep.equal(['recChalA', 'recChalB']);
-        expect(_.map(certificationAssessment.listCertificationChallenges(), 'type')).to.deep.equal([Challenge.Type.QCU, Challenge.Type.QCM]);
+        expect(_.map(certificationAssessment.certificationChallengesInTestOrder(), 'challengeId')).to.deep.equal(['recChalA', 'recChalB']);
+        expect(_.map(certificationAssessment.certificationChallengesInTestOrder(), 'type')).to.deep.equal([Challenge.Type.QCU, Challenge.Type.QCM]);
       });
     });
 
@@ -303,7 +303,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
       // then
       const persistedCertificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
-      const persistedCertificationChallenges = persistedCertificationAssessment.listCertificationChallenges();
+      const persistedCertificationChallenges = persistedCertificationAssessment.certificationChallengesInTestOrder();
       expect(persistedCertificationChallenges[0].isNeutralized).to.be.true;
       expect(persistedCertificationChallenges[1].isNeutralized).to.be.true;
       expect(persistedCertificationChallenges[2].isNeutralized).to.be.false;

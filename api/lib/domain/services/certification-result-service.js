@@ -141,7 +141,7 @@ async function _getScoreAndLevels(certificationAssessment, continueOnError) {
   });
 
   // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
-  const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationAssessment.listCertificationChallenges(), testedCompetences);
+  const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationAssessment.certificationChallengesInTestOrder(), testedCompetences);
 
   // map sur challenges filtre sur challenge Id
   const matchingAnswers = _selectAnswersMatchingCertificationChallenges(certificationAssessment.certificationAnswersByDate, matchingCertificationChallenges);
@@ -158,7 +158,7 @@ async function _getChallengeInformation(certificationAssessment) {
   });
 
   // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
-  const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationAssessment.listCertificationChallenges(), testedCompetences);
+  const matchingCertificationChallenges = _selectChallengesMatchingCompetences(certificationAssessment.certificationChallengesInTestOrder(), testedCompetences);
 
   // map sur challenges filtre sur challenge Id
   const matchingAnswers = _selectAnswersMatchingCertificationChallenges(certificationAssessment.certificationAnswersByDate, matchingCertificationChallenges);
@@ -166,7 +166,7 @@ async function _getChallengeInformation(certificationAssessment) {
   const allPixCompetences = await competenceRepository.listPixCompetencesOnly();
   return matchingAnswers.map((answer) => {
 
-    const certificationChallengeRelatedToAnswer = certificationAssessment.listCertificationChallenges().find(
+    const certificationChallengeRelatedToAnswer = certificationAssessment.certificationChallengesInTestOrder().find(
       (certificationChallenge) => certificationChallenge.challengeId === answer.challengeId,
     ) || {};
 

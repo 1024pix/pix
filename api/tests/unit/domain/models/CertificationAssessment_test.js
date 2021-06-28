@@ -160,7 +160,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       certificationAssessment.neutralizeChallengeByRecId(challengeToBeNeutralized.challengeId);
 
       // then
-      const certificationChallenges = certificationAssessment.listCertificationChallenges();
+      const certificationChallenges = certificationAssessment.certificationChallengesInTestOrder();
       expect(certificationChallenges[0].isNeutralized).to.be.true;
       expect(certificationChallenges[1].isNeutralized).to.be.false;
       expect(certificationChallenges[2].isNeutralized).to.be.false;
@@ -217,7 +217,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       certificationAssessment.deneutralizeChallengeByRecId(challengeToBeDeneutralized.challengeId);
 
       // then
-      const certificationChallenges = certificationAssessment.listCertificationChallenges();
+      const certificationChallenges = certificationAssessment.certificationChallengesInTestOrder();
       expect(certificationChallenges[0].isNeutralized).to.be.false;
       expect(certificationChallenges[1].isNeutralized).to.be.true;
       expect(certificationChallenges[2].isNeutralized).to.be.true;
