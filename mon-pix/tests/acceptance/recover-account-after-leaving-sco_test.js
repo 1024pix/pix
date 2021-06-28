@@ -3,9 +3,10 @@ import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import visit from '../helpers/visit';
-import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { currentURL, fillIn } from '@ember/test-helpers';
 import setupIntl from '../helpers/setup-intl';
-import { Response } from 'ember-cli-mirage';
+import { fillInByLabel } from '../helpers/fill-in-by-label';
+import { clickByLabel } from '../helpers/click-by-label';
 import { contains } from '../helpers/contains';
 
 describe('Acceptance | RecoverAccountAfterLeavingScoRoute', function() {
@@ -25,9 +26,9 @@ describe('Acceptance | RecoverAccountAfterLeavingScoRoute', function() {
     });
   });
 
-  context('when account recovery is enabled', function() {
+  context('when account recovery is enabled', () => {
 
-    it('should access to account recovery page', async function() {
+    it('should access to account recovery page and show student information form', async function() {
       // given
       server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
@@ -36,6 +37,41 @@ describe('Acceptance | RecoverAccountAfterLeavingScoRoute', function() {
 
       // then
       expect(currentURL()).to.equal('/recuperer-mon-compte');
+      expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.student-information.title'))).to.exist;
+    });
+
+    context('when submitting information form with valid data', () => {
+
+      it('should hide student information form and show recover account confirmation step', async function() {
+        // given
+        const ineIna = '0123456789A';
+        const lastName = 'Lecol';
+        const firstName = 'Manuela';
+        const dayOfBirth = 20;
+        const monthOfBirth = 5;
+        const yearOfBirth = 2000;
+        const birthdate = '2000-05-20';
+        const username = 'manuela.lecol2005';
+
+        server.create('user', { id: 1, firstName, lastName, username });
+        server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+        // when
+        await visit('/recuperer-mon-compte');
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.ine-ina'), ineIna);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.first-name'), firstName);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.last-name'), lastName);
+        await fillIn('#dayOfBirth', dayOfBirth);
+        await fillIn('#monthOfBirth', monthOfBirth);
+        await fillIn('#yearOfBirth', yearOfBirth);
+        await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.submit'));
+
+        // then
+        expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.student-information.title'))).to.not.exist;
+        expect(contains('Nous avons retrouvé votre compte :')).to.exist;
+        expect(contains('Manuela')).to.exist;
+      });
     });
 
     context('when two students used same account', function() {
@@ -73,14 +109,13 @@ describe('Acceptance | RecoverAccountAfterLeavingScoRoute', function() {
 
         //when
         await visit('/recuperer-mon-compte');
-
-        await fillIn('#ineIna', ineIna);
-        await fillIn('#firstName', firstName);
-        await fillIn('#lastName', lastName);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.ine-ina'), ineIna);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.first-name'), firstName);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.last-name'), lastName);
         await fillIn('#dayOfBirth', dayOfBirth);
         await fillIn('#monthOfBirth', monthOfBirth);
         await fillIn('#yearOfBirth', yearOfBirth);
-        await click('button[type=submit]');
+        await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.submit'));
 
         // then
         expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.conflict.found-you-but', { firstName }))).to.exist;

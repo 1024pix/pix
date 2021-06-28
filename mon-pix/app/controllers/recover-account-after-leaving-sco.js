@@ -6,7 +6,9 @@ export default class RecoverAccountAfterLeavingScoController extends Controller 
 
   @tracked showRecoverAccountStudentInformationForm = true;
   @tracked showRecoverAccountConflictError = false;
+  @tracked showRecoverAccountConfirmationStep = false;
 
+  studentInformationForAccountRecovery;
   firstName;
 
   @action
@@ -14,7 +16,9 @@ export default class RecoverAccountAfterLeavingScoController extends Controller 
     const studentInformationToSave = this.store.createRecord('student-information', studentInformation);
     this.firstName = studentInformation.firstName;
     try {
-      await studentInformationToSave.submitStudentInformation();
+      this.studentInformationForAccountRecovery = await studentInformationToSave.submitStudentInformation();
+      this.showRecoverAccountStudentInformationForm = false;
+      this.showRecoverAccountConfirmationStep = true;
     } catch (err) {
       this._handleError(err);
     }
