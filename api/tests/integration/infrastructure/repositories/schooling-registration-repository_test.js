@@ -12,6 +12,7 @@ const {
   SameNationalApprenticeIdInOrganizationError,
   SchoolingRegistrationNotFound,
   UserCouldNotBeReconciledError,
+  UserNotFoundError,
 } = require('../../../../lib/domain/errors');
 
 const STATUS = SchoolingRegistration.STATUS;
@@ -1459,7 +1460,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       expect(userId).to.equal(expectedUserId);
     });
 
-    it('should return a NotFoundError if INE is invalid', async () => {
+    it('should return a UserNotFoundError if INE is invalid', async () => {
       // given
       const studentInformation = {
         nationalStudentId: '123456789AB',
@@ -1482,10 +1483,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
 
       // then
-      expect(result).to.be.instanceOf(NotFoundError);
+      expect(result).to.be.instanceOf(UserNotFoundError);
     });
 
-    it('should return a NotFoundError if firstName is invalid', async () => {
+    it('should return a UserNotFoundError if firstName is invalid', async () => {
       // given
       const studentInformation = {
         nationalStudentId: '123456789AB',
@@ -1508,10 +1509,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
 
       // then
-      expect(result).to.be.instanceOf(NotFoundError);
+      expect(result).to.be.instanceOf(UserNotFoundError);
     });
 
-    it('should return a NotFoundError if userId is null', async () => {
+    it('should return a UserNotFoundError if userId is null', async () => {
       // given
       const studentInformation = {
         nationalStudentId: '123456789AB',
@@ -1535,7 +1536,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
 
       // then
-      expect(result).to.be.instanceOf(NotFoundError);
+      expect(result).to.be.instanceOf(UserNotFoundError);
     });
   });
 

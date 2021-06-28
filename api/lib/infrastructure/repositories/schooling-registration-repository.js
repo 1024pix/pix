@@ -8,6 +8,7 @@ const {
   SchoolingRegistrationNotFound,
   SchoolingRegistrationsCouldNotBeSavedError,
   UserCouldNotBeReconciledError,
+  UserNotFoundError,
 } = require('../../domain/errors');
 
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
@@ -336,7 +337,7 @@ module.exports = {
       .first();
 
     if (!schoolingRegistration) {
-      throw new NotFoundError('Not found user');
+      throw new UserNotFoundError();
     }
 
     return schoolingRegistration.userId;
