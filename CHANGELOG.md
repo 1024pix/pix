@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.70.0 (28/06/2021)
+
+- [#3128](https://github.com/1024pix/pix/pull/3128) [FEATURE] Récupérer son compte lors de la sortie du SCO - Partie 1 (PIX-2750).
+- [#3136](https://github.com/1024pix/pix/pull/3136) [FEATURE] Ajouter la route pour récupérer les pays et leur code INSEE associé (PIX-2756)
+- [#3135](https://github.com/1024pix/pix/pull/3135) [FEATURE] Affichage d'indicateurs montrant le nombre de participants total et le nombre de résultats reçus dans la page Activité de Pix Orga (Pix-2668).
+- [#3123](https://github.com/1024pix/pix/pull/3123) [FEATURE] Activer inconditionnellement la connexion PE (PIX-2752).
+- [#3126](https://github.com/1024pix/pix/pull/3126) [FEATURE] Ajouter des retours sur nos test d'algo (PIX-2065).
+- [#3111](https://github.com/1024pix/pix/pull/3111) [FEATURE] Ajout du graphe d'activité des participants (PIX-2666)
+- [#3119](https://github.com/1024pix/pix/pull/3119) [FEATURE] Modifier bouton vert de l'écran intermédiaire (PIX-2701).
+- [#3125](https://github.com/1024pix/pix/pull/3125) [BUGFIX] Corriger les soucis d'affichage des boutons dans Pix App suite à une montée de version de Pix-UI
+- [#3118](https://github.com/1024pix/pix/pull/3118) [BUGFIX] Redirection en début de parcours lorsque j'essaie d'accéder à la page de résultats sans avoir de participation(Pix-2739).
+- [#3113](https://github.com/1024pix/pix/pull/3113) [TECH] Bump ember-simple-auth de 3.0.1 à 3.1.0 dans Pix Admin (PIX-2450).
+- [#3112](https://github.com/1024pix/pix/pull/3112) [CLEAN] N'utiliser que deux critères de Badges au lieu de trois critères (PIX-2707).
+
 ## v3.69.0 (24/06/2021)
 
 - [#3117](https://github.com/1024pix/pix/pull/3117) [FEATURE] Gérer les épreuves "Focus" (PIX-2617).
