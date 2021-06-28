@@ -1028,6 +1028,7 @@
           "and": "and ",
           "cgu": "Pix terms of use",
           "data-protection-policy": "personal data protection policy",
+          "pix" : "",
           "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
           "label": "Agree Pix terms of use and personal data protection policy"
         },
