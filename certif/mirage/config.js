@@ -12,6 +12,7 @@ function parseQueryString(queryString) {
 }
 
 export default function() {
+  this.logging = true;
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
   this.timing = 0;
@@ -26,8 +27,8 @@ export default function() {
 
     if (foundUser && params.password === 'secret') {
       return {
-        token_type: '',
-        expires_in: '',
+        expires_in: 3600,
+        token_type: 'Bearer token type',
         access_token: 'aaa.' + btoa(`{"user_id":${foundUser.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
         user_id: foundUser.id,
       };
