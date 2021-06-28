@@ -39,9 +39,7 @@ function _areThereMultipleStudentForSameAccount(schoolingRegistrations) {
   const anotherStudentForSameAccount = schoolingRegistrations
     .filter((schoolingRegistration) => schoolingRegistration.nationalStudentId !== firstIne);
 
-  return anotherStudentForSameAccount.length > 0
-    ? true
-    : false;
+  return anotherStudentForSameAccount.length > 0;
 }
 
 function _getLatestOrganization(schoolingRegistrations) {
