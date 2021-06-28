@@ -25,17 +25,6 @@
                  @hideRequired="true"
                  @placeholder="123456789XX" />
 
-  <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.last-name'}}
-                 @textfieldName="lastName"
-                 @inputBindingValue={{this.lastName}}
-                 @onValidate={{this.validateLastName}}
-                 @validationStatus={{this.lastNameValidation.status}}
-                 @validationMessage={{this.lastNameValidation.message}}
-                 @autocomplete="off"
-                 @require={{true}}
-                 @hideRequired="true"
-                 @placeholder="Nom" />
-
   <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.first-name'}}
                  @textfieldName="firstName"
                  @inputBindingValue={{this.firstName}}
@@ -46,6 +35,17 @@
                  @require={{true}}
                  @hideRequired="true"
                  @placeholder="Prénom" />
+
+  <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.last-name'}}
+                 @textfieldName="lastName"
+                 @inputBindingValue={{this.lastName}}
+                 @onValidate={{this.validateLastName}}
+                 @validationStatus={{this.lastNameValidation.status}}
+                 @validationMessage={{this.lastNameValidation.message}}
+                 @autocomplete="off"
+                 @require={{true}}
+                 @hideRequired="true"
+                 @placeholder="Nom" />
 
   <div>
     <p>{{t "pages.recover-account-after-leaving-sco.student-information.form.birthdate"}}</p>

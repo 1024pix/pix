@@ -5,6 +5,7 @@ const securityPreHandlers = require('../security-pre-handlers');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const { passwordValidationPattern } = require('../../config').account;
 const identifiersType = require('../../domain/types/identifiers-type');
+const featureToggles = require('../preHandlers/feature-toggles');
 
 const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
 
@@ -130,6 +131,37 @@ exports.register = async function(server) {
           '- La demande de génération d\'identifiant doit être effectuée par un membre de l\'organisation à laquelle appartient l\'élève.',
         ],
         tags: ['api', 'schoolingRegistrationDependentUser', 'username'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/schooling-registration-dependent-users/recover-account',
+      config: {
+        pre: [
+          {
+            method: featureToggles.isScoAccountRecoveryEnabled,
+            assign: 'isScoAccountRecoveryEnabled',
+          },
+        ],
+        auth: false,
+        handler: schoolingRegistrationDependentUserController.checkScoAccountRecovery,
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'ine-ina': Joi.string().required(),
+                birthdate: Joi.date().format('YYYY-MM-DD').required(),
+              },
+            },
+          }).options({ allowUnknown: true }),
+        },
+        notes: [
+          '- Recherche d\'un ancien élève par son ine/ina, prénom, nom, date de naissance \n' +
+          '- On renvoie les informations permettant de récupérer son compte Pix.',
+        ],
+        tags: ['api', 'schoolingRegistrationDependentUser', 'recovery'],
       },
     },
   ]);

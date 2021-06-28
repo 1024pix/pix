@@ -100,13 +100,13 @@ export default class RecoverAccountStudentInformationFormComponent extends Compo
     event.preventDefault();
     const birthdate = [this.yearOfBirth, this.monthOfBirth, this.dayOfBirth].join('-');
 
-    await this.store.queryRecord('user', {
+    const studentInformation = this.store.createRecord('student-information', {
       ineIna: this.ineIna,
       firstName: this.firstName,
       lastName: this.lastName,
       birthdate,
     });
-
+    await studentInformation.save();
   }
 
   @action

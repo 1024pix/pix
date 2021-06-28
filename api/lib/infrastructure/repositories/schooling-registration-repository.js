@@ -8,6 +8,7 @@ const {
   SchoolingRegistrationNotFound,
   SchoolingRegistrationsCouldNotBeSavedError,
   UserCouldNotBeReconciledError,
+  UserNotFoundError,
 } = require('../../domain/errors');
 
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
@@ -16,6 +17,7 @@ const SchoolingRegistration = require('../../domain/models/SchoolingRegistration
 const studentRepository = require('./student-repository');
 
 const Bookshelf = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const BookshelfSchoolingRegistration = require('../orm-models/SchoolingRegistration');
 
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
@@ -325,6 +327,20 @@ module.exports = {
         }
         throw err;
       });
+  },
+
+  async getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate({ nationalStudentId, firstName, lastName, birthdate }) {
+    const schoolingRegistration = await knex
+      .from('schooling-registrations')
+      .where({ nationalStudentId, firstName, lastName, birthdate })
+      .whereNotNull('userId')
+      .first();
+
+    if (!schoolingRegistration) {
+      throw new UserNotFoundError();
+    }
+
+    return schoolingRegistration.userId;
   },
 
   async findPaginatedFilteredSchoolingRegistrations({ organizationId, filter, page = {} }) {
