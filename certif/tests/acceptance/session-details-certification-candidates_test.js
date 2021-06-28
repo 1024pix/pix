@@ -83,24 +83,29 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
         candidates = server.createList('certification-candidate', 3, { sessionId: sessionWithCandidates.id, isLinked: false, resultRecipientEmail: 'recipient@example.com' });
       });
 
-      test('it should display the list of certification candidates', async function(assert) {
-        // given
-        const aCandidate = candidates[0];
+      module('when the CPF new data feature toggle is off', function() {
 
-        // when
-        await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+        test('it should display the list of certification candidates', async function(assert) {
+          // given
+          const aCandidate = candidates[0];
+          server.create('feature-toggle', { id: 0, isNewCPFDataEnabled: false });
 
-        // then
-        assert.dom('table tbody tr').exists({ count: 3 });
-        assert.contains(`${aCandidate.lastName}`);
-        assert.contains(`${aCandidate.firstName}`);
-        assert.contains(`${moment(aCandidate.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY')}`);
-        assert.contains(`${aCandidate.birthCity}`);
-        assert.contains(`${aCandidate.birthProvinceCode}`);
-        assert.contains(`${aCandidate.birthCountry}`);
-        assert.contains(`${aCandidate.email}`);
-        assert.contains(`${aCandidate.resultRecipientEmail}`);
-        assert.contains(`${aCandidate.externalId}`);
+          // when
+          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+
+          // then
+          assert.dom('table tbody tr').exists({ count: 3 });
+
+          assert.contains(`${aCandidate.lastName}`);
+          assert.contains(`${aCandidate.firstName}`);
+          assert.contains(`${moment(aCandidate.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY')}`);
+          assert.contains(`${aCandidate.birthCity}`);
+          assert.contains(`${aCandidate.birthProvinceCode}`);
+          assert.contains(`${aCandidate.birthCountry}`);
+          assert.contains(`${aCandidate.email}`);
+          assert.contains(`${aCandidate.resultRecipientEmail}`);
+          assert.contains(`${aCandidate.externalId}`);
+        });
       });
 
       module('when the CPF new data feature toggle is on', function() {
@@ -113,6 +118,24 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
           // then
           assert.contains('Voir le détail');
+        });
+
+        test('it should display the list of certification candidates ', async function(assert) {
+          // given
+          const aCandidate = candidates[0];
+          server.create('feature-toggle', { id: 0, isNewCPFDataEnabled: true });
+
+          // when
+          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+
+          // then
+          assert.dom('table tbody tr').exists({ count: 3 });
+          assert.dom('table thead tr th').exists({ count: 6 });
+          assert.contains(`${aCandidate.lastName}`);
+          assert.contains(`${aCandidate.firstName}`);
+          assert.contains(`${moment(aCandidate.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY')}`);
+          assert.contains(`${aCandidate.resultRecipientEmail}`);
+          assert.contains(`${aCandidate.externalId}`);
         });
 
         module('when the details button is clicked', function() {
