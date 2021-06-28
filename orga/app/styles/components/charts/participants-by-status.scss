@@ -1,4 +1,6 @@
 .participants-by-status {
+  height: 240px;
+
   &__legend {
     list-style: none;
     padding-left: 8px;
@@ -45,11 +47,6 @@
         background-color: $green;
       }
     }
-
-    &--loader {
-      height: 20px;
-      margin-top: 8px;
-    }
   }
 
   &__legend-tooltip {
@@ -57,7 +54,20 @@
     color: $grey-30;
   }
 
-  &--loader {
-    height: 200px;
+  &__loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &--chart {
+      height: 240px;
+      width: 240px;
+    }
+
+    &--legend {
+      height: 20px;
+      width: 100%;
+      margin-top: 8px;
+    }
   }
 }

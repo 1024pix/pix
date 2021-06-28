@@ -126,6 +126,14 @@ th::first-letter {
   }
 }
 
+@media (max-width: 768px) {
+  .table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
 .table__row {
   &--small {
     height: 40px;

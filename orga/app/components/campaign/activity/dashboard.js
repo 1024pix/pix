@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import sumBy from 'lodash/sumBy';
 
-export default class Activity extends Component {
+export default class Dashboard extends Component {
   @service store;
 
   @tracked participantCountByStatus = [];
@@ -13,11 +13,11 @@ export default class Activity extends Component {
 
   constructor(...args) {
     super(...args);
-    const { campaignId } = this.args;
+    const { campaign } = this.args;
 
     const adapter = this.store.adapterFor('campaign-stats');
 
-    adapter.getParticipationsByStatus(campaignId).then((response) => {
+    adapter.getParticipationsByStatus(campaign.id).then((response) => {
       const data = response.data.attributes;
       this.shared = data.shared;
       this.participantCountByStatus = Object.entries(data);

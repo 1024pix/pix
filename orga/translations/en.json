@@ -237,6 +237,24 @@
         "settings": "Settings"
       }
     },
+    "campaign-activity": {
+      "title": "Activity",
+      "table": {
+        "column": {
+          "first-name": "First name",
+          "last-name": "Last name",
+          "status": "Status"
+        },
+        "empty": "No participants"
+      },
+      "status": {
+        "started-assessment": "In progress ({progression, number, ::percent})",
+        "completed-assessment": "Pending",
+        "shared-assessment": "Submitted",
+        "completed-profile": "Pending",
+        "shared-profile": "Submitted"
+      }
+    },
     "campaign-collective-results": {
       "title": "Collective results",
       "average": "Average results",

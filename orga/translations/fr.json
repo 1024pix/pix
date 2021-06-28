@@ -237,6 +237,24 @@
         "settings": "Paramètres"
       }
     },
+    "campaign-activity": {
+      "title": "Activité",
+      "table": {
+        "column": {
+          "first-name": "Prénom",
+          "last-name": "Nom",
+          "status": "Statut"
+        },
+        "empty": "Aucun participant"
+      },
+      "status": {
+        "started-assessment": "En cours ({progression, number, ::percent})",
+        "completed-assessment": "En attente d'envoi",
+        "shared-assessment": "Résultats reçus",
+        "completed-profile": "En attente d'envoi",
+        "shared-profile": "Profil reçu"
+      }
+    },
     "campaign-collective-results": {
       "title": "Résultats collectifs",
       "average": "Moyenne des résultats",

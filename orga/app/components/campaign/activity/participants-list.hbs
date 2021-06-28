@@ -1,0 +1,47 @@
+<div ...attributes>
+  <div class="panel">
+    <div class="table content-text content-text--small">
+      <table>
+        <thead>
+          <tr>
+            <th>{{t 'pages.campaign-activity.table.column.last-name'}}</th>
+            <th>{{t 'pages.campaign-activity.table.column.first-name'}}</th>
+            {{#if @campaign.idPixLabel}}
+              <th>{{@campaign.idPixLabel}}</th>
+            {{/if}}
+            <th>{{t 'pages.campaign-activity.table.column.status'}}</th>
+          </tr>
+        </thead>
+
+        {{#if @participations}}
+          <tbody>
+          {{#each @participations as |participation|}}
+            <tr>
+              <td>{{participation.lastName}}</td>
+              <td>{{participation.firstName}}</td>
+              {{#if @campaign.idPixLabel}}
+                <td>{{participation.participantExternalId}}</td>
+              {{/if}}
+              <td>
+                <Campaign::Activity::ParticipationStatus
+                  @status={{participation.status}}
+                  @progression={{participation.progression}}
+                  @isTypeAssessment={{@campaign.isTypeAssessment}}
+                />
+              </td>
+            </tr>
+          {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      {{#unless @participations}}
+        <div class="table__empty content-text">{{t 'pages.campaign-activity.table.empty'}}</div>
+      {{/unless}}
+    </div>
+  </div>
+
+  {{#if @participations}}
+    <PaginationControl @pagination={{@participations.meta}}/>
+  {{/if}}
+</div>
