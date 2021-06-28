@@ -11,6 +11,7 @@ const campaignReportSerializer = require('../../infrastructure/serializers/jsona
 const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 const campaignProfilesCollectionParticipationSummarySerializer = require('../../infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer');
 const campaignAssessmentParticipationSummarySerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-summary-serializer');
+const campaignParticipantsActivitySerializer = require('../../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer');
 const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
@@ -169,6 +170,15 @@ module.exports = {
     }
     const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({ userId, campaignId, page, filters });
     return campaignProfilesCollectionParticipationSummarySerializer.serialize(results);
+  },
+
+  async findParticipantsActivity(request) {
+    const campaignId = request.params.id;
+    const { page } = queryParamsUtils.extractParameters(request.query);
+
+    const userId = requestResponseUtils.extractUserIdFromRequest(request);
+    const paginatedParticipations = await usecases.findPaginatedCampaignParticipantsActivities({ userId, campaignId, page });
+    return campaignParticipantsActivitySerializer.serialize(paginatedParticipations);
   },
 
   async division(request) {
