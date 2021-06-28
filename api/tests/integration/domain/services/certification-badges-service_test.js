@@ -51,7 +51,7 @@ describe('Integration | Service | Certification-Badges Service', () => {
       const badge = databaseBuilder.factory.buildBadge({ isCertifiable: true, targetProfileId: targetProfileId });
       databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: badge.id });
       const badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({
-        scope: 'EveryPartnerCompetence',
+        scope: 'CampaignParticipation',
         badgeId: badge.id,
         threshold: 40,
       });

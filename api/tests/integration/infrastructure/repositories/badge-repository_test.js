@@ -53,9 +53,9 @@ describe('Integration | Repository | Badge', () => {
 
     badgeCriterionForBadgeWithPartnerCompetences = {
       id: 123,
-      scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+      scope: BadgeCriterion.SCOPES.SKILL_SET,
       threshold: 53,
-      partnerCompetenceIds: [],
+      partnerCompetenceIds: [1, 2],
     };
 
     databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterionForBadgeWithPartnerCompetences, badgeId: badgeWithBadgePartnerCompetences.id });
@@ -76,7 +76,7 @@ describe('Integration | Repository | Badge', () => {
     });
     badgeCriterionForBadgeWithSameTargetProfile_1 = {
       id: 456,
-      scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+      scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
       threshold: 88,
       partnerCompetenceIds: [],
     };
