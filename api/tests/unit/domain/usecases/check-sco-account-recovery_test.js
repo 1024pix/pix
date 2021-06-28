@@ -111,11 +111,12 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
             username: 'nanou.monchose0705',
             email: 'nanou.monchose@example.net',
           });
-          const expectedOrganization = domainBuilder.buildOrganization({ id: 7, name: 'Lycée Poudlard' });
+          const firstOrganization = domainBuilder.buildOrganization({ id: 8, name: 'Collège Beauxbâtons' });
+          const secondOrganization = domainBuilder.buildOrganization({ id: 7, name: 'Lycée Poudlard' });
           const firstSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
             id: 2,
             userId: expectedUser.id,
-            organization: expectedOrganization,
+            organization: firstOrganization,
             updatedAt: new Date('2000-01-01T15:00:00Z'),
             nationalStudentId: studentInformation.ineIna,
             firstName: studentInformation.firstName,
@@ -125,7 +126,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
           const secondSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
             id: 3,
             userId: expectedUser.id,
-            organization: expectedOrganization,
+            organization: secondOrganization,
             updatedAt: new Date('2005-01-01T15:00:00Z'),
             nationalStudentId: studentInformation.ineIna,
             firstName: studentInformation.firstName,
@@ -145,7 +146,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
             .withArgs({ userId: expectedUser.id })
             .resolves([firstSchoolingRegistration, secondSchoolingRegistration]);
           userRepository.get.withArgs(expectedUser.id).resolves(expectedUser);
-          organizationRepository.get.withArgs(expectedOrganization.id).resolves(expectedOrganization);
+          organizationRepository.get.withArgs(secondOrganization.id).resolves(secondOrganization);
 
           // when
           const result = await checkScoAccountRecovery({
