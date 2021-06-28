@@ -1,4 +1,4 @@
-const { expect, hFake, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 
 const usecases = require('../../../../lib/domain/usecases');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js');
@@ -39,7 +39,7 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
         .returns(studentInformationForAccountRecoveryJSONAPI);
 
       // when
-      const response = await schoolingRegistrationDependantUserController.checkScoAccountRecovery(request, hFake);
+      const response = await schoolingRegistrationDependantUserController.checkScoAccountRecovery(request);
 
       // then
       expect(response).to.deep.equal(studentInformationForAccountRecoveryJSONAPI);
