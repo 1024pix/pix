@@ -7,7 +7,7 @@ const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-
 
 function _adaptAnswerToDb(answer) {
   return {
-    ..._.pick(answer, ['value', 'timeout', 'challengeId', 'assessmentId', 'timeSpent']),
+    ...(_.pick(answer, ['value', 'timeout', 'challengeId', 'assessmentId', 'timeSpent'])),
     result: answerStatusDatabaseAdapter.toSQLString(answer.result),
     resultDetails: jsYaml.dump(answer.resultDetails),
   };
@@ -51,7 +51,7 @@ module.exports = {
     const answerDTOs = await knex
       .select(COLUMNS)
       .from('answers')
-      .whereIn('id', ids)
+      .whereInArray('id', ids)
       .orderBy('id');
 
     return _toDomainArray(answerDTOs);
@@ -101,7 +101,7 @@ module.exports = {
     const answerPartialDTOs = await knex
       .select('challengeId')
       .from('answers')
-      .whereIn('id', ids)
+      .whereInArray('id', ids)
       .orderBy('challengeId');
 
     return _(answerPartialDTOs).map('challengeId').uniq().value();
