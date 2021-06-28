@@ -11,7 +11,8 @@ export default class ChallengeItemGeneric extends Component {
   @tracked hasUserConfirmedFocusWarning = false;
   @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
-  @tracked hasFocusedOut = false;
+  @tracked hasFocusedOutOfWindow = false;
+  @tracked hasFocusedOutOfChallenge = false;
 
   get displayTimer() {
     return this.isTimedChallengeWithoutAnswer && this.hasUserConfirmedWarning;
@@ -39,7 +40,7 @@ export default class ChallengeItemGeneric extends Component {
 
   _setOnBlurMethod() {
     window.onblur = () => {
-      this.hasFocusedOut = true;
+      this.hasFocusedOutOfWindow = true;
       this._clearOnBlurMethod();
     };
   }
@@ -73,6 +74,22 @@ export default class ChallengeItemGeneric extends Component {
       }
     } else {
       return null;
+    }
+  }
+
+  @action
+  hideOutOfFocusBorder() {
+    if (this.hasUserConfirmedFocusWarning) {
+      this.args.focusedIn();
+      this.hasFocusedOutOfChallenge = false;
+    }
+  }
+
+  @action
+  showOutOfFocusBorder() {
+    if (this.hasUserConfirmedFocusWarning) {
+      this.args.focusedOut();
+      this.hasFocusedOutOfChallenge = true;
     }
   }
 
