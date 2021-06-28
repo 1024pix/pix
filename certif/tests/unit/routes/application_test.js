@@ -1,33 +1,30 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { resolve } from 'rsvp';
+import sinon from 'sinon';
 import Service from '@ember/service';
 
-function createLoadServiceStub() {
-  return Service.create({
-    called: false,
-    load: function() {
-      this.called = true;
-      return resolve();
-    },
-  });
+class CurrentUserStub extends Service {
+  load = sinon.stub();
+}
+class FeatureTogglesStub extends Service {
+  load = sinon.stub().resolves();
 }
 
 module('Unit | Route | application', function(hooks) {
+
   setupTest(hooks);
 
-  test('it should load the current user', function(assert) {
+  test('it should load the current user', async function(assert) {
     // given
+    this.owner.register('service:current-user', CurrentUserStub);
+    this.owner.register('service:feature-toggles', FeatureTogglesStub);
+
     const route = this.owner.lookup('route:application');
-    const currentUserStub = createLoadServiceStub();
-    route.set('currentUser', currentUserStub);
 
     // when
-    const promise = route.sessionAuthenticated();
+    await route.beforeModel();
 
     // then
-    return promise.catch(() => {
-      assert.ok(currentUserStub.called);
-    });
+    assert.ok(route.currentUser.load.called);
   });
 });
