@@ -33,28 +33,23 @@ function verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults,
     return false;
   }
   return _.every(badge.badgeCriteria, (criterion) => {
-    switch (criterion.scope) {
-      case BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION:
-        return masteryPercentage >= criterion.threshold;
-
-      case BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE:
-        return _.every(partnerCompetenceResults, (partnerCompetenceResult) =>
-          partnerCompetenceResult.masteryPercentage >= criterion.threshold);
-
-      case BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES:
-        return _verifySomePartnerCompetenceResultsMasteryPercentageCriterion(
-          partnerCompetenceResults,
-          criterion.threshold,
-          criterion.partnerCompetenceIds,
-        );
+    if (criterion.scope === BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION) {
+      return masteryPercentage >= criterion.threshold;
+    } else if (criterion.scope === BadgeCriterion.SCOPES.SKILL_SET) {
+      return _verifyListOfPartnerCompetenceResultsMasteryPercentageCriterion({
+        allPartnerCompetenceResults: partnerCompetenceResults,
+        threshold: criterion.threshold,
+        partnerCompetenceIds: criterion.partnerCompetenceIds,
+      });
+    } else {
+      return false;
     }
-    return false;
   });
 }
 
-function _verifySomePartnerCompetenceResultsMasteryPercentageCriterion(partnerCompetenceResults, threshold, criterionPartnerCompetenceIds) {
-  const filteredPartnerCompetenceResults = _.filter(partnerCompetenceResults,
-    (partnerCompetenceResult) => criterionPartnerCompetenceIds.includes(partnerCompetenceResult.id));
+function _verifyListOfPartnerCompetenceResultsMasteryPercentageCriterion({ allPartnerCompetenceResults, threshold, partnerCompetenceIds }) {
+  const filteredPartnerCompetenceResults = _.filter(allPartnerCompetenceResults,
+    (partnerCompetenceResult) => partnerCompetenceIds.includes(partnerCompetenceResult.id));
 
   return _.every(filteredPartnerCompetenceResults,
     (partnerCompetenceResult) => partnerCompetenceResult.masteryPercentage >= threshold);
