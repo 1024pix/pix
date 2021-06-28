@@ -14,6 +14,7 @@ export default class ChallengeController extends Controller {
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
+  @tracked hasFocusedOut = false;
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -24,6 +25,20 @@ export default class ChallengeController extends Controller {
     const totalChallengeNumber = progressInAssessment.getMaxStepsNumber(this.model.assessment);
 
     return this.intl.t(this.challengeTitle, { stepNumber, totalChallengeNumber });
+  }
+
+  get isFocusedChallengeAndUserHasFocusedOut() {
+    return this.model.challenge.focused && this.hasFocusedOut;
+  }
+
+  @action
+  focusedIn() {
+    this.hasFocusedOut = false;
+  }
+
+  @action
+  focusedOut() {
+    this.hasFocusedOut = true;
   }
 
   @action
