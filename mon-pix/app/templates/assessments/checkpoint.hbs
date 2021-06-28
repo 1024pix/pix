@@ -2,7 +2,7 @@
 
 <div class="background-banner-wrapper assessment-challenge">
 
-  <div class="assessment-challenge__assessment-banner">
+  <div class="assessment-challenge__banner">
     <AssessmentBanner @title={{@model.title}} @displayHomeLink={{this.displayHomeLink}} />
   </div>
 
@@ -10,10 +10,10 @@
     <div class="checkpoint__header">
       {{#if this.shouldDisplayAnswers}}
         <div class="checkpoint-progression-gauge-wrapper">
-            <PixProgressGauge 
-              @value={{this.completionPercentage}} 
+            <PixProgressGauge
+              @value={{this.completionPercentage}}
               @isArrowLeft="true"
-              @color="white" 
+              @color="white"
               @subtitle={{t 'pages.checkpoint.completion-percentage.caption'}}
               @tooltipText={{t 'pages.checkpoint.completion-percentage.label' completionPercentage=this.completionPercentage htmlSafe=true}} />
 
