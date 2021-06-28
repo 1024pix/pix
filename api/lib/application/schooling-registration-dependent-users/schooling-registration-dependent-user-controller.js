@@ -2,6 +2,7 @@ const usecases = require('../../domain/usecases');
 const schoolingRegistrationDependentUser = require('../../infrastructure/serializers/jsonapi/schooling-registration-dependent-user-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 const tokenService = require('../../domain/services/token-service');
+const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 module.exports = {
 
@@ -92,5 +93,21 @@ module.exports = {
     const schoolingRegistrationWithGeneratedUsernamePasswordResponse = schoolingRegistrationDependentUser.serialize(result);
 
     return h.response(schoolingRegistrationWithGeneratedUsernamePasswordResponse).code(200);
+  },
+
+  async checkScoAccountRecovery(request) {
+    const payload = request.payload.data.attributes;
+    const studentInformation = {
+      ineIna: payload['ine-ina'],
+      firstName: payload['first-name'],
+      lastName: payload['last-name'],
+      birthdate: payload['birthdate'],
+    };
+
+    const studentInformationForAccountRecovery = await usecases.checkScoAccountRecovery({
+      studentInformation,
+    });
+
+    return studentInformationForAccountRecoverySerializer.serialize(studentInformationForAccountRecovery);
   },
 };

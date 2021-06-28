@@ -143,6 +143,7 @@ module.exports = injectDependencies({
   computeCampaignParticipationAnalysis: require('./compute-campaign-participation-analysis'),
   correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
   changeUserLang: require('./change-user-lang'),
+  checkScoAccountRecovery: require('./check-sco-account-recovery'),
   createAndReconcileUserToSchoolingRegistration: require('./create-and-reconcile-user-to-schooling-registration'),
   createCampaign: require('./create-campaign'),
   createCertificationCenterMembership: require('./create-certification-center-membership'),

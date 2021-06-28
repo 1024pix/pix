@@ -13,6 +13,7 @@ const {
   MissingOrInvalidCredentialsError,
   UnexpectedUserAccountError,
   UserShouldChangePasswordError,
+  MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -215,6 +216,19 @@ describe('Unit | Application | ErrorManager', () => {
 
       // then
       expect(HttpErrors.ServiceUnavailableError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate ConflictError when MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError', async () => {
+      // given
+      const error = new MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError();
+      sinon.stub(HttpErrors, 'ConflictError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
     });
   });
 

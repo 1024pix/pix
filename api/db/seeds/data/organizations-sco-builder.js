@@ -79,7 +79,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     division: '6E',
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: null,
-    nationalStudentId: '123456789AB',
+    nationalStudentId: '123456789AA',
   });
 
   // schooling registration associated with username
@@ -99,7 +99,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     division: '3A',
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithUsername.id,
-    nationalStudentId: '123123123A',
+    nationalStudentId: '123456789BB',
   });
 
   // schooling registration associated with username and email
@@ -120,7 +120,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     sex: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithEmailAndUsername.id,
-    nationalStudentId: '123123123B',
+    nationalStudentId: '123456789CC',
   });
 
   // schooling registration associated with email
@@ -139,7 +139,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     division: '5D',
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithEmail.id,
-    nationalStudentId: '123123123C',
+    nationalStudentId: '123456789DD',
   });
 
   // schooling registration associated with email used by certification
@@ -159,7 +159,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     division: '5D',
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userCertifWithEmail.id,
-    nationalStudentId: '123123123E',
+    nationalStudentId: '123456789EE',
   });
 
   // schooling registration associated with gar
@@ -184,7 +184,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     division: '5D',
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithGAR.id,
-    nationalStudentId: '123123123D',
+    nationalStudentId: '123456789FF',
   });
 
   /* LYCEE */
