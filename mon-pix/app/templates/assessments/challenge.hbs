@@ -2,7 +2,7 @@
 
 <div class="background-banner-wrapper assessment-challenge">
 
-  <div class="assessment-challenge__assessment-banner">
+  <div class="assessment-challenge__banner">
     {{#if @model.assessment.isCertification}}
       <CertificationBanner @certificationNumber={{@model.assessment.certificationNumber}} @certification={{@model.assessment.certificationCourse}} />
     {{else}}
