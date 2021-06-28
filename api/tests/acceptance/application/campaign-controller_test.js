@@ -836,4 +836,35 @@ describe('Acceptance | API | Campaign Controller', () => {
       expect(response.statusCode).to.equal(403);
     });
   });
+
+  describe('GET /api/campaigns/{id}/participants-activity', () => {
+    it('should return the campaign participant activities', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organization = databaseBuilder.factory.buildOrganization();
+      databaseBuilder.factory.buildMembership({ userId, organizationId: organization.id });
+
+      const campaign = databaseBuilder.factory.buildAssessmentCampaign({ organizationId: organization.id });
+
+      databaseBuilder.factory.buildAssessmentFromParticipation({
+        participantExternalId: 'Die Hard',
+        campaignId: campaign.id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/participants-activity`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      const results = response.result.data;
+      expect(results).to.have.lengthOf(1);
+      expect(results[0].attributes['participant-external-id']).to.equal('Die Hard');
+    });
+  });
 });
