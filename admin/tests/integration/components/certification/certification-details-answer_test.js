@@ -78,6 +78,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
   });
 
   test('update rate function is called when answer is modified and jury is set', async function(assert) {
+    assert.expect(1);
     // given
     this.setProperties({
       answer: answerData,
