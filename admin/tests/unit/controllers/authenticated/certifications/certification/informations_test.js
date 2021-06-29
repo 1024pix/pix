@@ -68,7 +68,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
 
       // when/then
-      assert.equal(controller.hasImpactfulIssueReports, true);
+      assert.true(controller.hasImpactfulIssueReports);
     });
 
     test('it should return false when there are no issue reports with required action', async function(assert) {
@@ -84,7 +84,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
 
       // when/then
-      assert.equal(controller.hasImpactfulIssueReports, false);
+      assert.false(controller.hasImpactfulIssueReports);
     });
   });
 
@@ -102,7 +102,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
 
       // when/then
-      assert.equal(controller.hasUnimpactfulIssueReports, true);
+      assert.true(controller.hasUnimpactfulIssueReports);
     });
 
     test('it should return false when there are no issue reports without required action', async function(assert) {
@@ -118,7 +118,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
 
       // when/then
-      assert.equal(controller.hasUnimpactfulIssueReports, false);
+      assert.false(controller.hasUnimpactfulIssueReports);
     });
   });
 
@@ -136,7 +136,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
 
       // when/then
-      assert.equal(controller.hasIssueReports, true);
+      assert.true(controller.hasIssueReports);
     });
 
     test('it should return false when there are no issue reports', async function(assert) {
@@ -147,20 +147,20 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
 
       // when/then
-      assert.equal(controller.hasIssueReports, false);
+      assert.false(controller.hasIssueReports);
     });
   });
 
   module('#isCertificationCancelled', function() {
 
-    test('should return true when certification status is cancelled', (assert) => {
+    test('should return true when certification status is cancelled', function(assert) {
       // given
       controller.certification = EmberObject.create({
         status: 'cancelled',
       });
 
       // when/then
-      assert.equal(controller.isCertificationCancelled, true);
+      assert.true(controller.isCertificationCancelled);
     });
   });
 
@@ -331,7 +331,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
   module('#onSaveConfirm', () => {
     module('when there are no error', () => {
-      test('should get no error and enable confirm dialog', async (assert) => {
+      test('should get no error and enable confirm dialog', async function(assert) {
         // when
         await controller.onSaveConfirm();
         // then
@@ -344,7 +344,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
 
     module('when there are errors', () => {
-      test('should get errors and enable confirm dialog', async (assert) => {
+      test('should get errors and enable confirm dialog', async function(assert) {
         // given
         controller.certification.competencesWithMark.addObject(
           {
@@ -377,7 +377,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
   module('#onCheckMarks', () => {
     module('when there is no mark', () => {
-      test('should not set competencesWithMark', async (assert) => {
+      test('should not set competencesWithMark', async function(assert) {
         // when
         await controller.onCheckMarks();
         // then
@@ -439,13 +439,13 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#onCancelCourseButtonClick', () => {
-    test('should enable cancel course confirm dialog', async (assert) => {
+    test('should enable cancel course confirm dialog', async function(assert) {
       // when
       await controller.onCancelCourseButtonClick();
 
       // then
       assert.equal(controller.confirmAction, 'onCancelCourseConfirmation');
-      assert.equal(controller.displayConfirm, true);
+      assert.true(controller.displayConfirm);
       assert.equal(controller.confirmMessage, 'Êtes vous sur de vouloir annuler cette certification ? Cliquer sur confirmer pour poursuivre');
     });
   });

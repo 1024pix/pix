@@ -41,6 +41,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
     });
 
     test('it should display sessions to publish informations', async function(assert) {
+      assert.expect(7);
       // given
       const sessionDate = '2021-01-01';
       const sessionTime = '17:00:00';
@@ -70,6 +71,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
     });
 
     test('it should publish a session', async function(assert) {
+      assert.expect(2);
       // given
       const sessionDate = '2021-01-01';
       const sessionTime = '17:00:00';
@@ -100,6 +102,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
     });
 
     test('it should publish a batch of sessions', async function(assert) {
+      assert.expect(3);
       // given
       const sessionDate = '2021-01-01';
       const sessionTime = '17:00:00';

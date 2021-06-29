@@ -32,8 +32,8 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
         await controller.actions.checkForAssignment.call(controller);
 
         // then
-        assert.equal(controller.isShowingAssignmentModal, true);
-        assert.equal(controller.model.save.notCalled, true);
+        assert.true(controller.isShowingAssignmentModal);
+        assert.true(controller.model.save.notCalled);
       });
     });
 
@@ -51,7 +51,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
         // then
         assert.ok(controller.model.save.calledWithExactly({ adapterOptions: { certificationOfficerAssignment: true } }));
         assert.ok(controller.notifications.success.calledWithExactly('La session vous a correctement été assignée'));
-        assert.equal(controller.isShowingAssignmentModal, false);
+        assert.false(controller.isShowingAssignmentModal);
       });
 
       test('it should show a notification error when save failed', async function(assert) {
@@ -66,7 +66,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
         // then
         assert.ok(controller.model.save.calledOnce);
         assert.ok(controller.notifications.error.calledWithExactly('Erreur lors de l\'assignation à la session'));
-        assert.equal(controller.isShowingAssignmentModal, false);
+        assert.false(controller.isShowingAssignmentModal);
       });
     });
   });
@@ -78,7 +78,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       await controller.actions.cancelAssignment.call(controller);
 
       // then
-      assert.equal(controller.isShowingAssignmentModal, false);
+      assert.false(controller.isShowingAssignmentModal);
     });
   });
 
@@ -100,7 +100,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       // then
       assert.ok(controller.model.save.calledWithExactly({ adapterOptions: { certificationOfficerAssignment: true } }));
       assert.ok(controller.notifications.success.calledWithExactly('La session vous a correctement été assignée'));
-      assert.equal(controller.isShowingAssignmentModal, false);
+      assert.false(controller.isShowingAssignmentModal);
     });
 
     test('it should show a notification error when save failed too', async function(assert) {
@@ -115,7 +115,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       // then
       assert.ok(controller.model.save.calledOnce);
       assert.ok(controller.notifications.error.calledWithExactly('Erreur lors de l\'assignation à la session'));
-      assert.equal(controller.isShowingAssignmentModal, false);
+      assert.false(controller.isShowingAssignmentModal);
     });
   });
 
@@ -125,7 +125,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       sinon.restore();
     });
 
-    test('it should retrieve link from api and copy it', async (assert) => {
+    test('it should retrieve link from api and copy it', async function(assert) {
       // given
       const getDownloadLink = sinon.stub();
       getDownloadLink.resolves('www.jeremypluquet.com');
@@ -148,7 +148,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       assert.ok(window.setTimeout);
     });
 
-    test('it should notify error when retrieving link fails', async (assert) => {
+    test('it should notify error when retrieving link fails', async function(assert) {
       // given
       const getDownloadLink = sinon.stub();
       getDownloadLink.rejects('An error');

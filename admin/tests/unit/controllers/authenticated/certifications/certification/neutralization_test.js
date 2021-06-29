@@ -5,7 +5,7 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Controller | authenticated/certifications/certification/neutralization', function(hooks) {
   setupTest(hooks);
 
-  module('#neutralizeChallenge', async function() {
+  module('#neutralizeChallenge', function() {
 
     test('neutralizes a challenge', async function(assert) {
       // given
@@ -48,7 +48,7 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       assert.ok(controller.notifications.success.calledOnceWithExactly(
         'La question n°2 a été neutralisée avec succès.',
       ));
-      assert.equal(controller.certificationDetails.listChallengesAndAnswers[0].isNeutralized, true);
+      assert.true(controller.certificationDetails.listChallengesAndAnswers[0].isNeutralized);
     });
 
     test('notifies a failed neutralization', async function(assert) {
@@ -75,7 +75,7 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
     });
   });
 
-  module('#deneutralizeChallenge', async function() {
+  module('#deneutralizeChallenge', function() {
 
     test('deneutralizes a challenge', async function(assert) {
       // given
@@ -118,7 +118,7 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       assert.ok(controller.notifications.success.calledOnceWithExactly(
         'La question n°2 a été dé-neutralisée avec succès.',
       ));
-      assert.equal(controller.certificationDetails.listChallengesAndAnswers[0].isNeutralized, false);
+      assert.false(controller.certificationDetails.listChallengesAndAnswers[0].isNeutralized);
     });
 
     test('notifies a failed deneutralization', async function(assert) {

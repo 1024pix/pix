@@ -26,7 +26,7 @@ module('Unit | Model | session', function(hooks) {
         const isFinalized = sessionProcessed.get('isFinalized');
 
         // then
-        assert.equal(isFinalized, true);
+        assert.true(isFinalized);
       });
     });
 
@@ -42,7 +42,7 @@ module('Unit | Model | session', function(hooks) {
         const isFinalized = sessionStarted.get('isFinalized');
 
         // then
-        assert.equal(isFinalized, false);
+        assert.false(isFinalized);
       });
 
     });
@@ -61,7 +61,7 @@ module('Unit | Model | session', function(hooks) {
         const hasExaminerGlobalComment = session.hasExaminerGlobalComment;
 
         // then
-        assert.equal(hasExaminerGlobalComment, false);
+        assert.false(hasExaminerGlobalComment);
       });
     });
 
@@ -75,7 +75,7 @@ module('Unit | Model | session', function(hooks) {
         const hasExaminerGlobalComment = session.hasExaminerGlobalComment;
 
         // then
-        assert.equal(hasExaminerGlobalComment, false);
+        assert.false(hasExaminerGlobalComment);
       });
     });
 
@@ -89,7 +89,7 @@ module('Unit | Model | session', function(hooks) {
         const hasExaminerGlobalComment = session.hasExaminerGlobalComment;
 
         // then
-        assert.equal(hasExaminerGlobalComment, true);
+        assert.true(hasExaminerGlobalComment);
       });
     });
   });
@@ -109,13 +109,13 @@ module('Unit | Model | session', function(hooks) {
         const isPublished = sessionWithoutCertifications.get('isPublished');
 
         // then
-        assert.equal(isPublished, false);
+        assert.false(isPublished);
       });
     });
 
     module('when there are multiple certifications', function() {
 
-      module('when all certifications are published', function() {
+      module('when all certifications are published', function(hooks) {
 
         let sessionWithAllCertificationsPublished;
 
@@ -129,11 +129,11 @@ module('Unit | Model | session', function(hooks) {
 
         test('isPublished should be true', function(assert) {
           const isPublished = sessionWithAllCertificationsPublished.get('isPublished');
-          assert.equal(isPublished, true);
+          assert.true(isPublished);
         });
       });
 
-      module('when not all certifications are published', function() {
+      module('when not all certifications are published', function(hooks) {
 
         let sessionWithoutAllCertificationsPublished;
 
@@ -147,10 +147,10 @@ module('Unit | Model | session', function(hooks) {
 
         test('isPublished from session should be true', function(assert) {
           const isPublished = sessionWithoutAllCertificationsPublished.get('isPublished');
-          assert.equal(isPublished, true);
+          assert.true(isPublished);
         });
       });
-      module('when all certifications are not published', function() {
+      module('when all certifications are not published', function(hooks) {
 
         let sessionWithoutAllCertificationsPublished;
 
@@ -164,7 +164,7 @@ module('Unit | Model | session', function(hooks) {
 
         test('isPublished from session should be false', function(assert) {
           const isPublished = sessionWithoutAllCertificationsPublished.get('isPublished');
-          assert.equal(isPublished, false);
+          assert.false(isPublished);
         });
       });
 
@@ -172,7 +172,7 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
-  module('#countCertificationIssueReports', function() {
+  module('#countCertificationIssueReports', function(hooks) {
     let sessionWithCertificationIssueReports;
     let sessionWithoutCertificationIssueReport;
 
@@ -199,7 +199,7 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
-  module('#countCertificationIssueReportsWithActionRequired', function() {
+  module('#countCertificationIssueReportsWithActionRequired', function(hooks) {
     let sessionWithCertificationIssueReports;
     let sessionWithoutCertificationIssueReport;
 
@@ -226,7 +226,7 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
-  module('#countNotCheckedEndScreen', function() {
+  module('#countNotCheckedEndScreen', function(hooks) {
 
     let sessionWithOneUncheckedEndScreen;
     let sessionWithOneCheckedEndScreen;
@@ -372,7 +372,7 @@ module('Unit | Model | session', function(hooks) {
         const areResultsToBeSentToPrescriber = session.areResultsToBeSentToPrescriber;
 
         // then
-        assert.equal(areResultsToBeSentToPrescriber, true);
+        assert.true(areResultsToBeSentToPrescriber);
       });
     });
 
@@ -386,7 +386,7 @@ module('Unit | Model | session', function(hooks) {
         const areResultsToBeSentToPrescriber = session.areResultsToBeSentToPrescriber;
 
         // then
-        assert.equal(areResultsToBeSentToPrescriber, false);
+        assert.false(areResultsToBeSentToPrescriber);
       });
     });
   });

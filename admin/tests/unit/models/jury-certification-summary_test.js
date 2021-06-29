@@ -191,7 +191,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
 
       // then
-      assert.equal(isCertificationStarted, true);
+      assert.true(isCertificationStarted);
     });
 
     test('it should return false when the status is "validated" (not started)', function(assert) {
@@ -204,7 +204,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
 
       // then
-      assert.equal(isCertificationStarted, false);
+      assert.false(isCertificationStarted);
     });
 
     test('it should return false when the status is "rejected" (not started)', function(assert) {
@@ -217,7 +217,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
 
       // then
-      assert.equal(isCertificationStarted, false);
+      assert.false(isCertificationStarted);
     });
 
     test('it should return false when the status is "error" (not started)', function(assert) {
@@ -230,7 +230,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
 
       // then
-      assert.equal(isCertificationStarted, false);
+      assert.false(isCertificationStarted);
     });
 
     test('it should return false when the status is "cancelled" (not started)', function(assert) {
@@ -243,7 +243,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
 
       // then
-      assert.equal(isCertificationStarted, false);
+      assert.false(isCertificationStarted);
     });
   });
 
@@ -259,7 +259,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       const isCertificationInError = juryCertificationSummary.isCertificationInError;
 
       // then
-      assert.equal(isCertificationInError, true);
+      assert.true(isCertificationInError);
     });
 
     test('it should return false when the status is "started" (not in error)', function(assert) {
@@ -272,7 +272,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       const isCertificationInError = juryCertificationSummary.isCertificationInError;
 
       // then
-      assert.equal(isCertificationInError, false);
+      assert.false(isCertificationInError);
     });
 
     test('it should return false when the status is "validated" (not in error)', function(assert) {
@@ -285,7 +285,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       const isCertificationInError = juryCertificationSummary.isCertificationInError;
 
       // then
-      assert.equal(isCertificationInError, false);
+      assert.false(isCertificationInError);
     });
 
     test('it should return false when the status is "rejected" (not in error)', function(assert) {
@@ -298,7 +298,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       const isCertificationInError = juryCertificationSummary.isCertificationInError;
 
       // then
-      assert.equal(isCertificationInError, false);
+      assert.false(isCertificationInError);
     });
 
     test('it should return false when the status is "cancelled" (not in error)', function(assert) {
@@ -311,7 +311,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       const isCertificationInError = juryCertificationSummary.isCertificationInError;
 
       // then
-      assert.equal(isCertificationInError, false);
+      assert.false(isCertificationInError);
     });
   });
 });

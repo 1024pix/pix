@@ -37,6 +37,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
     });
 
     test('it should display sessions with required action informations', async function(assert) {
+      assert.expect(8);
       // given
       const sessionDate = '2021-01-01';
       const sessionTime = '17:00:00';
