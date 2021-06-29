@@ -395,6 +395,18 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         // then
         expect(find('.alert--warning')).to.exist;
       });
+
+      it('should display an info alert with dashed border and overlay', async function() {
+        // when
+        await click('.focused-challenge-instructions-action__confirmation-button');
+        const challengeItem = find('.challenge-item');
+        await triggerEvent(challengeItem, 'mouseleave');
+
+        // then
+        expect(find('.alert--info')).to.exist;
+        expect(find('.challenge-item__container--focused')).to.exist;
+        expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
+      });
     });
 
     context('when challenge is not set as focused', function() {
