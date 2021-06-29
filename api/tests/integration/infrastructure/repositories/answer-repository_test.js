@@ -416,7 +416,7 @@ describe('Integration | Repository | answerRepository', () => {
       const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([456, 123, 789, 159]);
 
       // then
-      expect(challengeIds).to.deep.equal(['recABC', 'recDEF', 'recGHI']);
+      expect(challengeIds).to.deep.include.members(['recABC', 'recDEF', 'recGHI']);
     });
   });
 
