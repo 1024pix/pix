@@ -77,11 +77,38 @@ module.exports = {
       logContext.assessmentType = assessment.type;
       logger.trace(logContext, 'assessment loaded');
 
-      const challenge = await _getChallenge(assessment, userId, locale);
+      if (assessment.isStarted()) {
+        await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
+      }
+
+      let challenge = null;
+      let responsePayload = null;
+
+      if (assessment.isPreview()) {
+        challenge = await usecases.getNextChallengeForPreview({});
+        responsePayload = challengeSerializer.serialize(challenge);
+      } else if (assessment.isCertification()) {
+        challenge = await usecases.getNextChallengeForCertification({ assessment });
+        responsePayload = challengeSerializer.serialize(challenge);
+      } else if (assessment.isDemo()) {
+        challenge = await usecases.getNextChallengeForDemo({ assessment });
+        responsePayload = challengeSerializer.serialize(challenge);
+      } else if (assessment.isForCampaign()) {
+        challenge = await usecases.getNextChallengeForCampaignAssessment({ assessment, locale });
+        responsePayload = challengeSerializer.serialize(challenge);
+      } else if (assessment.isCompetenceEvaluation()) {
+        challenge = await usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
+        responsePayload = challengeSerializer.serialize(challenge);
+      }
+
+      if (challenge) {
+        await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challenge.id });
+      }
+
       logContext.challenge = challenge;
       logger.trace(logContext, 'replying with challenge');
 
-      return challengeSerializer.serialize(challenge);
+      return responsePayload;
     } catch (error) {
       if (error instanceof AssessmentEndedError) {
         const object = new JSONAPISerializer('', {});
@@ -108,40 +135,3 @@ module.exports = {
     return competenceEvaluationSerializer.serialize(competenceEvaluations);
   },
 };
-
-async function _getChallenge(assessment, userId, locale) {
-  if (assessment.isStarted()) {
-    await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
-  }
-  const challenge = await _getChallengeByAssessmentType({ assessment, userId, locale });
-
-  if (challenge) {
-    await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challenge.id });
-  }
-
-  return challenge;
-}
-
-async function _getChallengeByAssessmentType({ assessment, userId, locale }) {
-  if (assessment.isPreview()) {
-    return usecases.getNextChallengeForPreview({});
-  }
-
-  if (assessment.isCertification()) {
-    return usecases.getNextChallengeForCertification({ assessment });
-  }
-
-  if (assessment.isDemo()) {
-    return usecases.getNextChallengeForDemo({ assessment });
-  }
-
-  if (assessment.isForCampaign()) {
-    return usecases.getNextChallengeForCampaignAssessment({ assessment, locale });
-  }
-
-  if (assessment.isCompetenceEvaluation()) {
-    return usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
-  }
-
-  return null;
-}
