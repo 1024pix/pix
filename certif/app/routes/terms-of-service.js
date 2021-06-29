@@ -1,19 +1,23 @@
 import Route from '@ember/routing/route';
-// eslint-disable-next-line ember/no-mixins
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import { inject as service } from '@ember/service';
+import get from 'lodash/get';
 
-export default class TermsOfServiceRoute extends Route.extend(AuthenticatedRouteMixin) {
+export default class TermsOfServiceRoute extends Route {
 
   @service currentUser;
+  @service router;
+  @service session;
 
   beforeModel(transition) {
-    super.beforeModel(...arguments);
+    this.session.requireAuthentication(transition, 'login');
+
     if (transition.isAborted) {
       return;
     }
-    if (this.currentUser.certificationPointOfContact.pixCertifTermsOfServiceAccepted) {
-      return this.replaceWith('');
+
+    const pixCertifTermsOfServiceAccepted = get(this.currentUser, 'certificationPointOfContact.pixCertifTermsOfServiceAccepted');
+    if (pixCertifTermsOfServiceAccepted) {
+      this.router.replaceWith('');
     }
   }
 }

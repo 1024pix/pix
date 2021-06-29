@@ -35,15 +35,13 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When certificationPointOfContact is logging in but has not accepted terms of service yet', function(hooks) {
-
-    hooks.beforeEach(async () => {
-      await invalidateSession();
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
-    });
+  module('When certificationPointOfContact is logging in but has not accepted terms of service yet', function() {
 
     test('it should redirect certificationPointOfContact to the terms-of-service page', async function(assert) {
       // given
+      await invalidateSession();
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
+
       await visit('/connexion');
       await fillIn('#login-email', certificationPointOfContact.email);
       await fillIn('#login-password', 'secret');
@@ -58,6 +56,9 @@ module('Acceptance | authentication', function(hooks) {
 
     test('it should not show menu nor top bar', async function(assert) {
       // given
+      await invalidateSession();
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
+
       await visit('/connexion');
       await fillIn('#login-email', certificationPointOfContact.email);
       await fillIn('#login-password', 'secret');
@@ -73,15 +74,13 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When certificationPointOfContact is logging in and has accepted terms of service', function(hooks) {
-
-    hooks.beforeEach(async () => {
-      await invalidateSession();
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-    });
+  module('When certificationPointOfContact is logging in and has accepted terms of service', function() {
 
     test('it should redirect certificationPointOfContact to the session list', async function(assert) {
       // given
+      await invalidateSession();
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+
       await visit('/connexion');
       await fillIn('#login-email', certificationPointOfContact.email);
       await fillIn('#login-password', 'secret');
@@ -96,6 +95,9 @@ module('Acceptance | authentication', function(hooks) {
 
     test('it should show certificationPointOfContact name', async function(assert) {
       // given
+      await invalidateSession();
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+
       await visit('/connexion');
       await fillIn('#login-email', certificationPointOfContact.email);
       await fillIn('#login-password', 'secret');
@@ -105,20 +107,17 @@ module('Acceptance | authentication', function(hooks) {
 
       // then
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The certificationPointOfContact is authenticated');
-
       assert.dom('.logged-user-summary__name').hasText('Harry Cover');
     });
   });
 
-  module('When certificationPointOfContact is already authenticated and has accepted terms of service', function(hooks) {
-
-    hooks.beforeEach(async () => {
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-
-      await authenticateSession(certificationPointOfContact.id);
-    });
+  module('When certificationPointOfContact is already authenticated and has accepted terms of service', function() {
 
     test('it should let certificationPointOfContact access requested page', async function(assert) {
+      // given
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+      await authenticateSession(certificationPointOfContact.id);
+
       // when
       await visit('/sessions/liste');
 
@@ -128,19 +127,27 @@ module('Acceptance | authentication', function(hooks) {
     });
 
     test('it should show the name and externalId of certification center', async function(assert) {
+      // given
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+      await authenticateSession(certificationPointOfContact.id);
+
+      // when
       await visit('/sessions/liste');
 
+      // then
       assert.dom('.logged-user-summary__certification-center').hasText('Centre de certification du pix (ABC123)');
     });
 
     test('it should redirect certificationPointOfContact to the session list on root url', async function(assert) {
+      // given
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+      await authenticateSession(certificationPointOfContact.id);
+
       // when
       await visit('/');
 
       // then
       assert.equal(currentURL(), '/sessions/liste');
     });
-
   });
-
 });
