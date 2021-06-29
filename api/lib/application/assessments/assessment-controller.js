@@ -62,6 +62,8 @@ module.exports = {
 
   async getNextChallenge(request) {
     const assessmentId = request.params.id;
+    const locale = extractLocaleFromRequest(request);
+    const userId = extractUserIdFromRequest(request);
 
     const logContext = {
       zone: 'assessmentController.getNextChallenge',
@@ -75,7 +77,7 @@ module.exports = {
       logContext.assessmentType = assessment.type;
       logger.trace(logContext, 'assessment loaded');
 
-      const challenge = await _getChallenge(assessment, request);
+      const challenge = await _getChallenge(assessment, userId, locale);
       logContext.challenge = challenge;
       logger.trace(logContext, 'replying with challenge');
 
@@ -107,11 +109,11 @@ module.exports = {
   },
 };
 
-async function _getChallenge(assessment, request) {
+async function _getChallenge(assessment, userId, locale) {
   if (assessment.isStarted()) {
     await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
   }
-  const challenge = await _getChallengeByAssessmentType({ assessment, request });
+  const challenge = await _getChallengeByAssessmentType({ assessment, userId, locale });
 
   if (challenge) {
     await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challenge.id });
@@ -120,9 +122,7 @@ async function _getChallenge(assessment, request) {
   return challenge;
 }
 
-async function _getChallengeByAssessmentType({ assessment, request }) {
-  const locale = extractLocaleFromRequest(request);
-
+async function _getChallengeByAssessmentType({ assessment, userId, locale }) {
   if (assessment.isPreview()) {
     return usecases.getNextChallengeForPreview({});
   }
@@ -140,7 +140,6 @@ async function _getChallengeByAssessmentType({ assessment, request }) {
   }
 
   if (assessment.isCompetenceEvaluation()) {
-    const userId = extractUserIdFromRequest(request);
     return usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
   }
 
