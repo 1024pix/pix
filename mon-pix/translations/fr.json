@@ -1025,9 +1025,10 @@
       "fields": {
         "cgu": {
           "accept": "J'accepte les ",
-          "and": "et ",
-          "cgu": "conditions d'utilisation de Pix",
-          "data-protection-policy": "la politique de confidentialité",
+          "and": "et la ",
+          "cgu": "conditions d'utilisation",
+          "data-protection-policy": "politique de confidentialité",
+          "pix" : " de Pix",
           "error": "Vous devez accepter les conditions d’utilisation de Pix et la politique de confidentialité pour créer un compte.",
           "label": "Accepter les conditions d’utilisation de Pix et la politique de confidentialité"
         },
