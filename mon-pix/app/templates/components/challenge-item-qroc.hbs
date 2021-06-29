@@ -119,10 +119,12 @@
         {{/if}}
 
         {{#if this.hasFocusedOutOfChallenge}}
-          <div class="alert alert--info" role="alert">
-            <FaIcon @icon="info-circle" class="challenge-alert__icon"/>
-            {{t 'pages.challenge.is-focused-challenge'}}
-          </div>
+          {{#unless this.hasFocusedOutOfWindow}}
+            <div class="alert alert--info" role="alert">
+              <FaIcon @icon="info-circle" class="challenge-alert__icon"/>
+              {{t 'pages.challenge.is-focused-challenge'}}
+            </div>
+          {{/unless}}
         {{/if}}
 
         {{#if this.hasFocusedOutOfWindow}}
