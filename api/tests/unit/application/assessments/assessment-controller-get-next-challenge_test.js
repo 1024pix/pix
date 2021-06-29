@@ -3,6 +3,7 @@ const assessmentController = require('../../../../lib/application/assessments/as
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
+const challengeSerializer = require('../../../../lib/infrastructure/serializers/JSONAPI/challenge-serializer')
 const usecases = require('../../../../lib/domain/usecases');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -112,7 +113,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
     describe('when the assessment is a certification assessment', function() {
 
-      const certificationAssessment = new Assessment({
+      const certificationAssessment = domainBuilder.buildAssessment({
         id: 'assessmentId',
         type: Assessment.types.CERTIFICATION,
       });
@@ -123,16 +124,19 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should call getNextChallengeForCertificationCourse in assessmentService', async function() {
         // given
-        usecases.getNextChallengeForCertification.resolves();
+        const challenge = domainBuilder.buildChallenge();
+        usecases.getNextChallengeForCertification.withArgs({ assessment: certificationAssessment })
+          .resolves(challenge);
+        sinon.stub(assessmentRepository, 'updateLastChallengeIdAsked').withArgs({
+          id: certificationAssessment.id,
+          lastChallengeId: challenge.id,
+        }).resolves();
 
         // when
-        await assessmentController.getNextChallenge({ params: { id: 12 } });
+        const result = await assessmentController.getNextChallenge({ params: { id: 12 } });
 
         // then
-        expect(usecases.getNextChallengeForCertification).to.have.been.calledOnce;
-        expect(usecases.getNextChallengeForCertification).to.have.been.calledWith({
-          assessment: certificationAssessment,
-        });
+        expect(result).to.deep.equal(challengeSerializer.serialize(challenge));
       });
 
       it('should reply null data when unable to find the next challenge', async () => {
