@@ -107,20 +107,17 @@ module.exports = {
 
   async saveWithKnowledgeElements(answer, knowledgeElements) {
     const answerForDB = _adaptAnswerToDb(answer);
-    const trx = await knex.transaction();
-    try {
-      const [savedAnswerDTO] = await trx('answers').insert(answerForDB, COLUMNS);
+    return knex.transaction(async (trx) => {
+      const [savedAnswerDTO] = await trx('answers').insert(answerForDB).returning(COLUMNS);
       const savedAnswer = _toDomain(savedAnswerDTO);
-      for (const knowledgeElement of knowledgeElements) {
-        knowledgeElement.answerId = savedAnswer.id;
-        const knowledgeElementForDB = _adaptKnowledgeElementToDb(knowledgeElement);
-        await trx('knowledge-elements').insert(knowledgeElementForDB);
+      if (!_.isEmpty(knowledgeElements)) {
+        for (const knowledgeElement of knowledgeElements) {
+          knowledgeElement.answerId = savedAnswer.id;
+        }
+        const knowledgeElementsForDB = knowledgeElements.map(_adaptKnowledgeElementToDb);
+        await trx('knowledge-elements').insert(knowledgeElementsForDB);
       }
-      await trx.commit();
       return savedAnswer;
-    } catch (error) {
-      await trx.rollback();
-      throw error;
-    }
+    });
   },
 };
