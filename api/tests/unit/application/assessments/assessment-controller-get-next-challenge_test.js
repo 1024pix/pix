@@ -3,10 +3,11 @@ const assessmentController = require('../../../../lib/application/assessments/as
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
-const challengeSerializer = require('../../../../lib/infrastructure/serializers/JSONAPI/challenge-serializer')
+const questionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/question-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const Question = require('../../../../lib/domain/models/Question');
 const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
@@ -124,19 +125,19 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should call getNextChallengeForCertificationCourse in assessmentService', async function() {
         // given
-        const challenge = domainBuilder.buildChallenge();
+        const question = new Question({ challenge: domainBuilder.buildChallenge(), index: 4 });
         usecases.getNextChallengeForCertification.withArgs({ assessment: certificationAssessment })
-          .resolves(challenge);
+          .resolves(question);
         sinon.stub(assessmentRepository, 'updateLastChallengeIdAsked').withArgs({
           id: certificationAssessment.id,
-          lastChallengeId: challenge.id,
+          lastChallengeId: question.challenge.id,
         }).resolves();
 
         // when
         const result = await assessmentController.getNextChallenge({ params: { id: 12 } });
 
         // then
-        expect(result).to.deep.equal(challengeSerializer.serialize(challenge));
+        expect(result).to.deep.equal(questionSerializer.serialize(question));
       });
 
       it('should reply null data when unable to find the next challenge', async () => {

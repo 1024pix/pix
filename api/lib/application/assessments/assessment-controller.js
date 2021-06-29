@@ -6,6 +6,7 @@ const logger = require('../../infrastructure/logger');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+const questionSerializer = require('../../infrastructure/serializers/jsonapi/question-serializer');
 const competenceEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest, extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
@@ -86,8 +87,8 @@ module.exports = {
       extractChallengeId = (challenge) => challenge.id;
     } else if (assessment.isCertification()) {
       usecase = async () => usecases.getNextChallengeForCertification({ assessment });
-      serializer = challengeSerializer;
-      extractChallengeId = (challenge) => challenge.id;
+      serializer = questionSerializer;
+      extractChallengeId = (question) => question.challenge.id;
     } else if (assessment.isDemo()) {
       usecase = async () => usecases.getNextChallengeForDemo({ assessment });
       serializer = challengeSerializer;
