@@ -49,7 +49,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
     assert.dom('.register-form').exists();
   });
 
-  module('successful cases', function() {
+  module('successful cases', function(hooks) {
 
     hooks.beforeEach(function() {
       this.owner.unregister('service:store');

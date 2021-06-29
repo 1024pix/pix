@@ -21,6 +21,7 @@ module('Unit | Route | authenticated/campaigns/campaign', function(hooks) {
   });
 
   test('should redirect to not-found page', async function(assert) {
+    assert.expect(1);
     // given
     findRecordStub.rejects({ errors: [{ status: '400' }] });
 

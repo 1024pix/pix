@@ -101,7 +101,7 @@ module('Acceptance | Team List', function(hooks) {
       });
     });
 
-    test('it should land on first page', async (assert) => {
+    test('it should land on first page', async function(assert) {
       // given
       const organizationId = server.db.organizations[0].id;
       times(10, () => {

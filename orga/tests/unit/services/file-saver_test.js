@@ -10,7 +10,7 @@ module('Unit | Service | file-saver', function(hooks) {
     fileSaver = this.owner.lookup('service:file-saver');
   });
 
-  module('#save', function() {
+  module('#save', function(hooks) {
     const id = 123456;
     const url = `/attestation/${id}`;
     const token = 'mytoken';

@@ -32,7 +32,7 @@ module('Unit | Adapters | prescriber', function(hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'prescriber', options);
 
       // then
-      assert.equal(url.endsWith('/users/123/pix-orga-terms-of-service-acceptance'), true);
+      assert.true(url.endsWith('/users/123/pix-orga-terms-of-service-acceptance'));
     });
 
     test('should redirect to lang', async function(assert) {
@@ -41,7 +41,7 @@ module('Unit | Adapters | prescriber', function(hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'prescriber', options);
 
       // then
-      assert.equal(url.endsWith('/users/123/lang/en'), true);
+      assert.true(url.endsWith('/users/123/lang/en'));
     });
   });
 });

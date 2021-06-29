@@ -16,7 +16,7 @@ module('Unit | Component | Routes | login-form', (hooks) => {
 
   module('#authenticate', () => {
 
-    test('should save email without spaces', (assert) => {
+    test('should save email without spaces', function(assert) {
       // given
       const emailWithSpaces = '    user@example.net  ';
       component.email = emailWithSpaces;

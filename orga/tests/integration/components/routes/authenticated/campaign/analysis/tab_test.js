@@ -35,7 +35,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tab', f
     this.set('campaignTubeRecommendations', [campaignTubeRecommendation_1, campaignTubeRecommendation_2]);
   });
 
-  module('when analysis is displayed', async function(hooks) {
+  module('when analysis is displayed', function(hooks) {
     hooks.beforeEach(async function() {
       await render(hbs`<Routes::Authenticated::Campaign::Analysis::Tab
         @campaignTubeRecommendations={{campaignTubeRecommendations}}

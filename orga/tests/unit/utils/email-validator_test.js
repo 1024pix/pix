@@ -18,7 +18,7 @@ module('Unit | Utils | email validator', function(hooks) {
       '@pix',
     ].forEach(function(badEmail) {
       test(`should return false when email is invalid: ${badEmail}`, function(assert) {
-        assert.equal(isEmailValid(badEmail), false);
+        assert.false(isEmailValid(badEmail));
       });
     });
   });
@@ -36,7 +36,7 @@ module('Unit | Utils | email validator', function(hooks) {
       'user+beta@pix.beta.gouv.fr',
     ].forEach(function(validEmail) {
       test(`should return true if provided email is valid: ${validEmail}`, function(assert) {
-        assert.equal(isEmailValid(validEmail), true);
+        assert.true(isEmailValid(validEmail));
       });
     });
   });

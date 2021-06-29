@@ -22,7 +22,7 @@ module('Unit | Adapters | division', function(hooks) {
       const url = await adapter.urlForQuery(query);
 
       // then
-      assert.equal(url.endsWith(`/organizations/${organizationId}/divisions`), true);
+      assert.true(url.endsWith(`/organizations/${organizationId}/divisions`));
     });
   });
 });
