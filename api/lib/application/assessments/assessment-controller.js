@@ -72,42 +72,41 @@ module.exports = {
     };
     logger.trace(logContext, 'tracing assessmentController.getNextChallenge()');
 
+    const assessment = await assessmentRepository.get(assessmentId);
+    logContext.assessmentType = assessment.type;
+    logger.trace(logContext, 'assessment loaded');
+
+    let usecase;
+    let serializer;
+
+    if (assessment.isPreview()) {
+      usecase = async () => usecases.getNextChallengeForPreview({});
+      serializer = challengeSerializer;
+    } else if (assessment.isCertification()) {
+      usecase = async () => usecases.getNextChallengeForCertification({ assessment });
+      serializer = challengeSerializer;
+    } else if (assessment.isDemo()) {
+      usecase = async () => usecases.getNextChallengeForDemo({ assessment });
+      serializer = challengeSerializer;
+    } else if (assessment.isForCampaign()) {
+      usecase = async () => usecases.getNextChallengeForCampaignAssessment({ assessment, locale });
+      serializer = challengeSerializer;
+    } else if (assessment.isCompetenceEvaluation()) {
+      usecase = async () => usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
+      serializer = challengeSerializer;
+    }
+
     try {
-      const assessment = await assessmentRepository.get(assessmentId);
-      logContext.assessmentType = assessment.type;
-      logger.trace(logContext, 'assessment loaded');
-
-      if (assessment.isStarted()) {
-        await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
-      }
-
-      let challenge = null;
-      let responsePayload = null;
-
-      if (assessment.isPreview()) {
-        challenge = await usecases.getNextChallengeForPreview({});
-        responsePayload = challengeSerializer.serialize(challenge);
-      } else if (assessment.isCertification()) {
-        challenge = await usecases.getNextChallengeForCertification({ assessment });
-        responsePayload = challengeSerializer.serialize(challenge);
-      } else if (assessment.isDemo()) {
-        challenge = await usecases.getNextChallengeForDemo({ assessment });
-        responsePayload = challengeSerializer.serialize(challenge);
-      } else if (assessment.isForCampaign()) {
-        challenge = await usecases.getNextChallengeForCampaignAssessment({ assessment, locale });
-        responsePayload = challengeSerializer.serialize(challenge);
-      } else if (assessment.isCompetenceEvaluation()) {
-        challenge = await usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
-        responsePayload = challengeSerializer.serialize(challenge);
-      }
-
-      if (challenge) {
-        await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challenge.id });
-      }
+      const challenge = await _getNextChallenge({
+        assessment,
+        usecase,
+        assessmentRepository,
+      });
 
       logContext.challenge = challenge;
       logger.trace(logContext, 'replying with challenge');
 
+      const responsePayload = serializer.serialize(challenge);
       return responsePayload;
     } catch (error) {
       if (error instanceof AssessmentEndedError) {
@@ -135,3 +134,21 @@ module.exports = {
     return competenceEvaluationSerializer.serialize(competenceEvaluations);
   },
 };
+
+async function _getNextChallenge({
+  assessment,
+  usecase,
+  assessmentRepository,
+}) {
+  if (assessment.isStarted()) {
+    await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
+  }
+
+  const challenge = await usecase();
+
+  if (challenge) {
+    await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challenge.id });
+  }
+
+  return challenge;
+}
