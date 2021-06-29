@@ -78,35 +78,42 @@ module.exports = {
 
     let usecase;
     let serializer;
+    let extractChallengeId;
 
     if (assessment.isPreview()) {
       usecase = async () => usecases.getNextChallengeForPreview({});
       serializer = challengeSerializer;
+      extractChallengeId = (challenge) => challenge.id;
     } else if (assessment.isCertification()) {
       usecase = async () => usecases.getNextChallengeForCertification({ assessment });
       serializer = challengeSerializer;
+      extractChallengeId = (challenge) => challenge.id;
     } else if (assessment.isDemo()) {
       usecase = async () => usecases.getNextChallengeForDemo({ assessment });
       serializer = challengeSerializer;
+      extractChallengeId = (challenge) => challenge.id;
     } else if (assessment.isForCampaign()) {
       usecase = async () => usecases.getNextChallengeForCampaignAssessment({ assessment, locale });
       serializer = challengeSerializer;
+      extractChallengeId = (challenge) => challenge.id;
     } else if (assessment.isCompetenceEvaluation()) {
       usecase = async () => usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
       serializer = challengeSerializer;
+      extractChallengeId = (challenge) => challenge.id;
     }
 
     try {
-      const challenge = await _getNextChallenge({
+      const challengeOrQuestion = await _getNextChallengeOrQuestion({
         assessment,
         usecase,
         assessmentRepository,
+        extractChallengeId,
       });
 
-      logContext.challenge = challenge;
-      logger.trace(logContext, 'replying with challenge');
+      logContext.challengeOrQuestion = challengeOrQuestion;
+      logger.trace(logContext, 'replying with challenge or question');
 
-      const responsePayload = serializer.serialize(challenge);
+      const responsePayload = serializer.serialize(challengeOrQuestion);
       return responsePayload;
     } catch (error) {
       if (error instanceof AssessmentEndedError) {
@@ -135,20 +142,22 @@ module.exports = {
   },
 };
 
-async function _getNextChallenge({
+async function _getNextChallengeOrQuestion({
   assessment,
   usecase,
   assessmentRepository,
+  extractChallengeId,
 }) {
   if (assessment.isStarted()) {
     await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
   }
 
-  const challenge = await usecase();
+  const challengeOrQuestion = await usecase();
 
-  if (challenge) {
-    await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challenge.id });
+  if (challengeOrQuestion) {
+    const challengeId = extractChallengeId(challengeOrQuestion);
+    await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challengeId });
   }
 
-  return challenge;
+  return challengeOrQuestion;
 }
