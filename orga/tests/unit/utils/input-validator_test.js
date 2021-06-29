@@ -13,7 +13,7 @@ module('Unit | Utils | input validator', function(hooks) {
     validator.validate({ value: false });
 
     // then
-    assert.equal(validator.hasError, true);
+    assert.true(validator.hasError);
   });
 
   test('should reset server message if resetServerMessage is true on validate', function(assert) {

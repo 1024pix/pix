@@ -29,7 +29,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
       const displayNoCampaignPanel = controller.displayNoCampaignPanel;
 
       // then
-      assert.equal(displayNoCampaignPanel, true);
+      assert.true(displayNoCampaignPanel);
     });
 
     test('it should know when it should not display "No campaign panel"', function(assert) {
@@ -44,7 +44,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
       const displayNoCampaignPanel = controller.displayNoCampaignPanel;
 
       // then
-      assert.equal(displayNoCampaignPanel, false);
+      assert.false(displayNoCampaignPanel);
     });
 
     module('when there is a filter on campaigns name that does not match any campaign', function() {
@@ -64,7 +64,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
         const displayNoCampaignPanel = controller.displayNoCampaignPanel;
 
         // then
-        assert.equal(displayNoCampaignPanel, false);
+        assert.false(displayNoCampaignPanel);
       });
     });
   });
@@ -81,7 +81,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
         const isArchived = controller.isArchived;
 
         // then
-        assert.equal(isArchived, true);
+        assert.true(isArchived);
       });
 
       test('it should display page title as archived', async function(assert) {
@@ -109,7 +109,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
         const isArchived = controller.isArchived;
 
         // then
-        assert.equal(isArchived, false);
+        assert.false(isArchived);
       });
 
       test('it should display page title as active', async function(assert) {
@@ -152,8 +152,8 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
       controller.send('goToCampaignPage', 123, event);
 
       // then
-      assert.ok(event.preventDefault.called);
-      assert.equal(controller.transitionToRoute.calledWith('authenticated.campaigns.campaign', 123), true);
+      assert.true(event.preventDefault.called);
+      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.campaign', 123));
     });
   });
 });

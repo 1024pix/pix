@@ -38,7 +38,7 @@ module('Acceptance | Remove membership', function(hooks) {
     server.create('membership', { userId: user.id, organizationId, organizationRole: 'MEMBER' });
   });
 
-  test('should remove the membership', async (assert) => {
+  test('should remove the membership', async function(assert) {
     // given
     await visit('/equipe');
     await clickByLabel('Gérer');

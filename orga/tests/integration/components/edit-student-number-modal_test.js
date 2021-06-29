@@ -123,9 +123,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
         // then
         assert.contains(`Le numéro étudiant saisi est déjà utilisé par l’étudiant ${this.student.firstName} ${this.student.lastName}`);
       });
-    });
 
-    module('when the update button is clicked with the student number and this student number already exist', function() {
       test('it remove errors when submitting is a success', async function(assert) {
         // given
         const error = {

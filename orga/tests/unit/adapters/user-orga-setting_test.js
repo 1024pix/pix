@@ -23,7 +23,7 @@ module('Unit | Adapters | user-orga-setting', function(hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'user-orga-setting', snapshot);
 
       // then
-      assert.equal(url.endsWith(`/user-orga-settings/${userId}`), true);
+      assert.true(url.endsWith(`/user-orga-settings/${userId}`));
     });
   });
 
@@ -66,7 +66,7 @@ module('Unit | Adapters | user-orga-setting', function(hooks) {
       const url = await adapter.urlForCreateRecord('user-orga-setting', snapshot);
 
       // then
-      assert.equal(url.endsWith('/user-orga-settings/1'), true);
+      assert.true(url.endsWith('/user-orga-settings/1'));
     });
   });
 

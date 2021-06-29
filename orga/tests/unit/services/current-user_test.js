@@ -92,7 +92,7 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.isAdminInOrganization, false);
+        assert.false(currentUserService.isAdminInOrganization);
       });
     });
 
@@ -109,7 +109,7 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.isAdminInOrganization, true);
+        assert.true(currentUserService.isAdminInOrganization);
       });
     });
 
@@ -125,7 +125,7 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.isSCOManagingStudents, true);
+        assert.true(currentUserService.isSCOManagingStudents);
       });
 
       test('should set isSUPManagingStudents to false', async function(assert) {
@@ -139,7 +139,7 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.isSUPManagingStudents, false);
+        assert.false(currentUserService.isSUPManagingStudents);
       });
     });
 
@@ -155,7 +155,7 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.isSCOManagingStudents, false);
+        assert.false(currentUserService.isSCOManagingStudents);
       });
 
       test('should set isSUPManagingStudents to true', async function(assert) {
@@ -169,7 +169,7 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.isSUPManagingStudents, true);
+        assert.true(currentUserService.isSUPManagingStudents);
       });
     });
 
@@ -185,7 +185,7 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.isSCOManagingStudents, false);
+        assert.false(currentUserService.isSCOManagingStudents);
       });
 
       test('should set isSUPManagingStudents to false with PRO organization', async function(assert) {
@@ -199,7 +199,7 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.isSUPManagingStudents, false);
+        assert.false(currentUserService.isSUPManagingStudents);
       });
     });
 
@@ -215,7 +215,7 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.isSCOManagingStudents, false);
+        assert.false(currentUserService.isSCOManagingStudents);
       });
 
       test('should set isSUPManagingStudents to false when organization is SUP', async function(assert) {
@@ -229,7 +229,7 @@ module('Unit | Service | current-user', function(hooks) {
         await currentUserService.load();
 
         // then
-        assert.equal(currentUserService.isSUPManagingStudents, false);
+        assert.false(currentUserService.isSUPManagingStudents);
       });
     });
 

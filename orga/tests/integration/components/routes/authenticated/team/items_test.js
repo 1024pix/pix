@@ -140,20 +140,20 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       await clickByLabel('Supprimer');
     });
 
-    test('should display a confirmation modal', (assert) => {
+    test('should display a confirmation modal', function(assert) {
       // then
       assert.contains('Confirmez-vous la suppression ?');
       assert.contains('Annuler');
       assert.contains('Supprimer');
     });
 
-    test('should display the membership first name and last name in the modal', (assert) => {
+    test('should display the membership first name and last name in the modal', function(assert) {
       // then
       assert.contains(memberMembership.user.firstName);
       assert.contains(memberMembership.user.lastName);
     });
 
-    test('should close the modal by clicking on cancel button', async (assert) => {
+    test('should close the modal by clicking on cancel button', async function(assert) {
       // when
       await clickByLabel('Annuler');
 
@@ -161,7 +161,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       assert.notContains('Supprimer de l\'équipe');
     });
 
-    test('should call removeMembership and close modal by clicking on remove button', async (assert) => {
+    test('should call removeMembership and close modal by clicking on remove button', async function(assert) {
       // when
       await click('button[data-test-modal-remove-button]');
 

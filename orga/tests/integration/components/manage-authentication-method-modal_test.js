@@ -122,7 +122,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
       });
     });
 
-    module('When password is generated', function() {
+    module('When password is generated', function(hooks) {
 
       let generatedPassword;
 
@@ -194,7 +194,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
     });
   });
 
-  module('When Student is connected with GAR method', function() {
+  module('When Student is connected with GAR method', function(hooks) {
 
     hooks.beforeEach(function() {
       this.studentGAR = EmberObject.create({

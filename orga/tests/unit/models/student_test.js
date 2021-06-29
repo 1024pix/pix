@@ -100,25 +100,25 @@ module('Unit | Model | student', function(hooks) {
     test('it returns false when the student has no email, no username or is not authenticated from GAR', function(assert) {
       const student = store.createRecord('student', { email: null, username: null, isAuthenticatedFromGar: false });
 
-      assert.equal(student.isStudentAssociated, false);
+      assert.false(student.isStudentAssociated);
     });
 
     test('it returns true when the student has an email', function(assert) {
       const student = store.createRecord('student', { email: 'martin.riggs@example.net', username: null, isAuthenticatedFromGar: false });
 
-      assert.equal(student.isStudentAssociated, true);
+      assert.true(student.isStudentAssociated);
     });
 
     test('it returns true when the student has an username', function(assert) {
       const student = store.createRecord('student', { email: null, username: 'RogerMurtaugh', isAuthenticatedFromGar: false });
 
-      assert.equal(student.isStudentAssociated, true);
+      assert.true(student.isStudentAssociated);
     });
 
     test('it returns true when the student is authenticated from GAR', function(assert) {
       const student = store.createRecord('student', { email: null, username: null, isAuthenticatedFromGar: true });
 
-      assert.equal(student.isStudentAssociated, true);
+      assert.true(student.isStudentAssociated);
     });
   });
 
@@ -131,13 +131,13 @@ module('Unit | Model | student', function(hooks) {
     test('it returns true if the student is authenticated by email only', function(assert) {
       const student = store.createRecord('student', { email: 'john.harry@example.net', username: null, isAuthenticatedFromGar: false });
 
-      assert.equal(student.displayAddUsernameAuthentication, true);
+      assert.true(student.displayAddUsernameAuthentication);
     });
 
     test('it returns true if the student is authenticated from mediacenter only', function(assert) {
       const student = store.createRecord('student', { email: null, username: null, isAuthenticatedFromGar: true });
 
-      assert.equal(student.displayAddUsernameAuthentication, true);
+      assert.true(student.displayAddUsernameAuthentication);
     });
 
   });

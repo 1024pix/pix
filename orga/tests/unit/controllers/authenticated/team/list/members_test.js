@@ -15,7 +15,7 @@ module('Unit | Controller | authenticated/team/list/members', function(hooks) {
 
   module('#removeMembership', () => {
 
-    test('should set current organization to the membership ', async (assert) => {
+    test('should set current organization to the membership ', async function(assert) {
       // given
       const saveStub = sinon.stub();
       const membership = {
@@ -29,7 +29,7 @@ module('Unit | Controller | authenticated/team/list/members', function(hooks) {
       assert.equal(membership.organization, currentUser.organization);
     });
 
-    test('should call disable membership endpoint', async (assert) => {
+    test('should call disable membership endpoint', async function(assert) {
       // given
       const saveStub = sinon.stub();
       const membership = {
@@ -45,7 +45,7 @@ module('Unit | Controller | authenticated/team/list/members', function(hooks) {
       assert.ok(true);
     });
 
-    test('should call route\'s refreshModel action', async (assert) => {
+    test('should call route\'s refreshModel action', async function(assert) {
       // given
       const saveStub = sinon.stub();
       const membership = {

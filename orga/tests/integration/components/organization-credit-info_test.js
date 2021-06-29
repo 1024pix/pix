@@ -98,7 +98,7 @@ module('Integration | Component | organization-credit-info', function(hooks) {
     // then
     assert.notContains('crédit');
     assert.notContains('crédits');
-    assert.equal(currentUserStub.isAdminInOrganization, false);
+    assert.false(currentUserStub.isAdminInOrganization);
   });
 
 });
