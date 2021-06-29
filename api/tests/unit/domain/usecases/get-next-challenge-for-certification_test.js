@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 
 const getNextChallengeForCertification = require('../../../../lib/domain/usecases/get-next-challenge-for-certification');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const Question = require('../../../../lib/domain/models/Question');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', () => {
 
@@ -11,7 +12,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
     let challengeRepository;
 
     beforeEach(() => {
-      certificationChallengeRepository = { getNextNonAnsweredChallengeByCourseId: sinon.stub().resolves() };
+      certificationChallengeRepository = { getNextNonAnsweredChallengeWithIndexByCourseId: sinon.stub().resolves() };
       challengeRepository = { get: sinon.stub().resolves() };
     });
 
@@ -20,13 +21,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
       const nextChallenge = Symbol('nextChallenge');
       const assessment = new Assessment({ id: 156, certificationCourseId: 54516 });
 
-      certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId.resolves(nextChallenge);
+      certificationChallengeRepository.getNextNonAnsweredChallengeWithIndexByCourseId.resolves({ index: 1, challenge: nextChallenge });
 
       // when
       await getNextChallengeForCertification({ assessment, certificationChallengeRepository, challengeRepository });
 
       // then
-      expect(certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId).to.have.been.calledWith(156, 54516);
+      expect(certificationChallengeRepository.getNextNonAnsweredChallengeWithIndexByCourseId).to.have.been.calledWith(156, 54516);
     });
 
     it('should return the next Challenge', async () => {
@@ -36,14 +37,14 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
       const nextCertificationChallenge = { challengeId };
       const assessment = new Assessment({ id: 156, courseId: 54516 });
 
-      certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId.resolves(nextCertificationChallenge);
+      certificationChallengeRepository.getNextNonAnsweredChallengeWithIndexByCourseId.resolves({ index: 1, challenge: nextCertificationChallenge });
       challengeRepository.get.resolves(nextChallengeToAnswer);
 
       // when
-      const challenge = await getNextChallengeForCertification({ assessment, certificationChallengeRepository, challengeRepository });
+      const question = await getNextChallengeForCertification({ assessment, certificationChallengeRepository, challengeRepository });
 
       // then
-      expect(challenge).to.equal(nextChallengeToAnswer);
+      expect(question).to.deep.equal(new Question({ index: 1, challenge: nextChallengeToAnswer }));
       expect(challengeRepository.get).to.have.been.calledWith(challengeId);
     });
   });

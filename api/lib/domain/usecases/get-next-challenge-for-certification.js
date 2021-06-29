@@ -1,11 +1,13 @@
+const Question = require('./../models/Question');
 module.exports = function getNextChallengeForCertification({
   certificationChallengeRepository,
   challengeRepository,
   assessment,
 }) {
 
-  return certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId(assessment.id, assessment.certificationCourseId)
-    .then((certificationChallenge) => {
-      return challengeRepository.get(certificationChallenge.challengeId);
+  return certificationChallengeRepository.getNextNonAnsweredChallengeWithIndexByCourseId(assessment.id, assessment.certificationCourseId)
+    .then(async (certificationChallengeWithIndex) => {
+      const challenge = await challengeRepository.get(certificationChallengeWithIndex.challenge.challengeId);
+      return new Question({ index: certificationChallengeWithIndex.index, challenge });
     });
 };

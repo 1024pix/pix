@@ -53,7 +53,7 @@ describe('Integration | Repository | Certification Challenge', function() {
     });
   });
 
-  describe('#getNextNonAnsweredChallengeByCourseId', () => {
+  describe('#getNextNonAnsweredChallengeWithIndexByCourseId', () => {
 
     context('no non answered certification challenge', () => {
 
@@ -82,7 +82,7 @@ describe('Integration | Repository | Certification Challenge', function() {
 
       it('should reject the promise if no non answered challenge is found', function() {
         // when
-        const promise = certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId(
+        const promise = certificationChallengeRepository.getNextNonAnsweredChallengeWithIndexByCourseId(
           assessmentId, certificationCourseId,
         );
 
@@ -108,6 +108,7 @@ describe('Integration | Repository | Certification Challenge', function() {
             courseId: certificationCourseId,
             associatedSkill: '@brm7',
             competenceId: 'recCompetenceId1',
+            index: 1,
           });
         const firstUnansweredChallengeById =
           {
@@ -117,6 +118,7 @@ describe('Integration | Repository | Certification Challenge', function() {
             associatedSkill: '@brm24',
             competenceId: 'recCompetenceId2',
             createdAt: '2020-06-20T00:00:00Z',
+            index: 2,
           };
         const secondUnansweredChallengeById =
           {
@@ -126,6 +128,7 @@ describe('Integration | Repository | Certification Challenge', function() {
             associatedSkill: '@brm24',
             competenceId: 'recCompetenceId2',
             createdAt: '2020-06-21T00:00:00Z',
+            index: 3,
           };
 
         // "Second" is inserted first as we check the order is chosen on the specified id
@@ -143,13 +146,13 @@ describe('Integration | Repository | Certification Challenge', function() {
 
       it('should get challenges in the creation order', async () => {
         // when
-        const nextCertificationChallenge = await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId(
+        const question = await certificationChallengeRepository.getNextNonAnsweredChallengeWithIndexByCourseId(
           assessmentId, certificationCourseId,
         );
 
         // then
-        expect(nextCertificationChallenge).to.be.instanceOf(CertificationChallenge);
-        expect(nextCertificationChallenge.id).to.equal(firstUnansweredChallengeId);
+        expect(question.challenge.id).to.equal(firstUnansweredChallengeId);
+        expect(question.index).to.equal(2);
       });
 
     });
