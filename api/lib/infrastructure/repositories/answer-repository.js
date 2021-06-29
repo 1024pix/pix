@@ -98,13 +98,11 @@ module.exports = {
   },
 
   async findChallengeIdsFromAnswerIds(ids) {
-    const answerPartialDTOs = await knex
-      .select('challengeId')
+    return knex
+      .distinct()
+      .pluck('challengeId')
       .from('answers')
-      .whereInArray('id', ids)
-      .orderBy('challengeId');
-
-    return _(answerPartialDTOs).map('challengeId').uniq().value();
+      .whereInArray('id', ids);
   },
 
   async saveWithKnowledgeElements(answer, knowledgeElements) {
