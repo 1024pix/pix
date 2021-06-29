@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { click, find, findAll, render } from '@ember/test-helpers';
+import { click, find, findAll, render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -55,6 +55,52 @@ describe('Integration | Component | ChallengeStatement', function() {
       expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal('La consigne de mon test');
     });
 
+    it('should render a tag', async function() {
+      // given
+      addAssessmentToContext(this, { id: '267845' });
+      addChallengeToContext(this, {
+        instruction: 'La consigne de mon test',
+        id: 'rec_challenge',
+      });
+
+      // when
+      await renderChallengeStatement();
+
+      // then
+      expect(find('.challenge-statement-instruction__tag')).to.exist;
+    });
+
+    it('should render a tooltip when hovering the tag', async function() {
+      addAssessmentToContext(this, { id: '267845' });
+      addChallengeToContext(this, {
+        instruction: 'La consigne de mon test',
+        id: 'rec_challenge',
+      });
+
+      // when
+      await renderChallengeStatement();
+      await triggerEvent('.challenge-statement-instruction__tag', 'mouseenter');
+
+      // then
+      expect(find('.challenge-statement__tag-information')).to.exist;
+    });
+
+    it('should not render a tooltip when leaving the tag', async function() {
+      addAssessmentToContext(this, { id: '267845' });
+      addChallengeToContext(this, {
+        instruction: 'La consigne de mon test',
+        id: 'rec_challenge',
+      });
+
+      // when
+      await renderChallengeStatement();
+      await triggerEvent('.challenge-statement-instruction__tag', 'mouseenter');
+      await triggerEvent('.challenge-statement-instruction__tag', 'mouseleave');
+
+      // then
+      expect(find('.challenge-statement__tag-information')).to.not.exist;
+    });
+
     it('should not render challenge instruction if it does not exist', async function() {
       // given
       addAssessmentToContext(this, { id: '267845' });
@@ -99,44 +145,40 @@ describe('Integration | Component | ChallengeStatement', function() {
       expect(linkCount).to.equal(2);
     });
 
-    describe('When focused challenge', () => {
-      it('should display a specific style', async function() {
-        // given
-        addAssessmentToContext(this, { id: '267845' });
-        addChallengeToContext(this, {
-          instruction: 'La consigne de mon test',
-          id: 'rec_challenge',
-          type: 'QROC',
-          focused: true,
-        });
-
-        // when
-        await renderChallengeStatement();
-
-        // then
-        expect(find('.challenge-statement-instruction__tag--focused')).to.exist;
-        expect(find('.challenge-statement-instruction__tag--regular')).to.not.exist;
+    it('should display a specific style', async function() {
+      // given
+      addAssessmentToContext(this, { id: '267845' });
+      addChallengeToContext(this, {
+        instruction: 'La consigne de mon test',
+        id: 'rec_challenge',
+        type: 'QROC',
+        focused: true,
       });
+
+      // when
+      await renderChallengeStatement();
+
+      // then
+      expect(find('.challenge-statement-instruction__tag--focused')).to.exist;
+      expect(find('.challenge-statement-instruction__tag--regular')).to.not.exist;
     });
 
-    describe('When not a focused challenge', () => {
-      it('should not display focused challenges specific style', async function() {
-        // given
-        addAssessmentToContext(this, { id: '267845' });
-        addChallengeToContext(this, {
-          instruction: 'La consigne de mon test',
-          id: 'rec_challenge',
-          type: 'QROC',
-          focused: false,
-        });
-
-        // when
-        await renderChallengeStatement();
-
-        // then
-        expect(find('.challenge-statement-instruction__tag--focused')).to.not.exist;
-        expect(find('.challenge-statement-instruction__tag--regular')).to.exist;
+    it('should not display focused challenges specific style', async function() {
+      // given
+      addAssessmentToContext(this, { id: '267845' });
+      addChallengeToContext(this, {
+        instruction: 'La consigne de mon test',
+        id: 'rec_challenge',
+        type: 'QROC',
+        focused: false,
       });
+
+      // when
+      await renderChallengeStatement();
+
+      // then
+      expect(find('.challenge-statement-instruction__tag--focused')).to.not.exist;
+      expect(find('.challenge-statement-instruction__tag--regular')).to.exist;
     });
 
   });
