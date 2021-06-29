@@ -88,7 +88,7 @@
     "eslint": "^7.15.0",
     "eslint-plugin-ember": "^10.0.2",
     "eslint-plugin-i18n-json": "^3.1.0",
-    "eslint-plugin-mocha": "^8.1.0",
+    "eslint-plugin-qunit": "^6.2.0",
     "faker": "^5.5.2",
     "loader.js": "^4.7.0",
     "lodash": "^4.17.21",
