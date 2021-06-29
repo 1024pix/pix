@@ -1,0 +1,26 @@
+<section class="page-section">
+  <h1>{{@campaign.name}}</h1>
+  <p class="campaign__subtitle">
+    Créée le {{moment-format @campaign.createdAt 'DD/MM/YYYY'}} par {{@campaign.creatorFirstName}} {{@campaign.creatorLastName}}
+  </p>
+
+  <ul class="campaign__attributes">
+    <li>Code : {{@campaign.code}}</li>
+    <li>Type : {{if (eq @campaign.type 'ASSESSMENT') "Évaluation" "Collecte de profils"}}</li>
+    <li>Organisation :  
+      <LinkTo @route="authenticated.organizations.get" @model={{@campaign.organizationId}}>
+        {{@campaign.organizationName}}
+      </LinkTo>
+    </li>
+    {{#if @campaign.targetProfileId }}
+      <li>Profil cible :  
+        <LinkTo @route="authenticated.target-profiles.target-profile.details" @model={{@campaign.targetProfileId}}>
+          {{@campaign.targetProfileName}}
+        </LinkTo>
+      </li>
+    {{/if}}
+    {{#if @campaign.archivedAt }}
+      <li>Archivée le {{moment-format @campaign.archivedAt 'DD/MM/YYYY'}}</li>
+    {{/if}}
+  </ul>
+</section>

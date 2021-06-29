@@ -22,6 +22,10 @@ export default function() {
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
 
+  this.get('/admin/campaigns/:id', (schema, request) => {
+    return schema.campaigns.find(request.params.id);
+  });
+
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
   this.get('/admin/sessions/to-publish', (schema) => {
     const toBePublishedSessions = schema.toBePublishedSessions.all();

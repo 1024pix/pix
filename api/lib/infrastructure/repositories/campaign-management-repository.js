@@ -4,6 +4,29 @@ const CampaignManagement = require('../../domain/read-models/CampaignManagement'
 const { fetchPage } = require('../utils/knex-utils');
 
 module.exports = {
+  async get(campaignId) {
+    const result = await knex('campaigns')
+      .select({
+        id: 'campaigns.id',
+        code: 'campaigns.code',
+        name: 'campaigns.name',
+        createdAt: 'campaigns.createdAt',
+        archivedAt: 'campaigns.archivedAt',
+        type: 'campaigns.type',
+        creatorLastName: 'users.lastName',
+        creatorFirstName: 'users.firstName',
+        organizationId: 'campaigns.organizationId',
+        organizationName: 'organizations.name',
+        targetProfileId: 'campaigns.targetProfileId',
+        targetProfileName: 'target-profiles.name',
+      })
+      .join('users', 'users.id', 'campaigns.creatorId')
+      .join('organizations', 'organizations.id', 'campaigns.organizationId')
+      .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
+      .where('campaigns.id', campaignId)
+      .first();
+    return result;
+  },
 
   async findPaginatedCampaignManagements({ organizationId, page }) {
     const query = knex('campaigns')

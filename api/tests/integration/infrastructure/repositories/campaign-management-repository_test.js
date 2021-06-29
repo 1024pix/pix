@@ -1,8 +1,74 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const campaignManagementRepository = require('../../../../lib/infrastructure/repositories/campaign-management-repository');
 const _ = require('lodash');
+const Campaign = require('../../../../lib/domain/models/Campaign');
 
 describe('Integration | Repository | Campaign-Management', () => {
+
+  describe('#get', () => {
+    it('should return campaign details with target profile', async () => {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      const organization = databaseBuilder.factory.buildOrganization({});
+      const campaign = databaseBuilder.factory.buildCampaign({
+        creatorId: user.id,
+        targetProfileId: targetProfile.id,
+        organizationId: organization.id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignManagementRepository.get(campaign.id);
+
+      // then
+      expect(result).to.deep.equal({
+        id: campaign.id,
+        name: campaign.name,
+        code: campaign.code,
+        type: campaign.type,
+        createdAt: campaign.createdAt,
+        archivedAt: campaign.archivedAt,
+        creatorFirstName: user.firstName,
+        creatorLastName: user.lastName,
+        organizationId: organization.id,
+        organizationName: organization.name,
+        targetProfileId: targetProfile.id,
+        targetProfileName: targetProfile.name,
+      });
+    });
+
+    it('should return campaign details without target profile', async () => {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      const organization = databaseBuilder.factory.buildOrganization({});
+      const campaign = databaseBuilder.factory.buildCampaign({
+        type: Campaign.types.PROFILES_COLLECTION,
+        creatorId: user.id,
+        organizationId: organization.id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignManagementRepository.get(campaign.id);
+
+      // then
+      expect(result).to.deep.equal({
+        id: campaign.id,
+        name: campaign.name,
+        code: campaign.code,
+        type: campaign.type,
+        createdAt: campaign.createdAt,
+        archivedAt: campaign.archivedAt,
+        creatorFirstName: user.firstName,
+        creatorLastName: user.lastName,
+        organizationId: organization.id,
+        organizationName: organization.name,
+        targetProfileId: null,
+        targetProfileName: null,
+      });
+    });
+  });
 
   describe('#findPaginatedCampaignManagements', () => {
     let page;
