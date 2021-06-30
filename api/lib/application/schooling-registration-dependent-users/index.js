@@ -7,6 +7,9 @@ const { passwordValidationPattern } = require('../../config').account;
 const identifiersType = require('../../domain/types/identifiers-type');
 const featureToggles = require('../preHandlers/feature-toggles');
 
+const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
+const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
+
 const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
 
 exports.register = async function(server) {
@@ -151,7 +154,10 @@ exports.register = async function(server) {
               attributes: {
                 'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'ine-ina': Joi.string().required(),
+                'ine-ina': Joi.alternatives().try(
+                  Joi.string().regex(inePattern).required(),
+                  Joi.string().regex(inaPattern).required(),
+                ),
                 birthdate: Joi.date().format('YYYY-MM-DD').required(),
               },
             },
