@@ -2,14 +2,22 @@ const Bookshelf = require('../bookshelf');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const BookshelfBadgeAcquisition = require('../orm-models/BadgeAcquisition');
 const DomainTransaction = require('../DomainTransaction');
+const bluebird = require('bluebird');
 
 module.exports = {
 
   async create(badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction()) {
     const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
-    const results = await knexConn('badge-acquisitions')
-      .insert(badgeAcquisitionsToCreate, 'id');
-    return results;
+    return bluebird.mapSeries(badgeAcquisitionsToCreate, async (badgeAcquisitionToCreate) => {
+      const alreadyCreatedBadgeAcquisition = await knexConn('badge-acquisitions').select('id').where(badgeAcquisitionToCreate);
+      if (alreadyCreatedBadgeAcquisition.length === 0) {
+        return knexConn('badge-acquisitions').insert(badgeAcquisitionsToCreate, 'id');
+      } else {
+        return knexConn('badge-acquisitions')
+          .update({ updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP') })
+          .where(badgeAcquisitionToCreate);
+      }
+    });
   },
 
   async hasAcquiredBadge({ badgeKey, userId }) {
