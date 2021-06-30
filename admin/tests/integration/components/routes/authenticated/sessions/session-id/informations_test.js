@@ -100,7 +100,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       // when
       assert.dom('[data-test-id="session-info__number-of-issue-report"]').hasText('1');
       assert.dom('[data-test-id="session-info__number-of-not-checked-end-screen"]').hasText('1');
-      assert.dom('[data-test-id="session-info__number-of-not-ended-certifications"]').hasText('0');
+      assert.dom('[data-test-id="session-info__number-of-started-or-error-certifications"]').hasText('0');
     });
 
     test('it renders the examinerGlobalComment if any', async function(assert) {

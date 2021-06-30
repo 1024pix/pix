@@ -85,8 +85,8 @@
       <div class="col" data-test-id="session-info__number-of-not-checked-end-screen">{{this.sessionModel.countNotCheckedEndScreen}}</div>
     </div>
     <div class="row">
-      <div class="col">Nombre de certifications non terminées :</div>
-      <div class="col" data-test-id="session-info__number-of-not-ended-certifications">{{this.sessionModel.countNonValidatedCertifications}}</div>
+      <div class="col">Nombre de certifications démarrées/en erreur :</div>
+      <div class="col" data-test-id="session-info__number-of-started-or-error-certifications">{{this.sessionModel.countStartedAndInErrorCertifications}}</div>
     </div>
     {{#if this.sessionModel.hasExaminerGlobalComment}}
     <div class="row">
