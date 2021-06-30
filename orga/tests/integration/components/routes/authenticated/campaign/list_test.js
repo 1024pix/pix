@@ -7,8 +7,8 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function() {
-    this.set('goToCampaignPageSpy', () => {});
     this.set('triggerFilteringSpy', () => {});
+    this.set('goToCampaignPageSpy', () => {});
   });
 
   module('When there are no campaigns to display', function() {
@@ -21,8 +21,8 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
       // when
       await render(hbs`<Routes::Authenticated::Campaign::List
                   @campaigns={{campaigns}}
-                  @triggerFiltering={{this.triggerFilteringSpy}}
-                  @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
+                  @triggerFiltering={{this.triggerFilteringSpy}} 
+@goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
       // then
       assert.contains('Aucune campagne');
@@ -44,17 +44,45 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
       // when
       await render(hbs`<Routes::Authenticated::Campaign::List
                   @campaigns={{this.campaigns}}
-                  @triggerFiltering={{this.triggerFilteringSpy}}
-                  @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
+                  @triggerFiltering={{this.triggerFilteringSpy}} 
+@goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
       // then
       assert.notContains('Aucune campagne');
       assert.dom('[aria-label="Campagne"]').exists({ count: 2 });
     });
 
+    test('it should display a link to access campaign detail', async function(assert) {
+      // given
+      this.owner.setupRouter();
+
+      const store = this.owner.lookup('service:store');
+      const campaign1 = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        code: 'AAAAAA111',
+      });
+
+      const campaigns = [campaign1];
+      campaigns.meta = {
+        rowCount: 2,
+      };
+      this.set('campaigns', campaigns);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::List
+                  @campaigns={{this.campaigns}}
+                  @triggerFiltering={{this.triggerFilteringSpy}} 
+@goToCampaignPage={{this.goToCampaignPageSpy}} />`);
+
+      // then
+      assert.dom('a[href="/campagnes/1"]').exists();
+    });
+
     test('it should display the name of the campaigns', async function(assert) {
       // given
       const store = this.owner.lookup('service:store');
+
       const campaign1 = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
@@ -62,7 +90,7 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
       });
       const campaign2 = store.createRecord('campaign', {
         id: 2,
-        name: 'campagne 1',
+        name: 'campagne 2',
         code: 'BBBBBB222',
       });
       const campaigns = [campaign1, campaign2];
@@ -76,9 +104,9 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
                   @campaigns={{campaigns}}
                   @triggerFiltering={{this.triggerFilteringSpy}}
                   @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
-
       // then
       assert.contains('campagne 1');
+      assert.contains('campagne 2');
     });
 
     test('it should display the creator of the campaigns', async function(assert) {
@@ -133,7 +161,7 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
       // when
       await render(hbs`<Routes::Authenticated::Campaign::List
                   @campaigns={{campaigns}}
-                  @triggerFiltering={{this.triggerFilteringSpy}}
+                  @triggerFiltering={{this.triggerFilteringSpy}} 
                   @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
       // then
@@ -156,7 +184,7 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
       // when
       await render(hbs`<Routes::Authenticated::Campaign::List
                   @campaigns={{campaigns}}
-                  @triggerFiltering={{this.triggerFilteringSpy}}
+                  @triggerFiltering={{this.triggerFilteringSpy}} 
                   @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
       // then
@@ -179,7 +207,7 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
       // when
       await render(hbs`<Routes::Authenticated::Campaign::List
                   @campaigns={{campaigns}}
-                  @triggerFiltering={{this.triggerFilteringSpy}}
+                  @triggerFiltering={{this.triggerFilteringSpy}} 
                   @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
       // then
@@ -195,7 +223,7 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
       // when
       await render(hbs`<Routes::Authenticated::Campaign::List
                   @campaigns={{this.campaigns}}
-                  @triggerFiltering={{this.triggerFilteringSpy}}
+                  @triggerFiltering={{this.triggerFilteringSpy}} 
                   @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
       // then
@@ -211,7 +239,7 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
       // when
       await render(hbs`<Routes::Authenticated::Campaign::List
                   @campaigns={{this.campaigns}}
-                  @triggerFiltering={{this.triggerFilteringSpy}}
+                  @triggerFiltering={{this.triggerFilteringSpy}} 
                   @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
       // then
