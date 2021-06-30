@@ -1,27 +1,29 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, domainBuilder } = require('../../../test-helper');
 const _ = require('lodash');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | Badge Acquisition', () => {
 
-  let badgeAcquisitionToCreate;
 
   describe('#create', () => {
+    let badgeAcquisitionToCreate;
 
     beforeEach(async () => {
       const badgeId = databaseBuilder.factory.buildBadge({ key: 'éclair_au_chocolat' }).id;
       const userId = databaseBuilder.factory.buildUser().id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId }).id;
 
-      badgeAcquisitionToCreate = databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
-      badgeAcquisitionToCreate.id = undefined;
+      badgeAcquisitionToCreate = {
+        userId,
+        badgeId,
+        campaignParticipationId
+      };
       await databaseBuilder.commit();
     });
 
     afterEach(async () => {
       await knex('badge-acquisitions').delete();
-      await knex('authentication-methods').delete();
-      await knex('users').delete();
     });
 
     it('should persist the badge acquisition in db', async () => {
@@ -31,10 +33,11 @@ describe('Integration | Repository | Badge Acquisition', () => {
       });
 
       // then
-      expect(badgeAcquisitionIds).to.have.lengthOf(1);
       const result = await knex('badge-acquisitions').where('id', badgeAcquisitionIds[0]);
       expect(result).to.have.lengthOf(1);
+      expect(result[0]).to.contains(badgeAcquisitionToCreate);
     });
+
   });
 
   describe('#hasAcquiredBadge', () => {
