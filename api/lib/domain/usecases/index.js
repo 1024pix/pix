@@ -234,7 +234,7 @@ module.exports = injectDependencies({
   getJurySession: require('./get-jury-session'),
   getLastChallengeIdFromAssessmentId: require('./get-last-challenge-id-from-assessment-id'),
   getNextChallengeForCampaignAssessment: require('./get-next-challenge-for-campaign-assessment'),
-  getNextChallengeForCertification: require('./get-next-challenge-for-certification'),
+  getNextQuestionForCertification: require('./get-next-question-for-certification'),
   getNextChallengeForCompetenceEvaluation: require('./get-next-challenge-for-competence-evaluation'),
   getNextChallengeForDemo: require('./get-next-challenge-for-demo'),
   getNextChallengeForPreview: require('./get-next-challenge-for-preview'),

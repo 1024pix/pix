@@ -1,12 +1,12 @@
 const { expect, sinon } = require('../../../test-helper');
 
-const getNextChallengeForCertification = require('../../../../lib/domain/usecases/get-next-challenge-for-certification');
+const getNextQuestionForCertification = require('../../../../lib/domain/usecases/get-next-question-for-certification');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Question = require('../../../../lib/domain/models/Question');
 
-describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', () => {
+describe('Unit | Domain | Use Cases | get-next-question-for-certification', () => {
 
-  describe('#getNextChallengeForCertification', () => {
+  describe('#getNextQuestionForCertification', () => {
 
     let certificationChallengeRepository;
     let challengeRepository;
@@ -24,7 +24,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
       certificationChallengeRepository.getNextNonAnsweredChallengeWithIndexByCourseId.resolves({ index: 1, challenge: nextChallenge });
 
       // when
-      await getNextChallengeForCertification({ assessment, certificationChallengeRepository, challengeRepository });
+      await getNextQuestionForCertification({ assessment, certificationChallengeRepository, challengeRepository });
 
       // then
       expect(certificationChallengeRepository.getNextNonAnsweredChallengeWithIndexByCourseId).to.have.been.calledWith(156, 54516);
@@ -41,7 +41,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
       challengeRepository.get.resolves(nextChallengeToAnswer);
 
       // when
-      const question = await getNextChallengeForCertification({ assessment, certificationChallengeRepository, challengeRepository });
+      const question = await getNextQuestionForCertification({ assessment, certificationChallengeRepository, challengeRepository });
 
       // then
       expect(question).to.deep.equal(new Question({ index: 1, challenge: nextChallengeToAnswer }));

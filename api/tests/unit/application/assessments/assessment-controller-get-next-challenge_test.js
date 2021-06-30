@@ -43,7 +43,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       sinon.stub(challengeRepository, 'get').resolves({});
 
       sinon.stub(usecases, 'getAssessment').resolves(scoredAsssessment);
-      sinon.stub(usecases, 'getNextChallengeForCertification').resolves();
+      sinon.stub(usecases, 'getNextQuestionForCertification').resolves();
       sinon.stub(usecases, 'getNextChallengeForDemo').resolves();
       sinon.stub(usecases, 'getNextChallengeForCampaignAssessment').resolves();
       sinon.stub(usecases, 'getNextChallengeForCompetenceEvaluation').resolves();
@@ -79,7 +79,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     describe('when the assessment is over', () => {
 
       beforeEach(() => {
-        usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
+        usecases.getNextQuestionForCertification.rejects(new AssessmentEndedError());
         usecases.getNextChallengeForDemo.rejects(new AssessmentEndedError());
         assessmentRepository.get.resolves(assessmentWithoutScore);
         usecases.getAssessment.resolves(scoredAsssessment);
@@ -123,10 +123,10 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         assessmentRepository.get.resolves(certificationAssessment);
       });
 
-      it('should call getNextChallengeForCertificationCourse in assessmentService', async function() {
+      it('should call getNextQuestionForCertificationCourse in assessmentService', async function() {
         // given
         const question = new Question({ challenge: domainBuilder.buildChallenge(), index: 4 });
-        usecases.getNextChallengeForCertification.withArgs({ assessment: certificationAssessment })
+        usecases.getNextQuestionForCertification.withArgs({ assessment: certificationAssessment })
           .resolves(question);
         sinon.stub(assessmentRepository, 'updateLastChallengeIdAsked').withArgs({
           id: certificationAssessment.id,
@@ -142,7 +142,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should reply null data when unable to find the next challenge', async () => {
         // given
-        usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
+        usecases.getNextQuestionForCertification.rejects(new AssessmentEndedError());
 
         // when
         const response = await assessmentController.getNextChallenge({ params: { id: 12 } });

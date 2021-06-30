@@ -86,7 +86,7 @@ module.exports = {
       serializer = challengeSerializer;
       extractChallengeId = (challenge) => challenge.id;
     } else if (assessment.isCertification()) {
-      usecase = async () => usecases.getNextChallengeForCertification({ assessment });
+      usecase = async () => usecases.getNextQuestionForCertification({ assessment });
       serializer = questionSerializer;
       extractChallengeId = (question) => question.challenge.id;
     } else if (assessment.isDemo()) {

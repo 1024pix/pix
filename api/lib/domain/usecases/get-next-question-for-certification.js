@@ -1,5 +1,5 @@
 const Question = require('./../models/Question');
-module.exports = function getNextChallengeForCertification({
+module.exports = function getNextQuestionForCertification({
   certificationChallengeRepository,
   challengeRepository,
   assessment,
