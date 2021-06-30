@@ -15,14 +15,14 @@ module('Unit | Component | user-logged-menu', (hooks) => {
   module('action#toggleUserMenu', () => {
     test('should return false as default value', function(assert) {
       // then
-      assert.equal(component.isMenuOpen, false);
+      assert.false(component.isMenuOpen);
     });
 
     test('should return true, when user details is clicked', async function(assert) {
       // when
       await component.toggleUserMenu();
       // then
-      assert.equal(component.isMenuOpen, true);
+      assert.true(component.isMenuOpen);
     });
 
     test('should return false, when isMenuOpen was previously true', async function(assert) {
@@ -30,13 +30,13 @@ module('Unit | Component | user-logged-menu', (hooks) => {
       await component.toggleUserMenu();
       await component.toggleUserMenu();
       // then
-      assert.equal(component.isMenuOpen, false);
+      assert.false(component.isMenuOpen);
     });
   });
 
   module('organizationNameAndExternalId', () => {
 
-    test('should return the organization name if the externalId is not defined', (assert) => {
+    test('should return the organization name if the externalId is not defined', function(assert) {
       // given
       const expectedOrganizationName = 'expectedOrganizationName';
       const currentUser = { organization: { name: expectedOrganizationName } };
@@ -48,7 +48,7 @@ module('Unit | Component | user-logged-menu', (hooks) => {
       assert.equal(computedOrganizationName, expectedOrganizationName);
     });
 
-    test('should return the organization name and externalId if the externalId is defined', (assert) => {
+    test('should return the organization name and externalId if the externalId is defined', function(assert) {
       // given
       const expectedOrganizationName = 'expectedOrganizationName';
       const expectedExternalId = 'expectedExternalId';

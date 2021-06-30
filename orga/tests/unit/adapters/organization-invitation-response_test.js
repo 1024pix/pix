@@ -23,7 +23,7 @@ module('Unit | Adapters | organization-invitation-response', function(hooks) {
       const url = await adapter.urlForCreateRecord('organization-invitation-response', options);
 
       // then
-      assert.equal(url.endsWith(`/organization-invitations/${organizationInvitationId}/response`), true);
+      assert.true(url.endsWith(`/organization-invitations/${organizationInvitationId}/response`));
     });
   });
 

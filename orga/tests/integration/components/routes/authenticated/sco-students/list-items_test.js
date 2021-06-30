@@ -83,7 +83,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'lastName');
-      assert.equal(call.args[1], true);
+      assert.true(call.args[1]);
       assert.equal(call.args[2].target.value, 'bob');
     });
 
@@ -101,7 +101,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'firstName');
-      assert.equal(call.args[1], true);
+      assert.true(call.args[1]);
       assert.equal(call.args[2].target.value, 'bob');
     });
 
@@ -120,7 +120,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'connexionType');
-      assert.equal(call.args[1], false);
+      assert.false(call.args[1]);
       assert.equal(call.args[2].target.value, 'email');
     });
   });

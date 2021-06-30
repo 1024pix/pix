@@ -8,23 +8,23 @@ module('Unit | Utils | password validator', function(hooks) {
   module('Validation rules', function() {
 
     test('should contain at least 8 characters:', function(assert) {
-      assert.equal(isPasswordValid('Ab123456'), true);
-      assert.equal(isPasswordValid('A1'), false);
+      assert.true(isPasswordValid('Ab123456'));
+      assert.false(isPasswordValid('A1'));
     });
 
     test('should contain at least one digit', function(assert) {
-      assert.equal(isPasswordValid('Ab123456'), true);
-      assert.equal(isPasswordValid('ABCDEFGH'), false);
+      assert.true(isPasswordValid('Ab123456'));
+      assert.false(isPasswordValid('ABCDEFGH'));
     });
 
     test('should contain at least one uppercase letter', function(assert) {
-      assert.equal(isPasswordValid('Ab123456'), true);
-      assert.equal(isPasswordValid('a1234567'), false);
+      assert.true(isPasswordValid('Ab123456'));
+      assert.false(isPasswordValid('a1234567'));
     });
 
     test('should contain at least one lowercase letter', function(assert) {
-      assert.equal(isPasswordValid('Ab123456'), true);
-      assert.equal(isPasswordValid('A1234567'), false);
+      assert.true(isPasswordValid('Ab123456'));
+      assert.false(isPasswordValid('A1234567'));
     });
 
   });
@@ -45,7 +45,7 @@ module('Unit | Utils | password validator', function(hooks) {
       '+!@)-=`"#&1a',
     ].forEach(function(badPassword) {
       test(`should return false when password is invalid: ${badPassword}`, function(assert) {
-        assert.equal(isPasswordValid(badPassword), false);
+        assert.false(isPasswordValid(badPassword));
       });
     });
   });
@@ -68,7 +68,7 @@ module('Unit | Utils | password validator', function(hooks) {
       'Aà1      ',
     ].forEach(function(validPassword) {
       test(`should return true if provided password is valid: ${validPassword}`, function(assert) {
-        assert.equal(isPasswordValid(validPassword), true);
+        assert.true(isPasswordValid(validPassword));
       });
     });
   });

@@ -8,7 +8,7 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | modal', function(hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('Component rendering', function() {
+  module('Component rendering', function(hooks) {
     let close;
 
     hooks.beforeEach(function() {

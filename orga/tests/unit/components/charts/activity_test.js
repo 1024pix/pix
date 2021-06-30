@@ -23,7 +23,7 @@ module('Unit | Component | Charts | activity', (hooks) => {
     });
   });
 
-  test('should fill data', async (assert) => {
+  test('should fill data', async function(assert) {
     // when
     component = await createGlimmerComponent('component:charts/activity');
 

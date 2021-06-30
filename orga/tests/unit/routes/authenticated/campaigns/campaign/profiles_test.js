@@ -78,7 +78,7 @@ module('Unit | Route | authenticated/campaigns/campaign/profiles', function(hook
     module('when the transition comes from "authenticated.campaigns.campaign.profiles"', function() {
       test('if returns false', function(assert) {
         const transition = { from: { name: 'authenticated.campaigns.campaign.profiles' } };
-        assert.equal(route.loading(transition), false);
+        assert.false(route.loading(transition));
       });
     });
 

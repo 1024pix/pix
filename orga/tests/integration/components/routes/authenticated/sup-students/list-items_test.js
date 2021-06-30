@@ -135,7 +135,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'lastName');
-      assert.equal(call.args[1], true);
+      assert.true(call.args[1]);
       assert.equal(call.args[2].target.value, 'bob');
     });
 
@@ -152,7 +152,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'firstName');
-      assert.equal(call.args[1], true);
+      assert.true(call.args[1]);
       assert.equal(call.args[2].target.value, 'bob');
     });
 
@@ -169,7 +169,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       // then
       const call = triggerFiltering.getCall(0);
       assert.equal(call.args[0], 'studentNumber');
-      assert.equal(call.args[1], true);
+      assert.true(call.args[1]);
       assert.equal(call.args[2].target.value, 'LATERREURGIGI123');
     });
   });

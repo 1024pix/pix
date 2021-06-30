@@ -148,7 +148,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
     });
   });
 
-  module('Navigation', function() {
+  module('Navigation', function(hooks) {
 
     hooks.beforeEach(function() {
       this.owner.setupRouter();

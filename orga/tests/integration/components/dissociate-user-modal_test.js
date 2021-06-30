@@ -44,7 +44,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
     });
   });
 
-  module('dissociate button', function() {
+  module('dissociate button', function(hooks) {
     let studentAdapter;
     let notifications;
 
