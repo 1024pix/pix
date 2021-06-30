@@ -178,4 +178,140 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.equal(complementaryCertificationsLabel, 'CléA Numérique\nPix+ Droit Expert');
     });
   });
+
+  module('#get isCertificationStarted', function() {
+
+    test('it should return true when the status is "started"', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'started' });
+      });
+
+      // when
+      const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
+
+      // then
+      assert.equal(isCertificationStarted, true);
+    });
+
+    test('it should return false when the status is "validated" (not started)', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'validated' });
+      });
+
+      // when
+      const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
+
+      // then
+      assert.equal(isCertificationStarted, false);
+    });
+
+    test('it should return false when the status is "rejected" (not started)', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'rejected' });
+      });
+
+      // when
+      const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
+
+      // then
+      assert.equal(isCertificationStarted, false);
+    });
+
+    test('it should return false when the status is "error" (not started)', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'error' });
+      });
+
+      // when
+      const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
+
+      // then
+      assert.equal(isCertificationStarted, false);
+    });
+
+    test('it should return false when the status is "cancelled" (not started)', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'cancelled' });
+      });
+
+      // when
+      const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
+
+      // then
+      assert.equal(isCertificationStarted, false);
+    });
+  });
+
+  module('#isCertificationInError', function() {
+
+    test('it should return true when the status is "error"', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'error' });
+      });
+
+      // when
+      const isCertificationInError = juryCertificationSummary.isCertificationInError;
+
+      // then
+      assert.equal(isCertificationInError, true);
+    });
+
+    test('it should return false when the status is "started" (not in error)', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'started' });
+      });
+
+      // when
+      const isCertificationInError = juryCertificationSummary.isCertificationInError;
+
+      // then
+      assert.equal(isCertificationInError, false);
+    });
+
+    test('it should return false when the status is "validated" (not in error)', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'validated' });
+      });
+
+      // when
+      const isCertificationInError = juryCertificationSummary.isCertificationInError;
+
+      // then
+      assert.equal(isCertificationInError, false);
+    });
+
+    test('it should return false when the status is "rejected" (not in error)', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'rejected' });
+      });
+
+      // when
+      const isCertificationInError = juryCertificationSummary.isCertificationInError;
+
+      // then
+      assert.equal(isCertificationInError, false);
+    });
+
+    test('it should return false when the status is "cancelled" (not in error)', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('jury-certification-summary', { status: 'cancelled' });
+      });
+
+      // when
+      const isCertificationInError = juryCertificationSummary.isCertificationInError;
+
+      // then
+      assert.equal(isCertificationInError, false);
+    });
+  });
 });
