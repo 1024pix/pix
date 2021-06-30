@@ -1,8 +1,7 @@
 export default class InputBlock {
 
   constructor({ input, inputIndex }) {
-    const inputText = input.replace('${', '').replace('}', '');
-    this._input = inputText;
+    this._input = input.replace('${', '').replace('}', '');
     this._placeholder = null;
     this._text = null;
     this._ariaLabel = inputIndex.toString();
@@ -41,8 +40,16 @@ export default class InputBlock {
     return this._type;
   }
 
+  get ariaLabel() {
+    return this._ariaLabel;
+  }
+
   get autoAriaLabel() {
     return this._autoAriaLabel;
+  }
+
+  get placeholder() {
+    return this._placeholder;
   }
 
   removeAriaLabel() {
