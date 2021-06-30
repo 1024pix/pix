@@ -23,6 +23,7 @@ export default class Challenge extends Model {
   @attr('string') type;
   @attr('boolean') autoReply;
   @attr('boolean') focused;
+  @attr('number') index;
 
   // includes
   @belongsTo('answer') answer;

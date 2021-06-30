@@ -23,7 +23,11 @@ export default class ProgressBar extends Component {
   }
 
   get currentStepNumber() {
-    return progressInAssessment.getCurrentStepNumber(this.args.assessment, this.args.answerId);
+    if (this.args.challenge.index) {
+      return this.args.challenge.index;
+    } else {
+      return progressInAssessment.getCurrentStepNumber(this.args.assessment, this.args.answerId);
+    }
   }
 
   get steps() {
