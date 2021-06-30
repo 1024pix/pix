@@ -5,7 +5,7 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 
 describe('Integration | Repository | Badge Acquisition', () => {
 
-  describe('#create', () => {
+  describe('#createOrUpdate', () => {
     let badgeAcquisitionToCreate;
 
     beforeEach(async () => {
@@ -28,7 +28,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
     it('should persist the badge acquisition in db', async () => {
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
-        return badgeAcquisitionRepository.create([badgeAcquisitionToCreate], domainTransaction);
+        return badgeAcquisitionRepository.createOrUpdate([badgeAcquisitionToCreate], domainTransaction);
       });
 
       // then
@@ -41,14 +41,14 @@ describe('Integration | Repository | Badge Acquisition', () => {
       expect(result[0].createdAt).to.deep.equal(result[0].updatedAt);
     });
 
-    it('should update the badge acquisition in db if already exist', async () => {
+    it('should update the badge acquisition in the DB if it already exists', async () => {
       // given
       databaseBuilder.factory.buildBadgeAcquisition(badgeAcquisitionToCreate);
       await databaseBuilder.commit();
 
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
-        return badgeAcquisitionRepository.create([badgeAcquisitionToCreate], domainTransaction);
+        return badgeAcquisitionRepository.createOrUpdate([badgeAcquisitionToCreate], domainTransaction);
       });
 
       // then
