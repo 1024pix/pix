@@ -72,7 +72,7 @@ module('Unit | Model | campaign', function(hooks) {
         stages: [stage],
       });
 
-      assert.equal(model.hasStages, true);
+      assert.true(model.hasStages);
     });
 
     test('returns false while campaign does not contain stages', function(assert) {
@@ -81,7 +81,7 @@ module('Unit | Model | campaign', function(hooks) {
         stages: [],
       });
 
-      assert.equal(model.hasStages, false);
+      assert.false(model.hasStages);
     });
   });
 
@@ -93,7 +93,7 @@ module('Unit | Model | campaign', function(hooks) {
         badges: [badge],
       });
 
-      assert.equal(model.hasBadges, true);
+      assert.true(model.hasBadges);
     });
 
     test('returns false while campaign does not contain badges', function(assert) {
@@ -102,7 +102,7 @@ module('Unit | Model | campaign', function(hooks) {
         badges: [],
       });
 
-      assert.equal(model.hasBadges, false);
+      assert.false(model.hasBadges);
     });
   });
 

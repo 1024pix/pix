@@ -180,14 +180,14 @@ module('Acceptance | Sco Student List', function(hooks) {
         });
       });
 
-      module('when student is associated', async function(hooks) {
+      module('when student is associated', function(hooks) {
         hooks.beforeEach(async function() {
           organizationId = user.memberships.models.firstObject.organizationId;
 
           server.createList('student', 5, { organizationId });
         });
 
-        module('when student authenticated by username and email', async function(hooks) {
+        module('when student authenticated by username and email', function(hooks) {
 
           const username = 'firstname.lastname0112';
           const email = 'firstname.lastname0112@example.net';
@@ -242,7 +242,7 @@ module('Acceptance | Sco Student List', function(hooks) {
           });
         });
 
-        module('when student authenticated by GAR', async function(hooks) {
+        module('when student authenticated by GAR', function(hooks) {
 
           hooks.beforeEach(function() {
             server.create('student', {
@@ -282,7 +282,7 @@ module('Acceptance | Sco Student List', function(hooks) {
           });
         });
 
-        module('when student authenticated by GAR and username', async function(hooks) {
+        module('when student authenticated by GAR and username', function(hooks) {
 
           hooks.beforeEach(function() {
             server.create('student', {

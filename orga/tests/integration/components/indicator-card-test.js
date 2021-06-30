@@ -24,16 +24,14 @@ module('Integration | Component | indicator-card', function(hooks) {
     assert.contains('Text');
   });
 
-  module('when there is no additional information', async function() {
+  module('when there is no additional information', function() {
     test('it does not display question mark and its tooltip', async function(assert) {
       await render(hbs`<IndicatorCard>Text</IndicatorCard>`);
 
       assert.dom('[data-icon="question-circle"]').doesNotExist();
       assert.dom('[role="tooltip"]').doesNotExist();
     });
-  });
 
-  module('when there is some additional information', async function() {
     test('it display question mark and its tooltip', async function(assert) {
       await render(hbs`<IndicatorCard @info="some additional information">Text</IndicatorCard>`);
 

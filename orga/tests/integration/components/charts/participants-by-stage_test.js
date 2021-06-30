@@ -64,8 +64,8 @@ module('Integration | Component | Charts::ParticipantsByStage', function(hooks) 
     sinon.assert.calledWith(onSelectStage, 100498);
   });
 
-  module('when there is tooltip info', async function() {
-    module('when there is title and description', async function() {
+  module('when there is tooltip info', function() {
+    module('when there is title and description', function() {
       test('it should contains tooltip info', async function(assert) {
         // given
         dataFetcher.withArgs(campaignId).resolves({
@@ -91,7 +91,7 @@ module('Integration | Component | Charts::ParticipantsByStage', function(hooks) 
       });
     });
 
-    module('when there is only title', async function() {
+    module('when there is only title', function() {
       test('tooltip should contains title', async function(assert) {
         // given
         dataFetcher.withArgs(campaignId).resolves({
@@ -113,7 +113,7 @@ module('Integration | Component | Charts::ParticipantsByStage', function(hooks) 
       });
     });
 
-    module('when there is only description', async function() {
+    module('when there is only description', function() {
       test('tooltip should contains description', async function(assert) {
         // given
         dataFetcher.withArgs(campaignId).resolves({

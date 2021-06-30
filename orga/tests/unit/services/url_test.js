@@ -17,7 +17,7 @@ module('Unit | Service | url', function(hooks) {
       const domainExtension = service.isFrenchDomainExtension;
 
       // then
-      assert.equal(domainExtension, true);
+      assert.true(domainExtension);
     });
 
     test('should not have frenchDomainExtension when the current domain contains pix.org', function(assert) {
@@ -29,7 +29,7 @@ module('Unit | Service | url', function(hooks) {
       const domainExtension = service.isFrenchDomainExtension;
 
       // then
-      assert.equal(domainExtension, false);
+      assert.false(domainExtension);
     });
   });
 
