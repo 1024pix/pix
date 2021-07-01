@@ -69,8 +69,7 @@ describe('Acceptance | RecoverAccountAfterLeavingScoRoute', function() {
 
         // then
         expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.student-information.title'))).to.not.exist;
-        expect(contains('Nous avons retrouvé votre compte :')).to.exist;
-        expect(contains('Manuela')).to.exist;
+        expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.good-news', { firstName }))).to.exist;
       });
     });
 

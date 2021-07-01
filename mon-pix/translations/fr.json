@@ -963,6 +963,22 @@
           "url-text": "Contactez le support",
           "recover": " pour récupérer votre compte Pix."
         }
+      },
+      "confirmation-step": {
+        "good-news" : "Bonne nouvelle { firstName } !",
+        "found-account": "Nous avons retrouvé votre compte :",
+        "contact-support": "Si vous constatez une erreur ou si ces données ne sont pas les votres, contactez le support.",
+        "fields" : {
+          "last-name": "Votre nom",
+          "first-name": "Votre prénom",
+          "username": "Votre identifiant",
+          "latest-organization-name": "Votre dernier établissement"
+        },
+        "certify-account": "En confirmant, j’atteste sur l’honneur que le compte associé à ces données m’appartient et j’accepte que Pix supprime le lien vers tous les établissements auquels je suis rattaché.",
+        "buttons": {
+          "cancel":"Annuler",
+          "confirm": "Je confirme"
+        }
       }
     },
     "result-item": {
