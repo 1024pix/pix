@@ -55,16 +55,35 @@ export default class RecoverAccountStudentInformationFormComponent extends Compo
   get isFormValid() {
     return !isEmpty(this.lastName) &&
       !isEmpty(this.firstName) &&
-      !isEmpty(this.dayOfBirth) &&
-      !isEmpty(this.monthOfBirth) &&
-      !isEmpty(this.yearOfBirth) &&
-      this.isIneInaValid;
+      this._isDayOfBirthValid &&
+      this._isMonthOfBirthValid &&
+      this._isYearOfBirthValid &&
+      this._isIneInaValid;
   }
 
-  get isIneInaValid() {
+  get _isIneInaValid() {
     const isValidIne = INE_REGEX.test(this.ineIna);
     const isValidIna = INA_REGEX.test(this.ineIna);
     return (isValidIna || isValidIne) && !isEmpty(this.ineIna);
+  }
+
+  get _isDayOfBirthValid() {
+    return !isEmpty(this.dayOfBirth);
+  }
+
+  get _isMonthOfBirthValid() {
+    return !isEmpty(this.monthOfBirth);
+  }
+
+  get _isYearOfBirthValid() {
+    return !isEmpty(this.yearOfBirth);
+  }
+
+  get _formatBirthdate() {
+    const year = parseInt(this.yearOfBirth);
+    const month = parseInt(this.monthOfBirth) - 1;
+    const day = parseInt(this.dayOfBirth);
+    return moment(new Date(year, month, day)).format('YYYY-MM-DD');
   }
 
   @action validateIneIna() {
@@ -76,7 +95,7 @@ export default class RecoverAccountStudentInformationFormComponent extends Compo
       return;
     }
 
-    if (!this.isIneInaValid) {
+    if (!this._isIneInaValid) {
       this.ineInaValidation.status = STATUS_MAP['errorStatus'];
       this.ineInaValidation.message = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidIneInaFormat']);
       return;
@@ -115,16 +134,12 @@ export default class RecoverAccountStudentInformationFormComponent extends Compo
     event.preventDefault();
 
     if (this.isFormValid) {
-      const year = parseInt(this.yearOfBirth);
-      const month = parseInt(this.monthOfBirth) - 1;
-      const day = parseInt(this.dayOfBirth);
-      const birthdate = moment(new Date(year, month, day)).format('YYYY-MM-DD');
 
       await this.args.submitStudentInformation({
         ineIna: this.ineIna,
         firstName: this.firstName,
         lastName: this.lastName,
-        birthdate,
+        birthdate: this._formatBirthdate,
       });
     }
   }
