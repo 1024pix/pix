@@ -4,34 +4,40 @@ export default class ChallengeResponseTemplate {
 
   constructor() {
     this._template = [];
-    this._detailedTemplate = [];
+    this._blocks = [];
     this._inputCount = 0;
   }
 
   add(block) {
-    this._detailedTemplate.push(block);
+    this._blocks.push(block);
   }
 
   constructFinalTemplate() {
-    for (let index = 0; index < this._detailedTemplate.length; index++) {
-      if (this._detailedTemplate[index].type) {
-        this._template.push(this._detailedTemplate[index].get());
+    for (let index = 0; index < this._blocks.length; index++) {
+      if (this._blocks[index].type) {
+        this._template.push(this._blocks[index].get());
       }
     }
   }
 
   updateBlockDetails() {
-    for (let index = 1; index < this._detailedTemplate.length; index++) {
-      if (this._detailedTemplate[index].type === 'input'
-        && this._detailedTemplate[index].autoAriaLabel
-        && this._detailedTemplate[index - 1].type === 'text'
-        && this._detailedTemplate[index - 1].text.length > MINIMUM_SIZE_FOR_LABEL) {
-        this._detailedTemplate[index].setText(this._detailedTemplate[index - 1].text);
-        this._detailedTemplate[index].removeAriaLabel();
-        this._detailedTemplate[index].setAutoAriaLabel(false);
-        this._detailedTemplate[index - 1].removeType();
+    for (let current = 1; current < this._blocks.length; current++) {
+      const previous = current - 1;
+      if (this.isInputWithAutoAriaLabel(current) && this.isTextTypeWithConventionalTextLength(previous)) {
+        this._blocks[current].setText(this._blocks[previous].text);
+        this._blocks[current].removeAriaLabel();
+        this._blocks[current].setAutoAriaLabel(false);
+        this._blocks[previous].removeType();
       }
     }
+  }
+
+  isTextTypeWithConventionalTextLength(index) {
+    return this._blocks[index].type === 'text' && this._blocks[index].text.length > MINIMUM_SIZE_FOR_LABEL;
+  }
+
+  isInputWithAutoAriaLabel(index) {
+    return this._blocks[index].type === 'input' && this._blocks[index].autoAriaLabel;
   }
 
   incrementInputCount() {
@@ -44,5 +50,9 @@ export default class ChallengeResponseTemplate {
 
   get() {
     return this._template;
+  }
+
+  get blocks() {
+    return this._blocks.map((block) => block.get());
   }
 }
