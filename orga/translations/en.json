@@ -231,7 +231,8 @@
       "shared-profiles-count": "Profiles submitted",
       "shared-results-count": "Results submitted",
       "tab": {
-        "collective-results": "Collective results",
+        "activity": "Activity",
+        "collective-results": "Collective",
         "participants": "Participants ({count})",
         "review": "Review",
         "settings": "Settings"
@@ -245,7 +246,8 @@
           "last-name": "Last name",
           "status": "Status"
         },
-        "empty": "No participants"
+        "empty": "No participants",
+        "row-title": "Participant"
       },
       "status": {
         "started-assessment": "In progress ({progression, number, ::percent})",

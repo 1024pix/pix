@@ -13,7 +13,7 @@ export default class NewController extends Controller {
     event.preventDefault();
     this.notifications.clearAll();
     return this.model.campaign.save()
-      .then((campaign) => this.transitionToRoute('authenticated.campaigns.campaign', campaign.id))
+      .then((campaign) => this.transitionToRoute('authenticated.campaigns.campaign.details', campaign.id))
       .catch((errorResponse) => {
         errorResponse.errors.forEach((error) => {
           if (error.status === '500') {

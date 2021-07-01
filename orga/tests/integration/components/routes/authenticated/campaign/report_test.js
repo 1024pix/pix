@@ -175,7 +175,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       this.set('campaign', campaign);
 
       await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
-      assert.dom('nav a[href="/campagnes/12"]').hasText('Paramètres');
+      assert.dom('nav a[href="/campagnes/12/details"]').hasText('Paramètres');
     });
 
     module('When campaign type is ASSESSMENT', function(hooks) {
@@ -195,12 +195,14 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
         assert.dom('nav a[href="/campagnes/13/analyse"]').hasText('Analyse');
       });
 
-      test('it should display participation item', async function(assert) {
-        assert.dom('nav a[href="/campagnes/13/evaluations"]').hasText('Participants (10)');
+      test('it should display activity item', async function(assert) {
+
+        assert.dom('nav a[href="/campagnes/13"]').hasText('Activité');
       });
 
       test('it should display collective results item', async function(assert) {
-        assert.dom('nav a[href="/campagnes/13/resultats-collectifs"]').hasText('Résultats collectifs');
+
+        assert.dom('nav a[href="/campagnes/13/resultats-collectifs"]').hasText('Résultats');
       });
     });
 
@@ -223,6 +225,10 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
 
       test('it should not display analyse item', async function(assert) {
         assert.dom('nav a[href="/campagnes/13/analyse"]').doesNotExist();
+      });
+
+      test('it should not display activity item', async function(assert) {
+        assert.dom('nav a[href="/campagnes/13/activity"]').doesNotExist();
       });
 
       test('it should not display collective results item', async function(assert) {

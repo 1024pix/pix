@@ -44,10 +44,9 @@
         <tbody>
         {{#each @campaigns as |campaign|}}
           <tr aria-label={{t 'pages.campaigns-list.table.row-title'}} {{on 'click' (fn @onClickCampaign campaign.id)}} class="tr--clickable">
-            <td class="table__column table__column--no-padding">
+            <td class="table__column">
               <LinkTo @route="authenticated.campaigns.campaign"
-                      @model={{campaign}} 
-                      class="campaign-list__link">
+                      @model={{campaign}}>
                 {{campaign.name}}
               </LinkTo>
             </td>
