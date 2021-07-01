@@ -1,114 +1,123 @@
-const fp = require('lodash/fp');
+const _ = require('lodash');
+const jsYaml = require('js-yaml');
+const { knex } = require('../../../db/knex-database-connection');
+const { NotFoundError } = require('../../domain/errors');
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
-const BookshelfAnswer = require('../orm-models/Answer');
-const BookshelfKnowledgeElement = require('../orm-models/KnowledgeElement');
 
-const Bookshelf = require('../bookshelf');
-const { NotFoundError } = require('../../domain/errors');
-const jsYaml = require('js-yaml');
-const _ = require('lodash');
-
-function _adaptModelToDb(answer) {
+function _adaptAnswerToDb(answer) {
   return {
-    id: answer.id,
+    ...(_.pick(answer, ['value', 'timeout', 'challengeId', 'assessmentId', 'timeSpent'])),
     result: answerStatusDatabaseAdapter.toSQLString(answer.result),
     resultDetails: jsYaml.dump(answer.resultDetails),
-    value: answer.value,
-    timeout: answer.timeout,
-    challengeId: answer.challengeId,
-    assessmentId: answer.assessmentId,
-    timeSpent: answer.timeSpent,
   };
 }
 
-function _toDomain(bookshelfAnswer) {
-  if (bookshelfAnswer) {
-    return new Answer({
-      id: bookshelfAnswer.get('id'),
-      result: answerStatusDatabaseAdapter.fromSQLString(bookshelfAnswer.get('result')),
-      resultDetails: bookshelfAnswer.get('resultDetails'),
-      timeout: bookshelfAnswer.get('timeout'),
-      value: bookshelfAnswer.get('value'),
-      assessmentId: bookshelfAnswer.get('assessmentId'),
-      challengeId: bookshelfAnswer.get('challengeId'),
-      timeSpent: bookshelfAnswer.get('timeSpent'),
-    });
-  }
-  return null;
+function _adaptKnowledgeElementToDb(knowledgeElement) {
+  return _.pick(knowledgeElement, ['source', 'status', 'earnedPix',
+    'answerId', 'assessmentId', 'skillId', 'userId', 'competenceId']);
 }
+
+function _toDomain(answerDTO) {
+  return new Answer({
+    ...answerDTO,
+    result: answerStatusDatabaseAdapter.fromSQLString(answerDTO.result),
+  });
+}
+
+function _toDomainArray(answerDTOs) {
+  return _.map(answerDTOs, _toDomain);
+}
+
+const COLUMNS = Object.freeze(['id', 'result', 'resultDetails', 'timeout', 'value', 'assessmentId', 'challengeId', 'timeSpent']);
 
 module.exports = {
 
-  get(answerId) {
-    return BookshelfAnswer.where('id', answerId)
-      .fetch()
-      .then(_toDomain)
-      .catch((error) => {
-        if (error instanceof BookshelfAnswer.NotFoundError) {
-          throw new NotFoundError(`Not found answer for ID ${answerId}`);
-        }
+  async get(id) {
+    const answerDTO = await knex
+      .select(COLUMNS)
+      .from('answers')
+      .where({ id })
+      .first();
 
-        throw error;
-      });
+    if (!answerDTO) {
+      throw new NotFoundError(`Not found answer for ID ${id}`);
+    }
+
+    return _toDomain(answerDTO);
   },
 
-  findByIds(answerIds) {
-    return BookshelfAnswer.where('id', 'in', answerIds)
-      .fetchAll()
-      .then((answers) => answers.models.map(_toDomain));
+  async findByIds(ids) {
+    const answerDTOs = await knex
+      .select(COLUMNS)
+      .from('answers')
+      .whereInArray('id', ids)
+      .orderBy('id');
+
+    return _toDomainArray(answerDTOs);
   },
 
-  findByChallengeAndAssessment({ challengeId, assessmentId }) {
-    return BookshelfAnswer
+  async findByChallengeAndAssessment({ challengeId, assessmentId }) {
+    const answerDTO = await knex
+      .select(COLUMNS)
+      .from('answers')
       .where({ challengeId, assessmentId })
-      .fetch({ require: false })
-      .then(_toDomain);
+      .orderBy('createdAt', 'desc')
+      .first();
+
+    if (!answerDTO) {
+      return null;
+    }
+
+    return _toDomain(answerDTO);
   },
 
-  findByAssessment(assessmentId) {
-    return BookshelfAnswer
+  async findByAssessment(assessmentId) {
+    const answerDTOs = await knex
+      .select(COLUMNS)
+      .from('answers')
       .where({ assessmentId })
-      .orderBy('createdAt')
-      .fetchAll()
-      .then((answers) => answers.models.map(_toDomain));
+      .orderBy('createdAt');
+
+    return _toDomainArray(answerDTOs);
   },
 
-  findLastByAssessment(assessmentId) {
-    return BookshelfAnswer
+  async findLastByAssessment(assessmentId) {
+    const answerDTO = await knex
+      .select(COLUMNS)
+      .from('answers')
       .where({ assessmentId })
       .orderBy('createdAt', 'desc')
-      .fetch({ require: false })
-      .then(_toDomain);
+      .first();
+
+    if (!answerDTO) {
+      return null;
+    }
+
+    return _toDomain(answerDTO);
   },
 
-  findChallengeIdsFromAnswerIds(answerIds) {
-    return Bookshelf.knex('answers')
-      .distinct('challengeId')
-      .whereIn('id', answerIds)
-      .then(fp.map('challengeId'));
-  },
-
-  findCorrectAnswersByAssessmentId(assessmentId) {
-    return BookshelfAnswer
-      .where({ assessmentId, result: 'ok' })
-      .fetchAll()
-      .then((answers) => answers.models.map(_toDomain));
+  async findChallengeIdsFromAnswerIds(ids) {
+    return knex
+      .distinct()
+      .pluck('challengeId')
+      .from('answers')
+      .whereInArray('id', ids);
   },
 
   async saveWithKnowledgeElements(answer, knowledgeElements) {
-    const answerForDB = _adaptModelToDb(answer);
-
-    return Bookshelf.transaction(async (transacting) => {
-      const answerSaved = await new BookshelfAnswer(answerForDB)
-        .save(null, { require: true, method: 'insert', transacting });
-      knowledgeElements.map((knowledgeElement) => knowledgeElement.answerId = answerSaved.id);
-      await Promise.all(knowledgeElements.map(async (knowledgeElement) => {
-        const knowledgeElementBookshelf = await new BookshelfKnowledgeElement(_.omit(knowledgeElement, ['id', 'createdAt']));
-        await knowledgeElementBookshelf.save(null, { transacting });
-      }));
-
-      return _toDomain(answerSaved);
+    const answerForDB = _adaptAnswerToDb(answer);
+    return knex.transaction(async (trx) => {
+      const [savedAnswerDTO] = await trx('answers').insert(answerForDB).returning(COLUMNS);
+      const savedAnswer = _toDomain(savedAnswerDTO);
+      if (!_.isEmpty(knowledgeElements)) {
+        for (const knowledgeElement of knowledgeElements) {
+          knowledgeElement.answerId = savedAnswer.id;
+        }
+        const knowledgeElementsForDB = knowledgeElements.map(_adaptKnowledgeElementToDb);
+        await trx('knowledge-elements').insert(knowledgeElementsForDB);
+      }
+      return savedAnswer;
     });
   },
 };
