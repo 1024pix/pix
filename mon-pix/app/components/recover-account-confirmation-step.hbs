@@ -13,10 +13,12 @@
     <div>{{@studentInformationForAccountRecovery.lastName}}</div>
   </li>
 
+{{#if @studentInformationForAccountRecovery.username}}
   <li>
     <div> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.username' }}</div>
     <div>{{@studentInformationForAccountRecovery.username}}</div>
   </li>
+{{/if}}
 
   <li>
     <div> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.latest-organization-name' }}</div>
