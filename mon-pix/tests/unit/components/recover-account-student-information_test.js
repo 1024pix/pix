@@ -7,7 +7,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
   setupTest();
 
-  describe('#isIneInaValid', function() {
+  describe('#_isIneInaValid', function() {
 
     describe('when ine or ina is empty', function() {
 
@@ -17,7 +17,7 @@ describe('Unit | Component | recover-account-student-information-form', function
         component.ineIna = '';
 
         // when
-        const result = component.isIneInaValid;
+        const result = component._isIneInaValid;
 
         // then
         expect(result).to.be.false;
@@ -32,7 +32,7 @@ describe('Unit | Component | recover-account-student-information-form', function
         component.ineIna = 'ABCDE';
 
         // when
-        const result = component.isIneInaValid;
+        const result = component._isIneInaValid;
 
         // then
         expect(result).to.be.false;
@@ -47,7 +47,7 @@ describe('Unit | Component | recover-account-student-information-form', function
         component.ineIna = '123456789AA';
 
         // when
-        const result = component.isIneInaValid;
+        const result = component._isIneInaValid;
 
         // then
         expect(result).to.be.true;
@@ -62,7 +62,7 @@ describe('Unit | Component | recover-account-student-information-form', function
         component.ineIna = '1234567890B';
 
         // when
-        const result = component.isIneInaValid;
+        const result = component._isIneInaValid;
 
         // then
         expect(result).to.be.true;
@@ -166,5 +166,122 @@ describe('Unit | Component | recover-account-student-information-form', function
         expect(result).to.be.true;
       });
     });
+  });
+
+  describe('#_isDayOfBirthValid', function() {
+
+    describe('when dayOfBirth is empty', function() {
+
+      it('should return false', function() {
+        // given
+        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        component.dayOfBirth = '';
+
+        // when
+        const result = component._isDayOfBirthValid;
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+
+    describe('when dayOfBirth is valid', function() {
+
+      it('should return true', function() {
+        // given
+        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        component.dayOfBirth = '5';
+
+        // when
+        const result = component._isDayOfBirthValid;
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+  });
+
+  describe('#_isMonthOfBirthValid', function() {
+
+    describe('when monthOfBirth is empty', function() {
+
+      it('should return false', function() {
+        // given
+        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        component.monthOfBirth = '';
+
+        // when
+        const result = component._isMonthOfBirthValid;
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+
+    describe('when monthOfBirth is valid', function() {
+
+      it('should return true', function() {
+        // given
+        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        component.monthOfBirth = '5';
+
+        // when
+        const result = component._isMonthOfBirthValid;
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+  });
+
+  describe('#_isYearOfBirthValid', function() {
+
+    describe('when yearOfBirth is empty', function() {
+
+      it('should return false', function() {
+        // given
+        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        component.yearOfBirth = '';
+
+        // when
+        const result = component._isYearOfBirthValid;
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+
+    describe('when yearOfBirth is valid', function() {
+
+      it('should return true', function() {
+        // given
+        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        component.yearOfBirth = '2000';
+
+        // when
+        const result = component._isYearOfBirthValid;
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+  });
+
+  describe('#_formatBirthdate', function() {
+
+    it('should return valid birthdate format', function() {
+      // given
+      const component = createGlimmerComponent('component:recover-account-student-information-form');
+      component.dayOfBirth = '2';
+      component.monthOfBirth = '5';
+      component.yearOfBirth = '2004';
+
+      // when
+      const result = component._formatBirthdate;
+
+      // then
+      expect(result).to.equal('2004-05-02');
+    });
+
   });
 });
