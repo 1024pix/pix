@@ -1,3 +1,7 @@
+const _ = require('lodash');
+const Joi = require('joi').extend(require('@joi/date'));
+const { EntityValidationError } = require('../errors');
+
 class CertificationCourse {
   constructor(
     {
@@ -77,6 +81,48 @@ class CertificationCourse {
 
   isCancelled() {
     return this._isCancelled === true;
+  }
+
+  modifyFirstName(modifiedFirstName) {
+    if (_.isEmpty(modifiedFirstName)) {
+      throw new EntityValidationError({
+        invalidAttributes: [{ attribute: 'firstName', message: 'Candidate\'s first name must not be blank or empty' }],
+      });
+    }
+    this._firstName = modifiedFirstName;
+  }
+
+  modifyLastName(modifiedLastName) {
+    if (_.isEmpty(modifiedLastName)) {
+      throw new EntityValidationError({
+        invalidAttributes: [{ attribute: 'lastName', message: 'Candidate\'s last name must not be blank or empty' }],
+      });
+    }
+    this._lastName = modifiedLastName;
+  }
+
+  modifyBirthplace(modifiedBirthplace) {
+    if (_.isEmpty(modifiedBirthplace)) {
+      throw new EntityValidationError({
+        invalidAttributes: [{ attribute: 'birthplace', message: 'Candidate\'s birthplace must not be blank or empty' }],
+      });
+    }
+    this._birthplace = modifiedBirthplace;
+  }
+
+  modifyBirthdate(modifiedBirthdate) {
+    const { error } = Joi.date()
+      .format('YYYY-MM-DD')
+      .greater('1900-01-01')
+      .required()
+      .empty(null)
+      .validate(modifiedBirthdate);
+    if (error) {
+      throw new EntityValidationError({
+        invalidAttributes: [{ attribute: 'birthdate', message: 'Candidate\'s birthdate must be a valid date' }],
+      });
+    }
+    this._birthdate = modifiedBirthdate;
   }
 
   birthdate() {
