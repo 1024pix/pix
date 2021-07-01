@@ -2,16 +2,16 @@
 
   <aside class="app__sidebar sidebar">
     <header class="sidebar__logo">
-        <LinkTo @route="authenticated.sessions.list" type="button">
-          <img class="sidebar__logo-image" src="{{this.rootUrl}}/pix-certif-logo.svg" alt="PixCertif">
+        <LinkTo @route="authenticated" type="button" aria-hidden="true">
+          <img class="sidebar__logo-image" src="{{this.rootUrl}}/pix-certif-logo.svg" alt="Pix Certif">
         </LinkTo>
     </header>
 
     <nav class="sidebar-menu">
       <ul>
         <li>
-          <LinkTo @route="authenticated.sessions.list" class="sidebar-menu__item" type="button">
-            <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="Liste des sessions" class="sidebar-menu__item-icon">
+          <LinkTo @route="authenticated.sessions.list" class="sidebar-menu__item" type="button" aria-label="Sessions de certification">
+            <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="" role="presentation" class="sidebar-menu__item-icon">
             Sessions
           </LinkTo>
         </li>
