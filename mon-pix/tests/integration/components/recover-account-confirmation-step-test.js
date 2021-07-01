@@ -1,15 +1,15 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../helpers/contains';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { clickByLabel } from '../../helpers/click-by-label';
 import sinon from 'sinon';
 
 describe('Integration | Component | recover-account-confirmation-step', function() {
-  setupRenderingTest();
+  setupIntlRenderingTest();
 
   it('should render account recovery confirmation step', async function() {
     // given
@@ -28,14 +28,14 @@ describe('Integration | Component | recover-account-confirmation-step', function
     />`);
 
     // then
-    expect(contains('Bonne nouvelle Philippe !')).to.exist;
-    expect(contains('Nous avons retrouvé votre compte :')).to.exist;
-    expect(contains('Si vous constatez une erreur ou si ces données ne sont pas les votres, contactez le support.')).to.exist;
+    expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.good-news', { firstName: 'Philippe' }))).to.exist;
+    expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.found-account'))).to.exist;
+    expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.contact-support'))).to.exist;
     expect(contains('Auguste'));
     expect(contains('Philippe'));
     expect(contains('Philippe.auguste2312'));
     expect(contains('Collège George-Besse, Loches'));
-    expect(contains('En confirmant, j’atteste sur l’honneur que le compte associé à ces données m’appartient et j’accepte que Pix supprime le lien vers tous les établissements auquels je suis rattaché.')).to.exist;
+    expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.certify-account'))).to.exist;
   });
 
   it('should be possible to cancel the account recovery process', async function() {
@@ -56,7 +56,7 @@ describe('Integration | Component | recover-account-confirmation-step', function
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       @cancelAccountRecovery={{this.cancelAccountRecovery}}
     />`);
-    await clickByLabel('Annuler');
+    await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.buttons.cancel'));
 
     // then
     sinon.assert.calledOnce(cancelAccountRecovery);
@@ -80,7 +80,7 @@ describe('Integration | Component | recover-account-confirmation-step', function
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       @continueAccountRecovery={{this.continueAccountRecovery}}
     />`);
-    await clickByLabel('Je confirme');
+    await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.buttons.confirm'));
 
     // then
     sinon.assert.calledOnce(continueAccountRecovery);
