@@ -12,7 +12,7 @@ Fonctionnalité: Gestion des Campagnes
     Alors je vois 1 campagne
     Lorsque je clique sur "Campagne de la Néra"
     Alors je vois le détail de la campagne "Campagne de la Néra"
-    Lorsque je clique sur "Participants (3)"
+    Lorsque je clique sur "Activité"
     Alors je vois 3 participants
     Lorsque je clique sur "Cersei"
     Alors je vois "50%" comme "Avancement"

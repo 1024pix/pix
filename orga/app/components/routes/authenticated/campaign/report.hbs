@@ -63,13 +63,22 @@
 
   <div class="panel campaign-details__controls">
     <nav class="navbar campaign-details-controls__navbar-tabs">
-      <LinkTo
-        @route={{if @campaign.isTypeAssessment "authenticated.campaigns.campaign.assessments" "authenticated.campaigns.campaign.profiles"}}
-        @model={{@campaign}}
-        class="navbar-item"
-      >
-        {{t 'pages.campaign.tab.participants' count=@campaign.participationsCount}}
-      </LinkTo>
+      {{#if @campaign.isTypeAssessment}}
+        <LinkTo @route="authenticated.campaigns.campaign.activity" @model={{@campaign}} class="navbar-item">
+          {{t 'pages.campaign.tab.activity'}}
+        </LinkTo>
+      {{/if}}
+
+      {{#unless @campaign.isTypeAssessment}}
+        <LinkTo
+          @route="authenticated.campaigns.campaign.profiles"
+          @model={{@campaign}}
+          class="navbar-item"
+        >
+          {{t 'pages.campaign.tab.participants' count=@campaign.participationsCount}}
+        </LinkTo>
+      {{/unless}}
+      
       {{#if @campaign.isTypeAssessment}}
         <LinkTo @route="authenticated.campaigns.campaign.collective-results" @model={{@campaign}} class="navbar-item">
           {{t 'pages.campaign.tab.collective-results'}}

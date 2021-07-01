@@ -46,12 +46,12 @@ Router.map(function() {
       });
       this.route('profile', { path: '/:campaign_id/profils/:campaign_participation_id' });
       this.route('campaign', { path: '/:campaign_id' }, function() {
-        this.route('details', { path: '/' });
+        this.route('activity', { path: '/' });
+        this.route('details');
         this.route('collective-results', { path: '/resultats-collectifs' });
         this.route('analysis', { path: '/analyse' });
         this.route('assessments', { path: '/evaluations' });
         this.route('profiles', { path: '/profils' });
-        this.route('activity', { path: '/activite' });
       });
     });
     this.route('certifications');

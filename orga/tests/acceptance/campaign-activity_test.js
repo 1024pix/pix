@@ -10,7 +10,7 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Participants Results', function(hooks) {
+module('Acceptance | Campaign Activity', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -22,7 +22,7 @@ module('Acceptance | Campaign Participants Results', function(hooks) {
     server.create('campaign', { id: 1 });
     const campaignAssessmentParticipationResult = server.create('campaign-assessment-participation-result', 'withCompetenceResults', { id: 1, campaignId: 1 });
     server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult, lastName: 'Bacri' });
-    server.create('campaign-assessment-participation-summary', { id: 1, lastName: 'Bacri' });
+    server.create('campaign-participant-activity', { id: 1, lastName: 'Bacri' });
 
     await authenticateSession({
       user_id: user.id,
@@ -32,11 +32,11 @@ module('Acceptance | Campaign Participants Results', function(hooks) {
     });
   });
 
-  module('When prescriber arrives on participants page', function() {
+  module('When prescriber arrives on activity page', function() {
 
     test('it could click on user to go to details', async function(assert) {
       // when
-      await visit('/campagnes/1/evaluations');
+      await visit('/campagnes/1');
       await clickByLabel('Bacri');
 
       // then
@@ -49,7 +49,7 @@ module('Acceptance | Campaign Participants Results', function(hooks) {
       await clickByLabel('Retour');
 
       // then
-      assert.equal(currentURL(), '/campagnes/1/evaluations');
+      assert.equal(currentURL(), '/campagnes/1');
     });
   });
 
