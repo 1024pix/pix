@@ -55,7 +55,7 @@ const test = Joi.object({
 
 module.exports = Joi.array().items(
   Joi.object({
-    idEnvoi: Joi.string().required().example('XXX').description('Identifiant unique de l\'envoi'),
+    idEnvoi: Joi.number().required().example(1234).description('Identifiant unique de l\'envoi'),
     dateEnvoi: Joi.date().required().example('2020-11-31T12:00:38.133Z').description('Instant de la demande d\'envoi'),
     resultat: Joi.object({ campagne, individu, test }).required(),
   }).label('Envoi'),
