@@ -1,0 +1,40 @@
+<h1>Bonne nouvelle {{@studentInformationForAccountRecovery.firstName}} !</h1>
+<p>Nous avons retrouvé votre compte :</p>
+<p>Si vous constatez une erreur ou si ces données ne sont pas les votres, contactez le support.</p>
+
+<ul>
+  <li>
+    <div>Votre nom</div>
+    <div>{{@studentInformationForAccountRecovery.lastName}}</div>
+  </li>
+
+  <li>
+    <div>Votre prénom</div>
+    <div>{{@studentInformationForAccountRecovery.firstName}}</div>
+  </li>
+
+  <li>
+    <div>Votre identifiant</div>
+    <div>{{@studentInformationForAccountRecovery.username}}</div>
+  </li>
+
+  <li>
+    <div>Votre dernier établissement</div>
+    <div>{{@studentInformationForAccountRecovery.latestOrganizationName}}</div>
+  </li>
+
+  <p>En confirmant, j’atteste sur l’honneur que le compte associé à ces données m’appartient et j’accepte que Pix supprime le lien vers tous les établissements auquels je suis rattaché.</p>
+
+  <PixButton
+    @isBorderVisible={{true}}
+    @triggerAction={{@cancelAccountRecovery}}
+    @backgroundColor="transparent-light">
+      Annuler
+  </PixButton>
+  <PixButton
+    @isBorderVisible={{true}}
+    @triggerAction={{@continueAccountRecovery}}
+    @backgroundColor="red">
+      Je confirme
+  </PixButton>
+</ul>
