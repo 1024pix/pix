@@ -51,4 +51,29 @@ export default function index(config) {
 
     return schema.externalUsers.create({ accessToken: 'aaa.' + btoa(`{"user_id":${user.id},"source":"external","iat":1545321469,"exp":4702193958}`) + '.bbb' });
   });
+
+  config.post('/schooling-registration-dependent-users/recover-account', (schema, request) => {
+    const params = JSON.parse(request.requestBody);
+    const firstName = params.data.attributes['first-name'];
+    const lastName = params.data.attributes['last-name'];
+    const ineIna = params.data.attributes['ine-ina'];
+    const birthdate = params.data.attributes['birthdate'];
+    const foundUser = schema.users.findBy({ firstName, lastName });
+    const foundStudent = schema.studentInformation.findBy({ ineIna, firstName, lastName, birthdate });
+
+    if (foundUser && foundStudent) {
+      return new Response(200, {}, {
+        data: {
+          type: 'student-information',
+          id: 3,
+          attributes: {
+            'first-name': foundUser.firstName,
+            'last-name': foundUser.lastName,
+            username: foundUser.username,
+            email: foundUser.email,
+            'latest-organization-name': 'Collège FouFouFou',
+          },
+        } });
+    }
+  });
 }

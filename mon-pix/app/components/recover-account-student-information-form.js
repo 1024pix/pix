@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import isEmpty from 'lodash/isEmpty';
+import moment from 'moment';
 
 const INE_REGEX = /^[0-9]{9}[a-zA-Z]{2}$/;
 const INA_REGEX = /^[0-9]{10}[a-zA-Z]{1}$/;
@@ -37,31 +38,64 @@ class FirstNameValidation {
 
 export default class RecoverAccountStudentInformationFormComponent extends Component {
 
-  @service store;
   @service intl;
+  @service store;
 
   @tracked ineInaValidation = new IneInaValidation();
-  @tracked lastNameValidation = new LastNameValidation();
   @tracked firstNameValidation = new FirstNameValidation();
+  @tracked lastNameValidation = new LastNameValidation();
 
-  ineIna = '';
-  lastName = '';
-  firstName = '';
-  dayOfBirth = '';
-  monthOfBirth = '';
-  yearOfBirth = '';
+  @tracked ineIna = '';
+  @tracked lastName = '';
+  @tracked firstName = '';
+  @tracked dayOfBirth = '';
+  @tracked monthOfBirth = '';
+  @tracked yearOfBirth = '';
+
+  get isFormValid() {
+    return !isEmpty(this.lastName) &&
+      !isEmpty(this.firstName) &&
+      this._isDayOfBirthValid &&
+      this._isMonthOfBirthValid &&
+      this._isYearOfBirthValid &&
+      this._isIneInaValid;
+  }
+
+  get _isIneInaValid() {
+    const isValidIne = INE_REGEX.test(this.ineIna);
+    const isValidIna = INA_REGEX.test(this.ineIna);
+    return (isValidIna || isValidIne) && !isEmpty(this.ineIna);
+  }
+
+  get _isDayOfBirthValid() {
+    return !isEmpty(this.dayOfBirth);
+  }
+
+  get _isMonthOfBirthValid() {
+    return !isEmpty(this.monthOfBirth);
+  }
+
+  get _isYearOfBirthValid() {
+    return !isEmpty(this.yearOfBirth);
+  }
+
+  get _formatBirthdate() {
+    const year = parseInt(this.yearOfBirth);
+    const month = parseInt(this.monthOfBirth) - 1;
+    const day = parseInt(this.dayOfBirth);
+    return moment(new Date(year, month, day)).format('YYYY-MM-DD');
+  }
 
   @action validateIneIna() {
     this.ineIna = this.ineIna.trim();
+
     if (isEmpty(this.ineIna)) {
       this.ineInaValidation.status = STATUS_MAP['errorStatus'];
       this.ineInaValidation.message = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyIneIna']);
       return;
     }
 
-    const isValidIne = INE_REGEX.test(this.ineIna);
-    const isValidIna = INA_REGEX.test(this.ineIna);
-    if (!isValidIne && !isValidIna) {
+    if (!this._isIneInaValid) {
       this.ineInaValidation.status = STATUS_MAP['errorStatus'];
       this.ineInaValidation.message = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidIneInaFormat']);
       return;
@@ -96,17 +130,18 @@ export default class RecoverAccountStudentInformationFormComponent extends Compo
   }
 
   @action
-  async submitStudentInformationForm(event) {
+  async submit(event) {
     event.preventDefault();
-    const birthdate = [this.yearOfBirth, this.monthOfBirth, this.dayOfBirth].join('-');
 
-    const studentInformation = this.store.createRecord('student-information', {
-      ineIna: this.ineIna,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      birthdate,
-    });
-    await studentInformation.save();
+    if (this.isFormValid) {
+
+      await this.args.submitStudentInformation({
+        ineIna: this.ineIna,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        birthdate: this._formatBirthdate,
+      });
+    }
   }
 
   @action

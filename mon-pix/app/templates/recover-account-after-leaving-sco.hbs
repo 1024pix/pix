@@ -1,2 +1,9 @@
 {{page-title (t 'pages.recover-account-after-leaving-sco.title')}}
-<RecoverAccountStudentInformationForm />
+
+{{#if this.showRecoverAccountStudentInformationForm}}
+  <RecoverAccountStudentInformationForm @submitStudentInformation={{this.submitStudentInformation}} />
+{{/if}}
+
+{{#if this.showRecoverAccountConflictError}}
+  <RecoverAccountConflictError @firstName={{this.firstName}} />
+{{/if}}
