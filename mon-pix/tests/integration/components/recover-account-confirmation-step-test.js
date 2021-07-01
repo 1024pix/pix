@@ -38,6 +38,28 @@ describe('Integration | Component | recover-account-confirmation-step', function
     expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.certify-account'))).to.exist;
   });
 
+  context('when user does not have a username', function() {
+
+    it('should not display username', async function() {
+      // given
+      const studentInformationForAccountRecovery = EmberObject.create({
+        firstName: 'Philippe',
+        lastName: 'Auguste',
+        email: 'philippe.auguste@example.net',
+        latestOrganizationName: 'Collège George-Besse, Loches',
+      });
+      this.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
+
+      // when
+      await render(hbs`<RecoverAccountConfirmationStep
+      @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
+    />`);
+
+      // then
+      expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.fields.username'))).to.not.exist;
+    });
+  });
+
   it('should be possible to cancel the account recovery process', async function() {
     // given
     const studentInformationForAccountRecovery = EmberObject.create({
