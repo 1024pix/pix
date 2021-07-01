@@ -24,6 +24,13 @@ const _ = require('lodash');
 const knexConfigs = require('./knexfile');
 const { environment } = require('../lib/config');
 
+/* QueryBuilder Extension */
+const Knex = require('knex');
+Knex.QueryBuilder.extend('whereInArray', function(column, values) {
+  return this.where(column, knex.raw('any(?)', [ values ]));
+});
+/* -------------------- */
+
 const knexConfig = knexConfigs[environment];
 const knex = require('knex')(knexConfig);
 

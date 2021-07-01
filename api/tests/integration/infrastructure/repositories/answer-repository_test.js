@@ -1,26 +1,11 @@
-const { expect, knex, domainBuilder, databaseBuilder, sinon, catchErr, compareDatabaseObject } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
-const answerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adapters/answer-status-database-adapter');
-const BookshelfKnowledgeElement = require('../../../../lib/infrastructure/orm-models/KnowledgeElement');
-
+const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const _ = require('lodash');
-const moment = require('moment');
-
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
 describe('Integration | Repository | answerRepository', () => {
-  let assessmentId, otherAssessmentId, userId;
-  const challengeId = 'challenge_1234';
-  const otherChallengeId = 'challenge_4567';
-  const anotherChallengeId = 'challenge_89';
-
-  beforeEach(() => {
-    assessmentId = databaseBuilder.factory.buildAssessment().id;
-    userId = databaseBuilder.factory.buildUser().id;
-    otherAssessmentId = databaseBuilder.factory.buildAssessment().id;
-    return databaseBuilder.commit();
-  });
 
   describe('#get', () => {
 
@@ -36,20 +21,32 @@ describe('Integration | Repository | answerRepository', () => {
     });
 
     context('when there is an answer', () => {
-      let answerId;
-
-      beforeEach(() => {
-        answerId = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentId }).id;
-        return databaseBuilder.commit();
-      });
 
       it('should retrieve an answer from its id', async () => {
+        // given
+        const expectedAnswer = domainBuilder.buildAnswer({
+          id: 1,
+          result: AnswerStatus.OK,
+          resultDetails: 'some details',
+          timeout: 456,
+          value: 'Fruits',
+          assessmentId: 2,
+          challengeId: 'recChallenge123',
+          timeSpent: 20,
+        });
+        databaseBuilder.factory.buildAssessment({ id: 2 });
+        databaseBuilder.factory.buildAnswer({
+          ...expectedAnswer,
+          result: 'ok',
+        });
+        await databaseBuilder.commit();
+
         // when
-        const foundAnswer = await answerRepository.get(answerId);
+        const foundAnswer = await answerRepository.get(1);
 
         // then
         expect(foundAnswer).to.be.an.instanceof(Answer);
-        expect(foundAnswer.id).to.equal(answerId);
+        expect(foundAnswer).to.deep.equal(expectedAnswer);
       });
     });
   });
@@ -58,7 +55,7 @@ describe('Integration | Repository | answerRepository', () => {
 
     context('when there are no answers', () => {
 
-      it('should return an empty list if nothing is found', async () => {
+      it('should return an empty list', async () => {
         // when
         const foundAnswers = await answerRepository.findByIds([100]);
 
@@ -67,278 +64,476 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    context('when there is an answer', () => {
-      let answerIds;
-
-      beforeEach(() => {
-        const firstAnswerId = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentId }).id;
-        const secondAnswerId = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentId }).id;
-        answerIds = [firstAnswerId, secondAnswerId];
-        return databaseBuilder.commit();
-      });
+    context('when there are answers', () => {
 
       it('should retrieve all answers from its id', async () => {
+        // given
+        const firstAnswer = domainBuilder.buildAnswer({
+          id: 1,
+          result: AnswerStatus.OK,
+          resultDetails: 'some details',
+          timeout: 456,
+          value: 'Fruits',
+          assessmentId: 2,
+          challengeId: 'recChallenge123',
+          timeSpent: 20,
+        });
+
+        const secondAnswer = domainBuilder.buildAnswer({
+          id: 2,
+          result: AnswerStatus.KO,
+          resultDetails: 'some details',
+          timeout: null,
+          value: 'Fruits',
+          assessmentId: 2,
+          challengeId: 'recChallenge456',
+          timeSpent: 20,
+        });
+        databaseBuilder.factory.buildAssessment({ id: 2 });
+        databaseBuilder.factory.buildAnswer({ ...secondAnswer, result: 'ko' });
+        databaseBuilder.factory.buildAnswer({ ...firstAnswer, result: 'ok' });
+        databaseBuilder.factory.buildAnswer();
+        await databaseBuilder.commit();
+
         // when
-        const foundAnswers = await answerRepository.findByIds(answerIds);
+        const foundAnswers = await answerRepository.findByIds([1, 2]);
 
         // then
         expect(foundAnswers[0]).to.be.an.instanceof(Answer);
-        expect(_.map(foundAnswers, 'id')).to.have.members(answerIds);
+        expect(foundAnswers).to.deep.equal([firstAnswer, secondAnswer]);
       });
     });
   });
 
   describe('#findByChallengeAndAssessment', () => {
 
-    beforeEach(() => {
-      _.each([
-        { value: 'answer value', challengeId, assessmentId }, // nominal case
-        { challengeId: otherChallengeId, assessmentId }, // same assessmentId, different challengeId
-        { challengeId, assessmentId: otherAssessmentId }, // different assessmentId, same challengeId
-      ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
-      return databaseBuilder.commit();
-    });
+    it('should returns null if there is no assessment matching', async () => {
+      // given
+      databaseBuilder.factory.buildAssessment({ id: 123 });
+      databaseBuilder.factory.buildAnswer({ assessmentId: 123, challengeId: 'recChal1' });
 
-    it('should find the answer by challenge and assessment and return its in an object', async () => {
       // when
-      const foundAnswers = await answerRepository.findByChallengeAndAssessment({
-        challengeId,
-        assessmentId,
+      const foundAnswer = await answerRepository.findByChallengeAndAssessment({
+        challengeId: 'recChal1',
+        assessmentId: 456,
       });
 
       // then
-      expect(foundAnswers).to.exist;
-      expect(foundAnswers).to.be.an.instanceOf(Answer);
-      expect(foundAnswers.value).to.equal('answer value');
+      expect(foundAnswer).to.be.null;
     });
-  });
 
-  describe('#findChallengeIdsFromAnswerIds', () => {
-    it('should return a list of corresponding challenge ids', async () => {
+    it('should returns null if there is no challengeId matching', async () => {
       // given
-      const answerIds = [1, 2, 3, 4];
-      _.each(answerIds, (id) => (databaseBuilder.factory.buildAnswer({ id, challengeId: 'rec' + id })));
+      databaseBuilder.factory.buildAssessment({ id: 123 });
+      databaseBuilder.factory.buildAnswer({ assessmentId: 123, challengeId: 'recChal1' });
+
+      // when
+      const foundAnswer = await answerRepository.findByChallengeAndAssessment({
+        challengeId: 'recChal2',
+        assessmentId: 123,
+      });
+
+      // then
+      expect(foundAnswer).to.be.null;
+    });
+
+    it('should find the answer by challenge and assessment', async () => {
+      // given
+      const expectedAnswer = domainBuilder.buildAnswer({
+        id: 1,
+        result: AnswerStatus.OK,
+        resultDetails: 'some details',
+        timeout: 456,
+        value: 'Fruits',
+        assessmentId: 123,
+        challengeId: 'recChallenge123',
+        timeSpent: 20,
+      });
+      databaseBuilder.factory.buildAssessment({ id: 123 });
+      databaseBuilder.factory.buildAnswer({
+        ...expectedAnswer,
+        result: 'ok',
+      });
       await databaseBuilder.commit();
 
-      const expectedChallengeIds = ['rec1', 'rec2', 'rec3', 'rec4'];
-
       // when
-      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
+      const foundAnswer = await answerRepository.findByChallengeAndAssessment({
+        challengeId: 'recChallenge123',
+        assessmentId: 123,
+      });
 
       // then
-      expect(challengeIds).to.deep.equal(expectedChallengeIds);
+      expect(foundAnswer).to.be.an.instanceOf(Answer);
+      expect(foundAnswer).to.deep.equal(expectedAnswer);
     });
 
-    it('should return an empty list when given an empty list', async () => {
+    it('should return the most recent answer when several answers match with challenge and assessment', async () => {
       // given
-      const answerIds = [];
-
-      // when
-      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
-
-      // then
-      expect(challengeIds).to.deep.equal([]);
-    });
-
-    it('should ignore a non existing answer', async () => {
-      // given
-      const answerIds = [1, 2, 3, 4];
-      _.each(answerIds, (id) => (databaseBuilder.factory.buildAnswer({ id, challengeId: 'rec' + id })));
+      const olderAnswer = domainBuilder.buildAnswer({
+        id: 1,
+        result: AnswerStatus.OK,
+        resultDetails: 'some details',
+        timeout: 456,
+        value: 'Fruits',
+        assessmentId: 123,
+        challengeId: 'recChallenge123',
+        timeSpent: 20,
+      });
+      const newerAnswer = domainBuilder.buildAnswer({
+        id: 2,
+        result: AnswerStatus.KO,
+        resultDetails: 'some other details',
+        timeout: null,
+        value: 'Légumes',
+        assessmentId: 123,
+        challengeId: 'recChallenge123',
+        timeSpent: 25,
+      });
+      databaseBuilder.factory.buildAssessment({ id: 123 });
+      databaseBuilder.factory.buildAnswer({
+        ...olderAnswer,
+        result: 'ok',
+        createdAt: new Date('2020-01-01'),
+      });
+      databaseBuilder.factory.buildAnswer({
+        ...newerAnswer,
+        result: 'ko',
+        createdAt: new Date('2021-01-01'),
+      });
       await databaseBuilder.commit();
 
-      const nonExistingAnswerId = 1234;
-
-      const expectedChallengeIds = ['rec1', 'rec2', 'rec3', 'rec4'];
-
       // when
-      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(
-        answerIds.concat([nonExistingAnswerId]),
-      );
+      const foundAnswer = await answerRepository.findByChallengeAndAssessment({
+        challengeId: 'recChallenge123',
+        assessmentId: 123,
+      });
 
       // then
-      expect(challengeIds).to.deep.equal(expectedChallengeIds);
-    });
-
-    it('should return one challenge which valid 2 distinct skills', async () => {
-      // given
-      const answerIds = [1, 1];
-
-      databaseBuilder.factory.buildAnswer({ id: 1, challengeId: 'rec10' });
-      await databaseBuilder.commit();
-
-      const expectedChallengeIds = ['rec10'];
-
-      // when
-      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
-
-      // then
-      expect(challengeIds).to.deep.equal(expectedChallengeIds);
-    });
-
-    it('should return only once a challengeId answered twice', async () => {
-      // given
-      const answerIds = [1, 2];
-      _.each(answerIds, (id) => (databaseBuilder.factory.buildAnswer({ id, challengeId: 'recChallenge10' })));
-      await databaseBuilder.commit();
-
-      const expectedChallengeIds = ['recChallenge10'];
-
-      // when
-      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
-
-      // then
-      expect(challengeIds).to.deep.equal(expectedChallengeIds);
+      expect(foundAnswer).to.be.an.instanceOf(Answer);
+      expect(foundAnswer).to.deep.equal(newerAnswer);
     });
   });
 
   describe('#findByAssessment', () => {
 
-    beforeEach(() => {
-      _.each([
-        { challengeId, assessmentId },
-        { challengeId, assessmentId: otherAssessmentId },
-        { challengeId: otherChallengeId, assessmentId },
-      ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
-      return databaseBuilder.commit();
+    context('when assessment does not exist', () => {
+
+      it('should return an empty array', async () => {
+        // given
+        databaseBuilder.factory.buildAssessment({ id: 123 });
+        databaseBuilder.factory.buildAnswer({ assessmentId: 123 });
+        await databaseBuilder.commit();
+
+        // when
+        const foundAnswers = await answerRepository.findByAssessment(456);
+
+        // then
+        expect(foundAnswers).to.be.empty;
+      });
     });
 
-    it('should resolves answers with assessment id provided', async () => {
-      // when
-      const answers = await answerRepository.findByAssessment(assessmentId);
+    context('when assessment does not have any answers', () => {
 
-      // then
-      expect(answers.length).to.be.equal(2);
-      expect(answers[0].assessmentId).to.be.equal(assessmentId);
-      expect(answers[1].assessmentId).to.be.equal(assessmentId);
+      it('should return an empty array', async () => {
+        // given
+        databaseBuilder.factory.buildAssessment({ id: 123 });
+        databaseBuilder.factory.buildAssessment({ id: 456 });
+        databaseBuilder.factory.buildAnswer({ assessmentId: 456 });
+        await databaseBuilder.commit();
+
+        // when
+        const foundAnswers = await answerRepository.findByAssessment(123);
+
+        // then
+        expect(foundAnswers).to.be.empty;
+      });
     });
 
-    it('should return answers as domain objects', async () => {
-      // when
-      const answers = await answerRepository.findByAssessment(assessmentId);
+    context('when assessment has some answers', () => {
 
-      // then
-      expect(answers[0]).to.be.instanceof(Answer);
-      expect(answers[1]).to.be.instanceof(Answer);
+      it('should return the answers ordered by creation date', async () => {
+        // given
+        const firstAnswer = domainBuilder.buildAnswer({
+          id: 1,
+          result: AnswerStatus.OK,
+          resultDetails: 'some details',
+          timeout: 456,
+          value: 'Fruits',
+          assessmentId: 123,
+          challengeId: 'recChallenge123',
+          timeSpent: 20,
+        });
+        const secondAnswer = domainBuilder.buildAnswer({
+          id: 2,
+          result: AnswerStatus.KO,
+          resultDetails: 'some details',
+          timeout: null,
+          value: 'Fruits',
+          assessmentId: 123,
+          challengeId: 'recChallenge456',
+          timeSpent: 20,
+        });
+        databaseBuilder.factory.buildAssessment({ id: 123 });
+        databaseBuilder.factory.buildAnswer({ ...secondAnswer, result: 'ko', createdAt: new Date('2020-01-01') });
+        databaseBuilder.factory.buildAnswer({ ...firstAnswer, result: 'ok', createdAt: new Date('2019-01-01') });
+        databaseBuilder.factory.buildAnswer();
+        await databaseBuilder.commit();
+
+        // when
+        const foundAnswers = await answerRepository.findByAssessment(123);
+
+        // then
+        expect(foundAnswers[0]).to.be.an.instanceof(Answer);
+        expect(foundAnswers).to.deep.equal([firstAnswer, secondAnswer]);
+      });
     });
   });
 
   describe('#findLastByAssessment', () => {
-    const expectedAnswerId = 42;
 
-    beforeEach(() => {
-      _.each([
-        { id: 1, challengeId, assessmentId, createdAt: moment().subtract(2, 'day').toDate() },
-        { id: 2, challengeId, assessmentId: otherAssessmentId, createdAt: moment().subtract(1, 'day').toDate() },
-        { id: expectedAnswerId, challengeId: anotherChallengeId, assessmentId, createdAt: moment().subtract(1, 'day').toDate() },
-        { id: 4, challengeId: otherChallengeId, assessmentId, createdAt: moment().subtract(3, 'day').toDate() },
-      ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
-      return databaseBuilder.commit();
+    context('when assessment does not exist', () => {
+
+      it('should return null', async () => {
+        // given
+        databaseBuilder.factory.buildAssessment({ id: 123 });
+        databaseBuilder.factory.buildAnswer({ assessmentId: 123 });
+        await databaseBuilder.commit();
+
+        // when
+        const foundAnswer = await answerRepository.findLastByAssessment(456);
+
+        // then
+        expect(foundAnswer).to.be.null;
+      });
     });
 
-    it('should resolves the last answers with assessment id provided', async () => {
-      // when
-      const answer = await answerRepository.findLastByAssessment(assessmentId);
+    context('when assessment does not have any answers', () => {
 
-      // then
-      expect(answer).to.be.instanceof(Answer);
-      expect(answer.assessmentId).to.be.equal(assessmentId);
-      expect(answer.id).to.be.equal(expectedAnswerId);
+      it('should return null', async () => {
+        // given
+        databaseBuilder.factory.buildAssessment({ id: 123 });
+        databaseBuilder.factory.buildAssessment({ id: 456 });
+        databaseBuilder.factory.buildAnswer({ assessmentId: 456 });
+        await databaseBuilder.commit();
+
+        // when
+        const foundAnswer = await answerRepository.findLastByAssessment(123);
+
+        // then
+        expect(foundAnswer).to.be.null;
+      });
+    });
+
+    context('when assessment has some answers', () => {
+
+      it('should return the latest created answer', async () => {
+        // given
+        const olderAnswer = domainBuilder.buildAnswer({
+          id: 1,
+          result: AnswerStatus.OK,
+          resultDetails: 'some details',
+          timeout: 456,
+          value: 'Fruits',
+          assessmentId: 123,
+          challengeId: 'recChallenge123',
+          timeSpent: 20,
+        });
+        const newerAnswer = domainBuilder.buildAnswer({
+          id: 2,
+          result: AnswerStatus.KO,
+          resultDetails: 'some details',
+          timeout: null,
+          value: 'Fruits',
+          assessmentId: 123,
+          challengeId: 'recChallenge456',
+          timeSpent: 20,
+        });
+        databaseBuilder.factory.buildAssessment({ id: 123 });
+        databaseBuilder.factory.buildAnswer({ ...newerAnswer, result: 'ko', createdAt: new Date('2020-01-01') });
+        databaseBuilder.factory.buildAnswer({ ...olderAnswer, result: 'ok', createdAt: new Date('2019-01-01') });
+        databaseBuilder.factory.buildAnswer();
+        await databaseBuilder.commit();
+
+        // when
+        const foundAnswer = await answerRepository.findLastByAssessment(123);
+
+        // then
+        expect(foundAnswer).to.be.an.instanceof(Answer);
+        expect(foundAnswer).to.deep.equal(newerAnswer);
+      });
     });
   });
 
-  describe('#findCorrectAnswersByAssessmentId', () => {
+  describe('#findChallengeIdsFromAnswerIds', () => {
 
-    beforeEach(() => {
-      _.each([
-        { result: 'ok', challengeId, assessmentId },
-        { result: 'ok', challengeId, assessmentId: otherAssessmentId },
-        { result: 'ko', challengeId: otherChallengeId, assessmentId },
-      ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
-      return databaseBuilder.commit();
+    context('when provided answerIds collection is empty', () => {
+
+      it('should return an empty array', async () => {
+        // when
+        const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([]);
+
+        // then
+        expect(challengeIds).to.be.empty;
+      });
     });
 
-    it('should retrieve answers with ok status from assessment id provided', async () => {
+    context('when provided answerIds refer to non-existent answers', () => {
+
+      it('should return an empty array', async () => {
+        // when
+        const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([1]);
+
+        // then
+        expect(challengeIds).to.be.empty;
+      });
+    });
+
+    context('when provided answerIds list contains duplicate ids', () => {
+
+      it('should return distinct challengeIds', async () => {
+        // given
+        databaseBuilder.factory.buildAnswer({ id: 123, challengeId: 'recABC' });
+        await databaseBuilder.commit();
+
+        // when
+        const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([123, 123]);
+
+        // then
+        expect(challengeIds).to.have.length(1);
+        expect(challengeIds[0]).to.equal('recABC');
+      });
+    });
+
+    it('should return a list of corresponding distinct challenge ids ordered by challenge id', async () => {
       // given
-      const expectedStatus = {
-        status: 'ok',
-      };
+      databaseBuilder.factory.buildAnswer({ id: 123, challengeId: 'recABC' });
+      databaseBuilder.factory.buildAnswer({ id: 456, challengeId: 'recDEF' });
+      databaseBuilder.factory.buildAnswer({ id: 789, challengeId: 'recGHI' });
+      databaseBuilder.factory.buildAnswer({ id: 159, challengeId: 'recABC' });
+      await databaseBuilder.commit();
 
       // when
-      const answers = await answerRepository.findCorrectAnswersByAssessmentId(assessmentId);
+      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([456, 123, 789, 159]);
 
       // then
-      expect(answers).to.exist;
-      expect(answers).to.have.length.of(1);
-
-      const foundAnswer = answers[0];
-
-      expect(foundAnswer.assessmentId).to.be.equal(assessmentId);
-      expect(foundAnswer.result).to.deep.equal(expectedStatus);
+      expect(challengeIds).to.deep.include.members(['recABC', 'recDEF', 'recGHI']);
     });
   });
 
   describe('#saveWithKnowledgeElements', () => {
-
-    let answer, firstKnowledgeElement, secondeKnowledgeElements;
-    let savedAnswer;
-
-    beforeEach(() => {
-      answer = domainBuilder.buildAnswer({ assessmentId });
-      answer.id = undefined;
-      firstKnowledgeElement = domainBuilder.buildKnowledgeElement({ answerId: answer.id, assessmentId, userId });
-      secondeKnowledgeElements = domainBuilder.buildKnowledgeElement({ answerId: answer.id, assessmentId, userId });
-    });
 
     afterEach(async () => {
       await knex('knowledge-elements').delete();
       await knex('answers').delete();
     });
 
-    context('when the database works correctly', () => {
-
-      beforeEach(async () => {
-        // when
-        savedAnswer = await answerRepository.saveWithKnowledgeElements(answer, [firstKnowledgeElement, secondeKnowledgeElements]);
+    it('should save and return the answer', async () => {
+      // given
+      const answerToSave = domainBuilder.buildAnswer({
+        id: null,
+        result: AnswerStatus.OK,
+        resultDetails: 'some details',
+        timeout: 456,
+        value: 'Fruits',
+        assessmentId: 123,
+        challengeId: 'recChallenge123',
+        timeSpent: 20,
       });
+      databaseBuilder.factory.buildAssessment({ id: 123 });
+      await databaseBuilder.commit();
 
-      it('should save the answer in db', async () => {
-        // then
-        const expectedRawAnswerWithoutIdNorDates = {
-          value: answer.value,
-          result: answerStatusDatabaseAdapter.toSQLString(answer.result),
-          assessmentId: answer.assessmentId,
-          challengeId: answer.challengeId,
-          timeout: answer.timeout,
-          resultDetails: `${answer.resultDetails}\n`,
-          timeSpent: answer.timeSpent,
-        };
-        const answerInDB = await knex('answers').first();
-        return compareDatabaseObject(answerInDB, expectedRawAnswerWithoutIdNorDates);
+      // when
+      const savedAnswer = await answerRepository.saveWithKnowledgeElements(answerToSave, []);
+
+      // then
+      const answerInDB = await answerRepository.get(savedAnswer.id);
+      expect(savedAnswer).to.be.instanceOf(Answer);
+      expect(savedAnswer).to.deep.equal(answerInDB);
+    });
+
+    it('should save the knowledge elements', async () => {
+      // given
+      const answerToSave = domainBuilder.buildAnswer({
+        id: null,
+        assessmentId: 123,
       });
-
-      it('should save knowledge elements', async () => {
-        const knowledgeElementsInDB = await knex('knowledge-elements').where({ answerId: savedAnswer.id }).orderBy('id');
-
-        expect(knowledgeElementsInDB).to.length(2);
-        compareDatabaseObject(knowledgeElementsInDB[0], firstKnowledgeElement);
-        compareDatabaseObject(knowledgeElementsInDB[1], secondeKnowledgeElements);
-
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
+        id: null,
+        createdAt: null,
+        source: KnowledgeElement.SourceType.DIRECT,
+        status: KnowledgeElement.StatusType.VALIDATED,
+        earnedPix: 45,
+        answerId: null,
+        assessmentId: 123,
+        skillId: 'recSkill1',
+        userId: 456,
+        competenceId: 'recComp1',
       });
+      const knowledgeElement2 = domainBuilder.buildKnowledgeElement({
+        id: null,
+        createdAt: null,
+        source: KnowledgeElement.SourceType.INFERRED,
+        status: KnowledgeElement.StatusType.INVALIDATED,
+        earnedPix: 0,
+        answerId: null,
+        assessmentId: 123,
+        skillId: 'recSkill2',
+        userId: 456,
+        competenceId: 'recComp2',
+      });
+      databaseBuilder.factory.buildUser({ id: 456 });
+      databaseBuilder.factory.buildAssessment({ id: 123 });
+      await databaseBuilder.commit();
 
-      it('should return the answer', () => {
-        expect(savedAnswer.id).to.not.equal(undefined);
-        expect(savedAnswer).to.be.an.instanceOf(Answer);
+      // when
+      const savedAnswer = await answerRepository.saveWithKnowledgeElements(answerToSave, [knowledgeElement1, knowledgeElement2]);
 
-        expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
+      // then
+      const knowledgeElementsDTOs = await knex
+        .select('source', 'status', 'earnedPix', 'answerId', 'assessmentId', 'skillId', 'userId', 'competenceId')
+        .from('knowledge-elements')
+        .orderBy('skillId');
+      expect(knowledgeElementsDTOs[0]).to.deep.equal({
+        source: KnowledgeElement.SourceType.DIRECT,
+        status: KnowledgeElement.StatusType.VALIDATED,
+        earnedPix: 45,
+        answerId: savedAnswer.id,
+        assessmentId: 123,
+        skillId: 'recSkill1',
+        userId: 456,
+        competenceId: 'recComp1',
+      });
+      expect(knowledgeElementsDTOs[1]).to.deep.equal({
+        source: KnowledgeElement.SourceType.INFERRED,
+        status: KnowledgeElement.StatusType.INVALIDATED,
+        earnedPix: 0,
+        answerId: savedAnswer.id,
+        assessmentId: 123,
+        skillId: 'recSkill2',
+        userId: 456,
+        competenceId: 'recComp2',
       });
     });
-    context('when the database do not works correctly', () => {
-      it('should not save the answer nor knowledge-elements', async () => {
-        // given
-        sinon.stub(BookshelfKnowledgeElement.prototype, 'save').rejects();
 
-        //when
-        savedAnswer = await catchErr(answerRepository.saveWithKnowledgeElements)(answer, [firstKnowledgeElement, secondeKnowledgeElements]);
+    context('when something goes wrong during the saving of the knowledge elements', () => {
+
+      it('should not have saved anything', async () => {
+        // given
+        const answerToSave = domainBuilder.buildAnswer({
+          id: null,
+          assessmentId: 123,
+        });
+        const knowledgeElement = domainBuilder.buildKnowledgeElement({
+          id: null,
+          createdAt: null,
+          assessmentId: 123,
+          userId: 456, // constraint violation here
+        });
+        databaseBuilder.factory.buildAssessment({ id: 123 });
+        await databaseBuilder.commit();
+
+        // when
+        await catchErr(answerRepository.saveWithKnowledgeElements)(answerToSave, [knowledgeElement]);
 
         // then
         const answerInDB = await knex('answers');
@@ -346,8 +541,6 @@ describe('Integration | Repository | answerRepository', () => {
         expect(answerInDB).to.have.length(0);
         expect(knowledgeElementsInDB).to.have.length(0);
       });
-
     });
   });
-
 });
