@@ -70,6 +70,42 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
       assert.equal(component.args.certificationCandidates.length, 1);
     });
   });
+  module('#addCertificationCandidateInStaging', async function() {
+
+    module('When FT_IS_NEW_CPF_DATA_ENABLED is enabled', async function() {
+
+      test('should not add an empty candidate in staging', async function(assert) {
+      // given
+        component.args = {
+          isNewCpfDataToggleEnabled: true,
+        };
+
+        // when
+        await component.addCertificationCandidateInStaging();
+
+        // then
+        assert.equal(component.candidatesInStaging.length, 0);
+      });
+
+    });
+
+    module('When FT_IS_NEW_CPF_DATA_ENABLED is  not enabled', async function() {
+
+      test('should disable the feature of enrolling a new candidate', async function(assert) {
+      // given
+        component.args = {
+          isNewCpfDataToggleEnabled: false,
+        };
+
+        // when
+        await component.addCertificationCandidateInStaging();
+
+        // then
+        assert.equal(component.candidatesInStaging.length, 1);
+      });
+
+    });
+  });
 
   module('#deleteCertificationCandidate', async function() {
 

@@ -36,6 +36,8 @@ export default class EnrolledCandidates extends Component {
 
   @action
   addCertificationCandidateInStaging() {
+    if (this.args.isNewCpfDataToggleEnabled) return;
+
     this.candidatesInStaging.pushObject(EmberObject.create({
       firstName: '', lastName: '', birthdate: '', birthCity: '',
       birthProvinceCode: '', birthCountry: '', email: '', externalId: '',
