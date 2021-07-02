@@ -1,4 +1,4 @@
-<form {{on 'submit' @createCampaign}} class="form">
+<form {{on 'submit' @onSubmit}} class="form">
 
   <div class="form__field">
     <label for="campaign-name" class="label">{{t 'pages.campaign-creation.name.label'}}</label>
@@ -117,7 +117,7 @@
   </div>
 
   <div class="form__validation">
-    <button class="button button--no-color" type="button" {{on 'click' @cancel}}>{{t 'common.actions.cancel'}}</button>
+    <button class="button button--no-color" type="button" {{on 'click' @onCancel}}>{{t 'common.actions.cancel'}}</button>
     <button class="button" type="submit">{{t 'pages.campaign-creation.actions.create'}}</button>
   </div>
 
