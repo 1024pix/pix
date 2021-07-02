@@ -74,6 +74,10 @@ export default function index(config) {
             'latest-organization-name': 'Collège FouFouFou',
           },
         } });
+    } else {
+      return new Response(409, {}, {
+        errors: [{ status: '409' }],
+      });
     }
   });
 }
