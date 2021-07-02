@@ -1,11 +1,13 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import Service from '@ember/service';
-import { render, fillIn, triggerEvent, click } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { contains } from '../../helpers/contains';
 import sinon from 'sinon';
+import { fillInByLabel } from '../../helpers/fill-in-by-label';
+import { clickByLabel } from '../../helpers/click-by-label';
 
 describe('Integration | Component | recover-account-student-information-form', function() {
 
@@ -47,14 +49,13 @@ describe('Integration | Component | recover-account-student-information-form', f
     `);
 
     // when
-    await fillIn('#ineIna', ine);
-    await fillIn('#firstName', firstName);
-    await fillIn('#lastName', lastName);
-    await fillIn('#dayOfBirth', dayOfBirth);
-    await fillIn('#monthOfBirth', monthOfBirth);
-    await fillIn('#yearOfBirth', yearOfBirth);
-
-    await click('button[type=submit]');
+    await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.ine-ina'), ine);
+    await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.first-name'), firstName);
+    await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.last-name'), lastName);
+    await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.label.birth-day'), dayOfBirth);
+    await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.label.birth-month'), monthOfBirth);
+    await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.label.birth-year'), yearOfBirth);
+    await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.submit'));
 
     // then
     sinon.assert.calledWithExactly(submitStudentInformation, {
@@ -75,7 +76,7 @@ describe('Integration | Component | recover-account-student-information-form', f
         await render(hbs `<RecoverAccountStudentInformationForm />`);
 
         // when
-        await fillIn('#ineIna', validIna);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.ine-ina'), validIna);
         await triggerEvent('#ineIna', 'focusout');
 
         // then
@@ -88,7 +89,7 @@ describe('Integration | Component | recover-account-student-information-form', f
         await render(hbs `<RecoverAccountStudentInformationForm />`);
 
         // when
-        await fillIn('#ineIna', validIna);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.ine-ina'), validIna);
         await triggerEvent('#ineIna', 'focusout');
 
         // then
@@ -104,7 +105,7 @@ describe('Integration | Component | recover-account-student-information-form', f
         await render(hbs `<RecoverAccountStudentInformationForm />`);
 
         // when
-        await fillIn('#ineIna', invalidIneIna);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.ine-ina'), invalidIneIna);
         await triggerEvent('#ineIna', 'focusout');
 
         // then
@@ -117,7 +118,7 @@ describe('Integration | Component | recover-account-student-information-form', f
         await render(hbs `<RecoverAccountStudentInformationForm />`);
 
         // when
-        await fillIn('#ineIna', emptyIneIna);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.ine-ina'), emptyIneIna);
         await triggerEvent('#ineIna', 'focusout');
 
         // then
@@ -134,7 +135,7 @@ describe('Integration | Component | recover-account-student-information-form', f
       await render(hbs `<RecoverAccountStudentInformationForm />`);
 
       // when
-      await fillIn('#lastName', emptyLastName);
+      await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.last-name'), emptyLastName);
       await triggerEvent('#lastName', 'focusout');
 
       // then
@@ -150,7 +151,7 @@ describe('Integration | Component | recover-account-student-information-form', f
       await render(hbs `<RecoverAccountStudentInformationForm />`);
 
       // when
-      await fillIn('#firstName', emptyFirstName);
+      await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.last-name'), emptyFirstName);
       await triggerEvent('#firstName', 'focusout');
 
       // then

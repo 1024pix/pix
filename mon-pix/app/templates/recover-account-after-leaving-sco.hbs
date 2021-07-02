@@ -7,3 +7,10 @@
 {{#if this.showRecoverAccountConflictError}}
   <RecoverAccountConflictError @firstName={{this.firstName}} />
 {{/if}}
+
+{{#if this.showRecoverAccountConfirmationStep}}
+  <RecoverAccountConfirmationStep
+    @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
+    @cancelAccountRecovery={{this.cancelAccountRecovery}}
+  />
+{{/if}}
