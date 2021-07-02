@@ -979,6 +979,32 @@
           "cancel":"Annuler",
           "confirm": "Je confirme"
         }
+      },
+      "backup-email-confirmation": {
+        "email-is-needed-message": "{ firstName } , nous avons besoin de votre adresse e-mail",
+        "email-sent-to-choose-password-message": "Nous vous enverrons un e-mail afin de choisir un mot de passe.",
+        "email-already-exist-for-account-message": "L’adresse e-mail ci-dessous est déjà associée à votre compte :",
+        "email-is-valid-message": "Si elle est valide,",
+        "email-reset-message": "réinitialisez votre mot de passe",
+        "ask-for-new-email-message": "sinon fournissez en une nouvelle",
+        "form": {
+          "email": "Votre adresse e-mail",
+          "actions": {
+            "submit": "C'est partix",
+            "cancel": "Annuler"
+          },
+          "error":  {
+            "empty-email": "le champ email est obligatoire",
+            "wrong-email-format": "Votre adresse e-mail n’est pas valide.",
+            "email-already-exist": {
+              "existing-email": "Vous possédez déjà cette adresse e-mail. Si elle est valide,",
+              "init-password":" réinitialisez votre mot de passe",
+              "new-email": ", sinon saisissez une nouvelle."
+            },
+            "new-backup-email": "Veuillez saisir un e-mail valide pour récupérer votre compte",
+            "new-email-already-exist": "Cette adresse e-mail est déjà utilisée"
+          }
+        }
       }
     },
     "result-item": {
