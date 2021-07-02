@@ -1,3 +1,13 @@
 {{page-title this.campaignName}}
 {{page-title (t 'pages.campaign-modification.title')}}
-<Routes::Authenticated::Campaign::Update @campaign={{@model}} @subTitle={{this.campaignName}} @update={{this.update}} @cancel={{this.cancel}} />
+
+<div>
+  <h1 class="page__title page-title">{{ t 'pages.campaign-modification.title' }}</h1>
+  <h2 class="page-sub-title">{{this.campaignName}}</h2>
+
+  <Campaign::UpdateForm
+    @campaign={{@model}}
+    @onSubmit={{this.update}}
+    @onCancel={{this.cancel}}
+  />
+</div>

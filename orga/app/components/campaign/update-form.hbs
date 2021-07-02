@@ -1,0 +1,41 @@
+<form>
+  <div class="form__field">
+    <label for="campaign-name" class="label">{{ t 'pages.campaign-modification.campaign-name' }}</label>
+    <Input
+      @id="campaign-name"
+      @name="campaign-name"
+      @type="text"
+      @class="input"
+      @maxlength="255"
+      @value={{@campaign.name}}
+    />
+  </div>
+
+  {{#if @campaign.isTypeAssessment}}
+    <div class="form__field">
+      <label for="campaign-title" class="label">{{ t 'pages.campaign-modification.personalised-test-title' }}</label>
+      <Input
+        @id="campaign-title"
+        @name="campaign-title"
+        @type="text"
+        @class="input"
+        @maxlength="50"
+        @value={{@campaign.title}}
+      />
+    </div>
+  {{/if}}
+
+  <div class="form__field">
+    <label for="campaign-custom-landing-page-text" class="label">{{ t 'pages.campaign-modification.landing-page-text' }}</label>
+    <Textarea @id="campaign-custom-landing-page-text" @name="campaign-custom-landing-page-text" @maxlength="350" @rows={{8}} @value={{@campaign.customLandingPageText}} class="textarea" />
+  </div>
+
+  <div class="form__validation">
+    <PixButton @triggerAction={{fn @onCancel @campaign.id}} class="button button--no-color">
+      {{ t 'common.actions.cancel' }}
+    </PixButton>
+    <PixButton @type="submit" @triggerAction={{@onSubmit}} class="button">
+      {{t 'pages.campaign-modification.actions.edit'}}
+    </PixButton>
+  </div>
+</form>
