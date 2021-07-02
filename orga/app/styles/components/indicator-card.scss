@@ -46,7 +46,11 @@
     font-size: 0.875rem;
   }
 
-  &__info {
+  &__tooltip {
+    font-weight: 400;
+  }
+
+  &__tooltip-icon {
     font-size: 0.75rem;
     color: $grey-30;
     margin: 0 8px;

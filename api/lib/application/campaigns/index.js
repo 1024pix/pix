@@ -236,6 +236,27 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
+      path: '/api/campaigns/{id}/participants-activity',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignId,
+          }),
+          query: Joi.object({
+            'page[number]': Joi.number().integer().empty(''),
+            'page[size]': Joi.number().integer().empty(''),
+          }),
+        },
+        handler: campaignController.findParticipantsActivity,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des participations d\'une campagne par son id',
+        ],
+        tags: ['api', 'campaign'],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/campaigns/{id}/divisions',
       config: {
         validate: {
