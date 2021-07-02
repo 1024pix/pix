@@ -85,6 +85,66 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
     });
   });
 
+  describe('#deserializeCertificationCandidateModificationCommand', function() {
+
+    it('should return an error if date is in wrong format', function() {
+      // given
+      const payload = {
+        data: {
+          type: 'certifications',
+          id: 1,
+          attributes: {
+            'first-name': 'Freezer',
+            'last-name': 'The all mighty',
+            'birthplace': 'Namek',
+            'birthdate': '2015-32-12',
+          },
+        },
+      };
+
+      // when
+      const promise = serializer.deserializeCertificationCandidateModificationCommand(payload);
+
+      // then
+      return promise.catch(() => {
+        expect(promise).to.be.rejectedWith(WrongDateFormatError);
+      });
+    });
+
+    it('should deserialized only modifiable fields', async function() {
+      // given
+      const payload = {
+        data: {
+          type: 'certifications',
+          id: 1,
+          attributes: {
+            'first-name': 'Freezer',
+            'last-name': 'The all mighty',
+            'birthplace': 'Namek',
+            'birthdate': '1989-10-24',
+            'unmodifiablefield': 'unmodifiable field',
+          },
+        },
+      };
+      const certificationCourseId = 14;
+      const userId = 16;
+
+      // when
+
+      const command = await serializer.deserializeCertificationCandidateModificationCommand(payload, certificationCourseId, userId);
+
+      // then
+      expect(command).to.deep.equal({
+        'firstName': 'Freezer',
+        'lastName': 'The all mighty',
+        'birthplace': 'Namek',
+        'birthdate': '1989-10-24',
+        certificationCourseId: 14,
+        userId: 16,
+      });
+    });
+  });
+
   describe('#serializeFromCertificationCourse', () => {
 
     const jsonCertification = {
