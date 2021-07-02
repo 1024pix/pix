@@ -1,41 +1,19 @@
 {{page-title this.pageTitle}}
+
 <div class="list-campaigns-page">
-  {{#if this.displayNoCampaignPanel}}
-    <Routes::Authenticated::Campaign::NoCampaignPanel />
-  {{else}}
-    <div class="list-campaigns-page__header-page">
-      <button
-        role="tab"
-        type="submit"
-        class="list-campaigns-page__tab {{unless this.isArchived  'list-campaigns-page__tab--active' }}"
-        aria-selected="{{ not this.isArchived }}"
-        aria-label={{t 'pages.campaigns-list.action.ongoing.aria-label'}}
-        {{on 'click' (fn this.updateCampaignStatus null)}}
-      >
-        {{t 'pages.campaigns-list.action.ongoing.label'}}
-      </button>
-      <button
-        role="tab"
-        type="submit"
-        class="list-campaigns-page__tab {{if this.isArchived 'list-campaigns-page__tab--active' }}"
-        aria-selected="{{ this.isArchived }}"
-        aria-label={{t 'pages.campaigns-list.action.archived.aria-label'}}
-        {{on 'click' (fn this.updateCampaignStatus 'archived')}}
-      >
-        {{t 'pages.campaigns-list.action.archived.label'}}
-      </button>
-      <div role="tabpanel" class="list-campaigns-page__create-campaign-button">
-        <LinkTo @route="authenticated.campaigns.new" class="button button--link">
-         {{t 'pages.campaigns-list.action.create'}}
-        </LinkTo>
-      </div>
-    </div>
-    <Routes::Authenticated::Campaign::List
+  {{#if @model.meta.hasCampaigns}}
+    <Campaign::ListActions 
+      @isArchived={{this.isArchived}}
+      @onClickStatusFilter={{this.updateCampaignStatus}}
+    />
+    <Campaign::List
       @campaigns={{@model}}
       @nameFilter={{this.name}}
       @creatorNameFilter={{this.creatorName}}
-      @triggerFiltering={{this.triggerFiltering}}
-      @goToCampaignPage={{this.goToCampaignPage}}
+      @onFilter={{this.triggerFiltering}}
+      @onClickCampaign={{this.goToCampaignPage}}
     />
+  {{else}}
+    <Campaign::NoCampaignPanel />
   {{/if}}
 </div>

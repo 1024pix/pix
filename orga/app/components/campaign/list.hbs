@@ -26,14 +26,14 @@
               @value={{@nameFilter}}
               @placeholder={{t 'pages.campaigns-list.table.filter.by-name'}}
               @ariaLabel={{t 'pages.campaigns-list.table.filter.by-name'}}
-              @triggerFiltering={{@triggerFiltering}}
+              @triggerFiltering={{@onFilter}}
             />
             <Table::HeaderFilterInput
               @field="creatorName"
               @value={{@creatorNameFilter}}
               @placeholder={{t 'pages.campaigns-list.table.filter.by-creator'}}
               @ariaLabel={{t 'pages.campaigns-list.table.filter.by-creator'}}
-              @triggerFiltering={{@triggerFiltering}}
+              @triggerFiltering={{@onFilter}}
             />
             <Table::Header/>
             <Table::Header/>
@@ -43,7 +43,7 @@
 
         <tbody>
         {{#each @campaigns as |campaign|}}
-          <tr aria-label={{t 'pages.campaigns-list.table.row-title'}} {{on 'click' (fn @goToCampaignPage campaign.id)}} class="tr--clickable">
+          <tr aria-label={{t 'pages.campaigns-list.table.row-title'}} {{on 'click' (fn @onClickCampaign campaign.id)}} class="tr--clickable">
             <td class="table__column table__column--no-padding">
               <LinkTo @route="authenticated.campaigns.campaign"
                       @model={{campaign}} 

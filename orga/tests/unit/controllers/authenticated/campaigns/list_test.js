@@ -1,5 +1,4 @@
 import { module, test } from 'qunit';
-import ArrayProxy from '@ember/array/proxy';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -13,60 +12,6 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
 
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/campaigns/list');
-  });
-
-  module('#get displayNoCampaignPanel', function() {
-
-    test('it should know when it should display "No campaign panel"', function(assert) {
-      // given
-      const campaigns = ArrayProxy.create({
-        content: [],
-      });
-      controller.model = campaigns;
-      controller.model.meta = { hasCampaigns: false };
-
-      // when
-      const displayNoCampaignPanel = controller.displayNoCampaignPanel;
-
-      // then
-      assert.true(displayNoCampaignPanel);
-    });
-
-    test('it should know when it should not display "No campaign panel"', function(assert) {
-      // given
-      const campaigns = ArrayProxy.create({
-        content: [],
-      });
-      controller.model = campaigns;
-      controller.model.meta = { hasCampaigns: true };
-
-      // when
-      const displayNoCampaignPanel = controller.displayNoCampaignPanel;
-
-      // then
-      assert.false(displayNoCampaignPanel);
-    });
-
-    module('when there is a filter on campaigns name that does not match any campaign', function() {
-      // given
-      const filterName = 'Dog';
-      const campaign1 = { name: 'Cat', createdAt: new Date('2018-08-07') };
-      const campaigns = ArrayProxy.create({
-        content: [campaign1],
-      });
-
-      test('it should display an empty table', function(assert) {
-        controller.model = campaigns;
-        controller.model.meta = { hasCampaigns: true };
-        controller.name = filterName;
-
-        // when
-        const displayNoCampaignPanel = controller.displayNoCampaignPanel;
-
-        // then
-        assert.false(displayNoCampaignPanel);
-      });
-    });
   });
 
   module('#get isArchived', function() {
