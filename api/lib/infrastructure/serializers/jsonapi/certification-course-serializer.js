@@ -10,6 +10,8 @@ module.exports = {
         const certificationCourseDTO = Object.assign({}, currentCertificationCourse);
         certificationCourseDTO.nbChallenges = currentCertificationCourse.challenges ? currentCertificationCourse.challenges.length : 0;
         certificationCourseDTO.examinerComment = get(currentCertificationCourse, 'certificationIssueReports[0].description');
+        certificationCourseDTO.firstName = currentCertificationCourse.firstName();
+        certificationCourseDTO.lastName = currentCertificationCourse.lastName();
 
         return certificationCourseDTO;
       },

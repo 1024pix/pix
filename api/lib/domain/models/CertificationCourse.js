@@ -25,10 +25,10 @@ class CertificationCourse {
       isCancelled = false,
     } = {}) {
     this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.birthdate = birthdate;
-    this.birthplace = birthplace;
+    this._firstName = firstName;
+    this._lastName = lastName;
+    this._birthdate = birthdate;
+    this._birthplace = birthplace;
     this.birthPostalCode = birthPostalCode;
     this.birthINSEECode = birthINSEECode;
     this.sex = sex;
@@ -77,6 +77,22 @@ class CertificationCourse {
 
   isCancelled() {
     return this._isCancelled === true;
+  }
+
+  birthdate() {
+    return this._birthdate;
+  }
+
+  firstName() {
+    return this._firstName;
+  }
+
+  lastName() {
+    return this._lastName;
+  }
+
+  birthplace() {
+    return this._birthplace;
   }
 }
 

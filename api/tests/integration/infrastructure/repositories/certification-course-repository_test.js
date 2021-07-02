@@ -192,10 +192,10 @@ describe('Integration | Repository | Certification Course', function() {
         // then
         expect(actualCertificationCourse.id).to.equal(expectedCertificationCourse.id);
         expect(actualCertificationCourse.completedAt).to.equal(expectedCertificationCourse.completedAt);
-        expect(actualCertificationCourse.firstName).to.equal(expectedCertificationCourse.firstName);
-        expect(actualCertificationCourse.lastName).to.equal(expectedCertificationCourse.lastName);
-        expect(actualCertificationCourse.birthdate).to.equal(expectedCertificationCourse.birthdate);
-        expect(actualCertificationCourse.birthplace).to.equal(expectedCertificationCourse.birthplace);
+        expect(actualCertificationCourse.firstName()).to.equal(expectedCertificationCourse.firstName);
+        expect(actualCertificationCourse.lastName()).to.equal(expectedCertificationCourse.lastName);
+        expect(actualCertificationCourse.birthdate()).to.equal(expectedCertificationCourse.birthdate);
+        expect(actualCertificationCourse.birthplace()).to.equal(expectedCertificationCourse.birthplace);
         expect(actualCertificationCourse.sessionId).to.equal(sessionId);
         expect(actualCertificationCourse.isPublished).to.equal(expectedCertificationCourse.isPublished);
         expect(actualCertificationCourse.certificationIssueReports[0].description).to.equal(description);
@@ -325,22 +325,25 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should update whitelisted values in database', async () => {
       // given
-      certificationCourse.firstName = 'Jean-Pix';
-      certificationCourse.lastName = 'Compétan';
-      certificationCourse.birthdate = '2000-01-01';
-      certificationCourse.birthplace = 'Paris';
-      certificationCourse.cancel();
+      const unpersitedUpdatedCertificationCourse = new CertificationCourse({
+        ...certificationCourse,
+        firstName: 'Jean-Pix',
+        lastName: 'Compétan',
+        birthdate: '2000-01-01',
+        birthplace: 'Paris',
+        isCancelled: true,
+      });
 
       // when
-      const certificationCourseUpdated = await certificationCourseRepository.update(certificationCourse);
+      const persistedUpdatedCertificationCourse = await certificationCourseRepository.update(unpersitedUpdatedCertificationCourse);
 
       // then
-      expect(certificationCourseUpdated.id).to.equal(certificationCourse.id);
-      expect(certificationCourseUpdated.firstName).to.equal(certificationCourse.firstName);
-      expect(certificationCourseUpdated.lastName).to.equal(certificationCourse.lastName);
-      expect(certificationCourseUpdated.birthdate).to.equal(certificationCourse.birthdate);
-      expect(certificationCourseUpdated.birthplace).to.equal(certificationCourse.birthplace);
-      expect(certificationCourseUpdated.isCancelled()).to.be.true;
+      expect(persistedUpdatedCertificationCourse.id).to.equal(unpersitedUpdatedCertificationCourse.id);
+      expect(persistedUpdatedCertificationCourse.firstName()).to.equal(unpersitedUpdatedCertificationCourse.firstName());
+      expect(persistedUpdatedCertificationCourse.lastName()).to.equal(unpersitedUpdatedCertificationCourse.lastName());
+      expect(persistedUpdatedCertificationCourse.birthdate()).to.equal(unpersitedUpdatedCertificationCourse.birthdate());
+      expect(persistedUpdatedCertificationCourse.birthplace()).to.equal(unpersitedUpdatedCertificationCourse.birthplace());
+      expect(persistedUpdatedCertificationCourse.isCancelled()).to.be.true;
     });
 
     it('should prevent other values to be updated', async () => {
@@ -356,12 +359,13 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should return a NotFoundError when ID doesnt exist', function() {
       // given
-      certificationCourse.id += 1;
-      certificationCourse.firstName = 'Jean-Pix';
-      certificationCourse.lastName = 'Compétan';
+      const certificationCourseToBeUpdated = new CertificationCourse({
+        ...certificationCourse,
+        id: certificationCourse.id + 1,
+      });
 
       // when
-      const promise = certificationCourseRepository.update(certificationCourse);
+      const promise = certificationCourseRepository.update(certificationCourseToBeUpdated);
 
       // then
       return expect(promise).to.be.rejectedWith(NotFoundError);

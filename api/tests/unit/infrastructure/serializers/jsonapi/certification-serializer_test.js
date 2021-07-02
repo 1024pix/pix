@@ -1,4 +1,4 @@
-const { expect, EMPTY_BLANK_AND_NULL } = require('../../../../test-helper');
+const { expect, EMPTY_BLANK_AND_NULL, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 const { NO_EXAMINER_COMMENT } = require('../../../../../lib/domain/models/CertificationReport');
@@ -101,14 +101,14 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       },
     };
 
-    const certificationCourse = {
+    const certificationCourse = domainBuilder.buildCertificationCourse({
       id: 1,
       firstName: 'Freezer',
       lastName: 'The all mighty',
       birthplace: 'Namek',
       birthdate: '1989-10-24',
       externalId: 'xenoverse2',
-    };
+    });
 
     it('should serialize', () => {
       // when
