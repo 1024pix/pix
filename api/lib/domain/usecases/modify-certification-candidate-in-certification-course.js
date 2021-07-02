@@ -1,14 +1,13 @@
 module.exports = async function modifyCandidateInCertificationCourse({
-  certificationCourseRepository,
-  candidateModificationCommand,
-}) {
-  const {
+  command: {
     certificationCourseId,
     firstName,
     lastName,
     birthdate,
     birthplace,
-  } = candidateModificationCommand;
+  },
+  certificationCourseRepository,
+}) {
   const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
   certificationCourse.modifyFirstName(firstName);
   certificationCourse.modifyLastName(lastName);
