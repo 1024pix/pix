@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import visit from '../helpers/visit';
-import { currentURL, fillIn } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import setupIntl from '../helpers/setup-intl';
 import { fillInByLabel } from '../helpers/fill-in-by-label';
 import { clickByLabel } from '../helpers/click-by-label';
@@ -62,9 +62,9 @@ describe('Acceptance | RecoverAccountAfterLeavingScoRoute', function() {
         await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.ine-ina'), ineIna);
         await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.first-name'), firstName);
         await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.last-name'), lastName);
-        await fillIn('#dayOfBirth', dayOfBirth);
-        await fillIn('#monthOfBirth', monthOfBirth);
-        await fillIn('#yearOfBirth', yearOfBirth);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.label.birth-day'), dayOfBirth);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.label.birth-month'), monthOfBirth);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.label.birth-year'), yearOfBirth);
         await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.submit'));
 
         // then
@@ -105,9 +105,9 @@ describe('Acceptance | RecoverAccountAfterLeavingScoRoute', function() {
         await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.ine-ina'), ineIna);
         await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.first-name'), firstName);
         await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.last-name'), lastName);
-        await fillIn('#dayOfBirth', dayOfBirth);
-        await fillIn('#monthOfBirth', monthOfBirth);
-        await fillIn('#yearOfBirth', yearOfBirth);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.label.birth-day'), dayOfBirth);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.label.birth-month'), monthOfBirth);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.label.birth-year'), yearOfBirth);
         await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.submit'));
 
         // then
