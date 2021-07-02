@@ -1,7 +1,12 @@
 {{page-title (t 'pages.campaign-creation.title')}}
-<div class="new-campaign-page">
 
+<div class="new-campaign-page">
   <h1 class="page__title page-title">{{t 'pages.campaign-creation.title' }}</h1>
 
-  <Routes::Authenticated::Campaign::New @campaign={{@model.campaign}} @targetProfiles={{@model.targetProfiles}} @createCampaign={{this.createCampaign}} @cancel={{this.cancel}} />
+  <Campaign::CreateForm
+    @campaign={{@model.campaign}}
+    @targetProfiles={{@model.targetProfiles}}
+    @onSubmit={{this.createCampaign}}
+    @onCancel={{this.cancel}}
+  />
 </div>
