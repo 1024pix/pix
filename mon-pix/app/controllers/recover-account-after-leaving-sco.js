@@ -7,6 +7,7 @@ export default class RecoverAccountAfterLeavingScoController extends Controller 
   @tracked showRecoverAccountStudentInformationForm = true;
   @tracked showRecoverAccountConflictError = false;
   @tracked showRecoverAccountConfirmationStep = false;
+  @tracked showRecoverAccountBackupEmailConfirmationForm = false;
 
   studentInformationForAccountRecovery;
   firstName;
@@ -22,6 +23,13 @@ export default class RecoverAccountAfterLeavingScoController extends Controller 
     } catch (err) {
       this._handleError(err);
     }
+  }
+
+  @action
+  continueAccountRecoveryBackupEmailConfirmation() {
+    this.showRecoverAccountStudentInformationForm = false;
+    this.showRecoverAccountConfirmationStep = false;
+    this.showRecoverAccountBackupEmailConfirmationForm = true;
   }
 
   @action
