@@ -52,8 +52,8 @@ describe('Integration | Component | recover-account-confirmation-step', function
 
       // when
       await render(hbs`<RecoverAccountConfirmationStep
-      @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-    />`);
+        @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
+      />`);
 
       // then
       expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.fields.username'))).to.not.exist;
