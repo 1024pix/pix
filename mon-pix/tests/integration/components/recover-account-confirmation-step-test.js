@@ -94,17 +94,17 @@ describe('Integration | Component | recover-account-confirmation-step', function
       latestOrganizationName: 'Collège George-Besse, Loches',
     });
     this.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
-    const continueAccountRecovery = sinon.stub();
-    this.set('continueAccountRecovery', continueAccountRecovery);
+    const continueAccountRecoveryBackupEmailConfirmation = sinon.stub();
+    this.set('continueAccountRecoveryBackupEmailConfirmation', continueAccountRecoveryBackupEmailConfirmation);
 
     // when
     await render(hbs`<RecoverAccountConfirmationStep
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-      @continueAccountRecovery={{this.continueAccountRecovery}}
+      @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
     />`);
     await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.buttons.confirm'));
 
     // then
-    sinon.assert.calledOnce(continueAccountRecovery);
+    sinon.assert.calledOnce(continueAccountRecoveryBackupEmailConfirmation);
   });
 });
