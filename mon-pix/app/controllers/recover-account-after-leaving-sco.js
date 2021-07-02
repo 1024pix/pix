@@ -24,6 +24,12 @@ export default class RecoverAccountAfterLeavingScoController extends Controller 
     }
   }
 
+  @action
+  cancelAccountRecovery() {
+    this.showRecoverAccountConfirmationStep = false;
+    this.showRecoverAccountStudentInformationForm = true;
+  }
+
   _handleError(err) {
     const status = err.errors?.[0]?.status;
 
