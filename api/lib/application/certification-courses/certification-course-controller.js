@@ -1,5 +1,4 @@
 const certificationService = require('../../domain/services/certification-service');
-const certificationCourseService = require('../../domain/services/certification-course-service');
 const certificationDetailsSerializer = require('../../infrastructure/serializers/jsonapi/certification-details-serializer');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationResultInformationSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-information-serializer');
@@ -32,8 +31,14 @@ module.exports = {
   },
 
   async update(request) {
-    const certificationCourse = await certificationSerializer.deserialize(request.payload);
-    const updatedCertificationCourse = await certificationCourseService.update(certificationCourse);
+    const certificationCourseId = request.params.id;
+    const userId = request.auth.credentials.userId;
+    const candidateModificationCommand = await certificationSerializer.deserializeCertificationCandidateModificationCommand(request.payload, certificationCourseId, userId);
+    await usecases.modifyCertificationCandidateInCertificationCourse({ candidateModificationCommand });
+    const updatedCertificationCourse = await usecases.getCertificationCourse({
+      userId: candidateModificationCommand.userId,
+      certificationCourseId: candidateModificationCommand.certificationCourseId,
+    });
     return certificationSerializer.serializeFromCertificationCourse(updatedCertificationCourse);
   },
 
@@ -44,7 +49,13 @@ module.exports = {
     const locale = extractLocaleFromRequest(request);
 
     const { created, certificationCourse } = await DomainTransaction.execute((domainTransaction) => {
-      return usecases.retrieveLastOrCreateCertificationCourse({ domainTransaction, sessionId, accessCode, userId, locale });
+      return usecases.retrieveLastOrCreateCertificationCourse({
+        domainTransaction,
+        sessionId,
+        accessCode,
+        userId,
+        locale,
+      });
     });
 
     const serialized = await certificationCourseSerializer.serialize(certificationCourse);
