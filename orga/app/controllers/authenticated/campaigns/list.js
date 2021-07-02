@@ -21,10 +21,6 @@ export default class ListController extends Controller {
     return this.status === 'archived';
   }
 
-  get displayNoCampaignPanel() {
-    return !this.model.meta.hasCampaigns;
-  }
-
   get pageTitle() {
     let title = this.intl.t('pages.campaigns-list.title.active');
     if (this.model.query.filter.status === 'archived') {
