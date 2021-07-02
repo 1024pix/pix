@@ -100,12 +100,6 @@ describe('Acceptance | RecoverAccountAfterLeavingScoRoute', function() {
           birthdate: '2000-5-20',
         });
 
-        this.server.post('/schooling-registration-dependent-users/recover-account', function() {
-          return new Response(409, {}, {
-            errors: [{ status: '409' }],
-          });
-        });
-
         //when
         await visit('/recuperer-mon-compte');
         await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.ine-ina'), ineIna);
