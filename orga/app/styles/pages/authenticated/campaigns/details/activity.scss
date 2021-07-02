@@ -1,33 +1,14 @@
-.activity {
-  display: flex;
-  flex-direction: column;
+.activity__dashboard {
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
 
-  &__line {
-    display: flex;
-    flex-direction: row;
+.activity__participants-list {
+  margin-bottom: 32px;
+}
 
-    & >:not(:last-child) {
-      margin-right: 8px;
-    }
-    & >:not(:first-child) {
-      margin-left: 8px;
-    }
-
-    &:not(:last-child) {
-      margin-bottom: 8px;
-    }
-    &:not(:first-child) {
-      margin-top: 8px;
-    }
-  }
-
-  &__participations-by-day {
-    box-sizing: border-box;
-    flex: 6 2 auto;
-  }
-
-  &__participations-by-status {
-    box-sizing: border-box;
-    flex: 0 1 auto;
+@media (max-width: 768px) {
+  .activity__dashboard {
+    margin-bottom: 16px;
   }
 }

@@ -1,9 +1,9 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import createGlimmerComponent from '../../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
 
-module('Unit | Component | Charts | activity', (hooks) => {
+module('Unit | Component | Campaign::Activity::Dashboard', (hooks) => {
   setupTest(hooks);
   let component, dataFetcher;
 
@@ -25,7 +25,9 @@ module('Unit | Component | Charts | activity', (hooks) => {
 
   test('should fill data', async function(assert) {
     // when
-    component = await createGlimmerComponent('component:charts/activity');
+    component = await createGlimmerComponent('component:campaign/activity/dashboard', {
+      campaign: { id: 1 },
+    });
 
     // then
     assert.equal(component.total, 3);

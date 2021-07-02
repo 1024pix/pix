@@ -1,4 +1,4 @@
-<section class="indicator-card">
+<section class="indicator-card" ...attributes>
   {{#if @loading}}
     <p class="sr-only">{{@loader}}</p>
     <div class="indicator-card__icon" aria-hidden="true"/>
@@ -16,9 +16,9 @@
             @text={{@info}}
             @position="top"
             @isWide={{true}}
-            @isLight={{true}}
+            class="indicator-card__tooltip"
           >
-            <FaIcon @icon="question-circle" class="indicator-card__info"/>
+            <FaIcon @icon="question-circle" class="indicator-card__tooltip-icon"/>
           </PixTooltip>
         {{/if}}
       </label>
