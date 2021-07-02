@@ -23,49 +23,94 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
   const EMAIL_SELECTOR = 'panel-candidate__email__';
   const EXTRA_TIME_SELECTOR = 'panel-candidate__extraTimePercentage__';
 
-  test('it displays candidates information', async function(assert) {
-    // given
-    const candidate = _buildCertificationCandidate({
-      birthdate: new Date('2019-04-28'),
+  module('When FT_IS_NEW_CPF_DATA_ENABLED is not enabled', function() {
+
+    test('it displays all candidates information', async function(assert) {
+      // given
+      const candidate = _buildCertificationCandidate({
+        birthdate: new Date('2019-04-28'),
+      });
+      const isNewCpfDataToggleEnabled = false;
+      const certificationCandidates = [candidate];
+
+      this.set('isNewCpfDataToggleEnabled', isNewCpfDataToggleEnabled);
+      this.set('certificationCandidates', certificationCandidates);
+
+      // when
+      await render(hbs`
+        <EnrolledCandidates 
+          @sessionId="1" 
+          @certificationCandidates={{certificationCandidates}}
+          @isNewCpfDataToggleEnabled={{isNewCpfDataToggleEnabled}}
+          >
+        </EnrolledCandidates>
+      `);
+
+      // then
+      assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.externalId);
+      assert.dom(`[data-test-id=${BIRTHDATE_COLUMN_SELECTOR}${candidate.id}]`).hasText('28/04/2019');
+      assert.dom(`[data-test-id=${LAST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.lastName);
+      assert.dom(`[data-test-id=${FIRST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.firstName);
+      assert.dom(`[data-test-id=${BIRTH_CITY_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.birthCity);
+      assert.dom(`[data-test-id=${BIRTH_PROVINCE_CODE_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.birthProvinceCode);
+      assert.dom(`[data-test-id=${BIRTH_COUNTRY_SELECTOR}${candidate.id}]`).hasText(candidate.birthCountry);
+      assert.dom(`[data-test-id=${EMAIL_SELECTOR}${candidate.id}]`).hasText(candidate.email);
+      assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.resultRecipientEmail);
+      assert.dom(`[data-test-id=${EXTRA_TIME_SELECTOR}${candidate.id}]`).hasText('3000 %');
     });
-    const certificationCandidates = [candidate];
-
-    this.set('certificationCandidates', certificationCandidates);
-
-    // when
-    await render(hbs`
-      <EnrolledCandidates @sessionId="1" @certificationCandidates={{certificationCandidates}}>
-      </EnrolledCandidates>
-    `);
-
-    // then
-    assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.externalId);
-    assert.dom(`[data-test-id=${BIRTHDATE_COLUMN_SELECTOR}${candidate.id}]`).hasText('28/04/2019');
-    assert.dom(`[data-test-id=${LAST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.lastName);
-    assert.dom(`[data-test-id=${FIRST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.firstName);
-    assert.dom(`[data-test-id=${BIRTH_CITY_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.birthCity);
-    assert.dom(`[data-test-id=${BIRTH_PROVINCE_CODE_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.birthProvinceCode);
-    assert.dom(`[data-test-id=${BIRTH_COUNTRY_SELECTOR}${candidate.id}]`).hasText(candidate.birthCountry);
-    assert.dom(`[data-test-id=${EMAIL_SELECTOR}${candidate.id}]`).hasText(candidate.email);
-    assert.dom(`[data-test-id=${EXTRA_TIME_SELECTOR}${candidate.id}]`).hasText('3000 %');
   });
 
-  module('when details button should be displayed', async function() {
+  module('When FT_IS_NEW_CPF_DATA_ENABLED is enabled', async function() {
+
+    test('it displays candidates information', async function(assert) {
+      // given
+      const candidate = _buildCertificationCandidate({
+        birthdate: new Date('2019-04-28'),
+      });
+      const isNewCpfDataToggleEnabled = true;
+      const certificationCandidates = [candidate];
+
+      this.set('isNewCpfDataToggleEnabled', isNewCpfDataToggleEnabled);
+      this.set('certificationCandidates', certificationCandidates);
+
+      // when
+      await render(hbs`
+        <EnrolledCandidates 
+          @sessionId="1" 
+          @certificationCandidates={{certificationCandidates}}
+          @isNewCpfDataToggleEnabled={{isNewCpfDataToggleEnabled}}
+          >
+        </EnrolledCandidates>
+      `);
+
+      // then
+      assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.externalId);
+      assert.dom(`[data-test-id=${BIRTHDATE_COLUMN_SELECTOR}${candidate.id}]`).hasText('28/04/2019');
+      assert.dom(`[data-test-id=${LAST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.lastName);
+      assert.dom(`[data-test-id=${FIRST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.firstName);
+      assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.resultRecipientEmail);
+      assert.dom(`[data-test-id=${EXTRA_TIME_SELECTOR}${candidate.id}]`).hasText('3000 %');
+      assert.dom(`[data-test-id=${BIRTH_CITY_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
+      assert.dom(`[data-test-id=${BIRTH_PROVINCE_CODE_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
+      assert.dom(`[data-test-id=${BIRTH_COUNTRY_SELECTOR}${candidate.id}]`).doesNotExist();
+      assert.dom(`[data-test-id=${EMAIL_SELECTOR}${candidate.id}]`).doesNotExist();
+    });
+
     test('it should display details button', async function(assert) {
       // given
       const candidate = _buildCertificationCandidate({});
       const certificationCandidates = [candidate];
-      const shouldDisplayCertificationCandidateDetailsModalButton = true;
+      const isNewCpfDataToggleEnabled = true;
 
       this.set('certificationCandidates', certificationCandidates);
-      this.set('shouldDisplayCertificationCandidateDetailsModalButton', shouldDisplayCertificationCandidateDetailsModalButton);
+      this.set('isNewCpfDataToggleEnabled', isNewCpfDataToggleEnabled);
 
       // when
       await render(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{certificationCandidates}}
-          @shouldDisplayCertificationCandidateDetailsModalButton={{shouldDisplayCertificationCandidateDetailsModalButton}}
+          @isNewCpfDataToggleEnabled={{isNewCpfDataToggleEnabled}}
         >
         </EnrolledCandidates>
       `);
@@ -85,10 +130,10 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
         extraTimePercentage: 0.1,
       });
       const certificationCandidates = [candidate];
-      const shouldDisplayCertificationCandidateDetailsModalButton = true;
+      const isNewCpfDataToggleEnabled = true;
 
       this.set('certificationCandidates', certificationCandidates);
-      this.set('shouldDisplayCertificationCandidateDetailsModalButton', shouldDisplayCertificationCandidateDetailsModalButton);
+      this.set('isNewCpfDataToggleEnabled', isNewCpfDataToggleEnabled);
 
       // when
       await render(hbs`

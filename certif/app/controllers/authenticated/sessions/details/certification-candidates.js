@@ -33,7 +33,7 @@ export default class CertificationCandidatesController extends Controller {
     return certificationCandidatesCount > 0;
   }
 
-  get shouldDisplayCertificationCandidateDetailsModalButton() {
+  get isNewCpfDataToggleEnabled() {
     return this.featureToggles.featureToggles.isNewCpfDataEnabled;
   }
 
