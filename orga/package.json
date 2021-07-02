@@ -80,7 +80,7 @@
     "ember-page-title": "^6.2.1",
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^8.0.2",
-    "ember-simple-auth": "^1.9.2",
+    "ember-simple-auth": "^3.1.0",
     "ember-sinon": "^5.0.0",
     "ember-source": "~3.23.1",
     "ember-template-lint": "^2.14.0",
