@@ -30,6 +30,8 @@ export default class RecoverAccountAfterLeavingScoController extends Controller 
     if (status === '409') {
       this.showRecoverAccountStudentInformationForm = false;
       this.showRecoverAccountConflictError = true;
+    } else {
+      console.log(err);
     }
   }
 }
