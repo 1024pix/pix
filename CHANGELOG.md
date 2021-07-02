@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.71.0 (02/07/2021)
+
+- [#3142](https://github.com/1024pix/pix/pull/3142) [FEATURE] Simplifier la liste des candidats (PIX-2714)
+- [#3152](https://github.com/1024pix/pix/pull/3152) [FEATURE] Ajouter l'étape de confirmation dans la récupération de compte (PIX-2732).
+- [#3110](https://github.com/1024pix/pix/pull/3110) [FEATURE] Création de la liste des participants dans l'onglet activité (PIX-2665)
+- [#3144](https://github.com/1024pix/pix/pull/3144) [FEATURE] Ajout de l'étape de conflit lors de la récupération de compte à la sortie du SCO (PIX-2730).
+- [#3130](https://github.com/1024pix/pix/pull/3130) [FEATURE][A11Y] Rendre accessible la liste des campagnes sur Pix Orga (PIX-2633)
+- [#3137](https://github.com/1024pix/pix/pull/3137) [FEATURE] Détail des campagnes dans Pix Admin (PIX-2643)
+- [#3141](https://github.com/1024pix/pix/pull/3141) [FEATURE] Modifier le texte des cgu dans la page d'inscription sur Pix App (PIX-2753).
+- [#3138](https://github.com/1024pix/pix/pull/3138) [BUGFIX] Le compteur "Nombre de certifications non terminées" sur la page d'information d'une session est incorrect sur PixAdmin (PIX-2723)
+- [#3133](https://github.com/1024pix/pix/pull/3133) [TECH] Permettre a PE de récupérer les résultats(PIX-2682)
+- [#3109](https://github.com/1024pix/pix/pull/3109) [TECH] Remplacer BookshelfJS par le query-builder KnexJS dans le answer-repository (PIX-2742)
+- [#3143](https://github.com/1024pix/pix/pull/3143) [TECH] Ajout du linter de tests qunit sur orga
+- [#3140](https://github.com/1024pix/pix/pull/3140) [TECH] Supprimer les mixins d'Ember-simple-auth 3.1.0 dans Pix Certif (PIX-2759).
+
 ## v3.70.0 (28/06/2021)
 
 - [#3128](https://github.com/1024pix/pix/pull/3128) [FEATURE] Récupérer son compte lors de la sortie du SCO - Partie 1 (PIX-2750).
