@@ -33,11 +33,11 @@ module.exports = {
   async update(request) {
     const certificationCourseId = request.params.id;
     const userId = request.auth.credentials.userId;
-    const candidateModificationCommand = await certificationSerializer.deserializeCertificationCandidateModificationCommand(request.payload, certificationCourseId, userId);
-    await usecases.modifyCertificationCandidateInCertificationCourse({ candidateModificationCommand });
+    const command = await certificationSerializer.deserializeCertificationCandidateModificationCommand(request.payload, certificationCourseId, userId);
+    await usecases.modifyCertificationCandidateInCertificationCourse({ command });
     const updatedCertificationCourse = await usecases.getCertificationCourse({
-      userId: candidateModificationCommand.userId,
-      certificationCourseId: candidateModificationCommand.certificationCourseId,
+      userId: command.userId,
+      certificationCourseId: command.certificationCourseId,
     });
     return certificationSerializer.serializeFromCertificationCourse(updatedCertificationCourse);
   },

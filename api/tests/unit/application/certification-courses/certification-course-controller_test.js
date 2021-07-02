@@ -199,7 +199,7 @@ describe('Unit | Controller | certification-course-controller', () => {
 
       // then
       expect(usecases.modifyCertificationCandidateInCertificationCourse).to.have.been.calledWith({
-        candidateModificationCommand: {
+        command: {
           firstName: 'Phil',
           lastName: 'Defer',
           birthplace: 'Not here nor there',

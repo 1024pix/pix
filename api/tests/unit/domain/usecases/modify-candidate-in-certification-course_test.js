@@ -19,7 +19,7 @@ describe('Unit | UseCase | modify-candidate-in-certification-course', () => {
     };
     certificationCourseRepository.get.withArgs(4).resolves(certificationCourseToBeModified);
 
-    const candidateModificationCommand = {
+    const command = {
       certificationCourseId: 4,
       firstName: 'Maurice',
       lastName: 'Dupont',
@@ -29,7 +29,7 @@ describe('Unit | UseCase | modify-candidate-in-certification-course', () => {
 
     // when
     await modifyCandidateInCertificationCourse({
-      candidateModificationCommand,
+      command,
       certificationCourseRepository,
     });
 
