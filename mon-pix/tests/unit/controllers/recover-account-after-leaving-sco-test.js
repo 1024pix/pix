@@ -15,8 +15,8 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
       // given
         const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
         const studentInformation = { firstName: 'Jules' };
-        const saveStub = sinon.stub();
-        const createRecord = sinon.stub().returns({ save: saveStub.resolves() });
+        const submitStudentInformationStub = sinon.stub();
+        const createRecord = sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub.resolves() });
         const store = { createRecord };
         controller.set('store', store);
 
@@ -25,7 +25,7 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
 
         // then
         sinon.assert.calledWithExactly(createRecord, 'student-information', studentInformation);
-        sinon.assert.calledOnce(saveStub);
+        sinon.assert.calledOnce(submitStudentInformationStub);
       });
 
       context('when two students used same account', function() {
@@ -35,8 +35,8 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
           const errors = { errors: [ { status: '409' }] };
           const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
           const studentInformation = { firstName: 'Jules' };
-          const saveStub = sinon.stub().rejects(errors);
-          const store = { createRecord: sinon.stub().returns({ save: saveStub }) };
+          const submitStudentInformationStub = sinon.stub().rejects(errors);
+          const store = { createRecord: sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub }) };
           controller.set('store', store);
 
           // when
@@ -45,6 +45,25 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
           // then
           expect(controller.showRecoverAccountStudentInformationForm).to.be.false;
           expect(controller.showRecoverAccountConflictError).to.be.true;
+        });
+      });
+
+      context('when user account is found without any conflict', function() {
+
+        it('should hide student information form and show recover account confirmation step', async function() {
+          // given
+          const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
+          const studentInformation = { firstName: 'Jules' };
+          const submitStudentInformationStub = sinon.stub().resolves();
+          const store = { createRecord: sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub }) };
+          controller.set('store', store);
+
+          // when
+          await controller.submitStudentInformation(studentInformation);
+
+          // then
+          expect(controller.showRecoverAccountStudentInformationForm).to.be.false;
+          expect(controller.showRecoverAccountConfirmationStep).to.be.true;
         });
       });
     });
