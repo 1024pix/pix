@@ -2,7 +2,23 @@ import ApplicationAdapter from './application';
 
 export default class StudentInformationAdapter extends ApplicationAdapter {
 
-  urlForCreateRecord() {
-    return `${this.host}/${this.namespace}/schooling-registration-dependent-users/recover-account`;
+  buildURL(
+    modelName,
+    id,
+    snapshot,
+    requestType,
+    query,
+  ) {
+    if (requestType === 'recover-account') {
+      return `${this.host}/${this.namespace}/schooling-registration-dependent-users/`;
+    } else {
+      return super.buildURL(
+        modelName,
+        id,
+        snapshot,
+        requestType,
+        query,
+      );
+    }
   }
 }
