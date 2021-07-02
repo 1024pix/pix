@@ -6,7 +6,7 @@ const answersBuilder = require('./data/answers-builder');
 const assessmentsBuilder = require('./data/assessments-builder');
 const buildPixAileProfile = require('./data/pix-aile-profile-builder');
 const campaignParticipationsBuilder = require('./data/campaign-participations-builder');
-const campaignsBuilder = require('./data/campaigns-builder');
+const { campaignsBuilder } = require('./data/campaigns-builder');
 const { certificationCandidatesBuilder } = require('./data/certification/certification-candidates-builder');
 const { badgeAcquisitionBuilder } = require('./data/certification/badge-acquisition-builder');
 const { partnerCertificationBuilder } = require('./data/certification/partner-certification-builder');
@@ -32,6 +32,7 @@ const {
   generateKnowledgeElementSnapshots,
 } = require('../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns');
 
+const poleEmploisSendingsBuilder = require('./data/pole-emploi-sendings-builder');
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 
 exports.seed = async (knex) => {
@@ -74,6 +75,9 @@ exports.seed = async (knex) => {
 
   // Éléments de parcours pour l'utilisateur Pix Aile
   buildPixAileProfile({ databaseBuilder });
+
+  // Création d'envois pole emploi
+  poleEmploisSendingsBuilder({ databaseBuilder });
 
   await databaseBuilder.commit();
   await alterSequenceIfPG(knex);
