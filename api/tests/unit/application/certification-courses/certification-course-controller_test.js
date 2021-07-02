@@ -1,8 +1,6 @@
 const { sinon, expect, hFake, generateValidRequestAuthorizationHeader, domainBuilder } = require('../../../test-helper');
 const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
 const certificationService = require('../../../../lib/domain/services/certification-service');
-const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
-const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const certificationResultInformationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-information-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 const certifiedProfileRepository = require('../../../../lib/infrastructure/repositories/certified-profile-repository');
@@ -10,7 +8,6 @@ const certificationCourseSerializer = require('../../../../lib/infrastructure/se
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
-const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Controller | certification-course-controller', () => {
 
@@ -165,80 +162,77 @@ describe('Unit | Controller | certification-course-controller', () => {
 
   describe('#update', () => {
 
-    const updatedCertificationCourse = new CertificationCourse();
-
-    const JsonAPISavedCertification = {
-      data: {
-        type: Assessment.types.CERTIFICATION,
-        attributes: {
-          id: '1',
-          firstName: 'Phil',
-          status: 'rejected',
+    const options = {
+      method: 'PATCH',
+      url: '/api/certification-courses/1245',
+      params: {
+        id: 4,
+      },
+      auth: {
+        credentials: {
+          userId: 54,
         },
       },
-    };
-
-    beforeEach(() => {
-      sinon.stub(certificationSerializer, 'deserialize').resolves();
-      sinon.stub(certificationSerializer, 'serializeFromCertificationCourse').returns(JsonAPISavedCertification);
-    });
-
-    const options = {
-      method: 'PATCH', url: '/api/certification-courses/1245', payload: {
+      payload: {
         data: {
           type: 'certifications',
           attributes: {
             id: '1',
             firstName: 'Phil',
+            lastName: 'Defer',
+            birthplace: 'Not here nor there',
+            birthdate: '2020-01-01',
             status: 'rejected',
           },
         },
       },
     };
 
-    it('should deserialize the request payload', async () => {
+    it('should modify the certification course candidate ', async () => {
       // given
-      sinon.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
+      sinon.stub(usecases, 'modifyCertificationCandidateInCertificationCourse').resolves();
+      const updatedCertificationCourse = domainBuilder.buildCertificationCourse();
+      sinon.stub(usecases, 'getCertificationCourse').resolves(updatedCertificationCourse);
 
       // when
       await certificationCourseController.update(options, hFake);
 
       // then
-      sinon.assert.calledOnce(certificationSerializer.deserialize);
-    });
-
-    it('should patch certificationCourse data using save method', async () => {
-      // given
-      sinon.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
-
-      // when
-      await certificationCourseController.update(options, hFake);
-
-      // then
-      sinon.assert.calledOnce(certificationCourseService.update);
+      expect(usecases.modifyCertificationCandidateInCertificationCourse).to.have.been.calledWith({
+        candidateModificationCommand: {
+          firstName: 'Phil',
+          lastName: 'Defer',
+          birthplace: 'Not here nor there',
+          birthdate: '2020-01-01',
+          userId: 54,
+          certificationCourseId: 4,
+        },
+      });
     });
 
     context('when certification course was modified', () => {
 
-      beforeEach(() => {
-        sinon.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
-      });
-
-      it('should serialize saved certification course', async () => {
+      it('should serialize and return saved certification course', async () => {
         // when
-        await certificationCourseController.update(options, hFake);
-
-        // then
-        sinon.assert.calledOnce(certificationSerializer.serializeFromCertificationCourse);
-        sinon.assert.calledWith(certificationSerializer.serializeFromCertificationCourse, updatedCertificationCourse);
-      });
-
-      it('should reply serialized certification course', async () => {
-        // when
+        sinon.stub(usecases, 'modifyCertificationCandidateInCertificationCourse').resolves();
+        const updatedCertificationCourse = domainBuilder.buildCertificationCourse();
+        sinon.stub(usecases, 'getCertificationCourse').resolves(updatedCertificationCourse);
         const response = await certificationCourseController.update(options, hFake);
 
         // then
-        expect(response).to.deep.equal(JsonAPISavedCertification);
+        expect(response).to.deep.equal({
+          data: {
+            attributes: {
+              birthdate: updatedCertificationCourse.birthdate(),
+              birthplace: updatedCertificationCourse.birthplace(),
+              'external-id': updatedCertificationCourse.externalId,
+              'first-name': updatedCertificationCourse.firstName(),
+              'last-name': updatedCertificationCourse.lastName(),
+            },
+            id: `${updatedCertificationCourse.id}`,
+            type: 'certifications',
+          },
+        });
       });
     });
   });
