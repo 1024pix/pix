@@ -60,7 +60,7 @@ describe('Unit | Infrastructure | Open API Doc | Pole Emploi | Envois Documentat
     };
 
     // when
-    const result = EnvoiDoc.validate([{ idEnvoi: '1', dateEnvoi: '2020-11-31T12:00:38.133Z', resultat }]);
+    const result = EnvoiDoc.validate([{ idEnvoi: 1, dateEnvoi: '2020-11-31T12:00:38.133Z', resultat }]);
 
     // then
     expect(result.error).to.be.undefined;

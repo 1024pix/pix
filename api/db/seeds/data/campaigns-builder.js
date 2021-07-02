@@ -9,12 +9,18 @@ const {
 const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } = require('./organizations-pro-builder');
 const { SCO_MIDDLE_SCHOOL_ID, SCO_HIGH_SCHOOL_ID, SCO_AGRI_ID } = require('./organizations-sco-builder');
 const { SUP_UNIVERSITY_ID } = require('./organizations-sup-builder');
+const POLE_EMPLOI_CAMPAIGN_ID = 5;
 
-module.exports = function campaignsBuilder({ databaseBuilder }) {
+module.exports = {
+  campaignsBuilder,
+  POLE_EMPLOI_CAMPAIGN_ID,
+};
+
+function campaignsBuilder({ databaseBuilder }) {
   _buildCampaignForSco(databaseBuilder);
   _buildCampaignForSup(databaseBuilder);
   _buildCampaignForPro(databaseBuilder);
-};
+}
 
 function _buildCampaignForSco(databaseBuilder) {
   databaseBuilder.factory.buildCampaign({
@@ -172,7 +178,7 @@ __Plus d'infos :)__
   });
 
   databaseBuilder.factory.buildCampaign({
-    id: 5,
+    id: POLE_EMPLOI_CAMPAIGN_ID,
     name: 'Pro - Campagne Pix Emploi',
     code: 'QWERTY789',
     type: 'ASSESSMENT',

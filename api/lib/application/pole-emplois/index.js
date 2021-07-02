@@ -1,6 +1,5 @@
 const Joi = require('joi');
 const poleEmploiController = require('./pole-emploi-controller');
-
 const poleEmploiErreurDoc = require('../../infrastructure/open-api-doc/pole-emploi/erreur-doc');
 const poleEmploiEnvoisDoc = require('../../infrastructure/open-api-doc/pole-emploi/envois-doc');
 
@@ -20,12 +19,13 @@ exports.register = async function(server) {
       path: '/api/pole-emploi/envois',
       config: {
         auth: 'jwt-pole-emploi',
-        handler: console.log,
+        handler: poleEmploiController.getSendings,
         notes: [
           '- **API Pôle emploi qui nécessite une authentification de type client credential grant**\n' +
           '- Récupération des N derniers envois. Le résultat peut être paginé si plus de N entrées via le paramètre Link dans le header de la réponse\n',
         ],
         response: {
+          failAction: 'ignore',
           status: {
             200: poleEmploiEnvoisDoc,
             204: poleEmploiEnvoisDoc,
