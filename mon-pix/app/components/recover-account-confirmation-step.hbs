@@ -1,0 +1,42 @@
+<h1>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.good-news' firstName=@studentInformationForAccountRecovery.firstName }} </h1>
+<p>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.found-account' }}</p>
+<p> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.contact-support' }}</p>
+
+<ul>
+  <li>
+    <div> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.first-name' }}</div>
+    <div>{{@studentInformationForAccountRecovery.firstName}}</div>
+  </li>
+
+  <li>
+    <div> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.last-name' }}</div>
+    <div>{{@studentInformationForAccountRecovery.lastName}}</div>
+  </li>
+
+{{#if @studentInformationForAccountRecovery.username}}
+  <li>
+    <div> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.username' }}</div>
+    <div>{{@studentInformationForAccountRecovery.username}}</div>
+  </li>
+{{/if}}
+
+  <li>
+    <div> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.latest-organization-name' }}</div>
+    <div>{{@studentInformationForAccountRecovery.latestOrganizationName}}</div>
+  </li>
+
+  <p> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.certify-account' }}</p>
+
+  <PixButton
+    @isBorderVisible={{true}}
+    @triggerAction={{@cancelAccountRecovery}}
+    @backgroundColor="transparent-light">
+    {{t 'pages.recover-account-after-leaving-sco.confirmation-step.buttons.cancel' }}
+  </PixButton>
+  <PixButton
+    @isBorderVisible={{true}}
+    @triggerAction={{@continueAccountRecovery}}
+    @backgroundColor="red">
+    {{t 'pages.recover-account-after-leaving-sco.confirmation-step.buttons.confirm' }}
+  </PixButton>
+</ul>

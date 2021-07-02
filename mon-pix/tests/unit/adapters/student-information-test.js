@@ -5,17 +5,15 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Adapter | student information', function() {
   setupTest();
 
-  describe('#urlForCreateRecord', () => {
+  describe('#buildURL', function() {
 
-    it('should call /api/schooling-registration-dependent-users/recover-account', async function() {
-      // given
-      const adapter = this.owner.lookup('adapter:student-information');
-
+    it('should build recover account base URL when called with according requestType', function() {
       // when
-      const url = await adapter.urlForCreateRecord();
+      const adapter = this.owner.lookup('adapter:student-information');
+      const url = adapter.buildURL(123, 'student-information', null, 'recover-account');
 
       // then
-      expect(url.endsWith('/schooling-registration-dependent-users/recover-account')).to.be.true;
+      expect(url.endsWith('/schooling-registration-dependent-users/')).to.be.true;
     });
   });
 });
