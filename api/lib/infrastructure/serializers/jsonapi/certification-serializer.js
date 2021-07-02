@@ -31,7 +31,20 @@ module.exports = {
       ],
     }).serialize(certificationCourse);
   },
-
+  async deserializeCertificationCandidateModificationCommand(json, certificationCourseId, userId) {
+    const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
+    const deserializedRawCommand = await deserializer.deserialize(json);
+    if (deserializedRawCommand.birthdate) {
+      if (!isValidDate(deserializedRawCommand.birthdate, 'YYYY-MM-DD')) {
+        throw new WrongDateFormatError();
+      }
+    }
+    return {
+      ..._.pick(deserializedRawCommand, ['firstName', 'lastName', 'birthplace', 'birthdate']),
+      userId,
+      certificationCourseId,
+    };
+  },
   deserialize(json) {
     const birthdate = json.data.attributes.birthdate;
 
