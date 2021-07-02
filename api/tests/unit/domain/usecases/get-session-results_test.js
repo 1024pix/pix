@@ -117,6 +117,10 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
 function _buildCertificationResult(certifCourse, lastAssessmentResult, cleaCertificationResult, pixPlusDroitMaitreCertificationResult, pixPlusDroitExpertCertificationResult) {
   return domainBuilder.buildCertificationResult({
     ...certifCourse,
+    firstName: certifCourse.firstName(),
+    lastName: certifCourse.lastName(),
+    birthplace: certifCourse.birthplace(),
+    birthdate: certifCourse.birthdate(),
     certificationIssueReports: certifCourse.certificationIssueReports,
     lastAssessmentResult,
     assessmentId: lastAssessmentResult.assessmentId,

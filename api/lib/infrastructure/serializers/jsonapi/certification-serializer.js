@@ -11,6 +11,16 @@ module.exports = {
 
   serializeFromCertificationCourse(certificationCourse) {
     return new Serializer('certifications', {
+      transform: (certificationCourse) => {
+        return {
+          ..._.omit(certificationCourse, 'maxReachableLevelOnCertificationDate'),
+          isCancelled: certificationCourse.isCancelled(),
+          birthdate: certificationCourse.birthdate(),
+          birthplace: certificationCourse.birthplace(),
+          firstName: certificationCourse.firstName(),
+          lastName: certificationCourse.lastName(),
+        };
+      },
       attributes: [
         'firstName',
         'lastName',

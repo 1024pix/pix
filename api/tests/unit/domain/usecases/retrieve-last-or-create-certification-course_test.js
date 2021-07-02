@@ -249,10 +249,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             const mockCertificationCourse = {
               userId,
               sessionId,
-              firstName: foundCertificationCandidate.firstName,
-              lastName: foundCertificationCandidate.lastName,
-              birthdate: foundCertificationCandidate.birthdate,
-              birthplace: foundCertificationCandidate.birthCity,
+              _firstName: foundCertificationCandidate.firstName,
+              _lastName: foundCertificationCandidate.lastName,
+              _birthdate: foundCertificationCandidate.birthdate,
+              _birthplace: foundCertificationCandidate.birthCity,
               externalId: foundCertificationCandidate.externalId,
               isV2Certification: true,
             };
