@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import get from 'lodash/get';
 
 export default class LoginForm extends Component {
 
@@ -59,7 +60,7 @@ export default class LoginForm extends Component {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
-  _authenticate(password, email) {
+  async _authenticate(password, email) {
     const scope = 'pix-orga';
 
     this.isErrorMessagePresent = false;
@@ -67,14 +68,14 @@ export default class LoginForm extends Component {
 
     this._initErrorMessages();
 
-    return this.session.authenticate('authenticator:oauth2', email, password, scope)
-      .catch((errorResponse) => {
-        this.errorMessage = this._handleResponseError(errorResponse);
-        this.isErrorMessagePresent = true;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+    try {
+      await this.session.authenticate('authenticator:oauth2', email, password, scope);
+    } catch (errorResponse) {
+      this.errorMessage = this._handleResponseError(errorResponse);
+      this.isErrorMessagePresent = true;
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, email) {
@@ -85,7 +86,9 @@ export default class LoginForm extends Component {
     }).save({ adapterOptions: { organizationInvitationId } });
   }
 
-  _handleResponseError({ errors }) {
+  _handleResponseError(errorResponse) {
+    const errors = get(errorResponse, 'responseJSON.errors');
+
     if (Array.isArray(errors)) {
       const error = errors[0];
       switch (error.status) {

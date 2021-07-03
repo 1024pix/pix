@@ -123,7 +123,9 @@ module('Integration | Component | routes/login-form', function(hooks) {
     // given
     const expectedErrorMessages = this.intl.t('pages.login-form.errors.status.401');
     const errorResponse = {
-      errors: [{ status: '401' }],
+      responseJSON: {
+        errors: [{ status: '401' }],
+      },
     };
 
     SessionStub.prototype.authenticate = () => reject(errorResponse);
@@ -144,7 +146,9 @@ module('Integration | Component | routes/login-form', function(hooks) {
     // given
     const expectedErrorMessages = this.intl.t('pages.login-form.errors.status.403');
     const errorResponse = {
-      errors: [{ status: '403' }],
+      responseJSON: {
+        errors: [{ status: '403' }],
+      },
     };
 
     SessionStub.prototype.authenticate = () => reject(errorResponse);
