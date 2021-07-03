@@ -20,10 +20,10 @@ module('Acceptance | join', function(hooks) {
   setupMirage(hooks);
   setupIntl(hooks);
 
-  let loginOrRegisterButton;
+  let loginFormButton;
 
   hooks.beforeEach(function() {
-    loginOrRegisterButton = this.intl.t('pages.login-or-register.login-form.button');
+    loginFormButton = this.intl.t('pages.login-or-register.login-form.button');
   });
 
   module('When prescriber tries to go on join page', function() {
@@ -107,7 +107,7 @@ module('Acceptance | join', function(hooks) {
       test('it should redirect user to the terms-of-service page', async function(assert) {
         // given
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel(loginOrRegisterButton);
+        await clickByLabel(loginFormButton);
         await fillInByLabel(emailInputLabel, user.email);
         await fillInByLabel(passwordInputLabel, 'secret');
 
@@ -124,7 +124,7 @@ module('Acceptance | join', function(hooks) {
         server.create('campaign');
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel(loginOrRegisterButton);
+        await clickByLabel(loginFormButton);
         await fillInByLabel(emailInputLabel, user.email);
         await fillInByLabel(passwordInputLabel, 'secret');
 
@@ -162,7 +162,7 @@ module('Acceptance | join', function(hooks) {
         server.create('campaign');
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel(loginOrRegisterButton);
+        await clickByLabel(loginFormButton);
         await fillInByLabel(emailInputLabel, user.email);
         await fillInByLabel(passwordInputLabel, 'secret');
 
@@ -179,7 +179,7 @@ module('Acceptance | join', function(hooks) {
         server.create('campaign');
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel(loginOrRegisterButton);
+        await clickByLabel(loginFormButton);
         await fillInByLabel(emailInputLabel, user.email);
         await fillInByLabel(passwordInputLabel, 'secret');
 
@@ -195,13 +195,15 @@ module('Acceptance | join', function(hooks) {
 
     module('When prescriber is logging in but his credentials are invalid', function(hooks) {
 
+      const code = 'ABCDEFGH01';
+
       let user;
       let organizationInvitationId;
-      let code;
 
       hooks.beforeEach(() => {
         user = createUserWithMembership();
-        code = 'ABCDEFGH01';
+        server.create('prescriber', { id: user.id });
+
         const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         organizationInvitationId = server.create('organizationInvitation', {
           organizationId, email: 'random@email.com', status: 'pending', code,
@@ -211,12 +213,13 @@ module('Acceptance | join', function(hooks) {
       test('it should remain on join page', async function(assert) {
         // given
         const expectedErrorMessage = this.intl.t('pages.login-form.errors.status.401');
+
         server.post('/token', {
           errors: [{ status: '401' }],
         }, 401);
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel(loginOrRegisterButton);
+        await clickByLabel(loginFormButton);
         await fillInByLabel(emailInputLabel, user.email);
         await fillInByLabel(passwordInputLabel, 'fakepassword');
 
@@ -226,8 +229,7 @@ module('Acceptance | join', function(hooks) {
         // then
         assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-        assert.dom('#login-form-error-message')
-          .hasText(expectedErrorMessage);
+        assert.contains(expectedErrorMessage);
       });
     });
 
@@ -258,7 +260,7 @@ module('Acceptance | join', function(hooks) {
           }],
         }, 412);
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await clickByLabel(loginOrRegisterButton);
+        await clickByLabel(loginFormButton);
         await fillInByLabel(emailInputLabel, user.email);
         await fillInByLabel(passwordInputLabel, 'secret');
 
