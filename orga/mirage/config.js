@@ -17,7 +17,7 @@ function parseQueryString(queryString) {
 
 /* eslint ember/no-get: off */
 export default function() {
-
+  this.logging = true;
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
   this.timing = 0;
@@ -107,7 +107,6 @@ export default function() {
     if (!organizationInvitationCode) {
       return new Response(400, {}, { errors: [ { status: '400', detail: '' } ] });
     }
-
     const organizationInvitation = schema.organizationInvitations.findBy({ id: organizationInvitationId, code: organizationInvitationCode });
     if (!organizationInvitation) {
       return new Response(404, {}, { errors: [ { status: '404', detail: '' } ] });
