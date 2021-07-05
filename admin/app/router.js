@@ -21,7 +21,6 @@ Router.map(function() {
   this.route('logout');
 
   // public routes
-  this.route('index');
   this.route('about');
 
   // private routes

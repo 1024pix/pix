@@ -3,12 +3,11 @@ import Route from '@ember/routing/route';
 
 export default class LogoutRoute extends Route {
 
+  @service router;
   @service session;
 
   beforeModel() {
-    this.session.prohibitAuthentication('index');
-
     this.session.invalidate();
-    return this.transitionTo('login');
+    return this.router.transitionTo('login');
   }
 }
