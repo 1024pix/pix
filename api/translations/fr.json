@@ -73,7 +73,7 @@
       "division": "Division*",
       "first-name": "Premier prénom*",
       "last-name": "Nom de famille*",
-			"sex": "Code sexe",
+			"sex": "Sexe*",
       "mef-code": "Code MEF*",
       "middle-name": "Deuxième prénom",
       "national-identifier": "Identifiant unique*",
