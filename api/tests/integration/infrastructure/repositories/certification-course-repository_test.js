@@ -343,7 +343,7 @@ describe('Integration | Repository | Certification Course', function() {
       expect(persistedUpdatedCertificationCourse.toDTO().lastName).to.equal(unpersitedUpdatedCertificationCourse.toDTO().lastName);
       expect(persistedUpdatedCertificationCourse.toDTO().birthdate).to.equal(unpersitedUpdatedCertificationCourse.toDTO().birthdate);
       expect(persistedUpdatedCertificationCourse.toDTO().birthplace).to.equal(unpersitedUpdatedCertificationCourse.toDTO().birthplace);
-      expect(persistedUpdatedCertificationCourse.isCancelled()).to.be.true;
+      expect(persistedUpdatedCertificationCourse.toDTO().isCancelled).to.be.true;
     });
 
     it('should prevent other values to be updated', async () => {

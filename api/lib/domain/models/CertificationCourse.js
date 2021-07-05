@@ -79,10 +79,6 @@ class CertificationCourse {
     this._isCancelled = true;
   }
 
-  isCancelled() {
-    return this._isCancelled === true;
-  }
-
   modifyFirstName(modifiedFirstName) {
     const sanitizedString = _sanitizedString(modifiedFirstName);
     if (_.isEmpty(sanitizedString)) {
@@ -151,7 +147,7 @@ class CertificationCourse {
       userId: this.userId,
       sessionId: this.sessionId,
       maxReachableLevelOnCertificationDate: this.maxReachableLevelOnCertificationDate,
-      isCancelled: this.isCancelled(),
+      isCancelled: this._isCancelled,
     };
   }
 

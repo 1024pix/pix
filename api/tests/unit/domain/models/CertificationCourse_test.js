@@ -14,7 +14,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       certificationCourse.cancel();
 
       // then
-      expect(certificationCourse.isCancelled()).to.be.true;
+      expect(certificationCourse.toDTO().isCancelled).to.be.true;
     });
 
     describe('when certification course is already cancelled', () => {
@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
         certificationCourse.cancel();
 
         // then
-        expect(certificationCourse.isCancelled()).to.be.true;
+        expect(certificationCourse.toDTO().isCancelled).to.be.true;
       });
     });
   });
