@@ -33,18 +33,11 @@
     </div>
 
     {{#if this.showBanner}}
-      <PixBanner class="sco-temporary-banner">
-        <span class="sco-temporary-banner__informations-text">
-          <FaIcon @icon="info-circle" class="sco-temporary-banner-informations-text__triangle-icon" />
-          <p>
-            La certification en collège et lycée est possible jusqu'au 25 juin. Pour reporter des sessions déjà programmées, il vous suffit de changer la date de la session en cliquant sur « modifier ».<br>
-            <a href="https://view.genial.ly/6077017b8b37870d98620200" target="_blank" rel="noopener noreferrer"> En savoir plus <FaIcon @icon="external-link-alt"/></a>
-          </p>
-        </span>
-        <button type="button" class="sco-temporary-banner-button" aria-label="Fermer la bannière d'informations" {{on 'click' this.closeBanner}}>
-          <FaIcon @icon="times" class="sco-temporary-banner-button__times-icon" />
-        </button>
-      </PixBanner>
+        <PixBanner
+        @actionLabel= "En savoir plus"
+        @actionUrl= "https://view.genial.ly/6077017b8b37870d98620200"
+      >La certification en collège et lycée est possible jusqu'au 25 juin. Pour reporter des sessions déjà programmées, il vous suffit de changer la date de la session en cliquant sur « modifier ».</PixBanner>
+    
     {{/if}}
 
     <div class="page">
