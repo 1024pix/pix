@@ -8,31 +8,29 @@ export default class NewController extends Controller {
   @service intl;
   @service notifications;
   @service store;
+  @service currentUser;
 
   @tracked isLoading = false;
 
-  ERROR_MESSAGES;
-
   @action
-  createOrganizationInvitation(event) {
+  async createOrganizationInvitation(event) {
     event.preventDefault();
     this.isLoading = true;
     this.notifications.clearAll();
 
-    return this.model.organizationInvitation
-      .save({
+    try {
+      await this.model.save({
         adapterOptions: {
-          organizationId: this.model.organizationInvitation.organizationId,
+          organizationId: this.model.organizationId,
         },
-      })
-      .then(() => {
-        this.model.organization.organizationInvitations.reload();
-        this.transitionToRoute('authenticated.team');
-      })
-      .catch((errorResponse) => {
-        this._handleResponseError(errorResponse);
-      })
-      .finally(() => this.isLoading = false);
+      });
+      const organization = this.currentUser.organization;
+      await organization.organizationInvitations.reload();
+      this.transitionToRoute('authenticated.team');
+    } catch (error) {
+      this._handleResponseError(error);
+    }
+    this.isLoading = false;
   }
 
   @action
@@ -47,32 +45,30 @@ export default class NewController extends Controller {
       errorMessages = errors.map((error) => {
         switch (error.status) {
           case '400':
-            return this.ERROR_MESSAGES.STATUS_400;
+            return this.intl.t(ERROR_MESSAGES.STATUS_400);
           case '404':
-            return this.ERROR_MESSAGES.STATUS_404;
+            return this.intl.t(ERROR_MESSAGES.STATUS_404);
           case '412':
-            return this.ERROR_MESSAGES.STATUS_412;
+            return this.intl.t(ERROR_MESSAGES.STATUS_412);
           case '500':
-            return this.ERROR_MESSAGES.STATUS_500;
+            return this.intl.t(ERROR_MESSAGES.STATUS_500);
           default:
-            return this.ERROR_MESSAGES.DEFAULT;
+            return this.intl.t(ERROR_MESSAGES.DEFAULT);
         }
       });
     } else {
-      errorMessages.push(this.ERROR_MESSAGES.DEFAULT);
+      errorMessages.push(this.intl.t(ERROR_MESSAGES.DEFAULT));
     }
 
     const uniqueErrorMessages = new Set(errorMessages);
     uniqueErrorMessages.forEach((errorMessage) => this.notifications.sendError(errorMessage));
   }
-
-  initErrorMessages() {
-    this.ERROR_MESSAGES = {
-      DEFAULT: this.intl.t('pages.team-new.errors.default'),
-      STATUS_400: this.intl.t('pages.team-new.errors.status.400'),
-      STATUS_404: this.intl.t('pages.team-new.errors.status.404'),
-      STATUS_412: this.intl.t('pages.team-new.errors.status.412'),
-      STATUS_500: this.intl.t('pages.team-new.errors.status.500'),
-    };
-  }
 }
+
+const ERROR_MESSAGES = {
+  DEFAULT: 'pages.team-new.errors.default',
+  STATUS_400: 'pages.team-new.errors.status.400',
+  STATUS_404: 'pages.team-new.errors.status.404',
+  STATUS_412: 'pages.team-new.errors.status.412',
+  STATUS_500: 'pages.team-new.errors.status.500',
+};

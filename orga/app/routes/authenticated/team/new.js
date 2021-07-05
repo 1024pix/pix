@@ -1,6 +1,5 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import RSVP from 'rsvp';
 
 export default class NewRoute extends Route {
 
@@ -9,14 +8,6 @@ export default class NewRoute extends Route {
 
   model() {
     const organization = this.currentUser.organization;
-    return RSVP.hash({
-      organization,
-      organizationInvitation: this.store.createRecord('organizationInvitation', { organizationId: organization.id }),
-    });
-  }
-
-  setupController(controller, model) {
-    super.setupController(controller, model);
-    controller.initErrorMessages();
+    return this.store.createRecord('organizationInvitation', { organizationId: organization.id });
   }
 }
