@@ -143,6 +143,33 @@ class CertificationCourse {
   birthplace() {
     return this._birthplace;
   }
+
+  toDTO() {
+    return {
+      id: this.id,
+      firstName: this.firstName(),
+      lastName: this.lastName(),
+      birthdate: this.birthdate(),
+      birthplace: this.birthplace(),
+      birthPostalCode: this.birthPostalCode,
+      birthINSEECode: this.birthINSEECode,
+      sex: this.sex,
+      externalId: this.externalId,
+      hasSeenEndTestScreen: this.hasSeenEndTestScreen,
+      createdAt: this.createdAt,
+      completedAt: this.completedAt,
+      isPublished: this.isPublished,
+      isV2Certification: this.isV2Certification,
+      verificationCode: this.verificationCode,
+      assessment: this.assessment,
+      challenges: this.challenges,
+      certificationIssueReports: this.certificationIssueReports,
+      userId: this.userId,
+      sessionId: this.sessionId,
+      maxReachableLevelOnCertificationDate: this.maxReachableLevelOnCertificationDate,
+      isCancelled: this.isCancelled(),
+    };
+  }
 }
 
 function _sanitizedString(string) {
