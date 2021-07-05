@@ -194,7 +194,7 @@ describe('Integration | Repository | Certification Course', function() {
         expect(actualCertificationCourse.completedAt).to.equal(expectedCertificationCourse.completedAt);
         expect(actualCertificationCourse.firstName()).to.equal(expectedCertificationCourse.firstName);
         expect(actualCertificationCourse.lastName()).to.equal(expectedCertificationCourse.lastName);
-        expect(actualCertificationCourse.birthdate()).to.equal(expectedCertificationCourse.birthdate);
+        expect(actualCertificationCourse.toDTO().birthdate).to.equal(expectedCertificationCourse.birthdate);
         expect(actualCertificationCourse.birthplace()).to.equal(expectedCertificationCourse.birthplace);
         expect(actualCertificationCourse.sessionId).to.equal(sessionId);
         expect(actualCertificationCourse.isPublished).to.equal(expectedCertificationCourse.isPublished);
@@ -341,7 +341,7 @@ describe('Integration | Repository | Certification Course', function() {
       expect(persistedUpdatedCertificationCourse.id).to.equal(unpersitedUpdatedCertificationCourse.id);
       expect(persistedUpdatedCertificationCourse.firstName()).to.equal(unpersitedUpdatedCertificationCourse.firstName());
       expect(persistedUpdatedCertificationCourse.lastName()).to.equal(unpersitedUpdatedCertificationCourse.lastName());
-      expect(persistedUpdatedCertificationCourse.birthdate()).to.equal(unpersitedUpdatedCertificationCourse.birthdate());
+      expect(persistedUpdatedCertificationCourse.toDTO().birthdate).to.equal(unpersitedUpdatedCertificationCourse.toDTO().birthdate);
       expect(persistedUpdatedCertificationCourse.birthplace()).to.equal(unpersitedUpdatedCertificationCourse.birthplace());
       expect(persistedUpdatedCertificationCourse.isCancelled()).to.be.true;
     });

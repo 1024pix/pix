@@ -128,10 +128,6 @@ class CertificationCourse {
     this._birthdate = modifiedBirthdate;
   }
 
-  birthdate() {
-    return this._birthdate;
-  }
-
   firstName() {
     return this._firstName;
   }
@@ -149,7 +145,7 @@ class CertificationCourse {
       id: this._id,
       firstName: this.firstName(),
       lastName: this.lastName(),
-      birthdate: this.birthdate(),
+      birthdate: this._birthdate,
       birthplace: this.birthplace(),
       birthPostalCode: this.birthPostalCode,
       birthINSEECode: this.birthINSEECode,

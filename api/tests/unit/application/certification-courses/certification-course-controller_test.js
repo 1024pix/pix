@@ -223,7 +223,7 @@ describe('Unit | Controller | certification-course-controller', () => {
         expect(response).to.deep.equal({
           data: {
             attributes: {
-              birthdate: updatedCertificationCourse.birthdate(),
+              birthdate: updatedCertificationCourse.toDTO().birthdate,
               birthplace: updatedCertificationCourse.birthplace(),
               'external-id': updatedCertificationCourse.externalId,
               'first-name': updatedCertificationCourse.firstName(),
