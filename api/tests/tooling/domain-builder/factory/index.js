@@ -31,6 +31,8 @@ module.exports = {
   buildCertificationChallengeWithType: require('./build-certification-challenge-with-type'),
   buildCertificationCourse: require('./build-certification-course'),
   buildCountry: require('./build-country'),
+  buildCertificationCpfCity: require('./build-certification-cpf-city'),
+  buildCertificationCpfCountry: require('./build-certification-cpf-country'),
   buildCertificationDetails: require('./build-certification-details'),
   buildCertificationPointOfContact: require('./build-certification-point-of-contact'),
   buildCertifiableProfileForLearningContent: require('./build-certifiable-profile-for-learning-content'),
