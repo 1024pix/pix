@@ -131,6 +131,46 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
     });
   });
 
+  module('#openCertificationCandidateDetailsModal', async function() {
+    test('should open the candidate details modal', async function(assert) {
+      // given
+      const sessionId = 'sessionId';
+      const candidate = _buildCandidate({}, { destroyRecord: sinon.stub() });
+      component.args = {
+        certificationCandidates: [],
+        sessionId,
+      };
+
+      // when
+      await component.openCertificationCandidateDetailsModal(candidate);
+
+      // then
+      assert.equal(component.shouldDisplayCertificationCandidateModal, true);
+      assert.equal(component.certificationCandidateInDetailsModal, candidate);
+    });
+  });
+
+  module('#closeCertificationCandidateDetailsModal', async function() {
+    test('should close the candidate details modal', async function(assert) {
+      // given
+      const sessionId = 'sessionId';
+      const candidate = _buildCandidate({}, { destroyRecord: sinon.stub() });
+      component.shouldDisplayCertificationCandidateModal = true;
+      component.certificationCandidateInDetailsModal = candidate;
+      component.args = {
+        certificationCandidates: [],
+        sessionId,
+      };
+
+      // when
+      await component.closeCertificationCandidateDetailsModal();
+
+      // then
+      assert.equal(component.shouldDisplayCertificationCandidateModal, false);
+      assert.equal(component.certificationCandidateInDetailsModal, null);
+    });
+  });
+
   function _buildCandidate({
     firstName = 'Georges',
     lastName = 'Brassens',
