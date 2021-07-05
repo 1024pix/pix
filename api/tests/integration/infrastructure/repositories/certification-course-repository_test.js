@@ -192,10 +192,10 @@ describe('Integration | Repository | Certification Course', function() {
         // then
         expect(actualCertificationCourse.id).to.equal(expectedCertificationCourse.id);
         expect(actualCertificationCourse.completedAt).to.equal(expectedCertificationCourse.completedAt);
-        expect(actualCertificationCourse.firstName()).to.equal(expectedCertificationCourse.firstName);
-        expect(actualCertificationCourse.lastName()).to.equal(expectedCertificationCourse.lastName);
+        expect(actualCertificationCourse.toDTO().firstName).to.equal(expectedCertificationCourse.firstName);
+        expect(actualCertificationCourse.toDTO().lastName).to.equal(expectedCertificationCourse.lastName);
         expect(actualCertificationCourse.toDTO().birthdate).to.equal(expectedCertificationCourse.birthdate);
-        expect(actualCertificationCourse.birthplace()).to.equal(expectedCertificationCourse.birthplace);
+        expect(actualCertificationCourse.toDTO().birthplace).to.equal(expectedCertificationCourse.birthplace);
         expect(actualCertificationCourse.sessionId).to.equal(sessionId);
         expect(actualCertificationCourse.isPublished).to.equal(expectedCertificationCourse.isPublished);
         expect(actualCertificationCourse.certificationIssueReports[0].description).to.equal(description);
@@ -339,10 +339,10 @@ describe('Integration | Repository | Certification Course', function() {
 
       // then
       expect(persistedUpdatedCertificationCourse.id).to.equal(unpersitedUpdatedCertificationCourse.id);
-      expect(persistedUpdatedCertificationCourse.firstName()).to.equal(unpersitedUpdatedCertificationCourse.firstName());
-      expect(persistedUpdatedCertificationCourse.lastName()).to.equal(unpersitedUpdatedCertificationCourse.lastName());
+      expect(persistedUpdatedCertificationCourse.toDTO().firstName).to.equal(unpersitedUpdatedCertificationCourse.toDTO().firstName);
+      expect(persistedUpdatedCertificationCourse.toDTO().lastName).to.equal(unpersitedUpdatedCertificationCourse.toDTO().lastName);
       expect(persistedUpdatedCertificationCourse.toDTO().birthdate).to.equal(unpersitedUpdatedCertificationCourse.toDTO().birthdate);
-      expect(persistedUpdatedCertificationCourse.birthplace()).to.equal(unpersitedUpdatedCertificationCourse.birthplace());
+      expect(persistedUpdatedCertificationCourse.toDTO().birthplace).to.equal(unpersitedUpdatedCertificationCourse.toDTO().birthplace);
       expect(persistedUpdatedCertificationCourse.isCancelled()).to.be.true;
     });
 
