@@ -12,7 +12,9 @@
 
       <div class="recover-account-after-leaving-sco-content__step">
         {{#if this.showRecoverAccountStudentInformationForm}}
-          <RecoverAccountStudentInformationForm @submitStudentInformation={{this.submitStudentInformation}} />
+          <RecoverAccountStudentInformationForm
+            @submitStudentInformation={{this.submitStudentInformation}}
+            @showAccountNotFoundError={{this.showAccountNotFoundError}} />
         {{/if}}
 
         {{#if this.showRecoverAccountConflictError}}

@@ -74,9 +74,13 @@ export default function index(config) {
             'latest-organization-name': 'Collège FouFouFou',
           },
         } });
-    } else {
+    } else if (foundUser) {
       return new Response(409, {}, {
         errors: [{ status: '409' }],
+      });
+    } else {
+      return new Response(404, {}, {
+        errors: [{ status: '404', message: 'Not found' }],
       });
     }
   });

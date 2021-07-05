@@ -108,6 +108,35 @@ describe('Acceptance | RecoverAccountAfterLeavingScoRoute', function() {
       });
     });
 
+    context('when submitting information form with invalid data', () => {
+
+      it('should show an not found error', async function() {
+        // given
+        const ineIna = '0123456789A';
+        const lastName = 'Lecol';
+        const firstName = 'Manuela';
+        const dayOfBirth = 20;
+        const monthOfBirth = 5;
+        const yearOfBirth = 2000;
+
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+        // when
+        await visit('/recuperer-mon-compte');
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.ine-ina'), ineIna);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.first-name'), firstName);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.last-name'), lastName);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.label.birth-day'), dayOfBirth);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.label.birth-month'), monthOfBirth);
+        await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.label.birth-year'), yearOfBirth);
+        await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.student-information.form.submit'));
+
+        // then
+        expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.student-information.title'))).to.exist;
+        expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.student-information.errors.not-found'))).to.exist;
+      });
+    });
+
     context('when two students used same account', function() {
 
       it('should redirect to account recovery conflict page', async function() {
