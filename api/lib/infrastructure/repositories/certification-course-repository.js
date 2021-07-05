@@ -172,15 +172,14 @@ function _adaptModelToDb(certificationCourse) {
 
 function _pickUpdatableProperties(certificationCourse) {
 
-  const dto = _.pick(certificationCourse, [
+  const dto = _.pick(certificationCourse.toDTO(), [
     'id',
+    'isCancelled',
+    'birthdate',
+    'birthplace',
+    'firstName',
+    'lastName',
   ]);
-
-  dto.isCancelled = certificationCourse.isCancelled();
-  dto.birthdate = certificationCourse.birthdate();
-  dto.birthplace = certificationCourse.birthplace();
-  dto.firstName = certificationCourse.firstName();
-  dto.lastName = certificationCourse.lastName();
 
   return dto;
 }

@@ -58,7 +58,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       certificationCourse.modifyBirthdate('2000-01-01');
 
       // then
-      expect(certificationCourse.birthdate()).to.equal('2000-01-01');
+      expect(certificationCourse.toDTO().birthdate).to.equal('2000-01-01');
     });
   });
 
