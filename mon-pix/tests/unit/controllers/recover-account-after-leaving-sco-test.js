@@ -54,7 +54,8 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
           // given
           const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
           const studentInformation = { firstName: 'Jules' };
-          const submitStudentInformationStub = sinon.stub().resolves();
+          const submitStudentInformationStub = sinon.stub().resolves({});
+
           const store = { createRecord: sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub }) };
           controller.set('store', store);
 
