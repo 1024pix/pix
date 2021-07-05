@@ -121,7 +121,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
 
         context('when csv does not have \'Sex code\' column', () => {
 
-          const COL_TO_REMOVE = 'Code sexe';
+          const COL_TO_REMOVE = 'Sexe*';
           const schoolingRegistrationCsvColumnsWithoutSexCode = new SchoolingRegistrationColumns(i18n).columns.map((column) => column.label).filter((col) => col !== COL_TO_REMOVE).join(';');
 
           it('returns a schooling registration for each line', () => {
