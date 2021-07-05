@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import EmberObject from '@ember/object';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 module('Unit | Component | enrolled-candidates', function(hooks) {
@@ -74,17 +75,22 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
 
     module('When FT_IS_NEW_CPF_DATA_ENABLED is enabled', function() {
 
-      test('should not add an empty candidate in staging', async function(assert) {
+      test('should add an empty new candidate', async function(assert) {
       // given
         component.args = {
           isNewCpfDataToggleEnabled: true,
         };
 
+        const newCandidate = EmberObject.create({
+          firstName: '', lastName: '', birthdate: '', birthCity: '',
+          birthCountry: 'FRANCE', email: '', externalId: '', resultRecipientEmail: '',
+          birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '' });
+
         // when
         await component.addCertificationCandidateInStaging();
 
         // then
-        assert.equal(component.candidatesInStaging.length, 0);
+        assert.deepEqual(component.newCandidate, newCandidate);
       });
 
     });
@@ -131,7 +137,7 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
     });
   });
 
-  module('#openCertificationCandidateDetailsModal', async function() {
+  module('#openCertificationCandidateDetailsModal', function() {
     test('should open the candidate details modal', async function(assert) {
       // given
       const sessionId = 'sessionId';
@@ -145,12 +151,12 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
       await component.openCertificationCandidateDetailsModal(candidate);
 
       // then
-      assert.equal(component.shouldDisplayCertificationCandidateModal, true);
+      assert.true(component.shouldDisplayCertificationCandidateModal);
       assert.equal(component.certificationCandidateInDetailsModal, candidate);
     });
   });
 
-  module('#closeCertificationCandidateDetailsModal', async function() {
+  module('#closeCertificationCandidateDetailsModal', function() {
     test('should close the candidate details modal', async function(assert) {
       // given
       const sessionId = 'sessionId';
@@ -166,8 +172,44 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
       await component.closeCertificationCandidateDetailsModal();
 
       // then
-      assert.equal(component.shouldDisplayCertificationCandidateModal, false);
+      assert.false(component.shouldDisplayCertificationCandidateModal);
       assert.equal(component.certificationCandidateInDetailsModal, null);
+    });
+  });
+
+  module('#openNewCertificationCandidateModal', function() {
+    test('should open the new certification candidate modal', async function(assert) {
+      // given
+      const sessionId = 'sessionId';
+      component.showNewCertificationCandidateModal = false;
+      component.args = {
+        certificationCandidates: [],
+        sessionId,
+      };
+
+      // when
+      await component.openNewCertificationCandidateModal();
+
+      // then
+      assert.true(component.showNewCertificationCandidateModal);
+    });
+  });
+
+  module('#closeNewCertificationCandidateModal', function() {
+    test('should close the new certification candidate modal', async function(assert) {
+      // given
+      const sessionId = 'sessionId';
+      component.showNewCertificationCandidateModal = true;
+      component.args = {
+        certificationCandidates: [],
+        sessionId,
+      };
+
+      // when
+      await component.closeNewCertificationCandidateModal();
+
+      // then
+      assert.false(component.showNewCertificationCandidateModal);
     });
   });
 

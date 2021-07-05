@@ -10,6 +10,7 @@ import { upload } from 'ember-file-upload/test-support';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 module('Acceptance | Session Details Certification Candidates', function(hooks) {
 
@@ -88,7 +89,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
         test('it should display the list of certification candidates', async function(assert) {
           // given
           const aCandidate = candidates[0];
-          server.create('feature-toggle', { id: 0, isNewCPFDataEnabled: false });
+          server.create('feature-toggle', { id: 0, isNewCpfDataEnabled: false });
 
           // when
           await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
@@ -342,6 +343,77 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       // then
       assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
     });
+
+    module('when the cpfNewDataFeatureToggle is on', function() {
+      module('when the addCandidate button is clicked', function() {
+        test('it should open the new Certification Candidate Modal', async function(assert) {
+          // given
+          const sessionWithoutCandidates = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+          server.create('feature-toggle', { id: 0, isNewCPFDataEnabled: true });
+          server.create('country', []);
+
+          // when
+          await visit(`/sessions/${sessionWithoutCandidates.id}/candidats`);
+          await clickByLabel('Ajouter un candidat');
+
+          // then
+          assert.contains('Ajouter le candidat');
+        });
+      });
+
+      module('when the new candidate form is submitted', function() {
+        test('it should display an error when the submitted form data are incorrect', async function(assert) {
+          // given
+          const session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+          server.create('feature-toggle', { id: 0, isNewCPFDataEnabled: true });
+          server.createList('country', 2, { code: '99100' });
+
+          this.server.post('/sessions/:id/certification-candidates', () => ({
+            errors: ['Invalid data'],
+          }), 400);
+
+          // when
+          await visit(`/sessions/${session.id}/candidats`);
+          await clickByLabel('Ajouter un candidat');
+          await _fillFormWithCorrectDataForCPF();
+          await clickByLabel('Ajouter le candidat');
+
+          // then
+          assert.dom('[data-test-notification-message="error"]').hasText('Une erreur s\'est produite lors de l\'ajout du candidat.');
+        });
+
+        module('when candidate data is valid', function(hooks) {
+
+          hooks.beforeEach(async function() {
+            server.create('feature-toggle', { id: 0, isNewCPFDataEnabled: true });
+            server.createList('country', 2, { code: '99100' });
+            session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+            await visit(`/sessions/${session.id}/candidats`);
+          });
+
+          test('it should display a success notification', async function(assert) {
+            // when
+            await clickByLabel('Ajouter un candidat');
+            await _fillFormWithCorrectDataForCPF();
+            await clickByLabel('Ajouter le candidat');
+
+            // then
+            assert.dom('[data-test-notification-message="success"]').hasText('Le candidat a été ajouté avec succès.');
+          });
+
+          test('it should add a new candidate', async function(assert) {
+            // given
+            // when
+            await clickByLabel('Ajouter un candidat');
+            await _fillFormWithCorrectDataForCPF();
+            await clickByLabel('Ajouter le candidat');
+
+            // then
+            assert.dom('table tbody tr').exists({ count: 1 });
+          });
+        });
+      });
+    });
   });
 
   async function _fillFormWithCorrectData() {
@@ -351,6 +423,20 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
     await _fillCandidateInput('birthProvinceCode', validBirthProvinceCode);
     await _fillCandidateInput('birthCountry', validBirthCountry);
     await _fillCandidateInput('birthdate', validBirthdate);
+  }
+
+  async function _fillFormWithCorrectDataForCPF() {
+    await fillInByLabel('Prénom', 'Guybrush');
+    await fillInByLabel('Nom de famille', 'Threepwood');
+    await fillInByLabel('Date de naissance', '28/04/2019');
+    await clickByLabel('Homme');
+    await fillInByLabel('Pays de naissance', '99100');
+    await clickByLabel('Code INSEE');
+    await fillInByLabel('Identifiant externe', '44AA3355');
+    await fillInByLabel('Code INSEE de naissance', '75100');
+    await fillInByLabel('Temps majoré (%)', '20');
+    await fillInByLabel('E-mail du destinataire des résultats', 'guybrush.threepwood@example.net');
+    await fillInByLabel('E-mail de convocation', 'roooooar@example.net');
   }
 
   async function _fillCandidateInput(code, value) {

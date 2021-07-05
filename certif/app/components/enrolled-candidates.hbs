@@ -11,12 +11,21 @@
         Ajouter des candidats
       </LinkTo>
     {{else}}
-      <div data-test-id="add-certification-candidate-staging__button" class="panel-header__action" {{on 'click' this.addCertificationCandidateInStaging}} >
-        <div id="add-candidate" class="certification-candidates-add-button__text">
+      {{#if @isNewCpfDataToggleEnabled}}
+        <PixButton
+          id="add-candidate"
+          class="certification-candidates-add-button__text"
+          @triggerAction={{fn this.openNewCertificationCandidateModal}}
+          @size="small"
+        >
           Ajouter un candidat
+        </PixButton>
+      {{else}}
+        <div data-test-id="add-certification-candidate-staging__button" class="panel-header__action" {{on 'click' this.addCertificationCandidateInStaging}} >
+          <div id="add-candidate" class="certification-candidates-add-button__text">Ajouter un candidat</div>
+          <PixIconButton aria-describedby="add-candidate" @icon='plus' @withBackground={{true}} />
         </div>
-        <PixIconButton aria-describedby="add-candidate" @icon='plus' @withBackground={{true}} />
-      </div>
+      {{/if}}
     {{/if}}
   </div>
   <div class="table content-text content-text--small certification-candidates-table">
@@ -67,15 +76,17 @@
           </tr>
           </thead>
           <tbody>
-          {{#each this.candidatesInStaging as |candidateInStaging|}}
-            <CertificationCandidateInStagingItem
-                    @candidateData={{candidateInStaging}}
-                    @onClickSave={{this.addCertificationCandidate}}
-                    @onClickCancel={{this.removeCertificationCandidateFromStaging}}
-                    @updateCandidateBirthdate={{this.updateCertificationCandidateInStagingBirthdate}}
-                    @updateCandidateData={{this.updateCertificationCandidateInStagingField}}
-            />
-          {{/each}}
+          {{#unless @isNewCpfDataToggleEnabled}}
+            {{#each this.candidatesInStaging as |candidateInStaging|}}
+              <CertificationCandidateInStagingItem
+                      @candidateData={{candidateInStaging}}
+                      @onClickSave={{this.addCertificationCandidate}}
+                      @onClickCancel={{this.removeCertificationCandidateFromStaging}}
+                      @updateCandidateBirthdate={{this.updateCertificationCandidateInStagingFieldFromValue}}
+                      @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
+              />
+            {{/each}}
+          {{/unless}}
           {{#each @certificationCandidates as |candidate|}}
             <tr>
               <td data-test-id='panel-candidate__lastName__{{candidate.id}}'>{{candidate.lastName}}</td>
@@ -197,8 +208,8 @@
                   @candidateData={{candidateInStaging}}
                   @onClickSave={{this.addCertificationCandidate}}
                   @onClickCancel={{this.removeCertificationCandidateFromStaging}}
-                  @updateCandidateBirthdate={{this.updateCertificationCandidateInStagingBirthdate}}
-                  @updateCandidateData={{this.updateCertificationCandidateInStagingField}}
+                  @updateCandidateBirthdate={{this.updateCertificationCandidateInStagingFieldFromValue}}
+                  @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
           />
         {{/each}}
         {{#each @certificationCandidates as |candidate|}}
@@ -264,5 +275,16 @@
   <CertificationCandidateDetailsModal
     @closeModal={{this.closeCertificationCandidateDetailsModal}}
     @candidate={{this.certificationCandidateInDetailsModal}}
+  />
+{{/if}}
+
+{{#if this.showNewCertificationCandidateModal}}
+  <NewCertificationCandidateModal
+    @closeModal={{this.closeNewCertificationCandidateModal}}
+    @countries={{@countries}}
+    @saveCandidate={{this.addCertificationCandidate}}
+    @candidateData={{this.newCandidate}}
+    @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
+    @updateCandidateDataFromValue={{this.updateCertificationCandidateInStagingFieldFromValue}}
   />
 {{/if}}
