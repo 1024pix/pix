@@ -1,2 +1,2 @@
 {{page-title (t 'pages.team-members.title')}}
-<Routes::Authenticated::Team::Members @memberships={{@model}} @removeMembership={{this.removeMembership}} />
+<Team::MembersList @members={{@model}} @onRemoveMember={{this.removeMembership}} />

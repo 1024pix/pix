@@ -2,15 +2,15 @@ import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/authenticated/team | members', function(hooks) {
+module('Integration | Component | Team::MembersList', function(hooks) {
 
   setupIntlRenderingTest(hooks);
 
   test('it should list the team members', async function(assert) {
     //given
-    const memberships = [{
+    const members = [{
       id: 1,
       organizationRole: 'ADMIN',
       user: {
@@ -28,22 +28,23 @@ module('Integration | Component | routes/authenticated/team | members', function
         lastName: 'La Panique',
       },
     }];
-    memberships.meta = { rowCount: 2 };
-    this.set('memberships', memberships);
+    members.meta = { rowCount: 2 };
+    this.set('members', members);
 
     // when
-    await render(hbs`<Routes::Authenticated::Team::Members @memberships={{memberships}}/>`);
+    await render(hbs`<Team::MembersList @members={{members}}/>`);
 
     // then
-    assert.dom('#table-members tbody tr').exists({ count: 2 });
+    assert.contains('Gigi');
+    assert.contains('Jojo');
   });
 
   test('it should display a message when there are no members', async function(assert) {
     //given
-    this.set('memberships', []);
+    this.set('members', []);
 
     // when
-    await render(hbs`<Routes::Authenticated::Team::Members @memberships={{memberships}}/>`);
+    await render(hbs`<Team::MembersList @members={{members}}/>`);
 
     // then
     assert.contains('En attente de membres');
