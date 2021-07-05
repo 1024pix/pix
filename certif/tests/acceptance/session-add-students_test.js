@@ -18,6 +18,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
     server.create('feature-toggle', { id: 0, certifPrescriptionSco: true });
     certificationPointOfContact = createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted('SCO');
     session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+    server.createList('country', 3);
   });
 
   hooks.afterEach(function() {

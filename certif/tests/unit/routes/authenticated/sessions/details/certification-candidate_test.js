@@ -11,19 +11,26 @@ module('Unit | Route | authenticated/sessions/details/certification-candidates',
   });
 
   module('#model', function(hooks) {
-    const expectedModel = Symbol('model');
+    const details = { session: Symbol('session') };
+    const countries = Symbol('countries');
+    const expectedModel = {
+      ...details,
+      countries,
+    };
 
     hooks.beforeEach(function() {
-      route.modelFor = sinon.stub().returns(expectedModel);
+      route.modelFor = sinon.stub().returns(details);
+      route.store.findAll = sinon.stub().returns(countries);
     });
 
-    test('it should return the expectedModel', function(assert) {
+    test('it should return the expectedModel', async function(assert) {
       // when
-      const actualModel = route.model();
+      const actualModel = await route.model();
 
       // then
       sinon.assert.calledWith(route.modelFor, 'authenticated.sessions.details');
-      assert.equal(actualModel, expectedModel);
+      sinon.assert.calledWith(route.store.findAll, 'country');
+      assert.deepEqual(actualModel, expectedModel);
     });
   });
 });

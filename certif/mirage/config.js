@@ -164,4 +164,8 @@ export default function() {
 
     return json;
   });
+
+  this.get('/countries', (schema, _) => {
+    return schema.countries.all();
+  });
 }
