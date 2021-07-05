@@ -17,7 +17,8 @@
     <PixTooltip
       @text={{t 'pages.recover-account-after-leaving-sco.student-information.form.tooltip' htmlSafe=true}}
       @position='top-left'
-      @isLight={{true}}>
+      @isLight={{true}}
+      aria-label={{t 'pages.recover-account-after-leaving-sco.student-information.form.tooltip' htmlSafe=true}}>
         <FaIcon @icon="info-circle" />
     </PixTooltip>
   </div>
@@ -40,8 +41,7 @@
                  @validationMessage={{this.firstNameValidation.message}}
                  @autocomplete="off"
                  @require={{true}}
-                 @hideRequired="true"
-                 @placeholder="Prénom" />
+                 @hideRequired="true" />
 
   <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.last-name'}}
                  @textfieldName="lastName"
@@ -51,8 +51,7 @@
                  @validationMessage={{this.lastNameValidation.message}}
                  @autocomplete="off"
                  @require={{true}}
-                 @hideRequired="true"
-                 @placeholder="Nom" />
+                 @hideRequired="true" />
 
   <div>
     <p class="form-textfield__label">
