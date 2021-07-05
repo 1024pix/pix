@@ -1,0 +1,39 @@
+<h1>{{t 'pages.recover-account-after-leaving-sco.backup-email-confirmation.email-is-needed-message' firstName=@firstName}}</h1>
+
+{{#if @existingEmail}}
+  <p>
+    {{t 'pages.recover-account-after-leaving-sco.backup-email-confirmation.email-already-exist-for-account-message'}}<br>
+    {{@existingEmail}}<br>
+    {{t 'pages.recover-account-after-leaving-sco.backup-email-confirmation.email-is-valid-message'}}
+    <LinkTo @route="password-reset-demand">
+      {{t 'pages.recover-account-after-leaving-sco.backup-email-confirmation.email-reset-message'}}</LinkTo>
+    {{t 'pages.recover-account-after-leaving-sco.backup-email-confirmation.ask-for-new-email-message'}}
+  </p>
+{{else}}
+  <p>
+    {{t 'pages.recover-account-after-leaving-sco.backup-email-confirmation.email-sent-to-choose-password-message'}}
+  </p>
+{{/if}}
+
+<form onSubmit={{this.submitBackupEmailConfirmationForm}}>
+
+  <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.backup-email-confirmation.form.email'}}
+                 @textfieldName="email"
+                 @inputBindingValue={{this.email}}
+                 @onValidate={{this.validateEmail}}
+                 @validationStatus={{this.emailValidation.status}}
+                 @validationMessage={{this.emailValidation.message}}
+                 @autocomplete="off"
+                 @require={{true}}
+                 @hideRequired={{true}}/>
+
+
+  <PixButton @type="submit">
+    {{t 'pages.recover-account-after-leaving-sco.backup-email-confirmation.form.actions.submit'}}
+  </PixButton>
+
+  <PixButton @triggerAction={{@cancelAccountRecovery}}>
+    {{t 'pages.recover-account-after-leaving-sco.backup-email-confirmation.form.actions.cancel'}}
+  </PixButton>
+
+</form>
