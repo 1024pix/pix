@@ -6,7 +6,7 @@ import { tracked } from '@glimmer/tracking';
 const ARIA_LABEL_MEMBER_TRANSLATION = 'pages.team-members.actions.select-role.options.member';
 const ARIA_LABEL_ADMIN_TRANSLATION = 'pages.team-members.actions.select-role.options.admin';
 
-export default class Items extends Component {
+export default class MembersListItem extends Component {
 
   @service currentUser;
   @service notifications;
@@ -93,7 +93,7 @@ export default class Items extends Component {
       const memberFirstName = membership.user.get('firstName');
       const memberLastName = membership.user.get('lastName');
 
-      await this.args.removeMembership(membership);
+      await this.args.onRemoveMember(membership);
       this.notifications.success(this.intl.t('pages.team-members.notifications.success', { memberFirstName, memberLastName }));
     } catch (e) {
       this.notifications.error(this.intl.t('pages.team-members.notifications.error'));

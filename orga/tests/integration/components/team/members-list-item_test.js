@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { click, fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
-import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/authenticated/team | list-items | items', function(hooks) {
+module('Integration | Component | Team::MembersListItem', function(hooks) {
 
   setupIntlRenderingTest(hooks);
   let adminMembership;
@@ -42,7 +42,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
     this.set('membership', adminMembership);
 
     // when
-    await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
+    await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
 
     // then
     assert.contains('La Terreur');
@@ -57,7 +57,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       // given
       this.set('membership', memberMembership);
 
-      await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
+      await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
 
       // when
       await clickByLabel('Gérer');
@@ -73,7 +73,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       // given
       this.set('membership', memberMembership);
 
-      await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
+      await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
 
       await clickByLabel('Gérer');
       await clickByLabel('Modifier le rôle');
@@ -90,7 +90,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       // given
       this.set('membership', memberMembership);
 
-      await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
+      await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
       await clickByLabel('Gérer');
       await clickByLabel('Modifier le rôle');
 
@@ -107,7 +107,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       // given
       this.set('membership', adminMembership);
 
-      await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
+      await render(hbs`<Team::MembersListItem @membership={{membership}}/>`);
       await clickByLabel('Gérer');
       await clickByLabel('Modifier le rôle');
 
@@ -135,7 +135,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       this.set('removeMembership', removeMembershipStub);
 
       // when
-      await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}} @removeMembership={{removeMembership}} />`);
+      await render(hbs`<Team::MembersListItem @membership={{membership}} @onRemoveMember={{removeMembership}} />`);
       await clickByLabel('Gérer');
       await clickByLabel('Supprimer');
     });

@@ -29,12 +29,12 @@
     <td>
       <div id="selectOrganizationRole">
         <SelectInput
-                class="table__input"
-                @onChange={{this.setRoleSelection}}
-                @options={{this.organizationRoles}}
-                @selectedOption={{@membership.organizationRole}}
-                @placeholder="{{t 'pages.team-members.actions.select-role.label'}}"
-                @ariaLabel="{{t 'pages.team-members.actions.select-role.label'}}"
+          class="table__input"
+          @onChange={{this.setRoleSelection}}
+          @options={{this.organizationRoles}}
+          @selectedOption={{@membership.organizationRole}}
+          @placeholder="{{t 'pages.team-members.actions.select-role.label'}}"
+          @ariaLabel="{{t 'pages.team-members.actions.select-role.label'}}"
         />
       </div>
     </td>
@@ -44,12 +44,12 @@
           {{t 'pages.team-members.actions.save'}}
         </button>
         <PixIconButton
-                @icon="times"
-                id='cancel-update-organization-role'
-                aria-label="{{t 'common.actions.cancel'}}"
-                @triggerAction={{this.cancelUpdateRoleOfMember}}
-                @withBackground={{false}}
-                @color="dark-grey"
+          @icon="times"
+          id='cancel-update-organization-role'
+          aria-label="{{t 'common.actions.cancel'}}"
+          @triggerAction={{this.cancelUpdateRoleOfMember}}
+          @withBackground={{false}}
+          @color="dark-grey"
         />
       </div>
     </td>
@@ -57,11 +57,11 @@
 </tr>
 
 <Modal::Dialog
-        class="remove-membership-modal"
-        @title="{{t 'pages.team-members.remove-membership-modal.title'}}"
-        @display={{this.isRemoveMembershipModalDisplayed}}
-        @close={{this.closeRemoveMembershipModal}}
-        @additionalContainerClass="modal-dialog__large">
+  class="remove-membership-modal"
+  @title="{{t 'pages.team-members.remove-membership-modal.title'}}"
+  @display={{this.isRemoveMembershipModalDisplayed}}
+  @close={{this.closeRemoveMembershipModal}}
+  @additionalContainerClass="modal-dialog__large">
   <Modal::Body class="remove-membership-modal__content">
     <p class="content-text">
       {{t 'pages.team-members.remove-membership-modal.message' memberFirstName=@membership.user.firstName memberLastName=@membership.user.lastName htmlSafe=true}}
