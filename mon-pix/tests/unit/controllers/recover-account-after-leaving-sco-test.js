@@ -54,7 +54,8 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
           // given
           const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
           const studentInformation = { firstName: 'Jules' };
-          const submitStudentInformationStub = sinon.stub().resolves();
+          const submitStudentInformationStub = sinon.stub().resolves({});
+
           const store = { createRecord: sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub }) };
           controller.set('store', store);
 
@@ -68,4 +69,27 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
       });
     });
   });
+
+  context('#continueAccountRecoveryBackupEmailConfirmation', () => {
+
+    context('when confirm recover account student information form', function() {
+
+      it('should show recovery account backup email confirmation', async function() {
+        // given
+        const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
+        controller.showRecoverAccountStudentInformationForm = true;
+
+        // when
+        await controller.continueAccountRecoveryBackupEmailConfirmation();
+
+        // then
+        expect(controller.showRecoverAccountStudentInformationForm).to.be.false;
+        expect(controller.showRecoverAccountConfirmationStep).to.be.false;
+        expect(controller.showRecoverAccountBackupEmailConfirmationForm).to.be.true;
+
+      });
+
+    });
+  });
+
 });
