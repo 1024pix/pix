@@ -7,11 +7,9 @@ module.exports = {
 
     return new Serializer('certification-course', {
       transform(currentCertificationCourse) {
-        const certificationCourseDTO = Object.assign({}, currentCertificationCourse);
+        const certificationCourseDTO = currentCertificationCourse.toDTO();
         certificationCourseDTO.nbChallenges = currentCertificationCourse.challenges ? currentCertificationCourse.challenges.length : 0;
         certificationCourseDTO.examinerComment = get(currentCertificationCourse, 'certificationIssueReports[0].description');
-        certificationCourseDTO.firstName = currentCertificationCourse.firstName();
-        certificationCourseDTO.lastName = currentCertificationCourse.lastName();
 
         return certificationCourseDTO;
       },

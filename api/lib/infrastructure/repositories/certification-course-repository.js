@@ -160,25 +160,14 @@ function toDomain(bookshelfCertificationCourse) {
 
 function _adaptModelToDb(certificationCourse) {
 
-  const dto = _.omit(certificationCourse, [
+  const valuesToBeSaved = _.omit(certificationCourse.toDTO(), [
     'certificationIssueReports',
     'assessment',
     'challenges',
     'createdAt',
-    '_isCancelled',
-    '_birthdate',
-    '_birthplace',
-    '_firstName',
-    '_lastName',
   ]);
 
-  dto.isCancelled = certificationCourse.isCancelled();
-  dto.birthdate = certificationCourse.birthdate();
-  dto.birthplace = certificationCourse.birthplace();
-  dto.firstName = certificationCourse.firstName();
-  dto.lastName = certificationCourse.lastName();
-
-  return dto;
+  return valuesToBeSaved;
 }
 
 function _pickUpdatableProperties(certificationCourse) {
