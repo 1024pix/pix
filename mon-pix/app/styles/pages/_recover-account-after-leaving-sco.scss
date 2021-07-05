@@ -1,0 +1,55 @@
+.recover-account-after-leaving-sco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+
+  @include device-is('desktop') {
+    padding-top: 56px;
+  }
+}
+
+.recover-account-after-leaving-sco-content {
+  margin-top: 12px;
+  max-width: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__image {
+    display: none;
+
+    @include device-is('desktop') {
+      display: flex;
+      justify-content: center;
+      width: 400px;
+
+      img {
+        width: 300px;
+      }
+    }
+  }
+
+  &__step {
+    @include device-is('desktop') {
+      max-width: 800px;
+    }
+  }
+}
+
+.recover-account-after-leaving-sco-content__title {
+  color: $grey-90;
+  font-family: $font-open-sans;
+  font-size: 2rem;
+  line-height: 32px;
+  margin-bottom: 32px;
+}
+
+.recover-account-after-leaving-sco-content__information-text {
+  color: $grey-90;
+  font-family: $font-roboto;
+
+  a {
+    color: $communication-dark;
+  }
+}

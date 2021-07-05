@@ -930,7 +930,7 @@
           "text": "Si vous possédez un compte avec une adresse e-mail valide, "
         },
         "form": {
-          "tooltip": "Où trouver mon INE ? '<br>' Cet identifiant se trouve souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.",
+          "tooltip": "<em>Où trouver mon INE ?</em> '<br>' Cet identifiant se trouve souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.",
           "ine-ina": "INE (Identifiant National Élève)",
           "last-name": "Nom",
           "first-name": "Prénom",

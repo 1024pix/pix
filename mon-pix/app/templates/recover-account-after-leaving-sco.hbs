@@ -1,16 +1,31 @@
 {{page-title (t 'pages.recover-account-after-leaving-sco.title')}}
 
-{{#if this.showRecoverAccountStudentInformationForm}}
-  <RecoverAccountStudentInformationForm @submitStudentInformation={{this.submitStudentInformation}} />
-{{/if}}
+<div class="recover-account-after-leaving-sco">
+  <div>
+    <PixLogo />
 
-{{#if this.showRecoverAccountConflictError}}
-  <RecoverAccountConflictError @firstName={{this.firstName}} />
-{{/if}}
+    <div class="recover-account-after-leaving-sco-content">
+      <div class="recover-account-after-leaving-sco-content__image">
+        <img alt=""
+          src="https://media-exp1.licdn.com/dms/image/C4E03AQGqUyf9FEbMFQ/profile-displayphoto-shrink_200_200/0/1599815293858?e=1629936000&v=beta&t=aYkZM7aqqJJ5tcm__MOF9TZmHt4YMGazq_Sj-OHJtK0">
+      </div>
 
-{{#if this.showRecoverAccountConfirmationStep}}
-  <RecoverAccountConfirmationStep
-    @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-    @cancelAccountRecovery={{this.cancelAccountRecovery}}
-  />
-{{/if}}
+      <div class="recover-account-after-leaving-sco-content__step">
+        {{#if this.showRecoverAccountStudentInformationForm}}
+          <RecoverAccountStudentInformationForm @submitStudentInformation={{this.submitStudentInformation}} />
+        {{/if}}
+
+        {{#if this.showRecoverAccountConflictError}}
+          <RecoverAccountConflictError @firstName={{this.firstName}} />
+        {{/if}}
+
+        {{#if this.showRecoverAccountConfirmationStep}}
+          <RecoverAccountConfirmationStep
+            @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
+            @cancelAccountRecovery={{this.cancelAccountRecovery}}
+          />
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>

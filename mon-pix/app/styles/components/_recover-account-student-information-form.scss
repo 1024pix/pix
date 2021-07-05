@@ -1,0 +1,36 @@
+.recover-account-student-information-form {
+  position: relative;
+
+  &__tooltip {
+    position: absolute;
+    right: -120px;
+    z-index: 100;
+    min-width: 300px;
+
+    em {
+      font-weight: bold;
+    }
+  }
+
+  &__birthdate-fields {
+    display: flex;
+
+    p {
+      margin-bottom: 0;
+    }
+
+    .form-textfield__input-field-container {
+      display: block;
+      width: calc(80px + 2 * 2px);
+      margin-right: 8px;
+
+      & > input {
+        width: 80px;
+      }
+    }
+  }
+
+  button[type="submit"] {
+    margin-top: 32px;
+  }
+}
