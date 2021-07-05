@@ -60,7 +60,7 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
     });
   });
 
-  module('When FT_IS_NEW_CPF_DATA_ENABLED is enabled', async function() {
+  module('When FT_IS_NEW_CPF_DATA_ENABLED is enabled', function() {
 
     test('it displays candidates information', async function(assert) {
       // given
@@ -120,7 +120,7 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
     });
   });
 
-  module('when details button should not be displayed', async function() {
+  module('when details button should not be displayed', function() {
     test('it should not display details button', async function(assert) {
       // given
       const candidate = _buildCertificationCandidate({

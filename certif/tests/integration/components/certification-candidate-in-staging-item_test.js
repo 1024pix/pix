@@ -72,7 +72,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
     await click('[data-test-id="panel-candidate__action__cancel"]');
 
     // then
-    assert.equal(cancelStub.calledWith(candidateInStaging), true);
+    assert.true(cancelStub.calledWith(candidateInStaging));
   });
 
   module('when filling the line with sufficient correct data', function(hooks) {
@@ -99,7 +99,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
       await click('[data-test-id="panel-candidate__action__save"]');
 
       // then
-      assert.equal(saveStub.calledWith(candidateInStaging), true);
+      assert.true(saveStub.calledWith(candidateInStaging));
     });
 
   });

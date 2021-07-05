@@ -32,7 +32,7 @@ module('Unit | Component | add-student-list', function(hooks) {
       const hasCheckedSomething = component.hasCheckedSomething;
 
       // then
-      assert.equal(hasCheckedSomething, false);
+      assert.false(hasCheckedSomething);
     });
 
     test('it should be true if at least one checked student', function(assert) {
@@ -49,7 +49,7 @@ module('Unit | Component | add-student-list', function(hooks) {
       const hasCheckedSomething = component.hasCheckedSomething;
 
       // then
-      assert.equal(hasCheckedSomething, true);
+      assert.true(hasCheckedSomething);
     });
   });
 
@@ -69,7 +69,7 @@ module('Unit | Component | add-student-list', function(hooks) {
       const hasCheckedEverything = component.hasCheckedEverything;
 
       // then
-      assert.equal(hasCheckedEverything, false);
+      assert.false(hasCheckedEverything);
     });
 
     test('it should be true if they are all checked', function(assert) {
@@ -86,7 +86,7 @@ module('Unit | Component | add-student-list', function(hooks) {
       const hasCheckedEverything = component.hasCheckedEverything;
 
       // then
-      assert.equal(hasCheckedEverything, true);
+      assert.true(hasCheckedEverything);
     });
   });
 

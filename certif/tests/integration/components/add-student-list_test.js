@@ -89,7 +89,7 @@ module('Integration | Component | add-student-list', function(hooks) {
       await click(firstStudentCheckbox);
 
       // then
-      assert.equal(this.students[0].isSelected, true);
+      assert.true(this.students[0].isSelected);
     });
 
     test('it should be possible to unselect a selected student', async function(assert) {
@@ -107,7 +107,7 @@ module('Integration | Component | add-student-list', function(hooks) {
       await click(firstStudentCheckbox);
 
       // then
-      assert.equal(this.students[0].isSelected, false);
+      assert.false(this.students[0].isSelected);
     });
 
     [
@@ -139,7 +139,7 @@ module('Integration | Component | add-student-list', function(hooks) {
         await click(selectAllCheckbox);
 
         // then
-        assert.equal(this.students.every((s) => s.isSelected), true);
+        assert.true(this.students.every((s) => s.isSelected));
       });
     });
 
@@ -159,7 +159,7 @@ module('Integration | Component | add-student-list', function(hooks) {
       await click(selectAllCheckbox);
 
       // then
-      assert.equal(this.students.every((s) => s.isSelected), false);
+      assert.false(this.students.every((s) => s.isSelected));
     });
 
     module('when students are checked', () => {
@@ -207,7 +207,7 @@ module('Integration | Component | add-student-list', function(hooks) {
         sinon.assert.calledWith(save, { adapterOptions: {
           sessionId: 123,
           studentListToAdd: studentList } });
-        assert.equal(this.candidatesWasSaved, true);
+        assert.true(this.candidatesWasSaved);
       });
     });
 
