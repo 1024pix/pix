@@ -63,7 +63,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
   });
 
   describe('#modifyFirstName', () => {
-    [null, undefined, '']
+    [null, undefined, '', '   ']
       .forEach((invalidFirstName) => {
         it(`throws if first name is invalid : ${invalidFirstName}`, () => {
           // given
@@ -76,22 +76,22 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
         });
       });
 
-    it('modifies the first name', () => {
+    it('collapses white spaces and modifies the first name', () => {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         firstName: 'John',
       });
 
       // when
-      certificationCourse.modifyFirstName('Jane');
+      certificationCourse.modifyFirstName('Marie  Claire');
 
       // then
-      expect(certificationCourse.firstName()).to.equal('Jane');
+      expect(certificationCourse.firstName()).to.equal('Marie Claire');
     });
   });
 
   describe('#modifyLastName', () => {
-    [null, undefined, '']
+    [null, undefined, '', '   ']
       .forEach((invalidLastName) => {
         it(`throws if last name is invalid : ${invalidLastName}`, () => {
           // given
@@ -104,22 +104,22 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
         });
       });
 
-    it('modifies the first name', () => {
+    it('collapses white spaces and modifies the last name', () => {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         lastName: 'Doe',
       });
 
       // when
-      certificationCourse.modifyLastName('Smith');
+      certificationCourse.modifyLastName('De  Montmirail');
 
       // then
-      expect(certificationCourse.lastName()).to.equal('Smith');
+      expect(certificationCourse.lastName()).to.equal('De Montmirail');
     });
   });
 
   describe('#modifyBirthplace', () => {
-    [null, undefined, '']
+    [null, undefined, '', '   ']
       .forEach((invalidBirthPlace) => {
         it(`throws if birthplace is invalid : ${invalidBirthPlace}`, () => {
           // given
@@ -132,14 +132,14 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
         });
       });
 
-    it('modifies the birthplace', () => {
+    it('collapses white spaces and modifies the birthplace', () => {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         birthplace: 'Paris',
       });
 
       // when
-      certificationCourse.modifyBirthplace('New York');
+      certificationCourse.modifyBirthplace('New  York');
 
       // then
       expect(certificationCourse.birthplace()).to.equal('New York');

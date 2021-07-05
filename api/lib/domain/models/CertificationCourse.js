@@ -84,30 +84,33 @@ class CertificationCourse {
   }
 
   modifyFirstName(modifiedFirstName) {
-    if (_.isEmpty(modifiedFirstName)) {
+    const sanitizedString = _sanitizedString(modifiedFirstName);
+    if (_.isEmpty(sanitizedString)) {
       throw new EntityValidationError({
         invalidAttributes: [{ attribute: 'firstName', message: 'Candidate\'s first name must not be blank or empty' }],
       });
     }
-    this._firstName = modifiedFirstName;
+    this._firstName = sanitizedString;
   }
 
   modifyLastName(modifiedLastName) {
-    if (_.isEmpty(modifiedLastName)) {
+    const sanitizedString = _sanitizedString(modifiedLastName);
+    if (_.isEmpty(sanitizedString)) {
       throw new EntityValidationError({
         invalidAttributes: [{ attribute: 'lastName', message: 'Candidate\'s last name must not be blank or empty' }],
       });
     }
-    this._lastName = modifiedLastName;
+    this._lastName = sanitizedString;
   }
 
   modifyBirthplace(modifiedBirthplace) {
-    if (_.isEmpty(modifiedBirthplace)) {
+    const sanitizedString = _sanitizedString(modifiedBirthplace);
+    if (_.isEmpty(sanitizedString?.trim())) {
       throw new EntityValidationError({
         invalidAttributes: [{ attribute: 'birthplace', message: 'Candidate\'s birthplace must not be blank or empty' }],
       });
     }
-    this._birthplace = modifiedBirthplace;
+    this._birthplace = sanitizedString;
   }
 
   modifyBirthdate(modifiedBirthdate) {
@@ -140,6 +143,14 @@ class CertificationCourse {
   birthplace() {
     return this._birthplace;
   }
+}
+
+function _sanitizedString(string) {
+  const trimmedString = string?.trim();
+  const multipleWhiteSpacesInARow = / +/g;
+  const withUnifiedWithSpaces = trimmedString?.replace(multipleWhiteSpacesInARow, ' ');
+
+  return withUnifiedWithSpaces;
 }
 
 module.exports = CertificationCourse;
