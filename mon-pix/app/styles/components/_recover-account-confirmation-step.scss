@@ -1,0 +1,28 @@
+.recover-account-confirmation-step-account-information {
+  list-style: none;
+  padding: 0;
+}
+
+.recover-account-confirmation-step-account-information__field {
+  background: $grey-10;
+  border-radius: 8px;
+  height: 65px;
+  max-width: 400px;
+  padding: 12px 20px;
+  margin-bottom: 6px;
+
+  & > div:first-of-type {
+    color: $grey-70;
+    font-family: $font-roboto;
+    font-size: 1.167rem;
+    margin-bottom: 4px;
+  }
+}
+
+.recover-account-confirmation-step__actions {
+  display: flex;
+
+  &--cancel {
+    margin-right: 20px;
+  }
+}
