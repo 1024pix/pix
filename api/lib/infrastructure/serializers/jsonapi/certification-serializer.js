@@ -13,12 +13,7 @@ module.exports = {
     return new Serializer('certifications', {
       transform: (certificationCourse) => {
         return {
-          ..._.omit(certificationCourse, 'maxReachableLevelOnCertificationDate'),
-          isCancelled: certificationCourse.isCancelled(),
-          birthdate: certificationCourse.birthdate(),
-          birthplace: certificationCourse.birthplace(),
-          firstName: certificationCourse.firstName(),
-          lastName: certificationCourse.lastName(),
+          ..._.omit(certificationCourse.toDTO(), 'maxReachableLevelOnCertificationDate'),
         };
       },
       attributes: [

@@ -36,7 +36,7 @@ describe('Unit | UseCase | modify-candidate-in-certification-course', () => {
     // then
     expect(certificationCourseRepository.save).to.have.been.calledWith({
       certificationCourse: new CertificationCourse({
-        ...certificationCourseToBeModified,
+        ...certificationCourseToBeModified.toDTO(),
         firstName: 'Maurice',
         lastName: 'Dupont',
         birthdate: '2000-01-01',
