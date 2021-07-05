@@ -34,7 +34,7 @@ module('Unit | Adapter | student', function(hooks) {
       const url = await adapter.urlForQuery(query);
 
       // then
-      assert.equal(url.endsWith(`certification-centers/${certificationCenterId}/sessions/${sessionId}/students`), true);
+      assert.true(url.endsWith(`certification-centers/${certificationCenterId}/sessions/${sessionId}/students`));
     });
   });
 });

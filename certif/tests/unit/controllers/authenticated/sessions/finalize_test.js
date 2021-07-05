@@ -83,7 +83,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       const hasUncheckedHasSeenEndTestScreen = controller.hasUncheckedHasSeenEndTestScreen;
 
       // then
-      assert.equal(hasUncheckedHasSeenEndTestScreen, false);
+      assert.false(hasUncheckedHasSeenEndTestScreen);
     });
 
     test('it should be true if at least one unchecked certification reports', function(assert) {
@@ -102,7 +102,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       const hasUncheckedHasSeenEndTestScreen = controller.hasUncheckedHasSeenEndTestScreen;
 
       // then
-      assert.equal(hasUncheckedHasSeenEndTestScreen, true);
+      assert.true(hasUncheckedHasSeenEndTestScreen);
     });
   });
 
@@ -227,6 +227,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       { hasSeenEndTestScreen1: false, hasSeenEndTestScreen2: false, expectedState: true },
     ].forEach(({ hasSeenEndTestScreen1, hasSeenEndTestScreen2, expectedState }) =>
       test('it should toggle the hasSeenEndTestScreen attribute of all certifs in session to false depending on if some were checked', function(assert) {
+        assert.expect(2);
         // given
         const someWereChecked = hasSeenEndTestScreen1 || hasSeenEndTestScreen2;
         const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
@@ -259,7 +260,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       controller.send('openModal');
 
       // then
-      assert.equal(controller.showConfirmModal, true);
+      assert.true(controller.showConfirmModal);
     });
   });
 
@@ -273,7 +274,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       controller.send('closeModal');
 
       // then
-      assert.equal(controller.showConfirmModal, false);
+      assert.false(controller.showConfirmModal);
     });
   });
 });

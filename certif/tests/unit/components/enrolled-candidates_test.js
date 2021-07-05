@@ -12,7 +12,7 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
     component = createGlimmerComponent('component:enrolled-candidates');
   });
 
-  module('#saveCertificationCandidate', async function() {
+  module('#saveCertificationCandidate', function() {
 
     test('should save certification candidate on saveCertificationCandidate action with appropriate adapter options', async function(assert) {
       // given
@@ -70,9 +70,9 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
       assert.equal(component.args.certificationCandidates.length, 1);
     });
   });
-  module('#addCertificationCandidateInStaging', async function() {
+  module('#addCertificationCandidateInStaging', function() {
 
-    module('When FT_IS_NEW_CPF_DATA_ENABLED is enabled', async function() {
+    module('When FT_IS_NEW_CPF_DATA_ENABLED is enabled', function() {
 
       test('should not add an empty candidate in staging', async function(assert) {
       // given
@@ -89,7 +89,7 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
 
     });
 
-    module('When FT_IS_NEW_CPF_DATA_ENABLED is  not enabled', async function() {
+    module('When FT_IS_NEW_CPF_DATA_ENABLED is  not enabled', function() {
 
       test('should disable the feature of enrolling a new candidate', async function(assert) {
       // given
@@ -107,7 +107,7 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
     });
   });
 
-  module('#deleteCertificationCandidate', async function() {
+  module('#deleteCertificationCandidate', function() {
 
     test('should delete the candidate action with appropriate adapter options', async function(assert) {
       // given

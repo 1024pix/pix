@@ -19,7 +19,7 @@ module('Unit | Adapters | session-summary', function(hooks) {
       const url = await adapter.urlForQuery();
 
       // then
-      assert.equal(url.endsWith('/api/certification-centers/123/session-summaries'), true);
+      assert.true(url.endsWith('/api/certification-centers/123/session-summaries'));
     });
   });
 });

@@ -57,6 +57,6 @@ module('Integration | Component | session-finalization-examiner-global-comment-s
     await fillIn('#examiner-global-comment', 'You are no more a wizard Harry!');
 
     // then
-    assert.equal(updateExaminerGlobalCommentStub.called, true);
+    assert.true(updateExaminerGlobalCommentStub.called);
   });
 });

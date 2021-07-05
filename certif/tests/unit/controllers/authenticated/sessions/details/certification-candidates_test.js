@@ -15,7 +15,7 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
       const shouldDisplayStudentList = controller.hasOneOrMoreCandidates;
 
       // then
-      assert.equal(shouldDisplayStudentList, true);
+      assert.true(shouldDisplayStudentList);
     });
 
     test('It should return false when has no candidate', function(assert) {
@@ -28,7 +28,7 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
       const shouldDisplayStudentList = controller.hasOneOrMoreCandidates;
 
       // then
-      assert.equal(shouldDisplayStudentList, false);
+      assert.false(shouldDisplayStudentList);
     });
   });
 });
