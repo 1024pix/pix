@@ -2,35 +2,38 @@
 <p>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.found-account' }}</p>
 <p> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.contact-support' }}</p>
 
-<ul>
-  <li>
-    <div> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.first-name' }}</div>
+<ul class="recover-account-confirmation-step-account-information">
+  <li class="recover-account-confirmation-step-account-information__field">
+    <div>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.first-name' }}</div>
     <div>{{@studentInformationForAccountRecovery.firstName}}</div>
   </li>
 
-  <li>
-    <div> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.last-name' }}</div>
+  <li class="recover-account-confirmation-step-account-information__field">
+    <div>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.last-name' }}</div>
     <div>{{@studentInformationForAccountRecovery.lastName}}</div>
   </li>
 
 {{#if @studentInformationForAccountRecovery.username}}
-  <li>
-    <div> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.username' }}</div>
+  <li class="recover-account-confirmation-step-account-information__field">
+    <div>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.username' }}</div>
     <div>{{@studentInformationForAccountRecovery.username}}</div>
   </li>
 {{/if}}
 
-  <li>
-    <div> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.latest-organization-name' }}</div>
+  <li class="recover-account-confirmation-step-account-information__field">
+    <div>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.latest-organization-name' }}</div>
     <div>{{@studentInformationForAccountRecovery.latestOrganizationName}}</div>
   </li>
+</ul>
 
-  <p> {{t 'pages.recover-account-after-leaving-sco.confirmation-step.certify-account' }}</p>
+<p>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.certify-account' }}</p>
 
+<div class="recover-account-confirmation-step__actions">
   <PixButton
     @isBorderVisible={{true}}
     @triggerAction={{@cancelAccountRecovery}}
-    @backgroundColor="transparent-light">
+    @backgroundColor="transparent-light"
+    class="recover-account-confirmation-step__actions--cancel">
     {{t 'pages.recover-account-after-leaving-sco.confirmation-step.buttons.cancel' }}
   </PixButton>
   <PixButton
@@ -39,4 +42,4 @@
     @backgroundColor="red">
     {{t 'pages.recover-account-after-leaving-sco.confirmation-step.buttons.confirm' }}
   </PixButton>
-</ul>
+</div>
