@@ -14,6 +14,11 @@ const ERRORS = {
   INSEE_CODE_INVALID: 'INSEE_CODE_INVALID',
 };
 
+const sexPossibleValues = {
+  M: 'M',
+  F: 'F',
+};
+
 class SchoolingRegistrationSet {
   constructor(hasApprentice) {
     this.registrations = [];
@@ -41,7 +46,7 @@ class SchoolingRegistrationSet {
     }
 
     if (registrationAttributes.sex) {
-      sex = _convertSexCode(registrationAttributes.sex);
+      sex = _convertSexCodeToLabel(registrationAttributes.sex);
     } else {
       sex = null;
     }
@@ -56,9 +61,10 @@ class SchoolingRegistrationSet {
   }
 }
 
-function _convertSexCode(sexCode) {
-  if (sexCode === '1') return 'M';
-  if (sexCode === '2') return 'F';
+function _convertSexCodeToLabel(sexCode) {
+  if (sexCode) {
+    return sexPossibleValues[sexCode.toUpperCase().charAt(0)];
+  }
   return null;
 }
 
