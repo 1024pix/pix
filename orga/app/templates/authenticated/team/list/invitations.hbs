@@ -1,2 +1,5 @@
 {{page-title (t 'pages.team-invitations.title')}}
-<Routes::Authenticated::Team::Invitations @organizationInvitations={{@model}}/>
+
+{{#if @model}}
+  <Team::InvitationsList @invitations={{@model}}/>
+{{/if}}
