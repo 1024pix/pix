@@ -73,8 +73,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
 
           it('returns schooling registrations for each line using the CSV column', () => {
             const input = `${schoolingRegistrationCsvColumns}
-            123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
-            0123456789F;O-Ren;;;Ishii;Cottonmouth;2;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;M;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
+            0123456789F;O-Ren;;;Ishii;Cottonmouth;f;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
             `;
             const organizationId = 789;
             const encodedInput = iconv.encode(input, 'utf8');

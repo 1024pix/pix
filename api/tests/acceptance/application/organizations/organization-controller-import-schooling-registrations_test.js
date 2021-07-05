@@ -810,8 +810,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
         beforeEach(() => {
           const input = `${schoolingRegistrationCsvColumns}
-            123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
-            456F;O-Ren;;;Ishii;Cottonmouth;2;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;f;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+            456F;O-Ren;;;Ishii;Cottonmouth;M;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
             `;
           const buffer = iconv.encode(input, 'UTF-8');
 
@@ -835,6 +835,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(2);
           expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Beatrix', 'O-Ren']);
+          expect(_.map(schoolingRegistrations, 'sex')).to.have.members(['F', 'M']);
         });
       });
 
