@@ -28,7 +28,7 @@ class CertificationCourse {
       maxReachableLevelOnCertificationDate,
       isCancelled = false,
     } = {}) {
-    this.id = id;
+    this._id = id;
     this._firstName = firstName;
     this._lastName = lastName;
     this._birthdate = birthdate;
@@ -146,7 +146,7 @@ class CertificationCourse {
 
   toDTO() {
     return {
-      id: this.id,
+      id: this._id,
       firstName: this.firstName(),
       lastName: this.lastName(),
       birthdate: this.birthdate(),
@@ -163,12 +163,16 @@ class CertificationCourse {
       verificationCode: this.verificationCode,
       assessment: this.assessment,
       challenges: this.challenges,
-      certificationIssueReports: this.certificationIssueReports,
+      certificationIssueReports: this.certificationIssueReports, // TODO : this.certificationIssueReports.toDTO()
       userId: this.userId,
       sessionId: this.sessionId,
       maxReachableLevelOnCertificationDate: this.maxReachableLevelOnCertificationDate,
       isCancelled: this.isCancelled(),
     };
+  }
+
+  get id() {
+    return this._id;
   }
 }
 

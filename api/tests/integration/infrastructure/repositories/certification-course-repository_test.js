@@ -52,14 +52,13 @@ describe('Integration | Repository | Certification Course', function() {
       // then
       const retrievedCertificationCourse = await certificationCourseRepository.get(savedCertificationCourse.id);
       const fieldsToOmitInCertificationCourse = [
-        'id',
+        '_id',
         'assessment',
         'challenges',
         'completedAt',
         'createdAt',
         'certificationIssueReports',
       ];
-      const fieldsToOmitInCertificationChallenge = [ 'id', 'courseId' ];
 
       expect(
         _.omit(retrievedCertificationCourse, fieldsToOmitInCertificationCourse),
@@ -67,6 +66,7 @@ describe('Integration | Repository | Certification Course', function() {
         _.omit(certificationCourse, fieldsToOmitInCertificationCourse),
       );
 
+      const fieldsToOmitInCertificationChallenge = [ 'id', 'courseId' ];
       const certificationChallengeToBeSaved = _.map(certificationCourse.challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
       const savedCertificationChallenge = _.map(savedCertificationCourse.challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
       expect(savedCertificationChallenge).to.deep.equal(certificationChallengeToBeSaved);
@@ -326,7 +326,7 @@ describe('Integration | Repository | Certification Course', function() {
     it('should update whitelisted values in database', async () => {
       // given
       const unpersitedUpdatedCertificationCourse = new CertificationCourse({
-        ...certificationCourse,
+        ...certificationCourse.toDTO(),
         firstName: 'Jean-Pix',
         lastName: 'Compétan',
         birthdate: '2000-01-01',
