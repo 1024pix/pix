@@ -56,19 +56,10 @@
   {{/if}}
 </tr>
 
-<Modal::Dialog
-  class="remove-membership-modal"
-  @title="{{t 'pages.team-members.remove-membership-modal.title'}}"
-  @display={{this.isRemoveMembershipModalDisplayed}}
-  @close={{this.closeRemoveMembershipModal}}
-  @additionalContainerClass="modal-dialog__large">
-  <Modal::Body class="remove-membership-modal__content">
-    <p class="content-text">
-      {{t 'pages.team-members.remove-membership-modal.message' memberFirstName=@membership.user.firstName memberLastName=@membership.user.lastName htmlSafe=true}}
-    </p>
-  </Modal::Body>
-  <Modal::Footer class="remove-membership-modal__actions">
-    <button type="button" class="button button--grey button--regular" {{on 'click' this.closeRemoveMembershipModal}}>{{t 'common.actions.cancel'}}</button>
-    <button type="button" class="button button--red" data-test-modal-remove-button {{on 'click' this.onRemoveButtonClicked}}>{{t 'pages.team-members.remove-membership-modal.actions.remove'}}</button>
-  </Modal::Footer>
-</Modal::Dialog>
+<Team::RemoveMemberModal
+  @firstName={{@membership.user.firstName}}
+  @lastName={{@membership.user.lastName}}
+  @isOpen={{this.isRemoveMembershipModalDisplayed}}
+  @onSubmit={{this.onRemoveButtonClicked}}
+  @onClose={{this.closeRemoveMembershipModal}}
+/>
