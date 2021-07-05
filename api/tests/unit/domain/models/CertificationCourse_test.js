@@ -86,7 +86,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       certificationCourse.modifyFirstName('Marie  Claire');
 
       // then
-      expect(certificationCourse.firstName()).to.equal('Marie Claire');
+      expect(certificationCourse.toDTO().firstName).to.equal('Marie Claire');
     });
   });
 
@@ -114,7 +114,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       certificationCourse.modifyLastName('De  Montmirail');
 
       // then
-      expect(certificationCourse.lastName()).to.equal('De Montmirail');
+      expect(certificationCourse.toDTO().lastName).to.equal('De Montmirail');
     });
   });
 
@@ -142,7 +142,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       certificationCourse.modifyBirthplace('New  York');
 
       // then
-      expect(certificationCourse.birthplace()).to.equal('New York');
+      expect(certificationCourse.toDTO().birthplace).to.equal('New York');
     });
   });
 

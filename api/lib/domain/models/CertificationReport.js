@@ -47,8 +47,8 @@ class CertificationReport {
   static fromCertificationCourse(certificationCourse) {
     return new CertificationReport({
       certificationCourseId: certificationCourse.id,
-      firstName: certificationCourse.firstName(),
-      lastName: certificationCourse.lastName(),
+      firstName: certificationCourse.toDTO().firstName,
+      lastName: certificationCourse.toDTO().lastName,
       certificationIssueReports: certificationCourse.certificationIssueReports,
       hasSeenEndTestScreen: certificationCourse.hasSeenEndTestScreen,
     });

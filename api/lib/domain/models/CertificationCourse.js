@@ -128,25 +128,13 @@ class CertificationCourse {
     this._birthdate = modifiedBirthdate;
   }
 
-  firstName() {
-    return this._firstName;
-  }
-
-  lastName() {
-    return this._lastName;
-  }
-
-  birthplace() {
-    return this._birthplace;
-  }
-
   toDTO() {
     return {
       id: this._id,
-      firstName: this.firstName(),
-      lastName: this.lastName(),
+      firstName: this._firstName,
+      lastName: this._lastName,
       birthdate: this._birthdate,
-      birthplace: this.birthplace(),
+      birthplace: this._birthplace,
       birthPostalCode: this.birthPostalCode,
       birthINSEECode: this.birthINSEECode,
       sex: this.sex,
