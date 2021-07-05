@@ -94,6 +94,12 @@
     </div>
   </div>
 
+  {{#if @showAccountNotFoundError}}
+    <PixMessage @type='alert' @withIcon='true' class="recover-account-student-information-form__not-found-error">
+      {{t 'pages.recover-account-after-leaving-sco.student-information.errors.not-found'}}
+    </PixMessage>
+  {{/if}}
+
   <PixButton @type="submit" @isDisabled={{not this.isFormValid}}>
     {{t 'pages.recover-account-after-leaving-sco.student-information.form.submit'}}
   </PixButton>

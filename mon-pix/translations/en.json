@@ -951,7 +951,8 @@
           "invalid-ine-ina-format": "Le champ INE n'est pas au bon format.",
           "empty-ine-ina": "Le champ INE est obligatoire.",
           "empty-last-name": "Le champ nom est obligatoire.",
-          "empty-first-name": "Le champ prénom est obligatoire."
+          "empty-first-name": "Le champ prénom est obligatoire.",
+          "not-found": "Pix ne reconnait pas vos données. Vérifiez qu'elles sont exactes, sinon contactez le support."
         }
       },
       "conflict": {
