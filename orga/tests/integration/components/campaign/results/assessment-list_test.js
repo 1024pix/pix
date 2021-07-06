@@ -1,11 +1,12 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
 import { render, click } from '@ember/test-helpers';
 import sinon from 'sinon';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/assessment/list', function(hooks) {
+module('Integration | Component | Campaign::Results::AssessmentList', function(hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
@@ -39,7 +40,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
 
       // then
       assert.notContains('Aucun participant');
@@ -63,7 +64,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
 
       // then
       assert.dom('.pix-tooltip__content').exists();
@@ -96,7 +97,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
 
       // then
       assert.contains('Doe2');
@@ -119,7 +120,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
 
       // then
       assert.dom('.pix-tooltip__content').doesNotExist();
@@ -152,7 +153,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
 
       // then
       assert.contains('Doe3');
@@ -178,7 +179,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
 
       // then
       assert.contains('identifiant externe');
@@ -202,7 +203,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       this.set('participations', participations);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}}/>`);
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}}/>`);
 
       // then
       assert.contains('Aucun participant');
@@ -224,7 +225,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
 
       // then
       assert.notContains('Résultats Thématiques');
@@ -247,7 +248,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
 
       // then
       assert.contains('Résultats Thématiques');
@@ -270,7 +271,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       this.set('triggerFiltering', triggerFiltering);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}} @triggerFiltering={{triggerFiltering}}/>`);
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}}/>`);
       await click('[for="badge-badge1"]');
 
       // then
@@ -294,7 +295,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
 
       // then
       assert.notContains('60%');
@@ -331,11 +332,50 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       this.set('triggerFiltering', triggerFiltering);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}} @triggerFiltering={{triggerFiltering}}/>`);
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}}/>`);
       await click('[for="division-d1"]');
 
       // then
       assert.ok(triggerFiltering.calledWith({ divisions: ['d1'] }));
+    });
+
+  });
+
+  module('when user reset current filters', function() {
+    class CurrentUserStub extends Service {
+      prescriber = { areNewYearSchoolingRegistrationsImported: false }
+      isSCOManagingStudents = true;
+    }
+
+    test('it calls the onResetFilter callback', async function(assert) {
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      // given
+      const division = store.createRecord('division', {
+        id: 'd1',
+        name: 'd1',
+      });
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+      });
+      campaign.set('divisions', [division]);
+
+      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
+      participations.meta = { rowCount: 1 };
+      const resetFilters = sinon.stub();
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', () => {});
+      this.set('triggerFiltering', () => {});
+      this.set('resetFilters', resetFilters);
+
+      // when
+      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}} @onResetFilter={{resetFilters}}/>`);
+      await clickByLabel('Effacer les filtres');
+
+      // then
+      assert.ok(resetFilters.called);
     });
 
   });

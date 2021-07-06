@@ -5,20 +5,20 @@
     class="participant-row__result"
   />
 {{else}}
-  <Routes::Authenticated::Campaign::CollectiveResults::ResultsStats
+  <Campaign::Results::Stats
     @validatedSkills={{@model.campaign.campaignCollectiveResult.averageValidatedSkillsSum}}
     @totalSkills={{@model.campaign.campaignCollectiveResult.totalSkills}}
     @averageResult={{@model.campaign.campaignCollectiveResult.averageResult}}
   />
 {{/if}}
 
-<Routes::Authenticated::Campaign::Assessment::List
+<Campaign::Results::AssessmentList
   @campaign={{@model.campaign}}
   @participations={{@model.participations}}
-  @goToAssessmentPage={{this.goToAssessmentPage}}
-  @triggerFiltering={{this.triggerFiltering}}
   @selectedDivisions={{this.divisions}}
   @selectedBadges={{this.badges}}
   @selectedStages={{this.stages}}
-  @resetFiltering={{this.resetFiltering}}
+  @onClickParticipant={{this.goToAssessmentPage}}
+  @onFilter={{this.triggerFiltering}}
+  @onResetFilter={{this.resetFiltering}}
 />
