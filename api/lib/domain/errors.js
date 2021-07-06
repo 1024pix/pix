@@ -825,6 +825,12 @@ class InvalidMembershipOrganizationRoleError extends DomainError {
   }
 }
 
+class TooManyRows extends DomainError {
+  constructor(message = 'Plusieurs enregistrements ont été retrouvés.') {
+    super(message);
+  }
+}
+
 class UnexpectedPoleEmploiStateError extends DomainError {
   constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
     super(message);
@@ -933,6 +939,7 @@ module.exports = {
   SiecleXmlImportError,
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
+  TooManyRows,
   UnexpectedPoleEmploiStateError,
   UnexpectedUserAccountError,
   UserAccountNotFoundForPoleEmploiError,
