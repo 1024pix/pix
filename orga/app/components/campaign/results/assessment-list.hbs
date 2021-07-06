@@ -4,8 +4,8 @@
   @selectedBadges={{@selectedBadges}}
   @selectedStages={{@selectedStages}}
   @rowCount={{@participations.meta.rowCount}}
-  @resetFiltering={{@resetFiltering}}
-  @triggerFiltering={{@triggerFiltering}}
+  @resetFiltering={{@onResetFilter}}
+  @triggerFiltering={{@onFilter}}
 />
 
 <div class="panel">
@@ -28,7 +28,7 @@
       {{#if @participations}}
         <tbody>
         {{#each @participations as |participation|}}
-          <tr aria-label={{t 'pages.assessment-participants-list.table.row-title'}} role="button" {{on 'click' (fn @goToAssessmentPage @campaign.id participation.id)}} class="tr--clickable">
+          <tr aria-label={{t 'pages.assessment-participants-list.table.row-title'}} role="button" {{on 'click' (fn @onClickParticipant @campaign.id participation.id)}} class="tr--clickable">
             <td>{{participation.lastName}}</td>
             <td>{{participation.firstName}}</td>
             {{#if @campaign.idPixLabel}}
