@@ -13,11 +13,11 @@ export default class ChallengeResponseTemplate {
   }
 
   constructFinalTemplate() {
-    for (let index = 0; index < this._blocks.length; index++) {
-      if (this._blocks[index].type) {
-        this._template.push(this._blocks[index].get());
+    this._blocks.forEach((block) => {
+      if (block.type) {
+        this._template.push(block.get());
       }
-    }
+    });
   }
 
   updateBlockDetails() {
