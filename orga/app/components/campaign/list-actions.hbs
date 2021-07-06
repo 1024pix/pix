@@ -1,0 +1,27 @@
+<div class="campaign-list-actions__header">
+  <button
+    role="tab"
+    type="submit"
+    class="campaign-list-actions__tab {{unless @isArchived  'campaign-list-actions__tab--active' }}"
+    aria-selected="{{ not @isArchived }}"
+    aria-label={{t 'pages.campaigns-list.action.ongoing.aria-label'}}
+    {{on 'click' (fn @onClickStatusFilter null)}}
+  >
+    {{t 'pages.campaigns-list.action.ongoing.label'}}
+  </button>
+  <button
+    role="tab"
+    type="submit"
+    class="campaign-list-actions__tab {{if @isArchived 'campaign-list-actions__tab--active' }}"
+    aria-selected="{{ @isArchived }}"
+    aria-label={{t 'pages.campaigns-list.action.archived.aria-label'}}
+    {{on 'click' (fn @onClickStatusFilter 'archived')}}
+  >
+    {{t 'pages.campaigns-list.action.archived.label'}}
+  </button>
+  <div role="tabpanel" class="campaign-list-actions__create-campaign-button">
+    <LinkTo @route="authenticated.campaigns.new" class="button button--link">
+      {{t 'pages.campaigns-list.action.create'}}
+    </LinkTo>
+  </div>
+</div>

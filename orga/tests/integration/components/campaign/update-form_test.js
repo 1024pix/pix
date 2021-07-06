@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
-import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
-import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | routes/authenticated/campaign/update', function(hooks) {
+module('Integration | Component | Campaign::UpdateForm', function(hooks) {
 
   setupIntlRenderingTest(hooks);
 
@@ -18,7 +18,7 @@ module('Integration | Component | routes/authenticated/campaign/update', functio
 
   test('it should contain inputs, attributes and validation button', async function(assert) {
     // when
-    await render(hbs`<Routes::Authenticated::Campaign::Update @campaign={{this.campaign}} @update={{this.updateCampaignSpy}} @cancel={{this.cancelSpy}} />`);
+    await render(hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`);
 
     // then
     assert.dom('#campaign-custom-landing-page-text').exists();
@@ -28,7 +28,7 @@ module('Integration | Component | routes/authenticated/campaign/update', functio
 
   test('it should send campaign update action when submitted', async function(assert) {
     // when
-    await render(hbs`<Routes::Authenticated::Campaign::Update @campaign={{this.campaign}} @update={{this.updateCampaignSpy}} @cancel={{this.cancelSpy}} />`);
+    await render(hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`);
 
     // then
     await fillInByLabel('Titre du parcours', 'New title');
@@ -41,7 +41,7 @@ module('Integration | Component | routes/authenticated/campaign/update', functio
     test('it should display campaign title input', async function(assert) {
       this.campaign = EmberObject.create({ isTypeAssessment: true });
 
-      await render(hbs`<Routes::Authenticated::Campaign::Update @campaign={{this.campaign}} @update={{this.updateCampaignSpy}} @cancel={{this.cancelSpy}} />`);
+      await render(hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`);
 
       assert.dom('input#campaign-title').exists();
       assert.dom('#campaign-title').hasAttribute('maxLength', '50');
@@ -52,7 +52,7 @@ module('Integration | Component | routes/authenticated/campaign/update', functio
     test('it should not display campaign title input', async function(assert) {
       this.campaign = EmberObject.create({ isTypeAssessment: false });
 
-      await render(hbs`<Routes::Authenticated::Campaign::Update @campaign={{this.campaign}} @update={{this.updateCampaignSpy}} @cancel={{this.cancelSpy}} />`);
+      await render(hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`);
 
       assert.dom('input#campaign-title').doesNotExist();
     });
