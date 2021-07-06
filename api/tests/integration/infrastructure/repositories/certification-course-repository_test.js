@@ -50,7 +50,7 @@ describe('Integration | Repository | Certification Course', function() {
       const savedCertificationCourse = await certificationCourseRepository.save({ certificationCourse });
 
       // then
-      const retrievedCertificationCourse = await certificationCourseRepository.get(savedCertificationCourse.id);
+      const retrievedCertificationCourse = await certificationCourseRepository.get(savedCertificationCourse.getId());
       const fieldsToOmitInCertificationCourse = [
         '_id',
         'assessment',
@@ -72,7 +72,7 @@ describe('Integration | Repository | Certification Course', function() {
       expect(savedCertificationChallenge).to.deep.equal(certificationChallengeToBeSaved);
 
       expect(
-        _.every(savedCertificationCourse.challenges, (c) => c.courseId === savedCertificationCourse.id),
+        _.every(savedCertificationCourse.challenges, (c) => c.courseId === savedCertificationCourse.getId()),
       ).to.be.true;
     });
 
@@ -82,7 +82,7 @@ describe('Integration | Repository | Certification Course', function() {
 
       // then
       expect(savedCertificationCourse).to.be.an.instanceOf(CertificationCourse);
-      expect(savedCertificationCourse).to.have.property('id').and.not.null;
+      expect(savedCertificationCourse.getId()).not.to.be.null;
     });
 
   });
@@ -190,7 +190,7 @@ describe('Integration | Repository | Certification Course', function() {
         const actualCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
         // then
-        expect(actualCertificationCourse.id).to.equal(expectedCertificationCourse.id);
+        expect(actualCertificationCourse.getId()).to.equal(expectedCertificationCourse.id);
         expect(actualCertificationCourse.completedAt).to.equal(expectedCertificationCourse.completedAt);
         expect(actualCertificationCourse.toDTO().firstName).to.equal(expectedCertificationCourse.firstName);
         expect(actualCertificationCourse.toDTO().lastName).to.equal(expectedCertificationCourse.lastName);
@@ -338,7 +338,7 @@ describe('Integration | Repository | Certification Course', function() {
       const persistedUpdatedCertificationCourse = await certificationCourseRepository.update(unpersitedUpdatedCertificationCourse);
 
       // then
-      expect(persistedUpdatedCertificationCourse.id).to.equal(unpersitedUpdatedCertificationCourse.id);
+      expect(persistedUpdatedCertificationCourse.getId()).to.equal(unpersitedUpdatedCertificationCourse.getId());
       expect(persistedUpdatedCertificationCourse.toDTO().firstName).to.equal(unpersitedUpdatedCertificationCourse.toDTO().firstName);
       expect(persistedUpdatedCertificationCourse.toDTO().lastName).to.equal(unpersitedUpdatedCertificationCourse.toDTO().lastName);
       expect(persistedUpdatedCertificationCourse.toDTO().birthdate).to.equal(unpersitedUpdatedCertificationCourse.toDTO().birthdate);
@@ -361,7 +361,7 @@ describe('Integration | Repository | Certification Course', function() {
       // given
       const certificationCourseToBeUpdated = new CertificationCourse({
         ...certificationCourse,
-        id: certificationCourse.id + 1,
+        id: certificationCourse.getId() + 1,
       });
 
       // when

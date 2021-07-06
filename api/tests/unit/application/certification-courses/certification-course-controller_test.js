@@ -229,7 +229,7 @@ describe('Unit | Controller | certification-course-controller', () => {
               'first-name': updatedCertificationCourse.toDTO().firstName,
               'last-name': updatedCertificationCourse.toDTO().lastName,
             },
-            id: `${updatedCertificationCourse.id}`,
+            id: `${updatedCertificationCourse.toDTO().id}`,
             type: 'certifications',
           },
         });

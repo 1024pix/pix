@@ -151,7 +151,7 @@ class CertificationCourse {
     };
   }
 
-  get id() {
+  getId() {
     return this._id;
   }
 }

@@ -76,7 +76,7 @@ module.exports = {
       return toDomain(certificationCourse);
     } catch (err) {
       if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
-        throw new NotFoundError(`No rows updated for certification course of id ${certificationCourse.id}.`);
+        throw new NotFoundError(`No rows updated for certification course of id ${certificationCourse.getId()}.`);
       }
       throw err;
     }
