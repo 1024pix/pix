@@ -68,4 +68,40 @@ describe('Unit | Utils | Proposals Parser | Challenge Response Template', functi
     });
 
   });
+
+  describe('#constructFinalTemplate', function() {
+    it('should return properly composed template', function() {
+      const challengeResponseTemplate = new ChallengeResponseTemplate();
+
+      challengeResponseTemplate.add(new TextBlock({ text: 'apple' }));
+      challengeResponseTemplate.add(new InputBlock({ input: 'banana', inputIndex: 123 }));
+      challengeResponseTemplate.add(new TextBlock({ text: 'mango' }));
+
+      challengeResponseTemplate.constructFinalTemplate();
+
+      expect(challengeResponseTemplate.get()).to.deep.equal([
+        { text: 'apple', type: 'text' },
+        { input: 'banana', text: null, placeholder: null, ariaLabel: '123', type: 'input', autoAriaLabel: true },
+        { text: 'mango', type: 'text' },
+      ]);
+    });
+
+    it('should return a template only composed of blocks with a type', function() {
+      const challengeResponseTemplate = new ChallengeResponseTemplate();
+
+      const textBlockWithoutType = new TextBlock({ text: 'apple' });
+      textBlockWithoutType.removeType();
+
+      challengeResponseTemplate.add(textBlockWithoutType);
+      challengeResponseTemplate.add(new InputBlock({ input: 'banana', inputIndex: 123 }));
+      challengeResponseTemplate.add(new TextBlock({ text: 'mango' }));
+
+      challengeResponseTemplate.constructFinalTemplate();
+
+      expect(challengeResponseTemplate.get()).to.deep.equal([
+        { input: 'banana', text: null, placeholder: null, ariaLabel: '123', type: 'input', autoAriaLabel: true },
+        { text: 'mango', type: 'text' },
+      ]);
+    });
+  });
 });
