@@ -225,7 +225,7 @@ describe('Unit | Controller | certification-course-controller', () => {
             attributes: {
               birthdate: updatedCertificationCourse.toDTO().birthdate,
               birthplace: updatedCertificationCourse.toDTO().birthplace,
-              'external-id': updatedCertificationCourse.externalId,
+              'external-id': updatedCertificationCourse.toDTO().externalId,
               'first-name': updatedCertificationCourse.toDTO().firstName,
               'last-name': updatedCertificationCourse.toDTO().lastName,
             },

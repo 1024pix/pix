@@ -253,7 +253,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               _lastName: foundCertificationCandidate.lastName,
               _birthdate: foundCertificationCandidate.birthdate,
               _birthplace: foundCertificationCandidate.birthCity,
-              externalId: foundCertificationCandidate.externalId,
+              _externalId: foundCertificationCandidate.externalId,
               isV2Certification: true,
             };
 
