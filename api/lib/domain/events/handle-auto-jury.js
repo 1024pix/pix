@@ -55,11 +55,11 @@ async function _autoNeutralizeChallenges({
   resolutionStrategies,
   logger,
 }) {
-  const certificationIssueReports = await certificationIssueReportRepository.findByCertificationCourseId(certificationCourse.id);
+  const certificationIssueReports = await certificationIssueReportRepository.findByCertificationCourseId(certificationCourse.getId());
   if (certificationIssueReports.length === 0) {
     return null;
   }
-  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: certificationCourse.id });
+  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: certificationCourse.getId() });
 
   const resolutionAttempts = await bluebird.mapSeries(certificationIssueReports, async (certificationIssueReport) => {
     try {
@@ -72,7 +72,7 @@ async function _autoNeutralizeChallenges({
 
   if (resolutionAttempts.some((attempt) => attempt.isResolvedWithEffect())) {
     await certificationAssessmentRepository.save(certificationAssessment);
-    return new CertificationJuryDone({ certificationCourseId: certificationCourse.id });
+    return new CertificationJuryDone({ certificationCourseId: certificationCourse.getId() });
   }
 
   return null;

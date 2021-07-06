@@ -90,7 +90,7 @@ function buildCertificationCourseFromCandidate({ candidate, session }) {
 
 function buildCertificationResult(certificationCourse) {
   return domainBuilder.buildCertificationResult({
-    id: certificationCourse.id,
+    id: certificationCourse.getId(),
     sessionId: certificationCourse.sessionId,
   });
 }

@@ -48,29 +48,29 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
     certificationCourseRepository.findCertificationCoursesBySessionId = sinon.stub().withArgs({ sessionId }).resolves([certifCourse1, certifCourse2, certifCourse3]);
 
     const cleaCertificationResultRepositoryStub = sinon.stub(cleaCertificationResultRepository, 'get');
-    cleaCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse1.id }).resolves(cleaCertificationResults[0]);
-    cleaCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse2.id }).resolves(cleaCertificationResults[1]);
-    cleaCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse3.id }).resolves(cleaCertificationResults[2]);
+    cleaCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse1.getId() }).resolves(cleaCertificationResults[0]);
+    cleaCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse2.getId() }).resolves(cleaCertificationResults[1]);
+    cleaCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse3.getId() }).resolves(cleaCertificationResults[2]);
 
     const pixPlusMaitreCertificationResultRepositoryStub = sinon.stub(pixPlusMaitreCertificationResultRepository, 'get');
-    pixPlusMaitreCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse1.id }).resolves(pixPlusDroitMaitreCertificationResults[0]);
-    pixPlusMaitreCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse2.id }).resolves(pixPlusDroitMaitreCertificationResults[1]);
-    pixPlusMaitreCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse3.id }).resolves(pixPlusDroitMaitreCertificationResults[2]);
+    pixPlusMaitreCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse1.getId() }).resolves(pixPlusDroitMaitreCertificationResults[0]);
+    pixPlusMaitreCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse2.getId() }).resolves(pixPlusDroitMaitreCertificationResults[1]);
+    pixPlusMaitreCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse3.getId() }).resolves(pixPlusDroitMaitreCertificationResults[2]);
 
     const pixPlusExpertCertificationResultRepositoryStub = sinon.stub(pixPlusExpertCertificationResultRepository, 'get');
-    pixPlusExpertCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse1.id }).resolves(pixPlusDroitExpertCertificationResults[0]);
-    pixPlusExpertCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse2.id }).resolves(pixPlusDroitExpertCertificationResults[1]);
-    pixPlusExpertCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse3.id }).resolves(pixPlusDroitExpertCertificationResults[2]);
+    pixPlusExpertCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse1.getId() }).resolves(pixPlusDroitExpertCertificationResults[0]);
+    pixPlusExpertCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse2.getId() }).resolves(pixPlusDroitExpertCertificationResults[1]);
+    pixPlusExpertCertificationResultRepositoryStub.withArgs({ certificationCourseId: certifCourse3.getId() }).resolves(pixPlusDroitExpertCertificationResults[2]);
 
     const assessmentRepositoryStub = sinon.stub(assessmentRepository, 'getIdByCertificationCourseId');
-    assessmentRepositoryStub.withArgs(certifCourse1.id).resolves(assessmentsIds[0]);
-    assessmentRepositoryStub.withArgs(certifCourse2.id).resolves(assessmentsIds[1]);
-    assessmentRepositoryStub.withArgs(certifCourse3.id).resolves(assessmentsIds[2]);
+    assessmentRepositoryStub.withArgs(certifCourse1.getId()).resolves(assessmentsIds[0]);
+    assessmentRepositoryStub.withArgs(certifCourse2.getId()).resolves(assessmentsIds[1]);
+    assessmentRepositoryStub.withArgs(certifCourse3.getId()).resolves(assessmentsIds[2]);
 
     const assessmentResultRepositoryStub = sinon.stub(assessmentResultRepository, 'findLatestByCertificationCourseIdWithCompetenceMarks');
-    assessmentResultRepositoryStub.withArgs({ certificationCourseId: certifCourse1.id }).resolves(assessmentResult1);
-    assessmentResultRepositoryStub.withArgs({ certificationCourseId: certifCourse2.id }).resolves(assessmentResult2);
-    assessmentResultRepositoryStub.withArgs({ certificationCourseId: certifCourse3.id }).resolves(assessmentResult3);
+    assessmentResultRepositoryStub.withArgs({ certificationCourseId: certifCourse1.getId() }).resolves(assessmentResult1);
+    assessmentResultRepositoryStub.withArgs({ certificationCourseId: certifCourse2.getId() }).resolves(assessmentResult2);
+    assessmentResultRepositoryStub.withArgs({ certificationCourseId: certifCourse3.getId() }).resolves(assessmentResult3);
   });
 
   it('should return all certification results', async () => {

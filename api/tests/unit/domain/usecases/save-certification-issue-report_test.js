@@ -55,7 +55,7 @@ describe('Unit | UseCase | save-certification-issue-report', () => {
         sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(true);
         certificationCourseRepository.get.resolves(aCertificationCourse);
         const certificationIssueReportDTO = {
-          certificationCourseId: aCertificationCourse.id,
+          certificationCourseId: aCertificationCourse.getId(),
           category: CertificationIssueReportCategories.OTHER,
           description: 'une description',
         };

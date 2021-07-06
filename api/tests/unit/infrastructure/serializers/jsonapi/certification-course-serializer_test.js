@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         id: 1234,
         description: 'Signalement de l\'examinateur',
         category: CertificationIssueReportCategories.OTHER,
-        certificationCourseId: certificationCourse.id,
+        certificationCourseId: certificationCourse.getId(),
       });
 
       certificationCourse.reportIssue(issueReport);

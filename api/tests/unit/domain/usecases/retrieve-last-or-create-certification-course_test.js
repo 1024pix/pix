@@ -260,14 +260,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             const savedCertificationChallenge1 = { id: 'savedCertificationChallenge1' };
             const savedCertificationChallenge2 = { id: 'savedCertificationChallenge2' };
 
-            const savedCertificationCourse = {
+            const savedCertificationCourse = new CertificationCourse({
               id: 'savedCertificationCourse',
               challenges: [savedCertificationChallenge1, savedCertificationChallenge2],
-            };
+            });
 
             const mockAssessment = {
               userId,
-              certificationCourseId: savedCertificationCourse.id,
+              certificationCourseId: savedCertificationCourse.getId(),
               state: Assessment.states.STARTED,
               type: Assessment.types.CERTIFICATION,
             };

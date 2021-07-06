@@ -1,5 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const getCertificationCourse = require('../../../../lib/domain/usecases/get-certification-course');
+const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | UseCase | get-certification-course', () => {
 
@@ -8,10 +9,10 @@ describe('Unit | UseCase | get-certification-course', () => {
   let userRepository;
 
   beforeEach(() => {
-    certificationCourse = {
+    certificationCourse = new CertificationCourse({
       id: 'certification_course_id',
       userId: 'user_id',
-    };
+    });
     certificationCourseRepository = {
       get: sinon.stub(),
     };
@@ -22,45 +23,45 @@ describe('Unit | UseCase | get-certification-course', () => {
 
   it('should get the certificationCourse when the user id matches the certification course user id', async () => {
     // given
-    certificationCourseRepository.get.withArgs(certificationCourse.id).resolves(certificationCourse);
+    certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
 
     // when
     const actualCertificationCourse = await getCertificationCourse({
-      certificationCourseId: certificationCourse.id,
+      certificationCourseId: certificationCourse.getId(),
       userId: 'user_id',
       certificationCourseRepository,
       userRepository,
     });
 
     // then
-    expect(actualCertificationCourse.id).to.equal(certificationCourse.id);
+    expect(actualCertificationCourse.getId()).to.equal(certificationCourse.getId());
   });
 
   it('should get the certificationCourse when the user id does not match the certification course user id but is pix master', async () => {
     // given
-    certificationCourseRepository.get.withArgs(certificationCourse.id).resolves(certificationCourse);
+    certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
     userRepository.isPixMaster.withArgs('pix_master_user_id').resolves(true);
 
     // when
     const actualCertificationCourse = await getCertificationCourse({
-      certificationCourseId: certificationCourse.id,
+      certificationCourseId: certificationCourse.getId(),
       userId: 'pix_master_user_id',
       certificationCourseRepository,
       userRepository,
     });
 
     // then
-    expect(actualCertificationCourse.id).to.equal(certificationCourse.id);
+    expect(actualCertificationCourse.getId()).to.equal(certificationCourse.getId());
   });
 
   it('should throw an error when the certification course is not linked to the user passed in parameter and user is not pix master', () => {
     // given
-    certificationCourseRepository.get.withArgs(certificationCourse.id).resolves(certificationCourse);
+    certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
     userRepository.isPixMaster.withArgs('other_user_id').resolves(false);
 
     // when
     const promise = getCertificationCourse({
-      certificationCourseId: certificationCourse.id,
+      certificationCourseId: certificationCourse.getId(),
       userId: 'other_user_id',
       certificationCourseRepository,
       userRepository,
@@ -72,11 +73,11 @@ describe('Unit | UseCase | get-certification-course', () => {
 
   it('should throw an error when the certification course could not be retrieved', () => {
     // given
-    certificationCourseRepository.get.withArgs(certificationCourse.id).rejects();
+    certificationCourseRepository.get.withArgs(certificationCourse.getId()).rejects();
 
     // when
     const promise = getCertificationCourse({
-      certificationCourseId: certificationCourse.id,
+      certificationCourseId: certificationCourse.getId(),
       userId: 'other_user_id',
       certificationCourseRepository,
       userRepository,

@@ -13,7 +13,7 @@ async function calculateCertificationResultByCertificationCourseId(certification
 }
 
 async function getCertificationResultByCertifCourse({ certificationCourse }) {
-  const certificationCourseId = certificationCourse.id;
+  const certificationCourseId = certificationCourse.getId();
   const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId });
   const pixPlusDroitMaitreCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({ certificationCourseId });
   const pixPlusDroitExpertCertificationResult = await pixPlusDroitExpertCertificationResultRepository.get({ certificationCourseId });
@@ -23,7 +23,7 @@ async function getCertificationResultByCertifCourse({ certificationCourse }) {
   const certificationCourseDTO = certificationCourse.toDTO();
   return new CertificationResult({
     lastAssessmentResult,
-    id: certificationCourse.id,
+    id: certificationCourse.getId(),
     assessmentId,
     firstName: certificationCourseDTO.firstName,
     lastName: certificationCourseDTO.lastName,
