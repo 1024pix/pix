@@ -5,39 +5,79 @@ const solutionRepository = require('../../../../lib/infrastructure/repositories/
 describe('Integration | Repository | solution-repository', () => {
 
   describe('#getByChallengeId', () => {
-    const challenge = {
-      id: 'recChallenge1',
-      t1Status: 'Désactivé',
-      t2Status: 'PasDésactivé',
-      t3Status: 'PasDésactivé',
-      type: 'QROC',
-      solution: 'laSuperSolution',
-      scoring: '@colombe',
-    };
-    const expectedSolution = {
-      id: challenge.id,
-      isT1Enabled: false,
-      isT2Enabled: true,
-      isT3Enabled: true,
-      type: challenge.type,
-      value: challenge.solution,
-      scoring: 'colombe',
-    };
+    context('with t1,t2,t3 as string', () => {
 
-    beforeEach(() => {
-      const learningContent = {
-        challenges: [challenge],
+      const challenge = {
+        id: 'recChallenge1',
+        t1Status: 'Désactivé',
+        t2Status: 'PasDésactivé',
+        t3Status: 'PasDésactivé',
+        type: 'QROC',
+        solution: 'laSuperSolution',
+        scoring: '@colombe',
       };
-      mockLearningContent(learningContent);
+      const expectedSolution = {
+        id: challenge.id,
+        isT1Enabled: false,
+        isT2Enabled: true,
+        isT3Enabled: true,
+        type: challenge.type,
+        value: challenge.solution,
+        scoring: 'colombe',
+      };
+
+      beforeEach(() => {
+        const learningContent = {
+          challenges: [challenge],
+        };
+        mockLearningContent(learningContent);
+      });
+
+      it('should return the solution to the challenge', async () => {
+        // when
+        const solution = await solutionRepository.getByChallengeId('recChallenge1');
+
+        // then
+        expect(solution).to.be.instanceOf(Solution);
+        expect(solution).to.deep.equal(expectedSolution);
+      });
     });
 
-    it('should return the solution to the challenge', async () => {
-      // when
-      const solution = await solutionRepository.getByChallengeId('recChallenge1');
+    context('t1, t2, t3 as boolean', () => {
+      const challenge = {
+        id: 'recChallenge1',
+        t1Status: false,
+        t2Status: true,
+        t3Status: true,
+        type: 'QROC',
+        solution: 'laSuperSolution',
+        scoring: '@colombe',
+      };
+      const expectedSolution = {
+        id: challenge.id,
+        isT1Enabled: false,
+        isT2Enabled: true,
+        isT3Enabled: true,
+        type: challenge.type,
+        value: challenge.solution,
+        scoring: 'colombe',
+      };
 
-      // then
-      expect(solution).to.be.instanceOf(Solution);
-      expect(solution).to.deep.equal(expectedSolution);
+      beforeEach(() => {
+        const learningContent = {
+          challenges: [challenge],
+        };
+        mockLearningContent(learningContent);
+      });
+
+      it('should return the solution to the challenge', async () => {
+        // when
+        const solution = await solutionRepository.getByChallengeId('recChallenge1');
+
+        // then
+        expect(solution).to.be.instanceOf(Solution);
+        expect(solution).to.deep.equal(expectedSolution);
+      });
     });
   });
 
