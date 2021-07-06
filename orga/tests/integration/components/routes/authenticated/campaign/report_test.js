@@ -200,9 +200,9 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
         assert.dom('nav a[href="/campagnes/13"]').hasText('Activité');
       });
 
-      test('it should display collective results item', async function(assert) {
+      test('it should display evaluation results item', async function(assert) {
 
-        assert.dom('nav a[href="/campagnes/13/resultats-collectifs"]').hasText('Résultats');
+        assert.dom('nav a[href="/campagnes/13/resultats-evaluation"]').hasText('Résultats');
       });
     });
 
@@ -231,8 +231,8 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
         assert.dom('nav a[href="/campagnes/13/activity"]').doesNotExist();
       });
 
-      test('it should not display collective results item', async function(assert) {
-        assert.dom('nav a[href="/campagnes/13/resultats-collectifs"]').doesNotExist();
+      test('it should not display evaluation results item', async function(assert) {
+        assert.dom('nav a[href="/campagnes/13/resultats-evaluation"]').doesNotExist();
       });
     });
   });
