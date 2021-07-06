@@ -7,7 +7,7 @@ module.exports = {
     return new BookshelfPoleEmploiSending(poleEmploiSending).save();
   },
 
-  async get() {
+  async get(sending) {
     const POLE_EMPLOI_SENDINGS_LIMIT = settings.poleEmploi.poleEmploiSendingsLimit;
     const IDENTITY_PROVIDER_POLE_EMPLOI = settings.poleEmploi.poleEmploiIdentityProvider;
 
@@ -16,6 +16,7 @@ module.exports = {
       .join('campaign-participations', 'campaign-participations.id', 'pole-emploi-sendings.campaignParticipationId')
       .join('authentication-methods', 'authentication-methods.userId', 'campaign-participations.userId')
       .where('authentication-methods.identityProvider', IDENTITY_PROVIDER_POLE_EMPLOI)
+      .modify(_olderThan, sending)
       .orderBy([{ column: 'pole-emploi-sendings.createdAt', order: 'desc' }, { column: 'pole-emploi-sendings.id', order: 'desc' }])
       .limit(POLE_EMPLOI_SENDINGS_LIMIT);
 
@@ -28,3 +29,10 @@ module.exports = {
     return sendings;
   },
 };
+
+function _olderThan(qb, sending) {
+  if (sending) {
+    qb.where('pole-emploi-sendings.createdAt', '<', sending.dateEnvoi)
+      .where('pole-emploi-sendings.id', '<', sending.idEnvoi);
+  }
+}
