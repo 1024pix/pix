@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const datasource = require('./datasource');
+const { challengeHasLocale } = require('../../utils/i18n/challenge-locales');
 
 const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
 const OPERATIVE_CHALLENGES = [...VALIDATED_CHALLENGES, 'archivé'];
@@ -32,7 +33,7 @@ module.exports = datasource.extend({
 
   async findOperativeHavingLocale(locale) {
     const operativeChallenges = await this.findOperative();
-    return operativeChallenges.filter((challenge) => _.includes(challenge.locales, locale));
+    return operativeChallenges.filter((challenge) => challengeHasLocale(challenge, locale));
   },
 
   async findValidated() {

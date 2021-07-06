@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const hashInt = require('hash-int');
+const { challengeHasLocale } = require('../../infrastructure/utils/i18n/challenge-locales');
 const NON_EXISTING_ITEM = null;
 const VALIDATED_STATUSES = ['validé', 'validé sans test', 'pré-validé'];
 
@@ -17,7 +18,7 @@ module.exports = {
 };
 
 function _pickLocaleChallengeAtIndex(challenges, locale, index) {
-  const localeChallenges = _.filter(challenges, ((challenge) => _.includes(challenge.locales, locale)));
+  const localeChallenges = _.filter(challenges, ((challenge) => challengeHasLocale(challenge, locale)));
   const possibleChallenges = _findPreferablyValidatedChallenges(localeChallenges, locale);
   return _.isEmpty(possibleChallenges) ? null : _pickChallengeAtIndex(possibleChallenges, index);
 }
