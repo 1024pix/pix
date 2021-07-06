@@ -35,7 +35,7 @@ class CertificationCourse {
     this._birthplace = birthplace;
     this._birthPostalCode = birthPostalCode;
     this._birthINSEECode = birthINSEECode;
-    this.sex = sex;
+    this._sex = sex;
     this.externalId = externalId;
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     this.createdAt = createdAt;
@@ -133,7 +133,7 @@ class CertificationCourse {
       birthplace: this._birthplace,
       birthPostalCode: this._birthPostalCode,
       birthINSEECode: this._birthINSEECode,
-      sex: this.sex,
+      sex: this._sex,
       externalId: this.externalId,
       hasSeenEndTestScreen: this.hasSeenEndTestScreen,
       createdAt: this.createdAt,
