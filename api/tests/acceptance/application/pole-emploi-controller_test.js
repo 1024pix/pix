@@ -6,6 +6,7 @@ const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
 const poleEmploiTokensRepository = require('../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
 
 const createServer = require('../../../server');
+const settings = require('../../../lib/config');
 
 describe('Acceptance | API | Pole Emploi Controller', () => {
 
@@ -68,80 +69,94 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
   });
 
   describe('GET /api/pole-emploi/envois', () => {
+    const originalEnv = settings.apiManager.url;
 
-    it('should return 200 HTTP status code', async () => {
-      const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pole emploi' }).id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-
-      const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod({ userId, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId' });
-      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId }).id;
-      const sending = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId, createdAt: new Date('2021-05-01'), payload: { campagne: { nom: 'Campagne PE', dateDebut: new Date('2020-08-01'), type: 'EVALUATION', codeCampagne: 'POLEEMPLOI123', urlCampagne: 'https://app.pix.fr/campagnes/POLEEMPLOI123', nomOrganisme: 'Pix', typeOrganisme: 'externe' }, individu: { nom: 'Kamado', prenom: 'Tanjiro' }, test: { etat: 2, typeTest: 'DI', referenceExterne: 123456, dateDebut: new Date('2020-09-01'), elementsEvalues: [] } } });
-      await databaseBuilder.commit();
-
-      options = {
-        method: 'GET',
-        url: '/api/pole-emploi/envois',
-        headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(POLE_EMPLOI_CLIENT_ID, POLE_EMPLOI_SOURCE, POLE_EMPLOI_SCOPE) },
-      };
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result).to.deep.equal([{
-        'idEnvoi': sending.id,
-        'dateEnvoi': new Date('2021-05-01'),
-        'resultat': {
-          'campagne': {
-            'nom': 'Campagne PE',
-            'dateDebut': '2020-08-01T00:00:00.000Z',
-            'type': 'EVALUATION',
-            'codeCampagne': 'POLEEMPLOI123',
-            'urlCampagne': 'https://app.pix.fr/campagnes/POLEEMPLOI123',
-            'nomOrganisme': 'Pix',
-            'typeOrganisme': 'externe' },
-          'individu': {
-            'nom': 'Kamado',
-            'prenom': 'Tanjiro',
-            'idPoleEmploi': 'externalUserId' },
-          'test': {
-            'etat': 2,
-            'typeTest': 'DI',
-            'referenceExterne': 123456,
-            'dateDebut': '2020-09-01T00:00:00.000Z',
-            'elementsEvalues': [] } } }]);
+    before(() => {
+      settings.apiManager.url = 'https://url-externe';
     });
 
-    it('should return 403 HTTP status code if user is not allowed to access', async () => {
-      // given
-      options = {
-        method: 'GET',
-        url: '/api/pole-emploi/envois',
-        headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(POLE_EMPLOI_CLIENT_ID, POLE_EMPLOI_SOURCE) },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
+    after(() => {
+      settings.apiManager.url = originalEnv;
     });
 
-    it('should return 401 HTTP status code if user is not authenticated', async () => {
-      // given
+    context('When the request returns 200', function() {
+      it('should return the sending and a link', async () => {
+        const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pole emploi' }).id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
 
-      options = {
-        method: 'GET',
-        url: '/api/pole-emploi/envois',
-        headers: { authorization: generateValidRequestAuthorizationHeader() },
-      };
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildAuthenticationMethod({ userId, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId' });
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId }).id;
+        const sending = databaseBuilder.factory.buildPoleEmploiSending({ id: 76345, campaignParticipationId, createdAt: new Date('2021-05-01'), payload: { campagne: { nom: 'Campagne PE', dateDebut: new Date('2020-08-01'), type: 'EVALUATION', codeCampagne: 'POLEEMPLOI123', urlCampagne: 'https://app.pix.fr/campagnes/POLEEMPLOI123', nomOrganisme: 'Pix', typeOrganisme: 'externe' }, individu: { nom: 'Kamado', prenom: 'Tanjiro' }, test: { etat: 2, typeTest: 'DI', referenceExterne: 123456, dateDebut: new Date('2020-09-01'), elementsEvalues: [] } } });
+        await databaseBuilder.commit();
 
-      // when
-      const response = await server.inject(options);
+        options = {
+          method: 'GET',
+          url: '/api/pole-emploi/envois',
+          headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(POLE_EMPLOI_CLIENT_ID, POLE_EMPLOI_SOURCE, POLE_EMPLOI_SCOPE) },
+        };
 
-      // then
-      expect(response.statusCode).to.equal(401);
+        //when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.headers.link).to.equal('https://url-externe/pole-emploi/envois?curseur=eyJpZEVudm9pIjo3NjM0NSwiZGF0ZUVudm9pIjoiMjAyMS0wNS0wMVQwMDowMDowMC4wMDBaIn0=');
+        expect(response.result).to.deep.equal([{
+          'idEnvoi': sending.id,
+          'dateEnvoi': new Date('2021-05-01'),
+          'resultat': {
+            'campagne': {
+              'nom': 'Campagne PE',
+              'dateDebut': '2020-08-01T00:00:00.000Z',
+              'type': 'EVALUATION',
+              'codeCampagne': 'POLEEMPLOI123',
+              'urlCampagne': 'https://app.pix.fr/campagnes/POLEEMPLOI123',
+              'nomOrganisme': 'Pix',
+              'typeOrganisme': 'externe' },
+            'individu': {
+              'nom': 'Kamado',
+              'prenom': 'Tanjiro',
+              'idPoleEmploi': 'externalUserId' },
+            'test': {
+              'etat': 2,
+              'typeTest': 'DI',
+              'referenceExterne': 123456,
+              'dateDebut': '2020-09-01T00:00:00.000Z',
+              'elementsEvalues': [] } } }]);
+      });
+    });
+
+    context('When the request has failed', function() {
+      it('should return 403 HTTP status code if user is not allowed to access', async () => {
+        // given
+        options = {
+          method: 'GET',
+          url: '/api/pole-emploi/envois',
+          headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(POLE_EMPLOI_CLIENT_ID, POLE_EMPLOI_SOURCE) },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('should return 401 HTTP status code if user is not authenticated', async () => {
+        // given
+        options = {
+          method: 'GET',
+          url: '/api/pole-emploi/envois',
+          headers: { authorization: generateValidRequestAuthorizationHeader() },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
     });
   });
 });
