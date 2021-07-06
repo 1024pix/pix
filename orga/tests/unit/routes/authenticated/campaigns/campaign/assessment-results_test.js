@@ -2,13 +2,13 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/campaigns/campaign/assessments', function(hooks) {
+module('Unit | Route | authenticated/campaigns/campaign/assessment-results', function(hooks) {
   setupTest(hooks);
 
   let route;
 
   hooks.beforeEach(function() {
-    route = this.owner.lookup('route:authenticated/campaigns/campaign/assessments');
+    route = this.owner.lookup('route:authenticated/campaigns/campaign/assessment-results');
   });
 
   module('fetchSummaries', function(hooks) {
