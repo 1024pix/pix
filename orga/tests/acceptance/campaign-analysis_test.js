@@ -19,7 +19,8 @@ module('Acceptance | Campaign Analysis', function(hooks) {
     createPrescriberByUser(user);
 
     const campaignAnalysis = server.create('campaign-analysis', 'withTubeRecommendations');
-    server.create('campaign', { campaignAnalysis, sharedParticipationsCount: 2 });
+    const campaignCollectiveResult = server.create('campaign-collective-result');
+    server.create('campaign', { campaignAnalysis, campaignCollectiveResult, sharedParticipationsCount: 2 });
 
     await authenticateSession({
       user_id: user.id,

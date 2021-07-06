@@ -1,0 +1,46 @@
+<h4 class="campaign-details-analysis campaign-details-analysis__header">
+  {{t 'pages.campaign-collective-results.table.title'}}
+</h4>
+
+<table
+  class="panel panel--light-shadow competences-analysis__table content-text content-text--small"
+  aria-label={{t 'pages.campaign-collective-results.table.title'}}
+>
+  <thead>
+  <tr>
+    <th class="table__column--wide">{{this.campaignCollectiveResultLabel}}</th>
+    <th class="table__column--wide">{{t 'pages.campaign-collective-results.table.column.results.label'}}</th>
+    <th class="table__column--small">{{t 'pages.campaign-collective-results.table.column.validated-items'}}</th>
+    <th class="table__column--small">{{t 'pages.campaign-collective-results.table.column.tested-items'}}</th>
+  </tr>
+  </thead>
+
+  {{#if @sharedParticipationsCount }}
+
+    <tbody>
+    {{#each @campaignCollectiveResult.campaignCompetenceCollectiveResults as |competenceResult|}}
+      <tr aria-label={{t 'pages.campaign-collective-results.table.row-title'}}>
+        <td class="competences-col__name">
+          <span class="competences-col__border competences-col__border--{{competenceResult.areaColor}}"></span>
+          <span>
+            {{competenceResult.competenceName}}
+          </span>
+        </td>
+        <td class="competences-col__gauge">
+          <PixProgressGauge
+            @value={{competenceResult.validatedSkillsPercentage}}
+            @tooltipText={{t 'pages.campaign-collective-results.table.column.results.tooltip' result=competenceResult.validatedSkillsPercentage competence=competenceResult.competenceName htmlSafe=true}}
+          />
+        </td>
+        <td>{{competenceResult.roundedAverageValidatedSkills}}</td>
+        <td>{{competenceResult.targetedSkillsCount}}</td>
+      </tr>
+    {{/each}}
+    </tbody>
+  {{/if}}
+</table>
+
+{{#unless @sharedParticipationsCount }}
+  <div class="table__empty content-text">{{t 'pages.campaign-collective-results.table.empty'}}</div>
+{{/unless}}
+
