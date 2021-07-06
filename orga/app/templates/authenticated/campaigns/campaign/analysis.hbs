@@ -1,5 +1,12 @@
 {{page-title (t 'pages.campaign-review.title')}}
+
 <Routes::Authenticated::Campaign::Analysis::Tab
   @campaignTubeRecommendations={{@model.campaignAnalysis.campaignTubeRecommendations}}
   @displayAnalysis={{gt @model.sharedParticipationsCount 0}}
+/>
+
+<Campaign::Analysis::Competences
+  @campaignId={{@model.id}}
+  @campaignCollectiveResult={{@model.campaignCollectiveResult}}
+  @sharedParticipationsCount={{@model.sharedParticipationsCount}}
 />

@@ -262,7 +262,7 @@
       "average": "Moyenne des résultats",
       "result": "Résultat",
       "table": {
-        "title": "Résultats collectifs par compétence",
+        "title": "Résultats par compétence",
         "column": {
           "competences": "Compétences ({count})",
           "results": {
