@@ -50,7 +50,7 @@ class CertificationReport {
       firstName: certificationCourse.toDTO().firstName,
       lastName: certificationCourse.toDTO().lastName,
       certificationIssueReports: certificationCourse.certificationIssueReports,
-      hasSeenEndTestScreen: certificationCourse.hasSeenEndTestScreen,
+      hasSeenEndTestScreen: certificationCourse.toDTO().hasSeenEndTestScreen,
     });
   }
 
