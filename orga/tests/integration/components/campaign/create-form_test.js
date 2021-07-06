@@ -1,14 +1,14 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
-import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
-import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
+import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { setupRenderingTest } from 'ember-qunit';
 import { setupIntl, t } from 'ember-intl/test-support';
 
-module('Integration | Component | routes/authenticated/campaign/new', function(hooks) {
+module('Integration | Component | Campaign::CreateForm', function(hooks) {
   setupRenderingTest(hooks);
   setupIntl(hooks);
   let receivedCampaign;
@@ -30,7 +30,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     this.campaign = EmberObject.create({});
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+    await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
 
     // then
     assert.contains(t('pages.campaign-creation.name.label'));
@@ -46,7 +46,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
 
       // then
       assert.contains(t('pages.campaign-creation.test-title.label'));
@@ -58,7 +58,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
 
       // then
       assert.notContains(t('pages.campaign-creation.purpose.assessment'));
@@ -77,7 +77,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
       await clickByLabel(t('pages.campaign-creation.purpose.assessment'));
 
       // then
@@ -97,7 +97,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
       await clickByLabel(t('pages.campaign-creation.purpose.profiles-collection'));
 
       // then
@@ -118,7 +118,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
 
       // then
       assert.contains(t('pages.campaign-creation.target-profile-informations'));
@@ -137,7 +137,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
 
       // then
       assert.notContains(t('pages.campaign-creation.target-profile-informations'));
@@ -150,7 +150,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
 
       // then
       assert.notContains(t('pages.campaign-creation.legal-warning'));
@@ -163,7 +163,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
       await clickByLabel(t('pages.campaign-creation.no'));
 
       // then
@@ -177,7 +177,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
       await clickByLabel(t('pages.campaign-creation.yes'));
 
       // then
@@ -188,7 +188,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
   test('it should send campaign creation action when submitted', async function(assert) {
     // given
     this.campaign = EmberObject.create({});
-    await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+    await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
     await fillInByLabel(t('pages.campaign-creation.name.label'), 'Ma campagne');
 
     // when
@@ -226,7 +226,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       }));
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
       await clickByLabel(t('pages.campaign-creation.yes'));
 
       // then
@@ -248,7 +248,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       }));
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
 
       // then
       assert.contains(t('api-errors-messages.campaign-creation.target-profile-required'));

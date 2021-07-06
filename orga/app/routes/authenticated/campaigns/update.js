@@ -10,8 +10,4 @@ export default class UpdateRoute extends Route {
     super.setupController(controller, model);
     controller.campaignName = model.name;
   }
-
-  resetController(controller) {
-    controller.model.rollbackAttributes();
-  }
 }
