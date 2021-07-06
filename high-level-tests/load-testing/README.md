@@ -2,10 +2,10 @@
 
 ## fichier SIECLE
 
-Déterminer l'UAJ de l'organisation (par défaut, 1237457A).
+Déterminer l'UAI de l'organisation (par défaut, 1237457A).
 
 ```
-SELECT o.id, o.name, o."externalId" AS UAJ
+SELECT o.id, o.name, o."externalId" AS UAI
 FROM organizations o
 WHERE o."isManagingStudents" = true ORDER BY o.id
 ``` 
@@ -23,7 +23,7 @@ Generating SIECLE file on organization 1237457A for 4000 users
 SIECLE file for 4000 users in file SIECLE-organization-1237457A-4000-users.xml
 ```
 
-# Exécution des test
+# Exécution des tests
 
 ## Pré-requis :
 
