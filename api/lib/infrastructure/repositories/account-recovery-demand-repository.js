@@ -1,16 +1,16 @@
 const { knex } = require('../../../db/knex-database-connection');
 const AccountRecoveryDemand = require('../../domain/models/AccountRecoveryDemand');
-const { NotFoundError, TooManyRows } = require('../../domain/errors');
-const { isEmpty, map } = require('lodash');
+const {
+  NotFoundError,
+  TooManyRows,
+  AccountRecoveryDemandExpired,
+} = require('../../domain/errors');
+const { isEmpty } = require('lodash');
 
 function _toDomain(accountRecoveryDemandDTO) {
   return new AccountRecoveryDemand({
     ...accountRecoveryDemandDTO,
   });
-}
-
-function _toDomainArray(answerDTOs) {
-  return map(answerDTOs, _toDomain);
 }
 
 module.exports = {
@@ -19,9 +19,8 @@ module.exports = {
 
     const accountRecoveryDemandDTOs = await knex
       .where({ temporaryKey, used: false })
-      .select('id', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used')
-      .from('account-recovery-demands')
-      .orderBy('id', 'desc');
+      .select('id', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
+      .from('account-recovery-demands');
 
     if (isEmpty(accountRecoveryDemandDTOs)) {
       throw new NotFoundError('No account recovery demand found');
@@ -31,7 +30,16 @@ module.exports = {
       throw new TooManyRows('Multiple demands found for the same temporary key');
     }
 
-    return _toDomainArray(accountRecoveryDemandDTOs);
+    const accountRecoveryDemand = accountRecoveryDemandDTOs[0];
+    const dateLimitBeforeExpiration = new Date();
+    const numberOfDayBeforeExpiration = 1;
+    dateLimitBeforeExpiration.setDate(dateLimitBeforeExpiration.getDate() - numberOfDayBeforeExpiration);
+
+    if (accountRecoveryDemand.createdAt <= dateLimitBeforeExpiration) {
+      throw new AccountRecoveryDemandExpired();
+    }
+
+    return _toDomain(accountRecoveryDemand);
   },
 
   async save(accountRecoveryDemand) {
