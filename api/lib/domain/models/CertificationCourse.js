@@ -37,7 +37,7 @@ class CertificationCourse {
     this._birthINSEECode = birthINSEECode;
     this._sex = sex;
     this._externalId = externalId;
-    this.hasSeenEndTestScreen = hasSeenEndTestScreen;
+    this._hasSeenEndTestScreen = hasSeenEndTestScreen;
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.isPublished = isPublished;
@@ -135,7 +135,7 @@ class CertificationCourse {
       birthINSEECode: this._birthINSEECode,
       sex: this._sex,
       externalId: this._externalId,
-      hasSeenEndTestScreen: this.hasSeenEndTestScreen,
+      hasSeenEndTestScreen: this._hasSeenEndTestScreen,
       createdAt: this.createdAt,
       completedAt: this.completedAt,
       isPublished: this.isPublished,
