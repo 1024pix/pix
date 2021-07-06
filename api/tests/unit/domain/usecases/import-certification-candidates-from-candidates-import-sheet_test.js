@@ -1,25 +1,33 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 const importCertificationCandidatesFromCandidatesImportSheet = require('../../../../lib/domain/usecases/import-certification-candidates-from-candidates-import-sheet');
-const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
-const certificationCandidatesOdsService = require('../../../../lib/domain/services/certification-candidates-ods-service');
 
 describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', () => {
 
+  let certificationCandidateRepository;
+  let certificationCandidatesOdsService;
+
+  beforeEach(() => {
+    certificationCandidateRepository = {
+      doesLinkedCertificationCandidateInSessionExist: sinon.stub(),
+      setSessionCandidates: sinon.stub(),
+    };
+    certificationCandidatesOdsService = {
+      extractCertificationCandidatesFromCandidatesImportSheet: sinon.stub(),
+    };
+  });
+
   describe('#importCertificationCandidatesFromCandidatesImportSheet', () => {
-    const sessionId = 'sessionId';
-    const odsBuffer = 'buffer';
-    const certificationCandidates = 'extractedCandidates';
 
     context('when session contains already linked certification candidates', () => {
 
-      beforeEach(() => {
-        sinon.stub(certificationCandidateRepository, 'doesLinkedCertificationCandidateInSessionExist')
-          .withArgs({ sessionId })
-          .resolves(true);
-      });
-
       it('should throw a BadRequestError', async () => {
+        // given
+        const sessionId = 'sessionId';
+        const odsBuffer = 'buffer';
+
+        certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist.withArgs({ sessionId }).resolves(true);
+
         // when
         const result = await catchErr(importCertificationCandidatesFromCandidatesImportSheet)({
           sessionId,
@@ -31,24 +39,20 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
         // then
         expect(result).to.be.an.instanceOf(CertificationCandidateAlreadyLinkedToUserError);
       });
-
     });
 
     context('when session contains zero linked certification candidates', () => {
 
-      beforeEach(() => {
-        sinon.stub(certificationCandidateRepository, 'doesLinkedCertificationCandidateInSessionExist')
-          .withArgs({ sessionId })
-          .resolves(false);
-        sinon.stub(certificationCandidatesOdsService, 'extractCertificationCandidatesFromCandidatesImportSheet')
-          .withArgs({ sessionId, odsBuffer })
-          .resolves(certificationCandidates);
-        sinon.stub(certificationCandidateRepository, 'setSessionCandidates')
-          .withArgs(sessionId, certificationCandidates)
-          .resolves();
-      });
-
       it('should call the appropriate methods', async function() {
+        // given
+        const sessionId = 'sessionId';
+        const odsBuffer = 'buffer';
+        const certificationCandidates = 'extractedCandidates';
+
+        certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist.withArgs({ sessionId }).resolves(false);
+        certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet.withArgs({ sessionId, odsBuffer }).resolves(certificationCandidates);
+        certificationCandidateRepository.setSessionCandidates.withArgs(sessionId, certificationCandidates).resolves();
+
         // when
         await importCertificationCandidatesFromCandidatesImportSheet({
           sessionId,
@@ -65,7 +69,5 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           .to.be.true;
       });
     });
-
   });
-
 });
