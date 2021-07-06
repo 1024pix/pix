@@ -26,9 +26,16 @@ const { environment } = require('../lib/config');
 
 /* QueryBuilder Extension */
 const Knex = require('knex');
-Knex.QueryBuilder.extend('whereInArray', function(column, values) {
-  return this.where(column, knex.raw('any(?)', [ values ]));
-});
+
+try {
+  Knex.QueryBuilder.extend('whereInArray', function(column, values) {
+    return this.where(column, knex.raw('any(?)', [ values ]));
+  });
+} catch (e) {
+  if (e.message !== 'Can\'t extend QueryBuilder with existing method (\'whereInArray\').') {
+    console.error(e);
+  }
+}
 /* -------------------- */
 
 const knexConfig = knexConfigs[environment];
