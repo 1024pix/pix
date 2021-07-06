@@ -16,8 +16,9 @@ module.exports = {
     return h.response(response).code(200);
   },
 
-  async getSendings(_request, h) {
-    const sendings = await usecases.getPoleEmploiSendings();
-    return h.response(sendings).code(200);
+  async getSendings(request, h) {
+    const cursor = request.query.curseur;
+    const { sendings, link } = await usecases.getPoleEmploiSendings({ cursor });
+    return h.response(sendings).header('link', link).code(200);
   },
 };
