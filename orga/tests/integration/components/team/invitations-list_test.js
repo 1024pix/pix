@@ -2,22 +2,21 @@ import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
-import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/authenticated/team | invitations', function(hooks) {
+module('Integration | Component | Team::InvitationsList', function(hooks) {
 
   setupIntlRenderingTest(hooks);
 
   test('it should list the pending team invitations', async function(assert) {
     // given
-    const organizationInvitations = [
+    this.set('invitations', [
       { email: 'gigi@example.net', updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2) },
       { email: 'gogo@example.net', updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2) },
-    ];
-    this.set('organizationInvitations', organizationInvitations);
+    ]);
 
     // when
-    await render(hbs`<Routes::Authenticated::Team::Invitations @organizationInvitations={{organizationInvitations}}/>`);
+    await render(hbs`<Team::InvitationsList @invitations={{invitations}}/>`);
 
     // then
     assert.dom(`[aria-label="${this.intl.t('pages.team-invitations.table.row.aria-label')}"]`).exists({ count: 2 });
@@ -27,13 +26,12 @@ module('Integration | Component | routes/authenticated/team | invitations', func
     // given
     const pendingInvitationDate = moment('2019-10-08T10:50:00Z').utcOffset(2);
 
-    const organizationInvitations = [
+    this.set('invitations', [
       { email: 'gigi@example.net', updatedAt: pendingInvitationDate },
-    ];
-    this.set('organizationInvitations', organizationInvitations);
+    ]);
 
     // when
-    await render(hbs`<Routes::Authenticated::Team::Invitations @organizationInvitations={{organizationInvitations}}/>`);
+    await render(hbs`<Team::InvitationsList @invitations={{invitations}}/>`);
 
     // then
     assert.contains('gigi@example.net');

@@ -1,11 +1,11 @@
-<form {{on 'submit' @createOrganizationInvitation}} class="form">
+<form {{on 'submit' @onSubmit}} class="form" ...attributes>
 
   <div class="form__field">
     <label for="email" class="label">{{t 'pages.team-new-item.input-label'}}</label>
     <Input
       @id="email"
       @type="email"
-      @value={{@organizationInvitation.email}}
+      @value={{@email}}
       name="email"
       class="input"
       multiple={{true}}
@@ -15,7 +15,7 @@
   </div>
 
   <div class="form__validation">
-    <button type="button" class="button button--no-color" {{on 'click' @cancel}}>
+    <button type="button" class="button button--no-color" {{on 'click' @onCancel}}>
       {{t 'common.actions.cancel'}}
     </button>
     {{#if @isLoading}}
