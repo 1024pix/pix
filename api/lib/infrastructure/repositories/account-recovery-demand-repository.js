@@ -34,4 +34,12 @@ module.exports = {
     return _toDomainArray(accountRecoveryDemandDTOs);
   },
 
+  async save(accountRecoveryDemand) {
+    const result = await knex('account-recovery-demands')
+      .insert(accountRecoveryDemand)
+      .returning('*');
+
+    return _toDomain(result[0]);
+  },
+
 };

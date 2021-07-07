@@ -1,6 +1,7 @@
-const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const accountRecoveryDemandRepository = require('../../../../lib/infrastructure/repositories/account-recovery-demand-repository');
 const { NotFoundError, TooManyRows } = require('../../../../lib/domain/errors');
+const AccountRecoveryDemand = require('../../../../lib/domain/models/AccountRecoveryDemand');
 
 describe('Integration | Infrastructure | Repository | account-recovery-demand-repository', () => {
 
@@ -90,6 +91,49 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
     });
 
+  });
+
+  describe('#save', () => {
+
+    it('should insert the account recovery demand in db', async () => {
+      // given
+      const userId = 123;
+      const newEmail = 'dupont@example.net';
+      const oldEmail = 'eleve-dupont@example.net';
+      const used = false;
+      const temporaryKey = '123456789AZERTYUIO';
+      const accountRecoveryDemandAttributes = {
+        userId,
+        newEmail,
+        oldEmail,
+        used,
+        temporaryKey,
+      };
+      const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand(accountRecoveryDemandAttributes);
+
+      // when
+      const result = await accountRecoveryDemandRepository.save(accountRecoveryDemand);
+
+      // then
+      const accountRecoveryDemands = await knex('account-recovery-demands').select();
+      expect(accountRecoveryDemands).to.have.length(1);
+      expect(result).to.be.instanceOf(AccountRecoveryDemand);
+      expect(result.userId).to.equal(userId);
+      expect(result.newEmail).to.equal(newEmail);
+      expect(result.used).to.equal(used);
+      expect(result.temporaryKey).to.equal(temporaryKey);
+    });
+
+    it('should throw an error if no row is saved', async () => {
+      // given
+      const notValidAccountRecoveryDemand = 123;
+
+      // when
+      const error = await catchErr(accountRecoveryDemandRepository.save)(notValidAccountRecoveryDemand);
+
+      // then
+      expect(error).to.be.instanceOf(Error);
+    });
   });
 
 });
