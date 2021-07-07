@@ -923,6 +923,10 @@
     },
     "recover-account-after-leaving-sco": {
       "title": "Récupérer mon compte",
+      "contact-support": {
+        "link-text": "contactez le support.",
+        "link-url": "https://support.pix.org/fr/support/tickets/new"
+      },
       "student-information": {
         "title": "Collégiens, lycéens, vous quittez le système scolaire et vous souhaitez récupérer votre accès à Pix",
         "subtitle": {
@@ -952,9 +956,7 @@
           "empty-ine-ina": "Le champ INE est obligatoire.",
           "empty-last-name": "Le champ nom est obligatoire.",
           "empty-first-name": "Le champ prénom est obligatoire.",
-          "not-found": "Pix ne reconnait pas vos données. Vérifiez qu'elles sont exactes, sinon ",
-          "not-found-link-text": "contactez le support.",
-          "not-found-link-url": "https://support.pix.org/fr/support/tickets/new"
+          "not-found": "Pix ne reconnait pas vos données. Vérifiez qu'elles sont exactes, sinon "
         }
       },
       "conflict": {
@@ -970,7 +972,7 @@
       "confirmation-step": {
         "good-news" : "Bonne nouvelle { firstName } !",
         "found-account": "Nous avons retrouvé votre compte :",
-        "contact-support": "Si vous constatez une erreur ou si ces données ne sont pas les votres, contactez le support.",
+        "contact-support": "Si vous constatez une erreur ou si ces données ne sont pas les votres, ",
         "fields" : {
           "last-name": "Votre nom",
           "first-name": "Votre prénom",
