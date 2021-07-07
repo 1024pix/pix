@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.72.0 (07/07/2021)
+
+- [#3164](https://github.com/1024pix/pix/pull/3164) [FEATURE] Modifier les valeurs possibles pour la colonne "Code sexe*" de l'import Fregata (PIX-2699).
+- [#3171](https://github.com/1024pix/pix/pull/3171) [FEATURE] Créer la table account-recovery-demands (PIX-2777).
+- [#3159](https://github.com/1024pix/pix/pull/3159) [FEATURE] Améliorer l'accessibilité des libellés du menu de Pix Certif (PIX-2690)
+- [#3155](https://github.com/1024pix/pix/pull/3155) [FEATURE] Ajouter l'étape de la récupération de l'e-mail dans le parcours de récupération de compte (PIX-2738).
+- [#3127](https://github.com/1024pix/pix/pull/3127) [FEATURE] Valider les données de pays et villes saisis lors de l'inscription d'un candidat à une session de certification (PIX-2657).
+- [#3146](https://github.com/1024pix/pix/pull/3146) [TECH] Contrôler INE et INA dans l'API lors de la récupération SCO.
+- [#3169](https://github.com/1024pix/pix/pull/3169) [TECH] Modifier l'organisation des composants d'équipe dans Pix Orga (PIX-2776)
+- [#3156](https://github.com/1024pix/pix/pull/3156) [TECH] Modifier l'organisation des composants de campagne dans Pix Orga (PIX-2775)
+- [#3165](https://github.com/1024pix/pix/pull/3165) [TECH] Autorise les champs t1, t2, t3 status a être des boolean
+- [#3149](https://github.com/1024pix/pix/pull/3149) [TECH] Surcharger Ember simple auth session dans Pix-Admin (PIX-2766).
+- [#3163](https://github.com/1024pix/pix/pull/3163) [CLEANUP] Corriger les typos dans sample.env
+
 ## v3.71.0 (02/07/2021)
 
 - [#3142](https://github.com/1024pix/pix/pull/3142) [FEATURE] Simplifier la liste des candidats (PIX-2714)
