@@ -8,3 +8,5 @@ services:
     ports:
       - "80:80"
     container_name: pix_local_domains
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
