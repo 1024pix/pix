@@ -1,5 +1,7 @@
 const Joi = require('joi');
 const identifiersType = require('../../domain/types/identifiers-type');
+const featureToggles = require('../preHandlers/feature-toggles');
+
 const accountRecoveryController = require('./account-recovery-controller');
 
 exports.register = async function(server) {
@@ -8,6 +10,12 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/account-recovery',
       config: {
+        pre: [
+          {
+            method: featureToggles.isScoAccountRecoveryEnabled,
+            assign: 'isScoAccountRecoveryEnabled',
+          },
+        ],
         auth: false,
         handler: accountRecoveryController.sendEmailForAccountRecovery,
         validate: {
