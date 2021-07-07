@@ -933,6 +933,7 @@
           "link": "réinitialisez votre mot de passe ici",
           "text": "Si vous possédez un compte avec une adresse e-mail valide, "
         },
+        "mandatory-all-fields": "Tous les champs sont obligatoires.",
         "form": {
           "tooltip": "<strong>Où trouver mon INE ?</strong> <p>Cet identifiant se trouve souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.</p>",
           "ine-ina": "INE (Identifiant National Élève)",
