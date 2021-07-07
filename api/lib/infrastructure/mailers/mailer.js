@@ -67,6 +67,10 @@ class Mailer {
     return mailing[this._providerName].templates.emailChangeTemplateId;
   }
 
+  get accountRecoveryTemplateId() {
+    return mailing[this._providerName].templates.accountRecoveryTemplateId;
+  }
+
 }
 
 module.exports = new Mailer();
