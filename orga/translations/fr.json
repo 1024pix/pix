@@ -232,8 +232,8 @@
       "shared-results-count": "Résultats reçus",
       "tab": {
         "activity": "Activité",
-        "collective-results": "Résultats",
-        "participants": "Participants ({count})",
+        "results": "Résultats ({count, number})",
+        "participants": "Participants ({count, number})",
         "review": "Analyse",
         "settings": "Paramètres"
       }

@@ -182,7 +182,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       hooks.beforeEach(async function() {
         const campaign = store.createRecord('campaign', {
           id: 13,
-          participationsCount: 10,
+          sharedParticipationsCount: 10,
           type: 'ASSESSMENT',
         });
 
@@ -202,7 +202,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
 
       test('it should display evaluation results item', async function(assert) {
 
-        assert.dom('nav a[href="/campagnes/13/resultats-evaluation"]').hasText('Résultats');
+        assert.dom('nav a[href="/campagnes/13/resultats-evaluation"]').hasText('Résultats (10)');
       });
     });
 
