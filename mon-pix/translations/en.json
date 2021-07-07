@@ -952,7 +952,9 @@
           "empty-ine-ina": "Le champ INE est obligatoire.",
           "empty-last-name": "Le champ nom est obligatoire.",
           "empty-first-name": "Le champ prénom est obligatoire.",
-          "not-found": "Pix ne reconnait pas vos données. Vérifiez qu'elles sont exactes, sinon contactez le support."
+          "not-found": "Pix ne reconnait pas vos données. Vérifiez qu'elles sont exactes, sinon ",
+          "not-found-link-text": "contactez le support.",
+          "not-found-link-url": "https://support.pix.org/fr/support/tickets/new"
         }
       },
       "conflict": {
