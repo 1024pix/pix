@@ -72,13 +72,19 @@ npm start
 
 ### 6. (Facultatif) Configurer les domaines locaux.
 
-Il est possible d'accéder aux applications Pix avec des domaines `*.pix.local` 
+Il est possible d'accéder aux applications Pix avec des domaines `*.dev.pix.<tld>` 
 plutôt que `localhost:port` :
 
-- http://app.pix.local/
-- http://orga.pix.local/
-- http://admin.pix.local/
-- http://certif.pix.local/
+- Mon Pix
+  - http://app.dev.pix.fr/
+  - http://app.dev.pix.org/
+- Orga
+  - http://orga.dev.pix.fr/
+  - http://orga.dev.pix.org/
+- Admin
+  - http://admin.dev.pix.fr/
+- Certif
+  - http://certif.dev.pix.fr/
 
 Pour configurer les domaines locaux, exécuter le script :
 
