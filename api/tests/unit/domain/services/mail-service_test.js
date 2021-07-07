@@ -593,4 +593,39 @@ describe('Unit | Service | MailService', () => {
 
   });
 
+  describe('#sendAccountRecoveryEmail', () => {
+
+    it('should call sendEmail with from, to, template, tags', async () => {
+      // given
+      const locale = FRENCH_FRANCE;
+      const firstName = 'Carla';
+      const temporaryKey = 'a temporary key';
+      const email = 'carla@example.net';
+      const redirectionUrl = `https://app.pix.fr/api/account-recovery/${temporaryKey}`;
+
+      // when
+      await mailService.sendAccountRecoveryEmail({
+        email,
+        firstName,
+        temporaryKey,
+        locale,
+      });
+
+      // then
+      const expectedOptions = {
+        from: senderEmailAddress,
+        to: email,
+        subject: 'Récupération de votre compte Pix',
+        template: 'test-account-recovery-template-id',
+        variables: {
+          firstName,
+          redirectionUrl,
+          locale,
+        },
+      };
+      const options = mailer.sendEmail.firstCall.args[0];
+      expect(options).to.deep.include(expectedOptions);
+    });
+  });
+
 });
