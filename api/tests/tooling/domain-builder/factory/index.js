@@ -1,4 +1,5 @@
 module.exports = {
+  buildAccountRecoveryDemand: require('./build-account-recovery-demand'),
   buildAnswer: require('./build-answer'),
   buildArea: require('./build-area'),
   buildAssessment: require('./build-assessment'),
