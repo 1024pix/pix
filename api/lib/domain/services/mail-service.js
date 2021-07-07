@@ -314,6 +314,30 @@ function notifyEmailChange({ email, locale }) {
   return mailer.sendEmail(options);
 }
 
+function sendAccountRecoveryEmail({
+  email,
+  firstName,
+  temporaryKey,
+  locale = FRENCH_FRANCE,
+}) {
+  const pixName = PIX_NAME_FR;
+  const redirectionUrl = `${settings.domain.pixApp + settings.domain.tldFr}/api/account-recovery/${temporaryKey}`;
+  const variables = {
+    firstName,
+    redirectionUrl,
+    locale,
+  };
+
+  return mailer.sendEmail({
+    from: EMAIL_ADDRESS_NO_RESPONSE,
+    fromName: pixName,
+    to: email,
+    subject: 'Récupération de votre compte Pix',
+    template: mailer.accountRecoveryTemplateId,
+    variables,
+  });
+}
+
 module.exports = {
   sendAccountCreationEmail,
   sendCertificationResultEmail,
@@ -321,4 +345,5 @@ module.exports = {
   sendScoOrganizationInvitationEmail,
   sendResetPasswordDemandEmail,
   notifyEmailChange,
+  sendAccountRecoveryEmail,
 };
