@@ -73,8 +73,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
 
           it('returns schooling registrations for each line using the CSV column', () => {
             const input = `${schoolingRegistrationCsvColumns}
-            123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
-            0123456789F;O-Ren;;;Ishii;Cottonmouth;2;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;M;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
+            0123456789F;O-Ren;;;Ishii;Cottonmouth;f;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
             `;
             const organizationId = 789;
             const encodedInput = iconv.encode(input, 'utf8');
@@ -121,7 +121,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
 
         context('when csv does not have \'Sex code\' column', () => {
 
-          const COL_TO_REMOVE = 'Code sexe';
+          const COL_TO_REMOVE = 'Sexe*';
           const schoolingRegistrationCsvColumnsWithoutSexCode = new SchoolingRegistrationColumns(i18n).columns.map((column) => column.label).filter((col) => col !== COL_TO_REMOVE).join(';');
 
           it('returns a schooling registration for each line', () => {

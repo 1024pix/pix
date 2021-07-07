@@ -83,7 +83,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
         '"Troisième prénom";' +
         '"Nom de famille*";' +
         '"Nom d\'usage";' +
-        '"Code sexe";' +
+        '"Sexe*";' +
         '"Date de naissance (jj/mm/aaaa)*";' +
         '"Code commune naissance**";' +
         '"Libellé commune naissance**";' +
