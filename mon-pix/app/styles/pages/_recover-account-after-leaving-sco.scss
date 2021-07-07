@@ -19,14 +19,12 @@
   justify-content: center;
   align-items: center;
   min-height: 80vh;
-  padding: 8px;
 
   &__image {
     display: none;
 
     @include device-is('desktop') {
       display: flex;
-      justify-content: center;
       width: 400px;
       margin-right: 30px;
 
