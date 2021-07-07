@@ -5,7 +5,7 @@ const {
   domainBuilder,
 } = require('../../../test-helper');
 
-const accountRecoveryController = require('../../../../lib/application/account-recovery/account-recovery-controller');
+const accountRecoveryController = require('../../../../lib/application/account-recoveries/account-recovery-controller');
 const usecases = require('../../../../lib/domain/usecases');
 
 describe('Unit | Controller | account-recovery-controller', () => {
@@ -21,7 +21,7 @@ describe('Unit | Controller | account-recovery-controller', () => {
         payload: {
           data: {
             attributes: {
-              userId,
+              'user-id': userId,
               email: newEmail,
             },
           },
