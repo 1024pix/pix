@@ -39,6 +39,10 @@
 
   &__not-found-error {
     margin-top: 20px;
+
+    a {
+      color: $communication-dark;
+    }
   }
 
   button[type="submit"] {
