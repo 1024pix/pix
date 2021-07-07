@@ -26,6 +26,7 @@ module.exports = async function checkScoAccountRecovery({
   const user = await userRepository.get(userId);
 
   return new StudentInformationForAccountRecovery({
+    userId,
     firstName: user.firstName,
     lastName: user.lastName,
     username: user.username,
