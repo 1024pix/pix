@@ -80,6 +80,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
 
         // then
         const expectedResult = {
+          userId: 9,
           firstName: 'Nanou',
           lastName: 'Monchose',
           username: 'nanou.monchose0705',
@@ -158,6 +159,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
 
           // then
           const expectedResult = {
+            userId: 9,
             firstName: 'Nanou',
             lastName: 'Monchose',
             username: 'nanou.monchose0705',
@@ -247,6 +249,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
 
           // then
           const expectedResult = {
+            userId: 9,
             firstName: 'Nanou',
             lastName: 'Monchose',
             username: 'nanou.monchose0705',
