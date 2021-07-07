@@ -1000,7 +1000,7 @@
             "cancel": "Annuler"
           },
           "error":  {
-            "empty-email": "Le champ email est obligatoire.",
+            "empty-email": "Le champ adresse e-mail est obligatoire.",
             "wrong-email-format": "Votre adresse e-mail n’est pas valide.",
             "email-already-exist": {
               "existing-email": "Vous possédez déjà cette adresse e-mail. Si elle est valide,",
