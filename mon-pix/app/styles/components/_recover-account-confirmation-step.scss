@@ -9,20 +9,15 @@
   height: 65px;
   max-width: 400px;
   padding: 12px 20px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: $grey-70;
 
   & > div:first-of-type {
     color: $grey-70;
     font-family: $font-roboto;
-    font-size: 1.167rem;
-    margin-bottom: 4px;
-  }
-}
-
-.recover-account-confirmation-step__actions {
-  display: flex;
-
-  &--cancel {
-    margin-right: 20px;
+    font-size: 0.875rem;
+    margin-bottom: 6px;
+    font-weight: normal;
   }
 }

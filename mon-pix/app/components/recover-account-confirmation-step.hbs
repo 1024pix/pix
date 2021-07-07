@@ -1,52 +1,58 @@
 <h1 class="recover-account-after-leaving-sco-content__title">{{t 'pages.recover-account-after-leaving-sco.confirmation-step.good-news' firstName=@studentInformationForAccountRecovery.firstName }} </h1>
-<p class="recover-account-after-leaving-sco-content__information-text">{{t 'pages.recover-account-after-leaving-sco.confirmation-step.found-account' }}</p>
-<p class="recover-account-after-leaving-sco-content__information-text">
-  {{t 'pages.recover-account-after-leaving-sco.confirmation-step.contact-support' }}
-  <a href="{{t 'pages.recover-account-after-leaving-sco.contact-support.link-url'}}"
-    target="_blank"
-    rel="noopener noreferrer">
-      {{t 'pages.recover-account-after-leaving-sco.contact-support.link-text'}}
-  </a>
-</p>
 
-<ul class="recover-account-confirmation-step-account-information">
-  <li class="recover-account-confirmation-step-account-information__field">
-    <div>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.first-name' }}</div>
-    <div>{{@studentInformationForAccountRecovery.firstName}}</div>
-  </li>
+<div class="recover-account-after-leaving-sco-content__step--content">
+  <p class="recover-account-after-leaving-sco-content__information-text">{{t 'pages.recover-account-after-leaving-sco.confirmation-step.found-account' }}</p>
 
-  <li class="recover-account-confirmation-step-account-information__field">
-    <div>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.last-name' }}</div>
-    <div>{{@studentInformationForAccountRecovery.lastName}}</div>
-  </li>
+  <p class="recover-account-after-leaving-sco-content__information-text--details">
+    {{t 'pages.recover-account-after-leaving-sco.confirmation-step.contact-support' }}
+    <a href="{{t 'pages.recover-account-after-leaving-sco.contact-support.link-url'}}"
+      target="_blank"
+      rel="noopener noreferrer">
+        {{t 'pages.recover-account-after-leaving-sco.contact-support.link-text'}}
+    </a>
+  </p>
 
-{{#if @studentInformationForAccountRecovery.username}}
-  <li class="recover-account-confirmation-step-account-information__field">
-    <div>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.username' }}</div>
-    <div>{{@studentInformationForAccountRecovery.username}}</div>
-  </li>
-{{/if}}
+  <ul class="recover-account-confirmation-step-account-information">
+    <li class="recover-account-confirmation-step-account-information__field">
+      <div>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.first-name' }}</div>
+      <div>{{@studentInformationForAccountRecovery.firstName}}</div>
+    </li>
 
-  <li class="recover-account-confirmation-step-account-information__field">
-    <div>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.latest-organization-name' }}</div>
-    <div>{{@studentInformationForAccountRecovery.latestOrganizationName}}</div>
-  </li>
-</ul>
+    <li class="recover-account-confirmation-step-account-information__field">
+      <div>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.last-name' }}</div>
+      <div>{{@studentInformationForAccountRecovery.lastName}}</div>
+    </li>
 
-<p>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.certify-account' }}</p>
+  {{#if @studentInformationForAccountRecovery.username}}
+    <li class="recover-account-confirmation-step-account-information__field">
+      <div>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.username' }}</div>
+      <div>{{@studentInformationForAccountRecovery.username}}</div>
+    </li>
+  {{/if}}
 
-<div class="recover-account-confirmation-step__actions">
-  <PixButton
-    @isBorderVisible={{true}}
-    @triggerAction={{@cancelAccountRecovery}}
-    @backgroundColor="transparent-light"
-    class="recover-account-confirmation-step__actions--cancel">
-    {{t 'pages.recover-account-after-leaving-sco.confirmation-step.buttons.cancel' }}
-  </PixButton>
-  <PixButton
-    @isBorderVisible={{true}}
-    @triggerAction={{@continueAccountRecoveryBackupEmailConfirmation}}
-    @backgroundColor="red">
-    {{t 'pages.recover-account-after-leaving-sco.confirmation-step.buttons.confirm' }}
-  </PixButton>
+    <li class="recover-account-confirmation-step-account-information__field">
+      <div>{{t 'pages.recover-account-after-leaving-sco.confirmation-step.fields.latest-organization-name' }}</div>
+      <div>{{@studentInformationForAccountRecovery.latestOrganizationName}}</div>
+    </li>
+  </ul>
+
+  <p class="recover-account-after-leaving-sco-content__information-text">
+    {{t 'pages.recover-account-after-leaving-sco.confirmation-step.certify-account' }}
+  </p>
+
+  <div class="recover-account-after-leaving-sco-content__actions">
+    <PixButton
+      @isBorderVisible={{true}}
+      @triggerAction={{@cancelAccountRecovery}}
+      @backgroundColor="transparent-light"
+      class="recover-account-confirmation-step__actions--cancel">
+      {{t 'pages.recover-account-after-leaving-sco.confirmation-step.buttons.cancel' }}
+    </PixButton>
+    <PixButton
+      @isBorderVisible={{true}}
+      @triggerAction={{@continueAccountRecoveryBackupEmailConfirmation}}
+      @backgroundColor="red">
+      {{t 'pages.recover-account-after-leaving-sco.confirmation-step.buttons.confirm' }}
+    </PixButton>
+  </div>
 </div>

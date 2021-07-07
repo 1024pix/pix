@@ -1,10 +1,16 @@
-<h1>{{t 'pages.recover-account-after-leaving-sco.conflict.found-you-but' firstName=@firstName}}</h1>
-<p class="recover-account-after-leaving-sco-content__information-text">{{t 'pages.recover-account-after-leaving-sco.conflict.precaution'}}</p>
-<p class="recover-account-after-leaving-sco-content__information-text">
-  <a href="{{t 'pages.recover-account-after-leaving-sco.conflict.support.url'}}"
-    target="_blank"
-    rel="noopener noreferrer">
-      {{t 'pages.recover-account-after-leaving-sco.conflict.support.url-text'}}
-  </a>
-  {{t 'pages.recover-account-after-leaving-sco.conflict.support.recover'}}
-</p>
+<h1 class="recover-account-after-leaving-sco-content__title">
+  {{t 'pages.recover-account-after-leaving-sco.conflict.found-you-but' firstName=@firstName}}
+</h1>
+
+<div class="recover-account-after-leaving-sco-content__step--content">
+  <p class="recover-account-after-leaving-sco-content__information-text">{{t 'pages.recover-account-after-leaving-sco.conflict.precaution'}}</p>
+
+  <p class="recover-account-after-leaving-sco-content__information-text--details">
+    <a href="{{t 'pages.recover-account-after-leaving-sco.conflict.support.url'}}"
+      target="_blank"
+      rel="noopener noreferrer">
+        {{t 'pages.recover-account-after-leaving-sco.conflict.support.url-text'}}
+    </a>
+    {{t 'pages.recover-account-after-leaving-sco.conflict.support.recover'}}
+  </p>
+</div>

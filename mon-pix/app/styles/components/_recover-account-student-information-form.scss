@@ -2,18 +2,46 @@
   position: relative;
 
   &__fields {
-    max-width: 600px;
+    max-width: 400px;
   }
 
   &__tooltip {
-    position: absolute;
-    left: calc(600px - 16px - 150px);
-    z-index: 100;
-    min-width: 300px;
-    color: $communication-dark;
+    display: none;
 
-    em {
-      font-weight: bold;
+    @include device-is('desktop') {
+      display: block;
+      position: absolute;
+      left: calc(400px - 16px - 150px);
+      z-index: 100;
+      min-width: 300px;
+      color: $communication-dark;
+
+      span {
+        padding: 20px;
+      }
+
+      strong {
+        font-weight: bold;
+      }
+
+      p {
+        margin: 0;
+        margin-top: 12px;
+      }
+    }
+  }
+
+  &__tooltip--for-small-devices {
+    display: block;
+    font-size: 0.875rem;
+    color: $grey-90;
+
+    strong {
+      font-weight: normal;
+    }
+
+    @include device-is('desktop') {
+      display: none;
     }
   }
 
@@ -43,9 +71,5 @@
     a {
       color: $communication-dark;
     }
-  }
-
-  button[type="submit"] {
-    margin-top: 32px;
   }
 }

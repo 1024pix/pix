@@ -35,26 +35,59 @@
   }
 
   &__step {
+    padding: 30px;
+
+    @include device-is('tablet') {
+      padding: 60px;
+      width: 600px;
+    }
+
     @include device-is('desktop') {
-      max-width: 800px;
+      padding: 0;
+    }
+
+    &--content {
+      max-width: 450px;
     }
   }
-}
 
-.recover-account-after-leaving-sco-content__title {
-  color: $grey-90;
-  font-family: $font-open-sans;
-  font-size: 2rem;
-  line-height: 32px;
-  margin-bottom: 32px;
-  font-weight: 400;
-}
+  &__title {
+    color: $grey-90;
+    font-family: $font-open-sans;
+    font-size: 1.5rem;
+    line-height: 32px;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
 
-.recover-account-after-leaving-sco-content__information-text {
-  color: $grey-90;
-  font-family: $font-roboto;
+  &__information-text {
+    color: $grey-90;
+    font-family: $font-roboto;
+    margin: 0;
 
-  a {
-    color: $communication-dark;
+    a {
+      color: $communication-dark;
+    }
+  }
+
+  &__information-text--details {
+    color: $grey-90;
+    font-family: $font-roboto;
+    font-size: 0.875rem;
+    margin-top: 30px;
+    margin-bottom: 24px;
+
+    a {
+      color: $communication-dark;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    margin-top: 32px;
+
+    button:first-child {
+      margin-right: 32px;
+    }
   }
 }
