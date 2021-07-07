@@ -25,7 +25,7 @@ Fonctionnalité: Gestion des Campagnes
     Et je vois que le sujet "Capitales" est "Fortement recommandé"
     Et je vois que le sujet "Philosophes" est "Assez recommandé"
     Lorsque je retourne au détail de la campagne
-    Et je clique sur "Résultats collectifs"
+    Et je clique sur "Résultats (1)"
     Alors je vois la moyenne des résultats à 50%
     Lorsque je clique sur "Analyse"
     Alors je vois 2 sujets
@@ -63,21 +63,25 @@ Fonctionnalité: Gestion des Campagnes
   Scénario: J'archive et je désarchive une campagne
     Étant donné que je suis connecté à Pix Orga
     Et je clique sur "Campagne du Mur"
+    Et je clique sur "Paramètres"
     Lorsque je clique sur "Archiver"
-    Et que je reviens en arrière
+    Et que je clique sur "Campagnes"
     Et que je clique sur "Archivées"
     Alors je vois 1 campagne
     Lorsque je clique sur "Campagne du Mur"
+    Et je clique sur "Paramètres"
     Et que je clique sur "Désarchiver la campagne"
-    Et que je reviens en arrière
+    Et que je clique sur "Campagnes"
     Et que je clique sur "Archivées"
     Alors je vois 0 campagne
-
+  
   Scénario: Je modifie une campagne
     Étant donné que je suis connecté à Pix Orga
     Et je clique sur "Campagne du Mur"
+    Et je clique sur "Paramètres"
     Lorsque je clique sur "Modifier"
     Et que je saisis "Parcours pour les marcheurs blancs" dans le champ "Titre du parcours"
     Et que je clique sur "Modifier"
+    Et que je clique sur "Paramètres"
     Alors je vois le détail de la campagne "Campagne du Mur"
     Et je vois "Parcours pour les marcheurs blancs" comme "Titre du parcours"
