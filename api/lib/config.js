@@ -78,6 +78,7 @@ module.exports = (function() {
           passwordResetTemplateId: process.env.SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID,
           certificationResultTemplateId: process.env.SENDINBLUE_CERTIFICATION_RESULT_TEMPLATE_ID,
           emailChangeTemplateId: process.env.SENDINBLUE_EMAIL_CHANGE_TEMPLATE_ID,
+          accountRecoveryTemplateId: process.env.SENDINGBLUE_ACCOUNT_RECOVERY_TEMPLATE_ID,
         },
       },
     },
