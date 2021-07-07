@@ -6,6 +6,12 @@ class DomainError extends Error {
   }
 }
 
+class AccountRecoveryDemandNotCreatedError extends DomainError {
+  constructor(message = 'La demande de récupération de compte n\'a pas pu être générée.') {
+    super(message);
+  }
+}
+
 class TargetProfileCannotBeCreated extends DomainError {
   constructor(message = 'Erreur lors de la création du profil cible.') {
     super(message);
@@ -850,6 +856,7 @@ class InvalidExternalAPIResponseError extends DomainError {
 }
 
 module.exports = {
+  AccountRecoveryDemandNotCreatedError,
   AlreadyExistingEntityError,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingMembershipError,
