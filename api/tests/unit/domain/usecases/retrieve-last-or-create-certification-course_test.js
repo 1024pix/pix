@@ -254,7 +254,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               _birthdate: foundCertificationCandidate.birthdate,
               _birthplace: foundCertificationCandidate.birthCity,
               _externalId: foundCertificationCandidate.externalId,
-              isV2Certification: true,
+              _isV2Certification: true,
             };
 
             const savedCertificationChallenge1 = { id: 'savedCertificationChallenge1' };
