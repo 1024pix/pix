@@ -198,7 +198,7 @@ describe('Integration | Repository | Certification Course', function() {
         expect(actualCertificationCourse.toDTO().birthdate).to.equal(expectedCertificationCourse.birthdate);
         expect(actualCertificationCourse.toDTO().birthplace).to.equal(expectedCertificationCourse.birthplace);
         expect(actualCertificationCourse.sessionId).to.equal(sessionId);
-        expect(actualCertificationCourse.isPublished).to.equal(expectedCertificationCourse.isPublished);
+        expect(actualCertificationCourse.isPublished()).to.equal(expectedCertificationCourse.isPublished);
         expect(actualCertificationCourse.certificationIssueReports[0].description).to.equal(description);
       });
 

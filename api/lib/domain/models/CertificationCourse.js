@@ -40,7 +40,7 @@ class CertificationCourse {
     this._hasSeenEndTestScreen = hasSeenEndTestScreen;
     this._createdAt = createdAt;
     this._completedAt = completedAt;
-    this.isPublished = isPublished;
+    this._isPublished = isPublished;
     this.isV2Certification = isV2Certification;
     this.verificationCode = verificationCode;
     this.assessment = assessment;
@@ -138,7 +138,7 @@ class CertificationCourse {
       hasSeenEndTestScreen: this._hasSeenEndTestScreen,
       createdAt: this._createdAt,
       completedAt: this._completedAt,
-      isPublished: this.isPublished,
+      isPublished: this._isPublished,
       isV2Certification: this.isV2Certification,
       verificationCode: this.verificationCode,
       assessment: this.assessment,
@@ -153,6 +153,10 @@ class CertificationCourse {
 
   getId() {
     return this._id;
+  }
+
+  isPublished() {
+    return this._isPublished;
   }
 }
 
