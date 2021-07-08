@@ -349,13 +349,13 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should prevent other values to be updated', async () => {
       // given
-      certificationCourse.isV2Certification = false;
+      certificationCourse._isV2Certification = false;
 
       // when
       const certificationCourseUpdated = await certificationCourseRepository.update(certificationCourse);
 
       // then
-      expect(certificationCourseUpdated.isV2Certification).to.be.true;
+      expect(certificationCourseUpdated.toDTO().isV2Certification).to.be.true;
     });
 
     it('should return a NotFoundError when ID doesnt exist', function() {
