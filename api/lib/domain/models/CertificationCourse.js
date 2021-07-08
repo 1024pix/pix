@@ -43,7 +43,7 @@ class CertificationCourse {
     this._isPublished = isPublished;
     this._isV2Certification = isV2Certification;
     this._verificationCode = verificationCode;
-    this.assessment = assessment;
+    this._assessment = assessment;
     this.challenges = challenges;
     this.certificationIssueReports = certificationIssueReports;
     this.userId = userId;
@@ -141,7 +141,7 @@ class CertificationCourse {
       isPublished: this._isPublished,
       isV2Certification: this._isV2Certification,
       verificationCode: this._verificationCode,
-      assessment: this.assessment,
+      assessment: this._assessment,
       challenges: this.challenges,
       certificationIssueReports: this.certificationIssueReports, // TODO : this.certificationIssueReports.toDTO()
       userId: this.userId,

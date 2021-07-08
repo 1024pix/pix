@@ -53,7 +53,7 @@ describe('Integration | Repository | Certification Course', function() {
       const retrievedCertificationCourse = await certificationCourseRepository.get(savedCertificationCourse.getId());
       const fieldsToOmitInCertificationCourse = [
         '_id',
-        'assessment',
+        '_assessment',
         'challenges',
         '_completedAt',
         '_createdAt',
@@ -227,7 +227,7 @@ describe('Integration | Repository | Certification Course', function() {
           const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
           // then
-          expect(thisCertificationCourse.assessment.id).to.equal(assessmentId);
+          expect(thisCertificationCourse.toDTO().assessment.id).to.equal(assessmentId);
         });
 
       });
@@ -413,7 +413,7 @@ describe('Integration | Repository | Certification Course', function() {
     });
 
     function _cleanCertificationCourse(certificationCourse) {
-      return _.omit(certificationCourse, 'certificationIssueReports', 'assessment', 'challenges', 'updatedAt');
+      return _.omit(certificationCourse, 'certificationIssueReports', '_assessment', 'challenges', 'updatedAt');
     }
     it('should returns all certification courses id with given sessionId', async () => {
       // when
@@ -529,5 +529,5 @@ describe('Integration | Repository | Certification Course', function() {
 });
 
 function _cleanCertificationCourse(certificationCourse) {
-  return _.omit(certificationCourse, 'certificationIssueReports', 'assessment', 'challenges', 'updatedAt');
+  return _.omit(certificationCourse, 'certificationIssueReports', '_assessment', 'challenges', 'updatedAt');
 }
