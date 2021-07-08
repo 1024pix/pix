@@ -18,13 +18,13 @@ module.exports = {
     const options = { transacting: domainTransaction.knexTransaction };
     const savedCertificationCourseDTO = await new CertificationCourseBookshelf(certificationCourseToSaveDTO).save(null, options);
 
-    const savedChallenges = await bluebird.mapSeries(certificationCourse.challenges, (certificationChallenge) => {
+    const savedChallenges = await bluebird.mapSeries(certificationCourse.toDTO().challenges, (certificationChallenge) => {
       const certificationChallengeWithCourseId = { ...certificationChallenge, courseId: savedCertificationCourseDTO.id };
       return certificationChallengeRepository.save({ certificationChallenge: certificationChallengeWithCourseId, domainTransaction });
     });
 
     const savedCertificationCourse = toDomain(savedCertificationCourseDTO);
-    savedCertificationCourse.challenges = savedChallenges;
+    savedCertificationCourse._challenges = savedChallenges;
     return savedCertificationCourse;
   },
 

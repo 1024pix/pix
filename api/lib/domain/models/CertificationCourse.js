@@ -44,7 +44,7 @@ class CertificationCourse {
     this._isV2Certification = isV2Certification;
     this._verificationCode = verificationCode;
     this._assessment = assessment;
-    this.challenges = challenges;
+    this._challenges = challenges;
     this.certificationIssueReports = certificationIssueReports;
     this.userId = userId;
     this.sessionId = sessionId;
@@ -142,7 +142,7 @@ class CertificationCourse {
       isV2Certification: this._isV2Certification,
       verificationCode: this._verificationCode,
       assessment: this._assessment,
-      challenges: this.challenges,
+      challenges: this._challenges,
       certificationIssueReports: this.certificationIssueReports, // TODO : this.certificationIssueReports.toDTO()
       userId: this.userId,
       sessionId: this.sessionId,
@@ -157,6 +157,13 @@ class CertificationCourse {
 
   isPublished() {
     return this._isPublished;
+  }
+
+  withAssessment(assessment) {
+    return new CertificationCourse({
+      ...this.toDTO(),
+      assessment: assessment,
+    });
   }
 }
 
