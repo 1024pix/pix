@@ -7,6 +7,7 @@ module.exports = function buildAccountRecoveryDemand({
   newEmail = 'philipe@example.net',
   temporaryKey = 'OWIxZGViNGQtM2I3ZC00YmFkLTliZGQtMmIwZDdiM2RjYjZk',
   used = false,
+  createdAt,
 } = {}) {
 
   const values = {
@@ -16,6 +17,7 @@ module.exports = function buildAccountRecoveryDemand({
     newEmail,
     temporaryKey,
     used,
+    createdAt,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'account-recovery-demands',
