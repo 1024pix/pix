@@ -260,6 +260,7 @@ module.exports = injectDependencies({
   getShareableCertificate: require('./certificate/get-shareable-certificate'),
   getStageDetails: require('./get-stage-details'),
   getTargetProfileDetails: require('./get-target-profile-details'),
+  getUserByAccountRecoveryDemand: require('./account-recovery/get-user-by-account-recovery-demand'),
   getUserByResetPasswordDemand: require('./get-user-by-reset-password-demand'),
   getUserCampaignAssessmentResult: require('./get-user-campaign-assessment-result'),
   getUserCampaignParticipationToCampaign: require('./get-user-campaign-participation-to-campaign'),
