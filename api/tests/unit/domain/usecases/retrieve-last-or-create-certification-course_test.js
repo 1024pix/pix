@@ -297,11 +297,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               // then
               expect(result).to.deep.equal({
                 created: true,
-                certificationCourse: {
-                  ...savedCertificationCourse,
+                certificationCourse: new CertificationCourse({
+                  ...savedCertificationCourse.toDTO(),
                   assessment: savedAssessment,
                   challenges: [savedCertificationChallenge1, savedCertificationChallenge2],
-                },
+                }),
               });
             });
 

@@ -54,7 +54,7 @@ describe('Integration | Repository | Certification Course', function() {
       const fieldsToOmitInCertificationCourse = [
         '_id',
         '_assessment',
-        'challenges',
+        '_challenges',
         '_completedAt',
         '_createdAt',
         'certificationIssueReports',
@@ -67,8 +67,8 @@ describe('Integration | Repository | Certification Course', function() {
       );
 
       const fieldsToOmitInCertificationChallenge = [ 'id', 'courseId' ];
-      const certificationChallengeToBeSaved = _.map(certificationCourse.challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
-      const savedCertificationChallenge = _.map(savedCertificationCourse.challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
+      const certificationChallengeToBeSaved = _.map(certificationCourse.toDTO().challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
+      const savedCertificationChallenge = _.map(savedCertificationCourse.toDTO().challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
       expect(savedCertificationChallenge).to.deep.equal(certificationChallengeToBeSaved);
 
       expect(
@@ -207,7 +207,7 @@ describe('Integration | Repository | Certification Course', function() {
         const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
         // then
-        expect(thisCertificationCourse.challenges.length).to.equal(2);
+        expect(thisCertificationCourse.toDTO().challenges.length).to.equal(2);
       });
 
       context('When the certification course has one assessment', () => {
@@ -413,7 +413,7 @@ describe('Integration | Repository | Certification Course', function() {
     });
 
     function _cleanCertificationCourse(certificationCourse) {
-      return _.omit(certificationCourse, 'certificationIssueReports', '_assessment', 'challenges', 'updatedAt');
+      return _.omit(certificationCourse, 'certificationIssueReports', '_assessment', '_challenges', 'updatedAt');
     }
     it('should returns all certification courses id with given sessionId', async () => {
       // when
@@ -529,5 +529,5 @@ describe('Integration | Repository | Certification Course', function() {
 });
 
 function _cleanCertificationCourse(certificationCourse) {
-  return _.omit(certificationCourse, 'certificationIssueReports', '_assessment', 'challenges', 'updatedAt');
+  return _.omit(certificationCourse, 'certificationIssueReports', '_assessment', '_challenges', 'updatedAt');
 }
