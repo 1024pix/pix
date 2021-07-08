@@ -38,7 +38,7 @@ class CertificationCourse {
     this._sex = sex;
     this._externalId = externalId;
     this._hasSeenEndTestScreen = hasSeenEndTestScreen;
-    this.createdAt = createdAt;
+    this._createdAt = createdAt;
     this.completedAt = completedAt;
     this.isPublished = isPublished;
     this.isV2Certification = isV2Certification;
@@ -136,7 +136,7 @@ class CertificationCourse {
       sex: this._sex,
       externalId: this._externalId,
       hasSeenEndTestScreen: this._hasSeenEndTestScreen,
-      createdAt: this.createdAt,
+      createdAt: this._createdAt,
       completedAt: this.completedAt,
       isPublished: this.isPublished,
       isV2Certification: this.isV2Certification,
