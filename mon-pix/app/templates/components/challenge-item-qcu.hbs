@@ -9,7 +9,7 @@
   {{/if}}
 
   {{#if this.displayChallenge}}
-    <form {{on "submit" this.validateAnswer}} class="rounded-panel">
+    <form {{on "submit" this.validateAnswer}} class="rounded-panel rounded-panel--no-margin-bottom">
       <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 
       <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}} {{if this.hasChallengeTimedOut 'challenge-response--locked'}}">

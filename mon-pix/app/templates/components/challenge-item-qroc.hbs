@@ -1,6 +1,8 @@
-<article class="challenge-item"
+<article class="rounded-panel rounded-panel--no-margin-bottom challenge-item"
          data-challenge-id="{{@challenge.id}}"
-         {{will-destroy this.removeEmbedAutoEventListener}}>
+         {{will-destroy this.removeEmbedAutoEventListener}}
+         {{on 'mouseenter' this.hideOutOfFocusBorder}}
+         {{on 'mouseleave' this.showOutOfFocusBorder}}>
   {{#if this.isTimedChallengeWithoutAnswer}}
     {{#unless this.hasUserConfirmedWarning}}
       <TimedChallengeInstructions @hasUserConfirmedWarning={{this.setUserConfirmation}} @time={{@challenge.timer}} />
@@ -14,10 +16,10 @@
   {{/if}}
 
   {{#if this.displayChallenge}}
-    <div class="challenge-item__container">
+    <div class="challenge-item__container {{if this.hasFocusedOutOfChallenge "challenge-item__container--focused"}}">
       <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 
-      <form {{on "submit" this.validateAnswer}} class="rounded-panel">
+      <form {{on "submit" this.validateAnswer}}>
         {{#if this.showProposal}}
           <div class="rounded-panel__row challenge-response
             {{if @answer 'challenge-response--locked'}}
@@ -116,8 +118,18 @@
           </div>
         {{/if}}
 
-        {{#if this.hasFocusedOut}}
+        {{#if this.hasFocusedOutOfChallenge}}
+          {{#unless this.hasFocusedOutOfWindow}}
+            <div class="alert alert--info" role="alert">
+              <FaIcon @icon="info-circle" class="challenge-alert__icon"/>
+              {{t 'pages.challenge.is-focused-challenge'}}
+            </div>
+          {{/unless}}
+        {{/if}}
+
+        {{#if this.hasFocusedOutOfWindow}}
           <div class="alert alert--warning" role="alert">
+            <FaIcon @icon="exclamation-triangle" class="challenge-alert__icon"/>
             {{t 'pages.challenge.has-focused-out'}}
           </div>
         {{/if}}

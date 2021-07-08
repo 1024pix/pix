@@ -1,8 +1,11 @@
 {{page-title this.pageTitle}}
 
 <div class="background-banner-wrapper assessment-challenge">
+  {{#if this.isFocusedChallengeAndUserHasFocusedOut}}
+    <div class="assessment-challenge__focused-out-overlay"></div>
+  {{/if}}
 
-  <div class="assessment-challenge__assessment-banner">
+  <div class="assessment-challenge__banner">
     {{#if @model.assessment.isCertification}}
       <CertificationBanner @certificationNumber={{@model.assessment.certificationNumber}} @certification={{@model.assessment.certificationCourse}} />
     {{else}}
@@ -12,12 +15,14 @@
 
   <main class="assessment-challenge__content rounded-panel--over-background-banner">
     <ProgressBar @assessment={{@model.assessment}} @answerId={{@model.answer.id}}/>
-      {{component (get-challenge-component-class @model.challenge)
+    {{component (get-challenge-component-class @model.challenge)
                 challenge=@model.challenge
                 answer=@model.answer
                 assessment=@model.assessment
                 timeoutChallenge=this.timeoutChallenge
                 finishChallenge=this.finishChallenge
+                focusedIn=this.focusedIn
+                focusedOut=this.focusedOut
                 answerValidated=(route-action "saveAnswerAndNavigate")
                 resumeAssessment=(route-action "resumeAssessment")
     }}

@@ -441,7 +441,8 @@
       "illustration": {
         "placeholder": "Image loading"
       },
-        "has-focused-out": "We noticed that you switched page/tab. This question does not require some research. You can still answer the question but know that in certification, your answer would be invalidated.",
+      "is-focused-challenge": "",
+      "has-focused-out": "",
       "parts": {
         "answer-input": "Your answer",
         "feedback": "Report a problem",
@@ -476,6 +477,10 @@
           "description": "Pix lets you choose which format of file to download. If you do not know which option to use, select the default option. This is the file format that is the most commonly used.",
           "file-type": "file .{fileExtension}",
           "help": "Need help to '<a href=\"https://support.pix.fr/fr/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\">'open, edit or find this file'</a>'?"
+        },
+        "tooltip": {
+          "regular": "",
+          "focus": ""
         }
       },
       "timed": {
@@ -695,7 +700,7 @@
       "first-title": "Before starting"
     },
     "focused-challenge-instructions": {
-      "action": "",
+      "action": "Start",
       "primary": "",
       "secondary": ""
     },
