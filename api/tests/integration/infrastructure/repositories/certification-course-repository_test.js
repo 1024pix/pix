@@ -56,7 +56,7 @@ describe('Integration | Repository | Certification Course', function() {
         'assessment',
         'challenges',
         'completedAt',
-        'createdAt',
+        '_createdAt',
         'certificationIssueReports',
       ];
 
@@ -273,7 +273,7 @@ describe('Integration | Repository | Certification Course', function() {
       });
 
       // then
-      expect(certificationCourse.createdAt).to.deep.equal(createdAtLater);
+      expect(certificationCourse.toDTO().createdAt).to.deep.equal(createdAtLater);
     });
 
     it('should return null when no certification course found', async () => {
