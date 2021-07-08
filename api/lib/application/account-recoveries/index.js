@@ -28,7 +28,7 @@ exports.register = async function(server) {
             },
           }),
         },
-        notes: ['- Permet de faire une demande de réinitialisation ou d\'ajout de mot de passe pour récupérer son compte Pix.'],
+        notes: ['- Permet d\'envoyer un mail de demande d\'ajout de mot de passe pour récupérer son compte Pix.'],
         tags: ['api', 'account-recovery'],
       },
     },
