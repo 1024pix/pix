@@ -12,7 +12,7 @@ describe('Unit | Controller | account-recovery-controller', () => {
 
   describe('#sendEmailForAccountRecovery', () => {
 
-    it('should call sendEmailForAccountRecovery usecase', async () => {
+    it('should call sendEmailForAccountRecovery usecase and return 204', async () => {
       // given
       const userId = domainBuilder.buildUser({ id: 1 }).id;
       const newEmail = 'new_email@example.net';
@@ -34,9 +34,8 @@ describe('Unit | Controller | account-recovery-controller', () => {
       const response = await accountRecoveryController.sendEmailForAccountRecovery(request, hFake);
 
       // then
-      expect(usecases.sendEmailForAccountRecovery).to.have.been.calledOnce;
       expect(usecases.sendEmailForAccountRecovery).calledWith({ userId, email: newEmail });
-      expect(response.statusCode).to.equal(201);
+      expect(response.statusCode).to.equal(204);
     });
 
   });

@@ -8,7 +8,7 @@ module.exports = {
 
     await usecases.sendEmailForAccountRecovery({ userId, email });
 
-    return h.response({ data: { type: 'account-recovery-demands' } }).created();
+    return h.response().code(204);
   },
 
 };

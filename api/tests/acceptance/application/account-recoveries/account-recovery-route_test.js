@@ -9,7 +9,7 @@ describe('Acceptance | Route | Account-recovery', () => {
 
   describe('POST /api/account-recovery', () => {
 
-    it('should return 201 HTTP status code', async () => {
+    it('should return 204 HTTP status code', async () => {
       // given
       const server = await createServer();
       featureToggles.isScoAccountRecoveryEnabled = true;
@@ -35,7 +35,7 @@ describe('Acceptance | Route | Account-recovery', () => {
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(201);
+      expect(response.statusCode).to.equal(204);
     });
 
     it('should return 400 if email already exists', async () => {
