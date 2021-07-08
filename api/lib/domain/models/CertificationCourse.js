@@ -42,7 +42,7 @@ class CertificationCourse {
     this._completedAt = completedAt;
     this._isPublished = isPublished;
     this._isV2Certification = isV2Certification;
-    this.verificationCode = verificationCode;
+    this._verificationCode = verificationCode;
     this.assessment = assessment;
     this.challenges = challenges;
     this.certificationIssueReports = certificationIssueReports;
@@ -140,7 +140,7 @@ class CertificationCourse {
       completedAt: this._completedAt,
       isPublished: this._isPublished,
       isV2Certification: this._isV2Certification,
-      verificationCode: this.verificationCode,
+      verificationCode: this._verificationCode,
       assessment: this.assessment,
       challenges: this.challenges,
       certificationIssueReports: this.certificationIssueReports, // TODO : this.certificationIssueReports.toDTO()
