@@ -1,13 +1,13 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
-import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
-import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
-import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import fillInByLabel from '../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/sco-students | list-items', function(hooks) {
+module('Integration | Component | Student::Sco::List', function(hooks) {
 
   setupIntlRenderingTest(hooks);
 
@@ -17,7 +17,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
 
   test('it should show title of students page', async function(assert) {
     // when
-    await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @triggerFiltering={{noop}}/>`);
+    await render(hbs`<Student::Sco::List @onFilter={{noop}}/>`);
 
     // then
     assert.contains('Élèves');
@@ -28,7 +28,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     this.set('students', []);
 
     // when
-    await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
 
     // then
     assert.contains('Nom');
@@ -47,7 +47,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     this.set('students', students);
 
     // when
-    await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
 
     // then
     assert.dom('[aria-label="Élève"]').exists({ count: 2 });
@@ -59,7 +59,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
     this.set('students', students);
 
     // when
-    await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
 
     // then
     assert.contains('La Terreur');
@@ -75,7 +75,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
 
-      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
+      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
 
       // when
       await fillInByLabel('Entrer un nom', 'bob');
@@ -93,7 +93,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
 
-      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
+      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
 
       // when
       await fillInByLabel('Entrer un prénom', 'bob');
@@ -112,7 +112,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       this.set('students', []);
       this.set('connectionTypesOptions', [{ value: 'email', label: 'email' }]);
 
-      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}} @connectionTypesOptions={{connectionTypesOptions}} />`);
+      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{triggerFiltering}} @connectionTypesOptions={{connectionTypesOptions}} />`);
 
       // when
       await fillInByLabel('Rechercher par méthode de connexion', 'email');
@@ -136,7 +136,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           birthdate: '2010-01-01',
         }),
       ]);
-      return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
     });
 
     test('it should display dash for authentication method', async function(assert) {
@@ -163,11 +163,11 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           isAuthenticatedFromGar: false,
         }),
       ]);
-      return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
     });
     test('it should display the manage account entry menu', async function(assert) {
       // given
-      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
 
       // when
       await clickByLabel('Afficher les actions');
@@ -190,7 +190,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           isAuthenticatedFromGar: false,
         }),
       ]);
-      return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
     });
 
     test('it should display "Identifiant" as authentication method', async function(assert) {
@@ -216,7 +216,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           isAuthenticatedFromGar: false,
         }),
       ]);
-      return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
     });
 
     test('it should display "Adresse email" as authentication method', async function(assert) {
@@ -247,7 +247,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
 
     test('it should display "Mediacentre" as authentication method', async function(assert) {
       // when
-      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
 
       // then
       assert.dom('[aria-label="Élève"]').containsText('Mediacentre');
@@ -255,7 +255,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
 
     test('it should display the action menu', async function(assert) {
       // when
-      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
 
       // then
       assert.dom('[aria-label="Afficher les actions"]').exists();
@@ -286,7 +286,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           }
           this.owner.register('service:current-user', CurrentUserStub);
           this.set('importStudentsSpy', () => {});
-          return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+          return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
         });
 
         test('it should display import XML file button', async function(assert) {
@@ -319,7 +319,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           }
           this.set('importStudentsSpy', () => {});
           this.owner.register('service:current-user', CurrentUserStub);
-          return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+          return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
         });
 
         test('it should display import CSV file button', async function(assert) {
@@ -350,7 +350,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
 
           this.set('importStudentsSpy', () => {});
           this.owner.register('service:current-user', CurrentUserStub);
-          return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+          return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
         });
 
         test('it should still display import CSV file button', async function(assert) {
@@ -375,7 +375,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           isAdminInOrganization = false;
         }
         this.owner.register('service:current-user', CurrentUserStub);
-        return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+        return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
       });
 
       test('it should not display import button', async function(assert) {
