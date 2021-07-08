@@ -935,7 +935,6 @@
         },
         "form": {
           "tooltip": "<strong>Où trouver mon INE ?</strong> <p>Cet identifiant se trouve souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.</p>",
-          "tooltip-for-small-devices": "L'identifiant INE se trouve souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.",
           "ine-ina": "INE (Identifiant National Élève)",
           "last-name": "Nom",
           "first-name": "Prénom",
