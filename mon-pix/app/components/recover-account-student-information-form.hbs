@@ -22,13 +22,11 @@
           @text={{t 'pages.recover-account-after-leaving-sco.student-information.form.tooltip' htmlSafe=true}}
           @position='top-left'
           @isLight={{true}}
+          @isWide={{true}}
           aria-label={{t 'pages.recover-account-after-leaving-sco.student-information.form.tooltip' htmlSafe=true}}>
             <FaIcon @icon="question-circle" />
         </PixTooltip>
       </div>
-      <p class="recover-account-student-information-form__tooltip--for-small-devices">
-        {{t 'pages.recover-account-after-leaving-sco.student-information.form.tooltip-for-small-devices' htmlSafe=true}}
-      </p>
       <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.ine-ina'}}
                     @textfieldName="ineIna"
                     @inputBindingValue={{this.ineIna}}
