@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
-import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import fillInByLabel from '../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/sup-students | list-items', function(hooks) {
+module('Integration | Component | Student::Sup::List', function(hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function() {
@@ -15,7 +15,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
 
   test('it should show title of team page', async function(assert) {
     // when
-    await render(hbs`<Routes::Authenticated::SupStudents::ListItems @triggerFiltering={{noop}}/>`);
+    await render(hbs`<Student::Sup::List @onFilter={{noop}}/>`);
 
     // then
     assert.contains('Étudiants');
@@ -35,7 +35,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
 
     test('it should display download template button', async function(assert) {
       // when
-      await render(hbs`<Routes::Authenticated::SupStudents::ListItems @triggerFiltering={{noop}}/>`);
+      await render(hbs`<Student::Sup::List @onFilter={{noop}}/>`);
 
       // then
       assert.contains('Télécharger le modèle');
@@ -43,7 +43,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
 
     test('it displays the import button', async function(assert) {
       // when
-      await render(hbs`<Routes::Authenticated::SupStudents::ListItems @triggerFiltering={{noop}}/>`);
+      await render(hbs`<Student::Sup::List @onFilter={{noop}}/>`);
 
       // then
       assert.contains('Importer (.csv)');
@@ -60,7 +60,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
 
     test('it should not display download template button', async function(assert) {
       // when
-      await render(hbs`<Routes::Authenticated::SupStudents::ListItems @triggerFiltering={{noop}}/>`);
+      await render(hbs`<Student::Sup::List @onFilter={{noop}}/>`);
 
       // then
       assert.notContains('Télécharger le modèle');
@@ -68,7 +68,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
 
     test('it should not display import button', async function(assert) {
       // when
-      await render(hbs`<Routes::Authenticated::SupStudents::ListItems @triggerFiltering={{noop}}/>`);
+      await render(hbs`<Student::Sup::List @onFilter={{noop}}/>`);
 
       // then
       assert.notContains('Importer (.csv)');
@@ -80,7 +80,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
     this.set('students', []);
 
     // when
-    await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}}/>`);
 
     // then
     assert.contains('Numéro étudiant');
@@ -99,7 +99,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
     this.set('students', students);
 
     // when
-    await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}}/>`);
 
     // then
     assert.dom('[aria-label="Étudiant"]').exists({ count: 2 });
@@ -112,7 +112,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
     this.set('students', students);
 
     // when
-    await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
+    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}}/>`);
 
     // then
     assert.contains('LATERREURGIGI123');
@@ -128,7 +128,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       this.set('students', []);
 
       // when
-      await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
+      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
 
       await fillInByLabel('Entrer un nom', 'bob');
 
@@ -145,7 +145,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       this.set('students', []);
 
       // when
-      await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
+      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
 
       await fillInByLabel('Entrer un prénom', 'bob');
 
@@ -162,7 +162,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       this.set('students', []);
 
       // when
-      await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
+      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
 
       await fillInByLabel('Entrer un numéro étudiant', 'LATERREURGIGI123');
 
