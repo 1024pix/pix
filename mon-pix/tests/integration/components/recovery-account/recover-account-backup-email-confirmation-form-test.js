@@ -1,7 +1,9 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { contains } from '../../../helpers/contains';
 import { fillInByLabel } from '../../../helpers/fill-in-by-label';
@@ -49,6 +51,34 @@ describe('Integration | Component | recovery-account/recover-account-backup-emai
       expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.backup-email-confirmation.form.email'))).to.exist;
       expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.backup-email-confirmation.email-already-exist-for-account-message'))).to.not.exist;
 
+    });
+
+    it('should enable submission on backup email confirmation form', async function() {
+      // given
+      const email = 'Philipe@example.net';
+
+      const createRecordStub = sinon.stub();
+      class StoreStubService extends Service {
+        createRecord = createRecordStub;
+      }
+      this.owner.register('service:store', StoreStubService);
+      const submitBackupEmail = sinon.stub();
+      submitBackupEmail.resolves();
+      this.set('submitBackupEmail', submitBackupEmail);
+
+      await render(hbs`<RecoveryAccount::RecoverAccountBackupEmailConfirmationForm
+      @submitBackupEmail={{this.submitBackupEmail}}
+      />`);
+
+      // when
+      await fillInByLabel(this.intl.t('pages.recover-account-after-leaving-sco.backup-email-confirmation.form.email'), email);
+      await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.backup-email-confirmation.form.actions.submit'));
+
+      // then
+      sinon.assert.calledWithExactly(submitBackupEmail, {
+        userId: 1,
+        email,
+      });
     });
 
   });

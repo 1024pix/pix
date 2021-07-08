@@ -70,6 +70,29 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
     });
   });
 
+  context('#submitBackupEmail', () => {
+
+    context('when submitting recover account backup email and user id', function() {
+
+      it('should submit user information', async function() {
+      // given
+        const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
+        const userInformation = { userId: 1, email: 'new_email@example.net' };
+        const submitBackupEmailStub = sinon.stub();
+        const createRecord = sinon.stub().returns({ save: submitBackupEmailStub.resolves() });
+        const store = { createRecord };
+        controller.set('store', store);
+
+        // when
+        await controller.submitBackupEmail(userInformation);
+
+        // then
+        sinon.assert.calledWithExactly(createRecord, 'account-recovery-demand', userInformation);
+        sinon.assert.calledOnce(submitBackupEmailStub);
+      });
+    });
+  });
+
   context('#continueAccountRecoveryBackupEmailConfirmation', () => {
 
     context('when confirm recover account student information form', function() {
