@@ -6,7 +6,7 @@
          href="{{this.urlToDownloadCsvTemplate}}" target="_blank" rel="noopener noreferrer" download>
         {{t "pages.students-sup.actions.download-template"}}
       </a>
-      <FileUpload @name="file-upload" @for="students-file-upload" @accept=".csv" @multiple={{false}} @onfileadd={{@importStudents}}>
+      <FileUpload @name="file-upload" @for="students-file-upload" @accept=".csv" @multiple={{false}} @onfileadd={{@onImportStudents}}>
         <span class="button" role="button" tabindex="0">{{t "pages.students-sup.actions.import-file"}}</span>
       </FileUpload>
     </div>
@@ -30,21 +30,21 @@
             @value={{@studentNumberFilter}}
             @placeholder={{t "pages.students-sup.table.filter.student-number.label"}}
             @ariaLabel={{t "pages.students-sup.table.filter.student-number.aria-label"}}
-            @triggerFiltering={{@triggerFiltering}}
+            @triggerFiltering={{@onFilter}}
           />
           <Table::HeaderFilterInput
             @field="lastName"
             @value={{@lastNameFilter}}
             @placeholder={{t "pages.students-sup.table.filter.last-name.label"}}
             @ariaLabel={{t "pages.students-sup.table.filter.last-name.aria-label"}}
-            @triggerFiltering={{@triggerFiltering}}
+            @triggerFiltering={{@onFilter}}
           />
           <Table::HeaderFilterInput
             @field="firstName"
             @value={{@firstNameFilter}}
             @placeholder={{t "pages.students-sup.table.filter.first-name.label"}}
             @ariaLabel={{t "pages.students-sup.table.filter.first-name.aria-label"}}
-            @triggerFiltering={{@triggerFiltering}}
+            @triggerFiltering={{@onFilter}}
           />
           <Table::Header/>
           <Table::Header />

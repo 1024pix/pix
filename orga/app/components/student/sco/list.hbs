@@ -19,7 +19,7 @@
           {{t "pages.students-sco.actions.download-template"}}
         </a>
       {{/if}}
-      <FileUpload @name="file-upload" @for="students-file-upload" @accept={{this.acceptedFileType}} @multiple={{false}} @onfileadd={{@importStudents}}>
+      <FileUpload @name="file-upload" @for="students-file-upload" @accept={{this.acceptedFileType}} @multiple={{false}} @onfileadd={{@onImportStudents}}>
         <span class="button" role="button" tabindex="0">
           {{this.importButtonLabel}}
         </span>
@@ -45,21 +45,21 @@
             @value={{@lastNameFilter}}
             @placeholder={{t "pages.students-sco.table.filter.last-name.label"}}
             @ariaLabel={{t "pages.students-sco.table.filter.last-name.aria-label"}}
-            @triggerFiltering={{@triggerFiltering}}
+            @triggerFiltering={{@onFilter}}
           />
           <Table::HeaderFilterInput
             @field="firstName"
             @value={{@firstNameFilter}}
             @placeholder={{t "pages.students-sco.table.filter.first-name.label"}}
             @ariaLabel={{t "pages.students-sco.table.filter.first-name.aria-label"}}
-            @triggerFiltering={{@triggerFiltering}}
+            @triggerFiltering={{@onFilter}}
           />
           <Table::Header/>
           <Table::HeaderFilterSelect
             @field="connexionType"
             @options={{@connectionTypesOptions}}
             @selectedOption={{@connexionTypeFilter}}
-            @triggerFiltering={{@triggerFiltering}}
+            @triggerFiltering={{@onFilter}}
             @ariaLabel={{t "pages.students-sco.table.filter.login-method.aria-label"}}
             @emptyOptionLabel={{t "pages.students-sco.table.filter.login-method.empty-option"}}
           />
@@ -124,7 +124,7 @@
     @student={{this.student}}
     @display={{this.isShowingDissociateModal}}
     @close={{this.closeDissociateModal}}
-    @refreshModel={{@refreshModel}}
+    @refreshModel={{@onDissociateUser}}
   />
 </div>
 

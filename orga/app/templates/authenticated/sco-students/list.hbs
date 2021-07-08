@@ -1,14 +1,14 @@
 {{page-title (t 'pages.students-sco.title')}}
 <div class="list-students-page">
-  <Routes::Authenticated::ScoStudents::ListItems
+  <Student::Sco::List
     @students={{@model}}
     @isLoading={{this.isLoading}}
-    @importStudents={{this.importStudents}}
     @connectionTypesOptions={{this.connectionTypesOptions}}
-    @triggerFiltering={{this.triggerFiltering}}
     @lastNameFilter={{this.lastName}}
     @firstNameFilter={{this.firstName}}
     @connexionTypeFilter={{this.connexionType}}
-    @refreshModel={{this.refresh}}
+    @onFilter={{this.triggerFiltering}}
+    @onImportStudents={{this.importStudents}}
+    @onDissociateUser={{this.refresh}}
   />
 </div>
