@@ -55,7 +55,7 @@ describe('Integration | Repository | Certification Course', function() {
         '_id',
         'assessment',
         'challenges',
-        'completedAt',
+        '_completedAt',
         '_createdAt',
         'certificationIssueReports',
       ];
@@ -98,11 +98,12 @@ describe('Integration | Repository | Certification Course', function() {
     it('should update completedAt of the certificationCourse if one date is passed', async () => {
       // when
       const completionDate = new Date('2018-01-01T06:07:08Z');
+      // TODO : faire une méthode CertificationCourse::complete() ?
       const updatedCertificationCourse = await certificationCourseRepository.changeCompletionDate(courseId, completionDate);
 
       // then
       expect(updatedCertificationCourse).to.be.instanceOf(CertificationCourse);
-      expect(new Date(updatedCertificationCourse.completedAt)).to.deep.equal(completionDate);
+      expect(new Date(updatedCertificationCourse.toDTO().completedAt)).to.deep.equal(completionDate);
     });
   });
 
@@ -191,7 +192,7 @@ describe('Integration | Repository | Certification Course', function() {
 
         // then
         expect(actualCertificationCourse.getId()).to.equal(expectedCertificationCourse.id);
-        expect(actualCertificationCourse.completedAt).to.equal(expectedCertificationCourse.completedAt);
+        expect(actualCertificationCourse.toDTO().completedAt).to.equal(expectedCertificationCourse.completedAt);
         expect(actualCertificationCourse.toDTO().firstName).to.equal(expectedCertificationCourse.firstName);
         expect(actualCertificationCourse.toDTO().lastName).to.equal(expectedCertificationCourse.lastName);
         expect(actualCertificationCourse.toDTO().birthdate).to.equal(expectedCertificationCourse.birthdate);
