@@ -72,96 +72,6 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
     });
   });
 
-  module('when a participant has not shared his results yet', function() {
-    test('it should display that participant\'s results are pending', async function(assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        name: 'campagne 1',
-      });
-
-      const participations = [
-        {
-          firstName: 'John',
-          lastName: 'Doe2',
-          isCompleted: true,
-          participantExternalId: '1234',
-          isShared: false,
-        },
-      ];
-      participations.meta = {
-        rowCount: 1,
-      };
-
-      this.set('campaign', campaign);
-      this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
-
-      // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
-
-      // then
-      assert.contains('Doe2');
-      assert.contains('John');
-      assert.contains('En attente d\'envoi');
-    });
-
-    test('it should not display badge neither tooltip', async function(assert) {
-      // given
-      const badge = store.createRecord('badge', { imageUrl: 'url-badge' });
-      const campaign = store.createRecord('campaign', {
-        badges: [badge],
-      });
-
-      const participations = [{ badges: [badge], isShared: false }];
-      participations.meta = { rowCount: 1 };
-
-      this.set('campaign', campaign);
-      this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
-
-      // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
-
-      // then
-      assert.dom('.pix-tooltip__content').doesNotExist();
-      assert.dom('img[src="url-badge"]').doesNotExist();
-    });
-  });
-
-  module('when a participant has not finished the assessment', function() {
-    test('it should display that participant\'s results are still ongoing', async function(assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        name: 'campagne 1',
-      });
-
-      const participations = [
-        {
-          firstName: 'John',
-          lastName: 'Doe3',
-          isCompleted: false,
-          participantExternalId: '12345',
-          isShared: false,
-        },
-      ];
-      participations.meta = {
-        rowCount: 3,
-      };
-
-      this.set('campaign', campaign);
-      this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
-
-      // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
-
-      // then
-      assert.contains('Doe3');
-      assert.contains('John');
-      assert.contains('En cours de test');
-    });
-  });
-
   module('when the campaign asked for an external id', function() {
     test('it should display participant\'s results with external id', async function(assert) {
       // given
@@ -187,7 +97,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
     });
   });
 
-  module('when nobody started the campaign yet', function() {
+  module('when nobody shared his results', function() {
     test('it should display "waiting for participants"', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
@@ -206,12 +116,12 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}}/>`);
 
       // then
-      assert.contains('Aucun participant');
+      assert.contains('Aucune participation partagée');
     });
   });
 
-  module('when the campaign doesn‘t have badges', function() {
-    test('it should not display badge column', async function(assert) {
+  module('when the campaign doesn‘t have thematic results', function() {
+    test('it should not display thematic results column', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
         badges: [],
@@ -232,8 +142,8 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
     });
   });
 
-  module('when the campaign has badges', function() {
-    test('it should display badge column', async function(assert) {
+  module('when the campaign has thematic results', function() {
+    test('it should display thematic results column', async function(assert) {
       // given
       const badge = store.createRecord('badge');
       const campaign = store.createRecord('campaign', {
@@ -254,7 +164,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       assert.contains('Résultats Thématiques');
     });
 
-    test('it filters the participations when a badge is selected', async function(assert) {
+    test('it filters the participations when a thematic results is selected', async function(assert) {
       // given
       const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
       const campaign = store.createRecord('campaign', {
@@ -323,7 +233,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       });
       campaign.set('divisions', [division]);
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
+      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60 }];
       participations.meta = { rowCount: 1 };
       const triggerFiltering = sinon.stub();
       this.set('campaign', campaign);
@@ -361,7 +271,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       });
       campaign.set('divisions', [division]);
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
+      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60 }];
       participations.meta = { rowCount: 1 };
       const resetFilters = sinon.stub();
       this.set('campaign', campaign);
