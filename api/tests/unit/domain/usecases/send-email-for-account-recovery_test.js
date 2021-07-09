@@ -107,6 +107,7 @@ describe('Unit | UseCase | send-email-for-account-recovery', () => {
       // then
       expect(mailService.sendAccountRecoveryEmail).to.have.been.calledWithExactly({
         firstName: user.firstName,
+        email: newEmail,
         locale: 'fr-fr',
         temporaryKey,
       });
