@@ -861,6 +861,12 @@ class InvalidExternalAPIResponseError extends DomainError {
   }
 }
 
+class CpfBirthInformationValidationError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -902,6 +908,7 @@ module.exports = {
   ChallengeToBeNeutralizedNotFoundError,
   ChallengeToBeDeneutralizedNotFoundError,
   CompetenceResetError,
+  CpfBirthInformationValidationError,
   CsvImportError,
   CsvParsingError,
   DeprecatedCertificationIssueReportSubcategory,

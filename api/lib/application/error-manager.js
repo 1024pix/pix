@@ -340,6 +340,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.ConflictError(error.message);
   }
 
+  if (error instanceof DomainErrors.CpfBirthInformationValidationError) {
+    return new HttpErrors.UnprocessableEntityError(error.message);
+  }
+
   if (error instanceof DomainErrors.TooManyRows) {
     return new HttpErrors.ConflictError(error.message);
   }

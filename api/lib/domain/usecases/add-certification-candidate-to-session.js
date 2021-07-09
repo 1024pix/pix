@@ -1,5 +1,6 @@
 const {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
+  CpfBirthInformationValidationError,
 } = require('../errors');
 
 const { featureToggles } = require('../../config');
@@ -8,6 +9,9 @@ module.exports = async function addCertificationCandidateToSession({
   sessionId,
   certificationCandidate,
   certificationCandidateRepository,
+  certificationCpfService,
+  certificationCpfCountryRepository,
+  certificationCpfCityRepository,
 }) {
   certificationCandidate.sessionId = sessionId;
 
@@ -26,5 +30,22 @@ module.exports = async function addCertificationCandidateToSession({
     throw new CertificationCandidateByPersonalInfoTooManyMatchesError('A candidate with the same personal info is already in the session.');
   }
 
-  return certificationCandidateRepository.saveInSession({ certificationCandidate, sessionId: certificationCandidate.sessionId });
+  if (version === '1.5') {
+    const cpfBirthInformation = await certificationCpfService.getBirthInformation({
+      ...certificationCandidate,
+      certificationCpfCityRepository,
+      certificationCpfCountryRepository,
+    });
+
+    if (cpfBirthInformation.hasFailed()) {
+      throw new CpfBirthInformationValidationError(cpfBirthInformation.message);
+    }
+
+    certificationCandidate.updateBirthInformation(cpfBirthInformation);
+  }
+
+  return certificationCandidateRepository.saveInSession({
+    certificationCandidate,
+    sessionId: certificationCandidate.sessionId,
+  });
 };
