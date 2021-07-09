@@ -247,7 +247,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               sessionId,
             };
             const mockCertificationCourse = {
-              userId,
+              _userId: userId,
               sessionId,
               _firstName: foundCertificationCandidate.firstName,
               _lastName: foundCertificationCandidate.lastName,
