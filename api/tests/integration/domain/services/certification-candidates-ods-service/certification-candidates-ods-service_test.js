@@ -145,7 +145,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
       // then
       expect(error).to.be.instanceOf(CertificationCandidatesImportError);
-      expect(error.message).to.contain('Ligne 10 : Le champ “* Prénom” est obligatoire.');
+      expect(error.message).to.equal('Ligne 10 : Le champ “Prénom” est obligatoire.');
     });
 
     it('should throw a CertificationCandidatesImportError if there is an error in the birth information', async () => {
