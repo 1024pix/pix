@@ -5,7 +5,7 @@
   padding: 30px;
 
   @include device-is('tablet') {
-    padding: 40px 60px;
+    padding: 56px 60px;
   }
 }
 
@@ -23,7 +23,7 @@
     .pix-logo {
       position: absolute;
       top: 0;
-      left: 0;
+      left: 7%;
     }
   }
 
