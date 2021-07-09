@@ -27,6 +27,9 @@ exports.register = async function(server) {
               },
             },
           }),
+          options: {
+            allowUnknown: true,
+          },
         },
         notes: ['- Permet d\'envoyer un mail de demande d\'ajout de mot de passe pour récupérer son compte Pix.'],
         tags: ['api', 'account-recovery'],
