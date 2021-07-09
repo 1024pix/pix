@@ -18,6 +18,7 @@ import loadCourseRoutes from './routes/courses/index';
 import loadPasswordResetDemandRoutes from './routes/password-reset-demands/index';
 import loadSchoolingRegistrationUserAssociationRoutes from './routes/schooling-registration-user-associations/index';
 import loadSchoolingRegistrationDependentUserRoutes from './routes/schooling-registration-dependent-users/index';
+import loadAccountRecoveryRoutes from './routes/account-recovery/index';
 import loadUserRoutes from './routes/users/index';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import postSharedCertifications from './routes/post-shared-certifications';
@@ -39,6 +40,7 @@ export default function() {
   loadSchoolingRegistrationUserAssociationRoutes(this);
   loadSchoolingRegistrationDependentUserRoutes(this);
   loadUserRoutes(this);
+  loadAccountRecoveryRoutes(this);
 
   this.get('/assessments/:id/competence-evaluations', getCompetenceEvaluationsByAssessment);
 

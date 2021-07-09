@@ -32,6 +32,12 @@
                   @require={{true}}
                   @hideRequired={{true}}/>
 
+    {{#if @showAlreadyRegisteredEmailError}}
+      <PixMessage @type='alert'>
+        {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.error.new-email-already-exist'}}
+      </PixMessage>
+    {{/if}}
+
     <div class="account-recovery-after-leaving-sco-content__actions">
       <PixButton
         @isBorderVisible={{true}}
@@ -41,7 +47,7 @@
           {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.actions.cancel'}}
       </PixButton>
       <PixButton @type="submit">
-          {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.actions.submit'}}
+        {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.actions.submit'}}
       </PixButton>
     </div>
   </form>
