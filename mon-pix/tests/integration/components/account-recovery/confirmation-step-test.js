@@ -3,12 +3,12 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { contains } from '../../helpers/contains';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { clickByLabel } from '../../helpers/click-by-label';
+import { contains } from '../../../helpers/contains';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { clickByLabel } from '../../../helpers/click-by-label';
 import sinon from 'sinon';
 
-describe('Integration | Component | recover-account-confirmation-step', function() {
+describe('Integration | Component | confirmation-step', function() {
   setupIntlRenderingTest();
 
   it('should render account recovery confirmation step', async function() {
@@ -23,19 +23,19 @@ describe('Integration | Component | recover-account-confirmation-step', function
     this.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
 
     // when
-    await render(hbs`<RecoverAccountConfirmationStep
+    await render(hbs`<AccountRecovery::ConfirmationStep
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
     />`);
 
     // then
-    expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.good-news', { firstName: 'Philippe' }))).to.exist;
-    expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.found-account'))).to.exist;
-    expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.contact-support'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.good-news', { firstName: 'Philippe' }))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.found-account'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.contact-support'))).to.exist;
     expect(contains('Auguste'));
     expect(contains('Philippe'));
     expect(contains('Philippe.auguste2312'));
     expect(contains('Collège George-Besse, Loches'));
-    expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.certify-account'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.certify-account'))).to.exist;
   });
 
   context('when user does not have a username', function() {
@@ -51,12 +51,12 @@ describe('Integration | Component | recover-account-confirmation-step', function
       this.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
 
       // when
-      await render(hbs`<RecoverAccountConfirmationStep
+      await render(hbs`<AccountRecovery::ConfirmationStep
         @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       />`);
 
       // then
-      expect(contains(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.fields.username'))).to.not.exist;
+      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.fields.username'))).to.not.exist;
     });
   });
 
@@ -74,11 +74,11 @@ describe('Integration | Component | recover-account-confirmation-step', function
     this.set('cancelAccountRecovery', cancelAccountRecovery);
 
     // when
-    await render(hbs`<RecoverAccountConfirmationStep
+    await render(hbs`<AccountRecovery::ConfirmationStep
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       @cancelAccountRecovery={{this.cancelAccountRecovery}}
     />`);
-    await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.buttons.cancel'));
+    await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.buttons.cancel'));
 
     // then
     sinon.assert.calledOnce(cancelAccountRecovery);
@@ -98,11 +98,11 @@ describe('Integration | Component | recover-account-confirmation-step', function
     this.set('continueAccountRecoveryBackupEmailConfirmation', continueAccountRecoveryBackupEmailConfirmation);
 
     // when
-    await render(hbs`<RecoverAccountConfirmationStep
+    await render(hbs`<AccountRecovery::ConfirmationStep
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
     />`);
-    await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.confirmation-step.buttons.confirm'));
+    await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.buttons.confirm'));
 
     // then
     sinon.assert.calledOnce(continueAccountRecoveryBackupEmailConfirmation);

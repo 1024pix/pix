@@ -10,7 +10,7 @@ describe('Unit | Adapter | student information', function() {
     it('should build recover account base URL when called with according requestType', function() {
       // when
       const adapter = this.owner.lookup('adapter:student-information');
-      const url = adapter.buildURL(123, 'student-information', null, 'recover-account');
+      const url = adapter.buildURL(123, 'student-information', null, 'account-recovery');
 
       // then
       expect(url.endsWith('/schooling-registration-dependent-users/')).to.be.true;

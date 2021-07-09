@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default class RecoverAccountAfterLeavingScoRoute extends Route {
+export default class AccountRecoveryAfterLeavingScoRoute extends Route {
   @service featureToggles;
 
   beforeModel() {

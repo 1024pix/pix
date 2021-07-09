@@ -49,7 +49,7 @@ Router.map(function() {
   this.route('not-connected', { path: '/nonconnecte' });
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
-  this.route('recover-account-after-leaving-sco', { path: '/recuperer-mon-compte' });
+  this.route('account-recovery-after-leaving-sco', { path: '/recuperer-mon-compte' });
 
   this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
   this.route('certifications', function() {

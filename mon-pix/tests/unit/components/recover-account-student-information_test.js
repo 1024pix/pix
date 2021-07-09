@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | recover-account-student-information-form', function() {
+describe('Unit | Component | account-recovery/student-information-form', function() {
 
   setupTest();
 
@@ -13,7 +13,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return false', function() {
       // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.ineIna = '';
 
         // when
@@ -28,7 +28,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return false', function() {
       // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.ineIna = 'ABCDE';
 
         // when
@@ -43,7 +43,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return true', function() {
       // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.ineIna = '123456789AA';
 
         // when
@@ -58,7 +58,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return true', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.ineIna = '1234567890B';
 
         // when
@@ -76,7 +76,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return false', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.lastName = '';
 
         // when
@@ -91,7 +91,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return false', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.firstName = '';
 
         // when
@@ -106,7 +106,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return false', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.monthOfBirth = '';
 
         // when
@@ -121,7 +121,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return false', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.dayOfBirth = '';
 
         // when
@@ -136,7 +136,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return false', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.yearOfBirth = '';
 
         // when
@@ -151,7 +151,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return true', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.yearOfBirth = '2000';
         component.monthOfBirth = '05';
         component.dayOfBirth = '15';
@@ -174,7 +174,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return false', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.dayOfBirth = '';
 
         // when
@@ -189,7 +189,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return true', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.dayOfBirth = '5';
 
         // when
@@ -207,7 +207,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return false', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.monthOfBirth = '';
 
         // when
@@ -222,7 +222,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return true', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.monthOfBirth = '5';
 
         // when
@@ -240,7 +240,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return false', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.yearOfBirth = '';
 
         // when
@@ -255,7 +255,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
       it('should return true', function() {
         // given
-        const component = createGlimmerComponent('component:recover-account-student-information-form');
+        const component = createGlimmerComponent('component:account-recovery/student-information-form');
         component.yearOfBirth = '2000';
 
         // when
@@ -271,7 +271,7 @@ describe('Unit | Component | recover-account-student-information-form', function
 
     it('should return valid birthdate format', function() {
       // given
-      const component = createGlimmerComponent('component:recover-account-student-information-form');
+      const component = createGlimmerComponent('component:account-recovery/student-information-form');
       component.dayOfBirth = '2';
       component.monthOfBirth = '5';
       component.yearOfBirth = '2004';

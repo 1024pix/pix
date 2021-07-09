@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | recover-account-after-leaving-sco', function() {
+describe('Unit | Controller | account-recovery-after-leaving-sco', function() {
 
   setupTest();
 
@@ -13,7 +13,7 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
 
       it('should submit student information', async function() {
         // given
-        const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
+        const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
         const studentInformation = { firstName: 'Jules' };
         const submitStudentInformationStub = sinon.stub();
         const createRecord = sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub.resolves() });
@@ -33,7 +33,7 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
         it('should hide student information form and show conflict error', async function() {
           // given
           const errors = { errors: [{ status: '409' }] };
-          const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
+          const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
           const studentInformation = { firstName: 'Jules' };
           const submitStudentInformationStub = sinon.stub().rejects(errors);
           const store = { createRecord: sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub }) };
@@ -43,8 +43,8 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
           await controller.submitStudentInformation(studentInformation);
 
           // then
-          expect(controller.showRecoverAccountStudentInformationForm).to.be.false;
-          expect(controller.showRecoverAccountConflictError).to.be.true;
+          expect(controller.showStudentInformationForm).to.be.false;
+          expect(controller.showConflictError).to.be.true;
         });
       });
 
@@ -52,7 +52,7 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
 
         it('should hide student information form and show recover account confirmation step', async function() {
           // given
-          const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
+          const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
           const studentInformation = { firstName: 'Jules' };
           const submitStudentInformationStub = sinon.stub().resolves({});
 
@@ -63,8 +63,8 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
           await controller.submitStudentInformation(studentInformation);
 
           // then
-          expect(controller.showRecoverAccountStudentInformationForm).to.be.false;
-          expect(controller.showRecoverAccountConfirmationStep).to.be.true;
+          expect(controller.showStudentInformationForm).to.be.false;
+          expect(controller.showConfirmationStep).to.be.true;
         });
       });
     });
@@ -76,7 +76,7 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
 
       it('should send account recovery email', async function() {
         // given
-        const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
+        const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
         const studentInformationForAccountRecovery = { userId: 1 };
         controller.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
         const sendEmailStub = sinon.stub();
@@ -102,16 +102,16 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
 
       it('should show recovery account backup email confirmation', async function() {
         // given
-        const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
-        controller.showRecoverAccountStudentInformationForm = true;
+        const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
+        controller.showStudentInformationForm = true;
 
         // when
         await controller.continueAccountRecoveryBackupEmailConfirmation();
 
         // then
-        expect(controller.showRecoverAccountStudentInformationForm).to.be.false;
-        expect(controller.showRecoverAccountConfirmationStep).to.be.false;
-        expect(controller.showRecoverAccountBackupEmailConfirmationForm).to.be.true;
+        expect(controller.showStudentInformationForm).to.be.false;
+        expect(controller.showConfirmationStep).to.be.false;
+        expect(controller.showBackupEmailConfirmationForm).to.be.true;
 
       });
 
