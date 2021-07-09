@@ -23,12 +23,10 @@ module('Acceptance | Campaign Assessment Results', function(hooks) {
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
     createPrescriberByUser(user);
     server.create('campaign-assessment-participation', { id: 1, lastName: 'AAAAAAAA_IAM_FIRST', campaignId: 1 });
-    server.create('campaign-assessment-participation-summary', { id: 1, lastName: 'AAAAAAAA_IAM_FIRST' });
+    server.create('campaign-assessment-result-minimal', { id: 1, lastName: 'AAAAAAAA_IAM_FIRST' });
     server.createList('campaign-assessment-participation', rowCount, { campaignId: 1 });
     server.createList('campaign-assessment-participation-result', rowCount, { campaignId: 1 });
-    server.createList('campaign-assessment-participation-summary', 50, 'completed');
-    server.createList('campaign-assessment-participation-summary', 20, 'ongoing');
-    server.createList('campaign-assessment-participation-summary', 29, 'shared');
+    server.createList('campaign-assessment-result-minimal', 99);
 
     const campaignCollectiveResult = server.create('campaign-collective-result', 'withCompetenceCollectiveResults');
     server.create('campaign', { id: 1, campaignCollectiveResult, sharedParticipationsCount: 2 });
@@ -50,7 +48,7 @@ module('Acceptance | Campaign Assessment Results', function(hooks) {
       // then
       assert.dom('table tbody tr').exists({ count: pageSize });
       assert.contains('Page 1 / 4');
-      assert.dom('.page-size option:checked').hasText(pageSize.toString());
+      assert.dom('.page-size option:checked').hasText('25');
     });
 
     test('it should display participant list with settings in url for pagination', async function(assert) {
