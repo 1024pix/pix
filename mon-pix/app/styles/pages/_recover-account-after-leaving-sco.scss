@@ -1,32 +1,40 @@
 .recover-account-after-leaving-sco {
   background-color: $white;
-  min-height: max-content;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 8px;
+  padding: 30px;
 
-  @include device-is('desktop') {
-    padding-top: 56px;
+  @include device-is('tablet') {
+    padding: 40px 60px;
   }
 }
 
 .recover-account-after-leaving-sco-content {
-  margin-top: 12px;
-  max-width: max-content;
+  position: relative;
+  background-color: $white;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
+  flex-direction: column;
+
+  @include device-is('desktop') {
+    flex-direction: row;
+    align-items: center;
+    flex: 1 1 0;
+
+    .pix-logo {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
 
   &__image {
     display: none;
 
     @include device-is('desktop') {
       display: flex;
-      width: 400px;
-      margin-right: 30px;
+      flex-basis: 40%;
+      justify-content: flex-end;
+      margin-right: 80px;
 
       img {
         width: 350px;
@@ -35,15 +43,15 @@
   }
 
   &__step {
-    padding: 30px;
+    padding-top: 30px;
 
     @include device-is('tablet') {
-      padding: 60px;
-      width: 600px;
+      max-width: 600px;
     }
 
     @include device-is('desktop') {
-      padding: 0;
+      padding-top: 0;
+      flex-basis: 60%;
     }
 
     &--content {
