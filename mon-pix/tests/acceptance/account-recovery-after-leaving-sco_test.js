@@ -216,6 +216,43 @@ describe('Acceptance | AccountRecoveryAfterLeavingScoRoute', function() {
           expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.good-news', { firstName }))).to.not.exist;
         });
 
+        context('when email already exists', function() {
+
+          it('should show an error', async function() {
+            // given
+            const ineIna = '0123456789A';
+            const lastName = 'Lecol';
+            const firstName = 'Manuela';
+            const dayOfBirth = 20;
+            const monthOfBirth = 5;
+            const yearOfBirth = 2000;
+            const birthdate = '2000-05-20';
+            const username = 'manuela.lecol2005';
+            const email = 'john.doe@example.net';
+
+            server.create('user', { id: 1, firstName, lastName, username, email });
+            server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
+            server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+            await visit('/recuperer-mon-compte');
+            await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.ine-ina'), ineIna);
+            await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.first-name'), firstName);
+            await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.last-name'), lastName);
+            await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.label.birth-day'), dayOfBirth);
+            await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.label.birth-month'), monthOfBirth);
+            await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.label.birth-year'), yearOfBirth);
+            await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.submit'));
+            await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.buttons.confirm'));
+
+            // when
+            await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'), email);
+            await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.actions.submit'));
+
+            // then
+            expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.error.new-email-already-exist'))).to.exist;
+          });
+        });
+
         it('should show email sent confirmation when user has supplied an email and submitted', async function() {
           // given
           const ineIna = '0123456789A';
@@ -249,7 +286,6 @@ describe('Acceptance | AccountRecoveryAfterLeavingScoRoute', function() {
           // then
           expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-is-needed-message', { firstName }))).to.not.exist;
           expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.send-email-confirmation.title'))).to.exist;
-
         });
       });
 

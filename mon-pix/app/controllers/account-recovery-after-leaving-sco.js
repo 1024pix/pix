@@ -17,6 +17,7 @@ export default class AccountRecoveryAfterLeavingScoController extends Controller
   @tracked showConfirmationStep = false;
   @tracked showBackupEmailConfirmationForm = false;
   @tracked showAccountNotFoundError = false;
+  @tracked showAlreadyRegisteredEmailError = false;
 
   studentInformationForAccountRecovery = new StudentInformationForAccountRecovery();
   @tracked firstName;
@@ -48,8 +49,15 @@ export default class AccountRecoveryAfterLeavingScoController extends Controller
     const accountRecoveryDemand = this.store.createRecord('account-recovery-demand', { userId, email: newEmail });
     try {
       await accountRecoveryDemand.send();
+      this.showAlreadyRegisteredEmailError = false;
     } catch (err) {
-      console.log(err);
+      const status = err.errors?.[0]?.status;
+
+      if (status === '400') {
+        this.showAlreadyRegisteredEmailError = true;
+      } else {
+        console.log(err);
+      }
     }
   }
 
