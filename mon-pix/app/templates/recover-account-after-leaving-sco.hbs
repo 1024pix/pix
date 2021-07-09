@@ -1,25 +1,39 @@
 {{page-title (t 'pages.recover-account-after-leaving-sco.title')}}
 
-{{#if this.showRecoverAccountStudentInformationForm}}
-  <RecoverAccountStudentInformationForm @submitStudentInformation={{this.submitStudentInformation}} />
-{{/if}}
+<div class="recover-account-after-leaving-sco">
+  <div class="recover-account-after-leaving-sco-content">
+    <PixLogo />
+    <div class="recover-account-after-leaving-sco-content__image">
+      <img alt="" role="none"
+        src="{{rootURL}}/images/illustrations/recovery-account/recover-account-illustration.svg">
+    </div>
 
-{{#if this.showRecoverAccountConflictError}}
-  <RecoverAccountConflictError @firstName={{this.firstName}} />
-{{/if}}
+    <div class="recover-account-after-leaving-sco-content__step">
+      {{#if this.showRecoverAccountStudentInformationForm}}
+        <RecoverAccountStudentInformationForm
+          @submitStudentInformation={{this.submitStudentInformation}}
+          @showAccountNotFoundError={{this.showAccountNotFoundError}} />
+      {{/if}}
 
-{{#if this.showRecoverAccountConfirmationStep}}
-  <RecoverAccountConfirmationStep
-    @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
-    @cancelAccountRecovery={{this.cancelAccountRecovery}}
-    @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
-  />
-{{/if}}
+      {{#if this.showRecoverAccountConflictError}}
+        <RecoverAccountConflictError @firstName={{this.firstName}} />
+      {{/if}}
 
-{{#if this.showRecoverAccountBackupEmailConfirmationForm}}
-<RecoveryAccount::RecoverAccountBackupEmailConfirmationForm
-  @firstName={{this.firstName}}
-  @existingEmail={{this.studentInformationForAccountRecovery.email}}
-  @cancelAccountRecovery={{this.cancelAccountRecovery}}
-/>
-{{/if}}
+      {{#if this.showRecoverAccountConfirmationStep}}
+        <RecoverAccountConfirmationStep
+          @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
+          @cancelAccountRecovery={{this.cancelAccountRecovery}}
+          @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
+        />
+      {{/if}}
+
+      {{#if this.showRecoverAccountBackupEmailConfirmationForm}}
+        <RecoveryAccount::RecoverAccountBackupEmailConfirmationForm
+          @firstName={{this.firstName}}
+          @existingEmail={{this.studentInformationForAccountRecovery.email}}
+          @cancelAccountRecovery={{this.cancelAccountRecovery}}
+        />
+      {{/if}}
+    </div>
+  </div>
+</div>
