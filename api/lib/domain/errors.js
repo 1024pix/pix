@@ -396,7 +396,7 @@ class CertificationCandidatesImportError extends DomainError {
   }
 
   static fromInvalidCertificationCandidateError(error, keyLabelMap, lineNumber) {
-    const label = error.key in keyLabelMap ? keyLabelMap[error.key] : 'none';
+    const label = error.key in keyLabelMap ? keyLabelMap[error.key].replace(/\* /, '') : 'none';
     const linePortion = `Ligne ${lineNumber} :`;
     let contentPortion = 'Quelque chose s\'est mal passé. Veuillez réessayer';
 
