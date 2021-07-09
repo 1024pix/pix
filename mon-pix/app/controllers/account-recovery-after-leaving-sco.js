@@ -18,6 +18,7 @@ export default class AccountRecoveryAfterLeavingScoController extends Controller
   @tracked showBackupEmailConfirmationForm = false;
   @tracked showAccountNotFoundError = false;
   @tracked showAlreadyRegisteredEmailError = false;
+  @tracked showConfirmationEmailSent = false;
 
   studentInformationForAccountRecovery = new StudentInformationForAccountRecovery();
   @tracked firstName;
@@ -50,6 +51,8 @@ export default class AccountRecoveryAfterLeavingScoController extends Controller
     try {
       await accountRecoveryDemand.send();
       this.showAlreadyRegisteredEmailError = false;
+      this.showBackupEmailConfirmationForm = false;
+      this.showConfirmationEmailSent = true;
     } catch (err) {
       const status = err.errors?.[0]?.status;
 

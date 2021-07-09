@@ -8,7 +8,7 @@ export default function index(config) {
     const foundUser = schema.users.findBy({ email });
 
     if (!foundUser) {
-      return new Response(204, {}, {});
+      return new Response(204);
     } else {
       return new Response(400, {}, {
         errors: [{ status: '400' }],
