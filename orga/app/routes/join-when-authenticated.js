@@ -1,14 +1,12 @@
-// eslint-disable-next-line ember/no-mixins
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default class JoinWhenAuthenticatedRoute extends Route.extend(AuthenticatedRouteMixin) {
+export default class JoinWhenAuthenticatedRoute extends Route {
 
   @service session;
 
   beforeModel(transition) {
-    super.beforeModel(...arguments);
+    this.session.requireAuthentication(transition, 'login');
 
     const { queryParams } = transition.to;
     const alternativeRootURL = transition.router.generate('join', { queryParams });
@@ -16,5 +14,4 @@ export default class JoinWhenAuthenticatedRoute extends Route.extend(Authenticat
     this.session.alternativeRootURL = alternativeRootURL;
     this.session.invalidate();
   }
-
 }

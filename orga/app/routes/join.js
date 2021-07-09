@@ -1,10 +1,16 @@
-// eslint-disable-next-line ember/no-mixins
-import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
-export default class JoinRoute extends Route.extend(UnauthenticatedRouteMixin) {
+export default class JoinRoute extends Route {
+
+  @service router;
+  @service session;
 
   routeIfAlreadyAuthenticated = 'join-when-authenticated';
+
+  beforeModel() {
+    this.session.prohibitAuthentication(this.routeIfAlreadyAuthenticated);
+  }
 
   model(params) {
     return this.store.queryRecord('organization-invitation', {
@@ -13,10 +19,10 @@ export default class JoinRoute extends Route.extend(UnauthenticatedRouteMixin) {
     }).catch((errorResponse) => {
       errorResponse.errors.forEach((error) => {
         if (error.status === '412') {
-          this.replaceWith('login', { queryParams: { hasInvitationError: true } });
+          this.router.replaceWith('login', { queryParams: { hasInvitationError: true } });
         }
       });
-      this.replaceWith('login');
+      this.router.replaceWith('login');
     });
   }
 }

@@ -1,5 +1,3 @@
-// eslint-disable-next-line ember/no-mixins
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import { inject as service } from '@ember/service';
 import ENV from 'pix-orga/config/environment';
@@ -8,10 +6,12 @@ const FRENCH_DOMAIN_EXTENSION = 'fr';
 const FRENCH_LOCALE = 'fr-fr';
 const FRENCHSPOKEN_LOCALE = 'fr';
 
-export default class ApplicationAdapter extends JSONAPIAdapter.extend(DataAdapterMixin) {
-  @service currentDomain;
+export default class ApplicationAdapter extends JSONAPIAdapter {
+
   @service ajaxQueue;
+  @service currentDomain;
   @service intl;
+  @service session;
 
   host = ENV.APP.API_HOST;
   namespace = 'api';

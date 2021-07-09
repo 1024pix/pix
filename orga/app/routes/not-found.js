@@ -1,8 +1,11 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default class NotFoundRoute extends Route {
 
+  @service router;
+
   afterModel() {
-    this.transitionTo('application');
+    this.router.transitionTo('application');
   }
 }
