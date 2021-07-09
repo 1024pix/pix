@@ -46,7 +46,7 @@ class CertificationCourse {
     this._assessment = assessment;
     this._challenges = challenges;
     this._certificationIssueReports = certificationIssueReports;
-    this.userId = userId;
+    this._userId = userId;
     this.sessionId = sessionId;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
     this._isCancelled = isCancelled;
@@ -144,7 +144,7 @@ class CertificationCourse {
       assessment: this._assessment,
       challenges: this._challenges,
       certificationIssueReports: this._certificationIssueReports, // TODO : this.certificationIssueReports.toDTO()
-      userId: this.userId,
+      userId: this._userId,
       sessionId: this.sessionId,
       maxReachableLevelOnCertificationDate: this.maxReachableLevelOnCertificationDate,
       isCancelled: this._isCancelled,
@@ -164,6 +164,10 @@ class CertificationCourse {
       ...this.toDTO(),
       assessment: assessment,
     });
+  }
+
+  doesBelongTo(userId) {
+    return this._userId === userId;
   }
 }
 

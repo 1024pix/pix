@@ -2,7 +2,7 @@ const { UserNotAuthorizedToGetCertificationCoursesError } = require('../../../li
 
 module.exports = async function getCertificationCourse({ userId, certificationCourseId, certificationCourseRepository, userRepository }) {
   const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
-  if (userId !== certificationCourse.userId) {
+  if (!certificationCourse.doesBelongTo(userId)) {
     const userIsPixMaster = await userRepository.isPixMaster(userId);
     if (!userIsPixMaster) {
       throw new UserNotAuthorizedToGetCertificationCoursesError();
