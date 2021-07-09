@@ -923,6 +923,10 @@
     },
     "recover-account-after-leaving-sco": {
       "title": "Récupérer mon compte",
+      "contact-support": {
+        "link-text": "contactez le support.",
+        "link-url": "https://support.pix.org/fr/support/tickets/new"
+      },
       "student-information": {
         "title": "Collégiens, lycéens, vous quittez le système scolaire et vous souhaitez récupérer votre accès à Pix",
         "subtitle": {
@@ -930,7 +934,7 @@
           "text": "Si vous possédez un compte avec une adresse e-mail valide, "
         },
         "form": {
-          "tooltip": "Où trouver mon INE ? '<br>' Cet identifiant se trouve souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.",
+          "tooltip": "<strong>Où trouver mon INE ?</strong> <p>Cet identifiant se trouve souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.</p>",
           "ine-ina": "INE (Identifiant National Élève)",
           "last-name": "Nom",
           "first-name": "Prénom",
@@ -951,7 +955,8 @@
           "invalid-ine-ina-format": "Le champ INE n'est pas au bon format.",
           "empty-ine-ina": "Le champ INE est obligatoire.",
           "empty-last-name": "Le champ nom est obligatoire.",
-          "empty-first-name": "Le champ prénom est obligatoire."
+          "empty-first-name": "Le champ prénom est obligatoire.",
+          "not-found": "Pix ne reconnait pas vos données. Vérifiez qu'elles sont exactes, sinon "
         }
       },
       "conflict": {
@@ -967,7 +972,7 @@
       "confirmation-step": {
         "good-news" : "Bonne nouvelle { firstName } !",
         "found-account": "Nous avons retrouvé votre compte :",
-        "contact-support": "Si vous constatez une erreur ou si ces données ne sont pas les votres, contactez le support.",
+        "contact-support": "Si vous constatez une erreur ou si ces données ne sont pas les votres, ",
         "fields" : {
           "last-name": "Votre nom",
           "first-name": "Votre prénom",
@@ -981,7 +986,7 @@
         }
       },
       "backup-email-confirmation": {
-        "email-is-needed-message": "{ firstName } , nous avons besoin de votre adresse e-mail",
+        "email-is-needed-message": "{ firstName }, nous avons besoin de votre adresse e-mail",
         "email-sent-to-choose-password-message": "Nous vous enverrons un e-mail afin de choisir un mot de passe.",
         "email-already-exist-for-account-message": "L’adresse e-mail ci-dessous est déjà associée à votre compte :",
         "email-is-valid-message": "Si elle est valide,",
@@ -990,11 +995,11 @@
         "form": {
           "email": "Votre adresse e-mail",
           "actions": {
-            "submit": "C'est partix",
+            "submit": "C'est parti",
             "cancel": "Annuler"
           },
           "error":  {
-            "empty-email": "le champ email est obligatoire.",
+            "empty-email": "Le champ email est obligatoire.",
             "wrong-email-format": "Votre adresse e-mail n’est pas valide.",
             "email-already-exist": {
               "existing-email": "Vous possédez déjà cette adresse e-mail. Si elle est valide,",

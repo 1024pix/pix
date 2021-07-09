@@ -35,7 +35,7 @@ const handleBadgeAcquisition = async function({
     });
 
     if (!_.isEmpty(badgesAcquisitionToCreate)) {
-      await badgeAcquisitionRepository.create(badgesAcquisitionToCreate);
+      await badgeAcquisitionRepository.createOrUpdate(badgesAcquisitionToCreate);
     }
   }
 };

@@ -5,36 +5,62 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 
 describe('Integration | Repository | Badge Acquisition', () => {
 
-  let badgeAcquisitionToCreate;
-
-  describe('#create', () => {
+  describe('#createOrUpdate', () => {
+    let badgeAcquisitionToCreate;
 
     beforeEach(async () => {
       const badgeId = databaseBuilder.factory.buildBadge({ key: 'éclair_au_chocolat' }).id;
       const userId = databaseBuilder.factory.buildUser().id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId }).id;
 
-      badgeAcquisitionToCreate = databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
-      badgeAcquisitionToCreate.id = undefined;
+      badgeAcquisitionToCreate = {
+        userId,
+        badgeId,
+        campaignParticipationId,
+      };
       await databaseBuilder.commit();
     });
 
     afterEach(async () => {
       await knex('badge-acquisitions').delete();
-      await knex('authentication-methods').delete();
-      await knex('users').delete();
     });
 
     it('should persist the badge acquisition in db', async () => {
       // when
-      const badgeAcquisitionIds = await DomainTransaction.execute(async (domainTransaction) => {
-        return badgeAcquisitionRepository.create([badgeAcquisitionToCreate], domainTransaction);
+      await DomainTransaction.execute(async (domainTransaction) => {
+        return badgeAcquisitionRepository.createOrUpdate([badgeAcquisitionToCreate], domainTransaction);
       });
 
       // then
-      expect(badgeAcquisitionIds).to.have.lengthOf(1);
-      const result = await knex('badge-acquisitions').where('id', badgeAcquisitionIds[0]);
+      const result = await knex('badge-acquisitions')
+        .where('userId', badgeAcquisitionToCreate.userId)
+        .andWhere('badgeId', badgeAcquisitionToCreate.badgeId)
+        .andWhere('campaignParticipationId', badgeAcquisitionToCreate.campaignParticipationId);
       expect(result).to.have.lengthOf(1);
+      expect(result[0]).to.contains(badgeAcquisitionToCreate);
+      expect(result[0].createdAt).to.deep.equal(result[0].updatedAt);
     });
+
+    it('should update the badge acquisition in the DB if it already exists', async () => {
+      // given
+      databaseBuilder.factory.buildBadgeAcquisition(badgeAcquisitionToCreate);
+      await databaseBuilder.commit();
+
+      // when
+      await DomainTransaction.execute(async (domainTransaction) => {
+        return badgeAcquisitionRepository.createOrUpdate([badgeAcquisitionToCreate], domainTransaction);
+      });
+
+      // then
+      const result = await knex('badge-acquisitions')
+        .where('userId', badgeAcquisitionToCreate.userId)
+        .andWhere('badgeId', badgeAcquisitionToCreate.badgeId)
+        .andWhere('campaignParticipationId', badgeAcquisitionToCreate.campaignParticipationId);
+      expect(result).to.have.lengthOf(1);
+      expect(result[0]).to.contains(badgeAcquisitionToCreate);
+      expect(result[0].createdAt).to.not.equal(result[0].updatedAt);
+    });
+
   });
 
   describe('#hasAcquiredBadge', () => {
@@ -83,7 +109,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       badgeId = databaseBuilder.factory.buildBadge({ key: 'beignet_a_la_creme' }).id;
       userId = databaseBuilder.factory.buildUser().id;
 
-      badgeAcquisitionToCreate = databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
+      databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
       await databaseBuilder.commit();
     });
 

@@ -1,84 +1,118 @@
 {{!-- template-lint-disable require-input-label --}}
-<h1>{{t 'pages.recover-account-after-leaving-sco.student-information.title'}}</h1>
+<h1 class="recover-account-after-leaving-sco-content__title">
+  {{t 'pages.recover-account-after-leaving-sco.student-information.title'}}
+</h1>
 
-<p>
-  {{t 'pages.recover-account-after-leaving-sco.student-information.subtitle.text'}}
-  <LinkTo @route="password-reset-demand" >
-    {{t 'pages.recover-account-after-leaving-sco.student-information.subtitle.link'}}
-  </LinkTo>
-</p>
+<div class="recover-account-after-leaving-sco-content__step--content">
+  <p class=".recover-account-after-leaving-sco-content__information-text--details">
+    {{t 'pages.recover-account-after-leaving-sco.student-information.subtitle.text'}}
+    <LinkTo @route="password-reset-demand" >
+      {{t 'pages.recover-account-after-leaving-sco.student-information.subtitle.link'}}
+    </LinkTo>
+  </p>
 
-<p>{{t 'common.form.mandatory-all-fields'}}</p>
+  <p class="recover-account-after-leaving-sco-content__information-text--details">
+    {{t 'common.form.mandatory-all-fields'}}
+  </p>
 
-<form {{on 'submit' this.submit}}>
-  <PixTooltip @text={{t 'pages.recover-account-after-leaving-sco.student-information.form.tooltip' htmlSafe=true}} @position='top-right'>
-    <FaIcon @icon="info-circle" />
-  </PixTooltip>
-  <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.ine-ina'}}
-                 @textfieldName="ineIna"
-                 @inputBindingValue={{this.ineIna}}
-                 @onValidate={{this.validateIneIna}}
-                 @validationStatus={{this.ineInaValidation.status}}
-                 @validationMessage={{this.ineInaValidation.message}}
-                 @autocomplete="off"
-                 @require={{true}}
-                 @hideRequired="true"
-                 @placeholder="123456789XX" />
+  <form {{on 'submit' this.submit}} class="recover-account-student-information-form">
+    <div class="recover-account-student-information-form__fields">
+      <div class="recover-account-student-information-form__tooltip">
+        <PixTooltip
+          @text={{t 'pages.recover-account-after-leaving-sco.student-information.form.tooltip' htmlSafe=true}}
+          @position='top-left'
+          @isLight={{true}}
+          @isWide={{true}}
+          aria-label={{t 'pages.recover-account-after-leaving-sco.student-information.form.tooltip' htmlSafe=true}}>
+            <FaIcon @icon="question-circle" />
+        </PixTooltip>
+      </div>
+      <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.ine-ina'}}
+                    @textfieldName="ineIna"
+                    @inputBindingValue={{this.ineIna}}
+                    @onValidate={{this.validateIneIna}}
+                    @validationStatus={{this.ineInaValidation.status}}
+                    @validationMessage={{this.ineInaValidation.message}}
+                    @autocomplete="off"
+                    @require={{true}}
+                    @hideRequired="true"
+                    @placeholder="123456789XX" />
 
-  <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.first-name'}}
-                 @textfieldName="firstName"
-                 @inputBindingValue={{this.firstName}}
-                 @onValidate={{this.validateFirstName}}
-                 @validationStatus={{this.firstNameValidation.status}}
-                 @validationMessage={{this.firstNameValidation.message}}
-                 @autocomplete="off"
-                 @require={{true}}
-                 @hideRequired="true"
-                 @placeholder="Prénom" />
+      <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.first-name'}}
+                    @textfieldName="firstName"
+                    @inputBindingValue={{this.firstName}}
+                    @onValidate={{this.validateFirstName}}
+                    @validationStatus={{this.firstNameValidation.status}}
+                    @validationMessage={{this.firstNameValidation.message}}
+                    @autocomplete="off"
+                    @require={{true}}
+                    @hideRequired="true" />
 
-  <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.last-name'}}
-                 @textfieldName="lastName"
-                 @inputBindingValue={{this.lastName}}
-                 @onValidate={{this.validateLastName}}
-                 @validationStatus={{this.lastNameValidation.status}}
-                 @validationMessage={{this.lastNameValidation.message}}
-                 @autocomplete="off"
-                 @require={{true}}
-                 @hideRequired="true"
-                 @placeholder="Nom" />
+      <FormTextfield @label={{t 'pages.recover-account-after-leaving-sco.student-information.form.last-name'}}
+                    @textfieldName="lastName"
+                    @inputBindingValue={{this.lastName}}
+                    @onValidate={{this.validateLastName}}
+                    @validationStatus={{this.lastNameValidation.status}}
+                    @validationMessage={{this.lastNameValidation.message}}
+                    @autocomplete="off"
+                    @require={{true}}
+                    @hideRequired="true" />
 
-  <div>
-    <p>{{t "pages.recover-account-after-leaving-sco.student-information.form.birthdate"}}</p>
-    <div>
-      <Input min="1"
-             max="31"
-             @type="number"
-             @value={{this.dayOfBirth}}
-             placeholder={{t 'pages.recover-account-after-leaving-sco.student-information.form.placeholder.birth-day'}}
-             id="dayOfBirth"
-             {{on "input" this.handleDayInputChange}}
-             aria-label={{t 'pages.recover-account-after-leaving-sco.student-information.form.label.birth-day'}}
-             autocomplete="off" />
-      <Input min="1"
-             max="12"
-             @type="number"
-             @value={{this.monthOfBirth}}
-             placeholder={{t 'pages.recover-account-after-leaving-sco.student-information.form.placeholder.birth-month'}}
-             id="monthOfBirth"
-             {{on "input" this.handleMonthInputChange}}
-             aria-label={{t 'pages.recover-account-after-leaving-sco.student-information.form.label.birth-month'}}
-             autocomplete="off"/>
-      <Input min="1900"
-             @type="number"
-             @value={{this.yearOfBirth}}
-             placeholder={{t 'pages.recover-account-after-leaving-sco.student-information.form.placeholder.birth-year'}}
-             id="yearOfBirth"
-             aria-label={{t 'pages.recover-account-after-leaving-sco.student-information.form.label.birth-year'}}
-             autocomplete="off"/>
+      <div>
+        <p class="form-textfield__label recover-account-student-information-form__birthdate-label">
+          {{t "pages.recover-account-after-leaving-sco.student-information.form.birthdate"}}
+        </p>
+        <div class="recover-account-student-information-form__birthdate-fields">
+          <div class="form-textfield__input-field-container">
+            <Input min="1"
+                  max="31"
+                  @type="number"
+                  @value={{this.dayOfBirth}}
+                  placeholder={{t 'pages.recover-account-after-leaving-sco.student-information.form.placeholder.birth-day'}}
+                  id="dayOfBirth"
+                  {{on "input" this.handleDayInputChange}}
+                  aria-label={{t 'pages.recover-account-after-leaving-sco.student-information.form.label.birth-day'}}
+                  autocomplete="off" />
+          </div>
+          <div class="form-textfield__input-field-container">
+            <Input min="1"
+                  max="12"
+                  @type="number"
+                  @value={{this.monthOfBirth}}
+                  placeholder={{t 'pages.recover-account-after-leaving-sco.student-information.form.placeholder.birth-month'}}
+                  id="monthOfBirth"
+                  {{on "input" this.handleMonthInputChange}}
+                  aria-label={{t 'pages.recover-account-after-leaving-sco.student-information.form.label.birth-month'}}
+                  autocomplete="off"/>
+          </div>
+          <div class="form-textfield__input-field-container">
+            <Input min="1900"
+                  @type="number"
+                  @value={{this.yearOfBirth}}
+                  placeholder={{t 'pages.recover-account-after-leaving-sco.student-information.form.placeholder.birth-year'}}
+                  id="yearOfBirth"
+                  aria-label={{t 'pages.recover-account-after-leaving-sco.student-information.form.label.birth-year'}}
+                  autocomplete="off"/>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <PixButton @type="submit" @isDisabled={{not this.isFormValid}}>
-    {{t 'pages.recover-account-after-leaving-sco.student-information.form.submit'}}
-  </PixButton>
-</form>
+    {{#if @showAccountNotFoundError}}
+      <PixMessage @type='alert' class="recover-account-student-information-form__not-found-error">
+        {{t 'pages.recover-account-after-leaving-sco.student-information.errors.not-found'}}
+        <a href="{{t 'pages.recover-account-after-leaving-sco.contact-support.link-url'}}"
+          target="_blank"
+          rel="noopener noreferrer">
+            {{t 'pages.recover-account-after-leaving-sco.contact-support.link-text'}}
+        </a>
+      </PixMessage>
+    {{/if}}
+
+    <div class="recover-account-after-leaving-sco-content__actions">
+      <PixButton @type="submit" @isDisabled={{not this.isFormValid}}>
+        {{t 'pages.recover-account-after-leaving-sco.student-information.form.submit'}}
+      </PixButton>
+    </div>
+  </form>
+</div>

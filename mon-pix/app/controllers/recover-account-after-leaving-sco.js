@@ -17,6 +17,7 @@ export default class RecoverAccountAfterLeavingScoController extends Controller 
   @tracked showRecoverAccountConflictError = false;
   @tracked showRecoverAccountConfirmationStep = false;
   @tracked showRecoverAccountBackupEmailConfirmationForm = false;
+  @tracked showAccountNotFoundError = false;
 
   studentInformationForAccountRecovery = new StudentInformationForAccountRecovery();
   @tracked firstName;
@@ -34,6 +35,7 @@ export default class RecoverAccountAfterLeavingScoController extends Controller 
       this.studentInformationForAccountRecovery.latestOrganizationName = latestOrganizationName;
 
       this.showRecoverAccountStudentInformationForm = false;
+      this.showAccountNotFoundError = false;
       this.showRecoverAccountConfirmationStep = true;
     } catch (err) {
       this._handleError(err);
@@ -59,9 +61,10 @@ export default class RecoverAccountAfterLeavingScoController extends Controller 
 
     if (status === '409') {
       this.showRecoverAccountStudentInformationForm = false;
+      this.showAccountNotFoundError = false;
       this.showRecoverAccountConflictError = true;
     } else {
-      console.log(err);
+      this.showAccountNotFoundError = true;
     }
   }
 }
