@@ -36,6 +36,10 @@
           @showAlreadyRegisteredEmailError={{this.showAlreadyRegisteredEmailError}}
         />
       {{/if}}
+
+      {{#if this.showConfirmationEmailSent}}
+        <AccountRecovery::ConfirmationEmailSent />
+      {{/if}}
     </div>
   </div>
 </div>

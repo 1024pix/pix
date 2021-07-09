@@ -110,7 +110,7 @@ describe('Acceptance | AccountRecoveryAfterLeavingScoRoute', function() {
 
     context('when submitting information form with invalid data', () => {
 
-      it('should show an not found error', async function() {
+      it('should show a not found error', async function() {
         // given
         const ineIna = '0123456789A';
         const lastName = 'Lecol';
@@ -282,6 +282,7 @@ describe('Acceptance | AccountRecoveryAfterLeavingScoRoute', function() {
 
           // when
           await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'), newEmail);
+          await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.actions.submit'));
 
           // then
           expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-is-needed-message', { firstName }))).to.not.exist;
