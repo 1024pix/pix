@@ -13,14 +13,14 @@
     <table>
       <thead>
         <tr>
-          <th>{{t 'pages.assessment-participants-list.table.column.last-name'}}</th>
-          <th>{{t 'pages.assessment-participants-list.table.column.first-name'}}</th>
+          <th>{{t 'pages.campaign-results.table.column.last-name'}}</th>
+          <th>{{t 'pages.campaign-results.table.column.first-name'}}</th>
           {{#if @campaign.idPixLabel}}
             <th>{{@campaign.idPixLabel}}</th>
           {{/if}}
-          <th>{{t 'pages.assessment-participants-list.table.column.results.label'}}</th>
+          <th>{{t 'pages.campaign-results.table.column.results.label'}}</th>
           {{#if @campaign.hasBadges}}
-            <th>{{t 'pages.assessment-participants-list.table.column.badges'}}</th>
+            <th>{{t 'pages.campaign-results.table.column.badges'}}</th>
           {{/if}}
         </tr>
       </thead>
@@ -28,45 +28,29 @@
       {{#if @participations}}
         <tbody>
         {{#each @participations as |participation|}}
-          <tr aria-label={{t 'pages.assessment-participants-list.table.row-title'}} role="button" {{on 'click' (fn @onClickParticipant @campaign.id participation.id)}} class="tr--clickable">
+          <tr aria-label={{t 'pages.campaign-results.table.row-title'}} role="button" {{on 'click' (fn @onClickParticipant @campaign.id participation.id)}} class="tr--clickable">
             <td>{{participation.lastName}}</td>
             <td>{{participation.firstName}}</td>
             {{#if @campaign.idPixLabel}}
               <td>{{participation.participantExternalId}}</td>
             {{/if}}
             <td>
-              {{#if participation.isShared}}
-                {{#if @campaign.hasStages}}
-                  <StageStars
-                    @result={{participation.masteryPercentage}}
-                    @stages={{@campaign.stages}}
-                    @withTooltip={{true}}
-                    @tooltipPosition="bottom-left"
-                  />
-                {{else}}
-                  <span class="participant-list__mastery-percentage">
-                    {{participation.masteryPercentage}}%
-                  </span>
-                {{/if}}
+              {{#if @campaign.hasStages}}
+                <StageStars
+                  @result={{participation.masteryPercentage}}
+                  @stages={{@campaign.stages}}
+                  @withTooltip={{true}}
+                  @tooltipPosition="bottom-left"
+                />
               {{else}}
-                {{#if participation.isCompleted}}
-                  <span class="participant-list__icon">
-                    <FaIcon @icon='share-square'></FaIcon>
-                  </span>
-                  {{t 'pages.assessment-participants-list.table.column.results.on-hold'}}
-                {{else}}
-                  <span class="participant-list__icon">
-                    <FaIcon @icon='hourglass-half'></FaIcon>
-                  </span>
-                  {{t 'pages.assessment-participants-list.table.column.results.under-test'}}
-                {{/if}}
+                <span class="participant-list__mastery-percentage">
+                  {{participation.masteryPercentage}}%
+                </span>
               {{/if}}
             </td>
             {{#if @campaign.hasBadges}}
               <td class="participant-list__badges">
-                {{#if participation.isShared}}
-                  <Badges @badges={{participation.badges}} />
-                {{/if}}
+                <Badges @badges={{participation.badges}} />
               </td>
             {{/if}}
           </tr>
@@ -76,7 +60,7 @@
     </table>
 
     {{#unless @participations}}
-      <div class="table__empty content-text">{{t 'pages.assessment-participants-list.table.empty'}}</div>
+      <div class="table__empty content-text">{{t 'pages.campaign-results.table.empty'}}</div>
     {{/unless}}
   </div>
 </div>
