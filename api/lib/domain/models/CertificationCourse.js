@@ -45,7 +45,7 @@ class CertificationCourse {
     this._verificationCode = verificationCode;
     this._assessment = assessment;
     this._challenges = challenges;
-    this.certificationIssueReports = certificationIssueReports;
+    this._certificationIssueReports = certificationIssueReports;
     this.userId = userId;
     this.sessionId = sessionId;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
@@ -53,7 +53,7 @@ class CertificationCourse {
   }
 
   reportIssue(issueReport) {
-    this.certificationIssueReports.push(issueReport);
+    this._certificationIssueReports.push(issueReport);
   }
 
   static from({ certificationCandidate, challenges, verificationCode, maxReachableLevelOnCertificationDate }) {
@@ -143,7 +143,7 @@ class CertificationCourse {
       verificationCode: this._verificationCode,
       assessment: this._assessment,
       challenges: this._challenges,
-      certificationIssueReports: this.certificationIssueReports, // TODO : this.certificationIssueReports.toDTO()
+      certificationIssueReports: this._certificationIssueReports, // TODO : this.certificationIssueReports.toDTO()
       userId: this.userId,
       sessionId: this.sessionId,
       maxReachableLevelOnCertificationDate: this.maxReachableLevelOnCertificationDate,

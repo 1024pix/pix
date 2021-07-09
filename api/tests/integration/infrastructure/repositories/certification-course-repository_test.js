@@ -57,7 +57,7 @@ describe('Integration | Repository | Certification Course', function() {
         '_challenges',
         '_completedAt',
         '_createdAt',
-        'certificationIssueReports',
+        '_certificationIssueReports',
       ];
 
       expect(
@@ -199,7 +199,7 @@ describe('Integration | Repository | Certification Course', function() {
         expect(actualCertificationCourse.toDTO().birthplace).to.equal(expectedCertificationCourse.birthplace);
         expect(actualCertificationCourse.sessionId).to.equal(sessionId);
         expect(actualCertificationCourse.isPublished()).to.equal(expectedCertificationCourse.isPublished);
-        expect(actualCertificationCourse.certificationIssueReports[0].description).to.equal(description);
+        expect(actualCertificationCourse.toDTO().certificationIssueReports[0].description).to.equal(description);
       });
 
       it('should retrieve associated challenges with the certification course', async () => {
@@ -413,7 +413,7 @@ describe('Integration | Repository | Certification Course', function() {
     });
 
     function _cleanCertificationCourse(certificationCourse) {
-      return _.omit(certificationCourse, 'certificationIssueReports', '_assessment', '_challenges', 'updatedAt');
+      return _.omit(certificationCourse, '_certificationIssueReports', '_assessment', '_challenges', 'updatedAt');
     }
     it('should returns all certification courses id with given sessionId', async () => {
       // when
@@ -529,5 +529,5 @@ describe('Integration | Repository | Certification Course', function() {
 });
 
 function _cleanCertificationCourse(certificationCourse) {
-  return _.omit(certificationCourse, 'certificationIssueReports', '_assessment', '_challenges', 'updatedAt');
+  return _.omit(certificationCourse, '_certificationIssueReports', '_assessment', '_challenges', 'updatedAt');
 }
