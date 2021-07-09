@@ -117,7 +117,6 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
 function _buildCertificationResult(certifCourse, lastAssessmentResult, cleaCertificationResult, pixPlusDroitMaitreCertificationResult, pixPlusDroitExpertCertificationResult) {
   return domainBuilder.buildCertificationResult({
     ...certifCourse.toDTO(),
-    certificationIssueReports: certifCourse.certificationIssueReports,
     lastAssessmentResult,
     assessmentId: lastAssessmentResult.assessmentId,
     cleaCertificationResult,

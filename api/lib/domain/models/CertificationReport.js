@@ -49,7 +49,7 @@ class CertificationReport {
       certificationCourseId: certificationCourse.getId(),
       firstName: certificationCourse.toDTO().firstName,
       lastName: certificationCourse.toDTO().lastName,
-      certificationIssueReports: certificationCourse.certificationIssueReports,
+      certificationIssueReports: certificationCourse.toDTO().certificationIssueReports,
       hasSeenEndTestScreen: certificationCourse.toDTO().hasSeenEndTestScreen,
     });
   }

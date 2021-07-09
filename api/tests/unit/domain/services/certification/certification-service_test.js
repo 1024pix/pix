@@ -88,7 +88,7 @@ describe('Unit | Service | Certification Service', function() {
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
           pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
-          certificationIssueReports: certificationCourse.certificationIssueReports,
+          certificationIssueReports: certificationCourse.toDTO().certificationIssueReports,
           hasSeenEndTestScreen: true,
           sessionId: 456,
           isCourseCancelled: true,
