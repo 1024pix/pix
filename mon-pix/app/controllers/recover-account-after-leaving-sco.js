@@ -44,11 +44,11 @@ export default class RecoverAccountAfterLeavingScoController extends Controller 
   }
 
   @action
-  async submitBackupEmail(newEmail) {
+  async sendEmail(newEmail) {
     const userId = this.studentInformationForAccountRecovery.userId;
-    const userInformationToSave = this.store.createRecord('account-recovery-demand', { userId, email: newEmail });
+    const accountRecoveryDemand = this.store.createRecord('account-recovery-demand', { userId, email: newEmail });
     try {
-      await userInformationToSave.save();
+      await accountRecoveryDemand.send();
     } catch (err) {
       console.log(err);
     }

@@ -53,8 +53,7 @@ export default class RecoverAccountBackupEmailConfirmationFormComponent extends 
   @action
   async submitBackupEmailConfirmationForm(event) {
     event.preventDefault();
-    // send email
-
+    this.args.sendEmail(this.email);
   }
 
 }
