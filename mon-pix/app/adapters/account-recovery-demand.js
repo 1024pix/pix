@@ -10,7 +10,7 @@ export default class AccountRecoveryDemandAdapter extends ApplicationAdapter {
     query,
   ) {
     if (requestType === 'send-account-recovery-demand') {
-      return `${this.host}/${this.namespace}/account-recovery`;
+      return `${this.host}/${this.namespace}/`;
     } else {
       return super.buildURL(
         modelName,

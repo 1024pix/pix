@@ -34,7 +34,7 @@ describe('Unit | Model | account recovery demand', function() {
               'user-id': '3',
               'email': 'james.potter@example.net',
             },
-            type: 'account-recovery-demand',
+            type: 'account-recovery-demands',
           },
         },
       };

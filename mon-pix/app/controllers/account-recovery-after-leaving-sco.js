@@ -8,15 +8,14 @@ class StudentInformationForAccountRecovery {
   @tracked username = '';
   @tracked email = '';
   @tracked latestOrganizationName = '';
-
 }
 
-export default class RecoverAccountAfterLeavingScoController extends Controller {
+export default class AccountRecoveryAfterLeavingScoController extends Controller {
 
-  @tracked showRecoverAccountStudentInformationForm = true;
-  @tracked showRecoverAccountConflictError = false;
-  @tracked showRecoverAccountConfirmationStep = false;
-  @tracked showRecoverAccountBackupEmailConfirmationForm = false;
+  @tracked showStudentInformationForm = true;
+  @tracked showConflictError = false;
+  @tracked showConfirmationStep = false;
+  @tracked showBackupEmailConfirmationForm = false;
   @tracked showAccountNotFoundError = false;
 
   studentInformationForAccountRecovery = new StudentInformationForAccountRecovery();
@@ -35,9 +34,9 @@ export default class RecoverAccountAfterLeavingScoController extends Controller 
       this.studentInformationForAccountRecovery.email = email;
       this.studentInformationForAccountRecovery.latestOrganizationName = latestOrganizationName;
 
-      this.showRecoverAccountStudentInformationForm = false;
+      this.showStudentInformationForm = false;
       this.showAccountNotFoundError = false;
-      this.showRecoverAccountConfirmationStep = true;
+      this.showConfirmationStep = true;
     } catch (err) {
       this._handleError(err);
     }
@@ -56,25 +55,25 @@ export default class RecoverAccountAfterLeavingScoController extends Controller 
 
   @action
   continueAccountRecoveryBackupEmailConfirmation() {
-    this.showRecoverAccountStudentInformationForm = false;
-    this.showRecoverAccountConfirmationStep = false;
-    this.showRecoverAccountBackupEmailConfirmationForm = true;
+    this.showStudentInformationForm = false;
+    this.showConfirmationStep = false;
+    this.showBackupEmailConfirmationForm = true;
   }
 
   @action
   cancelAccountRecovery() {
-    this.showRecoverAccountConfirmationStep = false;
-    this.showRecoverAccountStudentInformationForm = true;
-    this.showRecoverAccountBackupEmailConfirmationForm = false;
+    this.showConfirmationStep = false;
+    this.showStudentInformationForm = true;
+    this.showBackupEmailConfirmationForm = false;
   }
 
   _handleError(err) {
     const status = err.errors?.[0]?.status;
 
     if (status === '409') {
-      this.showRecoverAccountStudentInformationForm = false;
+      this.showStudentInformationForm = false;
       this.showAccountNotFoundError = false;
-      this.showRecoverAccountConflictError = true;
+      this.showConflictError = true;
     } else {
       this.showAccountNotFoundError = true;
     }

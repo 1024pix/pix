@@ -15,10 +15,10 @@ const STATUS_MAP = {
 };
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  invalidIneInaFormat: 'pages.recover-account-after-leaving-sco.student-information.errors.invalid-ine-ina-format',
-  emptyIneIna: 'pages.recover-account-after-leaving-sco.student-information.errors.empty-ine-ina',
-  emptyLastName: 'pages.recover-account-after-leaving-sco.student-information.errors.empty-last-name',
-  emptyFirstName: 'pages.recover-account-after-leaving-sco.student-information.errors.empty-first-name',
+  invalidIneInaFormat: 'pages.account-recovery-after-leaving-sco.student-information.errors.invalid-ine-ina-format',
+  emptyIneIna: 'pages.account-recovery-after-leaving-sco.student-information.errors.empty-ine-ina',
+  emptyLastName: 'pages.account-recovery-after-leaving-sco.student-information.errors.empty-last-name',
+  emptyFirstName: 'pages.account-recovery-after-leaving-sco.student-information.errors.empty-first-name',
 };
 
 class IneInaValidation {
@@ -36,7 +36,7 @@ class FirstNameValidation {
   @tracked message = null;
 }
 
-export default class RecoverAccountStudentInformationFormComponent extends Component {
+export default class StudentInformationFormComponent extends Component {
 
   @service intl;
   @service store;

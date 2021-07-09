@@ -921,7 +921,7 @@
       "instruction": "Saisissez votre nouveau mot de passe",
       "succeed": "Votre mot de passe a été modifié avec succès."
     },
-    "recover-account-after-leaving-sco": {
+    "account-recovery-after-leaving-sco": {
       "title": "Récupérer mon compte",
       "contact-support": {
         "link-text": "contactez le support.",
