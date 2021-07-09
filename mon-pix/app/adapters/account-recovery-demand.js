@@ -2,7 +2,23 @@ import ApplicationAdapter from './application';
 
 export default class AccountRecoveryDemandAdapter extends ApplicationAdapter {
 
-  urlForCreateRecord() {
-    return `${this.host}/${this.namespace}/account-recovery`;
+  buildURL(
+    modelName,
+    id,
+    snapshot,
+    requestType,
+    query,
+  ) {
+    if (requestType === 'send-account-recovery-demand') {
+      return `${this.host}/${this.namespace}/account-recovery`;
+    } else {
+      return super.buildURL(
+        modelName,
+        id,
+        snapshot,
+        requestType,
+        query,
+      );
+    }
   }
 }

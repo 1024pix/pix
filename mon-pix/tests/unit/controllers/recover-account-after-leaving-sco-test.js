@@ -12,7 +12,7 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
     context('when submitting recover account student information form', function() {
 
       it('should submit student information', async function() {
-      // given
+        // given
         const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
         const studentInformation = { firstName: 'Jules' };
         const submitStudentInformationStub = sinon.stub();
@@ -32,7 +32,7 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
 
         it('should hide student information form and show conflict error', async function() {
           // given
-          const errors = { errors: [ { status: '409' }] };
+          const errors = { errors: [{ status: '409' }] };
           const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
           const studentInformation = { firstName: 'Jules' };
           const submitStudentInformationStub = sinon.stub().rejects(errors);
@@ -70,25 +70,28 @@ describe('Unit | Controller | recover-account-after-leaving-sco', function() {
     });
   });
 
-  context('#submitBackupEmail', () => {
+  context('#sendEmail', () => {
 
-    context('when submitting recover account backup email and user id', function() {
+    context('when user clicks on "C\'est parti!" button', function() {
 
-      it('should submit user information', async function() {
-      // given
+      it('should send account recovery email', async function() {
+        // given
         const controller = this.owner.lookup('controller:recover-account-after-leaving-sco');
-        const userInformation = { userId: 1, email: 'new_email@example.net' };
-        const submitBackupEmailStub = sinon.stub();
-        const createRecord = sinon.stub().returns({ save: submitBackupEmailStub.resolves() });
+        const studentInformationForAccountRecovery = { userId: 1 };
+        controller.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
+        const sendEmailStub = sinon.stub();
+        const createRecord = sinon.stub().returns({ send: sendEmailStub.resolves() });
         const store = { createRecord };
         controller.set('store', store);
+        const email = 'new_email@example.net';
 
         // when
-        await controller.submitBackupEmail(userInformation);
+        await controller.sendEmail(email);
 
         // then
-        sinon.assert.calledWithExactly(createRecord, 'account-recovery-demand', userInformation);
-        sinon.assert.calledOnce(submitBackupEmailStub);
+        const expectedAccountRecoveryDemandAttributes = { userId: 1, email };
+        sinon.assert.calledWithExactly(createRecord, 'account-recovery-demand', expectedAccountRecoveryDemandAttributes);
+        sinon.assert.calledOnce(sendEmailStub);
       });
     });
   });

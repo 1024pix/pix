@@ -62,12 +62,12 @@ describe('Integration | Component | recovery-account/recover-account-backup-emai
         createRecord = createRecordStub;
       }
       this.owner.register('service:store', StoreStubService);
-      const submitBackupEmail = sinon.stub();
-      submitBackupEmail.resolves();
-      this.set('submitBackupEmail', submitBackupEmail);
+      const sendEmail = sinon.stub();
+      sendEmail.resolves();
+      this.set('sendEmail', sendEmail);
 
       await render(hbs`<RecoveryAccount::RecoverAccountBackupEmailConfirmationForm
-      @submitBackupEmail={{this.submitBackupEmail}}
+      @sendEmail={{this.sendEmail}}
       />`);
 
       // when
@@ -75,10 +75,7 @@ describe('Integration | Component | recovery-account/recover-account-backup-emai
       await clickByLabel(this.intl.t('pages.recover-account-after-leaving-sco.backup-email-confirmation.form.actions.submit'));
 
       // then
-      sinon.assert.calledWithExactly(submitBackupEmail, {
-        userId: 1,
-        email,
-      });
+      sinon.assert.calledWithExactly(sendEmail, email);
     });
 
   });

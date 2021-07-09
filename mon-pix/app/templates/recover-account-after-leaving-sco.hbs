@@ -29,7 +29,7 @@
 
       {{#if this.showRecoverAccountBackupEmailConfirmationForm}}
         <RecoveryAccount::RecoverAccountBackupEmailConfirmationForm
-          @submitBackupEmail={{this.submitBackupEmail}}
+          @sendEmail={{this.sendEmail}}
           @firstName={{this.firstName}}
           @existingEmail={{this.studentInformationForAccountRecovery.email}}
           @cancelAccountRecovery={{this.cancelAccountRecovery}}
