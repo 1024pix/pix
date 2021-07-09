@@ -60,15 +60,15 @@ module('Integration | Component | certification-candidate-details-modal', functi
       // given
       const store = this.owner.lookup('service:store');
       const candidate = store.createRecord('certification-candidate', {
-        firstName: 'Jean-Paul',
-        lastName: 'Candidat',
-        birthCountry: 'France',
-        email: 'jeanpauldeu@pix.fr',
-        resultRecipientEmail: 'suric@animal.fr',
-        externalId: '12345',
-        birthdate: '2000-12-25',
-        extraTimePercentage: 10,
-        sex: 'F',
+        firstName: undefined,
+        lastName: undefined,
+        birthCountry: undefined,
+        birthdate: undefined,
+        sex: undefined,
+        email: undefined,
+        resultRecipientEmail: undefined,
+        externalId: undefined,
+        extraTimePercentage: undefined,
       });
 
       const closeModalStub = sinon.stub();
@@ -87,6 +87,15 @@ module('Integration | Component | certification-candidate-details-modal', functi
       assert.dom('[data-test-id="birth-postal-code-row"]').hasText('-');
       assert.dom('[data-test-id="birth-insee-code-row"]').hasText('-');
       assert.dom('[data-test-id="birth-city-row"]').hasText('-');
+      assert.dom('[data-test-id="result-recipient-email-row"]').hasText('-');
+      assert.dom('[data-test-id="email-row"]').hasText('-');
+      assert.dom('[data-test-id="external-id-row"]').hasText('-');
+      assert.dom('[data-test-id="extra-time-row"]').hasText('-');
+      assert.dom('[data-test-id="sex-label-row"]').hasText('-');
+      assert.dom('[data-test-id="birth-date-row"]').hasText('-');
+      assert.dom('[data-test-id="first-name-row"]').hasText('-');
+      assert.dom('[data-test-id="last-name-row"]').hasText('-');
+      assert.dom('[data-test-id="birth-country-row"]').hasText('-');
     });
   });
 
