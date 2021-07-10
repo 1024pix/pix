@@ -6,6 +6,7 @@ const logger = require('../../infrastructure/logger');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+const questionSerializer = require('../../infrastructure/serializers/jsonapi/question-serializer');
 const competenceEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest, extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
@@ -62,6 +63,8 @@ module.exports = {
 
   async getNextChallenge(request) {
     const assessmentId = request.params.id;
+    const locale = extractLocaleFromRequest(request);
+    const userId = extractUserIdFromRequest(request);
 
     const logContext = {
       zone: 'assessmentController.getNextChallenge',
@@ -70,16 +73,49 @@ module.exports = {
     };
     logger.trace(logContext, 'tracing assessmentController.getNextChallenge()');
 
+    const assessment = await assessmentRepository.get(assessmentId);
+    logContext.assessmentType = assessment.type;
+    logger.trace(logContext, 'assessment loaded');
+
+    let usecase;
+    let serializer;
+    let extractChallengeId;
+
+    if (assessment.isPreview()) {
+      usecase = async () => usecases.getNextChallengeForPreview({});
+      serializer = challengeSerializer;
+      extractChallengeId = (challenge) => challenge.id;
+    } else if (assessment.isCertification()) {
+      usecase = async () => usecases.getNextQuestionForCertification({ assessment });
+      serializer = questionSerializer;
+      extractChallengeId = (question) => question.challenge.id;
+    } else if (assessment.isDemo()) {
+      usecase = async () => usecases.getNextChallengeForDemo({ assessment });
+      serializer = challengeSerializer;
+      extractChallengeId = (challenge) => challenge.id;
+    } else if (assessment.isForCampaign()) {
+      usecase = async () => usecases.getNextChallengeForCampaignAssessment({ assessment, locale });
+      serializer = challengeSerializer;
+      extractChallengeId = (challenge) => challenge.id;
+    } else if (assessment.isCompetenceEvaluation()) {
+      usecase = async () => usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
+      serializer = challengeSerializer;
+      extractChallengeId = (challenge) => challenge.id;
+    }
+
     try {
-      const assessment = await assessmentRepository.get(assessmentId);
-      logContext.assessmentType = assessment.type;
-      logger.trace(logContext, 'assessment loaded');
+      const challengeOrQuestion = await _getNextChallengeOrQuestion({
+        assessment,
+        usecase,
+        assessmentRepository,
+        extractChallengeId,
+      });
 
-      const challenge = await _getChallenge(assessment, request);
-      logContext.challenge = challenge;
-      logger.trace(logContext, 'replying with challenge');
+      logContext.challengeOrQuestion = challengeOrQuestion;
+      logger.trace(logContext, 'replying with challenge or question');
 
-      return challengeSerializer.serialize(challenge);
+      const responsePayload = serializer.serialize(challengeOrQuestion);
+      return responsePayload;
     } catch (error) {
       if (error instanceof AssessmentEndedError) {
         const object = new JSONAPISerializer('', {});
@@ -107,42 +143,22 @@ module.exports = {
   },
 };
 
-async function _getChallenge(assessment, request) {
+async function _getNextChallengeOrQuestion({
+  assessment,
+  usecase,
+  assessmentRepository,
+  extractChallengeId,
+}) {
   if (assessment.isStarted()) {
     await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
   }
-  const challenge = await _getChallengeByAssessmentType({ assessment, request });
 
-  if (challenge) {
-    await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challenge.id });
+  const challengeOrQuestion = await usecase();
+
+  if (challengeOrQuestion) {
+    const challengeId = extractChallengeId(challengeOrQuestion);
+    await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challengeId });
   }
 
-  return challenge;
-}
-
-async function _getChallengeByAssessmentType({ assessment, request }) {
-  const locale = extractLocaleFromRequest(request);
-
-  if (assessment.isPreview()) {
-    return usecases.getNextChallengeForPreview({});
-  }
-
-  if (assessment.isCertification()) {
-    return usecases.getNextChallengeForCertification({ assessment });
-  }
-
-  if (assessment.isDemo()) {
-    return usecases.getNextChallengeForDemo({ assessment });
-  }
-
-  if (assessment.isForCampaign()) {
-    return usecases.getNextChallengeForCampaignAssessment({ assessment, locale });
-  }
-
-  if (assessment.isCompetenceEvaluation()) {
-    const userId = extractUserIdFromRequest(request);
-    return usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
-  }
-
-  return null;
+  return challengeOrQuestion;
 }

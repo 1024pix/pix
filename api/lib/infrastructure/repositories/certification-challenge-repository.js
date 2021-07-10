@@ -1,32 +1,37 @@
 const Bookshelf = require('../bookshelf');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const { knex } = require('../bookshelf');
 const DomainTransaction = require('../DomainTransaction');
 const CertificationChallengeBookshelf = require('../orm-models/CertificationChallenge');
+const CertificationChallenge = require('../../domain/models/CertificationChallenge');
 const logger = require('../../infrastructure/logger');
 
 const { AssessmentEndedError } = require('../../domain/errors');
 
 const logContext = {
-  zone: 'certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId',
+  zone: 'certificationChallengeRepository.getNextNonAnsweredChallengeWithIndexByCourseId',
   type: 'repository',
 };
 
 module.exports = {
 
-  async save({ certificationChallenge, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const certificationChallengeToSave = new CertificationChallengeBookshelf({
-      challengeId: certificationChallenge.challengeId,
-      competenceId: certificationChallenge.competenceId,
-      associatedSkillName: certificationChallenge.associatedSkillName,
-      associatedSkillId: certificationChallenge.associatedSkillId,
-      courseId: certificationChallenge.courseId,
-      certifiableBadgeKey: certificationChallenge.certifiableBadgeKey,
+  async saveAll({ certificationCourseId, certificationChallenges, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const dtos = certificationChallenges.map((certificationChallenge, index) => {
+      return {
+        challengeId: certificationChallenge.challengeId,
+        competenceId: certificationChallenge.competenceId,
+        associatedSkillName: certificationChallenge.associatedSkillName,
+        associatedSkillId: certificationChallenge.associatedSkillId,
+        courseId: certificationCourseId,
+        certifiableBadgeKey: certificationChallenge.certifiableBadgeKey,
+        index: index + 1,
+      };
     });
-    const savedCertificationChallenge = await certificationChallengeToSave.save(null, { transacting: domainTransaction.knexTransaction });
-    return bookshelfToDomainConverter.buildDomainObject(CertificationChallengeBookshelf, savedCertificationChallenge);
+    const savedCertificationChallengesDTOs = await knexConn.batchInsert('certification-challenges', dtos).returning('*');
+    return savedCertificationChallengesDTOs.map((dto) => new CertificationChallenge(dto));
   },
 
-  async getNextNonAnsweredChallengeByCourseId(assessmentId, courseId) {
+  async getNextNonAnsweredChallengeWithIndexByCourseId(assessmentId, courseId) {
     const answeredChallengeIds = Bookshelf.knex('answers')
       .select('challengeId')
       .where({ assessmentId });
@@ -44,6 +49,15 @@ module.exports = {
 
     logContext.challengeId = certificationChallenge.id;
     logger.trace(logContext, 'found challenge');
-    return bookshelfToDomainConverter.buildDomainObject(CertificationChallengeBookshelf, certificationChallenge);
+    return {
+      index: certificationChallenge.attributes.index,
+      challenge: _toDomain(certificationChallenge.attributes),
+    };
   },
 };
+
+function _toDomain(certificationChallengeDTO) {
+  return new CertificationChallenge({
+    ...certificationChallengeDTO,
+  });
+}

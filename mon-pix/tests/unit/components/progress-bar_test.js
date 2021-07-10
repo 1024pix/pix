@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { beforeEach, afterEach, describe, it } from 'mocha';
+import EmberObject from '@ember/object';
 import { setupTest } from 'ember-mocha';
 import { htmlSafe } from '@ember/string';
 import sinon from 'sinon';
@@ -50,16 +51,33 @@ describe('Unit | Component | progress-bar', function() {
 
   describe('@currentStepNumber', function() {
 
-    it('should return the currentStepNumber from service', function() {
+    it('should return the currentStepNumber from service when challenge index is not available', function() {
       // given
-      const expectedCurrentStepNumber = 3;
-      sinon.stub(progressInAssessment, 'getCurrentStepNumber').returns(expectedCurrentStepNumber);
+      const challenge = EmberObject.create({
+        index: undefined,
+      });
+      component.args.challenge = challenge;
+      sinon.stub(progressInAssessment, 'getCurrentStepNumber').returns(3);
 
       // when
       const currentStepNumber = component.currentStepNumber;
 
       // then
-      expect(currentStepNumber).to.deep.equal(expectedCurrentStepNumber);
+      expect(currentStepNumber).to.deep.equal(3);
+    });
+
+    it('should return challenge index when available', function() {
+      // given
+      const challenge = EmberObject.create({
+        index: 6,
+      });
+      component.args.challenge = challenge;
+
+      // when
+      const currentStepNumber = component.currentStepNumber;
+
+      // then
+      expect(currentStepNumber).to.deep.equal(6);
     });
   });
 

@@ -13,6 +13,7 @@ module.exports = function buildCertificationChallenge({
   updatedAt = new Date('2020-01-02'),
   isNeutralized = false,
   certifiableBadgeKey = null,
+  index,
 } = {}) {
 
   courseId = _.isUndefined(courseId) ? buildCertificationCourse().id : courseId;
@@ -28,6 +29,7 @@ module.exports = function buildCertificationChallenge({
     updatedAt,
     isNeutralized,
     certifiableBadgeKey,
+    index,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-challenges',

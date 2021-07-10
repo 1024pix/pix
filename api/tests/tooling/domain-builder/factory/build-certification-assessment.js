@@ -13,6 +13,12 @@ module.exports = function buildCertificationAssessment(
     certificationChallenges = [buildCertificationChallengeWithType()],
     certificationAnswersByDate = [],
   } = {}) {
+  const certificationChallengesWithIndex = certificationChallenges.map((certificationChallenge, index) => {
+    return {
+      index: index + 1,
+      certificationChallenge,
+    };
+  });
   return new CertificationAssessment({
     id,
     userId,
@@ -21,7 +27,7 @@ module.exports = function buildCertificationAssessment(
     completedAt,
     state,
     isV2Certification,
-    certificationChallenges,
+    certificationChallengesWithIndex,
     certificationAnswersByDate,
   });
 };

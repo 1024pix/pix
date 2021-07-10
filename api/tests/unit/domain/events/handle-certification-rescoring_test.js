@@ -15,7 +15,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
 
     const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
-    const certificationAssessment = new CertificationAssessment({
+
+    const certificationAssessment = domainBuilder.buildCertificationAssessment({
       id: 123,
       userId: 123,
       certificationCourseId: 1,
@@ -29,6 +30,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       ],
       certificationAnswersByDate: ['answer'],
     });
+
     certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: 1 }).resolves(certificationAssessment);
 
     const competenceMarkData2 = domainBuilder.buildCompetenceMark();
@@ -132,7 +134,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
 
     const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
-    const certificationAssessment = new CertificationAssessment({
+
+    const certificationAssessment = domainBuilder.buildCertificationAssessment({
       id: 123,
       userId: 123,
       certificationCourseId: 1,
@@ -146,6 +149,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       ],
       certificationAnswersByDate: ['answer'],
     });
+
     certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: 1 }).resolves(certificationAssessment);
 
     scoringCertificationService.calculateCertificationAssessmentScore.withArgs(certificationAssessment)

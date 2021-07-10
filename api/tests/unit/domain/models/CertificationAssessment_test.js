@@ -18,7 +18,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
         completedAt: new Date('2020-01-01'),
         state: CertificationAssessment.states.STARTED,
         isV2Certification: true,
-        certificationChallenges: ['challenge'],
+        certificationChallengesWithIndex: ['challenge'],
         certificationAnswersByDate: ['answer'],
       };
     });
@@ -81,7 +81,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
 
     it('should throw an ObjectValidationError when certificationChallenges is not valid', () => {
       // when
-      expect(() => new CertificationAssessment({ ...validArguments, certificationChallenges: [] }))
+      expect(() => new CertificationAssessment({ ...validArguments, certificationChallengesWithIndex: [] }))
         .to.throw(ObjectValidationError);
     });
 
@@ -140,7 +140,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       // given
       const challengeToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1', isNeutralized: false });
 
-      const certificationAssessment = new CertificationAssessment({
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
         id: 123,
         userId: 123,
         certificationCourseId: 123,
@@ -160,16 +160,17 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       certificationAssessment.neutralizeChallengeByRecId(challengeToBeNeutralized.challengeId);
 
       // then
-      expect(certificationAssessment.certificationChallenges[0].isNeutralized).to.be.true;
-      expect(certificationAssessment.certificationChallenges[1].isNeutralized).to.be.false;
-      expect(certificationAssessment.certificationChallenges[2].isNeutralized).to.be.false;
+      const certificationChallenges = certificationAssessment.certificationChallengesInTestOrder();
+      expect(certificationChallenges[0].isNeutralized).to.be.true;
+      expect(certificationChallenges[1].isNeutralized).to.be.false;
+      expect(certificationChallenges[2].isNeutralized).to.be.false;
     });
 
     it('throws when the challenge was not asked', async () => {
       // given
       const challengeNotAskedToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1', isNeutralized: false });
 
-      const certificationAssessment = new CertificationAssessment({
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
         id: 123,
         userId: 123,
         certificationCourseId: 123,
@@ -196,7 +197,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       // given
       const challengeToBeDeneutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1', isNeutralized: true });
 
-      const certificationAssessment = new CertificationAssessment({
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
         id: 123,
         userId: 123,
         certificationCourseId: 123,
@@ -216,16 +217,17 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       certificationAssessment.deneutralizeChallengeByRecId(challengeToBeDeneutralized.challengeId);
 
       // then
-      expect(certificationAssessment.certificationChallenges[0].isNeutralized).to.be.false;
-      expect(certificationAssessment.certificationChallenges[1].isNeutralized).to.be.true;
-      expect(certificationAssessment.certificationChallenges[2].isNeutralized).to.be.true;
+      const certificationChallenges = certificationAssessment.certificationChallengesInTestOrder();
+      expect(certificationChallenges[0].isNeutralized).to.be.false;
+      expect(certificationChallenges[1].isNeutralized).to.be.true;
+      expect(certificationChallenges[2].isNeutralized).to.be.true;
     });
 
     it('throws when the challenge was not asked', async () => {
       // given
       const challengeNotAskedToBeDeneutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1', isNeutralized: false });
 
-      const certificationAssessment = new CertificationAssessment({
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
         id: 123,
         userId: 123,
         certificationCourseId: 123,

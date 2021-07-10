@@ -6,36 +6,54 @@ const certificationChallengeRepository = require('../../../../lib/infrastructure
 
 describe('Integration | Repository | Certification Challenge', function() {
 
-  describe('#save', () => {
-
-    let certificationChallenge;
-
-    beforeEach(async () => {
-      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
-
-      certificationChallenge = domainBuilder.buildCertificationChallenge({
-        courseId: certificationCourseId,
-        certifiableBadgeKey: 'PIX-PROUT',
-      });
-      certificationChallenge.id = undefined;
-      await databaseBuilder.commit();
-    });
+  describe('#saveAll', () => {
 
     afterEach(() => {
       return knex('certification-challenges').delete();
     });
 
     it('should return certification challenge object', async () => {
-      const savedCertificationChallenge = await certificationChallengeRepository.save({ certificationChallenge });
+      // given
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+      await databaseBuilder.commit();
+
+      const challengesToBeSaved = [
+        domainBuilder.buildCertificationChallenge(),
+        domainBuilder.buildCertificationChallenge(),
+      ];
+      const savedCertificationChallenges = await certificationChallengeRepository.saveAll({ certificationCourseId, certificationChallenges: challengesToBeSaved });
 
       // then
-      expect(savedCertificationChallenge).to.be.an.instanceOf(CertificationChallenge);
-      expect(savedCertificationChallenge).to.have.property('id').and.not.null;
-      expect(_.omit(savedCertificationChallenge, 'id')).to.deep.equal(_.omit(certificationChallenge, 'id'));
+      expect(savedCertificationChallenges).to.have.lengthOf(2);
+      savedCertificationChallenges.forEach((savedChallenge) => {
+        expect(savedChallenge).to.be.an.instanceOf(CertificationChallenge);
+        expect(savedChallenge).to.have.property('id').and.not.null;
+        expect(savedChallenge.courseId).to.equal(certificationCourseId);
+      });
+
+      expect(_.omit(savedCertificationChallenges[0], ['id', 'courseId'])).to.deep.equal(_.omit(challengesToBeSaved[0], ['id', 'courseId']));
+      expect(_.omit(savedCertificationChallenges[1], ['id', 'courseId'])).to.deep.equal(_.omit(challengesToBeSaved[1], ['id', 'courseId']));
+    });
+
+    it('should persist the index of the challenges', async () => {
+      // given
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+      await databaseBuilder.commit();
+
+      const challengesToBeSaved = [
+        domainBuilder.buildCertificationChallenge(),
+        domainBuilder.buildCertificationChallenge(),
+      ];
+      await certificationChallengeRepository.saveAll({ certificationCourseId, certificationChallenges: challengesToBeSaved });
+
+      // then
+      const certificationChallengesRows = await knex('certification-challenges');
+      expect(certificationChallengesRows[0].index).to.equal(1);
+      expect(certificationChallengesRows[1].index).to.equal(2);
     });
   });
 
-  describe('#getNextNonAnsweredChallengeByCourseId', () => {
+  describe('#getNextNonAnsweredChallengeWithIndexByCourseId', () => {
 
     context('no non answered certification challenge', () => {
 
@@ -64,7 +82,7 @@ describe('Integration | Repository | Certification Challenge', function() {
 
       it('should reject the promise if no non answered challenge is found', function() {
         // when
-        const promise = certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId(
+        const promise = certificationChallengeRepository.getNextNonAnsweredChallengeWithIndexByCourseId(
           assessmentId, certificationCourseId,
         );
 
@@ -90,6 +108,7 @@ describe('Integration | Repository | Certification Challenge', function() {
             courseId: certificationCourseId,
             associatedSkill: '@brm7',
             competenceId: 'recCompetenceId1',
+            index: 1,
           });
         const firstUnansweredChallengeById =
           {
@@ -99,6 +118,7 @@ describe('Integration | Repository | Certification Challenge', function() {
             associatedSkill: '@brm24',
             competenceId: 'recCompetenceId2',
             createdAt: '2020-06-20T00:00:00Z',
+            index: 2,
           };
         const secondUnansweredChallengeById =
           {
@@ -108,6 +128,7 @@ describe('Integration | Repository | Certification Challenge', function() {
             associatedSkill: '@brm24',
             competenceId: 'recCompetenceId2',
             createdAt: '2020-06-21T00:00:00Z',
+            index: 3,
           };
 
         // "Second" is inserted first as we check the order is chosen on the specified id
@@ -125,13 +146,13 @@ describe('Integration | Repository | Certification Challenge', function() {
 
       it('should get challenges in the creation order', async () => {
         // when
-        const nextCertificationChallenge = await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId(
+        const question = await certificationChallengeRepository.getNextNonAnsweredChallengeWithIndexByCourseId(
           assessmentId, certificationCourseId,
         );
 
         // then
-        expect(nextCertificationChallenge).to.be.instanceOf(CertificationChallenge);
-        expect(nextCertificationChallenge.id).to.equal(firstUnansweredChallengeId);
+        expect(question.challenge.id).to.equal(firstUnansweredChallengeId);
+        expect(question.index).to.equal(2);
       });
 
     });

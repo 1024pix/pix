@@ -19,7 +19,7 @@ const certificationAssessmentSchema = Joi.object({
   completedAt: Joi.date().allow(null),
   state: Joi.string().valid(states.COMPLETED, states.STARTED).required(),
   isV2Certification: Joi.boolean().required(),
-  certificationChallenges: Joi.array().min(1).required(),
+  _certificationChallengesWithIndex: Joi.array().min(1).required(),
   certificationAnswersByDate: Joi.array().min(0).required(),
 });
 
@@ -33,7 +33,7 @@ class CertificationAssessment {
     completedAt,
     state,
     isV2Certification,
-    certificationChallenges,
+    certificationChallengesWithIndex,
     certificationAnswersByDate,
   } = {}) {
     this.id = id;
@@ -43,18 +43,36 @@ class CertificationAssessment {
     this.completedAt = completedAt;
     this.state = state;
     this.isV2Certification = isV2Certification;
-    this.certificationChallenges = certificationChallenges;
+    this._certificationChallengesWithIndex = certificationChallengesWithIndex;
+    /***
+     * [{index: 1, certificationChallenge: Object},...]
+     */
     this.certificationAnswersByDate = certificationAnswersByDate;
 
     validateEntity(certificationAssessmentSchema, this);
   }
 
   getCertificationChallenge(challengeId) {
-    return _.find(this.certificationChallenges, { challengeId }) || null;
+    return _.find(this.certificationChallengesInTestOrder(), { challengeId }) || null;
+  }
+
+  certificationChallengesInTestOrder() {
+    const areChallengesOrderedViaIndex = this._certificationChallengesWithIndex.every((challengeAndIndex) => Boolean(challengeAndIndex.index));
+    if (areChallengesOrderedViaIndex) {
+      return _(this._certificationChallengesWithIndex)
+        .sortBy('index')
+        .map('certificationChallenge')
+        .value();
+    } else {
+      return _(this._certificationChallengesWithIndex)
+        .sortBy('id')
+        .map('certificationChallenge')
+        .value();
+    }
   }
 
   neutralizeChallengeByRecId(recId) {
-    const challengeToBeNeutralized = _.find(this.certificationChallenges, { challengeId: recId });
+    const challengeToBeNeutralized = _.find(this.certificationChallengesInTestOrder(), { challengeId: recId });
     if (challengeToBeNeutralized) {
       challengeToBeNeutralized.neutralize();
     } else {
@@ -69,7 +87,7 @@ class CertificationAssessment {
     }
 
     if (_isAnswerKoOrSkippedOrPartially(toBeNeutralizedChallengeAnswer.result.status)) {
-      const challengeToBeNeutralized = _.find(this.certificationChallenges, { challengeId: toBeNeutralizedChallengeAnswer.challengeId });
+      const challengeToBeNeutralized = _.find(this.certificationChallengesInTestOrder(), { challengeId: toBeNeutralizedChallengeAnswer.challengeId });
       challengeToBeNeutralized.neutralize();
       return NeutralizationAttempt.neutralized(questionNumber);
     }
@@ -78,7 +96,7 @@ class CertificationAssessment {
   }
 
   deneutralizeChallengeByRecId(recId) {
-    const challengeToBeDeneutralized = _.find(this.certificationChallenges, { challengeId: recId });
+    const challengeToBeDeneutralized = _.find(this.certificationChallengesInTestOrder(), { challengeId: recId });
     if (challengeToBeDeneutralized) {
       challengeToBeDeneutralized.deneutralize();
     } else {
@@ -87,7 +105,7 @@ class CertificationAssessment {
   }
 
   listCertifiableBadgeKeysTaken() {
-    return _(this.certificationChallenges)
+    return _(this.certificationChallengesInTestOrder())
       .filter((certificationChallenge) => certificationChallenge.isPixPlus())
       .uniqBy('certifiableBadgeKey')
       .map('certifiableBadgeKey')
@@ -95,7 +113,7 @@ class CertificationAssessment {
   }
 
   findAnswersAndChallengesForCertifiableBadgeKey(certifiableBadgeKey) {
-    const certificationChallengesForBadge = _.filter(this.certificationChallenges, { certifiableBadgeKey });
+    const certificationChallengesForBadge = _.filter(this.certificationChallengesInTestOrder(), { certifiableBadgeKey });
     const challengeIds = _.map(certificationChallengesForBadge, 'challengeId');
     const answersForBadge = _.filter(this.certificationAnswersByDate, ({ challengeId }) => _.includes(challengeIds, challengeId));
     return {

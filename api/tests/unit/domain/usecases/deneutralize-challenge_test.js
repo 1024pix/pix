@@ -58,7 +58,7 @@ describe('Unit | UseCase | deneutralize-challenge', () => {
     };
 
     const challengeToBeDeneutralized = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: true });
-    const certificationAssessment = new CertificationAssessment({
+    const certificationAssessment = domainBuilder.buildCertificationAssessment({
       id: 123,
       userId: 123,
       certificationCourseId: 1,
