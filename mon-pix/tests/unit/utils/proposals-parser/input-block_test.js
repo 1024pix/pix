@@ -13,7 +13,7 @@ describe('Unit | Utils | Proposals Parser | Input Block', function() {
       { input: '${$banana}}', expectedInput: '$banana}' },
       { input: '${banana${}}', expectedInput: 'banana${}' },
     ].forEach((data) => {
-      it(`should remove input block wrapper for ${data.input}`, function() {
+      it(`should remove response block wrapper for ${data.input}`, function() {
         // given
         const input = data.input;
 
@@ -22,6 +22,7 @@ describe('Unit | Utils | Proposals Parser | Input Block', function() {
 
         // then
         expect(result.input).to.equal(data.expectedInput);
+        expect(result.type).to.equal('input');
       });
     });
   });

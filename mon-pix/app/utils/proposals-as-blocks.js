@@ -17,23 +17,21 @@ export default function proposalsAsBlocks(proposals) {
 
   challengeResponseTemplate.updateBlockDetails();
   challengeResponseTemplate.constructFinalTemplate();
-  return challengeResponseTemplate.get();
+  return challengeResponseTemplate.template;
 }
 
-function buildLineFrom(textBlock, challengeResponseTemplate) {
-  const isInput = _isInput(textBlock);
-  const block = textBlock;
+function buildLineFrom(block, challengeResponseTemplate) {
+  let blockToTemplate;
 
-  if (isInput) {
+  if (_isInput(block)) {
     challengeResponseTemplate.incrementInputCount();
-    const blockToTemplate = new InputBlock({ input: block, inputIndex: challengeResponseTemplate.inputCount });
-    blockToTemplate.addPlaceHolderAndAriaLabelIfExist();
-    challengeResponseTemplate.add(blockToTemplate);
+    blockToTemplate = new InputBlock({ input: block, inputIndex: challengeResponseTemplate.inputCount });
 
   } else {
-    const blockToTemplate = new TextBlock({ text: block });
-    challengeResponseTemplate.add(blockToTemplate);
+    blockToTemplate = new TextBlock({ text: block });
   }
+
+  challengeResponseTemplate.addBlock(blockToTemplate);
 }
 
 function _isInput(block) {
