@@ -1,6 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
 import ChallengeResponseTemplate from './proposals-parser/challenge-response-template';
 import InputBlock from './proposals-parser/input-block';
+import SelectBlock from './proposals-parser/select-block';
 import TextBlock from './proposals-parser/text-block';
 
 export default function proposalsAsBlocks(proposals) {
@@ -25,8 +26,12 @@ function buildLineFrom(block, challengeResponseTemplate) {
 
   if (_isInput(block)) {
     challengeResponseTemplate.incrementInputCount();
-    blockToTemplate = new InputBlock({ input: block, inputIndex: challengeResponseTemplate.inputCount });
 
+    if (_isSelect(block)) {
+      blockToTemplate = new SelectBlock({ input: block, inputIndex: challengeResponseTemplate.inputCount });
+    } else {
+      blockToTemplate = new InputBlock({ input: block, inputIndex: challengeResponseTemplate.inputCount });
+    }
   } else {
     blockToTemplate = new TextBlock({ text: block });
   }
@@ -36,4 +41,8 @@ function buildLineFrom(block, challengeResponseTemplate) {
 
 function _isInput(block) {
   return block.includes('${');
+}
+
+function _isSelect(block) {
+  return block.includes('||');
 }
