@@ -4,6 +4,7 @@ export default class ResponseBlock {
     this._input = input.replace('${', '').replace('}', '');
     this._placeholder = null;
     this._text = null;
+    this._options = null;
     this._ariaLabel = inputIndex.toString();
     this._autoAriaLabel = true;
     this._type = undefined;
@@ -55,6 +56,14 @@ export default class ResponseBlock {
 
   setAutoAriaLabel(value) {
     this._autoAriaLabel = value;
+  }
+
+  get options() {
+    return this._options;
+  }
+
+  setOptions(value) {
+    this._options = value;
   }
 
   get placeholder() {
