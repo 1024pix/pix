@@ -8,10 +8,6 @@ export default class ChallengeResponseTemplate {
     this._inputCount = 0;
   }
 
-  add(block) {
-    this._blocks.push(block);
-  }
-
   constructFinalTemplate() {
     this._blocks.forEach((block) => {
       if (block.type) {
@@ -44,11 +40,15 @@ export default class ChallengeResponseTemplate {
     this._inputCount++;
   }
 
+  addBlock(block) {
+    this._blocks.push(block);
+  }
+
   get inputCount() {
     return this._inputCount;
   }
 
-  get() {
+  get template() {
     return this._template;
   }
 
