@@ -120,11 +120,11 @@
     @display={{this.isShowingAuthenticationMethodModal}}
     @close={{this.closeAuthenticationMethodModal}}
   />
-  <DissociateUserModal
+  <Student::Sco::DissociateUserModal
     @student={{this.student}}
     @display={{this.isShowingDissociateModal}}
-    @close={{this.closeDissociateModal}}
-    @refreshModel={{@onDissociateUser}}
+    @onClose={{this.closeDissociateModal}}
+    @onSubmit={{@onDissociateUser}}
   />
 </div>
 
