@@ -114,11 +114,11 @@
     {{/unless}}
   </div>
 
-  <ManageAuthenticationMethodModal
+  <Student::Sco::ManageAuthenticationMethodModal
     @organizationId={{this.currentUser.organization.id}}
     @student={{this.student}}
     @display={{this.isShowingAuthenticationMethodModal}}
-    @close={{this.closeAuthenticationMethodModal}}
+    @onClose={{this.closeAuthenticationMethodModal}}
   />
   <Student::Sco::DissociateUserModal
     @student={{this.student}}
