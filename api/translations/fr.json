@@ -4,6 +4,7 @@
       "context": "Vous avez demandé la récupération de votre compte Pix.",
       "instruction": "Choisissez un mot de passe pour finaliser la procédure.",
       "choosePassword": "Choisir un mot de passe",
+      "linkValidFor": "Ce lien est valide 24 heures. Si vous n'êtes pas à l'origine de cette demande, merci d'ignorer cet e-mail.",
       "signing": "– L'équipe Pix",
       "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
       "moreOn": "En savoir plus sur",
