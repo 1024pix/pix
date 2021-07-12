@@ -52,10 +52,6 @@ class CertificationCourse {
     this._isCancelled = isCancelled;
   }
 
-  reportIssue(issueReport) {
-    this._certificationIssueReports.push(issueReport);
-  }
-
   static from({ certificationCandidate, challenges, verificationCode, maxReachableLevelOnCertificationDate }) {
     return new CertificationCourse({
       userId: certificationCandidate.userId,
@@ -75,8 +71,23 @@ class CertificationCourse {
     });
   }
 
+  withAssessment(assessment) {
+    return new CertificationCourse({
+      ...this.toDTO(),
+      assessment: assessment,
+    });
+  }
+
+  reportIssue(issueReport) {
+    this._certificationIssueReports.push(issueReport);
+  }
+
   cancel() {
     this._isCancelled = true;
+  }
+
+  complete({ now }) {
+    this._completedAt = now;
   }
 
   modifyFirstName(modifiedFirstName) {
@@ -121,6 +132,22 @@ class CertificationCourse {
     this._birthdate = modifiedBirthdate;
   }
 
+  isPublished() {
+    return this._isPublished;
+  }
+
+  doesBelongTo(userId) {
+    return this._userId === userId;
+  }
+
+  getId() {
+    return this._id;
+  }
+
+  getSessionId() {
+    return this._sessionId;
+  }
+
   toDTO() {
     return {
       id: this._id,
@@ -146,33 +173,6 @@ class CertificationCourse {
       maxReachableLevelOnCertificationDate: this._maxReachableLevelOnCertificationDate,
       isCancelled: this._isCancelled,
     };
-  }
-
-  getId() {
-    return this._id;
-  }
-
-  isPublished() {
-    return this._isPublished;
-  }
-
-  withAssessment(assessment) {
-    return new CertificationCourse({
-      ...this.toDTO(),
-      assessment: assessment,
-    });
-  }
-
-  doesBelongTo(userId) {
-    return this._userId === userId;
-  }
-
-  getSessionId() {
-    return this._sessionId;
-  }
-
-  complete({ now }) {
-    this._completedAt = now;
   }
 }
 
