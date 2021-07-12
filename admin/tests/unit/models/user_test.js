@@ -35,7 +35,7 @@ module('Unit | Model | user', function(hooks) {
       const user = store.createRecord('user', { email: 'john.doe@example.net', authenticationMethods: [authenticationMethod] });
 
       // then
-      assert.equal(user.hasEmailAuthenticationMethod, true);
+      assert.true(user.hasEmailAuthenticationMethod);
     });
   });
 
@@ -50,7 +50,7 @@ module('Unit | Model | user', function(hooks) {
       });
 
       // then
-      assert.equal(user.hasUsernameAuthenticationMethod, true);
+      assert.true(user.hasUsernameAuthenticationMethod);
     });
   });
 
@@ -62,7 +62,7 @@ module('Unit | Model | user', function(hooks) {
       const user = store.createRecord('user', { authenticationMethods: [authenticationMethod] });
 
       // then
-      assert.equal(user.hasPoleEmploiAuthenticationMethod, true);
+      assert.true(user.hasPoleEmploiAuthenticationMethod);
     });
   });
 
@@ -74,7 +74,7 @@ module('Unit | Model | user', function(hooks) {
       const user = store.createRecord('user', { authenticationMethods: [authenticationMethod] });
 
       // then
-      assert.equal(user.hasGARAuthenticationMethod, true);
+      assert.true(user.hasGARAuthenticationMethod);
     });
   });
 
@@ -86,7 +86,7 @@ module('Unit | Model | user', function(hooks) {
       const user = store.createRecord('user', { authenticationMethods: [authenticationMethod] });
 
       // then
-      assert.equal(user.hasOnlyOneAuthenticationMethod, true);
+      assert.true(user.hasOnlyOneAuthenticationMethod);
     });
 
     test('it should return false when user has more than one authentication method', function(assert) {
@@ -96,7 +96,7 @@ module('Unit | Model | user', function(hooks) {
       const user = store.createRecord('user', { authenticationMethods: [garAuthenticationMethod, poleEmploiAuthenticationMethod] });
 
       // then
-      assert.equal(user.hasOnlyOneAuthenticationMethod, false);
+      assert.false(user.hasOnlyOneAuthenticationMethod);
     });
 
   });

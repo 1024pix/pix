@@ -138,7 +138,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
         await controller.addCertificationCenterMembership(event);
 
         // then
-        assert.equal(controller.isDisabled, true);
+        assert.true(controller.isDisabled);
       });
 
       test('should set error message if the email is empty', async function(assert) {
@@ -184,7 +184,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
 
       module('when the response error contains an errors property', () => {
 
-        test('should send a specific error notification for http error 400, 404 and 412', async (assert) => {
+        test('should send a specific error notification for http error 400, 404 and 412', async function(assert) {
           // given
           const responseError = {
             errors: [

@@ -64,7 +64,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
     });
 
     module('when attaching organization works correctly', () => {
-      test('it displays a success notifications', async (assert) => {
+      test('it displays a success notifications', async function(assert) {
         controller.notifications = Service.create({ success: sinon.stub() });
         controller.model = { targetProfile: { attachOrganizations: sinon.stub().resolves() } };
         controller.organizationsToAttach = '1,2';
@@ -80,7 +80,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
     });
 
     module('when an organization is present several times', () => {
-      test('it remove duplicate ids', async (assert) => {
+      test('it remove duplicate ids', async function(assert) {
         controller.notifications = Service.create({ success: sinon.stub() });
         controller.model = { targetProfile: { attachOrganizations: sinon.stub().resolves() } };
         controller.organizationsToAttach = '1,1,2,3,3';
@@ -96,7 +96,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
 
     module('when there is an error', () => {
       module('when the error is correctly formed', () => {
-        test('it displays a notification for each 404 error found', async (assert) => {
+        test('it displays a notification for each 404 error found', async function(assert) {
           const errors = {
             errors: [
               { status: '401', detail: 'I am not displayed' },
@@ -115,7 +115,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
           assert.ok(controller.notifications.error.calledWith('I am displayed 2'));
         });
 
-        test('it displays a notification for each 412 error found', async (assert) => {
+        test('it displays a notification for each 412 error found', async function(assert) {
           const errors = {
             errors: [
               { status: '401', detail: 'I am not displayed' },
@@ -134,7 +134,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
           assert.ok(controller.notifications.error.calledWith('I am displayed too 2'));
         });
 
-        test('it displays a notification for each 400 error found', async (assert) => {
+        test('it displays a notification for each 400 error found', async function(assert) {
           const errors = {
             errors: [
               { status: '401', detail: 'I am not displayed' },
@@ -152,7 +152,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
           assert.equal(controller.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
         });
 
-        test('it displays nothing if there is no 404 or 400 errors found', async (assert) => {
+        test('it displays nothing if there is no 404 or 400 errors found', async function(assert) {
           const errors = {
             errors: [
               { status: '401', detail: 'I am not displayed' },
@@ -170,7 +170,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
       });
 
       module('when the error is not correctly formed', () => {
-        test('it displays a default notification', async (assert) => {
+        test('it displays a default notification', async function(assert) {
           const errors = {};
           controller.notifications = Service.create({ error: sinon.stub() });
           controller.model = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };

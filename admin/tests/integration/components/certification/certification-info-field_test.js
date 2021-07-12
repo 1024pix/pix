@@ -7,7 +7,7 @@ import { resolve } from 'rsvp';
 module('Integration | Component | <Certification::CertificationInfoField/>', function(hooks) {
   setupRenderingTest(hooks);
 
-  module('[Consultation mode]', async function() {
+  module('[Consultation mode]', function() {
 
     test('it should be in "consultation (read only) mode" by default when @edition (optional) argument is not provided', async function(assert) {
 
@@ -63,7 +63,7 @@ module('Integration | Component | <Certification::CertificationInfoField/>', fun
     });
   });
 
-  module('[Edition mode]', async function() {
+  module('[Edition mode]', function() {
 
     test('it should be in "edition (writable) mode" when @edition (optional) argument is set to "true"', async function(assert) {
 

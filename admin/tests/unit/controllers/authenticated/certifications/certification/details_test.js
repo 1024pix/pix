@@ -73,7 +73,7 @@ module('Unit | Controller | authenticated/certifications/certification/details',
       const shouldDisplayJuryScore = controller.shouldDisplayJuryScore;
 
       // then
-      assert.equal(shouldDisplayJuryScore, true);
+      assert.true(shouldDisplayJuryScore);
     });
 
     test('it returns true if the jury score is a number', function(assert) {
@@ -85,7 +85,7 @@ module('Unit | Controller | authenticated/certifications/certification/details',
       const shouldDisplayJuryScore = controller.shouldDisplayJuryScore;
 
       // then
-      assert.equal(shouldDisplayJuryScore, true);
+      assert.true(shouldDisplayJuryScore);
     });
 
     test('it returns false if the jury score is not a number', function(assert) {
@@ -97,7 +97,7 @@ module('Unit | Controller | authenticated/certifications/certification/details',
       const shouldDisplayJuryScore = controller.shouldDisplayJuryScore;
 
       // then
-      assert.equal(shouldDisplayJuryScore, false);
+      assert.false(shouldDisplayJuryScore);
     });
 
   });

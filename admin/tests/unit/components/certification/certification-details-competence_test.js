@@ -46,7 +46,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       const actual = component.competenceJury;
 
       // then
-      assert.equal(actual, false);
+      assert.false(actual);
     });
 
     test('it should give jury values when a jury rate is set and score differs', async function(assert) {
@@ -77,7 +77,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       const actual = component.competenceJury;
 
       // then
-      assert.equal(actual, false);
+      assert.false(actual);
     });
 
     test('it should give level n and positioned score when jury rate is set and 3 ok', async function(assert) {

@@ -12,9 +12,9 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
   setupRenderingTest(hooks);
 
-  module('When the administrator click on user details', async function() {
+  module('When the administrator click on user details', function() {
 
-    module('update button', async function() {
+    module('update button', function() {
 
       test('should display the update button', async function(assert) {
         // given
@@ -33,7 +33,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
     });
 
-    module('user authentication', async function() {
+    module('user authentication', function() {
 
       test('should display user’s first name', async function(assert) {
         // given
@@ -80,7 +80,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
     });
 
-    module('terms of service', async function() {
+    module('terms of service', function() {
 
       test('should display "OUI" when user accepted Pix App terms of service', async function(assert) {
         // given
@@ -149,7 +149,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
     });
 
-    module('schooling registrations', async function() {
+    module('schooling registrations', function() {
 
       module('When user has no schoolingRegistrations', function() {
 
@@ -245,7 +245,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
     });
   });
 
-  module('When the administrator click to update user details', async function() {
+  module('When the administrator click to update user details', function(hooks) {
 
     let user = null;
 
@@ -370,7 +370,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
     });
   });
 
-  module('when the administrator click on anonymize button', async function() {
+  module('when the administrator click on anonymize button', function(hooks) {
 
     let user = null;
 
@@ -410,7 +410,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
     });
   });
 
-  module('when the administrator click on dissociate button', async function() {
+  module('when the administrator click on dissociate button', function() {
 
     test('should display dissociate confirm modal', async function(assert) {
       // given

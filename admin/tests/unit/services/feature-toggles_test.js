@@ -25,7 +25,7 @@ module('Unit | Service | feature toggles', function(hooks) {
       await featureToggleService.load();
 
       // Then
-      assert.equal(featureToggleService.featureToggles.isTotoEnabled, false);
+      assert.false(featureToggleService.featureToggles.isTotoEnabled);
     });
   });
 });
