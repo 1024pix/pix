@@ -602,7 +602,7 @@ describe('Unit | Service | MailService', () => {
       const firstName = 'Carla';
       const temporaryKey = 'a temporary key';
       const email = 'carla@example.net';
-      const redirectionUrl = `https://app.pix.fr/api/account-recovery/${temporaryKey}`;
+      const redirectionUrl = `https://app.pix.fr/recuperer-mon-compte/${temporaryKey}`;
 
       // when
       await mailService.sendAccountRecoveryEmail({
