@@ -44,8 +44,8 @@ module('Acceptance | terms-of-service', function(hooks) {
       // then
       certificationPointOfContact.reload();
       const actualPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceAccepted;
-      assert.equal(actualPixCertifTermsOfServiceVal, true);
-      assert.equal(previousPixCertifTermsOfServiceVal, false);
+      assert.true(actualPixCertifTermsOfServiceVal);
+      assert.false(previousPixCertifTermsOfServiceVal);
     });
 
     test('it should redirect to session list after saving terms of service acceptation', async function(assert) {

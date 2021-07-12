@@ -73,7 +73,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       });
     });
 
-    module('when there are some candidates', function() {
+    module('when there are some candidates', function(hooks) {
 
       let sessionWithCandidates;
       let candidates;
@@ -328,7 +328,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       });
     });
 
-    test('it should redirect to the default candidates detail view', async (assert) => {
+    test('it should redirect to the default candidates detail view', async function(assert) {
       // given
       server.create('feature-toggle', {});
       const linkToCandidate = '.session-details-controls__navbar-tabs a:nth-of-type(2)';

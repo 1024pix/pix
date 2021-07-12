@@ -26,7 +26,7 @@ module('Unit | Component | login-form', (hooks) => {
 
   module('#authenticate', () => {
 
-    test('should authenticate user with trimmed email', async (assert) => {
+    test('should authenticate user with trimmed email', async function(assert) {
       // given
       const emailWithSpaces = '  email@example.net  ';
       component.email = emailWithSpaces;

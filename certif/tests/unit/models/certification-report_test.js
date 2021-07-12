@@ -22,7 +22,7 @@ module('Unit | Model | certification report', function(hooks) {
     assert.equal(model.firstName, 'Clément');
     assert.equal(model.lastName, 'Tine');
     assert.equal(model.certificationCourseId, 987);
-    assert.equal(model.hasSeenEndTestScreen, false);
+    assert.false(model.hasSeenEndTestScreen);
     assert.equal(model.firstIssueReportDescription, '');
   });
 

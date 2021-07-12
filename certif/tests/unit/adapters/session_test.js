@@ -34,7 +34,7 @@ module('Unit | Adapter | session', function(hooks) {
 
   module('#updateRecord', () => {
     module('when studentListToAdd adapter option passed', () => {
-      test('should trigger an ajax call with the url, data and method', async (assert) => {
+      test('should trigger an ajax call with the url, data and method', async function(assert) {
         // given
         sinon.stub(adapter, 'ajax').resolves();
         const studentListToAdd = [
@@ -66,7 +66,7 @@ module('Unit | Adapter | session', function(hooks) {
 
     module('when finalization adapter option passed', () => {
 
-      test('should trigger an ajax call with the url, data without former examinerComment', async (assert) => {
+      test('should trigger an ajax call with the url, data without former examinerComment', async function(assert) {
         // given
         sinon.stub(adapter, 'ajax').resolves();
         const expectedMethod = 'PUT';
