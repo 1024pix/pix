@@ -24,7 +24,7 @@ module('Unit | Adapters | certification-candidate', function(hooks) {
       const url = await adapter.urlForQuery(query);
 
       // then
-      assert.equal(url.endsWith(`/sessions/${sessionId}/certification-candidates`), true);
+      assert.true(url.endsWith(`/sessions/${sessionId}/certification-candidates`));
     });
   });
 
@@ -36,7 +36,7 @@ module('Unit | Adapters | certification-candidate', function(hooks) {
       const url = await adapter.urlForCreateRecord('certification-candidate', options);
 
       // then
-      assert.equal(url.endsWith('/certification-candidates'), true);
+      assert.true(url.endsWith('/certification-candidates'));
     });
 
     test('should build create url when registerToSession is true', async function(assert) {
@@ -45,7 +45,7 @@ module('Unit | Adapters | certification-candidate', function(hooks) {
       const url = await adapter.urlForCreateRecord('certification-candidate', options);
 
       // then
-      assert.equal(url.endsWith(`/sessions/${sessionId}/certification-candidates`), true);
+      assert.true(url.endsWith(`/sessions/${sessionId}/certification-candidates`));
     });
 
   });
@@ -58,7 +58,7 @@ module('Unit | Adapters | certification-candidate', function(hooks) {
       const url = await adapter.urlForDeleteRecord(certificationCandidateId, 'certification-candidate', options);
 
       // then
-      assert.equal(url.endsWith(`/certification-candidates/${certificationCandidateId}`), true);
+      assert.true(url.endsWith(`/certification-candidates/${certificationCandidateId}`));
     });
 
     test('should build delete url when sessionId passed in adapterOptions', async function(assert) {
@@ -67,7 +67,7 @@ module('Unit | Adapters | certification-candidate', function(hooks) {
       const url = await adapter.urlForDeleteRecord(certificationCandidateId, 'certification-candidate', options);
 
       // then
-      assert.equal(url.endsWith(`/sessions/${sessionId}/certification-candidates/${certificationCandidateId}`), true);
+      assert.true(url.endsWith(`/sessions/${sessionId}/certification-candidates/${certificationCandidateId}`));
     });
 
   });

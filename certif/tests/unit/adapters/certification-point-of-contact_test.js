@@ -21,7 +21,7 @@ module('Unit | Adapters | certification-point-of-contact', function(hooks) {
       const url = await adapter.urlForUpdateRecord(123, 'certification-point-of-contact', snapshot);
 
       // then
-      assert.equal(url.endsWith('/users/123/pix-certif-terms-of-service-acceptance'), true);
+      assert.true(url.endsWith('/users/123/pix-certif-terms-of-service-acceptance'));
     });
   });
 });

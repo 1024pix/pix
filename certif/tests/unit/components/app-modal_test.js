@@ -17,12 +17,12 @@ module('Unit | Component | app-modal', function(hooks) {
   module('#init', function() {
     test('should set the overlay as translucent', function(assert) {
       // then
-      assert.equal(modal.get('translucentOverlay'), true);
+      assert.true(modal.get('translucentOverlay'));
     });
 
     test('should activate keyboard events', function(assert) {
       // then
-      assert.equal(modal.get('keyboardActivated'), true);
+      assert.true(modal.get('keyboardActivated'));
     });
   });
 
@@ -35,7 +35,7 @@ module('Unit | Component | app-modal', function(hooks) {
       modal.trigger(keyUp('Escape'));
 
       // then
-      assert.equal(sendActionStub.calledOnce, true);
+      assert.true(sendActionStub.calledOnce);
     });
   });
 });
