@@ -179,6 +179,7 @@ function _pickUpdatableProperties(certificationCourse) {
     'birthplace',
     'firstName',
     'lastName',
+    'completedAt',
   ]);
 
   return dto;
