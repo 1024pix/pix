@@ -17,7 +17,7 @@ export default class DissociateUserModal extends Component {
       this.notifications.sendError(`La dissociation du compte de l’élève ${this.args.student.lastName} ${this.args.student.firstName} a échoué. Veuillez réessayer.`);
     }
 
-    this.args.close();
-    this.args.refreshModel();
+    this.args.onClose();
+    this.args.onSubmit();
   }
 }

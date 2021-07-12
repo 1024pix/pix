@@ -2,19 +2,19 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | dissociate-user-modal', function(hooks) {
+module('Integration | Component | Student::Sco::DissociateUserModal', function(hooks) {
 
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
     this.set('display', true);
-    this.set('refreshModel', sinon.stub());
+    this.set('onSubmit', sinon.stub());
     this.set('close', sinon.stub());
 
-    return render(hbs`<DissociateUserModal @refreshModel={{refreshModel}} @display={{display}} @close={{close}} @student={{student}}/>`);
+    return render(hbs`<Student::Sco::DissociateUserModal @onSubmit={{onSubmit}} @display={{display}} @onClose={{close}} @student={{student}}/>`);
   });
 
   module('when the user is authenticated with an email', function() {
