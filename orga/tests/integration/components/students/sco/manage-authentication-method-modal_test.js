@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
 import { resolve } from 'rsvp';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
@@ -9,7 +9,7 @@ import EmberObject from '@ember/object';
 import { triggerCopySuccess } from 'ember-cli-clipboard/test-support';
 import faker from 'faker';
 
-module('Integration | Component | manage-authentication-method-modal', function(hooks) {
+module('Integration | Component | Student::Sco::ManageAuthenticationMethodModal', function(hooks) {
 
   setupIntlRenderingTest(hooks);
 
@@ -50,7 +50,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
       test('should render component with username field', async function(assert) {
         // when
-        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
         assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.username.label'));
@@ -59,7 +59,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
       test('should render clipboard to copy username', async function(assert) {
         // when
-        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
         assert.dom(`button[aria-label="${this.intl.t('pages.students-sco.manage-authentication-method-modal.section.username.copy')}"]`).hasAttribute('data-clipboard-text', username);
@@ -68,7 +68,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
       test('should display tooltip when username copy button is clicked', async function(assert) {
         // given
-        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
         await triggerCopySuccess(`button[aria-label="${this.intl.t('pages.students-sco.manage-authentication-method-modal.section.username.copy')}"]`);
@@ -82,7 +82,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
       test('should render component with email field', async function(assert) {
         // when
-        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
         assert.dom('#email').hasValue(email);
@@ -90,7 +90,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
       test('should render clipboard to copy email', async function(assert) {
         // when
-        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
         assert.dom(`button[aria-label="${this.intl.t('pages.students-sco.manage-authentication-method-modal.section.email.copy')}"]`).hasAttribute('data-clipboard-text', email);
@@ -99,7 +99,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
       test('should display tooltip when email copy button is clicked', async function(assert) {
         // given
-        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
         await triggerCopySuccess(`button[aria-label="${this.intl.t('pages.students-sco.manage-authentication-method-modal.section.email.copy')}"]`);
@@ -113,7 +113,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
       test('should render add username authentication method', async function(assert) {
         // when
-        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithEmailOnly}} @display={{this.display}} />`);
+        await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithEmailOnly}} @display={{this.display}} />`);
 
         // then
         assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.email.label'));
@@ -144,7 +144,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
       test('should display unique password input when reset password button is clicked', async function(assert) {
         // given
-        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
         await clickByLabel(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button'));
@@ -155,7 +155,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
       test('should render clipboard to copy unique password', async function(assert) {
         // given
-        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
         await clickByLabel(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button'));
@@ -167,7 +167,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
       test('should display tooltip when generated password copy button is clicked', async function(assert) {
         // given
-        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
         await clickByLabel(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button'));
@@ -179,12 +179,12 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
       test('should generate unique password each time the modal is used', async function(assert) {
         // given
-        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
         await clickByLabel(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button'));
         const firstGeneratedPassword = this.element.querySelector('#generated-password').value;
 
         // when
-        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
+        await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
         await clickByLabel(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button'));
         const secondGeneratedPassword = this.element.querySelector('#generated-password').value;
 
@@ -207,7 +207,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
     test('should render component with GAR connection method', async function(assert) {
       // when
-      await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentGAR}} @display={{this.display}} />`);
+      await render(hbs`<Student::Sco::ManageAuthenticationMethodModal @student={{this.studentGAR}} @display={{this.display}} />`);
 
       // then
       assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.mediacentre.label'));
