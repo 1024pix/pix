@@ -14,10 +14,12 @@ module.exports = {
   },
   plugins: [
     'ember',
+    'qunit',
   ],
   extends: [
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
     'plugin:ember/recommended',
+    'plugin:qunit/recommended',
   ],
   env: {
     browser: true,

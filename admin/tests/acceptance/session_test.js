@@ -127,7 +127,7 @@ module('Acceptance | Session pages', function(hooks) {
         });
 
         module('copy link button', function() {
-          test('it should copy \'http://link-to-results.fr\' in navigator clipboard on click', async (assert) => {
+          test('it should copy \'http://link-to-results.fr\' in navigator clipboard on click', async function(assert) {
             // given
 
             // We were unable to access clipboard in test environment so we used a stub

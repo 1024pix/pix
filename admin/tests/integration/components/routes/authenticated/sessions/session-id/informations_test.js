@@ -70,7 +70,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     });
   });
 
-  module('when the session is finalized', function() {
+  module('when the session is finalized', function(hooks) {
 
     hooks.beforeEach(async function() {
       const sessionData = {
@@ -150,33 +150,33 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       });
 
     });
-  });
 
-  module('when the session results have been sent to the prescriber', function() {
+    module('when the session results have been sent to the prescriber', function() {
 
-    test('it renders the resultsSentToPrescriberAt date', async function(assert) {
-      // given
-      session.update({ resultsSentToPrescriberAt: new Date() });
+      test('it renders the resultsSentToPrescriberAt date', async function(assert) {
+        // given
+        session.update({ resultsSentToPrescriberAt: new Date() });
 
-      // when
-      await visit(`/sessions/${session.id}`);
+        // when
+        await visit(`/sessions/${session.id}`);
 
-      // when
-      assert.dom('[data-test-id="session-info__sent-to-prescriber-at"]').exists();
+        // when
+        assert.dom('[data-test-id="session-info__sent-to-prescriber-at"]').exists();
+      });
     });
-  });
 
-  module('when the session is processed', function() {
+    module('when the session is processed', function() {
 
-    test('it renders the publishedAt date', async function(assert) {
-      // given
-      session.update({ publishedAt: new Date() });
+      test('it renders the publishedAt date', async function(assert) {
+        // given
+        session.update({ publishedAt: new Date() });
 
-      // when
-      await visit(`/sessions/${session.id}`);
+        // when
+        await visit(`/sessions/${session.id}`);
 
-      // when
-      assert.dom('[data-test-id="session-info__published-at"]').exists();
+        // when
+        assert.dom('[data-test-id="session-info__published-at"]').exists();
+      });
     });
   });
 });

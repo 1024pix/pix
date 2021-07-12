@@ -25,7 +25,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       const result = controller.canPublish;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should be false when there is a certification started', async function(assert) {
@@ -37,7 +37,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       const result = controller.canPublish;
 
       // then
-      assert.equal(result, false);
+      assert.false(result);
     });
 
     test('should be true when there is no certification in error orstarted', async function(assert) {
@@ -49,7 +49,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       const result = controller.canPublish;
 
       // then
-      assert.equal(result, true);
+      assert.true(result);
     });
   });
 
@@ -72,7 +72,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
 
         // then
         assert.equal(controller.confirmMessage, 'Souhaitez-vous publier la session ?');
-        assert.equal(controller.displayConfirm, true);
+        assert.true(controller.displayConfirm);
       });
     });
 
@@ -88,7 +88,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
 
         // then
         assert.equal(controller.confirmMessage, 'Souhaitez-vous dépublier la session ?');
-        assert.equal(controller.displayConfirm, true);
+        assert.true(controller.displayConfirm);
       });
     });
   });
@@ -128,7 +128,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       // then
       assert.throws(model.save, anError);
       sinon.assert.called(notificationsStub.error);
-      assert.equal(controller.displayConfirm, false);
+      assert.false(controller.displayConfirm);
     });
 
     module('when session is not yet published', function() {
@@ -144,7 +144,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
         // then
         sinon.assert.calledWith(controller.model.save, { adapterOptions: { updatePublishedCertifications: true, toPublish: true } });
         sinon.assert.calledWith(notificationsStub.success, 'Les certifications ont été correctement publiées.');
-        assert.equal(controller.displayConfirm, false);
+        assert.false(controller.displayConfirm);
       });
     });
 
@@ -161,7 +161,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
         // then
         sinon.assert.calledWith(model.save, { adapterOptions: { updatePublishedCertifications: true, toPublish: false } });
         sinon.assert.calledWith(notificationsStub.success, 'Les certifications ont été correctement dépubliées.');
-        assert.equal(controller.displayConfirm, false);
+        assert.false(controller.displayConfirm);
       });
     });
   });
