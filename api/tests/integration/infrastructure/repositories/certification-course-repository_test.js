@@ -333,6 +333,7 @@ describe('Integration | Repository | Certification Course', function() {
         birthdate: '2000-01-01',
         birthplace: 'Paris',
         isCancelled: true,
+        completedAt: new Date('1999-12-31'),
       });
 
       // when
@@ -345,6 +346,7 @@ describe('Integration | Repository | Certification Course', function() {
       expect(persistedUpdatedCertificationCourse.toDTO().birthdate).to.equal(unpersitedUpdatedCertificationCourse.toDTO().birthdate);
       expect(persistedUpdatedCertificationCourse.toDTO().birthplace).to.equal(unpersitedUpdatedCertificationCourse.toDTO().birthplace);
       expect(persistedUpdatedCertificationCourse.toDTO().isCancelled).to.be.true;
+      expect(persistedUpdatedCertificationCourse.toDTO().completedAt).to.deep.equal(new Date('1999-12-31'));
     });
 
     it('should prevent other values to be updated', async () => {
