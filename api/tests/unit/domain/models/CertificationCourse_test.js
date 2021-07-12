@@ -146,4 +146,18 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
     });
   });
 
+  describe('#complete', () => {
+    it('completes the certification course', () => {
+      // given
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        completedAt: null,
+      });
+
+      // when
+      certificationCourse.complete(new Date('1999-12-31'));
+
+      // then
+      expect(certificationCourse.toDTO().completedAt).to.deep.equal(new Date('1999-12-31'));
+    });
+  });
 });
