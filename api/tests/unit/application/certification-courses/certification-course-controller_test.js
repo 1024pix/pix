@@ -190,7 +190,7 @@ describe('Unit | Controller | certification-course-controller', () => {
 
     it('should modify the certification course candidate ', async () => {
       // given
-      sinon.stub(usecases, 'modifyCertificationCandidateInCertificationCourse').resolves();
+      sinon.stub(usecases, 'correctCandidateIdentityInCertificationCourse').resolves();
       const updatedCertificationCourse = domainBuilder.buildCertificationCourse();
       sinon.stub(usecases, 'getCertificationCourse').resolves(updatedCertificationCourse);
 
@@ -198,7 +198,7 @@ describe('Unit | Controller | certification-course-controller', () => {
       await certificationCourseController.update(options, hFake);
 
       // then
-      expect(usecases.modifyCertificationCandidateInCertificationCourse).to.have.been.calledWith({
+      expect(usecases.correctCandidateIdentityInCertificationCourse).to.have.been.calledWith({
         command: {
           firstName: 'Phil',
           lastName: 'Defer',
@@ -214,7 +214,7 @@ describe('Unit | Controller | certification-course-controller', () => {
 
       it('should serialize and return saved certification course', async () => {
         // when
-        sinon.stub(usecases, 'modifyCertificationCandidateInCertificationCourse').resolves();
+        sinon.stub(usecases, 'correctCandidateIdentityInCertificationCourse').resolves();
         const updatedCertificationCourse = domainBuilder.buildCertificationCourse();
         sinon.stub(usecases, 'getCertificationCourse').resolves(updatedCertificationCourse);
         const response = await certificationCourseController.update(options, hFake);

@@ -272,7 +272,7 @@ module.exports = injectDependencies({
   importHigherSchoolingRegistrations: require('./import-higher-schooling-registrations'),
   importSchoolingRegistrationsFromSIECLEFormat: require('./import-schooling-registrations-from-siecle'),
   improveCompetenceEvaluation: require('./improve-competence-evaluation'),
-  modifyCertificationCandidateInCertificationCourse: require('./modify-certification-candidate-in-certification-course'),
+  correctCandidateIdentityInCertificationCourse: require('./correct-candidate-identity-in-certification-course'),
   linkUserToSessionCertificationCandidate: require('./link-user-to-session-certification-candidate').linkUserToSessionCertificationCandidate,
   reconcileHigherSchoolingRegistration: require('./reconcile-higher-schooling-registration'),
   reconcileSchoolingRegistration: require('./reconcile-schooling-registration'),
