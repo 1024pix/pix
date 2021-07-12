@@ -121,14 +121,27 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
   describe('#modifyBirthplace', () => {
     [null, undefined, '', '   ']
       .forEach((invalidBirthPlace) => {
-        it(`throws if birthplace is invalid : ${invalidBirthPlace}`, () => {
+        it(`does not modify if birthplace is invalid : ${invalidBirthPlace}`, () => {
+          // given
+          const certificationCourse = domainBuilder.buildCertificationCourse({
+            birthplace: 'some place',
+          });
+
+          // when
+          certificationCourse.modifyBirthplace(invalidBirthPlace);
+
+          // then
+          expect(certificationCourse.toDTO().birthplace).to.equal('some place');
+        });
+
+        it(`does not throw if birthplace is invalid : ${invalidBirthPlace}`, () => {
           // given
           const certificationCourse = domainBuilder.buildCertificationCourse();
 
           // when / then
           expect(() => {
             certificationCourse.modifyBirthplace(invalidBirthPlace);
-          }).to.throw(EntityValidationError);
+          }).not.to.throw();
         });
       });
 

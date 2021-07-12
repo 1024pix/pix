@@ -101,12 +101,9 @@ class CertificationCourse {
 
   modifyBirthplace(modifiedBirthplace) {
     const sanitizedString = _sanitizedString(modifiedBirthplace);
-    if (_.isEmpty(sanitizedString?.trim())) {
-      throw new EntityValidationError({
-        invalidAttributes: [{ attribute: 'birthplace', message: 'Candidate\'s birthplace must not be blank or empty' }],
-      });
+    if (!_.isEmpty(sanitizedString?.trim())) {
+      this._birthplace = sanitizedString;
     }
-    this._birthplace = sanitizedString;
   }
 
   modifyBirthdate(modifiedBirthdate) {
