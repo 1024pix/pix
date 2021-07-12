@@ -288,7 +288,8 @@ function notifyEmailChange({ email, locale }) {
       ...frTranslations['email-change-email'].body,
     };
 
-  } else if (locale === FRENCH_FRANCE) {
+  }
+  else if (locale === FRENCH_FRANCE) {
 
     options.subject = frTranslations['email-change-email'].subject;
 
@@ -318,14 +319,14 @@ function sendAccountRecoveryEmail({
   email,
   firstName,
   temporaryKey,
-  locale = FRENCH_FRANCE,
 }) {
   const pixName = PIX_NAME_FR;
   const redirectionUrl = `${settings.domain.pixApp + settings.domain.tldFr}/api/account-recovery/${temporaryKey}`;
   const variables = {
     firstName,
     redirectionUrl,
-    locale,
+    homeName: `pix${settings.domain.tldFr}`,
+    ...frTranslations['account-recovery-email'].params,
   };
 
   return mailer.sendEmail({

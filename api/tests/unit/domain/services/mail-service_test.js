@@ -597,7 +597,8 @@ describe('Unit | Service | MailService', () => {
 
     it('should call sendEmail with from, to, template, tags', async () => {
       // given
-      const locale = FRENCH_FRANCE;
+      const translationsMapping = mainTranslationsMapping.fr['account-recovery-email'];
+
       const firstName = 'Carla';
       const temporaryKey = 'a temporary key';
       const email = 'carla@example.net';
@@ -608,7 +609,6 @@ describe('Unit | Service | MailService', () => {
         email,
         firstName,
         temporaryKey,
-        locale,
       });
 
       // then
@@ -620,7 +620,8 @@ describe('Unit | Service | MailService', () => {
         variables: {
           firstName,
           redirectionUrl,
-          locale,
+          homeName: 'pix.fr',
+          ...translationsMapping.params,
         },
       };
       const options = mailer.sendEmail.firstCall.args[0];
