@@ -48,7 +48,7 @@ class CertificationCourse {
     this._certificationIssueReports = certificationIssueReports;
     this._userId = userId;
     this._sessionId = sessionId;
-    this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
+    this._maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
     this._isCancelled = isCancelled;
   }
 
@@ -146,7 +146,7 @@ class CertificationCourse {
       certificationIssueReports: this._certificationIssueReports, // TODO : this.certificationIssueReports.toDTO()
       userId: this._userId,
       sessionId: this._sessionId,
-      maxReachableLevelOnCertificationDate: this.maxReachableLevelOnCertificationDate,
+      maxReachableLevelOnCertificationDate: this._maxReachableLevelOnCertificationDate,
       isCancelled: this._isCancelled,
     };
   }
