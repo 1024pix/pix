@@ -34,7 +34,7 @@ module.exports = {
     const certificationCourseId = request.params.id;
     const userId = request.auth.credentials.userId;
     const command = await certificationSerializer.deserializeCertificationCandidateModificationCommand(request.payload, certificationCourseId, userId);
-    await usecases.modifyCertificationCandidateInCertificationCourse({ command });
+    await usecases.correctCandidateIdentityInCertificationCourse({ command });
     const updatedCertificationCourse = await usecases.getCertificationCourse({
       userId: command.userId,
       certificationCourseId: command.certificationCourseId,

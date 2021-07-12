@@ -1,4 +1,4 @@
-module.exports = async function modifyCandidateInCertificationCourse({
+module.exports = async function correctCandidateIdentityInCertificationCourse({
   command: {
     certificationCourseId,
     firstName,
@@ -9,9 +9,9 @@ module.exports = async function modifyCandidateInCertificationCourse({
   certificationCourseRepository,
 }) {
   const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
-  certificationCourse.modifyFirstName(firstName);
-  certificationCourse.modifyLastName(lastName);
-  certificationCourse.modifyBirthplace(birthplace);
-  certificationCourse.modifyBirthdate(birthdate);
+  certificationCourse.correctFirstName(firstName);
+  certificationCourse.correctLastName(lastName);
+  certificationCourse.correctBirthplace(birthplace);
+  certificationCourse.correctBirthdate(birthdate);
   await certificationCourseRepository.save({ certificationCourse });
 };

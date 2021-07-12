@@ -34,7 +34,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
     });
   });
 
-  describe('#modifyBirthdate', () => {
+  describe('#correctBirthdate', () => {
     ['2000-13-01', null, undefined, '', 'invalid']
       .forEach((invalidDate) => {
         it(`throws if date is invalid : ${invalidDate}`, () => {
@@ -43,7 +43,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
 
           // when / then
           expect(() => {
-            certificationCourse.modifyBirthdate(invalidDate);
+            certificationCourse.correctBirthdate(invalidDate);
           }).to.throw(EntityValidationError);
         });
       });
@@ -55,14 +55,14 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       });
 
       // when
-      certificationCourse.modifyBirthdate('2000-01-01');
+      certificationCourse.correctBirthdate('2000-01-01');
 
       // then
       expect(certificationCourse.toDTO().birthdate).to.equal('2000-01-01');
     });
   });
 
-  describe('#modifyFirstName', () => {
+  describe('#correctFirstName', () => {
     [null, undefined, '', '   ']
       .forEach((invalidFirstName) => {
         it(`throws if first name is invalid : ${invalidFirstName}`, () => {
@@ -71,7 +71,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
 
           // when / then
           expect(() => {
-            certificationCourse.modifyFirstName(invalidFirstName);
+            certificationCourse.correctFirstName(invalidFirstName);
           }).to.throw(EntityValidationError);
         });
       });
@@ -83,14 +83,14 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       });
 
       // when
-      certificationCourse.modifyFirstName('Marie  Claire');
+      certificationCourse.correctFirstName('Marie  Claire');
 
       // then
       expect(certificationCourse.toDTO().firstName).to.equal('Marie Claire');
     });
   });
 
-  describe('#modifyLastName', () => {
+  describe('#correctLastName', () => {
     [null, undefined, '', '   ']
       .forEach((invalidLastName) => {
         it(`throws if last name is invalid : ${invalidLastName}`, () => {
@@ -99,7 +99,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
 
           // when / then
           expect(() => {
-            certificationCourse.modifyLastName(invalidLastName);
+            certificationCourse.correctLastName(invalidLastName);
           }).to.throw(EntityValidationError);
         });
       });
@@ -111,14 +111,14 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       });
 
       // when
-      certificationCourse.modifyLastName('De  Montmirail');
+      certificationCourse.correctLastName('De  Montmirail');
 
       // then
       expect(certificationCourse.toDTO().lastName).to.equal('De Montmirail');
     });
   });
 
-  describe('#modifyBirthplace', () => {
+  describe('#correctBirthplace', () => {
     [null, undefined, '', '   ']
       .forEach((invalidBirthPlace) => {
         it(`does not modify if birthplace is invalid : ${invalidBirthPlace}`, () => {
@@ -128,7 +128,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
           });
 
           // when
-          certificationCourse.modifyBirthplace(invalidBirthPlace);
+          certificationCourse.correctBirthplace(invalidBirthPlace);
 
           // then
           expect(certificationCourse.toDTO().birthplace).to.equal('some place');
@@ -140,7 +140,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
 
           // when / then
           expect(() => {
-            certificationCourse.modifyBirthplace(invalidBirthPlace);
+            certificationCourse.correctBirthplace(invalidBirthPlace);
           }).not.to.throw();
         });
       });
@@ -152,7 +152,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       });
 
       // when
-      certificationCourse.modifyBirthplace('New  York');
+      certificationCourse.correctBirthplace('New  York');
 
       // then
       expect(certificationCourse.toDTO().birthplace).to.equal('New York');

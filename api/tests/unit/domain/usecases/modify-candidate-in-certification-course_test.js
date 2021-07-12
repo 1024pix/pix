@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
-const modifyCandidateInCertificationCourse = require('../../../../lib/domain/usecases/modify-certification-candidate-in-certification-course');
+const correctCandidateIdentityInCertificationCourse = require('../../../../lib/domain/usecases/correct-candidate-identity-in-certification-course');
 
 describe('Unit | UseCase | modify-candidate-in-certification-course', () => {
   it('it modifies the candidate', async () => {
@@ -28,7 +28,7 @@ describe('Unit | UseCase | modify-candidate-in-certification-course', () => {
     };
 
     // when
-    await modifyCandidateInCertificationCourse({
+    await correctCandidateIdentityInCertificationCourse({
       command,
       certificationCourseRepository,
     });

@@ -90,7 +90,7 @@ class CertificationCourse {
     this._completedAt = now;
   }
 
-  modifyFirstName(modifiedFirstName) {
+  correctFirstName(modifiedFirstName) {
     const sanitizedString = _sanitizedString(modifiedFirstName);
     if (_.isEmpty(sanitizedString)) {
       throw new EntityValidationError({
@@ -100,7 +100,7 @@ class CertificationCourse {
     this._firstName = sanitizedString;
   }
 
-  modifyLastName(modifiedLastName) {
+  correctLastName(modifiedLastName) {
     const sanitizedString = _sanitizedString(modifiedLastName);
     if (_.isEmpty(sanitizedString)) {
       throw new EntityValidationError({
@@ -110,14 +110,14 @@ class CertificationCourse {
     this._lastName = sanitizedString;
   }
 
-  modifyBirthplace(modifiedBirthplace) {
+  correctBirthplace(modifiedBirthplace) {
     const sanitizedString = _sanitizedString(modifiedBirthplace);
     if (!_.isEmpty(sanitizedString?.trim())) {
       this._birthplace = sanitizedString;
     }
   }
 
-  modifyBirthdate(modifiedBirthdate) {
+  correctBirthdate(modifiedBirthdate) {
     const { error } = Joi.date()
       .format('YYYY-MM-DD')
       .greater('1900-01-01')
