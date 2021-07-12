@@ -24,7 +24,6 @@ module.exports = async function sendEmailForAccountRecovery({
   await mailService.sendAccountRecoveryEmail({
     firstName: user.firstName,
     email,
-    locale: 'fr-fr',
     temporaryKey,
   });
 };
