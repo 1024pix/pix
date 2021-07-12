@@ -88,7 +88,7 @@ export default class ManageAuthenticationMethodModal extends Component {
   @action
   closeModal() {
     this.isUniquePasswordVisible = false;
-    this.args.close();
+    this.args.onClose();
   }
 
   _t(key) {

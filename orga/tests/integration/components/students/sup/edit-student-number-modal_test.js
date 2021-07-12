@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
-import fillInByLabel from '../../helpers/extended-ember-test-helpers/fill-in-by-label';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import fillInByLabel from '../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -33,7 +33,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
     this.set('close', closeStub);
     this.set('onSaveStudentNumber', onSaveStudentNumberStub);
 
-    return render(hbs`<EditStudentNumberModal @display={{display}} @closeModal={{close}} @student={{this.student}} @onSaveStudentNumber={{onSaveStudentNumber}}/>`);
+    return render(hbs`<Student::Sup::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`);
   });
 
   module('when the edit student number modal is open', function() {
@@ -47,7 +47,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
     module('when there is no student number yet', function() {
       test('should not render component with student number text', async function(assert) {
         this.student.set('studentNumber', null);
-        render(hbs`<EditStudentNumberModal @display={{display}} @closeModal={{close}} @student={{this.student}} @onSaveStudentNumber={{onSaveStudentNumber}}/>`);
+        render(hbs`<Student::Sup::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`);
 
         assert.notContains(`Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est : ${this.student.studentNumber}`);
       });
@@ -192,7 +192,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
     test('should not render component', async function(assert) {
       // given
       this.set('display', false);
-      render(hbs`<EditStudentNumberModal @display={{display}} @closeModal={{close}} @student={{this.student}}/>`);
+      render(hbs`<Student::Sup::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}}/>`);
 
       // then
       assert.dom('[aria-modal="true"]').doesNotExist();
