@@ -321,7 +321,7 @@ function sendAccountRecoveryEmail({
   temporaryKey,
 }) {
   const pixName = PIX_NAME_FR;
-  const redirectionUrl = `${settings.domain.pixApp + settings.domain.tldFr}/api/account-recovery/${temporaryKey}`;
+  const redirectionUrl = `${settings.domain.pixApp + settings.domain.tldFr}/recuperer-mon-compte/${temporaryKey}`;
   const variables = {
     firstName,
     redirectionUrl,
