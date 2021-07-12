@@ -22,7 +22,7 @@ export default class EditStudentNumberModal extends Component {
       return this.error = this.intl.t('pages.students-sup.edit-student-number-modal.form.error');
     }
     try {
-      await this.args.onSaveStudentNumber(this.newStudentNumber.trim());
+      await this.args.onSubmit(this.newStudentNumber.trim());
       this.notifications.sendSuccess(this.intl.t('pages.students-sup.edit-student-number-modal.form.success', { firstName: this.args.student.firstName, lastName: this.args.student.lastName }));
       this.close();
     } catch (errorResponse) {
@@ -33,7 +33,7 @@ export default class EditStudentNumberModal extends Component {
   @action
   close() {
     this._resetInput();
-    this.args.closeModal();
+    this.args.onClose();
   }
 
   _handleError(errorResponse) {
