@@ -173,6 +173,10 @@ class CertificationCourse {
   getSessionId() {
     return this._sessionId;
   }
+
+  complete(now) {
+    this._completedAt = now;
+  }
 }
 
 function _sanitizedString(string) {
