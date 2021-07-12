@@ -98,7 +98,6 @@ describe('Integration | Repository | Certification Course', function() {
     it('should update completedAt of the certificationCourse if one date is passed', async () => {
       // when
       const completionDate = new Date('2018-01-01T06:07:08Z');
-      // TODO : faire une méthode CertificationCourse::complete() ?
       const updatedCertificationCourse = await certificationCourseRepository.changeCompletionDate(courseId, completionDate);
 
       // then

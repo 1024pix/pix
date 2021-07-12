@@ -89,8 +89,9 @@ async function _saveResult({
     const competenceMarkDomain = new CompetenceMark({ ...competenceMark, ...{ assessmentResultId: assessmentResult.id } });
     return competenceMarkRepository.save(competenceMarkDomain);
   });
-
-  return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date());
+  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+  certificationCourse.complete({ now: new Date() });
+  return certificationCourseRepository.update(certificationCourse);
 }
 
 function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository }) {
@@ -115,7 +116,9 @@ async function _saveResultAfterCertificationComputeError({
     emitter: EMITTER,
   });
   await assessmentResultRepository.save(assessmentResult);
-  return certificationCourseRepository.changeCompletionDate(certificationAssessment.certificationCourseId, new Date());
+  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+  certificationCourse.complete({ now: new Date() });
+  return certificationCourseRepository.update(certificationCourse);
 }
 handleCertificationScoring.eventTypes = eventTypes;
 module.exports = handleCertificationScoring;

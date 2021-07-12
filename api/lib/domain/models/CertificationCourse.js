@@ -174,7 +174,7 @@ class CertificationCourse {
     return this._sessionId;
   }
 
-  complete(now) {
+  complete({ now }) {
     this._completedAt = now;
   }
 }
