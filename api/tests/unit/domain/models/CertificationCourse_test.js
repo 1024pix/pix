@@ -154,7 +154,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       });
 
       // when
-      certificationCourse.complete(new Date('1999-12-31'));
+      certificationCourse.complete({ now: new Date('1999-12-31') });
 
       // then
       expect(certificationCourse.toDTO().completedAt).to.deep.equal(new Date('1999-12-31'));
