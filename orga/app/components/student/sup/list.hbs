@@ -85,11 +85,11 @@
     {{/unless}}
   </div>
 
-  <EditStudentNumberModal
+  <Student::Sup::EditStudentNumberModal
     @student={{this.selectedStudent}}
-    @onSaveStudentNumber={{this.onSaveStudentNumber}}
     @display={{this.isShowingEditStudentNumberModal}}
-    @closeModal={{this.closeEditStudentNumberModal}}
+    @onClose={{this.closeEditStudentNumberModal}}
+    @onSubmit={{this.onSaveStudentNumber}}
   />
 </div>
 
