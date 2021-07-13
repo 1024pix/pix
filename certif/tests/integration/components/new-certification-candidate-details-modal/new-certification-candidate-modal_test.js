@@ -228,7 +228,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
   });
 
   module('when the postal code option is selected', () => {
-    test('it disable insee fields and requires postal code and city', async function(assert) {
+    test('it hides insee fields and requires postal code and city', async function(assert) {
       const closeModalStub = sinon.stub();
       const updateCandidateFromValueStub = sinon.stub();
       const updateCandidateFromEventStub = sinon.stub();
