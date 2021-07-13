@@ -31,5 +31,22 @@ describe('Integration | Application | Account-Recovery | Routes', () => {
 
     });
 
+    it('should return 404 http status code when the feature disabled', async () => {
+      // given
+      const temporaryKey = 'DJFKDKJJSHQJ';
+      const server = await createServer();
+
+      const options = {
+        method: 'GET',
+        url: '/api/account-recovery/' + temporaryKey,
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
   });
 });
