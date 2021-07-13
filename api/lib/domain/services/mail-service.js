@@ -23,6 +23,7 @@ const HELPDESK_ENGLISH_SPOKEN = 'https://pix.org/en-gb/contact-form';
 const HELPDESK_FRENCH_SPOKEN = 'https://pix.org/fr/formulaire-aide';
 
 const EMAIL_CHANGE_TAG = 'EMAIL_CHANGE';
+const SCO_ACCOUNT_RECOVERY_TAG = 'SCO_ACCOUNT_RECOVERY';
 
 function sendAccountCreationEmail(email, locale, redirectionUrl) {
 
@@ -335,6 +336,7 @@ function sendAccountRecoveryEmail({
     to: email,
     subject: 'Récupération de votre compte Pix',
     template: mailer.accountRecoveryTemplateId,
+    tags: [SCO_ACCOUNT_RECOVERY_TAG],
     variables,
   });
 }
