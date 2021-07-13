@@ -1,9 +1,9 @@
-const { sinon, expect, catchErr, domainBuilder } = require('../../../test-helper');
-const sendEmailForAccountRecovery = require('../../../../lib/domain/usecases/send-email-for-account-recovery.js');
-const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
-const AccountRecoveryDemand = require('../../../../lib/domain/models/AccountRecoveryDemand');
+const { sinon, expect, catchErr, domainBuilder } = require('../../../../test-helper');
+const sendEmailForAccountRecovery = require('../../../../../lib/domain/usecases/send-email-for-account-recovery.js');
+const { AlreadyRegisteredEmailError } = require('../../../../../lib/domain/errors');
+const AccountRecoveryDemand = require('../../../../../lib/domain/models/AccountRecoveryDemand');
 
-describe('Unit | UseCase | send-email-for-account-recovery', () => {
+describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', () => {
 
   let userRepository;
   let accountRecoveryDemandRepository;
