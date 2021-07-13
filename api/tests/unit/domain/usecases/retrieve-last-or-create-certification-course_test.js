@@ -247,27 +247,27 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               sessionId,
             };
             const mockCertificationCourse = {
-              userId,
-              sessionId,
-              firstName: foundCertificationCandidate.firstName,
-              lastName: foundCertificationCandidate.lastName,
-              birthdate: foundCertificationCandidate.birthdate,
-              birthplace: foundCertificationCandidate.birthCity,
-              externalId: foundCertificationCandidate.externalId,
-              isV2Certification: true,
+              _userId: userId,
+              _sessionId: sessionId,
+              _firstName: foundCertificationCandidate.firstName,
+              _lastName: foundCertificationCandidate.lastName,
+              _birthdate: foundCertificationCandidate.birthdate,
+              _birthplace: foundCertificationCandidate.birthCity,
+              _externalId: foundCertificationCandidate.externalId,
+              _isV2Certification: true,
             };
 
             const savedCertificationChallenge1 = { id: 'savedCertificationChallenge1' };
             const savedCertificationChallenge2 = { id: 'savedCertificationChallenge2' };
 
-            const savedCertificationCourse = {
+            const savedCertificationCourse = new CertificationCourse({
               id: 'savedCertificationCourse',
               challenges: [savedCertificationChallenge1, savedCertificationChallenge2],
-            };
+            });
 
             const mockAssessment = {
               userId,
-              certificationCourseId: savedCertificationCourse.id,
+              certificationCourseId: savedCertificationCourse.getId(),
               state: Assessment.states.STARTED,
               type: Assessment.types.CERTIFICATION,
             };
@@ -297,11 +297,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               // then
               expect(result).to.deep.equal({
                 created: true,
-                certificationCourse: {
-                  ...savedCertificationCourse,
+                certificationCourse: new CertificationCourse({
+                  ...savedCertificationCourse.toDTO(),
                   assessment: savedAssessment,
                   challenges: [savedCertificationChallenge1, savedCertificationChallenge2],
-                },
+                }),
               });
             });
 

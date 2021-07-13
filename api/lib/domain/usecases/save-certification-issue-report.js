@@ -10,7 +10,7 @@ module.exports = async function saveCertificationIssueReport({
 }) {
   const certificationCourse = await certificationCourseRepository.get(certificationIssueReportDTO.certificationCourseId);
 
-  const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({ userId, sessionId: certificationCourse.sessionId });
+  const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({ userId, sessionId: certificationCourse.getSessionId() });
   if (!isAuthorized) {
     throw new NotFoundError('Erreur lors de la sauvegarde du signalement. Veuillez vous connecter et réessayer.');
   }

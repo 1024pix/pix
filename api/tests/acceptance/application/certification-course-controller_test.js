@@ -322,7 +322,8 @@ describe('Acceptance | API | Certification Course', () => {
         options = {
           headers: { authorization: generateValidRequestAuthorizationHeader() },
           method: 'PATCH',
-          url: `/api/certification-courses/${certificationCourseId}`, payload: {
+          url: `/api/certification-courses/${certificationCourseId}`,
+          payload: {
             data: {
               type: 'certifications',
               id: certificationCourseId,

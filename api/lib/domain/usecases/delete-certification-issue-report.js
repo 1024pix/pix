@@ -14,12 +14,12 @@ module.exports = async function deleteCertificationIssueReport({
 
   const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({
     userId,
-    sessionId: certificationCourse.sessionId,
+    sessionId: certificationCourse.getSessionId(),
   });
   if (!isAuthorized) {
     throw new ForbiddenAccess('Certification issue report deletion forbidden');
   }
-  const isFinalized = await sessionRepository.isFinalized(certificationCourse.sessionId);
+  const isFinalized = await sessionRepository.isFinalized(certificationCourse.getSessionId());
   if (isFinalized) {
     throw new ForbiddenAccess('Certification issue report deletion forbidden');
   }

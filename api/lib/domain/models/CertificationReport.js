@@ -45,12 +45,13 @@ class CertificationReport {
   }
 
   static fromCertificationCourse(certificationCourse) {
+    const certificationCourseDTO = certificationCourse.toDTO();
     return new CertificationReport({
-      certificationCourseId: certificationCourse.id,
-      firstName: certificationCourse.firstName,
-      lastName: certificationCourse.lastName,
-      certificationIssueReports: certificationCourse.certificationIssueReports,
-      hasSeenEndTestScreen: certificationCourse.hasSeenEndTestScreen,
+      certificationCourseId: certificationCourseDTO.id,
+      firstName: certificationCourseDTO.firstName,
+      lastName: certificationCourseDTO.lastName,
+      certificationIssueReports: certificationCourseDTO.certificationIssueReports,
+      hasSeenEndTestScreen: certificationCourseDTO.hasSeenEndTestScreen,
     });
   }
 

@@ -50,7 +50,7 @@ describe('Integration | Repository | Certification Course', function() {
       const savedCertificationCourse = await certificationCourseRepository.save({ certificationCourse });
 
       // then
-      const retrievedCertificationCourse = await certificationCourseRepository.get(savedCertificationCourse.id);
+      const retrievedCertificationCourse = await certificationCourseRepository.get(savedCertificationCourse.getId());
       const fieldsToOmitInCertificationCourse = [
         'id',
         'assessment',
@@ -59,20 +59,20 @@ describe('Integration | Repository | Certification Course', function() {
         'createdAt',
         'certificationIssueReports',
       ];
-      const fieldsToOmitInCertificationChallenge = [ 'id', 'courseId' ];
 
       expect(
-        _.omit(retrievedCertificationCourse, fieldsToOmitInCertificationCourse),
+        _.omit(retrievedCertificationCourse.toDTO(), fieldsToOmitInCertificationCourse),
       ).to.deep.equal(
-        _.omit(certificationCourse, fieldsToOmitInCertificationCourse),
+        _.omit(certificationCourse.toDTO(), fieldsToOmitInCertificationCourse),
       );
 
-      const certificationChallengeToBeSaved = _.map(certificationCourse.challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
-      const savedCertificationChallenge = _.map(savedCertificationCourse.challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
+      const fieldsToOmitInCertificationChallenge = [ 'id', 'courseId' ];
+      const certificationChallengeToBeSaved = _.map(certificationCourse.toDTO().challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
+      const savedCertificationChallenge = _.map(savedCertificationCourse.toDTO().challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
       expect(savedCertificationChallenge).to.deep.equal(certificationChallengeToBeSaved);
 
       expect(
-        _.every(savedCertificationCourse.challenges, (c) => c.courseId === savedCertificationCourse.id),
+        _.every(savedCertificationCourse.challenges, (c) => c.courseId === savedCertificationCourse.getId()),
       ).to.be.true;
     });
 
@@ -82,7 +82,7 @@ describe('Integration | Repository | Certification Course', function() {
 
       // then
       expect(savedCertificationCourse).to.be.an.instanceOf(CertificationCourse);
-      expect(savedCertificationCourse).to.have.property('id').and.not.null;
+      expect(savedCertificationCourse.getId()).not.to.be.null;
     });
 
   });
@@ -102,7 +102,7 @@ describe('Integration | Repository | Certification Course', function() {
 
       // then
       expect(updatedCertificationCourse).to.be.instanceOf(CertificationCourse);
-      expect(new Date(updatedCertificationCourse.completedAt)).to.deep.equal(completionDate);
+      expect(new Date(updatedCertificationCourse.toDTO().completedAt)).to.deep.equal(completionDate);
     });
   });
 
@@ -190,15 +190,16 @@ describe('Integration | Repository | Certification Course', function() {
         const actualCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
         // then
-        expect(actualCertificationCourse.id).to.equal(expectedCertificationCourse.id);
-        expect(actualCertificationCourse.completedAt).to.equal(expectedCertificationCourse.completedAt);
-        expect(actualCertificationCourse.firstName).to.equal(expectedCertificationCourse.firstName);
-        expect(actualCertificationCourse.lastName).to.equal(expectedCertificationCourse.lastName);
-        expect(actualCertificationCourse.birthdate).to.equal(expectedCertificationCourse.birthdate);
-        expect(actualCertificationCourse.birthplace).to.equal(expectedCertificationCourse.birthplace);
-        expect(actualCertificationCourse.sessionId).to.equal(sessionId);
-        expect(actualCertificationCourse.isPublished).to.equal(expectedCertificationCourse.isPublished);
-        expect(actualCertificationCourse.certificationIssueReports[0].description).to.equal(description);
+        const actualCertificationCourseDTO = actualCertificationCourse.toDTO();
+        expect(actualCertificationCourseDTO.id).to.equal(expectedCertificationCourse.id);
+        expect(actualCertificationCourseDTO.completedAt).to.equal(expectedCertificationCourse.completedAt);
+        expect(actualCertificationCourseDTO.firstName).to.equal(expectedCertificationCourse.firstName);
+        expect(actualCertificationCourseDTO.lastName).to.equal(expectedCertificationCourse.lastName);
+        expect(actualCertificationCourseDTO.birthdate).to.equal(expectedCertificationCourse.birthdate);
+        expect(actualCertificationCourseDTO.birthplace).to.equal(expectedCertificationCourse.birthplace);
+        expect(actualCertificationCourseDTO.sessionId).to.equal(sessionId);
+        expect(actualCertificationCourseDTO.isPublished).to.equal(expectedCertificationCourse.isPublished);
+        expect(actualCertificationCourseDTO.certificationIssueReports[0].description).to.equal(description);
       });
 
       it('should retrieve associated challenges with the certification course', async () => {
@@ -206,7 +207,7 @@ describe('Integration | Repository | Certification Course', function() {
         const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
         // then
-        expect(thisCertificationCourse.challenges.length).to.equal(2);
+        expect(thisCertificationCourse.toDTO().challenges.length).to.equal(2);
       });
 
       context('When the certification course has one assessment', () => {
@@ -226,7 +227,7 @@ describe('Integration | Repository | Certification Course', function() {
           const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
           // then
-          expect(thisCertificationCourse.assessment.id).to.equal(assessmentId);
+          expect(thisCertificationCourse.toDTO().assessment.id).to.equal(assessmentId);
         });
 
       });
@@ -273,7 +274,7 @@ describe('Integration | Repository | Certification Course', function() {
       });
 
       // then
-      expect(certificationCourse.createdAt).to.deep.equal(createdAtLater);
+      expect(certificationCourse.toDTO().createdAt).to.deep.equal(createdAtLater);
     });
 
     it('should return null when no certification course found', async () => {
@@ -325,43 +326,51 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should update whitelisted values in database', async () => {
       // given
-      certificationCourse.firstName = 'Jean-Pix';
-      certificationCourse.lastName = 'Compétan';
-      certificationCourse.birthdate = '2000-01-01';
-      certificationCourse.birthplace = 'Paris';
-      certificationCourse.cancel();
+      const unpersistedUpdatedCertificationCourse = new CertificationCourse({
+        ...certificationCourse.toDTO(),
+        firstName: 'Jean-Pix',
+        lastName: 'Compétan',
+        birthdate: '2000-01-01',
+        birthplace: 'Paris',
+        isCancelled: true,
+        completedAt: new Date('1999-12-31'),
+      });
 
       // when
-      const certificationCourseUpdated = await certificationCourseRepository.update(certificationCourse);
+      const persistedUpdatedCertificationCourse = await certificationCourseRepository.update(unpersistedUpdatedCertificationCourse);
 
       // then
-      expect(certificationCourseUpdated.id).to.equal(certificationCourse.id);
-      expect(certificationCourseUpdated.firstName).to.equal(certificationCourse.firstName);
-      expect(certificationCourseUpdated.lastName).to.equal(certificationCourse.lastName);
-      expect(certificationCourseUpdated.birthdate).to.equal(certificationCourse.birthdate);
-      expect(certificationCourseUpdated.birthplace).to.equal(certificationCourse.birthplace);
-      expect(certificationCourseUpdated.isCancelled()).to.be.true;
+      const persistedUpdatedCertificationCourseDTO = persistedUpdatedCertificationCourse.toDTO();
+      const unpersistedUpdatedCertificationCourseDTO = unpersistedUpdatedCertificationCourse.toDTO();
+      expect(persistedUpdatedCertificationCourse.getId()).to.equal(unpersistedUpdatedCertificationCourse.getId());
+      expect(persistedUpdatedCertificationCourseDTO.firstName).to.equal(unpersistedUpdatedCertificationCourseDTO.firstName);
+      expect(persistedUpdatedCertificationCourseDTO.lastName).to.equal(unpersistedUpdatedCertificationCourseDTO.lastName);
+      expect(persistedUpdatedCertificationCourseDTO.birthdate).to.equal(unpersistedUpdatedCertificationCourseDTO.birthdate);
+      expect(persistedUpdatedCertificationCourseDTO.birthplace).to.equal(unpersistedUpdatedCertificationCourseDTO.birthplace);
+      expect(persistedUpdatedCertificationCourseDTO.isCancelled).to.be.true;
+      expect(persistedUpdatedCertificationCourseDTO.completedAt).to.deep.equal(new Date('1999-12-31'));
     });
 
     it('should prevent other values to be updated', async () => {
       // given
-      certificationCourse.isV2Certification = false;
+      certificationCourse._isV2Certification = false;
 
       // when
       const certificationCourseUpdated = await certificationCourseRepository.update(certificationCourse);
 
       // then
-      expect(certificationCourseUpdated.isV2Certification).to.be.true;
+      expect(certificationCourseUpdated.toDTO().isV2Certification).to.be.true;
     });
 
     it('should return a NotFoundError when ID doesnt exist', function() {
       // given
-      certificationCourse.id += 1;
-      certificationCourse.firstName = 'Jean-Pix';
-      certificationCourse.lastName = 'Compétan';
+      const certificationCourseToBeUpdated = new CertificationCourse({
+        ...certificationCourse,
+        id: certificationCourse.getId() + 1,
+      });
 
       // when
-      const promise = certificationCourseRepository.update(certificationCourse);
+      const promise = certificationCourseRepository.update(certificationCourseToBeUpdated);
 
       // then
       return expect(promise).to.be.rejectedWith(NotFoundError);
@@ -408,7 +417,7 @@ describe('Integration | Repository | Certification Course', function() {
     });
 
     function _cleanCertificationCourse(certificationCourse) {
-      return _.omit(certificationCourse, 'certificationIssueReports', 'assessment', 'challenges', 'updatedAt');
+      return _.omit(certificationCourse, '_certificationIssueReports', '_assessment', '_challenges', 'updatedAt');
     }
     it('should returns all certification courses id with given sessionId', async () => {
       // when
@@ -524,5 +533,5 @@ describe('Integration | Repository | Certification Course', function() {
 });
 
 function _cleanCertificationCourse(certificationCourse) {
-  return _.omit(certificationCourse, 'certificationIssueReports', 'assessment', 'challenges', 'updatedAt');
+  return _.omit(certificationCourse, '_certificationIssueReports', '_assessment', '_challenges', 'updatedAt');
 }
