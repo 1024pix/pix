@@ -42,6 +42,9 @@ module.exports = {
 
     const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
     const deserializedCandidate = await deserializer.deserialize(json);
+    deserializedCandidate.birthINSEECode = deserializedCandidate.birthInseeCode;
+    delete deserializedCandidate.birthInseeCode;
+
     return new CertificationCandidate(deserializedCandidate);
   },
 };

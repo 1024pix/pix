@@ -10,8 +10,10 @@ export default class EnrolledCandidates extends Component {
   @service store;
   @service notifications;
   @tracked candidatesInStaging = [];
+  @tracked newCandidate = {};
   @tracked shouldDisplayCertificationCandidateModal = false;
   @tracked certificationCandidateInDetailsModal = null;
+  @tracked showNewCertificationCandidateModal = false;
 
   get isCandidateBeingAdded() {
     return this.candidatesInStaging.length > 0;
@@ -36,12 +38,19 @@ export default class EnrolledCandidates extends Component {
 
   @action
   addCertificationCandidateInStaging() {
-    if (this.args.isNewCpfDataToggleEnabled) return;
+    if (!this.args.isNewCpfDataToggleEnabled) {
+      this.candidatesInStaging.pushObject(EmberObject.create({
+        firstName: '', lastName: '', birthdate: '', birthCity: '',
+        birthProvinceCode: '', birthCountry: '', email: '', externalId: '',
+        extraTimePercentage: '' }));
+    }
 
-    this.candidatesInStaging.pushObject(EmberObject.create({
-      firstName: '', lastName: '', birthdate: '', birthCity: '',
-      birthProvinceCode: '', birthCountry: '', email: '', externalId: '',
-      extraTimePercentage: '' }));
+    if (this.args.isNewCpfDataToggleEnabled) {
+      this.newCandidate = EmberObject.create({
+        firstName: '', lastName: '', birthdate: '', birthCity: '',
+        birthCountry: 'FRANCE', email: '', externalId: '', resultRecipientEmail: '',
+        birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '' });
+    }
   }
 
   @action
@@ -51,6 +60,7 @@ export default class EnrolledCandidates extends Component {
     const success = await this.saveCertificationCandidate(certificationCandidate);
     if (success) {
       this.candidatesInStaging.removeObject(candidate);
+      this.closeNewCertificationCandidateModal();
     }
   }
 
@@ -60,14 +70,19 @@ export default class EnrolledCandidates extends Component {
   }
 
   @action
-  updateCertificationCandidateInStagingBirthdate(candidateInStaging, value) {
-    candidateInStaging.set('birthdate', value);
+  updateCertificationCandidateInStagingFieldFromEvent(candidateInStaging, field, ev) {
+    const { value } = ev.target;
+    candidateInStaging.set(field, value);
   }
 
   @action
-  updateCertificationCandidateInStagingField(candidateInStaging, field, ev) {
-    const { value } = ev.target;
+  updateCertificationCandidateInStagingFieldFromValue(candidateInStaging, field, value) {
     candidateInStaging.set(field, value);
+  }
+
+  @action
+  updateCertificationCandidateInStagingBirthdate(candidateInStaging, value) {
+    candidateInStaging.set('birthdate', value);
   }
 
   @action
@@ -109,14 +124,28 @@ export default class EnrolledCandidates extends Component {
     this.certificationCandidateInDetailsModal = null;
   }
 
+  @action
+  openNewCertificationCandidateModal() {
+    this.addCertificationCandidateInStaging();
+    this.showNewCertificationCandidateModal = true;
+  }
+
+  @action
+  closeNewCertificationCandidateModal() {
+    this.showNewCertificationCandidateModal = false;
+  }
+
   _createCertificationCandidateRecord(certificationCandidateData) {
     return this.store.createRecord('certification-candidate', {
       firstName: this._trimOrUndefinedIfFalsy(certificationCandidateData.firstName),
       lastName: this._trimOrUndefinedIfFalsy(certificationCandidateData.lastName),
+      sex: this._trimOrUndefinedIfFalsy(certificationCandidateData.sex),
       birthdate: certificationCandidateData.birthdate,
+      birthCountry: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthCountry),
+      birthInseeCode: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthInseeCode),
+      birthPostalCode: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthPostalCode),
       birthCity: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthCity),
       birthProvinceCode: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthProvinceCode),
-      birthCountry: this._trimOrUndefinedIfFalsy(certificationCandidateData.birthCountry),
       externalId: this._trimOrUndefinedIfFalsy(certificationCandidateData.externalId),
       email: this._trimOrUndefinedIfFalsy(certificationCandidateData.email),
       resultRecipientEmail: this._trimOrUndefinedIfFalsy(certificationCandidateData.resultRecipientEmail),

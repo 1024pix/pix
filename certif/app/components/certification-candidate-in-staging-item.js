@@ -83,7 +83,7 @@ export default class CertificationCandidateInStagingItem extends Component {
   @action
   updateCandidateDataBirthdate(_, masked) {
     this.maskedBirthdate = masked;
-    this.args.updateCandidateBirthdate(this.args.candidateData, this._formatDate(masked));
+    this.args.updateCandidateBirthdate(this.args.candidateData, 'birthdate', this._formatDate(masked));
   }
 
   _formatDate(date) {

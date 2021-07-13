@@ -2,13 +2,19 @@ const {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
 } = require('../errors');
 
+const { featureToggles } = require('../../config');
+
 module.exports = async function addCertificationCandidateToSession({
   sessionId,
   certificationCandidate,
   certificationCandidateRepository,
 }) {
   certificationCandidate.sessionId = sessionId;
-  certificationCandidate.validate();
+
+  const version = featureToggles.isNewCPFDataEnabled ? '1.5' : '1.4';
+
+  certificationCandidate.validate(version);
+
   const duplicateCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo({
     sessionId,
     firstName: certificationCandidate.firstName,
