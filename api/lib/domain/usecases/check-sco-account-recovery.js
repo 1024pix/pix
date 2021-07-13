@@ -1,5 +1,4 @@
 const { MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError } = require('../../domain/errors');
-const _ = require('lodash');
 const StudentInformationForAccountRecovery = require('../read-models/StudentInformationForAccountRecovery');
 
 module.exports = async function checkScoAccountRecovery({
@@ -21,8 +20,7 @@ module.exports = async function checkScoAccountRecovery({
     throw new MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError();
   }
 
-  const latestOrganizationId = _getLatestOrganization(schoolingRegistrations);
-  const organization = await organizationRepository.get(latestOrganizationId);
+  const organization = await organizationRepository.get(schoolingRegistrationInformation.organizationId);
   const user = await userRepository.get(schoolingRegistrationInformation.userId);
 
   return new StudentInformationForAccountRecovery({
@@ -41,12 +39,4 @@ function _areThereMultipleStudentForSameAccount(schoolingRegistrations) {
     .filter((schoolingRegistration) => schoolingRegistration.nationalStudentId !== firstIne);
 
   return anotherStudentForSameAccount.length > 0;
-}
-
-function _getLatestOrganization(schoolingRegistrations) {
-  const latestSchoolingRegistration = _(schoolingRegistrations)
-    .sortBy('updatedAt')
-    .reverse()
-    .first();
-  return latestSchoolingRegistration.organizationId;
 }
