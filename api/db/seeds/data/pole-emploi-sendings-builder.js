@@ -7,17 +7,16 @@ module.exports = function poleEmploisSendingsBuilder({ databaseBuilder }) {
     return _.sample(possibleChoices);
   };
 
-  const _generateDate = () => {
-    const mounth = Math.floor(Math.random() * 12) + 1;
-    const day = Math.floor(Math.random() * 29) + 1;
-    return new Date(`2020-${mounth}-${day}`);
+  const _generateDate = (index) => {
+    const date = new Date('2019-12-01');
+    return new Date(date.setDate(date.getDate() + index));
   };
 
   _.times(300, async (index) => {
     const user = await databaseBuilder.factory.buildUser({ firstName: `FirstName-${index}`, lastName: `LastName-${index}` });
     await databaseBuilder.factory.buildAuthenticationMethod({ userId: user.id, identityProvider: 'POLE_EMPLOI', externalIdentifier: `externalUserId${user.id}` });
     const campaignParticipationId = await databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, campaignId: POLE_EMPLOI_CAMPAIGN_ID }).id;
-    await databaseBuilder.factory.buildPoleEmploiSending({ ..._generateStatus(), campaignParticipationId, createdAt: _generateDate(), payload: {
+    await databaseBuilder.factory.buildPoleEmploiSending({ ..._generateStatus(), campaignParticipationId, createdAt: _generateDate(index), payload: {
       campagne: {
         nom: 'Campagne PE',
         dateDebut: '2019-08-01T00:00:00.000Z',

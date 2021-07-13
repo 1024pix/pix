@@ -89,6 +89,10 @@ module.exports = (function() {
       tokenForStudentReconciliationLifespan: '1h',
     },
 
+    apiManager: {
+      url: (process.env.APIM_URL || 'https://gateway.pix.fr'),
+    },
+
     jwtConfig: {
       livretScolaire: {
         secret: process.env.LIVRET_SCOLAIRE_AUTH_SECRET,
