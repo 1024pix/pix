@@ -12,7 +12,7 @@ export default class StudentInformation extends Model {
   submitStudentInformation = memberAction({
     path: 'recover-account',
     type: 'post',
-    urlType: 'recover-account',
+    urlType: 'account-recovery',
     before() {
       const payload = this.serialize();
       return payload;
@@ -20,6 +20,7 @@ export default class StudentInformation extends Model {
     after(response) {
       if (response.data && response.data.attributes) {
         const deserializeResponse = {
+          userId: response.data.attributes['user-id'],
           firstName: response.data.attributes['first-name'],
           lastName: response.data.attributes['last-name'],
           email: response.data.attributes['email'],

@@ -1,0 +1,54 @@
+<h1 class="account-recovery-after-leaving-sco-content__title">
+  {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-is-needed-message' firstName=@firstName}}
+</h1>
+
+<div class="account-recovery-after-leaving-sco-content__step--content">
+  {{#if @existingEmail}}
+    <p class="account-recovery-after-leaving-sco-content__information-text">
+      {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-already-exist-for-account-message'}}
+      <strong>{{@existingEmail}}</strong>
+    </p>
+    <p class="account-recovery-after-leaving-sco-content__information-text--details">
+      {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-is-valid-message'}}
+      <LinkTo @route="password-reset-demand">
+        {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-reset-message'}}
+      </LinkTo>
+      {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.ask-for-new-email-message'}}
+    </p>
+  {{else}}
+    <p class="account-recovery-after-leaving-sco-content__information-text">
+      {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-sent-to-choose-password-message'}}
+    </p>
+  {{/if}}
+
+  <form onSubmit={{this.submitBackupEmailConfirmationForm}}>
+    <FormTextfield @label={{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'}}
+                  @textfieldName="email"
+                  @inputBindingValue={{this.email}}
+                  @onValidate={{this.validateEmail}}
+                  @validationStatus={{this.emailValidation.status}}
+                  @validationMessage={{this.emailValidation.message}}
+                  @autocomplete="off"
+                  @require={{true}}
+                  @hideRequired={{true}}/>
+
+    {{#if @showAlreadyRegisteredEmailError}}
+      <PixMessage @type='alert'>
+        {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.error.new-email-already-exist'}}
+      </PixMessage>
+    {{/if}}
+
+    <div class="account-recovery-after-leaving-sco-content__actions">
+      <PixButton
+        @isBorderVisible={{true}}
+        @triggerAction={{@cancelAccountRecovery}}
+        @backgroundColor="transparent-light"
+        class="confirmation-step__actions--cancel">
+          {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.actions.cancel'}}
+      </PixButton>
+      <PixButton @type="submit">
+        {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.actions.submit'}}
+      </PixButton>
+    </div>
+  </form>
+</div>

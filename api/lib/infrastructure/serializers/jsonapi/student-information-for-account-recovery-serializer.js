@@ -5,6 +5,7 @@ module.exports = {
   serialize(studentInformationForAccountRecovery) {
     return new Serializer('student-information-for-account-recoveries', {
       attributes: [
+        'userId',
         'firstName',
         'lastName',
         'username',

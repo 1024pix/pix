@@ -23,6 +23,7 @@ const HELPDESK_ENGLISH_SPOKEN = 'https://pix.org/en-gb/contact-form';
 const HELPDESK_FRENCH_SPOKEN = 'https://pix.org/fr/formulaire-aide';
 
 const EMAIL_CHANGE_TAG = 'EMAIL_CHANGE';
+const SCO_ACCOUNT_RECOVERY_TAG = 'SCO_ACCOUNT_RECOVERY';
 
 function sendAccountCreationEmail(email, locale, redirectionUrl) {
 
@@ -288,7 +289,8 @@ function notifyEmailChange({ email, locale }) {
       ...frTranslations['email-change-email'].body,
     };
 
-  } else if (locale === FRENCH_FRANCE) {
+  }
+  else if (locale === FRENCH_FRANCE) {
 
     options.subject = frTranslations['email-change-email'].subject;
 
@@ -314,6 +316,31 @@ function notifyEmailChange({ email, locale }) {
   return mailer.sendEmail(options);
 }
 
+function sendAccountRecoveryEmail({
+  email,
+  firstName,
+  temporaryKey,
+}) {
+  const pixName = PIX_NAME_FR;
+  const redirectionUrl = `${settings.domain.pixApp + settings.domain.tldFr}/recuperer-mon-compte/${temporaryKey}`;
+  const variables = {
+    firstName,
+    redirectionUrl,
+    homeName: `pix${settings.domain.tldFr}`,
+    ...frTranslations['account-recovery-email'].params,
+  };
+
+  return mailer.sendEmail({
+    from: EMAIL_ADDRESS_NO_RESPONSE,
+    fromName: pixName,
+    to: email,
+    subject: 'Récupération de votre compte Pix',
+    template: mailer.accountRecoveryTemplateId,
+    tags: [SCO_ACCOUNT_RECOVERY_TAG],
+    variables,
+  });
+}
+
 module.exports = {
   sendAccountCreationEmail,
   sendCertificationResultEmail,
@@ -321,4 +348,5 @@ module.exports = {
   sendScoOrganizationInvitationEmail,
   sendResetPasswordDemandEmail,
   notifyEmailChange,
+  sendAccountRecoveryEmail,
 };

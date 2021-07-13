@@ -9,6 +9,7 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
     it('should convert a StudentInformationForAccountRecovery model object into JSON API data', function() {
       //given
       const modelStudentInformationForAccountRecovery = new StudentInformationForAccountRecovery({
+        userId: 6,
         firstName: 'Jude',
         lastName: 'Law',
         username: 'jude.law0106',
@@ -24,6 +25,7 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
         data: {
           type: 'student-information-for-account-recoveries',
           attributes: {
+            'user-id': modelStudentInformationForAccountRecovery.userId,
             'first-name': modelStudentInformationForAccountRecovery.firstName,
             'last-name': modelStudentInformationForAccountRecovery.lastName,
             'username': modelStudentInformationForAccountRecovery.username,

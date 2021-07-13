@@ -593,4 +593,41 @@ describe('Unit | Service | MailService', () => {
 
   });
 
+  describe('#sendAccountRecoveryEmail', () => {
+
+    it('should call sendEmail with from, to, template, tags', async () => {
+      // given
+      const translationsMapping = mainTranslationsMapping.fr['account-recovery-email'];
+
+      const firstName = 'Carla';
+      const temporaryKey = 'a temporary key';
+      const email = 'carla@example.net';
+      const redirectionUrl = `https://app.pix.fr/recuperer-mon-compte/${temporaryKey}`;
+
+      // when
+      await mailService.sendAccountRecoveryEmail({
+        email,
+        firstName,
+        temporaryKey,
+      });
+
+      // then
+      const expectedOptions = {
+        from: senderEmailAddress,
+        to: email,
+        subject: 'Récupération de votre compte Pix',
+        template: 'test-account-recovery-template-id',
+        tags: ['SCO_ACCOUNT_RECOVERY'],
+        variables: {
+          firstName,
+          redirectionUrl,
+          homeName: 'pix.fr',
+          ...translationsMapping.params,
+        },
+      };
+      const options = mailer.sendEmail.firstCall.args[0];
+      expect(options).to.deep.include(expectedOptions);
+    });
+  });
+
 });

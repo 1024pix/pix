@@ -921,7 +921,7 @@
       "instruction": "Enter your new password",
       "succeed": "Your password has been changed successfully."
     },
-    "recover-account-after-leaving-sco": {
+    "account-recovery-after-leaving-sco": {
       "title": "Récupérer mon compte",
       "contact-support": {
         "link-text": "contactez le support.",
@@ -930,9 +930,10 @@
       "student-information": {
         "title": "Collégiens, lycéens, vous quittez le système scolaire et vous souhaitez récupérer votre accès à Pix",
         "subtitle": {
-          "link": "réinitialisez votre mot de passe ici",
+          "link": "réinitialisez votre mot de passe ici.",
           "text": "Si vous possédez un compte avec une adresse e-mail valide, "
         },
+        "mandatory-all-fields": "Tous les champs sont obligatoires.",
         "form": {
           "tooltip": "<strong>Où trouver mon INE ?</strong> <p>Cet identifiant se trouve souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.</p>",
           "ine-ina": "INE (Identifiant National Élève)",
@@ -999,7 +1000,7 @@
             "cancel": "Annuler"
           },
           "error":  {
-            "empty-email": "Le champ email est obligatoire.",
+            "empty-email": "Le champ adresse e-mail est obligatoire.",
             "wrong-email-format": "Votre adresse e-mail n’est pas valide.",
             "email-already-exist": {
               "existing-email": "Vous possédez déjà cette adresse e-mail. Si elle est valide,",
@@ -1010,6 +1011,12 @@
             "new-email-already-exist": "Cette adresse e-mail est déjà utilisée"
           }
         }
+      },
+      "send-email-confirmation": {
+        "title": "Récupération de votre compte Pix",
+        "send-email": "Nous venons de vous adresser un mail qui vous permettra de choisir un mot de passe. Vous pouvez consulter dès maintenant votre messagerie.",
+        "check-spam": "Si vous ne voyez pas cet e-mail, vérifiez vos courriers indésirables.",
+        "return": "Retour"
       }
     },
     "result-item": {
