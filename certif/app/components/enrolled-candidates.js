@@ -104,6 +104,8 @@ export default class EnrolledCandidates extends Component {
     } catch (err) {
       if (this._hasConflict(err)) {
         this._handleDuplicateError(certificationCandidate);
+      } else if (this._isEntityUnprocessable(err)) {
+        this._handleEntityValidationError(certificationCandidate, err);
       } else {
         this._handleUnknownSavingError(certificationCandidate);
       }
@@ -163,6 +165,11 @@ export default class EnrolledCandidates extends Component {
     this._handleSavingError(errorText, certificationCandidate);
   }
 
+  _handleEntityValidationError(certificationCandidate, err) {
+    const errorText = get(err, 'errors[0].detail');
+    this._handleSavingError(errorText, certificationCandidate);
+  }
+
   _handleSavingError(errorText, certificationCandidate) {
     this.notifications.error(errorText);
     certificationCandidate.deleteRecord();
@@ -170,6 +177,10 @@ export default class EnrolledCandidates extends Component {
 
   _hasConflict(err) {
     return get(err, 'errors[0].status') === '409';
+  }
+
+  _isEntityUnprocessable(err) {
+    return get(err, 'errors[0].status') === '422';
   }
 
   _hasDuplicate(certificationCandidate) {
