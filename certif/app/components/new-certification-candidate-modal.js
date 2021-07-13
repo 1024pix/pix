@@ -108,6 +108,10 @@ export default class NewCertificationCandidateModal extends Component {
     });
   }
 
+  get defaultCountryOption() {
+    return FRANCE_INSEE_CODE;
+  }
+
   _isFranceSelected() {
     return this.selectedCountryInseeCode === FRANCE_INSEE_CODE;
   }
