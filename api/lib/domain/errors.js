@@ -6,6 +6,12 @@ class DomainError extends Error {
   }
 }
 
+class AccountRecoveryDemandNotCreatedError extends DomainError {
+  constructor(message = 'La demande de récupération de compte n\'a pas pu être générée.') {
+    super(message);
+  }
+}
+
 class TargetProfileCannotBeCreated extends DomainError {
   constructor(message = 'Erreur lors de la création du profil cible.') {
     super(message);
@@ -825,6 +831,12 @@ class InvalidMembershipOrganizationRoleError extends DomainError {
   }
 }
 
+class TooManyRows extends DomainError {
+  constructor(message = 'Plusieurs enregistrements ont été retrouvés.') {
+    super(message);
+  }
+}
+
 class UnexpectedPoleEmploiStateError extends DomainError {
   constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
     super(message);
@@ -844,6 +856,7 @@ class InvalidExternalAPIResponseError extends DomainError {
 }
 
 module.exports = {
+  AccountRecoveryDemandNotCreatedError,
   AlreadyExistingEntityError,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingMembershipError,
@@ -933,6 +946,7 @@ module.exports = {
   SiecleXmlImportError,
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
+  TooManyRows,
   UnexpectedPoleEmploiStateError,
   UnexpectedUserAccountError,
   UserAccountNotFoundForPoleEmploiError,

@@ -1,0 +1,23 @@
+.confirmation-step-account-information {
+  list-style: none;
+  padding: 0;
+}
+
+.confirmation-step-account-information__field {
+  background: $grey-10;
+  border-radius: 8px;
+  height: 65px;
+  max-width: 400px;
+  padding: 12px 20px;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: $grey-70;
+
+  & > div:first-of-type {
+    color: $grey-70;
+    font-family: $font-roboto;
+    font-size: 0.875rem;
+    margin-bottom: 6px;
+    font-weight: normal;
+  }
+}

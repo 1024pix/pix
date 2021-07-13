@@ -79,8 +79,8 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'components/qroc-solution-panel';
 @import 'components/qrocm-solution-panel';
 @import 'components/reached-stage';
-@import 'components/recover-account-student-information-form';
-@import 'components/recover-account-confirmation-step';
+@import 'components/account-recovery/student-information-form';
+@import 'components/account-recovery/confirmation-step';
 @import 'components/register-form';
 @import 'components/reset-password-form';
 @import 'components/result-item';
@@ -122,7 +122,7 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'pages/not-connected';
 @import 'pages/profile';
 @import 'pages/profile-already-shared';
-@import 'pages/recover-account-after-leaving-sco';
+@import 'pages/account-recovery-after-leaving-sco';
 @import 'pages/send-profile';
 @import 'pages/sign-form';
 @import 'pages/skill-review';

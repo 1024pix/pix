@@ -412,6 +412,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       expect(response.result.data).to.deep.equal({
         type: 'student-information-for-account-recoveries',
         attributes: {
+          'user-id': 8,
           'first-name': 'Judy',
           'last-name': 'Howl',
           'username': 'jude.law0601',

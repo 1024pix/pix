@@ -1,4 +1,5 @@
 module.exports = [
+  require('./application/account-recovery'),
   require('./application/answers'),
   require('./application/assessment-results'),
   require('./application/assessments'),

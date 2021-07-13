@@ -1,4 +1,5 @@
 const dependencies = {
+  accountRecoveryDemandRepository: require('../../infrastructure/repositories/account-recovery-demand-repository'),
   answerRepository: require('../../infrastructure/repositories/answer-repository'),
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
@@ -282,6 +283,7 @@ module.exports = injectDependencies({
   retrieveLastOrCreateCertificationCourse: require('./retrieve-last-or-create-certification-course'),
   saveCertificationCenter: require('./save-certification-center'),
   saveCertificationIssueReport: require('./save-certification-issue-report'),
+  sendEmailForAccountRecovery: require('./send-email-for-account-recovery'),
   sendScoInvitation: require('./send-sco-invitation'),
   shareCampaignResult: require('./share-campaign-result'),
   startCampaignParticipation: require('./start-campaign-participation'),

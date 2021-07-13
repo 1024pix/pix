@@ -9,7 +9,7 @@ export default class StudentInformationAdapter extends ApplicationAdapter {
     requestType,
     query,
   ) {
-    if (requestType === 'recover-account') {
+    if (requestType === 'account-recovery') {
       return `${this.host}/${this.namespace}/schooling-registration-dependent-users/`;
     } else {
       return super.buildURL(
