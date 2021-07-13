@@ -52,7 +52,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     assert.dom('#email').exists();
   });
 
-  test('it shows a countries list', async function(assert) {
+  test('it shows a countries list with France selected as default', async function(assert) {
     // given
     const closeModalStub = sinon.stub();
     const updateCandidateStub = sinon.stub();
@@ -67,7 +67,8 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     }]);
     this.set('countries', [
       { id: 1, code: '99123', name: 'Syldavie' },
-      { id: 2, code: '99345', name: 'Botswana' },
+      { id: 2, code: '99100', name: 'France' },
+      { id: 3, code: '99345', name: 'Botswana' },
     ]);
 
     // when
@@ -85,6 +86,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     assert.dom('#birth-country').exists();
     assert.dom('#birth-country').includesText('Syldavie');
     assert.dom('#birth-country').includesText('Botswana');
+    assert.dom('#birth-country').hasValue('99100');
   });
 
   module('when close button cross icon is clicked', () => {
