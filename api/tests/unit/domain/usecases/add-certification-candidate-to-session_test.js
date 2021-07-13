@@ -3,6 +3,7 @@ const CertificationCandidate = require('../../../../lib/domain/models/Certificat
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
 const addCertificationCandidateToSession = require('../../../../lib/domain/usecases/add-certification-candidate-to-session');
 const { CertificationCandidateByPersonalInfoTooManyMatchesError, EntityValidationError } = require('../../../../lib/domain/errors');
+const { featureToggles } = require('../../../../lib/config');
 
 describe('Unit | UseCase | add-certification-candidate-to-session', () => {
   const sessionId = 1;
@@ -98,6 +99,46 @@ describe('Unit | UseCase | add-certification-candidate-to-session', () => {
 
         // then
         expect(certificationCandidate.sessionId).to.equal(sessionId);
+      });
+    });
+
+    context('when isNewCpfDataEnabled toggle is enabled', () => {
+
+      it('should validate the certification candidate with the right model version', async () => {
+        // given
+        certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves([]);
+        certificationCandidateRepository.saveInSession.resolves();
+        sinon.stub(featureToggles, 'isNewCPFDataEnabled').value(true);
+
+        // when
+        await addCertificationCandidateToSession({
+          sessionId,
+          certificationCandidate,
+          certificationCandidateRepository,
+        });
+
+        // then
+        expect(certificationCandidate.validate).to.has.been.calledWithExactly('1.5');
+      });
+    });
+
+    context('when isNewCpfDataEnabled toggle is not enabled', () => {
+
+      it('should validate the certification candidate with the right model version', async () => {
+        // given
+        certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves([]);
+        certificationCandidateRepository.saveInSession.resolves();
+        sinon.stub(featureToggles, 'isNewCPFDataEnabled').value(false);
+
+        // when
+        await addCertificationCandidateToSession({
+          sessionId,
+          certificationCandidate,
+          certificationCandidateRepository,
+        });
+
+        // then
+        expect(certificationCandidate.validate).to.has.been.calledWithExactly('1.4');
       });
     });
   });

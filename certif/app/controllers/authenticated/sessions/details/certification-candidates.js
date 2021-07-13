@@ -15,6 +15,7 @@ export default class CertificationCandidatesController extends Controller {
   @alias('model.certificationCandidates') certificationCandidates;
   @alias('model.reloadCertificationCandidate') reloadCertificationCandidate;
   @alias('model.shouldDisplayPrescriptionScoStudentRegistrationFeature') shouldDisplayPrescriptionScoStudentRegistrationFeature;
+  @alias('model.countries') countries;
 
   get pageTitle() {
     return `Candidats | Session ${this.currentSession.id} | Pix Certif`;
