@@ -118,7 +118,7 @@
                   type="radio"
                   id="insee-code-choice"
                   value="insee"
-                  checked={{this.isInseeCodeOptionSelected}}
+                  checked="checked"
                   {{on "click" (fn this.selectBirthGeoCodeOption "insee")}}
                   required
                 >
@@ -127,9 +127,7 @@
                   type="radio"
                   id="postal-code-choice"
                   value="postal"
-                  checked={{this.isPostalCodeOptionSelected}}
                   {{on "click" (fn this.selectBirthGeoCodeOption "postal")}}
-                  required
                 >
                 <label class="radio-button-label" for="postal-code-choice">Code postal</label>
               </div>
