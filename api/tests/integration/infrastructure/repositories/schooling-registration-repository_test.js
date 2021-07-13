@@ -1449,12 +1449,14 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         birthdate: '2000-12-07',
       };
       databaseBuilder.factory.buildSchoolingRegistration({
+        id: 1,
         organizationId: firstOrganizationId,
         userId: expectedUserId,
         ...studentInformation,
         updatedAt: new Date('2013-01-01T15:00:00Z'),
       });
       databaseBuilder.factory.buildSchoolingRegistration({
+        id: 80,
         organizationId: secondOrganizationId,
         userId: expectedUserId,
         ...studentInformation,
@@ -1468,6 +1470,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       // then
       expect(SchoolingRegistration).to.deep.equal({
+        id: 1,
         organizationId: 1,
         userId: expectedUserId,
         lastName: 'Jédusor',
