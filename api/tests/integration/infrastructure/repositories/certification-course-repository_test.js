@@ -52,18 +52,18 @@ describe('Integration | Repository | Certification Course', function() {
       // then
       const retrievedCertificationCourse = await certificationCourseRepository.get(savedCertificationCourse.getId());
       const fieldsToOmitInCertificationCourse = [
-        '_id',
-        '_assessment',
-        '_challenges',
-        '_completedAt',
-        '_createdAt',
-        '_certificationIssueReports',
+        'id',
+        'assessment',
+        'challenges',
+        'completedAt',
+        'createdAt',
+        'certificationIssueReports',
       ];
 
       expect(
-        _.omit(retrievedCertificationCourse, fieldsToOmitInCertificationCourse),
+        _.omit(retrievedCertificationCourse.toDTO(), fieldsToOmitInCertificationCourse),
       ).to.deep.equal(
-        _.omit(certificationCourse, fieldsToOmitInCertificationCourse),
+        _.omit(certificationCourse.toDTO(), fieldsToOmitInCertificationCourse),
       );
 
       const fieldsToOmitInCertificationChallenge = [ 'id', 'courseId' ];
@@ -326,7 +326,7 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should update whitelisted values in database', async () => {
       // given
-      const unpersitedUpdatedCertificationCourse = new CertificationCourse({
+      const unpersistedUpdatedCertificationCourse = new CertificationCourse({
         ...certificationCourse.toDTO(),
         firstName: 'Jean-Pix',
         lastName: 'Compétan',
@@ -337,16 +337,18 @@ describe('Integration | Repository | Certification Course', function() {
       });
 
       // when
-      const persistedUpdatedCertificationCourse = await certificationCourseRepository.update(unpersitedUpdatedCertificationCourse);
+      const persistedUpdatedCertificationCourse = await certificationCourseRepository.update(unpersistedUpdatedCertificationCourse);
 
       // then
-      expect(persistedUpdatedCertificationCourse.getId()).to.equal(unpersitedUpdatedCertificationCourse.getId());
-      expect(persistedUpdatedCertificationCourse.toDTO().firstName).to.equal(unpersitedUpdatedCertificationCourse.toDTO().firstName);
-      expect(persistedUpdatedCertificationCourse.toDTO().lastName).to.equal(unpersitedUpdatedCertificationCourse.toDTO().lastName);
-      expect(persistedUpdatedCertificationCourse.toDTO().birthdate).to.equal(unpersitedUpdatedCertificationCourse.toDTO().birthdate);
-      expect(persistedUpdatedCertificationCourse.toDTO().birthplace).to.equal(unpersitedUpdatedCertificationCourse.toDTO().birthplace);
-      expect(persistedUpdatedCertificationCourse.toDTO().isCancelled).to.be.true;
-      expect(persistedUpdatedCertificationCourse.toDTO().completedAt).to.deep.equal(new Date('1999-12-31'));
+      const persistedUpdatedCertificationCourseDTO = persistedUpdatedCertificationCourse.toDTO();
+      const unpersistedUpdatedCertificationCourseDTO = unpersistedUpdatedCertificationCourse.toDTO();
+      expect(persistedUpdatedCertificationCourse.getId()).to.equal(unpersistedUpdatedCertificationCourse.getId());
+      expect(persistedUpdatedCertificationCourseDTO.firstName).to.equal(unpersistedUpdatedCertificationCourseDTO.firstName);
+      expect(persistedUpdatedCertificationCourseDTO.lastName).to.equal(unpersistedUpdatedCertificationCourseDTO.lastName);
+      expect(persistedUpdatedCertificationCourseDTO.birthdate).to.equal(unpersistedUpdatedCertificationCourseDTO.birthdate);
+      expect(persistedUpdatedCertificationCourseDTO.birthplace).to.equal(unpersistedUpdatedCertificationCourseDTO.birthplace);
+      expect(persistedUpdatedCertificationCourseDTO.isCancelled).to.be.true;
+      expect(persistedUpdatedCertificationCourseDTO.completedAt).to.deep.equal(new Date('1999-12-31'));
     });
 
     it('should prevent other values to be updated', async () => {
