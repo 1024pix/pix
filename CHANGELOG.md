@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.73.0 (13/07/2021)
+
+- [#3175](https://github.com/1024pix/pix/pull/3175) [FEATURE] Envoyer un mail pour la récupération de compte - Sortie SCO (PIX-2735). 
+- [#3172](https://github.com/1024pix/pix/pull/3172) [FEATURE] Création d'un curseur et ajout de celui-ci dans la réponse lors des envois des résultats P-E (PIX-2743)
+- [#3160](https://github.com/1024pix/pix/pull/3160) [FEATURE] Ajouter une modale d'inscription d'un nouveau candidat (PIX-2713)
+- [#3167](https://github.com/1024pix/pix/pull/3167) [FEATURE] Mettre en page la récupération d'un compte SCO (PIX-2773).
+- [#3148](https://github.com/1024pix/pix/pull/3148) [BUGFIX] Ne pas sauvegarder deux fois un même badge pour un même user dans une campagne (PIX-2704).
+- [#3161](https://github.com/1024pix/pix/pull/3161) [TECH] Ajout du linter de tests qunit sur certif
+- [#3168](https://github.com/1024pix/pix/pull/3168) [TECH] Gère la redéfinition de l'extension de knex QueryBuilder pour les tests en mode watch
+- [#3157](https://github.com/1024pix/pix/pull/3157) [TECH] Supprimer les mixins d'Ember-simple-auth 3.1.0 dans Pix Orga (PIX-2767).
+- [#3154](https://github.com/1024pix/pix/pull/3154) [TECH] Ne pas filtrer le html contenu dans la consigne d'une épreuve lors de son affichage lors du checkpoint.
+- [#3174](https://github.com/1024pix/pix/pull/3174) [TECH] Ajouter les top level domains .fr et .org aux domaines locaux
+- [#2726](https://github.com/1024pix/pix/pull/2726) [TECH] Automatiser la création des domaines locaux pour le développement
+- [#3177](https://github.com/1024pix/pix/pull/3177) [SECU] Ajout de fichier SECURITY.md 
+- [#3158](https://github.com/1024pix/pix/pull/3158)  [TECH] Ajout du linter de tests qunit sur admin
+- [#3145](https://github.com/1024pix/pix/pull/3145) [DOC] Proposition d'ADR pour remplacer l'usage de l'ORM BookshelfJS en faveur du query-builder KnexJS
+
 ## v3.72.0 (07/07/2021)
 
 - [#3164](https://github.com/1024pix/pix/pull/3164) [FEATURE] Modifier les valeurs possibles pour la colonne "Code sexe*" de l'import Fregata (PIX-2699).
