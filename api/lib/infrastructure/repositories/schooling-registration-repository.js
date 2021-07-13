@@ -333,8 +333,9 @@ module.exports = {
     const schoolingRegistration = await knex
       .where({ nationalStudentId, firstName, lastName, birthdate })
       .whereNotNull('userId')
-      .select('userId', 'firstName', 'lastName')
+      .select('organizationId', 'userId', 'firstName', 'lastName')
       .from('schooling-registrations')
+      .orderBy('updatedAt', 'desc')
       .first();
 
     if (!schoolingRegistration) {

@@ -1436,9 +1436,11 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
   describe('#getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate', () => {
 
-    it('should return schooling registration information', async () => {
+    it('should return the latest schooling registration information', async () => {
       // given
       const expectedUserId = databaseBuilder.factory.buildUser().id;
+      const firstOrganizationId = databaseBuilder.factory.buildOrganization({ id: 1 }).id;
+      const secondOrganizationId = databaseBuilder.factory.buildOrganization({ id: 3 }).id;
 
       const studentInformation = {
         nationalStudentId: '123456789AA',
@@ -1447,8 +1449,16 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         birthdate: '2000-12-07',
       };
       databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: firstOrganizationId,
         userId: expectedUserId,
         ...studentInformation,
+        updatedAt: new Date('2013-01-01T15:00:00Z'),
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: secondOrganizationId,
+        userId: expectedUserId,
+        ...studentInformation,
+        updatedAt: new Date('2000-01-01T15:00:00Z'),
       });
 
       await databaseBuilder.commit();
@@ -1458,6 +1468,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       // then
       expect(SchoolingRegistration).to.deep.equal({
+        organizationId: 1,
         userId: expectedUserId,
         lastName: 'Jédusor',
         firstName: 'Tom',
