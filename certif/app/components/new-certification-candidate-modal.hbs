@@ -120,7 +120,7 @@
                   value="insee"
                   checked={{this.isInseeCodeOptionSelected}}
                   {{on "click" (fn this.selectBirthGeoCodeOption "insee")}}
-                  required={{this.isBirthGeoCodeRequired}}
+                  required
                 >
                 <label class="radio-button-label" for="insee-code-choice">Code INSEE</label>
                 <input
@@ -129,7 +129,7 @@
                   value="postal"
                   checked={{this.isPostalCodeOptionSelected}}
                   {{on "click" (fn this.selectBirthGeoCodeOption "postal")}}
-                  required={{this.isBirthGeoCodeRequired}}
+                  required
                 >
                 <label class="radio-button-label" for="postal-code-choice">Code postal</label>
               </div>
@@ -148,7 +148,7 @@
                 maxlength='5'
                 @class="input"
                 @value={{@candidateData.birthInseeCode}}
-                required={{this.isBirthInseeCodeRequired}}
+                required
                 {{on 'input' (fn @updateCandidateData @candidateData 'birthInseeCode')}}
               />
             </div>
@@ -166,7 +166,7 @@
                 maxlength='5'
                 @class="input"
                 @value={{@candidateData.birthPostalCode}}
-                required={{this.isBirthPostalCodeRequired}}
+                required
                 {{on 'input' (fn @updateCandidateData @candidateData 'birthPostalCode')}}
               />
             </div>
@@ -183,7 +183,7 @@
                 @type="text"
                 @class="input"
                 @value={{@candidateData.birthCity}}
-                required={{this.isBirthCityRequired}}
+                required
                 {{on 'input' (fn @updateCandidateData @candidateData 'birthCity')}}
               />
             </div>
