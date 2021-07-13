@@ -8,14 +8,14 @@ module.exports = async function checkScoAccountRecovery({
   organizationRepository,
   userRepository,
 }) {
-  const userId = await schoolingRegistrationRepository
-    .getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate({
+  const schoolingRegistrationInformation = await schoolingRegistrationRepository
+    .getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate({
       nationalStudentId: studentInformation.ineIna,
       firstName: studentInformation.firstName,
       lastName: studentInformation.lastName,
       birthdate: studentInformation.birthdate,
     });
-  const schoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId });
+  const schoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId: schoolingRegistrationInformation.userId });
 
   if (_areThereMultipleStudentForSameAccount(schoolingRegistrations)) {
     throw new MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError();
@@ -23,12 +23,12 @@ module.exports = async function checkScoAccountRecovery({
 
   const latestOrganizationId = _getLatestOrganization(schoolingRegistrations);
   const organization = await organizationRepository.get(latestOrganizationId);
-  const user = await userRepository.get(userId);
+  const user = await userRepository.get(schoolingRegistrationInformation.userId);
 
   return new StudentInformationForAccountRecovery({
-    userId,
-    firstName: user.firstName,
-    lastName: user.lastName,
+    userId: schoolingRegistrationInformation.userId,
+    firstName: schoolingRegistrationInformation.firstName,
+    lastName: schoolingRegistrationInformation.lastName,
     username: user.username,
     email: user.email,
     latestOrganizationName: organization.name,

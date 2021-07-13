@@ -16,7 +16,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
 
   beforeEach(() => {
     schoolingRegistrationRepository = {
-      getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate: sinon.stub(),
+      getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate: sinon.stub(),
       findByUserId: sinon.stub(),
     };
     userRepository = {
@@ -58,14 +58,18 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
           birthdate: studentInformation.birthdate,
         });
 
-        schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate
+        schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate
           .withArgs({
             nationalStudentId: studentInformation.ineIna,
             firstName: studentInformation.firstName,
             lastName: studentInformation.lastName,
             birthdate: studentInformation.birthdate,
           })
-          .resolves(expectedUser.id);
+          .resolves({
+            userId: expectedUser.id,
+            firstName: expectedUser.firstName,
+            lastName: expectedUser.lastName,
+          });
         schoolingRegistrationRepository.findByUserId.withArgs({ userId: expectedUser.id }).resolves([expectedSchoolingRegistration]);
         userRepository.get.withArgs(expectedUser.id).resolves(expectedUser);
         organizationRepository.get.withArgs(expectedOrganization.id).resolves(expectedOrganization);
@@ -135,14 +139,18 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
             birthdate: studentInformation.birthdate,
           });
 
-          schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate
+          schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate
             .withArgs({
               nationalStudentId: studentInformation.ineIna,
               firstName: studentInformation.firstName,
               lastName: studentInformation.lastName,
               birthdate: studentInformation.birthdate,
             })
-            .resolves(expectedUser.id);
+            .resolves({
+              userId: expectedUser.id,
+              firstName: expectedUser.firstName,
+              lastName: expectedUser.lastName,
+            });
           schoolingRegistrationRepository.findByUserId
             .withArgs({ userId: expectedUser.id })
             .resolves([firstSchoolingRegistration, secondSchoolingRegistration]);
@@ -221,14 +229,18 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
             updatedAt: new Date('2019-09-06T15:00:00Z'),
           });
 
-          schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate
+          schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate
             .withArgs({
               nationalStudentId: studentInformation.ineIna,
               firstName: studentInformation.firstName,
               lastName: studentInformation.lastName,
               birthdate: studentInformation.birthdate,
             })
-            .resolves(expectedUser.id);
+            .resolves({
+              userId: expectedUser.id,
+              firstName: expectedUser.firstName,
+              lastName: expectedUser.lastName,
+            });
           schoolingRegistrationRepository.findByUserId
             .withArgs({ userId: expectedUser.id })
             .resolves([firstSchoolingRegistration, secondSchoolingRegistration, thirdSchoolingRegistration]);
@@ -296,14 +308,18 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
             birthdate: '2004-05-07',
           });
 
-          schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate
+          schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate
             .withArgs({
               nationalStudentId: studentInformation.ineIna,
               firstName: studentInformation.firstName,
               lastName: studentInformation.lastName,
               birthdate: studentInformation.birthdate,
             })
-            .resolves(user.id);
+            .resolves({
+              userId: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+            });
           schoolingRegistrationRepository.findByUserId
             .withArgs({ userId: user.id })
             .resolves([firstSchoolingRegistration, secondSchoolingRegistration]);
