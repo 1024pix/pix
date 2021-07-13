@@ -4,5 +4,7 @@ module.exports = async function getUserByAccountRecoveryDemand({
   userRepository,
 }) {
   const accountRecoveryDemand = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
-  return userRepository.get(accountRecoveryDemand.userId);
+  const foundUser = await userRepository.get(accountRecoveryDemand.userId);
+  foundUser.email = accountRecoveryDemand.newEmail;
+  return foundUser;
 };

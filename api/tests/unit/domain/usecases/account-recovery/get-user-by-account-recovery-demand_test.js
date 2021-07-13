@@ -55,10 +55,11 @@ describe('Unit | UseCase | get-user-by-account-recovery-demand', () => {
     expect(error).to.be.an.instanceOf(UserNotFoundError);
   });
 
-  it('should return user when the user identifier exist', async () => {
+  it('should return a user with email updated by recovery demand new email', async () => {
     // given
     const user = domainBuilder.buildUser();
-    accountRecoveryDemandRepository.findByTemporaryKey.resolves({ userId: user.id });
+    const newEmail = 'newemail@example.net';
+    accountRecoveryDemandRepository.findByTemporaryKey.resolves({ userId: user.id, newEmail });
     userRepository.get.resolves(user);
 
     // when
@@ -70,6 +71,7 @@ describe('Unit | UseCase | get-user-by-account-recovery-demand', () => {
 
     // then
     expect(result).to.be.an.instanceOf(User);
+    expect(result.email).to.be.equal(newEmail);
     expect(accountRecoveryDemandRepository.findByTemporaryKey).to.have.been.calledWith(temporaryKey);
     expect(userRepository.get).to.have.been.calledWith(user.id);
   });
