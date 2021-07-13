@@ -1,4 +1,11 @@
 function certificationCpfCountryBuilder({ databaseBuilder }) {
+
+  databaseBuilder.factory.buildCertificationCpfCountry({
+    code: '99401',
+    commonName: 'CANADA',
+    originalName: 'CANADA',
+  });
+
   databaseBuilder.factory.buildCertificationCpfCountry({
     code: '99100',
     commonName: 'FRANCE',
@@ -15,12 +22,6 @@ function certificationCpfCountryBuilder({ databaseBuilder }) {
     code: '99243',
     commonName: 'VIET NAM',
     originalName: 'VIET NAM',
-  });
-
-  databaseBuilder.factory.buildCertificationCpfCountry({
-    code: '99424',
-    commonName: 'VENEZUELA',
-    originalName: 'VENEZUELA',
   });
 
   databaseBuilder.factory.buildCertificationCpfCountry({
