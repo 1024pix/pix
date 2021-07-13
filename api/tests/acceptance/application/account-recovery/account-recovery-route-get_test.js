@@ -6,12 +6,13 @@ describe('Integration | Application | Account-Recovery | Routes', () => {
 
   describe('GET /api/account-recovery/{temporaryKey}', () => {
 
-    it('should return 200 http status code when recovery demand found', async () => {
+    it('should return 200 http status code when account recovery demand found', async () => {
       // given
       const temporaryKey = 'DJFKDKJJSHQJ';
       const userId = 1234;
+      const newEmail = 'newEmail@example.net';
       databaseBuilder.factory.buildUser.withRawPassword({ id: userId });
-      databaseBuilder.factory.buildAccountRecoveryDemand({ userId, temporaryKey, used: false });
+      databaseBuilder.factory.buildAccountRecoveryDemand({ userId, temporaryKey, newEmail, used: false });
       await databaseBuilder.commit();
       const server = await createServer();
       featureToggles.isScoAccountRecoveryEnabled = true;
@@ -28,6 +29,7 @@ describe('Integration | Application | Account-Recovery | Routes', () => {
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.type).to.equal('users');
       expect(response.result.data.id).to.equal(userId.toString());
+      expect(response.result.data.attributes.email).to.equal(newEmail);
 
     });
 
