@@ -66,6 +66,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
             birthdate: studentInformation.birthdate,
           })
           .resolves({
+            organizationId: expectedOrganization.id,
             userId: expectedUser.id,
             firstName: expectedUser.firstName,
             lastName: expectedUser.lastName,
@@ -147,6 +148,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
               birthdate: studentInformation.birthdate,
             })
             .resolves({
+              organizationId: secondOrganization.id,
               userId: expectedUser.id,
               firstName: expectedUser.firstName,
               lastName: expectedUser.lastName,
@@ -177,99 +179,6 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
           expect(result).to.deep.equal(expectedResult);
         });
 
-        it('should return the name of latest organization of this user', async () => {
-          // given
-          const studentInformation = {
-            ineIna: '123456789AA',
-            firstName: 'Nanou',
-            lastName: 'Monchose',
-            birthdate: '2004-05-07',
-          };
-          const expectedUser = domainBuilder.buildUser({
-            id: 9,
-            firstName: studentInformation.firstName,
-            lastName: studentInformation.lastName,
-            birthdate: studentInformation.birthdate,
-            username: 'nanou.monchose0705',
-            email: 'nanou.monchose@example.net',
-          });
-
-          const firstOrganization = domainBuilder.buildOrganization({ id: 1, name: 'Lycée Saint Michel' });
-          const secondOrganization = domainBuilder.buildOrganization({ id: 7, name: 'Lycée Saint Paul' });
-          const latestOrganization = domainBuilder.buildOrganization({ id: 3, name: 'Lycée Poudlard' });
-
-          const firstSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
-            id: 88,
-            userId: expectedUser.id,
-            nationalStudentId: studentInformation.ineIna,
-            firstName: studentInformation.firstName,
-            lastName: studentInformation.lastName,
-            birthdate: studentInformation.birthdate,
-            organization: firstOrganization,
-            updatedAt: new Date('2000-01-01T15:00:00Z'),
-          });
-          const secondSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
-            id: 99,
-            userId: expectedUser.id,
-            nationalStudentId: studentInformation.ineIna,
-            firstName: studentInformation.firstName,
-            lastName: studentInformation.lastName,
-            birthdate: studentInformation.birthdate,
-            organization: secondOrganization,
-            updatedAt: new Date('2015-09-06T15:00:00Z'),
-          });
-          const thirdSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
-            id: 7,
-            userId: expectedUser.id,
-            nationalStudentId: studentInformation.ineIna,
-            firstName: studentInformation.firstName,
-            lastName: studentInformation.lastName,
-            birthdate: studentInformation.birthdate,
-            organization: latestOrganization,
-            updatedAt: new Date('2019-09-06T15:00:00Z'),
-          });
-
-          schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate
-            .withArgs({
-              nationalStudentId: studentInformation.ineIna,
-              firstName: studentInformation.firstName,
-              lastName: studentInformation.lastName,
-              birthdate: studentInformation.birthdate,
-            })
-            .resolves({
-              userId: expectedUser.id,
-              firstName: expectedUser.firstName,
-              lastName: expectedUser.lastName,
-            });
-          schoolingRegistrationRepository.findByUserId
-            .withArgs({ userId: expectedUser.id })
-            .resolves([firstSchoolingRegistration, secondSchoolingRegistration, thirdSchoolingRegistration]);
-
-          userRepository.get.withArgs(expectedUser.id).resolves(expectedUser);
-
-          organizationRepository.get.withArgs(firstOrganization.id).resolves(firstOrganization);
-          organizationRepository.get.withArgs(secondOrganization.id).resolves(secondOrganization);
-          organizationRepository.get.withArgs(latestOrganization.id).resolves(latestOrganization);
-
-          // when
-          const result = await checkScoAccountRecovery({
-            studentInformation,
-            schoolingRegistrationRepository,
-            organizationRepository,
-            userRepository,
-          });
-
-          // then
-          const expectedResult = {
-            userId: 9,
-            firstName: 'Nanou',
-            lastName: 'Monchose',
-            username: 'nanou.monchose0705',
-            email: 'nanou.monchose@example.net',
-            latestOrganizationName: 'Lycée Poudlard',
-          };
-          expect(result).to.deep.equal(expectedResult);
-        });
       });
 
       context('when at least one schooling registrations has a different INE', () => {
@@ -316,6 +225,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
               birthdate: studentInformation.birthdate,
             })
             .resolves({
+              organizationId: 1,
               userId: user.id,
               firstName: user.firstName,
               lastName: user.lastName,
