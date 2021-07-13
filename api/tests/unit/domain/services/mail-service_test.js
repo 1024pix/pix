@@ -617,6 +617,7 @@ describe('Unit | Service | MailService', () => {
         to: email,
         subject: 'Récupération de votre compte Pix',
         template: 'test-account-recovery-template-id',
+        tags: ['SCO_ACCOUNT_RECOVERY'],
         variables: {
           firstName,
           redirectionUrl,
