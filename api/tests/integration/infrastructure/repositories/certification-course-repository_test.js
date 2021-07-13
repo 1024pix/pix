@@ -190,15 +190,16 @@ describe('Integration | Repository | Certification Course', function() {
         const actualCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
         // then
-        expect(actualCertificationCourse.getId()).to.equal(expectedCertificationCourse.id);
-        expect(actualCertificationCourse.toDTO().completedAt).to.equal(expectedCertificationCourse.completedAt);
-        expect(actualCertificationCourse.toDTO().firstName).to.equal(expectedCertificationCourse.firstName);
-        expect(actualCertificationCourse.toDTO().lastName).to.equal(expectedCertificationCourse.lastName);
-        expect(actualCertificationCourse.toDTO().birthdate).to.equal(expectedCertificationCourse.birthdate);
-        expect(actualCertificationCourse.toDTO().birthplace).to.equal(expectedCertificationCourse.birthplace);
-        expect(actualCertificationCourse.toDTO().sessionId).to.equal(sessionId);
-        expect(actualCertificationCourse.isPublished()).to.equal(expectedCertificationCourse.isPublished);
-        expect(actualCertificationCourse.toDTO().certificationIssueReports[0].description).to.equal(description);
+        const actualCertificationCourseDTO = actualCertificationCourse.toDTO();
+        expect(actualCertificationCourseDTO.id).to.equal(expectedCertificationCourse.id);
+        expect(actualCertificationCourseDTO.completedAt).to.equal(expectedCertificationCourse.completedAt);
+        expect(actualCertificationCourseDTO.firstName).to.equal(expectedCertificationCourse.firstName);
+        expect(actualCertificationCourseDTO.lastName).to.equal(expectedCertificationCourse.lastName);
+        expect(actualCertificationCourseDTO.birthdate).to.equal(expectedCertificationCourse.birthdate);
+        expect(actualCertificationCourseDTO.birthplace).to.equal(expectedCertificationCourse.birthplace);
+        expect(actualCertificationCourseDTO.sessionId).to.equal(sessionId);
+        expect(actualCertificationCourseDTO.isPublished).to.equal(expectedCertificationCourse.isPublished);
+        expect(actualCertificationCourseDTO.certificationIssueReports[0].description).to.equal(description);
       });
 
       it('should retrieve associated challenges with the certification course', async () => {
