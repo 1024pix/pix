@@ -65,7 +65,7 @@ module.exports = class AnswerCollectionForScoring {
       }
     });
 
-    return nbOfCorrectAnswers;
+    return _.min([nbOfCorrectAnswers, 3]);
   }
 
   numberOfNeutralizedChallengesForCompetence(competenceId) {

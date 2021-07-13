@@ -34,6 +34,7 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
       CertificationContract.assertThatCompetenceHasAtLeastOneChallenge(challengesForCompetence, competence.index);
       CertificationContract.assertThatCompetenceHasAtLeastOneAnswer(answersForCompetence, competence.index);
       CertificationContract.assertThatEveryAnswerHasMatchingChallenge(answersForCompetence, challengesForCompetence);
+      CertificationContract.assertThatNoChallengeHasMoreThanOneAnswer(answersForCompetence, challengesForCompetence);
     }
 
     const certifiedLevel = CertifiedLevel.from({

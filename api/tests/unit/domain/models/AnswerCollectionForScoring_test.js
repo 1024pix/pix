@@ -395,7 +395,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfCorrectAnswers).to.equal(3);
     });
 
-    it('counts QROCMDeps as 1 when partially correctfor given competence', () => {
+    it('counts QROCMDeps as 1 when partially correct for given competence', () => {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -419,6 +419,26 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
 
       // then
       expect(numberOfCorrectAnswers).to.equal(2);
+    });
+
+    it('counts 2 QROCMDeps as 3 correct answers when fully correct for given competence', () => {
+      // given
+      const aCompetenceId = 'recIdOfACompetence';
+      const qROCMDepChallenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', competenceId: aCompetenceId, type: 'QROCM-dep' });
+      const qROCMDepChallenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', competenceId: aCompetenceId, type: 'QROCM-dep' });
+      const qROCMDepAnswer1 = domainBuilder.buildAnswer({ challengeId: qROCMDepChallenge1.challengeId, result: AnswerStatus.OK });
+      const qROCMDepAnswer2 = domainBuilder.buildAnswer({ challengeId: qROCMDepChallenge2.challengeId, result: AnswerStatus.OK });
+
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [ qROCMDepAnswer1, qROCMDepAnswer2 ],
+        challenges: [ qROCMDepChallenge1, qROCMDepChallenge2 ],
+      });
+
+      // when
+      const numberOfCorrectAnswers = answerCollection.numberOfCorrectAnswersForCompetence(aCompetenceId);
+
+      // then
+      expect(numberOfCorrectAnswers).to.equal(3);
     });
 
     it('counts QROCMDeps as 2 when fully correctfor given competence', () => {
