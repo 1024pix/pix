@@ -31,6 +31,7 @@ describe('Integration | Repository | PoleEmploiSending', () => {
     let originalEnvPoleEmploiSendingsLimit;
     let sending1;
     let sending2;
+    let sending3;
     let sending4;
 
     beforeEach(async () => {
@@ -45,17 +46,17 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       const user1Id = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod({ userId: user1Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId1' });
       const campaignParticipation1Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user1Id, campaignId }).id;
-      sending1 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation1Id, createdAt: new Date('2021-05-01'), payload: { individu: {} } });
+      sending1 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation1Id, createdAt: new Date('2021-03-01'), payload: { individu: {} } });
 
       const user2Id = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod({ userId: user2Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId2' });
       const campaignParticipation2Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user2Id, campaignId }).id;
-      sending2 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation2Id, createdAt: new Date('2021-04-01'), payload: { individu: {} } });
+      sending2 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation2Id, createdAt: '2021-04-01 00:00:00+00', payload: { individu: {} } });
 
       const user3Id = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod({ userId: user3Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId3' });
       const campaignParticipation3Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user3Id, campaignId }).id;
-      databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation3Id, createdAt: new Date('2021-03-01'), payload: { individu: {} } });
+      sending3 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation3Id, createdAt: new Date('2021-05-01'), payload: { individu: {} } });
 
       const user4Id = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod({ userId: user4Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId4' });
@@ -87,7 +88,7 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       const sendings = await poleEmploiSendingRepository.get();
 
       // then
-      expect(sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending4.id, sending1.id, sending2.id]);
+      expect(sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending4.id, sending3.id, sending2.id]);
     });
 
     it('should render sendings with idPoleEmploi inside the object', async () => {
@@ -95,7 +96,21 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       const sendings = await poleEmploiSendingRepository.get();
 
       // then
-      expect(sendings.map((sending) => sending.resultat.individu.idPoleEmploi)).to.deep.equal(['externalUserId4', 'externalUserId1', 'externalUserId2']);
+      expect(sendings.map((sending) => sending.resultat.individu.idPoleEmploi)).to.deep.equal(['externalUserId4', 'externalUserId3', 'externalUserId2']);
+    });
+
+    context('when there is an idEnvoi and a dateEnvoi in the cursor', function() {
+      it('should return sendings where the date is before de given date', async() => {
+        //given
+        const idEnvoi = sending2.id;
+        const dateEnvoi = sending2.createdAt;
+
+        //when
+        const sendings = await poleEmploiSendingRepository.get({ idEnvoi, dateEnvoi });
+
+        //then
+        expect(sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending1.id]);
+      });
     });
   });
 });
