@@ -3,6 +3,13 @@ import ChallengeResponseTemplate from './proposals-parser/challenge-response-tem
 import InputBlock from './proposals-parser/input-block';
 import SelectBlock from './proposals-parser/select-block';
 import TextBlock from './proposals-parser/text-block';
+import splitters from './proposals-parser/splitters';
+
+const {
+  BLOCK,
+  RESPONSE_BLOCK_BEGIN,
+  SELECT,
+} = splitters;
 
 export default function proposalsAsBlocks(proposals) {
 
@@ -11,7 +18,8 @@ export default function proposalsAsBlocks(proposals) {
   }
 
   const challengeResponseTemplate = new ChallengeResponseTemplate();
-  const blocks = proposals.split(/(\$\{[^}]+\})/).filter((line) => !isEmpty(line));
+  const blocks = proposals.split(BLOCK).filter((line) => !isEmpty(line));
+
   blocks.forEach((block) => {
     buildLineFrom(block, challengeResponseTemplate);
   });
@@ -40,9 +48,9 @@ function buildLineFrom(block, challengeResponseTemplate) {
 }
 
 function _isInput(block) {
-  return block.includes('${');
+  return block.includes(RESPONSE_BLOCK_BEGIN);
 }
 
 function _isSelect(block) {
-  return block.includes('||');
+  return block.includes(SELECT);
 }
