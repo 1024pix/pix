@@ -36,6 +36,16 @@ class CertificationContract {
       }
     });
   }
+
+  static assertThatNoChallengeHasMoreThanOneAnswer(answersForCompetence) {
+    const someChallengesHaveMoreThanOneAnswer = _(answersForCompetence)
+      .groupBy((answer) => answer.challengeId)
+      .some((answerGroup) => answerGroup.length > 1);
+
+    if (someChallengesHaveMoreThanOneAnswer) {
+      throw new CertificationComputeError('Plusieurs réponses pour une même épreuve');
+    }
+  }
 }
 
 module.exports = CertificationContract;

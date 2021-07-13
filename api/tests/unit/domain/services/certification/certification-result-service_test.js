@@ -1,11 +1,12 @@
 const _ = require('lodash');
-const { expect, sinon, domainBuilder } = require('../../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../../test-helper');
 const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
 const CertificationAssessment = require('../../../../../lib/domain/models/CertificationAssessment');
 const { states } = require('../../../../../lib/domain/models/CertificationAssessment');
 const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
 const placementProfileService = require('../../../../../lib/domain/services/placement-profile-service');
 const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
+const { CertificationComputeError } = require('../../../../../lib/domain/errors');
 
 function _buildUserCompetence(competence, pixScore, estimatedLevel) {
   return new UserCompetence({ ...competence, estimatedLevel, pixScore });
@@ -172,6 +173,134 @@ describe('Unit | Service | Certification Result Service', function() {
       competenceWithMarks_3_3,
       competenceWithMarks_4_4,
     ];
+
+    describe('When at least one challenge have more than one answer ', () => {
+      it('should throw', async () => {
+        // given
+        const certificationAnswersByDate = _.map([
+          { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_C_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_F_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_G_for_competence_3', result: 'ok' },
+          { challengeId: 'challenge_H_for_competence_3', result: 'ok' },
+          { challengeId: 'challenge_I_for_competence_3', result: 'ok' },
+          { challengeId: 'challenge_J_for_competence_4', result: 'ok' },
+          { challengeId: 'challenge_K_for_competence_4', result: 'ok' },
+          { challengeId: 'challenge_K_for_competence_4', result: 'ok' },
+          { challengeId: 'challenge_L_for_competence_4', result: 'ok' },
+        ], domainBuilder.buildAnswer);
+
+        const certificationAssessment = {
+          certificationAnswersByDate,
+          certificationChallenges: challenges,
+        };
+
+        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
+        sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
+          userId: certificationAssessment.userId,
+          limitDate: certificationAssessment.createdAt,
+          isV2Certification: certificationAssessment.isV2Certification,
+        }).resolves({ userCompetences });
+
+        // when
+        const error = await catchErr(certificationResultService.getCertificationResult)({ certificationAssessment, continueOnError: false });
+
+        // then
+        expect(error).to.be.instanceOf(CertificationComputeError);
+        expect(error.message).to.equal('Plusieurs réponses pour une même épreuve');
+      });
+    });
+
+    describe('When there are more challenges than answers ', () => {
+      it('should throw', async () => {
+        // given
+        const certificationAnswersByDate = _.map([
+          { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_C_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_F_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_G_for_competence_3', result: 'ok' },
+          { challengeId: 'challenge_H_for_competence_3', result: 'ok' },
+          { challengeId: 'challenge_I_for_competence_3', result: 'ok' },
+          { challengeId: 'challenge_J_for_competence_4', result: 'ok' },
+          { challengeId: 'challenge_K_for_competence_4', result: 'ok' },
+        ], domainBuilder.buildAnswer);
+
+        const certificationAssessment = {
+          certificationAnswersByDate,
+          certificationChallenges: challenges,
+        };
+
+        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
+        sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
+          userId: certificationAssessment.userId,
+          limitDate: certificationAssessment.createdAt,
+          isV2Certification: certificationAssessment.isV2Certification,
+        }).resolves({ userCompetences });
+
+        // when
+        const error = await catchErr(certificationResultService.getCertificationResult)({ certificationAssessment, continueOnError: false });
+
+        // then
+        expect(error).to.be.instanceOf(CertificationComputeError);
+        expect(error.message).to.equal('L’utilisateur n’a pas répondu à toutes les questions');
+      });
+    });
+
+    describe('When there is no challenge for a competence ', () => {
+      it('should throw', async () => {
+        // given
+        const certificationAnswersByDate = _.map([
+          { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_C_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_F_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_G_for_competence_3', result: 'ok' },
+          { challengeId: 'challenge_H_for_competence_3', result: 'ok' },
+          { challengeId: 'challenge_I_for_competence_3', result: 'ok' },
+          { challengeId: 'challenge_J_for_competence_4', result: 'ok' },
+          { challengeId: 'challenge_K_for_competence_4', result: 'ok' },
+        ], domainBuilder.buildAnswer);
+
+        const challenges = _.map([
+          { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1', type: 'QCM' },
+          { challengeId: 'challenge_C_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeC_1', type: 'QCM' },
+          { challengeId: 'challenge_B_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeB_1', type: 'QCM' },
+          { challengeId: 'challenge_D_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeD_2', type: 'QCM' },
+          { challengeId: 'challenge_E_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeE_2', type: 'QCM' },
+          { challengeId: 'challenge_F_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeF_2', type: 'QCM' },
+          { challengeId: 'challenge_G_for_competence_3', competenceId: 'competence_3', associatedSkillName: '@skillChallengeG_3', type: 'QCM' },
+          { challengeId: 'challenge_H_for_competence_3', competenceId: 'competence_3', associatedSkillName: '@skillChallengeH_3', type: 'QCM' },
+          { challengeId: 'challenge_I_for_competence_3', competenceId: 'competence_3', associatedSkillName: '@skillChallengeI_3', type: 'QCM' },
+        ], domainBuilder.buildCertificationChallengeWithType);
+
+        const certificationAssessment = {
+          certificationAnswersByDate,
+          certificationChallenges: challenges,
+        };
+
+        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
+        sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
+          userId: certificationAssessment.userId,
+          limitDate: certificationAssessment.createdAt,
+          isV2Certification: certificationAssessment.isV2Certification,
+        }).resolves({ userCompetences });
+
+        // when
+        const error = await catchErr(certificationResultService.getCertificationResult)({ certificationAssessment, continueOnError: false });
+
+        // then
+        expect(error).to.be.instanceOf(CertificationComputeError);
+        expect(error.message).to.equal('Pas assez de challenges posés pour la compétence 4.4');
+      });
+    });
 
     describe('Compute certification result for jury (continue on error)', () => {
       const continueOnError = true;
