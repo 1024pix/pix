@@ -305,6 +305,30 @@ describe('Unit | Service | Certification CPF service', () => {
             expect(result).to.deep.equal(CpfBirthInformationValidation.failure(`Le code postal ${birthPostalCode} n'est pas valide.`));
           });
 
+          it('should return a validation failure when birth city is not defined', async () => {
+            // given
+            const birthCountry = 'FRANCE';
+            const birthCity = null;
+            const birthPostalCode = '12345';
+            const birthINSEECode = null;
+
+            const certificationCPFCountry = domainBuilder.buildCertificationCpfCountry.FRANCE();
+            certificationCpfCountryRepository.getByMatcher.withArgs({ matcher: 'ACEFNR' }).resolves(certificationCPFCountry);
+
+            // when
+            const result = await getBirthInformation({
+              birthCountry,
+              birthCity,
+              birthPostalCode,
+              birthINSEECode,
+              certificationCpfCountryRepository,
+              certificationCpfCityRepository,
+            });
+
+            // then
+            expect(result).to.deep.equal(CpfBirthInformationValidation.failure('Le champ ville est obligatoire.'));
+          });
+
           it('should return a validation failure when postal code does not match city name', async () => {
             // given
             const birthCountry = 'FRANCE';

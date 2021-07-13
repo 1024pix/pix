@@ -81,6 +81,10 @@ async function getBirthInformation({
   }
 
   if (birthPostalCode) {
+    if (!birthCity) {
+      return CpfBirthInformationValidation.failure('Le champ ville est obligatoire.');
+    }
+
     const cities = await certificationCpfCityRepository.findByPostalCode({ postalCode: birthPostalCode });
 
     if (isEmpty(cities)) {
