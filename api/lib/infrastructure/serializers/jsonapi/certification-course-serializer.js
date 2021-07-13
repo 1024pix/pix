@@ -1,5 +1,4 @@
 const { Serializer } = require('jsonapi-serializer');
-const get = require('lodash/get');
 
 module.exports = {
 
@@ -7,9 +6,10 @@ module.exports = {
 
     return new Serializer('certification-course', {
       transform(currentCertificationCourse) {
-        const certificationCourseDTO = Object.assign({}, currentCertificationCourse);
-        certificationCourseDTO.nbChallenges = currentCertificationCourse.challenges ? currentCertificationCourse.challenges.length : 0;
-        certificationCourseDTO.examinerComment = get(currentCertificationCourse, 'certificationIssueReports[0].description');
+        const certificationCourseDTO = currentCertificationCourse.toDTO();
+        certificationCourseDTO.nbChallenges = certificationCourseDTO?.challenges?.length ?? 0;
+        certificationCourseDTO.examinerComment =
+          certificationCourseDTO.certificationIssueReports?.[0]?.description;
 
         return certificationCourseDTO;
       },

@@ -1,3 +1,7 @@
+const _ = require('lodash');
+const Joi = require('joi').extend(require('@joi/date'));
+const { EntityValidationError } = require('../errors');
+
 class CertificationCourse {
   constructor(
     {
@@ -24,32 +28,28 @@ class CertificationCourse {
       maxReachableLevelOnCertificationDate,
       isCancelled = false,
     } = {}) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.birthdate = birthdate;
-    this.birthplace = birthplace;
-    this.birthPostalCode = birthPostalCode;
-    this.birthINSEECode = birthINSEECode;
-    this.sex = sex;
-    this.externalId = externalId;
-    this.hasSeenEndTestScreen = hasSeenEndTestScreen;
-    this.createdAt = createdAt;
-    this.completedAt = completedAt;
-    this.isPublished = isPublished;
-    this.isV2Certification = isV2Certification;
-    this.verificationCode = verificationCode;
-    this.assessment = assessment;
-    this.challenges = challenges;
-    this.certificationIssueReports = certificationIssueReports;
-    this.userId = userId;
-    this.sessionId = sessionId;
-    this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
+    this._id = id;
+    this._firstName = firstName;
+    this._lastName = lastName;
+    this._birthdate = birthdate;
+    this._birthplace = birthplace;
+    this._birthPostalCode = birthPostalCode;
+    this._birthINSEECode = birthINSEECode;
+    this._sex = sex;
+    this._externalId = externalId;
+    this._hasSeenEndTestScreen = hasSeenEndTestScreen;
+    this._createdAt = createdAt;
+    this._completedAt = completedAt;
+    this._isPublished = isPublished;
+    this._isV2Certification = isV2Certification;
+    this._verificationCode = verificationCode;
+    this._assessment = assessment;
+    this._challenges = challenges;
+    this._certificationIssueReports = certificationIssueReports;
+    this._userId = userId;
+    this._sessionId = sessionId;
+    this._maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
     this._isCancelled = isCancelled;
-  }
-
-  reportIssue(issueReport) {
-    this.certificationIssueReports.push(issueReport);
   }
 
   static from({ certificationCandidate, challenges, verificationCode, maxReachableLevelOnCertificationDate }) {
@@ -71,13 +71,117 @@ class CertificationCourse {
     });
   }
 
+  withAssessment(assessment) {
+    return new CertificationCourse({
+      ...this.toDTO(),
+      assessment: assessment,
+    });
+  }
+
+  reportIssue(issueReport) {
+    this._certificationIssueReports.push(issueReport);
+  }
+
   cancel() {
     this._isCancelled = true;
   }
 
-  isCancelled() {
-    return this._isCancelled === true;
+  complete({ now }) {
+    this._completedAt = now;
   }
+
+  correctFirstName(modifiedFirstName) {
+    const sanitizedString = _sanitizedString(modifiedFirstName);
+    if (_.isEmpty(sanitizedString)) {
+      throw new EntityValidationError({
+        invalidAttributes: [{ attribute: 'firstName', message: 'Candidate\'s first name must not be blank or empty' }],
+      });
+    }
+    this._firstName = sanitizedString;
+  }
+
+  correctLastName(modifiedLastName) {
+    const sanitizedString = _sanitizedString(modifiedLastName);
+    if (_.isEmpty(sanitizedString)) {
+      throw new EntityValidationError({
+        invalidAttributes: [{ attribute: 'lastName', message: 'Candidate\'s last name must not be blank or empty' }],
+      });
+    }
+    this._lastName = sanitizedString;
+  }
+
+  correctBirthplace(modifiedBirthplace) {
+    const sanitizedString = _sanitizedString(modifiedBirthplace);
+    if (!_.isEmpty(sanitizedString?.trim())) {
+      this._birthplace = sanitizedString;
+    }
+  }
+
+  correctBirthdate(modifiedBirthdate) {
+    const { error } = Joi.date()
+      .format('YYYY-MM-DD')
+      .greater('1900-01-01')
+      .required()
+      .empty(null)
+      .validate(modifiedBirthdate);
+    if (error) {
+      throw new EntityValidationError({
+        invalidAttributes: [{ attribute: 'birthdate', message: 'Candidate\'s birthdate must be a valid date' }],
+      });
+    }
+    this._birthdate = modifiedBirthdate;
+  }
+
+  isPublished() {
+    return this._isPublished;
+  }
+
+  doesBelongTo(userId) {
+    return this._userId === userId;
+  }
+
+  getId() {
+    return this._id;
+  }
+
+  getSessionId() {
+    return this._sessionId;
+  }
+
+  toDTO() {
+    return {
+      id: this._id,
+      firstName: this._firstName,
+      lastName: this._lastName,
+      birthdate: this._birthdate,
+      birthplace: this._birthplace,
+      birthPostalCode: this._birthPostalCode,
+      birthINSEECode: this._birthINSEECode,
+      sex: this._sex,
+      externalId: this._externalId,
+      hasSeenEndTestScreen: this._hasSeenEndTestScreen,
+      createdAt: this._createdAt,
+      completedAt: this._completedAt,
+      isPublished: this._isPublished,
+      isV2Certification: this._isV2Certification,
+      verificationCode: this._verificationCode,
+      assessment: this._assessment,
+      challenges: this._challenges,
+      certificationIssueReports: this._certificationIssueReports, // TODO : this.certificationIssueReports.toDTO()
+      userId: this._userId,
+      sessionId: this._sessionId,
+      maxReachableLevelOnCertificationDate: this._maxReachableLevelOnCertificationDate,
+      isCancelled: this._isCancelled,
+    };
+  }
+}
+
+function _sanitizedString(string) {
+  const trimmedString = string?.trim();
+  const multipleWhiteSpacesInARow = / +/g;
+  const withUnifiedWithSpaces = trimmedString?.replace(multipleWhiteSpacesInARow, ' ');
+
+  return withUnifiedWithSpaces;
 }
 
 module.exports = CertificationCourse;

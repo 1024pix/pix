@@ -13,33 +13,34 @@ async function calculateCertificationResultByCertificationCourseId(certification
 }
 
 async function getCertificationResultByCertifCourse({ certificationCourse }) {
-  const certificationCourseId = certificationCourse.id;
+  const certificationCourseId = certificationCourse.getId();
   const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId });
   const pixPlusDroitMaitreCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({ certificationCourseId });
   const pixPlusDroitExpertCertificationResult = await pixPlusDroitExpertCertificationResultRepository.get({ certificationCourseId });
   const lastAssessmentResult = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId });
   const assessmentId = await assessmentRepository.getIdByCertificationCourseId(certificationCourseId);
 
+  const certificationCourseDTO = certificationCourse.toDTO();
   return new CertificationResult({
     lastAssessmentResult,
-    id: certificationCourse.id,
+    id: certificationCourse.getId(),
     assessmentId,
-    firstName: certificationCourse.firstName,
-    lastName: certificationCourse.lastName,
-    birthdate: certificationCourse.birthdate,
-    birthplace: certificationCourse.birthplace,
-    externalId: certificationCourse.externalId,
-    completedAt: certificationCourse.completedAt,
-    createdAt: certificationCourse.createdAt,
-    isPublished: certificationCourse.isPublished,
-    isV2Certification: certificationCourse.isV2Certification,
+    firstName: certificationCourseDTO.firstName,
+    lastName: certificationCourseDTO.lastName,
+    birthdate: certificationCourseDTO.birthdate,
+    birthplace: certificationCourseDTO.birthplace,
+    externalId: certificationCourseDTO.externalId,
+    completedAt: certificationCourseDTO.completedAt,
+    createdAt: certificationCourseDTO.createdAt,
+    isPublished: certificationCourseDTO.isPublished,
+    isV2Certification: certificationCourseDTO.isV2Certification,
     cleaCertificationResult,
     pixPlusDroitMaitreCertificationResult,
     pixPlusDroitExpertCertificationResult,
-    certificationIssueReports: certificationCourse.certificationIssueReports,
-    hasSeenEndTestScreen: certificationCourse.hasSeenEndTestScreen,
-    sessionId: certificationCourse.sessionId,
-    isCourseCancelled: certificationCourse.isCancelled(),
+    certificationIssueReports: certificationCourseDTO.certificationIssueReports,
+    hasSeenEndTestScreen: certificationCourseDTO.hasSeenEndTestScreen,
+    sessionId: certificationCourseDTO.sessionId,
+    isCourseCancelled: certificationCourseDTO.isCancelled,
   });
 }
 

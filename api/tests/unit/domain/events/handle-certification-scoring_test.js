@@ -4,13 +4,18 @@ const { handleCertificationScoring } = require('../../../../lib/domain/events').
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const { CertificationComputeError } = require('../../../../lib/domain/errors');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
+const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 
 describe('Unit | Domain | Events | handle-certification-scoring', () => {
   const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
   const certificationAssessmentRepository = { get: _.noop };
   const assessmentResultRepository = { save: _.noop };
-  const certificationCourseRepository = { changeCompletionDate: _.noop, getCreationDate: _.noop };
+  const certificationCourseRepository = {
+    get: _.noop,
+    update: _.noop,
+    getCreationDate: _.noop,
+  };
   const competenceMarkRepository = { save: _.noop };
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
@@ -35,6 +40,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
   context('when assessment is of type CERTIFICATION', () => {
     const assessmentId = Symbol('assessmentId');
     const userId = Symbol('userId');
+    const certificationCourseId = 1234;
     let certificationAssessment;
 
     beforeEach(() => {
@@ -45,7 +51,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       });
       certificationAssessment = {
         id: assessmentId,
-        certificationCourseId: Symbol('certificationCourseId'),
+        certificationCourseId,
         userId,
         createdAt: Symbol('someCreationDate'),
       };
@@ -70,7 +76,8 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(otherError);
         sinon.stub(AssessmentResult, 'buildAlgoErrorResult');
         sinon.stub(assessmentResultRepository, 'save');
-        sinon.stub(certificationCourseRepository, 'changeCompletionDate');
+        sinon.stub(certificationCourseRepository, 'get');
+        sinon.stub(certificationCourseRepository, 'update');
       });
 
       it('should not save any results', async () => {
@@ -82,18 +89,23 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         // then
         expect(AssessmentResult.buildAlgoErrorResult).to.not.have.been.called;
         expect(assessmentResultRepository.save).to.not.have.been.called;
-        expect(certificationCourseRepository.changeCompletionDate).to.not.have.been.called;
+        expect(certificationCourseRepository.update).to.not.have.been.called;
       });
     });
 
     context('when an error of type CertificationComputeError happens while scoring the assessment', () => {
       const errorAssessmentResult = Symbol('ErrorAssessmentResult');
       const computeError = new CertificationComputeError();
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        id: certificationCourseId,
+        completedAt: null,
+      });
       beforeEach(() => {
         sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(computeError);
         sinon.stub(AssessmentResult, 'buildAlgoErrorResult').returns(errorAssessmentResult);
         sinon.stub(assessmentResultRepository, 'save').resolves();
-        sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
+        sinon.stub(certificationCourseRepository, 'get').withArgs(certificationAssessment.certificationCourseId).resolves(certificationCourse);
+        sinon.stub(certificationCourseRepository, 'update').resolves(certificationCourse);
       });
 
       it('should call the scoring service with the right arguments', async () => {
@@ -125,13 +137,21 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(
           errorAssessmentResult,
         );
-        expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-          certificationAssessment.certificationCourseId, now,
+
+        expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
+          new CertificationCourse({
+            ...certificationCourse.toDTO(),
+            completedAt: now,
+          }),
         );
       });
     });
 
     context('when scoring is successful', () => {
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        id: certificationCourseId,
+        completedAt: null,
+      });
       const assessmentResult = Symbol('AssessmentResult');
       const assessmentResultId = 99;
       const competenceMarkData1 = domainBuilder.buildCompetenceMark({ assessmentResultId });
@@ -150,8 +170,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         sinon.stub(AssessmentResult, 'buildStandardAssessmentResult').returns(assessmentResult);
         sinon.stub(assessmentResultRepository, 'save').resolves(savedAssessmentResult);
         sinon.stub(competenceMarkRepository, 'save').resolves();
-        sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
         sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').resolves(certificationAssessmentScore);
+        sinon.stub(certificationCourseRepository, 'get').withArgs(certificationAssessment.certificationCourseId).resolves(certificationCourse);
+        sinon.stub(certificationCourseRepository, 'update').resolves(certificationCourse);
       });
 
       it('should build and save an assessment result with the expected arguments', async () => {
@@ -168,8 +189,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
           emitter: 'PIX-ALGO',
         });
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult);
-        expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWithExactly(
-          certificationAssessment.certificationCourseId, now,
+        expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
+          new CertificationCourse({
+            ...certificationCourse.toDTO(),
+            completedAt: now,
+          }),
         );
       });
 

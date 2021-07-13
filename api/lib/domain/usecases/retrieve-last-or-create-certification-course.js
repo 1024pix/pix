@@ -127,14 +127,14 @@ async function _createCertificationCourse({ certificationCandidateRepository, ce
     domainTransaction,
   });
 
-  const newAssessment = Assessment.createForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id });
+  const newAssessment = Assessment.createForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.getId() });
   const savedAssessment = await assessmentRepository.save({ assessment: newAssessment, domainTransaction });
 
-  savedCertificationCourse.assessment = savedAssessment;
+  const certificationCourse = savedCertificationCourse.withAssessment(savedAssessment);
 
   // FIXME : return CertificationCourseCreated or CertificationCourseRetrieved with only needed fields
   return {
     created: true,
-    certificationCourse: savedCertificationCourse,
+    certificationCourse,
   };
 }

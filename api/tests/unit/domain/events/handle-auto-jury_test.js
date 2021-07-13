@@ -45,8 +45,8 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.FRAUD, subcategory: undefined, questionNumber: 1 });
 
     certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
-    certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport, certificationIssueReport2 ]);
-    certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
+    certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([ certificationIssueReport, certificationIssueReport2 ]);
+    certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
     certificationAssessmentRepository.save.resolves();
     const event = new SessionFinalized({
       sessionId: 1234,
@@ -80,7 +80,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
 
     const certificationCourse = domainBuilder.buildCertificationCourse();
     certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
-    certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([]);
+    certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([]);
 
     const event = new SessionFinalized({
       sessionId: 1234,
@@ -129,8 +129,8 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     const certificationCourse = domainBuilder.buildCertificationCourse();
     const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
     certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
-    certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport1 ]);
-    certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
+    certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([ certificationIssueReport1 ]);
+    certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
     certificationAssessmentRepository.save.resolves();
     const event = new SessionFinalized({
       sessionId: 1234,
@@ -152,7 +152,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     // then
     expect(events[0]).to.be.an.instanceof(CertificationJuryDone);
     expect(events[0]).to.deep.equal(new CertificationJuryDone({
-      certificationCourseId: certificationCourse.id,
+      certificationCourseId: certificationCourse.getId(),
     }));
   });
 
@@ -165,7 +165,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
 
       const certificationCourse = domainBuilder.buildCertificationCourse();
       certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
-      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([]);
+      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([]);
       const event = new SessionFinalized({
         sessionId: 1234,
         finalizedAt: new Date(),
@@ -208,8 +208,8 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
       const certificationCourse = domainBuilder.buildCertificationCourse();
       const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.FRAUD, subcategory: null, questionNumber: 1 });
       certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
-      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport1 ]);
-      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
+      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([ certificationIssueReport1 ]);
+      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
       certificationAssessmentRepository.save.resolves();
       const event = new SessionFinalized({
         sessionId: 1234,
@@ -264,8 +264,8 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
       const anError = new Error('something bad happened');
       challengeRepository.get.rejects(anError);
       certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
-      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.id).resolves([ certificationIssueReport, certificationIssueReport2 ]);
-      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.id }).resolves(certificationAssessment);
+      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([ certificationIssueReport, certificationIssueReport2 ]);
+      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
       certificationAssessmentRepository.save.resolves();
       const event = new SessionFinalized({
         sessionId: 1234,

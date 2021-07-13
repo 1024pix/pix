@@ -5,8 +5,8 @@ const Bookshelf = require('../bookshelf');
 const CertificationReport = require('../../domain/models/CertificationReport');
 
 const CertificationCourseBookshelf = require('../orm-models/CertificationCourse');
-const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
 const { CertificationCourseUpdateError } = require('../../domain/errors');
+const { toDomain } = require('./certification-course-repository');
 
 module.exports = {
 
@@ -21,7 +21,7 @@ module.exports = {
         withRelated: [ 'certificationIssueReports' ],
       });
 
-    const certificationCourses = bookshelfToDomainConverter.buildDomainObjects(CertificationCourseBookshelf, results);
+    const certificationCourses = results.map(toDomain);
     return _.map(certificationCourses, CertificationReport.fromCertificationCourse);
   },
 
