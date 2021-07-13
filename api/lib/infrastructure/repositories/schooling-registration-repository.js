@@ -329,18 +329,19 @@ module.exports = {
       });
   },
 
-  async getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate({ nationalStudentId, firstName, lastName, birthdate }) {
+  async getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate({ nationalStudentId, firstName, lastName, birthdate }) {
     const schoolingRegistration = await knex
-      .from('schooling-registrations')
       .where({ nationalStudentId, firstName, lastName, birthdate })
       .whereNotNull('userId')
+      .select('userId', 'firstName', 'lastName')
+      .from('schooling-registrations')
       .first();
 
     if (!schoolingRegistration) {
       throw new UserNotFoundError();
     }
 
-    return schoolingRegistration.userId;
+    return schoolingRegistration;
   },
 
   async findPaginatedFilteredSchoolingRegistrations({ organizationId, filter, page = {} }) {

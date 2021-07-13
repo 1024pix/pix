@@ -1434,9 +1434,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate', () => {
+  describe('#getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate', () => {
 
-    it('should return user id', async () => {
+    it('should return schooling registration information', async () => {
       // given
       const expectedUserId = databaseBuilder.factory.buildUser().id;
 
@@ -1454,10 +1454,14 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const userId = await schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate(studentInformation);
+      const SchoolingRegistration = await schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate(studentInformation);
 
       // then
-      expect(userId).to.equal(expectedUserId);
+      expect(SchoolingRegistration).to.deep.equal({
+        userId: expectedUserId,
+        lastName: 'Jédusor',
+        firstName: 'Tom',
+      });
     });
 
     it('should return a UserNotFoundError if INE is invalid', async () => {
@@ -1475,7 +1479,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const result = await catchErr(schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate)({
+      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate)({
         nationalStudentId: '222256789AB',
         firstName: 'Tom',
         lastName: 'Jédusor',
@@ -1501,7 +1505,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const result = await catchErr(schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate)({
+      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate)({
         nationalStudentId: '123456789AB',
         firstName: 'Tim',
         lastName: 'Jédusor',
@@ -1528,7 +1532,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const result = await catchErr(schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate)({
+      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate)({
         nationalStudentId: '123456789AB',
         firstName: 'Tom',
         lastName: 'Jédusor',

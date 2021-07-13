@@ -413,8 +413,8 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
         type: 'student-information-for-account-recoveries',
         attributes: {
           'user-id': 8,
-          'first-name': 'Judy',
-          'last-name': 'Howl',
+          'first-name': 'Jude',
+          'last-name': 'Law',
           'username': 'jude.law0601',
           'email': 'jude.law@example.net',
           'latest-organization-name': 'Super Collège Hollywoodien',
