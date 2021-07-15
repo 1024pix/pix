@@ -8,12 +8,12 @@ const Campaign = require('../../domain/models/Campaign');
 
 const campaignParticipantActivityRepository = {
 
-  async findPaginatedByCampaignId({ page = { size: 25 }, campaignId }) {
+  async findPaginatedByCampaignId({ page = { size: 25 }, campaignId, filters = {} }) {
 
     const targetedSkills = await _getTargetedSkills(campaignId);
 
     const query = knex
-      .with('with_assessements', (qb) => withOrderAndLimit(qb, campaignId))
+      .with('with_assessements', (qb) => withOrderAndLimit(qb, campaignId, filters))
       .select('with_assessements.*', 'assessments.state AS assessmentState')
       .from('with_assessements')
       .leftJoin('assessments', 'assessments.campaignParticipationId', 'with_assessements.campaignParticipationId')
@@ -35,7 +35,7 @@ const campaignParticipantActivityRepository = {
   },
 };
 
-function _campaignParticipationByParticipantSortedByDate(qb, campaignId) {
+function _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters) {
   qb.select(
     'campaign-participations.id AS campaignParticipationId',
     'users.id AS userId',
@@ -44,29 +44,25 @@ function _campaignParticipationByParticipantSortedByDate(qb, campaignId) {
     'campaign-participations.participantExternalId',
     'campaign-participations.sharedAt',
     'campaign-participations.isShared',
-    'assessments.state AS assessmentState',
     'campaigns.type AS campaignType',
   )
     .from('campaign-participations')
     .join('users', 'users.id', 'campaign-participations.userId')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .leftJoin('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')
     .leftJoin('schooling-registrations', function() {
       this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' })
         .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
     })
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
-    .modify(_filterMostRecentAssessments);
+    .modify(_filterByDivisions, filters);
 }
 
-function _filterMostRecentAssessments(qb) {
-  qb
-    .leftJoin({ 'newerAssessments': 'assessments' }, function() {
-      this.on('newerAssessments.campaignParticipationId', 'campaign-participations.id')
-        .andOn('assessments.createdAt', '<', 'newerAssessments.createdAt');
-    })
-    .whereNull('newerAssessments.id');
+function _filterByDivisions(qb, filters) {
+  if (filters.divisions) {
+    const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
+    qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
+  }
 }
 
 async function _buildCampaignParticipationActivity(result, targetedSkills) {
@@ -91,10 +87,11 @@ async function _getTargetedSkills(campaignId) {
     .where('campaigns.id', '=', campaignId);
 }
 
-function withOrderAndLimit(queryBuilder, campaignId) {
+function withOrderAndLimit(queryBuilder, campaignId, filters) {
   queryBuilder
-    .with('campaign_participants_activities_ordered', (qb) => _campaignParticipationByParticipantSortedByDate(qb, campaignId))
+    .with('campaign_participants_activities_ordered', (qb) => _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters))
     .from('campaign_participants_activities_ordered')
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
 }
+
 module.exports = campaignParticipantActivityRepository;
