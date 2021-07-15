@@ -5,6 +5,7 @@ export default class AccountRecoveryDemand extends Model {
   @attr('string') ineIna;
   @attr('string') firstName;
   @attr('string') lastName;
+  //TODO: string or date
   @attr('date-only') birthdate;
   @attr('string') email;
 
