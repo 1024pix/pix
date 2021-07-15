@@ -10,35 +10,44 @@ describe('Unit | Controller | pole-emplois-controller', () => {
       it('should return the pole emploi sending', async () => {
         // given
         const request = { query: { curseur: 'azefvbjljhgrEDJNH' } };
-        const sending = [{
-          idEnvoi: 456,
-          dateEnvoi: new Date('2021-05-01'),
-          resultat: {
-            campagne: {
-              nom: 'Campagne PE',
-              dateDebut: '2020-08-01T00:00:00.000Z',
-              type: 'EVALUATION',
-              codeCampagne: 'POLEEMPLOI123',
-              urlCampagne: 'https://app.pix.fr/campagnes/POLEEMPLOI123',
-              nomOrganisme: 'Pix',
-              typeOrganisme: 'externe' },
-            individu: {
-              nom: 'Kamado',
-              prenom: 'Tanjiro',
-              idPoleEmploi: 'externalUserId' },
-            test: {
-              etat: 2,
-              typeTest: 'DI',
-              referenceExterne: 123456,
-              dateDebut: '2020-09-01T00:00:00.000Z',
-              elementsEvalues: [] } } }];
-        sinon.stub(usecases, 'getPoleEmploiSendings').withArgs({ cursor: request.query.curseur }).resolves(sending);
+        const sending = [{ idEnvoi: 456 }];
+        sinon.stub(usecases, 'getPoleEmploiSendings').resolves(sending);
 
         // when
         await poleEmploiController.getSendings(request, hFake);
 
         //then
-        expect(usecases.getPoleEmploiSendings).have.been.calledWith({ cursor: 'azefvbjljhgrEDJNH' });
+        expect(usecases.getPoleEmploiSendings).have.been.calledWith({ cursor: 'azefvbjljhgrEDJNH', filters: {} });
+      });
+    });
+    context('when there are filters', function() {
+      context('when enErreur is \'false\'', function() {
+        it('should return the pole emploi sending', async () => {
+          // given
+          const request = { query: { curseur: 'azefvbjljhgrEDJNH', enErreur: false } };
+          const sending = [{ idEnvoi: 456 }];
+          sinon.stub(usecases, 'getPoleEmploiSendings').resolves(sending);
+
+          // when
+          await poleEmploiController.getSendings(request, hFake);
+
+          //then
+          expect(usecases.getPoleEmploiSendings).have.been.calledWith({ cursor: 'azefvbjljhgrEDJNH', filters: { isSuccessful: true } });
+        });
+      });
+      context('when enErreur is \'true\'', function() {
+        it('should return the pole emploi sending', async () => {
+          // given
+          const request = { query: { curseur: 'azefvbjljhgrEDJNH', enErreur: true } };
+          const sending = [{ idEnvoi: 456 }];
+          sinon.stub(usecases, 'getPoleEmploiSendings').resolves(sending);
+
+          // when
+          await poleEmploiController.getSendings(request, hFake);
+
+          //then
+          expect(usecases.getPoleEmploiSendings).have.been.calledWith({ cursor: 'azefvbjljhgrEDJNH', filters: { isSuccessful: false } });
+        });
       });
     });
   });
