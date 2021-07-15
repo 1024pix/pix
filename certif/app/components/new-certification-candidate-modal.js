@@ -44,7 +44,7 @@ export default class NewCertificationCandidateModal extends Component {
       this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthInseeCode', '');
     } else {
       this.selectBirthGeoCodeOption(INSEE_CODE_OPTION);
-      this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthInseeCode', event.target.value);
+      this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthInseeCode', '99');
     }
   }
 

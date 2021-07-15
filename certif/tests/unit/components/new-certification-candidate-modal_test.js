@@ -97,7 +97,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
         modal.selectedCountryInseeCode = FRANCE_INSEE_CODE;
       });
 
-      test('should set the birthInseeCode to Italy code', async function(assert) {
+      test('should set the birthInseeCode to 99', async function(assert) {
         // given
         modal.args.countries = [
           {
@@ -116,7 +116,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
         await modal.selectBirthCountry(event);
 
         // then
-        sinon.assert.calledWith(modal.args.updateCandidateDataFromValue, modal.args.candidateData, 'birthInseeCode', '99127');
+        sinon.assert.calledWith(modal.args.updateCandidateDataFromValue, modal.args.candidateData, 'birthInseeCode', '99');
         assert.ok(true);
       });
     });
