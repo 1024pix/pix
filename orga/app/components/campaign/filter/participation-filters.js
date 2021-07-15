@@ -11,38 +11,28 @@ export default class ParticipationFilters extends Component {
 
   get displayStagesFilter() {
     const { isTypeAssessment, hasStages } = this.args.campaign;
-    return isTypeAssessment && hasStages;
+    return !this.args.isHiddenStages && isTypeAssessment && hasStages;
+  }
+
+  get displayBadgesFilter() {
+    const { isTypeAssessment, hasBadges } = this.args.campaign;
+    return !this.args.isHiddenBadges && isTypeAssessment && hasBadges;
+  }
+
+  get displayDivisionFilter() {
+    return this.isDivisionsLoaded && this.currentUser.isSCOManagingStudents;
   }
 
   get stageOptions() {
     return this.args.campaign.stages.map(({ id, threshold }) => ({ value: id, threshold }));
   }
 
-  @action
-  onSelectStage(stages) {
-    this.args.triggerFiltering({ stages });
-  }
-
-  get displayBadgesFilter() {
-    const { isTypeAssessment, hasBadges } = this.args.campaign;
-    return isTypeAssessment && hasBadges;
-  }
-
   get badgeOptions() {
     return this.args.campaign.badges.map(({ id, title }) => ({ value: id, label: title }));
   }
 
-  @action
-  onSelectBadge(badges) {
-    this.args.triggerFiltering({ badges });
-  }
-
   get isDivisionsLoaded() {
     return this.args.campaign.divisions.content.length > 0;
-  }
-
-  get displayDivisionFilter() {
-    return this.isDivisionsLoaded && this.currentUser.isSCOManagingStudents;
   }
 
   get divisionOptions() {
@@ -50,7 +40,17 @@ export default class ParticipationFilters extends Component {
   }
 
   @action
+  onSelectStage(stages) {
+    this.args.onFilter({ stages });
+  }
+
+  @action
+  onSelectBadge(badges) {
+    this.args.onFilter({ badges });
+  }
+
+  @action
   onSelectDivision(divisions) {
-    this.args.triggerFiltering({ divisions });
+    this.args.onFilter({ divisions });
   }
 }
