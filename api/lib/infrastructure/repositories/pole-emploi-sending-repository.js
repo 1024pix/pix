@@ -7,7 +7,7 @@ module.exports = {
     return new BookshelfPoleEmploiSending(poleEmploiSending).save();
   },
 
-  async get(sending) {
+  async find(sending) {
     const POLE_EMPLOI_SENDINGS_LIMIT = settings.poleEmploi.poleEmploiSendingsLimit;
     const IDENTITY_PROVIDER_POLE_EMPLOI = settings.poleEmploi.poleEmploiIdentityProvider;
 

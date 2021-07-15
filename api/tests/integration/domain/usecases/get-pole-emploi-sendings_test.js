@@ -3,6 +3,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const poleEmploiService = require('../../../../lib/domain/services/pole-emploi-service');
 const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
 const settings = require('../../../../lib/config');
+const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
 describe('Integration | UseCase | get-campaign-participations-counts-by-stage', () => {
   let originalEnv;
@@ -20,12 +21,12 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     const user1Id = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildAuthenticationMethod({ userId: user1Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId1' });
     const campaignParticipation1Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user1Id, campaignId }).id;
-    sending1 = databaseBuilder.factory.buildPoleEmploiSending({ id: 8766, campaignParticipationId: campaignParticipation1Id, createdAt: new Date('2021-03-01'), payload: { individu: {} } });
+    sending1 = poleEmploiSendingFactory.build({ id: 8766, campaignParticipationId: campaignParticipation1Id, createdAt: new Date('2021-03-01'), payload: { individu: {} } });
 
     const user2Id = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildAuthenticationMethod({ userId: user2Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId2' });
     const campaignParticipation2Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user2Id, campaignId }).id;
-    sending2 = databaseBuilder.factory.buildPoleEmploiSending({ id: 45678, campaignParticipationId: campaignParticipation2Id, createdAt: new Date('2021-04-01'), payload: { individu: {} } });
+    sending2 = poleEmploiSendingFactory.build({ id: 45678, campaignParticipationId: campaignParticipation2Id, createdAt: new Date('2021-04-01'), payload: { individu: {} } });
 
     await databaseBuilder.commit();
 
