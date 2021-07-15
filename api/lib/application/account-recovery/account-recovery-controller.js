@@ -1,4 +1,5 @@
 const usecases = require('../../domain/usecases');
+const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 
 module.exports = {
 
@@ -9,6 +10,12 @@ module.exports = {
     await usecases.sendEmailForAccountRecovery({ userId, email });
 
     return h.response().code(204);
+  },
+
+  async checkAccountRecoveryDemand(request) {
+    const temporaryKey = request.params.temporaryKey;
+    const user = await usecases.getUserByAccountRecoveryDemand({ temporaryKey });
+    return userSerializer.serialize(user);
   },
 
 };

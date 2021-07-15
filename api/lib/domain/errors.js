@@ -138,6 +138,12 @@ class NoStagesForCampaign extends DomainError {
   }
 }
 
+class AccountRecoveryDemandExpired extends DomainError {
+  constructor(message = 'This account recovery demand has expired.') {
+    super(message);
+  }
+}
+
 class SchoolingRegistrationsCouldNotBeSavedError extends DomainError {
   constructor() {
     super('An error occurred during process');
@@ -857,6 +863,7 @@ class InvalidExternalAPIResponseError extends DomainError {
 
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
+  AccountRecoveryDemandExpired,
   AlreadyExistingEntityError,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingMembershipError,

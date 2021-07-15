@@ -60,7 +60,9 @@ function _mapToHttpError(error) {
   if (error instanceof HttpErrors.BaseHttpError) {
     return error;
   }
-
+  if (error instanceof DomainErrors.AccountRecoveryDemandExpired) {
+    return new HttpErrors.UnauthorizedError(error.message);
+  }
   if (error instanceof DomainErrors.ImproveCompetenceEvaluationForbiddenError) {
     return new HttpErrors.ImproveCompetenceEvaluationForbiddenError(error.message);
   }
