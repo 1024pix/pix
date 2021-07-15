@@ -4,7 +4,6 @@ const buildAuthencationMethod = require('./build-authentication-method');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
-
 function build({
   id = databaseBuffer.getNextId(),
   isSuccessful = true,
@@ -36,10 +35,10 @@ function buildWithUser(sendingAttributes, externalIdentifier) {
   const { id: userId } = buildUser();
   buildAuthencationMethod.buildPoleEmploiAuthenticationMethod({ userId, externalIdentifier });
   const { id: campaignParticipationId } = buildCampaignParticipation({ userId });
-  return build({ ...sendingAttributes, campaignParticipationId,  });
+  return build({ ...sendingAttributes, campaignParticipationId });
 }
 
 module.exports = {
   build,
   buildWithUser,
-}
+};

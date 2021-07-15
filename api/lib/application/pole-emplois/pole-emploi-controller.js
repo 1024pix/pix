@@ -1,6 +1,5 @@
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 module.exports = {
 
@@ -26,9 +25,9 @@ module.exports = {
   },
 };
 
-_extractFilters = (request) => {
+function _extractFilters(request) {
   const filters = {};
-  if(Object.keys(request.query).includes('enErreur')) {
+  if (Object.keys(request.query).includes('enErreur')) {
     filters.isSuccessful = !request.query.enErreur;
   }
   return filters;

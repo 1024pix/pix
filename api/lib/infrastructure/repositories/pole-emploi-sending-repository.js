@@ -38,6 +38,6 @@ function _olderThan(qb, sending) {
 
 function _filterByStatus(qb, filters = {}) {
   if (Object.keys(filters).includes('isSuccessful')) {
-    qb.where({ isSuccessful: filters.isSuccessful })
+    qb.where({ isSuccessful: filters.isSuccessful });
   }
 }

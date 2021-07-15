@@ -71,7 +71,7 @@ describe('Integration | Repository | PoleEmploiSending', () => {
 
       beforeEach(async () => {
         expectedSending = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-03-01' });
-        sendingInCursor = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-04-01'});
+        sendingInCursor = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-04-01' });
 
         await databaseBuilder.commit();
       });
@@ -97,7 +97,7 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       it('should render sendings order by date', async () => {
         const sendings = await poleEmploiSendingRepository.find();
 
-        expect(sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending3.id, sending2.id, sending1.id,]);
+        expect(sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending3.id, sending2.id, sending1.id]);
       });
     });
 
@@ -114,13 +114,13 @@ describe('Integration | Repository | PoleEmploiSending', () => {
 
       it('returns the sendings which have been sent correctly', async() => {
         const sendings = await poleEmploiSendingRepository.find(null, { isSuccessful: true });
-        const sendingIds = sendings.map((sending) => sending.idEnvoi)
+        const sendingIds = sendings.map((sending) => sending.idEnvoi);
         expect(sendingIds).to.exactlyContain([sendingSent.id]);
       });
 
       it('returns the sendings which have been not sent correctly', async() => {
         const sendings = await poleEmploiSendingRepository.find(null, { isSuccessful: false });
-        const sendingIds = sendings.map((sending) => sending.idEnvoi)
+        const sendingIds = sendings.map((sending) => sending.idEnvoi);
         expect(sendingIds).to.exactlyContain([sendingNotSent.id]);
       });
     });

@@ -97,7 +97,7 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.headers.link).to.equal('https://url-externe/pole-emploi/envois?curseur=eyJpZEVudm9pIjo3NjM0NSwiZGF0ZUVudm9pIjoiMjAyMS0wNS0wMVQwMDowMDowMC4wMDBaIn0=');
+        expect(response.headers.link).to.equal('https://url-externe/pole-emploi/envois?curseur=eyJpZEVudm9pIjo3NjM0NSwiZGF0ZUVudm9pIjoiMjAyMS0wNS0wMVQwMDowMDowMC4wMDBaIn0=&enErreur=false');
         expect(response.result).to.deep.equal([{
           'idEnvoi': sending.id,
           'dateEnvoi': new Date('2021-05-01'),

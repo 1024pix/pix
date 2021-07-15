@@ -72,8 +72,8 @@ buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function({
   userId = isUndefined(userId) ? buildUser().id : userId;
 
   let generatedIdentifier = externalIdentifier;
-  if(!generatedIdentifier) {
-    generatedIdentifier = `externalIdentifier-${id}`
+  if (!generatedIdentifier) {
+    generatedIdentifier = `externalIdentifier-${id}`;
   }
   const values = {
     id,
