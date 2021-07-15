@@ -1,6 +1,6 @@
-{{!-- template-lint-disable no-implicit-this no-action require-input-label no-down-event-binding --}}
+{{!-- template-lint-disable require-input-label no-down-event-binding --}}
 <div class="qrocm-proposal">
-  {{#each proposalBlocks as |block index|}}
+  {{#each this.proposalBlocks as |block index|}}
 
     {{#if block.showText}}
       <MarkdownToHtml @markdown={{block.text}}
@@ -28,7 +28,7 @@
                   @value={{mut (get @answersValue block.input)}}
                   disabled={{@answer}}
                   aria-label={{block.ariaLabel}}
-                  onkeydown={{action 'onInputChange'}} />
+                  {{on 'keydown' this.onInputChange}} />
       {{else if (eq @format 'phrase')}}
         <Input class="challenge-response__proposal challenge-response__proposal--sentence"
                @type="text"
@@ -39,7 +39,7 @@
                @value={{mut (get @answersValue block.input)}}
                disabled={{@answer}}
                aria-label={{block.ariaLabel}}
-               onkeydown={{action 'onInputChange'}} />
+               {{on 'keydown' this.onInputChange}} />
       {{else}}
         <Input class="challenge-response__proposal"
                size="{{get-qroc-input-size @format}}"
@@ -51,7 +51,7 @@
                @value={{mut (get @answersValue block.input)}}
                disabled={{@answer}}
                aria-label={{block.ariaLabel}}
-               onkeydown={{action 'onInputChange'}} />
+               {{on 'keydown' this.onInputChange}} />
       {{/if}}
     {{/if}}
   {{/each}}
