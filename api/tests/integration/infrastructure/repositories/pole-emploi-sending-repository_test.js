@@ -2,7 +2,7 @@ const _ = require('lodash');
 const { expect, databaseBuilder, knex, domainBuilder } = require('../../../test-helper');
 const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
 const settings = require('../../../../lib/config');
-
+const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 describe('Integration | Repository | PoleEmploiSending', () => {
 
   describe('#create', () => {
@@ -46,27 +46,27 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       const user1Id = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod({ userId: user1Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId1' });
       const campaignParticipation1Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user1Id, campaignId }).id;
-      sending1 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation1Id, createdAt: new Date('2021-03-01'), payload: { individu: {} } });
+      sending1 = poleEmploiSendingFactory.build({ campaignParticipationId: campaignParticipation1Id, createdAt: new Date('2021-03-01'), payload: { individu: {} } });
 
       const user2Id = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod({ userId: user2Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId2' });
       const campaignParticipation2Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user2Id, campaignId }).id;
-      sending2 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation2Id, createdAt: '2021-04-01 00:00:00+00', payload: { individu: {} } });
+      sending2 = poleEmploiSendingFactory.build({ campaignParticipationId: campaignParticipation2Id, createdAt: '2021-04-01 00:00:00+00', payload: { individu: {} } });
 
       const user3Id = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod({ userId: user3Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId3' });
       const campaignParticipation3Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user3Id, campaignId }).id;
-      sending3 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation3Id, createdAt: new Date('2021-05-01'), payload: { individu: {} } });
+      sending3 = poleEmploiSendingFactory.build({ campaignParticipationId: campaignParticipation3Id, createdAt: new Date('2021-05-01'), payload: { individu: {} } });
 
       const user4Id = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod({ userId: user4Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId4' });
       const campaignParticipation4Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user4Id, campaignId }).id;
-      sending4 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation4Id, createdAt: new Date('2021-06-01'), payload: { individu: {} } });
+      sending4 = poleEmploiSendingFactory.build({ campaignParticipationId: campaignParticipation4Id, createdAt: new Date('2021-06-01'), payload: { individu: {} } });
 
       const user5Id = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod({ userId: user5Id, identityProvider: 'PIX', externalIdentifier: 'externalUserId5' });
       const campaignParticipation5Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user5Id, campaignId }).id;
-      databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation5Id, createdAt: new Date('2021-06-01'), payload: { individu: {} } });
+      poleEmploiSendingFactory.build({ campaignParticipationId: campaignParticipation5Id, createdAt: new Date('2021-06-01'), payload: { individu: {} } });
 
       await databaseBuilder.commit();
     });

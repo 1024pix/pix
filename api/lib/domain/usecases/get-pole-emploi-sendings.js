@@ -2,7 +2,7 @@ const poleEmploiService = require('../services/pole-emploi-service');
 
 module.exports = async function getPoleEmploiSendings({ cursor, poleEmploiSendingRepository }) {
   const cursorData = await poleEmploiService.decodeCursor(cursor);
-  const sendings = await poleEmploiSendingRepository.get(cursorData);
+  const sendings = await poleEmploiSendingRepository.find(cursorData);
   const link = _generateLink(sendings);
   return { sendings, link };
 };

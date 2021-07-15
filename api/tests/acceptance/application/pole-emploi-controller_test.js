@@ -1,6 +1,7 @@
 const jsonwebtoken = require('jsonwebtoken');
 
 const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeaderForApplication, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
 const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
 const poleEmploiTokensRepository = require('../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
@@ -87,7 +88,7 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildAuthenticationMethod({ userId, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId' });
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId }).id;
-        const sending = databaseBuilder.factory.buildPoleEmploiSending({ id: 76345, campaignParticipationId, createdAt: new Date('2021-05-01'), payload: { campagne: { nom: 'Campagne PE', dateDebut: new Date('2020-08-01'), type: 'EVALUATION', codeCampagne: 'POLEEMPLOI123', urlCampagne: 'https://app.pix.fr/campagnes/POLEEMPLOI123', nomOrganisme: 'Pix', typeOrganisme: 'externe' }, individu: { nom: 'Kamado', prenom: 'Tanjiro' }, test: { etat: 2, typeTest: 'DI', referenceExterne: 123456, dateDebut: new Date('2020-09-01'), elementsEvalues: [] } } });
+        const sending = poleEmploiSendingFactory.build({ id: 76345, campaignParticipationId, createdAt: new Date('2021-05-01'), payload: { campagne: { nom: 'Campagne PE', dateDebut: new Date('2020-08-01'), type: 'EVALUATION', codeCampagne: 'POLEEMPLOI123', urlCampagne: 'https://app.pix.fr/campagnes/POLEEMPLOI123', nomOrganisme: 'Pix', typeOrganisme: 'externe' }, individu: { nom: 'Kamado', prenom: 'Tanjiro' }, test: { etat: 2, typeTest: 'DI', referenceExterne: 123456, dateDebut: new Date('2020-09-01'), elementsEvalues: [] } } });
         await databaseBuilder.commit();
 
         options = {
