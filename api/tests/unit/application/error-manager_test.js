@@ -5,6 +5,7 @@ const {
 } = require('../../test-helper');
 
 const {
+  AccountRecoveryDemandExpired,
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
@@ -230,6 +231,20 @@ describe('Unit | Application | ErrorManager', () => {
       // then
       expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
     });
+
+    it('should instantiate UnauthorizedError when AccountRecoveryDemandExpired', async () => {
+      // given
+      const error = new AccountRecoveryDemandExpired();
+      sinon.stub(HttpErrors, 'UnauthorizedError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(error.message);
+    });
+
   });
 
 });
