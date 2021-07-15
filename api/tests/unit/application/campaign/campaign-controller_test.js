@@ -433,7 +433,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     });
   });
 
-  describe('archiveCampaign', async () => {
+  describe('#archiveCampaign', async () => {
     let updatedCampaign;
     let serializedCampaign;
 
@@ -466,7 +466,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   });
 
-  describe('unarchiveCampaign', async () => {
+  describe('#unarchiveCampaign', async () => {
     let updatedCampaign;
     let serializedCampaign;
 
