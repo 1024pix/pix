@@ -6,6 +6,18 @@
     class="activity__dashboard"
   />
 
+  <Campaign::Filter::ParticipationFilters
+    @campaign={{@model.campaign}}
+    @selectedDivisions={{this.divisions}}
+    @rowCount={{@model.participations.meta.rowCount}}
+
+    @isHiddenStages={{true}}
+    @isHiddenBadges={{true}}
+
+    @onFilter={{this.triggerFiltering}}
+    @onResetFilter={{this.resetFiltering}}
+  />
+
   <Campaign::Activity::ParticipantsList
     @campaign={{@model.campaign}}
     @participations={{@model.participations}}
