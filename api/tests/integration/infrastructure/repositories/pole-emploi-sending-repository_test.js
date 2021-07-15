@@ -85,21 +85,6 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       });
     });
 
-    context('when participant is not authenticated with pole emploi identity provider', () => {
-      it('should not render sendings', async () => {
-        const { id: userId } = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildAuthenticationMethod({ userId, identityProvider: 'PIX' });
-        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ userId });
-        poleEmploiSendingFactory.build({ campaignParticipationId });
-
-        await databaseBuilder.commit();
-
-        const sendings = await poleEmploiSendingRepository.find();
-
-        expect(sendings).to.be.empty;
-      });
-    });
-
     context('order', () => {
       beforeEach(async () => {
         sending1 = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-03-01' });
