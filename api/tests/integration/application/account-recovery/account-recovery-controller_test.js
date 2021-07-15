@@ -8,7 +8,6 @@ const { featureToggles } = require('../../../../lib/config');
 const {
   NotFoundError,
   UserNotFoundError,
-  AccountRecoveryDemandExpired,
 } = require('../../../../lib/domain/errors');
 const usecases = require('../../../../lib/domain/usecases');
 
@@ -50,17 +49,6 @@ describe('Integration | Application | Account-Recovery | account-recovery-contro
     });
 
     context('Error cases', () => {
-
-      it('should respond an HTTP response with status code 401 when TemporaryKey has expired', async () => {
-        // given
-        usecases.getUserByAccountRecoveryDemand.rejects(new AccountRecoveryDemandExpired());
-
-        // when
-        const response = await httpTestServer.request(method, url);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
 
       it('should respond an HTTP response with status code 404 when TemporaryKey not found', async () => {
         // given
