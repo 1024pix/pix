@@ -81,14 +81,6 @@ export default class ResponseBlock {
     this._autoAriaLabel = value;
   }
 
-  get options() {
-    return this._options;
-  }
-
-  setOptions(value) {
-    this._options = value;
-  }
-
   get placeholder() {
     return this._placeholder;
   }

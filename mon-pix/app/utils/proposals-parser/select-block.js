@@ -17,6 +17,14 @@ export default class SelectBlock extends ResponseBlock {
     this.setType('select');
   }
 
+  get options() {
+    return this._options;
+  }
+
+  setOptions(value) {
+    this._options = value;
+  }
+
   _parseOptions() {
     const rawOptionArray = this.input.split(SELECT);
     return this._removeAllEscapedCharacters(rawOptionArray);
@@ -24,5 +32,11 @@ export default class SelectBlock extends ResponseBlock {
 
   _removeAllEscapedCharacters(rawOptionArray) {
     return rawOptionArray.map((option) => option.split(ESCAPE_SELECT).join(SELECT));
+  }
+
+  get() {
+    const responseBlock = super.get();
+    responseBlock.options = this.options;
+    return responseBlock;
   }
 }
