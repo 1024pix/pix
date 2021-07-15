@@ -55,7 +55,7 @@ describe('Unit | UseCase | get-user-by-account-recovery-demand', () => {
     expect(error).to.be.an.instanceOf(UserNotFoundError);
   });
 
-  it('should return a user with email updated by recovery demand new email', async () => {
+  it('should return a user with new email from his account recovery demand', async () => {
     // given
     const user = domainBuilder.buildUser();
     const newEmail = 'newemail@example.net';

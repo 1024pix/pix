@@ -4,7 +4,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | recuperer son compte | reset password', function() {
+describe('Unit | Route | recuperer-son-compte | reset password', function() {
 
   setupTest();
 
@@ -23,7 +23,7 @@ describe('Unit | Route | recuperer son compte | reset password', function() {
       });
     });
 
-    it('should exists', function() {
+    it('should exist', function() {
       // when
       const route = this.owner.lookup('route:account-recovery/reset-password');
       route.set('store', storeStub);
