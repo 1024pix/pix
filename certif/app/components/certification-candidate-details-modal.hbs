@@ -16,19 +16,33 @@
         <ul class="certification-candidate-details-modal__list">
           <li class="certification-candidate-details-modal__row">
             <span class="certification-candidate-details-modal__row__label">Nom</span>
-            <span class="certification-candidate-details-modal__row__value">{{@candidate.lastName}}</span>
+            <span class="certification-candidate-details-modal__row__value" data-test-id="last-name-row">
+              {{if @candidate.lastName @candidate.lastName "-"}}
+            </span>
           </li>
           <li class="certification-candidate-details-modal__row">
             <span class="certification-candidate-details-modal__row__label">Prénom</span>
-            <span class="certification-candidate-details-modal__row__value">{{@candidate.firstName}}</span>
+            <span class="certification-candidate-details-modal__row__value" data-test-id="first-name-row">
+              {{if @candidate.firstName @candidate.firstName "-"}}
+            </span>
           </li>
           <li class="certification-candidate-details-modal__row">
             <span class="certification-candidate-details-modal__row__label">Date de naissance</span>
-            <span class="certification-candidate-details-modal__row__value">{{moment-format @candidate.birthdate "DD/MM/YYYY"}}</span>
+            {{#if @candidate.birthdate}}
+              <span class="certification-candidate-details-modal__row__value" data-test-id="birth-date-row">
+                {{moment-format @candidate.birthdate "DD/MM/YYYY"}}
+              </span>
+            {{else}}
+              <span class="certification-candidate-details-modal__row__value" data-test-id="birth-date-row">
+                {{"-"}}
+              </span>
+            {{/if}}
           </li>
           <li class="certification-candidate-details-modal__row">
             <span class="certification-candidate-details-modal__row__label">Sexe</span>
-            <span class="certification-candidate-details-modal__row__value">{{@candidate.sexLabel}}</span>
+            <span class="certification-candidate-details-modal__row__value" data-test-id="sex-label-row">
+              {{if @candidate.sexLabel @candidate.sexLabel "-"}}
+            </span>
           </li>
           <li class="certification-candidate-details-modal__row">
             <span class="certification-candidate-details-modal__row__label">Commune de naissance</span>
@@ -50,23 +64,33 @@
           </li>
           <li class="certification-candidate-details-modal__row">
             <span class="certification-candidate-details-modal__row__label">Pays de naissance</span>
-            <span class="certification-candidate-details-modal__row__value">{{@candidate.birthCountry}}</span>
+            <span class="certification-candidate-details-modal__row__value" data-test-id="birth-country-row">
+              {{if @candidate.birthCountry @candidate.birthCountry "-"}}
+            </span>
           </li>
           <li class="certification-candidate-details-modal__row">
             <span class="certification-candidate-details-modal__row__label">Adresse e-mail du destinataire des résultats</span>
-            <span class="certification-candidate-details-modal__row__value">{{@candidate.resultRecipientEmail}}</span>
+            <span class="certification-candidate-details-modal__row__value" data-test-id="result-recipient-email-row">
+              {{if @candidate.resultRecipientEmail @candidate.resultRecipientEmail "-"}}
+            </span>
           </li>
           <li class="certification-candidate-details-modal__row">
             <span class="certification-candidate-details-modal__row__label">Adresse e-mail de convocation</span>
-            <span class="certification-candidate-details-modal__row__value">{{@candidate.email}}</span>
+            <span class="certification-candidate-details-modal__row__value" data-test-id="email-row">
+              {{if @candidate.email @candidate.email "-"}}
+            </span>
           </li>
           <li class="certification-candidate-details-modal__row">
             <span class="certification-candidate-details-modal__row__label">Identifiant externe</span>
-            <span class="certification-candidate-details-modal__row__value">{{@candidate.externalId}}</span>
+            <span class="certification-candidate-details-modal__row__value" data-test-id="external-id-row">
+              {{if @candidate.externalId @candidate.externalId "-"}}
+            </span>
           </li>
           <li class="certification-candidate-details-modal__row">
             <span class="certification-candidate-details-modal__row__label">Temps majoré (%)</span>
-            <span class="certification-candidate-details-modal__row__value">{{@candidate.extraTimePercentage}}</span>
+            <span class="certification-candidate-details-modal__row__value" data-test-id="extra-time-row">
+              {{if @candidate.extraTimePercentage @candidate.extraTimePercentage "-"}}
+            </span>
           </li>
         </ul>
 
