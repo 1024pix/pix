@@ -1020,7 +1020,17 @@
       },
       "reset-password": {
         "welcome-message": "Bon retour parmi nous { firstName } !",
-        "invalid-demand" : "Votre demande de récupération de compte est invalide"
+        "invalid-demand" : "Votre demande de récupération de compte est invalide.",
+        "fill-password": "Saisissez un mot de passe et Pix est à vous !",
+        "form": {
+          "email-label": "Adresse e-mail",
+          "password-label": "Mot de passe",
+          "login-button": "Je me connecte",
+          "errors": {
+            "invalid-password": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+            "empty-password": "Le champ mot de passe est obligatoire."
+          }
+        }
       }
     },
     "result-item": {
