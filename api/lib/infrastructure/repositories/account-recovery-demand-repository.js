@@ -19,8 +19,9 @@ module.exports = {
 
     const accountRecoveryDemandDTOs = await knex
       .where({ temporaryKey, used: false })
-      .select('id', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
-      .from('account-recovery-demands');
+      .select('id', 'schoolRegistrationId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used')
+      .from('account-recovery-demands')
+      .orderBy('id', 'desc');
 
     if (isEmpty(accountRecoveryDemandDTOs)) {
       throw new NotFoundError('No account recovery demand found');

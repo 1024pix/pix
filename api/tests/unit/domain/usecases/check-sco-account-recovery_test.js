@@ -178,7 +178,6 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
           };
           expect(result).to.deep.equal(expectedResult);
         });
-
       });
 
       context('when at least one schooling registrations has a different INE', () => {

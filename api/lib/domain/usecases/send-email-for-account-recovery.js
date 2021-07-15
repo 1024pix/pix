@@ -2,27 +2,31 @@ const crypto = require('crypto');
 const AccountRecoveryDemand = require('../models/AccountRecoveryDemand');
 
 module.exports = async function sendEmailForAccountRecovery({
-  userId,
-  email,
+  studentInformation,
   temporaryKey = crypto.randomBytes(32).toString('base64'),
+  schoolingRegistrationRepository,
   userRepository,
   accountRecoveryDemandRepository,
   mailService,
 }) {
+  const { email: newEmail, ...otherStudentInformation } = studentInformation;
+  const { id, userId } = await schoolingRegistrationRepository
+    .getStudentRegistrationByNationalStudentIdFirstNameLastNameAndBirthdate(otherStudentInformation);
+  const { email } = await userRepository.get(userId);
   await userRepository.isEmailAvailable(email);
-  const user = await userRepository.get(userId);
 
   const accountRecoveryDemand = new AccountRecoveryDemand({
     userId,
-    newEmail: email.toLowerCase(),
-    oldEmail: user.email,
+    schoolRegistrationId: id,
+    newEmail: newEmail.toLowerCase(),
+    oldEmail: email,
     used: false,
     temporaryKey,
   });
   await accountRecoveryDemandRepository.save(accountRecoveryDemand);
 
   await mailService.sendAccountRecoveryEmail({
-    firstName: user.firstName,
+    firstName: otherStudentInformation.firstName,
     email,
     temporaryKey,
   });

@@ -127,12 +127,14 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
     it('should insert the account recovery demand in db', async () => {
       // given
       const userId = 123;
+      const schoolRegistrationId = 5;
       const newEmail = 'dupont@example.net';
       const oldEmail = 'eleve-dupont@example.net';
       const used = false;
       const temporaryKey = '123456789AZERTYUIO';
       const accountRecoveryDemandAttributes = {
         userId,
+        schoolRegistrationId,
         newEmail,
         oldEmail,
         used,

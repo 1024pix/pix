@@ -4,10 +4,16 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 module.exports = {
 
   async sendEmailForAccountRecovery(request, h) {
-    const userId = request.payload.data.attributes['user-id'];
-    const email = request.payload.data.attributes.email;
+    const payload = request.payload.data.attributes;
+    const studentInformation = {
+      nationalStudentId: payload['ine-ina'],
+      firstName: payload['first-name'],
+      lastName: payload['last-name'],
+      birthdate: payload['birthdate'],
+      email: payload['email'],
+    };
 
-    await usecases.sendEmailForAccountRecovery({ userId, email });
+    await usecases.sendEmailForAccountRecovery({ studentInformation });
 
     return h.response().code(204);
   },

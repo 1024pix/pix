@@ -6,6 +6,7 @@ const AccountRecoveryDemand = require('../../../../../lib/domain/models/AccountR
 describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', () => {
 
   let userRepository;
+  let schoolingRegistrationRepository;
   let accountRecoveryDemandRepository;
   let mailService;
 
@@ -13,6 +14,9 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
     userRepository = {
       isEmailAvailable: sinon.stub(),
       get: sinon.stub(),
+    };
+    schoolingRegistrationRepository = {
+      getStudentRegistrationByNationalStudentIdFirstNameLastNameAndBirthdate: sinon.stub(),
     };
     accountRecoveryDemandRepository = {
       save: sinon.stub(),
@@ -22,16 +26,21 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
     };
   });
 
-  context('when email already exists', ()=> {
+  context('when email already exists', () => {
 
     it('should throw AlreadyRegisteredEmailError', async () => {
       // given
       userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
       const newEmail = 'new_email@example.net';
 
+      const studentInformation = {
+        email: newEmail,
+      };
+
       // when
       const error = await catchErr(sendEmailForAccountRecovery)({
-        email: newEmail,
+        studentInformation,
+        schoolingRegistrationRepository,
         userRepository,
         accountRecoveryDemandRepository,
         mailService,
@@ -42,7 +51,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
     });
   });
 
-  context('when email is available', ()=> {
+  context('when email is available', () => {
 
     it('should save the account recovery demand', async () => {
       // given

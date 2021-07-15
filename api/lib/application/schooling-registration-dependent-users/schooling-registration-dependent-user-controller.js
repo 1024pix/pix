@@ -98,7 +98,7 @@ module.exports = {
   async checkScoAccountRecovery(request) {
     const payload = request.payload.data.attributes;
     const studentInformation = {
-      ineIna: payload['ine-ina'],
+      nationalStudentId: payload['ine-ina'],
       firstName: payload['first-name'],
       lastName: payload['last-name'],
       birthdate: payload['birthdate'],
