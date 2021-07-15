@@ -134,7 +134,6 @@ export default class StudentInformationFormComponent extends Component {
     event.preventDefault();
 
     if (this.isFormValid) {
-
       await this.args.submitStudentInformation({
         ineIna: this.ineIna,
         firstName: this.firstName,

@@ -17,7 +17,7 @@ module.exports = async function sendEmailForAccountRecovery({
 
   const accountRecoveryDemand = new AccountRecoveryDemand({
     userId,
-    schoolRegistrationId: id,
+    schoolingRegistrationId: id,
     newEmail: newEmail.toLowerCase(),
     oldEmail: email,
     used: false,

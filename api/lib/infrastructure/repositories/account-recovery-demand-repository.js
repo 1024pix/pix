@@ -19,7 +19,7 @@ module.exports = {
 
     const accountRecoveryDemandDTOs = await knex
       .where({ temporaryKey, used: false })
-      .select('id', 'schoolRegistrationId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used')
+      .select('id', 'schoolingRegistrationId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used')
       .from('account-recovery-demands')
       .orderBy('id', 'desc');
 
