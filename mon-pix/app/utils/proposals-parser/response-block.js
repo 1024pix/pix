@@ -2,9 +2,10 @@ import splitters from './splitters';
 
 const {
   ARIA_LABEL,
+  PLACEHOLDER_AND_ARIA_LABEL,
+  PLACEHOLDER,
   RESPONSE_BLOCK_BEGIN,
   RESPONSE_BLOCK_END,
-  PLACEHOLDER,
 } = splitters;
 
 export default class ResponseBlock {
@@ -17,6 +18,19 @@ export default class ResponseBlock {
     this._ariaLabel = inputIndex.toString();
     this._autoAriaLabel = true;
     this._type = undefined;
+
+    this._addPlaceHolderAndAriaLabelIfExist();
+  }
+
+  _addPlaceHolderAndAriaLabelIfExist() {
+    if (this.hasPlaceHolder) {
+      this.setPlaceholder(this.input.split(PLACEHOLDER)[1].split(ARIA_LABEL)[0]);
+    }
+    if (this.hasAriaLabel) {
+      this.setAriaLabel(this.input.split(ARIA_LABEL)[1]);
+      this.setAutoAriaLabel(false);
+    }
+    this.setInput(this.input.split(PLACEHOLDER_AND_ARIA_LABEL)[0]);
   }
 
   get hasPlaceHolder() {
