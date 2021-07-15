@@ -164,7 +164,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
       // then
       expect(error).to.be.instanceOf(CertificationCandidatesImportError);
-      expect(error.message).to.equal('Ligne 10 : Le champ code postal ou code INSEE doit être renseigné.');
+      expect(error.message).to.equal('Ligne 10 : La valeur du code INSEE doit être "99" pour un pays étranger.');
     });
 
     it('should return extracted and validated certification candidates', async () => {
