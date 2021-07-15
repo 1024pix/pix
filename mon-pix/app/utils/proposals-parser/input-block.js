@@ -12,10 +12,10 @@ export default class InputBlock extends ResponseBlock {
   constructor({ input, inputIndex }) {
     super({ input, inputIndex });
     this.setType('input');
-    this.addPlaceHolderAndAriaLabelIfExist();
+    this._addPlaceHolderAndAriaLabelIfExist();
   }
 
-  addPlaceHolderAndAriaLabelIfExist() {
+  _addPlaceHolderAndAriaLabelIfExist() {
     if (this.hasPlaceHolder) {
       this.setPlaceholder(this.input.split(PLACEHOLDER)[1].split(ARIA_LABEL)[0]);
     }

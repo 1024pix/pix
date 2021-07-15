@@ -4,55 +4,182 @@ import SelectBlock from 'mon-pix/utils/proposals-parser/select-block';
 
 describe('Unit | Utils | Proposals Parser | Select Block', function() {
 
-  describe.only('#constructor', function() {
-    [
-      { input: '${}', expectedInput: '', expectedOptions: null },
-      { input: '${banana||mango||potato}', expectedInput: 'banana||mango||potato', expectedOptions: ['banana', 'mango', 'potato'] },
-      { input: '${banana||mango||potato}s', expectedInput: 'banana||mango||potatos', expectedOptions: ['banana', 'mango', 'potatos'] },
-      { input: '${banana||mango||potato$}', expectedInput: 'banana||mango||potato$', expectedOptions: ['banana', 'mango', 'potato$'] },
-      { input: '${$banana||mango||potato}}', expectedInput: '$banana||mango||potato}', expectedOptions: ['$banana', 'mango', 'potato}'] },
-      { input: '${banana||mango||potato${}}', expectedInput: 'banana||mango||potato${}', expectedOptions: ['banana', 'mango', 'potato${}'] },
-      { input: '${banana\\|\\|mango||potato}', expectedInput: 'banana\\|\\|mango||potato', expectedOptions: ['banana||mango', 'potato'] },
-    ].forEach((data) => {
-      it(`should remove response block wrapper for ${data.input}`, function() {
-        // given
-        const input = data.input;
+  describe('#constructor', function() {
+    const OPTIONS_SPLITTER = '//';
+    const ESCAPED_OPTIONS_SPLITTER = '\\/\\/';
+    const REMAINING_OPTIONS_SPLITTER = OPTIONS_SPLITTER;
 
-        // when
-        const result = new SelectBlock({ input, inputIndex: 1 });
+    context('when there is options without aria label nor placeholder', function() {
+      [
+        {
+          input: '${}',
+          expected: {
+            input: '',
+            options: [''],
+            autoAriaLabel: true,
+            ariaLabel: '123',
+            placeholder: null,
+          },
+        },
+        {
+          input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato}',
+          expected: {
+            input: 'banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato',
+            options: ['banana', 'mango', 'potato'],
+            autoAriaLabel: true,
+            ariaLabel: '123',
+            placeholder: null,
+          },
+        },
+        {
+          input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato}s',
+          expected: {
+            input: 'banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potatos',
+            options: ['banana', 'mango', 'potatos'],
+            autoAriaLabel: true,
+            ariaLabel: '123',
+            placeholder: null,
+          },
+        },
+        {
+          input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato$}',
+          expected: {
+            input: 'banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato$',
+            options: ['banana', 'mango', 'potato$'],
+            autoAriaLabel: true,
+            ariaLabel: '123',
+            placeholder: null,
+          },
+        },
+        {
+          input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato}}',
+          expected: {
+            input: 'banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato}',
+            options: ['banana', 'mango', 'potato}'],
+            autoAriaLabel: true,
+            ariaLabel: '123',
+            placeholder: null,
+          },
+        },
+        {
+          input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato${}}',
+          expected: {
+            input: 'banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato${}',
+            options: ['banana', 'mango', 'potato${}'],
+            autoAriaLabel: true,
+            ariaLabel: '123',
+            placeholder: null,
+          },
+        },
+        {
+          input: '${banana/mango' + OPTIONS_SPLITTER + 'potato}',
+          expected: {
+            input: 'banana/mango' + OPTIONS_SPLITTER + 'potato',
+            options: ['banana/mango', 'potato'],
+            autoAriaLabel: true,
+            ariaLabel: '123',
+            placeholder: null,
+          },
+        },
+        {
+          input: '${banana is ' + ESCAPED_OPTIONS_SPLITTER + ' to mango' + OPTIONS_SPLITTER + 'potato}',
+          expected: {
+            input: 'banana is ' + ESCAPED_OPTIONS_SPLITTER + ' to mango' + OPTIONS_SPLITTER + 'potato',
+            options: ['banana is ' + REMAINING_OPTIONS_SPLITTER + ' to mango', 'potato'],
+            autoAriaLabel: true,
+            ariaLabel: '123',
+            placeholder: null,
+          },
+        },
+        {
+          input: '${banana is ' + ESCAPED_OPTIONS_SPLITTER + ' to mango and ' + ESCAPED_OPTIONS_SPLITTER + ' to kiwi' + OPTIONS_SPLITTER + 'potato}',
+          expected: {
+            input: 'banana is ' + ESCAPED_OPTIONS_SPLITTER + ' to mango and ' + ESCAPED_OPTIONS_SPLITTER + ' to kiwi' + OPTIONS_SPLITTER + 'potato',
+            options: ['banana is ' + REMAINING_OPTIONS_SPLITTER + ' to mango and ' + REMAINING_OPTIONS_SPLITTER + ' to kiwi', 'potato'],
+            autoAriaLabel: true,
+            ariaLabel: '123',
+            placeholder: null,
+          },
+        },
+      ].forEach((data) => {
+        it(`should parse input and options properly for ${data.input}`, function() {
+          // given
+          const input = data.input;
 
-        // then
-        expect(result.input).to.equal(data.expectedInput);
-        expect(result.options).to.deep.equal(data.expectedOptions);
-        expect(result.type).to.equal('select');
+          // when
+          const result = new SelectBlock({ input, inputIndex: 123 });
+
+          // then
+          expect(result.input).to.equal(data.expected.input);
+          expect(result.options).to.deep.equal(data.expected.options);
+          expect(result.autoAriaLabel).to.equal(data.expected.autoAriaLabel);
+          expect(result.ariaLabel).to.equal(data.expected.ariaLabel);
+          expect(result.placeholder).to.equal(data.expected.placeholder);
+          expect(result.type).to.equal('select');
+        });
       });
     });
-  });
 
-  describe('#addPlaceHolderAndAriaLabelIfExist', function() {
+    context('when options are standards and there is specific aria label and/or placeholder', function() {
+      [
+        {
+          input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato#tomatoPlaceholder}',
+          expected: {
+            input: 'banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato',
+            options: ['banana', 'mango', 'potato'],
+            autoAriaLabel: true,
+            ariaLabel: '123',
+            placeholder: 'tomatoPlaceholder',
+          },
+        },
+        {
+          input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato}#tomatoPlaceholder',
+          expected: {
+            input: 'banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato',
+            options: ['banana', 'mango', 'potato'],
+            autoAriaLabel: true,
+            ariaLabel: '123',
+            placeholder: 'tomatoPlaceholder',
+          },
+        },
+        {
+          input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato§saladAriaLabel}',
+          expected: {
+            input: 'banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato',
+            options: ['banana', 'mango', 'potato'],
+            autoAriaLabel: false,
+            ariaLabel: 'saladAriaLabel',
+            placeholder: null,
+          },
+        },
+        {
+          input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato#tomatoPlaceholder§saladAriaLabel}',
+          expected: {
+            input: 'banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato',
+            options: ['banana', 'mango', 'potato'],
+            autoAriaLabel: false,
+            ariaLabel: 'saladAriaLabel',
+            placeholder: 'tomatoPlaceholder',
+          },
+        },
+      ].forEach((data) => {
+        it(`should parse a11y elements properly for ${data.input}`, function() {
+          // given
+          const input = data.input;
 
-    [
-      { input: '${banana}', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
-      { input: '${banana#potato}', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: 'potato' },
-      { input: '${banana}#potato', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: 'potato' },
-      { input: '${banana§salad}', expectedInput: 'banana', expectedAutoAriaLabel: false, expectedAriaLabel: 'salad', expectedPlaceholder: null },
-      { input: '${banana#potato§salad}', expectedInput: 'banana', expectedAutoAriaLabel: false, expectedAriaLabel: 'salad', expectedPlaceholder: 'potato' },
-    ].forEach((data) => {
-      it(`should return expected attributes for ${data.input}`, function() {
-        // given
-        const inputBlock = new SelectBlock({
-          input: data.input,
-          inputIndex: 123,
+          // when
+          const result = new SelectBlock({ input, inputIndex: 123 });
+
+          console.log(result);
+
+          // then
+          expect(result.input).to.equal(data.expected.input);
+          expect(result.options).to.deep.equal(data.expected.options);
+          expect(result.autoAriaLabel).to.equal(data.expected.autoAriaLabel);
+          expect(result.ariaLabel).to.equal(data.expected.ariaLabel);
+          expect(result.placeholder).to.equal(data.expected.placeholder);
+          expect(result.type).to.equal('select');
         });
-
-        // when
-        inputBlock.addPlaceHolderAndAriaLabelIfExist();
-
-        // then
-        expect(inputBlock.input).to.equal(data.expectedInput);
-        expect(inputBlock.autoAriaLabel).to.equal(data.expectedAutoAriaLabel);
-        expect(inputBlock.ariaLabel).to.equal(data.expectedAriaLabel);
-        expect(inputBlock.placeholder).to.equal(data.expectedPlaceholder);
       });
     });
   });
