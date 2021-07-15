@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import moment from 'moment';
 
 class StudentInformationForAccountRecovery {
   @tracked firstName = '';
@@ -8,7 +9,7 @@ class StudentInformationForAccountRecovery {
   @tracked lastName = '';
   @tracked username = '';
   @tracked email = '';
-  @tracked birthdate = '';
+  @tracked birthdate;
   @tracked latestOrganizationName = '';
 }
 
@@ -27,9 +28,21 @@ export default class AccountRecoveryAfterLeavingScoController extends Controller
 
   @action
   async submitStudentInformation(studentInformation) {
-    const studentInformationToSave = this.store.createRecord('student-information', studentInformation);
+    const formattedBirthdate = moment(studentInformation.birthdate).format('YYYY-MM-DD');
+    this.studentInformationForAccountRecovery.birthdate = formattedBirthdate;
+    this.studentInformationForAccountRecovery.ineIna = studentInformation.ineIna;
+    const studentInformationToSave = this.store.createRecord('student-information', {
+      ...studentInformation,
+      birthdate: formattedBirthdate,
+    });
     try {
-      const { firstName, lastName, username, email, latestOrganizationName } = await studentInformationToSave.submitStudentInformation();
+      const {
+        firstName,
+        lastName,
+        username,
+        email,
+        latestOrganizationName
+      } = await studentInformationToSave.submitStudentInformation();
       this.studentInformationForAccountRecovery.firstName = firstName;
       this.studentInformationForAccountRecovery.lastName = lastName;
       this.studentInformationForAccountRecovery.username = username;

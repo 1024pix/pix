@@ -83,7 +83,7 @@ export default class StudentInformationFormComponent extends Component {
     const year = parseInt(this.yearOfBirth);
     const month = parseInt(this.monthOfBirth) - 1;
     const day = parseInt(this.dayOfBirth);
-    return moment(new Date(year, month, day)).format('YYYY-MM-DD');
+    return new Date(year, month, day);
   }
 
   @action validateIneIna() {

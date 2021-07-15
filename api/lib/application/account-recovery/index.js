@@ -30,6 +30,7 @@ exports.register = async function(server) {
                   Joi.string().regex(inePattern).required(),
                   Joi.string().regex(inaPattern).required(),
                 ),
+                //TODO: string or date
                 birthdate: Joi.date().format('YYYY-MM-DD').required(),
                 email: Joi.string().email().required(),
               },
