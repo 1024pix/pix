@@ -8,50 +8,63 @@
                       class="qrocm-proposal__label" />
     {{/if}}
 
-    {{#if block.input}}
-      {{#if block.text}}
-        <label for="{{block.input}}">
-          <MarkdownToHtml @markdown={{block.text}}
-                          @extensions="remove-paragraph-tags"
-                          class="qrocm-proposal__label"
-                          data-test="qrocm-label-{{index}}" />
-        </label>
-      {{/if}}
+    {{#if (eq block.type 'select')}}
+      <select class="challenge-response__proposal challenge-response__proposal--selector"
+              name={{block.randomName}}
+              id="{{block.input}}"
+              aria-label={{block.ariaLabel}}>
 
-      {{#if (eq @format 'paragraphe')}}
-        <Textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
-                  rows="5"
-                  name={{block.randomName}}
-                  placeholder={{block.placeholder}}
-                  autocomplete="nope"
-                  id="{{block.input}}"
-                  @value={{mut (get @answersValue block.input)}}
-                  disabled={{@answer}}
-                  aria-label={{block.ariaLabel}}
-                  {{on 'keydown' this.onInputChange}} />
-      {{else if (eq @format 'phrase')}}
-        <Input class="challenge-response__proposal challenge-response__proposal--sentence"
-               @type="text"
-               name={{block.randomName}}
-               placeholder={{block.placeholder}}
-               autocomplete="nope"
-               id="{{block.input}}"
-               @value={{mut (get @answersValue block.input)}}
-               disabled={{@answer}}
-               aria-label={{block.ariaLabel}}
-               {{on 'keydown' this.onInputChange}} />
-      {{else}}
-        <Input class="challenge-response__proposal"
-               size="{{get-qroc-input-size @format}}"
-               @type="text"
-               name={{block.randomName}}
-               placeholder={{block.placeholder}}
-               autocomplete="nope"
-               id="{{block.input}}"
-               @value={{mut (get @answersValue block.input)}}
-               disabled={{@answer}}
-               aria-label={{block.ariaLabel}}
-               {{on 'keydown' this.onInputChange}} />
+              {{#each block.options as |optionValue|}}
+                <option value="{{optionValue}}">{{optionValue}}</option>
+              {{/each}}
+      </select>
+
+    {{else if (eq block.type 'input')}}
+      {{#if block.input}}
+        {{#if block.text}}
+          <label for="{{block.input}}">
+            <MarkdownToHtml @markdown={{block.text}}
+                            @extensions="remove-paragraph-tags"
+                            class="qrocm-proposal__label"
+                            data-test="qrocm-label-{{index}}" />
+          </label>
+        {{/if}}
+
+        {{#if (eq @format 'paragraphe')}}
+          <Textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
+                    rows="5"
+                    name={{block.randomName}}
+                    placeholder={{block.placeholder}}
+                    autocomplete="nope"
+                    id="{{block.input}}"
+                    @value={{mut (get @answersValue block.input)}}
+                    disabled={{@answer}}
+                    aria-label={{block.ariaLabel}}
+                    {{on 'keydown' this.onInputChange}} />
+        {{else if (eq @format 'phrase')}}
+          <Input class="challenge-response__proposal challenge-response__proposal--sentence"
+                 @type="text"
+                 name={{block.randomName}}
+                 placeholder={{block.placeholder}}
+                 autocomplete="nope"
+                 id="{{block.input}}"
+                 @value={{mut (get @answersValue block.input)}}
+                 disabled={{@answer}}
+                 aria-label={{block.ariaLabel}}
+                 {{on 'keydown' this.onInputChange}} />
+        {{else}}
+          <Input class="challenge-response__proposal"
+                 size="{{get-qroc-input-size @format}}"
+                 @type="text"
+                 name={{block.randomName}}
+                 placeholder={{block.placeholder}}
+                 autocomplete="nope"
+                 id="{{block.input}}"
+                 @value={{mut (get @answersValue block.input)}}
+                 disabled={{@answer}}
+                 aria-label={{block.ariaLabel}}
+                 {{on 'keydown' this.onInputChange}} />
+        {{/if}}
       {{/if}}
     {{/if}}
   {{/each}}
