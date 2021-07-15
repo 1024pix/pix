@@ -7,7 +7,7 @@ const {
 } = require('../../domain/errors');
 const { isEmpty } = require('lodash');
 
-function _toDomain(accountRecoveryDemandDTO) {
+function _toDomainObject(accountRecoveryDemandDTO) {
   return new AccountRecoveryDemand({
     ...accountRecoveryDemandDTO,
   });
@@ -39,7 +39,7 @@ module.exports = {
       throw new AccountRecoveryDemandExpired();
     }
 
-    return _toDomain(accountRecoveryDemand);
+    return _toDomainObject(accountRecoveryDemand);
   },
 
   async save(accountRecoveryDemand) {
@@ -47,7 +47,7 @@ module.exports = {
       .insert(accountRecoveryDemand)
       .returning('*');
 
-    return _toDomain(result[0]);
+    return _toDomainObject(result[0]);
   },
 
 };
