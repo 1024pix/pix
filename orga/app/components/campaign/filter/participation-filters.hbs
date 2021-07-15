@@ -5,7 +5,7 @@
     aria-label={{t 'pages.campaign-results.filters.aria-label'}}
     @details={{t 'pages.campaign-results.filters.participations-count' count=@rowCount}}
     @clearFiltersLabel={{t 'pages.campaign-results.filters.actions.clear'}}
-    @onClearFilters={{@resetFiltering}}
+    @onClearFilters={{@onResetFilter}}
     >
     {{#if this.displayDivisionFilter }}
       <PixMultiSelect

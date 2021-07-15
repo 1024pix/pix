@@ -1,11 +1,12 @@
-<Routes::Authenticated::Campaign::ParticipationFilters
+<Campaign::Filter::ParticipationFilters
   @campaign={{@campaign}}
   @selectedDivisions={{@selectedDivisions}}
   @selectedBadges={{@selectedBadges}}
   @selectedStages={{@selectedStages}}
   @rowCount={{@participations.meta.rowCount}}
-  @resetFiltering={{@onResetFilter}}
-  @triggerFiltering={{@onFilter}}
+  
+  @onResetFilter={{@onResetFilter}}
+  @onFilter={{@onFilter}}
 />
 
 <div class="panel">
