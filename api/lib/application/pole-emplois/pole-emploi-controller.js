@@ -1,5 +1,6 @@
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
+
 module.exports = {
 
   async createUser(request, h) {
@@ -18,7 +19,16 @@ module.exports = {
 
   async getSendings(request, h) {
     const cursor = request.query.curseur;
-    const { sendings, link } = await usecases.getPoleEmploiSendings({ cursor });
+    const filters = _extractFilters(request);
+    const { sendings, link } = await usecases.getPoleEmploiSendings({ cursor, filters });
     return h.response(sendings).header('link', link).code(200);
   },
 };
+
+function _extractFilters(request) {
+  const filters = {};
+  if (Object.keys(request.query).includes('enErreur')) {
+    filters.isSuccessful = !request.query.enErreur;
+  }
+  return filters;
+}
