@@ -45,7 +45,7 @@ async function getBirthInformation({
   const country = await certificationCpfCountryRepository.getByMatcher({ matcher });
 
   if (!country) {
-    return CpfBirthInformationValidation.failure(`Le pays ${birthCountry} n'a pas été trouvé.`);
+    return CpfBirthInformationValidation.failure(`Le pays "${birthCountry}" n'a pas été trouvé.`);
   }
 
   if (!birthINSEECode && !birthPostalCode) {
@@ -69,7 +69,7 @@ async function getBirthInformation({
     const cities = await certificationCpfCityRepository.findByINSEECode({ INSEECode: birthINSEECode });
 
     if (isEmpty(cities)) {
-      return CpfBirthInformationValidation.failure(`Le code INSEE ${birthINSEECode} n'est pas valide.`);
+      return CpfBirthInformationValidation.failure(`Le code INSEE "${birthINSEECode}" n'est pas valide.`);
     }
 
     return CpfBirthInformationValidation.success({
@@ -88,14 +88,14 @@ async function getBirthInformation({
     const cities = await certificationCpfCityRepository.findByPostalCode({ postalCode: birthPostalCode });
 
     if (isEmpty(cities)) {
-      return CpfBirthInformationValidation.failure(`Le code postal ${birthPostalCode} n'est pas valide.`);
+      return CpfBirthInformationValidation.failure(`Le code postal "${birthPostalCode}" n'est pas valide.`);
     }
 
     const sanitizedCity = sanitizeAndSortChars(birthCity);
     const doesCityMatchPostalCode = cities.some((city) => sanitizeAndSortChars(city.name) === sanitizedCity);
 
     if (!doesCityMatchPostalCode) {
-      return CpfBirthInformationValidation.failure(`Le code postal ${birthPostalCode} ne correspond pas à la ville ${birthCity}`);
+      return CpfBirthInformationValidation.failure(`Le code postal "${birthPostalCode}" ne correspond pas à la ville "${birthCity}"`);
     }
 
     return CpfBirthInformationValidation.success({

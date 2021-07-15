@@ -58,7 +58,7 @@ describe('Unit | Service | Certification CPF service', () => {
         });
 
         // then
-        expect(result).to.deep.equal(CpfBirthInformationValidation.failure(`Le pays ${birthCountry} n'a pas été trouvé.`));
+        expect(result).to.deep.equal(CpfBirthInformationValidation.failure(`Le pays "${birthCountry}" n'a pas été trouvé.`));
       });
     });
 
@@ -237,7 +237,7 @@ describe('Unit | Service | Certification CPF service', () => {
             });
 
             // then
-            expect(result).to.deep.equal(CpfBirthInformationValidation.failure(`Le code INSEE ${birthINSEECode} n'est pas valide.`));
+            expect(result).to.deep.equal(CpfBirthInformationValidation.failure(`Le code INSEE "${birthINSEECode}" n'est pas valide.`));
           });
         });
 
@@ -302,7 +302,7 @@ describe('Unit | Service | Certification CPF service', () => {
             });
 
             // then
-            expect(result).to.deep.equal(CpfBirthInformationValidation.failure(`Le code postal ${birthPostalCode} n'est pas valide.`));
+            expect(result).to.deep.equal(CpfBirthInformationValidation.failure(`Le code postal "${birthPostalCode}" n'est pas valide.`));
           });
 
           it('should return a validation failure when birth city is not defined', async () => {
@@ -357,7 +357,7 @@ describe('Unit | Service | Certification CPF service', () => {
             });
 
             // then
-            expect(result).to.deep.equal(CpfBirthInformationValidation.failure(`Le code postal ${birthPostalCode} ne correspond pas à la ville ${birthCity}`));
+            expect(result).to.deep.equal(CpfBirthInformationValidation.failure(`Le code postal "${birthPostalCode}" ne correspond pas à la ville "${birthCity}"`));
           });
         });
       });
