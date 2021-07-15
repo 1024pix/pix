@@ -117,6 +117,7 @@
                 <input
                   type="radio"
                   id="insee-code-choice"
+                  name="birth-geo-code-option"
                   value="insee"
                   checked="checked"
                   {{on "click" (fn this.selectBirthGeoCodeOption "insee")}}
@@ -126,6 +127,7 @@
                 <input
                   type="radio"
                   id="postal-code-choice"
+                  name="birth-geo-code-option"
                   value="postal"
                   {{on "click" (fn this.selectBirthGeoCodeOption "postal")}}
                 >
