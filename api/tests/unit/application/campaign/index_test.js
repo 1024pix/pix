@@ -692,4 +692,79 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
   });
+
+  describe('GET /api/campaigns/{id}/participants-activity', () => {
+
+    it('should return 200', async () => {
+      sinon.stub(campaignController, 'findParticipantsActivity').callsFake((request, h) => h.response('ok').code(200));
+
+      // when
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/participants-activity');
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 200 with a string array of one element as division filter', async () => {
+      // given
+      sinon.stub(campaignController, 'findParticipantsActivity').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/participants-activity?filter[divisions][]="3EMEB"');
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 200 with a string array of several elements as division filter', async () => {
+      // given
+      sinon.stub(campaignController, 'findParticipantsActivity').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/participants-activity?filter[divisions][]="3EMEB"&filter[divisions][]="3EMEA"');
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 400 with an invalid campaign id', async () => {
+      // when
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const result = await httpTestServer.request('GET', '/api/campaigns/invalid/participants-activity');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 with unexpected filters', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/participants-activity?filter[unexpected][]=5');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 with a division filter which is not an array', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/participants-activity?filter[divisions]="3EMEA"');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+  });
 });

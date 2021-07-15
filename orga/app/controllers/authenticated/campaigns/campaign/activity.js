@@ -6,9 +6,22 @@ export default class ActivityController extends Controller {
   queryParams = ['pageNumber', 'pageSize'];
   @tracked pageNumber = 1;
   @tracked pageSize = 25;
+  @tracked divisions = [];
 
   @action
   goToParticipantPage(campaignId, participationId) {
     this.transitionToRoute('authenticated.campaigns.assessment', campaignId, participationId);
+  }
+
+  @action
+  triggerFiltering(filters) {
+    this.pageNumber = null;
+    this.divisions = filters.divisions;
+  }
+
+  @action
+  resetFiltering() {
+    this.pageNumber = null;
+    this.divisions = [];
   }
 }

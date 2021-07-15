@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import RSVP from 'rsvp';
+import { action } from '@ember/object';
 
 export default class ActivityRoute extends Route {
   queryParams = {
@@ -7,6 +8,9 @@ export default class ActivityRoute extends Route {
       refreshModel: true,
     },
     pageSize: {
+      refreshModel: true,
+    },
+    divisions: {
       refreshModel: true,
     },
   }
@@ -26,7 +30,18 @@ export default class ActivityRoute extends Route {
         number: params.pageNumber,
         size: params.pageSize,
       },
+      filter: {
+        divisions: params.divisions,
+      },
     });
+  }
+
+  @action
+  loading(transition) {
+    if (transition.from && transition.from.name === 'authenticated.campaigns.campaign.activity') {
+      return false;
+    }
+    return true;
   }
 
   resetController(controller, isExiting) {

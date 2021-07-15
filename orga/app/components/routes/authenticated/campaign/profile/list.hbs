@@ -1,9 +1,9 @@
-<Routes::Authenticated::Campaign::ParticipationFilters
+<Campaign::Filter::ParticipationFilters
   @campaign={{@campaign}}
   @selectedDivisions={{@selectedDivisions}}
-  @triggerFiltering={{@triggerFiltering}}
   @rowCount={{@profiles.meta.rowCount}}
-  @resetFiltering={{@resetFiltering}}
+  @onTriggerFiltering={{@triggerFiltering}}
+  @onResetFiltering={{@resetFiltering}}
 />
 
 <div class="panel">

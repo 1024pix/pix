@@ -5,6 +5,14 @@
   class="activity__dashboard"
 />
 
+<Campaign::Filter::ParticipationFilters
+  @campaign={{@model.campaign}}
+  @selectedDivisions={{this.divisions}}
+  @rowCount={{@model.participations.meta.rowCount}}
+  @onTriggerFiltering={{this.triggerFiltering}}
+  @onResetFiltering={{this.resetFiltering}}
+/>
+
 <Campaign::Activity::ParticipantsList
   @campaign={{@model.campaign}}
   @participations={{@model.participations}}

@@ -174,10 +174,14 @@ module.exports = {
 
   async findParticipantsActivity(request) {
     const campaignId = request.params.id;
-    const { page } = queryParamsUtils.extractParameters(request.query);
+
+    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
+    if (filters.divisions && !Array.isArray(filters.divisions)) {
+      filters.divisions = [filters.divisions];
+    }
 
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
-    const paginatedParticipations = await usecases.findPaginatedCampaignParticipantsActivities({ userId, campaignId, page });
+    const paginatedParticipations = await usecases.findPaginatedCampaignParticipantsActivities({ userId, campaignId, page, filters });
     return campaignParticipantsActivitySerializer.serialize(paginatedParticipations);
   },
 

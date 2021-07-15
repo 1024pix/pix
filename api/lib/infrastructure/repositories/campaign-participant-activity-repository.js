@@ -8,12 +8,12 @@ const Campaign = require('../../domain/models/Campaign');
 
 const campaignParticipantActivityRepository = {
 
-  async findPaginatedByCampaignId({ page = { size: 25 }, campaignId }) {
+  async findPaginatedByCampaignId({ page = { size: 25 }, campaignId, filters = {} }) {
 
     const targetedSkills = await _getTargetedSkills(campaignId);
 
     const query = knex
-      .with('with_assessements', (qb) => withOrderAndLimit(qb, campaignId))
+      .with('with_assessements', (qb) => withOrderAndLimit(qb, campaignId, filters))
       .select('with_assessements.*', 'assessments.state AS assessmentState')
       .from('with_assessements')
       .leftJoin('assessments', 'assessments.campaignParticipationId', 'with_assessements.campaignParticipationId')
@@ -35,7 +35,7 @@ const campaignParticipantActivityRepository = {
   },
 };
 
-function _campaignParticipationByParticipantSortedByDate(qb, campaignId) {
+function _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters) {
   qb.select(
     'campaign-participations.id AS campaignParticipationId',
     'users.id AS userId',
@@ -57,7 +57,15 @@ function _campaignParticipationByParticipantSortedByDate(qb, campaignId) {
     })
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
-    .modify(_filterMostRecentAssessments);
+    .modify(_filterMostRecentAssessments)
+    .modify(_filterByDivisions, filters);
+}
+
+function _filterByDivisions(qb, filters) {
+  if (filters.divisions) {
+    const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
+    qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
+  }
 }
 
 function _filterMostRecentAssessments(qb) {
@@ -91,10 +99,11 @@ async function _getTargetedSkills(campaignId) {
     .where('campaigns.id', '=', campaignId);
 }
 
-function withOrderAndLimit(queryBuilder, campaignId) {
+function withOrderAndLimit(queryBuilder, campaignId, filters) {
   queryBuilder
-    .with('campaign_participants_activities_ordered', (qb) => _campaignParticipationByParticipantSortedByDate(qb, campaignId))
+    .with('campaign_participants_activities_ordered', (qb) => _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters))
     .from('campaign_participants_activities_ordered')
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
 }
+
 module.exports = campaignParticipantActivityRepository;

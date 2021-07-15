@@ -20,7 +20,7 @@ export default class ParticipationFilters extends Component {
 
   @action
   onSelectStage(stages) {
-    this.args.triggerFiltering({ stages });
+    this.args.onTriggerFiltering({ stages });
   }
 
   get displayBadgesFilter() {
@@ -34,7 +34,7 @@ export default class ParticipationFilters extends Component {
 
   @action
   onSelectBadge(badges) {
-    this.args.triggerFiltering({ badges });
+    this.args.onTriggerFiltering({ badges });
   }
 
   get isDivisionsLoaded() {
@@ -51,6 +51,6 @@ export default class ParticipationFilters extends Component {
 
   @action
   onSelectDivision(divisions) {
-    this.args.triggerFiltering({ divisions });
+    this.args.onTriggerFiltering({ divisions });
   }
 }
