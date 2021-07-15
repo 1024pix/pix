@@ -9,27 +9,15 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
   let originalEnv;
   let sending1;
   let sending2;
-  let campaignId;
 
   beforeEach(async() => {
     originalEnv = settings.apiManager.url;
     settings.apiManager.url = 'https://fake-url.fr';
 
-    const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pole emploi' }).id;
-    campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-
-    const user1Id = databaseBuilder.factory.buildUser().id;
-    databaseBuilder.factory.buildAuthenticationMethod({ userId: user1Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId1' });
-    const campaignParticipation1Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user1Id, campaignId }).id;
-    sending1 = poleEmploiSendingFactory.build({ id: 8766, campaignParticipationId: campaignParticipation1Id, createdAt: new Date('2021-03-01'), payload: { individu: {} } });
-
-    const user2Id = databaseBuilder.factory.buildUser().id;
-    databaseBuilder.factory.buildAuthenticationMethod({ userId: user2Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId2' });
-    const campaignParticipation2Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user2Id, campaignId }).id;
-    sending2 = poleEmploiSendingFactory.build({ id: 45678, campaignParticipationId: campaignParticipation2Id, createdAt: new Date('2021-04-01'), payload: { individu: {} } });
+    sending1 = poleEmploiSendingFactory.buildWithUser({ createdAt: new Date('2021-03-01'), isSuccessful: true });
+    sending2 = poleEmploiSendingFactory.buildWithUser({ createdAt: new Date('2021-04-01'), isSuccessful: false });
 
     await databaseBuilder.commit();
-
   });
 
   afterEach(() => {
@@ -77,5 +65,13 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
       expect(response.sendings).to.deep.equal([]);
       expect(response.link).to.equal(null);
     });
+  });
+
+  it('returns sendings which match the filters', async () => {
+    //when
+    const { sendings } = await usecases.getPoleEmploiSendings({ cursor: null, poleEmploiSendingRepository, filters: { isSuccessful: false } });
+
+    //then
+    expect(sendings.map(({ idEnvoi }) => idEnvoi)).to.exactlyContain([sending2.id]);
   });
 });
