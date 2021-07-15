@@ -49,23 +49,28 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
       });
 
-      context('when demand is unused yet', () => {
+      context('when demand is not yet used', () => {
 
-        it('should return the account recovery demand when temporary key not expired', async () => {
+        it('should return the account recovery demand when demand is still valid', async () => {
           // given
           const email = 'someMail@example.net';
           const temporaryKey = 'someTemporaryKey';
           const demandId = databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false }).id;
           databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
           await databaseBuilder.commit();
-
+          const expectedAccountRecoveryDemand = {
+            id: demandId,
+            userId: null,
+            oldEmail: null,
+            newEmail: 'philipe@example.net',
+            temporaryKey: 'someTemporaryKey',
+            used: false,
+          };
           // when
           const demand = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
 
           // then
-          expect(demand.id).to.equal(demandId);
-          expect(demand.temporaryKey).to.equal(temporaryKey);
-          expect(demand.used).to.equal(false);
+          expect(demand).to.deep.equal(expectedAccountRecoveryDemand);
         });
       });
 
@@ -95,10 +100,12 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
           // given
           const email = 'someMail@example.net';
           const temporaryKey = 'someTemporaryKey';
-          const createdAtExpiredOneDayAgo = new Date();
-          createdAtExpiredOneDayAgo.setDate(createdAtExpiredOneDayAgo.getDate() - 1);
+          const expirationDelayInDays = 1;
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - expirationDelayInDays);
+          const createdYesterday = new Date(yesterday.getTime());
 
-          databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false, createdAt: createdAtExpiredOneDayAgo }).id;
+          databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false, createdAt: createdYesterday }).id;
           databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
           await databaseBuilder.commit();
 

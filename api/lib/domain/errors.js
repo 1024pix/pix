@@ -139,7 +139,7 @@ class NoStagesForCampaign extends DomainError {
 }
 
 class AccountRecoveryDemandExpired extends DomainError {
-  constructor(message = 'The account recovery demand has expired.') {
+  constructor(message = 'This account recovery demand has expired.') {
     super(message);
   }
 }
