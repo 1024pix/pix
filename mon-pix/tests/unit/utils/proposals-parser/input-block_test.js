@@ -44,7 +44,7 @@ describe('Unit | Utils | Proposals Parser | Input Block', function() {
         });
 
         // when
-        inputBlock.addPlaceHolderAndAriaLabelIfExist();
+        inputBlock._addPlaceHolderAndAriaLabelIfExist();
 
         // then
         expect(inputBlock.input).to.equal(data.expectedInput);
