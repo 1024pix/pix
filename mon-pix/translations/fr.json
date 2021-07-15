@@ -1017,6 +1017,10 @@
         "send-email": "Nous venons de vous adresser un mail qui vous permettra de choisir un mot de passe. Vous pouvez consulter dès maintenant votre messagerie.",
         "check-spam": "Si vous ne voyez pas cet e-mail, vérifiez vos courriers indésirables.",
         "return": "Retour"
+      },
+      "reset-password": {
+        "welcome-message": "Bon retour parmi nous { firstName } !",
+        "invalid-demand" : "Votre demande de récupération de compte est invalide"
       }
     },
     "result-item": {
