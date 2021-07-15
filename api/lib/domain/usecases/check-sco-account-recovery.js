@@ -7,8 +7,7 @@ module.exports = async function checkScoAccountRecovery({
   organizationRepository,
   userRepository,
 }) {
-  const { userId, firstName, lastName, organizationId } = await schoolingRegistrationRepository
-    .getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate(studentInformation);
+  const { userId, firstName, lastName, organizationId } = await schoolingRegistrationRepository.getSchoolingRegistrationInformation(studentInformation);
   const schoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId });
 
   if (_areThereMultipleStudentForSameAccount(schoolingRegistrations)) {

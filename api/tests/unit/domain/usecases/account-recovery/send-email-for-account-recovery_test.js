@@ -16,7 +16,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
       get: sinon.stub(),
     };
     schoolingRegistrationRepository = {
-      getStudentRegistrationByNationalStudentIdFirstNameLastNameAndBirthdate: sinon.stub(),
+      getSchoolingRegistrationInformation: sinon.stub(),
     };
     accountRecoveryDemandRepository = {
       save: sinon.stub(),

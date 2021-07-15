@@ -10,10 +10,9 @@ module.exports = async function sendEmailForAccountRecovery({
   mailService,
 }) {
   const { email: newEmail, ...otherStudentInformation } = studentInformation;
-  const { id, userId } = await schoolingRegistrationRepository
-    .getStudentRegistrationByNationalStudentIdFirstNameLastNameAndBirthdate(otherStudentInformation);
+  const { id, userId } = await schoolingRegistrationRepository.getSchoolingRegistrationInformation(otherStudentInformation);
   const { email } = await userRepository.get(userId);
-  await userRepository.isEmailAvailable(email);
+  await userRepository.isEmailAvailable(newEmail);
 
   const accountRecoveryDemand = new AccountRecoveryDemand({
     userId,
@@ -27,7 +26,7 @@ module.exports = async function sendEmailForAccountRecovery({
 
   await mailService.sendAccountRecoveryEmail({
     firstName: otherStudentInformation.firstName,
-    email,
+    email: newEmail,
     temporaryKey,
   });
 };

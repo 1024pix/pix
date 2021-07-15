@@ -16,7 +16,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
 
   beforeEach(() => {
     schoolingRegistrationRepository = {
-      getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate: sinon.stub(),
+      getSchoolingRegistrationInformation: sinon.stub(),
       findByUserId: sinon.stub(),
     };
     userRepository = {
@@ -58,7 +58,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
           birthdate: studentInformation.birthdate,
         });
 
-        schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate
+        schoolingRegistrationRepository.getSchoolingRegistrationInformation
           .withArgs({
             nationalStudentId: studentInformation.ineIna,
             firstName: studentInformation.firstName,
@@ -140,7 +140,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
             birthdate: studentInformation.birthdate,
           });
 
-          schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate
+          schoolingRegistrationRepository.getSchoolingRegistrationInformation
             .withArgs({
               nationalStudentId: studentInformation.ineIna,
               firstName: studentInformation.firstName,
@@ -216,7 +216,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
             birthdate: '2004-05-07',
           });
 
-          schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate
+          schoolingRegistrationRepository.getSchoolingRegistrationInformation
             .withArgs({
               nationalStudentId: studentInformation.ineIna,
               firstName: studentInformation.firstName,

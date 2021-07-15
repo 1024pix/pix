@@ -119,5 +119,7 @@
     "stylelint-config-standard": "^22.0.0",
     "xss": "^1.0.8"
   },
-  "dependencies": {}
+  "dependencies": {
+    "date-fns": "^2.21.1"
+  }
 }

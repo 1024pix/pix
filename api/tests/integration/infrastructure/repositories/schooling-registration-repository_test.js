@@ -1434,7 +1434,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate', () => {
+  describe('#getSchoolingRegistrationInformation', () => {
 
     it('should return the latest schooling registration information', async () => {
       // given
@@ -1466,7 +1466,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const SchoolingRegistration = await schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate(studentInformation);
+      const SchoolingRegistration = await schoolingRegistrationRepository.getSchoolingRegistrationInformation(studentInformation);
 
       // then
       expect(SchoolingRegistration).to.deep.equal({
@@ -1493,7 +1493,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate)({
+      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationInformation)({
         nationalStudentId: '222256789AB',
         firstName: 'Tom',
         lastName: 'Jédusor',
@@ -1519,7 +1519,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate)({
+      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationInformation)({
         nationalStudentId: '123456789AB',
         firstName: 'Tim',
         lastName: 'Jédusor',
@@ -1546,7 +1546,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate)({
+      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationInformation)({
         nationalStudentId: '123456789AB',
         firstName: 'Tom',
         lastName: 'Jédusor',

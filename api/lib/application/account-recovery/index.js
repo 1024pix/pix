@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require('joi').extend(require('@joi/date'));
 const featureToggles = require('../preHandlers/feature-toggles');
 
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
@@ -30,7 +30,6 @@ exports.register = async function(server) {
                   Joi.string().regex(inePattern).required(),
                   Joi.string().regex(inaPattern).required(),
                 ),
-                //TODO: string or date
                 birthdate: Joi.date().format('YYYY-MM-DD').required(),
                 email: Joi.string().email().required(),
               },
