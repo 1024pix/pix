@@ -27,7 +27,7 @@ describe('Integration | Repository | PoleEmploiSending', () => {
     });
   });
 
-  describe('#get', () => {
+  describe('#find', () => {
     let originalEnvPoleEmploiSendingsLimit;
     let sending1;
     let sending2;
@@ -77,7 +77,7 @@ describe('Integration | Repository | PoleEmploiSending', () => {
 
     it('should render 3 sendings because of the poleEmploiSendingsLimit variable', async () => {
       // when
-      const sendings = await poleEmploiSendingRepository.get();
+      const sendings = await poleEmploiSendingRepository.find();
 
       // then
       expect(sendings).to.have.lengthOf(3);
@@ -85,7 +85,7 @@ describe('Integration | Repository | PoleEmploiSending', () => {
 
     it('should render sendings order by date', async () => {
       // when
-      const sendings = await poleEmploiSendingRepository.get();
+      const sendings = await poleEmploiSendingRepository.find();
 
       // then
       expect(sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending4.id, sending3.id, sending2.id]);
@@ -93,7 +93,7 @@ describe('Integration | Repository | PoleEmploiSending', () => {
 
     it('should render sendings with idPoleEmploi inside the object', async () => {
       // when
-      const sendings = await poleEmploiSendingRepository.get();
+      const sendings = await poleEmploiSendingRepository.find();
 
       // then
       expect(sendings.map((sending) => sending.resultat.individu.idPoleEmploi)).to.deep.equal(['externalUserId4', 'externalUserId3', 'externalUserId2']);
@@ -106,7 +106,7 @@ describe('Integration | Repository | PoleEmploiSending', () => {
         const dateEnvoi = sending2.createdAt;
 
         //when
-        const sendings = await poleEmploiSendingRepository.get({ idEnvoi, dateEnvoi });
+        const sendings = await poleEmploiSendingRepository.find({ idEnvoi, dateEnvoi });
 
         //then
         expect(sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending1.id]);
