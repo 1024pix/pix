@@ -144,6 +144,12 @@ class AccountRecoveryDemandExpired extends DomainError {
   }
 }
 
+class AccountRecoveryUserAlreadyConfirmEmail extends DomainError {
+  constructor(message = 'This user has already a confirmed email.') {
+    super(message);
+  }
+}
+
 class SchoolingRegistrationsCouldNotBeSavedError extends DomainError {
   constructor() {
     super('An error occurred during process');
@@ -864,6 +870,7 @@ class InvalidExternalAPIResponseError extends DomainError {
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
+  AccountRecoveryUserAlreadyConfirmEmail,
   AlreadyExistingEntityError,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingMembershipError,
