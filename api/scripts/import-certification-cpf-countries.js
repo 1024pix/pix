@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /* eslint-disable no-console */
-// Usage: node import-coutries-data path/file.csv
+// Usage: node import-certification-cpf-countries.js path/file.csv
 // File Millésime 2021 : Liste des pays et territoires étrangers au 01/01/2021
 // downloaded from https://www.data.gouv.fr/fr/datasets/code-officiel-geographique-cog/
 
@@ -23,7 +23,7 @@ const FRENCH_CODE_IN_FILE = 'XXXXX';
 const TYPES = {
   'actuel': '1',
   'perime': '2',
-  'territoire_sans_codee_officiel_geographique': '3',
+  'territoire_sans_code_officiel_geographique': '3',
   'territoire_ayant_code_officiel_geographique': '4',
 };
 
@@ -46,7 +46,7 @@ function buildCountries({ csvData }) {
         originalName: data[CURRENT_NAME_COLUMN],
         matcher: sanitizeAndSortChars(data[CURRENT_NAME_COLUMN]),
       });
-      if (data[ALTERNATIVE_NAME_COLUMN]) {
+      if (data[ALTERNATIVE_NAME_COLUMN] && data[ALTERNATIVE_NAME_COLUMN] !== data[CURRENT_NAME_COLUMN]) {
         result.push({
           code,
           commonName: data[CURRENT_NAME_COLUMN],
@@ -90,8 +90,9 @@ async function main(filePath) {
     console.log('Verify data integrity... ');
     checkTransformUnicity(countries);
 
-    console.log('Inserting countries in database... ');
+    console.log('Emptying existing countries in database... ');
     await trx('certification-cpf-countries').del();
+    console.log('Inserting countries in database... ');
     await trx.batchInsert('certification-cpf-countries', countries);
     trx.commit();
     console.log('ok');
