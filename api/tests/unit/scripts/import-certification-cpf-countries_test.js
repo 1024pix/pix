@@ -114,6 +114,26 @@ describe('Unit | Scripts | import-certification-cpf-countries.js', () => {
       ]);
     });
 
+    it('should return one occurence of a country if its alternative is the same as its common', () => {
+      // given
+      const csvData = [
+        { LIBCOG: 'PAYS-BAS', LIBENR: 'PAYS-BAS', COG: '99135', ACTUAL: '1' },
+      ];
+
+      // when
+      const countries = buildCountries({ csvData });
+
+      // then
+      expect(countries).to.deep.equal([
+        {
+          'code': '99135',
+          'commonName': 'PAYS-BAS',
+          'originalName': 'PAYS-BAS',
+          'matcher': 'AABPSSY',
+        },
+      ]);
+    });
+
   });
 
   describe('#checkTransformUnicity', () => {
