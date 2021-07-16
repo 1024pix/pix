@@ -1,3 +1,4 @@
+import sinon from 'sinon';
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -10,12 +11,14 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
 
     test('it should display empty message', async function(assert) {
 
+      this.onClickParticipant = sinon.stub();
       this.campaign = { idPixLabel: null, type: 'ASSESSMENT' };
       this.participations = [];
 
       await render(hbs`<Campaign::Activity::ParticipantsList
         @campaign={{campaign}}
         @participations={{participations}}
+        @onClickParticipant={{onClickParticipant}}
       />`);
 
       assert.contains('Aucun participant');
@@ -33,10 +36,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
         status: 'completed',
         participantExternalId: 'patate',
       }];
+      this.onClickParticipant = sinon.stub();
 
       await render(hbs`<Campaign::Activity::ParticipantsList
         @campaign={{campaign}}
         @participations={{participations}}
+        @onClickParticipant={{onClickParticipant}}
       />`);
 
       assert.contains('Joe');

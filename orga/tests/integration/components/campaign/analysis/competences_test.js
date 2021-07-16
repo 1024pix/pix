@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/collective-results/tab', function(hooks) {
+module('Integration | Component | Campaign::Analysis::Competences', function(hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
@@ -23,7 +23,7 @@ module('Integration | Component | routes/authenticated/campaign/collective-resul
     this.set('campaignCollectiveResult', campaignCollectiveResult);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaign::CollectiveResults::Tab @campaignCollectiveResult={{campaignCollectiveResult}}/>`);
+    await render(hbs`<Campaign::Analysis::Competences @campaignCollectiveResult={{campaignCollectiveResult}}/>`);
 
     // then
     assert.contains('En attente de résultats');
@@ -50,7 +50,7 @@ module('Integration | Component | routes/authenticated/campaign/collective-resul
     this.set('sharedParticipationsCount', 4);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaign::CollectiveResults::Tab
+    await render(hbs`<Campaign::Analysis::Competences
       @campaignCollectiveResult={{campaignCollectiveResult}}
       @sharedParticipationsCount={{sharedParticipationsCount}}/>`,
     );
@@ -60,7 +60,5 @@ module('Integration | Component | routes/authenticated/campaign/collective-resul
     const firstCompetence = '[aria-label="Compétence"]:first-child';
     assert.dom(firstCompetence).containsText('Competence A');
     assert.dom(firstCompetence).containsText('33 %');
-    assert.dom(firstCompetence).containsText('10');
-    assert.dom(firstCompetence).containsText('30');
   });
 });

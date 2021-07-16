@@ -63,6 +63,17 @@ tbody {
     font-weight: 400;
     color: $grey-80;
     position: relative;
+
+    > a {
+      color: $grey-80;
+      text-decoration: none;
+  
+      &:hover,
+      &:focus,
+      &:active {
+        color: $grey-80;
+      }
+    }
   }
 }
 
@@ -83,10 +94,6 @@ th::first-letter {
 
 .table__column {
   width: 16%;
-  
-  &--no-padding {
-    padding: 0;
-  }
 
   &--center {
     text-align: center;

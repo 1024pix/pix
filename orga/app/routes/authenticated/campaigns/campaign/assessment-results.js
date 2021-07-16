@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import RSVP from 'rsvp';
 import { action } from '@ember/object';
 
-export default class AssessmentsRoute extends Route {
+export default class AssessmentResultsRoute extends Route {
   queryParams = {
     pageNumber: {
       refreshModel: true,
@@ -21,23 +21,17 @@ export default class AssessmentsRoute extends Route {
     },
   };
 
-  @action
-  loading(transition) {
-    if (transition.from && transition.from.name === 'authenticated.campaigns.campaign.assessments') {
-      return false;
-    }
-  }
-
-  model(params) {
+  async model(params) {
     const campaign = this.modelFor('authenticated.campaigns.campaign');
+    await campaign.belongsTo('campaignCollectiveResult').reload();
     return RSVP.hash({
       campaign,
-      campaignAssessmentParticipationSummaries: this.fetchSummaries({ campaignId: campaign.id, ...params }),
+      participations: this.fetchResultMinimalList({ campaignId: campaign.id, ...params }),
     });
   }
 
-  fetchSummaries(params) {
-    return this.store.query('campaignAssessmentParticipationSummary', {
+  fetchResultMinimalList(params) {
+    return this.store.query('campaignAssessmentResultMinimal', {
       page: {
         number: params.pageNumber,
         size: params.pageSize,
@@ -49,6 +43,14 @@ export default class AssessmentsRoute extends Route {
       },
       campaignId: params.campaignId,
     });
+  }
+
+  @action
+  loading(transition) {
+    if (transition.from && transition.from.name === 'authenticated.campaigns.campaign.assessment-results') {
+      return false;
+    }
+    return true;
   }
 
   resetController(controller, isExiting) {

@@ -1,20 +1,20 @@
 {{#if this.displayFilters }}
   <PixFilterBanner
-    @title={{t 'pages.campaign.filters.title'}}
+    @title={{t 'pages.campaign-results.filters.title'}}
     class="participant-filter-banner"
-    aria-label={{t 'pages.campaign.filters.aria-label'}}
-    @details={{t 'pages.campaign.filters.participations-count' count=@rowCount}}
-    @clearFiltersLabel={{t 'pages.campaign.filters.actions.clear'}}
+    aria-label={{t 'pages.campaign-results.filters.aria-label'}}
+    @details={{t 'pages.campaign-results.filters.participations-count' count=@rowCount}}
+    @clearFiltersLabel={{t 'pages.campaign-results.filters.actions.clear'}}
     @onClearFilters={{@resetFiltering}}
     >
     {{#if this.displayDivisionFilter }}
       <PixMultiSelect
         @id="division"
-        @title={{t 'pages.campaign.filters.type.divisions.title'}}
-        @placeholder={{t 'pages.campaign.filters.type.divisions.title'}}
+        @title={{t 'pages.campaign-results.filters.type.divisions.title'}}
+        @placeholder={{t 'pages.campaign-results.filters.type.divisions.title'}}
         @isSearchable={{true}}
         @showOptionsOnInput={{true}}
-        @emptyMessage={{t 'pages.campaign.filters.type.divisions.empty'}}
+        @emptyMessage={{t 'pages.campaign-results.filters.type.divisions.empty'}}
         @onSelect={{this.onSelectDivision}}
         @selected={{@selectedDivisions}}
         @options={{this.divisionOptions}} as |option|
@@ -25,7 +25,7 @@
     {{#if this.displayStagesFilter }}
       <PixMultiSelect
         @id="stage"
-        @title={{t 'pages.campaign.filters.type.stages'}}
+        @title={{t 'pages.campaign-results.filters.type.stages'}}
         @onSelect={{this.onSelectStage}}
         @selected={{@selectedStages}}
         @options={{this.stageOptions}} as |stage|
@@ -36,7 +36,7 @@
     {{#if this.displayBadgesFilter }}
       <PixMultiSelect
         @id="badge"
-        @title={{t 'pages.campaign.filters.type.badges'}}
+        @title={{t 'pages.campaign-results.filters.type.badges'}}
         @onSelect={{this.onSelectBadge}}
         @selected={{@selectedBadges}}
         @options={{this.badgeOptions}} as |badge|

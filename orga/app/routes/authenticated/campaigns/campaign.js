@@ -8,4 +8,12 @@ export default class CampaignRoute extends Route {
         return this.send('error', error, this.replaceWith('not-found', params.campaign_id));
       });
   }
+
+  afterModel(campaign, transition) {
+    if (campaign.isTypeProfilesCollection &&
+      transition.from &&
+      transition.from.name !== 'authenticated.campaigns.new') {
+      this.transitionTo('authenticated.campaigns.campaign.profiles');
+    }
+  }
 }

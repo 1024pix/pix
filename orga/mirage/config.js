@@ -5,6 +5,13 @@ import {
 } from './handlers/find-paginated-campaign-participation-summaries';
 import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
 import { findFilteredPaginatedStudents } from './handlers/find-filtered-paginated-students';
+import { findPaginatedSharedParticipations } from './handlers/find-paginated-shared-participations';
+
+const emptyData = {
+  data: {
+    attributes: {},
+  },
+};
 
 function parseQueryString(queryString) {
   const result = Object.create(null);
@@ -295,6 +302,27 @@ export default function() {
 
   this.get('/campaigns/:campaignId/assessment-participations/:id/results', (schema, request) => {
     return schema.campaignAssessmentParticipationResults.findBy({ ...request.params });
+  });
+
+  this.get('/campaigns/:campaignId/participants-activity', (schema) => {
+    return schema.campaignParticipantActivities.all();
+  });
+
+  this.get('/campaigns/:campaignId/shared-participations', findPaginatedSharedParticipations);
+
+  this.get('/campaigns/:campaignId/stats/participations-by-status', () => {
+    return emptyData;
+  });
+
+  this.get('/campaigns/:campaignId/stats/participations-by-day', () => {
+    return {
+      data: {
+        attributes: {
+          'started-participations': [],
+          'shared-participations': [],
+        },
+      },
+    };
   });
 
   this.delete('/schooling-registration-user-associations/:id', (schema, request) => {

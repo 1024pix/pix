@@ -46,6 +46,7 @@ module('Acceptance | Campaign Details', function(hooks) {
     test('it should redirect to update page on click on return button', async function(assert) {
       // given
       server.create('campaign', { id: 1 });
+      server.create('campaign-participant-activity', { firstName: 'toto' });
       await visit('/campagnes/1');
 
       // when
