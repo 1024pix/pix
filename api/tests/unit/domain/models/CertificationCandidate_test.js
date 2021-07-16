@@ -489,4 +489,27 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
 
   });
 
+  describe('updateBirthInformation', () => {
+
+    it('should update certification candidate\'s birth information', () => {
+      // given
+      const birthCountry = 'birthCountry';
+      const birthINSEECode = 'birthINSEECode';
+      const birthPostalCode = 'birthPostalCode';
+      const birthCity = 'birthCity';
+
+      const certificationCandidate = domainBuilder.buildCertificationCandidate();
+
+      // when
+      certificationCandidate.updateBirthInformation({ birthCountry, birthINSEECode, birthPostalCode, birthCity });
+
+      // then
+      expect(certificationCandidate.birthCountry).to.equal(birthCountry);
+      expect(certificationCandidate.birthINSEECode).to.equal(birthINSEECode);
+      expect(certificationCandidate.birthPostalCode).to.equal(birthPostalCode);
+      expect(certificationCandidate.birthCity).to.equal(birthCity);
+    });
+
+  });
+
 });

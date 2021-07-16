@@ -139,7 +139,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError('Un ou plusieurs champs d\'informations d\'identité sont au mauvais format.');
   }
   if (error instanceof DomainErrors.CertificationCandidatesImportError) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code);
   }
   if (error instanceof DomainErrors.CertificationCandidateForbiddenDeletionError) {
     return new HttpErrors.ForbiddenError(error.message);
@@ -338,6 +338,10 @@ function _mapToHttpError(error) {
 
   if (error instanceof DomainErrors.MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError) {
     return new HttpErrors.ConflictError(error.message);
+  }
+
+  if (error instanceof DomainErrors.CpfBirthInformationValidationError) {
+    return new HttpErrors.UnprocessableEntityError(error.message);
   }
 
   if (error instanceof DomainErrors.TooManyRows) {

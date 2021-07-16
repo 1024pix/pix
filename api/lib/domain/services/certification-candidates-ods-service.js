@@ -5,12 +5,19 @@ const {
 const CertificationCandidate = require('../models/CertificationCandidate');
 const { CertificationCandidatesImportError } = require('../errors');
 const _ = require('lodash');
+const bluebird = require('bluebird');
 
 module.exports = {
   extractCertificationCandidatesFromCandidatesImportSheet,
 };
 
-async function extractCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer }) {
+async function extractCertificationCandidatesFromCandidatesImportSheet({
+  sessionId,
+  odsBuffer,
+  certificationCpfService,
+  certificationCpfCountryRepository,
+  certificationCpfCityRepository,
+}) {
   let version = null;
   try {
     version = await readOdsUtils.getOdsVersionByHeaders({
@@ -32,21 +39,51 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({ session
 
   certificationCandidatesDataByLine = _filterOutEmptyCandidateData(certificationCandidatesDataByLine);
 
-  return _.map(certificationCandidatesDataByLine, (certificationCandidateData, line) => {
-    let certificationCandidate;
-    try {
-      if (version === '1.5') {
-        if (certificationCandidateData.sex === '1') certificationCandidateData.sex = 'M';
-        if (certificationCandidateData.sex === '2') certificationCandidateData.sex = 'F';
-      }
-      certificationCandidate = new CertificationCandidate({
+  return await bluebird.mapSeries(Object.entries(certificationCandidatesDataByLine), async ([line, certificationCandidateData]) => {
+    let {
+      sex,
+      birthCountry,
+      birthINSEECode,
+      birthPostalCode,
+      birthCity,
+    } = certificationCandidateData;
+
+    if (version === '1.5') {
+      if (certificationCandidateData.sex === '1') sex = 'M';
+      if (certificationCandidateData.sex === '2') sex = 'F';
+
+      const cpfBirthInformation = await certificationCpfService.getBirthInformation({
         ...certificationCandidateData,
-        sessionId,
+        certificationCpfCityRepository,
+        certificationCpfCountryRepository,
       });
+
+      if (cpfBirthInformation.hasFailed()) {
+        _handleBirthInformationValidationError(cpfBirthInformation, line);
+      }
+
+      birthCountry = cpfBirthInformation.birthCountry;
+      birthINSEECode = cpfBirthInformation.birthINSEECode;
+      birthPostalCode = cpfBirthInformation.birthPostalCode;
+      birthCity = cpfBirthInformation.birthCity;
+    }
+
+    const certificationCandidate = new CertificationCandidate({
+      ...certificationCandidateData,
+      birthCountry,
+      birthINSEECode,
+      birthPostalCode,
+      birthCity,
+      sex,
+      sessionId,
+    });
+
+    try {
       certificationCandidate.validate(version);
     } catch (err) {
-      _handleValidationError(err, tableHeaderTargetPropertyMap, line);
+      _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line);
     }
+
     return certificationCandidate;
   });
 }
@@ -64,7 +101,7 @@ function _nullifyObjectWithOnlyNilValues(data) {
   return null;
 }
 
-function _handleValidationError(err, tableHeaderTargetPropertyMap, line) {
+function _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line) {
   const keyLabelMap = tableHeaderTargetPropertyMap.reduce((acc, obj) => {
     acc[obj.property] = obj.header;
     return acc;
@@ -73,10 +110,18 @@ function _handleValidationError(err, tableHeaderTargetPropertyMap, line) {
   throw CertificationCandidatesImportError.fromInvalidCertificationCandidateError(err, keyLabelMap, line);
 }
 
+function _handleBirthInformationValidationError(cpfBirthInformation, line) {
+  line = parseInt(line) + 1;
+  throw new CertificationCandidatesImportError({ message: `Ligne ${line} : ${cpfBirthInformation.message}` });
+}
+
 function _handleVersionError() {
-  throw new CertificationCandidatesImportError({ message: 'La version du document est inconnue.' });
+  throw new CertificationCandidatesImportError({
+    code: 'INVALID_DOCUMENT',
+    message: 'La version du document est inconnue.',
+  });
 }
 
 function _handleParsingError() {
-  throw new CertificationCandidatesImportError({ message: 'Le document est invalide.' });
+  throw new CertificationCandidatesImportError({ code: 'INVALID_DOCUMENT', message: 'Le document est invalide.' });
 }

@@ -391,12 +391,12 @@ class CertificationCandidateForbiddenDeletionError extends DomainError {
 }
 
 class CertificationCandidatesImportError extends DomainError {
-  constructor({ message = 'Quelque chose s\'est mal passé. Veuillez réessayer' } = {}) {
-    super(message);
+  constructor({ message = 'Quelque chose s\'est mal passé. Veuillez réessayer', code = null } = {}) {
+    super(message, code);
   }
 
   static fromInvalidCertificationCandidateError(error, keyLabelMap, lineNumber) {
-    const label = error.key in keyLabelMap ? keyLabelMap[error.key] : 'none';
+    const label = error.key in keyLabelMap ? keyLabelMap[error.key].replace(/\* /, '') : 'none';
     const linePortion = `Ligne ${lineNumber} :`;
     let contentPortion = 'Quelque chose s\'est mal passé. Veuillez réessayer';
 
@@ -861,6 +861,12 @@ class InvalidExternalAPIResponseError extends DomainError {
   }
 }
 
+class CpfBirthInformationValidationError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -902,6 +908,7 @@ module.exports = {
   ChallengeToBeNeutralizedNotFoundError,
   ChallengeToBeDeneutralizedNotFoundError,
   CompetenceResetError,
+  CpfBirthInformationValidationError,
   CsvImportError,
   CsvParsingError,
   DeprecatedCertificationIssueReportSubcategory,
