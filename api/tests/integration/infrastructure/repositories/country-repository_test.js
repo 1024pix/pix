@@ -1,4 +1,4 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const countryRepository = require('../../../../lib/infrastructure/repositories/country-repository');
 const { Country } = require('../../../../lib/domain/read-models/Country');
 
@@ -8,27 +8,24 @@ describe('Integration | Repository | country-repository', () => {
 
     describe('when there are countries', () => {
 
-      it('should return all common named countries', async () => {
+      it('should return all common named countries ordered by name', async () => {
         // given
         databaseBuilder.factory.buildCertificationCpfCountry({
           code: '99345',
           commonName: 'TOGO',
           originalName: 'TOGO',
-          id: 3,
         });
 
         databaseBuilder.factory.buildCertificationCpfCountry({
           code: '99345',
           commonName: 'TOGO',
           originalName: 'RÉPUBLIQUE TOGOLAISE',
-          id: 1,
         });
 
         databaseBuilder.factory.buildCertificationCpfCountry({
           code: '99876',
           commonName: 'NABOO',
           originalName: 'NABOO',
-          id: 2,
         });
 
         await databaseBuilder.commit();
@@ -37,18 +34,19 @@ describe('Integration | Repository | country-repository', () => {
         const countries = await countryRepository.findAll();
 
         // then
+        const togoCountry = domainBuilder.buildCountry({
+          code: '99345',
+          name: 'TOGO',
+          matcher: 'GOOT',
+        });
+        const nabooCountry = domainBuilder.buildCountry({
+          code: '99876',
+          name: 'NABOO',
+          matcher: 'ABNOO',
+        });
         expect(countries.length).to.equal(2);
         expect(countries[0]).to.be.instanceOf(Country);
-        expect(countries).to.deep.equal([
-          {
-            code: '99876',
-            name: 'NABOO',
-          },
-          {
-            code: '99345',
-            name: 'TOGO',
-          },
-        ]);
+        expect(countries).to.deep.equal([nabooCountry, togoCountry]);
       });
     });
 
@@ -62,7 +60,5 @@ describe('Integration | Repository | country-repository', () => {
         expect(countries).to.deep.equal([]);
       });
     });
-
   });
-
 });
