@@ -8,4 +8,12 @@ export default class Stage extends Model {
   @attr('string') message;
   @attr('string') prescriberTitle;
   @attr('string') prescriberDescription;
+
+  get hasPrescriberTitle() {
+    return Boolean(this.prescriberTitle);
+  }
+
+  get hasPrescriberDescription() {
+    return Boolean(this.prescriberDescription);
+  }
 }

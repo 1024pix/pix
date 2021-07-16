@@ -30,6 +30,8 @@ module('Integration | Component | TargetProfiles::Stages', function(hooks) {
     assert.contains('Seuil');
     assert.contains('Titre');
     assert.contains('Message');
+    assert.contains('Titre prescripteur');
+    assert.contains('Description prescripteur');
     assert.contains('Actions');
     assert.dom('tbody tr').exists({ count: 1 });
     assert.equal(find('tbody tr td:first-child').textContent.trim(), '1');
@@ -38,7 +40,7 @@ module('Integration | Component | TargetProfiles::Stages', function(hooks) {
     assert.equal(find('tbody tr td:nth-child(3)').textContent.trim(), '100');
     assert.equal(find('tbody tr td:nth-child(4)').textContent.trim(), 'My title');
     assert.equal(find('tbody tr td:nth-child(5)').textContent.trim(), 'My message');
-    assert.equal(find('tbody tr td:nth-child(6)').textContent.trim(), 'Voir détail');
+    assert.equal(find('tbody tr td:nth-child(8)').textContent.trim(), 'Voir détail');
     assert.notContains('Aucun résultat thématique associé');
   });
 
