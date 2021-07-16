@@ -3,6 +3,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 
 const Session = require('../../../../../lib/domain/models/Session');
 const { statuses } = require('../../../../../lib/domain/models/Session');
+const SessionScheduled = require('../../../../../lib/certification-session-scheduling/domain/events/SessionScheduled');
 
 describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
@@ -186,6 +187,25 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       expect(json).to.deep.equal(expectedJsonApi);
     });
 
+  });
+
+  describe('#serializeSessionScheduledEvent()', () => {
+
+    it('should serialize a session scheduled event', () => {
+      // given
+      const sessionScheduledEvent = new SessionScheduled({ sessionId: 1234 });
+
+      // when
+      const serializedSessionScheduledEvent = serializer.serializeSessionScheduledEvent(sessionScheduledEvent);
+
+      // then
+      expect(serializedSessionScheduledEvent).to.deep.equal({
+        data: {
+          type: 'sessions',
+          id: '1234',
+        },
+      });
+    });
   });
 
 });

@@ -73,7 +73,7 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     it('should exist', async () => {
       // given
-      sinon.stub(sessionController, 'save').returns('ok');
+      sinon.stub(sessionController, 'schedule').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

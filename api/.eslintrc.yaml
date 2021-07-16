@@ -9,6 +9,7 @@ globals:
 
 plugins:
   - knex
+  - import
 
 rules:
   no-sync: error
@@ -22,3 +23,15 @@ rules:
         message: "Use only faker.internet.exampleEmail()"
   knex/avoid-injections: error
   i18n-json/valid-message-syntax: warn
+  import/no-restricted-paths:
+    - error
+    - zones:
+        - target: "./lib/application"
+          from: "./lib/certification-session-scheduling"
+          except:
+            - "./domain/usecases"
+            - "./domain/errors"
+        - target: "./lib/domain"
+          from: "./lib/certification-session-scheduling"
+        - target: "./lib/infrastructure"
+          from: "./lib/certification-session-scheduling"

@@ -3,11 +3,15 @@ const logger = require('../infrastructure/logger');
 const errorManager = require('./error-manager');
 const { BaseHttpError, UnauthorizedError } = require('./http-errors');
 const { DomainError } = require('../domain/errors');
+const CertificationSessionSchedulingDomainError = require('../certification-session-scheduling/domain/errors/DomainError').DomainError;
 
 function handleDomainAndHttpErrors(request, h) {
   const response = request.response;
 
-  if (response instanceof DomainError || response instanceof BaseHttpError) {
+  if (
+    response instanceof DomainError
+    || response instanceof CertificationSessionSchedulingDomainError
+    || response instanceof BaseHttpError) {
     return errorManager.handle(request, h, response);
   }
 

@@ -48,7 +48,7 @@ describe('Acceptance | Controller | session-controller-post', () => {
 
       // then
       const sessions = await knex('sessions').select();
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(201);
       expect(sessions).to.have.lengthOf(1);
     });
 
