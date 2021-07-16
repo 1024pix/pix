@@ -1,0 +1,9 @@
+.tick-or-cross {
+    &--valid {
+        color: $success;
+    }
+
+    &--invalid {
+        color: $error;
+    }
+}
