@@ -2,7 +2,6 @@ const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../.
 const accountRecoveryDemandRepository = require('../../../../lib/infrastructure/repositories/account-recovery-demand-repository');
 const {
   NotFoundError,
-  TooManyRows,
   AccountRecoveryDemandExpired,
 } = require('../../../../lib/domain/errors');
 const AccountRecoveryDemand = require('../../../../lib/domain/models/AccountRecoveryDemand');
@@ -72,26 +71,6 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
           // then
           expect(demand).to.deep.equal(expectedAccountRecoveryDemand);
         });
-      });
-
-      context('when multiple demands found for the same temporary key', () => {
-
-        it('should throw too many rows error', async () => {
-          // given
-          const email = 'someMail@example.net';
-          const temporaryKey = 'ERTFFAZSDFR';
-          databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false }).id;
-          databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false });
-          await databaseBuilder.commit();
-
-          // when
-          const error = await catchErr(accountRecoveryDemandRepository.findByTemporaryKey)(temporaryKey);
-
-          // then
-          expect(error).to.be.instanceOf(TooManyRows);
-          expect(error.message).to.be.equal('Multiple demands found for the same temporary key');
-        });
-
       });
 
       context('when demand expired a day ago', () => {

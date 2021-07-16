@@ -2,7 +2,6 @@ const { knex } = require('../../../db/knex-database-connection');
 const AccountRecoveryDemand = require('../../domain/models/AccountRecoveryDemand');
 const {
   NotFoundError,
-  TooManyRows,
   AccountRecoveryDemandExpired,
 } = require('../../domain/errors');
 const { isEmpty } = require('lodash');
@@ -24,10 +23,6 @@ module.exports = {
 
     if (isEmpty(accountRecoveryDemandDTOs)) {
       throw new NotFoundError('No account recovery demand found');
-    }
-
-    if (accountRecoveryDemandDTOs.length > 1) {
-      throw new TooManyRows('Multiple demands found for the same temporary key');
     }
 
     const accountRecoveryDemand = accountRecoveryDemandDTOs[0];
