@@ -5,7 +5,7 @@ const _ = require('lodash');
 module.exports = function buildTargetProfile({
   id = databaseBuffer.getNextId(),
   name = 'Remplir un tableur',
-  imageUrl = null,
+  imageUrl = 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/profil-cible/Illu_GEN.svg',
   isPublic = true,
   isSimplifiedAccess = false,
   ownerOrganizationId,
