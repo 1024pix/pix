@@ -11,7 +11,7 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
     it('should return student account information serialized', async () => {
       // given
       const studentInformation = {
-        ineIna: '1234567890A',
+        nationalStudentId: '1234567890A',
         firstName: 'Bob',
         lastName: 'Camond',
         birthdate: '2001-12-08',
@@ -21,7 +21,7 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
           data: {
             type: 'student-information',
             attributes: {
-              'ine-ina': studentInformation.ineIna,
+              'ine-ina': studentInformation.nationalStudentId,
               'first-name': studentInformation.firstName,
               'last-name': studentInformation.lastName,
               'birthdate': studentInformation.birthdate,
@@ -34,9 +34,7 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
 
       sinon.stub(usecases, 'checkScoAccountRecovery');
       usecases.checkScoAccountRecovery.withArgs({ studentInformation }).resolves(studentInformationForAccountRecovery);
-      sinon.stub(studentInformationForAccountRecoverySerializer, 'serialize')
-        .withArgs(studentInformationForAccountRecovery)
-        .returns(studentInformationForAccountRecoveryJSONAPI);
+      sinon.stub(studentInformationForAccountRecoverySerializer, 'serialize').returns(studentInformationForAccountRecoveryJSONAPI);
 
       // when
       const response = await schoolingRegistrationDependantUserController.checkScoAccountRecovery(request);
