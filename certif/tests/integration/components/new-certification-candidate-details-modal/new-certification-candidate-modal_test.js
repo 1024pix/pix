@@ -158,7 +158,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
   });
 
   module('when a foreign country is selected', () => {
-    test('it hides insee and postal fields and requires city', async function(assert) {
+    test('it shows city field and hides insee code and postal code fields', async function(assert) {
       const closeModalStub = sinon.stub();
       const updateCandidateFromValueStub = sinon.stub();
       const updateCandidateFromEventStub = sinon.stub();
@@ -193,7 +193,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
   });
 
   module('when the insee code option is selected', () => {
-    test('it shows insee field and hide postal code and city', async function(assert) {
+    test('it shows insee code field and hides postal code and city fields', async function(assert) {
       const closeModalStub = sinon.stub();
       const updateCandidateFromValueStub = sinon.stub();
       const updateCandidateFromEventStub = sinon.stub();
@@ -228,7 +228,7 @@ module('Integration | Component | new-certification-candidate-modal', function(h
   });
 
   module('when the postal code option is selected', () => {
-    test('it disable insee fields and requires postal code and city', async function(assert) {
+    test('it shows postal code and city fields and hides insee code field', async function(assert) {
       const closeModalStub = sinon.stub();
       const updateCandidateFromValueStub = sinon.stub();
       const updateCandidateFromEventStub = sinon.stub();
