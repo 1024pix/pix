@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.74.0 (16/07/2021)
+
+- [#3180](https://github.com/1024pix/pix/pull/3180) [FEATURE] Vérification des informations de naissance lors de l'ajout d'un candidat à une session de certification (PIX-2715)
+- [#3176](https://github.com/1024pix/pix/pull/3176) [FEATURE] Vérifier la demande de récupération de compte - Sortie SCO (PIX-2774).
+- [#3178](https://github.com/1024pix/pix/pull/3178) [FEATURE] Afficher des tirets sur les champs vides de la modale d'affichage des détails d'un candidat (PIX-2757)
+- [#3191](https://github.com/1024pix/pix/pull/3191) [BUGFIX] La liste des pays retournée par l'API était incomplète et côté Front certains pays étaient dans le désordre (PIX-2824)
+- [#3190](https://github.com/1024pix/pix/pull/3190) [BUGFIX] Certains pays sont importés deux fois lors de l'import CPF des pays depuis le fichier INSEE (PIX-2823)
+- [#3186](https://github.com/1024pix/pix/pull/3186) [BUGFIX] Permettre l'envoi du formulaire d'ajout de candidat sous Firefox (PIX-2818)
+- [#3182](https://github.com/1024pix/pix/pull/3182) [BUGFIX] Aligner le bouton d'envoi des résultats avec le contenu de la page (PIX-2804)
+- [#3184](https://github.com/1024pix/pix/pull/3184) [BUGFIX] Sélectionner la France par défaut lors de l'ajout d'un candidat (PIX-2817)
+- [#3181](https://github.com/1024pix/pix/pull/3181) [BUGFIX] Gérer le cas de deux QROCM-dep pour une seule compétence (PIX-2793)
+- [#3192](https://github.com/1024pix/pix/pull/3192) [TECH] Garantir l'unicité de la temporaryKey dans la récupération de compte SCO.
+- [#3162](https://github.com/1024pix/pix/pull/3162) [BUGFIX/CLEANUP] Restreindre la modification du CertificationCourse aux seuls : nom, prénom et date/lieu de naissance (PIX-2702)
+
 ## v3.73.0 (13/07/2021)
 
 - [#3175](https://github.com/1024pix/pix/pull/3175) [FEATURE] Envoyer un mail pour la récupération de compte - Sortie SCO (PIX-2735). 
