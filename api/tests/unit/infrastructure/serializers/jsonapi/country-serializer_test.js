@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | country-serializer', () => {
       expect(json).to.deep.equal({
         data: [
           {
-            id: '123',
+            id: '123_GOOT',
             type: 'countries',
             attributes: {
               name: 'TOGO',
@@ -34,7 +34,7 @@ describe('Unit | Serializer | JSONAPI | country-serializer', () => {
             },
           },
           {
-            id: '456',
+            id: '456_ABNOO',
             type: 'countries',
             attributes: {
               name: 'NABOO',
