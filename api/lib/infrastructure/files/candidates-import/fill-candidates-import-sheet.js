@@ -10,16 +10,18 @@ const { featureToggles } = require('../../../config');
 
 const moment = require('moment');
 const _ = require('lodash');
+const FRANCE_COUNTRY_CODE = '99100';
 
 module.exports = async function fillCandidatesImportSheet(session) {
-  const stringifiedXml = await readOdsUtils.getContentXml({ odsFilePath: _getCandidatesImportTemplatePath() });
+  const isCpfEnabled = featureToggles.isNewCPFDataEnabled;
+  const stringifiedXml = await readOdsUtils.getContentXml({ odsFilePath: _getCandidatesImportTemplatePath(isCpfEnabled) });
 
   const sessionData = SessionData.fromSession(session);
-  const candidatesData = _getCandidatesData(session.certificationCandidates);
+  const candidatesData = _getCandidatesData(session.certificationCandidates, isCpfEnabled);
 
   const updatedStringifiedXml = _updateXml(stringifiedXml, sessionData, candidatesData);
 
-  return writeOdsUtils.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getCandidatesImportTemplatePath() });
+  return writeOdsUtils.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getCandidatesImportTemplatePath(isCpfEnabled) });
 };
 
 function _updateXml(stringifiedXml, sessionData, candidatesData) {
@@ -36,23 +38,23 @@ function _updateXml(stringifiedXml, sessionData, candidatesData) {
   });
 }
 
-function _getCandidatesData(certificationCandidates) {
-  const enrolledCandidatesData = _certificationCandidatesToCandidatesData(certificationCandidates);
+function _getCandidatesData(certificationCandidates, isCpfEnabled) {
+  const enrolledCandidatesData = _certificationCandidatesToCandidatesData(certificationCandidates, isCpfEnabled);
 
   const emptyCandidatesData = _emptyCandidatesData(enrolledCandidatesData.length);
 
   return enrolledCandidatesData.concat(emptyCandidatesData);
 }
 
-function _getCandidatesImportTemplatePath() {
-  return featureToggles.isNewCPFDataEnabled ?
+function _getCandidatesImportTemplatePath(isCpfEnabled) {
+  return isCpfEnabled ?
     __dirname + '/1.5/candidates_import_template.ods'
     : __dirname + '/1.4/candidates_import_template.ods';
 }
 
-function _certificationCandidatesToCandidatesData(certificationCandidates) {
+function _certificationCandidatesToCandidatesData(certificationCandidates, isCpfEnabled) {
   return _.map(certificationCandidates, (candidate, index) => {
-    return CandidateData.fromCertificationCandidateAndCandidateNumber(candidate, index + 1);
+    return CandidateData.fromCertificationCandidateAndCandidateNumber(candidate, index + 1, isCpfEnabled);
   });
 }
 
@@ -89,6 +91,7 @@ class CandidateData {
       userId = null,
       schoolingRegistrationId = null,
       number = null,
+      isCpfEnabled,
     }) {
     this.id = this._emptyStringIfNull(id);
     this.firstName = this._emptyStringIfNull(firstName);
@@ -113,6 +116,10 @@ class CandidateData {
     this.userId = this._emptyStringIfNull(userId);
     this.schoolingRegistrationId = this._emptyStringIfNull(schoolingRegistrationId);
     this.count = number;
+
+    if (isCpfEnabled) {
+      this._clearBirthInformationDataForExport();
+    }
   }
 
   _convertSexCode(sex) {
@@ -125,8 +132,23 @@ class CandidateData {
     return value === null ? '' : value;
   }
 
-  static fromCertificationCandidateAndCandidateNumber(certificationCandidate, number) {
-    return new CandidateData({ ...certificationCandidate, number });
+  _clearBirthInformationDataForExport() {
+    if (this.birthCountry.toUpperCase() === 'FRANCE') {
+      if (this.birthINSEECode) {
+        this.birthPostalCode = '';
+        this.birthCity = '';
+      }
+
+      return;
+    }
+
+    if (this.birthINSEECode && this.birthINSEECode !== FRANCE_COUNTRY_CODE) {
+      this.birthINSEECode = '99';
+    }
+  }
+
+  static fromCertificationCandidateAndCandidateNumber(certificationCandidate, number, isCpfEnabled) {
+    return new CandidateData({ ...certificationCandidate, number, isCpfEnabled });
   }
 
   static empty(number) {
