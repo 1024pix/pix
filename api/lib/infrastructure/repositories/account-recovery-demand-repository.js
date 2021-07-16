@@ -11,6 +11,18 @@ function _toDomainObject(accountRecoveryDemandDTO) {
   });
 }
 
+const demandHasExpired = (demandCreationDate) => {
+  const minutesInADay = 60 * 24;
+  const expirationDelayInMinutes = parseInt(process.env.SCO_ACCOUNT_RECOVERY_EXPIRATION_DELAY_MINUTES) || minutesInADay;
+  const millisecondsInAMinute = 60 * 1000;
+  const expirationDelayInMilliseconds = expirationDelayInMinutes * millisecondsInAMinute;
+
+  const expirationDate = new Date(demandCreationDate.getTime() + expirationDelayInMilliseconds);
+  const now = new Date();
+
+  return expirationDate < now;
+};
+
 module.exports = {
 
   async findByTemporaryKey(temporaryKey) {
@@ -25,11 +37,7 @@ module.exports = {
       throw new NotFoundError('No account recovery demand found');
     }
 
-    const dateLimitBeforeExpiration = new Date();
-    const numberOfDayBeforeExpiration = 1;
-    dateLimitBeforeExpiration.setDate(dateLimitBeforeExpiration.getDate() - numberOfDayBeforeExpiration);
-
-    if (accountRecoveryDemandDTO.createdAt <= dateLimitBeforeExpiration) {
+    if (demandHasExpired(accountRecoveryDemandDTO.createdAt)) {
       throw new AccountRecoveryDemandExpired();
     }
 
