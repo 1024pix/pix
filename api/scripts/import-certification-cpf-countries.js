@@ -46,7 +46,7 @@ function buildCountries({ csvData }) {
         originalName: data[CURRENT_NAME_COLUMN],
         matcher: sanitizeAndSortChars(data[CURRENT_NAME_COLUMN]),
       });
-      if (data[ALTERNATIVE_NAME_COLUMN]) {
+      if (data[ALTERNATIVE_NAME_COLUMN] && data[ALTERNATIVE_NAME_COLUMN] !== data[CURRENT_NAME_COLUMN]) {
         result.push({
           code,
           commonName: data[CURRENT_NAME_COLUMN],
