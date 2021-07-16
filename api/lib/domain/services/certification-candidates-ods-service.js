@@ -116,9 +116,12 @@ function _handleBirthInformationValidationError(cpfBirthInformation, line) {
 }
 
 function _handleVersionError() {
-  throw new CertificationCandidatesImportError({ message: 'La version du document est inconnue.' });
+  throw new CertificationCandidatesImportError({
+    code: 'INVALID_DOCUMENT',
+    message: 'La version du document est inconnue.',
+  });
 }
 
 function _handleParsingError() {
-  throw new CertificationCandidatesImportError({ message: 'Le document est invalide.' });
+  throw new CertificationCandidatesImportError({ code: 'INVALID_DOCUMENT', message: 'Le document est invalide.' });
 }

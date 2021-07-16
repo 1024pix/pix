@@ -391,8 +391,8 @@ class CertificationCandidateForbiddenDeletionError extends DomainError {
 }
 
 class CertificationCandidatesImportError extends DomainError {
-  constructor({ message = 'Quelque chose s\'est mal passé. Veuillez réessayer' } = {}) {
-    super(message);
+  constructor({ message = 'Quelque chose s\'est mal passé. Veuillez réessayer', code = null } = {}) {
+    super(message, code);
   }
 
   static fromInvalidCertificationCandidateError(error, keyLabelMap, lineNumber) {
