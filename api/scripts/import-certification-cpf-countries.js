@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /* eslint-disable no-console */
-// Usage: node import-coutries-data path/file.csv
+// Usage: node import-certification-cpf-countries.js path/file.csv
 // File Millésime 2021 : Liste des pays et territoires étrangers au 01/01/2021
 // downloaded from https://www.data.gouv.fr/fr/datasets/code-officiel-geographique-cog/
 
@@ -90,8 +90,9 @@ async function main(filePath) {
     console.log('Verify data integrity... ');
     checkTransformUnicity(countries);
 
-    console.log('Inserting countries in database... ');
+    console.log('Emptying existing countries in database... ');
     await trx('certification-cpf-countries').del();
+    console.log('Inserting countries in database... ');
     await trx.batchInsert('certification-cpf-countries', countries);
     trx.commit();
     console.log('ok');
