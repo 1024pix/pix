@@ -39,6 +39,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       // then
       expect(error).to.be.instanceOf(CertificationCandidatesImportError);
       expect(error.message).to.equal('La version du document est inconnue.');
+      expect(error.code).to.equal('INVALID_DOCUMENT');
     });
   });
 
@@ -61,6 +62,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       // then
       expect(error).to.be.instanceOf(CertificationCandidatesImportError);
       expect(error.message).to.contain('Le champ “Prénom” est obligatoire.');
+      expect(error.code).to.be.null;
     });
 
     it('should return extracted and validated certification candidates', async () => {
@@ -146,6 +148,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       // then
       expect(error).to.be.instanceOf(CertificationCandidatesImportError);
       expect(error.message).to.equal('Ligne 10 : Le champ “Prénom” est obligatoire.');
+      expect(error.code).to.be.null;
     });
 
     it('should throw a CertificationCandidatesImportError if there is an error in the birth information', async () => {
@@ -165,6 +168,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       // then
       expect(error).to.be.instanceOf(CertificationCandidatesImportError);
       expect(error.message).to.equal('Ligne 10 : La valeur du code INSEE doit être "99" pour un pays étranger.');
+      expect(error.code).to.be.null;
     });
 
     it('should return extracted and validated certification candidates', async () => {

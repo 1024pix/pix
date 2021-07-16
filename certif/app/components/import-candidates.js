@@ -23,17 +23,24 @@ export default class ImportCandidates extends Component {
     }
     catch (err) {
       const errorPrefix = 'Aucun candidat n’a été importé. <br>';
-      const defaultErrorMessage = `${errorPrefix} Veuillez réessayer ou nous contacter via le formulaire du centre d'aide`;
-      let errorMessage = defaultErrorMessage;
+      let errorMessage = `${errorPrefix} Veuillez réessayer ou nous contacter via le formulaire du centre d'aide`;
       if (err.body.errors) {
         err.body.errors.forEach((error) => {
           if (error.status === '422') {
-            errorMessage = htmlSafe(`
+            if (error.code === 'INVALID_DOCUMENT') {
+              errorMessage = htmlSafe(`
               <p>
                 ${errorPrefix}<b>${error.detail}</b><br>
                 Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.
               </p>`,
-            );
+              );
+            } else {
+              errorMessage = htmlSafe(`
+              <p>
+                ${errorPrefix}<b>${error.detail}</b>
+              </p>`,
+              );
+            }
           }
           if (error.status === '403' && error.detail === 'At least one candidate is already linked to a user') {
             errorMessage = 'La session a débuté, il n\'est plus possible de modifier la liste des candidats.';

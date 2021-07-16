@@ -193,7 +193,19 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           await upload('#upload-attendance-sheet', file);
 
           // then
-          assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée Veuillez télécharger à nouveau le modèle de liste des candidats et l\'importer à nouveau.');
+          assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée. Veuillez télécharger à nouveau le modèle de liste des candidats et l\'importer à nouveau.');
+        });
+
+        test('it should display the error message when uploading a file with validation error', async function(assert) {
+          // given
+          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+          const file = new File(['foo'], 'validation-error');
+
+          // when
+          await upload('#upload-attendance-sheet', file);
+
+          // then
+          assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée.');
         });
 
         test('it should display a specific error message when importing is forbidden', async function(assert) {
