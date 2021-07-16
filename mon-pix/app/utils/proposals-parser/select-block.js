@@ -12,6 +12,8 @@ export default class SelectBlock extends ResponseBlock {
     super({ input, inputIndex });
 
     const parsedOptions = this._parseOptions();
+
+    this.setInput(parsedOptions.shift());
     this.setOptions(parsedOptions);
 
     this.setType('select');

@@ -19,7 +19,7 @@ describe('Integration | Component | QROCm proposal', function() {
       // given
       const list = 'salad//tomato//onion';
       const expectedOptionValues = list.split('//');
-      this.set('proposals', '${' + list + '#samurai}');
+      this.set('proposals', '${potato //' + list + '#samurai}');
 
       // when
       await render(hbs`<QrocmProposal @proposals={{this.proposals}}/>`);
