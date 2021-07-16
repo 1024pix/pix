@@ -117,21 +117,19 @@
                 <input
                   type="radio"
                   id="insee-code-choice"
+                  name="birth-geo-code-option"
                   value="insee"
-                  checked={{this.isInseeCodeOptionSelected}}
+                  checked="checked"
                   {{on "click" (fn this.selectBirthGeoCodeOption "insee")}}
-                  required={{this.isBirthGeoCodeRequired}}
-                  disabled={{not this.isBirthGeoCodeRequired}}
+                  required
                 >
                 <label class="radio-button-label" for="insee-code-choice">Code INSEE</label>
                 <input
                   type="radio"
                   id="postal-code-choice"
+                  name="birth-geo-code-option"
                   value="postal"
-                  checked={{this.isPostalCodeOptionSelected}}
                   {{on "click" (fn this.selectBirthGeoCodeOption "postal")}}
-                  required={{this.isBirthGeoCodeRequired}}
-                  disabled={{not this.isBirthGeoCodeRequired}}
                 >
                 <label class="radio-button-label" for="postal-code-choice">Code postal</label>
               </div>
@@ -150,8 +148,7 @@
                 maxlength='5'
                 @class="input"
                 @value={{@candidateData.birthInseeCode}}
-                required={{this.isBirthInseeCodeRequired}}
-                disabled={{not this.isBirthInseeCodeRequired}}
+                required
                 {{on 'input' (fn @updateCandidateData @candidateData 'birthInseeCode')}}
               />
             </div>
@@ -169,8 +166,7 @@
                 maxlength='5'
                 @class="input"
                 @value={{@candidateData.birthPostalCode}}
-                required={{this.isBirthPostalCodeRequired}}
-                disabled={{not this.isBirthPostalCodeRequired}}
+                required
                 {{on 'input' (fn @updateCandidateData @candidateData 'birthPostalCode')}}
               />
             </div>
@@ -187,8 +183,7 @@
                 @type="text"
                 @class="input"
                 @value={{@candidateData.birthCity}}
-                required={{this.isBirthCityRequired}}
-                disabled={{not this.isBirthCityRequired}}
+                required
                 {{on 'input' (fn @updateCandidateData @candidateData 'birthCity')}}
               />
             </div>
