@@ -23,6 +23,7 @@ const schema = Joi.object({
   LOG_LEVEL: Joi.string().optional().valid('fatal', 'error', 'warn', 'info', 'debug', 'trace'),
   AUTH_SECRET: Joi.string().required(),
   IS_SCO_ACCOUNT_RECOVERY_ENABLED: Joi.string().optional().valid('true', 'false'),
+  SCO_ACCOUNT_RECOVERY_EXPIRATION_DELAY_MINUTES: Joi.number().optional(),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function() {
