@@ -193,7 +193,19 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           await upload('#upload-attendance-sheet', file);
 
           // then
-          assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée Veuillez télécharger à nouveau le modèle de liste des candidats et l\'importer à nouveau.');
+          assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée. Veuillez télécharger à nouveau le modèle de liste des candidats et l\'importer à nouveau.');
+        });
+
+        test('it should display the error message when uploading a file with validation error', async function(assert) {
+          // given
+          await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+          const file = new File(['foo'], 'validation-error');
+
+          // when
+          await upload('#upload-attendance-sheet', file);
+
+          // then
+          assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée.');
         });
 
         test('it should display a specific error message when importing is forbidden', async function(assert) {
@@ -362,15 +374,19 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       });
 
       module('when the new candidate form is submitted', function() {
-        test('it should display an error when the submitted form data are incorrect', async function(assert) {
+
+        test('it should display the error message when the submitted form data is incorrect', async function(assert) {
           // given
           const session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
           server.create('feature-toggle', { id: 0, isNewCPFDataEnabled: true });
           server.createList('country', 2, { code: '99100' });
 
           this.server.post('/sessions/:id/certification-candidates', () => ({
-            errors: ['Invalid data'],
-          }), 400);
+            errors: [{
+              status: '422',
+              detail: 'An error message',
+            }],
+          }), 422);
 
           // when
           await visit(`/sessions/${session.id}/candidats`);
@@ -379,7 +395,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           await clickByLabel('Ajouter le candidat');
 
           // then
-          assert.dom('[data-test-notification-message="error"]').hasText('Une erreur s\'est produite lors de l\'ajout du candidat.');
+          assert.dom('[data-test-notification-message="error"]').hasText('An error message');
         });
 
         module('when candidate data is valid', function(hooks) {

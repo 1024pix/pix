@@ -139,6 +139,13 @@ class CertificationCandidate {
   isLinkedToUserId(userId) {
     return this.userId === userId;
   }
+
+  updateBirthInformation({ birthCountry, birthINSEECode, birthPostalCode, birthCity }) {
+    this.birthCountry = birthCountry;
+    this.birthINSEECode = birthINSEECode;
+    this.birthPostalCode = birthPostalCode;
+    this.birthCity = birthCity;
+  }
 }
 
 module.exports = CertificationCandidate;

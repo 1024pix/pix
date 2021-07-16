@@ -142,6 +142,13 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
         sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
 
+        databaseBuilder.factory.buildCertificationCpfCountry({ code: '99100', commonName: 'FRANCE', originalName: 'FRANCE', matcher: 'ACEFNR' });
+        databaseBuilder.factory.buildCertificationCpfCountry({ code: '99132', commonName: 'ANGLETERRE', originalName: 'ANGLETERRE', matcher: 'AEEEGLNRRT' });
+
+        databaseBuilder.factory.buildCertificationCpfCity({ name: 'AJACCIO', INSEECode: '2A004', isActualName: true });
+        databaseBuilder.factory.buildCertificationCpfCity({ name: 'PARIS 18', postalCode: '75018', isActualName: true });
+        databaseBuilder.factory.buildCertificationCpfCity({ name: 'SAINT-ANNE', postalCode: '97180', isActualName: true });
+
         await databaseBuilder.commit();
       });
 
