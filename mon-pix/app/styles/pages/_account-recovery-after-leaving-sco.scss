@@ -78,6 +78,14 @@
     }
   }
 
+  &__not-found-error {
+    margin-top: 20px;
+
+    a {
+      color: $communication-dark;
+    }
+  }
+
   &__information-text--details {
     color: $grey-90;
     font-family: $font-roboto;
