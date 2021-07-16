@@ -5,7 +5,7 @@ module.exports = {
   async findAll() {
     const result = await knex
       .from('certification-cpf-countries')
-      .select('commonName', 'code')
+      .select('commonName', 'code', 'matcher')
       .where('commonName', '=', knex.ref('originalName'))
       .orderBy('commonName', 'asc');
 
