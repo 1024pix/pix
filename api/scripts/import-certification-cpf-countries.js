@@ -23,7 +23,7 @@ const FRENCH_CODE_IN_FILE = 'XXXXX';
 const TYPES = {
   'actuel': '1',
   'perime': '2',
-  'territoire_sans_codee_officiel_geographique': '3',
+  'territoire_sans_code_officiel_geographique': '3',
   'territoire_ayant_code_officiel_geographique': '4',
 };
 
