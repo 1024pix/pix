@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>PixLive Tests</title>
+  <title>MonPix Tests</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -18,16 +18,16 @@
   {{content-for "test-head-footer"}}
 </head>
 <body>
-{{content-for "body"}}
-{{content-for "test-body"}}
+  {{content-for "body"}}
+  {{content-for "test-body"}}
 
-<script src="/testem.js" integrity=""></script>
-<script src="{{rootURL}}assets/vendor.js"></script>
-<script src="{{rootURL}}assets/test-support.js"></script>
-<script src="{{rootURL}}assets/mon-pix.js"></script>
-<script src="{{rootURL}}assets/tests.js"></script>
+  <script src="/testem.js" integrity=""></script>
+  <script src="{{rootURL}}assets/vendor.js"></script>
+  <script src="{{rootURL}}assets/test-support.js"></script>
+  <script src="{{rootURL}}assets/mon-pix.js"></script>
+  <script src="{{rootURL}}assets/tests.js"></script>
 
-{{content-for "body-footer"}}
-{{content-for "test-body-footer"}}
+  {{content-for "body-footer"}}
+  {{content-for "test-body-footer"}}
 </body>
 </html>
