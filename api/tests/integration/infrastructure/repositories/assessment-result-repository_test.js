@@ -5,6 +5,7 @@ const assessmentResultRepository = require('../../../../lib/infrastructure/repos
 const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
+const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 
 describe('Integration | Repository | AssessmentResult', function() {
 
@@ -28,6 +29,16 @@ describe('Integration | Repository | AssessmentResult', function() {
 
       it('should persist the assessment result in db', async () => {
         // when
+        assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
+
+        // then
+        const assessmentResultSaved = await knex('assessment-results').where('id', assessmentResult.id);
+        expect(assessmentResultSaved).to.have.lengthOf(1);
+      });
+
+      it('should save a cancelled assessment result', async () => {
+        // when
+        assessmentResultToSave.status = assessmentResultStatuses.CANCELLED;
         assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
 
         // then
@@ -62,6 +73,14 @@ describe('Integration | Repository | AssessmentResult', function() {
 
         // then
         expect(result).to.be.instanceOf(MissingAssessmentId);
+      });
+
+      it('should throw when assessment result status is invalid', async () => {
+        // when
+        const result = await catchErr(assessmentResultRepository.save)({ state: 'invalid status' });
+
+        // then
+        expect(result).to.be.instanceOf(Error);
       });
 
       it('should throw an error in others cases', async () => {
