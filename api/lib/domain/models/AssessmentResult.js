@@ -4,6 +4,7 @@ const status = {
   REJECTED: 'rejected',
   VALIDATED: 'validated',
   ERROR: 'error',
+  CANCELLED: 'cancelled',
 };
 
 class AssessmentResult {
