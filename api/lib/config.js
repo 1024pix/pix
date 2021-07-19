@@ -143,6 +143,7 @@ module.exports = (function() {
     featureToggles: {
       isScoAccountRecoveryEnabled: isFeatureEnabled(process.env.IS_SCO_ACCOUNT_RECOVERY_ENABLED),
       isNewCPFDataEnabled: isFeatureEnabled(process.env.FT_IS_NEW_CPF_DATA_ENABLED),
+      isDownloadCertificationAttestationByDivisionEnabled: isFeatureEnabled(process.env.FT_IS_DOWNLOAD_CERTIFICATION_ATTESTATION_BY_DIVISION_ENABLED),
     },
 
     infra: {
