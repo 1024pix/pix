@@ -6,6 +6,7 @@ const AccountRecoveryDemand = require('../../../../../lib/domain/models/AccountR
 describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', () => {
 
   let userRepository;
+  let schoolingRegistrationRepository;
   let accountRecoveryDemandRepository;
   let mailService;
 
@@ -13,6 +14,9 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
     userRepository = {
       isEmailAvailable: sinon.stub(),
       get: sinon.stub(),
+    };
+    schoolingRegistrationRepository = {
+      getSchoolingRegistrationInformation: sinon.stub(),
     };
     accountRecoveryDemandRepository = {
       save: sinon.stub(),
@@ -22,16 +26,23 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
     };
   });
 
-  context('when email already exists', ()=> {
+  context('when email already exists', () => {
 
     it('should throw AlreadyRegisteredEmailError', async () => {
       // given
       userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
       const newEmail = 'new_email@example.net';
+      schoolingRegistrationRepository.getSchoolingRegistrationInformation.resolves({});
+      userRepository.get.resolves({ email: newEmail });
+
+      const studentInformation = {
+        email: newEmail,
+      };
 
       // when
       const error = await catchErr(sendEmailForAccountRecovery)({
-        email: newEmail,
+        studentInformation,
+        schoolingRegistrationRepository,
         userRepository,
         accountRecoveryDemandRepository,
         mailService,
@@ -42,7 +53,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
     });
   });
 
-  context('when email is available', ()=> {
+  context('when email is available', () => {
 
     it('should save the account recovery demand', async () => {
       // given
@@ -54,16 +65,21 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         userId,
         email: oldEmail,
       });
+      schoolingRegistrationRepository.getSchoolingRegistrationInformation.resolves({ userId });
       userRepository.isEmailAvailable.resolves(true);
       userRepository.get.resolves(user);
       accountRecoveryDemandRepository.save.resolves();
       mailService.sendAccountRecoveryEmail.resolves();
 
+      const studentInformation = {
+        email: newEmail,
+      };
+
       // when
       await sendEmailForAccountRecovery({
-        email: newEmail,
-        userId,
+        studentInformation,
         temporaryKey,
+        schoolingRegistrationRepository,
         userRepository,
         accountRecoveryDemandRepository,
         mailService,
@@ -80,7 +96,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
       expect(accountRecoveryDemandRepository.save).to.have.been.calledWithExactly(expectedAccountRecoveryDemand);
     });
 
-    it('should send an account recovery email', async () => {
+    it('should send an account recovery email with schooling registration first name', async () => {
       // given
       const userId = 1;
       const oldEmail = 'old_email@example.net';
@@ -90,15 +106,23 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         userId,
         email: oldEmail,
       });
+      const schoolingRegistration = {
+        firstName: 'Lorie',
+      };
+      schoolingRegistrationRepository.getSchoolingRegistrationInformation.resolves(schoolingRegistration);
       userRepository.isEmailAvailable.resolves(true);
       userRepository.get.resolves(user);
       accountRecoveryDemandRepository.save.resolves();
 
+      const studentInformation = {
+        email: newEmail,
+      };
+
       // when
       await sendEmailForAccountRecovery({
-        email: newEmail,
-        userId,
+        studentInformation,
         temporaryKey,
+        schoolingRegistrationRepository,
         userRepository,
         accountRecoveryDemandRepository,
         mailService,
@@ -106,7 +130,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
 
       // then
       expect(mailService.sendAccountRecoveryEmail).to.have.been.calledWithExactly({
-        firstName: user.firstName,
+        firstName: schoolingRegistration.firstName,
         email: newEmail,
         temporaryKey,
       });
