@@ -3,6 +3,8 @@ const createServer = require('../../../server');
 
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const Assessment = require('../../../lib/domain/models/Assessment');
+const CertificationAssessment = require('../../../lib/domain/models/CertificationAssessment');
+const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 
 describe('Acceptance | API | Certification Course', () => {
 
@@ -12,10 +14,9 @@ describe('Acceptance | API | Certification Course', () => {
     server = await createServer();
   });
 
-  describe('when FT_IS_NEUTRALIZATION_AUTO_ENABLED toggle is enabled ', () => {
+  describe('GET /api/admin/certifications/{id}/details', () => {
 
-    describe('GET /api/admin/certifications/{id}/details', () => {
-
+    context('when certification match an existing scoring rule', () => {
       it('Should respond with a status 200', async () => {
 
         // given
@@ -47,7 +48,10 @@ describe('Acceptance | API | Certification Course', () => {
         mockLearningContent(learningContentObjects);
 
         databaseBuilder.factory.buildCertificationCourse({ id: 1234, isV2Certification: true });
-        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: 1234, competenceId: 'competence_id' }).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({
+          certificationCourseId: 1234,
+          competenceId: 'competence_id',
+        }).id;
         const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
         databaseBuilder.factory.buildCompetenceMark({ assessmentResultId, competenceId: 'competence_id' });
 
@@ -66,6 +70,84 @@ describe('Acceptance | API | Certification Course', () => {
 
         // then
         expect(result.statusCode).to.equal(200);
+      });
+    });
+
+    context('when certification does not match an existing scoring rule', () => {
+      it('Should respond with a status 400', async () => {
+
+        // given
+        await insertUserWithRolePixMaster();
+        const options = {
+          method: 'GET',
+          url: '/api/admin/certifications/1234/details',
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(),
+          },
+        };
+
+        const challenges = [
+          { id: 'k_challenge_id_1' },
+          { id: 'k_challenge_id_2' },
+          { id: 'k_challenge_id_3' },
+          { id: 'k_challenge_id_4' },
+        ];
+        const learningContent = [{
+          id: '1. Information et données',
+          competences: [{
+            id: 'competence_id',
+            tubes: [{
+              id: 'recTube1',
+              skills: [{
+                challenges,
+              }],
+            }],
+          }],
+        }];
+
+        const user = databaseBuilder.factory.buildUser({});
+
+        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        mockLearningContent(learningContentObjects);
+
+        databaseBuilder.factory.buildCertificationCourse({ id: 1234, isV2Certification: true, userId: user.id });
+        const assessmentId = databaseBuilder.factory.buildAssessment({
+          certificationCourseId: 1234,
+          competenceId: 'competence_id',
+          state: CertificationAssessment.states.STARTED,
+          userId: user.id,
+        }).id;
+        const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
+        databaseBuilder.factory.buildCompetenceMark({ assessmentResultId, competenceId: 'competence_id' });
+
+        challenges.forEach(({ id: challengeId }) => {
+          databaseBuilder.factory.buildCertificationChallenge({
+            courseId: 1234,
+            competenceId: 'competence_id',
+            challengeId,
+          });
+
+          const answerId = databaseBuilder.factory.buildAnswer({ challengeId, assessmentId, result: 'ok' }).id;
+          databaseBuilder.factory.buildKnowledgeElement(
+            {
+              source: KnowledgeElement.SourceType.DIRECT,
+              skillId: challengeId,
+              assessmentId,
+              answerId,
+              userId: user.id,
+              competenceId: 'competence_id',
+              earnedPix: 8,
+              createdAt: new Date('2019-01-01'),
+            });
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await server.inject(options);
+
+        // then
+        expect(result.statusCode).to.equal(400);
       });
     });
   });
