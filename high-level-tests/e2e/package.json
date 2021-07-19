@@ -14,6 +14,7 @@
     "url": "https://github.com/1024pix/pix"
   },
   "scripts": {
+    "lint": "eslint .",
     "cy:open": "npm run db:initialize && cypress open",
     "cy:open:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:open",
     "cy:run": "npm run db:initialize && cypress run --browser=chrome && exit",
