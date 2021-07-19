@@ -9,6 +9,7 @@ class User {
     pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted,
     email,
+    emailConfirmedAt,
     username,
     firstName,
     knowledgeElements,
@@ -32,6 +33,7 @@ class User {
     this.lastName = lastName;
     this.username = username;
     this.email = email ? _.toLower(email) : undefined;
+    this.emailConfirmedAt = emailConfirmedAt;
     this.cgu = cgu;
     this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
     this.mustValidateTermsOfService = mustValidateTermsOfService;
