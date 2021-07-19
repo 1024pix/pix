@@ -49,8 +49,8 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
     } = certificationCandidateData;
 
     if (version === '1.5') {
-      if (certificationCandidateData.sex === '1') sex = 'M';
-      if (certificationCandidateData.sex === '2') sex = 'F';
+      if (certificationCandidateData.sex?.toUpperCase() === 'M') sex = 'M';
+      if (certificationCandidateData.sex?.toUpperCase() === 'F') sex = 'F';
 
       const cpfBirthInformation = await certificationCpfService.getBirthInformation({
         ...certificationCandidateData,

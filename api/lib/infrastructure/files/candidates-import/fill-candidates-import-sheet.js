@@ -96,7 +96,7 @@ class CandidateData {
     this.id = this._emptyStringIfNull(id);
     this.firstName = this._emptyStringIfNull(firstName);
     this.lastName = this._emptyStringIfNull(lastName);
-    this.sex = this._convertSexCode(sex);
+    this.sex = this._emptyStringIfNull(sex);
     this.birthPostalCode = this._emptyStringIfNull(birthPostalCode);
     this.birthINSEECode = this._emptyStringIfNull(birthINSEECode);
     this.birthCity = this._emptyStringIfNull(birthCity);
@@ -120,12 +120,6 @@ class CandidateData {
     if (isCpfEnabled) {
       this._clearBirthInformationDataForExport();
     }
-  }
-
-  _convertSexCode(sex) {
-    if (sex === null) return '';
-    if (sex === 'M') return '1';
-    if (sex === 'F') return '2';
   }
 
   _emptyStringIfNull(value) {

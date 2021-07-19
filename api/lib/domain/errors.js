@@ -416,7 +416,7 @@ class CertificationCandidatesImportError extends DomainError {
       contentPortion = `Le champ “${label}” est obligatoire.`;
     }
     if (error.why === 'not_a_sex_code') {
-      contentPortion = `Le champ “${label}” accepte les valeurs "1" pour un homme ou "2" pour une femme.`;
+      contentPortion = `Le champ “${label}” accepte les valeurs "M" pour un homme ou "F" pour une femme.`;
     }
 
     return new CertificationCandidatesImportError({ message: `${linePortion} ${contentPortion}` });
