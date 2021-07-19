@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 
-export default class Tab extends Component {
+export default class Recommendations extends Component {
   @service intl;
   @tracked
   sortedRecommendations;

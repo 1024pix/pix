@@ -3,7 +3,7 @@ import { click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/authenticated/campaign/analysis/tab', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/analysis/recommendations', function(hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
@@ -37,7 +37,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tab', f
 
   module('when analysis is displayed', function(hooks) {
     hooks.beforeEach(async function() {
-      await render(hbs`<Routes::Authenticated::Campaign::Analysis::Tab
+      await render(hbs`<Campaign::Analysis::Recommendations
         @campaignTubeRecommendations={{campaignTubeRecommendations}}
         @displayAnalysis={{true}}
       />`);
@@ -70,15 +70,5 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tab', f
 
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
     });
-  });
-
-  test('it should not display tube details when display', async function(assert) {
-    await render(hbs`<Routes::Authenticated::Campaign::Analysis::Tab
-      @campaignTubeRecommendations={{campaignTubeRecommendations}}
-      @displayAnalysis={{false}}
-    />`);
-
-    assert.dom('[aria-label="Sujet"]').doesNotExist;
-    assert.dom('.table__empty').containsText('En attente de résultats');
   });
 });
