@@ -7,29 +7,25 @@ module.exports = async function checkScoAccountRecovery({
   organizationRepository,
   userRepository,
 }) {
-  const schoolingRegistrationInformation = await schoolingRegistrationRepository
-    .getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate({
-      nationalStudentId: studentInformation.ineIna,
-      firstName: studentInformation.firstName,
-      lastName: studentInformation.lastName,
-      birthdate: studentInformation.birthdate,
-    });
-  const schoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId: schoolingRegistrationInformation.userId });
+  const { userId, firstName, lastName, organizationId } = await schoolingRegistrationRepository.getSchoolingRegistrationInformation({
+    ...studentInformation,
+    nationalStudentId: studentInformation.ineIna,
+  });
+  const schoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId });
 
   if (_areThereMultipleStudentForSameAccount(schoolingRegistrations)) {
     throw new MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError();
   }
 
-  const organization = await organizationRepository.get(schoolingRegistrationInformation.organizationId);
-  const user = await userRepository.get(schoolingRegistrationInformation.userId);
+  const { name: latestOrganizationName } = await organizationRepository.get(organizationId);
+  const { username, email } = await userRepository.get(userId);
 
   return new StudentInformationForAccountRecovery({
-    userId: schoolingRegistrationInformation.userId,
-    firstName: schoolingRegistrationInformation.firstName,
-    lastName: schoolingRegistrationInformation.lastName,
-    username: user.username,
-    email: user.email,
-    latestOrganizationName: organization.name,
+    firstName,
+    lastName,
+    username,
+    email,
+    latestOrganizationName,
   });
 };
 

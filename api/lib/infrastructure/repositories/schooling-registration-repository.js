@@ -329,7 +329,7 @@ module.exports = {
       });
   },
 
-  async getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate({ nationalStudentId, firstName, lastName, birthdate }) {
+  async getSchoolingRegistrationInformation({ nationalStudentId, firstName, lastName, birthdate }) {
     const schoolingRegistration = await knex
       .where({ nationalStudentId, firstName, lastName, birthdate })
       .whereNotNull('userId')
