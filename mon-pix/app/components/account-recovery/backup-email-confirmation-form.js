@@ -32,6 +32,7 @@ export default class BackupEmailConfirmationFormComponent extends Component {
   email = '';
 
   @action validateEmail() {
+    this.args.resetErrors();
     this.email = this.email.trim();
     if (isEmpty(this.email)) {
       this.emailValidation.status = STATUS_MAP['errorStatus'];
@@ -53,6 +54,8 @@ export default class BackupEmailConfirmationFormComponent extends Component {
   @action
   async submitBackupEmailConfirmationForm(event) {
     event.preventDefault();
+    this.emailValidation.status = STATUS_MAP['successStatus'];
+    this.emailValidation.message = null;
     this.args.sendEmail(this.email);
   }
 

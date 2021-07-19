@@ -30,6 +30,7 @@
       {{#if this.showBackupEmailConfirmationForm}}
         <AccountRecovery::BackupEmailConfirmationForm
           @sendEmail={{this.sendEmail}}
+          @resetErrors={{this.resetErrors}}
           @firstName={{this.studentInformationForAccountRecovery.firstName}}
           @existingEmail={{this.studentInformationForAccountRecovery.email}}
           @cancelAccountRecovery={{this.cancelAccountRecovery}}

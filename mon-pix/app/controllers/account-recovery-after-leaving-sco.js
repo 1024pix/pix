@@ -49,6 +49,11 @@ export default class AccountRecoveryAfterLeavingScoController extends Controller
   }
 
   @action
+  async resetErrors() {
+    this.showAlreadyRegisteredEmailError = false;
+  }
+
+  @action
   async sendEmail(newEmail) {
     const userId = this.studentInformationForAccountRecovery.userId;
     const accountRecoveryDemand = this.store.createRecord('account-recovery-demand', { userId, email: newEmail });
