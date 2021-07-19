@@ -19,11 +19,13 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
 
     it('should render recover account backup email confirmation form with the existing email', async function() {
       // given
+      const resetErrors = sinon.stub();
+      this.set('resetErrors', resetErrors);
       this.set('firstName', firstName);
       this.set('existingEmail', existingEmail);
 
       // when
-      await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @existingEmail={{this.existingEmail}}/>`);
+      await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @existingEmail={{this.existingEmail}} @resetErrors={{this.resetErrors}}/>`);
 
       // then
       expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-already-exist-for-account-message'))).to.exist;
@@ -31,7 +33,6 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-reset-message'))).to.exist;
       expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'))).to.exist;
       expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.ask-for-new-email-message'))).to.exist;
-
     });
 
   });
@@ -40,10 +41,12 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
 
     it('should render recover account backup email confirmation form', async function() {
       // given
+      const resetErrors = sinon.stub();
+      this.set('resetErrors', resetErrors);
       this.set('firstName', firstName);
 
       // when
-      await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}}/>`);
+      await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}}/>`);
 
       // then
       expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-is-needed-message', { firstName }))).to.exist;
@@ -56,11 +59,15 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
     it('should enable submission on backup email confirmation form', async function() {
       // given
       const email = 'Philipe@example.net';
+      const resetErrors = sinon.stub();
+      this.set('resetErrors', resetErrors);
 
       const createRecordStub = sinon.stub();
+
       class StoreStubService extends Service {
         createRecord = createRecordStub;
       }
+
       this.owner.register('service:store', StoreStubService);
       const sendEmail = sinon.stub();
       sendEmail.resolves();
@@ -68,6 +75,7 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
 
       await render(hbs`<AccountRecovery::BackupEmailConfirmationForm
       @sendEmail={{this.sendEmail}}
+      @resetErrors={{this.resetErrors}}
       />`);
 
       // when
@@ -84,9 +92,11 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
 
     it('should show an error when email is empty', async function() {
       // given
+      const resetErrors = sinon.stub();
+      this.set('resetErrors', resetErrors);
       const email = '';
 
-      await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}}/>`);
+      await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}}/>`);
 
       // when
       await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'), email);
@@ -99,9 +109,11 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
 
     it('should show an error when email is not valid', async function() {
       // given
+      const resetErrors = sinon.stub();
+      this.set('resetErrors', resetErrors);
       const email = 'Philipe@';
 
-      await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}}/>`);
+      await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}}/>`);
 
       // when
       await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'), email);
@@ -114,8 +126,10 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
 
     it('should valid form when email is valid', async function() {
       // given
+      const resetErrors = sinon.stub();
+      this.set('resetErrors', resetErrors);
       const email = 'Philipe@example.net';
-      await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}}/>`);
+      await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}}/>`);
 
       // when
       await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'), email);
