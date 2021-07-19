@@ -100,7 +100,7 @@
     "ember-sinon": "^5.0.0",
     "ember-source": "^3.23.1",
     "ember-template-lint": "^3.5.0",
-    "ember-test-selectors": "^5.0.0",
+    "ember-test-selectors": "^6.0.0",
     "ember-truth-helpers": "^3.0.0",
     "eslint": "^7.25.0",
     "eslint-plugin-ember": "^10.4.1",
