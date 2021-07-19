@@ -23,6 +23,7 @@ describe('Acceptance | Controller | feature-toggle-controller', () => {
         data: {
           id: '0',
           attributes: {
+            'is-download-certification-attestation-by-division-enabled': false,
             'is-sco-account-recovery-enabled': false,
             'is-new-cpf-data-enabled': false,
           },
