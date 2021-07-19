@@ -29,7 +29,7 @@ describe('Integration | Application | Account-Recovery | Routes', () => {
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.type).to.equal('users');
       expect(response.result.data.id).to.equal(userId.toString());
-      expect(response.result.data.attributes.email).to.equal(newEmail);
+      expect(response.result.data.attributes.email).to.equal(newEmail.toLowerCase());
 
     });
 

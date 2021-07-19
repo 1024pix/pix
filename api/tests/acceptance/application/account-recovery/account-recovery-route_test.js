@@ -8,15 +8,62 @@ const { featureToggles } = require('../../../../lib/config');
 describe('Acceptance | Route | Account-recovery', () => {
 
   describe('POST /api/account-recovery', () => {
+    let server;
+
+    beforeEach(async () => {
+      //given
+      server = await createServer();
+      featureToggles.isScoAccountRecoveryEnabled = true;
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.knex('account-recovery-demands').delete();
+    });
+
+    const studentInformation = {
+      ineIna: '123456789AA',
+      firstName: 'Jude',
+      lastName: 'Law',
+      birthdate: '2016-06-01',
+    };
+
+    const createUserWithSeveralSchoolingRegistrations = async ({ email = 'jude.law@example.net' } = {}) => {
+      const user = databaseBuilder.factory.buildUser.withRawPassword({
+        id: 8,
+        firstName: 'Judy',
+        lastName: 'Howl',
+        email,
+        username: 'jude.law0601',
+      });
+      const organization = databaseBuilder.factory.buildOrganization({
+        id: 7,
+        name: 'Collège Hollywoodien',
+      });
+      const latestOrganization = databaseBuilder.factory.buildOrganization({
+        id: 2,
+        name: 'Super Collège Hollywoodien',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        userId: user.id,
+        ...studentInformation,
+        nationalStudentId: studentInformation.ineIna,
+        organizationId: organization.id,
+        updatedAt: new Date('2005-01-01T15:00:00Z'),
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        userId: user.id,
+        ...studentInformation,
+        nationalStudentId: studentInformation.ineIna,
+        organizationId: latestOrganization.id,
+        updatedAt: new Date('2010-01-01T15:00:00Z'),
+      });
+      await databaseBuilder.commit();
+    };
 
     it('should return 204 HTTP status code', async () => {
       // given
-      const server = await createServer();
-      featureToggles.isScoAccountRecoveryEnabled = true;
-
+      await createUserWithSeveralSchoolingRegistrations();
       const newEmail = 'new_email@example.net';
-      const user = databaseBuilder.factory.buildUser.withRawPassword({ id: 8 });
-      await databaseBuilder.commit();
 
       const options = {
         method: 'POST',
@@ -24,7 +71,10 @@ describe('Acceptance | Route | Account-recovery', () => {
         payload: {
           data: {
             attributes: {
-              'user-id': user.id,
+              'ine-ina': studentInformation.ineIna,
+              'first-name': studentInformation.firstName,
+              'last-name': studentInformation.lastName,
+              'birthdate': studentInformation.birthdate,
               email: newEmail,
             },
           },
@@ -40,15 +90,8 @@ describe('Acceptance | Route | Account-recovery', () => {
 
     it('should return 400 if email already exists', async () => {
       // given
-      const server = await createServer();
-      featureToggles.isScoAccountRecoveryEnabled = true;
-
       const newEmail = 'new_email@example.net';
-      const user = databaseBuilder.factory.buildUser.withRawPassword({
-        id: 8,
-        email: 'new_email@example.net',
-      });
-      await databaseBuilder.commit();
+      await createUserWithSeveralSchoolingRegistrations({ email: newEmail });
 
       const options = {
         method: 'POST',
@@ -56,7 +99,10 @@ describe('Acceptance | Route | Account-recovery', () => {
         payload: {
           data: {
             attributes: {
-              'user-id': user.id,
+              'ine-ina': studentInformation.ineIna,
+              'first-name': studentInformation.firstName,
+              'last-name': studentInformation.lastName,
+              'birthdate': studentInformation.birthdate,
               email: newEmail,
             },
           },
@@ -77,8 +123,6 @@ describe('Acceptance | Route | Account-recovery', () => {
       featureToggles.isScoAccountRecoveryEnabled = false;
 
       const newEmail = 'new_email@example.net';
-      const user = databaseBuilder.factory.buildUser.withRawPassword({ id: 8 });
-      await databaseBuilder.commit();
 
       const options = {
         method: 'POST',
@@ -86,7 +130,10 @@ describe('Acceptance | Route | Account-recovery', () => {
         payload: {
           data: {
             attributes: {
-              'user-id': user.id,
+              'ine-ina': studentInformation.ineIna,
+              'first-name': studentInformation.firstName,
+              'last-name': studentInformation.lastName,
+              'birthdate': studentInformation.birthdate,
               email: newEmail,
             },
           },

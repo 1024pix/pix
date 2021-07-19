@@ -2,12 +2,12 @@ const {
   expect,
   sinon,
   hFake,
-  domainBuilder,
 } = require('../../../test-helper');
 
 const accountRecoveryController = require('../../../../lib/application/account-recovery/account-recovery-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
+const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 describe('Unit | Controller | account-recovery-controller', () => {
 
@@ -15,27 +15,39 @@ describe('Unit | Controller | account-recovery-controller', () => {
 
     it('should call sendEmailForAccountRecovery usecase and return 204', async () => {
       // given
-      const userId = domainBuilder.buildUser({ id: 1 }).id;
       const newEmail = 'new_email@example.net';
+      const studentInformation = {
+        ineIna: '123456789BB',
+        firstName: 'george',
+        lastName: 'de cambridge',
+        birthdate: '2013-07-22',
+        email: 'new_email@example.net',
+      };
 
       const request = {
         payload: {
           data: {
             attributes: {
-              'user-id': userId,
+              'ine-ina': '123456789BB',
+              'first-name': 'george',
+              'last-name': 'de cambridge',
+              birthdate: '2013-07-22',
               email: newEmail,
             },
           },
         },
       };
 
+      sinon.stub(studentInformationForAccountRecoverySerializer, 'deserialize')
+        .withArgs(request.payload)
+        .resolves(studentInformation);
       sinon.stub(usecases, 'sendEmailForAccountRecovery').resolves();
 
       // when
       const response = await accountRecoveryController.sendEmailForAccountRecovery(request, hFake);
 
       // then
-      expect(usecases.sendEmailForAccountRecovery).calledWith({ userId, email: newEmail });
+      expect(usecases.sendEmailForAccountRecovery).calledWith({ studentInformation });
       expect(response.statusCode).to.equal(204);
     });
 
