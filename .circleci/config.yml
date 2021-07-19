@@ -250,6 +250,10 @@ jobs:
             - ~/.npm
 
       - run:
+          name: Lint
+          command: npm run lint
+
+      - run:
           working_directory: ~/pix/api
           command: cat package*.json > cachekey
       - restore_cache:
@@ -377,6 +381,10 @@ jobs:
           key: v7-test-algo-npm-{{ checksum "~/pix/high-level-tests/test-algo/cachekey" }}
           paths:
             - ~/.npm
+
+      - run:
+          name: Lint
+          command: npm run lint
 
       - run:
           name: Test
