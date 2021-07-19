@@ -32,6 +32,9 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
       const studentInformationForAccountRecovery = Symbol();
       const studentInformationForAccountRecoveryJSONAPI = Symbol();
 
+      sinon.stub(studentInformationForAccountRecoverySerializer, 'deserialize')
+        .withArgs(request.payload)
+        .resolves(studentInformation);
       sinon.stub(usecases, 'checkScoAccountRecovery');
       usecases.checkScoAccountRecovery.withArgs({ studentInformation }).resolves(studentInformationForAccountRecovery);
       sinon.stub(studentInformationForAccountRecoverySerializer, 'serialize')

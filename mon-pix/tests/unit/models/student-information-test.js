@@ -19,7 +19,6 @@ describe('Unit | Model | Student-information', function() {
       adapter.ajax.resolves({
         data: {
           attributes: {
-            'user-id': 1,
             'first-name': 'James',
             'last-name': 'Potter',
             'email': 'james.potter@example.net',
@@ -41,7 +40,6 @@ describe('Unit | Model | Student-information', function() {
 
       // then
       const expectedResult = {
-        userId: 1,
         firstName: 'James',
         lastName: 'Potter',
         email: 'james.potter@example.net',

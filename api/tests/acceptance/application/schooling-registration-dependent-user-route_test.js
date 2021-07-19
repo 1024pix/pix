@@ -368,19 +368,15 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       });
       databaseBuilder.factory.buildSchoolingRegistration({
         userId: user.id,
+        ...studentInformation,
         nationalStudentId: studentInformation.ineIna,
-        firstName: studentInformation.firstName,
-        lastName: studentInformation.lastName,
-        birthdate: studentInformation.birthdate,
         organizationId: organization.id,
         updatedAt: new Date('2005-01-01T15:00:00Z'),
       });
       databaseBuilder.factory.buildSchoolingRegistration({
         userId: user.id,
+        ...studentInformation,
         nationalStudentId: studentInformation.ineIna,
-        firstName: studentInformation.firstName,
-        lastName: studentInformation.lastName,
-        birthdate: studentInformation.birthdate,
         organizationId: latestOrganization.id,
         updatedAt: new Date('2010-01-01T15:00:00Z'),
       });
@@ -412,7 +408,6 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       expect(response.result.data).to.deep.equal({
         type: 'student-information-for-account-recoveries',
         attributes: {
-          'user-id': 8,
           'first-name': 'Jude',
           'last-name': 'Law',
           'username': 'jude.law0601',

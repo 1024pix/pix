@@ -32,8 +32,13 @@ export default class AccountRecoveryAfterLeavingScoController extends Controller
     this.studentInformationForAccountRecovery.firstName = studentInformation.firstName;
     const studentInformationToSave = this.store.createRecord('student-information', studentInformation);
     try {
-      const { userId, firstName, lastName, username, email, latestOrganizationName } = await studentInformationToSave.submitStudentInformation();
-      this.studentInformationForAccountRecovery.userId = userId;
+      const {
+        firstName,
+        lastName,
+        username,
+        email,
+        latestOrganizationName,
+      } = await studentInformationToSave.submitStudentInformation();
       this.studentInformationForAccountRecovery.firstName = firstName;
       this.studentInformationForAccountRecovery.lastName = lastName;
       this.studentInformationForAccountRecovery.username = username;

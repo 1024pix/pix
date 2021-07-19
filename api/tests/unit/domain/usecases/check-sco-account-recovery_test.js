@@ -16,7 +16,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
 
   beforeEach(() => {
     schoolingRegistrationRepository = {
-      getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate: sinon.stub(),
+      getSchoolingRegistrationInformation: sinon.stub(),
       findByUserId: sinon.stub(),
     };
     userRepository = {
@@ -53,17 +53,13 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
           userId: expectedUser.id,
           organization: expectedOrganization,
           nationalStudentId: studentInformation.ineIna,
-          firstName: studentInformation.firstName,
-          lastName: studentInformation.lastName,
-          birthdate: studentInformation.birthdate,
+          ...studentInformation,
         });
 
-        schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate
+        schoolingRegistrationRepository.getSchoolingRegistrationInformation
           .withArgs({
+            ...studentInformation,
             nationalStudentId: studentInformation.ineIna,
-            firstName: studentInformation.firstName,
-            lastName: studentInformation.lastName,
-            birthdate: studentInformation.birthdate,
           })
           .resolves({
             organizationId: expectedOrganization.id,
@@ -85,7 +81,6 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
 
         // then
         const expectedResult = {
-          userId: 9,
           firstName: 'Nanou',
           lastName: 'Monchose',
           username: 'nanou.monchose0705',
@@ -125,9 +120,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
             organization: firstOrganization,
             updatedAt: new Date('2000-01-01T15:00:00Z'),
             nationalStudentId: studentInformation.ineIna,
-            firstName: studentInformation.firstName,
-            lastName: studentInformation.lastName,
-            birthdate: studentInformation.birthdate,
+            ...studentInformation,
           });
           const secondSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
             id: 3,
@@ -135,17 +128,13 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
             organization: secondOrganization,
             updatedAt: new Date('2005-01-01T15:00:00Z'),
             nationalStudentId: studentInformation.ineIna,
-            firstName: studentInformation.firstName,
-            lastName: studentInformation.lastName,
-            birthdate: studentInformation.birthdate,
+            ...studentInformation,
           });
 
-          schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate
+          schoolingRegistrationRepository.getSchoolingRegistrationInformation
             .withArgs({
+              ...studentInformation,
               nationalStudentId: studentInformation.ineIna,
-              firstName: studentInformation.firstName,
-              lastName: studentInformation.lastName,
-              birthdate: studentInformation.birthdate,
             })
             .resolves({
               organizationId: secondOrganization.id,
@@ -169,7 +158,6 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
 
           // then
           const expectedResult = {
-            userId: 9,
             firstName: 'Nanou',
             lastName: 'Monchose',
             username: 'nanou.monchose0705',
@@ -178,7 +166,6 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
           };
           expect(result).to.deep.equal(expectedResult);
         });
-
       });
 
       context('when at least one schooling registrations has a different INE', () => {
@@ -204,9 +191,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
             id: 6,
             userId: user.id,
             nationalStudentId: studentInformation.ineIna,
-            firstName: studentInformation.firstName,
-            lastName: studentInformation.lastName,
-            birthdate: studentInformation.birthdate,
+            ...studentInformation,
           });
           const secondSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
             id: 9,
@@ -217,12 +202,10 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
             birthdate: '2004-05-07',
           });
 
-          schoolingRegistrationRepository.getSchoolingRegistrationInformationByNationalStudentIdFirstNameLastNameAndBirthdate
+          schoolingRegistrationRepository.getSchoolingRegistrationInformation
             .withArgs({
+              ...studentInformation,
               nationalStudentId: studentInformation.ineIna,
-              firstName: studentInformation.firstName,
-              lastName: studentInformation.lastName,
-              birthdate: studentInformation.birthdate,
             })
             .resolves({
               organizationId: 1,
