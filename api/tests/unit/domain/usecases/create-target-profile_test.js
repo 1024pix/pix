@@ -24,25 +24,56 @@ describe('Unit | UseCase | create-target-profile', () => {
 
   });
 
-  it('should create target profile with skills given data', async () => {
-    const skillsId = ['skill1-tube1', 'skill3-tube1'];
-    const targetProfile = Symbol('ok');
-    //given
-    const targetProfileData = {
-      isPublic,
-      name,
-      imageUrl,
-      organizationId,
-      skillsId,
-    };
+  describe('when targetProfile is valid', () => {
 
-    targetProfileRepositoryStub.create.withArgs(targetProfileData).resolves(targetProfileId);
-    targetProfileWithLearningContentRepositoryStub.get.withArgs({ id: targetProfileId }).resolves(targetProfile);
+    it('should create target profile with skills given data', async () => {
+      //given
+      const skillsId = ['skill1-tube1', 'skill3-tube1'];
+      const targetProfile = Symbol('ok');
+      const targetProfileData = {
+        isPublic,
+        name,
+        imageUrl,
+        organizationId,
+        skillsId,
+      };
 
-    //when
-    const result = await createTargetProfile({ targetProfileData, targetProfileRepository: targetProfileRepositoryStub, targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub });
+      targetProfileRepositoryStub.create.withArgs(targetProfileData).resolves(targetProfileId);
+      targetProfileWithLearningContentRepositoryStub.get.withArgs({ id: targetProfileId }).resolves(targetProfile);
 
-    expect(result).to.equal(targetProfile);
+      //when
+      const result = await createTargetProfile({ targetProfileData, targetProfileRepository: targetProfileRepositoryStub, targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub });
+
+      //then
+      expect(result).to.equal(targetProfile);
+    });
+
+    it('should create target profile with default imageUrl if none is specified', async () => {
+      //given
+      const skillsId = ['skill1-tube1', 'skill3-tube1'];
+      const targetProfile = Symbol('ok');
+      const targetProfileData = {
+        isPublic,
+        name,
+        imageUrl: null,
+        organizationId,
+        skillsId,
+      };
+      targetProfileRepositoryStub.create.resolves(targetProfileId);
+      targetProfileWithLearningContentRepositoryStub.get.withArgs({ id: targetProfileId }).resolves(targetProfile);
+
+      //when
+      await createTargetProfile({ targetProfileData, targetProfileRepository: targetProfileRepositoryStub, targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub });
+
+      //then
+      expect(targetProfileRepositoryStub.create).to.have.been.calledWith({
+        isPublic,
+        name,
+        imageUrl: 'https://images.pix.fr/profil-cible/Illu_GEN.svg',
+        organizationId,
+        skillsId,
+      });
+    });
   });
 
   it('should return TargetProfileInvalidError given empty skills', async () => {
