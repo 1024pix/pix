@@ -16,7 +16,7 @@
       {{/if}}
 
       {{#if this.showConflictError}}
-        <AccountRecovery::ConflictError @firstName={{this.firstName}} />
+        <AccountRecovery::ConflictError @firstName={{this.studentInformationForAccountRecovery.firstName}} />
       {{/if}}
 
       {{#if this.showConfirmationStep}}
@@ -30,7 +30,7 @@
       {{#if this.showBackupEmailConfirmationForm}}
         <AccountRecovery::BackupEmailConfirmationForm
           @sendEmail={{this.sendEmail}}
-          @firstName={{this.firstName}}
+          @firstName={{this.studentInformationForAccountRecovery.firstName}}
           @existingEmail={{this.studentInformationForAccountRecovery.email}}
           @cancelAccountRecovery={{this.cancelAccountRecovery}}
           @showAlreadyRegisteredEmailError={{this.showAlreadyRegisteredEmailError}}
