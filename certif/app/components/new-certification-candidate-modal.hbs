@@ -239,14 +239,14 @@
             {{/if}}
           </div>
 
-        </form>
+          <div class="new-certification-candidate-details-modal__actions">
+            <PixButton @size="small" @triggerAction={{fn @closeModal}} @backgroundColor="transparent-light">
+              Fermer
+            </PixButton>
+            <PixButton @size="small" @type="submit">Ajouter le candidat</PixButton>
+          </div>
 
-        <div class="new-certification-candidate-details-modal__actions">
-          <PixButton @size="small" @triggerAction={{fn @closeModal}} @backgroundColor="transparent-light">
-            Fermer
-          </PixButton>
-          <PixButton @size="small" form="new-certification-candidate-form" @type="submit">Ajouter le candidat</PixButton>
-        </div>
+        </form>
       </div>
 
     </div>
