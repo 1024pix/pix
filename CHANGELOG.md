@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.75.0 (19/07/2021)
+
+- [#3188](https://github.com/1024pix/pix/pull/3188) [FEATURE] Afficher la date de création et le créateur pour une campagne d'évaluation (PIX-2741).
+- [#3193](https://github.com/1024pix/pix/pull/3193) [FEATURE] Ajouter dans la liste des paliers la présence du titre et de la description du prescripteur (PIX-2831).
+- [#3196](https://github.com/1024pix/pix/pull/3196) [BUGFIX] Permettre la sauvegarde d'un assessment result annulé (PIX-2835)
+- [#3194](https://github.com/1024pix/pix/pull/3194) [BUGFIX] Importer un fichier ods d'import avec des candidats ajoutés manuellement ne fonctionne pas (PIX-2830)
+- [#3197](https://github.com/1024pix/pix/pull/3197) [TECH] Arrêter d'utiliser l'Orm-model Bookshelf Answer (PIX-2833)
+- [#3189](https://github.com/1024pix/pix/pull/3189) [TECH] Utiliser la version mineure 12.7 de BDD PostgreSQL .
+- [#3199](https://github.com/1024pix/pix/pull/3199) [TECH] Déplace le fichier SECURITY.md a la racine
+- [#3183](https://github.com/1024pix/pix/pull/3183) [TECH] Utiliser la version 14.17.0 de Node au lieu de 14.16.0. 
+
 ## v3.74.0 (16/07/2021)
 
 - [#3180](https://github.com/1024pix/pix/pull/3180) [FEATURE] Vérification des informations de naissance lors de l'ajout d'un candidat à une session de certification (PIX-2715)
