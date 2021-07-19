@@ -1,6 +1,5 @@
 const { expect, knex, databaseBuilder, mockLearningContent, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const BookshelfAnswer = require('../../../../lib/infrastructure/orm-models/Answer');
 const { FRENCH_FRANCE, ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Acceptance | Controller | answer-controller-save', () => {
@@ -122,8 +121,8 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         await server.inject(postAnswersOptions);
 
         // then          .
-        const afterAnswersNumber = await BookshelfAnswer.count();
-        expect(afterAnswersNumber).to.equal(1);
+        const { count } = await knex('answers').count().first();
+        expect(count).to.equal(1);
       });
 
       it('should add a new answer with timeSpent into the database', async () => {
@@ -132,10 +131,8 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
         // then
         const answer = response.result.data;
-
-        const model = await BookshelfAnswer.where({ id: answer.id }).fetch();
-
-        expect(model.get('timeSpent')).not.to.be.null;
+        const { timeSpent } = await knex('answers').where({ id: answer.id }).first();
+        expect(timeSpent).not.to.be.null;
       });
 
       it('should return persisted answer', async () => {
@@ -144,23 +141,21 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
         // then
         const answer = response.result.data;
+        const answerDB = await knex('answers').where({ id: answer.id }).first();
+        expect(answerDB.id).to.be.a('number');
+        expect(answerDB.value).to.equal(postAnswersOptions.payload.data.attributes.value);
+        expect(answerDB.result).to.equal('ok');
+        expect(answerDB.resultDetails).to.equal('null\n');
+        expect(answerDB.assessmentId).to.equal(postAnswersOptions.payload.data.relationships.assessment.data.id);
+        expect(answerDB.challengeId).to.equal(postAnswersOptions.payload.data.relationships.challenge.data.id);
 
-        const model = await BookshelfAnswer.where({ id: answer.id }).fetch();
-
-        expect(model.id).to.be.a('number');
-        expect(model.get('value')).to.equal(postAnswersOptions.payload.data.attributes.value);
-        expect(model.get('result')).to.equal('ok');
-        expect(model.get('resultDetails')).to.equal('null\n');
-        expect(model.get('assessmentId')).to.equal(postAnswersOptions.payload.data.relationships.assessment.data.id);
-        expect(model.get('challengeId')).to.equal(postAnswersOptions.payload.data.relationships.challenge.data.id);
-
-        expect(answer.id).to.equal(model.id.toString());
+        expect(answer.id).to.equal(answerDB.id.toString());
         expect(answer.id).to.equal(response.result.data.id.toString());
-        expect(answer.attributes.value).to.equal(model.get('value'));
-        expect(answer.attributes.result).to.equal(model.get('result'));
-        expect(answer.attributes['result-details']).to.equal(model.get('resultDetails'));
-        expect(answer.relationships.assessment.data.id).to.equal(model.get('assessmentId').toString());
-        expect(answer.relationships.challenge.data.id).to.equal(model.get('challengeId'));
+        expect(answer.attributes.value).to.equal(answerDB.value);
+        expect(answer.attributes.result).to.equal(answerDB.result);
+        expect(answer.attributes['result-details']).to.equal(answerDB.resultDetails);
+        expect(answer.relationships.assessment.data.id).to.equal(answerDB.assessmentId.toString());
+        expect(answer.relationships.challenge.data.id).to.equal(answerDB.challengeId);
       });
 
       [
