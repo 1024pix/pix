@@ -216,13 +216,10 @@
             <Input
               @id="result-recipient-email"
               @type="email"
-              @class="input {{if this.validation.email.hasError 'input--error'}}"
+              @class="input"
               @value={{@candidateData.resultRecipientEmail}}
               {{on 'input' (fn @updateCandidateData @candidateData 'resultRecipientEmail')}}
             />
-            {{#if this.validation.email.hasError}}
-              <div class="alert-input alert-input--error alert-input--left" role="alert">{{this.validation.email.message}}</div>
-            {{/if}}
           </div>
 
           <div id="email-container" class="new-certification-candidate-details-modal__form__field new-certification-candidate-details-modal__form__field-double">
@@ -230,13 +227,10 @@
             <Input
               @id="email"
               @type="email"
-              @class="input {{if this.validation.email.hasError 'input--error'}}"
+              @class="input"
               @value={{@candidateData.email}}
               {{on 'input' (fn @updateCandidateData @candidateData 'email')}}
             />
-            {{#if this.validation.email.hasError}}
-              <div class="alert-input alert-input--error alert-input--left" role="alert">{{this.validation.email.message}}</div>
-            {{/if}}
           </div>
 
           <div class="new-certification-candidate-details-modal__actions">
