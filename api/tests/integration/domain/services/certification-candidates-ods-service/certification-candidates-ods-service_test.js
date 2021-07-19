@@ -147,7 +147,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
       // then
       expect(error).to.be.instanceOf(CertificationCandidatesImportError);
-      expect(error.message).to.equal('Ligne 10 : Le champ “Prénom” est obligatoire.');
+      expect(error.message).to.equal('Ligne 13 : Le champ “Prénom” est obligatoire.');
       expect(error.code).to.be.null;
     });
 
@@ -167,7 +167,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
       // then
       expect(error).to.be.instanceOf(CertificationCandidatesImportError);
-      expect(error.message).to.equal('Ligne 10 : La valeur du code INSEE doit être "99" pour un pays étranger.');
+      expect(error.message).to.equal('Ligne 13 : La valeur du code INSEE doit être "99" pour un pays étranger.');
       expect(error.code).to.be.null;
     });
 
