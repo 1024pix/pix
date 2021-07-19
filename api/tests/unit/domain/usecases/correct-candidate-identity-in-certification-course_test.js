@@ -3,7 +3,7 @@ const CertificationCourse = require('../../../../lib/domain/models/Certification
 
 const correctCandidateIdentityInCertificationCourse = require('../../../../lib/domain/usecases/correct-candidate-identity-in-certification-course');
 
-describe('Unit | UseCase | modify-candidate-in-certification-course', () => {
+describe('Unit | UseCase | correct-candidate-identity-in-certification-course', () => {
   it('it modifies the candidate', async () => {
     // given
     const certificationCourseToBeModified = domainBuilder.buildCertificationCourse({
@@ -15,7 +15,7 @@ describe('Unit | UseCase | modify-candidate-in-certification-course', () => {
     });
     const certificationCourseRepository = {
       get: sinon.stub(),
-      save: sinon.stub(),
+      update: sinon.stub(),
     };
     certificationCourseRepository.get.withArgs(4).resolves(certificationCourseToBeModified);
 
@@ -34,14 +34,14 @@ describe('Unit | UseCase | modify-candidate-in-certification-course', () => {
     });
 
     // then
-    expect(certificationCourseRepository.save).to.have.been.calledWith({
-      certificationCourse: new CertificationCourse({
+    expect(certificationCourseRepository.update).to.have.been.calledWith(
+      new CertificationCourse({
         ...certificationCourseToBeModified.toDTO(),
         firstName: 'Maurice',
         lastName: 'Dupont',
         birthdate: '2000-01-01',
         birthplace: 'Maubeuge',
       }),
-    });
+    );
   });
 });
