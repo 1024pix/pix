@@ -57,7 +57,7 @@
     "ember-api-actions": "^0.2.9",
     "ember-auto-import": "^1.11.3",
     "ember-burger-menu": "^3.3.4",
-    "ember-cli": "~3.23.0",
+    "ember-cli": "^3.27.0",
     "ember-cli-app-version": "^4.0.0",
     "ember-cli-autoprefixer": "^1.0.3",
     "ember-cli-babel": "^7.26.6",
