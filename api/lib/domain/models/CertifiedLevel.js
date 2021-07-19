@@ -1,6 +1,7 @@
 const {
   UNCERTIFIED_LEVEL,
 } = require('../constants');
+const { DomainError } = require('../errors');
 
 class CertifiedLevel {
   constructor({ value, status }) {
@@ -382,7 +383,7 @@ const _rules = {
   },
 };
 
-class MissingCertifiedLevelRuleError extends Error {
+class MissingCertifiedLevelRuleError extends DomainError {
   constructor({
     numberOfChallenges,
     numberOfCorrectAnswers,
