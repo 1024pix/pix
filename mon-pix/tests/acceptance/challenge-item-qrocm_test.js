@@ -13,67 +13,90 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
 
   beforeEach(async () => {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-    qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
   });
 
   describe('When challenge is not already answered', () => {
-    beforeEach(async () => {
-      // when
-      await visit(`/assessments/${assessment.id}/challenges/0`);
+    describe('and challenge only has input fields', () => {
+      beforeEach(async () => {
+        // when
+        qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
+        await visit(`/assessments/${assessment.id}/challenges/0`);
+      });
+
+      it('should render challenge information and question', () => {
+        // then
+        expect(find('.challenge-statement__instruction__text').textContent.trim()).to.equal(qrocmDepChallenge.instruction);
+
+        expect(findAll('.challenge-response__proposal')).to.have.lengthOf(2);
+        expect(findAll('.challenge-response__proposal')[0].disabled).to.be.false;
+        expect(findAll('.challenge-response__proposal')[1].disabled).to.be.false;
+        expect(find('div[data-test="qrocm-label-0"]').innerHTML).to.contains('Station <strong>1</strong> :');
+        expect(find('div[data-test="qrocm-label-1"]').innerHTML).to.contains('Station <em>2</em> :');
+
+        expect(find('.alert')).to.not.exist;
+      });
+
+      it('should display the alert box if user validates without write an answer for each input', async () => {
+        // when
+        await fillIn(findAll('input')[0], 'ANSWER');
+        await fillIn(findAll('input')[1], '');
+
+        await click(find('.challenge-actions__action-validate'));
+
+        expect(find('.alert')).to.exist;
+        expect(find('.alert').textContent.trim()).to.equal('Pour valider, veuillez remplir tous les champs réponse. Sinon, passez.');
+      });
+
+      it('should hide the alert error after the user interact with input text', async () => {
+        // given
+        await click('.challenge-actions__action-validate');
+
+        // when
+        await triggerEvent('input', 'keydown');
+        await fillIn(findAll('input')[0], 'ANSWER');
+        await fillIn(findAll('input')[1], 'ANSWER');
+
+        // then
+        expect(find('.alert')).to.not.exist;
+      });
+
+      it('should go to checkpoint when user validated', async () => {
+        // when
+        await fillIn(findAll('input')[0], 'ANSWER');
+        await fillIn(findAll('input')[1], 'ANSWER');
+        await click('.challenge-actions__action-validate');
+
+        // then
+        expect(currentURL()).to.contains(`/assessments/${assessment.id}/checkpoint`);
+      });
     });
 
-    it('should render challenge information and question', () => {
-      // then
-      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocmDepChallenge.instruction);
+    describe('and challenge contains select field', () => {
+      beforeEach(async () => {
+        // when
+        qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
+        await visit(`/assessments/${assessment.id}/challenges/0`);
+      });
 
-      expect(findAll('.challenge-response__proposal')).to.have.lengthOf(2);
-      expect(findAll('.challenge-response__proposal')[0].disabled).to.be.false;
-      expect(findAll('.challenge-response__proposal')[1].disabled).to.be.false;
-      expect(find('div[data-test="qrocm-label-0"]').innerHTML).to.contains('Station <strong>1</strong> :');
-      expect(find('div[data-test="qrocm-label-1"]').innerHTML).to.contains('Station <em>2</em> :');
+      it('should redirect to next page', async () => {
+        // given
+        const selectOptions = findAll('select[data-test="challenge-response-proposal-selector"] option');
+        const myOption = selectOptions[1];
 
-      expect(find('.alert')).to.not.exist;
+        // when
+        await fillIn('select[data-test="challenge-response-proposal-selector"]', myOption.value);
+        await click(find('.challenge-actions__action-validate'));
+
+        // then
+        expect(currentURL()).to.contains(`/assessments/${assessment.id}/checkpoint`);
+      });
     });
-
-    it('should display the alert box if user validates without write an answer for each input', async () => {
-      // when
-      await fillIn(findAll('input')[0], 'ANSWER');
-      await fillIn(findAll('input')[1], '');
-
-      await click(find('.challenge-actions__action-validate'));
-
-      expect(find('.alert')).to.exist;
-      expect(find('.alert').textContent.trim()).to.equal('Pour valider, veuillez remplir tous les champs réponse. Sinon, passez.');
-    });
-
-    it('should hide the alert error after the user interact with input text', async () => {
-      // given
-      await click('.challenge-actions__action-validate');
-
-      // when
-      await triggerEvent('input', 'keydown');
-      await fillIn(findAll('input')[0], 'ANSWER');
-      await fillIn(findAll('input')[1], 'ANSWER');
-
-      // then
-      expect(find('.alert')).to.not.exist;
-    });
-
-    it('should go to checkpoint when user validated', async () => {
-      // when
-      await fillIn(findAll('input')[0], 'ANSWER');
-      await fillIn(findAll('input')[1], 'ANSWER');
-      await click('.challenge-actions__action-validate');
-
-      // then
-      expect(currentURL()).to.contains(`/assessments/${assessment.id}/checkpoint`);
-    });
-
   });
 
   describe('When challenge is already answered', () => {
     beforeEach(async () => {
       // given
+      qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
       server.create('answer', {
         value: 'station1: \'Republique\'\nstation2: \'Chatelet\'\n',
         result: 'ko',
@@ -102,11 +125,14 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
   });
 
   describe('When challenge is already answered and user wants to see answers', () => {
-    let correctionDep, correctionInd, tutorial, learningMoreTutorial, qrocmIndChallenge;
+    let correctionDep, correctionInd, tutorial, learningMoreTutorial, qrocmIndChallenge, qrocmIndSelectChallenge, correctionIndSelect;
 
     beforeEach(async () => {
       // given
+      qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
       qrocmIndChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMind');
+      qrocmIndSelectChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
+
       tutorial = server.create('tutorial');
       learningMoreTutorial = server.create('tutorial');
       correctionDep = server.create('correction', {
@@ -136,6 +162,20 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         correction: correctionInd,
       });
 
+      correctionIndSelect = server.create('correction', {
+        solution: 'banana:\n- mango',
+        hint: 'Sortir de paris !',
+        tutorials: [tutorial],
+        learningMoreTutorials: [learningMoreTutorial],
+      });
+      server.create('answer', {
+        value: 'banana: \'potato\'\n',
+        result: 'ko',
+        assessmentId: assessment.id,
+        challengeId: qrocmIndSelectChallenge.id,
+        correction: correctionIndSelect,
+      });
+
       // when
       await visit(`/assessments/${assessment.id}/checkpoint`);
     });
@@ -151,6 +191,11 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       const instructionStrippedInd = qrocmIndChallenge.instruction.slice(0, 104);
       expect(findAll('.result-item__instruction')[1].textContent.trim()).to.equal(`${instructionStrippedInd}....`);
       expect(findAll('.result-item__correction-button')[1].textContent.trim()).to.equal('Réponses et tutos');
+
+      expect(findAll('.result-item__icon')[2].title).to.equal('Réponse incorrecte');
+      const instructionStrippedSelect = qrocmIndSelectChallenge.instruction.slice(0, 104);
+      expect(findAll('.result-item__instruction')[2].textContent.trim()).to.equal(`${instructionStrippedSelect}....`);
+      expect(findAll('.result-item__correction-button')[2].textContent.trim()).to.equal('Réponses et tutos');
     });
 
     it('should show details of QROCM-dep challenge result in pop-in, with tutorials and feedbacks', async () => {
@@ -197,6 +242,32 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       expect(badAnswersFromUserResult[1].value).to.equal('Stendhal');
 
       expect(find('.tutorial-panel__hint-container').textContent).to.contains(correctionDep.hint);
+
+      const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-item')[0];
+      const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-item')[0];
+
+      expect(tutorialToSuccess.textContent).to.contains(tutorial.title);
+      expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
+
+      expect(find('.feedback-panel')).to.exist;
+
+    });
+
+    it('should show details of QROCM-ind challenge (with select) result in pop-in, with tutorials and feedbacks', async () => {
+      // when
+      await click(findAll('.result-item__correction-button')[2]);
+
+      // then
+      expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
+      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocmIndSelectChallenge.instruction);
+
+      const goodAnswers = findAll('.correction-qrocm__solution-text');
+      const badAnswersFromUserResult = findAll('.correction-qrocm__answer');
+
+      expect(goodAnswers[0].textContent.trim()).to.equal('mango');
+      expect(badAnswersFromUserResult[0].value).to.equal('potato');
+
+      expect(find('.tutorial-panel__hint-container').textContent).to.contains(correctionIndSelect.hint);
 
       const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-item')[0];
       const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-item')[0];
