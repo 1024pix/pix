@@ -13,5 +13,5 @@ module.exports = async function correctCandidateIdentityInCertificationCourse({
   certificationCourse.correctLastName(lastName);
   certificationCourse.correctBirthplace(birthplace);
   certificationCourse.correctBirthdate(birthdate);
-  await certificationCourseRepository.save({ certificationCourse });
+  await certificationCourseRepository.update(certificationCourse);
 };
