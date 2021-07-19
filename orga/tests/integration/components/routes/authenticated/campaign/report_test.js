@@ -50,77 +50,14 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
     assert.dom('.campaign-details-header-report__campaign-code').containsText('1234PixTest');
   });
 
-  module('When there is some results', function() {
-    test('it should display campaign participants number', async function(assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        participationsCount: 10,
-      });
-
-      this.set('campaign', campaign);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
-
-      // then
-      assert.contains('10');
-    });
-
-    test('it should display campaign shared participations number', async function(assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        participationsCount: 1,
-        sharedParticipationsCount: 4,
-      });
-      this.set('campaign', campaign);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
-
-      // then
-      assert.contains('4');
-    });
-
-    test('it should display correct label for a PROFILES_COLLECTION campaign ', async function(assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        participationsCount: 1,
-        sharedParticipationsCount: 4,
-        type: 'PROFILES_COLLECTION',
-      });
-      this.set('campaign', campaign);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
-
-      // then
-      assert.contains('Profils reçus');
-    });
-
-    test('it should display correct label for an ASSESSMENT campaign ', async function(assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        participationsCount: 1,
-        type: 'ASSESSMENT',
-      });
-      this.set('campaign', campaign);
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
-
-      // then
-      assert.contains('Résultats reçus');
-    });
-  });
-
-  module('When there is no results', function() {
+  module('When the campaign type is ASSESSMENT', function() {
     test('it should display the creation date and the campaign creator when no one participated', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        participationsCount: 0,
         createdAt: new Date('2021-04-14'),
         creatorLastName: 'Fa',
         creatorFirstName: 'Mulan',
+        type: 'ASSESSMENT',
       });
       this.set('campaign', campaign);
 
@@ -132,19 +69,94 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       assert.contains('14/04/2021');
     });
 
-    test('it should display "-" when no one shared his participation', async function(assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        participationsCount: 4,
-        sharedParticipationsCount: 0,
+  });
+
+  module('When the campaign type is \'PROFILE_COLLECTION\'  ', function() {
+    module('When there is some results', function() {
+      test('it should display campaign participants number', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          participationsCount: 10,
+          type: 'PROFILES_COLLECTION',
+        });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('10');
       });
-      this.set('campaign', campaign);
 
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+      test('it should display campaign shared participations number', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          participationsCount: 1,
+          sharedParticipationsCount: 4,
+          type: 'PROFILES_COLLECTION',
+        });
+        this.set('campaign', campaign);
 
-      // then
-      assert.contains('-');
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('4');
+      });
+
+      test('it should display correct label for a PROFILES_COLLECTION campaign ', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          participationsCount: 1,
+          sharedParticipationsCount: 4,
+          type: 'PROFILES_COLLECTION',
+        });
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('Profils reçus');
+      });
+
+    });
+    module('When there is no results', function() {
+      test('it displays the creation date and the campaign creator when no one participated', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          participationsCount: 0,
+          createdAt: new Date('2021-04-14'),
+          creatorLastName: 'Fa',
+          creatorFirstName: 'Mulan',
+          type: 'PROFILES_COLLECTION',
+        });
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('Mulan Fa');
+        assert.contains('14/04/2021');
+      });
+
+      test('it should display "-" when no one shared his participation', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          participationsCount: 4,
+          sharedParticipationsCount: 0,
+          type: 'PROFILES_COLLECTION',
+        });
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('-');
+      });
     });
   });
 
