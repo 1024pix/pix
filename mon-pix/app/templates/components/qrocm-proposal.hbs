@@ -9,16 +9,15 @@
     {{/if}}
 
     {{#if (eq block.type 'select')}}
-      <select class="challenge-response__proposal challenge-response__proposal--selector"
-              name={{block.randomName}}
-              id="{{block.input}}"
-              aria-label={{block.ariaLabel}}>
-
-              {{#each block.options as |optionValue|}}
-                <option value="{{optionValue}}">{{optionValue}}</option>
-              {{/each}}
-      </select>
-
+      <div class="challenge-response__proposal challenge-response__proposal--selector">
+        <PixSelect
+                data-test="challenge-response-proposal-selector"
+                name={{block.randomName}}
+                id="{{block.input}}"
+                aria-label={{block.ariaLabel}}
+                @options={{block.options}}
+                @onChange={{this.setAnswerValue}}/>
+      </div>
     {{else if (eq block.type 'input')}}
       {{#if block.input}}
         {{#if block.text}}

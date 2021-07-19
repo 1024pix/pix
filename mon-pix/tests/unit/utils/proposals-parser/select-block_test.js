@@ -25,7 +25,15 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato}',
           expected: {
             input: 'banana',
-            options: ['mango', 'potato'],
+            options: [
+              {
+                value: 'mango',
+                label: 'mango',
+              }, {
+                value: 'potato',
+                label: 'potato',
+              },
+            ],
             autoAriaLabel: true,
             ariaLabel: '123',
             placeholder: null,
@@ -35,7 +43,15 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato}s',
           expected: {
             input: 'banana',
-            options: ['mango', 'potatos'],
+            options: [
+              {
+                value: 'mango',
+                label: 'mango',
+              }, {
+                value: 'potatos',
+                label: 'potatos',
+              },
+            ],
             autoAriaLabel: true,
             ariaLabel: '123',
             placeholder: null,
@@ -45,7 +61,15 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato$}',
           expected: {
             input: 'banana',
-            options: ['mango', 'potato$'],
+            options: [
+              {
+                value: 'mango',
+                label: 'mango',
+              }, {
+                value: 'potato$',
+                label: 'potato$',
+              },
+            ],
             autoAriaLabel: true,
             ariaLabel: '123',
             placeholder: null,
@@ -55,7 +79,15 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato}}',
           expected: {
             input: 'banana',
-            options: ['mango', 'potato}'],
+            options: [
+              {
+                value: 'mango',
+                label: 'mango',
+              }, {
+                value: 'potato}',
+                label: 'potato}',
+              },
+            ],
             autoAriaLabel: true,
             ariaLabel: '123',
             placeholder: null,
@@ -65,7 +97,15 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato${}}',
           expected: {
             input: 'banana',
-            options: ['mango', 'potato${}'],
+            options: [
+              {
+                value: 'mango',
+                label: 'mango',
+              }, {
+                value: 'potato${}',
+                label: 'potato${}',
+              },
+            ],
             autoAriaLabel: true,
             ariaLabel: '123',
             placeholder: null,
@@ -75,7 +115,12 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           input: '${potato' + OPTIONS_SPLITTER + 'banana/mango}',
           expected: {
             input: 'potato',
-            options: ['banana/mango'],
+            options: [
+              {
+                value: 'banana/mango',
+                label: 'banana/mango',
+              },
+            ],
             autoAriaLabel: true,
             ariaLabel: '123',
             placeholder: null,
@@ -85,7 +130,12 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           input: '${potato' + OPTIONS_SPLITTER + 'banana is ' + ESCAPED_OPTIONS_SPLITTER + ' to mango}',
           expected: {
             input: 'potato',
-            options: ['banana is ' + REMAINING_OPTIONS_SPLITTER + ' to mango'],
+            options: [
+              {
+                value: 'banana is ' + REMAINING_OPTIONS_SPLITTER + ' to mango',
+                label: 'banana is ' + REMAINING_OPTIONS_SPLITTER + ' to mango',
+              },
+            ],
             autoAriaLabel: true,
             ariaLabel: '123',
             placeholder: null,
@@ -95,7 +145,16 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           input: '${potato' + OPTIONS_SPLITTER + 'banana is ' + ESCAPED_OPTIONS_SPLITTER + ' to mango and ' + ESCAPED_OPTIONS_SPLITTER + ' to kiwi' + OPTIONS_SPLITTER + 'potato}',
           expected: {
             input: 'potato',
-            options: ['banana is ' + REMAINING_OPTIONS_SPLITTER + ' to mango and ' + REMAINING_OPTIONS_SPLITTER + ' to kiwi', 'potato'],
+            options: [
+              {
+                value: 'banana is ' + REMAINING_OPTIONS_SPLITTER + ' to mango and ' + REMAINING_OPTIONS_SPLITTER + ' to kiwi',
+                label: 'banana is ' + REMAINING_OPTIONS_SPLITTER + ' to mango and ' + REMAINING_OPTIONS_SPLITTER + ' to kiwi',
+              },
+              {
+                value: 'potato',
+                label: 'potato',
+              },
+            ],
             autoAriaLabel: true,
             ariaLabel: '123',
             placeholder: null,
@@ -126,7 +185,15 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato#tomatoPlaceholder}',
           expected: {
             input: 'banana',
-            options: ['mango', 'potato'],
+            options: [
+              {
+                value: 'mango',
+                label: 'mango',
+              }, {
+                value: 'potato',
+                label: 'potato',
+              },
+            ],
             autoAriaLabel: true,
             ariaLabel: '123',
             placeholder: 'tomatoPlaceholder',
@@ -136,7 +203,15 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato}#tomatoPlaceholder',
           expected: {
             input: 'banana',
-            options: ['mango', 'potato'],
+            options: [
+              {
+                value: 'mango',
+                label: 'mango',
+              }, {
+                value: 'potato',
+                label: 'potato',
+              },
+            ],
             autoAriaLabel: true,
             ariaLabel: '123',
             placeholder: 'tomatoPlaceholder',
@@ -146,7 +221,15 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato§saladAriaLabel}',
           expected: {
             input: 'banana',
-            options: ['mango', 'potato'],
+            options: [
+              {
+                value: 'mango',
+                label: 'mango',
+              }, {
+                value: 'potato',
+                label: 'potato',
+              },
+            ],
             autoAriaLabel: false,
             ariaLabel: 'saladAriaLabel',
             placeholder: null,
@@ -156,7 +239,15 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           input: '${banana' + OPTIONS_SPLITTER + 'mango' + OPTIONS_SPLITTER + 'potato#tomatoPlaceholder§saladAriaLabel}',
           expected: {
             input: 'banana',
-            options: ['mango', 'potato'],
+            options: [
+              {
+                value: 'mango',
+                label: 'mango',
+              }, {
+                value: 'potato',
+                label: 'potato',
+              },
+            ],
             autoAriaLabel: false,
             ariaLabel: 'saladAriaLabel',
             placeholder: 'tomatoPlaceholder',

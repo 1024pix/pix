@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, findAll, render } from '@ember/test-helpers';
+import { fillIn, find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | QROCm proposal', function() {
@@ -25,12 +25,26 @@ describe('Integration | Component | QROCm proposal', function() {
       await render(hbs`<QrocmProposal @proposals={{this.proposals}}/>`);
 
       // then
-      const selector = find('.challenge-response__proposal--selector');
-      const options = findAll('.challenge-response__proposal--selector option');
+      const selector = find('select[data-test="challenge-response-proposal-selector"]');
+      const options = findAll('select[data-test="challenge-response-proposal-selector"] option');
       const optionValues = options.map((option) => option.value);
 
       expect(selector.tagName).to.equal('SELECT');
       expect(optionValues).to.deep.equal(expectedOptionValues);
+    });
+
+    it('should select option', async function() {
+      // given
+      const list = 'salad//tomato//onion';
+      this.set('proposals', '${potato//' + list + '#samurai}');
+      this.set('answersValue', { potato: null });
+
+      // when
+      await render(hbs`<QrocmProposal @proposals={{this.proposals}} @answersValue={{this.answersValue}}/>`);
+      await fillIn('select[data-test="challenge-response-proposal-selector"]', 'tomato');
+
+      // then
+      expect(this.answersValue['potato']).to.equal('tomato');
     });
   });
 
