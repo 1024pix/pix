@@ -26,6 +26,45 @@ describe('Unit | Service | Pole Emploi Service', function() {
       // then
       expect(generatedLink).to.equal('https://url-externe/pole-emploi/envois?curseur=eyJpZEVudm9pIjo0NTYsImRhdGVFbnZvaSI6IjIwMjEtMDUtMDFUMDA6MDA6MDAuMDAwWiJ9');
     });
+
+    context('when there is a filter', () => {
+      context('when isSuccessful is true', () => {
+        it('should generate a link with a query params using the filters', function() {
+          const sending = {
+            idEnvoi: 456,
+            dateEnvoi: '2021-05-01T00:00:00.000Z',
+            resultat: { } };
+
+          const filters = {
+            isSuccessful: true,
+          };
+
+          // when
+          const generatedLink = poleEmploiService.generateLink(sending, filters);
+
+          // then
+          expect(generatedLink).to.equal('https://url-externe/pole-emploi/envois?curseur=eyJpZEVudm9pIjo0NTYsImRhdGVFbnZvaSI6IjIwMjEtMDUtMDFUMDA6MDA6MDAuMDAwWiJ9&enErreur=false');
+        });
+      });
+      context('when isSuccessful is false', () => {
+        it('should generate a link with a query params using the filters', function() {
+          const sending = {
+            idEnvoi: 456,
+            dateEnvoi: '2021-05-01T00:00:00.000Z',
+            resultat: { } };
+
+          const filters = {
+            isSuccessful: false,
+          };
+
+          // when
+          const generatedLink = poleEmploiService.generateLink(sending, filters);
+
+          // then
+          expect(generatedLink).to.equal('https://url-externe/pole-emploi/envois?curseur=eyJpZEVudm9pIjo0NTYsImRhdGVFbnZvaSI6IjIwMjEtMDUtMDFUMDA6MDA6MDAuMDAwWiJ9&enErreur=true');
+        });
+      });
+    });
   });
 
   describe('#decodeCursor', function() {
