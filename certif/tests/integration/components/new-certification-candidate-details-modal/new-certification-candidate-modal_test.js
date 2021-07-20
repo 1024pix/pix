@@ -5,6 +5,8 @@ import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import getByLabel from '../../../helpers/extended-ember-test-helpers/get-by-label';
+import queryByLabel from '../../../helpers/extended-ember-test-helpers/query-by-label';
 
 module('Integration | Component | new-certification-candidate-modal', function(hooks) {
   setupRenderingTest(hooks);
@@ -36,20 +38,20 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     `);
 
     // then
-    assert.dom('#last-name').exists();
-    assert.dom('#last-name').isFocused();
-    assert.dom('#first-name').exists();
-    assert.dom('#male').exists();
-    assert.dom('#female').exists();
-    assert.dom('#birthdate').exists();
-    assert.dom('#birth-country').exists();
-    assert.dom('#insee-code-choice').exists();
-    assert.dom('#postal-code-choice').exists();
-    assert.dom('#birth-insee-code').exists();
-    assert.dom('#external-id').exists();
-    assert.dom('#extra-time-percentage').exists();
-    assert.dom('#result-recipient-email').exists();
-    assert.dom('#email').exists();
+    assert.dom(getByLabel('Nom de famille')).exists();
+    assert.dom(getByLabel('Nom de famille')).isFocused();
+    assert.dom(getByLabel('Prénom')).exists();
+    assert.dom(getByLabel('Homme')).exists();
+    assert.dom(getByLabel('Femme')).exists();
+    assert.dom(getByLabel('Date de naissance')).exists();
+    assert.dom(getByLabel('Pays de naissance')).exists();
+    assert.dom(getByLabel('Code INSEE')).exists();
+    assert.dom(getByLabel('Code postal')).exists();
+    assert.dom(getByLabel('Code INSEE de naissance')).exists();
+    assert.dom(getByLabel('Identifiant externe')).exists();
+    assert.dom(getByLabel('Temps majoré (%)')).exists();
+    assert.dom(getByLabel('E-mail du destinataire des résultats')).exists();
+    assert.dom(getByLabel('E-mail de convocation')).exists();
   });
 
   test('it shows a countries list with France selected as default', async function(assert) {
@@ -83,10 +85,10 @@ module('Integration | Component | new-certification-candidate-modal', function(h
     `);
 
     // then
-    assert.dom('#birth-country').exists();
-    assert.dom('#birth-country').includesText('Syldavie');
-    assert.dom('#birth-country').includesText('Botswana');
-    assert.dom('#birth-country').hasValue('99100');
+    const birthCountryField = getByLabel('Pays de naissance');
+    assert.dom(birthCountryField).includesText('Syldavie');
+    assert.dom(birthCountryField).includesText('Botswana');
+    assert.dom(birthCountryField).hasValue('99100');
   });
 
   module('when close button cross icon is clicked', () => {
@@ -186,9 +188,9 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       await fillInByLabel('Pays de naissance', '99123');
 
       // then
-      assert.dom('#birth-insee-code').isNotVisible();
-      assert.dom('#birth-postal-code').isNotVisible();
-      assert.dom('#birth-city').isVisible();
+      assert.dom(queryByLabel('Code INSEE de naissance')).isNotVisible();
+      assert.dom(queryByLabel('Code postal de naissance')).isNotVisible();
+      assert.dom(queryByLabel('Commune de naissance')).isVisible();
     });
   });
 
@@ -221,9 +223,9 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       await clickByLabel('Code INSEE');
 
       // then
-      assert.dom('#birth-insee-code').isVisible();
-      assert.dom('#birth-postal-code').isNotVisible();
-      assert.dom('#birth-city').isNotVisible();
+      assert.dom(queryByLabel('Code INSEE de naissance')).isVisible();
+      assert.dom(queryByLabel('Code postal de naissance')).isNotVisible();
+      assert.dom(queryByLabel('Commune de naissance')).isNotVisible();
     });
   });
 
@@ -256,9 +258,9 @@ module('Integration | Component | new-certification-candidate-modal', function(h
       await clickByLabel('Code postal');
 
       // then
-      assert.dom('#birth-insee-code').isNotVisible();
-      assert.dom('#birth-postal-code').isVisible();
-      assert.dom('#birth-city').isVisible();
+      assert.dom(queryByLabel('Code INSEE de naissance')).isNotVisible();
+      assert.dom(queryByLabel('Code postal de naissance')).isVisible();
+      assert.dom(queryByLabel('Commune de naissance')).isVisible();
     });
   });
 
