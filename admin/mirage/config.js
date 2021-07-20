@@ -55,6 +55,10 @@ export default function() {
     return new Response(200);
   });
 
+  this.get('feature-toggles', (schema) => {
+    return schema.featureToggles.findOrCreateBy({ id: 0 });
+  });
+
   this.get('/users');
   this.get('/users/me', (schema, request) => {
     const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
