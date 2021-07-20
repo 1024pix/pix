@@ -6,124 +6,11 @@ describe('Acceptance | API | Campaign Participations', () => {
 
   let server,
     options,
-    user,
-    campaign,
-    assessment,
-    campaignParticipation;
+    user;
 
   beforeEach(async () => {
     server = await createServer();
     user = databaseBuilder.factory.buildUser();
-  });
-
-  describe('GET /api/campaign-participations?filter[assessmentId]={id}', () => {
-
-    beforeEach(async () => {
-      campaign = databaseBuilder.factory.buildCampaign();
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-        isShared: true,
-        campaignId: campaign.id,
-        userId: user.id,
-      });
-      assessment = databaseBuilder.factory.buildAssessment({
-        campaignParticipationId: campaignParticipation.id,
-        userId: user.id,
-        type: Assessment.types.CAMPAIGN,
-      });
-
-      await databaseBuilder.commit();
-    });
-
-    context('when the user own the campaign participation', () => {
-
-      beforeEach(() => {
-        options = {
-          method: 'GET',
-          url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}&include=campaign,user`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        };
-      });
-
-      it('should return the campaign-participation of the given assessmentId', async () => {
-        // given
-        const expectedCampaignParticipation = [
-          {
-            'attributes': {
-              'created-at': campaignParticipation.createdAt,
-              'is-shared': campaignParticipation.isShared,
-              'participant-external-id': campaignParticipation.participantExternalId,
-              'shared-at': campaignParticipation.sharedAt,
-            },
-            'id': campaignParticipation.id.toString(),
-            'type': 'campaign-participations',
-            relationships: {
-              campaign: {
-                data: {
-                  type: 'campaigns',
-                  id: campaign.id.toString(),
-                },
-              },
-              assessment: {
-                links: {
-                  related: `/api/assessments/${assessment.id}`,
-                },
-              },
-            },
-          },
-        ];
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.be.deep.equal(expectedCampaignParticipation);
-      });
-    });
-
-    context('when the user doesnt own the campaign participation', () => {
-
-      beforeEach(() => {
-        options = {
-          method: 'GET',
-          url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}`,
-          headers: { authorization: 'USER_UNATHORIZED' },
-        };
-      });
-
-      it('should reply an unauthorized error', () => {
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((error) => {
-          expect(error.statusCode).to.equal(401);
-        });
-      });
-    });
-
-    context('when the assessmentId is not an integer', () => {
-
-      it('returns 404 when assessmentId is not an integer', async () => {
-        const userId = databaseBuilder.factory.buildUser().id;
-        const organization = databaseBuilder.factory.buildOrganization();
-
-        databaseBuilder.factory.buildMembership({ userId, organizationId: organization.id });
-        databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-
-        await databaseBuilder.commit();
-
-        const options = {
-          method: 'GET',
-          url: '/api/campaign-participations?filter[assessmentId]=abcd',
-          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-        };
-
-        const response = await server.inject(options);
-
-        expect(response.statusCode).to.equal(404);
-      });
-    });
   });
 
   describe('PATCH /api/campaign-participations/{id}', () => {
@@ -168,14 +55,14 @@ describe('Acceptance | API | Campaign Participations', () => {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recAcquisWeb1' });
       const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         id: campaignParticipationId,
         userId: user.id,
         isShared: false,
         sharedAt: null,
         campaignId: campaign.id,
       });
-      assessment = databaseBuilder.factory.buildAssessment({
+      databaseBuilder.factory.buildAssessment({
         campaignParticipationId: campaignParticipation.id,
         userId: user.id,
         type: Assessment.types.CAMPAIGN,

@@ -1,30 +1,9 @@
 const Joi = require('joi');
 const campaignParticipationController = require('./campaign-participation-controller');
-const { sendJsonApiError, NotFoundError } = require('../http-errors');
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
-    {
-      method: 'GET',
-      path: '/api/campaign-participations',
-      config: {
-        handler: campaignParticipationController.find,
-        validate: {
-          query: Joi.object({
-            'filter[assessmentId]': Joi.string().pattern(/^[0-9]+$/),
-          }).options({ allowUnknown: true }),
-          failAction: (request, h) => {
-            return sendJsonApiError(new NotFoundError(), h);
-          },
-        },
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des campaign-participation par assessment',
-        ],
-        tags: ['api', 'campaign-participation'],
-      },
-    },
     {
       method: 'PATCH',
       path: '/api/campaign-participations/{id}',

@@ -7,10 +7,6 @@ export default ApplicationSerializer.extend({
     'createdAt',
     'participantExternalId',
   ],
-  include: [
-    'campaign',
-    'user',
-  ],
   links(campaignParticipation) {
     return {
       'assessment': {
