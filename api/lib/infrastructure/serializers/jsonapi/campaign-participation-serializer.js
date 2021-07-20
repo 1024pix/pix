@@ -9,9 +9,6 @@ module.exports = {
     return new Serializer('campaign-participation',
       {
         transform: (campaignParticipation) => {
-          if (!campaignParticipation.user) {
-            delete campaignParticipation.user;
-          }
           const campaignParticipationForSerialization = Object.assign({}, campaignParticipation);
 
           if (campaignParticipation.lastAssessment) {
@@ -24,14 +21,10 @@ module.exports = {
           return campaignParticipationForSerialization;
         },
 
-        attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'user', 'assessment'],
+        attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'assessment'],
         campaign: {
           ref: 'id',
           attributes: ['code', 'title', 'type'],
-        },
-        user: {
-          ref: 'id',
-          attributes: ['firstName', 'lastName'],
         },
         assessment: {
           ref: 'id',
