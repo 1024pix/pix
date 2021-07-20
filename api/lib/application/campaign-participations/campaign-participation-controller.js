@@ -14,18 +14,6 @@ const { extractLocaleFromRequest } = require('../../infrastructure/utils/request
 
 module.exports = {
 
-  async getById(request) {
-    const campaignParticipationId = request.params.id;
-    const userId = request.auth.credentials.userId;
-    const options = queryParamsUtils.extractParameters(request.query);
-
-    const campaignParticipation = await usecases.getCampaignParticipation({
-      campaignParticipationId, options, userId,
-    });
-
-    return serializer.serialize(campaignParticipation);
-  },
-
   async save(request, h) {
     const userId = request.auth.credentials.userId;
     const campaignParticipation = await serializer.deserialize(request.payload);

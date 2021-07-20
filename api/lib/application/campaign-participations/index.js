@@ -26,23 +26,6 @@ exports.register = async function(server) {
       },
     },
     {
-      method: 'GET',
-      path: '/api/campaign-participations/{id}',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.campaignParticipationId,
-          }),
-        },
-        handler: campaignParticipationController.getById,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération d\'une campaign-participation par son id',
-        ],
-        tags: ['api', 'campaign-participation'],
-      },
-    },
-    {
       method: 'PATCH',
       path: '/api/campaign-participations/{id}',
       config: {
