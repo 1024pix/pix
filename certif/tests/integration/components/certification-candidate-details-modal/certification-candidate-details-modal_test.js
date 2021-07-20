@@ -21,7 +21,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
       resultRecipientEmail: 'suric@animal.fr',
       externalId: '12345',
       birthdate: '2000-12-25',
-      extraTimePercentage: 10,
+      extraTimePercentage: 0.10,
       birthInseeCode: 76255,
       birthPostalCode: 76260,
       sex: 'F',
@@ -52,7 +52,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
     assert.contains('suric@animal.fr');
     assert.contains('12345');
     assert.contains('25/12/2000');
-    assert.contains('10');
+    assert.contains('10 %');
   });
 
   module('when candidate has missing data', () => {

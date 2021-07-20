@@ -89,7 +89,7 @@
           <li class="certification-candidate-details-modal__row">
             <span class="certification-candidate-details-modal__row__label">Temps majoré (%)</span>
             <span class="certification-candidate-details-modal__row__value" data-test-id="extra-time-row">
-              {{if @candidate.extraTimePercentage @candidate.extraTimePercentage "-"}}
+              {{if @candidate.extraTimePercentage (format-percentage @candidate.extraTimePercentage) "-"}}
             </span>
           </li>
         </ul>
