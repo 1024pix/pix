@@ -65,11 +65,6 @@ describe('Acceptance | API | Campaign Participations', () => {
               related: `/api/assessments/${assessment.id}`,
             },
           },
-          'campaign-participation-result': {
-            links: {
-              related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`,
-            },
-          },
         },
       };
 
@@ -138,11 +133,6 @@ describe('Acceptance | API | Campaign Participations', () => {
               assessment: {
                 links: {
                   related: `/api/assessments/${assessment.id}`,
-                },
-              },
-              'campaign-participation-result': {
-                links: {
-                  related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`,
                 },
               },
             },

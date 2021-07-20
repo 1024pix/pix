@@ -24,7 +24,7 @@ module.exports = {
           return campaignParticipationForSerialization;
         },
 
-        attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'user', 'campaignParticipationResult', 'assessment'],
+        attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'user', 'assessment'],
         campaign: {
           ref: 'id',
           attributes: ['code', 'title', 'type'],
@@ -39,16 +39,6 @@ module.exports = {
           relationshipLinks: {
             related(record) {
               return `/api/assessments/${record.assessment.id}`;
-            },
-          },
-        },
-        campaignParticipationResult: {
-          ref: 'id',
-          ignoreRelationshipData: true,
-          nullIfMissing: true,
-          relationshipLinks: {
-            related(record, current, parent) {
-              return `/api/campaign-participations/${parent.id}/campaign-participation-result`;
             },
           },
         },

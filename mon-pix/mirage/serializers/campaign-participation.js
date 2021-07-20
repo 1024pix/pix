@@ -16,9 +16,6 @@ export default ApplicationSerializer.extend({
       'assessment': {
         related: `/api/assessments/${campaignParticipation.assessmentId}`,
       },
-      'campaignParticipationResult': {
-        related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`,
-      },
     };
   },
 });
