@@ -82,7 +82,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
           const email = 'someMail@example.net';
           const temporaryKey = 'someTemporaryKey';
 
-          process.env.SCO_ACCOUNT_RECOVERY_EXPIRATION_DELAY_MINUTES = undefined;
+          process.env.SCO_ACCOUNT_RECOVERY_TOKEN_LIFETIME_MINUTES = undefined;
 
           const expirationDelayInDays = 1;
           const yesterday = new Date();
@@ -120,7 +120,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
           databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
           await databaseBuilder.commit();
 
-          process.env.SCO_ACCOUNT_RECOVERY_EXPIRATION_DELAY_MINUTES = 2;
+          process.env.SCO_ACCOUNT_RECOVERY_TOKEN_LIFETIME_MINUTES = 2;
 
           // when
           const error = await catchErr(accountRecoveryDemandRepository.findByTemporaryKey)(temporaryKey);
