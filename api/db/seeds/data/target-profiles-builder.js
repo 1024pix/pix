@@ -91,6 +91,7 @@ function _buildTargetProfilePICDiagnosticInitial(databaseBuilder) {
     'rec0J9OXaAj5v7w3r', 'reclY3njuk6EySJuU', 'rec5V9gp65a58nnco', 'recPrXhP0X07OdHXe', 'recPG9ftlGZLiF0O6',
     'rectLj7NPg5JcSIqN', 'rec9qal2FLjWysrfu', 'rechRPFlSryfY3UnG', 'recL0AotZshb9quhR', 'recrOwaV2PTt1N0i5',
     'recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx', 'recTIddrkopID28Ep', 'recBrDIfDDW2IPpZV', 'recgOc2OreHCosoRp',
+    'recGd7oJ2wVEyKmPS', 'recVv1eoSLW7yFgXv', 'recVywppdS4hGEekR', 'recDZTKszXX02aXD1',
   ].forEach((skillId) => {
     databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID, skillId });
   });
