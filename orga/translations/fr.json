@@ -412,6 +412,7 @@
       "documentation-link-label": "Interprétation des résultats.",
       "documentation-link-notice": "Vous trouverez en suivant ce lien quelques éléments pour interpréter les résultats : ",
       "download-button": "Exporter les résultats",
+      "download-attestations-button": "Télécharger les attestations",
       "errors": {
         "invalid-division": "La classe {selectedDivision} n'existe pas.",
         "no-results": "Aucun résultat de certification pour la classe {selectedDivision}."
