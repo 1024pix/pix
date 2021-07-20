@@ -1,4 +1,6 @@
-const { getPdfBuffer } = require('./write-pdf-utils');
+const { PDFDocument, rgb } = require('pdf-lib');
+const fs = require('fs');
+const fontkit = require('@pdf-lib/fontkit');
 const { readFile } = require('fs').promises;
 const moment = require('moment');
 const startCase = require('lodash/startCase');
@@ -203,6 +205,7 @@ async function _dynamicInformationsForAttestation({ pdfDoc, page, data, rgb }) {
   _drawMaxScore(data, page, maxScoreFont, maxScoreFontSize, rgb);
   _drawMaxLevel(data, page, maxLevelFont, maxLevelFontSize, rgb);
   _drawVerificationCode(data, page, codeFont, codeFontSize, rgb);
+
   if (data.hasAcquiredAnyComplementaryCertifications) {
     await _drawComplementaryCertifications(pdfDoc, data, page, rgb);
   }
@@ -210,22 +213,27 @@ async function _dynamicInformationsForAttestation({ pdfDoc, page, data, rgb }) {
 
 async function getCertificationAttestationPdfBuffer({
   certificate,
+} = {
 }) {
   const templateFileName = certificate.hasAcquiredAnyComplementaryCertifications()
     ? 'attestation-template-with-complementary-certifications.pdf'
     : 'attestation-template.pdf';
-
   const formateDeliveryDate = moment(certificate.deliveredAt).format('YYYYMMDD');
-
   const fileName = `attestation-pix-${formateDeliveryDate}.pdf`;
-
+  const templatePath = `${__dirname}/files`;
+  const data = certificate;
+  const path = `${templatePath}/${templateFileName}`;
+  const basePdfBytes = await fs.promises.readFile(path);
+  const templatePdfDoc = await PDFDocument.load(basePdfBytes);
+  const generatedPdfDoc = await PDFDocument.create();
+  generatedPdfDoc.registerFontkit(fontkit);
+  const [page] = await generatedPdfDoc.copyPages(templatePdfDoc, [0]);
+  await _dynamicInformationsForAttestation({ pdfDoc: generatedPdfDoc, page, data, rgb });
+  generatedPdfDoc.addPage(page);
+  const pdfBytes = await generatedPdfDoc.save();
+  const file = Buffer.from(pdfBytes);
   return {
-    file: await getPdfBuffer({
-      templatePath: `${__dirname}/files`,
-      templateFileName,
-      applyDynamicInformationsInPDF: _dynamicInformationsForAttestation,
-      data: certificate,
-    }),
+    file,
     fileName,
   };
 }
