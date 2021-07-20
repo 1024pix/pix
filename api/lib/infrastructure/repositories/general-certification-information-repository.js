@@ -9,7 +9,6 @@ module.exports = {
   async get({ certificationCourseId }) {
     const certificationCourseDTO = await knex('certification-courses')
       .where({ id: certificationCourseId })
-      .orderBy('createdAt')
       .first();
 
     if (certificationCourseDTO) {
