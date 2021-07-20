@@ -17,6 +17,10 @@ class CertificationResultInformation {
     lastName,
     birthdate,
     birthplace,
+    sex,
+    birthINSEECode,
+    birthCountry,
+    birthPostalCode,
     certificationIssueReports,
     assessmentId,
     commentForCandidate,
@@ -39,6 +43,10 @@ class CertificationResultInformation {
     this.lastName = lastName;
     this.birthdate = birthdate;
     this.birthplace = birthplace;
+    this.sex = sex;
+    this.birthINSEECode = birthINSEECode;
+    this.birthCountry = birthCountry;
+    this.birthPostalCode = birthPostalCode;
     this.certificationIssueReports = certificationIssueReports;
     this.assessmentId = assessmentId;
     this.commentForCandidate = commentForCandidate;
@@ -70,6 +78,10 @@ class CertificationResultInformation {
       lastName: generalCertificationInformation.lastName,
       birthdate: generalCertificationInformation.birthdate,
       birthplace: generalCertificationInformation.birthplace,
+      sex: generalCertificationInformation.sex,
+      birthINSEECode: generalCertificationInformation.birthINSEECode,
+      birthCountry: generalCertificationInformation.birthCountry,
+      birthPostalCode: generalCertificationInformation.birthPostalCode,
       certificationIssueReports: generalCertificationInformation.certificationIssueReports,
       assessmentId: assessmentResult.assessmentId,
       commentForCandidate: assessmentResult.commentForCandidate,

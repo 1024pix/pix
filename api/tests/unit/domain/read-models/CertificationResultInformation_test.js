@@ -9,7 +9,7 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
 
     it('should return an instance of CertificationResultInformation', () => {
       // given
-      const generalCertificationInformation = new GeneralCertificationInformation({
+      const generalCertificationInformation = domainBuilder.buildGeneralCertificationInformation({
         certificationCourseId: 123,
         sessionId: 1000,
         createdAt: new Date('2020-01-30T12:00:00Z'),
@@ -20,6 +20,9 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
         lastName: 'Delamarche',
         birthdate: new Date('1999-01-01T10:00:00Z'),
         birthplace: 'Paris',
+        sex: 'F',
+        birthCountry: 'CUBA',
+        birthINSEECode: '99407',
         certificationIssueReports: [],
       });
       const assessmentResult = new AssessmentResult({
@@ -59,6 +62,10 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
         lastName: 'Delamarche',
         birthdate: new Date('1999-01-01T10:00:00Z'),
         birthplace: 'Paris',
+        sex: 'F',
+        birthCountry: 'CUBA',
+        birthINSEECode: '99407',
+        birthPostalCode: null,
         certificationIssueReports: [],
         status: assessmentResult.status,
         assessmentId: assessmentResult.assessmentId,
