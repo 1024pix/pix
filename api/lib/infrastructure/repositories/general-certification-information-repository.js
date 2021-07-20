@@ -47,6 +47,10 @@ function _toDomain({ certificationCourseDTO, certificationIssueReportsDTO }) {
     lastName: certificationCourseDTO.lastName,
     birthdate: certificationCourseDTO.birthdate,
     birthplace: certificationCourseDTO.birthplace,
+    birthPostalCode: certificationCourseDTO.birthPostalCode,
+    birthINSEECode: certificationCourseDTO.birthINSEECode,
+    birthCountry: certificationCourseDTO.birthCountry,
+    sex: certificationCourseDTO.sex,
     certificationIssueReports,
   });
 }
