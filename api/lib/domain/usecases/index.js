@@ -223,7 +223,6 @@ module.exports = injectDependencies({
   getCampaignByCode: require('./get-campaign-by-code'),
   getCampaignAssessmentParticipation: require('./get-campaign-assessment-participation'),
   getCampaignAssessmentParticipationResult: require('./get-campaign-assessment-participation-result'),
-  getCampaignParticipation: require('./get-campaign-participation'),
   getCampaignParticipationsActivityByDay: require('./get-campaign-participations-activity-by-day'),
   getCampaignParticipationsCountByStage: require('./get-campaign-participations-counts-by-stage'),
   getCampaignParticipationsCountsByStatus: require('./get-campaign-participations-counts-by-status'),
