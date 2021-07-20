@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
+import { run } from '@ember/runloop';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Unit | Controller | authenticated/certifications', function(hooks) {
@@ -112,6 +113,34 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
         { autoClear: false },
       );
       assert.ok(true);
+    });
+  });
+
+  module('#isCertificationAttestationDownloadEnabled', function() {
+    test('should return true if toggle is enabled', async function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const featureToggles = run(() => store.createRecord('feature-toggle', { isDownloadCertificationAttestationByDivisionEnabled: true }));
+      class FeatureTogglesStub extends Service { featureToggles = featureToggles; }
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+
+      const controller = this.owner.lookup('controller:authenticated/certifications');
+
+      // when / then
+      assert.ok(controller.isCertificationAttestationDownloadEnabled);
+    });
+
+    test('should return false if toggle is disabled', async function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const featureToggles = run(() => store.createRecord('feature-toggle', { isDownloadCertificationAttestationByDivisionEnabled: false }));
+      class FeatureTogglesStub extends Service { featureToggles = featureToggles; }
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+
+      const controller = this.owner.lookup('controller:authenticated/certifications');
+
+      // when / then
+      assert.notOk(controller.isCertificationAttestationDownloadEnabled);
     });
   });
 });

@@ -17,9 +17,14 @@
       required={{true}}
       autocomplete="off"
     />
-    <button class="button" type="submit">
+    <button class="button" type="submit" id="download_results">
       {{t 'pages.certifications.download-button'}}
     </button>
+    {{#if this.isCertificationAttestationDownloadEnabled}}
+      <button class="button" type="submit" id="download_attestations">
+        {{t 'pages.certifications.download-attestations-button'}}
+      </button>
+    {{/if}}
   </form>
 
   <PixMessage @withIcon={{true}}>
