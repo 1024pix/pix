@@ -31,6 +31,10 @@ export default class Certification extends Model {
   @attr() lastName;
   @attr('date-only') birthdate;
   @attr() birthplace;
+  @attr() birthCountry;
+  @attr() birthInseeCode;
+  @attr() birthPostalCode;
+  @attr() sex;
   @attr() externalId;
   @attr() createdAt;
   @attr() completedAt;
