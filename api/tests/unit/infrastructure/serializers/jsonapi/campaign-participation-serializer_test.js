@@ -104,11 +104,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
                 related: `/api/assessments/${campaignParticipation.lastAssessment.id}`,
               },
             },
-            'campaign-participation-result': {
-              links: {
-                'related': '/api/campaign-participations/5/campaign-participation-result',
-              },
-            },
           },
         },
         included: [
