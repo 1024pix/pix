@@ -38,7 +38,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       // given
       options = {
         method: 'GET',
-        url: `/api/campaign-participations/${campaignParticipation.id}?include=user`,
+        url: `/api/campaign-participations/${campaignParticipation.id}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
       const expectedCampaignParticipation = {
@@ -53,12 +53,6 @@ describe('Acceptance | API | Campaign Participations', () => {
         relationships: {
           campaign: {
             data: null,
-          },
-          user: {
-            data: {
-              id: `${user.id}`,
-              type: 'users',
-            },
           },
           assessment: {
             links: {
@@ -105,7 +99,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         };
       });
 
-      it('should return the campaign-participation of the given assessmentId', () => {
+      it('should return the campaign-participation of the given assessmentId', async () => {
         // given
         const expectedCampaignParticipation = [
           {
@@ -124,12 +118,6 @@ describe('Acceptance | API | Campaign Participations', () => {
                   id: campaign.id.toString(),
                 },
               },
-              user: {
-                data: {
-                  'id': user.id.toString(),
-                  'type': 'users',
-                },
-              },
               assessment: {
                 links: {
                   related: `/api/assessments/${assessment.id}`,
@@ -140,15 +128,12 @@ describe('Acceptance | API | Campaign Participations', () => {
         ];
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-          expect(response.result.data).to.be.deep.equal(expectedCampaignParticipation);
-        });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.be.deep.equal(expectedCampaignParticipation);
       });
-
     });
 
     context('when the user doesnt own the campaign participation', () => {
