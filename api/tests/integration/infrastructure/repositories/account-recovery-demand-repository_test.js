@@ -122,6 +122,27 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
   });
 
+  describe('#markAsBeingUsed', () => {
+
+    it('should mark demand as used', async () => {
+      // given
+      const temporaryKey = 'temporaryKey';
+      databaseBuilder.factory.buildAccountRecoveryDemand({ temporaryKey, used: false });
+      await databaseBuilder.commit();
+
+      // when
+      await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey);
+
+      // then
+      const demand = await knex('account-recovery-demands')
+        .select('used')
+        .where({ temporaryKey })
+        .first();
+      expect(demand.used).to.be.true;
+    });
+
+  });
+
   describe('#save', () => {
 
     it('should insert the account recovery demand in db', async () => {

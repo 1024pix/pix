@@ -50,4 +50,10 @@ module.exports = {
     return _toDomainObject(result[0]);
   },
 
+  async markAsBeingUsed(temporaryKey) {
+    return await knex('account-recovery-demands')
+      .where({ temporaryKey })
+      .update({ used: true });
+  },
+
 };
