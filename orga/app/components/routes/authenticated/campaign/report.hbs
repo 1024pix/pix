@@ -11,15 +11,7 @@
     </div>
 
     <div class="campaign-details-header__report">
-      {{#if (eq @campaign.type "ASSESSMENT")}}
         <CampaignCreationDetails @creationDate={{this.creationDate}} @creatorName={{this.creatorName}} />
-      {{else}}
-        {{#if this.participationsCount}}
-          <CampaignParticipantsDetails @campaign={{@campaign}} @participationsCount={{this.participationsCount}} @sharedParticipationsCount={{this.sharedParticipationsCount}} />
-        {{else}}
-          <CampaignCreationDetails @creationDate={{this.creationDate}} @creatorName={{this.creatorName}} />
-        {{/if}}
-      {{/if}}
 
       <div class="campaign-details-header-report__campaign-code">
         <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign.code'}}</h4>
