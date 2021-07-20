@@ -104,7 +104,7 @@
       "title": "Activité des participants"
     },
     "participants-count": {
-      "information": "Retrouvez ici le nombre de participations totales de votre campagne. Ce chiffre comprend l’ensemble des participants ayant saisis le code et commencé son parcours ou son envoi profil.",
+      "information": "Retrouvez ici le nombre de participants total de votre campagne. Ce nombre comprend l'ensemble des participants ayant saisi le code et commencé leur parcours ou leur envoi de profil.",
       "loader": "Chargement du total de participants",
       "title": "Total de participants"
     },
