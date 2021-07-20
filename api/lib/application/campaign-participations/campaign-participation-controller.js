@@ -2,7 +2,7 @@ const usecases = require('../../domain/usecases');
 const events = require('../../domain/events');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
+const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 const campaignAssessmentParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer');
 const campaignAssessmentParticipationResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
@@ -16,7 +16,7 @@ module.exports = {
 
   async save(request, h) {
     const userId = request.auth.credentials.userId;
-    const campaignParticipation = await serializer.deserialize(request.payload);
+    const campaignParticipation = await campaignParticipationSerializer.deserialize(request.payload);
 
     const {
       event,
@@ -26,14 +26,7 @@ module.exports = {
     });
     await events.eventDispatcher.dispatch(event);
 
-    return h.response(serializer.serialize(campaignParticipationCreated)).created();
-  },
-
-  async find(request) {
-    const userId = request.auth.credentials.userId;
-    const options = queryParamsUtils.extractParameters(request.query);
-    const campaignParticipations = await usecases.findCampaignParticipationsRelatedToAssessment({ userId, assessmentId: options.filter.assessmentId });
-    return serializer.serialize(campaignParticipations);
+    return h.response(campaignParticipationSerializer.serialize(campaignParticipationCreated)).created();
   },
 
   async shareCampaignResult(request) {
