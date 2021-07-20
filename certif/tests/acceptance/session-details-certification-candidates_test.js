@@ -427,6 +427,17 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
             // then
             assert.dom('table tbody tr').exists({ count: 1 });
           });
+
+          test('it should display the attendance sheet download button', async function(assert) {
+            // given
+            // when
+            await clickByLabel('Ajouter un candidat');
+            await _fillFormWithCorrectDataForCPF();
+            await clickByLabel('Ajouter le candidat');
+
+            // then
+            assert.contains('Feuille d\'émargement');
+          });
         });
       });
     });
