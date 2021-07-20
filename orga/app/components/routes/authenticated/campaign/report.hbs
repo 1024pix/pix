@@ -80,7 +80,7 @@
       {{/unless}}
       
       {{#if @campaign.isTypeAssessment}}
-        <LinkTo @route="authenticated.campaigns.campaign.collective-results" @model={{@campaign}} class="navbar-item">
+        <LinkTo @route="authenticated.campaigns.campaign.assessment-results" @model={{@campaign}} class="navbar-item">
           {{t 'pages.campaign.tab.collective-results'}}
         </LinkTo>
         <LinkTo @route="authenticated.campaigns.campaign.analysis" class="navbar-item" @model={{@campaign}} >
