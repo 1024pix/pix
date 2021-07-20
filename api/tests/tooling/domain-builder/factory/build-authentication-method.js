@@ -41,8 +41,8 @@ buildAuthenticationMethod.buildWithRawPassword = function({
   rawPassword = 'pix123',
   shouldChangePassword = false,
   userId,
-  createdAt = new Date('2020-01-01'),
-  updatedAt = new Date('2020-02-01'),
+  createdAt,
+  updatedAt,
 } = {}) {
 
   const password = encrypt.hashPasswordSync(rawPassword);
