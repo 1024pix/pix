@@ -45,7 +45,15 @@
                       @fieldId="certification-birthdate"
                       @value={{this.certification.birthdate}}
                       @onUpdateCertificationBirthdate={{this.onUpdateCertificationBirthdate}} />
-              <Certification::CertificationInfoField @value={{this.certification.birthplace}} @edition={{this.editingCandidateInformations}} @label="Lieu de naissance :" @fieldId="certification-birthPlace" />
+              {{#if this.shouldDisplayCPFInformation}}
+                <Certification::CertificationInfoField @value={{this.certification.sex}} @edition={{this.editingCandidateInformations}} @label="Sexe :" @fieldId="certification-sex" />
+              {{/if}}
+              <Certification::CertificationInfoField @value={{this.certification.birthplace}} @edition={{this.editingCandidateInformations}} @label="Ville de naissance :" @fieldId="certification-birthPlace" />
+              {{#if this.shouldDisplayCPFInformation}}
+                <Certification::CertificationInfoField @value={{this.certification.birthPostalCode}} @edition={{this.editingCandidateInformations}} @label="Code postal de naissance :" @fieldId="certification-birth-postal-code" />
+                <Certification::CertificationInfoField @value={{this.certification.birthInseeCode}} @edition={{this.editingCandidateInformations}} @label="Code Insee de naissance :" @fieldId="certification-birth-Insee-code" />
+                <Certification::CertificationInfoField @value={{this.certification.birthCountry}} @edition={{this.editingCandidateInformations}} @label="Pays de naissance :" @fieldId="certification-birth-country" />
+              {{/if}}
               <div class="candidate-informations__actions">
                 {{#if this.editingCandidateInformations}}
                   <PixButton
