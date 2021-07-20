@@ -121,11 +121,6 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', () =>
                     'related': `/api/campaign-participations/${campaignParticipation2.id}/campaign-participation-result`,
                   },
                 },
-                'campaign-analysis': {
-                  links: {
-                    related: `/api/campaign-participations/${campaignParticipation2.id}/analyses`,
-                  },
-                },
               },
             },
             {
@@ -145,11 +140,6 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', () =>
                 'campaign-participation-result': {
                   links: {
                     'related': `/api/campaign-participations/${campaignParticipation3.id}/campaign-participation-result`,
-                  },
-                },
-                'campaign-analysis': {
-                  links: {
-                    related: `/api/campaign-participations/${campaignParticipation3.id}/analyses`,
                   },
                 },
               },
@@ -176,11 +166,6 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', () =>
                 'campaign-participation-result': {
                   links: {
                     'related': `/api/campaign-participations/${campaignParticipation1.id}/campaign-participation-result`,
-                  },
-                },
-                'campaign-analysis': {
-                  links: {
-                    related: `/api/campaign-participations/${campaignParticipation1.id}/analyses`,
                   },
                 },
               },
