@@ -22,15 +22,17 @@ function formatDate(date) {
   return moment(date).locale('fr').format('LL');
 }
 
-function _drawScore(data, page, font, fontSize) {
+function _renderScore(data, page, embeddedFonts) {
+  const scoreFontSize = 24;
+  const scoreFont = embeddedFonts.openSansBold;
   const score = data.pixScore.toString();
-  const scoreWidth = font.widthOfTextAtSize(score, fontSize);
+  const scoreWidth = scoreFont.widthOfTextAtSize(score, scoreFontSize);
 
   page.drawText(score, {
     x: 105 - scoreWidth / 2,
     y: 675,
-    font: font,
-    size: fontSize,
+    font: embeddedFonts.openSansBold,
+    size: scoreFontSize,
   });
 }
 
@@ -170,7 +172,6 @@ async function _render({ templateDocument, pdfDocument, certificate, rgb, embedd
 
   const page = await _copyPageFromTemplateIntoDocument(pdfDocument, templateDocument);
 
-  const scoreFont = embeddedFonts.openSansBold;
   const headerFont = embeddedFonts.openSansBold;
   const levelFont = embeddedFonts.robotoMedium;
   const maxScoreFont = embeddedFonts.openSansSemiBold;
@@ -180,13 +181,12 @@ async function _render({ templateDocument, pdfDocument, certificate, rgb, embedd
 
   const headerFontSize = 9;
   const footerFontSize = 7;
-  const scoreFontSize = 24;
   const levelFontSize = 9;
   const codeFontSize = 11;
   const maxScoreFontSize = 9;
   const maxLevelFontSize = 7;
 
-  _drawScore(certificate, page, scoreFont, scoreFontSize);
+  _renderScore(certificate, page, embeddedFonts);
   _drawHeaderUserInfo(certificate, page, headerFont, headerFontSize, rgb);
   _drawCompetencesDetails(certificate, page, levelFont, levelFontSize, rgb);
   _drawFooter(certificate, page, footerFont, footerFontSize, rgb);
