@@ -119,7 +119,7 @@ module.exports = {
     return BookshelfAuthenticationMethod.where({ userId, identityProvider }).destroy({ require: true });
   },
 
-  updateChangedPassword({ userId, hashedPassword }) {
+  updateChangedPassword({ userId, hashedPassword }, domainTransaction = DomainTransaction.emptyTransaction()) {
     const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
       password: hashedPassword,
       shouldChangePassword: false,
@@ -133,6 +133,7 @@ module.exports = {
       .save(
         { authenticationComplement },
         {
+          transacting: domainTransaction.knexTransaction,
           patch: true,
           method: 'update',
         },
