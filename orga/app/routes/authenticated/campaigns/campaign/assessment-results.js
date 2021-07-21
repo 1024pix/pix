@@ -25,12 +25,12 @@ export default class AssessmentResultsRoute extends Route {
     await campaign.belongsTo('campaignCollectiveResult').reload();
     return RSVP.hash({
       campaign,
-      participations: this.fetchSummaries({ campaignId: campaign.id, ...params }),
+      participations: this.fetchResultMinimalList({ campaignId: campaign.id, ...params }),
     });
   }
 
-  fetchSummaries(params) {
-    return this.store.query('campaignAssessmentParticipationSummary', {
+  fetchResultMinimalList(params) {
+    return this.store.query('campaignAssessmentResultMinimal', {
       page: {
         number: params.pageNumber,
         size: params.pageSize,
