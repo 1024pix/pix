@@ -5,7 +5,7 @@ const _ = require('lodash');
 module.exports = function buildTargetProfile({
   id = databaseBuffer.getNextId(),
   name = 'Remplir un tableur',
-  imageUrl = null,
+  imageUrl = 'https://images.pix.fr/profil-cible/Illu_GEN.svg',
   isPublic = true,
   isSimplifiedAccess = false,
   ownerOrganizationId,
