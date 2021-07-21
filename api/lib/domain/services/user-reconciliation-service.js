@@ -16,8 +16,8 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
   const standardizedUser = _standardizeUser(user);
   const standardizedMatchingUserCandidates = _.map(matchingUserCandidates, _standardizeMatchingCandidate);
 
-  const matchingUserFound = _findMatchingCandidate(standardizedMatchingUserCandidates, standardizedUser, STRICT_MATCH_RATIO);
-  return matchingUserFound || _findMatchingCandidate(standardizedMatchingUserCandidates, standardizedUser, MAX_ACCEPTABLE_RATIO);
+  const foundUserId = _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser, STRICT_MATCH_RATIO);
+  return foundUserId || _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser, MAX_ACCEPTABLE_RATIO);
 }
 
 async function findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser({
@@ -114,7 +114,7 @@ function _standardize(propToStandardize) {
     : propToStandardize;
 }
 
-function _findMatchingCandidate(standardizedMatchingUserCandidates, standardizedUser, maxAcceptableRatio) {
+function _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser, maxAcceptableRatio) {
   return _(['firstName', 'middleName', 'thirdName'])
     .map(_findCandidatesMatchingWithUser(standardizedMatchingUserCandidates, standardizedUser, maxAcceptableRatio))
     .filter(_containsOneElement)
