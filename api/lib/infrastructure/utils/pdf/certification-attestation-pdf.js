@@ -13,6 +13,11 @@ const fonts = {
   robotoMonoRegular: 'RobotoMono-Regular.ttf',
 };
 
+const images = {
+  clea: 'clea',
+  pixPlusDroit: 'pixPlusDroit',
+};
+
 function formatDate(date) {
   return moment(date).locale('fr').format('LL');
 }
@@ -106,18 +111,12 @@ function _drawVerificationCode(data, page, font, fontSize, rgb) {
   });
 }
 
-async function _drawComplementaryCertifications(pdfDoc, data, page, _rgb, imageUtils) {
+async function _drawComplementaryCertifications(pdfDoc, data, page, embeddedImages) {
   let yCoordinate = data.hasAcquiredCleaCertification() ? 400 : 385;
   const stepY = -110;
 
   if (data.hasAcquiredCleaCertification()) {
-    const pngBuffer = await imageUtils(data.cleaCertificationImagePath)
-      .resize(80, 100, {
-        fit: 'inside',
-      })
-      .sharpen()
-      .toBuffer();
-    const pngImage = await pdfDoc.embedPng(pngBuffer);
+    const pngImage = embeddedImages[images.clea];
     page.drawImage(pngImage, {
       x: 400,
       y: yCoordinate,
@@ -126,13 +125,7 @@ async function _drawComplementaryCertifications(pdfDoc, data, page, _rgb, imageU
   }
 
   if (data.hasAcquiredPixPlusDroitCertification()) {
-    const pngBuffer = await imageUtils(data.pixPlusDroitCertificationImagePath)
-      .resize(100, 120, {
-        fit: 'inside',
-      })
-      .sharpen()
-      .toBuffer();
-    const pngImage = await pdfDoc.embedPng(pngBuffer);
+    const pngImage = embeddedImages[images.pixPlusDroit];
     page.drawImage(pngImage, {
       x: 390,
       y: yCoordinate,
@@ -173,7 +166,7 @@ function _drawCompetencesDetails(data, page, font, fontSize, rgb) {
   });
 }
 
-async function _dynamicInformationsForAttestation({ pdfDoc, page, data, rgb, imageUtils, embeddedFonts }) {
+async function _dynamicInformationsForAttestation({ pdfDoc, page, data, rgb, embeddedFonts, embeddedImages }) {
   const scoreFont = embeddedFonts.openSansBold;
   const headerFont = embeddedFonts.openSansBold;
   const levelFont = embeddedFonts.robotoMedium;
@@ -199,7 +192,7 @@ async function _dynamicInformationsForAttestation({ pdfDoc, page, data, rgb, ima
   _drawVerificationCode(data, page, codeFont, codeFontSize, rgb);
 
   if (data.hasAcquiredAnyComplementaryCertifications) {
-    await _drawComplementaryCertifications(pdfDoc, data, page, rgb, imageUtils);
+    await _drawComplementaryCertifications(pdfDoc, data, page, embeddedImages);
   }
 }
 
@@ -215,9 +208,10 @@ async function getCertificationAttestationPdfBuffer({
   const templatePdfDoc = await _getTemplatePDFDocument(certificate, dirname, fileSystem, pdfWriter);
   const generatedPdfDoc = await _initializeNewPDFDocument(pdfWriter, fontkit);
   const embeddedFonts = await _embedFonts(generatedPdfDoc, fileSystem, dirname);
+  const embeddedImages = await _embedImages(generatedPdfDoc, certificate, imageUtils);
 
   const [page] = await generatedPdfDoc.copyPages(templatePdfDoc, [0]);
-  await _dynamicInformationsForAttestation({ pdfDoc: generatedPdfDoc, page, data: certificate, rgb, imageUtils, embeddedFonts });
+  await _dynamicInformationsForAttestation({ pdfDoc: generatedPdfDoc, page, data: certificate, rgb, embeddedFonts, embeddedImages });
   generatedPdfDoc.addPage(page);
   const pdfBytes = await generatedPdfDoc.save();
   const file = bufferFromBytes(pdfBytes);
@@ -258,6 +252,41 @@ async function _embedFonts(pdfDocument, fileSystem, dirname) {
 async function embedFontInPDFDocument(pdfDoc, fontFileName, fileSystem, dirname) {
   const fontFile = await fileSystem.readFile(`${dirname}/files/${fontFileName}`);
   return pdfDoc.embedFont(fontFile);
+}
+
+async function _embedImages(pdfDocument, certificate, imageUtils) {
+  const embeddedImages = {};
+  if (certificate.hasAcquiredCleaCertification()) {
+    const image = await _embedCleaCertificationImage(pdfDocument, certificate, imageUtils);
+    embeddedImages[images.clea] = image;
+  }
+  if (certificate.hasAcquiredPixPlusDroitCertification()) {
+    const image = await _embedPixPlusDroitCertificationImage(pdfDocument, certificate, imageUtils);
+    embeddedImages[images.pixPlusDroit] = image;
+  }
+  return embeddedImages;
+}
+
+async function _embedCleaCertificationImage(pdfDocument, certificate, imageUtils) {
+  const pngBuffer = await imageUtils(certificate.cleaCertificationImagePath)
+    .resize(80, 100, {
+      fit: 'inside',
+    })
+    .sharpen()
+    .toBuffer();
+  const pngImage = await pdfDocument.embedPng(pngBuffer);
+  return pngImage;
+}
+
+async function _embedPixPlusDroitCertificationImage(pdfDocument, certificate, imageUtils) {
+  const pngBuffer = await imageUtils(certificate.pixPlusDroitCertificationImagePath)
+    .resize(100, 120, {
+      fit: 'inside',
+    })
+    .sharpen()
+    .toBuffer();
+  const pngImage = await pdfDocument.embedPng(pngBuffer);
+  return pngImage;
 }
 
 module.exports = {
