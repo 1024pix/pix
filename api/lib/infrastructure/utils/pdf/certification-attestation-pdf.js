@@ -59,13 +59,13 @@ function _drawMaxLevel(data, page, font, fontSize, rgb) {
   });
 }
 
-function _drawFooter(data, page, font, fontSize, rgb) {
+function _renderFooter(data, page, rgb, embeddedFonts) {
   const maxReachableLevelIndication = `* À la date d’obtention de cette certification, le nombre maximum de pix atteignable était de ${data.maxReachableScore}, correspondant au niveau ${data.maxReachableLevelOnCertificationDate}.`;
 
   page.drawText(maxReachableLevelIndication, {
     x: 55, y: 46,
-    font: font,
-    size: fontSize,
+    font: embeddedFonts.openSansBold,
+    size: 7,
     color: rgb(42 / 255, 64 / 255, 99 / 255),
   });
 
@@ -73,8 +73,8 @@ function _drawFooter(data, page, font, fontSize, rgb) {
     const absoluteMaxLevelindication = 'Lorsque les 8 niveaux du référentiel Pix seront disponibles, ce nombre maximum sera de 1024 pix.';
     page.drawText(absoluteMaxLevelindication, {
       x: 55, y: 35,
-      font: font,
-      size: fontSize,
+      font: embeddedFonts.openSansBold,
+      size: 7,
       color: rgb(42 / 255, 64 / 255, 99 / 255),
     });
   }
@@ -176,10 +176,8 @@ async function _render({ templateDocument, pdfDocument, certificate, rgb, embedd
 
   const maxScoreFont = embeddedFonts.openSansSemiBold;
   const maxLevelFont = embeddedFonts.openSansSemiBold;
-  const footerFont = embeddedFonts.openSansBold;
   const codeFont = embeddedFonts.robotoMonoRegular;
 
-  const footerFontSize = 7;
   const codeFontSize = 11;
   const maxScoreFontSize = 9;
   const maxLevelFontSize = 7;
@@ -187,7 +185,7 @@ async function _render({ templateDocument, pdfDocument, certificate, rgb, embedd
   _renderScore(certificate, page, embeddedFonts);
   _renderHeaderCandidateInformations(certificate, page, rgb, embeddedFonts);
   _renderCompetencesDetails(certificate, page, rgb, embeddedFonts);
-  _drawFooter(certificate, page, footerFont, footerFontSize, rgb);
+  _renderFooter(certificate, page, rgb, embeddedFonts);
   _drawMaxScore(certificate, page, maxScoreFont, maxScoreFontSize, rgb);
   _drawMaxLevel(certificate, page, maxLevelFont, maxLevelFontSize, rgb);
   _drawVerificationCode(certificate, page, codeFont, codeFontSize, rgb);
