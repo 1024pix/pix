@@ -1434,48 +1434,103 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate', () => {
+  describe('#getSchoolingRegistrationInformation', () => {
 
-    it('should return user id', async () => {
+    it('should return the schooling registration information', async () => {
       // given
       const expectedUserId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ id: 3 }).id;
 
       const studentInformation = {
-        nationalStudentId: '123456789AA',
+        ineIna: '123456789AA',
         firstName: 'Tom',
         lastName: 'Jédusor',
         birthdate: '2000-12-07',
       };
       databaseBuilder.factory.buildSchoolingRegistration({
+        id: 80,
+        organizationId: organizationId,
         userId: expectedUserId,
         ...studentInformation,
+        nationalStudentId: studentInformation.ineIna,
       });
 
       await databaseBuilder.commit();
 
       // when
-      const userId = await schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate(studentInformation);
+      const schoolingRegistration = await schoolingRegistrationRepository.getSchoolingRegistrationInformation({
+        ...studentInformation,
+        nationalStudentId: studentInformation.ineIna,
+      });
 
       // then
-      expect(userId).to.equal(expectedUserId);
+      expect(schoolingRegistration).to.deep.equal({
+        id: 80,
+        organizationId: 3,
+        userId: expectedUserId,
+        lastName: 'Jédusor',
+        firstName: 'Tom',
+      });
+    });
+
+    it('should return the latest schooling registration', async () => {
+      // given
+      const expectedUserId = databaseBuilder.factory.buildUser().id;
+      const latestOrganizationId = databaseBuilder.factory.buildOrganization({ id: 1 }).id;
+      const oldestOrganizationId = databaseBuilder.factory.buildOrganization({ id: 3 }).id;
+
+      const studentInformation = {
+        ineIna: '123456789AA',
+        firstName: 'Tom',
+        lastName: 'Jédusor',
+        birthdate: '2000-12-07',
+      };
+      databaseBuilder.factory.buildSchoolingRegistration({
+        id: 1,
+        organizationId: latestOrganizationId,
+        userId: expectedUserId,
+        ...studentInformation,
+        nationalStudentId: studentInformation.ineIna,
+        updatedAt: new Date('2013-01-01T15:00:00Z'),
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        id: 80,
+        organizationId: oldestOrganizationId,
+        userId: expectedUserId,
+        ...studentInformation,
+        nationalStudentId: studentInformation.ineIna,
+        updatedAt: new Date('2000-01-01T15:00:00Z'),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistration = await schoolingRegistrationRepository.getSchoolingRegistrationInformation({
+        ...studentInformation,
+        nationalStudentId: studentInformation.ineIna,
+      });
+
+      // then
+      expect(schoolingRegistration.organizationId).to.equal(1);
     });
 
     it('should return a UserNotFoundError if INE is invalid', async () => {
       // given
       const studentInformation = {
-        nationalStudentId: '123456789AB',
+        ineIna: '123456789AB',
         firstName: 'Tom',
         lastName: 'Jédusor',
         birthdate: '2000-12-07',
       };
       databaseBuilder.factory.buildSchoolingRegistration({
         ...studentInformation,
+        nationalStudentId: studentInformation.ineIna,
       });
 
       await databaseBuilder.commit();
 
       // when
-      const result = await catchErr(schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate)({
+      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationInformation)({
         nationalStudentId: '222256789AB',
         firstName: 'Tom',
         lastName: 'Jédusor',
@@ -1489,19 +1544,20 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     it('should return a UserNotFoundError if firstName is invalid', async () => {
       // given
       const studentInformation = {
-        nationalStudentId: '123456789AB',
+        ineIna: '123456789AB',
         firstName: 'Tom',
         lastName: 'Jédusor',
         birthdate: '2000-12-07',
       };
       databaseBuilder.factory.buildSchoolingRegistration({
         ...studentInformation,
+        nationalStudentId: studentInformation.ineIna,
       });
 
       await databaseBuilder.commit();
 
       // when
-      const result = await catchErr(schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate)({
+      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationInformation)({
         nationalStudentId: '123456789AB',
         firstName: 'Tim',
         lastName: 'Jédusor',
@@ -1515,20 +1571,21 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     it('should return a UserNotFoundError if userId is null', async () => {
       // given
       const studentInformation = {
-        nationalStudentId: '123456789AB',
+        ineIna: '123456789AB',
         firstName: 'Tom',
         lastName: 'Jédusor',
         birthdate: '2000-12-07',
       };
       databaseBuilder.factory.buildSchoolingRegistration({
         ...studentInformation,
+        nationalStudentId: studentInformation.ineIna,
         userId: null,
       });
 
       await databaseBuilder.commit();
 
       // when
-      const result = await catchErr(schoolingRegistrationRepository.getUserIdByNationalStudentIdFirstNameLastNameAndBirthdate)({
+      const result = await catchErr(schoolingRegistrationRepository.getSchoolingRegistrationInformation)({
         nationalStudentId: '123456789AB',
         firstName: 'Tom',
         lastName: 'Jédusor',

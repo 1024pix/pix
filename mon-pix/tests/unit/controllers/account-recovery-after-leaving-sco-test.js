@@ -77,7 +77,7 @@ describe('Unit | Controller | account-recovery-after-leaving-sco', function() {
       it('should send account recovery email', async function() {
         // given
         const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
-        const studentInformationForAccountRecovery = { userId: 1 };
+        const studentInformationForAccountRecovery = { firstName: 'Philippe', lastName: 'Legoff', birthdate: '2012-07-01', ineIna: '123456789CC' };
         controller.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
         const sendEmailStub = sinon.stub();
         const createRecord = sinon.stub().returns({ send: sendEmailStub.resolves() });
@@ -89,7 +89,7 @@ describe('Unit | Controller | account-recovery-after-leaving-sco', function() {
         await controller.sendEmail(email);
 
         // then
-        const expectedAccountRecoveryDemandAttributes = { userId: 1, email };
+        const expectedAccountRecoveryDemandAttributes = { ...studentInformationForAccountRecovery, email };
         sinon.assert.calledWithExactly(createRecord, 'account-recovery-demand', expectedAccountRecoveryDemandAttributes);
         sinon.assert.calledOnce(sendEmailStub);
       });

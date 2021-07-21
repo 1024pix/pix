@@ -29,7 +29,7 @@ module.exports = {
 
     const accountRecoveryDemandDTO = await knex
       .where({ temporaryKey, used: false })
-      .select('id', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
+      .select('id', 'schoolingRegistrationId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
       .from('account-recovery-demands')
       .first();
 

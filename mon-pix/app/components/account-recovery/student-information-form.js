@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import isEmpty from 'lodash/isEmpty';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const INE_REGEX = /^[0-9]{9}[a-zA-Z]{2}$/;
 const INA_REGEX = /^[0-9]{10}[a-zA-Z]{1}$/;
@@ -83,7 +83,7 @@ export default class StudentInformationFormComponent extends Component {
     const year = parseInt(this.yearOfBirth);
     const month = parseInt(this.monthOfBirth) - 1;
     const day = parseInt(this.dayOfBirth);
-    return moment(new Date(year, month, day)).format('YYYY-MM-DD');
+    return dayjs(new Date(year, month, day)).format('YYYY-MM-DD');
   }
 
   @action validateIneIna() {
@@ -134,7 +134,6 @@ export default class StudentInformationFormComponent extends Component {
     event.preventDefault();
 
     if (this.isFormValid) {
-
       await this.args.submitStudentInformation({
         ineIna: this.ineIna,
         firstName: this.firstName,
