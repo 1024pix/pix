@@ -1,12 +1,16 @@
 {{page-title (t 'pages.campaign-review.title')}}
 
-<Routes::Authenticated::Campaign::Analysis::Tab
-  @campaignTubeRecommendations={{@model.campaignAnalysis.campaignTubeRecommendations}}
-  @displayAnalysis={{gt @model.sharedParticipationsCount 0}}
-/>
+{{#if @model.hasSharedParticipations}}
+  <Campaign::Analysis::Recommendations
+    @campaignTubeRecommendations={{@model.campaignAnalysis.campaignTubeRecommendations}}
+    @displayAnalysis={{@model.hasSharedParticipations}}
+  />
 
-<Campaign::Analysis::Competences
-  @campaignId={{@model.id}}
-  @campaignCollectiveResult={{@model.campaignCollectiveResult}}
-  @sharedParticipationsCount={{@model.sharedParticipationsCount}}
-/>
+  <Campaign::Analysis::Competences
+    @campaignId={{@model.id}}
+    @campaignCollectiveResult={{@model.campaignCollectiveResult}}
+  />
+{{else}}
+  <Campaign::EmptyState
+    @campaignCode={{@model.code}}/>
+{{/if}}

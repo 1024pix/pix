@@ -26,7 +26,7 @@ module('Acceptance | Campaign Profiles', function(hooks) {
       expires_in: 3600,
       token_type: 'Bearer token type',
     });
-    server.create('campaign', { id: 1, type: 'PROFILES_COLLECTION' });
+    server.create('campaign', { id: 1, type: 'PROFILES_COLLECTION', participationsCount: 1 });
     server.createList('campaign-participation', rowCount, { campaignId: 1 });
     server.createList('campaign-profiles-collection-participation-summary', rowCount);
   });

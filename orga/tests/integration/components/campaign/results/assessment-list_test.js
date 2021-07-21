@@ -21,6 +21,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
+        participationsCount: 1,
       });
 
       const participations = [

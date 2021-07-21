@@ -16,21 +16,11 @@
       <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign-details.direct-link'}}</h4>
       <div class="campaign-details-content__clipboard">
         <p class="content-text campaign-details-content__text">{{this.campaignsRootUrl}}</p>
-        {{#if (is-clipboard-supported)}}
-          <PixTooltip
-            @text={{this.tooltipText}}
-            @position='top'
-            @isInline={{true}}
-            class="campaign-details-content__tooltip">
-            <CopyButton
-              @clipboardText={{this.campaignsRootUrl}}
-              @success={{this.clipboardSuccess}}
-              {{on 'mouseLeave' this.clipboardOut}}
-              @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey campaign-details-content__clipboard-button">
-              <FaIcon @icon='copy' @prefix='far'/>
-            </CopyButton>
-          </PixTooltip>
-        {{/if}}
+        <Campaign::CopyPasteButton
+                @clipBoardtext={{this.campaignsRootUrl}}
+                @successMessage={{t 'pages.campaign.copy.link.success'}}
+                @defaultMessage={{t 'pages.campaign.copy.link.default'}}
+        />
       </div>
     </div>
   </div>

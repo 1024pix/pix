@@ -12,23 +12,6 @@ module('Integration | Component | Campaign::Analysis::Competences', function(hoo
     store = this.owner.lookup('service:store');
   });
 
-  test('it should display a sentence when there no campaign participation is shared', async function(assert) {
-    // given
-    const campaignCollectiveResult = store.createRecord('campaign-collective-result', {
-      id: 1,
-      campaignId: 1,
-      collectiveResultsByCompetence: [],
-    });
-
-    this.set('campaignCollectiveResult', campaignCollectiveResult);
-
-    // when
-    await render(hbs`<Campaign::Analysis::Competences @campaignCollectiveResult={{campaignCollectiveResult}}/>`);
-
-    // then
-    assert.contains('En attente de résultats');
-  });
-
   test('it should display the collective result list of the campaign', async function(assert) {
     // given
     const campaignCompetenceCollectiveResult = store.createRecord('campaign-competence-collective-result', {
@@ -47,12 +30,10 @@ module('Integration | Component | Campaign::Analysis::Competences', function(hoo
     });
 
     this.set('campaignCollectiveResult', campaignCollectiveResult);
-    this.set('sharedParticipationsCount', 4);
 
     // when
     await render(hbs`<Campaign::Analysis::Competences
-      @campaignCollectiveResult={{campaignCollectiveResult}}
-      @sharedParticipationsCount={{sharedParticipationsCount}}/>`,
+      @campaignCollectiveResult={{campaignCollectiveResult}}/>`,
     );
 
     // then
