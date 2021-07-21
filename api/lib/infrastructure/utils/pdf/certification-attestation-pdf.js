@@ -220,28 +220,37 @@ async function getCertificationAttestationPdfBuffer({
   dirname = __dirname,
   fontkit = pdfLibFontkit,
 } = {}) {
-  const templateFileName = certificate.hasAcquiredAnyComplementaryCertifications()
-    ? 'attestation-template-with-complementary-certifications.pdf'
-    : 'attestation-template.pdf';
-  const formateDeliveryDate = moment(certificate.deliveredAt).format('YYYYMMDD');
-  const fileName = `attestation-pix-${formateDeliveryDate}.pdf`;
-  const templatePath = `${dirname}/files`;
-  const data = certificate;
-  const path = `${templatePath}/${templateFileName}`;
-  const basePdfBytes = await fileSystem.readFile(path);
-  const templatePdfDoc = await pdfWriter.load(basePdfBytes);
-  const generatedPdfDoc = await pdfWriter.create();
-  generatedPdfDoc.registerFontkit(fontkit);
+  const templatePdfDoc = await _getTemplatePDFDocument(certificate, dirname, fileSystem, pdfWriter);
+  const generatedPdfDoc = await _initializeNewPDFDocument(pdfWriter, fontkit);
+
   const [page] = await generatedPdfDoc.copyPages(templatePdfDoc, [0]);
-  await _dynamicInformationsForAttestation({ pdfDoc: generatedPdfDoc, page, data, rgb, imageUtils, fileSystem, dirname });
+  await _dynamicInformationsForAttestation({ pdfDoc: generatedPdfDoc, page, data: certificate, rgb, imageUtils, fileSystem, dirname });
   generatedPdfDoc.addPage(page);
   const pdfBytes = await generatedPdfDoc.save();
   const file = bufferFromBytes(pdfBytes);
+
+  const formateDeliveryDate = moment(certificate.deliveredAt).format('YYYYMMDD');
+  const fileName = `attestation-pix-${formateDeliveryDate}.pdf`;
 
   return {
     file,
     fileName,
   };
+}
+
+async function _initializeNewPDFDocument(pdfWriter, fontkit) {
+  const pdfDocument = await pdfWriter.create();
+  pdfDocument.registerFontkit(fontkit);
+  return pdfDocument;
+}
+
+async function _getTemplatePDFDocument(certificate, dirname, fileSystem, pdfWriter) {
+  const templateFileName = certificate.hasAcquiredAnyComplementaryCertifications()
+    ? 'attestation-template-with-complementary-certifications.pdf'
+    : 'attestation-template.pdf';
+  const path = `${dirname}/files/${templateFileName}`;
+  const basePdfBytes = await fileSystem.readFile(path);
+  return await pdfWriter.load(basePdfBytes);
 }
 
 module.exports = {
