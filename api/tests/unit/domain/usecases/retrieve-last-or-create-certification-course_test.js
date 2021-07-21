@@ -242,6 +242,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               lastName: Symbol('lastName'),
               birthdate: Symbol('birthdate'),
               birthCity: Symbol('birthCity'),
+              birthCountry: Symbol('birthCountry'),
               externalId: Symbol('externalId'),
               userId,
               sessionId,
@@ -253,6 +254,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               _lastName: foundCertificationCandidate.lastName,
               _birthdate: foundCertificationCandidate.birthdate,
               _birthplace: foundCertificationCandidate.birthCity,
+              _birthCountry: foundCertificationCandidate.birthCountry,
               _externalId: foundCertificationCandidate.externalId,
               _isV2Certification: true,
             };

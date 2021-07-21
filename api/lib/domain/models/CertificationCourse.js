@@ -12,6 +12,7 @@ class CertificationCourse {
       birthplace,
       birthPostalCode,
       birthINSEECode,
+      birthCountry,
       sex,
       externalId,
       hasSeenEndTestScreen,
@@ -35,6 +36,7 @@ class CertificationCourse {
     this._birthplace = birthplace;
     this._birthPostalCode = birthPostalCode;
     this._birthINSEECode = birthINSEECode;
+    this._birthCountry = birthCountry;
     this._sex = sex;
     this._externalId = externalId;
     this._hasSeenEndTestScreen = hasSeenEndTestScreen;
@@ -61,6 +63,7 @@ class CertificationCourse {
       birthdate: certificationCandidate.birthdate,
       birthPostalCode: certificationCandidate.birthPostalCode,
       birthINSEECode: certificationCandidate.birthINSEECode,
+      birthCountry: certificationCandidate.birthCountry,
       sex: certificationCandidate.sex,
       birthplace: certificationCandidate.birthCity,
       externalId: certificationCandidate.externalId,
@@ -157,6 +160,7 @@ class CertificationCourse {
       birthplace: this._birthplace,
       birthPostalCode: this._birthPostalCode,
       birthINSEECode: this._birthINSEECode,
+      birthCountry: this._birthCountry,
       sex: this._sex,
       externalId: this._externalId,
       hasSeenEndTestScreen: this._hasSeenEndTestScreen,

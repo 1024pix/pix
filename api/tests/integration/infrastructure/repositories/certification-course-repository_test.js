@@ -22,6 +22,7 @@ describe('Integration | Repository | Certification Course', function() {
         sex: 'F',
         birthPostalCode: null,
         birthINSEECode: '65550',
+        birthCountry: 'FRANCE',
         externalId: 'xenoverse2',
         isPublished: false,
         hasSeenEndTestScreen: false,
