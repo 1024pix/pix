@@ -166,7 +166,10 @@ function _drawCompetencesDetails(data, page, font, fontSize, rgb) {
   });
 }
 
-async function _dynamicInformationsForAttestation({ pdfDoc, page, data, rgb, embeddedFonts, embeddedImages }) {
+async function _render({ templateDocument, pdfDocument, certificate, rgb, embeddedFonts, embeddedImages }) {
+
+  const page = await _copyPageFromTemplateIntoDocument(pdfDocument, templateDocument);
+
   const scoreFont = embeddedFonts.openSansBold;
   const headerFont = embeddedFonts.openSansBold;
   const levelFont = embeddedFonts.robotoMedium;
@@ -183,17 +186,18 @@ async function _dynamicInformationsForAttestation({ pdfDoc, page, data, rgb, emb
   const maxScoreFontSize = 9;
   const maxLevelFontSize = 7;
 
-  _drawScore(data, page, scoreFont, scoreFontSize);
-  _drawHeaderUserInfo(data, page, headerFont, headerFontSize, rgb);
-  _drawCompetencesDetails(data, page, levelFont, levelFontSize, rgb);
-  _drawFooter(data, page, footerFont, footerFontSize, rgb);
-  _drawMaxScore(data, page, maxScoreFont, maxScoreFontSize, rgb);
-  _drawMaxLevel(data, page, maxLevelFont, maxLevelFontSize, rgb);
-  _drawVerificationCode(data, page, codeFont, codeFontSize, rgb);
+  _drawScore(certificate, page, scoreFont, scoreFontSize);
+  _drawHeaderUserInfo(certificate, page, headerFont, headerFontSize, rgb);
+  _drawCompetencesDetails(certificate, page, levelFont, levelFontSize, rgb);
+  _drawFooter(certificate, page, footerFont, footerFontSize, rgb);
+  _drawMaxScore(certificate, page, maxScoreFont, maxScoreFontSize, rgb);
+  _drawMaxLevel(certificate, page, maxLevelFont, maxLevelFontSize, rgb);
+  _drawVerificationCode(certificate, page, codeFont, codeFontSize, rgb);
 
-  if (data.hasAcquiredAnyComplementaryCertifications) {
-    await _drawComplementaryCertifications(pdfDoc, data, page, embeddedImages);
+  if (certificate.hasAcquiredAnyComplementaryCertifications) {
+    await _drawComplementaryCertifications(pdfDocument, certificate, page, embeddedImages);
   }
+  pdfDocument.addPage(page);
 }
 
 async function getCertificationAttestationPdfBuffer({
@@ -205,14 +209,14 @@ async function getCertificationAttestationPdfBuffer({
   dirname = __dirname,
   fontkit = pdfLibFontkit,
 } = {}) {
-  const templatePdfDoc = await _getTemplatePDFDocument(certificate, dirname, fileSystem, pdfWriter);
   const generatedPdfDoc = await _initializeNewPDFDocument(pdfWriter, fontkit);
   const embeddedFonts = await _embedFonts(generatedPdfDoc, fileSystem, dirname);
   const embeddedImages = await _embedImages(generatedPdfDoc, certificate, imageUtils);
 
-  const [page] = await generatedPdfDoc.copyPages(templatePdfDoc, [0]);
-  await _dynamicInformationsForAttestation({ pdfDoc: generatedPdfDoc, page, data: certificate, rgb, embeddedFonts, embeddedImages });
-  generatedPdfDoc.addPage(page);
+  const templatePdfDoc = await _getTemplatePDFDocument(certificate, dirname, fileSystem, pdfWriter);
+
+  await _render({ templateDocument: templatePdfDoc, pdfDocument: generatedPdfDoc, certificate, rgb, embeddedFonts, embeddedImages });
+
   const pdfBytes = await generatedPdfDoc.save();
   const file = bufferFromBytes(pdfBytes);
 
@@ -223,6 +227,11 @@ async function getCertificationAttestationPdfBuffer({
     file,
     fileName,
   };
+}
+
+async function _copyPageFromTemplateIntoDocument(pdfDocument, templatePdfDocument) {
+  const pages = await pdfDocument.copyPages(templatePdfDocument, [0]);
+  return pages[0];
 }
 
 async function _initializeNewPDFDocument(pdfWriter, fontkit) {
