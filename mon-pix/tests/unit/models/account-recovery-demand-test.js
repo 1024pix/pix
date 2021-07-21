@@ -18,7 +18,10 @@ describe('Unit | Model | account recovery demand', function() {
       adapter.ajax.resolves();
 
       const accountRecoveryDemand = run(() => store.createRecord('account-recovery-demand', {
-        userId: 3,
+        firstName: 'Jude',
+        lastName: 'Law',
+        ineIna: '123456789BB',
+        birthdate: '2012-07-01',
         email: 'james.potter@example.net',
       }));
 
@@ -31,7 +34,10 @@ describe('Unit | Model | account recovery demand', function() {
         data: {
           data: {
             attributes: {
-              'user-id': '3',
+              'first-name': 'Jude',
+              'last-name': 'Law',
+              'ine-ina': '123456789BB',
+              'birthdate': '2012-07-01',
               'email': 'james.potter@example.net',
             },
             type: 'account-recovery-demands',

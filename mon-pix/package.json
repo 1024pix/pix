@@ -52,6 +52,7 @@
     "babel-eslint": "^10.0.3",
     "broccoli-asset-rev": "^3.0.0",
     "chai-dom": "^1.9.0",
+    "dayjs": "^1.10.6",
     "dotenv": "^8.2.0",
     "ember-api-actions": "^0.2.9",
     "ember-auto-import": "^1.11.3",

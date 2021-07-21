@@ -9,7 +9,6 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
     it('should convert a StudentInformationForAccountRecovery model object into JSON API data', function() {
       //given
       const modelStudentInformationForAccountRecovery = new StudentInformationForAccountRecovery({
-        userId: 6,
         firstName: 'Jude',
         lastName: 'Law',
         username: 'jude.law0106',
@@ -25,7 +24,6 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
         data: {
           type: 'student-information-for-account-recoveries',
           attributes: {
-            'user-id': modelStudentInformationForAccountRecovery.userId,
             'first-name': modelStudentInformationForAccountRecovery.firstName,
             'last-name': modelStudentInformationForAccountRecovery.lastName,
             'username': modelStudentInformationForAccountRecovery.username,
@@ -33,6 +31,65 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
             'latest-organization-name': modelStudentInformationForAccountRecovery.latestOrganizationName,
           },
         },
+      };
+      expect(json).to.deep.equal(expectedJsonApi);
+    });
+  });
+
+  describe('#deserialize()', function() {
+
+    it('should convert the payload json to student information', async function() {
+      //given
+      const payload = {
+        data: {
+          type: 'student-information-for-account-recoveries',
+          attributes: {
+            'ine-ina': '123456789BB',
+            'first-name': 'george',
+            'last-name': 'de cambridge',
+            birthdate: '2013-07-22',
+            email: 'email@example.net',
+          },
+        },
+      };
+
+      // when
+      const json = await serializer.deserialize(payload);
+
+      // then
+      const expectedJsonApi = {
+        firstName: 'george',
+        lastName: 'de cambridge',
+        ineIna: '123456789BB',
+        birthdate: '2013-07-22',
+        email: 'email@example.net',
+      };
+      expect(json).to.deep.equal(expectedJsonApi);
+    });
+
+    it('should not return undefined email when none exist in payload', async function() {
+      //given
+      const payload = {
+        data: {
+          type: 'student-information-for-account-recoveries',
+          attributes: {
+            'ine-ina': '123456789BB',
+            'first-name': 'george',
+            'last-name': 'de cambridge',
+            birthdate: '2013-07-22',
+          },
+        },
+      };
+
+      // when
+      const json = await serializer.deserialize(payload);
+
+      // then
+      const expectedJsonApi = {
+        firstName: 'george',
+        lastName: 'de cambridge',
+        ineIna: '123456789BB',
+        birthdate: '2013-07-22',
       };
       expect(json).to.deep.equal(expectedJsonApi);
     });

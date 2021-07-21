@@ -1,6 +1,8 @@
-const Joi = require('joi');
-const identifiersType = require('../../domain/types/identifiers-type');
+const Joi = require('joi').extend(require('@joi/date'));
 const featureToggles = require('../preHandlers/feature-toggles');
+
+const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
+const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
 
 const accountRecoveryController = require('./account-recovery-controller');
 
@@ -22,7 +24,13 @@ exports.register = async function(server) {
           payload: Joi.object({
             data: {
               attributes: {
-                'user-id': identifiersType.userId,
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'ine-ina': Joi.alternatives().try(
+                  Joi.string().regex(inePattern).required(),
+                  Joi.string().regex(inaPattern).required(),
+                ),
+                birthdate: Joi.date().format('YYYY-MM-DD').required(),
                 email: Joi.string().email().required(),
               },
             },

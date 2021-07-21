@@ -3,10 +3,12 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 class StudentInformationForAccountRecovery {
-  @tracked firstName = '' ;
+  @tracked firstName = '';
+  @tracked ineIna = '';
   @tracked lastName = '';
   @tracked username = '';
   @tracked email = '';
+  @tracked birthdate;
   @tracked latestOrganizationName = '';
 }
 
@@ -21,16 +23,22 @@ export default class AccountRecoveryAfterLeavingScoController extends Controller
   @tracked showConfirmationEmailSent = false;
   @tracked templateImg = 'illustration';
 
-  studentInformationForAccountRecovery = new StudentInformationForAccountRecovery();
-  @tracked firstName;
+  @tracked studentInformationForAccountRecovery = new StudentInformationForAccountRecovery();
 
   @action
   async submitStudentInformation(studentInformation) {
+    this.studentInformationForAccountRecovery.birthdate = studentInformation.birthdate;
+    this.studentInformationForAccountRecovery.ineIna = studentInformation.ineIna;
+    this.studentInformationForAccountRecovery.firstName = studentInformation.firstName;
     const studentInformationToSave = this.store.createRecord('student-information', studentInformation);
-    this.firstName = studentInformation.firstName;
     try {
-      const { userId, firstName, lastName, username, email, latestOrganizationName } = await studentInformationToSave.submitStudentInformation();
-      this.studentInformationForAccountRecovery.userId = userId;
+      const {
+        firstName,
+        lastName,
+        username,
+        email,
+        latestOrganizationName,
+      } = await studentInformationToSave.submitStudentInformation();
       this.studentInformationForAccountRecovery.firstName = firstName;
       this.studentInformationForAccountRecovery.lastName = lastName;
       this.studentInformationForAccountRecovery.username = username;
@@ -46,9 +54,20 @@ export default class AccountRecoveryAfterLeavingScoController extends Controller
   }
 
   @action
+  async resetErrors() {
+    this.showAlreadyRegisteredEmailError = false;
+  }
+
+  @action
   async sendEmail(newEmail) {
-    const userId = this.studentInformationForAccountRecovery.userId;
-    const accountRecoveryDemand = this.store.createRecord('account-recovery-demand', { userId, email: newEmail });
+    const { firstName, lastName, ineIna, birthdate } = this.studentInformationForAccountRecovery;
+    const accountRecoveryDemand = this.store.createRecord('account-recovery-demand', {
+      firstName,
+      lastName,
+      ineIna,
+      birthdate,
+      email: newEmail,
+    });
     try {
       await accountRecoveryDemand.send();
       this.showAlreadyRegisteredEmailError = false;

@@ -56,13 +56,14 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
           // given
           const email = 'someMail@example.net';
           const temporaryKey = 'someTemporaryKey';
-          const demandId = databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false }).id;
+          const { id: demandId, schoolingRegistrationId } = databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false });
           databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
           await databaseBuilder.commit();
           const expectedAccountRecoveryDemand = {
             id: demandId,
             userId: null,
             oldEmail: null,
+            schoolingRegistrationId,
             newEmail: 'philipe@example.net',
             temporaryKey: 'someTemporaryKey',
             used: false,
@@ -137,8 +138,11 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
   describe('#save', () => {
 
-    it('should insert the account recovery demand in db', async () => {
+    it('should persist the account recovery demand', async () => {
       // given
+      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      await databaseBuilder.commit();
+
       const userId = 123;
       const newEmail = 'dupont@example.net';
       const oldEmail = 'eleve-dupont@example.net';
@@ -146,6 +150,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
       const temporaryKey = '123456789AZERTYUIO';
       const accountRecoveryDemandAttributes = {
         userId,
+        schoolingRegistrationId,
         newEmail,
         oldEmail,
         used,
