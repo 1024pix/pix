@@ -146,6 +146,7 @@ function toDomain(bookshelfCertificationCourse) {
       'sex',
       'birthPostalCode',
       'birthINSEECode',
+      'birthCountry',
       'sessionId',
       'externalId',
       'isPublished',
