@@ -51,27 +51,27 @@ describe('Unit | Controller | account-recovery-controller', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    describe('#checkAccountRecoveryDemand', () => {
+  });
 
-      it('should return serialized user', async () => {
-        // given
-        const temporaryKey = 'ABCDEFZEFDD';
-        const request = {
-          params: { temporaryKey },
-        };
-        sinon.stub(usecases, 'getUserByAccountRecoveryDemand');
-        sinon.stub(userSerializer, 'serialize');
-        usecases.getUserByAccountRecoveryDemand.resolves({ userId: 1234 });
+  describe('#checkAccountRecoveryDemand', () => {
 
-        // when
-        await accountRecoveryController.checkAccountRecoveryDemand(request, hFake);
+    it('should return serialized user', async () => {
+      // given
+      const temporaryKey = 'ABCDEFZEFDD';
+      const request = {
+        params: { temporaryKey },
+      };
+      sinon.stub(usecases, 'getUserByAccountRecoveryDemand');
+      sinon.stub(userSerializer, 'serialize');
+      usecases.getUserByAccountRecoveryDemand.resolves({ userId: 1234 });
 
-        // then
-        expect(usecases.getUserByAccountRecoveryDemand).to.have.been.calledWith({ temporaryKey });
-        expect(userSerializer.serialize).to.have.been.calledWith({ userId: 1234 });
-      });
+      // when
+      await accountRecoveryController.checkAccountRecoveryDemand(request, hFake);
+
+      // then
+      expect(usecases.getUserByAccountRecoveryDemand).to.have.been.calledWith({ temporaryKey });
+      expect(userSerializer.serialize).to.have.been.calledWith({ userId: 1234 });
     });
-
   });
 
 });
