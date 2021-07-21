@@ -80,12 +80,13 @@ function _drawFooter(data, page, font, fontSize, rgb) {
   }
 }
 
-function _drawHeaderUserInfo(data, page, font, fontSize, rgb) {
+function _renderHeaderCandidateInformations(data, page, rgb, embeddedFonts) {
   const fullName = `${startCase(data.firstName)} ${startCase(data.lastName)}`;
   const birthplaceInfo = data.birthplace ? ` à ${data.birthplace}` : '';
   const birthInfo = formatDate(data.birthdate) + birthplaceInfo;
   const certifCenter = data.certificationCenter;
   const certifDate = formatDate(data.deliveredAt);
+
   [
     [230, 712, fullName],
     [269, 695.5, birthInfo],
@@ -94,8 +95,8 @@ function _drawHeaderUserInfo(data, page, font, fontSize, rgb) {
   ].forEach(([x, y, text]) => {
     page.drawText(text, {
       x, y,
-      font: font,
-      size: fontSize,
+      font: embeddedFonts.openSansBold,
+      size: 9,
       color: rgb(26 / 255, 64 / 255, 109 / 255),
     });
   });
@@ -172,14 +173,12 @@ async function _render({ templateDocument, pdfDocument, certificate, rgb, embedd
 
   const page = await _copyPageFromTemplateIntoDocument(pdfDocument, templateDocument);
 
-  const headerFont = embeddedFonts.openSansBold;
   const levelFont = embeddedFonts.robotoMedium;
   const maxScoreFont = embeddedFonts.openSansSemiBold;
   const maxLevelFont = embeddedFonts.openSansSemiBold;
   const footerFont = embeddedFonts.openSansBold;
   const codeFont = embeddedFonts.robotoMonoRegular;
 
-  const headerFontSize = 9;
   const footerFontSize = 7;
   const levelFontSize = 9;
   const codeFontSize = 11;
@@ -187,7 +186,7 @@ async function _render({ templateDocument, pdfDocument, certificate, rgb, embedd
   const maxLevelFontSize = 7;
 
   _renderScore(certificate, page, embeddedFonts);
-  _drawHeaderUserInfo(certificate, page, headerFont, headerFontSize, rgb);
+  _renderHeaderCandidateInformations(certificate, page, rgb, embeddedFonts);
   _drawCompetencesDetails(certificate, page, levelFont, levelFontSize, rgb);
   _drawFooter(certificate, page, footerFont, footerFontSize, rgb);
   _drawMaxScore(certificate, page, maxScoreFont, maxScoreFontSize, rgb);
