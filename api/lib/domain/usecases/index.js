@@ -113,6 +113,7 @@ const dependencies = {
   tutorialRepository: require('../../infrastructure/repositories/tutorial-repository'),
   userOrgaSettingsRepository: require('../../infrastructure/repositories/user-orga-settings-repository'),
   userReconciliationService: require('../services/user-reconciliation-service'),
+  checkScoAccountRecoveryService: require('../services/check-sco-account-recovery-service'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   userService: require('../../domain/services/user-service'),
   userTutorialRepository: require('../../infrastructure/repositories/user-tutorial-repository'),

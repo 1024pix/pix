@@ -8,13 +8,16 @@ module.exports = async function sendEmailForAccountRecovery({
   userRepository,
   accountRecoveryDemandRepository,
   mailService,
+  checkScoAccountRecoveryService,
 }) {
-  const { email: newEmail, ineIna, ...otherStudentInformation } = studentInformation;
-  const { id, userId, firstName } = await schoolingRegistrationRepository.getSchoolingRegistrationInformation({
-    ...otherStudentInformation,
-    nationalStudentId: ineIna,
+  const { email: newEmail } = studentInformation;
+
+  const { firstName, id, userId, email: oldEmail } = await checkScoAccountRecoveryService.retrieveSchoolingRegistration({
+    studentInformation,
+    schoolingRegistrationRepository,
+    userRepository,
   });
-  const { email: oldEmail } = await userRepository.get(userId);
+
   await userRepository.isEmailAvailable(newEmail);
 
   const accountRecoveryDemand = new AccountRecoveryDemand({
