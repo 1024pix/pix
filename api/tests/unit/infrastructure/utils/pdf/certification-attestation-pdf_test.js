@@ -31,7 +31,7 @@ class FileSystemForTest {
   constructor() {
     this.files = {
       './files/attestation-template-with-complementary-certifications.pdf': templateFile,
-      './files/OpenSans-Bold.ttf': openSandBoldFontFile,
+      './files/OpenSans-Bold.ttf': openSansBoldFontFile,
       './files/OpenSans-SemiBold.ttf': openSansSemiBoldFontFile,
       './files/Roboto-Medium.ttf': robotoMediumFontFile,
       './files/RobotoMono-Regular.ttf': robotoMonoRegularFontFile,
@@ -173,7 +173,7 @@ class PDFDocumentForTest {
   async embedFont(fontFile) {
     this.fonts.push(fontFile);
     const fontFontFileAssociations = {
-      [openSandBoldFontFile.id]: openSandBold,
+      [openSansBoldFontFile.id]: openSansBold,
       [openSansSemiBoldFontFile.id]: openSansSemiBold,
       [robotoMediumFontFile.id]: robotoMedium,
       [robotoMonoRegularFontFile.id]: robotoMonoRegular,
@@ -192,7 +192,8 @@ class PDFDocumentForTest {
 }
 
 class FontForTest {
-  constructor(widthOfOneChar) {
+  constructor(name, widthOfOneChar) {
+    this.name = name;
     this.widthOfOneChar = widthOfOneChar;
   }
   widthOfTextAtSize(text, fontSize) {
@@ -218,12 +219,12 @@ class BufferForTest {
   }
 }
 
-const openSandBold = new FontForTest(1);
-const openSansSemiBold = new FontForTest(2);
-const robotoMedium = new FontForTest(3);
-const robotoMonoRegular = new FontForTest(4);
+const openSansBold = new FontForTest('openSansBold', 1);
+const openSansSemiBold = new FontForTest('openSansSemiBold', 2);
+const robotoMedium = new FontForTest('robotoMedium', 3);
+const robotoMonoRegular = new FontForTest('robotoMonoRegular', 4);
 
-const openSandBoldFontFile = new FileForTest('OpenSans-Bold.ttf');
+const openSansBoldFontFile = new FileForTest('OpenSans-Bold.ttf');
 const openSansSemiBoldFontFile = new FileForTest('OpenSans-SemiBold.ttf');
 const robotoMediumFontFile = new FileForTest('Roboto-Medium.ttf');
 const robotoMonoRegularFontFile = new FileForTest('RobotoMono-Regular.ttf');
@@ -251,6 +252,7 @@ const expectedBuffer = {
               type: 'Text',
               color: 'default',
               font: {
+                name: 'openSansBold',
                 widthOfOneChar: 1,
               },
               size: 24,
@@ -267,6 +269,7 @@ const expectedBuffer = {
                 type: 'RGB',
               },
               font: {
+                name: 'openSansBold',
                 widthOfOneChar: 1,
               },
               size: 9,
@@ -282,6 +285,7 @@ const expectedBuffer = {
                 type: 'RGB',
               },
               font: {
+                name: 'openSansBold',
                 widthOfOneChar: 1,
               },
               size: 9,
@@ -298,6 +302,7 @@ const expectedBuffer = {
                 type: 'RGB',
               },
               font: {
+                name: 'openSansBold',
                 widthOfOneChar: 1,
               },
               size: 9,
@@ -314,6 +319,7 @@ const expectedBuffer = {
                 type: 'RGB',
               },
               font: {
+                name: 'openSansBold',
                 widthOfOneChar: 1,
               },
               size: 9,
@@ -330,6 +336,7 @@ const expectedBuffer = {
                 type: 'RGB',
               },
               font: {
+                name: 'robotoMedium',
                 widthOfOneChar: 3,
               },
               size: 9,
@@ -374,6 +381,7 @@ const expectedBuffer = {
                 type: 'RGB',
               },
               font: {
+                name: 'openSansBold',
                 widthOfOneChar: 1,
               },
               size: 7,
@@ -390,6 +398,7 @@ const expectedBuffer = {
                 type: 'RGB',
               },
               font: {
+                name: 'openSansBold',
                 widthOfOneChar: 1,
               },
               size: 7,
@@ -406,6 +415,7 @@ const expectedBuffer = {
                 type: 'RGB',
               },
               font: {
+                name: 'openSansSemiBold',
                 widthOfOneChar: 2,
               },
               size: 9,
@@ -422,6 +432,7 @@ const expectedBuffer = {
                 type: 'RGB',
               },
               font: {
+                name: 'openSansSemiBold',
                 widthOfOneChar: 2,
               },
               size: 7,
@@ -438,6 +449,7 @@ const expectedBuffer = {
                 type: 'RGB',
               },
               font: {
+                name: 'robotoMonoRegular',
                 widthOfOneChar: 4,
               },
               size: 11,

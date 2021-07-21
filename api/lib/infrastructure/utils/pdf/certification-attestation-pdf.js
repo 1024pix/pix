@@ -6,13 +6,15 @@ const startCase = require('lodash/startCase');
 const sortBy = require('lodash/sortBy');
 const sharp = require('sharp');
 
+const fonts = {
+  openSansBold: 'OpenSans-Bold.ttf',
+  openSansSemiBold: 'OpenSans-SemiBold.ttf',
+  robotoMedium: 'Roboto-Medium.ttf',
+  robotoMonoRegular: 'RobotoMono-Regular.ttf',
+};
+
 function formatDate(date) {
   return moment(date).locale('fr').format('LL');
-}
-
-async function embedFontInDoc(pdfDoc, fontFileName, fileSystem, dirname) {
-  const fontFile = await fileSystem.readFile(`${dirname}/files/${fontFileName}`);
-  return pdfDoc.embedFont(fontFile);
 }
 
 function _drawScore(data, page, font, fontSize) {
@@ -171,24 +173,14 @@ function _drawCompetencesDetails(data, page, font, fontSize, rgb) {
   });
 }
 
-async function _dynamicInformationsForAttestation({ pdfDoc, page, data, rgb, imageUtils, fileSystem, dirname }) {
-  // Fonts
-  const [openSansBoldFont, openSansSemiBoldFont, robotoMediumFont, robotoMonoFont] = await Promise.all(
-    [
-      embedFontInDoc(pdfDoc, 'OpenSans-Bold.ttf', fileSystem, dirname),
-      embedFontInDoc(pdfDoc, 'OpenSans-SemiBold.ttf', fileSystem, dirname),
-      embedFontInDoc(pdfDoc, 'Roboto-Medium.ttf', fileSystem, dirname),
-      embedFontInDoc(pdfDoc, 'RobotoMono-Regular.ttf', fileSystem, dirname),
-    ],
-  );
-
-  const scoreFont = openSansBoldFont;
-  const headerFont = openSansBoldFont;
-  const levelFont = robotoMediumFont;
-  const maxScoreFont = openSansSemiBoldFont;
-  const maxLevelFont = openSansSemiBoldFont;
-  const footerFont = openSansBoldFont;
-  const codeFont = robotoMonoFont;
+async function _dynamicInformationsForAttestation({ pdfDoc, page, data, rgb, imageUtils, embeddedFonts }) {
+  const scoreFont = embeddedFonts.openSansBold;
+  const headerFont = embeddedFonts.openSansBold;
+  const levelFont = embeddedFonts.robotoMedium;
+  const maxScoreFont = embeddedFonts.openSansSemiBold;
+  const maxLevelFont = embeddedFonts.openSansSemiBold;
+  const footerFont = embeddedFonts.openSansBold;
+  const codeFont = embeddedFonts.robotoMonoRegular;
 
   const headerFontSize = 9;
   const footerFontSize = 7;
@@ -222,9 +214,10 @@ async function getCertificationAttestationPdfBuffer({
 } = {}) {
   const templatePdfDoc = await _getTemplatePDFDocument(certificate, dirname, fileSystem, pdfWriter);
   const generatedPdfDoc = await _initializeNewPDFDocument(pdfWriter, fontkit);
+  const embeddedFonts = await _embedFonts(generatedPdfDoc, fileSystem, dirname);
 
   const [page] = await generatedPdfDoc.copyPages(templatePdfDoc, [0]);
-  await _dynamicInformationsForAttestation({ pdfDoc: generatedPdfDoc, page, data: certificate, rgb, imageUtils, fileSystem, dirname });
+  await _dynamicInformationsForAttestation({ pdfDoc: generatedPdfDoc, page, data: certificate, rgb, imageUtils, embeddedFonts });
   generatedPdfDoc.addPage(page);
   const pdfBytes = await generatedPdfDoc.save();
   const file = bufferFromBytes(pdfBytes);
@@ -251,6 +244,20 @@ async function _getTemplatePDFDocument(certificate, dirname, fileSystem, pdfWrit
   const path = `${dirname}/files/${templateFileName}`;
   const basePdfBytes = await fileSystem.readFile(path);
   return await pdfWriter.load(basePdfBytes);
+}
+
+async function _embedFonts(pdfDocument, fileSystem, dirname) {
+  const embeddedFonts = {};
+  for (const font in fonts) {
+    const embeddedFont = await embedFontInPDFDocument(pdfDocument, fonts[font], fileSystem, dirname);
+    embeddedFonts[font] = embeddedFont;
+  }
+  return embeddedFonts;
+}
+
+async function embedFontInPDFDocument(pdfDoc, fontFileName, fileSystem, dirname) {
+  const fontFile = await fileSystem.readFile(`${dirname}/files/${fontFileName}`);
+  return pdfDoc.embedFont(fontFile);
 }
 
 module.exports = {
