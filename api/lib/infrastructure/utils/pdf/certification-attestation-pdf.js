@@ -36,14 +36,17 @@ function _renderScore(data, page, embeddedFonts) {
   });
 }
 
-function _drawMaxScore(data, page, font, fontSize, rgb) {
+function _renderMaxScore(data, page, rgb, embeddedFonts) {
+  const font = embeddedFonts.openSansSemiBold;
+  const maxScoreFontSize = 9;
+
   const maxScore = data.maxReachableScore.toString() + '*';
-  const maxScoreWidth = font.widthOfTextAtSize(maxScore, fontSize);
+  const maxScoreWidth = font.widthOfTextAtSize(maxScore, maxScoreFontSize);
 
   page.drawText(maxScore, {
     x: 105 - maxScoreWidth / 2, y: 659,
     font: font,
-    size: fontSize,
+    size: maxScoreFontSize,
     color: rgb(0 / 255, 45 / 255, 80 / 255),
   });
 }
@@ -174,19 +177,18 @@ async function _render({ templateDocument, pdfDocument, certificate, rgb, embedd
 
   const page = await _copyPageFromTemplateIntoDocument(pdfDocument, templateDocument);
 
-  const maxScoreFont = embeddedFonts.openSansSemiBold;
   const maxLevelFont = embeddedFonts.openSansSemiBold;
   const codeFont = embeddedFonts.robotoMonoRegular;
 
   const codeFontSize = 11;
-  const maxScoreFontSize = 9;
+
   const maxLevelFontSize = 7;
 
   _renderScore(certificate, page, embeddedFonts);
   _renderHeaderCandidateInformations(certificate, page, rgb, embeddedFonts);
   _renderCompetencesDetails(certificate, page, rgb, embeddedFonts);
   _renderFooter(certificate, page, rgb, embeddedFonts);
-  _drawMaxScore(certificate, page, maxScoreFont, maxScoreFontSize, rgb);
+  _renderMaxScore(certificate, page, rgb, embeddedFonts);
   _drawMaxLevel(certificate, page, maxLevelFont, maxLevelFontSize, rgb);
   _drawVerificationCode(certificate, page, codeFont, codeFontSize, rgb);
 
