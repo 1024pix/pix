@@ -105,14 +105,14 @@ function _renderHeaderCandidateInformations(data, page, rgb, embeddedFonts) {
   });
 }
 
-function _drawVerificationCode(data, page, font, fontSize, rgb) {
+function _renderVerificationCode(data, page, rgb, embeddedFonts) {
   const code = data.verificationCode;
   const verificationCodeCoordinates = { x: 410, y: 560 };
 
   page.drawText(code, {
     ...verificationCodeCoordinates,
-    font: font,
-    size: fontSize,
+    font: embeddedFonts.robotoMonoRegular,
+    size: 11,
     color: rgb(1, 1, 1),
   });
 }
@@ -177,17 +177,13 @@ async function _render({ templateDocument, pdfDocument, certificate, rgb, embedd
 
   const page = await _copyPageFromTemplateIntoDocument(pdfDocument, templateDocument);
 
-  const codeFont = embeddedFonts.robotoMonoRegular;
-
-  const codeFontSize = 11;
-
   _renderScore(certificate, page, embeddedFonts);
   _renderHeaderCandidateInformations(certificate, page, rgb, embeddedFonts);
   _renderCompetencesDetails(certificate, page, rgb, embeddedFonts);
   _renderFooter(certificate, page, rgb, embeddedFonts);
   _renderMaxScore(certificate, page, rgb, embeddedFonts);
   _renderMaxLevel(certificate, page, rgb, embeddedFonts);
-  _drawVerificationCode(certificate, page, codeFont, codeFontSize, rgb);
+  _renderVerificationCode(certificate, page, rgb, embeddedFonts);
 
   if (certificate.hasAcquiredAnyComplementaryCertifications) {
     await _drawComplementaryCertifications(pdfDocument, certificate, page, embeddedImages);
