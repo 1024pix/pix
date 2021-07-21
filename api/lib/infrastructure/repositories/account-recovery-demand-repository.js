@@ -13,11 +13,11 @@ function _toDomainObject(accountRecoveryDemandDTO) {
 
 const demandHasExpired = (demandCreationDate) => {
   const minutesInADay = 60 * 24;
-  const expirationDelayInMinutes = parseInt(process.env.SCO_ACCOUNT_RECOVERY_EXPIRATION_DELAY_MINUTES) || minutesInADay;
+  const lifetimeInMinutes = parseInt(process.env.SCO_ACCOUNT_RECOVERY_TOKEN_LIFETIME_MINUTES) || minutesInADay;
   const millisecondsInAMinute = 60 * 1000;
-  const expirationDelayInMilliseconds = expirationDelayInMinutes * millisecondsInAMinute;
+  const lifetimeInMilliseconds = lifetimeInMinutes * millisecondsInAMinute;
 
-  const expirationDate = new Date(demandCreationDate.getTime() + expirationDelayInMilliseconds);
+  const expirationDate = new Date(demandCreationDate.getTime() + lifetimeInMilliseconds);
   const now = new Date();
 
   return expirationDate < now;
