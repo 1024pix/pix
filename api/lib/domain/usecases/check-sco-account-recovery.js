@@ -1,24 +1,26 @@
-const { MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError } = require('../../domain/errors');
 const StudentInformationForAccountRecovery = require('../read-models/StudentInformationForAccountRecovery');
 
 module.exports = async function checkScoAccountRecovery({
   studentInformation,
   schoolingRegistrationRepository,
   organizationRepository,
+  checkScoAccountRecoveryService,
   userRepository,
 }) {
-  const { userId, firstName, lastName, organizationId } = await schoolingRegistrationRepository.getSchoolingRegistrationInformation({
-    ...studentInformation,
-    nationalStudentId: studentInformation.ineIna,
-  });
-  const schoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId });
 
-  if (_areThereMultipleStudentForSameAccount(schoolingRegistrations)) {
-    throw new MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError();
-  }
+  const {
+    firstName,
+    lastName,
+    username,
+    organizationId,
+    email,
+  } = await checkScoAccountRecoveryService.retrieveSchoolingRegistration({
+    studentInformation,
+    schoolingRegistrationRepository,
+    userRepository,
+  });
 
   const { name: latestOrganizationName } = await organizationRepository.get(organizationId);
-  const { username, email } = await userRepository.get(userId);
 
   return new StudentInformationForAccountRecovery({
     firstName,
@@ -28,11 +30,3 @@ module.exports = async function checkScoAccountRecovery({
     latestOrganizationName,
   });
 };
-
-function _areThereMultipleStudentForSameAccount(schoolingRegistrations) {
-  const firstIne = schoolingRegistrations[0].nationalStudentId;
-  const anotherStudentForSameAccount = schoolingRegistrations
-    .filter((schoolingRegistration) => schoolingRegistration.nationalStudentId !== firstIne);
-
-  return anotherStudentForSameAccount.length > 0;
-}

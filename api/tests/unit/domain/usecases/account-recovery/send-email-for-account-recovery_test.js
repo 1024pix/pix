@@ -1,4 +1,4 @@
-const { sinon, expect, catchErr, domainBuilder } = require('../../../../test-helper');
+const { sinon, expect, catchErr } = require('../../../../test-helper');
 const sendEmailForAccountRecovery = require('../../../../../lib/domain/usecases/send-email-for-account-recovery.js');
 const { AlreadyRegisteredEmailError } = require('../../../../../lib/domain/errors');
 const AccountRecoveryDemand = require('../../../../../lib/domain/models/AccountRecoveryDemand');
@@ -8,6 +8,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
   let userRepository;
   let schoolingRegistrationRepository;
   let accountRecoveryDemandRepository;
+  let checkScoAccountRecoveryService;
   let mailService;
 
   beforeEach(() => {
@@ -21,6 +22,9 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
     accountRecoveryDemandRepository = {
       save: sinon.stub(),
     };
+    checkScoAccountRecoveryService = {
+      retrieveSchoolingRegistration: sinon.stub(),
+    };
     mailService = {
       sendAccountRecoveryEmail: sinon.stub(),
     };
@@ -32,12 +36,19 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
       // given
       userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
       const newEmail = 'new_email@example.net';
-      schoolingRegistrationRepository.getSchoolingRegistrationInformation.resolves({});
-      userRepository.get.resolves({ email: newEmail });
 
       const studentInformation = {
         email: newEmail,
       };
+
+      checkScoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
+        studentInformation,
+        schoolingRegistrationRepository,
+        userRepository,
+      }).resolves({
+        username: 'nanou.monchose0705',
+        email: 'nanou.monchose@example.net',
+      });
 
       // when
       const error = await catchErr(sendEmailForAccountRecovery)({
@@ -46,6 +57,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         userRepository,
         accountRecoveryDemandRepository,
         mailService,
+        checkScoAccountRecoveryService,
       });
 
       // then
@@ -61,19 +73,24 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
       const oldEmail = 'old_email@example.net';
       const newEmail = 'NEW_EMAIL@example.net';
       const temporaryKey = '1234ADC';
-      const user = domainBuilder.buildUser({
-        userId,
-        email: oldEmail,
-      });
-      schoolingRegistrationRepository.getSchoolingRegistrationInformation.resolves({ userId });
+
       userRepository.isEmailAvailable.resolves(true);
-      userRepository.get.resolves(user);
       accountRecoveryDemandRepository.save.resolves();
       mailService.sendAccountRecoveryEmail.resolves();
 
       const studentInformation = {
         email: newEmail,
       };
+
+      checkScoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
+        studentInformation,
+        schoolingRegistrationRepository,
+        userRepository,
+      }).resolves({
+        userId,
+        username: 'nanou.monchose0705',
+        email: oldEmail,
+      });
 
       // when
       await sendEmailForAccountRecovery({
@@ -83,6 +100,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         userRepository,
         accountRecoveryDemandRepository,
         mailService,
+        checkScoAccountRecoveryService,
       });
 
       // then
@@ -102,21 +120,22 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
       const oldEmail = 'old_email@example.net';
       const newEmail = 'NEW_EMAIL@example.net';
       const temporaryKey = '1234ADC';
-      const user = domainBuilder.buildUser({
-        userId,
-        email: oldEmail,
-      });
-      const schoolingRegistration = {
-        firstName: 'Lorie',
-      };
-      schoolingRegistrationRepository.getSchoolingRegistrationInformation.resolves(schoolingRegistration);
       userRepository.isEmailAvailable.resolves(true);
-      userRepository.get.resolves(user);
       accountRecoveryDemandRepository.save.resolves();
 
       const studentInformation = {
         email: newEmail,
       };
+
+      checkScoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
+        studentInformation,
+        schoolingRegistrationRepository,
+        userRepository,
+      }).resolves({
+        userId,
+        firstName: 'Lorie',
+        email: oldEmail,
+      });
 
       // when
       await sendEmailForAccountRecovery({
@@ -126,11 +145,12 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         userRepository,
         accountRecoveryDemandRepository,
         mailService,
+        checkScoAccountRecoveryService,
       });
 
       // then
       expect(mailService.sendAccountRecoveryEmail).to.have.been.calledWithExactly({
-        firstName: schoolingRegistration.firstName,
+        firstName: 'Lorie',
         email: newEmail,
         temporaryKey,
       });
