@@ -117,24 +117,28 @@ function _renderVerificationCode(data, page, rgb, embeddedFonts) {
   });
 }
 
-async function _drawComplementaryCertifications(pdfDoc, data, page, embeddedImages) {
-  let yCoordinate = data.hasAcquiredCleaCertification() ? 400 : 385;
-  const stepY = -110;
+function _renderPixPlusCertificationCertification(certificate, page, embeddedImages) {
+  let yCoordinate = 385;
 
-  if (data.hasAcquiredCleaCertification()) {
-    const pngImage = embeddedImages[images.clea];
-    page.drawImage(pngImage, {
-      x: 400,
-      y: yCoordinate,
-    });
-    yCoordinate += stepY;
+  if (certificate.hasAcquiredCleaCertification()) {
+    yCoordinate = 290;
   }
 
-  if (data.hasAcquiredPixPlusDroitCertification()) {
+  if (certificate.hasAcquiredPixPlusDroitCertification()) {
     const pngImage = embeddedImages[images.pixPlusDroit];
     page.drawImage(pngImage, {
       x: 390,
       y: yCoordinate,
+    });
+  }
+}
+
+function _renderCleaCertification(data, page, embeddedImages) {
+  if (data.hasAcquiredCleaCertification()) {
+    const pngImage = embeddedImages[images.clea];
+    page.drawImage(pngImage, {
+      x: 400,
+      y: 400,
     });
   }
 }
@@ -184,11 +188,11 @@ async function _render({ templateDocument, pdfDocument, certificate, rgb, embedd
   _renderMaxScore(certificate, page, rgb, embeddedFonts);
   _renderMaxLevel(certificate, page, rgb, embeddedFonts);
   _renderVerificationCode(certificate, page, rgb, embeddedFonts);
+  _renderCleaCertification(certificate, page, embeddedImages);
+  _renderPixPlusCertificationCertification(certificate, page, embeddedImages);
 
-  if (certificate.hasAcquiredAnyComplementaryCertifications) {
-    await _drawComplementaryCertifications(pdfDocument, certificate, page, embeddedImages);
-  }
   pdfDocument.addPage(page);
+
 }
 
 async function getCertificationAttestationPdfBuffer({
