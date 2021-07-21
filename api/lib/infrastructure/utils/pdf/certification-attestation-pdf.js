@@ -51,13 +51,13 @@ function _renderMaxScore(data, page, rgb, embeddedFonts) {
   });
 }
 
-function _drawMaxLevel(data, page, font, fontSize, rgb) {
+function _renderMaxLevel(data, page, rgb, embeddedFonts) {
   const maxLevel = `(niveaux sur ${data.maxReachableLevelOnCertificationDate})`;
 
   page.drawText(maxLevel, {
     x: 159, y: 608,
-    font: font,
-    size: fontSize,
+    font: embeddedFonts.openSansSemiBold,
+    size: 7,
     color: rgb(80 / 255, 95 / 255, 121 / 255),
   });
 }
@@ -177,19 +177,16 @@ async function _render({ templateDocument, pdfDocument, certificate, rgb, embedd
 
   const page = await _copyPageFromTemplateIntoDocument(pdfDocument, templateDocument);
 
-  const maxLevelFont = embeddedFonts.openSansSemiBold;
   const codeFont = embeddedFonts.robotoMonoRegular;
 
   const codeFontSize = 11;
-
-  const maxLevelFontSize = 7;
 
   _renderScore(certificate, page, embeddedFonts);
   _renderHeaderCandidateInformations(certificate, page, rgb, embeddedFonts);
   _renderCompetencesDetails(certificate, page, rgb, embeddedFonts);
   _renderFooter(certificate, page, rgb, embeddedFonts);
   _renderMaxScore(certificate, page, rgb, embeddedFonts);
-  _drawMaxLevel(certificate, page, maxLevelFont, maxLevelFontSize, rgb);
+  _renderMaxLevel(certificate, page, rgb, embeddedFonts);
   _drawVerificationCode(certificate, page, codeFont, codeFontSize, rgb);
 
   if (certificate.hasAcquiredAnyComplementaryCertifications) {
