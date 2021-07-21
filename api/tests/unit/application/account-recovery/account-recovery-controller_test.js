@@ -74,4 +74,39 @@ describe('Unit | Controller | account-recovery-controller', () => {
     });
   });
 
+  describe('#updateUserAccount', () => {
+
+    it('should update user account', async () => {
+      const user = domainBuilder.buildUser({ id: 1 });
+      const temporaryKey = 'validTemporaryKey';
+      const email = 'Philippe@example.net';
+
+      const request = {
+        payload: {
+          data: {
+            id: user.id,
+            attributes: {
+              email,
+              'password': user.password,
+              'temporary-key': temporaryKey,
+            },
+          },
+        },
+      };
+
+      sinon.stub(usecases, 'updateUserAccount').resolves();
+
+      // when
+      const response = await accountRecoveryController.updateUserAccountRecovery(request, hFake);
+
+      // then
+      expect(usecases.updateUserAccount).calledWith({
+        userId: user.id,
+        newEmail: email,
+        password: user.password,
+        temporaryKey });
+      expect(response.statusCode).to.equal(204);
+    });
+  });
+
 });
