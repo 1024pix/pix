@@ -53,6 +53,7 @@ export default class ListController extends Controller {
   @action
   goToCampaignPage(campaignId, event) {
     event.preventDefault();
+    event.stopPropagation();
     this.transitionToRoute('authenticated.campaigns.campaign', campaignId);
   }
 }
