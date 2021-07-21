@@ -87,27 +87,30 @@ describe('Integration | Service | Placement Profile Service', function() {
   context('V1 Profile', () => {
     describe('#getPlacementProfile', () => {
 
-      const assessment1 = databaseBuilder.factory.buildAssessment({
-        id: 13,
-        status: 'completed',
-        competenceId: 'competenceRecordIdOne',
-      });
-      const assessment2 = databaseBuilder.factory.buildAssessment({
-        id: 1637,
-        status: 'completed',
-        competenceId: 'competenceRecordIdTwo',
-      });
-      const assessment3 = databaseBuilder.factory.buildAssessment({
-        id: 145,
-        status: 'completed',
-        competenceId: 'competenceRecordIdUnknown',
-      });
-      databaseBuilder.factory.buildAssessmentResult({ level: 1, pixScore: 12, assessmentId: assessment1.id });
-      databaseBuilder.factory.buildAssessmentResult({ level: 2, pixScore: 23, assessmentId: assessment2.id });
-      databaseBuilder.factory.buildAssessmentResult({ level: 0, pixScore: 2, assessmentId: assessment3.id });
+      let assessment1;
+      let assessment2;
+      let assessment3;
+      beforeEach(async () => {
+        assessment1 = databaseBuilder.factory.buildAssessment({
+          id: 13,
+          status: 'completed',
+          competenceId: 'competenceRecordIdOne',
+        });
+        assessment2 = databaseBuilder.factory.buildAssessment({
+          id: 1637,
+          status: 'completed',
+          competenceId: 'competenceRecordIdTwo',
+        });
+        assessment3 = databaseBuilder.factory.buildAssessment({
+          id: 145,
+          status: 'completed',
+          competenceId: 'competenceRecordIdUnknown',
+        });
+        databaseBuilder.factory.buildAssessmentResult({ level: 1, pixScore: 12, assessmentId: assessment1.id });
+        databaseBuilder.factory.buildAssessmentResult({ level: 2, pixScore: 23, assessmentId: assessment2.id });
+        databaseBuilder.factory.buildAssessmentResult({ level: 0, pixScore: 2, assessmentId: assessment3.id });
 
-      beforeEach(() => {
-        databaseBuilder.commit();
+        await databaseBuilder.commit();
       });
 
       it('should load achieved assessments', async () => {
