@@ -212,16 +212,18 @@ async function getCertificationAttestationPdfBuffer({
 
   await _render({ templateDocument: templatePdfDoc, pdfDocument: generatedPdfDoc, certificate, rgb, embeddedFonts, embeddedImages });
 
-  const pdfBytes = await generatedPdfDoc.save();
-  const file = bufferFromBytes(pdfBytes);
-
-  const formateDeliveryDate = moment(certificate.deliveredAt).format('YYYYMMDD');
-  const fileName = `attestation-pix-${formateDeliveryDate}.pdf`;
+  const buffer = await _finalizeDocument(generatedPdfDoc, bufferFromBytes);
 
   return {
-    file,
-    fileName,
+    buffer: buffer,
+    fileName: `attestation-pix-${moment(certificate.deliveredAt).format('YYYYMMDD')}.pdf`,
   };
+}
+
+async function _finalizeDocument(pdfDocument, bufferFromBytes) {
+  const pdfBytes = await pdfDocument.save();
+  const buffer = bufferFromBytes(pdfBytes);
+  return buffer;
 }
 
 async function _copyPageFromTemplateIntoDocument(pdfDocument, templatePdfDocument) {
