@@ -212,7 +212,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
     it('should return binary attestation', async () => {
       // given
-      sinon.stub(certificationAttestationPdf, 'getCertificationAttestationPdfBuffer').resolves({ file: attestationPDF, fileName });
+      sinon.stub(certificationAttestationPdf, 'getCertificationAttestationPdfBuffer').resolves({ buffer: attestationPDF, fileName });
       usecases.getCertificationAttestation.resolves(certification);
 
       // when

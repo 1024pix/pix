@@ -38,9 +38,9 @@ module.exports = {
       certificationId,
     });
 
-    const { file, fileName } = await certificationAttestationPdf.getCertificationAttestationPdfBuffer({ certificate: attestation });
+    const { buffer, fileName } = await certificationAttestationPdf.getCertificationAttestationPdfBuffer({ certificate: attestation });
 
-    return h.response(file)
+    return h.response(buffer)
       .header('Content-Disposition', `attachment; filename=${fileName}`)
       .header('Content-Type', 'application/pdf');
   },

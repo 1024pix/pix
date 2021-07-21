@@ -12,7 +12,7 @@ describe('Unit | Infrastructure | Utils | Pdf | Certification Attestation Pdf', 
     });
 
     // when
-    const { file, fileName } = await getCertificationAttestationPdfBuffer({
+    const { buffer, fileName } = await getCertificationAttestationPdfBuffer({
       certificate,
       fileSystem: new FileSystemForTest(),
       pdfWriter: new PDFWriterForTest(),
@@ -22,7 +22,7 @@ describe('Unit | Infrastructure | Utils | Pdf | Certification Attestation Pdf', 
       fontkit: 'fontkit for test',
     });
 
-    expect(file).to.deep.equal(expectedBuffer);
+    expect(buffer).to.deep.equal(expectedBuffer);
     expect(fileName).to.equal('attestation-pix-20181003.pdf');
   });
 });
