@@ -4,6 +4,7 @@ const {
   NotFoundError,
   AccountRecoveryDemandExpired,
 } = require('../../domain/errors');
+const DomainTransaction = require('../DomainTransaction');
 
 function _toDomainObject(accountRecoveryDemandDTO) {
   return new AccountRecoveryDemand({
@@ -52,8 +53,9 @@ module.exports = {
     return _toDomainObject(result[0]);
   },
 
-  async markAsBeingUsed(temporaryKey) {
-    return await knex('account-recovery-demands')
+  markAsBeingUsed(temporaryKey, domainTransaction = DomainTransaction.emptyTransaction()) {
+    return knex('account-recovery-demands')
+      .transacting(domainTransaction)
       .where({ temporaryKey })
       .update({ used: true });
   },
