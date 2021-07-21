@@ -136,7 +136,7 @@ async function _drawComplementaryCertifications(pdfDoc, data, page, embeddedImag
   }
 }
 
-function _drawCompetencesDetails(data, page, font, fontSize, rgb) {
+function _renderCompetencesDetails(data, page, rgb, embeddedFonts) {
   const competencesLevelCoordinates = [
     556, 532, 508,
     452, 428, 404, 380,
@@ -144,6 +144,7 @@ function _drawCompetencesDetails(data, page, font, fontSize, rgb) {
     196, 172, 148,
     92, 68,
   ];
+
   const sortedCompetenceTree = sortBy(data.resultCompetenceTree.areas, 'code');
   sortedCompetenceTree.forEach((area) => {
     area.resultCompetences.forEach((competence) => {
@@ -151,8 +152,8 @@ function _drawCompetencesDetails(data, page, font, fontSize, rgb) {
       if (competence.level > 0) {
         page.drawText(competence.level.toString(), {
           x: 291, y: y + 5,
-          font: font,
-          size: fontSize,
+          font: embeddedFonts.robotoMedium,
+          size: 9,
           color: rgb(37 / 255, 56 / 255, 88 / 255),
         });
       } else {
@@ -173,21 +174,19 @@ async function _render({ templateDocument, pdfDocument, certificate, rgb, embedd
 
   const page = await _copyPageFromTemplateIntoDocument(pdfDocument, templateDocument);
 
-  const levelFont = embeddedFonts.robotoMedium;
   const maxScoreFont = embeddedFonts.openSansSemiBold;
   const maxLevelFont = embeddedFonts.openSansSemiBold;
   const footerFont = embeddedFonts.openSansBold;
   const codeFont = embeddedFonts.robotoMonoRegular;
 
   const footerFontSize = 7;
-  const levelFontSize = 9;
   const codeFontSize = 11;
   const maxScoreFontSize = 9;
   const maxLevelFontSize = 7;
 
   _renderScore(certificate, page, embeddedFonts);
   _renderHeaderCandidateInformations(certificate, page, rgb, embeddedFonts);
-  _drawCompetencesDetails(certificate, page, levelFont, levelFontSize, rgb);
+  _renderCompetencesDetails(certificate, page, rgb, embeddedFonts);
   _drawFooter(certificate, page, footerFont, footerFontSize, rgb);
   _drawMaxScore(certificate, page, maxScoreFont, maxScoreFontSize, rgb);
   _drawMaxLevel(certificate, page, maxLevelFont, maxLevelFontSize, rgb);
