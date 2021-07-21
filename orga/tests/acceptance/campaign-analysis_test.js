@@ -20,7 +20,7 @@ module('Acceptance | Campaign Analysis', function(hooks) {
 
     const campaignAnalysis = server.create('campaign-analysis', 'withTubeRecommendations');
     const campaignCollectiveResult = server.create('campaign-collective-result');
-    server.create('campaign', { campaignAnalysis, campaignCollectiveResult, sharedParticipationsCount: 2 });
+    server.create('campaign', { campaignAnalysis, campaignCollectiveResult, sharedParticipationsCount: 2, participationsCount: 2 });
 
     await authenticateSession({
       user_id: user.id,

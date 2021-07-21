@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 
 export default class Tab extends Component {
 
@@ -10,20 +9,8 @@ export default class Tab extends Component {
   @service url;
   @service intl;
 
-  @tracked tooltipText = this.intl.t('pages.campaign-details.actions.copy-link');
-
   get campaignsRootUrl() {
     return `${this.url.campaignsRootUrl}${this.args.campaign.code}`;
-  }
-
-  @action
-  clipboardSuccess() {
-    this.tooltipText = this.intl.t('pages.campaign-details.actions.copied');
-  }
-
-  @action
-  clipboardOut() {
-    this.tooltipText = this.intl.t('pages.campaign-details.actions.copy-link');
   }
 
   @action

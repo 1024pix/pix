@@ -21,6 +21,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
+        participationsCount: 1,
       });
 
       const profiles = [
@@ -67,6 +68,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
         id: 1,
         name: 'campagne 1',
         idPixLabel: 'identifiant externe',
+        participationsCount: 1,
       });
 
       const profiles = [{ participantExternalId: '123' }];
@@ -95,6 +97,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
         id: 1,
         name: 'campagne 1',
         idPixLabel: 'identifiant externe',
+        participationsCount: 1,
       });
 
       const profiles = [
@@ -130,11 +133,36 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
   });
 
   module('when there is no profile', function() {
-    test('it should the empty state', async function(assert) {
+    test('it should display the empty state when has no participations', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
+        participationsCount: 0,
+      });
+
+      const profiles = [];
+      profiles.meta = {
+        rowCount: 0,
+      };
+
+      this.set('campaign', campaign);
+      this.set('profiles', profiles);
+      this.set('goToProfilePage', goToProfilePage);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Profile::List @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}}/>}}`);
+
+      // then
+      assert.contains('Aucun participant pour l’instant ! Envoyez-leur le lien suivant pour rejoindre votre campagne.');
+    });
+
+    test('it should display no profil when hasParticipations filtered', async function(assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        participationsCount: 1,
       });
 
       const profiles = [];
@@ -172,6 +200,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
         id: 1,
         name: 'campagne 1',
         stages: [],
+        participationsCount: 1,
       });
       campaign.set('divisions', [division]);
 

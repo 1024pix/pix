@@ -12,9 +12,6 @@
     <th class="table__column--wide">{{t 'pages.campaign-review.table.competences.column.results.label'}}</th>
   </tr>
   </thead>
-
-  {{#if @sharedParticipationsCount }}
-
     <tbody>
     {{#each @campaignCollectiveResult.campaignCompetenceCollectiveResults as |competenceResult|}}
       <tr aria-label={{t 'pages.campaign-review.table.competences.row-title'}}>
@@ -33,10 +30,4 @@
       </tr>
     {{/each}}
     </tbody>
-  {{/if}}
 </table>
-
-{{#unless @sharedParticipationsCount }}
-  <div class="table__empty content-text">{{t 'pages.campaign-review.table.competences.empty'}}</div>
-{{/unless}}
-

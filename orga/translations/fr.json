@@ -191,8 +191,19 @@
       },
       "archived": "Campagne archivée",
       "code": "Code",
+      "copy" : {
+        "code": {
+          "success": "Copié !",
+          "default": "Copier le code"
+        },
+        "link": {
+          "success": "Copié !",
+          "default": "Copier le lien direct"
+        }
+      },
       "created-by": "Créée par",
       "created-on": "Créée le",
+      "empty-state": "Aucun participant pour l’instant ! Envoyez-leur le lien suivant pour rejoindre votre campagne.",
       "name": "Nom de la campagne",
       "tab": {
         "activity": "Activité",
@@ -256,9 +267,6 @@
       "title": "Détails",
       "actions": {
         "archive": "Archiver",
-        "copied": "Copié !",
-        "copy-code": "Copier le code",
-        "copy-link": "Copier le lien direct",
         "edit": "Modifier"
       },
       "direct-link": "Lien direct",
