@@ -2,6 +2,7 @@ const _ = require('lodash');
 const { expect, databaseBuilder, knex, domainBuilder } = require('../../../test-helper');
 const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
 const settings = require('../../../../lib/config');
+const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
 describe('Integration | Repository | PoleEmploiSending', () => {
 
@@ -27,89 +28,117 @@ describe('Integration | Repository | PoleEmploiSending', () => {
     });
   });
 
-  describe('#get', () => {
+  describe('#find', () => {
     let originalEnvPoleEmploiSendingsLimit;
     let sending1;
     let sending2;
     let sending3;
-    let sending4;
 
     beforeEach(async () => {
       originalEnvPoleEmploiSendingsLimit = settings.poleEmploi.poleEmploiSendingsLimit;
-
       settings.poleEmploi.poleEmploiSendingsLimit = 3;
-      settings.poleEmploi.poleEmploiIdentityProvider = 'POLE_EMPLOI';
-
-      const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pole emploi' }).id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-
-      const user1Id = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod({ userId: user1Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId1' });
-      const campaignParticipation1Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user1Id, campaignId }).id;
-      sending1 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation1Id, createdAt: new Date('2021-03-01'), payload: { individu: {} } });
-
-      const user2Id = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod({ userId: user2Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId2' });
-      const campaignParticipation2Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user2Id, campaignId }).id;
-      sending2 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation2Id, createdAt: '2021-04-01 00:00:00+00', payload: { individu: {} } });
-
-      const user3Id = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod({ userId: user3Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId3' });
-      const campaignParticipation3Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user3Id, campaignId }).id;
-      sending3 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation3Id, createdAt: new Date('2021-05-01'), payload: { individu: {} } });
-
-      const user4Id = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod({ userId: user4Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId4' });
-      const campaignParticipation4Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user4Id, campaignId }).id;
-      sending4 = databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation4Id, createdAt: new Date('2021-06-01'), payload: { individu: {} } });
-
-      const user5Id = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod({ userId: user5Id, identityProvider: 'PIX', externalIdentifier: 'externalUserId5' });
-      const campaignParticipation5Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user5Id, campaignId }).id;
-      databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId: campaignParticipation5Id, createdAt: new Date('2021-06-01'), payload: { individu: {} } });
-
-      await databaseBuilder.commit();
     });
 
     afterEach(() => {
       settings.poleEmploi.poleEmploiSendingsLimit = originalEnvPoleEmploiSendingsLimit;
     });
 
-    it('should render 3 sendings because of the poleEmploiSendingsLimit variable', async () => {
-      // when
-      const sendings = await poleEmploiSendingRepository.get();
+    it('should render sendings with idPoleEmploi inside the object', async () => {
+      poleEmploiSendingFactory.buildWithUser({}, 'externalUserId1');
+      await databaseBuilder.commit();
 
-      // then
+      const [sending] = await poleEmploiSendingRepository.find();
+
+      expect(sending.resultat.individu.idPoleEmploi).to.equal('externalUserId1');
+    });
+
+    it('should render existing sendings using poleEmploiSendingsLimit', async () => {
+      poleEmploiSendingFactory.buildWithUser();
+      poleEmploiSendingFactory.buildWithUser();
+      poleEmploiSendingFactory.buildWithUser();
+      poleEmploiSendingFactory.buildWithUser();
+
+      await databaseBuilder.commit();
+
+      const sendings = await poleEmploiSendingRepository.find();
+
       expect(sendings).to.have.lengthOf(3);
     });
 
-    it('should render sendings order by date', async () => {
-      // when
-      const sendings = await poleEmploiSendingRepository.get();
+    context('when there is a cursor', () => {
+      let expectedSending;
+      let sendingInCursor;
 
-      // then
-      expect(sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending4.id, sending3.id, sending2.id]);
-    });
+      beforeEach(async () => {
+        expectedSending = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-03-01' });
+        sendingInCursor = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-04-01' });
 
-    it('should render sendings with idPoleEmploi inside the object', async () => {
-      // when
-      const sendings = await poleEmploiSendingRepository.get();
+        await databaseBuilder.commit();
+      });
 
-      // then
-      expect(sendings.map((sending) => sending.resultat.individu.idPoleEmploi)).to.deep.equal(['externalUserId4', 'externalUserId3', 'externalUserId2']);
-    });
-
-    context('when there is an idEnvoi and a dateEnvoi in the cursor', function() {
       it('should return sendings where the date is before de given date', async() => {
-        //given
-        const idEnvoi = sending2.id;
-        const dateEnvoi = sending2.createdAt;
+        const { id: idEnvoi, createdAt: dateEnvoi } = sendingInCursor;
 
-        //when
-        const sendings = await poleEmploiSendingRepository.get({ idEnvoi, dateEnvoi });
+        const [sending] = await poleEmploiSendingRepository.find({ idEnvoi, dateEnvoi });
 
-        //then
-        expect(sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending1.id]);
+        expect(sending.idEnvoi).to.equal(expectedSending.id);
+      });
+    });
+
+    context('when the participant has several authentication method', () => {
+      it('should render only one sending', async () => {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildAuthenticationMethod({ userId, identityProvider: 'PIX' });
+        databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({ userId, externalIdentifier: 'idPoleEmploi' });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ userId });
+        poleEmploiSendingFactory.build({ campaignParticipationId });
+
+        await databaseBuilder.commit();
+
+        const sendings = await poleEmploiSendingRepository.find();
+
+        expect(sendings.length).to.be.equal(1);
+        expect(sendings[0].resultat.individu.idPoleEmploi).to.be.equal('idPoleEmploi');
+      });
+    });
+
+    context('order', () => {
+      beforeEach(async () => {
+        sending1 = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-03-01' });
+        sending2 = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-04-01' });
+        sending3 = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-05-01' });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should render sendings order by date', async () => {
+        const sendings = await poleEmploiSendingRepository.find();
+
+        expect(sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending3.id, sending2.id, sending1.id]);
+      });
+    });
+
+    context('when there is a filter on isSucccessful', function() {
+      let sendingSent;
+      let sendingNotSent;
+
+      beforeEach(async () => {
+        sendingSent = poleEmploiSendingFactory.buildWithUser({ isSuccessful: true });
+        sendingNotSent = poleEmploiSendingFactory.buildWithUser({ isSuccessful: false });
+
+        await databaseBuilder.commit();
+      });
+
+      it('returns the sendings which have been sent correctly', async() => {
+        const sendings = await poleEmploiSendingRepository.find(null, { isSuccessful: true });
+        const sendingIds = sendings.map((sending) => sending.idEnvoi);
+        expect(sendingIds).to.exactlyContain([sendingSent.id]);
+      });
+
+      it('returns the sendings which have been not sent correctly', async() => {
+        const sendings = await poleEmploiSendingRepository.find(null, { isSuccessful: false });
+        const sendingIds = sendings.map((sending) => sending.idEnvoi);
+        expect(sendingIds).to.exactlyContain([sendingNotSent.id]);
       });
     });
   });

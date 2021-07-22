@@ -1,13 +1,15 @@
 const buildCampaignParticipation = require('./build-campaign-participation');
+const buildUser = require('./build-user');
+const buildAuthencationMethod = require('./build-authentication-method');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
-module.exports = function buildPoleEmploiSending({
+function build({
   id = databaseBuffer.getNextId(),
   isSuccessful = true,
   responseCode = '200',
   type = 'CAMPAIGN_PARTICIPATION_START',
-  payload = {},
+  payload = { individu: {} },
   createdAt = new Date('2020-01-01'),
   campaignParticipationId,
 } = {}) {
@@ -27,4 +29,16 @@ module.exports = function buildPoleEmploiSending({
     tableName: 'pole-emploi-sendings',
     values,
   });
+}
+
+function buildWithUser(sendingAttributes, externalIdentifier) {
+  const { id: userId } = buildUser();
+  buildAuthencationMethod.buildPoleEmploiAuthenticationMethod({ userId, externalIdentifier });
+  const { id: campaignParticipationId } = buildCampaignParticipation({ userId });
+  return build({ ...sendingAttributes, campaignParticipationId });
+}
+
+module.exports = {
+  build,
+  buildWithUser,
 };

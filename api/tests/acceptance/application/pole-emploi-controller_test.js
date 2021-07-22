@@ -1,6 +1,7 @@
 const jsonwebtoken = require('jsonwebtoken');
 
 const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeaderForApplication, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
 const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
 const poleEmploiTokensRepository = require('../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
@@ -81,18 +82,13 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
 
     context('When the request returns 200', function() {
       it('should return the sending and a link', async () => {
-        const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pole emploi' }).id;
-        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-
-        const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildAuthenticationMethod({ userId, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId' });
-        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId }).id;
-        const sending = databaseBuilder.factory.buildPoleEmploiSending({ id: 76345, campaignParticipationId, createdAt: new Date('2021-05-01'), payload: { campagne: { nom: 'Campagne PE', dateDebut: new Date('2020-08-01'), type: 'EVALUATION', codeCampagne: 'POLEEMPLOI123', urlCampagne: 'https://app.pix.fr/campagnes/POLEEMPLOI123', nomOrganisme: 'Pix', typeOrganisme: 'externe' }, individu: { nom: 'Kamado', prenom: 'Tanjiro' }, test: { etat: 2, typeTest: 'DI', referenceExterne: 123456, dateDebut: new Date('2020-09-01'), elementsEvalues: [] } } });
+        const sending = poleEmploiSendingFactory.buildWithUser({ id: 76345, createdAt: new Date('2021-05-01'), payload: { campagne: { nom: 'Campagne PE', dateDebut: new Date('2020-08-01'), type: 'EVALUATION', codeCampagne: 'POLEEMPLOI123', urlCampagne: 'https://app.pix.fr/campagnes/POLEEMPLOI123', nomOrganisme: 'Pix', typeOrganisme: 'externe' }, individu: { nom: 'Kamado', prenom: 'Tanjiro' }, test: { etat: 2, typeTest: 'DI', referenceExterne: 123456, dateDebut: new Date('2020-09-01'), elementsEvalues: [] } }, isSuccessful: true }, 'externalUserId');
+        poleEmploiSendingFactory.buildWithUser({ isSuccessful: false });
         await databaseBuilder.commit();
 
         options = {
           method: 'GET',
-          url: '/api/pole-emploi/envois',
+          url: '/api/pole-emploi/envois?enErreur=false',
           headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(POLE_EMPLOI_CLIENT_ID, POLE_EMPLOI_SOURCE, POLE_EMPLOI_SCOPE) },
         };
 
@@ -101,7 +97,7 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.headers.link).to.equal('https://url-externe/pole-emploi/envois?curseur=eyJpZEVudm9pIjo3NjM0NSwiZGF0ZUVudm9pIjoiMjAyMS0wNS0wMVQwMDowMDowMC4wMDBaIn0=');
+        expect(response.headers.link).to.equal('https://url-externe/pole-emploi/envois?curseur=eyJpZEVudm9pIjo3NjM0NSwiZGF0ZUVudm9pIjoiMjAyMS0wNS0wMVQwMDowMDowMC4wMDBaIn0=&enErreur=false');
         expect(response.result).to.deep.equal([{
           'idEnvoi': sending.id,
           'dateEnvoi': new Date('2021-05-01'),

@@ -60,7 +60,7 @@ buildAuthenticationMethod.buildWithHashedPassword = function({
 
 buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function({
   id = databaseBuffer.getNextId(),
-  externalIdentifier = 'externalId',
+  externalIdentifier,
   accessToken = 'ABC789',
   refreshToken = 'DEF753',
   expiredDate = new Date('2022-01-01'),
@@ -71,6 +71,10 @@ buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function({
 
   userId = isUndefined(userId) ? buildUser().id : userId;
 
+  let generatedIdentifier = externalIdentifier;
+  if (!generatedIdentifier) {
+    generatedIdentifier = `externalIdentifier-${id}`;
+  }
   const values = {
     id,
     identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
@@ -79,7 +83,7 @@ buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function({
       refreshToken,
       expiredDate,
     }),
-    externalIdentifier,
+    externalIdentifier: generatedIdentifier,
     userId,
     createdAt,
     updatedAt,

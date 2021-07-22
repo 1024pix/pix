@@ -40,7 +40,6 @@ module.exports = {
   buildOrganizationTag: require('./build-organization-tag'),
   buildMembership: require('./build-membership'),
   buildPixRole: require('./build-pix-role'),
-  buildPoleEmploiSending: require('./build-pole-emploi-sending'),
   buildResetPasswordDemand: require('./build-reset-password-demand'),
   buildSession: require('./build-session'),
   buildSchoolingRegistration: require('./build-schooling-registration'),
@@ -57,4 +56,5 @@ module.exports = {
   buildUserTutorial: require('./build-user-tutorial'),
   campaignParticipationOverviewFactory: require('./campaign-participation-overview-factory'),
   knowledgeElementSnapshotFactory: require('./knowledge-elements-snapshot-factory'),
+  poleEmploiSendingFactory: require('./pole-emploi-sending-factory'),
 };
