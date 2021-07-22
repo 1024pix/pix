@@ -21,12 +21,12 @@ export default class CertificationInformationsController extends Controller {
 
   // Properties
   @alias('model') certification;
-  @tracked edition = false;
+  @tracked editingCandidateResults = false;
   @service notifications;
   @tracked displayConfirm = false;
   @tracked confirmMessage = '';
   @tracked confirmErrorMessage = '';
-  @tracked confirmAction = 'onSave';
+  @tracked confirmAction = 'onCandidateResultsSave';
 
   // private properties
   _competencesCopy = null;
@@ -68,14 +68,14 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onEdit() {
-    this.edition = true;
+  onCandidateResultsEdit() {
+    this.editingCandidateResults = true;
     this._competencesCopy = this._copyCompetences();
   }
 
   @action
-  onCancel() {
-    this.edition = false;
+  onCandidateResultsCancel() {
+    this.editingCandidateResults = false;
     this.certification.rollbackAttributes();
     if (this._competencesCopy) {
       this.certification.competencesWithMark = this._competencesCopy;
@@ -84,24 +84,24 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onSaveConfirm() {
+  onCandidateResultsSaveConfirm() {
     const confirmMessage = 'Souhaitez-vous mettre à jour cette certification ?';
     const errors = this._getCertificationErrorsAfterJuryUpdateIfAny();
     const confirmErrorMessage = this._formatErrorsToHtmlString(errors);
 
     this.confirmMessage = confirmMessage;
     this.confirmErrorMessage = confirmErrorMessage;
-    this.confirmAction = 'onSave';
+    this.confirmAction = 'onCandidateResultsSave';
     this.displayConfirm = true;
   }
 
   @action
-  onCancelConfirm() {
+  onCandidateResultsCancelConfirm() {
     this.displayConfirm = false;
   }
 
   @action
-  async onSave() {
+  async onCandidateResultsSave() {
     const markUpdatedRequired = this.certification.hasDirtyAttributes;
     this.displayConfirm = false;
     try {
@@ -112,7 +112,7 @@ export default class CertificationInformationsController extends Controller {
       }
 
       this.notifications.success('Modifications enregistrées');
-      this.edition = false;
+      this.editingCandidateResults = false;
       this._competencesCopy = null;
 
     } catch (e) {
@@ -173,7 +173,7 @@ export default class CertificationInformationsController extends Controller {
         });
       this.certification.competencesWithMark = A(newCompetences);
       schedule('afterRender', this, () => {
-        this.edition = true;
+        this.editingCandidateResults = true;
       });
     }
   }

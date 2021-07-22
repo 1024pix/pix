@@ -287,7 +287,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
-  module('#onSave', () => {
+  module('#onCandidateResultsSave', () => {
 
     test('it saves competences info when save is sent', async function(assert) {
       // given
@@ -301,7 +301,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       controller.certification = certification;
 
       // when
-      await controller.onSave();
+      await controller.onCandidateResultsSave();
 
       // then
       sinon.assert.calledWith(save, { adapterOptions: { updateMarks: false } });
@@ -320,7 +320,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       controller.certification = certification;
 
       // when
-      await controller.onSave();
+      await controller.onCandidateResultsSave();
 
       // then
       sinon.assert.calledWith(save, { adapterOptions: { updateMarks: false } });
@@ -329,13 +329,13 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
-  module('#onSaveConfirm', () => {
+  module('#onCandidateResultsSaveConfirm', () => {
     module('when there are no error', () => {
       test('should get no error and enable confirm dialog', async function(assert) {
         // when
-        await controller.onSaveConfirm();
+        await controller.onCandidateResultsSaveConfirm();
         // then
-        assert.equal(controller.confirmAction, 'onSave');
+        assert.equal(controller.confirmAction, 'onCandidateResultsSave');
         assert.ok(controller.displayConfirm);
         assert.ok(controller.confirmMessage);
         assert.notOk(controller.confirmErrorMessage);
@@ -361,12 +361,12 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         );
 
         // when
-        await controller.onSaveConfirm();
+        await controller.onCandidateResultsSaveConfirm();
 
         // then
         const levelErrorRegexp = `.*niveau.*${anExistingCompetenceCode}.*${controller.MAX_REACHABLE_LEVEL}`;
         const scoreErrorRegexp = `.*nombre de pix.*${anotherExistingCompetenceCode}.*${controller.MAX_REACHABLE_PIX_BY_COMPETENCE}`;
-        assert.equal(controller.confirmAction, 'onSave');
+        assert.equal(controller.confirmAction, 'onCandidateResultsSave');
         assert.ok(controller.displayConfirm);
         assert.ok(controller.confirmMessage);
         assert.ok(controller.confirmErrorMessage.match(new RegExp(levelErrorRegexp)));
@@ -433,7 +433,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         assert.ok(state.hasPendingTimers);
 
         await settled();
-        assert.ok(controller.edition);
+        assert.ok(controller.editingCandidateResults);
       });
     });
   });
@@ -474,14 +474,14 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     const rollbackAttributes = sinon.stub().resolves();
     controller.certification.rollbackAttributes = rollbackAttributes;
 
-    await controller.onEdit();
+    await controller.onCandidateResultsEdit();
     await controller.onUpdateLevel(anExistingCompetenceCode, '5');
     await controller.onUpdateScore(anExistingCompetenceCode, '50');
     await controller.onUpdateLevel(anotherExistingCompetenceCode, '');
     await controller.onUpdateScore(anotherExistingCompetenceCode, '');
 
     // when
-    await controller.onCancel();
+    await controller.onCandidateResultsCancel() ;
 
     // then
     const competences = controller.certification.competencesWithMark;
