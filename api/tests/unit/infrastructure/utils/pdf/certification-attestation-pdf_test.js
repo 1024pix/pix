@@ -1,11 +1,15 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const { getCertificationAttestationsPdfBuffer } = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
+const _ = require('lodash');
 
 describe('Unit | Infrastructure | Utils | Pdf | Certification Attestation Pdf', () => {
   it('should generate full attestation (non-regression test)', async () => {
     // given
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
     const certificate = domainBuilder.buildCertificationAttestation({
+      id: 1,
+      firstName: 'Jean',
+      lastName: 'Bon',
       resultCompetenceTree,
       cleaCertificationImagePath: 'clea/image/path',
       pixPlusDroitCertificationImagePath: 'pix/plus/image/path',
@@ -22,15 +26,58 @@ describe('Unit | Infrastructure | Utils | Pdf | Certification Attestation Pdf', 
       fontkit: 'fontkit for test',
     });
 
-    expect(buffer).to.deep.equal(expectedBuffer);
+    const expected = buildExpectedBuffer([
+      buildExpectedPage({ name: 'Jean Bon', withComplementary: true }),
+    ]);
+    expect(buffer).to.deep.equal(expected);
     expect(fileName).to.equal('attestation-pix-20181003.pdf');
+  });
+
+  it('should generate a page per certificate', async () => {
+    // given
+    const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
+    const certificate1 = domainBuilder.buildCertificationAttestation({
+      id: 1,
+      firstName: 'Jean',
+      lastName: 'Bon',
+      resultCompetenceTree,
+      cleaCertificationImagePath: 'clea/image/path',
+      pixPlusDroitCertificationImagePath: 'pix/plus/image/path',
+    });
+    const certificate2 = domainBuilder.buildCertificationAttestation({
+      ...certificate1,
+      id: 2,
+      firstName: 'Jeanne',
+      lastName: 'Bonne',
+      cleaCertificationImagePath: null,
+      pixPlusDroitCertificationImagePath: null,
+    });
+
+    // when
+    const { buffer } = await getCertificationAttestationsPdfBuffer({
+      certificates: [ certificate1, certificate2 ],
+      fileSystem: new FileSystemForTest(),
+      pdfWriter: new PDFWriterForTest(),
+      imageUtils: (path) => new ImageUtilsForTest(path),
+      bufferFromBytes: bufferFromBytesForTest,
+      dirname: '.',
+      fontkit: 'fontkit for test',
+    });
+
+    // then
+    const expected = buildExpectedBuffer([
+      buildExpectedPage({ name: 'Jean Bon', withComplementaryCertificationImages: true }),
+      buildExpectedPage({ name: 'Jeanne Bonne', withComplementaryCertificationImages: false }),
+    ]);
+    expect(buffer).to.deep.equal(expected);
   });
 });
 
 class FileSystemForTest {
   constructor() {
     this.files = {
-      './files/attestation-template-with-complementary-certifications.pdf': templateFile,
+      './files/attestation-template-with-complementary-certifications.pdf': templateFileWithComplementaryCertifications,
+      './files/attestation-template.pdf': templateFileWithoutComplementaryCertifications,
       './files/OpenSans-Bold.ttf': openSansBoldFontFile,
       './files/OpenSans-SemiBold.ttf': openSansSemiBoldFontFile,
       './files/Roboto-Medium.ttf': robotoMediumFontFile,
@@ -49,8 +96,11 @@ class FileSystemForTest {
 class PDFWriterForTest {
 
   async load(file) {
-    if (file.id === templateFile.id) {
-      return templateDocument;
+    if (file.id === templateFileWithComplementaryCertifications.id) {
+      return templateDocumentWithComplementaryCertifications;
+    }
+    if (file.id === templateFileWithoutComplementaryCertifications.id) {
+      return templateDocumentWithoutComplementaryCertifications;
     }
     throw new Error('no stub for ' + file.id);
   }
@@ -158,7 +208,7 @@ class PDFDocumentForTest {
 
   async copyPages(document, indexesArray) {
     return indexesArray.map((index) => {
-      return new PageForTest(document.pages[index].content);
+      return new PageForTest(_.clone(document.pages[index].content));
     });
   }
 
@@ -229,300 +279,318 @@ const openSansSemiBoldFontFile = new FileForTest('OpenSans-SemiBold.ttf');
 const robotoMediumFontFile = new FileForTest('Roboto-Medium.ttf');
 const robotoMonoRegularFontFile = new FileForTest('RobotoMono-Regular.ttf');
 
-const templateFile = new FileForTest('template file');
+const templateFileWithComplementaryCertifications = new FileForTest('template file with Complementary Certifications');
+const templateFileWithoutComplementaryCertifications = new FileForTest('template file without Complementary Certifications');
 
-const templatePage = new PageForTest([{ type: 'Background' }]);
-const templateDocument = new PDFDocumentForTest([ templatePage ]);
+const templatePageWithComplementaryCertifications = new PageForTest([{ type: 'Background with Complementary Certifications' }]);
+const templatePageWithoutComplementaryCertifications = new PageForTest([{ type: 'Background without Complementary Certifications' }]);
+const templateDocumentWithComplementaryCertifications = new PDFDocumentForTest([ templatePageWithComplementaryCertifications ]);
+const templateDocumentWithoutComplementaryCertifications = new PDFDocumentForTest([ templatePageWithoutComplementaryCertifications ]);
 
-const expectedBuffer = {
-  fromBytes: {
-    fromDocument: {
-      fontkit: 'fontkit for test',
-      fonts: [
-        { id: 'OpenSans-Bold.ttf' },
-        { id: 'OpenSans-SemiBold.ttf' },
-        { id: 'Roboto-Medium.ttf' },
-        { id: 'RobotoMono-Regular.ttf' },
-      ],
-      pages: [
-        {
-          content: [
-            { type: 'Background' },
-            {
-              type: 'Text',
-              color: 'default',
-              font: {
-                name: 'openSansBold',
-                widthOfOneChar: 1,
+function buildExpectedPage({ name, withComplementaryCertificationImages }) {
+  let backGround;
+  let certificationsImages = [];
+  if (withComplementaryCertificationImages) {
+    backGround = 'Background with Complementary Certifications';
+    certificationsImages = [
+      {
+        type: 'Image',
+        pngImage: {
+          fromBuffer: {
+            isSharp: true,
+            path: 'clea/image/path',
+            resizedWith: {
+              options: {
+                fit: 'inside',
               },
-              size: 24,
-              text: '123',
-              x: 69,
-              y: 675,
+              x: 80,
+              y: 100,
             },
-            {
-              type: 'Text',
-              color: {
-                blue: 0.42745098039215684,
-                green: 0.25098039215686274,
-                red: 0.10196078431372549,
-                type: 'RGB',
-              },
-              font: {
-                name: 'openSansBold',
-                widthOfOneChar: 1,
-              },
-              size: 9,
-              text: 'Jean Bon',
-              x: 230,
-              y: 712,
-            },
-            {
-              color: {
-                blue: 0.42745098039215684,
-                green: 0.25098039215686274,
-                red: 0.10196078431372549,
-                type: 'RGB',
-              },
-              font: {
-                name: 'openSansBold',
-                widthOfOneChar: 1,
-              },
-              size: 9,
-              text: '12 juin 1992 à Paris',
-              type: 'Text',
-              x: 269,
-              y: 695.5,
-            },
-            {
-              color: {
-                blue: 0.42745098039215684,
-                green: 0.25098039215686274,
-                red: 0.10196078431372549,
-                type: 'RGB',
-              },
-              font: {
-                name: 'openSansBold',
-                widthOfOneChar: 1,
-              },
-              size: 9,
-              text: 'L’univeristé du Pix',
-              type: 'Text',
-              x: 257,
-              y: 680,
-            },
-            {
-              color: {
-                blue: 0.42745098039215684,
-                green: 0.25098039215686274,
-                red: 0.10196078431372549,
-                type: 'RGB',
-              },
-              font: {
-                name: 'openSansBold',
-                widthOfOneChar: 1,
-              },
-              size: 9,
-              text: '3 octobre 2018',
-              type: 'Text',
-              x: 208,
-              y: 663.5,
-            },
-            {
-              color: {
-                blue: 0.34509803921568627,
-                green: 0.2196078431372549,
-                red: 0.1450980392156863,
-                type: 'RGB',
-              },
-              font: {
-                name: 'robotoMedium',
-                widthOfOneChar: 3,
-              },
-              size: 9,
-              text: '2',
-              type: 'Text',
-              x: 291,
-              y: 561,
-            },
-            {
-              color: {
-                blue: 1,
-                green: 1,
-                red: 1,
-                type: 'RGB',
-              },
-              height: 18,
-              opacity: 0.5,
-              type: 'Rectangle',
-              width: 210,
-              x: 65,
-              y: 532,
-            },
-            {
-              color: {
-                blue: 1,
-                green: 1,
-                red: 1,
-                type: 'RGB',
-              },
-              height: 18,
-              opacity: 0.5,
-              type: 'Rectangle',
-              width: 210,
-              x: 65,
-              y: 508,
-            },
-            {
-              color: {
-                blue: 0.38823529411764707,
-                green: 0.25098039215686274,
-                red: 0.16470588235294117,
-                type: 'RGB',
-              },
-              font: {
-                name: 'openSansBold',
-                widthOfOneChar: 1,
-              },
-              size: 7,
-              text: '* À la date d’obtention de cette certification, le nombre maximum de pix atteignable était de 640, correspondant au niveau 5.',
-              type: 'Text',
-              x: 55,
-              y: 46,
-            },
-            {
-              color: {
-                blue: 0.38823529411764707,
-                green: 0.25098039215686274,
-                red: 0.16470588235294117,
-                type: 'RGB',
-              },
-              font: {
-                name: 'openSansBold',
-                widthOfOneChar: 1,
-              },
-              size: 7,
-              text: 'Lorsque les 8 niveaux du référentiel Pix seront disponibles, ce nombre maximum sera de 1024 pix.',
-              type: 'Text',
-              x: 55,
-              y: 35,
-            },
-            {
-              color: {
-                blue: 0.3137254901960784,
-                green: 0.17647058823529413,
-                red: 0,
-                type: 'RGB',
-              },
-              font: {
-                name: 'openSansSemiBold',
-                widthOfOneChar: 2,
-              },
-              size: 9,
-              text: '640*',
-              type: 'Text',
-              x: 69,
-              y: 659,
-            },
-            {
-              color: {
-                blue: 0.4745098039215686,
-                green: 0.37254901960784315,
-                red: 0.3137254901960784,
-                type: 'RGB',
-              },
-              font: {
-                name: 'openSansSemiBold',
-                widthOfOneChar: 2,
-              },
-              size: 7,
-              text: '(niveaux sur 5)',
-              type: 'Text',
-              x: 159,
-              y: 608,
-            },
-            {
-              color: {
-                blue: 1,
-                green: 1,
-                red: 1,
-                type: 'RGB',
-              },
-              font: {
-                name: 'robotoMonoRegular',
-                widthOfOneChar: 4,
-              },
-              size: 11,
-              text: 'P-SOMECODE',
-              type: 'Text',
-              x: 410,
-              y: 560,
-            },
-            {
-              pngImage: {
-                fromBuffer: {
-                  isSharp: true,
-                  path: 'clea/image/path',
-                  resizedWith: {
-                    options: {
-                      fit: 'inside',
-                    },
-                    x: 80,
-                    y: 100,
-                  },
-                },
-              },
-              type: 'Image',
-              x: 400,
-              y: 400,
-            },
-            {
-              pngImage: {
-                fromBuffer: {
-                  isSharp: true,
-                  path: 'pix/plus/image/path',
-                  resizedWith: {
-                    options: {
-                      fit: 'inside',
-                    },
-                    x: 100,
-                    y: 120,
-                  },
-                },
-              },
-              type: 'Image',
-              x: 390,
-              y: 290,
-            },
-          ],
-        },
-      ],
-      pngs: [
-        {
-          isSharp: true,
-          path: 'clea/image/path',
-          resizedWith: {
-            options: {
-              fit: 'inside',
-            },
-            x: 80,
-            y: 100,
           },
         },
-        {
-          isSharp: true,
-          path: 'pix/plus/image/path',
-          resizedWith: {
-            options: {
-              fit: 'inside',
+        x: 400,
+        y: 400,
+      },
+      {
+        type: 'Image',
+        pngImage: {
+          fromBuffer: {
+            isSharp: true,
+            path: 'pix/plus/image/path',
+            resizedWith: {
+              options: {
+                fit: 'inside',
+              },
+              x: 100,
+              y: 120,
             },
-            x: 100,
-            y: 120,
           },
         },
-      ],
-      saved: false,
+        x: 390,
+        y: 290,
+      },
+    ];
+  } else {
+    backGround = 'Background without Complementary Certifications';
+  }
+
+  return {
+    content: [
+      { type: backGround },
+      {
+        type: 'Text',
+        color: 'default',
+        font: {
+          name: 'openSansBold',
+          widthOfOneChar: 1,
+        },
+        size: 24,
+        text: '123',
+        x: 69,
+        y: 675,
+      },
+      {
+        type: 'Text',
+        color: {
+          blue: 0.42745098039215684,
+          green: 0.25098039215686274,
+          red: 0.10196078431372549,
+          type: 'RGB',
+        },
+        font: {
+          name: 'openSansBold',
+          widthOfOneChar: 1,
+        },
+        size: 9,
+        text: name,
+        x: 230,
+        y: 712,
+      },
+      {
+        color: {
+          blue: 0.42745098039215684,
+          green: 0.25098039215686274,
+          red: 0.10196078431372549,
+          type: 'RGB',
+        },
+        font: {
+          name: 'openSansBold',
+          widthOfOneChar: 1,
+        },
+        size: 9,
+        text: '12 juin 1992 à Paris',
+        type: 'Text',
+        x: 269,
+        y: 695.5,
+      },
+      {
+        color: {
+          blue: 0.42745098039215684,
+          green: 0.25098039215686274,
+          red: 0.10196078431372549,
+          type: 'RGB',
+        },
+        font: {
+          name: 'openSansBold',
+          widthOfOneChar: 1,
+        },
+        size: 9,
+        text: 'L’univeristé du Pix',
+        type: 'Text',
+        x: 257,
+        y: 680,
+      },
+      {
+        color: {
+          blue: 0.42745098039215684,
+          green: 0.25098039215686274,
+          red: 0.10196078431372549,
+          type: 'RGB',
+        },
+        font: {
+          name: 'openSansBold',
+          widthOfOneChar: 1,
+        },
+        size: 9,
+        text: '3 octobre 2018',
+        type: 'Text',
+        x: 208,
+        y: 663.5,
+      },
+      {
+        color: {
+          blue: 0.34509803921568627,
+          green: 0.2196078431372549,
+          red: 0.1450980392156863,
+          type: 'RGB',
+        },
+        font: {
+          name: 'robotoMedium',
+          widthOfOneChar: 3,
+        },
+        size: 9,
+        text: '2',
+        type: 'Text',
+        x: 291,
+        y: 561,
+      },
+      {
+        color: {
+          blue: 1,
+          green: 1,
+          red: 1,
+          type: 'RGB',
+        },
+        height: 18,
+        opacity: 0.5,
+        type: 'Rectangle',
+        width: 210,
+        x: 65,
+        y: 532,
+      },
+      {
+        color: {
+          blue: 1,
+          green: 1,
+          red: 1,
+          type: 'RGB',
+        },
+        height: 18,
+        opacity: 0.5,
+        type: 'Rectangle',
+        width: 210,
+        x: 65,
+        y: 508,
+      },
+      {
+        color: {
+          blue: 0.38823529411764707,
+          green: 0.25098039215686274,
+          red: 0.16470588235294117,
+          type: 'RGB',
+        },
+        font: {
+          name: 'openSansBold',
+          widthOfOneChar: 1,
+        },
+        size: 7,
+        text: '* À la date d’obtention de cette certification, le nombre maximum de pix atteignable était de 640, correspondant au niveau 5.',
+        type: 'Text',
+        x: 55,
+        y: 46,
+      },
+      {
+        color: {
+          blue: 0.38823529411764707,
+          green: 0.25098039215686274,
+          red: 0.16470588235294117,
+          type: 'RGB',
+        },
+        font: {
+          name: 'openSansBold',
+          widthOfOneChar: 1,
+        },
+        size: 7,
+        text: 'Lorsque les 8 niveaux du référentiel Pix seront disponibles, ce nombre maximum sera de 1024 pix.',
+        type: 'Text',
+        x: 55,
+        y: 35,
+      },
+      {
+        color: {
+          blue: 0.3137254901960784,
+          green: 0.17647058823529413,
+          red: 0,
+          type: 'RGB',
+        },
+        font: {
+          name: 'openSansSemiBold',
+          widthOfOneChar: 2,
+        },
+        size: 9,
+        text: '640*',
+        type: 'Text',
+        x: 69,
+        y: 659,
+      },
+      {
+        color: {
+          blue: 0.4745098039215686,
+          green: 0.37254901960784315,
+          red: 0.3137254901960784,
+          type: 'RGB',
+        },
+        font: {
+          name: 'openSansSemiBold',
+          widthOfOneChar: 2,
+        },
+        size: 7,
+        text: '(niveaux sur 5)',
+        type: 'Text',
+        x: 159,
+        y: 608,
+      },
+      {
+        color: {
+          blue: 1,
+          green: 1,
+          red: 1,
+          type: 'RGB',
+        },
+        font: {
+          name: 'robotoMonoRegular',
+          widthOfOneChar: 4,
+        },
+        size: 11,
+        text: 'P-SOMECODE',
+        type: 'Text',
+        x: 410,
+        y: 560,
+      },
+      ...certificationsImages,
+    ],
+  };
+}
+
+function buildExpectedBuffer(pages) {
+  return {
+    fromBytes: {
+      fromDocument: {
+        fontkit: 'fontkit for test',
+        fonts: [
+          { id: 'OpenSans-Bold.ttf' },
+          { id: 'OpenSans-SemiBold.ttf' },
+          { id: 'Roboto-Medium.ttf' },
+          { id: 'RobotoMono-Regular.ttf' },
+        ],
+        pages: pages,
+        pngs: [
+          {
+            isSharp: true,
+            path: 'clea/image/path',
+            resizedWith: {
+              options: {
+                fit: 'inside',
+              },
+              x: 80,
+              y: 100,
+            },
+          },
+          {
+            isSharp: true,
+            path: 'pix/plus/image/path',
+            resizedWith: {
+              options: {
+                fit: 'inside',
+              },
+              x: 100,
+              y: 120,
+            },
+          },
+        ],
+        saved: false,
+      },
     },
-  },
-};
+  };
+}
 
