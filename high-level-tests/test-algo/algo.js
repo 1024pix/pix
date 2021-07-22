@@ -2,7 +2,7 @@
 require('dotenv').config();
 const hashInt = require('hash-int');
 const fs = require('fs');
-const { find } = require('lodash');
+const { find, isEmpty } = require('lodash');
 const smartRandom = require('../../api/lib/domain/services/smart-random/smart-random');
 const dataFetcher = require('../../api/lib/domain/services/smart-random/data-fetcher');
 const challengeRepository = require('../../api/lib/infrastructure/repositories/challenge-repository');
@@ -195,6 +195,7 @@ async function launchTest(argv) {
     targetProfileRepository,
   });
 
+
   const algoResult = new AlgoResult();
 
   while (!isAssessmentOver) {
@@ -208,7 +209,6 @@ async function launchTest(argv) {
       allAnswers,
     });
     algoResult.addEstimatedLevels(estimatedLevel);
-
     if (challenge) {
       const { answerStatus, updatedAnswers, updatedKnowledgeElements } = answerTheChallenge({
         challenge,
@@ -216,7 +216,7 @@ async function launchTest(argv) {
         userId: assessment.userId,
         allKnowledgeElements: knowledgeElements,
         targetSkills,
-        userResult,
+        userResult: isEmpty(userKE) ? userResult : 'KE',
         userKE,
       });
       allAnswers = updatedAnswers;
