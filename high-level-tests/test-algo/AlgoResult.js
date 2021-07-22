@@ -1,8 +1,11 @@
 const _ = require('lodash');
 
+let id = 1;
+
 class AlgoResult {
 
   constructor() {
+    this._id = id++;
     this._challenges = [];
     this._estimatedLevels = [];
     this._answerStatuses = [];
@@ -42,6 +45,7 @@ class AlgoResult {
     const challengeIds = this._challenges.map((challenge) => challenge.id);
     this._computeGaps();
     const log = `
+        Result ${this._id} :
         ----- total challenges asked: ${challengeIds.length}
         ----- challenge ids asked: ${challengeIds}
         ----- skill names: ${this._skillNames}
