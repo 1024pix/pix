@@ -30,6 +30,7 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
           .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
       })
       .where('campaign-participations.campaignId', '=', campaignId)
+      .where('campaign-participations.isImproved', '=', false)
       .whereRaw('"campaign-participations"."sharedAt" IS NOT NULL')
       .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName'])
       .modify(_filterQuery, filters);
