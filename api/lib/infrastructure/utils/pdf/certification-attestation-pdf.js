@@ -16,8 +16,8 @@ const images = {
   pixPlusDroit: 'pixPlusDroit',
 };
 
-async function getCertificationAttestationPdfBuffer({
-  certificate,
+async function getCertificationAttestationsPdfBuffer({
+  certificates,
   fileSystem = fs.promises,
   pdfWriter = PDFDocument,
   bufferFromBytes = Buffer.from,
@@ -26,7 +26,7 @@ async function getCertificationAttestationPdfBuffer({
   fontkit = pdfLibFontkit,
 } = {}) {
 
-  const viewModel = AttestationViewModel.from(certificate);
+  const viewModel = AttestationViewModel.from(certificates[0]);
   const generatedPdfDoc = await _initializeNewPDFDocument(pdfWriter, fontkit);
   const embeddedFonts = await _embedFonts(generatedPdfDoc, fileSystem, dirname);
   const embeddedImages = await _embedImages(generatedPdfDoc, viewModel, imageUtils);
@@ -296,7 +296,6 @@ function _renderCompetencesDetails(viewModel, page, rgb, embeddedFonts) {
         opacity: 0.5,
       });
     }
-
   });
 }
 
@@ -307,5 +306,5 @@ async function _finalizeDocument(pdfDocument, bufferFromBytes) {
 }
 
 module.exports = {
-  getCertificationAttestationPdfBuffer,
+  getCertificationAttestationsPdfBuffer,
 };
