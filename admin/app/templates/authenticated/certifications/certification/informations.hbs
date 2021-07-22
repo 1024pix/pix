@@ -19,7 +19,7 @@
           </h5>
           <div class="card-text">
             <Certification::CertificationInfoField @value={{this.certification.sessionId}} @edition={{false}} @label="Session :" @linkRoute="authenticated.sessions.session" />
-            <Certification::CertificationStatusSelect @certification={{this.certification}} @edition={{this.edition}} />
+            <Certification::CertificationStatusSelect @certification={{this.certification}} @edition={{this.editingCandidateResults}} />
             <Certification::CertificationInfoField @value={{this.certification.creationDate}} @edition={{false}} @label="Créée le :" />
             <Certification::CertificationInfoField @value={{this.certification.completionDate}} @edition={{false}} @label="Terminée le :" />
             <Certification::CertificationInfoField @value={{this.certification.publishedText}} @edition={{false}} @label="Publiée :" />
@@ -31,20 +31,20 @@
       </div>
     </div>
     <div class="col">
-      <div class="card {{if this.edition 'border-primary'}}">
+      <div class="card {{if this.editingCandidateResults 'border-primary'}}">
         <div class="card-body">
           <h5 class="card-title">Candidat</h5>
           <div class="card-text">
-            <Certification::CertificationInfoField @value={{this.certification.firstName}} @edition={{this.edition}} @label="Prénom :" @fieldId="certification-firstName" />
-            <Certification::CertificationInfoField @value={{this.certification.lastName}} @edition={{this.edition}} @label="Nom :" @fieldId="certification-lastName" />
+            <Certification::CertificationInfoField @value={{this.certification.firstName}} @edition={{this.editingCandidateResults}} @label="Prénom :" @fieldId="certification-firstName" />
+            <Certification::CertificationInfoField @value={{this.certification.lastName}} @edition={{this.editingCandidateResults}} @label="Nom :" @fieldId="certification-lastName" />
             <Certification::CertificationInfoField
                     @isDate={{true}}
-                    @edition={{this.edition}}
+                    @edition={{this.editingCandidateResults}}
                     @label="Date de naissance :"
                     @fieldId="certification-birthdate"
                     @value={{this.certification.birthdate}}
                     @onUpdateCertificationBirthdate={{this.onUpdateCertificationBirthdate}} />
-            <Certification::CertificationInfoField @value={{this.certification.birthplace}} @edition={{this.edition}} @label="Lieu de naissance :" @fieldId="certification-birthPlace" />
+            <Certification::CertificationInfoField @value={{this.certification.birthplace}} @edition={{this.editingCandidateResults}} @label="Lieu de naissance :" @fieldId="certification-birthPlace" />
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@
   {{#if this.hasIssueReports}}
     <div class="row">
       <div class="col">
-        <div class="card {{if this.edition 'border-primary'}}">
+        <div class="card {{if this.editingCandidateResults 'border-primary'}}">
           <div class="card-body">
             <h5 class="card-title">Signalements</h5>
 
@@ -97,25 +97,25 @@
 
   <div class="row">
     <div class="col">
-      <div class="card {{if this.edition 'border-primary'}}">
+      <div class="card {{if this.editingCandidateResults 'border-primary'}}">
         <div class="card-body">
           <h5 class="card-title">Commentaires jury</h5>
           <div class="card-text">
             <Certification::CertificationInfoField
               @value={{this.certification.commentForCandidate}}
-              @edition={{this.edition}}
+              @edition={{this.editingCandidateResults}}
               @label="Pour le candidat :"
               @fieldId="certification-commentForCandidate"
               @isTextarea={{true}} />
             <Certification::CertificationInfoField
               @value={{this.certification.commentForOrganization}}
-              @edition={{this.edition}}
+              @edition={{this.editingCandidateResults}}
               @label="Pour l'organisation :"
               @fieldId="certification-commentForOrganization"
               @isTextarea={{true}} />
             <Certification::CertificationInfoField
               @value={{this.certification.commentForJury}}
-              @edition={{this.edition}}
+              @edition={{this.editingCandidateResults}}
               @label="Pour le jury :"
               @fieldId="certification-commentForJury"
               @isTextarea={{true}} />
@@ -131,20 +131,20 @@
   </div>
   <div class="row">
     <div class="col">
-      <div class="card {{if this.edition 'border-primary'}}">
+      <div class="card {{if this.editingCandidateResults 'border-primary'}}">
         <div class="card-body">
           <h5 class="card-title">Résultats</h5>
           <div class="card-text">
             <Certification::CertificationInfoField
               @value={{this.certification.pixScore}}
-              @edition={{this.edition}}
+              @edition={{this.editingCandidateResults}}
               @label="Score :"
               @fieldId="certification-pixScore"
               @suffix=" Pix" />
             <p></p>
             <Certification::CertificationCompetenceList
                     @competences={{this.certification.competences}}
-                    @edition={{this.edition}}
+                    @edition={{this.editingCandidateResults}}
                     @onUpdateScore={{this.onUpdateScore}}
                     @onUpdateLevel={{this.onUpdateLevel}} />
           </div>
@@ -155,15 +155,15 @@
   {{#if this.isValid}}
     <div class="row">
       <div class="col certification-informations__actions">
-        {{#if this.edition}}
-          <button class="btn btn-secondary btn-sm" type="submit" {{on 'click' this.onCancel}}>
+        {{#if this.editingCandidateResults}}
+          <button class="btn btn-secondary btn-sm" type="submit" {{on 'click' this.onCandidateResultsCancel}}>
             Annuler
           </button>
-          <button class="btn btn-primary btn-sm" type="submit" {{on 'click' this.onSaveConfirm}}>
+          <button class="btn btn-primary btn-sm" type="submit" {{on 'click' this.onCandidateResultsSaveConfirm}}>
             Enregistrer
           </button>
         {{else}}
-          <button class="btn btn-primary btn-sm" type="submit" {{on 'click' this.onEdit}}>
+          <button class="btn btn-primary btn-sm" type="submit" {{on 'click' this.onCandidateResultsEdit}}>
             Modifier
           </button>
         {{/if}}
@@ -174,6 +174,6 @@
           @message={{this.confirmMessage}}
           @error={{this.confirmErrorMessage}}
           @confirm={{action this.confirmAction}}
-          @cancel={{action this.onCancelConfirm}}
+          @cancel={{action this.onCandidateResultsCancelConfirm}}
           @show={{this.displayConfirm}} />
 </div>
