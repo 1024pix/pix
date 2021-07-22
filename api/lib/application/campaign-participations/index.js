@@ -177,6 +177,30 @@ exports.register = async function(server) {
         tags: ['api', 'campaign-participation'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/assessment-results',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignId,
+          }),
+          query: Joi.object({
+            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'filter[badges][]': [Joi.number().integer(), Joi.array().items(Joi.number().integer())],
+            'filter[stages][]': [Joi.number().integer(), Joi.array().items(Joi.number().integer())],
+            'page[number]': Joi.number().integer().empty(''),
+            'page[size]': Joi.number().integer().empty(''),
+          }),
+        },
+        handler: campaignParticipationController.findAssessmentParticipationResults,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des résultats d\'une campagne d\'évaluation',
+        ],
+        tags: ['api', 'campaign-assessment-participation-result-minimal'],
+      },
+    },
   ]);
 };
 

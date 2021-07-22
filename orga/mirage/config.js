@@ -1,10 +1,16 @@
 import Response from 'ember-cli-mirage/response';
 import {
-  findPaginatedCampaignAssessmentParticipationSummaries,
   findPaginatedCampaignProfilesCollectionParticipationSummaries,
 } from './handlers/find-paginated-campaign-participation-summaries';
 import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
 import { findFilteredPaginatedStudents } from './handlers/find-filtered-paginated-students';
+import { findPaginatedAssessmentResults } from './handlers/find-paginated-assessment-results';
+
+const emptyData = {
+  data: {
+    attributes: {},
+  },
+};
 
 function parseQueryString(queryString) {
   const result = Object.create(null);
@@ -240,8 +246,6 @@ export default function() {
     return campaign.campaignAnalysis;
   });
 
-  this.get('/campaigns/:campaignId/assessment-participations', findPaginatedCampaignAssessmentParticipationSummaries);
-
   this.get('/campaigns/:id/profiles-collection-participations', findPaginatedCampaignProfilesCollectionParticipationSummaries);
 
   this.get('/campaign-participations/:id');
@@ -295,6 +299,27 @@ export default function() {
 
   this.get('/campaigns/:campaignId/assessment-participations/:id/results', (schema, request) => {
     return schema.campaignAssessmentParticipationResults.findBy({ ...request.params });
+  });
+
+  this.get('/campaigns/:campaignId/participants-activity', (schema) => {
+    return schema.campaignParticipantActivities.all();
+  });
+
+  this.get('/campaigns/:campaignId/assessment-results', findPaginatedAssessmentResults);
+
+  this.get('/campaigns/:campaignId/stats/participations-by-status', () => {
+    return emptyData;
+  });
+
+  this.get('/campaigns/:campaignId/stats/participations-by-day', () => {
+    return {
+      data: {
+        attributes: {
+          'started-participations': [],
+          'shared-participations': [],
+        },
+      },
+    };
   });
 
   this.delete('/schooling-registration-user-associations/:id', (schema, request) => {

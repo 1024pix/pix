@@ -16,8 +16,14 @@
         {{#if @participations}}
           <tbody>
           {{#each @participations as |participation|}}
-            <tr>
-              <td>{{participation.lastName}}</td>
+            <tr aria-label={{t 'pages.campaign-activity.table.row-title'}} role="button" {{on 'click' (fn @onClickParticipant @campaign.id participation.id)}} class="tr--clickable">
+              <td>
+                <LinkTo
+                  @route='authenticated.campaigns.assessment'
+                  @models={{array @campaign.id participation.id}}>
+                {{participation.lastName}}
+                </LinkTo>
+              </td>
               <td>{{participation.firstName}}</td>
               {{#if @campaign.idPixLabel}}
                 <td>{{participation.participantExternalId}}</td>

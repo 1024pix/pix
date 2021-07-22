@@ -2,16 +2,16 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/campaigns/campaign/assessments', function(hooks) {
+module('Unit | Route | authenticated/campaigns/campaign/assessment-results', function(hooks) {
   setupTest(hooks);
 
   let route;
 
   hooks.beforeEach(function() {
-    route = this.owner.lookup('route:authenticated/campaigns/campaign/assessments');
+    route = this.owner.lookup('route:authenticated/campaigns/campaign/assessment-results');
   });
 
-  module('fetchSummaries', function(hooks) {
+  module('fetchResultMinimalList', function(hooks) {
     let store;
     let storeStub;
 
@@ -36,13 +36,13 @@ module('Unit | Route | authenticated/campaigns/campaign/assessments', function(h
         stages: [],
         campaignId: 3,
       };
-      const expectedSummaries = [{
+      const expectedParticipations = [{
         id: 12,
       }];
 
       storeStub.query
         .withArgs(
-          'campaignAssessmentParticipationSummary',
+          'campaignAssessmentResultMinimal',
           {
             page: {
               number: params.pageNumber,
@@ -55,11 +55,11 @@ module('Unit | Route | authenticated/campaigns/campaign/assessments', function(h
             },
             campaignId: params.campaignId,
           })
-        .returns(expectedSummaries);
+        .returns(expectedParticipations);
 
-      const summaries = route.fetchSummaries(params);
+      const participations = route.fetchResultMinimalList(params);
 
-      assert.equal(summaries, expectedSummaries);
+      assert.equal(participations, expectedParticipations);
     });
   });
 });

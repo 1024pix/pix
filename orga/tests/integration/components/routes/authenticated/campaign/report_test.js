@@ -175,14 +175,14 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       this.set('campaign', campaign);
 
       await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
-      assert.dom('nav a[href="/campagnes/12"]').hasText('Paramètres');
+      assert.dom('nav a[href="/campagnes/12/details"]').hasText('Paramètres');
     });
 
     module('When campaign type is ASSESSMENT', function(hooks) {
       hooks.beforeEach(async function() {
         const campaign = store.createRecord('campaign', {
           id: 13,
-          participationsCount: 10,
+          sharedParticipationsCount: 10,
           type: 'ASSESSMENT',
         });
 
@@ -195,12 +195,14 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
         assert.dom('nav a[href="/campagnes/13/analyse"]').hasText('Analyse');
       });
 
-      test('it should display participation item', async function(assert) {
-        assert.dom('nav a[href="/campagnes/13/evaluations"]').hasText('Participants (10)');
+      test('it should display activity item', async function(assert) {
+
+        assert.dom('nav a[href="/campagnes/13"]').hasText('Activité');
       });
 
-      test('it should display collective results item', async function(assert) {
-        assert.dom('nav a[href="/campagnes/13/resultats-collectifs"]').hasText('Résultats collectifs');
+      test('it should display evaluation results item', async function(assert) {
+
+        assert.dom('nav a[href="/campagnes/13/resultats-evaluation"]').hasText('Résultats (10)');
       });
     });
 
@@ -225,8 +227,12 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
         assert.dom('nav a[href="/campagnes/13/analyse"]').doesNotExist();
       });
 
-      test('it should not display collective results item', async function(assert) {
-        assert.dom('nav a[href="/campagnes/13/resultats-collectifs"]').doesNotExist();
+      test('it should not display activity item', async function(assert) {
+        assert.dom('nav a[href="/campagnes/13/activity"]').doesNotExist();
+      });
+
+      test('it should not display evaluation results item', async function(assert) {
+        assert.dom('nav a[href="/campagnes/13/resultats-evaluation"]').doesNotExist();
       });
     });
   });

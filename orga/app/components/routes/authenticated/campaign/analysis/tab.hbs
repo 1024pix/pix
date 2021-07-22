@@ -6,18 +6,18 @@
 
 <div class="panel panel--light-shadow content-text content-text--small campaign-details-table">
 
-  <table aria-label={{t 'pages.campaign-review.table.title'}}>
+  <table aria-label={{t 'pages.campaign-review.table.analysis.title'}}>
     <thead>
       <tr>
-        <Table::Header @size="wide">{{t 'pages.campaign-review.table.column.subjects' count=this.sortedRecommendations.length}}</Table::Header>
+        <Table::Header @size="wide">{{t 'pages.campaign-review.table.analysis.column.subjects' count=this.sortedRecommendations.length}}</Table::Header>
         <Table::HeaderSort
           @size="small"
           @align="center"
           @onSort={{this.sortRecommendationOrder}}
           @isDisabled={{not @displayAnalysis}}
-          @ariaLabel={{t 'pages.campaign-review.table.sort.relevance'}}
+          @ariaLabel={{t 'pages.campaign-review.table.analysis.sort.relevance'}}
         >
-          {{t 'pages.campaign-review.table.column.relevance'}}
+          {{t 'pages.campaign-review.table.analysis.column.relevance'}}
         </Table::HeaderSort>
         <Table::Header @size="small" @align="center" />
         <Table::Header @size="small" />
@@ -35,6 +35,6 @@
   </table>
 
   {{#unless @displayAnalysis}}
-    <div class="table__empty content-text">{{t 'pages.campaign-review.table.empty'}}</div>
+    <div class="table__empty content-text">{{t 'pages.campaign-review.table.analysis.empty'}}</div>
   {{/unless}}
 </div>

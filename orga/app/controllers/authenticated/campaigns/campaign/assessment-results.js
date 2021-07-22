@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 
-export default class AssessmentsController extends Controller {
+export default class AssessmentResultsController extends Controller {
   queryParams = ['pageNumber', 'pageSize', 'divisions', 'badges', 'stages'];
 
   @tracked pageNumber = 1;
@@ -14,6 +14,11 @@ export default class AssessmentsController extends Controller {
   @action
   goToAssessmentPage(campaignId, participantId) {
     this.transitionToRoute('authenticated.campaigns.assessment', campaignId, participantId);
+  }
+
+  @action
+  filterByStage(stageId) {
+    this.stages = [String(stageId)];
   }
 
   @action

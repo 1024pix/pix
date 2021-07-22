@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/campaigns/campaign/assessments', function(hooks) {
+module('Unit | Controller | authenticated/campaigns/campaign/assessment-results', function(hooks) {
   setupTest(hooks);
   let controller;
   hooks.beforeEach(function() {
-    controller = this.owner.lookup('controller:authenticated/campaigns/campaign/assessments');
+    controller = this.owner.lookup('controller:authenticated/campaigns/campaign/assessment-results');
   });
 
   module('triggerFiltering', function() {
@@ -80,6 +80,15 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessments', funct
       assert.deepEqual(controller.divisions, []);
       assert.deepEqual(controller.badges, []);
       assert.deepEqual(controller.stages, []);
+    });
+  });
+
+  module('filterByStage', function() {
+    test('set the stage filter', function(assert) {
+      // given
+      controller.filterByStage(123);
+      // then
+      assert.deepEqual(controller.stages, ['123']);
     });
   });
 });

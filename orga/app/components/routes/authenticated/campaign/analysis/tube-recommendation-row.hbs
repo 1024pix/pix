@@ -1,4 +1,4 @@
-<tr aria-label="{{t 'pages.campaign-review.table.row-title'}}">
+<tr aria-label="{{t 'pages.campaign-review.table.analysis.row-title'}}">
   <td class="competences-col__name">
     <div class="competences-col-name-wrapper">
       <span class="competences-col__border {{if this.isOpen " competences-col__border--top"}}
@@ -19,7 +19,7 @@
   </td>
   <td class="table__column--right">
     {{#if (gt @tubeRecommendation.tutorials.length 0)}}
-      <Chevron @isOpen={{this.isOpen}} @toggleParent={{this.toggleTutorialsSection}} @ariaLabel={{t 'pages.campaign-review.table.column.tutorial.aria-label'}} />
+      <Chevron @isOpen={{this.isOpen}} @toggleParent={{this.toggleTutorialsSection}} @ariaLabel={{t 'pages.campaign-review.table.analysis.column.tutorial.aria-label'}} />
     {{/if}}
   </td>
 </tr>
