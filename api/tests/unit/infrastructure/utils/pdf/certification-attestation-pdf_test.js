@@ -1,5 +1,5 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
-const { getCertificationAttestationPdfBuffer } = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
+const { getCertificationAttestationsPdfBuffer } = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
 
 describe('Unit | Infrastructure | Utils | Pdf | Certification Attestation Pdf', () => {
   it('should generate full attestation (non-regression test)', async () => {
@@ -12,8 +12,8 @@ describe('Unit | Infrastructure | Utils | Pdf | Certification Attestation Pdf', 
     });
 
     // when
-    const { buffer, fileName } = await getCertificationAttestationPdfBuffer({
-      certificate,
+    const { buffer, fileName } = await getCertificationAttestationsPdfBuffer({
+      certificates: [ certificate ],
       fileSystem: new FileSystemForTest(),
       pdfWriter: new PDFWriterForTest(),
       imageUtils: (path) => new ImageUtilsForTest(path),
