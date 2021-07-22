@@ -15,15 +15,7 @@ module('Integration | Component | Student::Sco::List', function(hooks) {
     this.set('noop', sinon.stub());
   });
 
-  test('it should show title of students page', async function(assert) {
-    // when
-    await render(hbs`<Student::Sco::List @onFilter={{noop}}/>`);
-
-    // then
-    assert.contains('Élèves');
-  });
-
-  test('it should display the header labels', async function(assert) {
+  test('it should display the table headers', async function(assert) {
     // given
     this.set('students', []);
 
@@ -278,93 +270,21 @@ module('Integration | Component | Student::Sco::List', function(hooks) {
       ]);
     });
 
-    module('when user is admin in organization', () => {
-      module('when organization is SCO', (hooks) => {
-        hooks.beforeEach(function() {
-          class CurrentUserStub extends Service {
-            isAdminInOrganization = true;
-          }
-          this.owner.register('service:current-user', CurrentUserStub);
-          this.set('importStudentsSpy', () => {});
-          return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
-        });
-
-        test('it should display import XML file button', async function(assert) {
-          assert.contains('Importer (.xml ou .zip)');
-        });
-
-        test('it should not display download template csv file button for agriculture/cfa organization', async function(assert) {
-          assert.notContains('Télécharger le modèle');
-        });
-
-        test('it should not display the tooltip for agriculture/cfa organization', async function(assert) {
-          assert.notContains('En savoir plus');
-        });
-
-        test('it should display the dissociate action', async function(assert) {
-          // when
-          await clickByLabel('Afficher les actions');
-
-          // then
-          assert.contains('Dissocier le compte');
-        });
+    module('when user is admin in organization', (hooks) => {
+      hooks.beforeEach(function() {
+        class CurrentUserStub extends Service {
+          isAdminInOrganization = true;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
       });
 
-      module('when organization is SCO and tagged as Agriculture', (hooks) => {
-        hooks.beforeEach(function() {
-          class CurrentUserStub extends Service {
-            isAdminInOrganization = true;
-            isAgriculture = true;
-            organization = {};
-          }
-          this.set('importStudentsSpy', () => {});
-          this.owner.register('service:current-user', CurrentUserStub);
-          return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
-        });
+      test('it should display the dissociate action', async function(assert) {
+        // when
+        await clickByLabel('Afficher les actions');
 
-        test('it should display import CSV file button', async function(assert) {
-          assert.contains('Importer (.csv)');
-        });
-
-        test('it should not display download template csv button', async function(assert) {
-          // then
-          assert.notContains('Télécharger le modèle');
-        });
-
-        test('it should not display the tooltip', async function(assert) {
-          assert.notContains('En savoir plus');
-        });
-      });
-
-      module('when organization is SCO and tagged as Agriculture and CFA', (hooks) => {
-        hooks.beforeEach(function() {
-          class CurrentUserStub extends Service {
-            isAdminInOrganization = true;
-            isAgriculture = true;
-            isCFA = true;
-            organization = {};
-            prescriber = {
-              lang: 'fr',
-            };
-          }
-
-          this.set('importStudentsSpy', () => {});
-          this.owner.register('service:current-user', CurrentUserStub);
-          return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
-        });
-
-        test('it should still display import CSV file button', async function(assert) {
-          assert.contains('Importer (.csv)');
-        });
-
-        test('it should display download template csv button', async function(assert) {
-          // then
-          assert.contains('Télécharger le modèle');
-        });
-
-        test('it should display the tooltip', async function(assert) {
-          assert.contains('En savoir plus');
-        });
+        // then
+        assert.contains('Dissocier le compte');
       });
     });
 
@@ -376,11 +296,6 @@ module('Integration | Component | Student::Sco::List', function(hooks) {
         }
         this.owner.register('service:current-user', CurrentUserStub);
         return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
-      });
-
-      test('it should not display import button', async function(assert) {
-        assert.notContains('Importer (.xml)');
-        assert.notContains('Importer (.csv)');
       });
 
       test('it should not display the dissociate action', async function(assert) {
