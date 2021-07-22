@@ -1,6 +1,5 @@
 import Response from 'ember-cli-mirage/response';
 import {
-  findPaginatedCampaignAssessmentParticipationSummaries,
   findPaginatedCampaignProfilesCollectionParticipationSummaries,
 } from './handlers/find-paginated-campaign-participation-summaries';
 import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
@@ -246,8 +245,6 @@ export default function() {
     const campaign = schema.campaigns.find(campaignId);
     return campaign.campaignAnalysis;
   });
-
-  this.get('/campaigns/:campaignId/assessment-participations', findPaginatedCampaignAssessmentParticipationSummaries);
 
   this.get('/campaigns/:id/profiles-collection-participations', findPaginatedCampaignProfilesCollectionParticipationSummaries);
 
