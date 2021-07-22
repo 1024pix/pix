@@ -3,7 +3,7 @@ const { expect, databaseBuilder, domainBuilder, knex, learningContentBuilder, mo
 const computePoleEmploiSendings = require('../../../../scripts/prod/compute-pole-emploi-sendings');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
-
+const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 function setLearningContent(learningContent) {
   const learningObjects = learningContentBuilder.buildLearningContent(learningContent);
   mockLearningContent(learningObjects);
@@ -280,8 +280,8 @@ describe('computePoleEmploiSendings', () => {
   context('when only one pole emploi sendings is missing', () => {
     beforeEach(() => {
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, isShared: true, sharedAt: new Date('2021-10-10') }).id;
-      databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId, type: PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_START });
-      databaseBuilder.factory.buildPoleEmploiSending({ campaignParticipationId, type: PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_COMPLETION });
+      poleEmploiSendingFactory.build({ campaignParticipationId, type: PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_START });
+      poleEmploiSendingFactory.build({ campaignParticipationId, type: PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_COMPLETION });
       databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, state: 'completed', type: 'CAMPAIGN' });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId, snappedAt: new Date('2021-10-10'), snapshot: JSON.stringify([]) });
       return databaseBuilder.commit();

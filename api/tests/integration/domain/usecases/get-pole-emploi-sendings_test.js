@@ -3,32 +3,21 @@ const usecases = require('../../../../lib/domain/usecases');
 const poleEmploiService = require('../../../../lib/domain/services/pole-emploi-service');
 const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
 const settings = require('../../../../lib/config');
+const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
 describe('Integration | UseCase | get-campaign-participations-counts-by-stage', () => {
   let originalEnv;
   let sending1;
   let sending2;
-  let campaignId;
 
   beforeEach(async() => {
     originalEnv = settings.apiManager.url;
     settings.apiManager.url = 'https://fake-url.fr';
 
-    const organizationId = databaseBuilder.factory.buildOrganization({ name: 'Pole emploi' }).id;
-    campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-
-    const user1Id = databaseBuilder.factory.buildUser().id;
-    databaseBuilder.factory.buildAuthenticationMethod({ userId: user1Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId1' });
-    const campaignParticipation1Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user1Id, campaignId }).id;
-    sending1 = databaseBuilder.factory.buildPoleEmploiSending({ id: 8766, campaignParticipationId: campaignParticipation1Id, createdAt: new Date('2021-03-01'), payload: { individu: {} } });
-
-    const user2Id = databaseBuilder.factory.buildUser().id;
-    databaseBuilder.factory.buildAuthenticationMethod({ userId: user2Id, identityProvider: 'POLE_EMPLOI', externalIdentifier: 'externalUserId2' });
-    const campaignParticipation2Id = databaseBuilder.factory.buildCampaignParticipation({ userId: user2Id, campaignId }).id;
-    sending2 = databaseBuilder.factory.buildPoleEmploiSending({ id: 45678, campaignParticipationId: campaignParticipation2Id, createdAt: new Date('2021-04-01'), payload: { individu: {} } });
+    sending1 = poleEmploiSendingFactory.buildWithUser({ createdAt: new Date('2021-03-01'), isSuccessful: true });
+    sending2 = poleEmploiSendingFactory.buildWithUser({ createdAt: new Date('2021-04-01'), isSuccessful: false });
 
     await databaseBuilder.commit();
-
   });
 
   afterEach(() => {
@@ -62,6 +51,19 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
       expect(response.sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending1.id]);
       expect(response.link).to.equal(expectedLink);
     });
+
+    it('should return a sending with a link with filters', async () => {
+      //given
+      const filters = { isSuccessful: true };
+      const cursorCorrespondingToSending2 = poleEmploiService.generateCursor({ idEnvoi: sending2.id, dateEnvoi: sending2.createdAt });
+      const expectedLink = poleEmploiService.generateLink({ idEnvoi: sending1.id, dateEnvoi: sending1.createdAt }, filters);
+
+      //when
+      const response = await usecases.getPoleEmploiSendings({ cursor: cursorCorrespondingToSending2, filters, poleEmploiSendingRepository });
+      //then
+      expect(response.sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending1.id]);
+      expect(response.link).to.equal(expectedLink);
+    });
   });
 
   context('when there is a cursor but there is no more sending', function() {
@@ -76,5 +78,13 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
       expect(response.sendings).to.deep.equal([]);
       expect(response.link).to.equal(null);
     });
+  });
+
+  it('returns sendings which match the filters', async () => {
+    //when
+    const { sendings } = await usecases.getPoleEmploiSendings({ cursor: null, poleEmploiSendingRepository, filters: { isSuccessful: false } });
+
+    //then
+    expect(sendings.map(({ idEnvoi }) => idEnvoi)).to.exactlyContain([sending2.id]);
   });
 });

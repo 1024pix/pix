@@ -1,10 +1,14 @@
 const settings = require('../../config');
 
-function generateLink(sending) {
+function generateLink(sending, filters = {}) {
   const host = settings.apiManager.url;
   const { dateEnvoi, idEnvoi } = sending;
   const cursor = generateCursor({ idEnvoi, dateEnvoi });
-  return `${host}/pole-emploi/envois?curseur=${cursor}`;
+  let link = `${host}/pole-emploi/envois?curseur=${cursor}`;
+  if (Object.keys(filters).includes('isSuccessful')) {
+    link += `&enErreur=${!filters.isSuccessful}`;
+  }
+  return link;
 }
 
 function generateCursor(data) {
