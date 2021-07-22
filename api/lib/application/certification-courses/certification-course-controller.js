@@ -1,4 +1,3 @@
-const certificationService = require('../../domain/services/certification-service');
 const certificationDetailsSerializer = require('../../infrastructure/serializers/jsonapi/certification-details-serializer');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationResultInformationSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-information-serializer');
@@ -11,11 +10,6 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
-
-  computeResult(request) {
-    const certificationCourseId = request.params.id;
-    return certificationService.calculateCertificationResultByCertificationCourseId(certificationCourseId);
-  },
 
   async getCertificationDetails(request) {
     const certificationCourseId = request.params.id;
