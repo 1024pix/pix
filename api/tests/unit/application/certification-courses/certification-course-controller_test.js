@@ -1,6 +1,5 @@
 const { sinon, expect, hFake, generateValidRequestAuthorizationHeader, domainBuilder } = require('../../../test-helper');
 const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
-const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationResultInformationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-information-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 const certifiedProfileRepository = require('../../../../lib/infrastructure/repositories/certified-profile-repository');
@@ -10,42 +9,6 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | Controller | certification-course-controller', () => {
-
-  describe('#computeResult', () => {
-
-    const certificationCourseId = 1245;
-    const certificationScore = 156;
-
-    const request = {
-      params: {
-        id: certificationCourseId,
-      },
-      route: {
-        path: '/certification',
-      },
-    };
-
-    beforeEach(() => {
-      sinon.stub(certificationService, 'calculateCertificationResultByCertificationCourseId').resolves(certificationScore);
-    });
-
-    it('should call certification Service to compute score', async () => {
-      // when
-      await certificationCourseController.computeResult(request, hFake);
-
-      // then
-      sinon.assert.calledOnce(certificationService.calculateCertificationResultByCertificationCourseId);
-      sinon.assert.calledWith(certificationService.calculateCertificationResultByCertificationCourseId, certificationCourseId);
-    });
-
-    it('should reply the score', async () => {
-      // when
-      const response = await certificationCourseController.computeResult(request, hFake);
-
-      // then
-      expect(response).to.equal(certificationScore);
-    });
-  });
 
   describe('#getCertificationDetails', () => {
 
