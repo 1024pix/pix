@@ -32,8 +32,8 @@ module.exports = {
         'targetProfileImageUrl': 'target-profiles.imageUrl',
       })
       .select(
-        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER (partition by "campaigns"."id") AS "participationsCount"'),
-        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isShared" IS TRUE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'),
+        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "participationsCount"'),
+        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isShared" IS TRUE AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'),
       )
       .join('users', 'users.id', 'campaigns.creatorId')
       .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
