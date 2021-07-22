@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import fillInByLabel from '../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
-import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -11,68 +10,6 @@ module('Integration | Component | Student::Sup::List', function(hooks) {
 
   hooks.beforeEach(function() {
     this.set('noop', sinon.stub());
-  });
-
-  test('it should show title of team page', async function(assert) {
-    // when
-    await render(hbs`<Student::Sup::List @onFilter={{noop}}/>`);
-
-    // then
-    assert.contains('Étudiants');
-  });
-
-  module('when user is admin', function(hooks) {
-    hooks.beforeEach(function() {
-      class CurrentUserStub extends Service {
-        organization = Object.create({ id: 1 });
-        isAdminInOrganization = true;
-        prescriber = {
-          lang: 'fr',
-        }
-      }
-      this.owner.register('service:current-user', CurrentUserStub);
-    });
-
-    test('it should display download template button', async function(assert) {
-      // when
-      await render(hbs`<Student::Sup::List @onFilter={{noop}}/>`);
-
-      // then
-      assert.contains('Télécharger le modèle');
-    });
-
-    test('it displays the import button', async function(assert) {
-      // when
-      await render(hbs`<Student::Sup::List @onFilter={{noop}}/>`);
-
-      // then
-      assert.contains('Importer (.csv)');
-    });
-  });
-
-  module('when user is only member', function(hooks) {
-    hooks.beforeEach(function() {
-      class CurrentUserStub extends Service {
-        isAdminInOrganization = false;
-      }
-      this.owner.register('service:current-user', CurrentUserStub);
-    });
-
-    test('it should not display download template button', async function(assert) {
-      // when
-      await render(hbs`<Student::Sup::List @onFilter={{noop}}/>`);
-
-      // then
-      assert.notContains('Télécharger le modèle');
-    });
-
-    test('it should not display import button', async function(assert) {
-      // when
-      await render(hbs`<Student::Sup::List @onFilter={{noop}}/>`);
-
-      // then
-      assert.notContains('Importer (.csv)');
-    });
   });
 
   test('it should display the header labels', async function(assert) {

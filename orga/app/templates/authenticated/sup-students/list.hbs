@@ -1,12 +1,20 @@
 {{page-title (t 'pages.students-sup.title')}}
 <div class="list-students-page">
+  <Student::Sup::HeaderActions
+    @onImportStudents={{this.importStudents}}
+  />
+
   <Student::Sup::List
     @students={{@model}}
-    @isLoading={{this.isLoading}}
     @lastNameFilter={{this.lastName}}
     @firstNameFilter={{this.firstName}}
     @studentNumberFilter={{this.studentNumber}}
-    @onImportStudents={{this.importStudents}}
     @onFilter={{this.triggerFiltering}}
   />
+
+  {{#if this.isLoading}}
+    <ModalDialog @translucentOverlay={{true}} @containerClass="modal__translucent">
+      <PixLoader />
+    </ModalDialog>
+  {{/if}}
 </div>
