@@ -21,4 +21,14 @@ export default class AccountRecoveryDemandAdapter extends ApplicationAdapter {
       );
     }
   }
+
+  urlForQueryRecord(query) {
+    if (query.temporaryKey) {
+      const url = `${this.host}/${this.namespace}/account-recovery/${query.temporaryKey}`;
+      delete query.temporaryKey;
+      return url;
+    }
+
+    return super.urlForQueryRecord(query);
+  }
 }
