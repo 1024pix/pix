@@ -1,5 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
+import pick from 'lodash/pick';
 import sinon from 'sinon';
 
 module('Unit | Route | authenticated/sessions/details/certification-candidates', function(hooks) {
@@ -11,12 +13,9 @@ module('Unit | Route | authenticated/sessions/details/certification-candidates',
   });
 
   module('#model', function(hooks) {
-    const details = { session: Symbol('session') };
+    const session = Symbol('session');
     const countries = Symbol('countries');
-    const expectedModel = {
-      ...details,
-      countries,
-    };
+    const details = EmberObject.create({ session });
 
     hooks.beforeEach(function() {
       route.modelFor = sinon.stub().returns(details);
@@ -24,13 +23,16 @@ module('Unit | Route | authenticated/sessions/details/certification-candidates',
     });
 
     test('it should return the expectedModel', async function(assert) {
+      // given
+      const expectedModel = { session, countries };
+
       // when
       const actualModel = await route.model();
 
       // then
       sinon.assert.calledWith(route.modelFor, 'authenticated.sessions.details');
       sinon.assert.calledWith(route.store.findAll, 'country');
-      assert.deepEqual(actualModel, expectedModel);
+      assert.deepEqual(pick(actualModel, ['session', 'countries']), expectedModel);
     });
   });
 });
