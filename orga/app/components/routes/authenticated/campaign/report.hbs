@@ -55,11 +55,9 @@
 
   <div class="panel campaign-details__controls">
     <nav class="navbar campaign-details-controls__navbar-tabs">
-      {{#if @campaign.isTypeAssessment}}
-        <LinkTo @route="authenticated.campaigns.campaign.activity" @model={{@campaign}} class="navbar-item">
-          {{t 'pages.campaign.tab.activity'}}
-        </LinkTo>
-      {{/if}}
+      <LinkTo @route="authenticated.campaigns.campaign.activity" @model={{@campaign}} class="navbar-item">
+        {{t 'pages.campaign.tab.activity'}}
+      </LinkTo>
 
       {{#unless @campaign.isTypeAssessment}}
         <LinkTo
