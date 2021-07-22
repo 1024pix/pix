@@ -1,10 +1,13 @@
 const Joi = require('joi').extend(require('@joi/date'));
 const featureToggles = require('../preHandlers/feature-toggles');
-
+const XRegExp = require('xregexp');
+const identifiersType = require('../../domain/types/identifiers-type');
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
 const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
 
 const accountRecoveryController = require('./account-recovery-controller');
+
+const { passwordValidationPattern } = require('../../config').account;
 
 exports.register = async function(server) {
   server.route([
@@ -43,7 +46,6 @@ exports.register = async function(server) {
         tags: ['api', 'account-recovery'],
       },
     },
-
     {
       method: 'GET',
       path: '/api/account-recovery/{temporaryKey}',
@@ -58,6 +60,39 @@ exports.register = async function(server) {
         ],
         notes: ['- Permet de vérifier la demande de récupération de son compte Pix.\n' +
         '- Renvoie l’utilisateur correspondant à la demande pour une réinitialisation de mot de passe.'],
+        tags: ['api', 'account-recovery'],
+      },
+    },
+    {
+      method: 'PATCH',
+      path: '/api/users/{id}/account-recovery',
+      config: {
+        pre: [
+          {
+            method: featureToggles.isScoAccountRecoveryEnabled,
+            assign: 'isScoAccountRecoveryEnabled',
+          },
+        ],
+        auth: false,
+        handler: accountRecoveryController.updateUserAccountFromRecoveryDemand,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                email: Joi.string().email().required(),
+                password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
+                'temporary-key': Joi.string().required(),
+              },
+            },
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        notes: ['- Permet de mettre à jour les informations d’un utilisateur via à une demande de récupération de compte.'],
         tags: ['api', 'account-recovery'],
       },
     },
