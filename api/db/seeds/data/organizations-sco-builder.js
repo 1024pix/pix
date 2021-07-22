@@ -7,6 +7,7 @@ const SCO_AGRI_ID = 7;
 const SCO_AGRI_CFA_ID = 8;
 const SCO_AEFE_ID = 9;
 const SCO_STUDENT_ID = 99;
+const CANADA_INSEE_CODE = '401';
 
 function organizationsScoBuilder({ databaseBuilder }) {
   const SCO_EXTERNAL_ID = '1237457A';
@@ -116,6 +117,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     firstName: userWithEmailAndUsername.firstName,
     lastName: userWithEmailAndUsername.lastName,
     birthdate: '2012-01-07',
+    birthCountryCode: CANADA_INSEE_CODE,
     division: '3A',
     sex: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
