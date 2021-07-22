@@ -22,6 +22,7 @@ export default class CertificationInformationsController extends Controller {
   // Properties
   @alias('model') certification;
   @tracked editingCandidateResults = false;
+  @tracked editingCandidateInformations = false;
   @service notifications;
   @tracked displayConfirm = false;
   @tracked confirmMessage = '';
@@ -202,6 +203,22 @@ export default class CertificationInformationsController extends Controller {
     }
 
     this.displayConfirm = false;
+  }
+
+  @action
+  onCandidateInformationsEdit() {
+    this.editingCandidateInformations = true;
+  }
+
+  @action
+  onCandidateInformationsCancel() {
+    this.editingCandidateInformations = false;
+  }
+
+  @action
+  onCandidateInformationsSave(event) {
+    event.preventDefault();
+    this.editingCandidateInformations = false;
   }
 
   // Private methods
