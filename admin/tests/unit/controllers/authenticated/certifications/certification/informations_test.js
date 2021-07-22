@@ -288,7 +288,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#onCandidateResultsSave', () => {
-
     test('it saves competences info when save is sent', async function(assert) {
       // given
       const save = sinon.stub().resolves();
@@ -304,27 +303,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       await controller.onCandidateResultsSave();
 
       // then
-      sinon.assert.calledWith(save, { adapterOptions: { updateMarks: false } });
       sinon.assert.calledWith(save, { adapterOptions: { updateMarks: true } });
-      assert.ok(true);
-    });
-
-    test('marks are not updated when no change has been made and save is sent', async function(assert) {
-      // given
-      const save = sinon.stub().resolves();
-      const store = this.owner.lookup('service:store');
-
-      const certification = store.createRecord('certification');
-      certification.save = save;
-      certification.hasDirtyAttributes = false;
-      controller.certification = certification;
-
-      // when
-      await controller.onCandidateResultsSave();
-
-      // then
-      sinon.assert.calledWith(save, { adapterOptions: { updateMarks: false } });
-      sinon.assert.neverCalledWith(save, { adapterOptions: { updateMarks: true } });
       assert.ok(true);
     });
   });
@@ -334,12 +313,12 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       test('should get no error and enable confirm dialog', async function(assert) {
         // when
         await controller.onCandidateResultsSaveConfirm();
+
         // then
         assert.equal(controller.confirmAction, 'onCandidateResultsSave');
         assert.ok(controller.displayConfirm);
         assert.ok(controller.confirmMessage);
         assert.notOk(controller.confirmErrorMessage);
-
       });
     });
 
@@ -498,7 +477,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   module('#onCandidateInformationsSave', () => {
     test('it exits candidate informations edit mode', async function(assert) {
       // given
-      controller.saveWithoutUpdatingCompetenceMarks = sinon.stub().resolves();
+      controller.saveCertificationCourse = sinon.stub().resolves();
       controller.editingCandidateInformations = true;
       const event = new Event('submit');
 

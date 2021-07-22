@@ -103,14 +103,9 @@ export default class CertificationInformationsController extends Controller {
 
   @action
   async onCandidateResultsSave() {
-    const markUpdatedRequired = this.certification.hasDirtyAttributes;
     this.displayConfirm = false;
     try {
-      await this.saveWithoutUpdatingCompetenceMarks();
-
-      if (markUpdatedRequired) {
-        await this.saveWithUpdatingCompetenceMarks();
-      }
+      await this.saveAssessementResult();
 
       this.notifications.success('Modifications enregistrées');
       this.editingCandidateResults = false;
@@ -127,11 +122,11 @@ export default class CertificationInformationsController extends Controller {
     }
   }
 
-  saveWithUpdatingCompetenceMarks() {
+  saveAssessementResult() {
     return this.certification.save({ adapterOptions: { updateMarks: true } });
   }
 
-  saveWithoutUpdatingCompetenceMarks() {
+  saveCertificationCourse() {
     return this.certification.save({ adapterOptions: { updateMarks: false } });
   }
 
@@ -220,7 +215,7 @@ export default class CertificationInformationsController extends Controller {
     event.preventDefault();
 
     try {
-      await this.saveWithoutUpdatingCompetenceMarks();
+      await this.saveCertificationCourse();
       this.notifications.success('Les informations du candidat ont bien été enregistrées.');
       this.editingCandidateInformations = false;
     } catch (e) {
