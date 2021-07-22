@@ -117,7 +117,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}}/>`);
 
       // then
-      assert.contains('Aucune participation partagée');
+      assert.contains('Aucune participation');
     });
   });
 

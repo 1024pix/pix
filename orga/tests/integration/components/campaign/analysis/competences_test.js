@@ -37,7 +37,6 @@ module('Integration | Component | Campaign::Analysis::Competences', function(hoo
     );
 
     // then
-    assert.notContains('En attente de résultats');
     const firstCompetence = '[aria-label="Compétence"]:first-child';
     assert.dom(firstCompetence).containsText('Competence A');
     assert.dom(firstCompetence).containsText('33 %');
