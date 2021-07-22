@@ -19,12 +19,13 @@ module.exports = {
     return userSerializer.serialize(user);
   },
 
-  async updateUserAccountRecovery(request, h) {
+  async updateUserAccountFromRecoveryDemand(request, h) {
+    const userId = request.params.id;
 
-    const userId = request.payload.data.id;
-    const email = request.payload.data.attributes.email;
-    const password = request.payload.data.attributes.password;
-    const temporaryKey = request.payload.data.attributes['temporary-key'];
+    const payload = request.payload.data.attributes;
+    const email = payload.email;
+    const password = payload.password;
+    const temporaryKey = payload['temporary-key'];
 
     await DomainTransaction.execute(async (domainTransaction) => {
       await usecases.updateUserAccount({
