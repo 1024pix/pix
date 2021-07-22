@@ -2,12 +2,14 @@ const {
   expect,
   sinon,
   hFake,
+  domainBuilder,
 } = require('../../../test-helper');
 
 const accountRecoveryController = require('../../../../lib/application/account-recovery/account-recovery-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | Controller | account-recovery-controller', () => {
 
@@ -76,15 +78,18 @@ describe('Unit | Controller | account-recovery-controller', () => {
 
   describe('#updateUserAccount', () => {
 
-    it('should update user account', async () => {
+    it('should call updateUserAccount usecase and return 204', async () => {
       const user = domainBuilder.buildUser({ id: 1 });
       const temporaryKey = 'validTemporaryKey';
       const email = 'Philippe@example.net';
+      const domainTransaction = Symbol();
 
       const request = {
+        params: {
+          id: user.id,
+        },
         payload: {
           data: {
-            id: user.id,
             attributes: {
               email,
               'password': user.password,
@@ -95,16 +100,19 @@ describe('Unit | Controller | account-recovery-controller', () => {
       };
 
       sinon.stub(usecases, 'updateUserAccount').resolves();
+      DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
 
       // when
-      const response = await accountRecoveryController.updateUserAccountRecovery(request, hFake);
+      const response = await accountRecoveryController.updateUserAccountFromRecoveryDemand(request, hFake);
 
       // then
-      expect(usecases.updateUserAccount).calledWith({
+      expect(usecases.updateUserAccount).calledWithMatch({
         userId: user.id,
         newEmail: email,
         password: user.password,
-        temporaryKey });
+        temporaryKey,
+        domainTransaction,
+      });
       expect(response.statusCode).to.equal(204);
     });
   });
