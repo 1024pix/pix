@@ -1,6 +1,6 @@
 import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
 
-export function findPaginatedSharedParticipations(schema, request) {
+export function findPaginatedAssessmentResults(schema, request) {
 
   const queryParams = request.queryParams;
   const results = schema.campaignAssessmentResultMinimals.all().models;

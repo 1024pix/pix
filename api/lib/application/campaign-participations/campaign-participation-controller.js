@@ -106,7 +106,7 @@ module.exports = {
     return campaignAssessmentParticipationResultSerializer.serialize(campaignAssessmentParticipationResult);
   },
 
-  async findSharedParticipations(request) {
+  async findAssessmentParticipationResults(request) {
     const campaignId = request.params.id;
     const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
     if (filters.divisions && !Array.isArray(filters.divisions)) {

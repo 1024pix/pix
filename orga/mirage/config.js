@@ -5,7 +5,7 @@ import {
 } from './handlers/find-paginated-campaign-participation-summaries';
 import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
 import { findFilteredPaginatedStudents } from './handlers/find-filtered-paginated-students';
-import { findPaginatedSharedParticipations } from './handlers/find-paginated-shared-participations';
+import { findPaginatedAssessmentResults } from './handlers/find-paginated-assessment-results';
 
 const emptyData = {
   data: {
@@ -308,7 +308,7 @@ export default function() {
     return schema.campaignParticipantActivities.all();
   });
 
-  this.get('/campaigns/:campaignId/shared-participations', findPaginatedSharedParticipations);
+  this.get('/campaigns/:campaignId/assessment-results', findPaginatedAssessmentResults);
 
   this.get('/campaigns/:campaignId/stats/participations-by-status', () => {
     return emptyData;
