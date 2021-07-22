@@ -130,6 +130,29 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       });
     });
 
+    describe('when a participant has participated twice', () => {
+      let recentCampaignParticipation;
+
+      beforeEach(async () => {
+        const userId = 999;
+        const oldCampaignParticipation = { userId, campaignId, isShared: true, sharedAt, isImproved: true };
+        databaseBuilder.factory.buildCampaignParticipationWithUser({ id: userId }, oldCampaignParticipation, false);
+
+        recentCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId, isImproved: false, sharedAt, campaignId, isShared: true });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return only the participationCampaign which is not improved', async () => {
+        // when
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+
+        // then
+        expect(results.data).to.have.lengthOf(1);
+        expect(results.data[0].id).to.equal(recentCampaignParticipation.id);
+      });
+    });
+
     describe('when there is a filter on division', () => {
 
       beforeEach(async () => {
