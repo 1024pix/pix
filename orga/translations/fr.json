@@ -197,7 +197,6 @@
       "tab": {
         "activity": "Activité",
         "results": "Résultats ({count, number})",
-        "participants": "Participants ({count, number})",
         "review": "Analyse",
         "settings": "Paramètres"
       }

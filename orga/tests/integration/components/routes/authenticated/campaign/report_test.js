@@ -106,7 +106,6 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
       });
 
       test('it should display evaluation results item', async function(assert) {
-
         assert.dom('nav a[href="/campagnes/13/resultats-evaluation"]').hasText('Résultats (10)');
       });
     });
@@ -117,11 +116,16 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
         const campaign = store.createRecord('campaign', {
           id: 13,
           type: 'PROFILES_COLLECTION',
+          sharedParticipationsCount: 6,
         });
 
         this.set('campaign', campaign);
 
         await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+      });
+
+      test('it should display profile results item', async function(assert) {
+        assert.dom('nav a[href="/campagnes/13/profils"]').hasText('Résultats (6)');
       });
 
       test('it should not display participation item', async function(assert) {
