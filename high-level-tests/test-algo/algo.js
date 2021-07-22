@@ -24,7 +24,7 @@ function _read(path) {
       return JSON.parse(file);
     }
   }
-  return [];
+  return [[]];
 }
 
 function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId, userResult, userKE }) {
@@ -200,7 +200,7 @@ async function proceedAlgo(challenges, targetSkills, assessment, locale, knowled
 
 async function launchTest(argv) {
 
-  const { competenceId, targetProfileId, locale, userResult, userKEFile } = argv;
+  const { competenceId, targetProfileId, locale, userResult, usersKEFile } = argv;
 
   const allAnswers = [];
   const knowledgeElements = [];
@@ -218,7 +218,7 @@ async function launchTest(argv) {
     findByAssessment: () => [],
   };
 
-  const userKE = _read(userKEFile);
+  const usersKE = _read(usersKEFile);
 
   const { challenges, targetSkills } = await _getReferentiel({
     assessment,
@@ -231,7 +231,12 @@ async function launchTest(argv) {
     targetProfileRepository,
   });
 
-  await proceedAlgo(challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers, userResult, userKE);
+  const proceedUsers = usersKE.map((userKE) => {
+    return proceedAlgo(challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers, userResult, userKE);
+  });
+
+  await Promise.all(proceedUsers);
+
   process.exit(0);
 }
 
