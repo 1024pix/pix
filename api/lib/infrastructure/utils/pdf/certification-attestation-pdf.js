@@ -1,142 +1,271 @@
-const { getPdfBuffer } = require('./write-pdf-utils');
-const { readFile } = require('fs').promises;
-const moment = require('moment');
-const startCase = require('lodash/startCase');
-const sortBy = require('lodash/sortBy');
+const { PDFDocument, rgb } = require('pdf-lib');
+const fs = require('fs');
+const pdfLibFontkit = require('@pdf-lib/fontkit');
 const sharp = require('sharp');
+const AttestationViewModel = require('./AttestationViewModel');
 
-function formatDate(date) {
-  return moment(date).locale('fr').format('LL');
+const fonts = {
+  openSansBold: 'OpenSans-Bold.ttf',
+  openSansSemiBold: 'OpenSans-SemiBold.ttf',
+  robotoMedium: 'Roboto-Medium.ttf',
+  robotoMonoRegular: 'RobotoMono-Regular.ttf',
+};
+
+const images = {
+  clea: 'clea',
+  pixPlusDroit: 'pixPlusDroit',
+};
+
+async function getCertificationAttestationPdfBuffer({
+  certificate,
+  fileSystem = fs.promises,
+  pdfWriter = PDFDocument,
+  bufferFromBytes = Buffer.from,
+  imageUtils = sharp,
+  dirname = __dirname,
+  fontkit = pdfLibFontkit,
+} = {}) {
+
+  const viewModel = AttestationViewModel.from(certificate);
+  const generatedPdfDoc = await _initializeNewPDFDocument(pdfWriter, fontkit);
+  const embeddedFonts = await _embedFonts(generatedPdfDoc, fileSystem, dirname);
+  const embeddedImages = await _embedImages(generatedPdfDoc, viewModel, imageUtils);
+
+  const templatePdfDoc = await _getTemplatePDFDocument(viewModel, dirname, fileSystem, pdfWriter);
+
+  await _render({ templateDocument: templatePdfDoc, pdfDocument: generatedPdfDoc, viewModel, rgb, embeddedFonts, embeddedImages });
+
+  const buffer = await _finalizeDocument(generatedPdfDoc, bufferFromBytes);
+
+  return {
+    buffer: buffer,
+    fileName: viewModel.filename,
+  };
 }
 
-async function embedFontInDoc(pdfDoc, fontFileName) {
-  const fontFile = await readFile(`${__dirname}/files/${fontFileName}`);
+async function _initializeNewPDFDocument(pdfWriter, fontkit) {
+  const pdfDocument = await pdfWriter.create();
+  pdfDocument.registerFontkit(fontkit);
+  return pdfDocument;
+}
+
+async function _embedFonts(pdfDocument, fileSystem, dirname) {
+  const embeddedFonts = {};
+  for (const fontKey in fonts) {
+    const embeddedFont = await _embedFontInPDFDocument(pdfDocument, fonts[fontKey], fileSystem, dirname);
+    embeddedFonts[fontKey] = embeddedFont;
+  }
+  return embeddedFonts;
+}
+
+async function _embedFontInPDFDocument(pdfDoc, fontFileName, fileSystem, dirname) {
+  const fontFile = await fileSystem.readFile(`${dirname}/files/${fontFileName}`);
   return pdfDoc.embedFont(fontFile);
 }
 
-function _drawScore(data, page, font, fontSize) {
-  const score = data.pixScore.toString();
-  const scoreWidth = font.widthOfTextAtSize(score, fontSize);
-
-  page.drawText(score, {
-    x: 105 - scoreWidth / 2, y: 675,
-    font: font,
-    size: fontSize,
-  });
+async function _embedImages(pdfDocument, viewModel, imageUtils) {
+  const embeddedImages = {};
+  if (viewModel.shouldDisplayCleaCertification()) {
+    const image = await _embedCleaCertificationImage(pdfDocument, viewModel, imageUtils);
+    embeddedImages[images.clea] = image;
+  }
+  if (viewModel.shouldDisplayPixPlusDroitCertification()) {
+    const image = await _embedPixPlusDroitCertificationImage(pdfDocument, viewModel, imageUtils);
+    embeddedImages[images.pixPlusDroit] = image;
+  }
+  return embeddedImages;
 }
 
-function _drawMaxScore(data, page, font, fontSize, rgb) {
-  const maxScore = data.maxReachableScore.toString() + '*';
-  const maxScoreWidth = font.widthOfTextAtSize(maxScore, fontSize);
-
-  page.drawText(maxScore, {
-    x: 105 - maxScoreWidth / 2, y: 659,
-    font: font,
-    size: fontSize,
-    color: rgb(0 / 255, 45 / 255, 80 / 255),
-  });
+async function _embedCleaCertificationImage(pdfDocument, viewModel, imageUtils) {
+  const pngBuffer = await imageUtils(viewModel.cleaCertificationImagePath)
+    .resize(80, 100, {
+      fit: 'inside',
+    })
+    .sharpen()
+    .toBuffer();
+  const pngImage = await pdfDocument.embedPng(pngBuffer);
+  return pngImage;
 }
 
-function _drawMaxLevel(data, page, font, fontSize, rgb) {
-  const maxLevel = `(niveaux sur ${data.maxReachableLevelOnCertificationDate})`;
-
-  page.drawText(maxLevel, {
-    x: 159, y: 608,
-    font: font,
-    size: fontSize,
-    color: rgb(80 / 255, 95 / 255, 121 / 255),
-  });
+async function _embedPixPlusDroitCertificationImage(pdfDocument, certificate, imageUtils) {
+  const pngBuffer = await imageUtils(certificate.pixPlusDroitCertificationImagePath)
+    .resize(100, 120, {
+      fit: 'inside',
+    })
+    .sharpen()
+    .toBuffer();
+  const pngImage = await pdfDocument.embedPng(pngBuffer);
+  return pngImage;
 }
 
-function _drawFooter(data, page, font, fontSize, rgb) {
-  const maxReachableLevelIndication = `* À la date d’obtention de cette certification, le nombre maximum de pix atteignable était de ${data.maxReachableScore}, correspondant au niveau ${data.maxReachableLevelOnCertificationDate}.`;
+async function _getTemplatePDFDocument(viewModel, dirname, fileSystem, pdfWriter) {
+  const templateFileName = viewModel.shouldDisplayComplementaryCertifications()
+    ? 'attestation-template-with-complementary-certifications.pdf'
+    : 'attestation-template.pdf';
+  const path = `${dirname}/files/${templateFileName}`;
+  const basePdfBytes = await fileSystem.readFile(path);
+  return await pdfWriter.load(basePdfBytes);
+}
 
-  page.drawText(maxReachableLevelIndication, {
-    x: 55, y: 46,
-    font: font,
-    size: fontSize,
-    color: rgb(42 / 255, 64 / 255, 99 / 255),
-  });
+async function _render({ templateDocument, pdfDocument, viewModel, rgb, embeddedFonts, embeddedImages }) {
 
-  if (data.maxReachableLevelOnCertificationDate < 8) {
-    const absoluteMaxLevelindication = 'Lorsque les 8 niveaux du référentiel Pix seront disponibles, ce nombre maximum sera de 1024 pix.';
-    page.drawText(absoluteMaxLevelindication, {
-      x: 55, y: 35,
+  const page = await _copyPageFromTemplateIntoDocument(pdfDocument, templateDocument);
+
+  _renderScore(viewModel, page, embeddedFonts);
+  _renderHeaderCandidateInformations(viewModel, page, rgb, embeddedFonts);
+  _renderCompetencesDetails(viewModel, page, rgb, embeddedFonts);
+  _renderFooter(viewModel, page, rgb, embeddedFonts);
+  _renderMaxScore(viewModel, page, rgb, embeddedFonts);
+  _renderMaxLevel(viewModel, page, rgb, embeddedFonts);
+  _renderVerificationCode(viewModel, page, rgb, embeddedFonts);
+  _renderCleaCertification(viewModel, page, embeddedImages);
+  _renderPixPlusCertificationCertification(viewModel, page, embeddedImages);
+
+  pdfDocument.addPage(page);
+}
+
+async function _copyPageFromTemplateIntoDocument(pdfDocument, templatePdfDocument) {
+  const pages = await pdfDocument.copyPages(templatePdfDocument, [0]);
+  return pages[0];
+}
+
+function _renderScore(viewModel, page, embeddedFonts) {
+  const pixScore = viewModel.pixScore;
+  const scoreFontSize = 24;
+  const scoreFont = embeddedFonts.openSansBold;
+  const scoreWidth = scoreFont.widthOfTextAtSize(pixScore, scoreFontSize);
+
+  page.drawText(
+    pixScore,
+    {
+      x: 105 - scoreWidth / 2,
+      y: 675,
+      font: scoreFont,
+      size: scoreFontSize,
+    },
+  );
+}
+
+function _renderMaxScore(viewModel, page, rgb, embeddedFonts) {
+  const font = embeddedFonts.openSansSemiBold;
+  const maxScoreFontSize = 9;
+
+  const maxReachableScore = viewModel.maxReachableScore;
+  const maxScoreWidth = font.widthOfTextAtSize(maxReachableScore, maxScoreFontSize);
+
+  page.drawText(
+    maxReachableScore,
+    {
+      x: 105 - maxScoreWidth / 2, y: 659,
       font: font,
-      size: fontSize,
+      size: maxScoreFontSize,
+      color: rgb(0 / 255, 45 / 255, 80 / 255),
+    },
+  );
+}
+
+function _renderMaxLevel(viewModel, page, rgb, embeddedFonts) {
+  page.drawText(
+    viewModel.maxLevel,
+    {
+      x: 159, y: 608,
+      font: embeddedFonts.openSansSemiBold,
+      size: 7,
+      color: rgb(80 / 255, 95 / 255, 121 / 255),
+    },
+  );
+}
+
+function _renderFooter(viewModel, page, rgb, embeddedFonts) {
+  page.drawText(
+    viewModel.maxReachableLevelIndication,
+    {
+      x: 55, y: 46,
+      font: embeddedFonts.openSansBold,
+      size: 7,
       color: rgb(42 / 255, 64 / 255, 99 / 255),
-    });
+    },
+  );
+
+  if (viewModel.shouldDisplayAbsoluteMaxLevelIndication()) {
+    page.drawText(
+      viewModel.absoluteMaxLevelIndication,
+      {
+        x: 55, y: 35,
+        font: embeddedFonts.openSansBold,
+        size: 7,
+        color: rgb(42 / 255, 64 / 255, 99 / 255),
+      },
+    );
   }
 }
 
-function _drawHeaderUserInfo(data, page, font, fontSize, rgb) {
-  const fullName = `${startCase(data.firstName)} ${startCase(data.lastName)}`;
-  const birthplaceInfo = data.birthplace ? ` à ${data.birthplace}` : '';
-  const birthInfo = formatDate(data.birthdate) + birthplaceInfo;
-  const certifCenter = data.certificationCenter;
-  const certifDate = formatDate(data.deliveredAt);
+function _renderHeaderCandidateInformations(viewModel, page, rgb, embeddedFonts) {
   [
-    [230, 712, fullName],
-    [269, 695.5, birthInfo],
-    [257, 680, certifCenter],
-    [208, 663.5, certifDate],
+    [230, 712, viewModel.fullName],
+    [269, 695.5, viewModel.birth],
+    [257, 680, viewModel.certificationCenter],
+    [208, 663.5, viewModel.certificationDate],
   ].forEach(([x, y, text]) => {
-    page.drawText(text, {
-      x, y,
-      font: font,
-      size: fontSize,
-      color: rgb(26 / 255, 64 / 255, 109 / 255),
-    });
+    page.drawText(
+      text,
+      {
+        x,
+        y,
+        font: embeddedFonts.openSansBold,
+        size: 9,
+        color: rgb(26 / 255, 64 / 255, 109 / 255),
+      },
+    );
   });
 }
 
-function _drawVerificationCode(data, page, font, fontSize, rgb) {
-  const code = data.verificationCode;
-  const verificationCodeCoordinates = { x: 410, y: 560 };
-
-  page.drawText(code, {
-    ...verificationCodeCoordinates,
-    font: font,
-    size: fontSize,
-    color: rgb(1, 1, 1),
-  });
+function _renderVerificationCode(viewModel, page, rgb, embeddedFonts) {
+  page.drawText(
+    viewModel.verificationCode,
+    {
+      x: 410,
+      y: 560,
+      font: embeddedFonts.robotoMonoRegular,
+      size: 11,
+      color: rgb(1, 1, 1),
+    },
+  );
 }
 
-async function _drawComplementaryCertifications(pdfDoc, data, page, _rgb) {
-  let yCoordinate = data.hasAcquiredCleaCertification() ? 400 : 385;
-  const stepY = -110;
+function _renderPixPlusCertificationCertification(viewModel, page, embeddedImages) {
+  let yCoordinate = 385;
 
-  if (data.hasAcquiredCleaCertification()) {
-    const pngBuffer = await sharp(data.cleaCertificationImagePath)
-      .resize(80, 100, {
-        fit: 'inside',
-      })
-      .sharpen()
-      .toBuffer();
-    const pngImage = await pdfDoc.embedPng(pngBuffer);
-    page.drawImage(pngImage, {
-      x: 400,
-      y: yCoordinate,
-    });
-    yCoordinate += stepY;
+  if (viewModel.shouldDisplayCleaCertification()) {
+    yCoordinate = 290;
   }
 
-  if (data.hasAcquiredPixPlusDroitCertification()) {
-    const pngBuffer = await sharp(data.pixPlusDroitCertificationImagePath)
-      .resize(100, 120, {
-        fit: 'inside',
-      })
-      .sharpen()
-      .toBuffer();
-    const pngImage = await pdfDoc.embedPng(pngBuffer);
-    page.drawImage(pngImage, {
-      x: 390,
-      y: yCoordinate,
-    });
+  if (viewModel.shouldDisplayPixPlusDroitCertification()) {
+    const pngImage = embeddedImages[images.pixPlusDroit];
+    page.drawImage(
+      pngImage,
+      {
+        x: 390,
+        y: yCoordinate,
+      },
+    );
   }
 }
 
-function _drawCompetencesDetails(data, page, font, fontSize, rgb) {
+function _renderCleaCertification(viewModel, page, embeddedImages) {
+  if (viewModel.shouldDisplayCleaCertification()) {
+    const pngImage = embeddedImages[images.clea];
+    page.drawImage(
+      pngImage,
+      {
+        x: 400,
+        y: 400,
+      },
+    );
+  }
+}
+
+function _renderCompetencesDetails(viewModel, page, rgb, embeddedFonts) {
   const competencesLevelCoordinates = [
     556, 532, 508,
     452, 428, 404, 380,
@@ -144,90 +273,37 @@ function _drawCompetencesDetails(data, page, font, fontSize, rgb) {
     196, 172, 148,
     92, 68,
   ];
-  const sortedCompetenceTree = sortBy(data.resultCompetenceTree.areas, 'code');
-  sortedCompetenceTree.forEach((area) => {
-    area.resultCompetences.forEach((competence) => {
-      const y = competencesLevelCoordinates.shift();
-      if (competence.level > 0) {
-        page.drawText(competence.level.toString(), {
+
+  viewModel.competenceDetailViewModels.forEach((competenceDetailViewModel) => {
+    const y = competencesLevelCoordinates.shift();
+    if (competenceDetailViewModel.shouldBeDisplayed()) {
+      page.drawText(
+        competenceDetailViewModel.level,
+        {
           x: 291, y: y + 5,
-          font: font,
-          size: fontSize,
+          font: embeddedFonts.robotoMedium,
+          size: 9,
           color: rgb(37 / 255, 56 / 255, 88 / 255),
-        });
-      } else {
-        page.drawRectangle({
-          x: 65,
-          y,
-          width: 210,
-          height: 18,
-          color: rgb(1, 1, 1),
-          opacity: 0.5,
-        });
-      }
-    });
+        },
+      );
+    } else {
+      page.drawRectangle({
+        x: 65,
+        y,
+        width: 210,
+        height: 18,
+        color: rgb(1, 1, 1),
+        opacity: 0.5,
+      });
+    }
+
   });
 }
 
-async function _dynamicInformationsForAttestation({ pdfDoc, page, data, rgb }) {
-  // Fonts
-  const [openSansBoldFont, openSansSemiBoldFont, robotoMediumFont, robotoMonoFont] = await Promise.all(
-    [
-      embedFontInDoc(pdfDoc, 'OpenSans-Bold.ttf'),
-      embedFontInDoc(pdfDoc, 'OpenSans-SemiBold.ttf'),
-      embedFontInDoc(pdfDoc, 'Roboto-Medium.ttf'),
-      embedFontInDoc(pdfDoc, 'RobotoMono-Regular.ttf'),
-    ],
-  );
-
-  const scoreFont = openSansBoldFont;
-  const headerFont = openSansBoldFont;
-  const levelFont = robotoMediumFont;
-  const maxScoreFont = openSansSemiBoldFont;
-  const maxLevelFont = openSansSemiBoldFont;
-  const footerFont = openSansBoldFont;
-  const codeFont = robotoMonoFont;
-
-  const headerFontSize = 9;
-  const footerFontSize = 7;
-  const scoreFontSize = 24;
-  const levelFontSize = 9;
-  const codeFontSize = 11;
-  const maxScoreFontSize = 9;
-  const maxLevelFontSize = 7;
-
-  _drawScore(data, page, scoreFont, scoreFontSize);
-  _drawHeaderUserInfo(data, page, headerFont, headerFontSize, rgb);
-  _drawCompetencesDetails(data, page, levelFont, levelFontSize, rgb);
-  _drawFooter(data, page, footerFont, footerFontSize, rgb);
-  _drawMaxScore(data, page, maxScoreFont, maxScoreFontSize, rgb);
-  _drawMaxLevel(data, page, maxLevelFont, maxLevelFontSize, rgb);
-  _drawVerificationCode(data, page, codeFont, codeFontSize, rgb);
-  if (data.hasAcquiredAnyComplementaryCertifications) {
-    await _drawComplementaryCertifications(pdfDoc, data, page, rgb);
-  }
-}
-
-async function getCertificationAttestationPdfBuffer({
-  certificate,
-}) {
-  const templateFileName = certificate.hasAcquiredAnyComplementaryCertifications()
-    ? 'attestation-template-with-complementary-certifications.pdf'
-    : 'attestation-template.pdf';
-
-  const formateDeliveryDate = moment(certificate.deliveredAt).format('YYYYMMDD');
-
-  const fileName = `attestation-pix-${formateDeliveryDate}.pdf`;
-
-  return {
-    file: await getPdfBuffer({
-      templatePath: `${__dirname}/files`,
-      templateFileName,
-      applyDynamicInformationsInPDF: _dynamicInformationsForAttestation,
-      data: certificate,
-    }),
-    fileName,
-  };
+async function _finalizeDocument(pdfDocument, bufferFromBytes) {
+  const pdfBytes = await pdfDocument.save();
+  const buffer = bufferFromBytes(pdfBytes);
+  return buffer;
 }
 
 module.exports = {
