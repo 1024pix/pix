@@ -470,7 +470,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#onCandidateInformationsEdit', () => {
-    test('it should enter candidate informations edit mode', function(assert) {
+    test('it enters candidate informations edit mode', function(assert) {
       // given
       controller.editingCandidateInformations = false;
 
@@ -483,7 +483,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#onCandidateInformationsCancel', () => {
-    test('it should cancel candidate informations edit mode', function(assert) {
+    test('it cancels candidate informations edit mode', function(assert) {
       // given
       controller.editingCandidateInformations = true;
 
@@ -496,15 +496,33 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#onCandidateInformationsSave', () => {
-    test('it should exit candidate informations edit mode', function(assert) {
+    test('it exits candidate informations edit mode', async function(assert) {
       // given
+      controller.saveWithoutUpdatingCompetenceMarks = sinon.stub().resolves();
       controller.editingCandidateInformations = true;
+      const event = new Event('submit');
 
       // when
-      controller.onCandidateInformationsSave();
+      await controller.onCandidateInformationsSave(event);
 
       // then
       assert.false(controller.editingCandidateInformations);
+    });
+
+    test('it saves candidates infos', async function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certification = store.createRecord('certification', { competencesWithMark });
+      certification.save = sinon.stub().resolves();
+      controller.certification = certification;
+      const event = new Event('submit');
+
+      // when
+      await controller.onCandidateInformationsSave(event);
+
+      // then
+      sinon.assert.calledWith(certification.save, { adapterOptions: { updateMarks: false } });
+      assert.ok(true);
     });
   });
 

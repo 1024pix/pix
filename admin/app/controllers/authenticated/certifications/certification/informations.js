@@ -216,9 +216,22 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onCandidateInformationsSave(event) {
+  async onCandidateInformationsSave(event) {
     event.preventDefault();
-    this.editingCandidateInformations = false;
+
+    try {
+      await this.saveWithoutUpdatingCompetenceMarks();
+      this.notifications.success('Les informations du candidat ont bien été enregistrées.');
+      this.editingCandidateInformations = false;
+    } catch (e) {
+      if (e.errors && e.errors.length > 0) {
+        e.errors.forEach((error) => {
+          this.notifications.error(error.detail);
+        });
+      } else {
+        this.notifications.error(e);
+      }
+    }
   }
 
   // Private methods
