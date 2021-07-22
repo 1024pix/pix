@@ -12,7 +12,7 @@
   </div>
   <div class="row">
     <div class="col">
-      <div class="card">
+      <div class="card {{if this.editingCandidateResults 'border-primary'}}">
         <div class="card-body">
           <h5 class="card-title">
             <Certification::CertificationInfoPublished @record={{this.certification}} @float={{true}} />État
@@ -31,20 +31,50 @@
       </div>
     </div>
     <div class="col">
-      <div class="card {{if this.editingCandidateResults 'border-primary'}}">
-        <div class="card-body">
+      <div class="card {{if this.editingCandidateInformations 'border-primary'}}">
+        <div class="card-body candidate-informations">
           <h5 class="card-title">Candidat</h5>
           <div class="card-text">
-            <Certification::CertificationInfoField @value={{this.certification.firstName}} @edition={{this.editingCandidateResults}} @label="Prénom :" @fieldId="certification-firstName" />
-            <Certification::CertificationInfoField @value={{this.certification.lastName}} @edition={{this.editingCandidateResults}} @label="Nom :" @fieldId="certification-lastName" />
-            <Certification::CertificationInfoField
-                    @isDate={{true}}
-                    @edition={{this.editingCandidateResults}}
-                    @label="Date de naissance :"
-                    @fieldId="certification-birthdate"
-                    @value={{this.certification.birthdate}}
-                    @onUpdateCertificationBirthdate={{this.onUpdateCertificationBirthdate}} />
-            <Certification::CertificationInfoField @value={{this.certification.birthplace}} @edition={{this.editingCandidateResults}} @label="Lieu de naissance :" @fieldId="certification-birthPlace" />
+            <form {{on "submit" this.onCandidateInformationsSave}}>
+              <Certification::CertificationInfoField @value={{this.certification.firstName}} @edition={{this.editingCandidateInformations}} @label="Prénom :" @fieldId="certification-firstName" />
+              <Certification::CertificationInfoField @value={{this.certification.lastName}} @edition={{this.editingCandidateInformations}} @label="Nom :" @fieldId="certification-lastName" />
+              <Certification::CertificationInfoField
+                      @isDate={{true}}
+                      @edition={{this.editingCandidateInformations}}
+                      @label="Date de naissance :"
+                      @fieldId="certification-birthdate"
+                      @value={{this.certification.birthdate}}
+                      @onUpdateCertificationBirthdate={{this.onUpdateCertificationBirthdate}} />
+              <Certification::CertificationInfoField @value={{this.certification.birthplace}} @edition={{this.editingCandidateInformations}} @label="Lieu de naissance :" @fieldId="certification-birthPlace" />
+              <div class="candidate-informations__actions">
+                {{#if this.editingCandidateInformations}}
+                  <PixButton
+                    @size="small"
+                    @backgroundColor="transparent-light"
+                    @triggerAction={{this.onCandidateInformationsCancel}}
+                    aria-label="Annuler la modification des informations du candidat"
+                  >
+                    Annuler
+                  </PixButton>
+                  <PixButton
+                    @size="small"
+                    @type="submit"
+                    aria-label="Enregistrer les informations du candidat"
+                  >
+                    Enregistrer
+                  </PixButton>
+                {{else}}
+                  <PixButton
+                    @size="small"
+                    @triggerAction={{this.onCandidateInformationsEdit}}
+                    @isDisabled={{this.editingCandidateResults}}
+                    aria-label="Modifier les informations du candidat"
+                  >
+                    Modifier
+                  </PixButton>
+                {{/if}}
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -156,16 +186,30 @@
     <div class="row">
       <div class="col certification-informations__actions">
         {{#if this.editingCandidateResults}}
-          <button class="btn btn-secondary btn-sm" type="submit" {{on 'click' this.onCandidateResultsCancel}}>
+          <PixButton
+            @size="small"
+            @backgroundColor="transparent-light"
+            @triggerAction={{this.onCandidateResultsCancel}}
+            aria-label="Annuler la modification des résultats du candidat"
+          >
             Annuler
-          </button>
-          <button class="btn btn-primary btn-sm" type="submit" {{on 'click' this.onCandidateResultsSaveConfirm}}>
+          </PixButton>
+          <PixButton
+            @size="small"
+            {{on 'click' this.onCandidateResultsSaveConfirm}}
+            aria-label="Enregistrer les résultats du candidat"
+          >
             Enregistrer
-          </button>
+          </PixButton>
         {{else}}
-          <button class="btn btn-primary btn-sm" type="submit" {{on 'click' this.onCandidateResultsEdit}}>
+          <PixButton
+            @size="small"
+            @triggerAction={{this.onCandidateResultsEdit}}
+            aria-label="Modifier les résultats du candidat"
+            @isDisabled={{this.editingCandidateInformations}}
+          >
             Modifier
-          </button>
+          </PixButton>
         {{/if}}
       </div>
     </div>

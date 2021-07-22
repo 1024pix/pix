@@ -469,6 +469,45 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
+  module('#onCandidateInformationsEdit', () => {
+    test('it should enter candidate informations edit mode', function(assert) {
+      // given
+      controller.editingCandidateInformations = false;
+
+      // when
+      controller.onCandidateInformationsEdit();
+
+      // then
+      assert.true(controller.editingCandidateInformations);
+    });
+  });
+
+  module('#onCandidateInformationsCancel', () => {
+    test('it should cancel candidate informations edit mode', function(assert) {
+      // given
+      controller.editingCandidateInformations = true;
+
+      // when
+      controller.onCandidateInformationsCancel();
+
+      // then
+      assert.false(controller.editingCandidateInformations);
+    });
+  });
+
+  module('#onCandidateInformationsSave', () => {
+    test('it should exit candidate informations edit mode', function(assert) {
+      // given
+      controller.editingCandidateInformations = true;
+
+      // when
+      controller.onCandidateInformationsSave();
+
+      // then
+      assert.false(controller.editingCandidateInformations);
+    });
+  });
+
   test('it restores competences when cancel is sent', async function(assert) {
     // given
     const rollbackAttributes = sinon.stub().resolves();
