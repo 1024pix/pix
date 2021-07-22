@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.76.0 (22/07/2021)
+
+- [#3203](https://github.com/1024pix/pix/pull/3203) [FEATURE] Ajout du paramètre enErreur pour la récupération des résultats à la campagne Pôle emploi (PIX-2684).
+- [#3201](https://github.com/1024pix/pix/pull/3201) [FEATURE] Empêcher l'usurpation d'identité lors de la récupération de compte SCO (PIX-2811).
+- [#3185](https://github.com/1024pix/pix/pull/3185) [FEATURE] Avoir une image par défaut sur les paliers (PIX-2769).
+- [#3195](https://github.com/1024pix/pix/pull/3195) [FEATURE] Rendre le délai d'expiration de la demande de récupération SCO paramétrable (PIX-2827).
+- [#3212](https://github.com/1024pix/pix/pull/3212) [FEATURE] Téléchargement des attestations par classe : mise en place du feature toggle (PIX-2842)
+- [#3209](https://github.com/1024pix/pix/pull/3209) [FEATURE] Mise à jour de l'import de candidat à une session de certification (PIX-2719)
+- [#3228](https://github.com/1024pix/pix/pull/3228) [BUGFIX] Isoler la création de données de tests pour que les données n'altèrent pas d'autres tests (PIX-2867).
+- [#3220](https://github.com/1024pix/pix/pull/3220) [BUGFIX] Changer le wording de la tooltip pour la carte total participant de l'onglet activité (PIX-2850)
+- [#3225](https://github.com/1024pix/pix/pull/3225) [BUGFIX] Corriger le script d'import des villes (PIX-2857).
+- [#3211](https://github.com/1024pix/pix/pull/3211) [BUGFIX] Corriger certaines régressions suite au développement CPF (PIX-2628).
+- [#3200](https://github.com/1024pix/pix/pull/3200) [BUGFIX] Permettre l'envoi du formulaire d'ajout de candidat sous IE (PIX-2834)
+- [#3221](https://github.com/1024pix/pix/pull/3221) [TECH] Améliorer la traduction de "délai d'expiration".
+- [#3208](https://github.com/1024pix/pix/pull/3208) [TECH] Ameliorer l'affichage d'erreur sur le scoring (PIX-2808)
+- [#3205](https://github.com/1024pix/pix/pull/3205) [CLEANUP] Lancer eslint sur high-level-tests/{test-algo,e2e}
+
 ## v3.75.0 (19/07/2021)
 
 - [#3188](https://github.com/1024pix/pix/pull/3188) [FEATURE] Afficher la date de création et le créateur pour une campagne d'évaluation (PIX-2741).
