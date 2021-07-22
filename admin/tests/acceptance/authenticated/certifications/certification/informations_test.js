@@ -38,7 +38,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     assert.dom('[aria-label="Modifier les résultats du candidat"]').exists().isEnabled();
   });
 
-  module('when candidate information edit button is clicked', function() {
+  module('when candidate informations edit button is clicked', function() {
     test('it displays candidate informations form', async function(assert) {
       // when
       await visit(`/certifications/${certification.id}`);
@@ -63,7 +63,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     });
   });
 
-  module('when candidate information form cancel button is clicked', function() {
+  module('when candidate informations form cancel button is clicked', function() {
     test('it hides candidate informations form', async function(assert) {
       // when
       await visit(`/certifications/${certification.id}`);
@@ -85,8 +85,11 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     });
   });
 
-  module('when candidate information form is submitted', function() {
+  module('when candidate informations form is submitted', function() {
     test('it also hides candidate informations form', async function(assert) {
+      // given
+      this.server.patch('/certification-courses/:id', () => ({ data: {} }), 204);
+
       // when
       await visit(`/certifications/${certification.id}`);
       await clickByLabel('Modifier les informations du candidat');
@@ -97,6 +100,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     });
 
     test('it also re-enables candidate results edit button', async function(assert) {
+      // given
+      this.server.patch('/certification-courses/:id', () => ({ data: {} }), 204);
+
       // when
       await visit(`/certifications/${certification.id}`);
       await clickByLabel('Modifier les informations du candidat');
@@ -104,6 +110,36 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       // then
       assert.dom('[aria-label="Modifier les résultats du candidat"]').exists().isEnabled();
+    });
+
+    test('it should display a success notification when data is valid', async function(assert) {
+      // given
+      this.server.patch('/certification-courses/:id', () => ({ data: {} }), 204);
+
+      // when
+      await visit(`/certifications/${certification.id}`);
+      await clickByLabel('Modifier les informations du candidat');
+      await clickByLabel('Enregistrer les informations du candidat');
+
+      // then
+      assert.dom('#certification-firstName').doesNotExist();
+      assert.contains('Les informations du candidat ont bien été enregistrées.');
+    });
+
+    test('it should display an error notification when data is invalid', async function(assert) {
+      // given
+      this.server.patch('/certification-courses/:id', () => ({
+        'errors': [{ 'detail': 'Candidate\'s first name must not be blank or empty' }],
+      }), 422);
+
+      // when
+      await visit(`/certifications/${certification.id}`);
+      await clickByLabel('Modifier les informations du candidat');
+      await clickByLabel('Enregistrer les informations du candidat');
+
+      // then
+      assert.dom('#certification-firstName').exists();
+      assert.contains('Candidate\'s first name must not be blank or empty');
     });
   });
 
