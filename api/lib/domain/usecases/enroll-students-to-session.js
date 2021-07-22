@@ -1,6 +1,7 @@
 const SCOCertificationCandidate = require('../models/SCOCertificationCandidate');
 const _ = require('lodash');
 const { ForbiddenAccess } = require('../errors');
+const INSEE_PREFIX_CODE = '99';
 
 module.exports = async function enrollStudentsToSession({
   sessionId,
@@ -10,6 +11,7 @@ module.exports = async function enrollStudentsToSession({
   schoolingRegistrationRepository,
   organizationRepository,
   certificationCenterMembershipRepository,
+  countryRepository,
   sessionRepository,
 } = {}) {
   const session = await sessionRepository.get(sessionId);
@@ -26,12 +28,21 @@ module.exports = async function enrollStudentsToSession({
     throw new ForbiddenAccess('Impossible d\'inscrire un élève ne faisant pas partie de votre établissement');
   }
 
+  const countries = await countryRepository.findAll();
+
   const scoCertificationCandidates = students.map((student) => {
+
+    const studentInseeCountryCode = INSEE_PREFIX_CODE + student.birthCountryCode;
+
+    const studentCountry = countries.find((country) => country.code === studentInseeCountryCode);
+
     return new SCOCertificationCandidate({
       firstName: student.firstName.trim(),
       lastName: student.lastName.trim(),
       birthdate: student.birthdate,
       birthINSEECode: student.birthCityCode,
+      birthCountry: studentCountry.name,
+      birthCity: student.birthCity,
       sex: student.sex,
       sessionId,
       schoolingRegistrationId: student.id,
