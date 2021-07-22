@@ -73,7 +73,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       assert.equal(firstCampaign.targetProfileId, expectedTargetProfileId);
       assert.equal(firstCampaign.customLandingPageText, 'Texte personnalisé');
       assert.equal(firstCampaign.idPixLabel, 'Mail Pro');
-      assert.equal(currentURL(), '/campagnes/1');
+      assert.equal(currentURL(), '/campagnes/1/details');
     });
 
     test('it should display error on global form when error 500 is returned from backend', async function(assert) {
@@ -114,7 +114,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       const firstCampaign = server.db.campaigns[0];
       assert.equal(firstCampaign.name, 'Ma Campagne');
       assert.equal(firstCampaign.targetProfileId, expectedTargetProfileId);
-      assert.equal(currentURL(), '/campagnes/1');
+      assert.equal(currentURL(), '/campagnes/1/details');
     });
 
     test('it should allow to create a campaign of type PROFILES_COLLECTION and redirect to the newly created campaign', async function(assert) {
@@ -128,7 +128,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
       // then
       assert.equal(server.db.campaigns[0].name, 'Ma Campagne');
-      assert.equal(currentURL(), '/campagnes/1');
+      assert.equal(currentURL(), '/campagnes/1/details');
     });
 
     test('it should create campaign if user changes type after filling the form', async function(assert) {
@@ -146,7 +146,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
       // then
       assert.equal(server.db.campaigns[0].name, 'Ma Campagne');
-      assert.equal(currentURL(), '/campagnes/1');
+      assert.equal(currentURL(), '/campagnes/1/details');
     });
   });
 });

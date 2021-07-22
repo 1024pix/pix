@@ -184,23 +184,6 @@
         "empty": "Pending results"
       }
     },
-    "assessment-participants-list": {
-      "title": "Participants",
-      "table": {
-        "column": {
-          "badges": "Thematic results",
-          "first-name": "First name",
-          "last-name": "Last name",
-          "results": {
-            "label": "Success rate",
-            "on-hold": "Pending",
-            "under-test": "Test in progress"
-          }
-        },
-        "empty": "No participants",
-        "row-title": "Participant"
-      }
-    },
     "campaign": {
       "actions": {
         "export-results": "Export the results (.csv)",
@@ -210,29 +193,14 @@
       "code": "Code",
       "created-by": "Created by",
       "created-on": "Created on",
-      "filters": {
-        "title": "Filters",
-        "actions": {
-          "clear": "Clear filters"
-        },
-        "aria-label": "Filters on participations",
-        "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
-        "type": {
-          "badges": "Thematic results",
-          "divisions": {
-            "title": "Class",
-            "empty": "No class"
-          },
-          "stages": "Success rate"
-        }
-      },
       "name": "Name of the campaign",
       "participations-count": "Participants",
       "shared-profiles-count": "Profiles submitted",
       "shared-results-count": "Results submitted",
       "tab": {
-        "collective-results": "Collective results",
-        "participants": "Participants ({count})",
+        "activity": "Activity",
+        "results": "Results ({count, number})",
+        "participants": "Participants ({count, number})",
         "review": "Review",
         "settings": "Settings"
       }
@@ -245,7 +213,8 @@
           "last-name": "Last name",
           "status": "Status"
         },
-        "empty": "No participants"
+        "empty": "No participants",
+        "row-title": "Participant"
       },
       "status": {
         "started-assessment": "In progress ({progression, number, ::percent})",
@@ -253,25 +222,6 @@
         "shared-assessment": "Submitted",
         "completed-profile": "Pending",
         "shared-profile": "Submitted"
-      }
-    },
-    "campaign-collective-results": {
-      "title": "Collective results",
-      "average": "Average results",
-      "result": "Result",
-      "table": {
-        "title": "Collective results by competence",
-        "column": {
-          "competences": "Competences ({count})",
-          "results": {
-            "label": "Results",
-            "tooltip": "<span class=\"sr-only\">Participants have validated</span> {result} % <span class=\"sr-only\">of the competence {competence}.</span>"
-          },
-          "tested-items": "Items assessed",
-          "validated-items": "Items successfully completed"
-        },
-        "empty": "Pending results",
-        "row-title": "Competence"
       }
     },
     "campaign-creation": {
@@ -337,6 +287,43 @@
       "landing-page-text": "Text to display on the starting page",
       "personalised-test-title": "Title of the personalised test"
     },
+    "campaign-results": {
+      "average": "Average results",
+      "filters": {
+        "title": "Filters",
+        "actions": {
+          "clear": "Clear filters"
+        },
+        "aria-label": "Filters on participations",
+        "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
+        "type": {
+          "badges": "Thematic results",
+          "divisions": {
+            "title": "Class",
+            "empty": "No class"
+          },
+          "stages": "Success rate"
+        }
+      },
+      "result": "Result",
+      "table": {
+        "column": {
+          "badges": "Thematic results",
+          "first-name": "First name",
+          "last-name": "Last name",
+          "results": {
+            "label": "Success rate",
+            "on-hold": "Pending",
+            "under-test": "Test in progress"
+          }
+        },
+        "empty": "No participants",
+        "row-title": "Participant"
+      },
+      "tested-items": "Items assessed",
+      "title": "Results",
+      "validated-items": "Items successfully completed"
+     },
     "campaign-review": {
       "title": "Review",
       "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following topics, sorted by relevance ({bubble}).",
@@ -351,21 +338,35 @@
       },
       "sub-title": "Recommendations of topics to focus on",
       "table": {
-        "title": "Review by topic",
-        "column": {
-          "relevance": "Relevance",
-          "subjects": "Topics ({count, plural, =0 {-} other {{count}}})",
-          "tutorial": {
-            "aria-label": "Show all tutorials"
+        "analysis": {
+          "title": "Review by topic",
+          "column": {
+            "relevance": "Relevance",
+            "subjects": "Topics ({count, plural, =0 {-} other {{count}}})",
+            "tutorial": {
+              "aria-label": "Show all tutorials"
+            },
+            "tutorial-count": {
+              "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
+            }
           },
-          "tutorial-count": {
-            "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
+          "empty": "Pending results",
+          "row-title": "Topic",
+          "sort": {
+            "relevance": "Sort by relevance"
           }
         },
-        "empty": "Pending results",
-        "row-title": "Topic",
-        "sort": {
-          "relevance": "Sort by relevance"
+        "competences": {
+          "title": "Results by competence",
+          "column": {
+            "competences": "Competences ({count})",
+            "results": {
+              "label": "Results",
+              "tooltip": "<span class=\"sr-only\">Participants have validated</span> {result} % <span class=\"sr-only\">of the competence {competence}.</span>"
+            }
+          },
+          "empty": "Pending results",
+          "row-title": "Competence"
         }
       }
     },

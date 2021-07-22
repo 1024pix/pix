@@ -7,6 +7,8 @@ const campaignAnalysisSerializer = require('../../infrastructure/serializers/jso
 const campaignAssessmentParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer');
 const campaignAssessmentParticipationResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
 const campaignProfileSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profile-serializer');
+const campaignAssessmentResultMinimalSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
@@ -103,4 +105,22 @@ module.exports = {
     const campaignAssessmentParticipationResult = await usecases.getCampaignAssessmentParticipationResult({ userId, campaignId, campaignParticipationId, locale });
     return campaignAssessmentParticipationResultSerializer.serialize(campaignAssessmentParticipationResult);
   },
+
+  async findAssessmentParticipationResults(request) {
+    const campaignId = request.params.id;
+    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
+    if (filters.divisions && !Array.isArray(filters.divisions)) {
+      filters.divisions = [filters.divisions];
+    }
+    if (filters.badges && !Array.isArray(filters.badges)) {
+      filters.badges = [filters.badges];
+    }
+    if (filters.stages && !Array.isArray(filters.stages)) {
+      filters.stages = [filters.stages];
+    }
+    const currentUserId = requestResponseUtils.extractUserIdFromRequest(request);
+    const paginatedParticipations = await usecases.findAssessmentParticipationResultList({ userId: currentUserId, campaignId, page, filters });
+    return campaignAssessmentResultMinimalSerializer.serialize(paginatedParticipations);
+  },
+
 };

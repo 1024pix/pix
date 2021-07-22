@@ -8,6 +8,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
 
   const event = {
     preventDefault: sinon.stub(),
+    stopPropagation: sinon.stub(),
   };
 
   hooks.beforeEach(function() {
@@ -98,6 +99,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
 
       // then
       assert.true(event.preventDefault.called);
+      assert.true(event.stopPropagation.called);
       assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.campaign', 123));
     });
   });

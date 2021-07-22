@@ -229,6 +229,7 @@ exports.register = async function(server) {
         handler: campaignController.findAssessmentParticipations,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- **Cette route est DEPRECIÉE**\n' +
           '- Récupération des campaign-assessment-participation-summaries par campagne',
         ],
         tags: ['api', 'campaign-assessment-participation-summary'],
