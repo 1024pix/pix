@@ -17,8 +17,8 @@ describe('Unit | UseCase | get-certification-details', () => {
     findByCertificationCourseId: sinon.stub(),
   };
 
-  const certificationService = {
-    calculateCertificationResultByCertificationCourseId: sinon.stub(),
+  const certificationResultService = {
+    getCertificationResult: sinon.stub(),
   };
 
   context('the certification assessment has not been completed', () => {
@@ -75,9 +75,9 @@ describe('Unit | UseCase | get-certification-details', () => {
         userId: 123,
       };
 
-      certificationService.calculateCertificationResultByCertificationCourseId.withArgs(certificationCourseId).resolves(
-        certificationResult,
-      );
+      certificationResultService.getCertificationResult
+        .withArgs({ certificationAssessment, continueOnError: true })
+        .resolves(certificationResult);
 
       // when
       const result = await getCertificationDetails({
@@ -85,7 +85,7 @@ describe('Unit | UseCase | get-certification-details', () => {
         placementProfileService,
         competenceMarkRepository,
         certificationAssessmentRepository,
-        certificationService,
+        certificationResultService,
       });
 
       //then
@@ -138,6 +138,7 @@ describe('Unit | UseCase | get-certification-details', () => {
         placementProfileService,
         competenceMarkRepository,
         certificationAssessmentRepository,
+        certificationResultService,
       });
 
       //then
