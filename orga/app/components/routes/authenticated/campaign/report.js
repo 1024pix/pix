@@ -17,12 +17,6 @@ export default class Report extends Component {
     return participationsCount > 0 ? participationsCount : false;
   }
 
-  get sharedParticipationsCount() {
-    const sharedParticipationsCount = this.args.campaign.sharedParticipationsCount;
-
-    return sharedParticipationsCount > 0 ? sharedParticipationsCount : '-';
-  }
-
   get downloadUrl() {
     return this.args.campaign.urlToResult + `&lang=${this.currentUser.prescriber.lang}`;
   }
