@@ -54,10 +54,10 @@ describe('Acceptance | API | Campaign Participations | Analyses', () => {
       return databaseBuilder.commit();
     });
 
-    it('should return the campaign participation result summaries as JSONAPI', async () => {
+    it('should return the participation results for an assessment campaign', async () => {
       const options = {
         method: 'GET',
-        url: `/api/campaigns/${campaign.id}/shared-participations?page[number]=1&page[size]=10&filter[divisions][]=5eme`,
+        url: `/api/campaigns/${campaign.id}/assessment-results?page[number]=1&page[size]=10&filter[divisions][]=5eme`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 

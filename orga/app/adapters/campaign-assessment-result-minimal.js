@@ -6,7 +6,7 @@ export default class CampaignAssessmentResultMinimalAdapter extends ApplicationA
     if (query.campaignId) {
       const { campaignId } = query;
       delete query.campaignId;
-      return `${this.host}/${this.namespace}/campaigns/${campaignId}/shared-participations`;
+      return `${this.host}/${this.namespace}/campaigns/${campaignId}/assessment-results`;
     }
   }
 }

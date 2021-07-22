@@ -21,7 +21,7 @@ module('Unit | Adapters | CampaignAssessmentResultMinimal', function(hooks) {
       const url = await adapter.urlForQuery(query);
 
       // then
-      assert.true(url.endsWith(`/campaigns/${1}/shared-participations`));
+      assert.true(url.endsWith(`/campaigns/${1}/assessment-results`));
       assert.true(query.campaignId === undefined);
     });
   });

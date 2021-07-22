@@ -179,7 +179,7 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/campaigns/{id}/shared-participations',
+      path: '/api/campaigns/{id}/assessment-results',
       config: {
         validate: {
           params: Joi.object({
@@ -193,10 +193,10 @@ exports.register = async function(server) {
             'page[size]': Joi.number().integer().empty(''),
           }),
         },
-        handler: campaignParticipationController.findSharedParticipations,
+        handler: campaignParticipationController.findAssessmentParticipationResults,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des campaign-assessment-participation-result-minimals par campagne',
+          '- Récupération des résultats d\'une campagne d\'évaluation',
         ],
         tags: ['api', 'campaign-assessment-participation-result-minimal'],
       },
