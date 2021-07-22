@@ -160,42 +160,8 @@ function _getChallengeLevel({ assessment, result }) {
   return chosenSkill ? chosenSkill.difficulty : null;
 }
 
-async function launchTest(argv) {
-
-  const { competenceId, targetProfileId, locale, userResult, userKEFile } = argv;
-
-  let allAnswers = [];
-  let knowledgeElements = [];
-
-  const assessment = {
-    id: null,
-    competenceId,
-    userId: 1,
-  };
-
-  const knowledgeElementRepository = {
-    findUniqByUserId: () => [],
-  };
-  const answerRepository = {
-    findByAssessment: () => [],
-  };
-
-  const userKE = _read(userKEFile);
-
+async function proceedAlgo(challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers, userResult, userKE) {
   let isAssessmentOver = false;
-
-  const { challenges, targetSkills } = await _getReferentiel({
-    assessment,
-    targetProfileId,
-    answerRepository,
-    challengeRepository,
-    knowledgeElementRepository,
-    skillRepository,
-    improvementService,
-    targetProfileRepository,
-  });
-
-
   const algoResult = new AlgoResult();
 
   while (!isAssessmentOver) {
@@ -230,6 +196,42 @@ async function launchTest(argv) {
   }
 
   console.log(algoResult.log());
+}
+
+async function launchTest(argv) {
+
+  const { competenceId, targetProfileId, locale, userResult, userKEFile } = argv;
+
+  const allAnswers = [];
+  const knowledgeElements = [];
+
+  const assessment = {
+    id: null,
+    competenceId,
+    userId: 1,
+  };
+
+  const knowledgeElementRepository = {
+    findUniqByUserId: () => [],
+  };
+  const answerRepository = {
+    findByAssessment: () => [],
+  };
+
+  const userKE = _read(userKEFile);
+
+  const { challenges, targetSkills } = await _getReferentiel({
+    assessment,
+    targetProfileId,
+    answerRepository,
+    challengeRepository,
+    knowledgeElementRepository,
+    skillRepository,
+    improvementService,
+    targetProfileRepository,
+  });
+
+  await proceedAlgo(challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers, userResult, userKE);
   process.exit(0);
 }
 
