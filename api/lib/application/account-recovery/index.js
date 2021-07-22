@@ -84,7 +84,6 @@ exports.register = async function(server) {
               attributes: {
                 email: Joi.string().email().required(),
                 password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
-                'temporary-key': Joi.string().required(),
               },
             },
           }),

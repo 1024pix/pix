@@ -14,23 +14,22 @@ describe('Acceptance | Route | Account-recovery', () => {
       const server = await createServer();
       featureToggles.isScoAccountRecoveryEnabled = true;
 
-      const temporaryKey = 'DJFKDKJJSHQJ';
       const userId = 1234;
       const newEmail = 'newEmail@example.net';
       const password = 'password123#A*';
       const user = databaseBuilder.factory.buildUser.withRawPassword({ id: userId });
-      const accountRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({ userId, temporaryKey, newEmail, used: false });
+      const accountRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({ userId, temporaryKey: 'DJFKDKJJSHQJ', newEmail, used: false });
+      const temporaryKey = accountRecoveryDemand.temporaryKey;
       await databaseBuilder.commit();
 
       const options = {
         method: 'PATCH',
-        url: `/api/users/${user.id}/account-recovery`,
+        url: `/api/users/${user.id}/account-recovery?temporary-key=${temporaryKey}`,
         payload: {
           data: {
             attributes: {
               email: newEmail,
               password,
-              'temporary-key': accountRecoveryDemand.temporaryKey,
             },
           },
         },
@@ -48,23 +47,22 @@ describe('Acceptance | Route | Account-recovery', () => {
       const server = await createServer();
       featureToggles.isScoAccountRecoveryEnabled = false;
 
-      const temporaryKey = 'AZERFJJSHQJ';
       const userId = 1234;
       const newEmail = 'newEmail@example.net';
       const password = 'password123#A*';
       const user = databaseBuilder.factory.buildUser.withRawPassword({ id: userId });
-      const accountRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({ userId, temporaryKey, newEmail, used: false });
+      const accountRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({ userId, temporaryKey: 'DJFKDKJJSHQJ', newEmail, used: false });
+      const temporaryKey = accountRecoveryDemand.temporaryKey;
       await databaseBuilder.commit();
 
       const options = {
         method: 'PATCH',
-        url: `/api/users/${user.id}/account-recovery`,
+        url: `/api/users/${user.id}/account-recovery?temporary-key=${temporaryKey}`,
         payload: {
           data: {
             attributes: {
               email: newEmail,
               password,
-              'temporary-key': accountRecoveryDemand.temporaryKey,
             },
           },
         },
@@ -75,6 +73,7 @@ describe('Acceptance | Route | Account-recovery', () => {
 
       // then
       expect(response.statusCode).to.equal(404);
+      expect(response.result.errors[0].detail).to.equal('Cette route est désactivée');
     });
 
   });

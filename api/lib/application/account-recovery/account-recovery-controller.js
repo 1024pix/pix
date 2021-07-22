@@ -21,16 +21,14 @@ module.exports = {
 
   async updateUserAccountFromRecoveryDemand(request, h) {
     const userId = request.params.id;
-
-    const payload = request.payload.data.attributes;
-    const email = payload.email;
-    const password = payload.password;
-    const temporaryKey = payload['temporary-key'];
+    const temporaryKey = request.query['temporary-key'];
+    const newEmail = request.payload.data.attributes.email;
+    const password = request.payload.data.attributes.password;
 
     await DomainTransaction.execute(async (domainTransaction) => {
       await usecases.updateUserAccount({
         userId,
-        newEmail: email,
+        newEmail,
         password,
         temporaryKey,
         domainTransaction,
