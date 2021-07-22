@@ -20,12 +20,19 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       const { organizationForReferent, schoolingRegistrations } =
         _buildMatchingReferentOrganisationAndSchoolingRegistrations(studentIds);
 
+      const country = domainBuilder.buildCountry({
+        code: '99100',
+        name: 'FRANCE',
+      });
+
       const expectedCertificationCandidates = schoolingRegistrations.map((sr) => {
         return new SCOCertificationCandidate({
           firstName: sr.firstName,
           lastName: sr.lastName,
           birthdate: sr.birthdate,
           birthINSEECode: sr.birthCityCode,
+          birthCountry: 'FRANCE',
+          birthCity: sr.birthCity,
           sex: sr.sex,
           sessionId: sessionId,
           schoolingRegistrationId: sr.id,
@@ -34,6 +41,8 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
 
       const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();
       const schoolingRegistrationRepository = { findByIds: sinon.stub() };
+      const countryRepository = { findAll: sinon.stub() };
+      countryRepository.findAll.resolves([country]);
       schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(schoolingRegistrations);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
@@ -53,6 +62,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
         certificationCenterMembershipRepository,
         schoolingRegistrationRepository,
         sessionRepository,
+        countryRepository,
         organizationRepository,
       });
 
@@ -69,6 +79,11 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       const referentId = Symbol('a referent id');
 
       const organizationForReferent = domainBuilder.buildOrganization();
+      const country = domainBuilder.buildCountry({
+        code: '99100',
+        name: 'FRANCE',
+      });
+
       const schoolingRegistration = domainBuilder.buildSchoolingRegistration({
         id: 1,
         firstName: 'Sarah Michelle ',
@@ -82,15 +97,19 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       const expectedCertificationCandidate = new SCOCertificationCandidate({
         firstName: 'Sarah Michelle',
         lastName: 'Gellar',
-        birthdate: '2020-01-01',
-        sex: 'F',
-        birthINSEECode: '48512',
+        birthdate: schoolingRegistration.birthdate,
+        sex: schoolingRegistration.sex,
+        birthINSEECode: schoolingRegistration.birthCityCode,
+        birthCountry: country.name,
+        birthCity: schoolingRegistration.birthCity,
         sessionId: sessionId,
         schoolingRegistrationId: 1,
       });
 
       const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();
       const schoolingRegistrationRepository = { findByIds: sinon.stub() };
+      const countryRepository = { findAll: sinon.stub() };
+      countryRepository.findAll.resolves([country]);
       schoolingRegistrationRepository.findByIds.withArgs({ ids: [1] }).resolves([schoolingRegistration]);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
@@ -110,6 +129,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
         certificationCenterMembershipRepository,
         schoolingRegistrationRepository,
         sessionRepository,
+        countryRepository,
         organizationRepository,
       });
 
@@ -187,9 +207,15 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       const referentId = Symbol('a referent id');
       const { organizationForReferent, schoolingRegistrations } =
         _buildMatchingReferentOrganisationAndSchoolingRegistrations(studentIds);
+      const country = domainBuilder.buildCountry({
+        code: '99100',
+        name: 'FRANCE',
+      });
 
       const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();
       const schoolingRegistrationRepository = { findByIds: sinon.stub() };
+      const countryRepository = { findAll: sinon.stub() };
+      countryRepository.findAll.resolves([country]);
       schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(schoolingRegistrations);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
@@ -209,6 +235,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
         certificationCenterMembershipRepository,
         organizationRepository,
         schoolingRegistrationRepository,
+        countryRepository,
         sessionRepository,
       });
 

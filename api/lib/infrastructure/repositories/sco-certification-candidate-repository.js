@@ -40,11 +40,10 @@ module.exports = {
 function _scoCandidateToDTOForSession(sessionId) {
   return (scoCandidate) => {
     const pickedAttributes = _.pick(scoCandidate,
-      ['firstName', 'lastName', 'birthdate', 'schoolingRegistrationId', 'sex', 'birthINSEECode']);
+      ['firstName', 'lastName', 'birthdate', 'schoolingRegistrationId', 'sex', 'birthINSEECode', 'birthCity', 'birthCountry']);
     return {
       ...pickedAttributes,
       sessionId,
-      birthCity: '',
     };
   };
 }
