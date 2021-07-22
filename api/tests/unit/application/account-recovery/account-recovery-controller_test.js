@@ -88,12 +88,14 @@ describe('Unit | Controller | account-recovery-controller', () => {
         params: {
           id: user.id,
         },
+        query: {
+          'temporary-key': temporaryKey,
+        },
         payload: {
           data: {
             attributes: {
               email,
-              'password': user.password,
-              'temporary-key': temporaryKey,
+              password: user.password,
             },
           },
         },
