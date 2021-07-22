@@ -9,6 +9,10 @@ export default class ActivityController extends Controller {
 
   @action
   goToParticipantPage(campaignId, participationId) {
-    this.transitionToRoute('authenticated.campaigns.assessment', campaignId, participationId);
+    if (this.model.campaign.isTypeAssessment) {
+      this.transitionToRoute('authenticated.campaigns.assessment', campaignId, participationId);
+    } else {
+      this.transitionToRoute('authenticated.campaigns.profile', campaignId, participationId);
+    }
   }
 }
