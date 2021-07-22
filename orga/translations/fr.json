@@ -194,9 +194,6 @@
       "created-by": "Créée par",
       "created-on": "Créée le",
       "name": "Nom de la campagne",
-      "participations-count": "Participants",
-      "shared-profiles-count": "Profils reçus",
-      "shared-results-count": "Résultats reçus",
       "tab": {
         "activity": "Activité",
         "results": "Résultats ({count, number})",
