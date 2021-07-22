@@ -23,6 +23,7 @@ const schema = Joi.object({
   LOG_LEVEL: Joi.string().optional().valid('fatal', 'error', 'warn', 'info', 'debug', 'trace'),
   AUTH_SECRET: Joi.string().required(),
   IS_SCO_ACCOUNT_RECOVERY_ENABLED: Joi.string().optional().valid('true', 'false'),
+  FT_IS_NEW_CPF_DATA_ENABLED: Joi.string().optional().valid('true', 'false'),
   SCO_ACCOUNT_RECOVERY_TOKEN_LIFETIME_MINUTES: Joi.number().optional(),
 }).options({ allowUnknown: true });
 
