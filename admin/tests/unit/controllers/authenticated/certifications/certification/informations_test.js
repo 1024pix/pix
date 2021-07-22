@@ -287,8 +287,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
-  module('#onSave', () => {
-
+  module('#onCandidateResultsSave', () => {
     test('it saves competences info when save is sent', async function(assert) {
       // given
       const save = sinon.stub().resolves();
@@ -301,45 +300,25 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       controller.certification = certification;
 
       // when
-      await controller.onSave();
+      await controller.onCandidateResultsSave();
 
       // then
-      sinon.assert.calledWith(save, { adapterOptions: { updateMarks: false } });
       sinon.assert.calledWith(save, { adapterOptions: { updateMarks: true } });
-      assert.ok(true);
-    });
-
-    test('marks are not updated when no change has been made and save is sent', async function(assert) {
-      // given
-      const save = sinon.stub().resolves();
-      const store = this.owner.lookup('service:store');
-
-      const certification = store.createRecord('certification');
-      certification.save = save;
-      certification.hasDirtyAttributes = false;
-      controller.certification = certification;
-
-      // when
-      await controller.onSave();
-
-      // then
-      sinon.assert.calledWith(save, { adapterOptions: { updateMarks: false } });
-      sinon.assert.neverCalledWith(save, { adapterOptions: { updateMarks: true } });
       assert.ok(true);
     });
   });
 
-  module('#onSaveConfirm', () => {
+  module('#onCandidateResultsSaveConfirm', () => {
     module('when there are no error', () => {
       test('should get no error and enable confirm dialog', async function(assert) {
         // when
-        await controller.onSaveConfirm();
+        await controller.onCandidateResultsSaveConfirm();
+
         // then
-        assert.equal(controller.confirmAction, 'onSave');
+        assert.equal(controller.confirmAction, 'onCandidateResultsSave');
         assert.ok(controller.displayConfirm);
         assert.ok(controller.confirmMessage);
         assert.notOk(controller.confirmErrorMessage);
-
       });
     });
 
@@ -361,12 +340,12 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         );
 
         // when
-        await controller.onSaveConfirm();
+        await controller.onCandidateResultsSaveConfirm();
 
         // then
         const levelErrorRegexp = `.*niveau.*${anExistingCompetenceCode}.*${controller.MAX_REACHABLE_LEVEL}`;
         const scoreErrorRegexp = `.*nombre de pix.*${anotherExistingCompetenceCode}.*${controller.MAX_REACHABLE_PIX_BY_COMPETENCE}`;
-        assert.equal(controller.confirmAction, 'onSave');
+        assert.equal(controller.confirmAction, 'onCandidateResultsSave');
         assert.ok(controller.displayConfirm);
         assert.ok(controller.confirmMessage);
         assert.ok(controller.confirmErrorMessage.match(new RegExp(levelErrorRegexp)));
@@ -433,7 +412,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         assert.ok(state.hasPendingTimers);
 
         await settled();
-        assert.ok(controller.edition);
+        assert.ok(controller.editingCandidateResults);
       });
     });
   });
@@ -469,19 +448,76 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
+  module('#onCandidateInformationsEdit', () => {
+    test('it enters candidate informations edit mode', function(assert) {
+      // given
+      controller.editingCandidateInformations = false;
+
+      // when
+      controller.onCandidateInformationsEdit();
+
+      // then
+      assert.true(controller.editingCandidateInformations);
+    });
+  });
+
+  module('#onCandidateInformationsCancel', () => {
+    test('it cancels candidate informations edit mode', function(assert) {
+      // given
+      controller.editingCandidateInformations = true;
+
+      // when
+      controller.onCandidateInformationsCancel();
+
+      // then
+      assert.false(controller.editingCandidateInformations);
+    });
+  });
+
+  module('#onCandidateInformationsSave', () => {
+    test('it exits candidate informations edit mode', async function(assert) {
+      // given
+      controller.saveCertificationCourse = sinon.stub().resolves();
+      controller.editingCandidateInformations = true;
+      const event = new Event('submit');
+
+      // when
+      await controller.onCandidateInformationsSave(event);
+
+      // then
+      assert.false(controller.editingCandidateInformations);
+    });
+
+    test('it saves candidates infos', async function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certification = store.createRecord('certification', { competencesWithMark });
+      certification.save = sinon.stub().resolves();
+      controller.certification = certification;
+      const event = new Event('submit');
+
+      // when
+      await controller.onCandidateInformationsSave(event);
+
+      // then
+      sinon.assert.calledWith(certification.save, { adapterOptions: { updateMarks: false } });
+      assert.ok(true);
+    });
+  });
+
   test('it restores competences when cancel is sent', async function(assert) {
     // given
     const rollbackAttributes = sinon.stub().resolves();
     controller.certification.rollbackAttributes = rollbackAttributes;
 
-    await controller.onEdit();
+    await controller.onCandidateResultsEdit();
     await controller.onUpdateLevel(anExistingCompetenceCode, '5');
     await controller.onUpdateScore(anExistingCompetenceCode, '50');
     await controller.onUpdateLevel(anotherExistingCompetenceCode, '');
     await controller.onUpdateScore(anotherExistingCompetenceCode, '');
 
     // when
-    await controller.onCancel();
+    await controller.onCandidateResultsCancel() ;
 
     // then
     const competences = controller.certification.competencesWithMark;

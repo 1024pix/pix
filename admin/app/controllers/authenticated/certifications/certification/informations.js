@@ -21,12 +21,13 @@ export default class CertificationInformationsController extends Controller {
 
   // Properties
   @alias('model') certification;
-  @tracked edition = false;
+  @tracked editingCandidateResults = false;
+  @tracked editingCandidateInformations = false;
   @service notifications;
   @tracked displayConfirm = false;
   @tracked confirmMessage = '';
   @tracked confirmErrorMessage = '';
-  @tracked confirmAction = 'onSave';
+  @tracked confirmAction = 'onCandidateResultsSave';
 
   // private properties
   _competencesCopy = null;
@@ -68,14 +69,14 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onEdit() {
-    this.edition = true;
+  onCandidateResultsEdit() {
+    this.editingCandidateResults = true;
     this._competencesCopy = this._copyCompetences();
   }
 
   @action
-  onCancel() {
-    this.edition = false;
+  onCandidateResultsCancel() {
+    this.editingCandidateResults = false;
     this.certification.rollbackAttributes();
     if (this._competencesCopy) {
       this.certification.competencesWithMark = this._competencesCopy;
@@ -84,35 +85,30 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onSaveConfirm() {
+  onCandidateResultsSaveConfirm() {
     const confirmMessage = 'Souhaitez-vous mettre à jour cette certification ?';
     const errors = this._getCertificationErrorsAfterJuryUpdateIfAny();
     const confirmErrorMessage = this._formatErrorsToHtmlString(errors);
 
     this.confirmMessage = confirmMessage;
     this.confirmErrorMessage = confirmErrorMessage;
-    this.confirmAction = 'onSave';
+    this.confirmAction = 'onCandidateResultsSave';
     this.displayConfirm = true;
   }
 
   @action
-  onCancelConfirm() {
+  onCandidateResultsCancelConfirm() {
     this.displayConfirm = false;
   }
 
   @action
-  async onSave() {
-    const markUpdatedRequired = this.certification.hasDirtyAttributes;
+  async onCandidateResultsSave() {
     this.displayConfirm = false;
     try {
-      await this.saveWithoutUpdatingCompetenceMarks();
-
-      if (markUpdatedRequired) {
-        await this.saveWithUpdatingCompetenceMarks();
-      }
+      await this.saveAssessementResult();
 
       this.notifications.success('Modifications enregistrées');
-      this.edition = false;
+      this.editingCandidateResults = false;
       this._competencesCopy = null;
 
     } catch (e) {
@@ -126,11 +122,11 @@ export default class CertificationInformationsController extends Controller {
     }
   }
 
-  saveWithUpdatingCompetenceMarks() {
+  saveAssessementResult() {
     return this.certification.save({ adapterOptions: { updateMarks: true } });
   }
 
-  saveWithoutUpdatingCompetenceMarks() {
+  saveCertificationCourse() {
     return this.certification.save({ adapterOptions: { updateMarks: false } });
   }
 
@@ -173,7 +169,7 @@ export default class CertificationInformationsController extends Controller {
         });
       this.certification.competencesWithMark = A(newCompetences);
       schedule('afterRender', this, () => {
-        this.edition = true;
+        this.editingCandidateResults = true;
       });
     }
   }
@@ -202,6 +198,35 @@ export default class CertificationInformationsController extends Controller {
     }
 
     this.displayConfirm = false;
+  }
+
+  @action
+  onCandidateInformationsEdit() {
+    this.editingCandidateInformations = true;
+  }
+
+  @action
+  onCandidateInformationsCancel() {
+    this.editingCandidateInformations = false;
+  }
+
+  @action
+  async onCandidateInformationsSave(event) {
+    event.preventDefault();
+
+    try {
+      await this.saveCertificationCourse();
+      this.notifications.success('Les informations du candidat ont bien été enregistrées.');
+      this.editingCandidateInformations = false;
+    } catch (e) {
+      if (e.errors && e.errors.length > 0) {
+        e.errors.forEach((error) => {
+          this.notifications.error(error.detail);
+        });
+      } else {
+        this.notifications.error(e);
+      }
+    }
   }
 
   // Private methods
