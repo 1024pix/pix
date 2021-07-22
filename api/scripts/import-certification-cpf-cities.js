@@ -2,12 +2,12 @@
 
 /* eslint-disable no-console */
 // Usage: node import-certification-cpf-cities path/file.csv
-// File downloaded from https://public.opendatasoft.com/explore/dataset/correspondance-code-insee-code-postal/export/?flg=fr
+// File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/
 
 'use strict';
 const { parseCsv } = require('./helpers/csvHelpers');
 const { knex } = require('../lib/infrastructure/bookshelf');
-const { uniqBy } = require('lodash');
+const uniqBy = require('lodash/uniqBy');
 
 const CITY_COLUMN_NAME = 'Nom_commune';
 const POSTAL_CODE_COLUMN_NAME = 'Code_postal';
@@ -34,7 +34,8 @@ function buildCities({ csvData }) {
     }
     return result;
   });
-  return uniqBy(citiesWithAlternates, 'name');
+
+  return uniqBy(citiesWithAlternates, (city) => `${city.INSEECode}${city.postalCode}${city.name}`);
 }
 
 async function main(filePath) {
