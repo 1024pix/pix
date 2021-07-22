@@ -45,7 +45,7 @@ describe('Unit | Route | recuperer-son-compte | reset password', function() {
       return promise.then(() => {
         sinon.assert.calledOnce(queryRecordStub);
         sinon.assert.calledWith(queryRecordStub, 'user', {
-          accountRecoveryDemandTemporaryKey: params.temporary_key,
+          temporaryKey: params.temporary_key,
         });
       });
     });

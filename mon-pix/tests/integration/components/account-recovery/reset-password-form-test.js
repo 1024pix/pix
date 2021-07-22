@@ -25,7 +25,7 @@ describe('Integration | Component | account-recovery/reset-password', function()
     expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.form.email-label'))).to.exist;
     expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.form.password-label'))).to.exist;
     expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.form.login-button'))).to.exist;
-
+    expect(contains('philippe.example.net'));
   });
 
   context('password field', function() {
