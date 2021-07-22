@@ -517,6 +517,7 @@ function _toDomain(userBookshelf) {
     firstName: userBookshelf.get('firstName'),
     lastName: userBookshelf.get('lastName'),
     email: userBookshelf.get('email'),
+    emailConfirmedAt: userBookshelf.get('emailConfirmedAt'),
     username: userBookshelf.get('username'),
     password: userBookshelf.get('password'),
     shouldChangePassword: Boolean(userBookshelf.get('shouldChangePassword')),
