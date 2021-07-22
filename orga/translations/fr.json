@@ -320,7 +320,7 @@
             "under-test": "En cours de test"
           }
         },
-        "empty": "Aucune participation partagée",
+        "empty": "Aucune participation",
         "row-title": "Participant"
       },
       "tested-items": "Acquis évalués",
@@ -354,7 +354,6 @@
               "value": "{count, plural, =1 {1 tuto} other {{count} tutos}}"
             }
           },
-          "empty": "En attente de résultats",
           "row-title": "Sujet",
           "sort": {
             "relevance": "Trier par pertinence"
@@ -369,7 +368,6 @@
               "tooltip": "<span class=\"sr-only\">Les participants ont validé</span> {result} % <span class=\"sr-only\">de la compétence {competence}.</span>"
             }
           },
-          "empty": "En attente de résultats",
           "row-title": "Compétence"
         }
       }
