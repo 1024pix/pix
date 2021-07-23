@@ -180,9 +180,22 @@ describe('Unit | Application | Router | campaign-router ', function() {
       sinon.stub(campaignManagementController, 'updateCampaignDetailsManagement').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
+      const payload = {
+        data: {
+          type: 'campaigns',
+          attributes: {
+            name: 'name',
+            title: 'title',
+            'custom-landing-page-text': null,
+            'custom-result-page-text': null,
+            'custom-result-page-button-text': null,
+            'custom-result-page-button-url': null,
+          },
+        },
+      };
 
       // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/1');
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/1', payload);
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -200,13 +213,88 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return 403 when unauthorized', async () => {
+    it('should return 400 when name is null', async () => {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
+      const payload = {
+        data: {
+          type: 'campaigns',
+          attributes: {
+            name: null,
+          },
+        },
+      };
 
       // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/1');
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/1', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when name is empty', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const payload = {
+        data: {
+          type: 'campaigns',
+          attributes: {
+            name: '',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/1', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when title is empty', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const payload = {
+        data: {
+          type: 'campaigns',
+          attributes: {
+            name: 'name',
+            title: '',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/1', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 403 when unauthorized', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const payload = {
+        data: {
+          type: 'campaigns',
+          attributes: {
+            name: 'name',
+            title: 'title',
+            'custom-landing-page-text': null,
+            'custom-result-page-text': null,
+            'custom-result-page-button-text': null,
+            'custom-result-page-button-url': null,
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/1', payload);
 
       // then
       expect(response.statusCode).to.equal(403);

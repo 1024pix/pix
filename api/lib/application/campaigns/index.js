@@ -75,6 +75,22 @@ exports.register = async function(server) {
           params: Joi.object({
             id: identifiersType.campaignId,
           }),
+          payload: Joi.object({
+            data: {
+              type: 'campaigns',
+              attributes: {
+                name: Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                title: Joi.string().required().allow(null),
+                'custom-landing-page-text': Joi.string().required().allow(null),
+                'custom-result-page-text': Joi.string().required().allow(null),
+                'custom-result-page-button-text': Joi.string().required().allow(null),
+                'custom-result-page-button-url': Joi.string().required().allow(null),
+              },
+            },
+          }),
+          options: {
+            allowUnknown: true,
+          },
         },
         handler: campaignManagementController.updateCampaignDetailsManagement,
         tags: ['api', 'campaign', 'admin'],
