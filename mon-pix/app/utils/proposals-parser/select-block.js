@@ -5,26 +5,29 @@ const {
   ARIA_LABEL,
   PLACEHOLDER_AND_ARIA_LABEL,
   PLACEHOLDER,
+  RESPONSE_BLOCK_BEGIN,
+  RESPONSE_BLOCK_END,
   SELECT,
 } = splitters;
 
 export default class SelectBlock extends ResponseBlock {
 
   constructor({ input, inputIndex }) {
-    super({ input, inputIndex });
+    super({ inputIndex });
+    const end = input.lastIndexOf(RESPONSE_BLOCK_END);
+    this._input = input.substring(0, end).replace(RESPONSE_BLOCK_BEGIN, '');
+    this._addOptions();
+    this._addPlaceHolderAndAriaLabelIfExist();
+    this.setType('select');
   }
 
   _addOptions() {
     const parsedOptions = this._parseOptions();
     const formattedOptions = this._formatSelectOptions(parsedOptions);
     this.setOptions(formattedOptions);
-    this.setType('select');
   }
 
   _addPlaceHolderAndAriaLabelIfExist() {
-
-    this._addOptions();
-
     if (this.hasPlaceHolder) {
       this.setPlaceholder(this.input.split(PLACEHOLDER)[1].split(ARIA_LABEL)[0].trim());
     }
