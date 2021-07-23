@@ -7,7 +7,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
   describe('#serialize', function() {
 
     const campaign = { id: 1, code: 'LJA123', title: 'Désobéir' };
-    const user = { id: 1, firstName: 'Michel', lastName: 'Essentiel' };
     const competenceResults = [
       {
         id: '1',
@@ -69,7 +68,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
       campaign,
       assessments: [{ id: 4, createdAt: new Date('2018-02-06T14:12:44Z') }],
       campaignParticipationResult,
-      user,
       campaignAnalysis,
     });
 
@@ -89,29 +87,13 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
           relationships: {
             campaign: {
               data: {
-                id: `${ campaign.id }`,
+                id: campaign.id.toString(),
                 type: 'campaigns',
-              },
-            },
-            user: {
-              data: {
-                id: user.id.toString(),
-                type: 'users',
               },
             },
             assessment: {
               links: {
                 related: `/api/assessments/${campaignParticipation.lastAssessment.id}`,
-              },
-            },
-            'campaign-analysis': {
-              links: {
-                related: '/api/campaign-participations/5/analyses',
-              },
-            },
-            'campaign-participation-result': {
-              links: {
-                'related': '/api/campaign-participations/5/campaign-participation-result',
               },
             },
           },
@@ -122,16 +104,8 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
               code: campaign.code,
               title: campaign.title,
             },
-            id: `${ campaign.id }`,
+            id: campaign.id.toString(),
             type: 'campaigns',
-          },
-          {
-            attributes: {
-              'first-name': 'Michel',
-              'last-name': 'Essentiel',
-            },
-            id: user.id.toString(),
-            type: 'users',
           },
         ],
       };
@@ -144,20 +118,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
       // then
       expect(json).to.deep.equal(expectedSerializedCampaignParticipation);
     });
-
-    it('should not serialize user if user is undefined', function() {
-      // given
-      campaignParticipation.user = undefined;
-      delete expectedSerializedCampaignParticipation.data.relationships.user;
-      expectedSerializedCampaignParticipation.included = expectedSerializedCampaignParticipation.included.filter((included) => included.type !== 'users');
-
-      // when
-      const result = serializer.serialize(campaignParticipation);
-
-      // then
-      expect(result).to.deep.equal(expectedSerializedCampaignParticipation);
-    });
-
   });
 
   describe('#deserialize', function() {

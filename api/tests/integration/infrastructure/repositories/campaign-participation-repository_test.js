@@ -592,31 +592,6 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#findByAssessmentId', () => {
-
-    let assessmentId, wantedCampaignParticipation;
-
-    beforeEach(async () => {
-      wantedCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ });
-      const otherCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
-
-      assessmentId = databaseBuilder.factory.buildAssessment({ campaignParticipationId: wantedCampaignParticipation.id }).id;
-      databaseBuilder.factory.buildAssessment({ campaignParticipationId: wantedCampaignParticipation.id });
-      databaseBuilder.factory.buildAssessment({ campaignParticipationId: otherCampaignParticipation.id });
-
-      await databaseBuilder.commit();
-    });
-
-    it('should return campaign participation that match given assessmentId', async function() {
-      // when
-      const foundCampaignParticipation = await campaignParticipationRepository.findByAssessmentId(assessmentId);
-      // then
-      expect(foundCampaignParticipation).to.have.length(1);
-      expect(foundCampaignParticipation[0].id).to.equal(wantedCampaignParticipation.id);
-    });
-
-  });
-
   describe('#updateWithSnapshot', () => {
     let clock;
     let campaignParticipation;

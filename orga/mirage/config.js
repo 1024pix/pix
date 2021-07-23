@@ -248,8 +248,6 @@ export default function() {
 
   this.get('/campaigns/:id/profiles-collection-participations', findPaginatedCampaignProfilesCollectionParticipationSummaries);
 
-  this.get('/campaign-participations/:id');
-
   this.get('/campaign-participations/:id/analyses', (schema, request) => {
     return schema.campaignAnalyses.findBy({ ...request.params });
   });

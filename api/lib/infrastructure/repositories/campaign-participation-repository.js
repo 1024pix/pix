@@ -10,7 +10,6 @@ const knowledgeElementRepository = require('./knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 const DomainTransaction = require('../DomainTransaction');
 
-const fp = require('lodash/fp');
 const _ = require('lodash');
 
 const ATTRIBUTES_TO_SAVE = [
@@ -146,17 +145,6 @@ module.exports = {
         withRelated: ['campaign.targetProfile.skillIds', 'assessments'],
       })
       .then(_convertToDomainWithSkills);
-  },
-
-  findByAssessmentId(assessmentId) {
-    return BookshelfCampaignParticipation
-      .query((qb) => {
-        qb.innerJoin('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id');
-        qb.where('assessments.id', '=', assessmentId);
-      })
-      .fetchAll({ withRelated: ['campaign', 'user', 'assessments'] })
-      .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
-      .then(fp.map(_toDomain));
   },
 
   async updateWithSnapshot(campaignParticipation) {
