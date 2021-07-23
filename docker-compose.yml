@@ -3,6 +3,7 @@ version: '3'
 services:
   postgres:
     image: postgres:12.7-alpine
+    container_name: pix-api-postgres
     ports:
       - "5432:5432"
     environment:
@@ -10,5 +11,6 @@ services:
 
   redis:
     image: redis:5.0.7-alpine
+    container_name: pix-api-redis
     ports:
       - "6379:6379"
