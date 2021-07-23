@@ -5,6 +5,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../../helpers/contains';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { fillInByLabel } from '../../../helpers/fill-in-by-label';
+import findByLabel from '../../../helpers/find-by-label';
 
 describe('Integration | Component | account-recovery/reset-password', function() {
   setupIntlRenderingTest();
@@ -24,13 +25,28 @@ describe('Integration | Component | account-recovery/reset-password', function()
     expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.fill-password'))).to.exist;
     expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.form.email-label'))).to.exist;
     expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.form.password-label'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.form.login-button'))).to.exist;
+    const submitButton = findByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.form.login-button'));
+    expect(submitButton).to.exist;
+    expect(submitButton.disabled).to.be.true;
     expect(contains('philippe.example.net'));
+  });
+
+  it('should enable submission on reset password form', async function() {
+    // given
+    await render(hbs `<AccountRecovery::ResetPasswordForm />`);
+
+    // when
+    await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.form.password-label'), 'pix123A*');
+
+    // then
+    const submitButton = findByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.form.login-button'));
+    expect(submitButton).to.exist;
+    expect(submitButton.disabled).to.be.false;
   });
 
   context('password field', function() {
 
-    context('when the user fill valid password', function() {
+    context('when the user enters a valid password', function() {
 
       it('should not display an error message on focus-out', async function() {
         // given
@@ -47,7 +63,7 @@ describe('Integration | Component | account-recovery/reset-password', function()
 
     });
 
-    context('when the user fill invalid password', function() {
+    context('when the user enters an invalid password', function() {
 
       it('should display an invalid format error message on focus-out', async function() {
         // given
