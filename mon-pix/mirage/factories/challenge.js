@@ -101,7 +101,7 @@ export default Factory.extend({
   QROCMWithSelect: trait({
     type: 'QROCM-ind',
     instruction: 'L\'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d\'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.',
-    proposals: 'Select: ${banana//mango//potato#tomatoPlaceholder§saladAriaLabel}',
+    proposals: 'Select: ${banana#tomatoPlaceholder§saladAriaLabel options=["mango","potato"]}',
   }),
 
   timed: trait({

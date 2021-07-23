@@ -6,5 +6,5 @@ export default {
   PLACEHOLDER: '#',
   RESPONSE_BLOCK_BEGIN: '${',
   RESPONSE_BLOCK_END: '}',
-  SELECT: '//',
+  SELECT: 'options=',
 };

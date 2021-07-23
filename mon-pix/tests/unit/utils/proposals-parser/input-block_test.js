@@ -8,13 +8,13 @@ describe('Unit | Utils | Proposals Parser | Input Block', function() {
     [
       { input: '${}', expectedInput: '', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
       { input: '${banana}', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
-      { input: '${banana}s', expectedInput: 'bananas', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
+      { input: '${banana}s', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
       { input: '${banana$}', expectedInput: 'banana$', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
       { input: '${$banana}}', expectedInput: '$banana}', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
       { input: '${banana${}}', expectedInput: 'banana${}', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
       { input: '${banana}', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
       { input: '${banana#potato}', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: 'potato' },
-      { input: '${banana}#potato', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: 'potato' },
+      { input: '${banana}#potato', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
       { input: '${banana§salad}', expectedInput: 'banana', expectedAutoAriaLabel: false, expectedAriaLabel: 'salad', expectedPlaceholder: null },
       { input: '${banana#potato§salad}', expectedInput: 'banana', expectedAutoAriaLabel: false, expectedAriaLabel: 'salad', expectedPlaceholder: 'potato' },
     ].forEach((data) => {
