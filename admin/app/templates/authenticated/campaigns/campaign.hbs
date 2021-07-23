@@ -11,5 +11,9 @@
 </header>
 
 <main class="page-body">
-  <Campaigns::Details @campaign={{@model}} />
+  {{#if this.isEditMode}}
+    <Campaigns::Update @campaign={{@model}} @onExit={{this.toggleEditMode}} />
+  {{else}}
+    <Campaigns::Details @campaign={{@model}} @toggleEditMode={{this.toggleEditMode}} />
+  {{/if}}
 </main>
