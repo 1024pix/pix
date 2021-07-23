@@ -5,7 +5,7 @@ module.exports = async function getCertificationDetails({
   competenceMarkRepository,
   certificationAssessmentRepository,
   placementProfileService,
-  certificationResultService,
+  scoringCertificationService,
 }) {
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
   if (certificationAssessment.isCompleted()) {
@@ -19,16 +19,27 @@ module.exports = async function getCertificationDetails({
     return _computeCertificationDetailsOnTheFly(
       certificationCourseId,
       certificationAssessment,
-      certificationResultService,
+      placementProfileService,
+      scoringCertificationService,
     );
   }
 };
 
-async function _computeCertificationDetailsOnTheFly(certificationCourseId, certificationAssessment, certificationResultService) {
-  const certificationResult = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError: true });
-  return new CertificationDetails({
-    id: certificationCourseId,
-    ...certificationResult,
+async function _computeCertificationDetailsOnTheFly(certificationCourseId, certificationAssessment, placementProfileService, scoringCertificationService) {
+  const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
+    certificationAssessment,
+    continueOnError: true,
+  });
+  const placementProfile = await placementProfileService.getPlacementProfile({
+    userId: certificationAssessment.userId,
+    limitDate: certificationAssessment.createdAt,
+    isV2Certification: certificationAssessment.isV2Certification,
+  });
+
+  return CertificationDetails.fromCertificationAssessmentScore({
+    certificationAssessmentScore,
+    certificationAssessment,
+    placementProfile,
   });
 }
 

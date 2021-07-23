@@ -3,9 +3,9 @@ const CompetenceMark = require('../../models/CompetenceMark');
 const certificationResultService = require('../../services/certification-result-service');
 const scoringService = require('../../services/scoring/scoring-service');
 
-async function calculateCertificationAssessmentScore(certificationAssessment) {
+async function calculateCertificationAssessmentScore({ certificationAssessment, continueOnError }) {
 
-  const { competencesWithMark, percentageCorrectAnswers } = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError: false });
+  const { competencesWithMark, percentageCorrectAnswers } = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
 
   const competenceMarks = competencesWithMark.map((certifiedCompetence) => {
     return new CompetenceMark({
