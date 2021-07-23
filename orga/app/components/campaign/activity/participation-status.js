@@ -18,6 +18,6 @@ export default class ParticipationStatus extends Component {
 
 const COLORS = {
   completed: 'purple-light',
-  started: 'blue-light',
+  started: 'yellow-light',
   shared: 'green-light',
 };
