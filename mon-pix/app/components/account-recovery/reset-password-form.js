@@ -22,12 +22,16 @@ class PasswordValidation {
 }
 
 export default class ResetPasswordFormComponent extends Component {
-
+  @service store;
   @service intl;
 
   @tracked passwordValidation = new PasswordValidation();
 
-  password = '';
+  @tracked password = '';
+
+  get isFormValid() {
+    return !isEmpty(this.password) && this.passwordValidation.status !== 'error';
+  }
 
   @action validatePassword() {
     if (isEmpty(this.password)) {
@@ -50,7 +54,17 @@ export default class ResetPasswordFormComponent extends Component {
   @action
   async submitResetPasswordForm(event) {
     event.preventDefault();
-    // reset password
+    this.passwordValidation.status = STATUS_MAP['successStatus'];
+    this.passwordValidation.message = null;
+    const newPassword = this.store.createRecord('account-recovery-demand', {
+      temporaryKey: this.args.temporaryKey,
+      password: this.password,
+    });
+    try {
+      await newPassword.update();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
 }

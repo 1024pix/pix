@@ -34,7 +34,7 @@ describe('Unit | Route | recuperer-son-compte | reset password', function() {
 
     it('should ask account recovery validity', function() {
       // given
-      queryRecordStub.resolves();
+      queryRecordStub.resolves({});
       const route = this.owner.lookup('route:account-recovery/reset-password');
       route.set('store', storeStub);
 
@@ -44,7 +44,7 @@ describe('Unit | Route | recuperer-son-compte | reset password', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(queryRecordStub);
-        sinon.assert.calledWith(queryRecordStub, 'user', {
+        sinon.assert.calledWith(queryRecordStub, 'account-recovery-demand', {
           temporaryKey: params.temporary_key,
         });
       });
@@ -52,26 +52,18 @@ describe('Unit | Route | recuperer-son-compte | reset password', function() {
 
     describe('when account recovery demand is valid', function() {
 
-      it('should create a new ember user model with fetched data', function() {
+      it('should create account recovery demand with fetched data', function() {
         // given
-        const fetchedOwnerDetails = {
-          data: {
-            id: 1234,
-            attributes: {
-              email: 'philipe@example.net',
-            },
-          },
+        const stubbedAccountRecoveryDetails = {
+          email: 'philipe@example.net',
+          firstName: 'philippe',
         };
-        const expectedUser = {
-          data: {
-            id: 1234,
-            attributes: {
-              email: 'philipe@example.net',
-            },
-          },
+        const expectedAccountRecoveryDetails = {
+          email: 'philipe@example.net',
+          firstName: 'philippe',
         };
 
-        queryRecordStub.resolves(fetchedOwnerDetails);
+        queryRecordStub.resolves(stubbedAccountRecoveryDetails);
         const route = this.owner.lookup('route:account-recovery/reset-password');
         route.set('store', storeStub);
 
@@ -79,8 +71,8 @@ describe('Unit | Route | recuperer-son-compte | reset password', function() {
         const promise = route.model(params);
 
         // then
-        return promise.then(({ user, temporaryKey }) => {
-          expect(user).to.eql(expectedUser);
+        return promise.then(({ temporaryKey, ...accountRecoveryDetails }) => {
+          expect(accountRecoveryDetails).to.eql(expectedAccountRecoveryDetails);
           expect(temporaryKey).to.eql(params.temporary_key);
         });
       });
