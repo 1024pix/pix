@@ -10,6 +10,7 @@ module.exports = function() {
       'bullhorn',
       'chevron-down',
       'chevron-up',
+      'crown',
       'ellipsis-v',
       'eye',
       'eye-slash',
@@ -27,6 +28,7 @@ module.exports = function() {
       'sort',
       'times',
       'users',
+
     ],
     'free-regular-svg-icons': [
       'check-circle',
