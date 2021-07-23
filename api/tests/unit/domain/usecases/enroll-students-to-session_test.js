@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 
 const enrollStudentsToSession = require('../../../../lib/domain/usecases/enroll-students-to-session');
 const SCOCertificationCandidate = require('../../../../lib/domain/models/SCOCertificationCandidate');
-const { ForbiddenAccess } = require('../../../../lib/domain/errors');
+const { ForbiddenAccess, UnknownCountryForStudentEnrollmentError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | enroll-students-to-session', () => {
 
@@ -197,6 +197,53 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
 
       // then
       expect(error).to.be.an.instanceOf(ForbiddenAccess);
+    });
+
+    it('rejects enrollment if a student birth country is not found', async () => {
+      // given
+      const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
+      const sessionId = session.id;
+      const referentId = Symbol('a referent id');
+
+      const studentIds = [1, 2, 3];
+      const { organizationForReferent, schoolingRegistrations } =
+        _buildMatchingReferentOrganisationAndSchoolingRegistrations(studentIds);
+
+      const country = domainBuilder.buildCountry({
+        code: '99A07',
+        name: 'COUBA',
+      });
+
+      const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();
+      const schoolingRegistrationRepository = { findByIds: sinon.stub() };
+      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(schoolingRegistrations);
+      const countryRepository = { findAll: sinon.stub() };
+      countryRepository.findAll.resolves([country]);
+      const sessionRepository = { get: sinon.stub() };
+      sessionRepository.get.withArgs(sessionId).resolves(session);
+      const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
+      certificationCenterMembershipRepository.findByUserId.withArgs(referentId).resolves(certificationCenterMemberships);
+      const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
+      organizationRepository.getIdByCertificationCenterId.withArgs(session.certificationCenterId).resolves(
+        organizationForReferent.id,
+      );
+
+      // when
+      const error = await catchErr(enrollStudentsToSession)({
+        sessionId,
+        studentIds,
+        referentId,
+        scoCertificationCandidateRepository,
+        certificationCenterMembershipRepository,
+        schoolingRegistrationRepository,
+        sessionRepository,
+        countryRepository,
+        organizationRepository,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(UnknownCountryForStudentEnrollmentError);
+      expect(error.message).to.contains(`${schoolingRegistrations[0].firstName} ${schoolingRegistrations[0].lastName}`);
     });
 
     it('does nothing if no student ids is given as input', async () => {
