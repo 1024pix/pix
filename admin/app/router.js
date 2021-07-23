@@ -38,7 +38,7 @@ Router.map(function() {
     });
 
     this.route('campaigns', function() {
-      this.route('get', { path: '/:campaign_id' });
+      this.route('campaign', { path: '/:campaign_id' });
     });
 
     this.route('users', function() {
