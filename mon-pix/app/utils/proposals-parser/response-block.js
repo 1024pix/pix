@@ -11,7 +11,9 @@ const {
 export default class ResponseBlock {
 
   constructor({ input, inputIndex }) {
-    this._input = input.replace(RESPONSE_BLOCK_BEGIN, '').replace(RESPONSE_BLOCK_END, '');
+
+    const end = input.lastIndexOf(RESPONSE_BLOCK_END);
+    this._input = input.substring(0, end).replace(RESPONSE_BLOCK_BEGIN, '');
     this._placeholder = null;
     this._text = null;
     this._options = null;
@@ -30,7 +32,7 @@ export default class ResponseBlock {
       this.setAriaLabel(this.input.split(ARIA_LABEL)[1]);
       this.setAutoAriaLabel(false);
     }
-    this.setInput(this.input.split(PLACEHOLDER_AND_ARIA_LABEL)[0]);
+    this.setInput(this.input.split(PLACEHOLDER_AND_ARIA_LABEL)[0].trim());
   }
 
   get hasPlaceHolder() {
