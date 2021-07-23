@@ -1,9 +1,7 @@
 const _ = require('lodash');
 const { expect, sinon, domainBuilder, catchErr } = require('../../../../test-helper');
 const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
-const CertificationAssessment = require('../../../../../lib/domain/models/CertificationAssessment');
 const { states } = require('../../../../../lib/domain/models/CertificationAssessment');
-const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
 const placementProfileService = require('../../../../../lib/domain/services/placement-profile-service');
 const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
 const { CertificationComputeError } = require('../../../../../lib/domain/errors');
@@ -17,7 +15,6 @@ const pixForCompetence2 = 20;
 const pixForCompetence3 = 30;
 const pixForCompetence4 = 40;
 const UNCERTIFIED_LEVEL = -1;
-const totalPix = pixForCompetence1 + pixForCompetence2 + pixForCompetence3 + pixForCompetence4;
 
 const correctAnswersForAllChallenges = () => _.map([
   { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
@@ -100,7 +97,6 @@ const competence_3 = domainBuilder.buildCompetence({ id: 'competence_3', index: 
 const competence_4 = domainBuilder.buildCompetence({ id: 'competence_4', index: '4.4', area: { code: '4' }, name: 'Résoudre' });
 const competence_5 = domainBuilder.buildCompetence({ id: 'competence_5', index: '5.5', area: { code: '5' }, name: 'Chercher' });
 const competence_6 = domainBuilder.buildCompetence({ id: 'competence_6', index: '6.6', area: { code: '6' }, name: 'Trouver' });
-const allPixCompetencesFromLearningContent = [ competence_1, competence_2, competence_3, competence_4, competence_5, competence_6 ];
 
 const userCompetences = [
   _buildUserCompetence(competence_1, pixForCompetence1, 1),
@@ -111,7 +107,7 @@ const userCompetences = [
 
 describe('Unit | Service | Certification Result Service', function() {
 
-  describe('#getCertificationResult', () => {
+  context('#computeResult', () => {
     let certificationAssessment;
     const certificationAssessmentData = {
       id: 1,
@@ -174,7 +170,8 @@ describe('Unit | Service | Certification Result Service', function() {
       competenceWithMarks_4_4,
     ];
 
-    describe('When at least one challenge have more than one answer ', () => {
+    context('When at least one challenge have more than one answer ', () => {
+
       it('should throw', async () => {
         // given
         const certificationAnswersByDate = _.map([
@@ -198,7 +195,6 @@ describe('Unit | Service | Certification Result Service', function() {
           certificationChallenges: challenges,
         };
 
-        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
         sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
@@ -206,7 +202,7 @@ describe('Unit | Service | Certification Result Service', function() {
         }).resolves({ userCompetences });
 
         // when
-        const error = await catchErr(certificationResultService.getCertificationResult)({ certificationAssessment, continueOnError: false });
+        const error = await catchErr(certificationResultService.computeResult)({ certificationAssessment, continueOnError: false });
 
         // then
         expect(error).to.be.instanceOf(CertificationComputeError);
@@ -214,7 +210,8 @@ describe('Unit | Service | Certification Result Service', function() {
       });
     });
 
-    describe('When there are more challenges than answers ', () => {
+    context('When there are more challenges than answers ', () => {
+
       it('should throw', async () => {
         // given
         const certificationAnswersByDate = _.map([
@@ -236,7 +233,6 @@ describe('Unit | Service | Certification Result Service', function() {
           certificationChallenges: challenges,
         };
 
-        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
         sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
@@ -244,7 +240,7 @@ describe('Unit | Service | Certification Result Service', function() {
         }).resolves({ userCompetences });
 
         // when
-        const error = await catchErr(certificationResultService.getCertificationResult)({ certificationAssessment, continueOnError: false });
+        const error = await catchErr(certificationResultService.computeResult)({ certificationAssessment, continueOnError: false });
 
         // then
         expect(error).to.be.instanceOf(CertificationComputeError);
@@ -252,7 +248,8 @@ describe('Unit | Service | Certification Result Service', function() {
       });
     });
 
-    describe('When there is no challenge for a competence ', () => {
+    context('When there is no challenge for a competence ', () => {
+
       it('should throw', async () => {
         // given
         const certificationAnswersByDate = _.map([
@@ -286,7 +283,6 @@ describe('Unit | Service | Certification Result Service', function() {
           certificationChallenges: challenges,
         };
 
-        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
         sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
@@ -294,7 +290,7 @@ describe('Unit | Service | Certification Result Service', function() {
         }).resolves({ userCompetences });
 
         // when
-        const error = await catchErr(certificationResultService.getCertificationResult)({ certificationAssessment, continueOnError: false });
+        const error = await catchErr(certificationResultService.computeResult)({ certificationAssessment, continueOnError: false });
 
         // then
         expect(error).to.be.instanceOf(CertificationComputeError);
@@ -302,17 +298,16 @@ describe('Unit | Service | Certification Result Service', function() {
       });
     });
 
-    describe('Compute certification result for jury (continue on error)', () => {
+    context('Compute certification result for jury (continue on error)', () => {
       const continueOnError = true;
 
       beforeEach(() => {
-        certificationAssessment = new CertificationAssessment({
+        certificationAssessment = domainBuilder.buildCertificationAssessment({
           ...certificationAssessmentData,
           certificationAnswersByDate: wrongAnswersForAllChallenges(),
           certificationChallenges: challenges,
         });
 
-        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
         sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
@@ -322,46 +317,26 @@ describe('Unit | Service | Certification Result Service', function() {
 
       it('should get user profile', async () => {
         // when
-        await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+        await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
         // then
         sinon.assert.calledOnce(placementProfileService.getPlacementProfile);
-      });
-
-      it('should retrieve competences list', async () => {
-        // when
-        await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-        // then
-        sinon.assert.calledOnce(competenceRepository.listPixCompetencesOnly);
       });
 
       context('when assessment is just started', () => {
         let startedCertificationAssessment;
 
         beforeEach(() => {
-          startedCertificationAssessment = new CertificationAssessment({
+          startedCertificationAssessment = domainBuilder.buildCertificationAssessment({
             ...certificationAssessment,
             completedAt: null,
             state: states.STARTED,
           });
         });
 
-        it('should return totalScore = 0', async () => {
-          // when
-          const result = await certificationResultService.getCertificationResult({
-            certificationAssessment: startedCertificationAssessment,
-            continueOnError,
-          });
-
-          // then
-          expect(result.totalScore).to.equal(0);
-
-        });
-
         it('should return list of competences with all certifiedLevel at -1', async () => {
           // when
-          const result = await certificationResultService.getCertificationResult({
+          const result = await certificationResultService.computeResult({
             certificationAssessment: startedCertificationAssessment,
             continueOnError,
           });
@@ -373,17 +348,9 @@ describe('Unit | Service | Certification Result Service', function() {
 
       context('when reproducibility rate is < 50%', () => {
 
-        it('should return totalScore = 0', async () => {
-          // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-          // then
-          expect(result.totalScore).to.equal(0);
-        });
-
         it('should return list of competences with all certifiedLevel at -1', async () => {
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
@@ -394,23 +361,6 @@ describe('Unit | Service | Certification Result Service', function() {
 
         beforeEach(() => {
           certificationAssessment.certificationAnswersByDate = correctAnswersForAllChallenges();
-        });
-
-        it('should ignore answers with no matching challenge', async () => {
-          // when
-          certificationAssessment.certificationChallenges = [];
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-          // then
-          expect(result.totalScore).to.equal(0);
-        });
-
-        it('should return totalScore = all pix', async () => {
-          // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-          // then
-          expect(result.totalScore).to.equal(totalPix);
         });
 
         it('should return list of competences with all certifiedLevel equal to estimatedLevel', async () => {
@@ -436,21 +386,10 @@ describe('Unit | Service | Certification Result Service', function() {
           ];
 
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
-        });
-
-        it('should return totalScore = (all pix - one competence pix) when one competence is totally false', async () => {
-          // given
-          certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
-
-          // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-          // then
-          expect(result.totalScore).to.equal(totalPix - pixForCompetence4);
         });
 
         it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', async () => {
@@ -473,7 +412,7 @@ describe('Unit | Service | Certification Result Service', function() {
           }];
 
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
@@ -481,20 +420,9 @@ describe('Unit | Service | Certification Result Service', function() {
       });
 
       context('when reproducibility rate is between 50% and 80%', () => {
+
         beforeEach(() => {
           certificationAssessment.certificationAnswersByDate = answersWithReproducibilityRateLessThan80();
-        });
-
-        it('should return totalScore = all pix minus 8 for one competence with 1 error and minus all pix for others false competences', async () => {
-          // given
-          const malusForFalseAnswer = 8;
-          const expectedScore = totalPix - pixForCompetence3 - 2 * malusForFalseAnswer;
-
-          // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-          // then
-          expect(result.totalScore).to.equal(expectedScore);
         });
 
         it('should return list of competences with certifiedLevel less or equal to estimatedLevel', async () => {
@@ -540,172 +468,22 @@ describe('Unit | Service | Certification Result Service', function() {
           }];
 
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
 
-        it('should return a object contains information about competences and challenges', async () => {
+        it('should return the percentage of correct answers', async () => {
           // given
           const certificationAssessmentWithNeutralizedChallenge = _.cloneDeep(certificationAssessment);
           certificationAssessmentWithNeutralizedChallenge.certificationChallenges[0].isNeutralized = true;
 
-          const malusForFalseAnswer = 8;
-          const expectedCertifiedCompetences = [{
-            index: '1.1',
-            area_code: '1',
-            id: 'competence_1',
-            name: 'Mener une recherche',
-            obtainedLevel: -1,
-            positionedLevel: 1,
-            positionedScore: 10,
-            obtainedScore: 0,
-          }, {
-            index: '2.2',
-            area_code: '2',
-            id: 'competence_2',
-            name: 'Partager',
-            obtainedLevel: 2,
-            positionedLevel: 2,
-            positionedScore: 20,
-            obtainedScore: pixForCompetence2,
-          }, {
-            index: '3.3',
-            area_code: '3',
-            id: 'competence_3',
-            name: 'Adapter',
-            positionedLevel: 3,
-            positionedScore: 30,
-            obtainedLevel: UNCERTIFIED_LEVEL,
-
-            obtainedScore: 0,
-          }, {
-            index: '4.4',
-            area_code: '4',
-            id: 'competence_4',
-            name: 'Résoudre',
-            obtainedLevel: 3,
-            positionedLevel: 4,
-            positionedScore: 40,
-            obtainedScore: pixForCompetence4 - malusForFalseAnswer,
-          }];
-
-          const expectedChallenges = [
-            {
-              challengeId: 'challenge_A_for_competence_1',
-              competence: '1.1',
-              skill: '@skillChallengeA_1',
-              result: 'ok',
-              value: '1',
-              isNeutralized: true,
-            },
-            {
-              challengeId: 'challenge_B_for_competence_1',
-              competence: '1.1',
-              skill: '@skillChallengeB_1',
-              result: 'ko',
-              value: '1',
-              isNeutralized: false,
-            },
-            {
-              challengeId: 'challenge_C_for_competence_1',
-              competence: '1.1',
-              skill: '@skillChallengeC_1',
-              result: 'ok',
-              value: '1',
-              isNeutralized: false,
-            },
-            {
-              challengeId: 'challenge_D_for_competence_2',
-              competence: '2.2',
-              skill: '@skillChallengeD_2',
-              result: 'ok',
-              value: '1',
-              isNeutralized: false,
-            },
-            {
-              challengeId: 'challenge_E_for_competence_2',
-              competence: '2.2',
-              skill: '@skillChallengeE_2',
-              result: 'ok',
-              value: '1',
-              isNeutralized: false,
-            },
-            {
-              challengeId: 'challenge_F_for_competence_2',
-              competence: '2.2',
-              skill: '@skillChallengeF_2',
-              result: 'ok',
-              value: '1',
-              isNeutralized: false,
-            },
-            {
-              challengeId: 'challenge_G_for_competence_3',
-              competence: '3.3',
-              skill: '@skillChallengeG_3',
-              result: 'ok',
-              value: '1',
-              isNeutralized: false,
-            },
-            {
-              challengeId: 'challenge_H_for_competence_3',
-              competence: '3.3',
-              skill: '@skillChallengeH_3',
-              result: 'ko',
-              value: '1',
-              isNeutralized: false,
-            },
-            {
-              challengeId: 'challenge_I_for_competence_3',
-              competence: '3.3',
-              skill: '@skillChallengeI_3',
-              result: 'ko',
-              value: '1',
-              isNeutralized: false,
-            },
-            {
-              challengeId: 'challenge_J_for_competence_4',
-              competence: '4.4',
-              skill: '@skillChallengeJ_4',
-              result: 'ok',
-              value: '1',
-              isNeutralized: false,
-            },
-            {
-              challengeId: 'challenge_K_for_competence_4',
-              competence: '4.4',
-              skill: '@skillChallengeK_4',
-              result: 'ko',
-              value: '1',
-              isNeutralized: false,
-            },
-            {
-              challengeId: 'challenge_L_for_competence_4',
-              competence: '4.4',
-              skill: '@skillChallengeL_4',
-              result: 'ok',
-              value: '1',
-              isNeutralized: false,
-            },
-
-          ];
-          const expectedResult = {
-            competencesWithMark: expectedCertifiedCompetences,
-            listChallengesAndAnswers: expectedChallenges,
-            percentageCorrectAnswers: 64,
-            status: certificationAssessment.state,
-            totalScore: 52,
-            userId: certificationAssessment.userId,
-            completedAt: certificationAssessment.completedAt,
-            createdAt: certificationAssessment.createdAt,
-          };
-
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment: certificationAssessmentWithNeutralizedChallenge, continueOnError });
+          const { percentageCorrectAnswers } = await certificationResultService.computeResult({ certificationAssessment: certificationAssessmentWithNeutralizedChallenge, continueOnError });
 
           // then
-          expect(result).to.deep.equal(expectedResult);
+          expect(percentageCorrectAnswers).to.deep.equal(64);
         });
 
         context('when one competence is evaluated with 3 challenges', () => {
@@ -743,27 +521,26 @@ describe('Unit | Service | Certification Result Service', function() {
               }).resolves({ userCompetences });
 
               // When
-              const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+              const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
               // Then
               expect(result.competencesWithMark[0].obtainedLevel).to.deep.equal(positionedLevel - 1);
               expect(result.competencesWithMark[0].obtainedScore).to.deep.equal(positionedScore - 8);
             });
-
           });
-
         });
-
       });
     });
 
-    describe('Calculate certification result when assessment is completed (stop on error)', () => {
+    context('Calculate certification result when assessment is completed (stop on error)', () => {
       const continueOnError = false;
 
       beforeEach(() => {
-        certificationAssessment.certificationAnswersByDate = wrongAnswersForAllChallenges();
-        certificationAssessment.certificationChallenges = challenges;
-        sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(allPixCompetencesFromLearningContent);
+        certificationAssessment = domainBuilder.buildCertificationAssessment({
+          ...certificationAssessmentData,
+          certificationAnswersByDate: wrongAnswersForAllChallenges(),
+          certificationChallenges: challenges,
+        });
         sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
           userId: certificationAssessment.userId,
           limitDate: certificationAssessment.createdAt,
@@ -771,23 +548,7 @@ describe('Unit | Service | Certification Result Service', function() {
         }).resolves({ userCompetences });
       });
 
-      it('should retrieve competences list', async () => {
-        // when
-        await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-        // then
-        sinon.assert.calledOnce(competenceRepository.listPixCompetencesOnly);
-      });
-
       context('when reproducibility rate is < 50%', () => {
-
-        it('should return totalScore = 0', async () => {
-          // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-          // then
-          expect(result.totalScore).to.equal(0);
-        });
 
         it('should return list of competences with all certifiedLevel at -1', async () => {
           // given
@@ -834,7 +595,7 @@ describe('Unit | Service | Certification Result Service', function() {
           }];
 
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
@@ -845,26 +606,6 @@ describe('Unit | Service | Certification Result Service', function() {
 
         beforeEach(() => {
           certificationAssessment.certificationAnswersByDate = correctAnswersForAllChallenges();
-        });
-
-        it('should return totalScore = all pix', async () => {
-          // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-          // then
-          expect(result.totalScore).to.equal(totalPix);
-        });
-
-        it('should ignore answers with no matching challenge', async () => {
-          // given
-          const answerNoMatchingChallenge = domainBuilder.buildAnswer({ challengeId: 'non_existing_challenge', result: 'ok' });
-          certificationAssessment.certificationAnswersByDate = [...correctAnswersForAllChallenges(), answerNoMatchingChallenge ];
-
-          // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-          // then
-          expect(result.listChallengesAndAnswers.length).to.equal(correctAnswersForAllChallenges().length);
         });
 
         it('should return list of competences with all certifiedLevel equal to estimatedLevel', async () => {
@@ -910,21 +651,10 @@ describe('Unit | Service | Certification Result Service', function() {
           ];
 
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
-        });
-
-        it('should return totalScore = (all pix - one competence pix) when one competence is totally false', async () => {
-          // given
-          certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
-
-          // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-          // then
-          expect(result.totalScore).to.equal(totalPix - pixForCompetence4);
         });
 
         it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', async () => {
@@ -969,7 +699,7 @@ describe('Unit | Service | Certification Result Service', function() {
           }];
 
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
@@ -980,18 +710,6 @@ describe('Unit | Service | Certification Result Service', function() {
 
         beforeEach(() => {
           certificationAssessment.certificationAnswersByDate = answersWithReproducibilityRateLessThan80();
-        });
-
-        it('should return totalScore = all pix minus 8 for one competence with 1 error and minus all pix for others false competences', async () => {
-          // given
-          const malusForFalseAnswer = 8;
-          const expectedScore = totalPix - pixForCompetence3 - 2 * malusForFalseAnswer;
-
-          // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-          // then
-          expect(result.totalScore).to.equal(expectedScore);
         });
 
         it('should return list of competences with certifiedLevel less or equal to estimatedLevel', async () => {
@@ -1036,15 +754,15 @@ describe('Unit | Service | Certification Result Service', function() {
           }];
 
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
-
       });
 
       context('when only one challenge is asked for a competence', () => {
+
         it('certifies a level below the estimated one if reproducibility rate is < 70%', async () => {
           // given
           const userCompetences = [
@@ -1095,7 +813,7 @@ describe('Unit | Service | Certification Result Service', function() {
           }];
 
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
@@ -1103,6 +821,7 @@ describe('Unit | Service | Certification Result Service', function() {
       });
 
       context('when challenges contains one QROCM-dep challenge to validate two skills', () => {
+
         beforeEach(() => {
           const userCompetences = [
             _buildUserCompetence(competence_5, 50, 5),
@@ -1159,7 +878,7 @@ describe('Unit | Service | Certification Result Service', function() {
           }];
 
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
@@ -1197,7 +916,7 @@ describe('Unit | Service | Certification Result Service', function() {
           }];
 
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
@@ -1227,22 +946,11 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should not include the extra challenges when computing reproducibility', async () => {
           // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
           expect(result.percentageCorrectAnswers).to.equal(0);
         });
-
-        it('should not include the extra challenges in the result', async () => {
-          // when
-          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
-
-          // then
-          expect(_.map(result.listChallengesAndAnswers, 'challengeId')).to.have.members([
-            'challenge_A_for_competence_1',
-          ]);
-        });
-
       });
     });
   });

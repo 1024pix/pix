@@ -5,7 +5,7 @@ const scoringService = require('../../services/scoring/scoring-service');
 
 async function calculateCertificationAssessmentScore({ certificationAssessment, continueOnError }) {
 
-  const { competencesWithMark, percentageCorrectAnswers } = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+  const { competencesWithMark, percentageCorrectAnswers } = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
   const competenceMarks = competencesWithMark.map((certifiedCompetence) => {
     return new CompetenceMark({
