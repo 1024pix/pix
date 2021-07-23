@@ -22,13 +22,28 @@ function splitIntoWordsAndRemoveBackspaces(string) {
 }
 
 /**
- * Normalize and uppercase a string, remove non canonical characters and sort the remaining characters alphabetically
+ * Normalize and uppercase a string, remove non canonical characters, zero-width characters and sort the remaining characters alphabetically
  * @param {string} str
  * @returns {string}
  */
 function normalizeAndSortChars(str) {
-  const normalizedName = str.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  return [...normalizedName].filter((char) => Boolean(char.match(/[A-Z]/))).sort().join('');
+  const normalizedName = normalize(str);
+  return [...normalizedName].sort().join('');
+}
+
+/**
+ * Normalize and uppercase a string, remove non canonical characters and zero-width characters
+ * @param {string} str
+ * @returns {string}
+ */
+function normalize(str) {
+  const strCanonical = _removeNonCanonicalChars(str);
+  const strUpper = strCanonical.toUpperCase();
+  return [...strUpper].filter((char) => Boolean(char.match(/[A-Z]/))).join('');
+}
+
+function _removeNonCanonicalChars(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
 module.exports = {
@@ -36,4 +51,5 @@ module.exports = {
   splitIntoWordsAndRemoveBackspaces,
   cleanStringAndParseFloat,
   normalizeAndSortChars,
+  normalize,
 };

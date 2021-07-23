@@ -1,7 +1,14 @@
 const { expect } = require('../../../test-helper');
-const { isNumeric, cleanStringAndParseFloat, splitIntoWordsAndRemoveBackspaces, normalizeAndSortChars } = require('../../../../lib/infrastructure/utils/string-utils');
+const {
+  isNumeric,
+  cleanStringAndParseFloat,
+  splitIntoWordsAndRemoveBackspaces,
+  normalizeAndSortChars,
+  normalize,
+} = require('../../../../lib/infrastructure/utils/string-utils');
 
 describe('Unit | Utils | string-utils', () => {
+  const zeroWidthSpaceChar = '​';
 
   describe('isNumeric', () => {
     [
@@ -65,12 +72,23 @@ describe('Unit | Utils | string-utils', () => {
 
   describe('#normalizeAndSortChars', () => {
 
-    it('should sanitize and sort chars of the string "ABCDEFGHI"', () => {
+    it('should normalize and sort chars of the string "ABCDEFGHI"', () => {
       expect(normalizeAndSortChars(('ABCDEFGHI'))).to.equal('ABCDEFGHI');
     });
 
-    it('should sanitize and sort chars of the string "Féd \'. àBç - (îHg)"', () => {
-      expect(normalizeAndSortChars(('Féd \'. àBç - (îHg)'))).to.equal('ABCDEFGHI');
+    it(`should normalize and sort chars of a string with non canonical, zero-width and special characters: "Féd '. àBç - (îHg)K${zeroWidthSpaceChar}J"`, () => {
+      expect(normalizeAndSortChars(('Féd \'. àBç - (îHg)K​J'))).to.equal('ABCDEFGHIJK');
+    });
+  });
+
+  describe('#normalize', () => {
+
+    it('should normalize chars of the string "ABCDEFGHI"', () => {
+      expect(normalize(('ABCDEFGHI'))).to.equal('ABCDEFGHI');
+    });
+
+    it(`should normalize chars of a string with non canonical, zero-width and special characters: "Féd '. àBç - (îHg)K${zeroWidthSpaceChar}J"`, () => {
+      expect(normalize(('Féd \'. àBç - (îHg)K​J'))).to.equal('FEDABCIHGKJ');
     });
   });
 });
