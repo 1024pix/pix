@@ -40,7 +40,10 @@ async function _calculateCertificationScore({
   juryId,
 }) {
   try {
-    const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore(certificationAssessment);
+    const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
+      certificationAssessment,
+      continueOnError: false,
+    });
     await _saveResult({
       certificationAssessmentScore,
       certificationAssessment,
