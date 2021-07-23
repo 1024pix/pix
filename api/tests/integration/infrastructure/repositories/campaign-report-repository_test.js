@@ -25,6 +25,34 @@ describe('Integration | Repository | Campaign-Report', () => {
       expect(result).to.deep.include(_.pick(campaign, ['id', 'name', 'code', 'createdAt', 'archivedAt', 'targetProfileId', 'idPixLabel', 'title', 'type', 'customLandingPageText', 'creatorId', 'creatorLastName', 'creatorFirstName', 'targetProfileId', 'targetProfileName', 'targetProfileImageUrl', 'participationsCount', 'sharedParticipationsCount']));
     });
 
+    it('should only count participations not improved', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, isImproved: true });
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, isImproved: false });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignReportRepository.get(campaign.id);
+
+      // then
+      expect(result.participationsCount).to.equal(1);
+    });
+
+    it('should only count shared participations not improved', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, sharedAt: new Date(), isShared: true, isImproved: true });
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, sharedAt: null, isShared: false, isImproved: false });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignReportRepository.get(campaign.id);
+
+      // then
+      expect(result.sharedParticipationsCount).to.equal(0);
+    });
+
     it('should throw a NotFoundError if campaign can not be found', async () => {
       // given
       const nonExistentId = 666;
@@ -133,6 +161,36 @@ describe('Integration | Repository | Campaign-Report', () => {
       });
 
       context('when campaigns have participants', async () => {
+
+        it('should only count participations not improved', async () => {
+          // given
+          const campaign = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId });
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, isImproved: true });
+          databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, isImproved: false });
+          await databaseBuilder.commit();
+
+          // when
+          const { models: campaignReports } = await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
+
+          // then
+          expect(campaignReports[0].participationsCount).to.equal(1);
+        });
+
+        it('should only count shared participations not improved', async () => {
+          // given
+          const campaign = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId });
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, isShared: true, sharedAt: new Date(), isImproved: true });
+          databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, isImproved: false, isShared: false, sharedAt: null });
+          await databaseBuilder.commit();
+
+          // when
+          const { models: campaignReports } = await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
+
+          // then
+          expect(campaignReports[0].sharedParticipationsCount).to.equal(0);
+        });
 
         it('should return correct participations count and shared participations count', async () => {
           // given

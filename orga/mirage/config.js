@@ -290,7 +290,9 @@ export default function() {
   });
 
   this.get('/campaigns/:campaignId/profiles-collection-participations/:campaignParticipationId', (schema, request) => {
-    return schema.campaignProfiles.findBy({ ...request.params });
+    const campaignId = request.params.campaignId;
+    const id = request.params.campaignParticipationId;
+    return schema.campaignProfiles.findBy({ campaignId, id });
   });
 
   this.get('/campaigns/:campaignId/assessment-participations/:id', (schema, request) => {
