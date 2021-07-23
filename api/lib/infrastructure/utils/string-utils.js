@@ -26,7 +26,7 @@ function splitIntoWordsAndRemoveBackspaces(string) {
  * @param {string} str
  * @returns {string}
  */
-function sanitizeAndSortChars(str) {
+function normalizeAndSortChars(str) {
   const normalizedName = str.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   return [...normalizedName].filter((char) => Boolean(char.match(/[A-Z]/))).sort().join('');
 }
@@ -35,5 +35,5 @@ module.exports = {
   isNumeric,
   splitIntoWordsAndRemoveBackspaces,
   cleanStringAndParseFloat,
-  sanitizeAndSortChars,
+  normalizeAndSortChars,
 };

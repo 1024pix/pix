@@ -1,5 +1,5 @@
 const { expect } = require('../../../test-helper');
-const { isNumeric, cleanStringAndParseFloat, splitIntoWordsAndRemoveBackspaces, sanitizeAndSortChars } = require('../../../../lib/infrastructure/utils/string-utils');
+const { isNumeric, cleanStringAndParseFloat, splitIntoWordsAndRemoveBackspaces, normalizeAndSortChars } = require('../../../../lib/infrastructure/utils/string-utils');
 
 describe('Unit | Utils | string-utils', () => {
 
@@ -63,14 +63,14 @@ describe('Unit | Utils | string-utils', () => {
     });
   });
 
-  describe('#sanitizeAndSortChars', () => {
+  describe('#normalizeAndSortChars', () => {
 
     it('should sanitize and sort chars of the string "ABCDEFGHI"', () => {
-      expect(sanitizeAndSortChars(('ABCDEFGHI'))).to.equal('ABCDEFGHI');
+      expect(normalizeAndSortChars(('ABCDEFGHI'))).to.equal('ABCDEFGHI');
     });
 
     it('should sanitize and sort chars of the string "Féd \'. àBç - (îHg)"', () => {
-      expect(sanitizeAndSortChars(('Féd \'. àBç - (îHg)'))).to.equal('ABCDEFGHI');
+      expect(normalizeAndSortChars(('Féd \'. àBç - (îHg)'))).to.equal('ABCDEFGHI');
     });
   });
 });
