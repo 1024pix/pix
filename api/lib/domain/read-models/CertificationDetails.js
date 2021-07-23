@@ -53,6 +53,28 @@ class CertificationDetails {
       listChallengesAndAnswers,
     });
   }
+
+  static fromCertificationAssessmentScore({
+    certificationAssessmentScore,
+    certificationAssessment,
+    placementProfile,
+  }) {
+    const competenceMarks = certificationAssessmentScore.getCompetenceMarks();
+    const competencesWithMark = _buildCompetencesWithMark({ competenceMarks, placementProfile });
+    const listChallengesAndAnswers = _buildListChallengesAndAnswers({ certificationAssessment, competencesWithMark });
+
+    return new CertificationDetails({
+      id: certificationAssessment.certificationCourseId,
+      userId: certificationAssessment.userId,
+      createdAt: certificationAssessment.createdAt,
+      completedAt: certificationAssessment.completedAt,
+      status: certificationAssessment.state,
+      totalScore: certificationAssessmentScore.nbPix,
+      percentageCorrectAnswers: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      competencesWithMark,
+      listChallengesAndAnswers,
+    });
+  }
 }
 
 function _buildCompetencesWithMark({
