@@ -7,47 +7,26 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 module('Integration | Component | Campaign::Activity::ParticipantsList', function(hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('when there are no participations', function() {
+  test('it should display participations details', async function(assert) {
 
-    test('it should display empty message', async function(assert) {
+    this.campaign = { idPixLabel: 'id', type: 'ASSESSMENT' };
+    this.participations = [{
+      firstName: 'Joe',
+      lastName: 'La frite',
+      status: 'completed',
+      participantExternalId: 'patate',
+    }];
+    this.onClickParticipant = sinon.stub();
 
-      this.onClickParticipant = sinon.stub();
-      this.campaign = { idPixLabel: null, type: 'ASSESSMENT' };
-      this.participations = [];
-
-      await render(hbs`<Campaign::Activity::ParticipantsList
+    await render(hbs`<Campaign::Activity::ParticipantsList
         @campaign={{campaign}}
         @participations={{participations}}
         @onClickParticipant={{onClickParticipant}}
       />`);
 
-      assert.contains('Aucun participant');
-    });
-  });
-
-  module('when there are participations', function() {
-
-    test('it should display participations details', async function(assert) {
-
-      this.campaign = { idPixLabel: 'id', type: 'ASSESSMENT' };
-      this.participations = [{
-        firstName: 'Joe',
-        lastName: 'La frite',
-        status: 'completed',
-        participantExternalId: 'patate',
-      }];
-      this.onClickParticipant = sinon.stub();
-
-      await render(hbs`<Campaign::Activity::ParticipantsList
-        @campaign={{campaign}}
-        @participations={{participations}}
-        @onClickParticipant={{onClickParticipant}}
-      />`);
-
-      assert.contains('Joe');
-      assert.contains('La frite');
-      assert.contains('patate');
-      assert.contains('En attente d\'envoi');
-    });
+    assert.contains('Joe');
+    assert.contains('La frite');
+    assert.contains('patate');
+    assert.contains('En attente d\'envoi');
   });
 });

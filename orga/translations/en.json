@@ -191,8 +191,19 @@
       },
       "archived": "Archived campaign",
       "code": "Code",
+      "copy" : {
+        "code": {
+          "success": "Copied!",
+          "default": "Copy code"
+        },
+        "link": {
+          "success": "Copied!",
+          "default": "Copy direct link"
+        }
+      },
       "created-by": "Created by",
       "created-on": "Created on",
+      "empty-state": "No participants yet! Share with them the following link to join this campaign.",
       "name": "Name of the campaign",
       "tab": {
         "activity": "Activity",
@@ -256,9 +267,6 @@
       "title": "Details",
       "actions": {
         "archive": "Archive",
-        "copied": "Copied!",
-        "copy-code": "Copy code",
-        "copy-link": "Copy direct link",
         "edit": "Edit"
       },
       "direct-link": "Direct link",
@@ -346,7 +354,6 @@
               "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
             }
           },
-          "empty": "Pending results",
           "row-title": "Topic",
           "sort": {
             "relevance": "Sort by relevance"
@@ -361,7 +368,6 @@
               "tooltip": "<span class=\"sr-only\">Participants have validated</span> {result} % <span class=\"sr-only\">of the competence {competence}.</span>"
             }
           },
-          "empty": "Pending results",
           "row-title": "Competence"
         }
       }

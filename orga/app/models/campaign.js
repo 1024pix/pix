@@ -64,6 +64,14 @@ export default class Campaign extends Model {
     return `${ENV.APP.API_HOST}/api/campaigns/${this.id}/csv-profiles-collection-results?accessToken=${this.tokenForCampaignResults}`;
   }
 
+  get hasParticipations() {
+    return this.participationsCount > 0;
+  }
+
+  get hasSharedParticipations() {
+    return this.sharedParticipationsCount > 0;
+  }
+
   async archive() {
     await this.store.adapterFor('campaign').archive(this);
     return this.store.findRecord('campaign', this.id);
