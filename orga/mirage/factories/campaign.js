@@ -1,4 +1,4 @@
-import { Factory } from 'ember-cli-mirage';
+import { Factory, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 export default Factory.extend({
@@ -14,6 +14,22 @@ export default Factory.extend({
   createdAt() {
     return faker.date.recent();
   },
+
+  ofTypeAssessment: trait({
+    afterCreate(campaign) {
+      campaign.update({
+        type: 'ASSESSMENT',
+      });
+    },
+  }),
+
+  ofTypeProfilesCollection: trait({
+    afterCreate(campaign) {
+      campaign.update({
+        type: 'PROFILES_COLLECTION',
+      });
+    },
+  }),
 
 });
 

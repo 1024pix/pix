@@ -70,20 +70,22 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
 
   module('Navigation', function(hooks) {
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(async function() {
       this.owner.setupRouter();
-    });
-
-    test('it should display campaign settings item', async function(assert) {
-
       const campaign = store.createRecord('campaign', {
         id: 12,
       });
 
       this.set('campaign', campaign);
-
       await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+    });
+
+    test('it should display campaign settings item', async function(assert) {
       assert.dom('nav a[href="/campagnes/12/details"]').hasText('Paramètres');
+    });
+
+    test('it should display activity item', async function(assert) {
+      assert.dom('nav a[href="/campagnes/12"]').hasText('Activité');
     });
 
     module('When campaign type is ASSESSMENT', function(hooks) {
@@ -103,13 +105,7 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
         assert.dom('nav a[href="/campagnes/13/analyse"]').hasText('Analyse');
       });
 
-      test('it should display activity item', async function(assert) {
-
-        assert.dom('nav a[href="/campagnes/13"]').hasText('Activité');
-      });
-
       test('it should display evaluation results item', async function(assert) {
-
         assert.dom('nav a[href="/campagnes/13/resultats-evaluation"]').hasText('Résultats (10)');
       });
     });
@@ -120,11 +116,16 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
         const campaign = store.createRecord('campaign', {
           id: 13,
           type: 'PROFILES_COLLECTION',
+          sharedParticipationsCount: 6,
         });
 
         this.set('campaign', campaign);
 
         await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+      });
+
+      test('it should display profile results item', async function(assert) {
+        assert.dom('nav a[href="/campagnes/13/profils"]').hasText('Résultats (6)');
       });
 
       test('it should not display participation item', async function(assert) {
@@ -133,10 +134,6 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
 
       test('it should not display analyse item', async function(assert) {
         assert.dom('nav a[href="/campagnes/13/analyse"]').doesNotExist();
-      });
-
-      test('it should not display activity item', async function(assert) {
-        assert.dom('nav a[href="/campagnes/13/activity"]').doesNotExist();
       });
 
       test('it should not display evaluation results item', async function(assert) {

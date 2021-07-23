@@ -38,8 +38,10 @@ Fonctionnalité: Gestion des Campagnes
     Étant donné que je suis connecté à Pix Orga
     Lorsque je clique sur "Envoi profils Lannister"
     Alors je vois le détail de la campagne "Envoi profils Lannister"
-    Lorsque je clique sur "Participants (2)"
-    Alors je vois 2 profils
+    Lorsque je clique sur "Activité"
+    Alors je vois 2 participants
+    Lorsque je clique sur "Résultats (0)"
+    Alors je vois 0 profils
 
   Scénario: Je créé une campagne d'évaluation
     Étant donné que je suis connecté à Pix Orga
@@ -74,7 +76,7 @@ Fonctionnalité: Gestion des Campagnes
     Et que je clique sur "Campagnes"
     Et que je clique sur "Archivées"
     Alors je vois 0 campagne
-  
+
   Scénario: Je modifie une campagne
     Étant donné que je suis connecté à Pix Orga
     Et je clique sur "Campagne du Mur"

@@ -33,25 +33,17 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       expect(results.data.length).to.equal(0);
     });
 
-    it('should return participant data summary for a not shared campaign participation', async () => {
+    it('should not return participant data summary for a not shared campaign participation', async () => {
       // given
-      const campaignParticipation = { id: 1, campaignId, isShared: false, sharedAt: null, participantExternalId: 'JeBu' };
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jérémy', lastName: 'bugietta' }, campaignParticipation, false);
+      const campaignParticipation = { campaignId, isShared: false, sharedAt: null };
+      databaseBuilder.factory.buildCampaignParticipationWithUser({}, campaignParticipation, false);
       await databaseBuilder.commit();
 
       // when
       const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
 
       // then
-      expect(results.data).to.deep.equal([
-        new CampaignProfilesCollectionParticipationSummary({
-          campaignParticipationId: campaignParticipation.id,
-          firstName: 'Jérémy',
-          lastName: 'bugietta',
-          participantExternalId: 'JeBu',
-          sharedAt: null,
-        }),
-      ]);
+      expect(results.data).to.deep.equal([]);
     });
 
     it('should return participants data summary only for the given campaign id', async () => {
@@ -94,9 +86,8 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       beforeEach(async () => {
         const createdAt = new Date('2018-04-06T10:00:00Z');
         const userId = 999;
-
-        campaignParticipation = { id: 1, campaignId, isShared: true, sharedAt };
-        databaseBuilder.factory.buildCampaignParticipationWithUser({ id: userId }, campaignParticipation, false);
+        campaignParticipation = { id: 888, userId, campaignId, isShared: true, sharedAt, participantExternalId: 'JeBu' };
+        databaseBuilder.factory.buildCampaignParticipationWithUser({ id: userId, firstName: 'Jérémy', lastName: 'bugietta' }, campaignParticipation, false);
 
         databaseBuilder.factory.buildKnowledgeElement({
           status: 'validated',
@@ -124,10 +115,41 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
 
         // then
-        expect(results.data[0].sharedAt).to.deep.equal(sharedAt);
-        expect(results.data[0].pixScore).to.equal(46);
-        expect(results.data[0].certifiable).to.equal(false);
-        expect(results.data[0].certifiableCompetencesCount).to.equal(1);
+        expect(results.data).to.deep.equal([
+          new CampaignProfilesCollectionParticipationSummary({
+            campaignParticipationId: campaignParticipation.id,
+            firstName: 'Jérémy',
+            lastName: 'bugietta',
+            participantExternalId: 'JeBu',
+            sharedAt,
+            pixScore: 46,
+            certifiable: false,
+            certifiableCompetencesCount: 1,
+          }),
+        ]);
+      });
+    });
+
+    describe('when a participant has participated twice', () => {
+      let recentCampaignParticipation;
+
+      beforeEach(async () => {
+        const userId = 999;
+        const oldCampaignParticipation = { userId, campaignId, isShared: true, sharedAt, isImproved: true };
+        databaseBuilder.factory.buildCampaignParticipationWithUser({ id: userId }, oldCampaignParticipation, false);
+
+        recentCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId, isImproved: false, sharedAt, campaignId, isShared: true });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return only the participationCampaign which is not improved', async () => {
+        // when
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+
+        // then
+        expect(results.data).to.have.lengthOf(1);
+        expect(results.data[0].id).to.equal(recentCampaignParticipation.id);
       });
     });
 
