@@ -72,7 +72,8 @@
     }
 
     &--selector {
-      width: 100px;
+      display: inline-block;
+      min-width: 180px;
     }
   }
 
