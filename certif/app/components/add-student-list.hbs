@@ -87,16 +87,17 @@
       </div>
 
       <div class="bottom-action-bar__actions">
-        <LinkTo
-          @route="authenticated.sessions.details.certification-candidates"
-          @model={{@session.id}}
-          class="button button--link button--grey"
-          type="button">
+        <PixButton
+          @isLink={{true}}
+          @backgroundColor="transparent-light"
+          @route='authenticated.sessions.details.certification-candidates'
+          @model={{@session.id}}>
           Annuler
-        </LinkTo>
+        </PixButton>
         <PixButton
           @triggerAction={{this.enrollStudents}}
-          class="bottom-action-bar__actions--add-button button button--link {{if this.shouldEnableAddButton "" "button--disabled"}}">
+          type="button"
+          class="bottom-action-bar__actions--add-button {{if this.shouldEnableAddButton "" "button--disabled"}}">
           Ajouter
         </PixButton>
       </div>

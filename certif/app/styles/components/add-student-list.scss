@@ -116,6 +116,7 @@
     }
 
     .bottom-action-bar__actions {
+      display: flex;
 
       .button {
         max-height: 44px;
@@ -123,7 +124,11 @@
       }
 
       &--add-button {
-        margin-right: 35px;
+        margin-right: 16px;
+      }
+
+      &:last-child {
+        margin-right: 19px;
       }
     }
   }
