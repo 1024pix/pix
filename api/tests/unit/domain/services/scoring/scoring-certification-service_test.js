@@ -12,7 +12,7 @@ describe('Unit | Domain | services | scoring | scoring-certification-service', (
       const competenceWithMark_1_1 = { index: '1.1', obtainedLevel: 0, obtainedScore: 4, area_code: '1', id: 'recComp1' };
       const competenceWithMark_1_2 = { index: '1.2', obtainedLevel: 1, obtainedScore: 8, area_code: '2', id: 'recComp2' };
       const competencesWithMark = [competenceWithMark_1_1, competenceWithMark_1_2];
-      sinon.stub(certificationResultService, 'getCertificationResult')
+      sinon.stub(certificationResultService, 'computeResult')
         .resolves({ competencesWithMark, percentageCorrectAnswers: 55 });
       const expectedCompetenceMark1 = domainBuilder.buildCompetenceMark({
         level: 0,
@@ -62,10 +62,12 @@ describe('Unit | Domain | services | scoring | scoring-certification-service', (
       const expectedAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
         competenceMarks: [expectedCompetenceMark],
       });
-      sinon.stub(certificationResultService, 'getCertificationResult').resolves({ competencesWithMark: [competenceWithMarkAboveThreshold] });
+      sinon.stub(certificationResultService, 'computeResult')
+        .withArgs({ certificationAssessment, continueOnError: false })
+        .resolves({ competencesWithMark: [competenceWithMarkAboveThreshold] });
 
       // when
-      const assessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({ certificationAssessment });
+      const assessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({ certificationAssessment, continueOnError: false });
 
       // then
       expect(assessmentScore).to.deep.equal(expectedAssessmentScore);
