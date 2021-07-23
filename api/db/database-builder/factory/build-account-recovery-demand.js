@@ -14,7 +14,7 @@ module.exports = function buildAccountRecoveryDemand({
   const values = {
     id,
     userId,
-    schoolingRegistrationId: schoolingRegistrationId || buildSchoolingRegistration().id,
+    schoolingRegistrationId: schoolingRegistrationId || buildSchoolingRegistration({ userId }).id,
     oldEmail,
     newEmail,
     temporaryKey,
