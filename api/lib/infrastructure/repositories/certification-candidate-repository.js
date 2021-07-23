@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
+const { normalize } = require('../utils/string-utils');
 const CertificationCandidateBookshelf = require('../orm-models/CertificationCandidate');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
 const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
@@ -82,16 +83,22 @@ module.exports = {
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results));
   },
 
-  findBySessionIdAndPersonalInfo({ sessionId, firstName, lastName, birthdate }) {
-    return CertificationCandidateBookshelf
-      .query((qb) => {
-        qb.where('sessionId', sessionId);
-        qb.whereRaw('LOWER(?)=LOWER(??)', [firstName, 'firstName']);
-        qb.whereRaw('LOWER(?)=LOWER(??)', [lastName, 'lastName']);
-        qb.where('birthdate', birthdate);
-      })
-      .fetchAll()
-      .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results));
+  async findBySessionIdAndPersonalInfo({ sessionId, firstName, lastName, birthdate }) {
+    const results = await CertificationCandidateBookshelf
+      .where({ sessionId, birthdate })
+      .fetchAll();
+    const certificationCandidates = bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results);
+    const normalizedInputNames = {
+      lastName: normalize(lastName),
+      firstName: normalize(firstName),
+    };
+    return _.filter(certificationCandidates, (certificationCandidate) => {
+      const certificationCandidateNormalizedNames = {
+        lastName: normalize(certificationCandidate.lastName),
+        firstName: normalize(certificationCandidate.firstName),
+      };
+      return _.isEqual(normalizedInputNames, certificationCandidateNormalizedNames);
+    });
   },
 
   findOneBySessionIdAndUserId({ sessionId, userId }) {
