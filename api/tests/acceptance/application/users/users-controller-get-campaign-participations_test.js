@@ -116,16 +116,6 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', () =>
                     related: `/api/assessments/${assessment2.id}`,
                   },
                 },
-                'campaign-participation-result': {
-                  links: {
-                    'related': `/api/campaign-participations/${campaignParticipation2.id}/campaign-participation-result`,
-                  },
-                },
-                'campaign-analysis': {
-                  links: {
-                    related: `/api/campaign-participations/${campaignParticipation2.id}/analyses`,
-                  },
-                },
               },
             },
             {
@@ -141,16 +131,6 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', () =>
                 campaign: {
                   data:
                     { type: 'campaigns', id: `${campaign3.id}` },
-                },
-                'campaign-participation-result': {
-                  links: {
-                    'related': `/api/campaign-participations/${campaignParticipation3.id}/campaign-participation-result`,
-                  },
-                },
-                'campaign-analysis': {
-                  links: {
-                    related: `/api/campaign-participations/${campaignParticipation3.id}/analyses`,
-                  },
                 },
               },
             },
@@ -171,16 +151,6 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', () =>
                 assessment: {
                   links: {
                     related: `/api/assessments/${assessment1.id}`,
-                  },
-                },
-                'campaign-participation-result': {
-                  links: {
-                    'related': `/api/campaign-participations/${campaignParticipation1.id}/campaign-participation-result`,
-                  },
-                },
-                'campaign-analysis': {
-                  links: {
-                    related: `/api/campaign-participations/${campaignParticipation1.id}/analyses`,
                   },
                 },
               },

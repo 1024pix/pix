@@ -9,9 +9,6 @@ module.exports = {
     return new Serializer('campaign-participation',
       {
         transform: (campaignParticipation) => {
-          if (!campaignParticipation.user) {
-            delete campaignParticipation.user;
-          }
           const campaignParticipationForSerialization = Object.assign({}, campaignParticipation);
 
           if (campaignParticipation.lastAssessment) {
@@ -24,14 +21,10 @@ module.exports = {
           return campaignParticipationForSerialization;
         },
 
-        attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'user', 'campaignParticipationResult', 'assessment', 'campaignAnalysis'],
+        attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'assessment'],
         campaign: {
           ref: 'id',
           attributes: ['code', 'title', 'type'],
-        },
-        user: {
-          ref: 'id',
-          attributes: ['firstName', 'lastName'],
         },
         assessment: {
           ref: 'id',
@@ -39,26 +32,6 @@ module.exports = {
           relationshipLinks: {
             related(record) {
               return `/api/assessments/${record.assessment.id}`;
-            },
-          },
-        },
-        campaignParticipationResult: {
-          ref: 'id',
-          ignoreRelationshipData: true,
-          nullIfMissing: true,
-          relationshipLinks: {
-            related(record, current, parent) {
-              return `/api/campaign-participations/${parent.id}/campaign-participation-result`;
-            },
-          },
-        },
-        campaignAnalysis: {
-          ref: 'id',
-          ignoreRelationshipData: true,
-          nullIfMissing: true,
-          relationshipLinks: {
-            related(record, current, parent) {
-              return `/api/campaign-participations/${parent.id}/analyses`;
             },
           },
         },

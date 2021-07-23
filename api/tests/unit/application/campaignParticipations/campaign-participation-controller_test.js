@@ -8,58 +8,12 @@ const campaignProfileSerializer = require('../../../../lib/infrastructure/serial
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 const events = require('../../../../lib/domain/events');
 const usecases = require('../../../../lib/domain/usecases');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | Application | Controller | Campaign-Participation', () => {
-
-  describe('#find', () => {
-
-    let options;
-
-    const query = 'some query';
-    const userId = 1;
-    const authorization = 'auth header';
-    const request = {
-      headers: { authorization },
-      auth: {
-        credentials: {
-          userId,
-        },
-      },
-      query,
-    };
-    const resultWithPagination = { models: [], pagination: {} };
-    const result = [];
-    const serialized = {};
-
-    const assessmentId = 1;
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'findCampaignParticipationsRelatedToAssessment');
-      sinon.stub(queryParamsUtils, 'extractParameters');
-      sinon.stub(campaignParticipationSerializer, 'serialize')
-        .withArgs(resultWithPagination.models, resultWithPagination.pagination).returns(serialized)
-        .withArgs(result).returns(serialized);
-    });
-
-    it('should call the usecases to get the user campaign participation', async () => {
-      // given
-      options = { filter: { assessmentId }, include: [] };
-
-      queryParamsUtils.extractParameters.withArgs(query).returns(options);
-      usecases.findCampaignParticipationsRelatedToAssessment.withArgs({ userId, assessmentId }).resolves(result);
-
-      // when
-      const response = await campaignParticipationController.find(request, hFake);
-
-      // then
-      expect(response).to.deep.equal(serialized);
-    });
-  });
 
   describe('#shareCampaignResult', () => {
     const userId = 1;
@@ -217,44 +171,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       expect(campaignParticipationSerializer.serialize).to.have.been.calledWith(campaignParticipation);
       expect(response.statusCode).to.equal(201);
       expect(response.source).to.deep.equal(serializedCampaignParticipation);
-    });
-  });
-
-  describe('#getById', () => {
-    const campaignParticipationId = 1;
-    const userId = 1;
-    let request, options, query;
-
-    beforeEach(() => {
-      query = { include: 'user' };
-      request = {
-        params: {
-          id: campaignParticipationId,
-        },
-        auth: {
-          credentials: { userId },
-        },
-        query,
-      };
-
-      options = { include: ['user'] };
-
-      sinon.stub(queryParamsUtils, 'extractParameters');
-      sinon.stub(usecases, 'getCampaignParticipation');
-      sinon.stub(campaignParticipationSerializer, 'serialize');
-    });
-
-    it('should return the campaignParticipation', async () => {
-      // given
-      queryParamsUtils.extractParameters.withArgs(query).returns(options);
-      usecases.getCampaignParticipation.withArgs({ campaignParticipationId, options, userId }).resolves({});
-      campaignParticipationSerializer.serialize.withArgs({}).returns('ok');
-
-      // when
-      const response = await campaignParticipationController.getById(request);
-
-      // then
-      expect(response).to.equal('ok');
     });
   });
 
