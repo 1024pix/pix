@@ -20,7 +20,7 @@ module('Acceptance | Campaign Activity', function(hooks) {
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
     createPrescriberByUser(user);
     campaignId = 1;
-    server.create('campaign', 'ofTypeAssessment', { id: campaignId });
+    server.create('campaign', 'ofTypeAssessment', { id: campaignId, participationsCount: 1 });
     const campaignAssessmentParticipationResult = server.create('campaign-assessment-participation-result', 'withCompetenceResults', { id: 1, campaignId });
     server.create('campaign-assessment-participation', { id: 1, campaignId, campaignAssessmentParticipationResult, lastName: 'Bacri' });
     server.create('campaign-participant-activity', { id: 1, lastName: 'Bacri' });
@@ -49,7 +49,7 @@ module('Acceptance | Campaign Activity', function(hooks) {
     module('When campaign is of type profiles collection', function(hooks) {
       hooks.beforeEach(async () => {
         campaignId = 2;
-        server.create('campaign', 'ofTypeProfilesCollection', { id: campaignId });
+        server.create('campaign', 'ofTypeProfilesCollection', { id: campaignId, participationsCount: 1 });
         server.create('campaign-profile', { id: 1, campaignId, lastName: 'Bacri' });
         server.create('campaign-participant-activity', { id: 1, lastName: 'Bacri' });
       });

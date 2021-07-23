@@ -42,7 +42,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
 
   test('it should display tube details', async function(assert) {
     // when
-    await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
+    await render(hbs`<Campaign::Analysis::TubeRecommendationRow
       @tubeRecommendation={{tubeRecommendation}}
     />`);
 
@@ -56,7 +56,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
     // given
     tubeRecommendation.tutorials = [tutorial1];
 
-    await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
+    await render(hbs`<Campaign::Analysis::TubeRecommendationRow
       @tubeRecommendation={{tubeRecommendation}}
     />`);
 
@@ -78,7 +78,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
     // given
     tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
-    await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
+    await render(hbs`<Campaign::Analysis::TubeRecommendationRow
       @tubeRecommendation={{tubeRecommendation}}
     />`);
 
@@ -93,7 +93,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
     // given
     tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
-    await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
+    await render(hbs`<Campaign::Analysis::TubeRecommendationRow
       @tubeRecommendation={{tubeRecommendation}}
     />`);
     await click('[data-icon="chevron-down"]');
@@ -112,7 +112,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
       tubeRecommendation.tutorials = [tutorial1];
 
       //when
-      await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
+      await render(hbs`<Campaign::Analysis::TubeRecommendationRow
         @tubeRecommendation={{tubeRecommendation}}
       />`);
 
@@ -125,7 +125,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
       tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
       //when
-      await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
+      await render(hbs`<Campaign::Analysis::TubeRecommendationRow
         @tubeRecommendation={{tubeRecommendation}}
       />`);
 
