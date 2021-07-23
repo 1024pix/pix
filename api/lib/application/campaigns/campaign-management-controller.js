@@ -8,4 +8,7 @@ module.exports = {
     const campaign = await usecases.getCampaignDetailsManagement({ campaignId });
     return campaignDetailsManagementSerializer.serialize(campaign);
   },
+
+  async updateCampaignDetailsManagement() {
+  },
 };

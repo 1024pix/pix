@@ -3,11 +3,12 @@ const {
   HttpTestServer,
   sinon,
 } = require('../../../test-helper');
-
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const moduleUnderTest = require('../../../../lib/application/campaigns');
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 const campaignStatsController = require('../../../../lib/application/campaigns/campaign-stats-controller');
+const campaignManagementController = require('../../../../lib/application/campaigns/campaign-management-controller');
 
 describe('Unit | Application | Router | campaign-router ', function() {
 
@@ -168,6 +169,47 @@ describe('Unit | Application | Router | campaign-router ', function() {
 
       // then
       expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('PATCH /api/admin/campaigns/{id}', () => {
+
+    it('should return 204', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
+      sinon.stub(campaignManagementController, 'updateCampaignDetailsManagement').callsFake((request, h) => h.response('ok').code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/1');
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+    it('should return 400 with an invalid campaign id', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/invalid');
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 403 when unauthorized', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/1');
+
+      // then
+      expect(response.statusCode).to.equal(403);
     });
   });
 
