@@ -27,7 +27,7 @@ module('Acceptance | Campaign Profile', function(hooks) {
     });
   });
 
-  test('it allows user to return to campaign profils page', async function(assert) {
+  test('it allows user to return to campaign activity page', async function(assert) {
     server.create('campaign', { id: 1 });
     server.create('campaignProfile', { campaignId: 1, campaignParticipationId: 1 });
 
@@ -36,7 +36,7 @@ module('Acceptance | Campaign Profile', function(hooks) {
     await clickByLabel('Retour');
 
     // then
-    assert.equal(currentURL(), '/campagnes/1/profils');
+    assert.equal(currentURL(), '/campagnes/1');
   });
 
   test('it display profile information', async function(assert) {
