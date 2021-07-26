@@ -290,34 +290,83 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
     context('when there is one certification candidate with the given info in the session', function() {
 
-      let expectedCandidate;
-
-      beforeEach(async () => {
-        expectedCandidate = {
-          lastName: 'Bideau',
-          firstName: 'charlie',
-          birthdate: '1999-10-17',
-          sessionId,
-        };
-        databaseBuilder.factory.buildCertificationCandidate({
+      it('should fetch the candidate ignoring case', async () => {
+        // given
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          id: 123,
           lastName: 'Bideau',
           firstName: 'Charlie',
           birthdate: '1999-10-17',
+          sex: 'M',
+          birthPostalCode: null,
+          birthINSEECode: '66212',
+          birthCity: 'Torreilles',
+          birthProvinceCode: '66',
+          birthCountry: 'France',
+          email: 'charlie@example.net',
+          resultRecipientEmail: null,
           sessionId,
+          externalId: null,
+          createdAt: new Date('2020-01-01'),
+          extraTimePercentage: null,
+          userId: null,
+          schoolingRegistrationId: null,
         });
+        databaseBuilder.factory.buildCertificationCandidate(certificationCandidate);
+        await databaseBuilder.commit();
+        const personalInfoAndId = {
+          lastName: 'Bideau',
+          firstName: 'CHARLIE',
+          birthdate: '1999-10-17',
+          sessionId,
+        };
 
-        return databaseBuilder.commit();
-      });
-
-      it('should fetch the candidate ignoring case', async () => {
         // when
-        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(expectedCandidate);
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(personalInfoAndId);
 
         // then
         expect(actualCandidates).to.have.lengthOf(1);
-        expect(actualCandidates[0].firstName.toLowerCase()).to.equal(expectedCandidate.firstName.toLowerCase());
-        expect(actualCandidates[0].lastName).to.equal(expectedCandidate.lastName);
-        expect(actualCandidates[0].birthdate).to.equal(expectedCandidate.birthdate);
+        expect(actualCandidates[0]).to.deep.equal(certificationCandidate);
+      });
+
+      it('should fetch the candidate ignoring special characters, non canonical characters and zero-width spaces', async () => {
+        // given
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          id: 123,
+          lastName: 'Bideau',
+          firstName: 'Charlie',
+          birthdate: '1999-10-17',
+          sex: 'M',
+          birthPostalCode: null,
+          birthINSEECode: '66212',
+          birthCity: 'Torreilles',
+          birthProvinceCode: '66',
+          birthCountry: 'France',
+          email: 'charlie@example.net',
+          resultRecipientEmail: null,
+          sessionId,
+          externalId: null,
+          createdAt: new Date('2020-01-01'),
+          extraTimePercentage: null,
+          userId: null,
+          schoolingRegistrationId: null,
+        });
+        databaseBuilder.factory.buildCertificationCandidate(certificationCandidate);
+        await databaseBuilder.commit();
+        const zeroWidthSpaceChar = '​';
+        const personalInfoAndId = {
+          lastName: 'Bïdéà u',
+          firstName: `c' ha-rli${zeroWidthSpaceChar}e`,
+          birthdate: '1999-10-17',
+          sessionId,
+        };
+
+        // when
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(personalInfoAndId);
+
+        // then
+        expect(actualCandidates).to.have.lengthOf(1);
+        expect(actualCandidates[0]).to.deep.equal(certificationCandidate);
       });
 
     });
