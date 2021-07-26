@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import isInteger from 'lodash/isInteger';
+import ENV from 'mon-pix/config/environment';
 
 export default class ChallengeItemGeneric extends Component {
 
@@ -54,7 +55,7 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   get isFocusedChallenge() {
-    return this.args.challenge.focused;
+    return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.args.challenge.focused;
   }
 
   get isTimedChallengeWithoutAnswer() {
@@ -79,7 +80,7 @@ export default class ChallengeItemGeneric extends Component {
 
   @action
   hideOutOfFocusBorder() {
-    if (this.hasUserConfirmedFocusWarning) {
+    if (this.hasUserConfirmedFocusWarning && ENV.APP.FT_FOCUS_CHALLENGE_ENABLED) {
       this.args.focusedIn();
       this.hasFocusedOutOfChallenge = false;
     }
@@ -87,7 +88,7 @@ export default class ChallengeItemGeneric extends Component {
 
   @action
   showOutOfFocusBorder() {
-    if (this.hasUserConfirmedFocusWarning) {
+    if (this.hasUserConfirmedFocusWarning && ENV.APP.FT_FOCUS_CHALLENGE_ENABLED) {
       this.args.focusedOut();
       this.hasFocusedOutOfChallenge = true;
     }
