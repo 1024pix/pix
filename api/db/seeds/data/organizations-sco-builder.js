@@ -90,7 +90,6 @@ function organizationsScoBuilder({ databaseBuilder }) {
     id: SCO_FRENCH_USER_ID,
     firstName: 'George',
     lastName: 'De Cambridge',
-    email: 'george.cambridge@example.net',
     username: 'george.decambridge2207',
     rawPassword: DEFAULT_PASSWORD,
     cgu: false,
