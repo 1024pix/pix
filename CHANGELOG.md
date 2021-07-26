@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.77.0 (26/07/2021)
+
+- [#3219](https://github.com/1024pix/pix/pull/3219) [FEATURE] Afficher un message générique quand aucun participant n'a rejoint la campagne (PIX-2671).
+- [#3234](https://github.com/1024pix/pix/pull/3234) [FEATURE] Affichage de l'onglet "Activité" pour les campagnes de collecte de profils (PIX-2772).
+- [#3217](https://github.com/1024pix/pix/pull/3217) [FEATURE] Séparer l'édition des informations candidat du reste sur la page dans PixAdmin (PIX-2837)
+- [#3218](https://github.com/1024pix/pix/pull/3218) [FEATURE] Pour les campagne de collecte de profils, toujours afficher la date de création et le nom de la personne qui a créé la campagne (Pix-2822)
+- [#3150](https://github.com/1024pix/pix/pull/3150) [FEATURE] Ajouter l'onglet activité sur la page des campagnes d'évaluation (PIX-2664).
+- [#3224](https://github.com/1024pix/pix/pull/3224) [TECH] Suppression de routes dépréciées et/ou inutilisées.
+- [#3232](https://github.com/1024pix/pix/pull/3232) [TECH] Supprimer la table "autojury-script-audit" (PIX-2744).
+- [#3229](https://github.com/1024pix/pix/pull/3229) [CLEANUP] Téléchargement des attestations : refactoring préparatoire à la génération de n attestations dans le même fichier (PIX-2868)
+
 ## v3.76.0 (22/07/2021)
 
 - [#3203](https://github.com/1024pix/pix/pull/3203) [FEATURE] Ajout du paramètre enErreur pour la récupération des résultats à la campagne Pôle emploi (PIX-2684).
