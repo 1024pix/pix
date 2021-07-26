@@ -8,23 +8,6 @@ import resultDetailsAsObject from 'mon-pix/utils/result-details-as-object';
 import { inject as service } from '@ember/service';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
-function _computeAnswerOutcome(inputFieldValue, resultDetail) {
-  if (inputFieldValue === '') {
-    return 'empty';
-  }
-  return resultDetail === true ? 'ok' : 'ko';
-}
-
-function _computeInputClass(answerOutcome) {
-  if (answerOutcome === 'empty') {
-    return 'correction-qroc-box-answer--aband';
-  }
-  if (answerOutcome === 'ok') {
-    return 'correction-qroc-box-answer--correct';
-  }
-  return 'correction-qroc-box-answer--wrong';
-}
-
 export default class QrocmIndSolutionPanel extends Component {
   @service intl;
 
@@ -63,3 +46,19 @@ export default class QrocmIndSolutionPanel extends Component {
   }
 }
 
+function _computeAnswerOutcome(inputFieldValue, resultDetail) {
+  if (inputFieldValue === '') {
+    return 'empty';
+  }
+  return resultDetail === true ? 'ok' : 'ko';
+}
+
+function _computeInputClass(answerOutcome) {
+  if (answerOutcome === 'empty') {
+    return 'correction-qroc-box-answer--aband';
+  }
+  if (answerOutcome === 'ok') {
+    return 'correction-qroc-box-answer--correct';
+  }
+  return 'correction-qroc-box-answer--wrong';
+}
