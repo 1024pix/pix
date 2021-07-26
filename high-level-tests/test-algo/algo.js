@@ -17,7 +17,7 @@ const AlgoResult = require('./AlgoResult');
 
 const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
 
-function _read(path) {
+function _readUsersKEFile(path) {
   if (path) {
     const file = fs.readFileSync(path, 'utf-8');
     if (file) {
@@ -218,7 +218,7 @@ async function launchTest(argv) {
     findByAssessment: () => [],
   };
 
-  const usersKE = _read(usersKEFile);
+  const usersKE = _readUsersKEFile(usersKEFile);
 
   const { challenges, targetSkills } = await _getReferentiel({
     assessment,
