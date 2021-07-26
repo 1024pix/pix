@@ -29,6 +29,7 @@ export default class CertificationInformationsController extends Controller {
   @tracked confirmMessage = '';
   @tracked confirmErrorMessage = '';
   @tracked confirmAction = 'onCandidateResultsSave';
+  @tracked isCandidateEditModalOpen = false;
 
   // private properties
   _competencesCopy = null;
@@ -232,6 +233,16 @@ export default class CertificationInformationsController extends Controller {
         this.notifications.error(e);
       }
     }
+  }
+
+  @action
+  openCandidateEditModal() {
+    this.isCandidateEditModalOpen = true;
+  }
+
+  @action
+  closeCandidateEditModal() {
+    this.isCandidateEditModalOpen = false;
   }
 
   // Private methods

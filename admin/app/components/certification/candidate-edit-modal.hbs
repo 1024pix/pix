@@ -1,0 +1,28 @@
+<Modal::Dialog class="" @title="Editer les informations du candidat" @display={{@display}} @close={{@close}}>
+  <Modal::Body class="">
+    <form class="form">
+      <div class="form-field ">
+        <label for="lastName">Nom</label>
+        <Input id="lastName" @type="text" @value={{this.lastName}}/>
+      </div>
+
+      <div class="form-field ">
+        <label for="firstName">Prénom</label>
+        <Input id="firstName" @type="text" @value={{this.firstName}}/>
+      </div>
+
+      <div class="form-field ">
+        <label for="birthdate">Date de naissance</label>
+        <Input id="birthdate" @type="text" @value={{this.birthdate}}/>
+      </div>
+
+      <div class="form-field ">
+        <label for="birthCity">Commune de naissance</label>
+        <Input id="birthCity" @type="text" @value={{this.birthCity}}/>
+      </div>
+    </form>
+  </Modal::Body>
+  <Modal::Footer>
+    <PixButton @size="small" @backgroundColor="grey" @triggerAction={{@close}} data-test-id="close-certification-candidate-edition-modal">Annuler</PixButton>
+  </Modal::Footer>
+</Modal::Dialog>

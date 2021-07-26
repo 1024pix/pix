@@ -80,6 +80,13 @@
                   >
                     Modifier
                   </PixButton>
+                  <PixButton
+                    @size="small"
+                    @triggerAction={{this.openCandidateEditModal}}
+                    aria-label="Modifier les informations du candidat"
+                  >
+                    Ouvrir
+                  </PixButton>
                 {{/if}}
               </div>
             </form>
@@ -229,3 +236,7 @@
           @cancel={{action this.onCandidateResultsCancelConfirm}}
           @show={{this.displayConfirm}} />
 </div>
+<Certification::CandidateEditModal
+  @display={{this.isCandidateEditModalOpen}}
+  @close={{this.closeCandidateEditModal}}
+/>
