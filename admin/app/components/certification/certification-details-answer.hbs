@@ -1,5 +1,8 @@
 <div class="card text-center certification-details-answer border-secondary">
-  <div class="card-body">
+  <div class="card-body certification-details-card">
+    <div class="certification-details-answer-order">
+      {{@answer.order}}
+    </div>
     <div class="certification-details-answer-skill">
       {{@answer.skill}}
     </div>
@@ -16,8 +19,8 @@
         </a>
       </div>
     </div>
-    <div class="certification-details-answer-order">
-      (numéro : {{@answer.order}})
+    <div class="certification-details-answer-value">
+      {{@answer.value}}
     </div>
   </div>
   <div class="card-footer">
