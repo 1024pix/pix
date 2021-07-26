@@ -68,9 +68,9 @@ const LABELS_ASSESSMENT = {
     color: '#FFBE00',
   },
   completed: {
-    tooltip: 'charts.participants-by-status.labels-tooltip.completed',
-    legend: 'charts.participants-by-status.labels-legend.completed',
-    legendTooltip: 'charts.participants-by-status.labels-legend.completed-tooltip',
+    tooltip: 'charts.participants-by-status.labels-tooltip.completed-assessment',
+    legend: 'charts.participants-by-status.labels-legend.completed-assessment',
+    legendTooltip: 'charts.participants-by-status.labels-legend.completed-assessment-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.completed',
     color: '#8a49ff',
   },
@@ -92,8 +92,8 @@ const LABELS_PROFILE_COLLECTIONS = {
     color: '#FFBE00',
   },
   completed: {
-    tooltip: 'charts.participants-by-status.labels-tooltip.completed',
-    legend: 'charts.participants-by-status.labels-legend.completed',
+    tooltip: 'charts.participants-by-status.labels-tooltip.completed-profile',
+    legend: 'charts.participants-by-status.labels-legend.completed-profile',
     legendTooltip: 'charts.participants-by-status.labels-legend.completed-profile-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.completed',
     color: '#8a49ff',

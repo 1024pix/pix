@@ -64,7 +64,8 @@
     "participants-by-status": {
       "labels-tooltip": {
         "started": "In progress: {percentage, number, ::percent .0}",
-        "completed": "Pending results: {percentage, number, ::percent .0}",
+        "completed-assessment": "Pending results: {percentage, number, ::percent .0}",
+        "completed-profile": "Pending profiles: {percentage, number, ::percent .0}",
         "shared": "Submitted results: {percentage, number, ::percent .0}",
         "shared-profile": "Submitted profiles: {percentage, number, ::percent .0}"
       },
@@ -77,9 +78,10 @@
       "labels-legend": {
         "started": "In progress ({count})",
         "started-tooltip": "In progress: These participants haven’t finished their customised test yet.",
-        "completed": "Pending results ({count})",
-        "completed-tooltip": "Pending results: These participants have finished their customised test but haven’t submitted their results yet.",
-        "completed-profile-tooltip": "Pending results: These participants haven’t submitted their profiles yet.",
+        "completed-assessment": "Pending results ({count})",
+        "completed-profile": "Pending profiles ({count})",
+        "completed-assessment-tooltip": "Pending results: These participants have finished their customised test but haven’t submitted their results yet.",
+        "completed-profile-tooltip": "Pending profiles: These participants haven’t submitted their profiles yet.",
         "shared": "Submitted results ({count})",
         "shared-tooltip": "Submitted results: These participants have finished their customised test and submitted their results.",
         "shared-profile": "Submitted profiles ({count})",
