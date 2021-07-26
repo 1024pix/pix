@@ -5,10 +5,6 @@ function getChildrenThatContainsText(element, text, isChild) {
     return isChild ? element : [element];
   }
 
-  if (element.children.length === 0) {
-    return null;
-  }
-
   return [...element.children]
     .map((child) => {
       return getChildrenThatContainsText(child, text, true);
