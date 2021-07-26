@@ -298,6 +298,82 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestation).to.deep.equal(expectedCertificationAttestation);
     });
 
+    it('should return a CertificationAttestation with the last validated assessment-result', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationAttestationData = {
+        id: 123,
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
+      };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+        certificationCenterId,
+      }).id;
+      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+        id: certificationAttestationData.id,
+        firstName: certificationAttestationData.firstName,
+        lastName: certificationAttestationData.lastName,
+        birthdate: certificationAttestationData.birthdate,
+        birthplace: certificationAttestationData.birthplace,
+        isPublished: certificationAttestationData.isPublished,
+        isCancelled: false,
+        createdAt: certificationAttestationData.date,
+        verificationCode: certificationAttestationData.verificationCode,
+        maxReachableLevelOnCertificationDate: certificationAttestationData.maxReachableLevelOnCertificationDate,
+        sessionId,
+        userId,
+      }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationAttestationData.id }).id;
+      databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        pixScore: 0,
+        status: 'validated',
+        createdAt: new Date('2020-01-01'),
+      });
+
+      databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        pixScore: certificationAttestationData.pixScore,
+        status: 'validated',
+        createdAt: new Date('2020-01-03'),
+      });
+
+      databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        pixScore: 0,
+        status: 'error',
+        createdAt: new Date('2020-01-04'),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const certificationAttestation = await certificationAttestationRepository.get(certificationAttestationData.id);
+
+      // then
+      const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation({
+        id: certificateId,
+        ...certificationAttestationData,
+      });
+      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
+      expect(certificationAttestation).to.deep.equal(expectedCertificationAttestation);
+    });
+
     it('should get the clea certification result if taken', async () => {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
