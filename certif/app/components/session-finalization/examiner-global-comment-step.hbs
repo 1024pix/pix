@@ -30,7 +30,7 @@
   {{#if this.displayExaminerGlobalCommentTextArea}}
     <PixTextarea
       @id="examiner-global-comment"
-      {{on 'input' @updateExaminerGlobalComment}}
+      {{on 'input' @onExaminerGlobalCommentChange}}
       @value={{@session.examinerGlobalComment}}
       @maxlength={{@examinerGlobalCommentMaxLength}}
       class="session-finalization-examiner-global-comment-step__textarea" />
