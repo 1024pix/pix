@@ -3,7 +3,6 @@ const fs = require('fs').promises;
 const bluebird = require('bluebird');
 const { SCHOOLING_REGISTRATION_CHUNK_SIZE } = require('../../infrastructure/constants');
 const { isEmpty, chunk } = require('lodash');
-const SchoolingRegistrationParser = require('../../infrastructure/serializers/csv/schooling-registration-parser');
 
 const ERRORS = {
   EMPTY: 'EMPTY',
@@ -11,19 +10,16 @@ const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
 };
 
-module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, schoolingRegistrationsXmlService, schoolingRegistrationRepository, organizationRepository, i18n }) {
+module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, schoolingRegistrationsCsvService, schoolingRegistrationsXmlService, schoolingRegistrationRepository, organizationRepository, i18n }) {
   let schoolingRegistrationData = [];
 
   const organization = await organizationRepository.get(organizationId);
   const path = payload.path;
 
   if (format === 'xml') {
-    schoolingRegistrationData = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(path, organization, schoolingRegistrationsXmlService);
+    schoolingRegistrationData = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(path, organization);
   } else if (format === 'csv') {
-    const buffer = await fs.readFile(path);
-
-    const csvSiecleParser = SchoolingRegistrationParser.buildParser(buffer, organizationId, i18n, organization.isAgriculture);
-    schoolingRegistrationData = csvSiecleParser.parse().registrations;
+    schoolingRegistrationData = await schoolingRegistrationsCsvService.extractSchoolingRegistrationsInformation(path, organization, i18n);
   } else {
     throw new FileValidationError('INVALID_FILE_EXTENSION', { fileExtension: format });
   }

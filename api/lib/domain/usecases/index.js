@@ -92,6 +92,7 @@ const dependencies = {
   resetPasswordDemandRepository: require('../../infrastructure/repositories/reset-password-demands-repository'),
   resultCompetenceTreeService: require('../services/result-competence-tree-service'),
   schoolingRegistrationRepository: require('../../infrastructure/repositories/schooling-registration-repository'),
+  schoolingRegistrationsCsvService: require('../../domain/services/schooling-registrations-csv-service'),
   schoolingRegistrationsXmlService: require('../../domain/services/schooling-registrations-xml-service'),
   scoCertificationCandidateRepository: require('../../infrastructure/repositories/sco-certification-candidate-repository'),
   scorecardService: require('../../domain/services/scorecard-service'),
