@@ -192,6 +192,26 @@ function organizationsScoBuilder({ databaseBuilder }) {
     nationalStudentId: '123456789FF',
   });
 
+  // schooling registration disabled
+  const studentDisabled = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'student',
+    lastName: 'disabled',
+    username: 'student.disabled1234',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: false,
+  });
+
+  databaseBuilder.factory.buildSchoolingRegistration({
+    firstName: studentDisabled.firstName,
+    lastName: studentDisabled.lastName,
+    birthdate: '2000-01-01',
+    division: '3A',
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
+    userId: studentDisabled.id,
+    nationalStudentId: '123456789GG',
+    isDisabled: true,
+  });
+
   /* LYCEE */
   databaseBuilder.factory.buildOrganization({
     id: SCO_HIGH_SCHOOL_ID,
