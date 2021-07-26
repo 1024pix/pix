@@ -1,10 +1,10 @@
 const { Country } = require('../../../../lib/domain/read-models/Country');
-const { sanitizeAndSortChars } = require('../../../../lib/infrastructure/utils/string-utils');
+const { normalizeAndSortChars } = require('../../../../lib/infrastructure/utils/string-utils');
 
 module.exports = function buildCountry({
   code = '99345',
   name = 'TOGO',
-  matcher = sanitizeAndSortChars(name),
+  matcher = normalizeAndSortChars(name),
 } = {}) {
 
   return new Country({

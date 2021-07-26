@@ -8,7 +8,7 @@
 'use strict';
 const { parseCsv } = require('./helpers/csvHelpers');
 const { knex } = require('../lib/infrastructure/bookshelf');
-const { sanitizeAndSortChars } = require('../lib/infrastructure/utils/string-utils');
+const { normalizeAndSortChars } = require('../lib/infrastructure/utils/string-utils');
 const _ = require('lodash');
 
 const CURRENT_NAME_COLUMN = 'LIBCOG';
@@ -44,14 +44,14 @@ function buildCountries({ csvData }) {
         code,
         commonName: data[CURRENT_NAME_COLUMN],
         originalName: data[CURRENT_NAME_COLUMN],
-        matcher: sanitizeAndSortChars(data[CURRENT_NAME_COLUMN]),
+        matcher: normalizeAndSortChars(data[CURRENT_NAME_COLUMN]),
       });
       if (data[ALTERNATIVE_NAME_COLUMN] && data[ALTERNATIVE_NAME_COLUMN] !== data[CURRENT_NAME_COLUMN]) {
         result.push({
           code,
           commonName: data[CURRENT_NAME_COLUMN],
           originalName: data[ALTERNATIVE_NAME_COLUMN],
-          matcher: sanitizeAndSortChars(data[ALTERNATIVE_NAME_COLUMN]),
+          matcher: normalizeAndSortChars(data[ALTERNATIVE_NAME_COLUMN]),
         });
       }
       return result;

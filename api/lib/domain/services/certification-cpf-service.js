@@ -1,4 +1,4 @@
-const { sanitizeAndSortChars } = require('../../infrastructure/utils/string-utils');
+const { normalizeAndSortChars } = require('../../infrastructure/utils/string-utils');
 const isEmpty = require('lodash/isEmpty');
 
 const CpfValidationStatus = {
@@ -86,8 +86,8 @@ async function getBirthInformationByPostalCode(birthCity, birthPostalCode, count
     return CpfBirthInformationValidation.failure(`Le code postal "${birthPostalCode}" n'est pas valide.`);
   }
 
-  const sanitizedCity = sanitizeAndSortChars(birthCity);
-  const doesCityMatchPostalCode = cities.some((city) => sanitizeAndSortChars(city.name) === sanitizedCity);
+  const sanitizedCity = normalizeAndSortChars(birthCity);
+  const doesCityMatchPostalCode = cities.some((city) => normalizeAndSortChars(city.name) === sanitizedCity);
 
   if (!doesCityMatchPostalCode) {
     return CpfBirthInformationValidation.failure(`Le code postal "${birthPostalCode}" ne correspond pas à la ville "${birthCity}"`);
@@ -113,7 +113,7 @@ async function getBirthInformation({
     return CpfBirthInformationValidation.failure('Le champ pays est obligatoire.');
   }
 
-  const matcher = sanitizeAndSortChars(birthCountry);
+  const matcher = normalizeAndSortChars(birthCountry);
   const country = await certificationCpfCountryRepository.getByMatcher({ matcher });
 
   if (!country) {
