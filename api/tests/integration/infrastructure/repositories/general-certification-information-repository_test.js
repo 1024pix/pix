@@ -13,17 +13,22 @@ describe('Integration | Repository | General certification information', functio
       it('should retrieve general certification information', async () => {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
+
         const certificationCourseDTO = {
           sessionId,
           firstName: 'Timon',
           lastName: 'De La Havane',
           birthdate: '1993-08-14',
-          birthplace: 'Cuba',
+          birthplace: 'La Havane',
+          birthCountry: 'CUBA',
           isPublished: false,
           isCancelled: false,
           completedAt: new Date('2020-02-20T00:00:00Z'),
           createdAt: new Date('2020-01-20T00:00:00Z'),
           hasSeenEndTestScreen: false,
+          sex: 'M',
+          birthINSEECode: '99407',
+          birthPostalCode: null,
         };
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse(certificationCourseDTO).id;
 
@@ -56,6 +61,10 @@ describe('Integration | Repository | General certification information', functio
           lastName: certificationCourseDTO.lastName,
           birthdate: certificationCourseDTO.birthdate,
           birthplace: certificationCourseDTO.birthplace,
+          sex: certificationCourseDTO.sex,
+          birthINSEECode: certificationCourseDTO.birthINSEECode,
+          birthPostalCode: certificationCourseDTO.birthPostalCode,
+          birthCountry: certificationCourseDTO.birthCountry,
           certificationIssueReports: [
             { ...firstCertificationReport,
               isImpactful: true,
@@ -72,7 +81,6 @@ describe('Integration | Repository | General certification information', functio
         expect(result).to.be.instanceOf(GeneralCertificationInformation);
         expect(result).to.deep.equal(expectedGeneralCertificationInformation);
       });
-
     });
 
     context('when the certification course does not exist', () => {

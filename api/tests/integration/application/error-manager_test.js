@@ -466,6 +466,7 @@ describe('Integration | API | Controller Error', () => {
       expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
       expect(responseDetail(response)).to.equal('Erreur lors de la création des paramètres utilisateur relatifs à Pix Orga.');
     });
+
   });
 
   context('422 Unprocessable Entity', () => {
@@ -597,6 +598,14 @@ describe('Integration | API | Controller Error', () => {
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+    });
+
+    it('responds UnprocessableEntity when a UnknownCountryForStudentEnrollmentError occurs', async () => {
+      routeHandler.throws(new DomainErrors.UnknownCountryForStudentEnrollmentError({ firstName: 'Paul', lastName: 'Preboist' }));
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+      expect(responseDetail(response)).to.equal('L\'élève Paul Preboist a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l\'espace PixOrga de l\'établissement ou contacter le support Pix');
     });
   });
 

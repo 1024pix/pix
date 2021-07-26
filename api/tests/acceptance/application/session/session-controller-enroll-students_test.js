@@ -70,7 +70,10 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
     context('when user is authenticated', () => {
       let sessionId;
       let student;
+      let country;
       const birthCityCode = 'Detroit313';
+      const FRANCE_INSEE_CODE = '99100';
+      const FRANCE_SCHOOLING_REGISTRATION_INSEE_CODE = '100';
 
       afterEach(() => {
         return knex('certification-candidates').delete();
@@ -85,10 +88,12 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
           externalId,
         });
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+        country = databaseBuilder.factory.buildCertificationCpfCountry({ code: FRANCE_INSEE_CODE, commonName: 'FRANCE', originalName: 'FRANCE' });
 
         student = databaseBuilder.factory.buildSchoolingRegistration({
           organizationId,
           birthCityCode,
+          birthCountryCode: FRANCE_SCHOOLING_REGISTRATION_INSEE_CODE,
         });
 
         await databaseBuilder.commit();
@@ -117,12 +122,12 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
           data: [
             {
               'attributes': {
-                'birth-city': '',
+                'birth-city': student.birthCity,
                 'birthdate': student.birthdate,
                 'first-name': student.firstName,
+                'birth-country': country.commonName,
                 'is-linked': false,
                 'last-name': student.lastName,
-                'birth-country': null,
                 'birth-province-code': null,
                 'birth-insee-code': birthCityCode,
                 'birth-postal-code': null,

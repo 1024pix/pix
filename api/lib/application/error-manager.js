@@ -336,6 +336,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
 
+  if (error instanceof DomainErrors.UnknownCountryForStudentEnrollmentError) {
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
+  }
+
   if (error instanceof DomainErrors.MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError) {
     return new HttpErrors.ConflictError(error.message);
   }

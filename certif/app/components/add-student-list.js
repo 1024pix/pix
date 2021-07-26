@@ -79,7 +79,10 @@ export default class AddStudentList extends Component {
       this.args.returnToSessionCandidates(sessionId);
       this.notifications.success('Le(s) candidat(s) ont été ajouté(s) avec succès.');
     } catch (error) {
-      this.notifications.error('Une erreur est survenue au moment d‘enregistrer les candidats... ');
+      let errorMessage = 'Une erreur est survenue au moment d‘enregistrer les candidats...';
+      if (error.errors?.[0]?.status === '422')
+        errorMessage = error.errors?.[0]?.detail;
+      this.notifications.error(errorMessage);
     }
   }
 

@@ -24,6 +24,7 @@ export default class CertificationInformationsController extends Controller {
   @tracked editingCandidateResults = false;
   @tracked editingCandidateInformations = false;
   @service notifications;
+  @service featureToggles;
   @tracked displayConfirm = false;
   @tracked confirmMessage = '';
   @tracked confirmErrorMessage = '';
@@ -66,6 +67,10 @@ export default class CertificationInformationsController extends Controller {
   @computed('certification.status')
   get isCertificationCancelled() {
     return this.certification.status === 'cancelled';
+  }
+
+  get shouldDisplayCPFInformation() {
+    return this.featureToggles.featureToggles.isNewCpfDataEnabled;
   }
 
   @action

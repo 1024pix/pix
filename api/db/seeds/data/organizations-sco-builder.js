@@ -7,6 +7,9 @@ const SCO_AGRI_ID = 7;
 const SCO_AGRI_CFA_ID = 8;
 const SCO_AEFE_ID = 9;
 const SCO_STUDENT_ID = 99;
+const CANADA_INSEE_CODE = '401';
+const SCO_FOREIGNER_USER_ID = 9912;
+const SCO_FRENCH_USER_ID = 2339213;
 
 function organizationsScoBuilder({ databaseBuilder }) {
   const SCO_EXTERNAL_ID = '1237457A';
@@ -84,9 +87,10 @@ function organizationsScoBuilder({ databaseBuilder }) {
 
   // schooling registration associated with username
   const userWithUsername = databaseBuilder.factory.buildUser.withRawPassword({
+    id: SCO_FRENCH_USER_ID,
     firstName: 'George',
     lastName: 'De Cambridge',
-    email: null,
+    email: 'george.cambridge@example.net',
     username: 'george.decambridge2207',
     rawPassword: DEFAULT_PASSWORD,
     cgu: false,
@@ -104,6 +108,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
 
   // schooling registration associated with username and email
   const userWithEmailAndUsername = databaseBuilder.factory.buildUser.withRawPassword({
+    id: SCO_FOREIGNER_USER_ID,
     firstName: 'Blue Ivy',
     lastName: 'Carter',
     email: 'blueivy.carter@example.net',
@@ -116,6 +121,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     firstName: userWithEmailAndUsername.firstName,
     lastName: userWithEmailAndUsername.lastName,
     birthdate: '2012-01-07',
+    birthCountryCode: CANADA_INSEE_CODE,
     division: '3A',
     sex: null,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
@@ -320,5 +326,7 @@ module.exports = {
   SCO_AGRI_CFA_ID,
   SCO_AEFE_ID,
   SCO_STUDENT_ID,
+  SCO_FOREIGNER_USER_ID,
+  SCO_FRENCH_USER_ID,
 };
 

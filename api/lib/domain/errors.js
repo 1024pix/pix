@@ -787,6 +787,12 @@ class UserAccountNotFoundForPoleEmploiError extends DomainError {
   }
 }
 
+class UnknownCountryForStudentEnrollmentError extends DomainError {
+  constructor({ firstName, lastName }, message = `L'élève ${firstName} ${lastName} a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l'espace PixOrga de l'établissement ou contacter le support Pix`) {
+    super(message);
+  }
+}
+
 class WrongDateFormatError extends DomainError {
   constructor(message = 'Format de date invalide.') {
     super(message);
@@ -964,6 +970,7 @@ module.exports = {
   UnexpectedPoleEmploiStateError,
   UnexpectedUserAccountError,
   UserAccountNotFoundForPoleEmploiError,
+  UnknownCountryForStudentEnrollmentError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserAlreadyLinkedToCandidateInSessionError,
   UserCantBeCreatedError,

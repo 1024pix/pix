@@ -545,6 +545,10 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.UserAccountNotFoundForPoleEmploiError).to.exist;
   });
 
+  it('should export a UnknownCountryForStudentEnrollmentError', () => {
+    expect(errors.UnknownCountryForStudentEnrollmentError).to.exist;
+  });
+
   it('should export a SchoolingRegistrationsCouldNotBeSavedError', () => {
     expect(errors.SchoolingRegistrationsCouldNotBeSavedError).to.exist;
   });

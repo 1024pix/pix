@@ -37,7 +37,7 @@
         {{#if @isDate}}
           {{moment-format @value 'DD/MM/YYYY' allow-empty=true}}
         {{else}}
-          {{this.valueWithSuffix}}
+          {{if this.valueWithSuffix this.valueWithSuffix " - " }}
         {{/if}}
       {{/if}}
     </div>
