@@ -10,11 +10,12 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
   setupRenderingTest(hooks);
 
   const answerData = {
-    skill: '@skill5',
-    challengeId: 'rec12345',
+    skill: '@skill6',
+    challengeId: 'rec1234',
     order: 5,
     result: 'partially',
     isNeutralized: false,
+    value: 'coucou',
   };
 
   test('init answer displayed status with its result when challenge is not neutralized', async function(assert) {
@@ -28,7 +29,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // then
-    assert.dom('.ember-power-select-selected-item').hasText('Succès partiel');
+    assert.contains('Succès partiel');
   });
 
   test('init answer displayed status with neutralized label when challenge is neutralized', async function(assert) {
@@ -42,7 +43,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // then
-    assert.dom('.ember-power-select-selected-item').hasText('Neutralisée');
+    assert.contains('Neutralisée');
   });
 
   test('info are correctly displayed', async function(assert) {
@@ -56,10 +57,11 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // then
-    assert.dom('.certification-details-answer-skill').hasText('@skill5');
-    assert.dom('[data-test-answer-challengeId]').hasText('rec12345');
-    assert.dom('.certification-details-answer-order').hasText('(numéro : 5)');
-    assert.dom('.ember-power-select-selected-item').hasText('Succès partiel');
+    assert.contains('5');
+    assert.contains('@skill6');
+    assert.contains('rec1234');
+    assert.contains('coucou');
+    assert.contains('Succès partiel');
   });
 
   test('jury class is set when answer is modified', async function(assert) {
@@ -121,8 +123,8 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
 
     // Then
     assert.dom('[data-test-link-preview]').hasText('Preview');
-    assert.dom('[data-test-link-preview]').hasAttribute('href', 'https://app.recette.pix.fr/challenges/rec12345/preview');
+    assert.dom('[data-test-link-preview]').hasAttribute('href', 'https://app.recette.pix.fr/challenges/rec1234/preview');
     assert.dom('[data-test-link-info]').hasText('Info');
-    assert.dom('[data-test-link-info]').hasAttribute('href', 'https://editor.pix.fr/#/challenge/rec12345');
+    assert.dom('[data-test-link-info]').hasAttribute('href', 'https://editor.pix.fr/#/challenge/rec1234');
   });
 });
