@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 import config from 'pix-certif/config/environment';
 
-module('Integration | Component | session-finalization-formbuilder-link-step', function(hooks) {
+module('Integration | Component | SessionFinalization::FormbuilderLinkStep', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
@@ -13,7 +13,7 @@ module('Integration | Component | session-finalization-formbuilder-link-step', f
     const formBuilderLinkUrl = config.formBuilderLinkUrl;
 
     // when
-    await render(hbs`<SessionFinalizationFormbuilderLinkStep/>`);
+    await render(hbs`<SessionFinalization::FormbuilderLinkStep/>`);
 
     // then
     assert.contains('Cette étape, facultative, vous permet de nous transmettre tout document que vous jugerez utile de nous communiquer pour le traitement des sessions (capture d\'écran d\'un problème technique, PV de fraude...). Pour cela, suivez ce lien');
