@@ -369,7 +369,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
     });
   });
 
-  describe.only('when user has focused out of document', function() {
+  describe('when user has focused out of document', function() {
 
     context('when challenge is set as focused', function() {
 
