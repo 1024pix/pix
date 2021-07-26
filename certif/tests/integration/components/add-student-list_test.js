@@ -381,8 +381,8 @@ module('Integration | Component | add-student-list', function(hooks) {
           // given
           const ERROR_DETAIL = 'PAS BIEN';
           notificationMessagesService.error = sinon.spy();
-          const unprocessableEntityError = _createError(statusCode, ERROR_DETAIL);
-          const save = sinon.stub().rejects(unprocessableEntityError);
+          const error = _createError(statusCode, ERROR_DETAIL);
+          const save = sinon.stub().rejects(error);
 
           const session = _buildSession({ save });
           this.set('session', session);
