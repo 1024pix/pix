@@ -24,10 +24,12 @@
 
       .modal-header {
         position: relative;
-        padding: 24px 32px;
+        padding: 32px 48px;
         border-bottom: 1px solid $grey-20;
 
         &__title {
+          padding: 24px 32px;
+          border-bottom: 1px solid $grey-20;
           font-family: $open-sans;
           align-items: center;
           justify-content: space-between;
