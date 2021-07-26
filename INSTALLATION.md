@@ -10,7 +10,9 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 > ⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes.
 
-Assurez-vous aussi de ne pas avoir de process écoutant le port 5432 (PostgreSQL).
+Assurez-vous aussi de ne pas avoir de process:
+- sur le port 5432 (PostgreSQL), ou surchargez la variable `PIX_DATABASE_PORT`;
+- sur le port 6379 (redis), ou surchargez la variable `PIX_CACHE_PORT`.
 
 ## Instructions
 
