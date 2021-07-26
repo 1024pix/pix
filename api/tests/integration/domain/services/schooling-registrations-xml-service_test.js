@@ -186,7 +186,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-duplicate-national-student-id.xml`;
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-duplicate-national-student-id-and-unclosed-tag.xml`;
       // when
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
