@@ -21,7 +21,8 @@ describe('Integration | Component | QROCm proposal', function() {
 
     it('should display a selector with related options', async function() {
       // given
-      const expectedOptionValues = ['salad', 'tomato', 'onion'];
+      const placeholderValue = '';
+      const expectedOptionValues = [placeholderValue, 'salad', 'tomato', 'onion'];
 
       // when
       await render(hbs`<QrocmProposal @proposals={{this.proposals}}/>`);

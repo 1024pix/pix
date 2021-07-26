@@ -78,13 +78,36 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should redirect to next page', async () => {
+      it('should not be able to validate with the initial option', async () => {
+        // when
+        await click(find('.challenge-actions__action-validate'));
+
+        // then
+        expect(find('.alert--danger')).to.exist;
+        expect(currentURL()).to.contains(`/assessments/${assessment.id}/challenges/0`);
+      });
+
+      it('should not be able to validate the empty option', async () => {
         // given
         const selectOptions = findAll('select[data-test="challenge-response-proposal-selector"] option');
-        const myOption = selectOptions[1];
+        const optionToFillIn = selectOptions[0];
 
         // when
-        await fillIn('select[data-test="challenge-response-proposal-selector"]', myOption.value);
+        await fillIn('select[data-test="challenge-response-proposal-selector"]', optionToFillIn.value);
+        await click(find('.challenge-actions__action-validate'));
+
+        // then
+        expect(find('.alert--danger')).to.exist;
+        expect(currentURL()).to.contains(`/assessments/${assessment.id}/challenges/0`);
+      });
+
+      it('should validate an option and redirect to next page', async () => {
+        // given
+        const selectOptions = findAll('select[data-test="challenge-response-proposal-selector"] option');
+        const optionToFillIn = selectOptions[1];
+
+        // when
+        await fillIn('select[data-test="challenge-response-proposal-selector"]', optionToFillIn.value);
         await click(find('.challenge-actions__action-validate'));
 
         // then
