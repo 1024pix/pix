@@ -369,7 +369,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
     });
   });
 
-  describe('when user has focused out of document', function() {
+  describe.only('when user has focused out of document', function() {
 
     context('when challenge is set as focused', function() {
 
@@ -382,14 +382,8 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should display instructions', async function() {
-        // then
-        expect(find('.focused-challenge-instructions-action__confirmation-button')).to.exist;
-      });
-
       it('should display a warning alert', async function() {
         // when
-        await click('.focused-challenge-instructions-action__confirmation-button');
         await triggerEvent(window, 'blur');
 
         // then
@@ -398,7 +392,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
       it('should display an info alert with dashed border and overlay', async function() {
         // when
-        await click('.focused-challenge-instructions-action__confirmation-button');
         const challengeItem = find('.challenge-item');
         await triggerEvent(challengeItem, 'mouseleave');
 
@@ -410,7 +403,6 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
       it('should display only the warning alert when it has been triggered', async function() {
         // when
-        await click('.focused-challenge-instructions-action__confirmation-button');
         const challengeItem = find('.challenge-item');
         await triggerEvent(challengeItem, 'mouseleave');
 
