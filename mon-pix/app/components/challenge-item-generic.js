@@ -9,7 +9,6 @@ export default class ChallengeItemGeneric extends Component {
   @tracked isValidateButtonEnabled = true;
   @tracked isSkipButtonEnabled = true;
   @tracked hasUserConfirmedWarning = false;
-  @tracked hasUserConfirmedFocusWarning = false;
   @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
   @tracked hasFocusedOutOfWindow = false;
@@ -29,11 +28,11 @@ export default class ChallengeItemGeneric extends Component {
     }
 
     if (this.isFocusedChallenge) {
-      if (this.hasUserConfirmedFocusWarning) {
+      if (!this.args.answer) {
         this._setOnBlurEventToWindow();
-        return true;
       }
-      if (this.args.answer) return true;
+
+      return true;
     }
 
     return false;
@@ -62,10 +61,6 @@ export default class ChallengeItemGeneric extends Component {
     return this._isTimedChallenge && !this.args.answer;
   }
 
-  get isFocusedChallengeWithoutAnswer() {
-    return this.isFocusedChallenge && !this.args.answer;
-  }
-
   _getTimeout() {
     if (this._isTimedChallenge) {
       if (this.hasChallengeTimedOut) {
@@ -80,7 +75,7 @@ export default class ChallengeItemGeneric extends Component {
 
   @action
   hideOutOfFocusBorder() {
-    if (this.hasUserConfirmedFocusWarning && ENV.APP.FT_FOCUS_CHALLENGE_ENABLED) {
+    if (this.isFocusedChallenge) {
       this.args.focusedIn();
       this.hasFocusedOutOfChallenge = false;
     }
@@ -88,7 +83,7 @@ export default class ChallengeItemGeneric extends Component {
 
   @action
   showOutOfFocusBorder() {
-    if (this.hasUserConfirmedFocusWarning && ENV.APP.FT_FOCUS_CHALLENGE_ENABLED) {
+    if (this.isFocusedChallenge) {
       this.args.focusedOut();
       this.hasFocusedOutOfChallenge = true;
     }
@@ -145,10 +140,5 @@ export default class ChallengeItemGeneric extends Component {
   @action
   setUserConfirmation() {
     this.hasUserConfirmedWarning = true;
-  }
-
-  @action
-  setUserFocusChallengeConfirmation() {
-    this.hasUserConfirmedFocusWarning = true;
   }
 }
