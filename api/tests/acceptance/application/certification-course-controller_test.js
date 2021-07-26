@@ -163,7 +163,12 @@ describe('Acceptance | API | Certification Course', () => {
           createdAt: new Date('2017-12-21T15:44:38Z'),
           completedAt: new Date('2017-12-21T15:48:38Z'),
           isPublished: false,
+          sex: 'F',
+          birthINSEECode: '99407',
+          birthCountry: 'CUBA',
+          birthPostalCode: null,
         }));
+
         options = {
           method: 'GET',
           url: `/api/admin/certifications/${certificationCourseId}`,
@@ -227,7 +232,12 @@ describe('Acceptance | API | Certification Course', () => {
           createdAt: new Date('2017-12-21T15:44:38Z'),
           completedAt: new Date('2017-12-21T15:48:38Z'),
           isPublished: false,
+          sex: 'F',
+          birthINSEECode: '99407',
+          birthPostalCode: null,
+          birthCountry: 'CUBA',
         }));
+
         const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
           certificationCourseId: certificationCourseId,
           state: 'completed',

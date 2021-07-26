@@ -13,6 +13,11 @@ class GeneralCertificationInformation {
     birthdate,
     birthplace,
 
+    birthCountry,
+    birthPostalCode,
+    birthINSEECode,
+    sex,
+
     certificationIssueReports,
   }) {
     this.certificationCourseId = certificationCourseId;
@@ -27,6 +32,11 @@ class GeneralCertificationInformation {
     this.lastName = lastName;
     this.birthdate = birthdate;
     this.birthplace = birthplace;
+    this.birthPostalCode = birthPostalCode;
+    this.birthINSEECode = birthINSEECode;
+    this.birthCountry = birthCountry;
+    this.sex = sex;
+
     this.certificationIssueReports = certificationIssueReports;
   }
 }

@@ -13,7 +13,7 @@ function buildSchoolingRegistration({
   birthdate = '2005-10-02',
   birthCity = 'Perpignan',
   birthCityCode = '1023',
-  birthCountryCode = 'FR123',
+  birthCountryCode = '100',
   birthProvinceCode = '66',
   MEFCode = 'SUPERMEF123',
   status = 'ST',

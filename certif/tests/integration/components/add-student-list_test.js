@@ -8,9 +8,17 @@ import EmberObject from '@ember/object';
 module('Integration | Component | add-student-list', function(hooks) {
   setupRenderingTest(hooks);
 
+  const ADD_BUTTON_SELECTOR = '.bottom-action-bar__actions--add-button';
+  let notificationMessagesService;
   let store;
+
   hooks.beforeEach(function() {
     store = this.owner.lookup('service:store');
+    notificationMessagesService = this.owner.lookup('service:notifications');
+  });
+
+  hooks.afterEach(function() {
+    notificationMessagesService.clearAll();
   });
 
   module('when there is no student', () => {
@@ -358,7 +366,7 @@ module('Integration | Component | add-student-list', function(hooks) {
           test('it should show "Ajouter" button', async function(assert) {
             // then
             const addButtonDisabled = '.bottom-action-bar__actions--add-button.button--disabled';
-            const addButton = '.bottom-action-bar__actions--add-button';
+            const addButton = ADD_BUTTON_SELECTOR;
             assert.dom(addButtonDisabled).doesNotExist();
             assert.dom(addButton).exists();
           });
@@ -366,6 +374,54 @@ module('Integration | Component | add-student-list', function(hooks) {
       });
     });
 
+    module('when the server return an error on session save', function() {
+
+      [400, 500].forEach(function(statusCode) {
+        test(`it should notify a generic message for an error ${statusCode}`, async function(assert) {
+          // given
+          const ERROR_DETAIL = 'PAS BIEN';
+          notificationMessagesService.error = sinon.spy();
+          const error = _createError(statusCode, ERROR_DETAIL);
+          const save = sinon.stub().rejects(error);
+
+          const session = _buildSession({ save });
+          this.set('session', session);
+          const students = [_buildSelectedStudent()];
+          this.set('students', students);
+          sinon.stub(store, 'peekAll').withArgs('student').returns(students);
+
+          await render(hbs`<AddStudentList @studentList={{this.students}} @session={{this.session}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
+
+          // when
+          const addButton = ADD_BUTTON_SELECTOR;
+          await click(addButton);
+          assert.ok(notificationMessagesService.error.calledOnceWith('Une erreur est survenue au moment d‘enregistrer les candidats...'));
+        });
+      });
+
+      test('it should notify a specific message for an unprocessable entity', async function(assert) {
+        // given
+        const ERROR_DETAIL = 'PAS BIEN';
+        notificationMessagesService.error = sinon.spy();
+        const unprocessableEntityError = _createError(422, ERROR_DETAIL);
+        const save = sinon.stub();
+        save.rejects(unprocessableEntityError);
+
+        const session = _buildSession({ save });
+        this.set('session', session);
+        const students = [_buildSelectedStudent()];
+        this.set('students', students);
+        sinon.stub(store, 'peekAll').withArgs('student').returns(students);
+
+        await render(hbs`<AddStudentList @studentList={{this.students}} @session={{this.session}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
+
+        // when
+        const addButton = ADD_BUTTON_SELECTOR;
+        await click(addButton);
+        assert.ok(notificationMessagesService.error.calledOnceWith(ERROR_DETAIL));
+      });
+
+    });
   });
 
   function _buildUnselectedStudent(firstName = 'firstName', lastName = 'lastName', division = 'division', birthdate = 'birthdate', isEnrolled = false) {
@@ -392,12 +448,12 @@ module('Integration | Component | add-student-list', function(hooks) {
     });
   }
 
-  function _buildSession(
+  function _buildSession({
     address = '13 rue des petits champs',
     accessCode = 'ABCDE',
     status = 'started',
     save = sinon.stub(),
-  ) {
+  } = {}) {
     return EmberObject.create({
       address,
       accessCode,
@@ -405,4 +461,11 @@ module('Integration | Component | add-student-list', function(hooks) {
       save,
     });
   }
+
+  function _createError(status, ERROR_DETAIL) {
+    return {
+      'errors': [{ 'status': status + '', 'title': 'Unauthorized', 'detail': ERROR_DETAIL }],
+    };
+  }
+
 });

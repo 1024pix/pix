@@ -14,6 +14,42 @@ module('Integration | Component | routes/authenticated/certifications/certificat
     await createAuthenticateSession({ userId: user.id });
   });
 
+  module('When isNewCpfDataEnabled is enabled', () => {
+
+    test('it displays the candidate information with CPF data', async function(assert) {
+      // given
+      this.server.create('feature-toggle', {
+        id: 0,
+        isNewCpfDataEnabled: true,
+      });
+      const certification = this.server.create('certification', {
+        status: 'started',
+        firstName: 'Noritaka',
+        lastName: 'Sawamura',
+        birthdate: '1991-01-01',
+        sex: 'M',
+        birthplace: 'Tokyo',
+        birthCountry: 'Japon',
+        birthInseeCode: '99217',
+        birthPostalCode: null,
+        competencesWithMark: [],
+      });
+
+      // when
+      await visit(`/certifications/${certification.id}`);
+
+      // then
+      assert.contains('Noritaka');
+      assert.contains('Sawamura');
+      assert.contains('01/01/1991');
+      assert.contains('M');
+      assert.contains('Tokyo');
+      assert.contains('Japon');
+      assert.contains('99217');
+      assert.contains(' - ');
+    });
+  });
+
   module('When certification is not cancelled', () => {
 
     test('the certification cancellation button is not disabled ', async function(assert) {

@@ -9,7 +9,6 @@ module.exports = {
   async get({ certificationCourseId }) {
     const certificationCourseDTO = await knex('certification-courses')
       .where({ id: certificationCourseId })
-      .orderBy('createdAt')
       .first();
 
     if (certificationCourseDTO) {
@@ -48,6 +47,10 @@ function _toDomain({ certificationCourseDTO, certificationIssueReportsDTO }) {
     lastName: certificationCourseDTO.lastName,
     birthdate: certificationCourseDTO.birthdate,
     birthplace: certificationCourseDTO.birthplace,
+    birthPostalCode: certificationCourseDTO.birthPostalCode,
+    birthINSEECode: certificationCourseDTO.birthINSEECode,
+    birthCountry: certificationCourseDTO.birthCountry,
+    sex: certificationCourseDTO.sex,
     certificationIssueReports,
   });
 }
