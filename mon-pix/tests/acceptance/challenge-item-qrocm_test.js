@@ -16,7 +16,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
   });
 
   describe('When challenge is not already answered', () => {
-    describe('and challenge only has input fields', () => {
+    context('and challenge only has input fields', () => {
       beforeEach(async () => {
         // when
         qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
@@ -71,10 +71,10 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       });
     });
 
-    describe('and challenge contains select field', () => {
+    context('and challenge contains select field', () => {
       beforeEach(async () => {
         // when
-        qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
+        server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
@@ -117,33 +117,60 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
   });
 
   describe('When challenge is already answered', () => {
-    beforeEach(async () => {
-      // given
-      qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
-      server.create('answer', {
-        value: 'station1: \'Republique\'\nstation2: \'Chatelet\'\n',
-        result: 'ko',
-        assessment,
-        challenge: qrocmDepChallenge,
+    context('and challenge is only made of input fields', () => {
+      beforeEach(async () => {
+        // given
+        qrocmDepChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMDep');
+        server.create('answer', {
+          value: 'station1: \'Republique\'\nstation2: \'Chatelet\'\n',
+          result: 'ko',
+          assessment,
+          challenge: qrocmDepChallenge,
+        });
+
+        // when
+        await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      // when
-      await visit(`/assessments/${assessment.id}/challenges/0`);
+      it('should set the input text with previous answers and propose to continue', async () => {
+        // then
+        expect(find('div[data-test="qrocm-label-0"]').innerHTML).to.contains('Station <strong>1</strong> :');
+        expect(find('div[data-test="qrocm-label-1"]').innerHTML).to.contains('Station <em>2</em> :');
+        expect(findAll('.challenge-response__proposal')[0].value).to.equal('Republique');
+        expect(findAll('.challenge-response__proposal')[1].value).to.equal('Chatelet');
+
+        findAll('.challenge-response__proposal').forEach((input) => expect(input.disabled).to.equal(true));
+
+        expect(find('.challenge-actions__action-continue')).to.exist;
+        expect(find('.challenge-actions__action-validate')).to.not.exist;
+        expect(find('.challenge-actions__action-skip-text')).to.not.exist;
+
+      });
     });
 
-    it('should set the input text with previous answers and propose to continue', async () => {
-      // then
-      expect(find('div[data-test="qrocm-label-0"]').innerHTML).to.contains('Station <strong>1</strong> :');
-      expect(find('div[data-test="qrocm-label-1"]').innerHTML).to.contains('Station <em>2</em> :');
-      expect(findAll('.challenge-response__proposal')[0].value).to.equal('Republique');
-      expect(findAll('.challenge-response__proposal')[1].value).to.equal('Chatelet');
+    context('and challenge contains select field', () => {
+      beforeEach(async () => {
+        // given
+        const qrocmWithSelectChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
+        server.create('answer', {
+          value: 'banana: \'mango\'\n',
+          result: 'ko',
+          assessment,
+          challenge: qrocmWithSelectChallenge,
+        });
 
-      findAll('.challenge-response__proposal').forEach((input) => expect(input.disabled).to.equal(true));
+        // when
+        await visit(`/assessments/${assessment.id}/challenges/0`);
+      });
 
-      expect(find('.challenge-actions__action-continue')).to.exist;
-      expect(find('.challenge-actions__action-validate')).to.not.exist;
-      expect(find('.challenge-actions__action-skip-text')).to.not.exist;
+      it('should set the select with previous answer and propose to continue', async () => {
+        // then
+        expect(findAll('select[data-test="challenge-response-proposal-selector"] option')[1].hasAttribute('selected'));
 
+        expect(find('.challenge-actions__action-continue')).to.exist;
+        expect(find('.challenge-actions__action-validate')).to.not.exist;
+        expect(find('.challenge-actions__action-skip-text')).to.not.exist;
+      });
     });
   });
 
