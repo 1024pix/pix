@@ -2,7 +2,7 @@
 require('dotenv').config();
 const hashInt = require('hash-int');
 const fs = require('fs');
-const { find } = require('lodash');
+const { find, isEmpty } = require('lodash');
 const smartRandom = require('../../api/lib/domain/services/smart-random/smart-random');
 const dataFetcher = require('../../api/lib/domain/services/smart-random/data-fetcher');
 const challengeRepository = require('../../api/lib/infrastructure/repositories/challenge-repository');
@@ -17,14 +17,14 @@ const AlgoResult = require('./AlgoResult');
 
 const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
 
-function _read(path) {
+function _readUsersKEFile(path) {
   if (path) {
     const file = fs.readFileSync(path, 'utf-8');
     if (file) {
       return JSON.parse(file);
     }
   }
-  return [];
+  return [[]];
 }
 
 function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId, userResult, userKE }) {
@@ -160,12 +160,50 @@ function _getChallengeLevel({ assessment, result }) {
   return chosenSkill ? chosenSkill.difficulty : null;
 }
 
+async function proceedAlgo(challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers, userResult, userKE) {
+  let isAssessmentOver = false;
+  const algoResult = new AlgoResult();
+
+  while (!isAssessmentOver) {
+
+    const { challenge, hasAssessmentEnded, estimatedLevel, challengeLevel } = await _getChallenge({
+      challenges,
+      targetSkills,
+      assessment,
+      locale,
+      knowledgeElements,
+      allAnswers,
+    });
+    algoResult.addEstimatedLevels(estimatedLevel);
+    if (challenge) {
+      const { answerStatus, updatedAnswers, updatedKnowledgeElements } = answerTheChallenge({
+        challenge,
+        allAnswers,
+        userId: assessment.userId,
+        allKnowledgeElements: knowledgeElements,
+        targetSkills,
+        userResult: isEmpty(userKE) ? userResult : 'KE',
+        userKE,
+      });
+      allAnswers = updatedAnswers;
+      knowledgeElements = updatedKnowledgeElements;
+      algoResult.addChallenge(challenge);
+      algoResult.addChallengeLevel(challengeLevel);
+      algoResult.addAnswerStatus(answerStatus);
+    }
+
+    isAssessmentOver = hasAssessmentEnded;
+  }
+
+  console.log(algoResult.log());
+}
+
 async function launchTest(argv) {
 
-  const { competenceId, targetProfileId, locale, userResult, userKEFile } = argv;
+  const { competenceId, targetProfileId, locale, userResult, usersKEFile } = argv;
 
-  let allAnswers = [];
-  let knowledgeElements = [];
+  const allAnswers = [];
+  const knowledgeElements = [];
 
   const assessment = {
     id: null,
@@ -180,9 +218,7 @@ async function launchTest(argv) {
     findByAssessment: () => [],
   };
 
-  const userKE = _read(userKEFile);
-
-  let isAssessmentOver = false;
+  const usersKE = _readUsersKEFile(usersKEFile);
 
   const { challenges, targetSkills } = await _getReferentiel({
     assessment,
@@ -195,41 +231,12 @@ async function launchTest(argv) {
     targetProfileRepository,
   });
 
-  const algoResult = new AlgoResult();
+  const proceedUsers = usersKE.map((userKE) => {
+    return proceedAlgo(challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers, userResult, userKE);
+  });
 
-  while (!isAssessmentOver) {
+  await Promise.all(proceedUsers);
 
-    const { challenge, hasAssessmentEnded, estimatedLevel, challengeLevel } = await _getChallenge({
-      challenges,
-      targetSkills,
-      assessment,
-      locale,
-      knowledgeElements,
-      allAnswers,
-    });
-    algoResult.addEstimatedLevels(estimatedLevel);
-
-    if (challenge) {
-      const { answerStatus, updatedAnswers, updatedKnowledgeElements } = answerTheChallenge({
-        challenge,
-        allAnswers,
-        userId: assessment.userId,
-        allKnowledgeElements: knowledgeElements,
-        targetSkills,
-        userResult,
-        userKE,
-      });
-      allAnswers = updatedAnswers;
-      knowledgeElements = updatedKnowledgeElements;
-      algoResult.addChallenge(challenge);
-      algoResult.addChallengeLevel(challengeLevel);
-      algoResult.addAnswerStatus(answerStatus);
-    }
-
-    isAssessmentOver = hasAssessmentEnded;
-  }
-
-  console.log(algoResult.log());
   process.exit(0);
 }
 
