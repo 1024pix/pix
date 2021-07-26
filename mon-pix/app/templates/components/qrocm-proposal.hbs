@@ -16,6 +16,7 @@
                 id="{{block.input}}"
                 aria-label={{block.ariaLabel}}
                 @emptyOptionLabel={{block.placeholder}}
+                @selectedOption={{get @answersValue block.input}}
                 @options={{block.options}}
                 @onChange={{this.setAnswerValue}}/>
       </div>
