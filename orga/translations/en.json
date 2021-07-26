@@ -225,10 +225,10 @@
       },
       "status": {
         "started-assessment": "In progress ({progression, number, ::percent})",
-        "completed-assessment": "Pending",
-        "shared-assessment": "Submitted",
-        "completed-profile": "Pending",
-        "shared-profile": "Submitted"
+        "completed-assessment": "Pending results",
+        "shared-assessment": "Submitted results",
+        "completed-profile": "Pending profile",
+        "shared-profile": "Submitted profile"
       }
     },
     "campaign-creation": {
