@@ -49,6 +49,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
             'pix-certif-terms-of-service-accepted': user.pixCertifTermsOfServiceAccepted,
             'has-seen-assessment-instructions': user.hasSeenAssessmentInstructions,
             'has-seen-new-dashboard-info': user.hasSeenNewDashboardInfo,
+            'has-seen-focused-challenge-tooltip': user.hasSeenFocusedChallengeTooltip,
           },
           relationships: {
             memberships: {

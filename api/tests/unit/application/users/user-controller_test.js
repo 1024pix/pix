@@ -370,6 +370,34 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
+  describe('#rememberUserHasSeenChallengeTooltip', () => {
+    let request;
+    const userId = 1;
+    const challengeType = 'focused';
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: userId, challengeType },
+      };
+
+      sinon.stub(usecases, 'rememberUserHasSeenChallengeTooltip');
+      sinon.stub(userSerializer, 'serialize');
+    });
+
+    it('should remember user has seen focused challenge tooltip', async () => {
+      // given
+      usecases.rememberUserHasSeenChallengeTooltip.withArgs({ userId, challengeType }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await userController.rememberUserHasSeenChallengeTooltip(request);
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
+  });
+
   describe('#getCurrentUser', () => {
     let request;
 
