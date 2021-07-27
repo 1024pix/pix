@@ -48,3 +48,21 @@
   }
 }
 
+.input {
+  border: 2px solid $grey-20;
+  border-radius: 4px;
+  height: 40px;
+  font-size: 1rem;
+  padding-left: 15px;
+  color: $grey-80;
+  outline: none;
+
+  &:focus {
+    border: 2px solid $communication-dark;
+  }
+
+  &--small {
+    width: 160px;
+  }
+}
+

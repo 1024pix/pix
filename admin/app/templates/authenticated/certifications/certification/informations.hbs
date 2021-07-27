@@ -237,6 +237,8 @@
           @show={{this.displayConfirm}} />
 </div>
 <Certification::CandidateEditModal
-  @display={{this.isCandidateEditModalOpen}}
-  @close={{this.closeCandidateEditModal}}
+  @isDisplayed={{this.isCandidateEditModalOpen}}
+  @onCancelButtonsClicked={{this.closeCandidateEditModal}}
+  @onFormSubmit={{null}}
+  @candidate={{this.certification}}
 />

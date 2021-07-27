@@ -1,28 +1,51 @@
-<Modal::Dialog class="" @title="Editer les informations du candidat" @display={{@display}} @close={{@close}}>
-  <Modal::Body class="">
-    <form class="form">
-      <div class="form-field ">
-        <label for="lastName">Nom</label>
-        <Input id="lastName" @type="text" @value={{this.lastName}}/>
+<Modal::Dialog class="candidate-edit-modal" @title="Editer les informations du candidat" @display={{@isDisplayed}} @close={{@onCancelButtonsClicked}}>
+  <form {{on "submit" this.onFormSubmit}}>
+    <Modal::Body class="candidate-edit-modal__content">
+
+      <div class="candidate-edit-modal__content__field candidate-edit-modal__content__field-double">
+        <label for="last-name" class="label">
+          <span class="required-field-indicator">*</span>
+          Nom de famille
+        </label>
+        <Input @id="last-name" @type="text" @class="input" @value={{this.lastName}} {{ did-insert this.focus }} required />
       </div>
 
-      <div class="form-field ">
-        <label for="firstName">Prénom</label>
-        <Input id="firstName" @type="text" @value={{this.firstName}}/>
+      <div class="candidate-edit-modal__content__field candidate-edit-modal__content__field-double">
+        <label for="first-name" class="label">
+          <span class="required-field-indicator">*</span>
+          Prénom
+        </label>
+        <Input @id="first-name" @type="text" @class="input" @value={{this.firstName}} required />
       </div>
 
-      <div class="form-field ">
-        <label for="birthdate">Date de naissance</label>
-        <Input id="birthdate" @type="text" @value={{this.birthdate}}/>
+      <div class="candidate-edit-modal__content__field">
+        <label for="birthdate" class="label">
+          <span class="required-field-indicator">*</span>
+          Date de naissance
+        </label>
+        <EmberFlatpickr
+                id="birthdate"
+                @altFormat="d/m/Y"
+                @altInput={{true}}
+                @onChange={{this.onUpdateCertificationBirthdate}}
+                @dateFormat="Y-m-d"
+                @locale="fr"
+                @date={{this.birthdate}}
+        />
       </div>
 
-      <div class="form-field ">
-        <label for="birthCity">Commune de naissance</label>
-        <Input id="birthCity" @type="text" @value={{this.birthCity}}/>
+      <div class="candidate-edit-modal__content__field">
+        <label for="birth-city" class="label">
+          <span class="required-field-indicator">*</span>
+          Commune de naissance
+        </label>
+        <Input @id="birth-city" @type="text" @class="input" @value={{this.birthCity}} required />
       </div>
-    </form>
-  </Modal::Body>
-  <Modal::Footer>
-    <PixButton @size="small" @backgroundColor="grey" @triggerAction={{@close}} data-test-id="close-certification-candidate-edition-modal">Annuler</PixButton>
-  </Modal::Footer>
+
+    </Modal::Body>
+    <Modal::Footer>
+      <PixButton @size="small" @backgroundColor="transparent-light" @triggerAction={{@onCancelButtonsClicked}} data-test-id="close-certification-candidate-edition-modal">Annuler</PixButton>
+      <PixButton @size="small" @type="submit" data-test-id="close-certification-candidate-edition-modal">Enregistrer</PixButton>
+    </Modal::Footer>
+  </form>
 </Modal::Dialog>
