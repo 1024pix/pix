@@ -5,6 +5,7 @@ import sinon from 'sinon';
 module('Unit | Controller | authenticated/campaigns/campaign/profiles', function(hooks) {
   setupTest(hooks);
   let controller;
+
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/campaigns/campaign/profiles');
   });
@@ -35,6 +36,24 @@ module('Unit | Controller | authenticated/campaigns/campaign/profiles', function
       //then
       assert.deepEqual(controller.divisions, []);
       assert.deepEqual(controller.pageNumber, null);
+    });
+  });
+
+  module('#action goToProfilePage', function() {
+    test('it should call transitionToRoute with appropriate arguments', function(assert) {
+      // given
+      const event = {
+        stopPropagation: sinon.stub(),
+      };
+
+      controller.transitionToRoute = sinon.stub();
+
+      // when
+      controller.send('goToProfilePage', 123, 345, event);
+
+      // then
+      assert.true(event.stopPropagation.called);
+      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.profile', 123, 345));
     });
   });
 });
