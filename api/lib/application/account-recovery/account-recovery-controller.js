@@ -1,5 +1,4 @@
 const usecases = require('../../domain/usecases');
-const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
@@ -15,8 +14,8 @@ module.exports = {
 
   async checkAccountRecoveryDemand(request) {
     const temporaryKey = request.params.temporaryKey;
-    const user = await usecases.getUserByAccountRecoveryDemand({ temporaryKey });
-    return userSerializer.serialize(user);
+    const studentInformation = await usecases.getAccountRecoveryDetails({ temporaryKey });
+    return studentInformationForAccountRecoverySerializer.serializeAccountRecovery(studentInformation);
   },
 
   async updateUserAccountFromRecoveryDemand(request, h) {

@@ -1,15 +1,14 @@
-module.exports = async function getUserByAccountRecoveryDemand({
+module.exports = async function getAccountRecoveryDetails({
   temporaryKey,
   accountRecoveryDemandRepository,
   schoolingRegistrationRepository,
-  userRepository,
 }) {
   const accountRecoveryDemand = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
   const schoolingRegistration = await schoolingRegistrationRepository.get(accountRecoveryDemand.schoolingRegistrationId);
-  const foundUser = await userRepository.get(accountRecoveryDemand.userId);
 
-  foundUser.email = accountRecoveryDemand.newEmail;
-  foundUser.firstName = schoolingRegistration.firstName;
-
-  return foundUser;
+  return {
+    id: accountRecoveryDemand.id,
+    email: accountRecoveryDemand.newEmail,
+    firstName: schoolingRegistration.firstName,
+  };
 };

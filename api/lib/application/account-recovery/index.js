@@ -58,6 +58,9 @@ exports.register = async function(server) {
             assign: 'isScoAccountRecoveryEnabled',
           },
         ],
+        validate: {
+          params: Joi.object({ temporaryKey: Joi.string().min(32) }),
+        },
         notes: ['- Permet de vérifier la demande de récupération de son compte Pix.\n' +
         '- Renvoie l’utilisateur correspondant à la demande pour une réinitialisation de mot de passe.'],
         tags: ['api', 'account-recovery'],
