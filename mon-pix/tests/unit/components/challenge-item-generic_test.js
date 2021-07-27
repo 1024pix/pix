@@ -75,15 +75,11 @@ describe('Unit | Component | Challenge item Generic', function() {
 
     context('when challenge is focused', function() {
       [
-        { answer: undefined, hasUserConfirmedFocusWarning: true, expectedResult: true },
-        { answer: 'banana', hasUserConfirmedFocusWarning: false, expectedResult: true },
-        { answer: undefined, hasUserConfirmedFocusWarning: false, expectedResult: false },
+        { answer: undefined, expectedResult: true },
+        { answer: 'banana', expectedResult: true },
       ].forEach((data) => {
 
-        const _hasUserConfirmedFocusWarning = data.hasUserConfirmedFocusWarning ? 'user has confirmed warning' : 'user has not confirmed warning';
-        const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
-
-        it(`should be ${data.expectedResult} when ${_hasUserConfirmedFocusWarning}, ${_hasAnswer}`, function() {
+        it(`should be ${data.expectedResult} when answer = ${data.answer}`, function() {
           // given
           const challenge = EmberObject.create({
             id: 'rec_123',
@@ -93,7 +89,6 @@ describe('Unit | Component | Challenge item Generic', function() {
           const answer = data.answer;
 
           component = createGlimmerComponent('component:challenge-item-generic', { challenge, answer });
-          component.hasUserConfirmedFocusWarning = data.hasUserConfirmedFocusWarning;
 
           // when
           const result = component.displayChallenge;
