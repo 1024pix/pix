@@ -64,7 +64,8 @@
     "participants-by-status": {
       "labels-tooltip": {
         "started": "En cours : {percentage, number, ::percent .0}",
-        "completed": "En attente d'envoi : {percentage, number, ::percent .0}",
+        "completed-assessment": "En attente d'envoi : {percentage, number, ::percent .0}",
+        "completed-profile": "En attente d'envoi : {percentage, number, ::percent .0}",
         "shared": "Résultats reçus : {percentage, number, ::percent .0}",
         "shared-profile": "Profils reçus : {percentage, number, ::percent .0}"
       },
@@ -77,8 +78,9 @@
       "labels-legend": {
         "started": "En cours ({count})",
         "started-tooltip": "En cours : Ces participants n’ont pas encore terminé leur parcours.",
-        "completed": "En attente d'envoi ({count})",
-        "completed-tooltip": "En attente d’envoi : Ces participants ont terminé leur parcours mais n’ont pas encore envoyé leurs résultats.",
+        "completed-assessment": "En attente d'envoi ({count})",
+        "completed-profile": "En attente d'envoi ({count})",
+        "completed-assessment-tooltip": "En attente d’envoi : Ces participants ont terminé leur parcours mais n’ont pas encore envoyé leurs résultats.",
         "completed-profile-tooltip": "En attente d’envoi : Ces participants n’ont pas encore envoyé leurs profils.",
         "shared": "Résultats reçus ({count})",
         "shared-tooltip": "Résultats reçus : Ces participants ont terminé leur parcours et envoyé leurs résultats.",
