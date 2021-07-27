@@ -8,12 +8,6 @@ export default class Report extends Component {
   @service currentUser;
   @service intl;
 
-  get participationsCount() {
-    const participationsCount = this.args.campaign.participationsCount;
-
-    return participationsCount > 0 ? participationsCount : false;
-  }
-
   get downloadUrl() {
     return this.args.campaign.urlToResult + `&lang=${this.currentUser.prescriber.lang}`;
   }
