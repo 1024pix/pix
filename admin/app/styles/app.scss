@@ -6,18 +6,18 @@
 @import 'ember-power-select/themes/bootstrap';
 
 /* global */
-@import 'misc/palette';
-@import 'misc/global';
-@import 'misc/utils';
-@import 'misc/button';
-@import 'misc/callout';
-@import 'misc/fonts';
-@import 'misc/form';
-@import 'misc/nav';
-@import 'misc/page';
-@import 'misc/power-select';
-@import 'misc/tables';
-@import 'misc/table-admin';
+@import 'globals/palette';
+@import 'globals/global';
+@import 'globals/utils';
+@import 'globals/button';
+@import 'globals/callout';
+@import 'globals/fonts';
+@import 'globals/form';
+@import 'globals/nav';
+@import 'globals/page';
+@import 'globals/power-select';
+@import 'globals/tables';
+@import 'globals/table-admin';
 
 /* pages */
 @import 'login';
