@@ -24,6 +24,7 @@
 
     &--focused {
       background-image: url('/images/tag-focused-challenge.svg');
+      border-top-right-radius: 10px;
     }
 
     &--regular {
