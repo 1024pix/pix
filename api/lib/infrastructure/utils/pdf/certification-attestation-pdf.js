@@ -146,13 +146,27 @@ async function _render({ templateDocuments, pdfDocument, viewModels, rgb, embedd
     const ref = pdfDocument.context.register(newPageLeaf);
     const newPage = PDFPage.of(newPageLeaf, ref, pdfDocument);
 
+    // Note: calls to setFont() are mutualized outside of the _render* methods
+    // to save space. Calling setFont() n times with the same fonts creates
+    // unnecessary links and big documents.
+    //
+    // For the same reason, don't use the `font` option of `drawText()`.
+    // Size gains for 140 certifs: 5 MB -> 700 kB
+    newPage.setFont(embeddedFonts.openSansBold);
     _renderScore(viewModel, newPage, embeddedFonts);
-    _renderHeaderCandidateInformations(viewModel, newPage, rgb, embeddedFonts);
-    _renderCompetencesDetails(viewModel, newPage, rgb, embeddedFonts);
-    _renderFooter(viewModel, newPage, rgb, embeddedFonts);
+    _renderHeaderCandidateInformations(viewModel, newPage, rgb);
+    _renderFooter(viewModel, newPage, rgb);
+
+    newPage.setFont(embeddedFonts.robotoMedium);
+    _renderCompetencesDetails(viewModel, newPage, rgb);
+
+    newPage.setFont(embeddedFonts.openSansSemiBold);
     _renderMaxScore(viewModel, newPage, rgb, embeddedFonts);
-    _renderMaxLevel(viewModel, newPage, rgb, embeddedFonts);
-    _renderVerificationCode(viewModel, newPage, rgb, embeddedFonts);
+    _renderMaxLevel(viewModel, newPage, rgb);
+
+    newPage.setFont(embeddedFonts.robotoMonoRegular);
+    _renderVerificationCode(viewModel, newPage, rgb);
+
     _renderCleaCertification(viewModel, newPage, embeddedImages);
     _renderPixPlusCertificationCertification(viewModel, newPage, embeddedImages);
 
@@ -182,7 +196,6 @@ function _renderScore(viewModel, page, embeddedFonts) {
   const scoreFont = embeddedFonts.openSansBold;
   const scoreWidth = scoreFont.widthOfTextAtSize(pixScore, scoreFontSize);
 
-  page.setFont(scoreFont);
   page.drawText(
     pixScore,
     {
@@ -200,7 +213,6 @@ function _renderMaxScore(viewModel, page, rgb, embeddedFonts) {
   const maxReachableScore = viewModel.maxReachableScore;
   const maxScoreWidth = font.widthOfTextAtSize(maxReachableScore, maxScoreFontSize);
 
-  page.setFont(font);
   page.drawText(
     maxReachableScore,
     {
@@ -211,8 +223,7 @@ function _renderMaxScore(viewModel, page, rgb, embeddedFonts) {
   );
 }
 
-function _renderMaxLevel(viewModel, page, rgb, embeddedFonts) {
-  page.setFont(embeddedFonts.openSansSemiBold);
+function _renderMaxLevel(viewModel, page, rgb) {
   page.drawText(
     viewModel.maxLevel,
     {
@@ -223,8 +234,7 @@ function _renderMaxLevel(viewModel, page, rgb, embeddedFonts) {
   );
 }
 
-function _renderFooter(viewModel, page, rgb, embeddedFonts) {
-  page.setFont(embeddedFonts.openSansBold);
+function _renderFooter(viewModel, page, rgb) {
   page.drawText(
     viewModel.maxReachableLevelIndication,
     {
@@ -246,8 +256,7 @@ function _renderFooter(viewModel, page, rgb, embeddedFonts) {
   }
 }
 
-function _renderHeaderCandidateInformations(viewModel, page, rgb, embeddedFonts) {
-  page.setFont(embeddedFonts.openSansBold);
+function _renderHeaderCandidateInformations(viewModel, page, rgb) {
   [
     [230, 712, viewModel.fullName],
     [269, 695.5, viewModel.birth],
@@ -266,8 +275,7 @@ function _renderHeaderCandidateInformations(viewModel, page, rgb, embeddedFonts)
   });
 }
 
-function _renderVerificationCode(viewModel, page, rgb, embeddedFonts) {
-  page.setFont(embeddedFonts.robotoMonoRegular);
+function _renderVerificationCode(viewModel, page, rgb) {
   page.drawText(
     viewModel.verificationCode,
     {
@@ -311,7 +319,7 @@ function _renderCleaCertification(viewModel, page, embeddedImages) {
   }
 }
 
-function _renderCompetencesDetails(viewModel, page, rgb, embeddedFonts) {
+function _renderCompetencesDetails(viewModel, page, rgb) {
   const competencesLevelCoordinates = [
     556, 532, 508,
     452, 428, 404, 380,
@@ -323,7 +331,6 @@ function _renderCompetencesDetails(viewModel, page, rgb, embeddedFonts) {
   viewModel.competenceDetailViewModels.forEach((competenceDetailViewModel) => {
     const y = competencesLevelCoordinates.shift();
     if (competenceDetailViewModel.shouldBeDisplayed()) {
-      page.setFont(embeddedFonts.robotoMedium);
       page.drawText(
         competenceDetailViewModel.level,
         {
