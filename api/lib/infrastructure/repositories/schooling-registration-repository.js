@@ -136,6 +136,12 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
+  async disableAllSchoolingRegistrationsInOrganization({ trx, organizationId }) {
+    await trx('schooling-registrations')
+      .where({ organizationId, isDisabled: false })
+      .update({ isDisabled: true, updatedAt: trx.raw('CURRENT_TIMESTAMP') });
+  },
+
   async addOrUpdateOrganizationAgriSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
     const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({
       ...schoolingRegistrationData,
