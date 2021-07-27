@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import isInteger from 'lodash/isInteger';
+import ENV from 'mon-pix/config/environment';
 
 export default class ChallengeItemGeneric extends Component {
 
@@ -11,24 +12,25 @@ export default class ChallengeItemGeneric extends Component {
   @tracked hasUserConfirmedFocusWarning = false;
   @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
-  @tracked hasFocusedOut = false;
+  @tracked hasFocusedOutOfWindow = false;
+  @tracked hasFocusedOutOfChallenge = false;
 
   get displayTimer() {
     return this.isTimedChallengeWithoutAnswer && this.hasUserConfirmedWarning;
   }
 
   get displayChallenge() {
-    if (!this.isTimedChallenge && !this.isFocusedChallenge) {
+    if (!this._isTimedChallenge && !this.isFocusedChallenge) {
       return true;
     }
 
-    if (this.isTimedChallenge) {
+    if (this._isTimedChallenge) {
       if (this.hasUserConfirmedWarning || this.args.answer) return true;
     }
 
     if (this.isFocusedChallenge) {
       if (this.hasUserConfirmedFocusWarning) {
-        this._setOnBlurMethod();
+        this._setOnBlurEventToWindow();
         return true;
       }
       if (this.args.answer) return true;
@@ -37,9 +39,9 @@ export default class ChallengeItemGeneric extends Component {
     return false;
   }
 
-  _setOnBlurMethod() {
+  _setOnBlurEventToWindow() {
     window.onblur = () => {
-      this.hasFocusedOut = true;
+      this.hasFocusedOutOfWindow = true;
       this._clearOnBlurMethod();
     };
   }
@@ -48,16 +50,16 @@ export default class ChallengeItemGeneric extends Component {
     window.onblur = null;
   }
 
-  get isTimedChallenge() {
+  get _isTimedChallenge() {
     return isInteger(this.args.challenge.timer);
   }
 
   get isFocusedChallenge() {
-    return this.args.challenge.focused;
+    return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.args.challenge.focused;
   }
 
   get isTimedChallengeWithoutAnswer() {
-    return this.isTimedChallenge && !this.args.answer;
+    return this._isTimedChallenge && !this.args.answer;
   }
 
   get isFocusedChallengeWithoutAnswer() {
@@ -65,7 +67,7 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   _getTimeout() {
-    if (this.isTimedChallenge) {
+    if (this._isTimedChallenge) {
       if (this.hasChallengeTimedOut) {
         return -1 ;
       } else {
@@ -73,6 +75,22 @@ export default class ChallengeItemGeneric extends Component {
       }
     } else {
       return null;
+    }
+  }
+
+  @action
+  hideOutOfFocusBorder() {
+    if (this.hasUserConfirmedFocusWarning && ENV.APP.FT_FOCUS_CHALLENGE_ENABLED) {
+      this.args.focusedIn();
+      this.hasFocusedOutOfChallenge = false;
+    }
+  }
+
+  @action
+  showOutOfFocusBorder() {
+    if (this.hasUserConfirmedFocusWarning && ENV.APP.FT_FOCUS_CHALLENGE_ENABLED) {
+      this.args.focusedOut();
+      this.hasFocusedOutOfChallenge = true;
     }
   }
 

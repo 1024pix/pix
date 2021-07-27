@@ -24,7 +24,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
 
     it('should render challenge information and question', () => {
       // then
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcmChallenge.instruction);
+      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qcmChallenge.instruction);
 
       expect(findAll('input[type="checkbox"]')).to.have.lengthOf(4);
 
@@ -139,7 +139,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
 
       // then
       expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcmChallenge.instruction);
+      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qcmChallenge.instruction);
 
       const goodAnswer = findAll('.qcm-proposal-label__answer-details')[0];
       const badAnswerFromUserResult = findAll('.qcm-proposal-label__answer-details')[1];

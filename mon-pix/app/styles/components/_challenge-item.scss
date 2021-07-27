@@ -1,8 +1,12 @@
 .challenge-item {
+  z-index: 1;
 
   &__container {
-    background-color: $white;
-    border-radius: 5px;
+
+    &--focused {
+      border: 3px dashed $grey-70;
+      border-radius: 10px;
+    }
   }
 }
 
@@ -148,5 +152,14 @@ form .challenge-response-locked {
       opacity: 1;
       transition: 0.3s ease;
     }
+  }
+}
+
+.challenge-alert {
+
+  &__icon {
+    font-size: 1rem;
+    margin-left: 10px;
+    margin-right: 20px;
   }
 }
