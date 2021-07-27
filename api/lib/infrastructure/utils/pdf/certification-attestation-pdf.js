@@ -182,12 +182,12 @@ function _renderScore(viewModel, page, embeddedFonts) {
   const scoreFont = embeddedFonts.openSansBold;
   const scoreWidth = scoreFont.widthOfTextAtSize(pixScore, scoreFontSize);
 
+  page.setFont(scoreFont);
   page.drawText(
     pixScore,
     {
       x: 105 - scoreWidth / 2,
       y: 675,
-      font: scoreFont,
       size: scoreFontSize,
     },
   );
@@ -200,11 +200,11 @@ function _renderMaxScore(viewModel, page, rgb, embeddedFonts) {
   const maxReachableScore = viewModel.maxReachableScore;
   const maxScoreWidth = font.widthOfTextAtSize(maxReachableScore, maxScoreFontSize);
 
+  page.setFont(font);
   page.drawText(
     maxReachableScore,
     {
       x: 105 - maxScoreWidth / 2, y: 659,
-      font: font,
       size: maxScoreFontSize,
       color: rgb(0 / 255, 45 / 255, 80 / 255),
     },
@@ -212,11 +212,11 @@ function _renderMaxScore(viewModel, page, rgb, embeddedFonts) {
 }
 
 function _renderMaxLevel(viewModel, page, rgb, embeddedFonts) {
+  page.setFont(embeddedFonts.openSansSemiBold);
   page.drawText(
     viewModel.maxLevel,
     {
       x: 159, y: 608,
-      font: embeddedFonts.openSansSemiBold,
       size: 7,
       color: rgb(80 / 255, 95 / 255, 121 / 255),
     },
@@ -224,11 +224,11 @@ function _renderMaxLevel(viewModel, page, rgb, embeddedFonts) {
 }
 
 function _renderFooter(viewModel, page, rgb, embeddedFonts) {
+  page.setFont(embeddedFonts.openSansBold);
   page.drawText(
     viewModel.maxReachableLevelIndication,
     {
       x: 55, y: 46,
-      font: embeddedFonts.openSansBold,
       size: 7,
       color: rgb(42 / 255, 64 / 255, 99 / 255),
     },
@@ -239,7 +239,6 @@ function _renderFooter(viewModel, page, rgb, embeddedFonts) {
       viewModel.absoluteMaxLevelIndication,
       {
         x: 55, y: 35,
-        font: embeddedFonts.openSansBold,
         size: 7,
         color: rgb(42 / 255, 64 / 255, 99 / 255),
       },
@@ -248,6 +247,7 @@ function _renderFooter(viewModel, page, rgb, embeddedFonts) {
 }
 
 function _renderHeaderCandidateInformations(viewModel, page, rgb, embeddedFonts) {
+  page.setFont(embeddedFonts.openSansBold);
   [
     [230, 712, viewModel.fullName],
     [269, 695.5, viewModel.birth],
@@ -259,7 +259,6 @@ function _renderHeaderCandidateInformations(viewModel, page, rgb, embeddedFonts)
       {
         x,
         y,
-        font: embeddedFonts.openSansBold,
         size: 9,
         color: rgb(26 / 255, 64 / 255, 109 / 255),
       },
@@ -268,12 +267,12 @@ function _renderHeaderCandidateInformations(viewModel, page, rgb, embeddedFonts)
 }
 
 function _renderVerificationCode(viewModel, page, rgb, embeddedFonts) {
+  page.setFont(embeddedFonts.robotoMonoRegular);
   page.drawText(
     viewModel.verificationCode,
     {
       x: 410,
       y: 560,
-      font: embeddedFonts.robotoMonoRegular,
       size: 11,
       color: rgb(1, 1, 1),
     },
@@ -324,11 +323,11 @@ function _renderCompetencesDetails(viewModel, page, rgb, embeddedFonts) {
   viewModel.competenceDetailViewModels.forEach((competenceDetailViewModel) => {
     const y = competencesLevelCoordinates.shift();
     if (competenceDetailViewModel.shouldBeDisplayed()) {
+      page.setFont(embeddedFonts.robotoMedium);
       page.drawText(
         competenceDetailViewModel.level,
         {
           x: 291, y: y + 5,
-          font: embeddedFonts.robotoMedium,
           size: 9,
           color: rgb(37 / 255, 56 / 255, 88 / 255),
         },
