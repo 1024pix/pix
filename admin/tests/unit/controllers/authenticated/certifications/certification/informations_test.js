@@ -474,44 +474,17 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
-  module('#onCandidateInformationsEdit', () => {
-    test('it enters candidate informations edit mode', function(assert) {
-      // given
-      controller.editingCandidateInformations = false;
-
-      // when
-      controller.onCandidateInformationsEdit();
-
-      // then
-      assert.true(controller.editingCandidateInformations);
-    });
-  });
-
-  module('#onCandidateInformationsCancel', () => {
-    test('it cancels candidate informations edit mode', function(assert) {
-      // given
-      controller.editingCandidateInformations = true;
-
-      // when
-      controller.onCandidateInformationsCancel();
-
-      // then
-      assert.false(controller.editingCandidateInformations);
-    });
-  });
-
-  module('#onCandidateInformationsSave', () => {
-    test('it exits candidate informations edit mode', async function(assert) {
+  module('#onCandidateInformationSave', () => {
+    test('it closes the modal', async function(assert) {
       // given
       controller.saveCertificationCourse = sinon.stub().resolves();
-      controller.editingCandidateInformations = true;
-      const event = new Event('submit');
+      controller.isCandidateEditModalOpen = true;
 
       // when
-      await controller.onCandidateInformationsSave(event);
+      await controller.onCandidateInformationSave();
 
       // then
-      assert.false(controller.editingCandidateInformations);
+      assert.false(controller.isCandidateEditModalOpen);
     });
 
     test('it saves candidates infos', async function(assert) {
@@ -520,10 +493,9 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       const certification = store.createRecord('certification', { competencesWithMark });
       certification.save = sinon.stub().resolves();
       controller.certification = certification;
-      const event = new Event('submit');
 
       // when
-      await controller.onCandidateInformationsSave(event);
+      await controller.onCandidateInformationSave();
 
       // then
       sinon.assert.calledWith(certification.save, { adapterOptions: { updateMarks: false } });
