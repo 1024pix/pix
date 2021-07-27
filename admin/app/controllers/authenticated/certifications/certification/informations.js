@@ -236,6 +236,24 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
+  async onCandidateInformationsSave2() {
+    try {
+      await this.saveCertificationCourse();
+      this.notifications.success('Les informations du candidat ont bien été enregistrées.');
+      this.isCandidateEditModalOpen = false;
+    } catch (e) {
+      if (e.errors && e.errors.length > 0) {
+        e.errors.forEach((error) => {
+          this.notifications.error(error.detail);
+        });
+      } else {
+        this.notifications.error(e);
+      }
+      throw e;
+    }
+  }
+
+  @action
   openCandidateEditModal() {
     this.isCandidateEditModalOpen = true;
   }

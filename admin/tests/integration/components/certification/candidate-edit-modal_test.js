@@ -53,6 +53,69 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
     });
   });
 
+  module('#onFormSubmit', function() {
+
+    test('it should not call the onFormSubmit action if a field is not filled', async function(assert) {
+      // given
+      this.candidate = EmberObject.create({ birthdate: '2000-12-15' });
+      this.onFormSubmitStub = sinon.stub();
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}}/>`);
+
+      // when
+      await clickByLabel('Enregistrer');
+
+      // then
+      assert.notOk(this.onFormSubmitStub.called);
+    });
+
+    test('it should reset form and model after save has failed', async function(assert) {
+      // given
+      this.candidate = EmberObject.create({ firstName: 'Fabrice', lastName: 'Gadjo', birthdate: '2000-12-15', birthplace: 'Trouville' });
+      this.onFormSubmitStub = sinon.stub();
+      this.onFormSubmitStub.rejects();
+
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}}/>`);
+      await fillInByLabel('Nom de famille', 'Belmans');
+      await fillInByLabel('Prénom', 'Gideon');
+      setFlatpickrDate('#birthdate', new Date('1861-03-17'));
+      await fillInByLabel('Commune de naissance', 'Ormeshadow');
+
+      // when
+      await clickByLabel('Enregistrer');
+
+      // then
+      assert.equal(this.candidate.firstName, 'Fabrice');
+      assert.dom('#first-name').hasValue('Fabrice');
+      assert.equal(this.candidate.lastName, 'Gadjo');
+      assert.dom('#last-name').hasValue('Gadjo');
+      assert.equal(this.candidate.birthdate, '2000-12-15');
+      assert.dom('#birthdate').hasValue('2000-12-15');
+      assert.equal(this.candidate.birthplace, 'Trouville');
+      assert.dom('#birth-city').hasValue('Trouville');
+    });
+
+    test('it should call the onFormSubmit action if all fields are filled', async function(assert) {
+      // given
+      this.candidate = EmberObject.create({ firstName: 'Fabrice', lastName: 'Gadjo', birthdate: '2000-12-15', birthplace: 'Trouville' });
+      this.onFormSubmitStub = sinon.stub();
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}}/>`);
+      await fillInByLabel('Nom de famille', 'Belmans');
+      await fillInByLabel('Prénom', 'Gideon');
+      setFlatpickrDate('#birthdate', new Date('1861-03-17'));
+      await fillInByLabel('Commune de naissance', 'Ormeshadow');
+
+      // when
+      await clickByLabel('Enregistrer');
+
+      // then
+      assert.ok(this.onFormSubmitStub.called);
+      assert.equal(this.candidate.firstName, 'Gideon');
+      assert.equal(this.candidate.lastName, 'Belmans');
+      assert.equal(this.candidate.birthdate, '1861-03-17');
+      assert.equal(this.candidate.birthplace, 'Ormeshadow');
+    });
+  });
+
   test('it should display candidate information to edit', async function(assert) {
     // given
     this.candidate = EmberObject.create({
@@ -70,38 +133,5 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
     assert.dom('#last-name').hasValue('Lebouc');
     assert.dom('#birthdate').hasValue('2000-12-15');
     assert.dom('#birth-city').hasValue('Saint-Malo');
-  });
-
-  module('#onFormSubmit', function() {
-
-    test('it should not call the onFormSubmit action if a field is not filled', async function(assert) {
-      // given
-      this.candidate = EmberObject.create({ birthdate: '2000-12-15' });
-      this.onFormSubmitStub = sinon.stub();
-      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}}/>`);
-
-      // when
-      await clickByLabel('Enregistrer');
-
-      // then
-      assert.notOk(this.onFormSubmitStub.called);
-    });
-
-    test('it should call the onFormSubmit action if all fields are filled', async function(assert) {
-      // given
-      this.candidate = EmberObject.create({ birthdate: '2000-12-15' });
-      this.onFormSubmitStub = sinon.stub();
-      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}}/>`);
-      await fillInByLabel('Nom de famille', 'Belmans');
-      await fillInByLabel('Prénom', 'Gideon');
-      setFlatpickrDate('#birthdate', new Date('1861-03-17'));
-      await fillInByLabel('Commune de naissance', 'Ormeshadow');
-
-      // when
-      await clickByLabel('Enregistrer');
-
-      // then
-      assert.ok(this.onFormSubmitStub.called);
-    });
   });
 });
