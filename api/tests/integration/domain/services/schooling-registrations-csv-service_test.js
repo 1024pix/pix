@@ -53,7 +53,7 @@ describe('Integration | Services | schooling-registrations-csv-service', () => {
       const results = await schoolingRegistrationsCsvService.extractSchoolingRegistrationsInformation(path, organization, i18n);
 
       //then
-      const actualResult = _.map(results, (result) => _.omit(result, ['id', 'organizationId', 'userId', 'updatedAt']));
+      const actualResult = _.map(results, (result) => _.omit(result, ['id', 'organizationId', 'userId', 'updatedAt', 'isDisabled']));
       expect(actualResult).to.deep.equal(expectedSchoolingRegistrations);
     });
 
