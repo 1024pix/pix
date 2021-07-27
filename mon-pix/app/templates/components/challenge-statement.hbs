@@ -10,17 +10,17 @@
           {{on 'mouseleave' this.hideTagHelp}}>
           {{#if this.displayTagHelp}}
             <div role="tooltip"
-               id="challenge-statement-tag--tooltip"
-               class="challenge-statement__tag-information"
-            {{on-key 'Escape' this.hideTagHelp event='keyup'}}>
-            <div class="challenge-statement-tag-information__text">
-              {{#if this.isFocusedChallenge}}
-                {{t 'pages.challenge.statement.tooltip.focus' htmlSafe=true}}
-              {{else}}
-                {{t 'pages.challenge.statement.tooltip.regular' htmlSafe=true}}
-              {{/if}}
+                 id="challenge-statement-tag--tooltip"
+                 class="challenge-statement__tag-information"
+                 {{on-key 'Escape' this.hideTagHelp event='keyup'}}>
+              <div class="challenge-statement-tag-information__text">
+                {{#if this.isFocusedChallenge}}
+                  {{t 'pages.challenge.statement.tooltip.focus' htmlSafe=true}}
+                {{else}}
+                  {{t 'pages.challenge.statement.tooltip.regular' htmlSafe=true}}
+                {{/if}}
+              </div>
             </div>
-          </div>
           {{/if}}
         </div>
       {{/if}}
