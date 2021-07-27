@@ -11,6 +11,10 @@ export default class CandidateEditModal extends Component {
 
   constructor() {
     super(...arguments);
+    this._initForm();
+  }
+
+  _initForm() {
     this.firstName = this.args.candidate.firstName;
     this.lastName = this.args.candidate.lastName;
     this.birthdate = this.args.candidate.birthdate;
@@ -22,12 +26,26 @@ export default class CandidateEditModal extends Component {
   }
 
   @action
-  onUpdateCertificationBirthdate(_, _lastSelectedDateFormatted) {
+  updateBirthdate(_, lastSelectedDateFormatted) {
+    this.birthdate = lastSelectedDateFormatted;
   }
 
   @action
-  onFormSubmit(event) {
+  async onFormSubmit(event) {
     event.preventDefault();
-    this.args.onFormSubmit();
+    const { firstName, lastName, birthdate, birthplace } = this.args.candidate;
+    this.args.candidate.firstName = this.firstName;
+    this.args.candidate.lastName = this.lastName;
+    this.args.candidate.birthdate = this.birthdate;
+    this.args.candidate.birthplace = this.birthCity;
+    try {
+      await this.args.onFormSubmit();
+    } catch (_) {
+      this.args.candidate.firstName = firstName;
+      this.args.candidate.lastName = lastName;
+      this.args.candidate.birthdate = birthdate;
+      this.args.candidate.birthplace = birthplace;
+    }
+    this._initForm();
   }
 }
