@@ -373,51 +373,78 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
     context('when challenge is set as focused', function() {
 
-      beforeEach(async function() {
-        // given
-        assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-        server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
+      context('and user has not closed tooltip', () => {
+        beforeEach(async function() {
+          // given
+          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+          server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
 
-        // when
-        await visit(`/assessments/${assessment.id}/challenges/0`);
+          // when
+          await visit(`/assessments/${assessment.id}/challenges/0`);
+        });
+
+        it('should not display an info alert with dashed border and overlay', async function() {
+          // when
+          const challengeItem = find('.challenge-item');
+          await triggerEvent(challengeItem, 'mouseleave');
+
+          // then
+          expect(find('.alert--info')).to.not.exist;
+          expect(find('.challenge-item__container--focused')).to.not.exist;
+          expect(find('.assessment-challenge__focused-out-overlay')).to.not.exist;
+        });
       });
 
-      it('should display a warning alert', async function() {
-        // when
-        await triggerEvent(window, 'blur');
+      context('and user has closed tooltip', () => {
 
-        // then
-        expect(find('.alert--warning')).to.exist;
-      });
+        beforeEach(async function() {
+          // given
+          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+          server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
 
-      it('should display an info alert with dashed border and overlay', async function() {
-        // when
-        const challengeItem = find('.challenge-item');
-        await triggerEvent(challengeItem, 'mouseleave');
+          // when
+          await visit(`/assessments/${assessment.id}/challenges/0`);
+          await click('[data-test="challenge-statement-tag-information__button"]');
+        });
 
-        // then
-        expect(find('.alert--info')).to.exist;
-        expect(find('.challenge-item__container--focused')).to.exist;
-        expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
-      });
+        it('should display a warning alert', async function() {
+          // when
+          await triggerEvent(window, 'blur');
 
-      it('should display only the warning alert when it has been triggered', async function() {
-        // when
-        const challengeItem = find('.challenge-item');
-        await triggerEvent(challengeItem, 'mouseleave');
+          // then
+          expect(find('.alert--warning')).to.exist;
+        });
 
-        // then
-        expect(find('.alert--info')).to.exist;
-        expect(find('.challenge-item__container--focused')).to.exist;
-        expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
+        it('should display an info alert with dashed border and overlay', async function() {
+          // when
+          const challengeItem = find('.challenge-item');
+          await triggerEvent(challengeItem, 'mouseleave');
 
-        // when
-        await triggerEvent(window, 'blur');
+          // then
+          expect(find('.alert--info')).to.exist;
+          expect(find('.challenge-item__container--focused')).to.exist;
+          expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
+        });
 
-        expect(find('.alert--info')).to.not.exist;
-        expect(find('.alert--warning')).to.exist;
-        expect(find('.challenge-item__container--focused')).to.exist;
-        expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
+        it('should display only the warning alert when it has been triggered', async function() {
+          // when
+          const challengeItem = find('.challenge-item');
+          await triggerEvent(challengeItem, 'mouseleave');
+
+          // then
+          expect(find('.alert--info')).to.exist;
+          expect(find('.challenge-item__container--focused')).to.exist;
+          expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
+
+          // when
+          await triggerEvent(window, 'blur');
+
+          expect(find('.alert--info')).to.not.exist;
+          expect(find('.alert--warning')).to.exist;
+          expect(find('.challenge-item__container--focused')).to.exist;
+          expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
+        });
+
       });
     });
 
