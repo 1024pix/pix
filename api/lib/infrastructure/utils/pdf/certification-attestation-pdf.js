@@ -37,9 +37,9 @@ async function getCertificationAttestationsPdfBuffer({
   const embeddedFonts = await _embedFonts(generatedPdfDoc, fileSystem, dirname);
   const embeddedImages = await _embedImages(generatedPdfDoc, viewModels, imageUtils);
 
-  const templateDocuments = await _getTemplatePDFDocuments(viewModels, dirname, fileSystem, pdfWriter);
+  const templatePdfPages = await _copyTemplatePagesIntoDocument(viewModels, dirname, fileSystem, pdfWriter, generatedPdfDoc);
 
-  await _render({ templateDocuments, pdfDocument: generatedPdfDoc, viewModels, rgb, embeddedFonts, embeddedImages });
+  await _render({ templatePdfPages, pdfDocument: generatedPdfDoc, viewModels, rgb, embeddedFonts, embeddedImages });
 
   const buffer = await _finalizeDocument(generatedPdfDoc, bufferFromBytes);
 
@@ -115,33 +115,52 @@ async function _embedPixPlusDroitCertificationImage(pdfDocument, pixPlusDroitCer
   return pngImage;
 }
 
-async function _getTemplatePDFDocuments(viewModels, dirname, fileSystem, pdfWriter) {
-  const certificatesWithComplementaryCertifications =
-    _.filter(viewModels, (viewModel) => viewModel.shouldDisplayComplementaryCertifications());
+async function _copyTemplatePagesIntoDocument(viewModels, dirname, fileSystem, pdfWriter, pdfDocument) {
+  const templatePages = {};
 
-  const loadedTemplates = {};
-  if (viewModels.length !== certificatesWithComplementaryCertifications.length) {
-    const template = await _loadTemplate('attestation-template.pdf', dirname, fileSystem, pdfWriter);
-    loadedTemplates[templates.withoutComplementaryCertifications] = template;
+  if (_atLeastOneWithComplementaryCertifications(viewModels)) {
+    const copiedPage = await _copyFirstPageFromTemplateByFilename('attestation-template.pdf', pdfDocument, dirname, fileSystem, pdfWriter);
+    templatePages[templates.withComplementaryCertifications] = copiedPage;
   }
-  if (certificatesWithComplementaryCertifications.length > 0) {
-    const template = await _loadTemplate('attestation-template-with-complementary-certifications.pdf', dirname, fileSystem, pdfWriter);
-    loadedTemplates[templates.withComplementaryCertifications] = template;
+
+  if (_atLeastOneWithoutComplementaryCertifications(viewModels)) {
+    const copiedPage = await _copyFirstPageFromTemplateByFilename('attestation-template-with-complementary-certifications.pdf', pdfDocument, dirname, fileSystem, pdfWriter);
+    templatePages[templates.withoutComplementaryCertifications] = copiedPage;
   }
-  return loadedTemplates;
+  return templatePages;
 }
 
-async function _loadTemplate(templateFileName, dirname, fileSystem, pdfWriter) {
+async function _copyFirstPageFromTemplateByFilename(templatePdfDocumentFileName, destinationDocument, dirname, fileSystem, pdfWriter) {
+  const template = await _loadTemplateByFilename(templatePdfDocumentFileName, dirname, fileSystem, pdfWriter);
+  return await _copyFirstPageFromTemplateDocument(destinationDocument, template);
+}
+
+function _atLeastOneWithComplementaryCertifications(viewModels) {
+  return _.some(viewModels, (viewModel) => viewModel.shouldDisplayComplementaryCertifications());
+}
+
+function _atLeastOneWithoutComplementaryCertifications(viewModels) {
+  return _.some(viewModels, (viewModel) => !viewModel.shouldDisplayComplementaryCertifications());
+}
+
+async function _copyFirstPageFromTemplateDocument(pdfDocument, template) {
+  const pages = await pdfDocument.copyPages(
+    template,
+    [0],
+  );
+  return pages[0];
+}
+
+async function _loadTemplateByFilename(templateFileName, dirname, fileSystem, pdfWriter) {
   const path = `${dirname}/files/${templateFileName}`;
   const basePdfBytes = await fileSystem.readFile(path);
   return await pdfWriter.load(basePdfBytes);
 }
 
-async function _render({ templateDocuments, pdfDocument, viewModels, rgb, embeddedFonts, embeddedImages }) {
-
-  const page = await _copyPageFromTemplateIntoDocument(viewModels[0], pdfDocument, templateDocuments);
+async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embeddedFonts, embeddedImages }) {
 
   for (const viewModel of viewModels) {
+    const page = await _getTemplatePage(viewModel, templatePdfPages);
     const newPageLeaf = page.node.clone();
     const ref = pdfDocument.context.register(newPageLeaf);
     const newPage = PDFPage.of(newPageLeaf, ref, pdfDocument);
@@ -174,19 +193,11 @@ async function _render({ templateDocuments, pdfDocument, viewModels, rgb, embedd
   }
 }
 
-async function _copyPageFromTemplateIntoDocument(viewModel, pdfDocument, templatePdfDocuments) {
+async function _getTemplatePage(viewModel, templatePdfPages) {
   if (viewModel.shouldDisplayComplementaryCertifications()) {
-    const pages = await pdfDocument.copyPages(
-      templatePdfDocuments.withComplementaryCertifications,
-      [0],
-    );
-    return pages[0];
+    return templatePdfPages.withComplementaryCertifications;
   } else {
-    const pages = await pdfDocument.copyPages(
-      templatePdfDocuments.withoutComplementaryCertifications,
-      [0],
-    );
-    return pages[0];
+    return templatePdfPages.withoutComplementaryCertifications;
   }
 }
 
