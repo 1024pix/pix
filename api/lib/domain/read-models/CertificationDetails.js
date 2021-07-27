@@ -53,6 +53,42 @@ class CertificationDetails {
       listChallengesAndAnswers,
     });
   }
+
+  static fromCertificationAssessmentScore({
+    certificationAssessmentScore,
+    certificationAssessment,
+    placementProfile,
+  }) {
+    const competenceMarks = certificationAssessmentScore.getCompetenceMarks();
+    const competencesWithMark = _buildCompetencesWithMark({ competenceMarks, placementProfile });
+    const listChallengesAndAnswers = _buildListChallengesAndAnswers({ certificationAssessment, competencesWithMark });
+
+    return new CertificationDetails({
+      id: certificationAssessment.certificationCourseId,
+      userId: certificationAssessment.userId,
+      createdAt: certificationAssessment.createdAt,
+      completedAt: certificationAssessment.completedAt,
+      status: certificationAssessment.state,
+      totalScore: certificationAssessmentScore.nbPix,
+      percentageCorrectAnswers: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      competencesWithMark,
+      listChallengesAndAnswers,
+    });
+  }
+
+  toDTO() {
+    return {
+      id: this.id,
+      userId: this.userId,
+      createdAt: this.createdAt,
+      completedAt: this.completedAt,
+      status: this.status,
+      totalScore: this.totalScore,
+      percentageCorrectAnswers: this.percentageCorrectAnswers,
+      competencesWithMark: _.cloneDeep(this.competencesWithMark),
+      listChallengesAndAnswers: _.cloneDeep(this.listChallengesAndAnswers),
+    };
+  }
 }
 
 function _buildCompetencesWithMark({

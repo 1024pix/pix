@@ -41,7 +41,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       competenceMarks: [competenceMarkData1, competenceMarkData2],
       percentageCorrectAnswers: 80,
     };
-    scoringCertificationService.calculateCertificationAssessmentScore.withArgs(certificationAssessment)
+    scoringCertificationService.calculateCertificationAssessmentScore
+      .withArgs({ certificationAssessment, continueOnError: false })
       .resolves(certificationAssessmentScore);
 
     const assessmentResultToBeSaved = new AssessmentResult({
@@ -98,7 +99,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       competenceMarks: [],
       percentageCorrectAnswers: 80,
     };
-    scoringCertificationService.calculateCertificationAssessmentScore.withArgs(certificationAssessment)
+    scoringCertificationService.calculateCertificationAssessmentScore
+      .withArgs({ certificationAssessment, continueOnError: false })
       .resolves(certificationAssessmentScore);
     assessmentResultRepository.save.resolves(domainBuilder.buildAssessmentResult());
 
@@ -148,7 +150,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     });
     certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: 1 }).resolves(certificationAssessment);
 
-    scoringCertificationService.calculateCertificationAssessmentScore.withArgs(certificationAssessment)
+    scoringCertificationService.calculateCertificationAssessmentScore
+      .withArgs({ certificationAssessment, continueOnError: false })
       .rejects(new CertificationComputeError('Oopsie'));
 
     const assessmentResultToBeSaved = new AssessmentResult({

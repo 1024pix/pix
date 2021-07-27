@@ -1,8 +1,6 @@
 const _ = require('lodash');
-
 const CertificationContract = require('../../domain/models/CertificationContract');
 const scoringService = require('./scoring/scoring-service');
-const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const placementProfileService = require('./placement-profile-service');
 const { CertifiedLevel } = require('../models/CertifiedLevel');
 const { CertifiedScore } = require('../models/CertifiedScore');
@@ -89,7 +87,6 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
   if (!reproducibilityRate.isEnoughToBeCertified()) {
     return {
       competencesWithMark: _getCompetenceWithFailedLevel(testedCompetences),
-      totalScore: 0,
       percentageCorrectAnswers: reproducibilityRate.value,
     };
   }
@@ -101,27 +98,7 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
     CertificationContract.assertThatScoreIsCoherentWithReproducibilityRate(scoreAfterRating, reproducibilityRate.value);
   }
 
-  return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproducibilityRate.value };
-}
-
-function _getChallengeInformation(listAnswers, certificationChallenges, competences) {
-  return listAnswers.map((answer) => {
-
-    const certificationChallengeRelatedToAnswer = certificationChallenges.find(
-      (certificationChallenge) => certificationChallenge.challengeId === answer.challengeId,
-    ) || {};
-
-    const competenceValidatedByCertifChallenge = competences.find((competence) => competence.id === certificationChallengeRelatedToAnswer.competenceId) || {};
-
-    return {
-      result: answer.result.status,
-      value: answer.value,
-      challengeId: answer.challengeId,
-      isNeutralized: certificationChallengeRelatedToAnswer.isNeutralized,
-      competence: competenceValidatedByCertifChallenge.index || '',
-      skill: certificationChallengeRelatedToAnswer.associatedSkillName || '',
-    };
-  });
+  return { competencesWithMark, percentageCorrectAnswers: reproducibilityRate.value };
 }
 
 async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
@@ -133,9 +110,7 @@ async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
 }
 
 module.exports = {
-  async getCertificationResult({ certificationAssessment, continueOnError }) {
-    const allPixCompetences = await competenceRepository.listPixCompetencesOnly();
-
+  async computeResult({ certificationAssessment, continueOnError }) {
     // userService.getPlacementProfile() + filter level > 0 => avec allCompetence (bug)
     const testedCompetences = await _getTestedCompetences({
       userId: certificationAssessment.userId,
@@ -149,14 +124,6 @@ module.exports = {
     // map sur challenges filtre sur challenge Id
     const matchingAnswers = _selectAnswersMatchingCertificationChallenges(certificationAssessment.certificationAnswersByDate, matchingCertificationChallenges);
 
-    const result = _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, continueOnError);
-
-    result.createdAt = certificationAssessment.createdAt;
-    result.userId = certificationAssessment.userId;
-    result.status = certificationAssessment.state;
-    result.completedAt = certificationAssessment.completedAt;
-
-    result.listChallengesAndAnswers = _getChallengeInformation(matchingAnswers, certificationAssessment.certificationChallenges, allPixCompetences);
-    return result;
+    return _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, continueOnError);
   },
 };
