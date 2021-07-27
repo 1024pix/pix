@@ -328,7 +328,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
         await visit(`/certifications/${certification.id}`);
 
         // when
-        await clickByLabel('Ouvrir');
+        await clickByLabel('Modifier');
 
         // then
         assert.contains('Editer les informations du candidat');

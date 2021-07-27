@@ -22,7 +22,6 @@ export default class CertificationInformationsController extends Controller {
   // Properties
   @alias('model') certification;
   @tracked editingCandidateResults = false;
-  @tracked editingCandidateInformations = false;
   @service notifications;
   @service featureToggles;
   @tracked displayConfirm = false;
@@ -181,11 +180,6 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onUpdateCertificationBirthdate(selectedDates, lastSelectedDateFormatted) {
-    this.certification.birthdate = lastSelectedDateFormatted;
-  }
-
-  @action
   onCancelCourseButtonClick() {
     const confirmMessage = 'Êtes vous sur de vouloir annuler cette certification ? Cliquer sur confirmer pour poursuivre';
 
@@ -207,36 +201,7 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onCandidateInformationsEdit() {
-    this.editingCandidateInformations = true;
-  }
-
-  @action
-  onCandidateInformationsCancel() {
-    this.editingCandidateInformations = false;
-  }
-
-  @action
-  async onCandidateInformationsSave(event) {
-    event.preventDefault();
-
-    try {
-      await this.saveCertificationCourse();
-      this.notifications.success('Les informations du candidat ont bien été enregistrées.');
-      this.editingCandidateInformations = false;
-    } catch (e) {
-      if (e.errors && e.errors.length > 0) {
-        e.errors.forEach((error) => {
-          this.notifications.error(error.detail);
-        });
-      } else {
-        this.notifications.error(e);
-      }
-    }
-  }
-
-  @action
-  async onCandidateInformationsSave2() {
+  async onCandidateInformationSave() {
     try {
       await this.saveCertificationCourse();
       this.notifications.success('Les informations du candidat ont bien été enregistrées.');

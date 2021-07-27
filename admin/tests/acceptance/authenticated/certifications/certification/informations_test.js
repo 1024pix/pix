@@ -26,7 +26,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     });
   });
 
-  test('it displays candidate informations', async function(assert) {
+  test('it displays candidate information', async function(assert) {
     // when
     await visit(`/certifications/${certification.id}`);
 
@@ -39,118 +39,12 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     assert.dom('[aria-label="Modifier les résultats du candidat"]').exists().isEnabled();
   });
 
-  module('when candidate informations edit button is clicked', function() {
-    test('it displays candidate informations form', async function(assert) {
-      // when
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier les informations du candidat');
+  module('when candidate information form is submitted', function() {
 
-      // then
-      assert.dom('#certification-firstName').hasValue('Bora Horza');
-      assert.dom('#certification-lastName').hasValue('Gobuchul');
-      assert.dom('.ember-flatpickr-input').hasValue('1987-07-24');
-      assert.dom('#certification-birthPlace').hasValue('Sorpen');
-      assert.dom('[aria-label="Annuler la modification des informations du candidat"]').exists();
-      assert.dom('[aria-label="Enregistrer les informations du candidat"]').exists();
-    });
-
-    test('it disables candidate results edit button', async function(assert) {
-      // when
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier les informations du candidat');
-
-      // then
-      assert.dom('[aria-label="Modifier les résultats du candidat"]').isDisabled();
-    });
-  });
-
-  module('when candidate informations form cancel button is clicked', function() {
-    test('it hides candidate informations form', async function(assert) {
-      // when
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier les informations du candidat');
-      await clickByLabel('Annuler la modification des informations du candidat');
-
-      // then
-      assert.dom('#certification-firstName').doesNotExist();
-    });
-
-    test('it re-enables candidate results edit button', async function(assert) {
-      // when
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier les informations du candidat');
-      await clickByLabel('Annuler la modification des informations du candidat');
-
-      // then
-      assert.dom('[aria-label="Modifier les résultats du candidat"]').exists().isEnabled();
-    });
-  });
-
-  module('when candidate informations form is submitted', function() {
-
-    test('it also hides candidate informations form', async function(assert) {
-      // given
-      this.server.patch('/certification-courses/:id', () => ({ data: {} }), 204);
-
-      // when
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier les informations du candidat');
-      await clickByLabel('Enregistrer les informations du candidat');
-
-      // then
-      assert.dom('#certification-firstName').doesNotExist();
-    });
-
-    test('it also re-enables candidate results edit button', async function(assert) {
-      // given
-      this.server.patch('/certification-courses/:id', () => ({ data: {} }), 204);
-
-      // when
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier les informations du candidat');
-      await clickByLabel('Annuler la modification des informations du candidat');
-
-      // then
-      assert.dom('[aria-label="Modifier les résultats du candidat"]').exists().isEnabled();
-    });
-
-    test('it should display a success notification when data is valid', async function(assert) {
-      // given
-      this.server.patch('/certification-courses/:id', () => ({ data: {} }), 204);
-
-      // when
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier les informations du candidat');
-      await clickByLabel('Enregistrer les informations du candidat');
-
-      // then
-      assert.dom('#certification-firstName').doesNotExist();
-      assert.contains('Les informations du candidat ont bien été enregistrées.');
-    });
-
-    test('it should display an error notification when data is invalid', async function(assert) {
-      // given
-      this.server.patch('/certification-courses/:id', () => ({
-        'errors': [{ 'detail': 'Candidate\'s first name must not be blank or empty' }],
-      }), 422);
-
-      // when
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier les informations du candidat');
-      await clickByLabel('Enregistrer les informations du candidat');
-
-      // then
-      assert.dom('#certification-firstName').exists();
-      assert.contains('Candidate\'s first name must not be blank or empty');
-    });
-  });
-
-  module('NEW WAY when candidate informations form is submitted', function() {
-
-    test('Nit closes the modal when candidate info are successfully saved', async function(assert) {
+    test('it closes the modal when candidate info are successfully saved', async function(assert) {
       // given
       await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Ouvrir');
+      await clickByLabel('Modifier');
       await fillInByLabel('Nom de famille', 'Tic');
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
@@ -163,10 +57,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       assert.notContains('Editer les informations du candidat');
     });
 
-    test('Nit should display a success notification when data is valid', async function(assert) {
+    test('it should display a success notification when data is valid', async function(assert) {
       // given
       await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Ouvrir');
+      await clickByLabel('Modifier');
       await fillInByLabel('Nom de famille', 'Tic');
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
@@ -179,13 +73,13 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       assert.contains('Les informations du candidat ont bien été enregistrées.');
     });
 
-    test('Nit should display an error notification when data is invalid', async function(assert) {
+    test('it should display an error notification when data is invalid', async function(assert) {
       // given
       this.server.patch('/certification-courses/:id', () => ({
         'errors': [{ 'detail': 'Candidate\'s first name must not be blank or empty' }],
       }), 422);
       await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Ouvrir');
+      await clickByLabel('Modifier');
       await fillInByLabel('Nom de famille', 'Tic');
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
@@ -199,9 +93,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       assert.contains('Candidate\'s first name must not be blank or empty');
     });
 
-    test('Nit should update candidat information', async function(assert) {
+    test('it should update candidat information', async function(assert) {
       await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Ouvrir');
+      await clickByLabel('Modifier');
       await fillInByLabel('Nom de famille', 'Tic');
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
@@ -217,13 +111,13 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       assert.contains('Pôle nord');
     });
 
-    test('Nit should not update candidate info on save failure', async function(assert) {
+    test('it should not update candidate info on save failure', async function(assert) {
       // given
       this.server.patch('/certification-courses/:id', () => ({
         'errors': [{ 'detail': 'Candidate\'s first name must not be blank or empty' }],
       }), 422);
       await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Ouvrir');
+      await clickByLabel('Modifier');
       await fillInByLabel('Nom de famille', 'Tic');
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
