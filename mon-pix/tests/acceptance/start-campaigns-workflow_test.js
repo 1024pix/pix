@@ -857,6 +857,20 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
       });
 
+      context('When the campaign access is forbidden', function() {
+        beforeEach(async function() {
+          campaign = server.create('campaign', { code: 'FORBIDDEN' });
+          await visit(`/campagnes/${campaign.code}`);
+          await clickByLabel('Je commence');
+        });
+
+        it('should show an error message', async function() {
+          // then
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          expect(find('.title').textContent).to.contains('Oups, la page demandée n’est pas accessible.');
+        });
+      });
+
       context('When campaign does not exist', function() {
         beforeEach(async function() {
           await visit('/campagnes/codefaux');
