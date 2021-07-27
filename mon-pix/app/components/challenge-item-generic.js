@@ -30,7 +30,7 @@ export default class ChallengeItemGeneric extends Component {
 
     if (this.isFocusedChallenge) {
       if (this.hasUserConfirmedFocusWarning) {
-        this._setOnBlurMethod();
+        this._setOnBlurEventToWindow();
         return true;
       }
       if (this.args.answer) return true;
@@ -39,7 +39,7 @@ export default class ChallengeItemGeneric extends Component {
     return false;
   }
 
-  _setOnBlurMethod() {
+  _setOnBlurEventToWindow() {
     window.onblur = () => {
       this.hasFocusedOutOfWindow = true;
       this._clearOnBlurMethod();
