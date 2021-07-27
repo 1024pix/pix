@@ -28,7 +28,13 @@
           <tbody>
           {{#each @profiles as |profile|}}
             <tr aria-label={{t 'pages.profiles-list.table.row-title'}} role="button" {{on 'click' (fn @goToProfilePage @campaign.id profile.id)}} class="tr--clickable">
-              <td>{{profile.lastName}}</td>
+              <td>
+                <LinkTo
+                  @route={{'authenticated.campaigns.profile'}}
+                  @models={{array @campaign.id profile.id}}>
+                    {{profile.lastName}}
+                </LinkTo>
+              </td>
               <td>{{profile.firstName}}</td>
               {{#if @campaign.idPixLabel}}
                 <td>{{profile.participantExternalId}}</td>

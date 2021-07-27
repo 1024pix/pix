@@ -9,7 +9,8 @@ export default class ProfilesController extends Controller {
   @tracked divisions = [];
 
   @action
-  goToProfilePage(campaignId, campaignParticipationId) {
+  goToProfilePage(campaignId, campaignParticipationId, event) {
+    event.stopPropagation();
     this.transitionToRoute('authenticated.campaigns.profile', campaignId, campaignParticipationId);
   }
 

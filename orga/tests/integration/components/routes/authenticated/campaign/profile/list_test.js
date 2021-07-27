@@ -130,6 +130,38 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
       assert.contains('Certifiable');
       assert.contains('5');
     });
+
+    test('it should display a link to access participant profile', async function(assert) {
+      // given
+      this.owner.setupRouter();
+
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        code: 'AAAAAA111',
+        participationsCount: 1,
+      });
+
+      const profiles = [{
+        id: 7,
+        lastName: 'Todori',
+        firstName: 'Shoto',
+      }];
+
+      this.set('campaign', campaign);
+      this.set('profiles', profiles);
+      this.set('goToProfilePage', goToProfilePage);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Profile::List
+      @campaign={{campaign}}
+      @profiles={{profiles}}
+      @goToProfilePage={{goToProfilePage}}
+    />`);
+
+      // then
+      assert.dom('a[href="/campagnes/1/profils/7"]').exists();
+    });
   });
 
   module('when there is no profile', function() {
