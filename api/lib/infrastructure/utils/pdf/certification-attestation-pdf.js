@@ -66,7 +66,7 @@ async function _embedFonts(pdfDocument, fileSystem, dirname) {
 
 async function _embedFontInPDFDocument(pdfDoc, fontFileName, fileSystem, dirname) {
   const fontFile = await fileSystem.readFile(`${dirname}/files/${fontFileName}`);
-  return pdfDoc.embedFont(fontFile);
+  return pdfDoc.embedFont(fontFile, { subset: true });
 }
 
 async function _embedImages(pdfDocument, viewModels, imageUtils) {
