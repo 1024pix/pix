@@ -17,11 +17,12 @@ describe('Unit | UseCase | get-certification-details', () => {
     findByCertificationCourseId: sinon.stub(),
   };
 
-  const certificationService = {
-    calculateCertificationResultByCertificationCourseId: sinon.stub(),
+  const scoringCertificationService = {
+    calculateCertificationAssessmentScore: sinon.stub(),
   };
 
   context('the certification assessment has not been completed', () => {
+
     it('should compute the certification details on the fly', async () => {
       // given
       const certificationCourseId = 1234;
@@ -44,7 +45,48 @@ describe('Unit | UseCase | get-certification-details', () => {
         .withArgs({ certificationCourseId })
         .resolves(certificationAssessment);
 
-      const certificationResult = {
+      const competenceMark = domainBuilder.buildCompetenceMark({
+        competenceId: 'recComp1',
+        areaCode: '1',
+        index: '1.1',
+        name: 'Manger des fruits',
+        level: 1,
+        score: 5,
+      });
+      const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+        competenceMarks: [competenceMark],
+        percentageCorrectAnswers: 100,
+      });
+      const placementProfile = domainBuilder.buildPlacementProfile.buildForCompetences({
+        competencesData: [
+          { id: 'recComp1', index: '1.1', name: 'Manger des fruits', level: 3, score: 45 },
+        ],
+      });
+
+      scoringCertificationService.calculateCertificationAssessmentScore
+        .withArgs({ certificationAssessment, continueOnError: true })
+        .resolves(certificationAssessmentScore);
+
+      placementProfileService.getPlacementProfile
+        .withArgs({
+          userId: certificationAssessment.userId,
+          limitDate: certificationAssessment.createdAt,
+          isV2Certification: certificationAssessment.isV2Certification,
+        })
+        .resolves(placementProfile);
+
+      // when
+      const result = await getCertificationDetails({
+        certificationCourseId,
+        placementProfileService,
+        competenceMarkRepository,
+        certificationAssessmentRepository,
+        scoringCertificationService,
+      });
+
+      //then
+      expect(result).to.be.an.instanceof(CertificationDetails);
+      expect(result).to.deep.equal({
         competencesWithMark: [
           {
             areaCode: '1',
@@ -59,6 +101,7 @@ describe('Unit | UseCase | get-certification-details', () => {
         ],
         createdAt: certificationAssessment.createdAt,
         completedAt: certificationAssessment.completedAt,
+        id: certificationAssessment.certificationCourseId,
         listChallengesAndAnswers: [
           {
             challengeId: 'rec123',
@@ -73,24 +116,7 @@ describe('Unit | UseCase | get-certification-details', () => {
         status: 'started',
         totalScore: 5,
         userId: 123,
-      };
-
-      certificationService.calculateCertificationResultByCertificationCourseId.withArgs(certificationCourseId).resolves(
-        certificationResult,
-      );
-
-      // when
-      const result = await getCertificationDetails({
-        certificationCourseId,
-        placementProfileService,
-        competenceMarkRepository,
-        certificationAssessmentRepository,
-        certificationService,
       });
-
-      //then
-      expect(result).to.be.an.instanceof(CertificationDetails);
-      expect(result).to.deep.equal({ ...certificationResult, id: certificationCourseId });
     });
   });
 
@@ -138,6 +164,7 @@ describe('Unit | UseCase | get-certification-details', () => {
         placementProfileService,
         competenceMarkRepository,
         certificationAssessmentRepository,
+        scoringCertificationService,
       });
 
       //then

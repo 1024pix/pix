@@ -2,11 +2,10 @@ const _ = require('lodash');
 const { status } = require('./AssessmentResult');
 
 class CertificationAssessmentScore {
-  constructor(
-    {
-      competenceMarks = [],
-      percentageCorrectAnswers = 0,
-    } = {}) {
+  constructor({
+    competenceMarks = [],
+    percentageCorrectAnswers = 0,
+  } = {}) {
     this.competenceMarks = competenceMarks;
     this.percentageCorrectAnswers = percentageCorrectAnswers;
   }
@@ -23,6 +22,14 @@ class CertificationAssessmentScore {
       return status.REJECTED;
     }
     return status.VALIDATED;
+  }
+
+  getCompetenceMarks() {
+    return this.competenceMarks;
+  }
+
+  getPercentageCorrectAnswers() {
+    return this.percentageCorrectAnswers;
   }
 }
 

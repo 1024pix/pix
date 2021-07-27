@@ -1,5 +1,5 @@
 const CertificationAssessmentScore = require('../../../../lib/domain/models/CertificationAssessmentScore');
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | CertificationAssessmentScore', () => {
 
@@ -9,7 +9,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', () => {
 
       it('should return nbPix 0', () => {
         // given
-        const certificationAssessmentScore = new CertificationAssessmentScore({
+        const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
           competenceMarks: [],
         });
 
@@ -26,15 +26,21 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', () => {
 
       it('should return the sum of the competence marks score as nbPix', () => {
         // given
-        const certificationAssessmentScore = new CertificationAssessmentScore({
-          competenceMarks: [ { score: 12 }, { score: 13 } ],
+        const competenceMark1 = domainBuilder.buildCompetenceMark({
+          score: 13,
+        });
+        const competenceMark2 = domainBuilder.buildCompetenceMark({
+          score: 12,
+        });
+        const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+          competenceMarks: [competenceMark1, competenceMark2],
         });
 
         // when
         const actualNbPix = certificationAssessmentScore.nbPix;
 
         // then
-        expect(actualNbPix).to.equal(12 + 13);
+        expect(actualNbPix).to.equal(25);
       });
     });
 
@@ -46,7 +52,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', () => {
 
       it('should return REJECTED as status', () => {
         // given
-        const certificationAssessmentScore = new CertificationAssessmentScore({
+        const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
           competenceMarks: [],
         });
 
@@ -63,8 +69,11 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', () => {
 
       it('should return VALIDATED as status', () => {
         // given
-        const certificationAssessmentScore = new CertificationAssessmentScore({
-          competenceMarks: [ { score: 12 }, { score: 13 } ],
+        const competenceMark = domainBuilder.buildCompetenceMark({
+          score: 13,
+        });
+        const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+          competenceMarks: [competenceMark],
         });
 
         // when
@@ -75,5 +84,43 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', () => {
       });
     });
 
+  });
+
+  describe('#getCompetenceMarks', () => {
+
+    it('should return the competence marks collection', () => {
+      // given
+      const competenceMark1 = domainBuilder.buildCompetenceMark({
+        score: 13,
+      });
+      const competenceMark2 = domainBuilder.buildCompetenceMark({
+        score: 12,
+      });
+      const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+        competenceMarks: [competenceMark1, competenceMark2],
+      });
+
+      // when
+      const competenceMarks = certificationAssessmentScore.getCompetenceMarks();
+
+      // then
+      expect(competenceMarks).to.deep.equal([competenceMark1, competenceMark2]);
+    });
+  });
+
+  describe('#getPercentageCorrectAnswers', () => {
+
+    it('should return the percentageCorrectAnswers', () => {
+      // given
+      const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+        percentageCorrectAnswers: 55,
+      });
+
+      // when
+      const percentageCorrectAnswers = certificationAssessmentScore.getPercentageCorrectAnswers();
+
+      // then
+      expect(percentageCorrectAnswers).to.equal(55);
+    });
   });
 });

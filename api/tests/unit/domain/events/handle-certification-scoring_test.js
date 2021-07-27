@@ -116,9 +116,10 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         });
 
         // then
-        expect(scoringCertificationService.calculateCertificationAssessmentScore).to.have.been.calledWithExactly(
+        expect(scoringCertificationService.calculateCertificationAssessmentScore).to.have.been.calledWithExactly({
           certificationAssessment,
-        );
+          continueOnError: false,
+        });
       });
 
       it('should save the error result appropriately', async () => {
