@@ -479,8 +479,9 @@
           "help": "Besoin d'aide pour '<a href=\"https://support.pix.fr/fr/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\">'ouvrir, modifier ou retrouver ce fichier'</a>' ?"
         },
         "tooltip": {
-          "regular": "<p>Question libre :</p>Vous pouvez vous aider d'internet et d'applications externes.",
-          "focus": "<p>Question focus :</p>Testez-vous sans l'aide d'internet ou d'une application externe pour répondre à cette question."
+          "close": "J'ai compris",
+          "focused": "Question focus : Testez-vous sans l'aide d'internet ou d'une application externe pour répondre à cette question. En certification, tout changement d'onglet, de fenêtre ou d'application entraînera la non-validation de l'épreuve.",
+          "regular": "<p>Question libre :</p>Vous pouvez vous aider d'internet et d'applications externes."
         }
       },
       "timed": {
