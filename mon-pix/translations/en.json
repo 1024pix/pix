@@ -479,8 +479,9 @@
           "help": "Need help to '<a href=\"https://support.pix.fr/fr/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\">'open, edit or find this file'</a>'?"
         },
         "tooltip": {
-          "regular": "",
-          "focus": ""
+          "close": "Ok, got it",
+          "focused": "Stay on this page! To answer this question, you should neither search the internet, nor use your own tools.",
+          "regular": ""
         }
       },
       "timed": {

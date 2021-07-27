@@ -20,6 +20,7 @@ export default class ChallengeStatement extends Component {
   constructor() {
     super(...arguments);
     this._initialiseDefaultAttachment();
+    this.showTagHelp();
   }
 
   get isFocusedChallengeToggleEnabled() {
@@ -65,7 +66,6 @@ export default class ChallengeStatement extends Component {
     this.displayTagHelp = false;
   }
 
-  @action
   showTagHelp() {
     this.displayTagHelp = true;
   }

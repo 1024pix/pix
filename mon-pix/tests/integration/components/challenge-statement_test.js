@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { click, find, findAll, render, triggerEvent } from '@ember/test-helpers';
+import { click, find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -79,13 +79,12 @@ describe('Integration | Component | ChallengeStatement', function() {
 
       // when
       await renderChallengeStatement();
-      await triggerEvent('.challenge-statement-instruction__tag', 'mouseenter');
 
       // then
       expect(find('.challenge-statement__tag-information')).to.exist;
     });
 
-    it('should not render a tooltip when leaving the tag', async function() {
+    it('should not render the tooltip anymore when clicking the closing button', async function() {
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
         instruction: 'La consigne de mon test',
@@ -94,8 +93,7 @@ describe('Integration | Component | ChallengeStatement', function() {
 
       // when
       await renderChallengeStatement();
-      await triggerEvent('.challenge-statement-instruction__tag', 'mouseenter');
-      await triggerEvent('.challenge-statement-instruction__tag', 'mouseleave');
+      await click('[data-test="challenge-statement-tag-information__button"]');
 
       // then
       expect(find('.challenge-statement__tag-information')).to.not.exist;
