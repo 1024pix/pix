@@ -19,6 +19,8 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   certificationChallengesService,
   placementProfileService,
   certificationBadgesService,
+  verifyCertificateCodeService,
+
 }) {
   const session = await sessionRepository.get(sessionId);
   if (session.accessCode !== accessCode) {
@@ -52,6 +54,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     certificationChallengesService,
     certificationBadgesService,
     placementProfileService,
+    verifyCertificateCodeService,
   });
 };
 
@@ -66,6 +69,7 @@ async function _startNewCertification({
   certificationChallengesService,
   placementProfileService,
   certificationBadgesService,
+  verifyCertificateCodeService,
 }) {
   const challengesForPixCertification = await _createPixCertification(placementProfileService, certificationChallengesService, userId, locale);
 
@@ -79,7 +83,13 @@ async function _startNewCertification({
     };
   }
 
-  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({ userId, certificationBadgesService, certificationChallengesService, domainTransaction, locale });
+  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({
+    userId,
+    certificationBadgesService,
+    certificationChallengesService,
+    domainTransaction,
+    locale,
+  });
   const challengesForCertification = challengesForPixCertification.concat(challengesForPixPlusCertification);
 
   return _createCertificationCourse({
@@ -90,11 +100,21 @@ async function _startNewCertification({
     sessionId,
     certificationChallenges: challengesForCertification,
     domainTransaction,
+    verifyCertificateCodeService,
   });
 }
 
-async function _findChallengesFromPixPlus({ userId, domainTransaction, certificationBadgesService, certificationChallengesService, locale }) {
-  const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({ userId, domainTransaction });
+async function _findChallengesFromPixPlus({
+  userId,
+  domainTransaction,
+  certificationBadgesService,
+  certificationChallengesService,
+  locale,
+}) {
+  const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+    userId,
+    domainTransaction,
+  });
   const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(highestCertifiableBadgeAcquisitions,
     ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId, locale));
   return _.flatMap(challengesPixPlusByCertifiableBadges);
@@ -118,16 +138,34 @@ async function _createPixCertification(placementProfileService, certificationCha
   return certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 }
 
-async function _createCertificationCourse({ certificationCandidateRepository, certificationCourseRepository, assessmentRepository, userId, sessionId, certificationChallenges, domainTransaction }) {
+async function _createCertificationCourse({
+  certificationCandidateRepository,
+  certificationCourseRepository,
+  assessmentRepository,
+  verifyCertificateCodeService,
+  userId,
+  sessionId,
+  certificationChallenges,
+  domainTransaction,
+}) {
   const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
-  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: certificationChallenges, maxReachableLevelOnCertificationDate: features.maxReachableLevel });
+  const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
+  const newCertificationCourse = CertificationCourse.from({
+    certificationCandidate,
+    challenges: certificationChallenges,
+    maxReachableLevelOnCertificationDate: features.maxReachableLevel,
+    verificationCode,
+  });
 
   const savedCertificationCourse = await certificationCourseRepository.save({
     certificationCourse: newCertificationCourse,
     domainTransaction,
   });
 
-  const newAssessment = Assessment.createForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.getId() });
+  const newAssessment = Assessment.createForCertificationCourse({
+    userId,
+    certificationCourseId: savedCertificationCourse.getId(),
+  });
   const savedAssessment = await assessmentRepository.save({ assessment: newAssessment, domainTransaction });
 
   const certificationCourse = savedCertificationCourse.withAssessment(savedAssessment);

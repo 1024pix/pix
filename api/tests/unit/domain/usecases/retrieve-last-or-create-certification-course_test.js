@@ -13,6 +13,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   const userId = 'userId';
   const sessionId = 'sessionId';
   const accessCode = 'accessCode';
+  const verificationCode = Symbol('verificationCode');
   let foundSession;
   const assessmentRepository = { save: sinon.stub() };
   const competenceRepository = { listPixCompetencesOnly: sinon.stub() };
@@ -28,6 +29,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   const placementProfileService = {
     getPlacementProfile: sinon.stub(),
   };
+  const verifyCertificateCodeService = {
+    generateCertificateVerificationCode: sinon.stub().resolves(verificationCode),
+  };
   const locale = 'fr';
 
   const parameters = {
@@ -42,6 +46,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     certificationBadgesService,
     certificationChallengesService,
     placementProfileService,
+    verifyCertificateCodeService,
   };
 
   beforeEach(() => {
@@ -71,6 +76,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
+      expect(certificationCourseRepository.save).not.to.have.been.called;
+      expect(verifyCertificateCodeService.generateCertificateVerificationCode).not.to.have.been.called;
     });
   });
 
@@ -93,6 +100,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         // then
         expect(error).to.be.instanceOf(SessionNotAccessible);
+        expect(certificationCourseRepository.save).not.to.have.been.called;
+        expect(verifyCertificateCodeService.generateCertificateVerificationCode).not.to.have.been.called;
       });
     });
 
@@ -125,6 +134,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             created: false,
             certificationCourse: existingCertificationCourse,
           });
+
+          expect(certificationCourseRepository.save).not.to.have.been.called;
+          expect(verifyCertificateCodeService.generateCertificateVerificationCode).not.to.have.been.called;
         });
 
       });
@@ -173,6 +185,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             sinon.assert.notCalled(certificationCourseRepository.save);
             sinon.assert.notCalled(assessmentRepository.save);
             sinon.assert.notCalled(certificationChallengeRepository.save);
+            expect(verifyCertificateCodeService.generateCertificateVerificationCode).not.to.have.been.called;
           });
         });
 
@@ -218,6 +231,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
                 created: false,
                 certificationCourse: existingCertificationCourse,
               });
+              expect(certificationCourseRepository.save).not.to.have.been.called;
+              expect(verifyCertificateCodeService.generateCertificateVerificationCode).not.to.have.been.called;
             });
 
             it('should have filled the certification profile with challenges anyway', async () => {
@@ -367,6 +382,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
                   certificationCandidate: foundCertificationCandidate,
                   challenges: expectedChallenges,
                   maxReachableLevelOnCertificationDate: 5,
+                  verificationCode,
                 });
               });
 
@@ -410,6 +426,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
                     certificationCandidate: foundCertificationCandidate,
                     challenges: expectedChallenges,
                     maxReachableLevelOnCertificationDate: 5,
+                    verificationCode,
                   });
                 });
               });
@@ -439,6 +456,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
                   certificationCandidate: foundCertificationCandidate,
                   challenges: expectedChallenges,
                   maxReachableLevelOnCertificationDate: 5,
+                  verificationCode,
                 });
               });
             });

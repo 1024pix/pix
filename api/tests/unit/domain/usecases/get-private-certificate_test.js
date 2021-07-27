@@ -57,7 +57,6 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
   });
 
   context('when the user is owner of the certification', async () => {
-
     context('certification has no verification code', () => {
 
       it('should generate and save a verification code', async () => {
@@ -115,6 +114,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       privateCertificateRepository.get.withArgs(123).resolves(privateCertificate);
       verifyCertificateCodeService.generateCertificateVerificationCode.rejects(new Error('I should not run.'));
       certificationRepository.saveVerificationCode.resolves(new Error('I should not run.'));
+      privateCertificateRepository.get.withArgs(123).resolves(privateCertificate);
       resultCompetenceTreeService.computeForCertification
         .withArgs({
           certificationId: 123,

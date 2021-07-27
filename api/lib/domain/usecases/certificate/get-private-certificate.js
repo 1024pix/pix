@@ -15,6 +15,7 @@ module.exports = async function getPrivateCertificate({
     const code = await verifyCertificateCodeService.generateCertificateVerificationCode();
     await certificationRepository.saveVerificationCode(certificationId, code);
   }
+
   const privateCertificate = await privateCertificateRepository.get(certificationId);
   if (privateCertificate.userId !== userId) {
     throw new NotFoundError();
