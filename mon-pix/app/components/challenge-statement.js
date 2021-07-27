@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import config from 'mon-pix/config/environment';
 import Component from '@glimmer/component';
 import sortBy from 'lodash/sortBy';
+import ENV from 'mon-pix/config/environment';
 
 const PREFERRED_ATTACHMENT_FORMATS = ['docx', 'xlsx', 'pptx'];
 
@@ -14,9 +15,15 @@ export default class ChallengeStatement extends Component {
   @tracked selectedAttachmentUrl;
   @tracked displayAlternativeInstruction = false;
 
+  @tracked displayTagHelp = false;
+
   constructor() {
     super(...arguments);
     this._initialiseDefaultAttachment();
+  }
+
+  get isFocusedChallengeToggleEnabled() {
+    return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED;
   }
 
   get challengeInstruction() {
@@ -47,6 +54,20 @@ export default class ChallengeStatement extends Component {
 
   get id() {
     return 'challenge_statement_' + this.args.challenge.id;
+  }
+
+  get isFocusedChallenge() {
+    return this.args.challenge.focused;
+  }
+
+  @action
+  hideTagHelp() {
+    this.displayTagHelp = false;
+  }
+
+  @action
+  showTagHelp() {
+    this.displayTagHelp = true;
   }
 
   @action

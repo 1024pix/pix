@@ -24,7 +24,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
 
     it('should render challenge information and question', () => {
       // then
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);
+      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qcuChallenge.instruction);
 
       expect(findAll('input[type=radio][name="radio"]')).to.have.lengthOf(4);
       expect(findAll('.proposal-text')[0].textContent.trim()).to.equal('1ere possibilite');
@@ -138,7 +138,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
 
       // then
       expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);
+      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qcuChallenge.instruction);
 
       const goodAnswer = findAll('.qcu-solution-panel__proposition')[0];
       const badAnswerFromUserResult = findAll('.qcu-solution-panel__proposition')[1];
