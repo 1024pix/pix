@@ -75,6 +75,20 @@ class CertificationDetails {
       listChallengesAndAnswers,
     });
   }
+
+  toDTO() {
+    return {
+      id: this.id,
+      userId: this.userId,
+      createdAt: this.createdAt,
+      completedAt: this.completedAt,
+      status: this.status,
+      totalScore: this.totalScore,
+      percentageCorrectAnswers: this.percentageCorrectAnswers,
+      competencesWithMark: _.cloneDeep(this.competencesWithMark),
+      listChallengesAndAnswers: _.cloneDeep(this.listChallengesAndAnswers),
+    };
+  }
 }
 
 function _buildCompetencesWithMark({
