@@ -1,4 +1,4 @@
-const { PDFPage, PDFDocument, rgb } = require('pdf-lib');
+const { PDFName, PDFDict, PDFPage, PDFDocument, rgb } = require('pdf-lib');
 const fs = require('fs');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
 const sharp = require('sharp');
@@ -161,9 +161,8 @@ async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embedde
 
   for (const viewModel of viewModels) {
     const page = await _getTemplatePage(viewModel, templatePdfPages);
-    const newPageLeaf = page.node.clone();
-    const ref = pdfDocument.context.register(newPageLeaf);
-    const newPage = PDFPage.of(newPageLeaf, ref, pdfDocument);
+    const newPage = _shallowCopy(page, pdfDocument);
+    pdfDocument.addPage(newPage);
 
     // Note: calls to setFont() are mutualized outside of the _render* methods
     // to save space. Calling setFont() n times with the same fonts creates
@@ -188,8 +187,6 @@ async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embedde
 
     _renderCleaCertification(viewModel, newPage, embeddedImages);
     _renderPixPlusCertificationCertification(viewModel, newPage, embeddedImages);
-
-    pdfDocument.addPage(newPage);
   }
 }
 
@@ -199,6 +196,34 @@ async function _getTemplatePage(viewModel, templatePdfPages) {
   } else {
     return templatePdfPages.withoutComplementaryCertifications;
   }
+}
+
+function _clonePageResources(pdfDocument, newPageLeaf) {
+  const Resources = pdfDocument.context.lookupMaybe(newPageLeaf.getInheritableAttribute(PDFName.Resources), PDFDict);
+  const ResourcesClone = Resources ? Resources.clone() : pdfDocument.context.obj({});
+
+  ['Font', 'ExtGState', 'XObject'].forEach((key) => {
+    const dict = pdfDocument.context.lookupMaybe(ResourcesClone.get(PDFName[key]), PDFDict);
+    ResourcesClone.set(PDFName[key], dict ? dict.clone() : pdfDocument.context.obj({}));
+  });
+  return ResourcesClone;
+}
+
+function _shallowCopy(page, pdfDocument) {
+  /*
+  Note: as we perform a copy of a page which is already embedded in the document
+  it is drastically more efficient filesize-wise not to use PdfDocument::copyPages as it does not
+  take advantage of fonts and images reuse across the document.
+  PdfDocument::copyPages usage should be limited to copying page from one document to another.
+   */
+  const newPageLeaf = page.node.clone();
+
+  const resourcesClone = _clonePageResources(pdfDocument, newPageLeaf);
+  newPageLeaf.set(PDFName.Resources, resourcesClone);
+
+  const ref = pdfDocument.context.register(newPageLeaf);
+  const newPage = PDFPage.of(newPageLeaf, ref, pdfDocument);
+  return newPage;
 }
 
 function _renderScore(viewModel, page, embeddedFonts) {
