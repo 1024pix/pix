@@ -18,6 +18,12 @@ export default function(schema, request) {
 
   const campaign = schema.campaigns.find(campaignId);
 
+  if (campaign.code === 'FORBIDDEN') {
+    return new Response(403, {}, {
+      errors: [{ status: 403 }],
+    });
+  }
+
   if (campaign.type === 'PROFILES_COLLECTION') {
     return schema.campaignParticipations.create({ participantExternalId, campaign });
   }

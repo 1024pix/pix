@@ -63,7 +63,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.modelFor('campaigns');
   }
 
-  async redirect(campaign, transition) {
+  async afterModel(campaign, transition) {
     if (campaign.isArchived) {
       this.isLoading = false;
       return;
@@ -82,7 +82,9 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     if (this._shouldStartCampaignParticipation(campaign, transition.to.queryParams)) {
       await this._createCampaignParticipation(campaign);
     }
+  }
 
+  async redirect(campaign) {
     if (this.state.doesUserHaveOngoingParticipation) {
       if (campaign.isProfilesCollection) {
         this.replaceWith('campaigns.profiles-collection.start-or-resume', campaign);
@@ -157,15 +159,11 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       const error = get(err, 'errors[0]', {});
       campaignParticipation.deleteRecord();
 
-      if (error.status == 403) {
-        this.session.invalidate();
-
-        return this.transitionTo('campaigns.start-or-resume', campaign);
-      } else if (error.status == 400 && error.detail.includes('participant-external-id')) {
+      if (error.status == 400 && error.detail.includes('participant-external-id')) {
         return this.replaceWith('campaigns.fill-in-participant-external-id', campaign);
       }
 
-      return this.send('error', err, this.transitionTo('campaigns.start-or-resume'));
+      throw err;
     }
   }
 
