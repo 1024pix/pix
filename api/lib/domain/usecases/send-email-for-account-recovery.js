@@ -9,6 +9,7 @@ module.exports = async function sendEmailForAccountRecovery({
   accountRecoveryDemandRepository,
   mailService,
   checkScoAccountRecoveryService,
+  userReconciliationService,
 }) {
   const { email: newEmail } = studentInformation;
 
@@ -16,6 +17,7 @@ module.exports = async function sendEmailForAccountRecovery({
     studentInformation,
     schoolingRegistrationRepository,
     userRepository,
+    userReconciliationService,
   });
 
   await userRepository.isEmailAvailable(newEmail);
