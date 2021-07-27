@@ -161,6 +161,8 @@ module.exports = {
 
     const trx = await Bookshelf.knex.transaction();
     try {
+      await this.disableAllSchoolingRegistrationsInOrganization({ trx, organizationId });
+
       await Promise.all([
         bluebird.mapSeries(schoolingRegistrationsToUpdate, async (schoolingRegistrationToUpdate) => {
           const attributesToUpdate = _.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']);
@@ -176,7 +178,11 @@ module.exports = {
 
           await trx('schooling-registrations')
             .where(whereConditions)
-            .update({ ...attributesToUpdate, updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP') });
+            .update({
+              ...attributesToUpdate,
+              isDisabled: false,
+              updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP'),
+            });
         }),
         trx.batchInsert('schooling-registrations', schoolingRegistrationsToCreate),
       ]);
