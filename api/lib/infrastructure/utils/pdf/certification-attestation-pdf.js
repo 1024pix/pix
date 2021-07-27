@@ -1,4 +1,4 @@
-const { PDFDocument, rgb } = require('pdf-lib');
+const { PDFPage, PDFDocument, rgb } = require('pdf-lib');
 const fs = require('fs');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
 const sharp = require('sharp');
@@ -72,7 +72,7 @@ async function _embedFontInPDFDocument(pdfDoc, fontFileName, fileSystem, dirname
 async function _embedImages(pdfDocument, viewModels, imageUtils) {
   const embeddedImages = {};
   const viewModelsWithCleaCertification =
-    _.filter(viewModels, 'shouldDisplayCleaCertification');
+    _.filter(viewModels, (viewModel) => viewModel.shouldDisplayCleaCertification());
 
   if (viewModelsWithCleaCertification.length > 0) {
     // FIXME ? Ici on présuppose que tous les macarons Cléa sont identiques
@@ -82,7 +82,7 @@ async function _embedImages(pdfDocument, viewModels, imageUtils) {
   }
 
   const viewModelsWithPixPlusDroitCertification =
-    _.filter(viewModels, 'shouldDisplayCleaCertification');
+    _.filter(viewModels, (viewModel) => viewModel.shouldDisplayPixPlusDroitCertification());
 
   if (viewModelsWithPixPlusDroitCertification.length > 0) {
     // FIXME ? Ici on présuppose que tous les macarons Pix+ droit sont identiques
@@ -139,20 +139,24 @@ async function _loadTemplate(templateFileName, dirname, fileSystem, pdfWriter) {
 
 async function _render({ templateDocuments, pdfDocument, viewModels, rgb, embeddedFonts, embeddedImages }) {
 
+  const page = await _copyPageFromTemplateIntoDocument(viewModels[0], pdfDocument, templateDocuments);
+
   for (const viewModel of viewModels) {
-    const page = await _copyPageFromTemplateIntoDocument(viewModel, pdfDocument, templateDocuments);
+    const newPageLeaf = page.node.clone();
+    const ref = pdfDocument.context.register(newPageLeaf);
+    const newPage = PDFPage.of(newPageLeaf, ref, pdfDocument);
 
-    _renderScore(viewModel, page, embeddedFonts);
-    _renderHeaderCandidateInformations(viewModel, page, rgb, embeddedFonts);
-    _renderCompetencesDetails(viewModel, page, rgb, embeddedFonts);
-    _renderFooter(viewModel, page, rgb, embeddedFonts);
-    _renderMaxScore(viewModel, page, rgb, embeddedFonts);
-    _renderMaxLevel(viewModel, page, rgb, embeddedFonts);
-    _renderVerificationCode(viewModel, page, rgb, embeddedFonts);
-    _renderCleaCertification(viewModel, page, embeddedImages);
-    _renderPixPlusCertificationCertification(viewModel, page, embeddedImages);
+    _renderScore(viewModel, newPage, embeddedFonts);
+    _renderHeaderCandidateInformations(viewModel, newPage, rgb, embeddedFonts);
+    _renderCompetencesDetails(viewModel, newPage, rgb, embeddedFonts);
+    _renderFooter(viewModel, newPage, rgb, embeddedFonts);
+    _renderMaxScore(viewModel, newPage, rgb, embeddedFonts);
+    _renderMaxLevel(viewModel, newPage, rgb, embeddedFonts);
+    _renderVerificationCode(viewModel, newPage, rgb, embeddedFonts);
+    _renderCleaCertification(viewModel, newPage, embeddedImages);
+    _renderPixPlusCertificationCertification(viewModel, newPage, embeddedImages);
 
-    pdfDocument.addPage(page);
+    pdfDocument.addPage(newPage);
   }
 }
 
