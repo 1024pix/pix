@@ -36,6 +36,34 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
     });
   });
 
+  describe('#serializeAccountRecovery()', function() {
+
+    it('should convert an account recovery demand into JSON API data', function() {
+      //given
+      const accountRecoveryDetails = {
+        id: 1,
+        firstName: 'Jude',
+        email: 'judelaw@example.net',
+      };
+
+      // when
+      const json = serializer.serializeAccountRecovery(accountRecoveryDetails);
+
+      // then
+      const expectedJsonApi = {
+        data: {
+          type: 'account-recovery-demands',
+          id: accountRecoveryDetails.id.toString(),
+          attributes: {
+            'first-name': accountRecoveryDetails.firstName,
+            'email': accountRecoveryDetails.email,
+          },
+        },
+      };
+      expect(json).to.deep.equal(expectedJsonApi);
+    });
+  });
+
   describe('#deserialize()', function() {
 
     it('should convert the payload json to student information', async function() {

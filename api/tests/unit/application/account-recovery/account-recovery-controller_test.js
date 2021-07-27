@@ -7,7 +7,6 @@ const {
 
 const accountRecoveryController = require('../../../../lib/application/account-recovery/account-recovery-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
@@ -57,22 +56,23 @@ describe('Unit | Controller | account-recovery-controller', () => {
 
   describe('#checkAccountRecoveryDemand', () => {
 
-    it('should return serialized user', async () => {
+    it('should return serialized account recovery details', async () => {
       // given
       const temporaryKey = 'ABCDEFZEFDD';
+      const studentInformation = { id: 1234, email: 'philipe@example.net', firstName: 'philipe' };
       const request = {
         params: { temporaryKey },
       };
-      sinon.stub(usecases, 'getUserByAccountRecoveryDemand');
-      sinon.stub(userSerializer, 'serialize');
-      usecases.getUserByAccountRecoveryDemand.resolves({ userId: 1234 });
+      sinon.stub(usecases, 'getAccountRecoveryDetails');
+      sinon.stub(studentInformationForAccountRecoverySerializer, 'serializeAccountRecovery');
+      usecases.getAccountRecoveryDetails.resolves(studentInformation);
 
       // when
       await accountRecoveryController.checkAccountRecoveryDemand(request, hFake);
 
       // then
-      expect(usecases.getUserByAccountRecoveryDemand).to.have.been.calledWith({ temporaryKey });
-      expect(userSerializer.serialize).to.have.been.calledWith({ userId: 1234 });
+      expect(usecases.getAccountRecoveryDetails).to.have.been.calledWith({ temporaryKey });
+      expect(studentInformationForAccountRecoverySerializer.serializeAccountRecovery).to.have.been.calledWith(studentInformation);
     });
   });
 
