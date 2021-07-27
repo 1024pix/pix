@@ -15,6 +15,30 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
     store = this.owner.lookup('service:store');
   });
 
+  test('it should display a link to access to result page', async function(assert) {
+    // given
+    this.owner.setupRouter();
+    const campaign = store.createRecord('campaign', {
+      id: 1,
+    });
+
+    const participations = [{
+      id: 5,
+      lastName: 'Midoriya',
+      firstName: 'Izoku',
+    }];
+
+    this.set('campaign', campaign);
+    this.set('participations', participations);
+    this.set('goToAssessmentPage', () => {});
+
+    // when
+    await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
+
+    // then
+    assert.dom('a[href="/campagnes/1/evaluations/5"]').exists();
+  });
+
   module('when a participant has shared his results', function() {
     test('it should display the participant\'s results', async function(assert) {
       // given
