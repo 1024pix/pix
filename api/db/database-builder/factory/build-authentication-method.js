@@ -2,6 +2,7 @@ const isUndefined = require('lodash/isUndefined');
 const databaseBuffer = require('../database-buffer');
 const buildUser = require('./build-user');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
+const encrypt = require('../../../lib/domain/services/encryption-service');
 
 const buildAuthenticationMethod = function({
   id = databaseBuffer.getNextId(),
@@ -38,6 +39,37 @@ buildAuthenticationMethod.buildWithHashedPassword = function({
   updatedAt = new Date('2020-01-02'),
 } = {}) {
 
+  userId = isUndefined(userId) ? buildUser().id : userId;
+
+  const values = {
+    id,
+    identityProvider: AuthenticationMethod.identityProviders.PIX,
+    authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
+      password: hashedPassword,
+      shouldChangePassword,
+    }),
+    externalIdentifier: undefined,
+    userId,
+    createdAt,
+    updatedAt,
+  };
+  return databaseBuffer.pushInsertable({
+    tableName: 'authentication-methods',
+    values,
+  });
+};
+
+buildAuthenticationMethod.buildWithPassword = function({
+  id = databaseBuffer.getNextId(),
+  password = 'Password123',
+  shouldChangePassword = false,
+  userId,
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-01-02'),
+} = {}) {
+
+  // eslint-disable-next-line no-sync
+  const hashedPassword = encrypt.hashPasswordSync(password);
   userId = isUndefined(userId) ? buildUser().id : userId;
 
   const values = {
