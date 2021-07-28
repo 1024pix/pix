@@ -14,7 +14,7 @@ const EMPTY_LASTNAME_ERROR_MESSAGE = 'pages.login-or-register.register-form.fiel
 const EMPTY_EMAIL_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.email.error';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.password.error';
 
-module('Integration | Component | routes/register-form', function(hooks) {
+module('Integration | Component | Auth::RegisterForm', function(hooks) {
 
   setupIntlRenderingTest(hooks);
 
@@ -43,7 +43,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
   test('it renders', async function(assert) {
     // when
-    await render(hbs`<Routes::RegisterForm/>`);
+    await render(hbs`<Auth::RegisterForm/>`);
 
     //then
     assert.dom('.register-form').exists();
@@ -76,7 +76,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
     test('it should call authentication service with appropriate parameters, when all things are ok and form is submitted', async function(assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
-      await render(hbs`<Routes::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
+      await render(hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
       await fillInByLabel(firstNameInputLabel, 'pix');
       await fillInByLabel(lastNameInputLabel, 'pix');
       await fillInByLabel(emailInputLabel, 'shi@fu.me');
@@ -104,7 +104,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
       ].forEach(function({ stringFilledIn }) {
         test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
           // given
-          await render(hbs`<Routes::RegisterForm/>`);
+          await render(hbs`<Auth::RegisterForm/>`);
 
           // when
           await fillInByLabel(firstNameInputLabel, stringFilledIn);
@@ -121,7 +121,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
       ].forEach(function({ stringFilledIn }) {
         test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
           // given
-          await render(hbs`<Routes::RegisterForm/>`);
+          await render(hbs`<Auth::RegisterForm/>`);
 
           // when
           await fillInByLabel(lastNameInputLabel, stringFilledIn);
@@ -140,7 +140,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
         test(`it should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
           // given
-          await render(hbs`<Routes::RegisterForm/>`);
+          await render(hbs`<Auth::RegisterForm/>`);
 
           // when
           await fillInByLabel(emailInputLabel, stringFilledIn);
@@ -160,7 +160,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
 
         test(`it should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
           // given
-          await render(hbs`<Routes::RegisterForm/>`);
+          await render(hbs`<Auth::RegisterForm/>`);
 
           // when
           await fillInByLabel(passwordInputLabel, stringFilledIn);
@@ -207,7 +207,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
           },
         });
 
-        await render(hbs`<Routes::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
+        await render(hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
       });
 
       test('it should prevent submission when firstName is not valid', async function(assert) {

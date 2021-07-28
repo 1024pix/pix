@@ -32,7 +32,7 @@ export default class JoinRequestForm extends Component {
     event.preventDefault();
     this.isLoading = true;
     const scoOrganizationInvitation = { uai: this.uai.trim(), firstName: this.firstName.trim(), lastName: this.lastName.trim() };
-    await this.args.createScoOrganizationInvitation(scoOrganizationInvitation);
+    await this.args.onSubmit(scoOrganizationInvitation);
     this.isLoading = false;
   }
 }

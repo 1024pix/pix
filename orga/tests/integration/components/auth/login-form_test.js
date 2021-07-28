@@ -12,7 +12,7 @@ import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/login-form', function(hooks) {
+module('Integration | Component | Auth::LoginForm', function(hooks) {
 
   setupIntlRenderingTest(hooks);
 
@@ -35,7 +35,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
   test('it should ask for email and password', async function(assert) {
     // when
-    await render(hbs`<Routes::LoginForm/>`);
+    await render(hbs`<Auth::LoginForm/>`);
 
     // then
     assert.dom('#login-email').exists();
@@ -44,7 +44,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
   test('it should not display error message', async function(assert) {
     // when
-    await render(hbs`<Routes::LoginForm/>`);
+    await render(hbs`<Auth::LoginForm/>`);
 
     // then
     assert.dom('#login-form-error-message').doesNotExist();
@@ -65,7 +65,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
     test('it should call authentication service with appropriate parameters', async function(assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
-      await render(hbs`<Routes::LoginForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
+      await render(hbs`<Auth::LoginForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
       await fillInByLabel(emailInputLabel, 'pix@example.net');
       await fillInByLabel(passwordInputLabel, 'JeMeLoggue1024');
 
@@ -103,7 +103,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
     test('it should be ok and call authentication service with appropriate parameters', async function(assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
-      await render(hbs`<Routes::LoginForm @isWithInvitation=true @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
+      await render(hbs`<Auth::LoginForm @isWithInvitation=true @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
       await fillInByLabel(emailInputLabel, 'pix@example.net');
       await fillInByLabel(passwordInputLabel, 'JeMeLoggue1024');
 
@@ -130,7 +130,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     SessionStub.prototype.authenticate = () => reject(errorResponse);
 
-    await render(hbs`<Routes::LoginForm/>`);
+    await render(hbs`<Auth::LoginForm/>`);
     await fillInByLabel(emailInputLabel, 'pix@example.net');
     await fillInByLabel(passwordInputLabel, 'Mauvais mot de passe');
 
@@ -153,7 +153,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     SessionStub.prototype.authenticate = () => reject(errorResponse);
 
-    await render(hbs`<Routes::LoginForm/>`);
+    await render(hbs`<Auth::LoginForm/>`);
     await fillInByLabel(emailInputLabel, 'pix@example.net');
     await fillInByLabel(passwordInputLabel, 'pix123');
 
@@ -176,7 +176,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
     hooks.beforeEach(async function() {
       // given
       showButtonText = this.intl.t('pages.login-form.show-password');
-      await render(hbs`<Routes::LoginForm/>`);
+      await render(hbs`<Auth::LoginForm/>`);
     });
 
     test('it should display password when user click', async function(assert) {
@@ -220,7 +220,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
       this.owner.register('service:url', UrlStub);
 
       // when
-      await render(hbs`<Routes::LoginForm/>`);
+      await render(hbs`<Auth::LoginForm/>`);
 
       // then
       assert.dom('.login-form__recover-access-link').doesNotExist();
@@ -239,7 +239,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
       this.owner.register('service:url', UrlStub);
 
       // when
-      await render(hbs`<Routes::LoginForm/>`);
+      await render(hbs`<Auth::LoginForm/>`);
 
       // then
       assert.dom('.login-form__recover-access-link').exists();
