@@ -22,7 +22,6 @@ class AttestationViewModel {
     hasAcquiredCleaCertification,
     pixPlusDroitCertificationImagePath,
     competenceDetailViewModels,
-    filename,
   }) {
     this.pixScore = pixScore;
     this.maxReachableScore = maxReachableScore;
@@ -42,7 +41,6 @@ class AttestationViewModel {
     this._hasAcquiredAnyComplementaryCertifications = hasAcquiredAnyComplementaryCertifications;
     this._hasAcquiredPixPlusDroitCertification = hasAcquiredPixPlusDroitCertification;
     this._hasAcquiredCleaCertification = hasAcquiredCleaCertification;
-    this.filename = filename;
   }
 
   shouldDisplayComplementaryCertifications() {
@@ -91,8 +89,6 @@ class AttestationViewModel {
       });
     });
 
-    const filename = `attestation-pix-${moment(certificate.deliveredAt).format('YYYYMMDD')}.pdf`;
-
     return new AttestationViewModel({
       pixScore,
       maxReachableScore,
@@ -112,7 +108,6 @@ class AttestationViewModel {
       hasAcquiredPixPlusDroitCertification,
       hasAcquiredCleaCertification,
       competenceDetailViewModels,
-      filename,
     });
   }
 }
