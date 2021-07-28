@@ -20,44 +20,53 @@ Assurez-vous aussi de ne pas avoir de process écoutant le port 5432 (PostgreSQL
 git clone git@github.com:1024pix/pix.git
 ```
 
-### 2. Se déplacer dans le répertoire projet.
+Se rendre dans le répertoire projet.
 
 ```bash
 cd pix
 ```
 
-#### 2.1 (Windows uniquement) Installer windows-build-tools
+### 2 Configurer sous Windows (si applicable)
 
-Il se peut que la dernière version `windows-build-tools` ne s'installe pas sur votre machine. La `windows-build-tools@4.0.0` semble plus stable à l'installation.
+Il se peut que la dernière version `windows-build-tools` ne s'installe pas sur votre machine. 
+La `windows-build-tools@4.0.0` semble plus stable à l'installation.
 ```bash
 npm install windows-build-tools
 ```
-Ensuite, il faudra définir dans `.npmrc` quelle est l'invite de commande à utiliser pour lancer les script-shell. Par défaut, c'est le `cmd.exe` pour changer cela :
+Définir dans `.npmrc` l'invite de commande à utiliser pour lancer les script-shell. 
 
+Ouvrir une invite de commande (`cmd.exe`) puis:
 * installation 64bit :
 ```bash 
 npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"
 ```
-* ou 
+* installation 32bit: 
 ```bash
 npm config set script-shell "C:\\Program Files (x86)\\git\\bin\\bash.exe"
 ```
-Votre windows devrait être prêt pour l'instanciation du projet Pix.
 
-### 3. Configurer de l'environnement de développement 
+### 3. Configurer l'environnement de développement 
 
-⚠️ Compter entre 10 et 15mn pour l'exécution du script.
+Configurer l'environnement :
+- création de la BDD et du cache
+- exécution des tests automatisés
 
+Exécuter
 ```bash
 npm run configure
 ```
+⚠️ Compter entre 10 et 15mn pour l'exécution du script.
 
-> Pix s'appuie sur la bibliotèque [Dotenv](https://github.com/motdotla/dotenv) pour gérer les variables d'environnement en local.
-
+Pix s'appuie sur la bibliotèque [Dotenv](https://github.com/motdotla/dotenv) pour gérer les variables d'environnement en local.
 Si besoin, éditer le fichier `.env` généré par le script pour l'adapter à vos besoins.
+
+Vérifier les connexions à la base de donnée :
+- de test manuel (présence de table et de données) `docker exec -it pix_postgres_1 psql -U postgres pix`;
+- de test automatique (présence de tables) `docker exec -it pix_postgres_1 psql -U postgres pix_test`.
 
 ### 4. Démarrer les applications.
 
+Exécuter
 ```bash
 npm start
 ```
