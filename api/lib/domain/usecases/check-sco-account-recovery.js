@@ -4,8 +4,9 @@ module.exports = async function checkScoAccountRecovery({
   studentInformation,
   schoolingRegistrationRepository,
   organizationRepository,
-  checkScoAccountRecoveryService,
+  accountRecoveryDemandRepository,
   userRepository,
+  checkScoAccountRecoveryService,
   userReconciliationService,
 }) {
 
@@ -17,6 +18,7 @@ module.exports = async function checkScoAccountRecovery({
     email,
   } = await checkScoAccountRecoveryService.retrieveSchoolingRegistration({
     studentInformation,
+    accountRecoveryDemandRepository,
     schoolingRegistrationRepository,
     userRepository,
     userReconciliationService,

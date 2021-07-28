@@ -43,6 +43,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
       };
 
       checkScoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
+        accountRecoveryDemandRepository,
         studentInformation,
         schoolingRegistrationRepository,
         userRepository,
@@ -86,6 +87,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
       };
 
       checkScoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
+        accountRecoveryDemandRepository,
         studentInformation,
         schoolingRegistrationRepository,
         userRepository,
@@ -133,6 +135,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
       };
 
       checkScoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
+        accountRecoveryDemandRepository,
         studentInformation,
         schoolingRegistrationRepository,
         userRepository,
