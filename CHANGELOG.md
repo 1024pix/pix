@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.78.0 (28/07/2021)
+
+- [#3230](https://github.com/1024pix/pix/pull/3230) [FEATURE] Accepter une correspondance approximative sur un utilisateur lors de la sortie SCO (PIX-2758).
+- [#3240](https://github.com/1024pix/pix/pull/3240) [FEATURE] Supprimer l'écran intermédiaire des épreuves focus (PIX-2889).
+- [#3139](https://github.com/1024pix/pix/pull/3139) [FEATURE] Ajout de nouveaux marqueurs visuels aux challenges : épreuve focus (PIX-2755).
+- [#3233](https://github.com/1024pix/pix/pull/3233) [FEATURE] Permettre de lancer plusieurs utilisateurs en même temps sur Algolix (PIX-2069).
+- [#3213](https://github.com/1024pix/pix/pull/3213) [FEATURE] Afficher les informations CPF dans PixAdmin (PIX-2838)
+- [#3238](https://github.com/1024pix/pix/pull/3238) [FEATURE] Etre plus tolérant sur la vérification des noms / prénoms dans le formulaire d'entrée en certification sur PixApp (PIX-2630)
+- [#3237](https://github.com/1024pix/pix/pull/3237) [FEATURE] Afficher la réponse apportée par le candidat dans l'encart d'épreuve sur la page de détails d'une certification dans PixAdmin (PIX-2887)
+- [#3235](https://github.com/1024pix/pix/pull/3235) [BUGFIX]Changer le wording et la couleurs des tags dans la liste des participants dans la page Activité(PIX-2872)
+- [#3236](https://github.com/1024pix/pix/pull/3236) [TECH] Refacto autour du certification-result-service (PIX-2886)
+- [#3179](https://github.com/1024pix/pix/pull/3179) [TECH] Modifier l'organisation des composants d'élèves dans Pix Orga (PIX-2881)
+- [#3214](https://github.com/1024pix/pix/pull/3214) [INFRA] Ajouter des helpers de tests getByLabel et queryByLabel
+
 ## v3.77.0 (26/07/2021)
 
 - [#3219](https://github.com/1024pix/pix/pull/3219) [FEATURE] Afficher un message générique quand aucun participant n'a rejoint la campagne (PIX-2671).
