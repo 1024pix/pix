@@ -35,54 +35,44 @@
         <div class="card-body candidate-informations">
           <h5 class="card-title">Candidat</h5>
           <div class="card-text">
-            <form {{on "submit" this.onCandidateInformationsSave}}>
-              <Certification::CertificationInfoField @value={{this.certification.firstName}} @edition={{this.editingCandidateInformations}} @label="Prénom :" @fieldId="certification-firstName" />
-              <Certification::CertificationInfoField @value={{this.certification.lastName}} @edition={{this.editingCandidateInformations}} @label="Nom :" @fieldId="certification-lastName" />
-              <Certification::CertificationInfoField
-                      @isDate={{true}}
-                      @edition={{this.editingCandidateInformations}}
-                      @label="Date de naissance :"
-                      @fieldId="certification-birthdate"
-                      @value={{this.certification.birthdate}}
-                      @onUpdateCertificationBirthdate={{this.onUpdateCertificationBirthdate}} />
-              {{#if this.shouldDisplayCPFInformation}}
-                <Certification::CertificationInfoField @value={{this.certification.sex}} @edition={{this.editingCandidateInformations}} @label="Sexe :" @fieldId="certification-sex" />
-              {{/if}}
-              <Certification::CertificationInfoField @value={{this.certification.birthplace}} @edition={{this.editingCandidateInformations}} @label="Ville de naissance :" @fieldId="certification-birthPlace" />
-              {{#if this.shouldDisplayCPFInformation}}
-                <Certification::CertificationInfoField @value={{this.certification.birthPostalCode}} @edition={{this.editingCandidateInformations}} @label="Code postal de naissance :" @fieldId="certification-birth-postal-code" />
-                <Certification::CertificationInfoField @value={{this.certification.birthInseeCode}} @edition={{this.editingCandidateInformations}} @label="Code Insee de naissance :" @fieldId="certification-birth-Insee-code" />
-                <Certification::CertificationInfoField @value={{this.certification.birthCountry}} @edition={{this.editingCandidateInformations}} @label="Pays de naissance :" @fieldId="certification-birth-country" />
-              {{/if}}
-              <div class="candidate-informations__actions">
-                {{#if this.editingCandidateInformations}}
-                  <PixButton
-                    @size="small"
-                    @backgroundColor="transparent-light"
-                    @triggerAction={{this.onCandidateInformationsCancel}}
-                    aria-label="Annuler la modification des informations du candidat"
-                  >
-                    Annuler
-                  </PixButton>
-                  <PixButton
-                    @size="small"
-                    @type="submit"
-                    aria-label="Enregistrer les informations du candidat"
-                  >
-                    Enregistrer
-                  </PixButton>
-                {{else}}
-                  <PixButton
-                    @size="small"
-                    @triggerAction={{this.onCandidateInformationsEdit}}
-                    @isDisabled={{this.editingCandidateResults}}
-                    aria-label="Modifier les informations du candidat"
-                  >
-                    Modifier
-                  </PixButton>
-                {{/if}}
+            <div>
+              Prénom : {{this.certification.firstName}}
+            </div>
+            <div>
+              Nom de famille : {{this.certification.lastName}}
+            </div>
+            <div>
+              Date de naissance : {{moment-format this.certification.birthdate 'DD/MM/YYYY' allow-empty=true}}
+            </div>
+            {{#if this.shouldDisplayCPFInformation}}
+              <div>
+                Sexe : {{this.certification.sex}}
               </div>
-            </form>
+            {{/if}}
+            <div>
+              Commune de naissance : {{this.certification.birthplace}}
+            </div>
+            {{#if this.shouldDisplayCPFInformation}}
+              <div>
+                Code postal de naissance : {{this.certification.birthPostalCode}}
+              </div>
+              <div>
+                Code INSEE de naissance : {{this.certification.birthInseeCode}}
+              </div>
+              <div>
+                Pays de naissance : {{this.certification.birthCountry}}
+              </div>
+            {{/if}}
+            <div class="candidate-informations__actions">
+              <PixButton
+                @size="small"
+                @triggerAction={{this.openCandidateEditModal}}
+                aria-label="Modifier les informations du candidat"
+                @isDisabled={{this.editingCandidateResults}}
+              >
+                Modifier
+              </PixButton>
+            </div>
           </div>
         </div>
       </div>
@@ -229,3 +219,9 @@
           @cancel={{action this.onCandidateResultsCancelConfirm}}
           @show={{this.displayConfirm}} />
 </div>
+<Certification::CandidateEditModal
+  @isDisplayed={{this.isCandidateEditModalOpen}}
+  @onCancelButtonsClicked={{this.closeCandidateEditModal}}
+  @onFormSubmit={{this.onCandidateInformationSave}}
+  @candidate={{this.certification}}
+/>

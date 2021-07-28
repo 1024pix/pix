@@ -4,6 +4,7 @@ import { visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import clickByLabel from '../../../../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | routes/authenticated/certifications/certification | informations', function(hooks) {
   setupApplicationTest(hooks);
@@ -305,5 +306,33 @@ module('Integration | Component | routes/authenticated/certifications/certificat
 
     });
 
+  });
+
+  module('candidate edit modal ', function() {
+
+    module('when the modal open button is clicked', function() {
+      test('it should open the modal', async function(assert) {
+        // given
+        const certification = this.server.create('certification', {
+          status: 'started',
+          firstName: 'Noritaka',
+          lastName: 'Sawamura',
+          birthdate: '1991-01-01',
+          sex: 'M',
+          birthplace: 'Tokyo',
+          birthCountry: 'Japon',
+          birthInseeCode: '99217',
+          birthPostalCode: null,
+          competencesWithMark: [],
+        });
+        await visit(`/certifications/${certification.id}`);
+
+        // when
+        await clickByLabel('Modifier');
+
+        // then
+        assert.contains('Editer les informations du candidat');
+      });
+    });
   });
 });
