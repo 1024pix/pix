@@ -1,9 +1,11 @@
 const { PDFName, PDFDict, PDFPage, PDFDocument, rgb } = require('pdf-lib');
 const fs = require('fs');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
+const moment = require('moment');
 const sharp = require('sharp');
-const AttestationViewModel = require('./AttestationViewModel');
 const _ = require('lodash');
+
+const AttestationViewModel = require('./AttestationViewModel');
 
 const _forTestOnly = {};
 
@@ -46,9 +48,11 @@ async function getCertificationAttestationsPdfBuffer({
   _forTestOnly.generatedPdfDoc = generatedPdfDoc;
   const buffer = await _finalizeDocument(generatedPdfDoc, bufferFromBytes);
 
+  const fileName = `attestation-pix-${moment(certificates[0].deliveredAt).format('YYYYMMDD')}.pdf`;
+
   return {
     buffer: buffer,
-    fileName: viewModels[0].filename, // FIXME : resortir le file name du view model
+    fileName,
   };
 }
 
