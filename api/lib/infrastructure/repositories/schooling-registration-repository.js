@@ -329,11 +329,11 @@ module.exports = {
       });
   },
 
-  async getSchoolingRegistrationInformation({ nationalStudentId, firstName, lastName, birthdate }) {
+  async getLatestSchoolingRegistration({ nationalStudentId, birthdate }) {
     const schoolingRegistration = await knex
-      .where({ nationalStudentId, firstName, lastName, birthdate })
+      .where({ nationalStudentId, birthdate })
       .whereNotNull('userId')
-      .select('id', 'organizationId', 'userId', 'firstName', 'lastName')
+      .select()
       .from('schooling-registrations')
       .orderBy('updatedAt', 'desc')
       .first();

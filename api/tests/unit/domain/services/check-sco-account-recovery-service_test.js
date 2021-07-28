@@ -5,7 +5,10 @@ const {
   catchErr,
 } = require('../../../test-helper');
 const { retrieveSchoolingRegistration } = require('../../../../lib/domain/services/check-sco-account-recovery-service');
-const { MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError } = require('../../../../lib/domain/errors');
+const {
+  MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
+  UserNotFoundError,
+} = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | check-sco-account-recovery-service', () => {
 
@@ -13,22 +16,87 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
 
     let schoolingRegistrationRepository;
     let userRepository;
+    let userReconciliationService;
 
     beforeEach(() => {
       schoolingRegistrationRepository = {
-        getSchoolingRegistrationInformation: sinon.stub(),
+        getLatestSchoolingRegistration: sinon.stub(),
         findByUserId: sinon.stub(),
       };
       userRepository = {
         get: sinon.stub(),
       };
+      userReconciliationService = {
+        findMatchingCandidateIdForGivenUser: sinon.stub(),
+      };
+    });
+
+    context('when user is not found when matching with INE and birthDate', () => {
+      it('should throw an user not found error', async () => {
+        // given
+        const studentInformation = {
+          ineIna: '123456789AA',
+          firstName: 'Nanou',
+          lastName: 'Monchose',
+          birthdate: '2004-05-07',
+        };
+
+        schoolingRegistrationRepository.getLatestSchoolingRegistration
+          .withArgs({ nationalStudentId: studentInformation.ineIna, birthdate: studentInformation.birthdate })
+          .resolves();
+
+        // when
+        const error = await catchErr(retrieveSchoolingRegistration)({
+          studentInformation,
+          schoolingRegistrationRepository,
+          userRepository,
+          userReconciliationService,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(UserNotFoundError);
+      });
+    });
+
+    context('when user is not reconciled to any organization', () => {
+
+      it('should throw an user not found error', async () => {
+        // given
+        const studentInformation = {
+          ineIna: '123456789AA',
+          firstName: 'Nanou',
+          lastName: 'Monchose',
+          birthdate: '2004-05-07',
+        };
+
+        const schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+          userId: undefined,
+          birthdate: studentInformation.birthdate,
+          nationalStudentId: studentInformation.ineIna,
+        });
+
+        schoolingRegistrationRepository.getLatestSchoolingRegistration
+          .withArgs({ nationalStudentId: studentInformation.ineIna, birthdate: studentInformation.birthdate })
+          .resolves(schoolingRegistration);
+
+        // when
+        const error = await catchErr(retrieveSchoolingRegistration)({
+          studentInformation,
+          schoolingRegistrationRepository,
+          userRepository,
+          userReconciliationService,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(UserNotFoundError);
+      });
     });
 
     context('when user is reconciled to several organizations', () => {
 
       context('when all schooling registrations have the same INE', () => {
 
-        it('should return user account information', async () => {
+        it('should return the last reconciled user account information', async () => {
           // given
           const studentInformation = {
             ineIna: '123456789AA',
@@ -52,27 +120,32 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
             organization: firstOrganization,
             updatedAt: new Date('2000-01-01T15:00:00Z'),
             ...studentInformation,
+            nationalStudentId: studentInformation.inaIna,
           });
-          const secondSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+          const lastSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
             id: 3,
             userId: expectedUser.id,
             organization: secondOrganization,
             updatedAt: new Date('2005-01-01T15:00:00Z'),
             ...studentInformation,
+            nationalStudentId: studentInformation.inaIna,
           });
 
-          schoolingRegistrationRepository.getSchoolingRegistrationInformation
-            .withArgs({ ...studentInformation, nationalStudentId: studentInformation.ineIna })
-            .resolves({
-              id: secondSchoolingRegistration.id,
-              organizationId: secondOrganization.id,
-              userId: expectedUser.id,
-              firstName: expectedUser.firstName,
-              lastName: expectedUser.lastName,
-            });
+          schoolingRegistrationRepository.getLatestSchoolingRegistration
+            .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
+            .resolves(lastSchoolingRegistration);
+
+          userReconciliationService.findMatchingCandidateIdForGivenUser
+            .withArgs([lastSchoolingRegistration], {
+              firstName: studentInformation.firstName,
+              lastName: studentInformation.lastName,
+            })
+            .resolves(lastSchoolingRegistration.id);
+
           schoolingRegistrationRepository.findByUserId
             .withArgs({ userId: expectedUser.id })
-            .resolves([firstSchoolingRegistration, secondSchoolingRegistration]);
+            .resolves([firstSchoolingRegistration, lastSchoolingRegistration]);
+
           userRepository.get.withArgs(expectedUser.id).resolves(expectedUser);
 
           // when
@@ -80,6 +153,7 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
             studentInformation,
             schoolingRegistrationRepository,
             userRepository,
+            userReconciliationService,
           });
 
           // then
@@ -119,6 +193,7 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
             id: 6,
             userId: user.id,
             ...studentInformation,
+            nationalStudentId: studentInformation.ineIna,
           });
           const secondSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
             id: 9,
@@ -129,14 +204,17 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
             birthdate: '2004-05-07',
           });
 
-          schoolingRegistrationRepository.getSchoolingRegistrationInformation
-            .withArgs({ ...studentInformation, nationalStudentId: studentInformation.ineIna })
-            .resolves({
-              organizationId: 1,
-              userId: user.id,
-              firstName: user.firstName,
-              lastName: user.lastName,
-            });
+          schoolingRegistrationRepository.getLatestSchoolingRegistration
+            .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
+            .resolves(firstSchoolingRegistration);
+
+          userReconciliationService.findMatchingCandidateIdForGivenUser
+            .withArgs([firstSchoolingRegistration], {
+              firstName: studentInformation.firstName,
+              lastName: studentInformation.lastName,
+            })
+            .resolves(firstSchoolingRegistration.id);
+
           schoolingRegistrationRepository.findByUserId
             .withArgs({ userId: user.id })
             .resolves([firstSchoolingRegistration, secondSchoolingRegistration]);
@@ -146,6 +224,7 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
             studentInformation,
             schoolingRegistrationRepository,
             userRepository,
+            userReconciliationService,
           });
 
           // then
@@ -154,8 +233,9 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
       });
     });
 
-    context('when user has a single schooling registration', () => {
-      it('should return user account information with schooling registration first name', async () => {
+    context('when user is reconciled to a single organization', () => {
+
+      it('should return user account information', async () => {
         // given
         const studentInformation = {
           ineIna: '123456789AA',
@@ -179,17 +259,20 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
           updatedAt: new Date('2000-01-01T15:00:00Z'),
           ...studentInformation,
           firstName: expectedUser.firstName,
+          nationalStudentId: studentInformation.ineIna,
         });
 
-        schoolingRegistrationRepository.getSchoolingRegistrationInformation
-          .withArgs({ ...studentInformation, nationalStudentId: studentInformation.ineIna })
-          .resolves({
-            id: schoolingRegistration.id,
-            organizationId: organization.id,
-            userId: expectedUser.id,
-            firstName: expectedUser.firstName,
-            lastName: expectedUser.lastName,
-          });
+        schoolingRegistrationRepository.getLatestSchoolingRegistration
+          .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
+          .resolves(schoolingRegistration);
+
+        userReconciliationService.findMatchingCandidateIdForGivenUser
+          .withArgs([schoolingRegistration], {
+            firstName: studentInformation.firstName,
+            lastName: studentInformation.lastName,
+          })
+          .resolves(schoolingRegistration.id);
+
         schoolingRegistrationRepository.findByUserId
           .withArgs({ userId: expectedUser.id })
           .resolves([schoolingRegistration]);
@@ -200,6 +283,7 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
           studentInformation,
           schoolingRegistrationRepository,
           userRepository,
+          userReconciliationService,
         });
 
         // then
@@ -213,6 +297,49 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
           organizationId: 8,
         };
         expect(result).to.deep.equal(expectedResult);
+      });
+    });
+
+    context('when firstName or lastName does not match schooling registration', () => {
+
+      it('should throw an user not found error', async () => {
+        // given
+        const studentInformation = {
+          ineIna: '123456789AA',
+          firstName: 'Nanou',
+          lastName: 'Monchose',
+          birthdate: '2004-05-07',
+        };
+
+        const schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+          userId: 1,
+          firstName: 'John',
+          lastName: studentInformation.lastName,
+          birthdate: studentInformation.birthdate,
+          nationalStudentId: studentInformation.ineIna,
+        });
+
+        schoolingRegistrationRepository.getLatestSchoolingRegistration
+          .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
+          .resolves(schoolingRegistration);
+
+        userReconciliationService.findMatchingCandidateIdForGivenUser
+          .withArgs([schoolingRegistration], {
+            firstName: studentInformation.firstName,
+            lastName: studentInformation.lastName,
+          })
+          .resolves(undefined);
+
+        // when
+        const error = await catchErr(retrieveSchoolingRegistration)({
+          studentInformation,
+          schoolingRegistrationRepository,
+          userRepository,
+          userReconciliationService,
+        });
+
+        // then
+        expect(error).an.instanceOf(UserNotFoundError);
       });
     });
   });
