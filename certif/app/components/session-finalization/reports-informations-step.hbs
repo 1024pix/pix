@@ -8,7 +8,7 @@
         <th>Signalement</th>
         <th>
           <div class="session-finalization-reports-informations-step__row">
-            <div class="session-finalization-reports-informations-step__checker" {{on 'click' (fn @toggleAllCertificationReportsHasSeenEndTestScreen this.hasCheckedSomething)}}>
+            <div class="session-finalization-reports-informations-step__checker" {{on 'click' (fn @onAllHasSeenEndTestScreenCheckboxesClicked this.hasCheckedSomething)}}>
               <CertifCheckbox @state={{this.headerCheckboxStatus}}></CertifCheckbox>
             </div>
             Écran de fin du test vu
@@ -46,7 +46,7 @@
             <CertifCheckbox
                     data-test-id="finalization-report-has-seen-end-test-screen_{{report.certificationCourseId}}"
                     @state={{if report.hasSeenEndTestScreen 'checked' 'unchecked'}}
-              {{on 'click' (fn @toggleCertificationReportHasSeenEndTestScreen report)}}>
+              {{on 'click' (fn @onHasSeenEndTestScreenCheckboxClicked report)}}>
             </CertifCheckbox>
           </td>
         </tr>
@@ -64,7 +64,7 @@
     <IssueReportModal::IssueReportsModal
       @closeModal={{this.closeIssueReportsModal}}
       @onClickIssueReport={{this.openAddIssueReportModal}}
-      @onClickDeleteIssueReport={{@handleClickOnDeleteIssueReportButton}}
+      @onClickDeleteIssueReport={{@onIssueReportDeleteButtonClicked}}
       @report={{this.reportToEdit}}
       />
   {{/if}}

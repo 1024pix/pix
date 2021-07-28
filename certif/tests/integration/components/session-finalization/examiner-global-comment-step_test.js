@@ -5,7 +5,7 @@ import { render, fillIn, click } from '@ember/test-helpers';
 import Object from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | session-finalization-examiner-global-comment-step', function(hooks) {
+module('Integration | Component | SessionFinalization::ExaminerGlobalCommentStep', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders the radio buttons', async function(assert) {
@@ -16,8 +16,8 @@ module('Integration | Component | session-finalization-examiner-global-comment-s
     this.set('updateExaminerGlobalComment', updateExaminerGlobalCommentStub);
 
     // when
-    await render(hbs`<SessionFinalizationExaminerGlobalCommentStep @session={{this.session}}
-              @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
+    await render(hbs`<SessionFinalization::ExaminerGlobalCommentStep @session={{this.session}}
+              @onExaminerGlobalCommentChange={{this.updateExaminerGlobalComment}}
               @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}  />`);
 
     // then
@@ -33,8 +33,8 @@ module('Integration | Component | session-finalization-examiner-global-comment-s
     this.set('updateExaminerGlobalComment', updateExaminerGlobalCommentStub);
 
     // when
-    await render(hbs`<SessionFinalizationExaminerGlobalCommentStep @session={{this.session}}
-              @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
+    await render(hbs`<SessionFinalization::ExaminerGlobalCommentStep @session={{this.session}}
+              @onExaminerGlobalCommentChange={{this.updateExaminerGlobalComment}}
               @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}  />`);
     await click('[aria-label="Signaler un incident"]');
 
@@ -50,8 +50,8 @@ module('Integration | Component | session-finalization-examiner-global-comment-s
     this.set('updateExaminerGlobalComment', updateExaminerGlobalCommentStub);
 
     // when
-    await render(hbs`<SessionFinalizationExaminerGlobalCommentStep @session={{this.session}}
-              @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
+    await render(hbs`<SessionFinalization::ExaminerGlobalCommentStep @session={{this.session}}
+              @onExaminerGlobalCommentChange={{this.updateExaminerGlobalComment}}
               @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}  />`);
     await click('[aria-label="Signaler un incident"]');
     await fillIn('#examiner-global-comment', 'You are no more a wizard Harry!');
