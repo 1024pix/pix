@@ -17,18 +17,23 @@ describe('Acceptance | Route | Account-recovery', () => {
       const userId = 1234;
       const newEmail = 'newEmail@example.net';
       const password = 'password123#A*';
-      const user = databaseBuilder.factory.buildUser.withRawPassword({ id: userId });
-      const accountRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({ userId, temporaryKey: 'DJFKDKJJSHQJ', newEmail, used: false });
+      databaseBuilder.factory.buildUser.withRawPassword({ id: userId });
+      const accountRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({
+        userId,
+        temporaryKey: 'FfgpFXgyuO062nPUPwcb8Wy3KcgkqR2p2GyEuGVaNI4=',
+        newEmail,
+        used: false,
+      });
       const temporaryKey = accountRecoveryDemand.temporaryKey;
       await databaseBuilder.commit();
 
       const options = {
         method: 'PATCH',
-        url: `/api/users/${user.id}/account-recovery?temporary-key=${temporaryKey}`,
+        url: '/api/account-recovery',
         payload: {
           data: {
             attributes: {
-              email: newEmail,
+              'temporary-key': temporaryKey,
               password,
             },
           },
@@ -50,18 +55,23 @@ describe('Acceptance | Route | Account-recovery', () => {
       const userId = 1234;
       const newEmail = 'newEmail@example.net';
       const password = 'password123#A*';
-      const user = databaseBuilder.factory.buildUser.withRawPassword({ id: userId });
-      const accountRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({ userId, temporaryKey: 'DJFKDKJJSHQJ', newEmail, used: false });
+      databaseBuilder.factory.buildUser.withRawPassword({ id: userId });
+      const accountRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({
+        userId,
+        temporaryKey: 'FfgpFXgyuO062nPUPwcb8Wy3KcgkqR2p2GyEuGVaNI4=',
+        newEmail,
+        used: false,
+      });
       const temporaryKey = accountRecoveryDemand.temporaryKey;
       await databaseBuilder.commit();
 
       const options = {
         method: 'PATCH',
-        url: `/api/users/${user.id}/account-recovery?temporary-key=${temporaryKey}`,
+        url: '/api/account-recovery',
         payload: {
           data: {
             attributes: {
-              email: newEmail,
+              'temporary-key': temporaryKey,
               password,
             },
           },

@@ -1,11 +1,7 @@
 const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
 const { AccountRecoveryUserAlreadyConfirmEmail } = require('../../../domain/errors');
-const { NotFoundError } = require('../../errors');
-const moment = require('moment');
 
 module.exports = async function updateUserAccount({
-  userId,
-  newEmail,
   password,
   temporaryKey,
   userRepository,
@@ -15,13 +11,10 @@ module.exports = async function updateUserAccount({
   domainTransaction,
 }) {
 
-  const { userId: foundUserId } = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
-  if (foundUserId !== userId) {
-    throw new NotFoundError('The temporary key is not for the provided user');
-  }
-  const userFound = await userRepository.get(userId);
+  const { userId, newEmail } = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
+  const user = await userRepository.get(userId);
 
-  if (userFound && userFound.emailConfirmedAt) {
+  if (user && user.emailConfirmedAt) {
     throw new AccountRecoveryUserAlreadyConfirmEmail();
   }
 
@@ -35,7 +28,7 @@ module.exports = async function updateUserAccount({
 
   if (isAuthenticatedFromGarOnly) {
     const authenticationMethodFromPix = new AuthenticationMethod({
-      userId: userFound.id,
+      userId,
       identityProvider: AuthenticationMethod.identityProviders.PIX,
       authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
         password: hashedPassword,
@@ -48,17 +41,18 @@ module.exports = async function updateUserAccount({
     domainTransaction);
   } else {
     authenticationMethodRepository.updateChangedPassword({
-      userId: userFound.id,
+      userId,
       hashedPassword,
     },
     domainTransaction);
   }
 
-  userFound.cgu = true;
-  userFound.email = newEmail;
-  userFound.emailConfirmedAt = moment();
+  const userValuesToUpdate = { cgu: true, email: newEmail, emailConfirmedAt: new Date() };
 
-  const user = await userRepository.create({ user: userFound, domainTransaction });
+  await userRepository.updateWithEmailConfirmed({
+    id: userId,
+    userAttributes: userValuesToUpdate,
+    domainTransaction,
+  });
   await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey, domainTransaction);
-  return user;
 };
