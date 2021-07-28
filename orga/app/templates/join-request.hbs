@@ -37,7 +37,7 @@
         </div>
       {{/if}}
 
-      <Routes::JoinRequestForm @createScoOrganizationInvitation={{this.createScoOrganizationInvitation}} />
+      <Auth::JoinRequestForm @onSubmit={{this.createScoOrganizationInvitation}} />
     {{/if}}
     <div class="join-request-form__back">
       <LinkTo @route="login"><FaIcon @icon="arrow-left" />Revenir à la page de connexion</LinkTo>

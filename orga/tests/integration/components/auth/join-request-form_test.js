@@ -4,7 +4,7 @@ import { render, triggerEvent } from '@ember/test-helpers';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/join-request-form', function(hooks) {
+module('Integration | Component | Auth::JoinRequestForm', function(hooks) {
   setupRenderingTest(hooks);
 
   module('when are not fill correctly', function() {
@@ -17,7 +17,7 @@ module('Integration | Component | routes/join-request-form', function(hooks) {
     ].forEach(function({ stringFilledIn }) {
       test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
         // given
-        await render(hbs`<Routes::JoinRequestForm />`);
+        await render(hbs`<Auth::JoinRequestForm />`);
 
         // when
         await fillInByLabel('Votre prénom', stringFilledIn);
@@ -33,7 +33,7 @@ module('Integration | Component | routes/join-request-form', function(hooks) {
     ].forEach(function({ stringFilledIn }) {
       test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
         // given
-        await render(hbs`<Routes::JoinRequestForm />`);
+        await render(hbs`<Auth::JoinRequestForm />`);
 
         // when
         await fillInByLabel('Votre nom', stringFilledIn);

@@ -11,7 +11,7 @@ module('Unit | Component | Routes | login-form', (hooks) => {
   let component;
 
   hooks.beforeEach(function() {
-    component = createGlimmerComponent('component:routes/login-form');
+    component = createGlimmerComponent('component:auth/login-form');
   });
 
   module('#authenticate', () => {
