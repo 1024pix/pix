@@ -5,6 +5,7 @@ const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../lib/domain/mo
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
+const _ = require('lodash');
 
 const macaronCleaPath = `${__dirname}/../utils/pdf/files/macaron_clea.png`;
 const macaronPixPlusDroitMaitrePath = `${__dirname}/../utils/pdf/files/macaron_maitre.png`;
@@ -30,6 +31,27 @@ module.exports = {
       ...certificationCourseDTO,
       cleaCertificationImagePath,
       pixPlusDroitCertificationImagePath,
+    });
+  },
+
+  async getByOrganizationIdAndDivision({ organizationId, division }) {
+    const certificationCourseDTOs = await _selectCertificationAttestations()
+      .innerJoin('schooling-registrations', 'schooling-registrations.userId', 'certification-courses.userId')
+      .where('schooling-registrations.organizationId', '=', organizationId)
+      .whereRaw('LOWER("schooling-registrations"."division") LIKE ?', `${division.toLowerCase()}`)
+      .orderBy('lastName', 'ASC')
+      .orderBy('firstName', 'ASC');
+
+    if (_.isEmpty(certificationCourseDTOs)) {
+      throw new NotFoundError(`There is no certification course for organization "${organizationId}" and division "${division}"`);
+    }
+
+    // const cleaCertificationImagePath = await _getCleaCertificationImagePath(certificationCourseDTO.id);
+    // const pixPlusDroitCertificationImagePath = await _getPixPlusDroitCertificationImagePath(certificationCourseDTO.id);
+    return new CertificationAttestation({
+      ...certificationCourseDTOs,
+    //  cleaCertificationImagePath,
+    //  pixPlusDroitCertificationImagePath,
     });
   },
 };
