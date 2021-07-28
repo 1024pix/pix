@@ -4,7 +4,7 @@ require('approvals')
   .mocha();
 const jsonCycle = require('json-cycle');
 
-describe('Unit | Infrastructure | Utils | Pdf | Certification Attestation Pdf', function() {
+describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation Pdf', function() {
   it('should generate full attestation (non-regression test)', async function() {
     this.timeout(5000);
     // given
