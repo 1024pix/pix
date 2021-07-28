@@ -128,6 +128,7 @@ export default class ChallengeItemGeneric extends Component {
   enableFocusedChallenge() {
     this.isTooltipClosed = true;
     this._setOnBlurEventToWindow();
+    this.args.onTooltipClose();
   }
 
   _setOnBlurEventToWindow() {
@@ -136,7 +137,6 @@ export default class ChallengeItemGeneric extends Component {
       this._clearOnBlurMethod();
     };
   }
-
 
   _clearOnBlurMethod() {
     window.onblur = null;

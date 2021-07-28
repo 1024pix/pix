@@ -15,6 +15,7 @@ export default class ChallengeController extends Controller {
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOut = false;
+  @tracked hasOverlay = true;
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -29,6 +30,15 @@ export default class ChallengeController extends Controller {
 
   get isFocusedChallengeAndUserHasFocusedOut() {
     return this.model.challenge.focused && this.hasFocusedOut;
+  }
+
+  get displayOverlay() {
+    return this.model.challenge.focused && this.hasOverlay;
+  }
+
+  @action
+  removeOverlay() {
+    this.hasOverlay = false;
   }
 
   @action

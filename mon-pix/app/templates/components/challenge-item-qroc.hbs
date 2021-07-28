@@ -1,4 +1,4 @@
-<article class="rounded-panel rounded-panel--no-margin-bottom challenge-item"
+<article class="rounded-panel rounded-panel--no-margin-bottom challenge-item{{if this.hasFocusedOutOfChallenge "--overlay"}}"
          data-challenge-id="{{@challenge.id}}"
          {{will-destroy this.removeEmbedAutoEventListener}}
          {{on 'mouseenter' this.hideOutOfFocusBorder}}

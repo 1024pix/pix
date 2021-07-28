@@ -369,107 +369,151 @@ describe('Acceptance | Displaying a QROC challenge', () => {
     });
   });
 
-  describe('when user has focused out of document', function() {
+  describe('when challenge is focused', () => {
+    it('should display an overlay and tooltip', async () => {
+      // given
+      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+      server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
 
-    context('when challenge is set as focused', function() {
+      // when
+      await visit(`/assessments/${assessment.id}/challenges/0`);
 
-      context('and user has not closed tooltip', () => {
-        beforeEach(async function() {
-          // given
-          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-          server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
-
-          // when
-          await visit(`/assessments/${assessment.id}/challenges/0`);
-        });
-
-        it('should not display an info alert with dashed border and overlay', async function() {
-          // when
-          const challengeItem = find('.challenge-item');
-          await triggerEvent(challengeItem, 'mouseleave');
-
-          // then
-          expect(find('.alert--info')).to.not.exist;
-          expect(find('.challenge-item__container--focused')).to.not.exist;
-          expect(find('.assessment-challenge__focused-out-overlay')).to.not.exist;
-        });
-      });
-
-      context('and user has closed tooltip', () => {
-
-        beforeEach(async function() {
-          // given
-          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-          server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
-
-          // when
-          await visit(`/assessments/${assessment.id}/challenges/0`);
-          await click('[data-test="challenge-statement-tag-information__button"]');
-        });
-
-        it('should display a warning alert', async function() {
-          // when
-          await triggerEvent(window, 'blur');
-
-          // then
-          expect(find('.alert--warning')).to.exist;
-        });
-
-        it('should display an info alert with dashed border and overlay', async function() {
-          // when
-          const challengeItem = find('.challenge-item');
-          await triggerEvent(challengeItem, 'mouseleave');
-
-          // then
-          expect(find('.alert--info')).to.exist;
-          expect(find('.challenge-item__container--focused')).to.exist;
-          expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
-        });
-
-        it('should display only the warning alert when it has been triggered', async function() {
-          // when
-          const challengeItem = find('.challenge-item');
-          await triggerEvent(challengeItem, 'mouseleave');
-
-          // then
-          expect(find('.alert--info')).to.exist;
-          expect(find('.challenge-item__container--focused')).to.exist;
-          expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
-
-          // when
-          await triggerEvent(window, 'blur');
-
-          expect(find('.alert--info')).to.not.exist;
-          expect(find('.alert--warning')).to.exist;
-          expect(find('.challenge-item__container--focused')).to.exist;
-          expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
-        });
-
-      });
+      // then
+      expect(find('.assessment-challenge__focused-overlay')).to.exist;
+      expect(find('#challenge-statement-tag--tooltip')).to.exist;
     });
 
-    context('when challenge is not set as focused', function() {
-      beforeEach(async function() {
-        // given
-        assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-        server.create('challenge', 'forCompetenceEvaluation', 'QROC');
+    it('should hide an overlay and tooltip', async () => {
+      // given
+      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+      server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
 
-        // when
-        await visit(`/assessments/${assessment.id}/challenges/0`);
+      // when
+      await visit(`/assessments/${assessment.id}/challenges/0`);
+      await click('[data-test="challenge-statement-tag-information__button"]');
+
+      // then
+      expect(find('.assessment-challenge__focused-overlay')).to.not.exist;
+      expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
+    });
+
+    describe('when user has focused out of document', function() {
+
+      context('when challenge is set as focused', function() {
+
+        context('and user has not closed tooltip', () => {
+          beforeEach(async function() {
+            // given
+            assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+            server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
+
+            // when
+            await visit(`/assessments/${assessment.id}/challenges/0`);
+          });
+
+          it('should not display an info alert with dashed border and overlay', async function() {
+            // when
+            const challengeItem = find('.challenge-item');
+            await triggerEvent(challengeItem, 'mouseleave');
+
+            // then
+            expect(find('.alert--info')).to.not.exist;
+            expect(find('.challenge-item__container--focused')).to.not.exist;
+            expect(find('.assessment-challenge__focused-out-overlay')).to.not.exist;
+          });
+        });
+
+        context('and user has closed tooltip', () => {
+
+          beforeEach(async function() {
+            // given
+            assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+            server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
+
+            // when
+            await visit(`/assessments/${assessment.id}/challenges/0`);
+            await click('[data-test="challenge-statement-tag-information__button"]');
+          });
+
+          it('should display a warning alert', async function() {
+            // when
+            await triggerEvent(window, 'blur');
+
+            // then
+            expect(find('.alert--warning')).to.exist;
+          });
+
+          it('should display an info alert with dashed border and overlay', async function() {
+            // when
+            const challengeItem = find('.challenge-item');
+            await triggerEvent(challengeItem, 'mouseleave');
+
+            // then
+            expect(find('.alert--info')).to.exist;
+            expect(find('.challenge-item__container--focused')).to.exist;
+            expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
+          });
+
+          it('should display only the warning alert when it has been triggered', async function() {
+            // when
+            const challengeItem = find('.challenge-item');
+            await triggerEvent(challengeItem, 'mouseleave');
+
+            // then
+            expect(find('.alert--info')).to.exist;
+            expect(find('.challenge-item__container--focused')).to.exist;
+            expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
+
+            // when
+            await triggerEvent(window, 'blur');
+
+            expect(find('.alert--info')).to.not.exist;
+            expect(find('.alert--warning')).to.exist;
+            expect(find('.challenge-item__container--focused')).to.exist;
+            expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
+          });
+
+        });
       });
 
-      it('should not display instructions', async function() {
-        // then
-        expect(find('.focused-challenge-instructions-action__confirmation-button')).to.not.exist;
-      });
+      context('when challenge is not set as focused', function() {
+        beforeEach(async function() {
+          // given
+          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+          server.create('challenge', 'forCompetenceEvaluation', 'QROC');
 
-      it('should not display a warning alert', async function() {
-        // when
-        await triggerEvent(window, 'blur');
+          // when
+          await visit(`/assessments/${assessment.id}/challenges/0`);
+        });
 
-        // then
-        expect(find('.alert--warning')).to.not.exist;
+        it('should not display instructions', async function() {
+          // then
+          expect(find('.focused-challenge-instructions-action__confirmation-button')).to.not.exist;
+        });
+
+        it('should not display a warning alert', async function() {
+          // when
+          await triggerEvent(window, 'blur');
+
+          // then
+          expect(find('.alert--warning')).to.not.exist;
+        });
       });
+    });
+  });
+
+  describe('when challenge is not focused', () => {
+    it('should not display an overlay nor a tooltip', async () => {
+      // given
+      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+      server.create('challenge', 'forCompetenceEvaluation', 'QROC');
+
+      // when
+      await visit(`/assessments/${assessment.id}/challenges/0`);
+
+      // then
+      expect(find('.assessment-challenge__focused-overlay')).to.not.exist;
+      expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
     });
   });
 });
