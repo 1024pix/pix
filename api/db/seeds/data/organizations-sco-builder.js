@@ -335,6 +335,33 @@ function organizationsScoBuilder({ databaseBuilder }) {
     organizationId: SCO_AEFE_ID,
     organizationRole: Membership.roles.MEMBER,
   });
+
+  // user who has left SCO
+  const userWhoHasLeftSCO = databaseBuilder.factory.buildUser({
+    firstName: 'John',
+    lastName: 'hasLeftSCO',
+    email: 'john.hasleftsco@example.net',
+    username: null,
+    cgu: true,
+    emailConfirmedAt: new Date(),
+  });
+
+  databaseBuilder.factory.buildAuthenticationMethod({
+    identityProvider: AuthenticationMethod.identityProviders.GAR,
+    externalIdentifier: '1234555',
+    userId: userWhoHasLeftSCO.id,
+  });
+
+  databaseBuilder.factory.buildAuthenticationMethod.buildWithPassword({
+    userId: userWhoHasLeftSCO.id,
+  });
+
+  databaseBuilder.factory.buildAccountRecoveryDemand({
+    userId: userWhoHasLeftSCO.id,
+    firstName: userWhoHasLeftSCO.firstName,
+    lastName: userWhoHasLeftSCO.lastName,
+    used: true,
+  });
 }
 
 module.exports = {
