@@ -649,7 +649,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestations[0]).to.deep.equal(expectedCertificationAttestation);
     });
 
-    it('should return a CertificationAttestation with the last validated assessment-result', async () => {
+    it('should return the CertificationAttestation from the last not cancelled certification-course', async () => {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationAttestationData = {
@@ -689,40 +689,61 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationAttestationData.id }).id;
-      databaseBuilder.factory.buildAssessmentResult({
-        assessmentId,
-        pixScore: 0,
-        status: 'validated',
-        createdAt: new Date('2020-01-01'),
-      });
 
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationAttestationData.id }).id;
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId,
         pixScore: certificationAttestationData.pixScore,
         status: 'validated',
+        createdAt: new Date('2020-01-01'),
+      });
+
+      const cancelledCertificationId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: certificationAttestationData.firstName,
+        lastName: certificationAttestationData.lastName,
+        birthdate: certificationAttestationData.birthdate,
+        birthplace: certificationAttestationData.birthplace,
+        isPublished: certificationAttestationData.isPublished,
+        isCancelled: true,
+        createdAt: new Date('2020-01-02'),
+        sessionId,
+        userId,
+      }).id;
+      const assessmentCancelledId = databaseBuilder.factory.buildAssessment({ certificationCourseId: cancelledCertificationId }).id;
+
+      databaseBuilder.factory.buildAssessmentResult({
+        assessmentId: assessmentCancelledId,
+        pixScore: 0,
+        status: 'validated',
         createdAt: new Date('2020-01-03'),
       });
 
-      databaseBuilder.factory.buildAssessmentResult({
-        assessmentId,
-        pixScore: 0,
-        status: 'error',
-        createdAt: new Date('2020-01-04'),
+      databaseBuilder.factory.buildOrganization({ id: organizationId });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        firstName: certificationAttestationData.firstName,
+        lastName: certificationAttestationData.lastName,
+        division,
+        organizationId,
+        userId,
       });
 
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestation = await certificationAttestationRepository.get(certificationAttestationData.id);
+      const certificationAttestations = await certificationAttestationRepository.getByOrganizationIdAndDivision({
+        organizationId,
+        division,
+      });
 
       // then
       const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation({
         id: certificateId,
         ...certificationAttestationData,
       });
-      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-      expect(certificationAttestation).to.deep.equal(expectedCertificationAttestation);
+
+      expect(certificationAttestations.length).to.equal(1);
+      expect(certificationAttestations[0]).to.be.instanceOf(CertificationAttestation);
+      expect(certificationAttestations[0]).to.deep.equal(expectedCertificationAttestation);
     });
 
     it('should get the clea certification result if taken', async () => {
@@ -771,12 +792,20 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         pixScore: certificationAttestationData.pixScore,
         status: 'validated',
       });
+      databaseBuilder.factory.buildOrganization({ id: organizationId });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        firstName: certificationAttestationData.firstName,
+        lastName: certificationAttestationData.lastName,
+        division,
+        organizationId,
+        userId,
+      });
       databaseBuilder.factory.buildBadge({ key: cleaBadgeKey });
       databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: cleaBadgeKey, acquired: true });
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestation = await certificationAttestationRepository.get(123);
+      const [certificationAttestation] = await certificationAttestationRepository.getByOrganizationIdAndDivision({ organizationId, division });
 
       // then
       const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation({
@@ -834,6 +863,14 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           pixScore: certificationAttestationData.pixScore,
           status: 'validated',
         });
+        databaseBuilder.factory.buildOrganization({ id: organizationId });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          firstName: certificationAttestationData.firstName,
+          lastName: certificationAttestationData.lastName,
+          division,
+          organizationId,
+          userId,
+        });
         databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
         databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
         databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificationAttestationData.id, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
@@ -841,7 +878,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         await databaseBuilder.commit();
 
         // when
-        const certificationAttestation = await certificationAttestationRepository.get(123);
+        const [certificationAttestation] = await certificationAttestationRepository.getByOrganizationIdAndDivision({ organizationId, division });
 
         // then
         const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation({

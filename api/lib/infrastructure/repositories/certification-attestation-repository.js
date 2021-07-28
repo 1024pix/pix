@@ -39,7 +39,14 @@ module.exports = {
     const certificationCourseDTOs = await _selectCertificationAttestations()
       .innerJoin('schooling-registrations', 'schooling-registrations.userId', 'certification-courses.userId')
       .where('schooling-registrations.organizationId', '=', organizationId)
-      .whereRaw('LOWER("schooling-registrations"."division") LIKE ?', `${division.toLowerCase()}`)
+      .whereRaw('LOWER("schooling-registrations"."division") = ?', division.toLowerCase())
+      .whereNotExists(
+        knex.select(1)
+          .from({ 'last-certification-courses': 'certification-courses' })
+          .whereRaw('"last-certification-courses"."userId" = "certification-courses"."userId"')
+          .whereRaw('"last-certification-courses"."isCancelled"= false')
+          .whereRaw('"certification-courses"."createdAt" < "last-certification-courses"."createdAt"'),
+      )
       .orderBy('lastName', 'ASC')
       .orderBy('firstName', 'ASC');
 
