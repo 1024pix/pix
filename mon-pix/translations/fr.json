@@ -480,7 +480,7 @@
         },
         "tooltip": {
           "close": "J'ai compris",
-          "focused": "Question focus : Testez-vous sans l'aide d'internet ou d'une application externe pour répondre à cette question. En certification, tout changement d'onglet, de fenêtre ou d'application entraînera la non-validation de l'épreuve.",
+          "focused": "Restez sur cette page ! Vous ne devez pas faire une recherche sur internet ni utiliser vos propres outils pour répondre à cette question.",
           "regular": "<p>Question libre :</p>Vous pouvez vous aider d'internet et d'applications externes."
         }
       },
