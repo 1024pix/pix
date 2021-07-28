@@ -1,3 +1,4 @@
+const bluebird = require('bluebird');
 const { knex } = require('../../../db/knex-database-connection');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
@@ -46,12 +47,14 @@ module.exports = {
       throw new NotFoundError(`There is no certification course for organization "${organizationId}" and division "${division}"`);
     }
 
-    // const cleaCertificationImagePath = await _getCleaCertificationImagePath(certificationCourseDTO.id);
-    // const pixPlusDroitCertificationImagePath = await _getPixPlusDroitCertificationImagePath(certificationCourseDTO.id);
-    return new CertificationAttestation({
-      ...certificationCourseDTOs,
-    //  cleaCertificationImagePath,
-    //  pixPlusDroitCertificationImagePath,
+    return bluebird.mapSeries(certificationCourseDTOs, async (certificationCourseDTO) => {
+      const cleaCertificationImagePath = await _getCleaCertificationImagePath(certificationCourseDTO.id);
+      const pixPlusDroitCertificationImagePath = await _getPixPlusDroitCertificationImagePath(certificationCourseDTO.id);
+      return new CertificationAttestation({
+        ...certificationCourseDTO,
+        cleaCertificationImagePath,
+        pixPlusDroitCertificationImagePath,
+      });
     });
   },
 };

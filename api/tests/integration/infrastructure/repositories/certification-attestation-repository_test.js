@@ -502,7 +502,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(error.message).to.equal(`There is no certification course for organization "${organizationId}" and division "${division}"`);
     });
 
-    it('should return a CertificationAttestation', async () => {
+    it('should return a list of CertificationAttestation', async () => {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationAttestationData = {
@@ -548,18 +548,29 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         pixScore: certificationAttestationData.pixScore,
         status: 'validated',
       });
+      databaseBuilder.factory.buildOrganization({ id: organizationId });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        firstName: certificationAttestationData.firstName,
+        lastName: certificationAttestationData.lastName,
+        division,
+        organizationId,
+        userId,
+      });
       await databaseBuilder.commit();
 
       // when
-      const certificationAttestation = await certificationAttestationRepository.getByOrganizationIdAndDivision(certificationAttestationData.id);
+      const certificationAttestations = await certificationAttestationRepository.getByOrganizationIdAndDivision({
+        organizationId, division,
+      });
 
       // then
       const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation({
         id: certificateId,
         ...certificationAttestationData,
       });
-      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-      expect(certificationAttestation).to.deep.equal(expectedCertificationAttestation);
+      expect(certificationAttestations).to.have.length(1);
+      expect(certificationAttestations[0]).to.be.instanceOf(CertificationAttestation);
+      expect(certificationAttestations[0]).to.deep.equal(expectedCertificationAttestation);
     });
 
     it('should return a CertificationAttestation with the last validated assessment-result', async () => {
