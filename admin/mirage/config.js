@@ -217,4 +217,19 @@ export default function() {
 
   this.patch('/cache', () => {});
   this.post('/lcms/releases', () => {});
+
+  this.patch('/certification-courses/:id', (schema, request) => {
+    const certificationId = request.params.id;
+    const params = JSON.parse(request.requestBody);
+
+    const certificationToUpdate = schema.certifications.find(certificationId);
+    certificationToUpdate.update({
+      firstName: params.firstName,
+      lastName: params.lastName,
+      birthdate: params.birthdate,
+      birthplace: params.birthplace,
+    });
+
+    return certificationToUpdate;
+  });
 }

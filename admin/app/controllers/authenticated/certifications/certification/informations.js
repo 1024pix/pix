@@ -22,13 +22,13 @@ export default class CertificationInformationsController extends Controller {
   // Properties
   @alias('model') certification;
   @tracked editingCandidateResults = false;
-  @tracked editingCandidateInformations = false;
   @service notifications;
   @service featureToggles;
   @tracked displayConfirm = false;
   @tracked confirmMessage = '';
   @tracked confirmErrorMessage = '';
   @tracked confirmAction = 'onCandidateResultsSave';
+  @tracked isCandidateEditModalOpen = false;
 
   // private properties
   _competencesCopy = null;
@@ -180,11 +180,6 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onUpdateCertificationBirthdate(selectedDates, lastSelectedDateFormatted) {
-    this.certification.birthdate = lastSelectedDateFormatted;
-  }
-
-  @action
   onCancelCourseButtonClick() {
     const confirmMessage = 'Êtes vous sur de vouloir annuler cette certification ? Cliquer sur confirmer pour poursuivre';
 
@@ -206,23 +201,11 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onCandidateInformationsEdit() {
-    this.editingCandidateInformations = true;
-  }
-
-  @action
-  onCandidateInformationsCancel() {
-    this.editingCandidateInformations = false;
-  }
-
-  @action
-  async onCandidateInformationsSave(event) {
-    event.preventDefault();
-
+  async onCandidateInformationSave() {
     try {
       await this.saveCertificationCourse();
       this.notifications.success('Les informations du candidat ont bien été enregistrées.');
-      this.editingCandidateInformations = false;
+      this.isCandidateEditModalOpen = false;
     } catch (e) {
       if (e.errors && e.errors.length > 0) {
         e.errors.forEach((error) => {
@@ -231,7 +214,18 @@ export default class CertificationInformationsController extends Controller {
       } else {
         this.notifications.error(e);
       }
+      throw e;
     }
+  }
+
+  @action
+  openCandidateEditModal() {
+    this.isCandidateEditModalOpen = true;
+  }
+
+  @action
+  closeCandidateEditModal() {
+    this.isCandidateEditModalOpen = false;
   }
 
   // Private methods

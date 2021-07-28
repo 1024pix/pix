@@ -6,17 +6,18 @@
 @import 'ember-power-select/themes/bootstrap';
 
 /* global */
-@import 'misc/palette';
-@import 'misc/global';
-@import 'misc/utils';
-@import 'misc/button';
-@import 'misc/callout';
-@import 'misc/form';
-@import 'misc/nav';
-@import 'misc/page';
-@import 'misc/power-select';
-@import 'misc/tables';
-@import 'misc/table-admin';
+@import 'globals/palette';
+@import 'globals/global';
+@import 'globals/utils';
+@import 'globals/button';
+@import 'globals/callout';
+@import 'globals/fonts';
+@import 'globals/form';
+@import 'globals/nav';
+@import 'globals/page';
+@import 'globals/power-select';
+@import 'globals/tables';
+@import 'globals/table-admin';
 
 /* pages */
 @import 'login';
@@ -36,6 +37,7 @@
 
 /* components */
 @import 'components/common/tick-or-cross';
+@import 'components/certification/candidate-edit-modal';
 @import 'components/certification-center-form';
 @import 'components/certification-details-answer';
 @import 'components/certification-details-competence';
@@ -44,6 +46,7 @@
 @import 'components/confirm-popup';
 @import 'components/member-item';
 @import 'components/menu-bar';
+@import 'components/modal';
 @import 'components/organization-form';
 @import 'components/organization-information-section';
 @import 'components/organization-members-section';
