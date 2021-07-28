@@ -39,6 +39,30 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
   module('#onCancelButtonsClicked', function() {
 
+    test('it should reset form', async function(assert) {
+      // given
+      this.candidate = EmberObject.create({ firstName: 'Fabrice', lastName: 'Gadjo', birthdate: '2000-12-15', birthplace: 'Trouville' });
+      this.onCancelButtonsClickedStub = sinon.stub();
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}}/>`);
+      await fillInByLabel('Nom de famille', 'Belmans');
+      await fillInByLabel('Prénom', 'Gideon');
+      setFlatpickrDate('#birthdate', new Date('1861-03-17'));
+      await fillInByLabel('Commune de naissance', 'Ormeshadow');
+
+      // when
+      await clickByLabel('Annuler');
+
+      // then
+      assert.equal(this.candidate.firstName, 'Fabrice');
+      assert.dom('#first-name').hasValue('Fabrice');
+      assert.equal(this.candidate.lastName, 'Gadjo');
+      assert.dom('#last-name').hasValue('Gadjo');
+      assert.equal(this.candidate.birthdate, '2000-12-15');
+      assert.dom('#birthdate').hasValue('2000-12-15');
+      assert.equal(this.candidate.birthplace, 'Trouville');
+      assert.dom('#birth-city').hasValue('Trouville');
+    });
+
     test('it should call the onCancelButtonsClicked action', async function(assert) {
       // given
       this.candidate = EmberObject.create({ birthdate: '2000-12-15' });

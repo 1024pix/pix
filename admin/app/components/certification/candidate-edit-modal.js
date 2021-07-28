@@ -48,4 +48,10 @@ export default class CandidateEditModal extends Component {
     }
     this._initForm();
   }
+
+  @action
+  onCancelButtonsClicked() {
+    this._initForm();
+    this.args.onCancelButtonsClicked();
+  }
 }

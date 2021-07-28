@@ -1,4 +1,4 @@
-<Modal::Dialog class="candidate-edit-modal" @title="Editer les informations du candidat" @display={{@isDisplayed}} @close={{@onCancelButtonsClicked}}>
+<Modal::Dialog class="candidate-edit-modal" @title="Editer les informations du candidat" @display={{@isDisplayed}} @close={{this.onCancelButtonsClicked}}>
   <form {{on "submit" this.onFormSubmit}}>
     <Modal::Body class="candidate-edit-modal__content">
 
@@ -44,7 +44,7 @@
 
     </Modal::Body>
     <Modal::Footer>
-      <PixButton @size="small" @backgroundColor="transparent-light" @triggerAction={{@onCancelButtonsClicked}} data-test-id="close-certification-candidate-edition-modal">Annuler</PixButton>
+      <PixButton @size="small" @backgroundColor="transparent-light" @triggerAction={{this.onCancelButtonsClicked}} data-test-id="close-certification-candidate-edition-modal">Annuler</PixButton>
       <PixButton @size="small" @type="submit" data-test-id="close-certification-candidate-edition-modal">Enregistrer</PixButton>
     </Modal::Footer>
   </form>
