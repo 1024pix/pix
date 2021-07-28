@@ -73,6 +73,7 @@
     display: block;
     font-weight: $font-normal;
     letter-spacing: 0;
+    margin-bottom: 16px;
 
     p {
       font-weight: $font-bold;
@@ -84,26 +85,27 @@
   position: absolute;
   background-color: $white;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
+  border-radius: 15px;
   z-index: 300;
-  width: 590px;
-  padding: 20px 36px;
-  right: 20px;
-  top: 60px;
+  width: 300px;
+  padding: 24px;
+  right: 100px;
+  //top: 60px;
+  bottom: -60px;
 
   @include device-is('tablet') {
     max-width: 590px;
   }
 
   &::before {
-    content: '';
+    content: " ";
     position: absolute;
-    width: 0;
-    height: 0;
-    top: -17px;
-    right: 0;
-    border-bottom: 20px solid white;
-    border-left: 30px solid transparent;
+    top: 45%;
+    left: 100%;
+    margin-top: -5px;
+    border-width: 15px;
+    border-style: solid;
+    border-color: transparent transparent transparent white;
 
     @include device-is('tablet') {
       right: 0;
