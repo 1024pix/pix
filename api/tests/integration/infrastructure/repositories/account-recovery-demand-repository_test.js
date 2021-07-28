@@ -57,12 +57,12 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
           // given
           const email = 'someMail@example.net';
           const temporaryKey = 'someTemporaryKey';
-          const { id: demandId, schoolingRegistrationId } = databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false });
+          const { id: demandId, userId, schoolingRegistrationId } = databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false });
           databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
           await databaseBuilder.commit();
           const expectedAccountRecoveryDemand = {
             id: demandId,
-            userId: null,
+            userId,
             oldEmail: null,
             schoolingRegistrationId,
             newEmail: 'philipe@example.net',
