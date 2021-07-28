@@ -57,8 +57,8 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
           // given
           const email = 'someMail@example.net';
           const temporaryKey = 'someTemporaryKey';
-          const { id: demandId, userId, schoolingRegistrationId } = databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false });
-          databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
+          const { id: demandId, userId, schoolingRegistrationId, createdAt } = await databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false });
+          await databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
           await databaseBuilder.commit();
           const expectedAccountRecoveryDemand = {
             id: demandId,
@@ -68,6 +68,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
             newEmail: 'philipe@example.net',
             temporaryKey: 'someTemporaryKey',
             used: false,
+            createdAt,
           };
           // when
           const demand = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
@@ -130,6 +131,55 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
           // then
           expect(error).to.be.instanceOf(AccountRecoveryDemandExpired);
         });
+
+      });
+
+    });
+
+  });
+
+  describe('#findByUserId', () => {
+
+    context('when there is no demand', () => {
+
+      it('should return an empty array', async () => {
+        //given
+        const userId = 1;
+
+        // when
+        const result = await accountRecoveryDemandRepository.findByUserId(userId);
+
+        // then
+        expect(result).to.be.deep.equal([]);
+
+      });
+    });
+
+    context('when there are several demands for several users', () => {
+
+      it('should return only the user ones', async () => {
+        // given
+        await databaseBuilder.factory.buildAccountRecoveryDemand();
+        const expectedUser = await databaseBuilder.factory.buildUser();
+        const firstAccounRecoveryDemand = await databaseBuilder.factory.buildAccountRecoveryDemand({
+          userId: expectedUser.id,
+          temporaryKey: 'temporaryKey1',
+          oldEmail: null,
+        });
+        const secondAccounRecoveryDemand = await databaseBuilder.factory.buildAccountRecoveryDemand({
+          userId: expectedUser.id,
+          used: true,
+          temporaryKey: 'temporaryKey2',
+          oldEmail: null,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await accountRecoveryDemandRepository.findByUserId(expectedUser.id);
+
+        // then
+        expect(result).to.be.deep.equal([firstAccounRecoveryDemand, secondAccounRecoveryDemand]);
 
       });
 
