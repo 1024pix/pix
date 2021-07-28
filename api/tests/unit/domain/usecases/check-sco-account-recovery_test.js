@@ -9,6 +9,7 @@ const checkScoAccountRecovery = require('../../../../lib/domain/usecases/check-s
 describe('Unit | UseCase | check-sco-account-recovery', () => {
 
   let schoolingRegistrationRepository;
+  let accountRecoveryDemandRepository;
   let userRepository;
   let organizationRepository;
   let checkScoAccountRecoveryService;
@@ -46,6 +47,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
         const expectedOrganization = domainBuilder.buildOrganization({ id: 7, name: 'Lycée Poudlard' });
 
         checkScoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
+          accountRecoveryDemandRepository,
           studentInformation,
           schoolingRegistrationRepository,
           userRepository,

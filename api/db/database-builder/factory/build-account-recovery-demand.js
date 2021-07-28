@@ -12,7 +12,7 @@ module.exports = function buildAccountRecoveryDemand({
   newEmail = 'philipe@example.net',
   temporaryKey = 'OWIxZGViNGQtM2I3ZC00YmFkLTliZGQtMmIwZDdiM2RjYjZk',
   used = false,
-  createdAt,
+  createdAt = new Date(),
 } = {}) {
 
   let schoolingRegistrationAttributes;

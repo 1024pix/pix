@@ -8,6 +8,7 @@ class AccountRecoveryDemand {
     newEmail,
     temporaryKey,
     used,
+    createdAt,
   } = {}) {
     this.id = id;
     this.schoolingRegistrationId = schoolingRegistrationId;
@@ -16,6 +17,7 @@ class AccountRecoveryDemand {
     this.newEmail = newEmail.toLowerCase();
     this.temporaryKey = temporaryKey;
     this.used = used;
+    this.createdAt = createdAt;
   }
 }
 

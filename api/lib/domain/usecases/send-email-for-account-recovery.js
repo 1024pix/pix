@@ -16,6 +16,7 @@ module.exports = async function sendEmailForAccountRecovery({
 
   const { firstName, id, userId, email: oldEmail } = await checkScoAccountRecoveryService.retrieveSchoolingRegistration({
     studentInformation,
+    accountRecoveryDemandRepository,
     schoolingRegistrationRepository,
     userRepository,
     userReconciliationService,
