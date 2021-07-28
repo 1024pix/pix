@@ -10,6 +10,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
   let accountRecoveryDemandRepository;
   let checkScoAccountRecoveryService;
   let mailService;
+  const userReconciliationService = {};
 
   beforeEach(() => {
     userRepository = {
@@ -45,6 +46,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         studentInformation,
         schoolingRegistrationRepository,
         userRepository,
+        userReconciliationService,
       }).resolves({
         username: 'nanou.monchose0705',
         email: 'nanou.monchose@example.net',
@@ -58,6 +60,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         accountRecoveryDemandRepository,
         mailService,
         checkScoAccountRecoveryService,
+        userReconciliationService,
       });
 
       // then
@@ -86,6 +89,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         studentInformation,
         schoolingRegistrationRepository,
         userRepository,
+        userReconciliationService,
       }).resolves({
         userId,
         username: 'nanou.monchose0705',
@@ -101,6 +105,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         accountRecoveryDemandRepository,
         mailService,
         checkScoAccountRecoveryService,
+        userReconciliationService,
       });
 
       // then
@@ -131,6 +136,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         studentInformation,
         schoolingRegistrationRepository,
         userRepository,
+        userReconciliationService,
       }).resolves({
         userId,
         firstName: 'Lorie',
@@ -146,6 +152,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         accountRecoveryDemandRepository,
         mailService,
         checkScoAccountRecoveryService,
+        userReconciliationService,
       });
 
       // then

@@ -78,6 +78,9 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
       });
 
+      // A contained context state 'When multiple matches'
+      // So the context 'one schoolingRegistration matched' is ambiguous
+      // Can it be replaced by 'When at least one schoolingRegistration matched on names' ?
       context('When one schoolingRegistration matched on names', () => {
 
         context('When schoolingRegistration found based on his...', () => {

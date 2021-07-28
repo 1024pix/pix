@@ -6,6 +6,7 @@ module.exports = async function checkScoAccountRecovery({
   organizationRepository,
   checkScoAccountRecoveryService,
   userRepository,
+  userReconciliationService,
 }) {
 
   const {
@@ -18,6 +19,7 @@ module.exports = async function checkScoAccountRecovery({
     studentInformation,
     schoolingRegistrationRepository,
     userRepository,
+    userReconciliationService,
   });
 
   const { name: latestOrganizationName } = await organizationRepository.get(organizationId);

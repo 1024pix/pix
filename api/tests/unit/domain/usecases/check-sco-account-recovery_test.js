@@ -12,6 +12,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
   let userRepository;
   let organizationRepository;
   let checkScoAccountRecoveryService;
+  const userReconciliationService = {};
 
   beforeEach(() => {
     schoolingRegistrationRepository = {
@@ -48,6 +49,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
           studentInformation,
           schoolingRegistrationRepository,
           userRepository,
+          userReconciliationService,
         }).resolves({
           firstName: studentInformation.firstName,
           lastName: studentInformation.lastName,
@@ -64,6 +66,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
           studentInformation,
           organizationRepository,
           checkScoAccountRecoveryService,
+          userReconciliationService,
         });
 
         // then

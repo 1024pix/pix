@@ -33,14 +33,22 @@ module.exports = async function generateUsername({
 
 };
 
-async function findMatchedSchoolingRegistrationForGivenOrganizationIdAndStudentInfo({ organizationId, studentInformation: { firstName, lastName, birthdate }, schoolingRegistrationRepository, userReconciliationService }) {
+async function findMatchedSchoolingRegistrationForGivenOrganizationIdAndStudentInfo({
+  organizationId,
+  studentInformation: { firstName, lastName, birthdate },
+  schoolingRegistrationRepository,
+  userReconciliationService,
+}) {
   const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndBirthdate({ organizationId, birthdate });
 
   if (schoolingRegistrations.length === 0) {
     throw new SchoolingRegistrationNotFound('There were no schoolingRegistrations matching with organization and birthdate');
   }
 
-  const schoolingRegistrationId = await userReconciliationService.findMatchingCandidateIdForGivenUser(schoolingRegistrations, { firstName, lastName });
+  const schoolingRegistrationId = await userReconciliationService.findMatchingCandidateIdForGivenUser(
+    schoolingRegistrations,
+    { firstName, lastName },
+  );
 
   if (!schoolingRegistrationId) {
     throw new SchoolingRegistrationNotFound('There were no schoolingRegistrations matching with names');
