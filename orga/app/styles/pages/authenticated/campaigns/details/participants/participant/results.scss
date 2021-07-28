@@ -6,33 +6,6 @@
   }
 }
 
-.participant-results-content {
-  &__summary {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 50%;
-    padding: 0 30px;
-  }
-
-  &__score {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 240px;
-  }
-
-  &__circle-chart {
-    margin-right: 40px;
-  }
-
-  &__circle-chart-value {
-    color: $grey-100;
-    font-family: $roboto;
-    font-size: 1.9375rem;
-  }
-}
-
 .participant-filter-banner {
   margin: 16px 0;
 }
