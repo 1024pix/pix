@@ -11,13 +11,11 @@
                  id="challenge-statement-tag--tooltip"
                  class="challenge-statement__tag-information"
                  {{on-key 'Escape' this.hideTagHelp event='keyup'}}>
-              <div class="challenge-statement-tag-information__text">
                 {{#if this.isFocusedChallenge}}
-                  {{t 'pages.challenge.statement.tooltip.focused'}}
-                {{else}}
-                  {{t 'pages.challenge.statement.tooltip.regular' htmlSafe=true}}
+                  <div class="challenge-statement-tag-information__text">
+                      {{t 'pages.challenge.statement.tooltip.focused'}}
+                  </div>
                 {{/if}}
-              </div>
               <PixButton data-test="challenge-statement-tag-information__button"
                          @size="small"
                          @triggerAction={{this.hideTagHelp}}>
