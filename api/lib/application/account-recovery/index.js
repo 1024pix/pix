@@ -1,7 +1,6 @@
 const Joi = require('joi').extend(require('@joi/date'));
 const featureToggles = require('../preHandlers/feature-toggles');
 const XRegExp = require('xregexp');
-const identifiersType = require('../../domain/types/identifiers-type');
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
 const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
 
@@ -68,7 +67,7 @@ exports.register = async function(server) {
     },
     {
       method: 'PATCH',
-      path: '/api/users/{id}/account-recovery',
+      path: '/api/account-recovery',
       config: {
         pre: [
           {
@@ -79,13 +78,10 @@ exports.register = async function(server) {
         auth: false,
         handler: accountRecoveryController.updateUserAccountFromRecoveryDemand,
         validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
           payload: Joi.object({
             data: {
               attributes: {
-                email: Joi.string().email().required(),
+                'temporary-key': Joi.string().min(32).required(),
                 password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
               },
             },

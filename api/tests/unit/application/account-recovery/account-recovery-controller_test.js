@@ -79,23 +79,20 @@ describe('Unit | Controller | account-recovery-controller', () => {
   describe('#updateUserAccount', () => {
 
     it('should call updateUserAccount usecase and return 204', async () => {
+      // given
       const user = domainBuilder.buildUser({ id: 1 });
       const temporaryKey = 'validTemporaryKey';
-      const email = 'Philippe@example.net';
       const domainTransaction = Symbol();
 
       const request = {
         params: {
           id: user.id,
         },
-        query: {
-          'temporary-key': temporaryKey,
-        },
         payload: {
           data: {
             attributes: {
-              email,
               password: user.password,
+              'temporary-key': temporaryKey,
             },
           },
         },
@@ -109,8 +106,6 @@ describe('Unit | Controller | account-recovery-controller', () => {
 
       // then
       expect(usecases.updateUserAccount).calledWithMatch({
-        userId: user.id,
-        newEmail: email,
         password: user.password,
         temporaryKey,
         domainTransaction,

@@ -1,4 +1,9 @@
-const { catchErr, databaseBuilder, expect, knex } = require('../../../../test-helper');
+const {
+  catchErr,
+  databaseBuilder,
+  expect,
+  knex,
+} = require('../../../../test-helper');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 
 const authenticationMethodRepository = require('../../../../../lib/infrastructure/repositories/authentication-method-repository');
@@ -26,8 +31,6 @@ describe('Integration | UseCases | Account-recovery | updateUserAccount', () => 
     await catchErr(async () => {
       await DomainTransaction.execute(async (domainTransaction) => {
         await updateUserAccount({
-          userId: user.id,
-          newEmail: accountRecovery.newEmail,
           password,
           temporaryKey: accountRecovery.temporaryKey,
           userRepository,
