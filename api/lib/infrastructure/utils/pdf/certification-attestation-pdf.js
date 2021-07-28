@@ -5,6 +5,8 @@ const sharp = require('sharp');
 const AttestationViewModel = require('./AttestationViewModel');
 const _ = require('lodash');
 
+const _forTestOnly = {};
+
 const fonts = {
   openSansBold: 'OpenSans-Bold.ttf',
   openSansSemiBold: 'OpenSans-SemiBold.ttf',
@@ -41,6 +43,7 @@ async function getCertificationAttestationsPdfBuffer({
 
   await _render({ templatePdfPages, pdfDocument: generatedPdfDoc, viewModels, rgb, embeddedFonts, embeddedImages });
 
+  _forTestOnly.generatedPdfDoc = generatedPdfDoc;
   const buffer = await _finalizeDocument(generatedPdfDoc, bufferFromBytes);
 
   return {
@@ -66,7 +69,7 @@ async function _embedFonts(pdfDocument, fileSystem, dirname) {
 
 async function _embedFontInPDFDocument(pdfDoc, fontFileName, fileSystem, dirname) {
   const fontFile = await fileSystem.readFile(`${dirname}/files/${fontFileName}`);
-  return pdfDoc.embedFont(fontFile, { subset: true });
+  return pdfDoc.embedFont(fontFile, { subset: true, customName: fontFileName });
 }
 
 async function _embedImages(pdfDocument, viewModels, imageUtils) {
@@ -396,4 +399,5 @@ async function _finalizeDocument(pdfDocument, bufferFromBytes) {
 
 module.exports = {
   getCertificationAttestationsPdfBuffer,
+  _forTestOnly,
 };
