@@ -70,35 +70,6 @@ describe('Integration | Component | ChallengeStatement', function() {
       expect(find('.challenge-statement-instruction__tag')).to.exist;
     });
 
-    it('should render a tooltip when hovering the tag', async function() {
-      addAssessmentToContext(this, { id: '267845' });
-      addChallengeToContext(this, {
-        instruction: 'La consigne de mon test',
-        id: 'rec_challenge',
-      });
-
-      // when
-      await renderChallengeStatement();
-
-      // then
-      expect(find('.challenge-statement__tag-information')).to.exist;
-    });
-
-    it('should not render the tooltip anymore when clicking the closing button', async function() {
-      addAssessmentToContext(this, { id: '267845' });
-      addChallengeToContext(this, {
-        instruction: 'La consigne de mon test',
-        id: 'rec_challenge',
-      });
-
-      // when
-      await renderChallengeStatement();
-      await click('[data-test="challenge-statement-tag-information__button"]');
-
-      // then
-      expect(find('.challenge-statement__tag-information')).to.not.exist;
-    });
-
     it('should not render challenge instruction if it does not exist', async function() {
       // given
       addAssessmentToContext(this, { id: '267845' });
