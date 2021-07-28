@@ -383,18 +383,49 @@ describe('Acceptance | Displaying a QROC challenge', () => {
       expect(find('#challenge-statement-tag--tooltip')).to.exist;
     });
 
-    it('should hide an overlay and tooltip', async () => {
+    it('should disable input and buttons', async () => {
       // given
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
 
       // when
       await visit(`/assessments/${assessment.id}/challenges/0`);
-      await click('[data-test="challenge-statement-tag-information__button"]');
 
       // then
-      expect(find('.assessment-challenge__focused-overlay')).to.not.exist;
-      expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
+      expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.exist;
+      expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.exist;
+      expect(find('.challenge-response__proposal').getAttribute('disabled')).to.exist;
+    });
+
+    describe('when user closes tooltip', () => {
+      it('should hide an overlay and tooltip', async () => {
+        // given
+        assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+        server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
+
+        // when
+        await visit(`/assessments/${assessment.id}/challenges/0`);
+        await click('[data-test="challenge-statement-tag-information__button"]');
+
+        // then
+        expect(find('.assessment-challenge__focused-overlay')).to.not.exist;
+        expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
+      });
+
+      it('should enable input and buttons', async () => {
+        // given
+        assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+        server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withFocused');
+
+        // when
+        await visit(`/assessments/${assessment.id}/challenges/0`);
+        await click('[data-test="challenge-statement-tag-information__button"]');
+
+        // then
+        expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
+        expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
+        expect(find('.challenge-response__proposal').getAttribute('disabled')).to.not.exist;
+      });
     });
 
     describe('when user has focused out of document', function() {

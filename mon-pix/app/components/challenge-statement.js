@@ -68,7 +68,9 @@ export default class ChallengeStatement extends Component {
   }
 
   showTagHelp() {
-    this.displayTagHelp = true;
+    if (this.isFocusedChallenge) {
+      this.displayTagHelp = true;
+    }
   }
 
   @action
