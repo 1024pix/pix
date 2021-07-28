@@ -7,7 +7,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 
-module('Integration | Component | session-finalization-reports-informations-step', function(hooks) {
+module('Integration | Component | SessionFinalization::ReportsInformationsStep', function(hooks) {
   setupRenderingTest(hooks);
   let reportA;
   let reportB;
@@ -36,8 +36,8 @@ module('Integration | Component | session-finalization-reports-informations-step
       lastName: 'Bober',
       hasSeenEndTestScreen: true,
     }));
+
     this.set('certificationReports', [reportA, reportB]);
-    this.set('updateCertificationIssueReport', sinon.stub().returns('new comment'));
     this.set('issueReportDescriptionMaxLength', 500);
     this.set('toggleCertificationReportHasSeenEndTestScreen', sinon.stub().returns());
     this.set('toggleAllCertificationReportsHasSeenEndTestScreen', sinon.stub().returns());
@@ -60,12 +60,11 @@ module('Integration | Component | session-finalization-reports-informations-step
 
     // when
     await render(hbs`
-        <SessionFinalizationReportsInformationsStep
+        <SessionFinalization::ReportsInformationsStep
           @certificationReports={{this.certificationReports}}
-          @updateCertificationIssueReport={{this.updateCertificationIssueReport}}
           @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @toggleCertificationReportHasSeenEndTestScreen={{this.toggleCertificationReportHasSeenEndTestScreen}}
-          @toggleAllCertificationReportsHasSeenEndTestScreen={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
         />
       `);
 
@@ -94,12 +93,11 @@ module('Integration | Component | session-finalization-reports-informations-step
 
     // when
     await render(hbs`
-        <SessionFinalizationReportsInformationsStep
+        <SessionFinalization::ReportsInformationsStep
           @certificationReports={{this.certificationReports}}
-          @updateCertificationIssueReport={{this.updateCertificationIssueReport}}
           @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @toggleCertificationReportHasSeenEndTestScreen={{this.toggleCertificationReportHasSeenEndTestScreen}}
-          @toggleAllCertificationReportsHasSeenEndTestScreen={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
         />
       `);
 

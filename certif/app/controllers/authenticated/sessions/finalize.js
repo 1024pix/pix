@@ -8,8 +8,6 @@ import { tracked } from '@glimmer/tracking';
 import sumBy from 'lodash/sumBy';
 import isEmpty from 'lodash/isEmpty';
 import trim from 'lodash/trim';
-import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
-import { A } from '@ember/array';
 
 export default class SessionsFinalizeController extends Controller {
 
@@ -72,27 +70,6 @@ export default class SessionsFinalizeController extends Controller {
     const inputText = event.target.value;
     if (inputText.length <= this.examinerGlobalCommentMaxLength) {
       this.session.examinerGlobalComment = this._convertStringToNullIfEmpty(inputText);
-    }
-  }
-
-  @action
-  updateCertificationIssueReport(certificationReport, event) {
-    const inputText = event.target.value;
-    if (inputText.length <= this.issueReportDescriptionMaxLength) {
-      const newDescription = this._convertStringToNullIfEmpty(inputText);
-      const ISSUE_REPORT_ID = certificationReport.certificationCourseId;
-      let issueReport = this.store.peekRecord('certification-issue-report', ISSUE_REPORT_ID);
-      if (issueReport) {
-        issueReport.description = newDescription;
-      } else {
-        issueReport = this.store.createRecord('certification-issue-report', {
-          id: ISSUE_REPORT_ID,
-          certificationReport,
-          category: certificationIssueReportCategories.OTHER,
-          description: this._convertStringToNullIfEmpty(inputText),
-        });
-      }
-      certificationReport.certificationIssueReports = A([issueReport]);
     }
   }
 
