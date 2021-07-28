@@ -13,13 +13,12 @@
       @title="Renseigner les informations de vos candidats"
       @icon="/icons/session-finalization-user.svg"
       @iconAlt="">
-    <SessionFinalizationReportsInformationsStep
+    <SessionFinalization::ReportsInformationsStep
         @certificationReports={{this.session.certificationReports}}
-        @updateCertificationIssueReport={{this.updateCertificationIssueReport}}
         @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-        @toggleCertificationReportHasSeenEndTestScreen={{this.toggleCertificationReportHasSeenEndTestScreen}}
-        @toggleAllCertificationReportsHasSeenEndTestScreen={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
-        @handleClickOnDeleteIssueReportButton={{this.deleteCertificationIssueReport}}
+        @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+        @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+        @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
     />
   </SessionFinalizationStepContainer>
 
@@ -28,7 +27,7 @@
           @title="Transmettre des documents (facultatif)"
           @icon="/icons/session-finalization-send.svg"
           @iconAlt="">
-      <SessionFinalizationFormbuilderLinkStep/>
+      <SessionFinalization::FormbuilderLinkStep/>
   </SessionFinalizationStepContainer>
 
   <SessionFinalizationStepContainer
@@ -36,10 +35,10 @@
           @title="Commenter la session (facultatif)"
           @icon="/icons/session-finalization-edit.svg"
           @iconAlt="">
-      <SessionFinalizationExaminerGlobalCommentStep
+      <SessionFinalization::ExaminerGlobalCommentStep
               @session={{this.session}}
-              @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
-              @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}} />
+              @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}
+              @onExaminerGlobalCommentChange={{this.updateExaminerGlobalComment}} />
   </SessionFinalizationStepContainer>
 
   <ActionButton
