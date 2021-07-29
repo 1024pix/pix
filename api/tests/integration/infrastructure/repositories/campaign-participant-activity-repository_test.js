@@ -2,7 +2,6 @@ const { expect, databaseBuilder } = require('../../../test-helper');
 const campaignParticipantActivityRepository = require('../../../../lib/infrastructure/repositories/campaign-participant-activity-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignParticipantActivity = require('../../../../lib/domain/read-models/CampaignParticipantActivity');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
 describe('Integration | Repository | Campaign Participant activity', () => {
@@ -113,87 +112,6 @@ describe('Integration | Repository | Campaign Participant activity', () => {
           expect(statuses).to.exactlyContain([CampaignParticipantActivity.statuses.STARTED]);
         });
       });
-
-      context('progression', () => {
-        context('when the participation is not shared', () => {
-          context('when the participant has only one knowledgeElement by skill', () => {
-            beforeEach(async () => {
-              campaign = databaseBuilder.factory.buildAssessmentCampaign({}, [{ id: 'skillValidated' }, { id: 'skillInvalidated' }, { id: 'skillReset' }]);
-              const { id: participantId } = databaseBuilder.factory.buildUser();
-              const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-                campaignId: campaign.id,
-                isShared: false,
-                userId: participantId,
-              });
-              databaseBuilder.factory.buildAssessment({
-                campaignParticipationId,
-                state: Assessment.states.STARTED,
-                userId: participantId,
-              });
-              databaseBuilder.factory.buildKnowledgeElement({ userId: participantId, skillId: 'skillValidated', status: KnowledgeElement.StatusType.VALIDATED });
-              databaseBuilder.factory.buildKnowledgeElement({ userId: participantId, skillId: 'skillInvalidated', status: KnowledgeElement.StatusType.INVALIDATED });
-              databaseBuilder.factory.buildKnowledgeElement({ userId: participantId, skillId: 'skillReset', status: KnowledgeElement.StatusType.RESET });
-
-              await databaseBuilder.commit();
-            });
-
-            it('computes the participation progression counting knowledge elements evaluated', async () => {
-              const { campaignParticipantsActivities } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
-              expect(campaignParticipantsActivities[0].progression).to.equal(2 / 3);
-            });
-          });
-
-          context('when the participant has several knowledgeElements by skill', () => {
-            beforeEach(async () => {
-              campaign = databaseBuilder.factory.buildAssessmentCampaign({}, [{ id: 'skill' }]);
-              const { id: participantId } = databaseBuilder.factory.buildUser();
-              const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-                campaignId: campaign.id,
-                isShared: false,
-                userId: participantId,
-              });
-              databaseBuilder.factory.buildAssessment({
-                campaignParticipationId,
-                state: Assessment.states.STARTED,
-                userId: participantId,
-              });
-              databaseBuilder.factory.buildKnowledgeElement({ userId: participantId, skillId: 'skill', status: KnowledgeElement.StatusType.VALIDATED, createdAt: new Date('2020-01-01') });
-              databaseBuilder.factory.buildKnowledgeElement({ userId: participantId, skillId: 'skill', status: KnowledgeElement.StatusType.RESET, createdAt: new Date('2020-01-02') });
-
-              await databaseBuilder.commit();
-            });
-
-            it('computes the participation progression using the most recent knowledge elements by skill', async () => {
-              const { campaignParticipantsActivities } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
-              expect(campaignParticipantsActivities[0].progression).to.equal(0);
-            });
-          });
-        });
-
-        context('when the participation is shared', () => {
-          beforeEach(async () => {
-            campaign = databaseBuilder.factory.buildAssessmentCampaign({}, [{ id: 'skillValidated' }, { id: 'skillInvalidated' }, { id: 'skillReset' }]);
-            const { id: participantId } = databaseBuilder.factory.buildUser();
-            const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-              campaignId: campaign.id,
-              isShared: true,
-              userId: participantId,
-            });
-            databaseBuilder.factory.buildAssessment({
-              campaignParticipationId,
-              state: Assessment.states.STARTED,
-              userId: participantId,
-            });
-
-            await databaseBuilder.commit();
-          });
-
-          it('returns 1', async () => {
-            const { campaignParticipantsActivities } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
-            expect(campaignParticipantsActivities[0].progression).to.equal(1);
-          });
-        });
-      });
     });
 
     context('when the campaign is profile collection', () => {
@@ -216,17 +134,6 @@ describe('Integration | Repository | Campaign Participant activity', () => {
 
           const { campaignParticipantsActivities } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
           expect(campaignParticipantsActivities[0].status).to.equal(CampaignParticipantActivity.statuses.COMPLETED);
-        });
-      });
-
-      context('progression', () => {
-        it('should not be defined', async () => {
-          campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, isShared: false });
-          await databaseBuilder.commit();
-
-          const { campaignParticipantsActivities } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
-          expect(campaignParticipantsActivities[0].progression).to.equal(undefined);
         });
       });
     });
@@ -257,28 +164,13 @@ describe('Integration | Repository | Campaign Participant activity', () => {
       it('returns participants which have the correct division', async () => {
         campaign = databaseBuilder.factory.buildAssessmentCampaign({});
 
-        const participation1 = {
-          participantExternalId: 'The good',
-          campaignId: campaign.id,
-        };
-
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation1, { id: 1 });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ participantExternalId: 'The good', campaignId: campaign.id }, { id: 1 });
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 1, division: 'Good Guys Team' });
 
-        const participation2 = {
-          participantExternalId: 'The bad',
-          campaignId: campaign.id,
-        };
-
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation2, { id: 2 });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ participantExternalId: 'The bad', campaignId: campaign.id }, { id: 2 });
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 2, division: 'Bad Guys Team' });
 
-        const participation3 = {
-          participantExternalId: 'The ugly',
-          campaignId: campaign.id,
-        };
-
-        databaseBuilder.factory.buildAssessmentFromParticipation(participation3, { id: 3 });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ participantExternalId: 'The ugly', campaignId: campaign.id }, { id: 3 });
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 3, division: 'Ugly Guys Team' });
 
         await databaseBuilder.commit();
