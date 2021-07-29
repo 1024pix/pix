@@ -6,9 +6,8 @@ const {
 } = require('../../../../test-helper');
 const updateUserAccount = require('../../../../../lib/domain/usecases/account-recovery/update-user-account');
 const {
-  AccountRecoveryUserAlreadyConfirmEmail,
-  UserNotFoundError,
   NotFoundError,
+  UserHasAlreadyLeftSCO,
 } = require('../../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
@@ -22,9 +21,8 @@ describe('Unit | Usecases | update-user-account', () => {
 
   beforeEach(() => {
     userRepository = {
-      get: sinon.stub(),
-      updateWithEmailConfirmed:
-        sinon.stub(),
+      updateEmail: sinon.stub(),
+      updateWithEmailConfirmed: sinon.stub(),
     };
     authenticationMethodRepository = {
       findByUserId: sinon.stub(),
@@ -37,6 +35,7 @@ describe('Unit | Usecases | update-user-account', () => {
     accountRecoveryDemandRepository = {
       markAsBeingUsed: sinon.stub(),
       findByTemporaryKey: sinon.stub(),
+      findByUserId: sinon.stub(),
     };
     DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
 
@@ -59,49 +58,34 @@ describe('Unit | Usecases | update-user-account', () => {
     expect(error).to.be.an.instanceOf(NotFoundError);
   });
 
-  it('should throw an error when user not found', async () => {
-    // given
-    const userId = 1234;
-    const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
-      userId,
+  context('when user had already left SCO', () => {
+
+    it('should throw an error', async () => {
+      // given
+      const user = domainBuilder.buildUser();
+      const accountRecoveryDemandUsed = domainBuilder.buildAccountRecoveryDemand({
+        userId: user.id,
+        used: true,
+      });
+      const accountRecoveryDemandNotUsed = domainBuilder.buildAccountRecoveryDemand({
+        userId: user.id,
+      });
+
+      accountRecoveryDemandRepository.findByTemporaryKey.resolves(accountRecoveryDemandNotUsed);
+      accountRecoveryDemandRepository.findByUserId.withArgs(accountRecoveryDemandNotUsed.userId).resolves([accountRecoveryDemandNotUsed, accountRecoveryDemandUsed]);
+
+      // when
+      const error = await catchErr(updateUserAccount)({
+        userId: user.id,
+        userRepository,
+        accountRecoveryDemandRepository,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(UserHasAlreadyLeftSCO);
+      expect(error.message).to.be.equal('User has already left SCO.');
+
     });
-    accountRecoveryDemandRepository.findByTemporaryKey.resolves(accountRecoveryDemand);
-    userRepository.get.rejects(new UserNotFoundError());
-
-    // when
-    const error = await catchErr(updateUserAccount)({
-      userId,
-      userRepository,
-      accountRecoveryDemandRepository,
-    });
-
-    // then
-    expect(error).to.be.an.instanceOf(UserNotFoundError);
-    expect(error.message).to.be.equal('Ce compte est introuvable.');
-
-  });
-
-  it('should throw an error when user had already confirmed his email', async () => {
-    // given
-    const userId = 1234;
-    const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
-      userId,
-    });
-    accountRecoveryDemandRepository.findByTemporaryKey.resolves(accountRecoveryDemand);
-
-    userRepository.get.withArgs(userId).resolves({ emailConfirmedAt: '2021-04-07' });
-
-    // when
-    const error = await catchErr(updateUserAccount)({
-      userId,
-      userRepository,
-      accountRecoveryDemandRepository,
-    });
-
-    // then
-    expect(error).to.be.an.instanceOf(AccountRecoveryUserAlreadyConfirmEmail);
-    expect(error.message).to.be.equal('This user has already a confirmed email.');
-
   });
 
   context('when user has only GAR authentication method', () => {
@@ -119,7 +103,7 @@ describe('Unit | Usecases | update-user-account', () => {
         identityProvider: AuthenticationMethod.identityProviders.GAR,
       });
 
-      userRepository.get.withArgs(user.id).resolves(user);
+      accountRecoveryDemandRepository.findByUserId.withArgs(accountRecoveryDemand.userId).resolves([accountRecoveryDemand]);
       encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
       authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
       accountRecoveryDemandRepository.findByTemporaryKey.withArgs(temporaryKey).resolves(accountRecoveryDemand);
@@ -171,7 +155,7 @@ describe('Unit | Usecases | update-user-account', () => {
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       });
 
-      userRepository.get.withArgs(user.id).resolves(user);
+      accountRecoveryDemandRepository.findByUserId.withArgs(accountRecoveryDemand.userId).resolves([accountRecoveryDemand]);
       encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
       authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
       accountRecoveryDemandRepository.findByTemporaryKey.withArgs(temporaryKey).resolves(accountRecoveryDemand);
@@ -216,7 +200,8 @@ describe('Unit | Usecases | update-user-account', () => {
       identityProvider: AuthenticationMethod.identityProviders.PIX,
     });
 
-    userRepository.get.withArgs(user.id).resolves(user);
+    accountRecoveryDemandRepository.findByUserId.withArgs(accountRecoveryDemand.userId).resolves([accountRecoveryDemand]);
+
     encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
     authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
     const userUpdate = new User({
