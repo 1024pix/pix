@@ -47,6 +47,24 @@ module.exports = {
       .header('Content-Type', 'application/pdf');
   },
 
+  async getPDFAttestationsByDivision(request, h) {
+    console.log('here');
+    const organizationId = request.params.id;
+    const { division } = request.query;
+
+    const certificates = await usecases.getCertificationAttestationsByDivision({
+      organizationId,
+      division,
+    });
+    const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({ certificates });
+    const now = moment();
+    const fileName = `${now.format('YYYYMMDD')}_attestations_${division}.csv`;
+
+    return h.response(buffer)
+      .header('Content-Disposition', `attachment; filename=${fileName}`)
+      .header('Content-Type', 'application/pdf');
+  },
+
   async neutralizeChallenge(request, h) {
     const challengeRecId = request.payload.data.attributes.challengeRecId;
     const certificationCourseId = request.payload.data.attributes.certificationCourseId;

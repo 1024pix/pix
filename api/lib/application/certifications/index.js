@@ -69,6 +69,29 @@ exports.register = async function(server) {
       },
     },
     {
+      method: 'GET',
+      path: '/api/attestations/organizations/{id}',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
+            assign: 'belongsToOrganizationManagingStudents',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: certificationController.getPDFAttestationsByDivision,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les attestations de certification liées à l\'organisation sous forme de fichier PDF.',
+        ],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/admin/certification/neutralize-challenge',
       config: {
