@@ -28,7 +28,13 @@ export default class AuthenticatedCertificationsController extends Controller {
       }
 
       const organizationId = this.currentUser.organization.id;
-      const url = `/api/organizations/${organizationId}/certification-results?division=${this.selectedDivision}`;
+
+      let url = null;
+      if (event.submitter.id === 'download_attestations') {
+        url = `/api/attestations/organizations/${organizationId}?division=${this.selectedDivision}`;
+      } else {
+        url = `/api/organizations/${organizationId}/certification-results?division=${this.selectedDivision}`;
+      }
 
       let token = '';
 
