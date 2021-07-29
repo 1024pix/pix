@@ -53,7 +53,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/profiles', function
 
       // then
       assert.true(event.stopPropagation.called);
-      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.profile', 123, 345));
+      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.participant-profile', 123, 345));
     });
   });
 });
