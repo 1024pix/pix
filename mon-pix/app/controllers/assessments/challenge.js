@@ -37,8 +37,9 @@ export default class ChallengeController extends Controller {
   }
 
   @action
-  removeTooltipOverlay() {
+  async removeTooltipOverlay() {
     this.isTooltipOverlayIsDisplayed = false;
+    await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'focused' } });
   }
 
   @action
