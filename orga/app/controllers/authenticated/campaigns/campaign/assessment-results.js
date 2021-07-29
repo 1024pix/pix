@@ -14,7 +14,7 @@ export default class AssessmentResultsController extends Controller {
   @action
   goToAssessmentPage(campaignId, participantId, event) {
     event.stopPropagation();
-    this.transitionToRoute('authenticated.campaigns.assessment', campaignId, participantId);
+    this.transitionToRoute('authenticated.campaigns.participant-assessment', campaignId, participantId);
   }
 
   @action

@@ -33,7 +33,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
       controller.send('goToParticipantPage', 123, 456);
 
       // then
-      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.assessment', 123, 456));
+      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.participant-assessment', 123, 456));
     });
   });
 });

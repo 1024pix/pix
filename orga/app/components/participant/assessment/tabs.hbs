@@ -1,14 +1,14 @@
 <div class='panel campaign-details__controls'>
   <nav class='navbar campaign-details-controls__navbar-tabs'>
     <LinkTo
-      @route='authenticated.campaigns.assessment.results'
+      @route='authenticated.campaigns.participant-assessment.results'
       @models={{array @campaignId @participationId}}
       class='navbar-item'
     >
       {{t 'pages.assessment-individual-results.tab.results'}}
     </LinkTo>
     <LinkTo
-      @route='authenticated.campaigns.assessment.analysis'
+      @route='authenticated.campaigns.participant-assessment.analysis'
       @models={{array @campaignId @participationId}}
       class='navbar-item'
     >

@@ -5,7 +5,7 @@ module('Unit | Controller | authenticated/campaigns/assessment/analysis', functi
   setupIntlRenderingTest(hooks);
 
   test('it should display correct page title', function(assert) {
-    const controller = this.owner.lookup('controller:authenticated/campaigns/assessment/analysis');
+    const controller = this.owner.lookup('controller:authenticated/campaigns/participant-assessment/analysis');
     controller.model = {
       firstName: 'Jaune',
       lastName: 'attends',
