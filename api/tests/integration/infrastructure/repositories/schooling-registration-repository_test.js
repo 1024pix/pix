@@ -463,6 +463,37 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
+  describe('#disableAllSchoolingRegistrationsInOrganization', () => {
+    it('should disable all schooling registration for the given organization', async () => {
+      const organization = databaseBuilder.factory.buildOrganization();
+      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id });
+      const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
+      await databaseBuilder.commit();
+
+      const trx = await knex.transaction();
+      await schoolingRegistrationRepository.disableAllSchoolingRegistrationsInOrganization({ trx, organizationId: organization.id });
+      await trx.commit();
+
+      const results = await knex('schooling-registrations').select();
+      const expectedDisabled = results.find((result) => result.id === schoolingRegistration.id);
+      expect(expectedDisabled.isDisabled).to.be.true;
+      const expectedActive = results.find((result) => result.id === otherSchoolingRegistration.id);
+      expect(expectedActive.isDisabled).to.be.false;
+    });
+
+    it('should update the date when a schooling registration is disabled', async () => {
+      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ updatedAt: new Date('1970-01-01') });
+      await databaseBuilder.commit();
+
+      const trx = await knex.transaction();
+      await schoolingRegistrationRepository.disableAllSchoolingRegistrationsInOrganization({ trx, organizationId: schoolingRegistration.organizationId });
+      await trx.commit();
+
+      const expectedDisabled = await knex('schooling-registrations').where('id', schoolingRegistration.id).first();
+      expect(expectedDisabled.updatedAt).to.not.equal(schoolingRegistration.updatedAt);
+    });
+  });
+
   describe('#addOrUpdateOrganizationSchoolingRegistrations', () => {
 
     context('when there are only schoolingRegistrations to create', () => {
@@ -493,6 +524,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           nationalApprenticeId: null,
           division: '4B',
           userId: null,
+          isDisabled: false,
           organizationId,
         });
 
@@ -620,6 +652,37 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
       });
 
+      context('when a schooling registration disabled already exists', () => {
+        it('should enable the updated schooling registration', async () => {
+          // given
+          const { id, organizationId, nationalStudentId } = databaseBuilder.factory.buildSchoolingRegistration({
+            nationalStudentId: 'INE1',
+            isDisabled: true,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations([{ nationalStudentId }], organizationId);
+
+          // then
+          const expectedEnabled = await knex('schooling-registrations').where({ id }).first();
+
+          expect(expectedEnabled.isDisabled).to.be.false;
+        });
+      });
+    });
+
+    context('when there are schooling registrations to disable', () => {
+      it('should set as disabled not imported schooling registration', async () => {
+        const { id, organizationId } = databaseBuilder.factory.buildSchoolingRegistration({ isDisabled: false });
+        await databaseBuilder.commit();
+
+        const schoolingRegistrations = [];
+        await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
+
+        const expectedDisabled = await knex('schooling-registrations').where({ id }).first();
+        expect(expectedDisabled.isDisabled).to.be.true;
+      });
     });
 
     context('when there are schoolingRegistrations in another organization', () => {
@@ -843,6 +906,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           birthdate: '1990-12-31',
           nationalApprenticeId: 'INA1',
           status: STATUS.APPRENTICE,
+          isDisabled: false,
           organizationId,
         });
 
@@ -979,6 +1043,38 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
       });
 
+      context('when a schooling registration disabled already exists', () => {
+        it('should enable the updated schooling registration', async () => {
+          // given
+          const { id, organizationId, nationalApprenticeId } = databaseBuilder.factory.buildSchoolingRegistration({
+            nationalApprenticeId: 'INA1',
+            status: STATUS.APPRENTICE,
+            isDisabled: true,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          await schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations([{ nationalApprenticeId }], organizationId);
+
+          // then
+          const expectedEnabled = await knex('schooling-registrations').where({ id }).first();
+
+          expect(expectedEnabled.isDisabled).to.be.false;
+        });
+      });
+    });
+
+    context('when there are schooling registrations to disable', () => {
+      it('should set as disabled not imported schooling registration', async () => {
+        const { id, organizationId } = databaseBuilder.factory.buildSchoolingRegistration({ isDisabled: false });
+        await databaseBuilder.commit();
+
+        const schoolingRegistrations = [];
+        await schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations(schoolingRegistrations, organizationId);
+
+        const expectedDisabled = await knex('schooling-registrations').where({ id }).first();
+        expect(expectedDisabled.isDisabled).to.be.true;
+      });
     });
 
     context('when there are schoolingRegistrations to create and schoolingRegistrations to update', () => {

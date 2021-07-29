@@ -22,6 +22,7 @@ class SchoolingRegistration {
     nationalStudentId,
     nationalApprenticeId,
     division,
+    isDisabled,
     updatedAt,
     userId,
     organizationId,
@@ -43,6 +44,7 @@ class SchoolingRegistration {
     this.nationalStudentId = nationalStudentId;
     this.nationalApprenticeId = nationalApprenticeId;
     this.division = division;
+    this.isDisabled = isDisabled;
     this.updatedAt = updatedAt;
     this.userId = userId;
     this.organizationId = organizationId;
