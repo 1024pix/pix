@@ -40,6 +40,12 @@
       </PixMessage>
     {{/if}}
 
+    {{#if @showUserHasAlreadyLeftSCO}}
+      <PixMessage @type='alert' class="account-recovery-after-leaving-sco-content__not-found-error">
+        {{t 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.error.already-has-left-sco'}}
+      </PixMessage>
+    {{/if}}
+
     <div class="account-recovery-after-leaving-sco-content__actions">
       <PixButton
         @isBorderVisible={{true}}

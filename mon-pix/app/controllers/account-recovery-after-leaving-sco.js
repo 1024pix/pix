@@ -79,7 +79,11 @@ export default class AccountRecoveryAfterLeavingScoController extends Controller
       const status = err.errors?.[0]?.status;
 
       if (status === '400') {
+        this.showUserHasAlreadyLeftSCO = false;
         this.showAlreadyRegisteredEmailError = true;
+      } else if (status === '401') {
+        this.showAlreadyRegisteredEmailError = false;
+        this.showUserHasAlreadyLeftSCO = true;
       } else {
         console.log(err);
       }

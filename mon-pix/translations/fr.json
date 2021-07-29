@@ -1009,7 +1009,8 @@
               "new-email": ", sinon saisissez une nouvelle."
             },
             "new-backup-email": "Veuillez saisir un e-mail valide pour récupérer votre compte",
-            "new-email-already-exist": "Cette adresse e-mail est déjà utilisée"
+            "new-email-already-exist": "Cette adresse e-mail est déjà utilisée.",
+            "already-has-left-sco": "T'est déjà passé par ici, petit malin."
           }
         }
       },

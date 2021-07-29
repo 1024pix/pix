@@ -112,6 +112,25 @@ describe('Unit | Controller | account-recovery-after-leaving-sco', function() {
 
     context('when user clicks on "C\'est parti!" button', function() {
 
+      context('when user has already left SCO', function() {
+
+        it('should show user not found error message', async function() {
+          // given
+          const errors = { errors: [{ status: '401' }] };
+          const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
+          const sendEmailStub = sinon.stub();
+          const createRecord = sinon.stub().returns({ send: sendEmailStub.rejects(errors) });
+          const store = { createRecord };
+          controller.set('store', store);
+          const email = 'new_email@example.net';
+          // when
+          await controller.sendEmail(email);
+
+          // then
+          expect(controller.showUserHasAlreadyLeftSCO).to.be.true;
+        });
+      });
+
       it('should send account recovery email', async function() {
         // given
         const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
