@@ -18,6 +18,7 @@ export default class CandidateEditModal extends Component {
   @tracked birthCountry;
 
   @tracked selectedBirthGeoCodeOption;
+  @tracked selectedCountryInseeCode;
 
   constructor() {
     super(...arguments);
@@ -58,6 +59,17 @@ export default class CandidateEditModal extends Component {
     }
 
     return this.isPostalCodeOptionSelected;
+  }
+
+  get countryOptions() {
+    return this.args.countries.map((country) => {
+      return { label: country.name, value: country.code };
+    });
+  }
+
+  get selectedCountryOption() {
+    if (this.birthCountry === 'FRANCE') return FRANCE_INSEE_CODE;
+    return this.birthInseeCode;
   }
 
   @action
@@ -115,12 +127,27 @@ export default class CandidateEditModal extends Component {
     this.args.onCancelButtonsClicked();
   }
 
+  @action
+  selectBirthCountry(event) {
+    this.selectedCountryInseeCode = event.target.value;
+    this.birthCountry = this._getCountryName();
+    this.birthCity = '';
+    this.birthPostalCode = '';
+    if (this._isFranceSelected()) {
+      this.birthInseeCode = '';
+    } else {
+      this.selectBirthGeoCodeOption(INSEE_CODE_OPTION);
+      this.birthInseeCode = '99';
+    }
+  }
+
   focus(element) {
     element.focus();
   }
 
   _initForm() {
     this.selectBirthGeoCodeOption(this.args.candidate.birthInseeCode ? INSEE_CODE_OPTION : POSTAL_CODE_OPTION);
+    this.selectedCountryInseeCode = this.args.candidate.birthCountry === 'FRANCE' ? FRANCE_INSEE_CODE : this.args.candidate.birthInseeCode;
 
     this.firstName = this.args.candidate.firstName;
     this.lastName = this.args.candidate.lastName;
@@ -134,6 +161,11 @@ export default class CandidateEditModal extends Component {
   }
 
   _isFranceSelected() {
-    return this.birthCountry === 'FRANCE';
+    return this.selectedCountryInseeCode === FRANCE_INSEE_CODE;
+  }
+
+  _getCountryName() {
+    const country = this.args.countries.find((country) => country.code === this.selectedCountryInseeCode);
+    return country.name;
   }
 }
