@@ -5,5 +5,4 @@ export default class CampaignParticipantActivity extends Model {
   @attr('string') lastName;
   @attr('string') participantExternalId;
   @attr('string') status;
-  @attr('number') progression;
 }
