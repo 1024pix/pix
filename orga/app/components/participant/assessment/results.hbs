@@ -2,7 +2,7 @@
   <table>
     <thead>
     <tr>
-      <th class="table__column--wide">{{t 'pages.assessment-individual-results.table.column.competences' count=@campaignAssessmentParticipationResult.sortedCompetenceResults.length}}</th>
+      <th class="table__column--wide">{{t 'pages.assessment-individual-results.table.column.competences' count=@results.sortedCompetenceResults.length}}</th>
       <th class="table__column--wide">{{t 'pages.assessment-individual-results.table.column.results.label'}}</th>
       <th class="table__column--small">{{t 'pages.assessment-individual-results.table.column.validatedSkills'}}</th>
       <th class="table__column--small">{{t 'pages.assessment-individual-results.table.column.totalSkills'}}</th>
@@ -11,7 +11,7 @@
 
     {{#if @displayResults}}
       <tbody>
-      {{#each @campaignAssessmentParticipationResult.sortedCompetenceResults as |competenceResult|}}
+      {{#each @results.sortedCompetenceResults as |competenceResult|}}
         <tr aria-label={{t 'pages.assessment-individual-results.table.title'}}>
           <td class="competences-col__name">
             <span class="competences-col__border competences-col__border--{{competenceResult.areaColor}}"></span>
@@ -32,6 +32,7 @@
       </tbody>
     {{/if}}
   </table>
+
   {{#unless @displayResults}}
     <div class="table__empty content-text">{{t 'pages.assessment-individual-results.table.empty'}}</div>
   {{/unless}}
