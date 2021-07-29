@@ -21,7 +21,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
       controller.send('goToParticipantPage', 123, 456);
 
       // then
-      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.profile', 123, 456));
+      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.participant-profile', 123, 456));
     });
 
     test('it should call transitionToRoute with appropriate arguments for assessment', function(assert) {

@@ -30,7 +30,7 @@
             <tr aria-label={{t 'pages.profiles-list.table.row-title'}} role="button" {{on 'click' (fn @goToProfilePage @campaign.id profile.id)}} class="tr--clickable">
               <td>
                 <LinkTo
-                  @route={{'authenticated.campaigns.profile'}}
+                  @route={{'authenticated.campaigns.participant-profile'}}
                   @models={{array @campaign.id profile.id}}>
                     {{profile.lastName}}
                 </LinkTo>
