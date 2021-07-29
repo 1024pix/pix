@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
@@ -10,7 +9,7 @@ describe('Unit | Model | account recovery demand', function() {
 
   describe('#send', function() {
 
-    it('send account recovery email', async function() {
+    it('sends account recovery email', async function() {
       // given
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('account-recovery-demand');
@@ -44,7 +43,38 @@ describe('Unit | Model | account recovery demand', function() {
           },
         },
       };
-      expect(adapter.ajax.calledWith(url, 'POST', payload)).to.be.true;
+      sinon.assert.calledWith(adapter.ajax, url, 'POST', payload);
+    });
+
+    it('updates password', async function() {
+      // given
+      const store = this.owner.lookup('service:store');
+      const adapter = store.adapterFor('account-recovery-demand');
+      sinon.stub(adapter, 'ajax');
+      adapter.ajax.resolves();
+
+      const accountRecoveryDemand = run(() => store.createRecord('account-recovery-demand', {
+        password: 'thisismypassword',
+        temporaryKey: 'temporarykey',
+      }));
+
+      // when
+      await accountRecoveryDemand.update();
+
+      // then
+      const url = `${ENV.APP.API_HOST}/api/account-recovery`;
+      const payload = {
+        data: {
+          data: {
+            attributes: {
+              password: 'thisismypassword',
+              'temporary-key': 'temporarykey',
+            },
+            type: 'account-recovery-demands',
+          },
+        },
+      };
+      sinon.assert.calledWith(adapter.ajax, url, 'PATCH', payload);
     });
   });
 });

@@ -9,16 +9,26 @@ export default class AccountRecoveryDemandAdapter extends ApplicationAdapter {
     requestType,
     query,
   ) {
-    if (requestType === 'send-account-recovery-demand') {
+    if (['send-account-recovery-demand', 'update-account'].includes(requestType)) {
       return `${this.host}/${this.namespace}/`;
-    } else {
-      return super.buildURL(
-        modelName,
-        id,
-        snapshot,
-        requestType,
-        query,
-      );
     }
+
+    return super.buildURL(
+      modelName,
+      id,
+      snapshot,
+      requestType,
+      query,
+    );
+  }
+
+  urlForQueryRecord(query) {
+    if (query.temporaryKey) {
+      const url = `${this.host}/${this.namespace}/account-recovery/${query.temporaryKey}`;
+      delete query.temporaryKey;
+      return url;
+    }
+
+    return super.urlForQueryRecord(query);
   }
 }

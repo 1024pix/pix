@@ -1,5 +1,6 @@
 const omit = require('lodash/omit');
 const moment = require('moment');
+const { knex } = require('../../../db/knex-database-connection');
 
 const DomainTransaction = require('../DomainTransaction');
 const BookshelfUser = require('../orm-models/User');
@@ -180,6 +181,13 @@ module.exports = {
     return new BookshelfUser(userToCreate)
       .save(null, { transacting: domainTransaction.knexTransaction })
       .then((bookshelfUser) => _toDomain(bookshelfUser));
+  },
+
+  updateWithEmailConfirmed({ id, userAttributes, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    return knex('users')
+      .transacting(domainTransaction)
+      .where({ id })
+      .update(userAttributes);
   },
 
   isEmailAvailable(email) {
@@ -517,6 +525,7 @@ function _toDomain(userBookshelf) {
     firstName: userBookshelf.get('firstName'),
     lastName: userBookshelf.get('lastName'),
     email: userBookshelf.get('email'),
+    emailConfirmedAt: userBookshelf.get('emailConfirmedAt'),
     username: userBookshelf.get('username'),
     password: userBookshelf.get('password'),
     shouldChangePassword: Boolean(userBookshelf.get('shouldChangePassword')),

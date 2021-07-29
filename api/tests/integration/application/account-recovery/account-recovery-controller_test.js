@@ -1,5 +1,4 @@
 const {
-  domainBuilder,
   expect,
   sinon,
   HttpTestServer,
@@ -18,7 +17,7 @@ describe('Integration | Application | Account-Recovery | account-recovery-contro
   let httpTestServer;
 
   beforeEach(async() => {
-    sinon.stub(usecases, 'getUserByAccountRecoveryDemand');
+    sinon.stub(usecases, 'getAccountRecoveryDetails');
 
     httpTestServer = new HttpTestServer();
     featureToggles.isScoAccountRecoveryEnabled = true;
@@ -28,23 +27,19 @@ describe('Integration | Application | Account-Recovery | account-recovery-contro
   describe('#checkAccountRecoveryDemand', () => {
 
     const method = 'GET';
-    const url = '/api/account-recovery/ABCDEF123';
-    const userId = 1234;
-    const user = domainBuilder.buildUser({ userId });
+    const url = '/api/account-recovery/FfgpFXgyuO062nPUPwcb8Wy3KcgkqR2p2GyEuGVaNI4';
 
     context('Success cases', () => {
 
       it('should return an HTTP response with status code 200', async () => {
         // given
-        usecases.getUserByAccountRecoveryDemand.resolves(user);
+        usecases.getAccountRecoveryDetails.resolves({ id: 1, email: 'email@example.net', firstName: 'Gertrude' });
 
         // when
         const response = await httpTestServer.request(method, url);
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data.type).to.equal('users');
-        expect(response.result.data.id).to.equal(user.id.toString());
       });
     });
 
@@ -52,7 +47,7 @@ describe('Integration | Application | Account-Recovery | account-recovery-contro
 
       it('should respond an HTTP response with status code 404 when TemporaryKey not found', async () => {
         // given
-        usecases.getUserByAccountRecoveryDemand.rejects(new NotFoundError());
+        usecases.getAccountRecoveryDetails.rejects(new NotFoundError());
 
         // when
         const response = await httpTestServer.request(method, url);
@@ -63,7 +58,7 @@ describe('Integration | Application | Account-Recovery | account-recovery-contro
 
       it('should respond an HTTP response with status code 404 when UserNotFoundError', async () => {
         // given
-        usecases.getUserByAccountRecoveryDemand.rejects(new UserNotFoundError());
+        usecases.getAccountRecoveryDetails.rejects(new UserNotFoundError());
 
         // when
         const response = await httpTestServer.request(method, url);

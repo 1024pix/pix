@@ -14,6 +14,7 @@ const {
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | AuthenticationMethod', () => {
 
@@ -156,6 +157,29 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       // then
       expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
     });
+
+    it('should rollback update change password when error occurs in transaction', async () => {
+      // given
+      const authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        userId,
+        hashedPassword,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await catchErr(async () => {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await authenticationMethodRepository.updateChangedPassword({ userId, hashedPassword }, domainTransaction);
+          throw new Error('Error occurs in transaction');
+        });
+      });
+
+      // then
+      const authenticationMethodFound = await knex('authentication-methods');
+      expect(authenticationMethodFound[0].authenticationComplement.password).to.be.equal(authenticationMethod.authenticationComplement.password);
+
+    });
+
   });
 
   describe('#findOneByUserIdAndIdentityProvider', () => {

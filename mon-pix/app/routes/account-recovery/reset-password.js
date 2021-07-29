@@ -9,10 +9,10 @@ export default class AccountRecoveryResetPasswordRoute extends Route {
   @service store;
 
   async model(params) {
-    const accountRecoveryDemandTemporaryKey = params.temporary_key;
+    const temporaryKey = params.temporary_key;
     try {
-      const user = await this.store.queryRecord('user', { accountRecoveryDemandTemporaryKey });
-      return { user, temporaryKey: accountRecoveryDemandTemporaryKey };
+      const { email, firstName } = await this.store.queryRecord('account-recovery-demand', { temporaryKey });
+      return { email, firstName, temporaryKey };
     } catch (error) {
       const status = get(error, 'errors[0].status', '');
       if (status === '401' || status === '404' || status === '409') {
