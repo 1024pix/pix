@@ -34,7 +34,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     this.timeout(5000);
     // given
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
-    const certificate1 = domainBuilder.buildCertificationAttestation({
+    const certificateWithCleaAndPixPlusDroitMaitre = domainBuilder.buildCertificationAttestation({
       id: 1,
       firstName: 'Jean',
       lastName: 'Bon',
@@ -42,18 +42,30 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       cleaCertificationImagePath: 'lib/infrastructure/utils/pdf/files/macaron_clea.png',
       pixPlusDroitCertificationImagePath: 'lib/infrastructure/utils/pdf/files/macaron_maitre.png',
     });
-    const certificate2 = domainBuilder.buildCertificationAttestation({
-      ...certificate1,
+    const certificateWithCleaAndPixPlusDroitExpert = domainBuilder.buildCertificationAttestation({
       id: 2,
-      firstName: 'Jeanne',
-      lastName: 'Bonne',
+      firstName: 'Harry',
+      lastName: 'Covert',
+      resultCompetenceTree,
+      cleaCertificationImagePath: 'lib/infrastructure/utils/pdf/files/macaron_clea.png',
+      pixPlusDroitCertificationImagePath: 'lib/infrastructure/utils/pdf/files/macaron_expert.png',
+    });
+    const certificateWithoutCleaNorPixPlusDroit = domainBuilder.buildCertificationAttestation({
+      ...certificateWithCleaAndPixPlusDroitMaitre,
+      id: 2,
+      firstName: 'Marc',
+      lastName: 'Decaffé',
       cleaCertificationImagePath: null,
       pixPlusDroitCertificationImagePath: null,
     });
 
     // when
     await getCertificationAttestationsPdfBuffer({
-      certificates: [certificate1, certificate2],
+      certificates: [
+        certificateWithCleaAndPixPlusDroitMaitre,
+        certificateWithCleaAndPixPlusDroitExpert,
+        certificateWithoutCleaNorPixPlusDroit,
+      ],
     });
 
     // then
