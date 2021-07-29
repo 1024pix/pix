@@ -40,7 +40,7 @@ Router.map(function() {
       this.route('list', { path: '/' });
       this.route('new', { path: '/creation' });
       this.route('update', { path: '/:campaign_id/modification' });
-      this.route('assessment', { path: '/:campaign_id/evaluations/:campaign_participation_id' }, function() {
+      this.route('participant-assessment', { path: '/:campaign_id/evaluations/:campaign_participation_id' }, function() {
         this.route('results', { path: '/resultats' });
         this.route('analysis', { path: '/analyse' });
       });
