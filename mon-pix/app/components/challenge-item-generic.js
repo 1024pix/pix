@@ -39,7 +39,7 @@ export default class ChallengeItemGeneric extends Component {
     return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.args.challenge.focused;
   }
 
-  get isFieldDisabled() {
+  get isAnswerFieldDisabled() {
     if (this.isFocusedChallenge) {
       return this.args.answer || !this.isTooltipClosed;
     }
