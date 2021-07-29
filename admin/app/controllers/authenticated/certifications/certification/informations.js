@@ -20,7 +20,8 @@ export default class CertificationInformationsController extends Controller {
   MAX_REACHABLE_PIX_BY_COMPETENCE = this.MAX_REACHABLE_LEVEL * PIX_COUNT_BY_LEVEL;
 
   // Properties
-  @alias('model') certification;
+  @alias('model.certification') certification;
+  @alias('model.countries') countries;
   @tracked editingCandidateResults = false;
   @service notifications;
   @service featureToggles;

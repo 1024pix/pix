@@ -232,4 +232,8 @@ export default function() {
 
     return certificationToUpdate;
   });
+
+  this.get('/countries', (schema, _) => {
+    return schema.countries.all();
+  });
 }

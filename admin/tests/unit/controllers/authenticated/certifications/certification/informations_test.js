@@ -51,9 +51,11 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
-    controller.certification = EmberObject.create({
-      competencesWithMark,
-    });
+    controller.model = {
+      certification: EmberObject.create({
+        competencesWithMark,
+      }),
+    };
   });
 
   module('#hasImpactfulIssueReports', () => {
@@ -65,9 +67,12 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: false }),
         EmberObject.create({ isImpactful: false }),
       ];
-      controller.certification = EmberObject.create({
-        certificationIssueReports,
-      });
+      controller.model = {
+        certification: EmberObject.create({
+          certificationIssueReports,
+        }),
+        countries: [],
+      };
 
       // when/then
       assert.true(controller.hasImpactfulIssueReports);
@@ -81,9 +86,11 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: false }),
         EmberObject.create({ isImpactful: false }),
       ];
-      controller.certification = EmberObject.create({
-        certificationIssueReports,
-      });
+      controller.model = {
+        certification: EmberObject.create({
+          certificationIssueReports,
+        }),
+      };
 
       // when/then
       assert.false(controller.hasImpactfulIssueReports);
@@ -99,9 +106,11 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: true }),
         EmberObject.create({ isImpactful: true }),
       ];
-      controller.certification = EmberObject.create({
-        certificationIssueReports,
-      });
+      controller.model = {
+        certification: EmberObject.create({
+          certificationIssueReports,
+        }),
+      };
 
       // when/then
       assert.true(controller.hasUnimpactfulIssueReports);
@@ -115,9 +124,11 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: true }),
         EmberObject.create({ isImpactful: true }),
       ];
-      controller.certification = EmberObject.create({
-        certificationIssueReports,
-      });
+      controller.model = {
+        certification: EmberObject.create({
+          certificationIssueReports,
+        }),
+      };
 
       // when/then
       assert.false(controller.hasUnimpactfulIssueReports);
@@ -133,9 +144,11 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: true }),
         EmberObject.create({ isImpactful: false }),
       ];
-      controller.certification = EmberObject.create({
-        certificationIssueReports,
-      });
+      controller.model = {
+        certification: EmberObject.create({
+          certificationIssueReports,
+        }),
+      };
 
       // when/then
       assert.true(controller.hasIssueReports);
@@ -144,9 +157,11 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     test('it should return false when there are no issue reports', async function(assert) {
       // given
       const certificationIssueReports = [];
-      controller.certification = EmberObject.create({
-        certificationIssueReports,
-      });
+      controller.model = {
+        certification: EmberObject.create({
+          certificationIssueReports,
+        }),
+      };
 
       // when/then
       assert.false(controller.hasIssueReports);
@@ -157,9 +172,11 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
     test('should return true when certification status is cancelled', function(assert) {
       // given
-      controller.certification = EmberObject.create({
-        status: 'cancelled',
-      });
+      controller.model = {
+        certification: EmberObject.create({
+          status: 'cancelled',
+        }),
+      };
 
       // when/then
       assert.true(controller.isCertificationCancelled);
@@ -199,9 +216,11 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: true }),
         EmberObject.create({ isImpactful: false }),
       ];
-      controller.certification = EmberObject.create({
-        certificationIssueReports,
-      });
+      controller.model = {
+        certification: EmberObject.create({
+          certificationIssueReports,
+        }),
+      };
 
       // when/then
       assert.equal(controller.impactfulCertificationIssueReports.length, 2);
@@ -218,9 +237,11 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         EmberObject.create({ isImpactful: false }),
         EmberObject.create({ isImpactful: false }),
       ];
-      controller.certification = EmberObject.create({
-        certificationIssueReports,
-      });
+      controller.model = {
+        certification: EmberObject.create({
+          certificationIssueReports,
+        }),
+      };
 
       // when/then
       assert.equal(controller.unimpactfulCertificationIssueReports.length, 3);
