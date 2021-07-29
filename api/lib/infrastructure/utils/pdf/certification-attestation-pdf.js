@@ -318,7 +318,7 @@ function _renderHeaderCandidateInformations(viewModel, page, rgb) {
 
 function _renderVerificationCode(viewModel, page, rgb) {
   page.drawText(
-    viewModel.verificationCode,
+    viewModel.verificationCode ?? '',
     {
       x: 410,
       y: 560,
