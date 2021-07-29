@@ -17,7 +17,7 @@ module('Integration | Component | session-summary-list', function(hooks) {
       // given
       const sessionSummaries = [];
       sessionSummaries.meta = { rowCount: 0 };
-      this.set('sessionSummaries', sessionSummaries);
+      this.sessionSummaries = sessionSummaries;
 
       // when
       await render(hbs`<SessionSummaryList
@@ -44,7 +44,7 @@ module('Integration | Component | session-summary-list', function(hooks) {
       sessionSummaries.meta = {
         rowCount: 2,
       };
-      this.set('sessionSummaries', sessionSummaries);
+      this.sessionSummaries = sessionSummaries;
 
       // when
       await render(hbs`<SessionSummaryList
@@ -74,7 +74,7 @@ module('Integration | Component | session-summary-list', function(hooks) {
       sessionSummaries.meta = {
         rowCount: 1,
       };
-      this.set('sessionSummaries', sessionSummaries);
+      this.sessionSummaries = sessionSummaries;
 
       // when
       await render(hbs`<SessionSummaryList
@@ -104,7 +104,7 @@ module('Integration | Component | session-summary-list', function(hooks) {
       sessionSummaries.meta = {
         rowCount: 1,
       };
-      this.set('sessionSummaries', sessionSummaries);
+      this.sessionSummaries = sessionSummaries;
       await render(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
@@ -115,6 +115,28 @@ module('Integration | Component | session-summary-list', function(hooks) {
       // then
       sinon.assert.calledWith(this.goToSessionDetailsSpy, '123');
       assert.ok(true);
+    });
+
+    test('it should display a link to access session detail', async function(assert) {
+      // given
+      this.goToSessionDetailsSpy = sinon.stub();
+      const store = this.owner.lookup('service:store');
+      const sessionSummary = run(() => store.createRecord('session-summary', {
+        id: 123,
+      }));
+      const sessionSummaries = [sessionSummary];
+      sessionSummaries.meta = {
+        rowCount: 1,
+      };
+      this.sessionSummaries = sessionSummaries;
+
+      // when
+      await render(hbs`<SessionSummaryList
+                  @sessionSummaries={{this.sessionSummaries}}
+                  @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
+
+      // then
+      assert.dom('a[href="/sessions/123"]').exists();
     });
   });
 });
