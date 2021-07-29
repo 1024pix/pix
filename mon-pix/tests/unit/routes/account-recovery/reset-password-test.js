@@ -4,7 +4,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | recuperer-son-compte | reset password', function() {
+describe('Unit | Route | account-recovery | reset password', function() {
 
   setupTest();
 
