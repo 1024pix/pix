@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/campaigns/campaign/assessment-results', function(hooks) {
   setupTest(hooks);
@@ -89,6 +90,24 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
       controller.filterByStage(123);
       // then
       assert.deepEqual(controller.stages, ['123']);
+    });
+  });
+
+  module('#action goToAssessmentPage', function() {
+    test('it should call transitionToRoute with appropriate arguments', function(assert) {
+      // given
+      const event = {
+        stopPropagation: sinon.stub(),
+      };
+
+      controller.transitionToRoute = sinon.stub();
+
+      // when
+      controller.send('goToAssessmentPage', 123, 345, event);
+
+      // then
+      assert.true(event.stopPropagation.called);
+      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.assessment', 123, 345));
     });
   });
 });
