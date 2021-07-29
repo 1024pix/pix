@@ -226,7 +226,7 @@
         "row-title": "Participant"
       },
       "status": {
-        "started-assessment": "En cours ({progression, number, ::percent})",
+        "started-assessment": "En cours",
         "completed-assessment": "En attente d'envoi",
         "shared-assessment": "Résultats reçus",
         "completed-profile": "En attente d'envoi",
