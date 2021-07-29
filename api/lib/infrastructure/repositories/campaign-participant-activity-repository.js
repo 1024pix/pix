@@ -1,32 +1,17 @@
-const { knex } = require('../bookshelf');
-const { fetchPage } = require('../utils/knex-utils');
-const bluebird = require('bluebird');
+const { knex } = require('../../../db/knex-database-connection');
 const CampaignParticipantActivity = require('../../domain/read-models/CampaignParticipantActivity');
-const Progression = require('../../../lib/domain/models/Progression');
-const KnowledgeElementRepository = require('./knowledge-element-repository');
 const Campaign = require('../../domain/models/Campaign');
 
 const campaignParticipantActivityRepository = {
 
   async findPaginatedByCampaignId({ page = { size: 25 }, campaignId, filters = {} }) {
 
-    const targetedSkills = await _getTargetedSkills(campaignId);
+    const pagination = await getPagination(campaignId, filters, page);
+    const results = await _fetchParticipationsWithAssessment(knex, campaignId, filters, pagination);
 
-    const query = knex
-      .with('with_assessements', (qb) => withOrderAndLimit(qb, campaignId, filters))
-      .select('with_assessements.*', 'assessments.state AS assessmentState')
-      .from('with_assessements')
-      .leftJoin('assessments', 'assessments.campaignParticipationId', 'with_assessements.campaignParticipationId')
-      .whereNotExists(
-        knex('assessments AS newerAssessments')
-          .select('id')
-          .where('newerAssessments.campaignParticipationId', '=', knex.raw('"assessments"."campaignParticipationId"'))
-          .where('newerAssessments.createdAt', '>', knex.raw('"assessments"."createdAt"'))
-          .where('newerAssessments.id', '!=', knex.raw('"assessments"."id"')),
-      );
-    const { results, pagination } = await fetchPage(query, page);
-
-    const campaignParticipantsActivities = await bluebird.mapSeries(results, (result) => _buildCampaignParticipationActivity(result, targetedSkills));
+    const campaignParticipantsActivities = results.map((result) => {
+      return _buildCampaignParticipationActivity(result);
+    });
 
     return {
       campaignParticipantsActivities,
@@ -35,7 +20,7 @@ const campaignParticipantActivityRepository = {
   },
 };
 
-function _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters) {
+function _buildCampaignParticipationByParticipant(qb, campaignId, filters) {
   qb.select(
     'campaign-participations.id AS campaignParticipationId',
     'users.id AS userId',
@@ -65,33 +50,70 @@ function _filterByDivisions(qb, filters) {
   }
 }
 
-async function _buildCampaignParticipationActivity(result, targetedSkills) {
+function _buildCampaignParticipationActivity(result) {
   if (result.campaignType === Campaign.types.PROFILES_COLLECTION) {
     return new CampaignParticipantActivity(result);
   }
 
-  const knowledgeElements = await KnowledgeElementRepository.findUniqByUserId({ userId: result.userId });
-  const progression = new Progression({
-    id: result.userId,
-    targetedSkills,
-    knowledgeElements,
-    isProfileCompleted: result.isShared,
-  });
-  return new CampaignParticipantActivity({ ...result, progression: progression.completionRate });
+  return new CampaignParticipantActivity({ ...result });
 }
 
-async function _getTargetedSkills(campaignId) {
-  return await knex('target-profiles_skills')
-    .select({ 'id': 'skillId' })
-    .join('campaigns', 'campaigns.targetProfileId', 'target-profiles_skills.targetProfileId')
-    .where('campaigns.id', '=', campaignId);
-}
+function _buildParticipationsPage(queryBuilder, campaignId, filters, { page, pageSize }) {
+  const offset = (page - 1) * pageSize;
 
-function withOrderAndLimit(queryBuilder, campaignId, filters) {
-  queryBuilder
-    .with('campaign_participants_activities_ordered', (qb) => _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters))
+  return queryBuilder
+    .with('campaign_participants_activities_ordered', (qb) => _buildCampaignParticipationByParticipant(qb, campaignId, filters))
     .from('campaign_participants_activities_ordered')
-    .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
+    .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName'])
+    .limit(pageSize)
+    .offset(offset);
+}
+
+function _fetchParticipationsWithAssessment(queryBuilder, campaignId, filters, pagination) {
+  return queryBuilder
+    .with('with_assessment', (qb) => _buildParticipationsPage(qb, campaignId, filters, pagination))
+    .select('with_assessment.*', 'assessments.state AS assessmentState')
+    .from('with_assessment')
+    .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName'])
+    .leftJoin('assessments', 'assessments.campaignParticipationId', 'with_assessment.campaignParticipationId')
+    .whereNotExists(
+      knex('assessments AS newerAssessments')
+        .select('id')
+        .where('newerAssessments.campaignParticipationId', '=', knex.raw('"assessments"."campaignParticipationId"'))
+        .where('newerAssessments.createdAt', '>', knex.raw('"assessments"."createdAt"')),
+    );
+}
+
+function _buildPaginationQuery(queryBuilder, campaignId, filters) {
+  return queryBuilder
+    .select('campaign-participations.id')
+    .from('campaign-participations')
+    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
+    .leftJoin('schooling-registrations', function() {
+      this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' })
+        .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
+    })
+    .where('campaign-participations.campaignId', '=', campaignId)
+    .where('campaign-participations.isImproved', '=', false)
+    .modify(_filterByDivisions, filters);
+}
+
+async function getPagination(campaignId, filters, { number = 1, size = 10 } = {}) {
+  const page = number < 1 ? 1 : number;
+
+  const query = _buildPaginationQuery(knex, campaignId, filters);
+  const { rowCount } = await knex
+    .count('*', { as: 'rowCount' })
+    .from(query.as('query_all_results'))
+    .first();
+
+  return {
+    page,
+    pageSize: size,
+    rowCount,
+    pageCount: Math.ceil(rowCount / size),
+  };
 }
 
 module.exports = campaignParticipantActivityRepository;
+

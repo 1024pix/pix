@@ -16,7 +16,6 @@ class CampaignParticipantActivity {
     sharedAt,
     assessmentState,
     isShared,
-    progression,
   } = {}) {
     this.campaignParticipationId = campaignParticipationId;
     this.userId = userId;
@@ -25,7 +24,6 @@ class CampaignParticipantActivity {
     this.participantExternalId = participantExternalId;
     this.sharedAt = sharedAt;
     this.status = this._getStatus(isShared, assessmentState);
-    this.progression = progression;
   }
 
   _getStatus(isShared, assessmentState) {
