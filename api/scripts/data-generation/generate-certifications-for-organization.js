@@ -213,6 +213,7 @@ async function _createCertificationCoursesAndAssessments({ registrations, sessio
       isV2Certification: true,
       userId: registration.userId,
       maxReachableLevelOnCertificationDate: 6,
+      isPublished: true,
     });
   }
   const certificationCoursesChunkSize = _getChunkSize(certificationCoursesData[0]);
@@ -269,19 +270,18 @@ async function _createCertificationResultsWithMarks({ assessmentIds, status, pix
   for (const competence of pixCompetences) {
     await _createCompetenceMarksForCompetence({ competence, assessmentResultIds, transaction });
   }
-
   await transaction.raw(`
   WITH sum_score AS (
     SELECT DISTINCT "assessmentResultId",
            SUM("score") OVER (PARTITION BY "assessmentResultId") AS final_score
     FROM "competence-marks"
-    WHERE "assessmentResultId" = ANY(ARRAY[?])
+    WHERE "assessmentResultId" = ANY(ARRAY[${assessmentResultIds.join(',')}])
   )
   UPDATE "assessment-results"
   SET "pixScore" = "sum_score"."final_score"
   FROM sum_score
   WHERE "assessment-results".id = sum_score."assessmentResultId"
-  `, assessmentResultIds.join(','));
+  `);
 }
 
 async function _createCompetenceMarksForCompetence({ competence, assessmentResultIds, transaction }) {
