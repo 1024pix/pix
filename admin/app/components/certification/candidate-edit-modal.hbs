@@ -59,10 +59,16 @@
 
       <div class="candidate-edit-modal__content__field">
         <label for="birth-country" class="label">
-          <span class="required-field-indicator">*</span>
           Pays de naissance
         </label>
-        <Input @id="birth-country" @type="text" @class="input" @value={{this.birthCountry}} required />
+        <PixSelect
+          id="birth-country"
+          class="birth-country-selector"
+          @options={{this.countryOptions}}
+          @onChange={{this.selectBirthCountry}}
+          @selectedOption={{this.selectedCountryOption}}
+          required
+        />
       </div>
 
       {{#if this.isBirthGeoCodeRequired}}
@@ -128,7 +134,7 @@
     </Modal::Body>
     <Modal::Footer>
       <PixButton @size="small" @backgroundColor="transparent-light" @triggerAction={{this.onCancelButtonsClicked}} data-test-id="close-certification-candidate-edition-modal">Annuler</PixButton>
-      <PixButton @size="small" @type="submit">Enregistrer</PixButton>
+      <PixButton @size="small" @type="submit" data-test-id="close-certification-candidate-edition-modal">Enregistrer</PixButton>
     </Modal::Footer>
   </form>
 </Modal::Dialog>

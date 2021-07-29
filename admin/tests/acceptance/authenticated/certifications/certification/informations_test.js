@@ -17,6 +17,17 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     server.create('feature-toggle', { isNewCpfDataEnabled: true });
     const user = server.create('user');
     await createAuthenticateSession({ userId: user.id });
+
+    this.server.create('country', {
+      code: '99217',
+      name: 'JAPON',
+    });
+
+    this.server.create('country', {
+      code: '99430',
+      name: 'GROENLAND',
+    });
+
     certification = this.server.create('certification', {
       firstName: 'Bora Horza',
       lastName: 'Gobuchul',
@@ -56,7 +67,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
       await click('#male');
-      await fillInByLabel('Pays de naissance', 'GROENLAND');
+      await fillInByLabel('Pays de naissance', '99430');
       await fillInByLabel('Commune de naissance', 'Pôle nord');
 
       // when
@@ -74,7 +85,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
       await click('#male');
-      await fillInByLabel('Pays de naissance', 'GROENLAND');
+      await fillInByLabel('Pays de naissance', '99430');
       await fillInByLabel('Commune de naissance', 'Pôle nord');
 
       // when
@@ -95,7 +106,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
       await click('#male');
-      await fillInByLabel('Pays de naissance', 'GROENLAND');
+      await fillInByLabel('Pays de naissance', '99430');
       await fillInByLabel('Commune de naissance', 'Pôle nord');
 
       // when
@@ -113,7 +124,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
       await click('#male');
-      await fillInByLabel('Pays de naissance', 'GROENLAND');
+      await fillInByLabel('Pays de naissance', '99430');
       await fillInByLabel('Commune de naissance', 'Pôle nord');
 
       // when
@@ -137,7 +148,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
       await click('#male');
-      await fillInByLabel('Pays de naissance', 'GROENLAND');
+      await fillInByLabel('Pays de naissance', '99430');
       await fillInByLabel('Commune de naissance', 'Pôle nord');
       await clickByLabel('Enregistrer');
 
