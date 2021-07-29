@@ -63,6 +63,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AccountRecoveryDemandExpired) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
+  if (error instanceof DomainErrors.UserHasAlreadyLeftSCO) {
+    return new HttpErrors.UnauthorizedError(error.message);
+  }
   if (error instanceof DomainErrors.AccountRecoveryUserAlreadyConfirmEmail) {
     return new HttpErrors.ConflictError(error.message);
   }

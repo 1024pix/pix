@@ -727,6 +727,12 @@ class UserNotAuthorizedToUpdateEmailError extends DomainError {
   }
 }
 
+class UserHasAlreadyLeftSCO extends DomainError {
+  constructor(message = 'User has already left SCO.') {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToAccessEntityError extends DomainError {
   constructor(message = 'User is not authorized to access ressource') {
     super(message);
@@ -982,6 +988,7 @@ module.exports = {
   UserAlreadyLinkedToCandidateInSessionError,
   UserCantBeCreatedError,
   UserCouldNotBeReconciledError,
+  UserHasAlreadyLeftSCO,
   UserNotAuthorizedToAccessEntityError,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
