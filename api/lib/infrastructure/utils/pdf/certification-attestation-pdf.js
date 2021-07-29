@@ -16,11 +16,6 @@ const fonts = {
   robotoMonoRegular: 'RobotoMono-Regular.ttf',
 };
 
-const images = {
-  clea: 'clea',
-  pixPlusDroit: 'pixPlusDroit',
-};
-
 const templates = {
   withoutComplementaryCertifications: 'withoutComplementaryCertifications',
   withComplementaryCertifications: 'withComplementaryCertifications',
@@ -82,20 +77,23 @@ async function _embedImages(pdfDocument, viewModels, imageUtils) {
     _.filter(viewModels, (viewModel) => viewModel.shouldDisplayCleaCertification());
 
   if (viewModelsWithCleaCertification.length > 0) {
-    // FIXME ? Ici on présuppose que tous les macarons Cléa sont identiques
     const cleaCertificationImagePath = viewModelsWithCleaCertification[0].cleaCertificationImagePath;
     const image = await _embedCleaCertificationImage(pdfDocument, cleaCertificationImagePath, imageUtils);
-    embeddedImages[images.clea] = image;
+    embeddedImages[cleaCertificationImagePath] = image;
   }
 
   const viewModelsWithPixPlusDroitCertification =
     _.filter(viewModels, (viewModel) => viewModel.shouldDisplayPixPlusDroitCertification());
 
   if (viewModelsWithPixPlusDroitCertification.length > 0) {
-    // FIXME ? Ici on présuppose que tous les macarons Pix+ droit sont identiques
-    const pixPlusDroitCertificationImagePath = viewModelsWithPixPlusDroitCertification[0].pixPlusDroitCertificationImagePath;
-    const image = await _embedPixPlusDroitCertificationImage(pdfDocument, pixPlusDroitCertificationImagePath, imageUtils);
-    embeddedImages[images.pixPlusDroit] = image;
+    const singleImagePaths = _(viewModelsWithPixPlusDroitCertification)
+      .map('pixPlusDroitCertificationImagePath')
+      .uniq()
+      .value();
+    for (const path of singleImagePaths) {
+      const image = await _embedPixPlusDroitCertificationImage(pdfDocument, path, imageUtils);
+      embeddedImages[path] = image;
+    }
   }
   return embeddedImages;
 }
@@ -126,12 +124,12 @@ async function _copyTemplatePagesIntoDocument(viewModels, dirname, fileSystem, p
   const templatePages = {};
 
   if (_atLeastOneWithComplementaryCertifications(viewModels)) {
-    const copiedPage = await _copyFirstPageFromTemplateByFilename('attestation-template.pdf', pdfDocument, dirname, fileSystem, pdfWriter);
+    const copiedPage = await _copyFirstPageFromTemplateByFilename('attestation-template-with-complementary-certifications.pdf', pdfDocument, dirname, fileSystem, pdfWriter);
     templatePages[templates.withComplementaryCertifications] = copiedPage;
   }
 
   if (_atLeastOneWithoutComplementaryCertifications(viewModels)) {
-    const copiedPage = await _copyFirstPageFromTemplateByFilename('attestation-template-with-complementary-certifications.pdf', pdfDocument, dirname, fileSystem, pdfWriter);
+    const copiedPage = await _copyFirstPageFromTemplateByFilename('attestation-template.pdf', pdfDocument, dirname, fileSystem, pdfWriter);
     templatePages[templates.withoutComplementaryCertifications] = copiedPage;
   }
   return templatePages;
@@ -338,7 +336,7 @@ function _renderPixPlusCertificationCertification(viewModel, page, embeddedImage
   }
 
   if (viewModel.shouldDisplayPixPlusDroitCertification()) {
-    const pngImage = embeddedImages[images.pixPlusDroit];
+    const pngImage = embeddedImages[viewModel.pixPlusDroitCertificationImagePath];
     page.drawImage(
       pngImage,
       {
@@ -351,7 +349,7 @@ function _renderPixPlusCertificationCertification(viewModel, page, embeddedImage
 
 function _renderCleaCertification(viewModel, page, embeddedImages) {
   if (viewModel.shouldDisplayCleaCertification()) {
-    const pngImage = embeddedImages[images.clea];
+    const pngImage = embeddedImages[viewModel.cleaCertificationImagePath];
     page.drawImage(
       pngImage,
       {
