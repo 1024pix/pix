@@ -31,12 +31,6 @@ export default class User extends ApplicationAdapter {
       return `${this.host}/${this.namespace}/password-reset-demands/${temporaryKey}`;
     }
 
-    if (query.accountRecoveryDemandTemporaryKey) {
-      const temporaryKey = query.accountRecoveryDemandTemporaryKey;
-      delete query.accountRecoveryDemandTemporaryKey;
-      return `${this.host}/${this.namespace}/account-recovery/${temporaryKey}`;
-    }
-
     return super.urlForQueryRecord(...arguments);
   }
 

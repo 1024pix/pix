@@ -14,6 +14,15 @@ module.exports = {
     }).serialize(studentInformationForAccountRecovery);
   },
 
+  serializeAccountRecovery(accountRecoveryDemand) {
+    return new Serializer('account-recovery-demand', {
+      attributes: [
+        'firstName',
+        'email',
+      ],
+    }).serialize(accountRecoveryDemand);
+  },
+
   async deserialize(studentInformationForAccountRecovery) {
     function transform(record) {
       return {

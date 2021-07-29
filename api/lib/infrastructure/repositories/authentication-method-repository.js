@@ -53,7 +53,73 @@ module.exports = {
     }
   },
 
-  updateChangedPassword({ userId, hashedPassword }) {
+  async createPasswordThatShouldBeChanged({
+    userId,
+    hashedPassword,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
+    try {
+      const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
+        password: hashedPassword,
+        shouldChangePassword: true,
+      });
+
+      const authenticationMethod = new AuthenticationMethod({
+        authenticationComplement,
+        identityProvider: AuthenticationMethod.identityProviders.PIX,
+        userId,
+      });
+
+      const bookshelfAuthenticationMethod = await new BookshelfAuthenticationMethod(authenticationMethod)
+        .save(null, { transacting: domainTransaction.knexTransaction });
+      return _toDomainEntity(bookshelfAuthenticationMethod);
+    } catch (err) {
+      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+        throw new AlreadyExistingEntityError(`Authentication method PIX already exists for the user ID ${userId}.`);
+      }
+      throw err;
+    }
+  },
+
+  async findOneByUserIdAndIdentityProvider({ userId, identityProvider }) {
+    const authenticationMethod = await BookshelfAuthenticationMethod
+      .where({ userId, identityProvider })
+      .fetch({ require: false });
+
+    return authenticationMethod ? _toDomainEntity(authenticationMethod) : null;
+  },
+
+  async findOneByExternalIdentifierAndIdentityProvider({ externalIdentifier, identityProvider }) {
+    const authenticationMethod = await BookshelfAuthenticationMethod
+      .where({ externalIdentifier, identityProvider })
+      .fetch({ require: false });
+
+    return authenticationMethod ? _toDomainEntity(authenticationMethod) : null;
+  },
+
+  async findByUserId({ userId }) {
+    const bookshelfAuthenticationMethods = await BookshelfAuthenticationMethod
+      .where({ userId })
+      .fetchAll();
+
+    return bookshelfAuthenticationMethods.map((bookshelfAuthenticationMethod) => _toDomainEntity(bookshelfAuthenticationMethod));
+  },
+
+  async hasIdentityProviderPIX({ userId }) {
+    const foundAuthenticationMethod = await BookshelfAuthenticationMethod
+      .where({
+        userId,
+        identityProvider: AuthenticationMethod.identityProviders.PIX,
+      })
+      .fetch({ require: false });
+    return Boolean(foundAuthenticationMethod);
+  },
+
+  async removeByUserIdAndIdentityProvider({ userId, identityProvider }) {
+    return BookshelfAuthenticationMethod.where({ userId, identityProvider }).destroy({ require: true });
+  },
+
+  updateChangedPassword({ userId, hashedPassword }, domainTransaction = DomainTransaction.emptyTransaction()) {
     const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
       password: hashedPassword,
       shouldChangePassword: false,
@@ -67,6 +133,7 @@ module.exports = {
       .save(
         { authenticationComplement },
         {
+          transacting: domainTransaction.knexTransaction,
           patch: true,
           method: 'update',
         },
@@ -112,34 +179,6 @@ module.exports = {
       });
   },
 
-  async createPasswordThatShouldBeChanged({
-    userId,
-    hashedPassword,
-    domainTransaction = DomainTransaction.emptyTransaction(),
-  }) {
-    try {
-      const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
-        password: hashedPassword,
-        shouldChangePassword: true,
-      });
-
-      const authenticationMethod = new AuthenticationMethod({
-        authenticationComplement,
-        identityProvider: AuthenticationMethod.identityProviders.PIX,
-        userId,
-      });
-
-      const bookshelfAuthenticationMethod = await new BookshelfAuthenticationMethod(authenticationMethod)
-        .save(null, { transacting: domainTransaction.knexTransaction });
-      return _toDomainEntity(bookshelfAuthenticationMethod);
-    } catch (err) {
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
-        throw new AlreadyExistingEntityError(`Authentication method PIX already exists for the user ID ${userId}.`);
-      }
-      throw err;
-    }
-  },
-
   updateExpiredPassword({ userId, hashedPassword }) {
     const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
       password: hashedPassword,
@@ -159,22 +198,6 @@ module.exports = {
         }
         throw err;
       });
-  },
-
-  async findOneByUserIdAndIdentityProvider({ userId, identityProvider }) {
-    const authenticationMethod = await BookshelfAuthenticationMethod
-      .where({ userId, identityProvider })
-      .fetch({ require: false });
-
-    return authenticationMethod ? _toDomainEntity(authenticationMethod) : null;
-  },
-
-  async findOneByExternalIdentifierAndIdentityProvider({ externalIdentifier, identityProvider }) {
-    const authenticationMethod = await BookshelfAuthenticationMethod
-      .where({ externalIdentifier, identityProvider })
-      .fetch({ require: false });
-
-    return authenticationMethod ? _toDomainEntity(authenticationMethod) : null;
   },
 
   async updateExternalIdentifierByUserIdAndIdentityProvider({ externalIdentifier, userId, identityProvider }) {
@@ -205,16 +228,6 @@ module.exports = {
     }
   },
 
-  async hasIdentityProviderPIX({ userId }) {
-    const foundAuthenticationMethod = await BookshelfAuthenticationMethod
-      .where({
-        userId,
-        identityProvider: AuthenticationMethod.identityProviders.PIX,
-      })
-      .fetch({ require: false });
-    return Boolean(foundAuthenticationMethod);
-  },
-
   updateOnlyShouldChangePassword({ userId, shouldChangePassword }) {
     return BookshelfAuthenticationMethod
       .where({
@@ -234,17 +247,5 @@ module.exports = {
         }
         throw err;
       });
-  },
-
-  async removeByUserIdAndIdentityProvider({ userId, identityProvider }) {
-    return BookshelfAuthenticationMethod.where({ userId, identityProvider }).destroy({ require: true });
-  },
-
-  async findByUserId({ userId }) {
-    const bookshelfAuthenticationMethods = await BookshelfAuthenticationMethod
-      .where({ userId })
-      .fetchAll();
-
-    return bookshelfAuthenticationMethods.map((bookshelfAuthenticationMethod) => _toDomainEntity(bookshelfAuthenticationMethod));
   },
 };

@@ -23,6 +23,7 @@ const Organization = require('../../../../lib/domain/models/Organization');
 const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Integration | Infrastructure | Repository | UserRepository', () => {
@@ -765,6 +766,61 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(updatedUser.email).to.equal(newEmail);
     });
 
+  });
+
+  describe('#updateWithEmailConfirmed', () => {
+
+    let userInDb;
+
+    beforeEach(async () => {
+      userInDb = databaseBuilder.factory.buildUser({ ...userToInsert, email: 'old_email@example.net', cgu: false });
+      await databaseBuilder.commit();
+    });
+
+    it('should update the user email', async () => {
+      // given
+      const newEmail = 'new_email@example.net';
+      const userAttributes = {
+        cgu: true,
+        email: newEmail,
+        emailConfirmedAt: new Date('2020-12-15T00:00:00Z'),
+      };
+
+      // when
+      await userRepository.updateWithEmailConfirmed({ id: userInDb.id, userAttributes });
+
+      // then
+      const [ updatedUser ] = await knex('users').where({ id: userInDb.id });
+      expect(updatedUser.emailConfirmedAt.toString()).to.equal(userAttributes.emailConfirmedAt.toString());
+      expect(updatedUser.email).to.equal(userAttributes.email);
+      expect(updatedUser.cgu).to.equal(userAttributes.cgu);
+
+    });
+
+    it('should rollback the user email in case of error in transaction', async () => {
+      // given
+      const newEmail = 'new_email@example.net';
+      const userAttributes = {
+        cgu: true,
+        email: newEmail,
+        emailConfirmedAt: new Date('2020-12-15T00:00:00Z'),
+      };
+
+      // when
+      await catchErr(async () => {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await userRepository.updateWithEmailConfirmed({ id: userInDb.id, userAttributes }, domainTransaction);
+          throw new Error('Error occurs in transaction');
+        });
+      });
+
+      // then
+      const [ updatedUser ] = await knex('users').where({ id: userInDb.id });
+      expect(updatedUser.emailConfirmedAt).to.be.null;
+      expect(updatedUser.email).to.equal(userInDb.email);
+      expect(updatedUser.cgu).to.be.false;
+
+    });
   });
 
   describe('#updateUserAttributes', () => {

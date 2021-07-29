@@ -3,7 +3,7 @@ const AccountRecoveryDemand = require('../models/AccountRecoveryDemand');
 
 module.exports = async function sendEmailForAccountRecovery({
   studentInformation,
-  temporaryKey = crypto.randomBytes(32).toString('base64'),
+  temporaryKey,
   schoolingRegistrationRepository,
   userRepository,
   accountRecoveryDemandRepository,
@@ -12,6 +12,7 @@ module.exports = async function sendEmailForAccountRecovery({
   userReconciliationService,
 }) {
   const { email: newEmail } = studentInformation;
+  const encodedTemporaryKey = temporaryKey || crypto.randomBytes(32).toString('hex');
 
   const { firstName, id, userId, email: oldEmail } = await checkScoAccountRecoveryService.retrieveSchoolingRegistration({
     studentInformation,
@@ -28,13 +29,13 @@ module.exports = async function sendEmailForAccountRecovery({
     newEmail,
     oldEmail,
     used: false,
-    temporaryKey,
+    temporaryKey: encodedTemporaryKey,
   });
   await accountRecoveryDemandRepository.save(accountRecoveryDemand);
 
   await mailService.sendAccountRecoveryEmail({
     firstName,
     email: newEmail,
-    temporaryKey,
+    temporaryKey: encodedTemporaryKey,
   });
 };

@@ -5,6 +5,7 @@ const {
   AccountRecoveryDemandExpired,
 } = require('../../../../lib/domain/errors');
 const AccountRecoveryDemand = require('../../../../lib/domain/models/AccountRecoveryDemand');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 const MILLISECONDS_IN_A_MINUTE = 60 * 1000;
 
@@ -131,6 +132,50 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
         });
 
       });
+
+    });
+
+  });
+
+  describe('#markAsBeingUsed', () => {
+
+    it('should mark demand as used', async () => {
+      // given
+      const temporaryKey = 'temporaryKey';
+      databaseBuilder.factory.buildAccountRecoveryDemand({ temporaryKey, used: false });
+      await databaseBuilder.commit();
+
+      // when
+      await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey);
+
+      // then
+      const demand = await knex('account-recovery-demands')
+        .select('used')
+        .where({ temporaryKey })
+        .first();
+      expect(demand.used).to.be.true;
+    });
+
+    it('should rollback update if error occurs in transaction', async () => {
+      // given
+      const temporaryKey = 'temporaryKey';
+      databaseBuilder.factory.buildAccountRecoveryDemand({ temporaryKey, used: false });
+      await databaseBuilder.commit();
+
+      // when
+      await catchErr(async () => {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey, domainTransaction);
+          throw new Error('Error occurs in transaction');
+        });
+      });
+
+      // then
+      const demand = await knex('account-recovery-demands')
+        .select('used')
+        .where({ temporaryKey })
+        .first();
+      expect(demand.used).to.be.false;
 
     });
 

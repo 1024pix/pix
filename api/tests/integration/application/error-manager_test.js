@@ -256,6 +256,15 @@ describe('Integration | API | Controller Error', () => {
       expect(response.statusCode).to.equal(CONFLICT_ERROR);
       expect(responseDetail(response)).to.equal('The INA ABC123 is already in use for this organization.');
     });
+
+    it('responds Conflict when a AccountRecoveryUserAlreadyConfirmEmail error occurs', async () => {
+      routeHandler.throws(new DomainErrors.AccountRecoveryUserAlreadyConfirmEmail());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(CONFLICT_ERROR);
+      expect(responseDetail(response)).to.equal('This user has already a confirmed email.');
+    });
+
   });
 
   context('403 Forbidden', () => {
