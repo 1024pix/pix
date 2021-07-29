@@ -7,6 +7,13 @@ export default class AccountRecoveryResetPasswordRoute extends Route {
   errors;
   @service intl;
   @service store;
+  @service featureToggles;
+
+  beforeModel() {
+    if (!this.featureToggles.featureToggles.isScoAccountRecoveryEnabled) {
+      this.replaceWith('/connexion');
+    }
+  }
 
   async model(params) {
     const temporaryKey = params.temporary_key;
