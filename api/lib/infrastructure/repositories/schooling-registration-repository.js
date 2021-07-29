@@ -384,6 +384,7 @@ module.exports = {
         qb.leftJoin('authentication-methods', function() {
           this.on('users.id', 'authentication-methods.userId').andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.GAR);
         });
+        qb.where('schooling-registrations.isDisabled', false);
         qb.modify(_setSchoolingRegistrationFilters, filter);
       })
       .fetchPage({
