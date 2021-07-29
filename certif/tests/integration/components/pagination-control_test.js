@@ -2,6 +2,9 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import fillInByLabel from 'pix-certif/tests/helpers/extended-ember-test-helpers/fill-in-by-label';
+import sinon from 'sinon';
+import Service from '@ember/service';
 
 function getMetaForPage(pageNumber) {
   const rowCount = 50;
@@ -19,7 +22,7 @@ module('Integration | Component | pagination-control', function(hooks) {
 
   test('it should disable previous button when user is on first page', async function(assert) {
     // given
-    this.set('meta', getMetaForPage(1));
+    this.meta = getMetaForPage(1);
 
     // when
     await render(hbs`<PaginationControl @pagination={{meta}}/>`);
@@ -31,7 +34,7 @@ module('Integration | Component | pagination-control', function(hooks) {
 
   test('it should disable next button when user is on last page', async function(assert) {
     // given
-    this.set('meta', getMetaForPage(2));
+    this.meta = getMetaForPage(2);
 
     // when
     await render(hbs`<PaginationControl @pagination={{meta}}/>`);
@@ -43,7 +46,7 @@ module('Integration | Component | pagination-control', function(hooks) {
 
   test('it should enable previous button when user is on second page', async function(assert) {
     // given
-    this.set('meta', getMetaForPage(2));
+    this.meta = getMetaForPage(2);
 
     // when
     await render(hbs`<PaginationControl @pagination={{meta}}/>`);
@@ -53,4 +56,19 @@ module('Integration | Component | pagination-control', function(hooks) {
     assert.dom('.page-navigation__arrow--previous .icon-button').hasNoClass('disabled');
   });
 
+  test('it should re-route to page with changed page size', async function(assert) {
+    const replaceWithStub = sinon.stub();
+    class RouterStub extends Service {
+      replaceWith = replaceWithStub;
+    }
+    this.owner.register('service:router', RouterStub);
+    this.meta = getMetaForPage(2);
+    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
+
+    // when
+    await fillInByLabel('Nombre d\'éléments par page', '25');
+
+    // then
+    assert.ok(replaceWithStub.calledWith({ queryParams: { pageSize: '25', pageNumber: 1 } }));
+  });
 });
