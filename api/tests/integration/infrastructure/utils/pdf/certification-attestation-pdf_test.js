@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
+const { domainBuilder } = require('../../../../test-helper');
 const { getCertificationAttestationsPdfBuffer, _forTestOnly } = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
 require('approvals')
   .mocha();
@@ -19,7 +19,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     });
 
     // when
-    const { fileName } = await getCertificationAttestationsPdfBuffer({
+    await getCertificationAttestationsPdfBuffer({
       certificates: [certificate],
     });
 
@@ -27,7 +27,6 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       {
         reporters: ['gitdiff'],
       });
-    expect(fileName).to.equal('attestation-pix-20181003.pdf');
   });
 
   it('should generate a page per certificate', async function() {
