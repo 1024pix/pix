@@ -1660,6 +1660,21 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       expect(_.map(data, 'id')).to.have.members([schoolingRegistration_1.id, schoolingRegistration_2.id]);
     });
 
+    it('should return the schooling registrations not disabled', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ isDisabled: false, organizationId: organization.id });
+      databaseBuilder.factory.buildSchoolingRegistration({ isDisabled: true, organizationId: organization.id });
+      await databaseBuilder.commit();
+
+      // when
+      const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({ organizationId: organization.id });
+
+      // then
+      expect(data).to.have.lengthOf(1);
+      expect(data[0].id).to.equal(schoolingRegistration.id);
+    });
+
     it('should order schoolingRegistrations by lastName and then by firstName with no sensitive case', async () => {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
