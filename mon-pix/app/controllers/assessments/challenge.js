@@ -15,7 +15,7 @@ export default class ChallengeController extends Controller {
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOut = false;
-  @tracked hasOverlay = true;
+  @tracked isTooltipOverlayIsDisplayed = true;
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -32,13 +32,13 @@ export default class ChallengeController extends Controller {
     return this.model.challenge.focused && this.hasFocusedOut;
   }
 
-  get displayOverlay() {
-    return this.model.challenge.focused && this.hasOverlay;
+  get isFocusedChallengeAndTooltipIsDisplayed() {
+    return this.model.challenge.focused && this.isTooltipOverlayIsDisplayed;
   }
 
   @action
-  removeOverlay() {
-    this.hasOverlay = false;
+  removeTooltipOverlay() {
+    this.isTooltipOverlayIsDisplayed = false;
   }
 
   @action

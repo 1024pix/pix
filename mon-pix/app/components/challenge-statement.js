@@ -62,7 +62,7 @@ export default class ChallengeStatement extends Component {
   }
 
   @action
-  hideTagHelp() {
+  hideTooltip() {
     this.displayTagHelp = false;
     this.args.onTooltipClose();
   }

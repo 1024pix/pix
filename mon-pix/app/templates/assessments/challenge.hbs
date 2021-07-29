@@ -1,7 +1,7 @@
 {{page-title this.pageTitle}}
 
 <div class="background-banner-wrapper assessment-challenge">
-  {{#if this.displayOverlay}}
+  {{#if this.isFocusedChallengeAndTooltipIsDisplayed}}
     <div class="assessment-challenge__focused-overlay"></div>
   {{/if}}
   {{#if this.isFocusedChallengeAndUserHasFocusedOut}}
@@ -28,7 +28,7 @@
                 focusedOut=this.focusedOut
                 answerValidated=(route-action "saveAnswerAndNavigate")
                 resumeAssessment=(route-action "resumeAssessment")
-                onTooltipClose=this.removeOverlay
+                onTooltipClose=this.removeTooltipOverlay
     }}
   </main>
   <div class="challenge-item__feedback" role="complementary">

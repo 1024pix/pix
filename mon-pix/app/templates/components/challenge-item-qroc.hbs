@@ -42,7 +42,7 @@
                               autocomplete="nope"
                               value="{{this.userAnswer}}"
                               data-uid="qroc-proposal-uid"
-                              disabled={{this.isFieldDisabled}}>
+                              disabled={{this.isAnswerFieldDisabled}}>
                     </textarea>
                   {{else if (eq @challenge.format 'phrase')}}
                     <input class="challenge-response__proposal challenge-response__proposal--sentence"
@@ -54,7 +54,7 @@
                            autocomplete="nope"
                            value="{{this.userAnswer}}"
                            data-uid="qroc-proposal-uid"
-                           disabled={{this.isFieldDisabled}}>
+                           disabled={{this.isAnswerFieldDisabled}}>
                   {{else if (eq @challenge.format 'nombre')}}
                     <input class="challenge-response__proposal challenge-response__proposal--number"
                            type="number"
@@ -65,7 +65,7 @@
                            autocomplete="nope"
                            value="{{this.userAnswer}}"
                            data-uid="qroc-proposal-uid"
-                           disabled={{this.isFieldDisabled}}>
+                           disabled={{this.isAnswerFieldDisabled}}>
                   {{else}}
                     <input class="challenge-response__proposal"
                            size="{{get-qroc-input-size @challenge.format}}"
@@ -77,7 +77,7 @@
                            autocomplete="nope"
                            value="{{this.userAnswer}}"
                            data-uid="qroc-proposal-uid"
-                           disabled={{this.isFieldDisabled}}>
+                           disabled={{this.isAnswerFieldDisabled}}>
                   {{/if}}
                 {{/if}}
 
@@ -134,7 +134,7 @@
           <ChallengeActions @challenge={{@challenge}}
                             @answer={{@answer}}
                             @resumeAssessment={{this.resumeAssessment}}
-                            @isDisabled={{this.isFieldDisabled}}
+                            @isDisabled={{this.isAnswerFieldDisabled}}
                             @validateAnswer={{this.validateAnswer}}
                             @skipChallenge={{this.skipChallenge}}
                             @isValidateButtonEnabled={{this.isValidateButtonEnabled}}

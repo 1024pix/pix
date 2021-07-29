@@ -10,7 +10,7 @@
             <div role="tooltip"
                  id="challenge-statement-tag--tooltip"
                  class="challenge-statement__tag-information"
-                 {{on-key 'Escape' this.hideTagHelp event='keyup'}}>
+                 {{on-key 'Escape' this.hideTooltip event='keyup'}}>
                 {{#if this.isFocusedChallenge}}
                   <div class="challenge-statement-tag-information__text">
                       {{t 'pages.challenge.statement.tooltip.focused'}}
@@ -18,7 +18,7 @@
                 {{/if}}
               <PixButton data-test="challenge-statement-tag-information__button"
                          @size="small"
-                         @triggerAction={{this.hideTagHelp}}>
+                         @triggerAction={{this.hideTooltip}}>
                 {{t 'pages.challenge.statement.tooltip.close'}}
               </PixButton>
             </div>
