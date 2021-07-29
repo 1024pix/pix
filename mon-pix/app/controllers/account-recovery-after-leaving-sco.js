@@ -19,6 +19,7 @@ export default class AccountRecoveryAfterLeavingScoController extends Controller
   @tracked showConfirmationStep = false;
   @tracked showBackupEmailConfirmationForm = false;
   @tracked showAccountNotFoundError = false;
+  @tracked showUserHasAlreadyLeftSCO = false;
   @tracked showAlreadyRegisteredEmailError = false;
   @tracked showConfirmationEmailSent = false;
   @tracked templateImg = 'illustration';
@@ -105,8 +106,13 @@ export default class AccountRecoveryAfterLeavingScoController extends Controller
     if (status === '409') {
       this.showStudentInformationForm = false;
       this.showAccountNotFoundError = false;
+      this.showUserHasAlreadyLeftSCO = false;
       this.showConflictError = true;
+    } else if (status === '401') {
+      this.showAccountNotFoundError = false;
+      this.showUserHasAlreadyLeftSCO = true;
     } else {
+      this.showUserHasAlreadyLeftSCO = false;
       this.showAccountNotFoundError = true;
     }
   }

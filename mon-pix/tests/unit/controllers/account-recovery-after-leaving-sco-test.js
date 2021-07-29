@@ -28,6 +28,44 @@ describe('Unit | Controller | account-recovery-after-leaving-sco', function() {
         sinon.assert.calledOnce(submitStudentInformationStub);
       });
 
+      context('when user account is not found', function() {
+
+        it('should show user not found error message', async function() {
+          // given
+          const errors = { errors: [{ status: '404' }] };
+          const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
+          const studentInformation = { firstName: 'Jules' };
+          const submitStudentInformationStub = sinon.stub().rejects(errors);
+          const store = { createRecord: sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub }) };
+          controller.set('store', store);
+
+          // when
+          await controller.submitStudentInformation(studentInformation);
+
+          // then
+          expect(controller.showAccountNotFoundError).to.be.true;
+        });
+      });
+
+      context('when user has already left SCO', function() {
+
+        it('should show user not found error message', async function() {
+          // given
+          const errors = { errors: [{ status: '401' }] };
+          const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
+          const studentInformation = { firstName: 'Jules' };
+          const submitStudentInformationStub = sinon.stub().rejects(errors);
+          const store = { createRecord: sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub }) };
+          controller.set('store', store);
+
+          // when
+          await controller.submitStudentInformation(studentInformation);
+
+          // then
+          expect(controller.showUserHasAlreadyLeftSCO).to.be.true;
+        });
+      });
+
       context('when two students used same account', function() {
 
         it('should hide student information form and show conflict error', async function() {
