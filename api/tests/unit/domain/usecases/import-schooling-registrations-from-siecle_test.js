@@ -3,7 +3,6 @@ const importSchoolingRegistrationsFromSIECLEFormat = require('../../../../lib/do
 const { FileValidationError, SiecleXmlImportError } = require('../../../../lib/domain/errors');
 
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
-const SchoolingRegistrationParser = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
 
 const fs = require('fs').promises;
 
@@ -16,6 +15,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
   const organizationId = 1234;
   let format;
   let schoolingRegistrationsXmlServiceStub;
+  let schoolingRegistrationsCsvServiceStub;
   let schoolingRegistrationRepositoryStub;
   let organizationRepositoryStub;
   let payload = null;
@@ -23,9 +23,9 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
   beforeEach(() => {
     sinon.stub(fs, 'unlink');
     sinon.stub(fs, 'readFile');
-    sinon.stub(SchoolingRegistrationParser, 'buildParser');
     format = 'xml';
     schoolingRegistrationsXmlServiceStub = { extractSchoolingRegistrationsInformationFromSIECLE: sinon.stub() };
+    schoolingRegistrationsCsvServiceStub = { extractSchoolingRegistrationsInformation: sinon.stub() };
     schoolingRegistrationRepositoryStub = {
       addOrUpdateOrganizationSchoolingRegistrations: sinon.stub(),
       addOrUpdateOrganizationAgriSchoolingRegistrations: sinon.stub(),
@@ -38,21 +38,18 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
   });
 
   context('when extracted schoolingRegistrations informations can be imported', () => {
-    let parser;
     payload = { path: 'file.csv' };
     const buffer = 'data';
 
     beforeEach(() => {
       format = 'csv';
-      parser = { parse: sinon.stub() };
       fs.readFile.withArgs(payload.path).resolves(buffer);
-
     });
+
     context('when the format is CSV', () => {
-      it('should save these informations for SCO', async () => {
-        const organization = { isAgriculture: false, externalId: organizationUAI };
+      it('should save these informations', async () => {
+        const organization = Symbol('organization');
         organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
-        SchoolingRegistrationParser.buildParser.withArgs(buffer, organizationId, i18n, organization.isAgriculture).returns(parser);
 
         const schoolingRegistration1 = new SchoolingRegistration({
           id: undefined,
@@ -87,60 +84,15 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
           organizationId,
         });
 
-        parser.parse.returns({ registrations: [schoolingRegistration1, schoolingRegistration2] });
+        schoolingRegistrationsCsvServiceStub.extractSchoolingRegistrationsInformation
+          .returns([schoolingRegistration1, schoolingRegistration2]);
 
-        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, i18n });
+        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsCsvService: schoolingRegistrationsCsvServiceStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, i18n });
 
         expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.have.been.called;
       });
-
-      it('should save these informations for SCO Agri', async () => {
-        const organization = { isAgriculture: true, externalId: organizationUAI };
-        organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
-        SchoolingRegistrationParser.buildParser.withArgs(buffer, organizationId, i18n, organization.isAgriculture).returns(parser);
-
-        // given
-        const schoolingRegistration1 = new SchoolingRegistration({
-          id: undefined,
-          nationalStudentId: '123F',
-          firstName: 'Beatrix',
-          middleName: 'The',
-          thirdName: 'Bride',
-          lastName: 'Kiddo',
-          preferredLastName: 'Black Mamba',
-          birthdate: '1970-01-01',
-          birthCityCode: '97422',
-          birthProvinceCode: '974',
-          birthCountryCode: '100',
-          status: 'ST',
-          MEFCode: 'MEF1',
-          division: 'Division 1',
-          organizationId,
-        });
-        const schoolingRegistration2 = new SchoolingRegistration({
-          id: undefined,
-          nationalApprenticeId: '0123456789F',
-          firstName: 'O-Ren',
-          lastName: 'Ishii',
-          preferredLastName: 'Cottonmouth',
-          birthdate: '1980-01-01',
-          birthCity: 'Shangai',
-          birthProvinceCode: '99',
-          birthCountryCode: '132',
-          status: 'AP',
-          MEFCode: 'MEF1',
-          division: 'Division 2',
-          organizationId,
-        });
-
-        parser.parse.returns({ registrations: [schoolingRegistration1, schoolingRegistration2] });
-
-        // when
-        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, i18n });
-
-        expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationAgriSchoolingRegistrations).to.have.been.calledWith([schoolingRegistration1, schoolingRegistration2], organizationId);
-      });
     });
+
     context('when the format is XML', async () => {
       beforeEach(() => {
         format = 'xml';

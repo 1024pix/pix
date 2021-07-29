@@ -90,7 +90,6 @@ function organizationsScoBuilder({ databaseBuilder }) {
     id: SCO_FRENCH_USER_ID,
     firstName: 'George',
     lastName: 'De Cambridge',
-    email: 'george.cambridge@example.net',
     username: 'george.decambridge2207',
     rawPassword: DEFAULT_PASSWORD,
     cgu: false,
@@ -191,6 +190,26 @@ function organizationsScoBuilder({ databaseBuilder }) {
     organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithGAR.id,
     nationalStudentId: '123456789FF',
+  });
+
+  // schooling registration disabled
+  const studentDisabled = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'student',
+    lastName: 'disabled',
+    username: 'student.disabled1234',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: false,
+  });
+
+  databaseBuilder.factory.buildSchoolingRegistration({
+    firstName: studentDisabled.firstName,
+    lastName: studentDisabled.lastName,
+    birthdate: '2000-01-01',
+    division: '3A',
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
+    userId: studentDisabled.id,
+    nationalStudentId: '123456789GG',
+    isDisabled: true,
   });
 
   /* LYCEE */

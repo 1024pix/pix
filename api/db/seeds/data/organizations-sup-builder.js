@@ -45,7 +45,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     organizationRole: Membership.roles.MEMBER,
   });
 
-  // unactive imported
+  // student not associated
   databaseBuilder.factory.buildSchoolingRegistration({
     firstName: 'Joffrey',
     lastName: 'Baratheon',
@@ -55,7 +55,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     studentNumber: 'JAIMELESFRUITS123',
   });
 
-  // active imported
+  // student associated
   const aryaStark = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Arya',
     lastName: 'Stark',
@@ -90,7 +90,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     studentNumber: 'JAIMELECHOCOLAT',
   });
 
-  // with student number
+  // disabled student
   const branStark = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Bran',
     lastName: 'Stark',
@@ -106,6 +106,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     organizationId: SUP_UNIVERSITY_ID,
     userId: branStark.id,
     studentNumber: 'JAIMELESFECULENTS123',
+    isDisabled: true,
   });
 }
 

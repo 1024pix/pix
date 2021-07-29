@@ -27,6 +27,7 @@ module.exports = function buildSchoolingRegistration({
   department = 'seine-et-troll',
   group = 'AB1',
   diploma = 'Licence',
+  isDisabled = false,
   createdAt = new Date('2021-01-01'),
   updatedAt = new Date('2021-02-01'), // for BEGINNING_OF_THE_2020_SCHOOL_YEAR, can outdate very fast! ;)
   organizationId,
@@ -59,6 +60,7 @@ module.exports = function buildSchoolingRegistration({
     department,
     group,
     diploma,
+    isDisabled,
     createdAt,
     updatedAt,
     organizationId,
