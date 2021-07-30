@@ -21,8 +21,12 @@ module.exports = {
         'lastName',
         'birthplace',
         'birthdate',
+        'sex',
         'externalId',
         'maxReachableLevelOnCertificationDate',
+        'birthINSEECode',
+        'birthPostalCode',
+        'birthCountry',
       ],
     }).serialize(certificationCourse);
   },
@@ -35,7 +39,10 @@ module.exports = {
       }
     }
     return {
-      ..._.pick(deserializedRawCommand, ['firstName', 'lastName', 'birthplace', 'birthdate']),
+      ..._.pick(deserializedRawCommand,
+        ['firstName', 'lastName', 'birthplace', 'birthdate', 'birthCountry', 'birthPostalCode', 'sex'],
+      ),
+      birthINSEECode: deserializedRawCommand.birthInseeCode,
       userId,
       certificationCourseId,
     };
