@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.79.0 (30/07/2021)
+
+- [#3216](https://github.com/1024pix/pix/pull/3216) [FEATURE] Choisir un mot de passe lors de la récupération d'un compte SCO (PIX-2740). 
+- [#3243](https://github.com/1024pix/pix/pull/3243) [FEATURE] Afficher les schooling registrations actives dans la liste des élèves (PIX-2859)
+- [#3242](https://github.com/1024pix/pix/pull/3242) [FEATURE] Désactiver les schooling registrations à l'import des élèves (SCO) (PIX-2854)
+- [#3241](https://github.com/1024pix/pix/pull/3241) [FEATURE] Permettre d'accéder à la page "Résultats d'un participant à une campagne de collecte de profils" au clavier(PIX-2635)
+- [#3244](https://github.com/1024pix/pix/pull/3244) [FEATURE] Permettre accéder à la page "Résultats d'un participant à une campagne d'évaluation" au clavier (PIX-2634)
+- [#3250](https://github.com/1024pix/pix/pull/3250) [FEATURE] Mettre à jour le libellé du destinataire des résultats dans le tableau des candidats inscrits à une session de certification (PIX-2901).
+- [#3247](https://github.com/1024pix/pix/pull/3247) [FEATURE] Déplacer l'édition des informations Candidat dans une modale dédiée dans PixAdmin (PIX-2839)
+- [#3251](https://github.com/1024pix/pix/pull/3251) [TECH] Modifier l'organisation des composants d'authentification dans Pix Orga (PIX-2902)
+- [#3248](https://github.com/1024pix/pix/pull/3248) [TECH] Réorganisation des composants relatifs à la finalisation de session sur PixCertif (PIX-2900)
+
 ## v3.78.0 (28/07/2021)
 
 - [#3230](https://github.com/1024pix/pix/pull/3230) [FEATURE] Accepter une correspondance approximative sur un utilisateur lors de la sortie SCO (PIX-2758).
