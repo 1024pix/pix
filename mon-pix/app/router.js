@@ -49,8 +49,10 @@ Router.map(function() {
   this.route('not-connected', { path: '/nonconnecte' });
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
-  this.route('account-recovery-after-leaving-sco', { path: '/recuperer-mon-compte' });
-  this.route('account-recovery/reset-password', { path: '/recuperer-mon-compte/:temporary_key' });
+  this.route('account-recovery', { path: '/recuperer-mon-compte' }, function() {
+    this.route('find-sco-record', { path: '/' });
+    this.route('update-sco-record', { path: '/:temporary_key' });
+  });
 
   this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
   this.route('certifications', function() {

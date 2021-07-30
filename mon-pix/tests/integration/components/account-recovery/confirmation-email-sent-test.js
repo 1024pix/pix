@@ -13,9 +13,9 @@ describe('Integration | Component | account-recovery/confirmation-email-sent', f
     await render(hbs`<AccountRecovery::ConfirmationEmailSent />`);
 
     //then
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.send-email-confirmation.title'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.send-email-confirmation.send-email'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.send-email-confirmation.check-spam'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.send-email-confirmation.return'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.title'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.send-email'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.check-spam'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.return'))).to.exist;
   });
 });

@@ -15,4 +15,23 @@ export default function index(config) {
       });
     }
   });
+
+  config.get('/account-recovery/:temporaryKey', () => {
+    const response = {
+      'data': {
+        'type': 'account-recovery-demands',
+        'id': '10000001',
+        'attributes': {
+          'first-name': 'George',
+          'email': 'George@example.net',
+        },
+      },
+    };
+
+    return new Response(200, {}, response);
+  });
+
+  config.patch('/account-recovery', () => {
+    return new Response(204);
+  });
 }

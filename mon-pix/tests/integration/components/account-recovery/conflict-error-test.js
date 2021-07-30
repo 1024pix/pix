@@ -17,11 +17,11 @@ describe('Integration | Component | conflict-error', function() {
     await render(hbs`<AccountRecovery::ConflictError @firstName={{this.firstName}} />`);
 
     // then
-    const expectedErrorMessage = this.intl.t('pages.account-recovery-after-leaving-sco.conflict.found-you-but', { firstName });
+    const expectedErrorMessage = this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName });
     expect(contains(expectedErrorMessage)).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.conflict.precaution'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.conflict.support.url-text'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.conflict.support.recover'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.conflict.precaution'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.conflict.support.url-text'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.conflict.support.recover'))).to.exist;
   });
 
   it('should redirect to support url on click on link', async function() {
@@ -33,6 +33,6 @@ describe('Integration | Component | conflict-error', function() {
     await render(hbs`<AccountRecovery::ConflictError @firstName={{this.firstName}} />`);
 
     // then
-    expect(find('a').href).to.contains(this.intl.t('pages.account-recovery-after-leaving-sco.conflict.support.url'));
+    expect(find('a').href).to.contains(this.intl.t('pages.account-recovery.find-sco-record.conflict.support.url'));
   });
 });

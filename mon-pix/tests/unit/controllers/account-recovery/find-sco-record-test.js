@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | account-recovery-after-leaving-sco', function() {
+describe('Unit | Controller | account-recovery | find-sco-record', function() {
 
   setupTest();
 
@@ -13,7 +13,7 @@ describe('Unit | Controller | account-recovery-after-leaving-sco', function() {
 
       it('should submit student information', async function() {
         // given
-        const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
+        const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
         const studentInformation = { firstName: 'Jules' };
         const submitStudentInformationStub = sinon.stub();
         const createRecord = sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub.resolves() });
@@ -33,7 +33,7 @@ describe('Unit | Controller | account-recovery-after-leaving-sco', function() {
         it('should hide student information form and show conflict error', async function() {
           // given
           const errors = { errors: [{ status: '409' }] };
-          const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
+          const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
           const studentInformation = { firstName: 'Jules' };
           const submitStudentInformationStub = sinon.stub().rejects(errors);
           const store = { createRecord: sinon.stub().returns({ submitStudentInformation: submitStudentInformationStub }) };
@@ -52,7 +52,7 @@ describe('Unit | Controller | account-recovery-after-leaving-sco', function() {
 
         it('should hide student information form and show recover account confirmation step', async function() {
           // given
-          const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
+          const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
           const studentInformation = { firstName: 'Jules' };
           const submitStudentInformationStub = sinon.stub().resolves({});
 
@@ -76,7 +76,7 @@ describe('Unit | Controller | account-recovery-after-leaving-sco', function() {
 
       it('should send account recovery email', async function() {
         // given
-        const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
+        const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
         const studentInformationForAccountRecovery = { firstName: 'Philippe', lastName: 'Legoff', birthdate: '2012-07-01', ineIna: '123456789CC' };
         controller.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
         const sendEmailStub = sinon.stub();
@@ -102,7 +102,7 @@ describe('Unit | Controller | account-recovery-after-leaving-sco', function() {
 
       it('should show recovery account backup email confirmation', async function() {
         // given
-        const controller = this.owner.lookup('controller:account-recovery-after-leaving-sco');
+        const controller = this.owner.lookup('controller:account-recovery/find-sco-record');
         controller.showStudentInformationForm = true;
 
         // when

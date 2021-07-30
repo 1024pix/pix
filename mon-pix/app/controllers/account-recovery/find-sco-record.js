@@ -12,7 +12,7 @@ class StudentInformationForAccountRecovery {
   @tracked latestOrganizationName = '';
 }
 
-export default class AccountRecoveryAfterLeavingScoController extends Controller {
+export default class FindScoRecordController extends Controller {
 
   @tracked showStudentInformationForm = true;
   @tracked showConflictError = false;
