@@ -245,7 +245,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
       this.set('triggerFiltering', triggerFiltering);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Profile::List @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}} @triggerFiltering={{triggerFiltering}}/>`);
+      await render(hbs`<Routes::Authenticated::Campaign::Profile::List @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}} @onFilter={{triggerFiltering}}/>`);
       await click('[for="division-d1"]');
 
       // then

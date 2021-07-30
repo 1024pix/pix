@@ -1,5 +1,7 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer');
+const CampaignParticipantActivity = require('../../../../../lib/domain/read-models/CampaignParticipantActivity');
+const Assessment = require('../../../../../lib/domain/models/Assessment');
 
 describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer', function() {
 
@@ -8,21 +10,24 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
     it('should call serialize method by destructuring passed parameter', function() {
       // given
       const campaignParticipantsActivities = [
-        {
+        new CampaignParticipantActivity({
+          userId: 1,
           campaignParticipationId: '1',
           firstName: 'Karam',
           lastName: 'Habibi',
           participantExternalId: 'Dev',
-          status: 'COMPLETED',
-        },
-        {
+          isShared: true,
+          assessmentState: Assessment.states.COMPLETED,
+        }),
+        new CampaignParticipantActivity({
+          userId: 2,
           campaignParticipationId: '2',
           firstName: 'Dimitri',
           lastName: 'Payet',
           participantExternalId: 'Footballer',
-          progression: 0.6,
-          status: 'ONGOING',
-        },
+          sharedAt: null,
+          assessmentState: Assessment.states.STARTED,
+        }),
       ];
       const pagination = {
         page: {
@@ -42,7 +47,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
               'first-name': 'Karam',
               'last-name': 'Habibi',
               'participant-external-id': 'Dev',
-              status: 'COMPLETED',
+              status: CampaignParticipantActivity.statuses.SHARED,
             },
           },
           {
@@ -52,8 +57,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
               'first-name': 'Dimitri',
               'last-name': 'Payet',
               'participant-external-id': 'Footballer',
-              'progression': 0.6,
-              status: 'ONGOING',
+              status: CampaignParticipantActivity.statuses.STARTED,
             },
           },
         ],
