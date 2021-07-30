@@ -24,6 +24,7 @@ class PasswordValidation {
 export default class UpdateScoRecordFormComponent extends Component {
   @service store;
   @service intl;
+  @service router;
 
   @tracked passwordValidation = new PasswordValidation();
 
@@ -62,6 +63,7 @@ export default class UpdateScoRecordFormComponent extends Component {
     });
     try {
       await newPassword.update();
+      this.router.transitionTo('login');
     } catch (err) {
       console.log(err);
     }
