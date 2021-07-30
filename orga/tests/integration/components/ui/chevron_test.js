@@ -4,18 +4,18 @@ import sinon from 'sinon';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | chevron', function(hooks) {
+module('Integration | Component | Ui::Chevron', function(hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
-    const toggleParent = sinon.stub();
+    const onClick = sinon.stub();
     this.set('isOpen', false);
-    this.set('click', toggleParent);
+    this.set('click', onClick);
   });
 
   test('it renders', async function(assert) {
     // when
-    await render(hbs`<Chevron @isOpen={{isOpen}}  @toggleParent={{click}}/>`);
+    await render(hbs`<Ui::Chevron @isOpen={{isOpen}} @onClick={{click}}/>`);
 
     // then
     assert.dom('button[type=button]').exists();
@@ -24,7 +24,7 @@ module('Integration | Component | chevron', function(hooks) {
 
   test('it should open the accordion when it is closed', async function(assert) {
     // given
-    await render(hbs`<Chevron @isOpen={{isOpen}}  @toggleParent={{click}}/>`);
+    await render(hbs`<Ui::Chevron @isOpen={{isOpen}} @onClick={{click}}/>`);
 
     // when
     await click('[data-icon="chevron-down"]');
@@ -32,12 +32,11 @@ module('Integration | Component | chevron', function(hooks) {
 
     // then
     assert.dom('[aria-expanded="true"]').exists();
-
   });
 
   test('it should close the accordion when it already open', async function(assert) {
     // given
-    await render(hbs`<Chevron @isOpen={{isOpen}}  @toggleParent={{click}}/>`);
+    await render(hbs`<Ui::Chevron @isOpen={{isOpen}} @onClick={{click}}/>`);
     this.set('isOpen', true);
 
     // when
@@ -46,6 +45,5 @@ module('Integration | Component | chevron', function(hooks) {
 
     // then
     assert.dom('[aria-expanded="false"]').exists();
-
   });
 });
