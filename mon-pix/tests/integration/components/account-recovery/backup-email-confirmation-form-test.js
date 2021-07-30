@@ -28,11 +28,11 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @existingEmail={{this.existingEmail}} @resetErrors={{this.resetErrors}}/>`);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-already-exist-for-account-message'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-is-valid-message'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-reset-message'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.ask-for-new-email-message'))).to.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-already-exist-for-account-message'))).to.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-valid-message'))).to.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-reset-message'))).to.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'))).to.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.ask-for-new-email-message'))).to.exist;
     });
 
   });
@@ -49,10 +49,10 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}}/>`);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-is-needed-message', { firstName }))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-sent-to-choose-password-message'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.email-already-exist-for-account-message'))).to.not.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', { firstName }))).to.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-sent-to-choose-password-message'))).to.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'))).to.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-already-exist-for-account-message'))).to.not.exist;
 
     });
 
@@ -79,8 +79,8 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       />`);
 
       // when
-      await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'), email);
-      await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.actions.submit'));
+      await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'), email);
+      await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'));
 
       // then
       sinon.assert.calledWithExactly(sendEmail, email);
@@ -99,11 +99,11 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}}/>`);
 
       // when
-      await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'), email);
-      await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.actions.submit'));
+      await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'), email);
+      await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'));
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.error.empty-email'))).to.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.empty-email'))).to.exist;
 
     });
 
@@ -116,11 +116,11 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}}/>`);
 
       // when
-      await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'), email);
-      await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.actions.submit'));
+      await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'), email);
+      await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'));
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.error.wrong-email-format'))).to.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.wrong-email-format'))).to.exist;
 
     });
 
@@ -132,12 +132,12 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       await render(hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @resetErrors={{this.resetErrors}}/>`);
 
       // when
-      await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.email'), email);
-      await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.actions.submit'));
+      await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'), email);
+      await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'));
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.error.wrong-email-format'))).to.not.exist;
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.error.empty-email'))).to.not.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.wrong-email-format'))).to.not.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.empty-email'))).to.not.exist;
 
     });
 

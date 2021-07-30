@@ -28,14 +28,14 @@ describe('Integration | Component | confirmation-step', function() {
     />`);
 
     // then
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.good-news', { firstName: 'Philippe' }))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.found-account'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.contact-support'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName: 'Philippe' }))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.found-account'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.contact-support'))).to.exist;
     expect(contains('Auguste'));
     expect(contains('Philippe'));
     expect(contains('Philippe.auguste2312'));
     expect(contains('Collège George-Besse, Loches'));
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.certify-account'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'))).to.exist;
   });
 
   context('when user does not have a username', function() {
@@ -56,7 +56,7 @@ describe('Integration | Component | confirmation-step', function() {
       />`);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.fields.username'))).to.not.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.fields.username'))).to.not.exist;
     });
   });
 
@@ -78,7 +78,7 @@ describe('Integration | Component | confirmation-step', function() {
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       @cancelAccountRecovery={{this.cancelAccountRecovery}}
     />`);
-    await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.buttons.cancel'));
+    await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'));
 
     // then
     sinon.assert.calledOnce(cancelAccountRecovery);
@@ -102,7 +102,7 @@ describe('Integration | Component | confirmation-step', function() {
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
     />`);
-    await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.confirmation-step.buttons.confirm'));
+    await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
     // then
     sinon.assert.calledOnce(continueAccountRecoveryBackupEmailConfirmation);

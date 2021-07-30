@@ -4,7 +4,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | account-recovery | reset password', function() {
+describe('Unit | Route | account-recovery | update sco record', function() {
 
   setupTest();
 
@@ -25,7 +25,7 @@ describe('Unit | Route | account-recovery | reset password', function() {
 
     it('should exist', function() {
       // when
-      const route = this.owner.lookup('route:account-recovery/reset-password');
+      const route = this.owner.lookup('route:account-recovery/update-sco-record');
       route.set('store', storeStub);
 
       // then
@@ -35,7 +35,7 @@ describe('Unit | Route | account-recovery | reset password', function() {
     it('should ask account recovery validity', function() {
       // given
       queryRecordStub.resolves({});
-      const route = this.owner.lookup('route:account-recovery/reset-password');
+      const route = this.owner.lookup('route:account-recovery/update-sco-record');
       route.set('store', storeStub);
 
       // when
@@ -64,7 +64,7 @@ describe('Unit | Route | account-recovery | reset password', function() {
         };
 
         queryRecordStub.resolves(stubbedAccountRecoveryDetails);
-        const route = this.owner.lookup('route:account-recovery/reset-password');
+        const route = this.owner.lookup('route:account-recovery/update-sco-record');
         route.set('store', storeStub);
 
         // when

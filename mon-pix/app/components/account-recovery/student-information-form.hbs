@@ -1,33 +1,33 @@
 {{!-- template-lint-disable require-input-label --}}
-<h1 class="account-recovery-after-leaving-sco-content__title">
-  {{t 'pages.account-recovery-after-leaving-sco.student-information.title'}}
+<h1 class="account-recovery__content--title">
+  {{t 'pages.account-recovery.find-sco-record.student-information.title'}}
 </h1>
 
-<div class="account-recovery-after-leaving-sco-content__step--content">
-  <p class="account-recovery-after-leaving-sco-content__information-text--details">
-    {{t 'pages.account-recovery-after-leaving-sco.student-information.subtitle.text'}}
+<div class="account-recovery__content--step--content">
+  <p class="account-recovery__content--information-text--details">
+    {{t 'pages.account-recovery.find-sco-record.student-information.subtitle.text'}}
     <LinkTo @route="password-reset-demand" >
-      {{t 'pages.account-recovery-after-leaving-sco.student-information.subtitle.link'}}
+      {{t 'pages.account-recovery.find-sco-record.student-information.subtitle.link'}}
     </LinkTo>
   </p>
 
-  <p class="account-recovery-after-leaving-sco-content__information-text--details">
-    {{t 'pages.account-recovery-after-leaving-sco.student-information.mandatory-all-fields'}}
+  <p class="account-recovery__content--information-text--details">
+    {{t 'pages.account-recovery.find-sco-record.student-information.mandatory-all-fields'}}
   </p>
 
   <form {{on 'submit' this.submit}} class="student-information-form">
     <div class="student-information-form__fields">
       <div class="student-information-form__tooltip">
         <PixTooltip
-          @text={{t 'pages.account-recovery-after-leaving-sco.student-information.form.tooltip' htmlSafe=true}}
+          @text={{t 'pages.account-recovery.find-sco-record.student-information.form.tooltip' htmlSafe=true}}
           @position='top-left'
           @isLight={{true}}
           @isWide={{true}}
-          aria-label={{t 'pages.account-recovery-after-leaving-sco.student-information.form.tooltip' htmlSafe=true}}>
+          aria-label={{t 'pages.account-recovery.find-sco-record.student-information.form.tooltip' htmlSafe=true}}>
             <FaIcon @icon="question-circle" />
         </PixTooltip>
       </div>
-      <FormTextfield @label={{t 'pages.account-recovery-after-leaving-sco.student-information.form.ine-ina'}}
+      <FormTextfield @label={{t 'pages.account-recovery.find-sco-record.student-information.form.ine-ina'}}
                     @textfieldName="ineIna"
                     @inputBindingValue={{this.ineIna}}
                     @onValidate={{this.validateIneIna}}
@@ -38,7 +38,7 @@
                     @hideRequired="true"
                     @placeholder="123456789XX" />
 
-      <FormTextfield @label={{t 'pages.account-recovery-after-leaving-sco.student-information.form.first-name'}}
+      <FormTextfield @label={{t 'pages.account-recovery.find-sco-record.student-information.form.first-name'}}
                     @textfieldName="firstName"
                     @inputBindingValue={{this.firstName}}
                     @onValidate={{this.validateFirstName}}
@@ -48,7 +48,7 @@
                     @require={{true}}
                     @hideRequired="true" />
 
-      <FormTextfield @label={{t 'pages.account-recovery-after-leaving-sco.student-information.form.last-name'}}
+      <FormTextfield @label={{t 'pages.account-recovery.find-sco-record.student-information.form.last-name'}}
                     @textfieldName="lastName"
                     @inputBindingValue={{this.lastName}}
                     @onValidate={{this.validateLastName}}
@@ -60,7 +60,7 @@
 
       <div>
         <p class="form-textfield__label student-information-form__birthdate-label">
-          {{t "pages.account-recovery-after-leaving-sco.student-information.form.birthdate"}}
+          {{t "pages.account-recovery.find-sco-record.student-information.form.birthdate"}}
         </p>
         <div class="student-information-form__birthdate-fields">
           <div class="form-textfield__input-field-container">
@@ -68,10 +68,10 @@
                   max="31"
                   @type="number"
                   @value={{this.dayOfBirth}}
-                  placeholder={{t 'pages.account-recovery-after-leaving-sco.student-information.form.placeholder.birth-day'}}
+                  placeholder={{t 'pages.account-recovery.find-sco-record.student-information.form.placeholder.birth-day'}}
                   id="dayOfBirth"
                   {{on "input" this.handleDayInputChange}}
-                  aria-label={{t 'pages.account-recovery-after-leaving-sco.student-information.form.label.birth-day'}}
+                  aria-label={{t 'pages.account-recovery.find-sco-record.student-information.form.label.birth-day'}}
                   autocomplete="off" />
           </div>
           <div class="form-textfield__input-field-container">
@@ -79,19 +79,19 @@
                   max="12"
                   @type="number"
                   @value={{this.monthOfBirth}}
-                  placeholder={{t 'pages.account-recovery-after-leaving-sco.student-information.form.placeholder.birth-month'}}
+                  placeholder={{t 'pages.account-recovery.find-sco-record.student-information.form.placeholder.birth-month'}}
                   id="monthOfBirth"
                   {{on "input" this.handleMonthInputChange}}
-                  aria-label={{t 'pages.account-recovery-after-leaving-sco.student-information.form.label.birth-month'}}
+                  aria-label={{t 'pages.account-recovery.find-sco-record.student-information.form.label.birth-month'}}
                   autocomplete="off"/>
           </div>
           <div class="form-textfield__input-field-container">
             <Input min="1900"
                   @type="number"
                   @value={{this.yearOfBirth}}
-                  placeholder={{t 'pages.account-recovery-after-leaving-sco.student-information.form.placeholder.birth-year'}}
+                  placeholder={{t 'pages.account-recovery.find-sco-record.student-information.form.placeholder.birth-year'}}
                   id="yearOfBirth"
-                  aria-label={{t 'pages.account-recovery-after-leaving-sco.student-information.form.label.birth-year'}}
+                  aria-label={{t 'pages.account-recovery.find-sco-record.student-information.form.label.birth-year'}}
                   autocomplete="off"/>
           </div>
         </div>
@@ -99,19 +99,19 @@
     </div>
 
     {{#if @showAccountNotFoundError}}
-      <PixMessage @type='alert' class="account-recovery-after-leaving-sco-content__not-found-error">
-        {{t 'pages.account-recovery-after-leaving-sco.student-information.errors.not-found'}}
-        <a href="{{t 'pages.account-recovery-after-leaving-sco.contact-support.link-url'}}"
+      <PixMessage @type='alert' class="account-recovery__content--not-found-error">
+        {{t 'pages.account-recovery.find-sco-record.student-information.errors.not-found'}}
+        <a href="{{t 'pages.account-recovery.find-sco-record.contact-support.link-url'}}"
           target="_blank"
           rel="noopener noreferrer">
-            {{t 'pages.account-recovery-after-leaving-sco.contact-support.link-text'}}
+            {{t 'pages.account-recovery.find-sco-record.contact-support.link-text'}}
         </a>
       </PixMessage>
     {{/if}}
 
-    <div class="account-recovery-after-leaving-sco-content__actions">
+    <div class="account-recovery__content--actions">
       <PixButton @type="submit" @isDisabled={{not this.isFormValid}}>
-        {{t 'pages.account-recovery-after-leaving-sco.student-information.form.submit'}}
+        {{t 'pages.account-recovery.find-sco-record.student-information.form.submit'}}
       </PixButton>
     </div>
   </form>

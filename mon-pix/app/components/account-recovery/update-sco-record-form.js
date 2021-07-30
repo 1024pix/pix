@@ -12,8 +12,8 @@ const STATUS_MAP = {
 };
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  emptyPassword: 'pages.account-recovery-after-leaving-sco.reset-password.form.errors.empty-password',
-  wrongPasswordFormat: 'pages.account-recovery-after-leaving-sco.reset-password.form.errors.invalid-password',
+  emptyPassword: 'pages.account-recovery.update-sco-record.form.errors.empty-password',
+  wrongPasswordFormat: 'pages.account-recovery.update-sco-record.form.errors.invalid-password',
 };
 
 class PasswordValidation {
@@ -21,7 +21,7 @@ class PasswordValidation {
   @tracked message = null;
 }
 
-export default class ResetPasswordFormComponent extends Component {
+export default class UpdateScoRecordFormComponent extends Component {
   @service store;
   @service intl;
 
@@ -52,7 +52,7 @@ export default class ResetPasswordFormComponent extends Component {
   }
 
   @action
-  async submitResetPasswordForm(event) {
+  async submitUpdate(event) {
     event.preventDefault();
     this.passwordValidation.status = STATUS_MAP['successStatus'];
     this.passwordValidation.message = null;

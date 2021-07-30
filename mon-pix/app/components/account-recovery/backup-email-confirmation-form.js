@@ -12,10 +12,10 @@ const STATUS_MAP = {
 };
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  emailAlreadyExist: 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.error.email-already-exist',
-  newEmailAlreadyExist: 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.error.new-email-already-exist',
-  emptyEmail: 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.error.empty-email',
-  wrongEmailFormat: 'pages.account-recovery-after-leaving-sco.backup-email-confirmation.form.error.wrong-email-format',
+  emailAlreadyExist: 'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.email-already-exist',
+  newEmailAlreadyExist: 'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist',
+  emptyEmail: 'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.empty-email',
+  wrongEmailFormat: 'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.wrong-email-format',
 };
 
 class EmailValidation {

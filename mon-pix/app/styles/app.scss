@@ -81,7 +81,7 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'components/reached-stage';
 @import 'components/account-recovery/student-information-form';
 @import 'components/account-recovery/confirmation-step';
-@import 'components/account-recovery/reset-password-form';
+@import 'components/account-recovery/update-sco-record-form';
 @import 'components/register-form';
 @import 'components/reset-password-form';
 @import 'components/result-item';
@@ -122,7 +122,7 @@ of an adaptative/mobile-first approach — refactoring is welcome here */
 @import 'pages/not-connected';
 @import 'pages/profile';
 @import 'pages/profile-already-shared';
-@import 'pages/account-recovery-after-leaving-sco';
+@import 'pages/account-recovery';
 @import 'pages/send-profile';
 @import 'pages/sign-form';
 @import 'pages/skill-review';

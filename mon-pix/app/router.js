@@ -50,8 +50,8 @@ Router.map(function() {
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
   this.route('account-recovery', { path: '/recuperer-mon-compte' }, function() {
-    this.route('after-leaving-sco', { path: '/' });
-    this.route('reset-password', { path: '/:temporary_key' });
+    this.route('find-sco-record', { path: '/' });
+    this.route('update-sco-record', { path: '/:temporary_key' });
   });
 
   this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
