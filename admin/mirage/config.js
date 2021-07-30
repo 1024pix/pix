@@ -220,14 +220,21 @@ export default function() {
 
   this.patch('/certification-courses/:id', (schema, request) => {
     const certificationId = request.params.id;
-    const params = JSON.parse(request.requestBody);
+    const params = JSON.parse(request.requestBody).data.attributes;
 
     const certificationToUpdate = schema.certifications.find(certificationId);
+
+    const birthInseeCode = params['birth-country'] === 'FRANCE' ? params['birth-insee-code']
+      : schema.countries.findBy({ name: params['birth-country'] }).code;
     certificationToUpdate.update({
-      firstName: params.firstName,
-      lastName: params.lastName,
+      firstName: params['first-name'],
+      lastName: params['last-name'],
       birthdate: params.birthdate,
       birthplace: params.birthplace,
+      sex: params.sex,
+      birthCountry: params['birth-country'],
+      birthPostalCode: params['birth-postal-code'],
+      birthInseeCode,
     });
 
     return certificationToUpdate;
