@@ -34,7 +34,7 @@ module.exports = {
   async findByTemporaryKey(temporaryKey) {
 
     const accountRecoveryDemandDTO = await knex
-      .where({ temporaryKey, used: false })
+      .where({ temporaryKey })
       .select('id', 'schoolingRegistrationId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
       .from('account-recovery-demands')
       .first();

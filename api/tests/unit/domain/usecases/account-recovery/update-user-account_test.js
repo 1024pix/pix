@@ -41,11 +41,11 @@ describe('Unit | Usecases | update-user-account', () => {
 
   });
 
-  it('should throw an error when temporaryKey is invalid', async () => {
+  it('should throw NotFoundError if temporary key does not exist', async () => {
     // given
     const invalidTemporaryKey = 'temporarykey';
     domainBuilder.buildAccountRecoveryDemand({ temporaryKey: invalidTemporaryKey });
-    accountRecoveryDemandRepository.findByTemporaryKey.rejects(new NotFoundError());
+    accountRecoveryDemandRepository.findByTemporaryKey.rejects(new NotFoundError('No account recovery demand found'));
 
     // when
     const error = await catchErr(updateUserAccount)({
