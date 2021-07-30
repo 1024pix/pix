@@ -1,10 +1,10 @@
-{{#if @campaign.hasParticipations}}
-  <Routes::Authenticated::Campaign::ParticipationFilters
+{{#if @campaign.hasParticipations}}  
+  <Campaign::Filter::ParticipationFilters
     @campaign={{@campaign}}
     @selectedDivisions={{@selectedDivisions}}
-    @triggerFiltering={{@triggerFiltering}}
     @rowCount={{@profiles.meta.rowCount}}
-    @resetFiltering={{@resetFiltering}}
+    @onFilter={{@onFilter}}
+    @onReset={{@onReset}}
   />
 
   <div class="panel">

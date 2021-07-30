@@ -750,7 +750,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       return databaseBuilder.commit();
     });
 
-    it('should return the campaign participation result summaries as JSONAPI', async () => {
+    it('should return the campaign participations result as JSONAPI', async () => {
       const options = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}/assessment-participations?page[number]=1&page[size]=10&filter[divisions][]=5eme`,
@@ -838,33 +838,46 @@ describe('Acceptance | API | Campaign Controller', () => {
   });
 
   describe('GET /api/campaigns/{id}/participants-activity', () => {
-    it('should return the campaign participant activities', async () => {
-      // given
-      const userId = databaseBuilder.factory.buildUser().id;
+    const participant1 = { firstName: 'John', lastName: 'McClane', id: 12, email: 'john.mclane@die.hard' };
+    const participant2 = { firstName: 'Holly', lastName: 'McClane', id: 13, email: 'holly.mclane@die.hard' };
+
+    let campaign;
+    let userId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
+
+      campaign = databaseBuilder.factory.buildAssessmentCampaign({ organizationId: organization.id });
+
       databaseBuilder.factory.buildMembership({ userId, organizationId: organization.id });
 
-      const campaign = databaseBuilder.factory.buildAssessmentCampaign({ organizationId: organization.id });
-
-      databaseBuilder.factory.buildAssessmentFromParticipation({
-        participantExternalId: 'Die Hard',
+      const campaignParticipation = {
+        sharedAt: new Date(2010, 1, 1),
         campaignId: campaign.id,
-      });
+      };
 
-      await databaseBuilder.commit();
+      databaseBuilder.factory.buildAssessmentFromParticipation(campaignParticipation, participant1);
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, division: '5eme', firstName: 'John', lastName: 'McClane', userId: participant1.id });
+      databaseBuilder.factory.buildAssessmentFromParticipation(campaignParticipation, participant2);
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, division: '4eme', firstName: 'Holly', lastName: 'McClane', userId: participant2.id });
 
-      // when
-      const response = await server.inject({
+      return databaseBuilder.commit();
+    });
+
+    it('should return the campaign participant activity as JSONAPI', async () => {
+      const options = {
         method: 'GET',
-        url: `/api/campaigns/${campaign.id}/participants-activity`,
+        url: `/api/campaigns/${campaign.id}/participants-activity?page[number]=1&page[size]=1&filter[divisions][]=5eme`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      });
+      };
 
-      // then
+      const response = await server.inject(options);
+
       expect(response.statusCode).to.equal(200);
-      const results = response.result.data;
-      expect(results).to.have.lengthOf(1);
-      expect(results[0].attributes['participant-external-id']).to.equal('Die Hard');
+      const participation = response.result.data[0].attributes;
+      expect(response.result.data).to.have.lengthOf(1);
+      expect(participation['first-name']).to.equal(participant1.firstName);
     });
   });
 });
