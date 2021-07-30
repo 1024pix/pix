@@ -423,7 +423,7 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
 
         databaseBuilder.factory.buildBadge();
 
-        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: 1, userId });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: 1, userId, campaignParticipationId });
 
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
 
@@ -456,6 +456,83 @@ describe('Integration | Repository | ParticipantResultRepository', () => {
           imageUrl: 'Badge2 ImgUrl',
           key: 'Badge2 Key',
           isAcquired: false,
+        });
+      });
+
+      it('computes the results for each badge earned during the current campaign participation', async () => {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+        const { id: otherCampaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          isShared: true,
+          sharedAt: new Date('2020-01-02'),
+        });
+        const { id: otherCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId: otherCampaignId,
+          isShared: true,
+          sharedAt: new Date('2020-01-02'),
+        });
+
+        databaseBuilder.factory.buildBadge({
+          id: 1,
+          message: 'Badge1 Message',
+          altMessage: 'Badge1 AltMessage',
+          title: 'Badge1 Title',
+          imageUrl: 'Badge1 ImgUrl',
+          key: 'Badge1 Key',
+          targetProfileId,
+        });
+
+        databaseBuilder.factory.buildBadge({
+          id: 2,
+          altMessage: 'Badge2 AltMessage',
+          message: 'Badge2 Message',
+          title: 'Badge2 Title',
+          imageUrl: 'Badge2 ImgUrl',
+          key: 'Badge2 Key',
+          targetProfileId,
+        });
+
+        databaseBuilder.factory.buildBadge();
+
+        const badgeObtainedInAnotherCampaign = databaseBuilder.factory.buildBadgeAcquisition({ badgeId: 1, userId, campaignParticipationId: otherCampaignParticipationId });
+
+        const badgeObtainedInThisCampaign = databaseBuilder.factory.buildBadgeAcquisition({ badgeId: 2, userId, campaignParticipationId });
+
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+
+        databaseBuilder
+          .factory
+          .knowledgeElementSnapshotFactory
+          .buildSnapshot({
+            userId,
+            snappedAt: new Date('2020-01-02'),
+            knowledgeElementsAttributes: [],
+          });
+        await databaseBuilder.commit();
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
+        const badgeResult1 = participantResult.badgeResults.find(({ id }) => id === badgeObtainedInAnotherCampaign.badgeId);
+        const badgeResult2 = participantResult.badgeResults.find(({ id }) => id === badgeObtainedInThisCampaign.badgeId);
+        expect(badgeResult1).to.deep.include({
+          id: 1,
+          altMessage: 'Badge1 AltMessage',
+          message: 'Badge1 Message',
+          title: 'Badge1 Title',
+          imageUrl: 'Badge1 ImgUrl',
+          key: 'Badge1 Key',
+          isAcquired: false,
+        });
+        expect(badgeResult2).to.deep.include({
+          id: 2,
+          altMessage: 'Badge2 AltMessage',
+          message: 'Badge2 Message',
+          title: 'Badge2 Title',
+          imageUrl: 'Badge2 ImgUrl',
+          key: 'Badge2 Key',
+          isAcquired: true,
         });
       });
 
