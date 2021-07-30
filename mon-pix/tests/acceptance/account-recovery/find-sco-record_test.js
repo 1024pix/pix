@@ -8,6 +8,7 @@ import setupIntl from '../../helpers/setup-intl';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { contains } from '../../helpers/contains';
+import { Response } from 'ember-cli-mirage';
 
 describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
 
@@ -28,7 +29,30 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
 
   context('when account recovery is enabled', () => {
 
-    it('should access to account recovery page and show student information form', async function() {
+    const ineIna = '0123456789A';
+    const lastName = 'Lecol';
+    const firstName = 'Manuela';
+    const birthdate = '2000-05-20';
+    const username = 'manuela.lecol2005';
+
+    const fillStudentInformationFormAndSubmit = async (currentThis, {
+      ineIna = '0123456789A',
+      lastName = 'Lecol',
+      firstName = 'Manuela',
+      dayOfBirth = 20,
+      monthOfBirth = 5,
+      yearOfBirth = 2000,
+    } = {}) => {
+      await fillInByLabel(currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), ineIna);
+      await fillInByLabel(currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'), firstName);
+      await fillInByLabel(currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'), lastName);
+      await fillInByLabel(currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'), dayOfBirth);
+      await fillInByLabel(currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'), monthOfBirth);
+      await fillInByLabel(currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'), yearOfBirth);
+      await clickByLabel(currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
+    };
+
+    it('should display student information form', async function() {
       // given
       server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
@@ -44,59 +68,50 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
 
       it('should hide student information form and show recover account confirmation step', async function() {
         // given
-        const ineIna = '0123456789A';
-        const lastName = 'Lecol';
-        const firstName = 'Manuela';
-        const dayOfBirth = 20;
-        const monthOfBirth = 5;
-        const yearOfBirth = 2000;
-        const birthdate = '2000-05-20';
-        const username = 'manuela.lecol2005';
-
         server.create('user', { id: 1, firstName, lastName, username });
         server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
         server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
         // when
         await visit('/recuperer-mon-compte');
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), ineIna);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'), firstName);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'), lastName);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'), dayOfBirth);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'), monthOfBirth);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'), yearOfBirth);
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
+        await fillStudentInformationFormAndSubmit(this);
 
         // then
         expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.not.exist;
         expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }))).to.exist;
       });
 
+      it('should redirect to error page when user has already left SCO', async function() {
+        // given
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+        const errorsApi = new Response(403, {}, {
+          errors: [{
+            status: '403',
+          }],
+        });
+        server.post('/schooling-registration-dependent-users/recover-account', () => errorsApi);
+
+        // when
+        await visit('/recuperer-mon-compte');
+        await fillStudentInformationFormAndSubmit(this);
+
+        // then
+        expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
+        expect(contains(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
+        expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      });
+
       context('click on "Cancel" button', () => {
 
         it('should return to student information form', async function() {
           // given
-          const ineIna = '0123456789A';
-          const lastName = 'Lecol';
-          const firstName = 'Manuela';
-          const dayOfBirth = 20;
-          const monthOfBirth = 5;
-          const yearOfBirth = 2000;
-          const birthdate = '2000-05-20';
-          const username = 'manuela.lecol2005';
-
           server.create('user', { id: 1, firstName, lastName, username });
           server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
           server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
           await visit('/recuperer-mon-compte');
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), ineIna);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'), firstName);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'), lastName);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'), dayOfBirth);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'), monthOfBirth);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'), yearOfBirth);
-          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
+          await fillStudentInformationFormAndSubmit(this);
 
           // when
           await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'));
@@ -106,30 +121,18 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
           expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }))).to.not.exist;
         });
       });
+
     });
 
     context('when submitting information form with invalid data', () => {
 
       it('should show a not found error', async function() {
         // given
-        const ineIna = '0123456789A';
-        const lastName = 'Lecol';
-        const firstName = 'Manuela';
-        const dayOfBirth = 20;
-        const monthOfBirth = 5;
-        const yearOfBirth = 2000;
-
         server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
         // when
         await visit('/recuperer-mon-compte');
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), ineIna);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'), firstName);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'), lastName);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'), dayOfBirth);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'), monthOfBirth);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'), yearOfBirth);
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
+        await fillStudentInformationFormAndSubmit(this);
 
         // then
         expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.exist;
@@ -142,13 +145,6 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
       it('should redirect to account recovery conflict page', async function() {
         // given
         server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
-
-        const ineIna = '0123456789A';
-        const lastName = 'Lecol';
-        const firstName = 'Manuela';
-        const dayOfBirth = 20;
-        const monthOfBirth = 5;
-        const yearOfBirth = 2000;
 
         server.create('user', {
           id: 1,
@@ -166,13 +162,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
 
         //when
         await visit('/recuperer-mon-compte');
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), ineIna);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'), firstName);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'), lastName);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'), dayOfBirth);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'), monthOfBirth);
-        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'), yearOfBirth);
-        await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
+        await fillStudentInformationFormAndSubmit(this);
 
         // then
         expect(contains(this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName }))).to.exist;
@@ -186,27 +176,12 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
 
         it('should hide recover account confirmation step and show recover account backup email confirmation', async function() {
           // given
-          const ineIna = '0123456789A';
-          const lastName = 'Lecol';
-          const firstName = 'Manuela';
-          const dayOfBirth = 20;
-          const monthOfBirth = 5;
-          const yearOfBirth = 2000;
-          const birthdate = '2000-05-20';
-          const username = 'manuela.lecol2005';
-
           server.create('user', { id: 1, firstName, lastName, username });
           server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
           server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
           await visit('/recuperer-mon-compte');
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), ineIna);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'), firstName);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'), lastName);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'), dayOfBirth);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'), monthOfBirth);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'), yearOfBirth);
-          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
+          await fillStudentInformationFormAndSubmit(this);
 
           // when
           await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
@@ -216,53 +191,28 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
           expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }))).to.not.exist;
         });
 
-        context('when email already exists', function() {
+        it('should show an error when email already exists', async function() {
+          // given
+          const email = 'john.doe@example.net';
 
-          it('should show an error', async function() {
-            // given
-            const ineIna = '0123456789A';
-            const lastName = 'Lecol';
-            const firstName = 'Manuela';
-            const dayOfBirth = 20;
-            const monthOfBirth = 5;
-            const yearOfBirth = 2000;
-            const birthdate = '2000-05-20';
-            const username = 'manuela.lecol2005';
-            const email = 'john.doe@example.net';
+          server.create('user', { id: 1, firstName, lastName, username, email });
+          server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
+          server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
-            server.create('user', { id: 1, firstName, lastName, username, email });
-            server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
-            server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+          await visit('/recuperer-mon-compte');
+          await fillStudentInformationFormAndSubmit(this);
+          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
-            await visit('/recuperer-mon-compte');
-            await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), ineIna);
-            await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'), firstName);
-            await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'), lastName);
-            await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'), dayOfBirth);
-            await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'), monthOfBirth);
-            await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'), yearOfBirth);
-            await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
-            await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+          // when
+          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'), email);
+          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'));
 
-            // when
-            await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'), email);
-            await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'));
-
-            // then
-            expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist'))).to.exist;
-          });
+          // then
+          expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist'))).to.exist;
         });
 
         it('should show email sent confirmation when user has supplied an email and submitted', async function() {
           // given
-          const ineIna = '0123456789A';
-          const lastName = 'Lecol';
-          const firstName = 'Manuela';
-          const dayOfBirth = 20;
-          const monthOfBirth = 5;
-          const yearOfBirth = 2000;
-          const birthdate = '2000-05-20';
-          const username = 'manuela.lecol2005';
           const newEmail = 'john.doe@example.net';
 
           server.create('user', { id: 1, firstName, lastName, username });
@@ -270,13 +220,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
           server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
           await visit('/recuperer-mon-compte');
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), ineIna);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'), firstName);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'), lastName);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'), dayOfBirth);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'), monthOfBirth);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'), yearOfBirth);
-          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
+          await fillStudentInformationFormAndSubmit(this);
 
           await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
@@ -288,33 +232,49 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
           expect(contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', { firstName }))).to.not.exist;
           expect(contains(this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.title'))).to.exist;
         });
+
+        it('should redirect to error page when user has already left SCO', async function() {
+          // given
+          const newEmail = 'john.doe@example.net';
+
+          server.create('user', { id: 1, firstName, lastName, username });
+          server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
+          server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+          const errorsApi = new Response(403, {}, {
+            errors: [{
+              status: '403',
+            }],
+          });
+          server.post('/account-recovery', () => errorsApi);
+
+          await visit('/recuperer-mon-compte');
+          await fillStudentInformationFormAndSubmit(this);
+
+          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+
+          // when
+          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'), newEmail);
+          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'));
+
+          // then
+          expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
+          expect(contains(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
+          expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+        });
       });
 
       context('click on "Cancel" button', () => {
 
         it('should return to student information form', async function() {
           // given
-          const ineIna = '0123456789A';
-          const lastName = 'Lecol';
-          const firstName = 'Manuela';
-          const dayOfBirth = 20;
-          const monthOfBirth = 5;
-          const yearOfBirth = 2000;
-          const birthdate = '2000-05-20';
-          const username = 'manuela.lecol2005';
 
           server.create('user', { id: 1, firstName, lastName, username });
           server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
           server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
           await visit('/recuperer-mon-compte');
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), ineIna);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'), firstName);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'), lastName);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'), dayOfBirth);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'), monthOfBirth);
-          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'), yearOfBirth);
-          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
+          await fillStudentInformationFormAndSubmit(this);
 
           // when
           await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.cancel'));

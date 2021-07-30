@@ -1023,7 +1023,6 @@
       },
       "update-sco-record": {
         "welcome-message": "Bon retour parmi nous { firstName } !",
-        "invalid-demand" : "Votre demande de récupération de compte est invalide.",
         "fill-password": "Saisissez un mot de passe et Pix est à vous !",
         "form": {
           "email-label": "Adresse e-mail",
@@ -1034,7 +1033,14 @@
             "empty-password": "Le champ mot de passe est obligatoire."
           }
         }
-      }
+      },
+      "errors": {
+        "title": "Oups, une erreur est survenue !",
+        "key-used": "Ce compte a déjà été récupéré.",
+        "key-invalid": "Le lien de récupération n’existe pas.",
+        "key-expired": "Le lien de récupération est expiré, ",
+        "key-expired-renew-demand-link": "renouvelez votre demande ici."
+      },
     },
     "result-item": {
       "aband": "No answer",

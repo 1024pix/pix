@@ -9,8 +9,13 @@
 
     <div class="account-recovery__content--step">
       <div class="account-recovery__content--step--content">
-        {{#if @model.errors}}
-          <h1>{{@model.errors}}</h1>
+        {{#if @model.errorMessage}}
+          <AccountRecovery::ConflictError
+            @title={{t 'pages.account-recovery.errors.title'}}
+            @message={{@model.errorMessage}}
+            @showRenewLink={{@model.showRenewLink}}
+            @showReturnToHomeButton={{@model.showReturnToHomeButton}}
+          />
         {{else}}
           <AccountRecovery::UpdateScoRecordForm
             @firstName={{@model.firstName}}
