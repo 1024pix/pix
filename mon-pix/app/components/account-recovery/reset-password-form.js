@@ -28,6 +28,7 @@ export default class ResetPasswordFormComponent extends Component {
   @tracked passwordValidation = new PasswordValidation();
 
   @tracked password = '';
+  @tracked showUserHasAlreadyLeftSCO = false;
 
   get isFormValid() {
     return !isEmpty(this.password) && this.passwordValidation.status !== 'error';
@@ -62,8 +63,14 @@ export default class ResetPasswordFormComponent extends Component {
     });
     try {
       await newPassword.update();
-    } catch (err) {
-      console.log(err);
+      this.showUserHasAlreadyLeftSCO = false;
+    } catch (errors) {
+      debugger;
+      if (errors[0].status === 401) {
+        this.showUserHasAlreadyLeftSCO = true;
+      } else {
+        throw errors;
+      }
     }
   }
 

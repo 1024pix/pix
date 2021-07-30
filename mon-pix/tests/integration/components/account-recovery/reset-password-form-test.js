@@ -5,7 +5,9 @@ import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../../helpers/contains';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { fillInByLabel } from '../../../helpers/fill-in-by-label';
-import findByLabel from '../../../helpers/find-by-label';
+import { findByLabel } from '../../../helpers/find-by-label';
+import { clickByLabel } from '../../../helpers/click-by-label';
+import sinon from 'sinon';
 
 describe('Integration | Component | account-recovery/reset-password', function() {
   setupIntlRenderingTest();
@@ -97,4 +99,22 @@ describe('Integration | Component | account-recovery/reset-password', function()
       });
     });
   });
+
+  it.only('should display an error message when user has already left SCO', async function() {
+    // given
+    const validPassword = 'pix123A*';
+    const submitResetPasswordForm = sinon.stub();
+    this.set('submitResetPasswordForm', submitResetPasswordForm);
+    submitResetPasswordForm.rejects({ errors: [{ status: '401', detail: 'User has already left SCO.' }] });
+
+    await render(hbs `<AccountRecovery::ResetPasswordForm @submitResetPasswordForm={{this.submitResetPasswordForm}} />`);
+
+    // when
+    await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.form.password-label'), validPassword);
+    await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.form.login-button'));
+
+    // then
+    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.reset-password.form.errors.already-has-left-sco'))).to.exist;
+  });
+
 });

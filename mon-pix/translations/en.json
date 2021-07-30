@@ -1030,7 +1030,8 @@
           "login-button": "Je me connecte",
           "errors": {
             "invalid-password": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
-            "empty-password": "Le champ mot de passe est obligatoire."
+            "empty-password": "Le champ mot de passe est obligatoire.",
+            "already-has-left-sco": "T'est déjà passé par ici, petit malin."
           }
         }
       }
