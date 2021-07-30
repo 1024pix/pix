@@ -921,104 +921,106 @@
       "instruction": "Saisissez votre nouveau mot de passe",
       "succeed": "Votre mot de passe a été modifié avec succès."
     },
-    "account-recovery-after-leaving-sco": {
-      "title": "Récupérer mon compte",
-      "contact-support": {
-        "link-text": "contactez le support.",
-        "link-url": "https://support.pix.org/fr/support/tickets/new"
-      },
-      "student-information": {
-        "title": "Collégiens, lycéens, vous quittez le système scolaire et vous souhaitez récupérer votre accès à Pix",
-        "subtitle": {
-          "link": "réinitialisez votre mot de passe ici",
-          "text": "Si vous possédez un compte avec une adresse e-mail valide, "
+    "account-recovery": {
+      "find-sco-record": {
+        "title": "Récupérer mon compte",
+        "contact-support": {
+          "link-text": "contactez le support.",
+          "link-url": "https://support.pix.org/fr/support/tickets/new"
         },
-        "mandatory-all-fields": "Tous les champs sont obligatoires.",
-        "form": {
-          "tooltip": "<strong>Où trouver mon INE ?</strong> <p>Cet identifiant se trouve souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.</p>",
-          "ine-ina": "INE (Identifiant National Élève)",
-          "last-name": "Nom",
-          "first-name": "Prénom",
-          "birthdate": "Date de naissance",
-          "submit": "Retrouvez-moi !",
-          "label": {
-            "birth-day": "jour de naissance",
-            "birth-month": "mois de naissance",
-            "birth-year": "année de naissance"
+        "student-information": {
+          "title": "Collégiens, lycéens, vous quittez le système scolaire et vous souhaitez récupérer votre accès à Pix",
+          "subtitle": {
+            "link": "réinitialisez votre mot de passe ici.",
+            "text": "Si vous possédez un compte avec une adresse e-mail valide, "
           },
-          "placeholder": {
-            "birth-day": "JJ",
-            "birth-month": "MM",
-            "birth-year": "AAAA"
-          }
-        },
-        "errors": {
-          "invalid-ine-ina-format": "Le champ INE n'est pas au bon format.",
-          "empty-ine-ina": "Le champ INE est obligatoire.",
-          "empty-last-name": "Le champ nom est obligatoire.",
-          "empty-first-name": "Le champ prénom est obligatoire.",
-          "not-found": "Pix ne reconnait pas vos données. Vérifiez qu'elles sont exactes, sinon "
-        }
-      },
-      "conflict": {
-        "title": "Conflit",
-        "found-you-but": "{ firstName }, on vous a retrouvé mais ...",
-        "precaution": "Par précaution nous devons vérifier vos données ensemble.",
-        "support": {
-          "url": "https://support.pix.org/fr/support/tickets/new",
-          "url-text": "Contactez le support",
-          "recover": " pour récupérer votre compte Pix."
-        }
-      },
-      "confirmation-step": {
-        "good-news" : "Bonne nouvelle { firstName } !",
-        "found-account": "Nous avons retrouvé votre compte :",
-        "contact-support": "Si vous constatez une erreur ou si ces données ne sont pas les votres, ",
-        "fields" : {
-          "last-name": "Votre nom",
-          "first-name": "Votre prénom",
-          "username": "Votre identifiant",
-          "latest-organization-name": "Votre dernier établissement"
-        },
-        "certify-account": "En confirmant, j’atteste sur l’honneur que le compte associé à ces données m’appartient et j’accepte que Pix supprime le lien vers tous les établissements auquels je suis rattaché.",
-        "buttons": {
-          "cancel":"Annuler",
-          "confirm": "Je confirme"
-        }
-      },
-      "backup-email-confirmation": {
-        "email-is-needed-message": "{ firstName }, nous avons besoin de votre adresse e-mail",
-        "email-sent-to-choose-password-message": "Nous vous enverrons un e-mail afin de choisir un mot de passe.",
-        "email-already-exist-for-account-message": "L’adresse e-mail ci-dessous est déjà associée à votre compte :",
-        "email-is-valid-message": "Si elle est valide,",
-        "email-reset-message": "réinitialisez votre mot de passe",
-        "ask-for-new-email-message": "sinon fournissez en une nouvelle",
-        "form": {
-          "email": "Votre adresse e-mail",
-          "actions": {
-            "submit": "C'est parti",
-            "cancel": "Annuler"
-          },
-          "error":  {
-            "empty-email": "Le champ adresse e-mail est obligatoire.",
-            "wrong-email-format": "Votre adresse e-mail n’est pas valide.",
-            "email-already-exist": {
-              "existing-email": "Vous possédez déjà cette adresse e-mail. Si elle est valide,",
-              "init-password":" réinitialisez votre mot de passe",
-              "new-email": ", sinon saisissez une nouvelle."
+          "mandatory-all-fields": "Tous les champs sont obligatoires.",
+          "form": {
+            "tooltip": "<strong>Où trouver mon INE ?</strong> <p>Cet identifiant se trouve souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.</p>",
+            "ine-ina": "INE (Identifiant National Élève)",
+            "last-name": "Nom",
+            "first-name": "Prénom",
+            "birthdate": "Date de naissance",
+            "submit": "Retrouvez-moi !",
+            "label": {
+              "birth-day": "jour de naissance",
+              "birth-month": "mois de naissance",
+              "birth-year": "année de naissance"
             },
-            "new-backup-email": "Veuillez saisir un e-mail valide pour récupérer votre compte",
-            "new-email-already-exist": "Cette adresse e-mail est déjà utilisée"
+            "placeholder": {
+              "birth-day": "JJ",
+              "birth-month": "MM",
+              "birth-year": "AAAA"
+            }
+          },
+          "errors": {
+            "invalid-ine-ina-format": "Le champ INE n'est pas au bon format.",
+            "empty-ine-ina": "Le champ INE est obligatoire.",
+            "empty-last-name": "Le champ nom est obligatoire.",
+            "empty-first-name": "Le champ prénom est obligatoire.",
+            "not-found": "Pix ne reconnait pas vos données. Vérifiez qu'elles sont exactes, sinon "
           }
+        },
+        "conflict": {
+          "title": "Conflit",
+          "found-you-but": "{ firstName }, on vous a retrouvé mais ...",
+          "precaution": "Par précaution nous devons vérifier vos données ensemble.",
+          "support": {
+            "url": "https://support.pix.org/fr/support/tickets/new",
+            "url-text": "Contactez le support",
+            "recover": " pour récupérer votre compte Pix."
+          }
+        },
+        "confirmation-step": {
+          "good-news" : "Bonne nouvelle { firstName } !",
+          "found-account": "Nous avons retrouvé votre compte :",
+          "contact-support": "Si vous constatez une erreur ou si ces données ne sont pas les vôtres, ",
+          "fields" : {
+            "last-name": "Votre nom",
+            "first-name": "Votre prénom",
+            "username": "Votre identifiant",
+            "latest-organization-name": "Votre dernier établissement"
+          },
+          "certify-account": "En confirmant, j’atteste sur l’honneur que le compte associé à ces données m’appartient et j’accepte que Pix supprime le lien vers tous les établissements auxquels je suis rattaché.",
+          "buttons": {
+            "cancel":"Annuler",
+            "confirm": "Je confirme"
+          }
+        },
+        "backup-email-confirmation": {
+          "email-is-needed-message": "{ firstName }, nous avons besoin de votre adresse e-mail",
+          "email-sent-to-choose-password-message": "Nous vous enverrons un e-mail afin de choisir un mot de passe.",
+          "email-already-exist-for-account-message": "L’adresse e-mail ci-dessous est déjà associée à votre compte :",
+          "email-is-valid-message": "Si elle est valide,",
+          "email-reset-message": "réinitialisez votre mot de passe",
+          "ask-for-new-email-message": "sinon fournissez en une nouvelle",
+          "form": {
+            "email": "Votre adresse e-mail",
+            "actions": {
+              "submit": "C'est parti",
+              "cancel": "Annuler"
+            },
+            "error":  {
+              "empty-email": "Le champ adresse e-mail est obligatoire.",
+              "wrong-email-format": "Votre adresse e-mail n’est pas valide.",
+              "email-already-exist": {
+                "existing-email": "Vous possédez déjà cette adresse e-mail. Si elle est valide,",
+                "init-password":" réinitialisez votre mot de passe",
+                "new-email": ", sinon saisissez une nouvelle."
+              },
+              "new-backup-email": "Veuillez saisir un e-mail valide pour récupérer votre compte",
+              "new-email-already-exist": "Cette adresse e-mail est déjà utilisée"
+            }
+          }
+        },
+        "send-email-confirmation": {
+          "title": "Récupération de votre compte Pix",
+          "send-email": "Nous venons de vous adresser un mail qui vous permettra de choisir un mot de passe. Vous pouvez consulter dès maintenant votre messagerie.",
+          "check-spam": "Si vous ne voyez pas cet e-mail, vérifiez vos courriers indésirables.",
+          "return": "Retour"
         }
       },
-      "send-email-confirmation": {
-        "title": "Récupération de votre compte Pix",
-        "send-email": "Nous venons de vous adresser un mail qui vous permettra de choisir un mot de passe. Vous pouvez consulter dès maintenant votre messagerie.",
-        "check-spam": "Si vous ne voyez pas cet e-mail, vérifiez vos courriers indésirables.",
-        "return": "Retour"
-      },
-      "reset-password": {
+      "update-sco-record": {
         "welcome-message": "Bon retour parmi nous { firstName } !",
         "invalid-demand" : "Votre demande de récupération de compte est invalide.",
         "fill-password": "Saisissez un mot de passe et Pix est à vous !",

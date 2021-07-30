@@ -15,10 +15,10 @@ const STATUS_MAP = {
 };
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  invalidIneInaFormat: 'pages.account-recovery-after-leaving-sco.student-information.errors.invalid-ine-ina-format',
-  emptyIneIna: 'pages.account-recovery-after-leaving-sco.student-information.errors.empty-ine-ina',
-  emptyLastName: 'pages.account-recovery-after-leaving-sco.student-information.errors.empty-last-name',
-  emptyFirstName: 'pages.account-recovery-after-leaving-sco.student-information.errors.empty-first-name',
+  invalidIneInaFormat: 'pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format',
+  emptyIneIna: 'pages.account-recovery.find-sco-record.student-information.errors.empty-ine-ina',
+  emptyLastName: 'pages.account-recovery.find-sco-record.student-information.errors.empty-last-name',
+  emptyFirstName: 'pages.account-recovery.find-sco-record.student-information.errors.empty-first-name',
 };
 
 class IneInaValidation {
