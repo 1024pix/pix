@@ -200,6 +200,33 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       });
   });
 
+  describe('#correctBirthInformation', () => {
+
+    it('should set birth information to certification course', () => {
+      // given
+      const birthCountry = 'FRANCE';
+      const birthCity = 'PARIS 10';
+      const birthPostalCode = '75010';
+      const birthINSEECode = '75110';
+
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        birthCountry: 'birthCountry',
+        birthCity: 'birthCity',
+        birthPostalCode: 'birthPostalCode',
+        birthINSEECode: 'birthINSEECode',
+      });
+
+      // when
+      certificationCourse.correctBirthInformation({ birthCountry, birthCity, birthPostalCode, birthINSEECode });
+
+      // then
+      expect(certificationCourse.toDTO().birthCountry).to.equal(birthCountry);
+      expect(certificationCourse.toDTO().birthplace).to.equal(birthCity);
+      expect(certificationCourse.toDTO().birthPostalCode).to.equal(birthPostalCode);
+      expect(certificationCourse.toDTO().birthINSEECode).to.equal(birthINSEECode);
+    });
+  });
+
   describe('#complete', () => {
     it('completes the certification course', () => {
       // given

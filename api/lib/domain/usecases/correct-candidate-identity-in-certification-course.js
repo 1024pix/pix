@@ -1,3 +1,5 @@
+const { CpfBirthInformationValidationError } = require('../errors');
+
 module.exports = async function correctCandidateIdentityInCertificationCourse({
   command: {
     certificationCourseId,
@@ -6,8 +8,14 @@ module.exports = async function correctCandidateIdentityInCertificationCourse({
     birthdate,
     birthplace,
     sex,
+    birthCountry,
+    birthPostalCode,
+    birthINSEECode,
   },
   certificationCourseRepository,
+  certificationCpfService,
+  certificationCpfCountryRepository,
+  certificationCpfCityRepository,
 }) {
   const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
   certificationCourse.correctFirstName(firstName);
@@ -15,6 +23,21 @@ module.exports = async function correctCandidateIdentityInCertificationCourse({
   certificationCourse.correctBirthdate(birthdate);
   certificationCourse.correctBirthplace(birthplace);
   certificationCourse.correctSex(sex);
+
+  const cpfBirthInformation = await certificationCpfService.getBirthInformation({
+    birthCountry,
+    birthCity: birthplace,
+    birthPostalCode,
+    birthINSEECode,
+    certificationCpfCountryRepository,
+    certificationCpfCityRepository,
+  });
+
+  if (cpfBirthInformation.hasFailed()) {
+    throw new CpfBirthInformationValidationError(cpfBirthInformation.message);
+  }
+
+  certificationCourse.correctBirthInformation(cpfBirthInformation);
 
   await certificationCourseRepository.update(certificationCourse);
 };
