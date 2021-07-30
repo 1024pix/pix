@@ -4,7 +4,7 @@ import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/login-or-register', function(hooks) {
+module('Integration | Component | Auth::LoginOrRegister', function(hooks) {
 
   setupIntlRenderingTest(hooks);
 
@@ -16,7 +16,7 @@ module('Integration | Component | routes/login-or-register', function(hooks) {
 
   test('it renders', async function(assert) {
     // when
-    await render(hbs`<Routes::LoginOrRegister/>`);
+    await render(hbs`<Auth::LoginOrRegister/>`);
 
     // then
     assert.dom('.login-or-register').exists();
@@ -26,7 +26,7 @@ module('Integration | Component | routes/login-or-register', function(hooks) {
     // when
     const invitationMessage = this.intl.t('pages.login-or-register.title', { organizationName: 'Organization Aztec' });
 
-    await render(hbs`<Routes::LoginOrRegister @organizationName='Organization Aztec'/>`);
+    await render(hbs`<Auth::LoginOrRegister @organizationName='Organization Aztec'/>`);
 
     // then
     assert.dom('.login-or-register-panel__invitation').hasText(`${invitationMessage}`);
@@ -34,7 +34,7 @@ module('Integration | Component | routes/login-or-register', function(hooks) {
 
   test('it toggle the register form by default', async function(assert) {
     // when
-    await render(hbs`<Routes::LoginOrRegister/>`);
+    await render(hbs`<Auth::LoginOrRegister/>`);
 
     // then
     assert.dom('.register-form').exists();
@@ -42,7 +42,7 @@ module('Integration | Component | routes/login-or-register', function(hooks) {
 
   test('it toggle the login form on click on login button', async function(assert) {
     // given
-    await render(hbs`<Routes::LoginOrRegister/>`);
+    await render(hbs`<Auth::LoginOrRegister/>`);
 
     // when
     await clickByLabel(loginButton);
@@ -55,7 +55,7 @@ module('Integration | Component | routes/login-or-register', function(hooks) {
     // given
     const registerButtonLabel = this.intl.t('pages.login-or-register.register-form.button');
 
-    await render(hbs`<Routes::LoginOrRegister/>`);
+    await render(hbs`<Auth::LoginOrRegister/>`);
 
     // when
     await clickByLabel(loginButton);

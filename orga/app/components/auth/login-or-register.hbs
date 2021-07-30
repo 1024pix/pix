@@ -14,7 +14,7 @@
         {{/unless}}
         <div class={{concat "login-or-register-panel-form__expandable" (if this.displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
           {{#if this.displayRegisterForm}}
-            <Routes::RegisterForm @organizationInvitationId={{@organizationInvitationId}} @organizationInvitationCode={{@organizationInvitationCode}} />
+            <Auth::RegisterForm @organizationInvitationId={{@organizationInvitationId}} @organizationInvitationCode={{@organizationInvitationCode}} />
           {{/if}}
         </div>
       </div>
@@ -28,7 +28,7 @@
         {{/if}}
         <div class={{concat "login-or-register-panel-form__expandable" (unless this.displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
           {{#unless this.displayRegisterForm}}
-            <Routes::LoginForm @isWithInvitation={{true}} @organizationInvitationId={{@organizationInvitationId}} @organizationInvitationCode={{@organizationInvitationCode}} />
+            <Auth::LoginForm @isWithInvitation={{true}} @organizationInvitationId={{@organizationInvitationId}} @organizationInvitationCode={{@organizationInvitationCode}} />
           {{/unless}}
         </div>
       </div>
