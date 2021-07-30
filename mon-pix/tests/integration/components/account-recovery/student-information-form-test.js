@@ -18,9 +18,9 @@ describe('Integration | Component | student-information-form', function() {
     await render(hbs `<AccountRecovery::StudentInformationForm />`);
 
     // then
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.title'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.subtitle.text'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.subtitle.link'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.subtitle.text'))).to.exist;
+    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.subtitle.link'))).to.exist;
     expect(contains(this.intl.t('common.form.mandatory-all-fields'))).to.exist;
   });
 
@@ -49,13 +49,13 @@ describe('Integration | Component | student-information-form', function() {
     `);
 
     // when
-    await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.ine-ina'), ine);
-    await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.first-name'), firstName);
-    await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.last-name'), lastName);
-    await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.label.birth-day'), dayOfBirth);
-    await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.label.birth-month'), monthOfBirth);
-    await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.label.birth-year'), yearOfBirth);
-    await clickByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.submit'));
+    await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), ine);
+    await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.first-name'), firstName);
+    await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'), lastName);
+    await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-day'), dayOfBirth);
+    await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-month'), monthOfBirth);
+    await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.label.birth-year'), yearOfBirth);
+    await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
 
     // then
     sinon.assert.calledWithExactly(submitStudentInformation, {
@@ -76,11 +76,11 @@ describe('Integration | Component | student-information-form', function() {
         await render(hbs `<AccountRecovery::StudentInformationForm />`);
 
         // when
-        await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.ine-ina'), validIna);
+        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), validIna);
         await triggerEvent('#ineIna', 'focusout');
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.errors.invalid-ine-ina-format'))).to.not.exist;
+        expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format'))).to.not.exist;
       });
 
       it('should not display an error message on focus-out even if there are leading or trailing spaces', async function() {
@@ -89,11 +89,11 @@ describe('Integration | Component | student-information-form', function() {
         await render(hbs `<AccountRecovery::StudentInformationForm />`);
 
         // when
-        await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.ine-ina'), validIna);
+        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), validIna);
         await triggerEvent('#ineIna', 'focusout');
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.errors.invalid-ine-ina-format'))).to.not.exist;
+        expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format'))).to.not.exist;
       });
     });
 
@@ -105,11 +105,11 @@ describe('Integration | Component | student-information-form', function() {
         await render(hbs `<AccountRecovery::StudentInformationForm />`);
 
         // when
-        await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.ine-ina'), invalidIneIna);
+        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), invalidIneIna);
         await triggerEvent('#ineIna', 'focusout');
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.errors.invalid-ine-ina-format'))).to.exist;
+        expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format'))).to.exist;
       });
 
       it('should display a required field error message on focus-out if ine field is empty', async function() {
@@ -118,11 +118,11 @@ describe('Integration | Component | student-information-form', function() {
         await render(hbs `<AccountRecovery::StudentInformationForm />`);
 
         // when
-        await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.ine-ina'), emptyIneIna);
+        await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.ine-ina'), emptyIneIna);
         await triggerEvent('#ineIna', 'focusout');
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.errors.empty-ine-ina'))).to.exist;
+        expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-ine-ina'))).to.exist;
       });
     });
   });
@@ -135,11 +135,11 @@ describe('Integration | Component | student-information-form', function() {
       await render(hbs `<AccountRecovery::StudentInformationForm />`);
 
       // when
-      await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.last-name'), emptyLastName);
+      await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'), emptyLastName);
       await triggerEvent('#lastName', 'focusout');
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.errors.empty-last-name'))).to.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-last-name'))).to.exist;
     });
   });
 
@@ -151,11 +151,11 @@ describe('Integration | Component | student-information-form', function() {
       await render(hbs `<AccountRecovery::StudentInformationForm />`);
 
       // when
-      await fillInByLabel(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.form.last-name'), emptyFirstName);
+      await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.last-name'), emptyFirstName);
       await triggerEvent('#firstName', 'focusout');
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery-after-leaving-sco.student-information.errors.empty-first-name'))).to.exist;
+      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-first-name'))).to.exist;
     });
   });
 });
