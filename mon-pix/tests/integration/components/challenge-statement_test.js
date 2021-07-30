@@ -1,6 +1,7 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { beforeEach, describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import Service from '@ember/service';
 import { click, find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
@@ -17,9 +18,20 @@ describe('Integration | Component | ChallengeStatement', function() {
     component.set('assessment', assessment);
   }
 
-  function renderChallengeStatement() {
-    return render(hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} />`);
+  function renderChallengeStatement(component) {
+    component.set('onTooltipClose', () => {});
+    return render(hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @onTooltipClose={{this.onTooltipClose}}/>`);
   }
+
+  beforeEach(async function() {
+    class currentUser extends Service {
+      user = {
+        hasSeenFocusedChallengeTooltip: false,
+      }
+    }
+    this.owner.unregister('service:currentUser');
+    this.owner.register('service:currentUser', currentUser);
+  });
 
   /*
    * Instruction
@@ -49,7 +61,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal('La consigne de mon test');
@@ -64,7 +76,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       expect(find('.challenge-statement-instruction__tag')).to.exist;
@@ -76,7 +88,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       addChallengeToContext(this, {});
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       expect(find('.challenge-statement-instruction__text')).to.not.exist;
@@ -91,7 +103,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       expect(find('.challenge-statement-instruction__text').textContent.trim())
@@ -107,7 +119,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       const linkCount = find('.challenge-statement-instruction__text').innerHTML.match(/title="Nouvelle fenêtre"/g).length;
@@ -125,7 +137,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       expect(find('.challenge-statement-instruction__tag--focused')).to.exist;
@@ -143,13 +155,54 @@ describe('Integration | Component | ChallengeStatement', function() {
       });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       expect(find('.challenge-statement-instruction__tag--focused')).to.not.exist;
       expect(find('.challenge-statement-instruction__tag--regular')).to.exist;
     });
 
+    describe('when challenge is focused', async function() {
+      it('should render a tooltip', async function() {
+        // given
+        addAssessmentToContext(this, { id: '267845' });
+        addChallengeToContext(this, {
+          instruction: 'La consigne de mon test',
+          id: 'rec_challenge',
+          focused: true,
+        });
+
+        // when
+        await renderChallengeStatement(this);
+
+        // then
+        expect(find('.challenge-statement__tag-information')).to.exist;
+      });
+
+      it('should not render a tooltip when user has already closed it', async function() {
+        // given
+        class currentUser extends Service {
+          user = {
+            hasSeenFocusedChallengeTooltip: true,
+          }
+        }
+        this.owner.unregister('service:currentUser');
+        this.owner.register('service:currentUser', currentUser);
+
+        addAssessmentToContext(this, { id: '267845' });
+        addChallengeToContext(this, {
+          instruction: 'La consigne de mon test',
+          id: 'rec_challenge',
+          focused: true,
+        });
+
+        // when
+        await renderChallengeStatement(this);
+
+        // then
+        expect(find('.challenge-statement__tag-information')).to.not.exist;
+      });
+    });
   });
 
   /*
@@ -169,7 +222,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       expect(find('.challenge-statement__alternative-instruction')).to.not.exist;
@@ -185,7 +238,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       expect(find('.challenge-statement__alternative-instruction')).to.exist;
@@ -201,7 +254,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
       await click('.challenge-statement__alternative-instruction button');
 
       // then
@@ -218,7 +271,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
       await click('.challenge-statement__alternative-instruction button');
       await click('.challenge-statement__alternative-instruction button');
 
@@ -245,7 +298,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       addAssessmentToContext(this, { id: '267845' });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       expect(find('.challenge-illustration__loaded-image').src).to.contains(challenge.illustrationUrl);
@@ -258,7 +311,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       addAssessmentToContext(this, { id: '267845' });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       expect(find('challenge-statement__illustration-section')).to.not.exist;
@@ -283,7 +336,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         addAssessmentToContext(this, { id: '267845' });
 
         // when
-        await renderChallengeStatement();
+        await renderChallengeStatement(this);
 
         // then
         expect(find('.challenge-statement__attachments-section')).to.not.exist;
@@ -304,7 +357,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         addAssessmentToContext(this, { id: '267845' });
 
         // when
-        await renderChallengeStatement();
+        await renderChallengeStatement(this);
 
         // then
         expect(find('.challenge-statement__action-link')).to.exist;
@@ -341,7 +394,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         addAssessmentToContext(this, { id: '267845' });
 
         // when
-        await renderChallengeStatement();
+        await renderChallengeStatement(this);
 
         // then
         expect(findAll('.challenge-statement__file-option_input')).to.have.lengthOf(challenge.attachments.length);
@@ -353,7 +406,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         addAssessmentToContext(this, { id: '267845' });
 
         // when
-        await renderChallengeStatement();
+        await renderChallengeStatement(this);
 
         // then
         expect(findAll('.challenge-statement__file-option-label')[0].textContent.trim()).to.equal('fichier .docx');
@@ -367,7 +420,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         addAssessmentToContext(this, { id: '267845' });
 
         // when
-        await renderChallengeStatement();
+        await renderChallengeStatement(this);
 
         // then
         expect(findAll('.challenge-statement__file-option_input')[0].checked).to.be.true;
@@ -380,7 +433,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         addAssessmentToContext(this, { id: '267845' });
 
         // when
-        await renderChallengeStatement();
+        await renderChallengeStatement(this);
 
         // then
         expect(findAll('.challenge-statement__file-option_input')[0].checked).to.be.true;
@@ -393,7 +446,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         addAssessmentToContext(this, { id: '267845' });
 
         // when
-        await renderChallengeStatement();
+        await renderChallengeStatement(this);
 
         // then
         expect(find('.challenge-statement__text-content').textContent.trim()).to.equal('Choisissez le type de fichier que vous voulez utiliser');
@@ -405,7 +458,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         addAssessmentToContext(this, { id: '267845' });
 
         // when
-        await renderChallengeStatement();
+        await renderChallengeStatement(this);
 
         // then
         expect(find('.challenge-statement__help-icon')).to.exist;
@@ -417,7 +470,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         addAssessmentToContext(this, { id: '267845' });
 
         // when
-        await renderChallengeStatement();
+        await renderChallengeStatement(this);
         // then
         expect(find('.challenge-statement__action-help')).to.exist;
       });
@@ -439,7 +492,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       addAssessmentToContext(this, { id: '267845' });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       expect(find('.challenge-embed-simulator')).to.exist;
@@ -451,7 +504,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       addAssessmentToContext(this, { id: '267845' });
 
       // when
-      await renderChallengeStatement();
+      await renderChallengeStatement(this);
 
       // then
       expect(find('.challenge-embed-simulator')).to.not.exist;
