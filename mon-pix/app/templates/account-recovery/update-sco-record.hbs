@@ -1,9 +1,24 @@
-{{#if @model.errors}}
-  <h1>{{@model.errors}}</h1>
-{{else}}
-  <AccountRecovery::UpdateScoRecordForm
-    @firstName={{@model.firstName}}
-    @email={{@model.email}}
-    @temporaryKey={{@model.temporaryKey}}
-  />
-{{/if}}
+{{page-title (t 'pages.account-recovery.find-sco-record.title')}}
+
+<div class="account-recovery">
+  <div class="account-recovery__content">
+    <PixLogo />
+    <div class="account-recovery__content--image">
+      <img alt="" role="none" src="{{rootURL}}/images/illustrations/account-recovery/illustration.svg">
+    </div>
+
+    <div class="account-recovery__content--step">
+      <div class="account-recovery__content--step--content">
+        {{#if @model.errors}}
+          <h1>{{@model.errors}}</h1>
+        {{else}}
+          <AccountRecovery::UpdateScoRecordForm
+            @firstName={{@model.firstName}}
+            @email={{@model.email}}
+            @temporaryKey={{@model.temporaryKey}}
+          />
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
