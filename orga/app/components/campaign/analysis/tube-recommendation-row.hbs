@@ -19,7 +19,7 @@
   </td>
   <td class="table__column--right">
     {{#if (gt @tubeRecommendation.tutorials.length 0)}}
-      <Chevron @isOpen={{this.isOpen}} @toggleParent={{this.toggleTutorialsSection}} @ariaLabel={{t 'pages.campaign-review.table.analysis.column.tutorial.aria-label'}} />
+      <Ui::Chevron @isOpen={{this.isOpen}} @onClick={{this.toggleTutorialsSection}} @ariaLabel={{t 'pages.campaign-review.table.analysis.column.tutorial.aria-label'}} />
     {{/if}}
   </td>
 </tr>
