@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import Service from '@ember/service';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 function getMetaForPage({ pageNumber, rowCount = 50 }) {
   const pageSize = 25;
@@ -17,7 +17,7 @@ function getMetaForPage({ pageNumber, rowCount = 50 }) {
   };
 }
 
-module('Integration | Component | pagination-control', function(hooks) {
+module('Integration | Component | Table::PaginationControl', function(hooks) {
   setupIntlRenderingTest(hooks);
   let replaceWithStub;
 
@@ -34,7 +34,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     this.set('meta', getMetaForPage({ pageNumber: 1 }));
 
     // when
-    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
+    await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
     // then
     assert.contains('Page 1 / 2');
@@ -45,7 +45,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     this.set('meta', getMetaForPage({ pageNumber: 1 }));
 
     // when
-    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
+    await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
     // then
     assert.dom('[aria-label="Aller à la page précédente"]').hasAttribute('disabled');
@@ -56,7 +56,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     this.set('meta', getMetaForPage({ pageNumber: 2 }));
 
     // when
-    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
+    await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
     // then
     assert.dom('[aria-label="Aller à la page suivante"]').hasAttribute('disabled');
@@ -67,7 +67,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     this.set('meta', getMetaForPage({ pageNumber: 1 }));
 
     // when
-    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
+    await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
     // then
     assert.dom('[aria-label="Aller à la page suivante"]').hasNoAttribute('disabled');
@@ -78,7 +78,7 @@ module('Integration | Component | pagination-control', function(hooks) {
     this.set('meta', getMetaForPage({ pageNumber: 2 }));
 
     // when
-    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
+    await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
     // then
     assert.dom('[aria-label="Aller à la page précédente"]').hasNoAttribute('disabled');
@@ -87,7 +87,7 @@ module('Integration | Component | pagination-control', function(hooks) {
   test('it should re-route to next page when clicking on next page button', async function(assert) {
     // given
     this.set('meta', getMetaForPage({ pageNumber: 1 }));
-    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
+    await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
     // when
     await clickByLabel('Aller à la page suivante');
@@ -99,7 +99,7 @@ module('Integration | Component | pagination-control', function(hooks) {
   test('it should re-route to previous page when clicking on previous page button', async function(assert) {
     // given
     this.set('meta', getMetaForPage({ pageNumber: 2 }));
-    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
+    await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
     // when
     await clickByLabel('Aller à la page précédente');
@@ -111,7 +111,7 @@ module('Integration | Component | pagination-control', function(hooks) {
   test('it should re-route to page with changed page size', async function(assert) {
     // given
     this.set('meta', getMetaForPage({ pageNumber: 2 }));
-    await render(hbs`<PaginationControl @pagination={{meta}}/>`);
+    await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
     // when
     await fillInByLabel('Sélectionner une pagination', '10');
@@ -126,7 +126,7 @@ module('Integration | Component | pagination-control', function(hooks) {
       this.set('meta', getMetaForPage({ pageNumber: 1, rowCount: 0 }));
 
       // when
-      await render(hbs`<PaginationControl @pagination={{meta}}/>`);
+      await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
       // then
       assert.dom('[aria-label="Aller à la page précédente"]').hasAttribute('disabled');
@@ -138,7 +138,7 @@ module('Integration | Component | pagination-control', function(hooks) {
       this.set('meta', getMetaForPage({ pageNumber: 1, rowCount: 0 }));
 
       // when
-      await render(hbs`<PaginationControl @pagination={{meta}}/>`);
+      await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
 
       // then
       assert.contains('Page 1 / 1');
