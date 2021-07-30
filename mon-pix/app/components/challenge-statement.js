@@ -10,17 +10,18 @@ const PREFERRED_ATTACHMENT_FORMATS = ['docx', 'xlsx', 'pptx'];
 
 export default class ChallengeStatement extends Component {
   @service mailGenerator;
+  @service currentUser;
   @service intl;
 
   @tracked selectedAttachmentUrl;
   @tracked displayAlternativeInstruction = false;
 
-  @tracked displayTagHelp = false;
+  @tracked shouldDisplayTooltip = false;
 
   constructor() {
     super(...arguments);
     this._initialiseDefaultAttachment();
-    this.showTagHelp();
+    this._showTooltip();
   }
 
   get isFocusedChallengeToggleEnabled() {
@@ -63,14 +64,21 @@ export default class ChallengeStatement extends Component {
 
   @action
   hideTooltip() {
-    this.displayTagHelp = false;
-    this.args.onTooltipClose();
+    this.shouldDisplayTooltip = false;
+    this._notifyChallengeTooltipIsClosed();
   }
 
-  showTagHelp() {
-    if (this.isFocusedChallenge) {
-      this.displayTagHelp = true;
+  _showTooltip() {
+    if (this.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+      this.shouldDisplayTooltip = true;
     }
+    else if (this.isFocusedChallenge && this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+      this._notifyChallengeTooltipIsClosed();
+    }
+  }
+
+  _notifyChallengeTooltipIsClosed() {
+    this.args.onTooltipClose();
   }
 
   @action
