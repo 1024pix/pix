@@ -1,6 +1,6 @@
 <div class="activity-dashboard" ...attributes>
   <div class="activity-dashboard__row">
-    <IndicatorCard
+    <Ui::IndicatorCard
       @title={{t 'charts.participants-count.title'}}
       @icon="users"
       @color="blue"
@@ -10,8 +10,8 @@
       class="activity-dashboard__total-participants-card"
     >
       {{this.total}}
-    </IndicatorCard>
-    <IndicatorCard
+    </Ui::IndicatorCard>
+    <Ui::IndicatorCard
       @title={{if @campaign.isTypeAssessment (t 'charts.submitted-count.title') (t 'charts.submitted-count.title-profiles')}}
       @icon="share"
       @color="green"
@@ -20,7 +20,7 @@
       @loader={{t 'charts.submitted-count.loader'}}
     >
       {{this.shared}}
-    </IndicatorCard>
+    </Ui::IndicatorCard>
   </div>
   <div class="activity-dashboard__row">
     <Charts::ParticipantsByDay
