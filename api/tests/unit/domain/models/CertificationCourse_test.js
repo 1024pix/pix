@@ -159,6 +159,47 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
     });
   });
 
+  describe('#correctSex', () => {
+
+    it('throws if sex is neither M nor F', () => {
+      // given
+      const invalidSex = 'invalid_sex';
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        sex: 'M',
+      });
+
+      // then
+      expect(() => certificationCourse.correctSex(invalidSex)).to.throw(EntityValidationError);
+    });
+
+    it('not throw if sex is not defined', () => {
+      // given
+      const sex = null;
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        sex: 'M',
+      });
+
+      // then
+      expect(() => certificationCourse.correctSex(sex)).not.to.throw(EntityValidationError);
+    });
+
+    ['M', 'F']
+      .forEach((validSex) => {
+        it(`modifies the sex when value is ${validSex}`, () => {
+          // given
+          const certificationCourse = domainBuilder.buildCertificationCourse({
+            sex: 'X',
+          });
+
+          // when
+          certificationCourse.correctSex(validSex);
+
+          // then
+          expect(certificationCourse.toDTO().sex).to.equal(validSex);
+        });
+      });
+  });
+
   describe('#complete', () => {
     it('completes the certification course', () => {
       // given
