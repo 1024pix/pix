@@ -34,24 +34,33 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
       context('when demand has been used already', () => {
 
-        it('should throw a not found recovery demand', async () => {
+        it('should return the account recovery demand', async () => {
           // given
-          const temporaryKey = 'RDFGGHFFDZZ';
-          databaseBuilder.factory.buildAccountRecoveryDemand({ temporaryKey, used: true });
+          const email = 'someMail@example.net';
+          const temporaryKey = 'someTemporaryKey';
+          const { id: demandId, userId, schoolingRegistrationId, createdAt } = await databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: true });
+          await databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
           await databaseBuilder.commit();
-
+          const expectedAccountRecoveryDemand = {
+            id: demandId,
+            userId,
+            oldEmail: null,
+            schoolingRegistrationId,
+            newEmail: 'philipe@example.net',
+            temporaryKey: 'someTemporaryKey',
+            used: true,
+            createdAt,
+          };
           // when
-          const error = await catchErr(accountRecoveryDemandRepository.findByTemporaryKey)(temporaryKey);
+          const demand = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
 
           // then
-          expect(error).to.be.instanceOf(NotFoundError);
-          expect(error.message).to.be.equal('No account recovery demand found');
-
+          expect(demand).to.deep.equal(expectedAccountRecoveryDemand);
         });
 
       });
 
-      context('when demand is not yet used', () => {
+      context('when demand is not used yet', () => {
 
         it('should return the account recovery demand when demand is still valid', async () => {
           // given
@@ -150,7 +159,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
         const result = await accountRecoveryDemandRepository.findByUserId(userId);
 
         // then
-        expect(result).to.be.deep.equal([]);
+        expect(result).to.be.an('array').that.is.empty;
 
       });
     });

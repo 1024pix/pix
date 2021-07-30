@@ -59,9 +59,9 @@ describe('Unit | UseCase | get-account-recovery-details', () => {
     });
   });
 
-  it('should throw NotFoundError if temporary key does not exist or already used', async () => {
+  it('should throw NotFoundError if temporary key does not exist', async () => {
     // given
-    accountRecoveryDemandRepository.findByTemporaryKey.rejects(new NotFoundError('Temporary key not found or already used'));
+    accountRecoveryDemandRepository.findByTemporaryKey.rejects(new NotFoundError('No account recovery demand found'));
 
     // when
     const error = await catchErr(getAccountRecoveryDetails)({
