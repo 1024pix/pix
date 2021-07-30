@@ -123,7 +123,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await fillInByLabel('Nom de famille', 'Tic');
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
-      await click('#male');
+      await click('#female');
       await fillInByLabel('Pays de naissance', '99430');
       await fillInByLabel('Commune de naissance', 'Pôle nord');
 
@@ -134,6 +134,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       assert.contains('Tic');
       assert.contains('Toc');
       assert.contains('12/12/2012');
+      assert.contains('F');
+      assert.contains('GROENLAND');
+      assert.contains('99430');
       assert.contains('Pôle nord');
     });
 
