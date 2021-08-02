@@ -1,0 +1,78 @@
+<header class="navigation">
+  <PreviousPageButton
+    @route="authenticated.campaigns.campaign.activity"
+    @routeId={{@campaign.id}}
+    @backButtonAriaLabel={{t 'common.actions.back'}}
+    aria-label={{t 'pages.campaign.name'}}
+  >
+  {{@campaign.name}}
+  </PreviousPageButton>
+</header>
+
+<section class="panel panel--header">
+  <header class="panel-header__headline">
+    <h2 class="panel-header-title">{{@participation.firstName}} {{@participation.lastName}}</h2>
+  </header>
+
+  <div class="panel-header__body">
+    <ul class="panel-header__data">
+      {{#if @participation.participantExternalId}}
+        <li class="panel-header-data__content">
+          <div class="label-text panel-header-data-content__label">{{@campaign.idPixLabel}}</div>
+          <div class="value-text panel-header-data-content__value">{{@participation.participantExternalId}}</div>
+        </li>
+      {{/if}}
+      <li class="panel-header-data__content">
+        <div class="label-text panel-header-data-content__label">{{t 'pages.campaign-individual-results.start-date'}}</div>
+        <div class="value-text panel-header-data-content__value">
+          {{moment-format @participation.createdAt 'DD MMM YYYY'}}
+        </div>
+      </li>
+      {{#unless @participation.isShared }}
+        <li class="panel-header-data__content">
+          <div class="label-text panel-header-data-content__label">{{t 'pages.assessment-individual-results.progression'}}</div>
+          <div class="value-text panel-header-data-content__value">
+            {{@participation.progression}}%
+          </div>
+        </li>
+      {{/unless}}
+      {{#if @participation.isShared }}
+        <li class="panel-header-data__content">
+          <div class="label-text panel-header-data-content__label">{{t 'pages.campaign-individual-results.shared-date'}}</div>
+            <div class="value-text panel-header-data-content__value">
+              {{moment-format @participation.sharedAt 'DD MMM YYYY'}}
+            </div>
+        </li>
+      {{/if}}
+    </ul>
+
+    {{#if @participation.isShared}}
+      <ul class="panel-header__data panel-header__data--highlight">
+        {{#if this.displayBadges}}
+          <li aria-label={{t 'pages.assessment-individual-results.badges'}} class="panel-header-data__content panel-header-data-content__badges">
+            <Badges @badges={{@participation.badges}}/>
+          </li>
+        {{/if}}
+        <li aria-label={{t 'pages.assessment-individual-results.result.label'}} class="panel-header-data__content panel-header-data-content__progress-bar">
+          <ProgressBar @value={{@participation.masteryPercentage}}>
+            {{t 'pages.assessment-individual-results.result.value' count=@participation.validatedSkillsCount total=@participation.targetedSkillsCount}}
+          </ProgressBar>
+        </li>
+        {{#if @campaign.hasStages}}
+          <li aria-label={{t 'pages.assessment-individual-results.stages.label'}} class="panel-header-data__content panel-header-data-content__stages">
+            <StageStars
+              @result={{@participation.masteryPercentage}}
+              @stages={{@campaign.stages}}
+              @withTooltip={{true}}
+              @tooltipPosition="bottom-left"
+            />
+          </li>
+        {{else}}
+          <li class="panel-header-data__content value-text value-text--highlight panel-header-data-content__mastery-percentage">
+            {{@participation.masteryPercentage}}%
+          </li>
+        {{/if}}
+      </ul>
+    {{/if}}
+  </div>
+</section>

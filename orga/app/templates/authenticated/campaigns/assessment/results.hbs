@@ -1,8 +1,0 @@
-{{page-title this.pageTitle}}
-<Routes::Authenticated::Campaign::Assessment::Results
-  @campaignAssessmentParticipationFirstName={{@model.firstName}}
-  @campaignAssessmentParticipationLastName={{@model.lastName}}
-  @campaignAssessmentParticipationResult={{@model.campaignAssessmentParticipationResult}}
-  @displayResults={{gt @model.campaignAssessmentParticipationResult.sortedCompetenceResults.length 0}}
-  @class="participant-results"
-/>

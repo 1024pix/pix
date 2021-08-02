@@ -19,7 +19,7 @@
             <tr aria-label={{t 'pages.campaign-activity.table.row-title'}} role="button" {{on 'click' (fn @onClickParticipant @campaign.id participation.id)}} class="tr--clickable">
               <td>
                 <LinkTo
-                  @route={{if @campaign.isTypeAssessment 'authenticated.campaigns.assessment' 'authenticated.campaigns.profile'}}
+                  @route={{if @campaign.isTypeAssessment 'authenticated.campaigns.participant-assessment' 'authenticated.campaigns.profile'}}
                   @models={{array @campaign.id participation.id}}>
                 {{participation.lastName}}
                 </LinkTo>

@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | routes/authenticated/campaign/assessment/results', function(hooks) {
+module('Integration | Component | Participant::Assessment::Results', function(hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
@@ -14,7 +14,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/resul
 
   test('it should display a sentence when displayResults is false', async function(assert) {
     // when
-    await render(hbs`<Routes::Authenticated::Campaign::Assessment::Results @displayResults={{false}} />`);
+    await render(hbs`<Participant::Assessment::Results @displayResults={{false}} />`);
 
     // then
     assert.contains('En attente de résultats');
@@ -41,7 +41,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/resul
     this.set('campaignAssessmentParticipationResult', campaignAssessmentParticipationResult);
 
     // when
-    await render(hbs`<Routes::Authenticated::Campaign::Assessment::Results @campaignAssessmentParticipationResult={{campaignAssessmentParticipationResult}} @displayResults={{true}} />`);
+    await render(hbs`<Participant::Assessment::Results @results={{campaignAssessmentParticipationResult}} @displayResults={{true}} />`);
 
     // then
     assert.dom('[aria-label="Résultats par compétence"]').exists({ count: 1 });
