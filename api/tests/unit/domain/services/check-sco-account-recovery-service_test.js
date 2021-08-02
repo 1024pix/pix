@@ -8,6 +8,7 @@ const { retrieveSchoolingRegistration } = require('../../../../lib/domain/servic
 const {
   MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
   UserNotFoundError,
+  UserHasAlreadyLeftSCO,
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | check-sco-account-recovery-service', () => {
@@ -17,6 +18,7 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
     let schoolingRegistrationRepository;
     let userRepository;
     let userReconciliationService;
+    let accountRecoveryDemandRepository;
 
     beforeEach(() => {
       schoolingRegistrationRepository = {
@@ -28,6 +30,9 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
       };
       userReconciliationService = {
         findMatchingCandidateIdForGivenUser: sinon.stub(),
+      };
+      accountRecoveryDemandRepository = {
+        findByUserId: sinon.stub(),
       };
     });
 
@@ -130,6 +135,10 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
             ...studentInformation,
             nationalStudentId: studentInformation.inaIna,
           });
+          const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
+            userId: expectedUser.id,
+            schoolingRegistrationId: lastSchoolingRegistration.id,
+          });
 
           schoolingRegistrationRepository.getLatestSchoolingRegistration
             .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
@@ -146,10 +155,13 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
             .withArgs({ userId: expectedUser.id })
             .resolves([firstSchoolingRegistration, lastSchoolingRegistration]);
 
+          accountRecoveryDemandRepository.findByUserId.withArgs(expectedUser.id).resolves([accountRecoveryDemand]);
+
           userRepository.get.withArgs(expectedUser.id).resolves(expectedUser);
 
           // when
           const result = await retrieveSchoolingRegistration({
+            accountRecoveryDemandRepository,
             studentInformation,
             schoolingRegistrationRepository,
             userRepository,
@@ -203,6 +215,10 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
             lastName: 'Monchose',
             birthdate: '2004-05-07',
           });
+          const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
+            userId: user.id,
+            schoolingRegistrationId: secondSchoolingRegistration.id,
+          });
 
           schoolingRegistrationRepository.getLatestSchoolingRegistration
             .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
@@ -219,8 +235,11 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
             .withArgs({ userId: user.id })
             .resolves([firstSchoolingRegistration, secondSchoolingRegistration]);
 
+          accountRecoveryDemandRepository.findByUserId.withArgs(user.id).resolves([accountRecoveryDemand]);
+
           // when
           const result = await catchErr(retrieveSchoolingRegistration)({
+            accountRecoveryDemandRepository,
             studentInformation,
             schoolingRegistrationRepository,
             userRepository,
@@ -261,6 +280,10 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
           firstName: expectedUser.firstName,
           nationalStudentId: studentInformation.ineIna,
         });
+        const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
+          userId: expectedUser.id,
+          schoolingRegistrationId: schoolingRegistration.id,
+        });
 
         schoolingRegistrationRepository.getLatestSchoolingRegistration
           .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
@@ -276,10 +299,14 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
         schoolingRegistrationRepository.findByUserId
           .withArgs({ userId: expectedUser.id })
           .resolves([schoolingRegistration]);
+
+        accountRecoveryDemandRepository.findByUserId.withArgs(expectedUser.id).resolves([accountRecoveryDemand]);
+
         userRepository.get.withArgs(expectedUser.id).resolves(expectedUser);
 
         // when
         const result = await retrieveSchoolingRegistration({
+          accountRecoveryDemandRepository,
           studentInformation,
           schoolingRegistrationRepository,
           userRepository,
@@ -342,5 +369,83 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
         expect(error).an.instanceOf(UserNotFoundError);
       });
     });
+
+    context('when user had already left SCO', () => {
+
+      it('should throw an error', async () => {
+        // given
+        const studentInformation = {
+          ineIna: '123456789AA',
+          firstName: 'Nanou',
+          lastName: 'Monchose',
+          birthdate: '2004-05-07',
+        };
+        const expectedUser = domainBuilder.buildUser({
+          id: 9,
+          firstName: 'Manuela',
+          lastName: studentInformation.lastName,
+          birthdate: studentInformation.birthdate,
+          username: 'nanou.monchose0705',
+          email: 'nanou.monchose@example.net',
+        });
+        const organization = domainBuilder.buildOrganization({ id: 8, name: 'Collège Beauxbâtons' });
+        const schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+          id: 2,
+          userId: expectedUser.id,
+          organization: organization,
+          updatedAt: new Date('2000-01-01T15:00:00Z'),
+          ...studentInformation,
+          firstName: expectedUser.firstName,
+          nationalStudentId: studentInformation.ineIna,
+        });
+        const accountRecoveryDemandNotUsed = domainBuilder.buildAccountRecoveryDemand({
+          userId: expectedUser.id,
+          schoolingRegistrationId: schoolingRegistration.id,
+        });
+        const accountRecoveryDemandUsed = domainBuilder.buildAccountRecoveryDemand({
+          userId: expectedUser.id,
+          schoolingRegistrationId: schoolingRegistration.id,
+          used: true,
+        });
+
+        schoolingRegistrationRepository.getLatestSchoolingRegistration
+          .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
+          .resolves(schoolingRegistration);
+
+        userReconciliationService.findMatchingCandidateIdForGivenUser
+          .withArgs([schoolingRegistration], {
+            firstName: studentInformation.firstName,
+            lastName: studentInformation.lastName,
+          })
+          .resolves(schoolingRegistration.id);
+
+        schoolingRegistrationRepository.findByUserId
+          .withArgs({ userId: expectedUser.id })
+          .resolves([schoolingRegistration]);
+        userRepository.get.withArgs(expectedUser.id).resolves(expectedUser);
+
+        accountRecoveryDemandRepository.findByUserId.withArgs(expectedUser.id).resolves([accountRecoveryDemandNotUsed, accountRecoveryDemandUsed]);
+
+        userRepository.get.resolves({
+          username: expectedUser.username,
+          email: expectedUser.email,
+        });
+
+        // when
+        const error = await catchErr(retrieveSchoolingRegistration)({
+          accountRecoveryDemandRepository,
+          studentInformation,
+          schoolingRegistrationRepository,
+          userRepository,
+          userReconciliationService,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(UserHasAlreadyLeftSCO);
+        expect(error.message).to.be.equal('User has already left SCO.');
+
+      });
+    });
+
   });
 });

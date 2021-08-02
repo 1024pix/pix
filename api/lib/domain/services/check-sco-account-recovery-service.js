@@ -1,7 +1,12 @@
-const { MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError, UserNotFoundError } = require('../errors');
+const {
+  MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
+  UserNotFoundError,
+  UserHasAlreadyLeftSCO,
+} = require('../errors');
 const _ = require('lodash');
 
 async function retrieveSchoolingRegistration({
+  accountRecoveryDemandRepository,
   studentInformation,
   schoolingRegistrationRepository,
   userRepository,
@@ -18,6 +23,12 @@ async function retrieveSchoolingRegistration({
     latestSchoolingRegistration,
     userReconciliationService,
   });
+
+  const accountRecoveryDemands = await accountRecoveryDemandRepository.findByUserId(userId);
+
+  if (accountRecoveryDemands.some((accountRecoveryDemand) => accountRecoveryDemand.used)) {
+    throw new UserHasAlreadyLeftSCO();
+  }
 
   await _checkIfThereAreMultipleUserForTheSameAccount({ userId, schoolingRegistrationRepository });
 
