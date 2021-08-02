@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
@@ -30,6 +31,18 @@ module.exports = {
       ...certificationCourseDTO,
       cleaCertificationImagePath,
       pixPlusDroitCertificationImagePath,
+    });
+  },
+
+  async findByDivisionForScoIsManagingStudentsOrganization({ _organizationId, _division } = {}) {
+    const certificationCourseDTOs = await _selectCertificationAttestations()
+      .orderBy('certification-courses.id');
+    return _.map(certificationCourseDTOs, (certificationCourseDTO) => {
+      return new CertificationAttestation({
+        ...certificationCourseDTO,
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
+      });
     });
   },
 };
