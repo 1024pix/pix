@@ -1,5 +1,5 @@
+const _ = require('lodash');
 const { knex } = require('../bookshelf');
-
 const CampaignManagement = require('../../domain/read-models/CampaignManagement');
 const { fetchPage } = require('../utils/knex-utils');
 
@@ -48,5 +48,19 @@ module.exports = {
 
     const campaignManagement = results.map((attributes) => new CampaignManagement(attributes));
     return { models: campaignManagement, meta: { ...pagination } };
+  },
+
+  update({ campaignId, campaignAttributes }) {
+    const editableAttributes = _.pick(campaignAttributes, [
+      'name',
+      'title',
+      'customLandingPageText',
+      'customResultPageText',
+      'customResultPageButtonText',
+      'customResultPageButtonUrl',
+    ]);
+    return knex('campaigns')
+      .where({ id: campaignId })
+      .update(editableAttributes);
   },
 };
