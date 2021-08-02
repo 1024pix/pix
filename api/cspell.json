@@ -1,0 +1,40 @@
+{
+  "version": "0.1",
+  "language": "en,fr",
+  "words": [
+    "builtins",
+    "echec",
+    "parsées",
+    "etre",
+    "necessaire",
+    "perime",
+    "healthcheck",
+    "resultat",
+    "resultats",
+    "emargement",
+    "certifiables",
+    "Numero",
+    "Prenom",
+    "geographique",
+    "Generer"
+  ],
+  "dictionaries": [
+    "functional", "technical","indicted"
+  ],
+  "dictionaryDefinitions": [
+    {
+      "name": "functional",
+      "path": "./dictionaries/functional.txt"
+    },{
+      "name": "technical",
+      "path": "./dictionaries/technical.txt"
+    },
+    {
+      "name": "indicted",
+      "path": "./dictionaries/indicted.txt"
+    }
+  ],
+  "import": [
+    "@cspell/dict-fr-fr/cspell-ext.json"
+  ]
+}
