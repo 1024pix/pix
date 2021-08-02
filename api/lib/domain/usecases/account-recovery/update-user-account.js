@@ -1,5 +1,5 @@
 const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
-const { AccountRecoveryUserAlreadyConfirmEmail } = require('../../../domain/errors');
+const { UserHasAlreadyLeftSCO } = require('../../../domain/errors');
 
 module.exports = async function updateUserAccount({
   password,
@@ -12,10 +12,11 @@ module.exports = async function updateUserAccount({
 }) {
 
   const { userId, newEmail } = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
-  const user = await userRepository.get(userId);
 
-  if (user && user.emailConfirmedAt) {
-    throw new AccountRecoveryUserAlreadyConfirmEmail();
+  const accountRecoveryDemands = await accountRecoveryDemandRepository.findByUserId(userId);
+
+  if (accountRecoveryDemands.some((accountRecoveryDemand) => accountRecoveryDemand.used)) {
+    throw new UserHasAlreadyLeftSCO();
   }
 
   const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId });

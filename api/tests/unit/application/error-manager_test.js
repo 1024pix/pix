@@ -15,6 +15,7 @@ const {
   UnexpectedUserAccountError,
   UserShouldChangePasswordError,
   MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
+  UserHasAlreadyLeftSCO,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -243,6 +244,19 @@ describe('Unit | Application | ErrorManager', () => {
 
       // then
       expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate UnauthorizedError when UserHasAlreadyLeftSCO', async () => {
+      // given
+      const error = new UserHasAlreadyLeftSCO();
+      sinon.stub(HttpErrors, 'ForbiddenError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message);
     });
 
   });

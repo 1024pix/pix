@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const AccountRecoveryDemand = require('../../domain/models/AccountRecoveryDemand');
 const {
@@ -6,11 +7,15 @@ const {
 } = require('../../domain/errors');
 const DomainTransaction = require('../DomainTransaction');
 
-function _toDomainObject(accountRecoveryDemandDTO) {
+const _toDomain = (accountRecoveryDemandDTO) => {
   return new AccountRecoveryDemand({
     ...accountRecoveryDemandDTO,
   });
-}
+};
+
+const _toDomainArray = (accountRecoveryDemandsDTOs) => {
+  return _.map(accountRecoveryDemandsDTOs, _toDomain);
+};
 
 const demandHasExpired = (demandCreationDate) => {
   const minutesInADay = 60 * 24;
@@ -29,7 +34,7 @@ module.exports = {
   async findByTemporaryKey(temporaryKey) {
 
     const accountRecoveryDemandDTO = await knex
-      .where({ temporaryKey, used: false })
+      .where({ temporaryKey })
       .select('id', 'schoolingRegistrationId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
       .from('account-recovery-demands')
       .first();
@@ -42,7 +47,16 @@ module.exports = {
       throw new AccountRecoveryDemandExpired();
     }
 
-    return _toDomainObject(accountRecoveryDemandDTO);
+    return _toDomain(accountRecoveryDemandDTO);
+  },
+
+  async findByUserId(userId) {
+    const accountRecoveryDemandsDTOs = await knex
+      .select('id', 'schoolingRegistrationId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
+      .from('account-recovery-demands')
+      .where({ userId });
+
+    return _toDomainArray(accountRecoveryDemandsDTOs);
   },
 
   async save(accountRecoveryDemand) {
@@ -50,7 +64,7 @@ module.exports = {
       .insert(accountRecoveryDemand)
       .returning('*');
 
-    return _toDomainObject(result[0]);
+    return _toDomain(result[0]);
   },
 
   markAsBeingUsed(temporaryKey, domainTransaction = DomainTransaction.emptyTransaction()) {
