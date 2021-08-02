@@ -176,7 +176,7 @@ async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embedde
     // For the same reason, don't use the `font` option of `drawText()`.
     // Size gains for 140 certifs: 5 MB -> 700 kB
     newPage.setFont(embeddedFonts.openSansBold);
-    _renderScore(viewModel, newPage, embeddedFonts);
+    _renderScore(viewModel, newPage, embeddedFonts.openSansBold);
     _renderHeaderCandidateInformations(viewModel, newPage, rgb);
     _renderFooter(viewModel, newPage, rgb);
 
@@ -184,7 +184,7 @@ async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embedde
     _renderCompetencesDetails(viewModel, newPage, rgb);
 
     newPage.setFont(embeddedFonts.openSansSemiBold);
-    _renderMaxScore(viewModel, newPage, rgb, embeddedFonts);
+    _renderMaxScore(viewModel, newPage, rgb, embeddedFonts.openSansSemiBold);
     _renderMaxLevel(viewModel, newPage, rgb);
 
     newPage.setFont(embeddedFonts.robotoMonoRegular);
@@ -231,11 +231,10 @@ function _shallowCopy(page, pdfDocument) {
   return newPage;
 }
 
-function _renderScore(viewModel, page, embeddedFonts) {
+function _renderScore(viewModel, page, font) {
   const pixScore = viewModel.pixScore;
   const scoreFontSize = 24;
-  const scoreFont = embeddedFonts.openSansBold;
-  const scoreWidth = scoreFont.widthOfTextAtSize(pixScore, scoreFontSize);
+  const scoreWidth = font.widthOfTextAtSize(pixScore, scoreFontSize);
 
   page.drawText(
     pixScore,
@@ -247,8 +246,7 @@ function _renderScore(viewModel, page, embeddedFonts) {
   );
 }
 
-function _renderMaxScore(viewModel, page, rgb, embeddedFonts) {
-  const font = embeddedFonts.openSansSemiBold;
+function _renderMaxScore(viewModel, page, rgb, font) {
   const maxScoreFontSize = 9;
 
   const maxReachableScore = viewModel.maxReachableScore;
