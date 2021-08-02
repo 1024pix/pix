@@ -857,16 +857,15 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
       });
 
-      context('When the campaign access is forbidden', function() {
+      context('When the campaign is restricted and access is forbidden', function() {
         beforeEach(async function() {
-          campaign = server.create('campaign', { code: 'FORBIDDEN' });
+          campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true });
           await visit(`/campagnes/${campaign.code}`);
-          await clickByLabel('Je commence');
         });
 
         it('should show an error message', async function() {
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}`);
           expect(find('.title').textContent).to.contains('Oups, la page demandée n’est pas accessible.');
         });
       });
