@@ -4,9 +4,9 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import Service from '@ember/service';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | previous-page-button', function(hooks) {
+module('Integration | Component | Ui::PreviousPageButton', function(hooks) {
   setupRenderingTest(hooks);
   let transitionToStub;
 
@@ -20,7 +20,7 @@ module('Integration | Component | previous-page-button', function(hooks) {
 
   test('it should render previous page button', async function(assert) {
     // when
-    await render(hbs`<PreviousPageButton @backButtonAriaLabel="Une instruction"/>`);
+    await render(hbs`<Ui::PreviousPageButton @backButtonAriaLabel="Une instruction"/>`);
 
     // then
     assert.dom('[aria-label="Une instruction"]').exists();
@@ -28,7 +28,7 @@ module('Integration | Component | previous-page-button', function(hooks) {
 
   test('it should render with yielded content', async function(assert) {
     // when
-    await render(hbs`<PreviousPageButton aria-label="Nom de la campagne">Coucou</PreviousPageButton>`);
+    await render(hbs`<Ui::PreviousPageButton aria-label="Nom de la campagne">Coucou</Ui::PreviousPageButton>`);
 
     // then
     assert.dom('[aria-label="Nom de la campagne"]').containsText('Coucou');
@@ -40,7 +40,7 @@ module('Integration | Component | previous-page-button', function(hooks) {
       // given
       this.route = 'someRoute';
       this.routeId = 'someRouteId';
-      await render(hbs`<PreviousPageButton @route={{this.route}} @routeId={{this.routeId}} @backButtonAriaLabel="Une instruction"></PreviousPageButton>`);
+      await render(hbs`<Ui::PreviousPageButton @route={{this.route}} @routeId={{this.routeId}} @backButtonAriaLabel="Une instruction"></Ui::PreviousPageButton>`);
 
       // when
       await clickByLabel('Une instruction');
@@ -53,7 +53,7 @@ module('Integration | Component | previous-page-button', function(hooks) {
       // given
       this.route = 'someRoute';
       this.routeId = 'someRouteId';
-      await render(hbs`<PreviousPageButton @route={{this.route}} @backButtonAriaLabel="Une instruction"></PreviousPageButton>`);
+      await render(hbs`<Ui::PreviousPageButton @route={{this.route}} @backButtonAriaLabel="Une instruction"></Ui::PreviousPageButton>`);
 
       // when
       await clickByLabel('Une instruction');

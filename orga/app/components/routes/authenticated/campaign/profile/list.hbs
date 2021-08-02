@@ -74,7 +74,7 @@
   </div>
 
   {{#if (gt @profiles.length 0)}}
-  <PaginationControl @pagination={{@profiles.meta}}/>
+  <Table::PaginationControl @pagination={{@profiles.meta}}/>
   {{/if}}
   
 {{else}}

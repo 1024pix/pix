@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | progress-bar', function(hooks) {
+module('Integration | Component | Ui::ProgressBar', function(hooks) {
   setupRenderingTest(hooks);
 
   module('Component rendering', function() {
@@ -12,7 +12,7 @@ module('Integration | Component | progress-bar', function(hooks) {
       this.set('value', 80);
 
       // when
-      await render(hbs`<ProgressBar @value={{value}} />`);
+      await render(hbs`<Ui::ProgressBar @value={{value}} />`);
 
       // then
       assert.dom('.progress-bar--completion').hasAttribute('style', 'width: 80%');
@@ -20,7 +20,7 @@ module('Integration | Component | progress-bar', function(hooks) {
 
     test('should render the component with the given children', async function(assert) {
       // when
-      await render(hbs`<ProgressBar>Text</ProgressBar>`);
+      await render(hbs`<Ui::ProgressBar>Text</Ui::ProgressBar>`);
 
       // then
       assert.contains('Text');
