@@ -15,7 +15,7 @@ async function checkBrutForce() {
     MAX_PIX = 1200;
 
   console.time('certificats');
-  console.timeLog('certificats', `\tCreation des ${nbCertificates} certicats`);
+  console.timeLog('certificats', `\tCreation des ${nbCertificates} certificats`);
   await Promise.all(_.times(nbCertificates, addCertification));
 
   console.timeLog('certificats', `\tBrute force sur ${length / 60000} minutes`);

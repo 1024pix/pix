@@ -7,7 +7,7 @@ const {
 describe('Integration | Infrastructure | Utils | csv | certification-results', function () {
   context('#getSessionCertificationResultsCsv', function () {
     context('when no certification has passed complementary certifications', function () {
-      it('should return correct csvContent without complementary certification informations', async function () {
+      it('should return correct csvContent without complementary certification information', async function () {
         // given
         const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
         const competencesWithMark1 = [
@@ -366,7 +366,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
     });
 
     context('when there are several complementary certifications', function () {
-      it('should return correct csvContent with complementary informations', async function () {
+      it('should return correct csvContent with complementary information', async function () {
         // given
         const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
         const competencesWithMark = [
@@ -406,7 +406,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
 
   context('#getDivisionCertificationResultsCsv', function () {
     context('when at least one candidate has passed a certification', function () {
-      it('returns a csv without session informations', async function () {
+      it('returns a csv without session information', async function () {
         // given
         const competencesWithMark1 = [
           domainBuilder.buildCompetenceMark({ competence_code: '1.1', level: 0 }),

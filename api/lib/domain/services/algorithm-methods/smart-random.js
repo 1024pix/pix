@@ -20,7 +20,7 @@ function getPossibleSkillsForNextChallenge({
     return targetSkills.find((skill) => skill.id === ke.skillId);
   });
   const filteredChallenges = _removeChallengesWithAnswer({ challenges, allAnswers });
-  targetSkills = _getSkillsWithAddedInformations({ targetSkills, filteredChallenges, locale });
+  targetSkills = _getSkillsWithAddedInformation({ targetSkills, filteredChallenges, locale });
 
   // First challenge has specific rules
   const { possibleSkillsForNextChallenge, levelEstimated } = isUserStartingTheTest
@@ -83,7 +83,7 @@ function _findFirstChallenge({ knowledgeElements, targetSkills, tubes }) {
   return { possibleSkillsForNextChallenge: filteredSkillsForFirstChallenge, levelEstimated: 2 };
 }
 
-function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges, locale }) {
+function _getSkillsWithAddedInformation({ targetSkills, filteredChallenges, locale }) {
   return _.map(targetSkills, (skill) => {
     const challenges = _.filter(
       filteredChallenges,

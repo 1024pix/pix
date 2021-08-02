@@ -176,7 +176,7 @@ describe('Unit | UseCase | update-membership', function () {
           });
           membershipRepository.get.withArgs(membershipId).resolves(existingMembership);
           certificationCenterRepository.findByExternalId.resolves(null);
-          const membershipWithRelatedUserAndOrganization = Symbol('a membership with related informations');
+          const membershipWithRelatedUserAndOrganization = Symbol('a membership with related information');
           membershipRepository.updateById
             .withArgs({ id: membershipId, membership: givenMembership })
             .resolves(membershipWithRelatedUserAndOrganization);
@@ -271,7 +271,7 @@ describe('Unit | UseCase | update-membership', function () {
         organization,
         user: userWhoseOrganizationRoleIsToUpdate,
       });
-      const membershipWithRelatedUserAndOrganization = Symbol('a membership with related informations');
+      const membershipWithRelatedUserAndOrganization = Symbol('a membership with related information');
       membershipRepository.get.withArgs(membershipId).resolves(existingMembership);
       certificationCenterRepository.findByExternalId.resolves(null);
       membershipRepository.updateById

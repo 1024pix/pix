@@ -1,17 +1,17 @@
 const TABLE_NAME = 'certification-center-memberships';
-const USERID_COLUMN = 'userId';
-const CERTIFICATIONCENTERID_COLUMN = 'certificationCenterId';
+const USER_ID_COLUMN = 'userId';
+const CERTIFICATION_CENTER_ID_COLUMN = 'certificationCenterId';
 
 exports.up = function(knex) {
   return knex.schema.table(TABLE_NAME, function(table) {
-    table.dropIndex(USERID_COLUMN);
-    table.dropIndex(CERTIFICATIONCENTERID_COLUMN);
+    table.dropIndex(USER_ID_COLUMN);
+    table.dropIndex(CERTIFICATION_CENTER_ID_COLUMN);
   });
 };
 
 exports.down = function(knex) {
   return knex.schema.table(TABLE_NAME, function(table) {
-    table.index(USERID_COLUMN);
-    table.index(CERTIFICATIONCENTERID_COLUMN);
+    table.index(USER_ID_COLUMN);
+    table.index(CERTIFICATION_CENTER_ID_COLUMN);
   });
 };

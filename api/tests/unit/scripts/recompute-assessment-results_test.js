@@ -7,7 +7,7 @@ describe('Unit | Scripts | recompute-assessment-results', function () {
       sinon.stub(console, 'log');
     });
 
-    it('shoud call request with assessment informations', function () {
+    it('shoud call request with assessment information', function () {
       // given
       const listOfAssessmentsToRecompute = [123, 987];
       const request = sinon.stub().resolves();

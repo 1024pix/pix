@@ -8,7 +8,7 @@ const validationSchema = Joi.array().unique((a, b) => {
 });
 
 module.exports = {
-  checkValidationUnicity(schoolingRegistrationSet) {
+  checkValidationUniqueness(schoolingRegistrationSet) {
     const { error } = validationSchema.validate(schoolingRegistrationSet.registrations, validationConfiguration);
 
     if (error) {

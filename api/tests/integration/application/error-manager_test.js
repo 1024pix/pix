@@ -64,7 +64,7 @@ describe('Integration | API | Controller Error', function () {
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
-      expect(responseDetail(response)).to.equal('Il reste 2 jours avant de pouvoir réinitiliser la compétence.');
+      expect(responseDetail(response)).to.equal('Il reste 2 jours avant de pouvoir réinitialiser la compétence.');
     });
 
     it('responds Precondition Failed when a AlreadyExistingMembershipError error occurs', async function () {

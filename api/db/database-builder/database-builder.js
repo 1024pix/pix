@@ -65,6 +65,7 @@ module.exports = class DatabaseBuilder {
 
   async _initTablesOrderedByDependencyWithDirtinessMap() {
     // See this link : https://stackoverflow.com/questions/51279588/sort-tables-in-order-of-dependency-postgres
+    // cspell:disable
     const results = await this.knex.raw(`with recursive fk_tree as (
       select t.oid as reloid,
       t.relname as table_name,
@@ -95,6 +96,7 @@ module.exports = class DatabaseBuilder {
       last_table_row from fk_tree )
       select table_name
       from all_tables at where last_table_row = 1 order by level DESC;`);
+    // cspell:enable
 
     this.tablesOrderedByDependencyWithDirtinessMap = _.map(results.rows, ({ table_name }) => {
       return {

@@ -1,14 +1,14 @@
 const TABLE_NAME = 'competence-evaluations';
-const COMPETENCEID_COLUMN = 'competenceId';
+const COMPETENCE_ID_COLUMN = 'competenceId';
 
 exports.up = function(knex) {
   return knex.schema.table(TABLE_NAME, function(table) {
-    table.dropIndex(COMPETENCEID_COLUMN);
+    table.dropIndex(COMPETENCE_ID_COLUMN);
   });
 };
 
 exports.down = function(knex) {
   return knex.schema.table(TABLE_NAME, function(table) {
-    table.index(COMPETENCEID_COLUMN);
+    table.index(COMPETENCE_ID_COLUMN);
   });
 };

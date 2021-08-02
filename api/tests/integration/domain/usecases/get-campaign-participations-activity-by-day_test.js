@@ -14,7 +14,7 @@ describe('Integration | UseCase | get-campaign-participations-activity-by-day', 
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
   });
 
-  context('when requesting user is not allowed to access campaign informations', function () {
+  context('when requesting user is not allowed to access campaign information', function () {
     it('should throw a UserNotAuthorizedToAccessEntityError error', async function () {
       const user2 = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();

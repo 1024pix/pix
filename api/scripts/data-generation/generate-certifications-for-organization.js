@@ -334,7 +334,7 @@ async function _createCompetenceMarksForCompetence({ competence, assessmentResul
 }
 
 function _getChunkSize(objectToBeInserted) {
-  // PostgreSQL autorise au maximum 65536 paramètres bindés dans les requêtes
+  // PostgreSQL autorise au maximum 65536 binded parameters dans les requêtes
   const MAX_BINDED_PG = 65536;
   if (objectToBeInserted) {
     return Math.floor(MAX_BINDED_PG / Object.keys(objectToBeInserted).length) - 1;

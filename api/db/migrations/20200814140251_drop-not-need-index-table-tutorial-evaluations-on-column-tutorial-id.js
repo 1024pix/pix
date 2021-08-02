@@ -1,14 +1,14 @@
 const TABLE_NAME = 'tutorial-evaluations';
-const TUTORIALID_COLUMN = 'tutorialId';
+const TUTORIAL_ID_COLUMN = 'tutorialId';
 
 exports.up = function(knex) {
   return knex.schema.table(TABLE_NAME, function(table) {
-    table.dropIndex(TUTORIALID_COLUMN);
+    table.dropIndex(TUTORIAL_ID_COLUMN);
   });
 };
 
 exports.down = function(knex) {
   return knex.schema.table(TABLE_NAME, function(table) {
-    table.index(TUTORIALID_COLUMN);
+    table.index(TUTORIAL_ID_COLUMN);
   });
 };

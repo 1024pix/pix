@@ -1,4 +1,4 @@
-
+// cspell:disable
 exports.up = async function(knex) {
   await knex('competence-marks')
     .whereNull('competenceId')

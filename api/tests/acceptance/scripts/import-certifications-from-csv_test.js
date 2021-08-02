@@ -393,7 +393,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', function ()
 
     it(
       'should return a promise resolving to an array of objects ' +
-        'containing the API error and relevant informations to find the csv row',
+        'containing the API error and relevant information to find the csv row',
       function () {
         // given
         const expectedBody1 = {

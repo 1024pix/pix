@@ -175,7 +175,7 @@ describe('Integration | Repository | Certification Course', function () {
     });
 
     context('When the certification course exists', function () {
-      it('should retrieve certification course informations', async function () {
+      it('should retrieve certification course information', async function () {
         // when
         const actualCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 

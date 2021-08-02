@@ -1,5 +1,6 @@
 const TABLE_NAME = 'assessments';
 
+// cspell:disable
 exports.up = function(knex) {
   return knex(TABLE_NAME)
     .where({
@@ -27,6 +28,7 @@ exports.up = function(knex) {
       END`),
     });
 };
+// cspell:enable
 
 exports.down = function(knex) {
   return knex(TABLE_NAME)

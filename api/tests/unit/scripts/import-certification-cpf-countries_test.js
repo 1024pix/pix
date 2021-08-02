@@ -1,5 +1,5 @@
 const { expect, catchErr, sinon } = require('../../test-helper');
-const { buildCountries, checkTransformUnicity } = require('../../../scripts/import-certification-cpf-countries');
+const { buildCountries, checkTransformUniqueness } = require('../../../scripts/import-certification-cpf-countries');
 const { noop } = require('lodash/noop');
 
 describe('Unit | Scripts | import-certification-cpf-countries.js', function () {
@@ -127,7 +127,7 @@ describe('Unit | Scripts | import-certification-cpf-countries.js', function () {
     });
   });
 
-  describe('#checkTransformUnicity', function () {
+  describe('#checkTransformUniqueness', function () {
     describe('#when there are no conflicts', function () {
       it('should not throw an error', async function () {
         const countries = [
@@ -150,7 +150,7 @@ describe('Unit | Scripts | import-certification-cpf-countries.js', function () {
             matcher: 'AACDEELMMNOOPSSSTTUY',
           },
         ];
-        const error = checkTransformUnicity(countries);
+        const error = checkTransformUniqueness(countries);
 
         // then
         expect(error).to.be.undefined;
@@ -187,7 +187,7 @@ describe('Unit | Scripts | import-certification-cpf-countries.js', function () {
             matcher: 'AAAAACDEELLLLMMNOOPSSSTTUY',
           },
         ];
-        const error = await catchErr(checkTransformUnicity)(countries);
+        const error = await catchErr(checkTransformUniqueness)(countries);
 
         // then
         expect(error).to.be.instanceOf(Error);

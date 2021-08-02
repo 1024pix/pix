@@ -1,13 +1,17 @@
 const TABLE_NAME = 'schooling-registrations';
 
 exports.up = async function(knex) {
+  // cspell:disable-next
   await knex.raw('CREATE INDEX "organizationid_studentnumber_index" ON "schooling-registrations" ("organizationId", "studentNumber");');
+  // cspell:disable-next
   await knex.raw('CREATE UNIQUE INDEX "organizationid_studentnumber_notsupernumerary_index" ON "schooling-registrations" ("organizationId", "studentNumber") WHERE "isSupernumerary" IS FALSE;');
   return knex.schema.table(TABLE_NAME, (table) => table.dropUnique(['studentNumber', 'organizationId']));
 };
 
 exports.down = async function(knex) {
   await knex.schema.table(TABLE_NAME, (table) => table.unique(['studentNumber', 'organizationId']));
+  // cspell:disable-next
   await knex.raw('DROP INDEX "organizationid_studentnumber_index" ON "schooling-registrations" ("organizationId", "studentNumber");');
+  // cspell:disable-next
   return knex.raw('DROP UNIQUE INDEX "organizationid_studentnumber_notsupernumerary_index" ON "schooling-registrations" ("organizationId", "studentNumber") WHERE "isSupernumerary" IS FALSE;');
 };

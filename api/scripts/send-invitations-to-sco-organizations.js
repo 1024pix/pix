@@ -63,7 +63,7 @@ async function main() {
 
     console.log('Reading and parsing csv file... ');
     const csvData = await parseCsvWithHeader(filePath);
-    console.log(`Succesfully read ${csvData.length} records.`);
+    console.log(`Successfully read ${csvData.length} records.`);
 
     console.log('Preparing data before sending... ');
     const invitations = await prepareDataForSending(csvData);

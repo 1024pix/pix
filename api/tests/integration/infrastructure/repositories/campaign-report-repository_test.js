@@ -536,7 +536,7 @@ describe('Integration | Repository | Campaign-Report', function () {
 
       context('when the given filter search property is not searchable', function () {
         // given
-        const filter = { code: 'FAKECODE' };
+        const filter = { code: 'FAKE_CODE' };
         const page = { number: 1, size: 10 };
 
         beforeEach(function () {

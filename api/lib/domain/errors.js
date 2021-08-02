@@ -291,7 +291,7 @@ class SendingEmailToResultRecipientError extends DomainError {
 
 class CompetenceResetError extends DomainError {
   constructor(remainingDaysBeforeReset) {
-    super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence.`);
+    super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitialiser la compétence.`);
   }
 }
 

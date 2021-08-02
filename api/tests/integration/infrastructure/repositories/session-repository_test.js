@@ -146,7 +146,7 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
     });
 
-    it('should return session informations in a session Object', async function () {
+    it('should return session information in a session Object', async function () {
       // when
       const actualSession = await sessionRepository.get(session.id);
 
@@ -210,7 +210,7 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
     });
 
-    it('should return session informations in a session Object', async function () {
+    it('should return session information in a session Object', async function () {
       // when
       const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
 

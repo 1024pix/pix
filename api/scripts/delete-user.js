@@ -166,7 +166,7 @@ class ScriptQueryBuilder {
 
   _precondition_array_must_not_be_empty(assessment_ids) {
     if (assessment_ids.length === 0) {
-      throw new Error('asssessment_ids array must not be empty');
+      throw new Error('assessment_ids array must not be empty');
     }
   }
 }

@@ -11,7 +11,7 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 const { SHARED } = CampaignParticipation.statuses;
 
-function _getUniqMostRecents(knowledgeElements) {
+function _getLatestUnique(knowledgeElements) {
   return _(knowledgeElements).orderBy('createdAt', 'desc').uniqBy('skillId').value();
 }
 
@@ -20,7 +20,7 @@ function _dropResetKnowledgeElements(knowledgeElements) {
 }
 
 function _applyFilters(knowledgeElements) {
-  const uniqsMostRecentPerSkill = _getUniqMostRecents(knowledgeElements);
+  const uniqsMostRecentPerSkill = _getLatestUnique(knowledgeElements);
   return _dropResetKnowledgeElements(uniqsMostRecentPerSkill);
 }
 

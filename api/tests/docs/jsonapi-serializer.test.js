@@ -51,7 +51,7 @@ describe('Docs | jsonapi-serializer', function () {
           attributes: {
             'first-name': 'John',
             // "last-name": "Doe", This wont be present because it was not declared as an attribute
-            car: { id: 1, name: 'Ferrari', type: 'propulsion' }, // when relationship is not explicitly declared, its just embeded as json
+            car: { id: 1, name: 'Ferrari', type: 'propulsion' }, // when relationship is not explicitly declared, its just embedded as json
           },
           id: '1',
           type: 'users',

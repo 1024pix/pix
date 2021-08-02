@@ -1,6 +1,7 @@
 const TABLE_NAME = 'campaign-participations';
 
 exports.up = async function(knex) {
+  // cspell:disable
   await knex.raw(`
     DELETE FROM "campaign-participations"
     WHERE id IN (
@@ -12,6 +13,7 @@ exports.up = async function(knex) {
       AND cp."createdAt" < cpbis."createdAt"
     );
   `);
+  // cspell:enable
 
   await knex.schema.table(TABLE_NAME, (table) => {
     table.unique(['campaignId', 'userId']);

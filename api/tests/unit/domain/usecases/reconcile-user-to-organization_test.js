@@ -113,7 +113,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
         userId,
         updatedAt: '2020-07-10',
       });
-      const mostRecentSchoolinRegistrationInOtherOrganization = domainBuilder.buildSchoolingRegistration({
+      const latestSchoolinRegistrationInOtherOrganization = domainBuilder.buildSchoolingRegistration({
         userId,
         nationalStudentId,
         updatedAt: '2020-07-20',

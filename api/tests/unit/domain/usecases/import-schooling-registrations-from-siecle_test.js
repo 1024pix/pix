@@ -43,7 +43,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
     sinon.restore();
   });
 
-  context('when extracted schoolingRegistrations informations can be imported', function () {
+  context('when extracted schoolingRegistrations information can be imported', function () {
     payload = { path: 'file.csv' };
     const buffer = 'data';
 
@@ -53,7 +53,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
     });
 
     context('when the format is CSV', function () {
-      it('should save these informations', async function () {
+      it('should save these information', async function () {
         const organization = Symbol('organization');
         organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
 
@@ -115,7 +115,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
         format = 'xml';
       });
 
-      it('should save these informations', async function () {
+      it('should save these information', async function () {
         // given
         payload = { path: 'file.xml' };
 

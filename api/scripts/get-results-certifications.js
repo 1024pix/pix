@@ -89,7 +89,7 @@ function toCSVRow(rowJSON) {
     commentOrganization,
     commentJury,
     note,
-    ...competencess
+    ...competences
   ] = HEADERS;
 
   res[id] = certificationData['certification-id'];
@@ -121,7 +121,7 @@ function toCSVRow(rowJSON) {
 
   res[note] = certificationData['pix-score'];
 
-  competencess.forEach((column) => {
+  competences.forEach((column) => {
     res[column] = findCompetence(certificationData['competences-with-mark'], column);
   });
 

@@ -32,7 +32,7 @@ function _resetProgression() {
 }
 
 function _getChunkSize(objectToBeInserted) {
-  // PostgreSQL autorise au maximum 65536 paramètres bindés dans les requêtes
+  // PostgreSQL autorise au maximum 65536 binded parameters dans les requêtes
   const MAX_BINDED_PG = 65536;
   if (objectToBeInserted) {
     return Math.floor(MAX_BINDED_PG / Object.keys(objectToBeInserted).length) - 1;
@@ -216,7 +216,7 @@ async function _createCampaign({ organizationId, campaignType, targetProfileId }
     .returning('id')
     .insert({
       name: `Campaign_${organizationId}_${targetProfileId}`,
-      code: 'FAKECODE',
+      code: 'FAKE_CODE',
       organizationId,
       creatorId: adminMemberId,
       targetProfileId,

@@ -1,6 +1,6 @@
 const SchoolingRegistration = require('../../../domain/models/SchoolingRegistration');
 const { checkValidation } = require('../../../domain/validators/schooling-registration-validator');
-const { checkValidationUnicity } = require('../../../domain/validators/schooling-registration-set-validator');
+const { checkValidationUniqueness } = require('../../../domain/validators/schooling-registration-set-validator');
 
 const { CsvRegistrationParser } = require('./csv-registration-parser');
 const { CsvImportError } = require('../../../../lib/domain/errors');
@@ -26,7 +26,7 @@ class SchoolingRegistrationSet {
     const transformedAttributes = this._transform(registrationAttributes);
     const registration = new SchoolingRegistration(transformedAttributes);
     this.registrations.push(registration);
-    checkValidationUnicity(this);
+    checkValidationUniqueness(this);
   }
 
   _transform(registrationAttributes) {

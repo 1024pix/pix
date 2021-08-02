@@ -1,6 +1,7 @@
 const TABLE_NAME = 'competence-marks';
 const COLUMN_NAME = 'competenceId';
 
+// cspell:disable
 exports.up = async function(knex) {
   await knex.schema.table(TABLE_NAME, (table) => {
     table.string(COLUMN_NAME);

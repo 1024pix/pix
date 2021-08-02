@@ -1,6 +1,7 @@
 const { batch } = require('../batch-processing');
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 const TABLE_NAME_CERTIFICATIONS = 'certification-courses';
+// cspell:disable
 const LIST_COMPETENCES_PLACEMENT = [
   'recRlIVstCemVM8jE',
   'recfLYUy8fYlcyAsl',
@@ -18,6 +19,8 @@ const LIST_COMPETENCES_PLACEMENT = [
   'recHOjJHVxjD8m9bz',
   'recR9yCEqgedB0LYQ',
   'recyochcrrSOALQPS'];
+// cspell:enable
+
 const TYPE_PLACEMENT = 'PLACEMENT';
 const TYPE_CERTIFICATION = 'CERTIFICATION';
 const TYPE_DEMO = 'DEMO';

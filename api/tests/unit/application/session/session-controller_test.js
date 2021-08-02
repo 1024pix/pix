@@ -115,7 +115,7 @@ describe('Unit | Controller | sessionController', function () {
     });
 
     context('when session exists', function () {
-      it('should reply serialized session informations', async function () {
+      it('should reply serialized session information', async function () {
         // given
         const foundJurySession = Symbol('foundSession');
         const serializedJurySession = Symbol('serializedSession');
@@ -146,7 +146,7 @@ describe('Unit | Controller | sessionController', function () {
     });
 
     context('when session exists', function () {
-      it('should reply serialized session informations', async function () {
+      it('should reply serialized session information', async function () {
         // given
         const foundSession = Symbol('foundSession');
         const serializedSession = Symbol('serializedSession');

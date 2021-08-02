@@ -60,7 +60,7 @@ function buildCountries({ csvData }) {
     });
 }
 
-function checkTransformUnicity(countries) {
+function checkTransformUniqueness(countries) {
   const grouped = _.groupBy(countries, 'matcher');
   let hasError = false;
   for (const code in grouped) {
@@ -90,7 +90,7 @@ async function main(filePath) {
     console.log('ok');
 
     console.log('Verify data integrity... ');
-    checkTransformUnicity(countries);
+    checkTransformUniqueness(countries);
 
     console.log('Emptying existing countries in database... ');
     await trx('certification-cpf-countries').del();
@@ -122,5 +122,5 @@ if (require.main === module) {
 
 module.exports = {
   buildCountries,
-  checkTransformUnicity,
+  checkTransformUniqueness,
 };

@@ -178,7 +178,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
     });
 
     context('when participation is not shared', function () {
-      it('should show informations regarding a not shared participation', function () {
+      it('should show information regarding a not shared participation', function () {
         // given
         const organization = domainBuilder.buildOrganization();
         const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
@@ -211,7 +211,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
     });
 
     context('when participation is shared', function () {
-      it('should show informations regarding a shared participation', function () {
+      it('should show information regarding a shared participation', function () {
         // given
         const organization = domainBuilder.buildOrganization();
         const campaign = domainBuilder.buildCampaign({ idPixLabel: null });

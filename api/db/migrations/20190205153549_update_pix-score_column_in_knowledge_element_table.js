@@ -12,6 +12,7 @@ exports.down = async function(knex) {
   });
 };
 
+// cspell:disable
 /* Generating the skill value table:
 
 require('dotenv').config();

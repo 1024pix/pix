@@ -99,22 +99,22 @@ async function _retrieveEventsFromAuditTable() {
 async function _printAudit() {
   const dtos = await knex(AUDIT_TABLE).select('sessionId', 'status', 'error');
 
-  const todos = dtos.filter((dto) => dto.status === 'TO DO');
-  const doings = dtos.filter((dto) => dto.status === 'DOING');
-  const dones = dtos.filter((dto) => dto.status === 'DONE');
-  const toRetrys = dtos.filter((dto) => dto.status === 'TO RETRY');
+  const todoEvents = dtos.filter((dto) => dto.status === 'TO DO');
+  const doingEvents = dtos.filter((dto) => dto.status === 'DOING');
+  const doneEvents = dtos.filter((dto) => dto.status === 'DONE');
+  const toRetryEvents = dtos.filter((dto) => dto.status === 'TO RETRY');
 
-  console.error(`😴 TO DO (${todos.length})`);
-  todos.forEach((todo) => console.error(' ' + todo.sessionId));
+  console.error(`😴 TO DO (${todoEvents.length})`);
+  todoEvents.forEach((todo) => console.error(' ' + todo.sessionId));
   console.error('\n\n');
-  console.error(`🤪 DOING (${doings.length})`);
-  doings.forEach((doing) => console.error(' ' + doing.sessionId));
+  console.error(`🤪 DOING (${doingEvents.length})`);
+  doingEvents.forEach((doing) => console.error(' ' + doing.sessionId));
   console.error('\n\n');
-  console.error(`😻 DONE (${dones.length})`);
-  dones.forEach((done) => console.error(' ' + done.sessionId));
+  console.error(`😻 DONE (${doneEvents.length})`);
+  doneEvents.forEach((done) => console.error(' ' + done.sessionId));
   console.error('\n\n');
-  console.error(`👹 TO RETRY (${toRetrys.length})`);
-  toRetrys.forEach((toRetry) => {
+  console.error(`👹 TO RETRY (${toRetryEvents.length})`);
+  toRetryEvents.forEach((toRetry) => {
     console.error(' ' + toRetry.sessionId);
     console.error(' ' + toRetry.error);
   });

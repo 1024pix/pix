@@ -138,7 +138,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         await databaseBuilder.commit();
       });
 
-      it('should return user informations for the given SAML ID', async function () {
+      it('should return user information for the given SAML ID', async function () {
         // when
         const user = await userRepository.getBySamlId('some-saml-id');
 
@@ -173,7 +173,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         await databaseBuilder.commit();
       });
 
-      it('should return user informations for the given external identity id', async function () {
+      it('should return user information for the given external identity id', async function () {
         // when
         const foundUser = await userRepository.findByPoleEmploiExternalIdentifier(externalIdentityId);
 
@@ -263,7 +263,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         await _insertUserWithOrganizationsAndCertificationCenterAccesses();
       });
 
-      it('should return user informations for the given email', async function () {
+      it('should return user information for the given email', async function () {
         // given
         const expectedUser = new User(userInDB);
 
@@ -280,7 +280,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(foundUser.cgu).to.equal(expectedUser.cgu);
       });
 
-      it('should return user informations for the given email (case insensitive)', async function () {
+      it('should return user information for the given email (case insensitive)', async function () {
         // given
         const expectedUser = new User(userInDB);
         const uppercaseEmailAlreadyInDb = userInDB.email.toUpperCase();
@@ -294,7 +294,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(foundUser.email).to.equal(expectedUser.email);
       });
 
-      it('should return user informations for the given username', async function () {
+      it('should return user information for the given username', async function () {
         // given
         const expectedUser = new User(userInDB);
 

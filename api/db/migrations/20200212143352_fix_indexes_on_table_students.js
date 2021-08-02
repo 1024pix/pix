@@ -1,24 +1,24 @@
 const TABLE_NAME = 'students';
-const USERID_COLUMN = 'userId';
-const ORGANIZATIONID_COLUMN = 'organizationId';
-const NATIONALSTUDENTID_COLUMN = 'nationalStudentId';
+const USER_ID_COLUMN = 'userId';
+const ORGANIZATION_ID_COLUMN = 'organizationId';
+const NATIONAL_STUDENT_ID_COLUMN = 'nationalStudentId';
 
 exports.up = function(knex) {
   return knex.schema.table(TABLE_NAME, function(table) {
-    table.dropIndex(NATIONALSTUDENTID_COLUMN);
-    table.dropIndex(ORGANIZATIONID_COLUMN);
-    table.dropIndex(USERID_COLUMN);
-    table.dropUnique([NATIONALSTUDENTID_COLUMN, ORGANIZATIONID_COLUMN]);
-    table.unique([ORGANIZATIONID_COLUMN, NATIONALSTUDENTID_COLUMN]);
+    table.dropIndex(NATIONAL_STUDENT_ID_COLUMN);
+    table.dropIndex(ORGANIZATION_ID_COLUMN);
+    table.dropIndex(USER_ID_COLUMN);
+    table.dropUnique([NATIONAL_STUDENT_ID_COLUMN, ORGANIZATION_ID_COLUMN]);
+    table.unique([ORGANIZATION_ID_COLUMN, NATIONAL_STUDENT_ID_COLUMN]);
   });
 };
 
 exports.down = function(knex) {
   return knex.schema.table(TABLE_NAME, function(table) {
-    table.index(NATIONALSTUDENTID_COLUMN);
-    table.index(ORGANIZATIONID_COLUMN);
-    table.index(USERID_COLUMN);
-    table.unique([NATIONALSTUDENTID_COLUMN, ORGANIZATIONID_COLUMN]);
-    table.dropUnique([ORGANIZATIONID_COLUMN, NATIONALSTUDENTID_COLUMN]);
+    table.index(NATIONAL_STUDENT_ID_COLUMN);
+    table.index(ORGANIZATION_ID_COLUMN);
+    table.index(USER_ID_COLUMN);
+    table.unique([NATIONAL_STUDENT_ID_COLUMN, ORGANIZATION_ID_COLUMN]);
+    table.dropUnique([ORGANIZATION_ID_COLUMN, NATIONAL_STUDENT_ID_COLUMN]);
   });
 };

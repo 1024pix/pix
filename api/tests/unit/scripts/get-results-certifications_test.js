@@ -75,7 +75,7 @@ describe('Unit | Scripts | get-results-certifications.js', function () {
       expect(result).to.have.all.keys(HEADERS);
     });
 
-    it('should extract all the informations of the certification', function () {
+    it('should extract all the information of the certification', function () {
       // given
       const object = {
         data: {

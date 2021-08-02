@@ -52,7 +52,7 @@ function _getParticipations(qb, campaignId, targetProfile, filters) {
     .where('campaign-participations.status', '=', SHARED)
     .where('campaign-participations.isImproved', '=', false)
     .modify(_filterByDivisions, filters)
-    .modify(_addAcquiredBadgeids, filters)
+    .modify(_addAcquiredBadgeIds, filters)
     .modify(_filterByStage, targetProfile, filters);
 }
 
@@ -63,7 +63,7 @@ function _filterByDivisions(qb, filters) {
   }
 }
 
-function _addAcquiredBadgeids(qb, filters) {
+function _addAcquiredBadgeIds(qb, filters) {
   if (filters.badges) {
     qb.select(knex.raw('ARRAY_AGG("badgeId") OVER (PARTITION BY "campaign-participations"."id") as badges_acquired'))
       .join('badge-acquisitions', 'badge-acquisitions.campaignParticipationId', 'campaign-participations.id')

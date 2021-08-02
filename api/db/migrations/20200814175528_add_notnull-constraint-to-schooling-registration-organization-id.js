@@ -6,6 +6,7 @@
 //     });
 // };
 // migration failed with error: alter table "schooling-registrations" alter column "organizationId" type varchar(255) using ("organizationId"::varchar(255)) -
+// cspell:disable-next
 // foreign key constraint "students_organizationid_foreign" cannot be implemented
 
 exports.up = function(knex) {
