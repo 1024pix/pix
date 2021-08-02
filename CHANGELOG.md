@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.80.0 (02/08/2021)
+
+- [#3257](https://github.com/1024pix/pix/pull/3257) [FEATURE][A11Y] Permettre la navigation au clavier dans la liste des sessions (PIX-2691)
+- [#3263](https://github.com/1024pix/pix/pull/3263) [FEATURE] Ne permettre qu'une seule récupération de compte SCO - API (PIX-2911).
+- [#3261](https://github.com/1024pix/pix/pull/3261) [FEATURE] Mettre en page la récupération d'un compte SCO (PIX-2903).
+- [#3187](https://github.com/1024pix/pix/pull/3187) [FEATURE] Ajout du filtre classe sur la page Activité pour les organisations SCO (PIX-2670).
+- [#3265](https://github.com/1024pix/pix/pull/3265) [TECH] Modifier les composants génériques d'UI dans Pix Orga (PIX-2913)
+- [#3259](https://github.com/1024pix/pix/pull/3259) [TECH] Modifier les composants de participation à une campagne de profil dans Pix Orga (PIX-2910)
+- [#3258](https://github.com/1024pix/pix/pull/3258) [TECH] Modifier les composants de participation à une campagne d'eval dans Pix Orga (PIX-2908)
+- [#3204](https://github.com/1024pix/pix/pull/3204) [CLEANUP] Utilise le nom de domaine images.pix.fr
+
 ## v3.79.0 (30/07/2021)
 
 - [#3216](https://github.com/1024pix/pix/pull/3216) [FEATURE] Choisir un mot de passe lors de la récupération d'un compte SCO (PIX-2740). 
