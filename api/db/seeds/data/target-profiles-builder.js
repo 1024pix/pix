@@ -101,7 +101,7 @@ function _buildTargetProfileOnCompetence(databaseBuilder) {
   databaseBuilder.factory.buildTargetProfile({
     id: TARGET_PROFILE_ONE_COMPETENCE_ID,
     name: 'Résoudre des problèmes techniques (compétence 5.1)',
-    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/profil-cible/Illu_classe2.svg',
+    imageUrl: 'https://images.pix.fr/profil-cible/Illu_classe2.svg',
     isPublic: false,
     ownerOrganizationId: PRO_COMPANY_ID,
   });
@@ -125,7 +125,7 @@ function _buildTargetProfileWithStagesAndBadges(databaseBuilder) {
     name: 'Parcours avec paliers & résultats thématiques',
     isPublic: true,
     ownerOrganizationId: null,
-    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/profil-cible/Illu_classe2.svg',
+    imageUrl: 'https://images.pix.fr/profil-cible/Illu_classe2.svg',
   });
 
   [ 'rectL2ZZeWPc7yezp', 'recndXqXiv4pv2Ukp', 'recMOy4S8XnaWblYI', 'recagUd44RPEWti0X', 'recrvTvLTUXEcUIV1',

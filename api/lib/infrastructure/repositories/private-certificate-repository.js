@@ -101,8 +101,8 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     .orderBy('partnerKey');
 
   return _.compact(_.map(results, (result) => {
-    if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/maitre.svg';
-    if (result.partnerKey === pixPlusDroitExpertBadgeKey) return 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg';
+    if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg';
+    if (result.partnerKey === pixPlusDroitExpertBadgeKey) return 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg';
     return null;
   }));
 }

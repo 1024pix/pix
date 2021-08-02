@@ -358,8 +358,8 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
           pixScore: 51,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg',
-            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/maitre.svg',
+            'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+            'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -425,7 +425,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
           pixScore: 51,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
           certifiedBadgeImages: [
-            'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges-certifies/pix-droit/expert.svg',
+            'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
           ],
         };
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
