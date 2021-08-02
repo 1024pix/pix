@@ -1,4 +1,4 @@
-<div class="table--with-row-clickable" role="tabpanel">
+<div class="table--with-row-clickable session-summary-list" role="tabpanel">
   <div class="panel">
     <div class="table content-text content-text--small">
       <table>
@@ -36,8 +36,17 @@
 
         <tbody>
         {{#each @sessionSummaries as |sessionSummary|}}
-          <tr aria-label="Session de certification" role="button" {{on 'click' (fn @goToSessionDetails sessionSummary.id)}} class="tr--clickable">
-            <td>{{sessionSummary.id}}</td>
+          <tr aria-label="Session de certification" {{on 'click' (fn @goToSessionDetails sessionSummary.id)}} class="tr--clickable">
+            <td>
+              <LinkTo
+                @route="authenticated.sessions.details"
+                @model={{sessionSummary.id}}
+                class="session-summary-list__link"
+                aria-label="Session {{sessionSummary.id}}"
+              >
+                {{sessionSummary.id}}
+              </LinkTo>
+            </td>
             <td>{{sessionSummary.address}}</td>
             <td>{{sessionSummary.room}}</td>
             <td>{{moment-format sessionSummary.date 'DD/MM/YYYY' allow-empty=true}}</td>
