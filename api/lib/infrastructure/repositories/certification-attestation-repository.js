@@ -54,16 +54,22 @@ function _selectCertificationAttestations() {
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-    .leftJoin({ 'newerAssessmentResults': 'assessment-results' }, function() {
-      this.on('newerAssessmentResults.assessmentId', 'assessments.id')
-        .andOn('assessment-results.createdAt', '<', knex.ref('newerAssessmentResults.createdAt'))
-        .andOn('newerAssessmentResults.status', '=', knex.raw('?', [AssessmentResult.status.VALIDATED]));
-    })
     .join('sessions', 'sessions.id', 'certification-courses.sessionId')
-    .whereNull('newerAssessmentResults.id')
-    .where('assessment-results.status', AssessmentResult.status.VALIDATED)
+    .modify(_filterMostRecentValidatedAssessmentResult)
     .where('certification-courses.isPublished', true)
     .where('certification-courses.isCancelled', false);
+}
+
+function _filterMostRecentValidatedAssessmentResult(qb) {
+  return qb
+    .whereNotExists(
+      knex.select(1)
+        .from({ 'last-assessment-results': 'assessment-results' })
+        .where('last-assessment-results.status', AssessmentResult.status.VALIDATED)
+        .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
+        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
+    )
+    .where('assessment-results.status', AssessmentResult.status.VALIDATED);
 }
 
 async function _getCleaCertificationImagePath(certificationCourseId) {
