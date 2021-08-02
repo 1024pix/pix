@@ -143,7 +143,8 @@ export default class SkillReview extends Component {
   }
 
   @action
-  async redirectToSignupIfUserIsAnonymous() {
+  async redirectToSignupIfUserIsAnonymous(event) {
+    event.preventDefault();
     if (this.currentUser.user.isAnonymous) {
       await this.session.invalidate();
       this.router.transitionTo('inscription');
