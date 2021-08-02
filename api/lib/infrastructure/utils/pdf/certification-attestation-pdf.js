@@ -7,8 +7,6 @@ const _ = require('lodash');
 
 const AttestationViewModel = require('./AttestationViewModel');
 
-const _forTestOnly = {};
-
 const fonts = {
   openSansBold: 'OpenSans-Bold.ttf',
   openSansSemiBold: 'OpenSans-SemiBold.ttf',
@@ -40,7 +38,6 @@ async function getCertificationAttestationsPdfBuffer({
 
   await _render({ templatePdfPages, pdfDocument: generatedPdfDoc, viewModels, rgb, embeddedFonts, embeddedImages });
 
-  _forTestOnly.generatedPdfDoc = generatedPdfDoc;
   const buffer = await _finalizeDocument(generatedPdfDoc, bufferFromBytes);
 
   const fileName = `attestation-pix-${moment(certificates[0].deliveredAt).format('YYYYMMDD')}.pdf`;
@@ -48,6 +45,7 @@ async function getCertificationAttestationsPdfBuffer({
   return {
     buffer: buffer,
     fileName,
+    generatedPdfDoc,
   };
 }
 
@@ -399,5 +397,4 @@ async function _finalizeDocument(pdfDocument, bufferFromBytes) {
 
 module.exports = {
   getCertificationAttestationsPdfBuffer,
-  _forTestOnly,
 };

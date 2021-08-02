@@ -1,5 +1,5 @@
 const { domainBuilder } = require('../../../../test-helper');
-const { getCertificationAttestationsPdfBuffer, _forTestOnly } = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
+const { getCertificationAttestationsPdfBuffer } = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
 require('approvals')
   .mocha();
 const jsonCycle = require('json-cycle');
@@ -19,11 +19,11 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     });
 
     // when
-    await getCertificationAttestationsPdfBuffer({
+    const { generatedPdfDoc } = await getCertificationAttestationsPdfBuffer({
       certificates: [certificate],
     });
 
-    this.verifyAsJSON(jsonCycle.decycle(_forTestOnly.generatedPdfDoc),
+    this.verifyAsJSON(jsonCycle.decycle(generatedPdfDoc),
       {
         reporters: ['gitdiff'],
       });
@@ -59,7 +59,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     });
 
     // when
-    await getCertificationAttestationsPdfBuffer({
+    const { generatedPdfDoc } = await getCertificationAttestationsPdfBuffer({
       certificates: [
         certificateWithCleaAndPixPlusDroitMaitre,
         certificateWithCleaAndPixPlusDroitExpert,
@@ -68,7 +68,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     });
 
     // then
-    this.verifyAsJSON(jsonCycle.decycle(_forTestOnly.generatedPdfDoc),
+    this.verifyAsJSON(jsonCycle.decycle(generatedPdfDoc),
       {
         reporters: ['gitdiff'],
       });
