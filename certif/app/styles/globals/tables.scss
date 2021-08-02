@@ -41,6 +41,7 @@
 
     tr:hover,
     tr:focus,
+    tr:focus-within,
     tr:active {
       color: $grey-80;
       background-color: $grey-10;
