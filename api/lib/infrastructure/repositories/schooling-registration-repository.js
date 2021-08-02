@@ -278,6 +278,7 @@ module.exports = {
       .query((qb) => {
         qb.where('organizationId', organizationId);
         qb.where('birthdate', birthdate);
+        qb.where('isDisabled', false);
       })
       .fetchAll();
 
@@ -297,7 +298,7 @@ module.exports = {
   async reconcileUserByNationalStudentIdAndOrganizationId({ nationalStudentId, userId, organizationId }) {
     try {
       const schoolingRegistration = await BookshelfSchoolingRegistration
-        .where({ organizationId, nationalStudentId })
+        .where({ organizationId, nationalStudentId, isDisabled: false })
         .save({ userId }, { patch: true });
       return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
     } catch (error) {
