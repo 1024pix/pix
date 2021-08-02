@@ -44,7 +44,7 @@ Router.map(function() {
         this.route('results', { path: '/resultats' });
         this.route('analysis', { path: '/analyse' });
       });
-      this.route('profile', { path: '/:campaign_id/profils/:campaign_participation_id' });
+      this.route('participant-profile', { path: '/:campaign_id/profils/:campaign_participation_id' });
       this.route('campaign', { path: '/:campaign_id' }, function() {
         this.route('activity', { path: '/' });
         this.route('assessment-results', { path: '/resultats-evaluation' });
