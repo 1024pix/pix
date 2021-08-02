@@ -78,6 +78,22 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(contains(COMPETENCE_MASTERY_PERCENTAGE)).to.exist;
       });
 
+      context('When the campaign is restricted and schooling-registration is disabled', function() {
+        beforeEach(function() {
+          campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true, title: 'Parcours restreint' });
+          campaignParticipation = server.create('campaign-participation', { campaign });
+        });
+
+        it('should display results page', async function() {
+          // when
+          await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
+
+          // then
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/resultats`);
+          expect(contains('Parcours restreint')).to.exist;
+        });
+      });
+
       it('should display different competences results when the badge key is PIX_EMPLOI_CLEA', async function() {
         // given
         const BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE = '80%';
