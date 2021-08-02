@@ -1,4 +1,4 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | API | Campaign Management Controller', () => {
@@ -8,7 +8,7 @@ describe('Acceptance | API | Campaign Management Controller', () => {
     server = await createServer();
   });
 
-  describe('GET /api/admin/campaigns/{id', () => {
+  describe('GET /api/admin/campaigns/{id}', () => {
     it('should return the campaign details', async () => {
       // given
       const campaign = databaseBuilder.factory.buildCampaign();
@@ -42,6 +42,33 @@ describe('Acceptance | API | Campaign Management Controller', () => {
 
       // then
       expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('PATCH /api/admin/campaigns/{id}', () => {
+    it('should return the updated campaign', async () => {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({ name: 'odlName' });
+      const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'PATCH',
+        url: `/api/admin/campaigns/${campaign.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        payload: { data: { attributes: {
+          name: 'newName',
+          title: campaign.title,
+          'custom-landing-page-text': campaign.customLandingPageText,
+          'custom-result-page-button-text': null,
+          'custom-result-page-button-url': null,
+          'custom-result-page-text': null } } },
+      });
+      const updatedCampaign = await knex('campaigns').first();
+      // then
+      expect(response.statusCode).to.equal(204);
+      expect(updatedCampaign.name).to.equal('newName');
     });
   });
 });
