@@ -1,4 +1,4 @@
-const { PDFName, PDFDict, PDFPage, PDFDocument, rgb } = require('pdf-lib');
+const { PDFDocument, rgb } = require('pdf-lib');
 const fs = require('fs');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
 const moment = require('moment');
@@ -34,7 +34,7 @@ async function getCertificationAttestationsPdfBuffer({
   const embeddedFonts = await _embedFonts(generatedPdfDoc, fileSystem, dirname);
   const embeddedImages = await _embedImages(generatedPdfDoc, viewModels, imageUtils);
 
-  const templatePdfPages = await _copyTemplatePagesIntoDocument(viewModels, dirname, fileSystem, pdfWriter, generatedPdfDoc);
+  const templatePdfPages = await _embedTemplatePagesIntoDocument(viewModels, dirname, fileSystem, generatedPdfDoc);
 
   await _render({ templatePdfPages, pdfDocument: generatedPdfDoc, viewModels, rgb, embeddedFonts, embeddedImages });
 
@@ -118,24 +118,25 @@ async function _embedPixPlusDroitCertificationImage(pdfDocument, pixPlusDroitCer
   return pngImage;
 }
 
-async function _copyTemplatePagesIntoDocument(viewModels, dirname, fileSystem, pdfWriter, pdfDocument) {
+async function _embedTemplatePagesIntoDocument(viewModels, dirname, fileSystem, pdfDocument) {
   const templatePages = {};
 
   if (_atLeastOneWithComplementaryCertifications(viewModels)) {
-    const copiedPage = await _copyFirstPageFromTemplateByFilename('attestation-template-with-complementary-certifications.pdf', pdfDocument, dirname, fileSystem, pdfWriter);
-    templatePages[templates.withComplementaryCertifications] = copiedPage;
+    const embededPage = await _embedFirstPageFromTemplateByFilename('attestation-template-with-complementary-certifications.pdf', pdfDocument, dirname, fileSystem);
+    templatePages[templates.withComplementaryCertifications] = embededPage;
   }
 
   if (_atLeastOneWithoutComplementaryCertifications(viewModels)) {
-    const copiedPage = await _copyFirstPageFromTemplateByFilename('attestation-template.pdf', pdfDocument, dirname, fileSystem, pdfWriter);
-    templatePages[templates.withoutComplementaryCertifications] = copiedPage;
+    const embededPage = await _embedFirstPageFromTemplateByFilename('attestation-template.pdf', pdfDocument, dirname, fileSystem);
+    templatePages[templates.withoutComplementaryCertifications] = embededPage;
   }
   return templatePages;
 }
 
-async function _copyFirstPageFromTemplateByFilename(templatePdfDocumentFileName, destinationDocument, dirname, fileSystem, pdfWriter) {
-  const template = await _loadTemplateByFilename(templatePdfDocumentFileName, dirname, fileSystem, pdfWriter);
-  return await _copyFirstPageFromTemplateDocument(destinationDocument, template);
+async function _embedFirstPageFromTemplateByFilename(templatePdfDocumentFileName, destinationDocument, dirname, fileSystem) {
+  const templateBuffer = await _loadTemplateByFilename(templatePdfDocumentFileName, dirname, fileSystem);
+  const [ templatePage ] = await destinationDocument.embedPdf(templateBuffer);
+  return templatePage;
 }
 
 function _atLeastOneWithComplementaryCertifications(viewModels) {
@@ -146,26 +147,18 @@ function _atLeastOneWithoutComplementaryCertifications(viewModels) {
   return _.some(viewModels, (viewModel) => !viewModel.shouldDisplayComplementaryCertifications());
 }
 
-async function _copyFirstPageFromTemplateDocument(pdfDocument, template) {
-  const pages = await pdfDocument.copyPages(
-    template,
-    [0],
-  );
-  return pages[0];
-}
-
-async function _loadTemplateByFilename(templateFileName, dirname, fileSystem, pdfWriter) {
+async function _loadTemplateByFilename(templateFileName, dirname, fileSystem) {
   const path = `${dirname}/files/${templateFileName}`;
-  const basePdfBytes = await fileSystem.readFile(path);
-  return await pdfWriter.load(basePdfBytes);
+  return fileSystem.readFile(path);
 }
 
 async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embeddedFonts, embeddedImages }) {
 
   for (const viewModel of viewModels) {
-    const page = await _getTemplatePage(viewModel, templatePdfPages);
-    const newPage = _shallowCopy(page, pdfDocument);
-    pdfDocument.addPage(newPage);
+    const newPage = pdfDocument.addPage();
+
+    const templatePage = await _getTemplatePage(viewModel, templatePdfPages);
+    newPage.drawPage(templatePage);
 
     // Note: calls to setFont() are mutualized outside of the _render* methods
     // to save space. Calling setFont() n times with the same fonts creates
@@ -199,34 +192,6 @@ async function _getTemplatePage(viewModel, templatePdfPages) {
   } else {
     return templatePdfPages.withoutComplementaryCertifications;
   }
-}
-
-function _clonePageResources(pdfDocument, newPageLeaf) {
-  const Resources = pdfDocument.context.lookupMaybe(newPageLeaf.getInheritableAttribute(PDFName.Resources), PDFDict);
-  const ResourcesClone = Resources ? Resources.clone() : pdfDocument.context.obj({});
-
-  ['Font', 'ExtGState', 'XObject'].forEach((key) => {
-    const dict = pdfDocument.context.lookupMaybe(ResourcesClone.get(PDFName[key]), PDFDict);
-    ResourcesClone.set(PDFName[key], dict ? dict.clone() : pdfDocument.context.obj({}));
-  });
-  return ResourcesClone;
-}
-
-function _shallowCopy(page, pdfDocument) {
-  /*
-  Note: as we perform a copy of a page which is already embedded in the document
-  it is drastically more efficient filesize-wise not to use PdfDocument::copyPages as it does not
-  take advantage of fonts and images reuse across the document.
-  PdfDocument::copyPages usage should be limited to copying page from one document to another.
-   */
-  const newPageLeaf = page.node.clone();
-
-  const resourcesClone = _clonePageResources(pdfDocument, newPageLeaf);
-  newPageLeaf.set(PDFName.Resources, resourcesClone);
-
-  const ref = pdfDocument.context.register(newPageLeaf);
-  const newPage = PDFPage.of(newPageLeaf, ref, pdfDocument);
-  return newPage;
 }
 
 function _renderScore(viewModel, page, font) {
