@@ -107,7 +107,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
 
       // then
       assert.true(event.stopPropagation.called);
-      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.assessment', 123, 345));
+      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.participant-assessment', 123, 345));
     });
   });
 });
