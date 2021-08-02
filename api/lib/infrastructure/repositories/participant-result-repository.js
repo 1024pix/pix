@@ -25,7 +25,7 @@ async function _getParticipationResults(userId, campaignId) {
 
   const knowledgeElements = await _findTargetedKnowledgeElements(campaignId, userId, sharedAt);
 
-  const acquiredBadgeIds = await _getAcquiredBadgeIds(userId);
+  const acquiredBadgeIds = await _getAcquiredBadgeIds(userId, campaignParticipationId);
 
   return {
     campaignParticipationId,
@@ -62,8 +62,8 @@ async function _findTargetedKnowledgeElements(campaignId, userId, sharedAt) {
   return knowledgeElementsByUser[userId].filter(({ skillId }) => targetedSkillIds.includes(skillId));
 }
 
-async function _getAcquiredBadgeIds(userId) {
-  return knex('badge-acquisitions').select('badgeId').where({ userId });
+async function _getAcquiredBadgeIds(userId, campaignParticipationId) {
+  return knex('badge-acquisitions').select('badgeId').where({ userId, campaignParticipationId });
 }
 
 async function _getTargetProfile(campaignId, locale) {
