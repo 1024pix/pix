@@ -72,23 +72,15 @@ describe('Unit | Utils | string-utils', () => {
 
   describe('#normalizeAndSortChars', () => {
 
-    it('should normalize and sort chars of the string "ABCDEFGHI"', () => {
-      expect(normalizeAndSortChars(('ABCDEFGHI'))).to.equal('ABCDEFGHI');
-    });
-
-    it(`should normalize and sort chars of a string with non canonical, zero-width and special characters: "Féd '. àBç - (îHg)K${zeroWidthSpaceChar}J"`, () => {
-      expect(normalizeAndSortChars(('Féd \'. àBç - (îHg)K​J'))).to.equal('ABCDEFGHIJK');
+    it(`should normalize and sort chars of a string with non canonical, zero-width and special characters: "Féd '. 4àBç - 2 (îHg)K${zeroWidthSpaceChar}J"`, () => {
+      expect(normalizeAndSortChars(('Féd \'. 4àBç - 2 (îHg)K​J'))).to.equal('24ABCDEFGHIJK');
     });
   });
 
   describe('#normalize', () => {
 
-    it('should normalize chars of the string "ABCDEFGHI"', () => {
-      expect(normalize(('ABCDEFGHI'))).to.equal('ABCDEFGHI');
-    });
-
-    it(`should normalize chars of a string with non canonical, zero-width and special characters: "Féd '. àBç - (îHg)K${zeroWidthSpaceChar}J"`, () => {
-      expect(normalize(('Féd \'. àBç - (îHg)K​J'))).to.equal('FEDABCIHGKJ');
+    it(`should normalize chars of a string with non canonical, zero-width and special characters: "Féd '. 4àBç - 2 (îHg)K${zeroWidthSpaceChar}J"`, () => {
+      expect(normalize(('Féd \'. 4àBç - 2 (îHg)K​J'))).to.equal('FED4ABC2IHGKJ');
     });
   });
 });
