@@ -1,13 +1,13 @@
 <div class="campaign-details-page">
   <div class="campaign-details__header">
     <div class="campaign-details-header__headline">
-      <PreviousPageButton
+      <Ui::PreviousPageButton
         @route="authenticated.campaigns"
         @backButtonAriaLabel={{t 'common.actions.back'}}
         aria-label={{t 'pages.campaign.name'}}
       >
         {{@campaign.name}}
-      </PreviousPageButton>
+      </Ui::PreviousPageButton>
     </div>
 
     <div class="campaign-details-header__report">

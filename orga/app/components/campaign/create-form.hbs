@@ -43,7 +43,7 @@
   {{#if this.isCampaignGoalAssessment}}
     <div class="form__field">
       <label for="campaign-target-profile" class="label">{{t 'pages.campaign-creation.target-profiles-list.label'}}</label>
-      <SelectInput
+      <Ui::SelectInput
         @id="campaign-target-profile"
         @onChange={{this.setSelectedTargetProfile}}
         @options={{this.targetProfilesOptions}}
