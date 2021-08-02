@@ -11,7 +11,7 @@ export default class ProfilesController extends Controller {
   @action
   goToProfilePage(campaignId, campaignParticipationId, event) {
     event.stopPropagation();
-    this.transitionToRoute('authenticated.campaigns.profile', campaignId, campaignParticipationId);
+    this.transitionToRoute('authenticated.campaigns.participant-profile', campaignId, campaignParticipationId);
   }
 
   @action

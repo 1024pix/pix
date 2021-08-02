@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/profile/table', function(hooks) {
+module('Integration | Component | Participant::Profile::Table', function(hooks) {
   setupIntlRenderingTest(hooks);
 
   module('when profile is not shared', function() {
@@ -11,7 +11,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/table', 
       this.isShared = false;
       this.competences = [];
 
-      await render(hbs`<Routes::Authenticated::Campaign::Profile::Table @competences={{competences}} @isShared={{isShared}} />`);
+      await render(hbs`<Participant::Profile::Table @competences={{competences}} @isShared={{isShared}} />`);
 
       assert.contains('En attente de résultats');
     });
@@ -22,7 +22,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/table', 
       this.competences = [{ name: 'name1', areaColor: 'jaffa' }];
       this.isShared = true;
 
-      await render(hbs`<Routes::Authenticated::Campaign::Profile::Table @competences={{competences}} @isShared={{isShared}} />`);
+      await render(hbs`<Participant::Profile::Table @competences={{competences}} @isShared={{isShared}} />`);
 
       assert.dom('.competences-col__border--jaffa').exists();
     });
@@ -31,7 +31,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/table', 
       this.competences = [{ name: 'name1' }, { name: 'name2' }];
       this.isShared = true;
 
-      await render(hbs`<Routes::Authenticated::Campaign::Profile::Table @competences={{competences}} @isShared={{isShared}} />`);
+      await render(hbs`<Participant::Profile::Table @competences={{competences}} @isShared={{isShared}} />`);
 
       assert.contains('name1');
       assert.contains('name2');
@@ -41,7 +41,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/table', 
       this.competences = [{ estimatedLevel: 999, pixScore: 666 }];
       this.isShared = true;
 
-      await render(hbs`<Routes::Authenticated::Campaign::Profile::Table @competences={{competences}} @isShared={{isShared}} />`);
+      await render(hbs`<Participant::Profile::Table @competences={{competences}} @isShared={{isShared}} />`);
 
       assert.contains('666');
       assert.contains('999');
