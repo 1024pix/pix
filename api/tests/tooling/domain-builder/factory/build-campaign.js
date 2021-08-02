@@ -19,6 +19,9 @@ function buildCampaign({
   creator = buildUser(),
   organization = buildOrganization(),
   targetProfile = buildTargetProfile(),
+  customResultPageButtonText = null,
+  customResultPageButtonUrl = null,
+  customResultPageText = null,
 } = {}) {
   return new Campaign({
     id,
@@ -36,6 +39,9 @@ function buildCampaign({
     creator,
     organization,
     targetProfile,
+    customResultPageButtonText,
+    customResultPageButtonUrl,
+    customResultPageText,
   });
 }
 
@@ -55,6 +61,9 @@ buildCampaign.ofTypeAssessment = function({
   creator = buildUser(),
   organization = buildOrganization(),
   targetProfile = buildTargetProfile(),
+  customResultPageButtonText = null,
+  customResultPageButtonUrl = null,
+  customResultPageText = null,
 } = {}) {
   return new Campaign({
     id,
@@ -72,6 +81,9 @@ buildCampaign.ofTypeAssessment = function({
     creator,
     organization,
     targetProfile,
+    customResultPageButtonText,
+    customResultPageButtonUrl,
+    customResultPageText,
   });
 };
 
@@ -89,6 +101,9 @@ buildCampaign.ofTypeProfilesCollection = function({
   createdAt = new Date('2020-01-01'),
   creator = buildUser(),
   organization = buildOrganization(),
+  customResultPageButtonText = null,
+  customResultPageButtonUrl = null,
+  customResultPageText = null,
 } = {}) {
   return new Campaign({
     id,
@@ -106,6 +121,9 @@ buildCampaign.ofTypeProfilesCollection = function({
     creator,
     organization,
     targetProfile: null,
+    customResultPageButtonText,
+    customResultPageButtonUrl,
+    customResultPageText,
   });
 };
 
