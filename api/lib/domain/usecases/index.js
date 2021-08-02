@@ -302,6 +302,7 @@ module.exports = injectDependencies({
   startWritingCampaignProfilesCollectionResultsToStream: require('./start-writing-campaign-profiles-collection-results-to-stream'),
   unarchiveCampaign: require('./unarchive-campaign'),
   updateCampaign: require('./update-campaign'),
+  updateCampaignDetailsManagement: require('./update-campaign-details-management'),
   updateExpiredPassword: require('./update-expired-password'),
   updateMembership: require('./update-membership'),
   updateOrganizationInformation: require('./update-organization-information'),
