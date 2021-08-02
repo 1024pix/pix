@@ -39,7 +39,7 @@ function normalizeAndSortChars(str) {
 function normalize(str) {
   const strCanonical = _removeNonCanonicalChars(str);
   const strUpper = strCanonical.toUpperCase();
-  return [...strUpper].filter((char) => Boolean(char.match(/[A-Z]/))).join('');
+  return [...strUpper].filter((char) => Boolean(char.match(/[0-9A-Z]/))).join('');
 }
 
 function _removeNonCanonicalChars(str) {
