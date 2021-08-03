@@ -98,6 +98,12 @@ export default Factory.extend({
     proposals: 'Station **1** : ${station1}\n' + 'Station *2* : ${station2}',
   }),
 
+  QROCMWithSelect: trait({
+    type: 'QROCM-ind',
+    instruction: 'L\'URL suivante, censée aboutir à un article, donne lieu à une redirection vers la page d\'accueil du site. Retrouvez la page recherchée. Reportez le titre de l’article et son auteur.',
+    proposals: 'Select: ${banana#tomatoPlaceholder§saladAriaLabel options=["mango","potato"]}',
+  }),
+
   timed: trait({
     timer: faker.random.number(),
   }),

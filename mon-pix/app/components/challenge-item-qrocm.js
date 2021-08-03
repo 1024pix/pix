@@ -55,5 +55,6 @@ export default class ChallengeItemQrocm extends ChallengeItemGeneric {
   answerChanged() {
     this.errorMessage = null;
   }
+
 }
 
