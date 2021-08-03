@@ -21,6 +21,7 @@ class CertificationResultInformation {
     birthINSEECode,
     birthCountry,
     birthPostalCode,
+    userId,
     certificationIssueReports,
     assessmentId,
     commentForCandidate,
@@ -48,6 +49,7 @@ class CertificationResultInformation {
     this.birthCountry = birthCountry;
     this.birthPostalCode = birthPostalCode;
     this.certificationIssueReports = certificationIssueReports;
+    this.userId = userId;
     this.assessmentId = assessmentId;
     this.commentForCandidate = commentForCandidate;
     this.commentForOrganization = commentForOrganization;
@@ -82,6 +84,7 @@ class CertificationResultInformation {
       birthINSEECode: generalCertificationInformation.birthINSEECode,
       birthCountry: generalCertificationInformation.birthCountry,
       birthPostalCode: generalCertificationInformation.birthPostalCode,
+      userId: generalCertificationInformation.userId,
       certificationIssueReports: generalCertificationInformation.certificationIssueReports,
       assessmentId: assessmentResult.assessmentId,
       commentForCandidate: assessmentResult.commentForCandidate,

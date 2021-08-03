@@ -51,6 +51,7 @@ function _toDomain({ certificationCourseDTO, certificationIssueReportsDTO }) {
     birthINSEECode: certificationCourseDTO.birthINSEECode,
     birthCountry: certificationCourseDTO.birthCountry,
     sex: certificationCourseDTO.sex,
+    userId: certificationCourseDTO.userId,
     certificationIssueReports,
   });
 }
