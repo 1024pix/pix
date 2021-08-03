@@ -1,5 +1,5 @@
 const { PDFDocument, rgb } = require('pdf-lib');
-const fs = require('fs');
+const { readFile } = require('fs/promises');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
 const moment = require('moment');
 const sharp = require('sharp');
@@ -21,65 +21,60 @@ const templates = {
 
 async function getCertificationAttestationsPdfBuffer({
   certificates,
-  fileSystem = fs.promises,
-  pdfWriter = PDFDocument,
-  bufferFromBytes = Buffer.from,
-  imageUtils = sharp,
   dirname = __dirname,
   fontkit = pdfLibFontkit,
   creationDate = new Date(),
 } = {}) {
 
   const viewModels = certificates.map(AttestationViewModel.from);
-  const generatedPdfDoc = await _initializeNewPDFDocument(pdfWriter, fontkit);
+  const generatedPdfDoc = await _initializeNewPDFDocument(fontkit);
   generatedPdfDoc.setCreationDate(creationDate);
   generatedPdfDoc.setModificationDate(creationDate);
-  const embeddedFonts = await _embedFonts(generatedPdfDoc, fileSystem, dirname);
-  const embeddedImages = await _embedImages(generatedPdfDoc, viewModels, imageUtils);
+  const embeddedFonts = await _embedFonts(generatedPdfDoc, dirname);
+  const embeddedImages = await _embedImages(generatedPdfDoc, viewModels);
 
-  const templatePdfPages = await _embedTemplatePagesIntoDocument(viewModels, dirname, fileSystem, generatedPdfDoc);
+  const templatePdfPages = await _embedTemplatePagesIntoDocument(viewModels, dirname, generatedPdfDoc);
 
   await _render({ templatePdfPages, pdfDocument: generatedPdfDoc, viewModels, rgb, embeddedFonts, embeddedImages });
 
-  const buffer = await _finalizeDocument(generatedPdfDoc, bufferFromBytes);
+  const buffer = await _finalizeDocument(generatedPdfDoc);
 
   const fileName = `attestation-pix-${moment(certificates[0].deliveredAt).format('YYYYMMDD')}.pdf`;
 
   return {
     buffer,
     fileName,
-    generatedPdfDoc,
   };
 }
 
-async function _initializeNewPDFDocument(pdfWriter, fontkit) {
-  const pdfDocument = await pdfWriter.create();
+async function _initializeNewPDFDocument(fontkit) {
+  const pdfDocument = await PDFDocument.create();
   pdfDocument.registerFontkit(fontkit);
   return pdfDocument;
 }
 
-async function _embedFonts(pdfDocument, fileSystem, dirname) {
+async function _embedFonts(pdfDocument, dirname) {
   const embeddedFonts = {};
   for (const fontKey in fonts) {
-    const embeddedFont = await _embedFontInPDFDocument(pdfDocument, fonts[fontKey], fileSystem, dirname);
+    const embeddedFont = await _embedFontInPDFDocument(pdfDocument, fonts[fontKey], dirname);
     embeddedFonts[fontKey] = embeddedFont;
   }
   return embeddedFonts;
 }
 
-async function _embedFontInPDFDocument(pdfDoc, fontFileName, fileSystem, dirname) {
-  const fontFile = await fileSystem.readFile(`${dirname}/files/${fontFileName}`);
+async function _embedFontInPDFDocument(pdfDoc, fontFileName, dirname) {
+  const fontFile = await readFile(`${dirname}/files/${fontFileName}`);
   return pdfDoc.embedFont(fontFile, { subset: true, customName: fontFileName });
 }
 
-async function _embedImages(pdfDocument, viewModels, imageUtils) {
+async function _embedImages(pdfDocument, viewModels) {
   const embeddedImages = {};
   const viewModelsWithCleaCertification =
     _.filter(viewModels, (viewModel) => viewModel.shouldDisplayCleaCertification());
 
   if (viewModelsWithCleaCertification.length > 0) {
     const cleaCertificationImagePath = viewModelsWithCleaCertification[0].cleaCertificationImagePath;
-    const image = await _embedCleaCertificationImage(pdfDocument, cleaCertificationImagePath, imageUtils);
+    const image = await _embedCleaCertificationImage(pdfDocument, cleaCertificationImagePath);
     embeddedImages[cleaCertificationImagePath] = image;
   }
 
@@ -92,15 +87,15 @@ async function _embedImages(pdfDocument, viewModels, imageUtils) {
       .uniq()
       .value();
     for (const path of singleImagePaths) {
-      const image = await _embedPixPlusDroitCertificationImage(pdfDocument, path, imageUtils);
+      const image = await _embedPixPlusDroitCertificationImage(pdfDocument, path);
       embeddedImages[path] = image;
     }
   }
   return embeddedImages;
 }
 
-async function _embedCleaCertificationImage(pdfDocument, cleaCertificationImagePath, imageUtils) {
-  const pngBuffer = await imageUtils(cleaCertificationImagePath)
+async function _embedCleaCertificationImage(pdfDocument, cleaCertificationImagePath) {
+  const pngBuffer = await sharp(cleaCertificationImagePath)
     .resize(80, 100, {
       fit: 'inside',
     })
@@ -110,8 +105,8 @@ async function _embedCleaCertificationImage(pdfDocument, cleaCertificationImageP
   return pngImage;
 }
 
-async function _embedPixPlusDroitCertificationImage(pdfDocument, pixPlusDroitCertificationImagePath, imageUtils) {
-  const pngBuffer = await imageUtils(pixPlusDroitCertificationImagePath)
+async function _embedPixPlusDroitCertificationImage(pdfDocument, pixPlusDroitCertificationImagePath) {
+  const pngBuffer = await sharp(pixPlusDroitCertificationImagePath)
     .resize(100, 120, {
       fit: 'inside',
     })
@@ -121,23 +116,23 @@ async function _embedPixPlusDroitCertificationImage(pdfDocument, pixPlusDroitCer
   return pngImage;
 }
 
-async function _embedTemplatePagesIntoDocument(viewModels, dirname, fileSystem, pdfDocument) {
+async function _embedTemplatePagesIntoDocument(viewModels, dirname, pdfDocument) {
   const templatePages = {};
 
   if (_atLeastOneWithComplementaryCertifications(viewModels)) {
-    const embededPage = await _embedFirstPageFromTemplateByFilename('attestation-template-with-complementary-certifications.pdf', pdfDocument, dirname, fileSystem);
+    const embededPage = await _embedFirstPageFromTemplateByFilename('attestation-template-with-complementary-certifications.pdf', pdfDocument, dirname);
     templatePages[templates.withComplementaryCertifications] = embededPage;
   }
 
   if (_atLeastOneWithoutComplementaryCertifications(viewModels)) {
-    const embededPage = await _embedFirstPageFromTemplateByFilename('attestation-template.pdf', pdfDocument, dirname, fileSystem);
+    const embededPage = await _embedFirstPageFromTemplateByFilename('attestation-template.pdf', pdfDocument, dirname);
     templatePages[templates.withoutComplementaryCertifications] = embededPage;
   }
   return templatePages;
 }
 
-async function _embedFirstPageFromTemplateByFilename(templatePdfDocumentFileName, destinationDocument, dirname, fileSystem) {
-  const templateBuffer = await _loadTemplateByFilename(templatePdfDocumentFileName, dirname, fileSystem);
+async function _embedFirstPageFromTemplateByFilename(templatePdfDocumentFileName, destinationDocument, dirname) {
+  const templateBuffer = await _loadTemplateByFilename(templatePdfDocumentFileName, dirname);
   const [ templatePage ] = await destinationDocument.embedPdf(templateBuffer);
   return templatePage;
 }
@@ -150,9 +145,9 @@ function _atLeastOneWithoutComplementaryCertifications(viewModels) {
   return _.some(viewModels, (viewModel) => !viewModel.shouldDisplayComplementaryCertifications());
 }
 
-async function _loadTemplateByFilename(templateFileName, dirname, fileSystem) {
+async function _loadTemplateByFilename(templateFileName, dirname) {
   const path = `${dirname}/files/${templateFileName}`;
-  return fileSystem.readFile(path);
+  return readFile(path);
 }
 
 async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embeddedFonts, embeddedImages }) {
@@ -357,9 +352,9 @@ function _renderCompetencesDetails(viewModel, page, rgb) {
   });
 }
 
-async function _finalizeDocument(pdfDocument, bufferFromBytes) {
+async function _finalizeDocument(pdfDocument) {
   const pdfBytes = await pdfDocument.save();
-  const buffer = bufferFromBytes(pdfBytes);
+  const buffer = Buffer.from(pdfBytes);
   return buffer;
 }
 
