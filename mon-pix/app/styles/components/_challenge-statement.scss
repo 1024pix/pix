@@ -74,7 +74,6 @@
     display: block;
     font-weight: $font-normal;
     letter-spacing: 0;
-    margin-bottom: 16px;
 
     @include device-is('tablet') {
       font-size: 1rem;
@@ -83,6 +82,10 @@
     p {
       font-weight: $font-bold;
     }
+  }
+
+  &__button {
+    margin-top: 16px;
   }
 }
 
