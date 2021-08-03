@@ -29,33 +29,35 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
 
   context('when account recovery is enabled', () => {
 
-    it('should access account recovery page and show reset password form', async function() {
-      // given
-      const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
-      server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+    context('and user clicks on email link', function() {
 
-      //when
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      it('should show reset password form', async function() {
+        // given
+        const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
-      // then
-      expect(currentURL()).to.equal(`/recuperer-mon-compte/${temporaryKey}`);
-      expect(contains(this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName: 'George' }))).to.exist;
-    });
+        //when
+        await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
-    it('should redirect to error page when user has already left SCO', async function() {
-      // given
-      const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
-      server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
-
-      const errorsApi = new Response(403, {}, {
-        errors: [{
-          status: '403',
-        }],
+        // then
+        expect(currentURL()).to.equal(`/recuperer-mon-compte/${temporaryKey}`);
+        expect(contains(this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName: 'George' }))).to.exist;
       });
-      server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
-      //when
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      it('should display an error message when user has already left SCO', async function() {
+        // given
+        const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+        const errorsApi = new Response(403, {}, {
+          errors: [{
+            status: '403',
+          }],
+        });
+        server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
+
+        //when
+        await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
         // then
         expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
@@ -63,20 +65,20 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
         expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
       });
 
-    it('should redirect to error page when temporary key not found', async function() {
-      // given
-      const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
-      server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+      it('should display an error message when temporary key not found', async function() {
+        // given
+        const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
-      const errorsApi = new Response(404, {}, {
-        errors: [{
-          status: '404',
-        }],
-      });
-      server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
+        const errorsApi = new Response(404, {}, {
+          errors: [{
+            status: '404',
+          }],
+        });
+        server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
-      //when
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
+        //when
+        await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
         // then
         expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
@@ -84,20 +86,20 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
         expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
       });
 
-    it('should redirect to error page when temporary key has expired', async function() {
-      // given
-      const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
-      server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+      it('should display an error message when temporary key has expired', async function() {
+        // given
+        const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
-      const errorsApi = new Response(401, {}, {
-        errors: [{
-          status: '401',
-        }],
-      });
-      server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
+        const errorsApi = new Response(401, {}, {
+          errors: [{
+            status: '401',
+          }],
+        });
+        server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
 
-      //when
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
+        //when
+        await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
         // then
         expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
@@ -105,21 +107,127 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
         expect(contains(this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link'))).to.exist;
       });
 
-    it('should redirect to login page after successful reset password form', async function() {
-      // given
-      const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
-      const newPassword = 'Pix1234*';
-      server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+    });
 
-      //when
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
+    context('and user chooses a new password', function() {
 
-      // then
-      await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await triggerEvent('#password', 'focusout');
-      await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      it('should redirect to login page after successful password change', async function() {
+        // given
+        const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
+        const newPassword = 'Pix1234*';
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
-      expect(currentURL()).to.equal('/connexion');
+        //when
+        await visit(`/recuperer-mon-compte/${temporaryKey}`);
+
+        // then
+        await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+        await triggerEvent('#password', 'focusout');
+        await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+
+        expect(currentURL()).to.equal('/connexion');
+      });
+
+      it('should display an error message when user has already left SCO', async function() {
+        // given
+        const newPassword = 'Pix1234*';
+        const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+        const errorsApi = new Response(403, {}, {
+          errors: [{
+            status: '403',
+          }],
+        });
+        server.patch('/account-recovery', () => errorsApi);
+
+        //when
+        await visit(`/recuperer-mon-compte/${temporaryKey}`);
+        await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+        await triggerEvent('#password', 'focusout');
+        await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+
+        // then
+        expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
+        expect(contains(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
+        expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      });
+
+      it('should display an error message when temporary key not found', async function() {
+        // given
+        const newPassword = 'Pix1234*';
+        const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+        const errorsApi = new Response(404, {}, {
+          errors: [{
+            status: '404',
+          }],
+        });
+        server.patch('/account-recovery', () => errorsApi);
+
+        //when
+        await visit(`/recuperer-mon-compte/${temporaryKey}`);
+        await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+        await triggerEvent('#password', 'focusout');
+        await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+
+        // then
+        expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
+        expect(contains(this.intl.t('pages.account-recovery.errors.key-invalid'))).to.exist;
+        expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      });
+
+      it('should display an error message when temporary key has expired', async function() {
+        // given
+        const newPassword = 'Pix1234*';
+        const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+        const errorsApi = new Response(401, {}, {
+          errors: [{
+            status: '401',
+          }],
+        });
+        server.patch('/account-recovery', () => errorsApi);
+
+        //when
+        await visit(`/recuperer-mon-compte/${temporaryKey}`);
+        await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+        await triggerEvent('#password', 'focusout');
+        await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+
+        // then
+        expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
+        expect(contains(this.intl.t('pages.account-recovery.errors.key-expired'))).to.exist;
+        expect(contains(this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link'))).to.exist;
+      });
+
+      it('should display an error message when internal server error returned', async function() {
+        // given
+        const newPassword = 'Pix1234*';
+        const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+        const errorsApi = new Response(500, {}, {
+          errors: [{
+            status: '500',
+          }],
+        });
+        server.patch('/account-recovery', () => errorsApi);
+
+        //when
+        await visit(`/recuperer-mon-compte/${temporaryKey}`);
+        await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+        await triggerEvent('#password', 'focusout');
+        await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+
+        // then
+        expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
+        expect(contains(this.intl.t('api-error-messages.internal-server-error'))).to.exist;
+        expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      });
+
     });
 
   });
