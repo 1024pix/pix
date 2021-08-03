@@ -68,10 +68,13 @@
                 @size="small"
                 @triggerAction={{this.openCandidateEditModal}}
                 aria-label="Modifier les informations du candidat"
-                @isDisabled={{this.editingCandidateResults}}
+                @isDisabled={{this.isModifyButtonDisabled}}
               >
                 Modifier
               </PixButton>
+              {{#if this.certification.wasRegisteredBeforeCPF}}
+                <span class="candidate-informations__warning-cpf-message">Voir avec PO/Dev pour modifier les infos candidat.</span>
+              {{/if}}
             </div>
           </div>
         </div>
