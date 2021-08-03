@@ -25,7 +25,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
 
       it('should render challenge information and question', () => {
         // then
-        expect(find('.challenge-statement__instruction__text').textContent.trim()).to.equal(qrocmDepChallenge.instruction);
+        expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocmDepChallenge.instruction);
 
         expect(findAll('.challenge-response__proposal')).to.have.lengthOf(2);
         expect(findAll('.challenge-response__proposal')[0].disabled).to.be.false;
@@ -309,7 +309,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
 
       // then
       expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qrocmIndSelectChallenge.instruction);
+      expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal(qrocmIndSelectChallenge.instruction);
 
       const goodAnswers = findAll('.correction-qrocm__solution-text');
       const badAnswersFromUserResult = findAll('.correction-qrocm__answer');
