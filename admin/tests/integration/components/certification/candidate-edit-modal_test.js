@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
@@ -17,9 +17,10 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
     test('it should display the modal', async function(assert) {
       // given
       this.candidate = EmberObject.create({ birthdate: '2000-12-15' });
+      this.countries = [];
 
       // when
-      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} />`);
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{countries}} />`);
 
       // then
       assert.contains('Editer les informations du candidat');
@@ -28,9 +29,10 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
     test('it should not display the modal', async function(assert) {
       // given
       this.candidate = EmberObject.create({ birthdate: '2000-12-15' });
+      this.countries = [];
 
       // when
-      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{false}} @candidate={{candidate}}  />`);
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{false}} @candidate={{candidate}} @countries={{countries}} />`);
 
       // then
       assert.notContains('Editer les informations du candidat');
@@ -41,13 +43,29 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
     test('it should reset form', async function(assert) {
       // given
-      this.candidate = EmberObject.create({ firstName: 'Fabrice', lastName: 'Gadjo', birthdate: '2000-12-15', birthplace: 'Trouville' });
+      this.candidate = EmberObject.create({
+        firstName: 'Fabrice',
+        lastName: 'Gadjo',
+        birthdate: '2000-12-15',
+        sex: 'F',
+        birthInseeCode: '99101',
+        birthplace: 'Copenhague',
+        birthCountry: 'DANEMARK',
+      });
+      this.countries = [
+        EmberObject.create({ code: '99101', name: 'DANEMARK' }),
+        EmberObject.create({ code: '99100', name: 'FRANCE' }),
+      ];
       this.onCancelButtonsClickedStub = sinon.stub();
-      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}}/>`);
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`);
       await fillInByLabel('Nom de famille', 'Belmans');
       await fillInByLabel('Prénom', 'Gideon');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
-      await fillInByLabel('Commune de naissance', 'Ormeshadow');
+      await click('#male');
+      await fillInByLabel('Pays de naissance', '99100');
+      await click('#postal-code-choice');
+      await fillInByLabel('Code postal de naissance', '75001');
+      await fillInByLabel('Commune de naissance', 'PARIS 01');
 
       // when
       await clickByLabel('Annuler');
@@ -59,15 +77,22 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
       assert.dom('#last-name').hasValue('Gadjo');
       assert.equal(this.candidate.birthdate, '2000-12-15');
       assert.dom('#birthdate').hasValue('2000-12-15');
-      assert.equal(this.candidate.birthplace, 'Trouville');
-      assert.dom('#birth-city').hasValue('Trouville');
+      assert.equal(this.candidate.sex, 'F');
+      assert.dom('#female').isChecked;
+      assert.equal(this.candidate.birthInseeCode, '99101');
+      assert.dom('#birth-insee-code').doesNotExist();
+      assert.equal(this.candidate.birthplace, 'Copenhague');
+      assert.dom('#birth-city').hasValue('Copenhague');
+      assert.equal(this.candidate.birthCountry, 'DANEMARK');
+      assert.dom('#birth-country > option[selected]').hasText('DANEMARK');
     });
 
     test('it should call the onCancelButtonsClicked action', async function(assert) {
       // given
       this.candidate = EmberObject.create({ birthdate: '2000-12-15' });
+      this.countries = [];
       this.onCancelButtonsClickedStub = sinon.stub();
-      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}}/>`);
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`);
 
       // when
       await clickByLabel('Annuler');
@@ -82,8 +107,9 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
     test('it should not call the onFormSubmit action if a field is not filled', async function(assert) {
       // given
       this.candidate = EmberObject.create({ birthdate: '2000-12-15' });
+      this.countries = [];
       this.onFormSubmitStub = sinon.stub();
-      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}}/>`);
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{countries}} />`);
 
       // when
       await clickByLabel('Enregistrer');
@@ -92,41 +118,31 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
       assert.notOk(this.onFormSubmitStub.called);
     });
 
-    test('it should reset form and model after save has failed', async function(assert) {
-      // given
-      this.candidate = EmberObject.create({ firstName: 'Fabrice', lastName: 'Gadjo', birthdate: '2000-12-15', birthplace: 'Trouville' });
-      this.onFormSubmitStub = sinon.stub();
-      this.onFormSubmitStub.rejects();
-
-      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}}/>`);
-      await fillInByLabel('Nom de famille', 'Belmans');
-      await fillInByLabel('Prénom', 'Gideon');
-      setFlatpickrDate('#birthdate', new Date('1861-03-17'));
-      await fillInByLabel('Commune de naissance', 'Ormeshadow');
-
-      // when
-      await clickByLabel('Enregistrer');
-
-      // then
-      assert.equal(this.candidate.firstName, 'Fabrice');
-      assert.dom('#first-name').hasValue('Fabrice');
-      assert.equal(this.candidate.lastName, 'Gadjo');
-      assert.dom('#last-name').hasValue('Gadjo');
-      assert.equal(this.candidate.birthdate, '2000-12-15');
-      assert.dom('#birthdate').hasValue('2000-12-15');
-      assert.equal(this.candidate.birthplace, 'Trouville');
-      assert.dom('#birth-city').hasValue('Trouville');
-    });
-
     test('it should call the onFormSubmit action if all fields are filled', async function(assert) {
       // given
-      this.candidate = EmberObject.create({ firstName: 'Fabrice', lastName: 'Gadjo', birthdate: '2000-12-15', birthplace: 'Trouville' });
+      this.candidate = EmberObject.create({
+        firstName: 'Fabrice',
+        lastName: 'Gadjo',
+        birthdate: '2000-12-15',
+        sex: 'F',
+        birthInseeCode: '99101',
+        birthplace: 'Copenhague',
+        birthCountry: 'DANEMARK',
+      });
+      this.countries = [
+        EmberObject.create({ code: '99101', name: 'DANEMARK' }),
+        EmberObject.create({ code: '99100', name: 'FRANCE' }),
+      ];
       this.onFormSubmitStub = sinon.stub();
-      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}}/>`);
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{countries}} />`);
       await fillInByLabel('Nom de famille', 'Belmans');
       await fillInByLabel('Prénom', 'Gideon');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
-      await fillInByLabel('Commune de naissance', 'Ormeshadow');
+      await click('#male');
+      await fillInByLabel('Pays de naissance', '99100');
+      await click('#postal-code-choice');
+      await fillInByLabel('Code postal de naissance', '75001');
+      await fillInByLabel('Commune de naissance', 'PARIS 01');
 
       // when
       await clickByLabel('Enregistrer');
@@ -136,7 +152,10 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
       assert.equal(this.candidate.firstName, 'Gideon');
       assert.equal(this.candidate.lastName, 'Belmans');
       assert.equal(this.candidate.birthdate, '1861-03-17');
-      assert.equal(this.candidate.birthplace, 'Ormeshadow');
+      assert.equal(this.candidate.sex, 'M');
+      assert.equal(this.candidate.birthPostalCode, '75001');
+      assert.equal(this.candidate.birthplace, 'PARIS 01');
+      assert.equal(this.candidate.birthCountry, 'FRANCE');
     });
   });
 
@@ -146,16 +165,107 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
       firstName: 'Quentin',
       lastName: 'Lebouc',
       birthdate: '2000-12-15',
+      sex: 'M',
+      birthPostalCode: '35400',
       birthplace: 'Saint-Malo',
+      birthCountry: 'FRANCE',
     });
+    this.countries = [
+      EmberObject.create({ code: '99101', name: 'DANEMARK' }),
+      EmberObject.create({ code: '99100', name: 'FRANCE' }),
+    ];
 
     // when
-    await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  />`);
+    await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{countries}} />`);
 
     // then
     assert.dom('#first-name').hasValue('Quentin');
     assert.dom('#last-name').hasValue('Lebouc');
     assert.dom('#birthdate').hasValue('2000-12-15');
+    assert.dom('#male').isChecked();
+    assert.dom('#birth-postal-code').hasValue('35400');
     assert.dom('#birth-city').hasValue('Saint-Malo');
+    assert.dom('#birth-country > option[selected]').hasText('FRANCE');
+  });
+
+  module('when a foreign country is selected', () => {
+
+    test('it shows city field and hides insee code and postal code fields', async function(assert) {
+      // given
+      this.candidate = EmberObject.create({
+        firstName: 'Fabrice',
+        lastName: 'Gadjo',
+        birthdate: '2000-12-15',
+        sex: 'F',
+        birthInseeCode: '75015',
+        birthplace: 'PARIS 15',
+        birthCountry: 'FRANCE',
+      });
+      this.countries = [
+        EmberObject.create({ code: '99101', name: 'DANEMARK' }),
+        EmberObject.create({ code: '99100', name: 'FRANCE' }),
+      ];
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`);
+
+      // when
+      await fillInByLabel('Pays de naissance', '99101');
+
+      // then
+      assert.notContains('Code Insee de naissance');
+      assert.notContains('Code postal de naissance');
+      assert.contains('Commune de naissance');
+    });
+  });
+
+  module('when the insee code option is selected', () => {
+
+    test('it shows insee code field and hides postal code and city fields', async function(assert) {
+      // given
+      this.candidate = EmberObject.create({
+        firstName: 'Fabrice',
+        lastName: 'Gadjo',
+        birthdate: '2000-12-15',
+        sex: 'F',
+        birthPostalCode: '75015',
+        birthplace: 'PARIS 15',
+        birthCountry: 'FRANCE',
+      });
+      this.countries = [];
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`);
+
+      // when
+      await click('#insee-code-choice');
+
+      // then
+      assert.contains('Code Insee de naissance');
+      assert.notContains('Code postal de naissance');
+      assert.notContains('Commune de naissance');
+    });
+  });
+
+  module('when the postal code option is selected', () => {
+
+    test('it shows postal code and city fields and hides insee code field', async function(assert) {
+      // given
+      this.candidate = EmberObject.create({
+        firstName: 'Fabrice',
+        lastName: 'Gadjo',
+        birthdate: '2000-12-15',
+        sex: 'F',
+        birthInseeCode: '75115',
+        birthplace: 'PARIS 15',
+        birthCountry: 'FRANCE',
+      });
+      this.countries = [];
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`);
+
+      // when
+      await click('#postal-code-choice');
+
+      // then
+      assert.notContains('Code INSEE de naissance');
+      assert.contains('Code postal de naissance');
+      assert.contains('Commune de naissance');
+    });
   });
 });

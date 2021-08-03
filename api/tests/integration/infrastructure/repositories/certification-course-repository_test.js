@@ -335,6 +335,10 @@ describe('Integration | Repository | Certification Course', function() {
         birthplace: 'Paris',
         isCancelled: true,
         completedAt: new Date('1999-12-31'),
+        birthINSEECode: '01091',
+        birthPostalCode: '01200',
+        birthCountry: 'Kazakhstan',
+        sex: 'M',
       });
 
       // when
@@ -348,6 +352,10 @@ describe('Integration | Repository | Certification Course', function() {
       expect(persistedUpdatedCertificationCourseDTO.lastName).to.equal(unpersistedUpdatedCertificationCourseDTO.lastName);
       expect(persistedUpdatedCertificationCourseDTO.birthdate).to.equal(unpersistedUpdatedCertificationCourseDTO.birthdate);
       expect(persistedUpdatedCertificationCourseDTO.birthplace).to.equal(unpersistedUpdatedCertificationCourseDTO.birthplace);
+      expect(persistedUpdatedCertificationCourseDTO.birthPostalCode).to.equal(unpersistedUpdatedCertificationCourseDTO.birthPostalCode);
+      expect(persistedUpdatedCertificationCourseDTO.birthINSEECode).to.equal(unpersistedUpdatedCertificationCourseDTO.birthINSEECode);
+      expect(persistedUpdatedCertificationCourseDTO.birthCountry).to.equal(unpersistedUpdatedCertificationCourseDTO.birthCountry);
+      expect(persistedUpdatedCertificationCourseDTO.sex).to.equal(unpersistedUpdatedCertificationCourseDTO.sex);
       expect(persistedUpdatedCertificationCourseDTO.isCancelled).to.be.true;
       expect(persistedUpdatedCertificationCourseDTO.completedAt).to.deep.equal(new Date('1999-12-31'));
     });

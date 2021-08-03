@@ -120,6 +120,23 @@ class CertificationCourse {
     }
   }
 
+  correctSex(modifiedSex) {
+    const sanitizedString = _sanitizedString(modifiedSex);
+    if (!_.isEmpty(sanitizedString) && !['M', 'F'].includes(sanitizedString)) {
+      throw new EntityValidationError({
+        invalidAttributes: [{ attribute: 'sex', message: 'Candidate\'s sex must be M or F' }],
+      });
+    }
+    this._sex = sanitizedString;
+  }
+
+  correctBirthInformation({ birthCountry, birthCity, birthPostalCode, birthINSEECode }) {
+    this._birthCountry = birthCountry;
+    this._birthplace = birthCity;
+    this._birthPostalCode = birthPostalCode;
+    this._birthINSEECode = birthINSEECode;
+  }
+
   correctBirthdate(modifiedBirthdate) {
     const { error } = Joi.date()
       .format('YYYY-MM-DD')
