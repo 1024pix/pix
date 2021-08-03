@@ -159,7 +159,7 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
     context('when options are standards and there is specific aria label and/or placeholder', function() {
       [
         {
-          input: '${banana#tomatoPlaceholder options=["mango","potato"]}',
+          input: '${banana#Ceci est le place holder options=["mango","potato"]}',
           expected: {
             input: 'banana',
             options: [
@@ -173,11 +173,11 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
             ],
             autoAriaLabel: true,
             ariaLabel: '123',
-            placeholder: 'tomatoPlaceholder',
+            placeholder: 'Ceci est le place holder',
           },
         },
         {
-          input: '${banana options=["mango","potato"]}#tomatoPlaceholder',
+          input: '${banana options=["mango","potato"]}#Ceci est le place holder',
           expected: {
             input: 'banana',
             options: [
@@ -195,7 +195,7 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
           },
         },
         {
-          input: '${banana§saladAriaLabel options=["mango","potato"]}',
+          input: '${banana§Ceci est le aria label options=["mango","potato"]}',
           expected: {
             input: 'banana',
             options: [
@@ -208,12 +208,12 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
               },
             ],
             autoAriaLabel: false,
-            ariaLabel: 'saladAriaLabel',
+            ariaLabel: 'Ceci est le aria label',
             placeholder: null,
           },
         },
         {
-          input: '${banana#tomatoPlaceholder§saladAriaLabel options=["mango","potato"]}',
+          input: '${banana#Ceci est le place holder§Ceci est le aria label options=["mango","potato"]}',
           expected: {
             input: 'banana',
             options: [
@@ -226,8 +226,8 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
               },
             ],
             autoAriaLabel: false,
-            ariaLabel: 'saladAriaLabel',
-            placeholder: 'tomatoPlaceholder',
+            ariaLabel: 'Ceci est le aria label',
+            placeholder: 'Ceci est le place holder',
           },
         },
       ].forEach((data) => {
@@ -237,8 +237,6 @@ describe('Unit | Utils | Proposals Parser | Select Block', function() {
 
           // when
           const result = new SelectBlock({ input, inputIndex: 123 });
-
-          console.log(result);
 
           // then
           expect(result.input).to.equal(data.expected.input);
