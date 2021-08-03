@@ -15,8 +15,8 @@
           @showAccountNotFoundError={{this.showAccountNotFoundError}} />
       {{/if}}
 
-      {{#if this.showConflictError}}
-        <AccountRecovery::ConflictError
+      {{#if this.showErrors}}
+        <AccountRecovery::RecoveryErrors
           @title={{this.accountRecoveryError.title}}
           @message={{this.accountRecoveryError.message}}
           @showReturnToHomeButton={{this.accountRecoveryError.showReturnToHomeButton}}

@@ -965,12 +965,7 @@
         "conflict": {
           "title": "Conflit",
           "found-you-but": "{ firstName }, on vous a retrouvé mais ...",
-          "precaution": "Par précaution nous devons vérifier vos données ensemble.",
-          "support": {
-            "url": "https://support.pix.org/fr/support/tickets/new",
-            "url-text": "Contactez le support",
-            "recover": " pour récupérer votre compte Pix."
-          }
+          "warning": "Par précaution nous devons vérifier vos données ensemble."
         },
         "confirmation-step": {
           "good-news" : "Bonne nouvelle { firstName } !",
@@ -1041,6 +1036,11 @@
         "key-expired": "Le lien de récupération est expiré, ",
         "key-expired-renew-demand-link": "renouvelez votre demande ici."
       },
+      "support": {
+        "url": "https://support.pix.org/fr/support/tickets/new",
+        "url-text": "Contactez le support",
+        "recover": " pour récupérer votre compte Pix."
+      }
     },
     "result-item": {
       "aband": "No answer",
