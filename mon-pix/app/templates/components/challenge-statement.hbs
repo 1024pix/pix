@@ -5,7 +5,10 @@
       <MarkdownToHtmlUnsafe @class="challenge-statement-instruction__text" @markdown={{this.challengeInstruction}} />
 
       {{#if this.isFocusedChallengeToggleEnabled}}
-        <div class="challenge-statement-instruction__tag challenge-statement-instruction__tag{{if this.isFocusedChallenge "--focused" "--regular"}}">
+        <div class="challenge-statement-instruction__tag challenge-statement-instruction__tag{{if this.isFocusedChallenge "--focused" "--regular"}}"
+          {{on 'mouseenter' this.showTooltipOnMouseEnter}}
+          {{on 'mouseleave' this.hideTooltipOnMouseLeave}}
+        >
           {{#if this.shouldDisplayTooltip}}
             <div role="tooltip"
                  id="challenge-statement-tag--tooltip"

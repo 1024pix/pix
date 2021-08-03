@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
-import { click, find, findAll, render } from '@ember/test-helpers';
+import { click, find, findAll, render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -201,6 +201,61 @@ describe('Integration | Component | ChallengeStatement', function() {
 
         // then
         expect(find('.challenge-statement__tag-information')).to.not.exist;
+      });
+
+      describe('on hover', () => {
+        const tooltip = '.challenge-statement__tag-information';
+
+        it('should display the tooltip when the mouse enters the challenge icon', async function() {
+          // given
+          class currentUser extends Service {
+            user = {
+              hasSeenFocusedChallengeTooltip: true,
+            }
+          }
+          this.owner.unregister('service:currentUser');
+          this.owner.register('service:currentUser', currentUser);
+
+          addAssessmentToContext(this, { id: '267845' });
+          addChallengeToContext(this, {
+            instruction: 'La consigne de mon test',
+            id: 'rec_challenge',
+            focused: true,
+          });
+
+          // when
+          await renderChallengeStatement(this);
+          await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseenter');
+
+          // then
+          expect(find(tooltip)).to.exist;
+        });
+
+        it('should hide tooltip when mouse leaves the challenge icon', async function() {
+          // given
+          class currentUser extends Service {
+            user = {
+              hasSeenFocusedChallengeTooltip: true,
+            }
+          }
+          this.owner.unregister('service:currentUser');
+          this.owner.register('service:currentUser', currentUser);
+
+          addAssessmentToContext(this, { id: '267845' });
+          addChallengeToContext(this, {
+            instruction: 'La consigne de mon test',
+            id: 'rec_challenge',
+            focused: true,
+          });
+
+          // when
+          await renderChallengeStatement(this);
+          await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseenter');
+          await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseleave');
+
+          // then
+          expect(find(tooltip)).to.not.exist;
+        });
       });
     });
   });

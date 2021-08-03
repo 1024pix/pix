@@ -79,6 +79,18 @@ export default class ChallengeStatement extends Component {
     }
   }
 
+  @action
+  showTooltipOnMouseEnter() {
+    if (this.isFocusedChallenge && this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+      this.shouldDisplayTooltip = true;
+    }
+  }
+
+  @action
+  hideTooltipOnMouseLeave() {
+    this.shouldDisplayTooltip = false;
+  }
+
   _notifyChallengeTooltipIsClosed() {
     this.args.onTooltipClose();
   }
