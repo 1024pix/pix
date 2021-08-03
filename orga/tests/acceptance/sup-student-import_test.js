@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { find, triggerEvent, visit } from '@ember/test-helpers';
+import { find, triggerEvent, visit, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 
@@ -82,6 +82,28 @@ module('Acceptance | Sup Student Import', function(hooks) {
         // then
         assert.dom('[data-test-notification-message="error"]').exists();
       });
+    });
+  });
+
+  module('When member', function(hooks) {
+    hooks.beforeEach(async function() {
+      user = createUserManagingStudents('MEMBER', 'SUP');
+      createPrescriberByUser(user);
+
+      await authenticateSession({
+        user_id: user.id,
+        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+        expires_in: 3600,
+        token_type: 'Bearer token type',
+      });
+    });
+
+    test('it should redirect to default page', async function(assert) {
+      // when
+      await visit('/etudiants/import');
+
+      // then
+      assert.equal(currentURL(), '/campagnes');
     });
   });
 });
