@@ -64,7 +64,7 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
       const averageResult = model.get('averageResult');
 
       //then
-      assert.equal(averageResult, (10 + 20 + 30) / (20 + 40 + 60) * 100);
+      assert.equal(averageResult, (10 + 20 + 30) / (20 + 40 + 60));
     });
   });
 

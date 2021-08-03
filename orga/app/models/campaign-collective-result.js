@@ -23,6 +23,6 @@ export default class CampaignCollectiveResult extends Model {
   }
 
   get averageResult() {
-    return Math.round(this.averageValidatedSkillsSum * 100 / this.totalSkills);
+    return this.averageValidatedSkillsSum / this.totalSkills;
   }
 }

@@ -59,7 +59,7 @@ When(`je vois {int} résultats pour la compétence`, (numberOfResultsByCompetenc
 });
 
 Then(`je vois la moyenne des résultats à {int}%`, (averageResult) => {
-  cy.get('[aria-label="Moyenne des résultats"]').contains(`${averageResult}%`);
+  cy.contains('Résultat moyen').parent().within(() => cy.contains(`${averageResult} %`));
 });
 
 Then(`je vois un résultat global à {int}%`, (globalResult) => {

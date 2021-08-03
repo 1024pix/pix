@@ -48,7 +48,6 @@ module('Acceptance | Remove membership', function(hooks) {
     await click('button[data-test-modal-remove-button]');
 
     // then
-    assert.notContains(user.firstName);
-    assert.notContains(user.lastName);
+    assert.contains(`${user.firstName} ${user.lastName} a été supprimé avec succès de votre équipe Pix Orga.`);
   });
 });

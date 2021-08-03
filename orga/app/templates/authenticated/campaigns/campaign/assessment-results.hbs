@@ -7,11 +7,10 @@
       class="participant-row__result"
     />
   {{else}}
-    <Campaign::Results::Stats
-      @validatedSkills={{@model.campaign.campaignCollectiveResult.averageValidatedSkillsSum}}
-      @totalSkills={{@model.campaign.campaignCollectiveResult.totalSkills}}
-      @averageResult={{@model.campaign.campaignCollectiveResult.averageResult}}
-    />
+    <Campaign::Results::AssessmentCards
+    @sharedParticipationsCount={{@model.campaign.sharedParticipationsCount}}
+    @averageResult={{@model.campaign.campaignCollectiveResult.averageResult}}
+  />
   {{/if}}
 
   <Campaign::Results::AssessmentList
@@ -26,5 +25,6 @@
   />
 {{else}}
   <Campaign::EmptyState
-    @campaignCode={{@model.campaign.code}}/>
+    @campaignCode={{@model.campaign.code}}
+  />
 {{/if}}
