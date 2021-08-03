@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { click, visit } from '@ember/test-helpers';
+import { currentURL, click, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
@@ -17,6 +17,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     server.create('feature-toggle', { isNewCpfDataEnabled: true });
     const user = server.create('user');
     await createAuthenticateSession({ userId: user.id });
+    this.server.create('user', { id: 888 });
 
     this.server.create('country', {
       code: '99217',
@@ -33,6 +34,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       lastName: 'Gobuchul',
       birthdate: '1987-07-24',
       birthplace: 'Sorpen',
+      userId: 888,
       sex: 'M',
       birthCountry: 'JAPON',
       birthInseeCode: '99217',
@@ -201,6 +203,20 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       // then
       assert.dom('[aria-label="Modifier les informations du candidat"]').exists().isEnabled();
+    });
+  });
+
+  module('when go to user detail button is clicked', function() {
+
+    test('it should redirect to user detail page', async function(assert) {
+      // given
+      await visit(`/certifications/${certification.id}`);
+
+      // when
+      await clickByLabel('Voir les détails de l\'utilisateur');
+
+      // then
+      assert.equal(currentURL(), '/users/888');
     });
   });
 });

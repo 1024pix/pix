@@ -35,6 +35,7 @@ export default class Certification extends Model {
   @attr() birthInseeCode;
   @attr() birthPostalCode;
   @attr() sex;
+  @attr() userId;
   @attr() externalId;
   @attr() createdAt;
   @attr() completedAt;
