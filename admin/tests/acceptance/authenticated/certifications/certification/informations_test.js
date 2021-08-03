@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { visit } from '@ember/test-helpers';
+import { click, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
@@ -14,13 +14,28 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
   let certification;
 
   hooks.beforeEach(async function() {
+    server.create('feature-toggle', { isNewCpfDataEnabled: true });
     const user = server.create('user');
     await createAuthenticateSession({ userId: user.id });
+
+    this.server.create('country', {
+      code: '99217',
+      name: 'JAPON',
+    });
+
+    this.server.create('country', {
+      code: '99430',
+      name: 'GROENLAND',
+    });
+
     certification = this.server.create('certification', {
       firstName: 'Bora Horza',
       lastName: 'Gobuchul',
       birthdate: '1987-07-24',
       birthplace: 'Sorpen',
+      sex: 'M',
+      birthCountry: 'JAPON',
+      birthInseeCode: '99217',
       competencesWithMark: [],
       listChallengesAndAnswers: [],
     });
@@ -34,7 +49,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     assert.contains('Bora Horza');
     assert.contains('Gobuchul');
     assert.contains('24/07/1987');
+    assert.contains('M');
     assert.contains('Sorpen');
+    assert.contains('99217');
+    assert.contains('JAPON');
     assert.dom('[aria-label="Modifier les informations du candidat"]').exists().isEnabled();
     assert.dom('[aria-label="Modifier les résultats du candidat"]').exists().isEnabled();
   });
@@ -48,6 +66,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await fillInByLabel('Nom de famille', 'Tic');
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
+      await click('#male');
+      await fillInByLabel('Pays de naissance', '99430');
       await fillInByLabel('Commune de naissance', 'Pôle nord');
 
       // when
@@ -64,6 +84,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await fillInByLabel('Nom de famille', 'Tic');
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
+      await click('#male');
+      await fillInByLabel('Pays de naissance', '99430');
       await fillInByLabel('Commune de naissance', 'Pôle nord');
 
       // when
@@ -83,6 +105,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await fillInByLabel('Nom de famille', 'Tic');
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
+      await click('#male');
+      await fillInByLabel('Pays de naissance', '99430');
       await fillInByLabel('Commune de naissance', 'Pôle nord');
 
       // when
@@ -99,6 +123,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await fillInByLabel('Nom de famille', 'Tic');
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
+      await click('#female');
+      await fillInByLabel('Pays de naissance', '99430');
       await fillInByLabel('Commune de naissance', 'Pôle nord');
 
       // when
@@ -108,6 +134,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       assert.contains('Tic');
       assert.contains('Toc');
       assert.contains('12/12/2012');
+      assert.contains('F');
+      assert.contains('GROENLAND');
+      assert.contains('99430');
       assert.contains('Pôle nord');
     });
 
@@ -121,17 +150,22 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       await fillInByLabel('Nom de famille', 'Tic');
       await fillInByLabel('Prénom', 'Toc');
       setFlatpickrDate('#birthdate', new Date('2012-12-12'));
+      await click('#male');
+      await fillInByLabel('Pays de naissance', '99430');
       await fillInByLabel('Commune de naissance', 'Pôle nord');
       await clickByLabel('Enregistrer');
 
       // when
-      await clickByLabel('Annuler');
+      await click('button[data-test-id="close-certification-candidate-edition-modal"]');
 
       // then
       assert.contains('Bora Horza');
       assert.contains('Gobuchul');
       assert.contains('24/07/1987');
+      assert.contains('M');
       assert.contains('Sorpen');
+      assert.contains('99217');
+      assert.contains('JAPON');
     });
   });
 

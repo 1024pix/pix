@@ -405,10 +405,21 @@ describe('Acceptance | API | Certification Course', () => {
 
       beforeEach(async () => {
         await insertUserWithRolePixMaster();
+        databaseBuilder.factory.buildCertificationCpfCountry({
+          code: '99100',
+          commonName: 'FRANCE',
+          matcher: 'ACEFNR',
+        });
+        databaseBuilder.factory.buildCertificationCpfCity({
+          name: 'CHATILLON EN MICHAILLE',
+          INSEECode: '01091',
+          isActualName: true,
+        });
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           verificationCode: 'ABCD123',
           createdAt: new Date('2019-12-21T15:44:38Z'),
           completedAt: new Date('2017-12-21T15:48:38Z'),
+          sex: 'F',
         }).id;
 
         options = {
@@ -422,9 +433,13 @@ describe('Acceptance | API | Certification Course', () => {
               attributes: {
                 'first-name': 'Freezer',
                 'last-name': 'The all mighty',
-                'birthplace': 'Namek',
+                'birthplace': null,
                 'birthdate': '1989-10-24',
                 'external-id': 'xenoverse2',
+                'sex': 'M',
+                'birth-country': 'FRANCE',
+                'birth-insee-code': '01091',
+                'birth-postal-code': null,
               },
             },
           },
@@ -441,8 +456,12 @@ describe('Acceptance | API | Certification Course', () => {
         const result = response.result.data;
         expect(result.attributes['first-name']).to.equal('Freezer');
         expect(result.attributes['last-name']).to.equal('The all mighty');
-        expect(result.attributes['birthplace']).to.equal('Namek');
+        expect(result.attributes['birthplace']).to.equal('CHATILLON EN MICHAILLE');
         expect(result.attributes['birthdate']).to.equal('1989-10-24');
+        expect(result.attributes['sex']).to.equal('M');
+        expect(result.attributes['birth-country']).to.equal('FRANCE');
+        expect(result.attributes['birth-insee-code']).to.equal('01091');
+        expect(result.attributes['birth-postal-code']).to.be.null;
         const { isV2Certification, verificationCode } = await knex
           .select('isV2Certification', 'verificationCode')
           .from('certification-courses')

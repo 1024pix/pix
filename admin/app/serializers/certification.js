@@ -11,6 +11,10 @@ export default class Certification extends JSONAPISerializer {
       this.serializeAttribute(snapshot, data, 'birthdate', 'birthdate');
       this.serializeAttribute(snapshot, data, 'externalId', 'external-id');
       this.serializeAttribute(snapshot, data, 'isPublished', 'is-published');
+      this.serializeAttribute(snapshot, data, 'sex', 'sex');
+      this.serializeAttribute(snapshot, data, 'birthCountry', 'birth-country');
+      this.serializeAttribute(snapshot, data, 'birthPostalCode', 'birth-postal-code');
+      this.serializeAttribute(snapshot, data, 'birthInseeCode', 'birth-insee-code');
       data.type = 'certifications';
       if (options.includeId) {
         data.id = parseInt(snapshot.id);

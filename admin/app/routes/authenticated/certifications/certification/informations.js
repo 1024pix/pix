@@ -1,17 +1,21 @@
 /* eslint-disable ember/no-controller-access-in-routes */
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import RSVP from 'rsvp';
 
 export default class CertificationInformationsRoute extends Route {
 
-  model() {
-    return this.modelFor('authenticated.certifications.certification').reload();
+  async model() {
+    return RSVP.hash({
+      certification: this.modelFor('authenticated.certifications.certification').reload(),
+      countries: this.store.findAll('country'),
+    });
   }
 
   setupController(controller, model) {
     super.setupController(...arguments);
-    controller.certificationId = model.id;
-    controller.certificationStatus = model.status;
+    controller.certificationId = model.certification.id;
+    controller.certificationStatus = model.certification.status;
     controller.send('onCheckMarks');
   }
 

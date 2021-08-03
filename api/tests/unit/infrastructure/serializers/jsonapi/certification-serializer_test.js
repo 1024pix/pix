@@ -111,7 +111,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       });
     });
 
-    it('should deserialized only modifiable fields', async function() {
+    it('should deserialize only modifiable fields', async function() {
       // given
       const payload = {
         data: {
@@ -123,6 +123,10 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
             'birthplace': 'Namek',
             'birthdate': '1989-10-24',
             'unmodifiablefield': 'unmodifiable field',
+            'sex': 'm',
+            'birth-country': 'FRANCE',
+            'birth-insee-code': '99100',
+            'birth-postal-code': '75001',
           },
         },
       };
@@ -141,6 +145,10 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
         'birthdate': '1989-10-24',
         certificationCourseId: 14,
         userId: 16,
+        'sex': 'm',
+        'birthCountry': 'FRANCE',
+        'birthINSEECode': '99100',
+        'birthPostalCode': '75001',
       });
     });
   });
@@ -156,7 +164,11 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           'last-name': 'The all mighty',
           'birthplace': 'Namek',
           'birthdate': '1989-10-24',
+          'sex': 'M',
           'external-id': 'xenoverse2',
+          'birth-insee-code': '99100',
+          'birth-postal-code': '75001',
+          'birth-country': 'FRANCE',
         },
       },
     };
@@ -167,7 +179,11 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       lastName: 'The all mighty',
       birthplace: 'Namek',
       birthdate: '1989-10-24',
+      sex: 'M',
       externalId: 'xenoverse2',
+      birthINSEECode: '99100',
+      birthPostalCode: '75001',
+      birthCountry: 'FRANCE',
     });
 
     it('should serialize', () => {
