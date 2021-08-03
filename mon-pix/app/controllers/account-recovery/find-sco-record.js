@@ -24,7 +24,7 @@ export default class FindScoRecordController extends Controller {
   };
 
   @tracked showStudentInformationForm = true;
-  @tracked showConflictError = false;
+  @tracked showErrors = false;
   @tracked showConfirmationStep = false;
   @tracked showBackupEmailConfirmationForm = false;
   @tracked showAccountNotFoundError = false;
@@ -112,7 +112,7 @@ export default class FindScoRecordController extends Controller {
         showReturnToHomeButton: true,
       },
       409: {
-        message: this.intl.t('pages.account-recovery.find-sco-record.conflict.precaution'),
+        message: this.intl.t('pages.account-recovery.find-sco-record.conflict.warning'),
         title: this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName: this.studentInformationForAccountRecovery.firstName }),
         showReturnToHomeButton: false,
       },
@@ -125,7 +125,7 @@ export default class FindScoRecordController extends Controller {
       this.showAccountNotFoundError = false;
       this.showBackupEmailConfirmationForm = false;
       this.showAlreadyRegisteredEmailError = false;
-      this.showConflictError = true;
+      this.showErrors = true;
       this.accountRecoveryError = errorDetails[status];
     } else if (isEmailAlreadyRegistered) {
       this.showAlreadyRegisteredEmailError = true;
