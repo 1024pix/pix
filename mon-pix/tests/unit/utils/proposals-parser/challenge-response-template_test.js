@@ -54,7 +54,7 @@ describe('Unit | Utils | Proposals Parser | Challenge Response Template', functi
         ],
       },
     ].forEach(function(data) {
-      it('should return properly updated blocks according to blocks\' order', function() {
+      it('should return properly updated blocks according to blocks order', function() {
         const challengeResponseTemplate = new ChallengeResponseTemplate();
 
         data.inputBlocks.forEach((block) => {
@@ -74,7 +74,7 @@ describe('Unit | Utils | Proposals Parser | Challenge Response Template', functi
       const challengeResponseTemplate = new ChallengeResponseTemplate();
 
       challengeResponseTemplate.addBlock(new TextBlock({ text: 'apple' }));
-      challengeResponseTemplate.addBlock(new InputBlock({ input: 'banana', inputIndex: 123 }));
+      challengeResponseTemplate.addBlock(new InputBlock({ input: '${banana}', inputIndex: 123 }));
       challengeResponseTemplate.addBlock(new TextBlock({ text: 'mango' }));
 
       challengeResponseTemplate.constructFinalTemplate();
@@ -93,7 +93,7 @@ describe('Unit | Utils | Proposals Parser | Challenge Response Template', functi
       textBlockWithoutType.removeType();
 
       challengeResponseTemplate.addBlock(textBlockWithoutType);
-      challengeResponseTemplate.addBlock(new InputBlock({ input: 'banana', inputIndex: 123 }));
+      challengeResponseTemplate.addBlock(new InputBlock({ input: '${banana}', inputIndex: 123 }));
       challengeResponseTemplate.addBlock(new TextBlock({ text: 'mango' }));
 
       challengeResponseTemplate.constructFinalTemplate();

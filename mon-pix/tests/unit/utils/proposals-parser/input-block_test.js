@@ -6,52 +6,31 @@ describe('Unit | Utils | Proposals Parser | Input Block', function() {
 
   describe('#constructor', function() {
     [
-      { input: '${}', expectedInput: '' },
-      { input: '${banana}', expectedInput: 'banana' },
-      { input: '${banana}s', expectedInput: 'bananas' },
-      { input: '${banana$}', expectedInput: 'banana$' },
-      { input: '${$banana}}', expectedInput: '$banana}' },
-      { input: '${banana${}}', expectedInput: 'banana${}' },
-    ].forEach((data) => {
-      it(`should remove response block wrapper for ${data.input}`, function() {
-        // given
-        const input = data.input;
-
-        // when
-        const result = new InputBlock({ input, inputIndex: 1 });
-
-        // then
-        expect(result.input).to.equal(data.expectedInput);
-        expect(result.type).to.equal('input');
-      });
-    });
-  });
-
-  describe('#addPlaceHolderAndAriaLabelIfExist', function() {
-
-    [
+      { input: '${}', expectedInput: '', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
+      { input: '${banana}', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
+      { input: '${banana}s', expectedInput: 'bananas', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
+      { input: '${banana$}', expectedInput: 'banana$', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
+      { input: '${$banana}}', expectedInput: '$banana}', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
+      { input: '${banana${}}', expectedInput: 'banana${}', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
       { input: '${banana}', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: null },
       { input: '${banana#potato}', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: 'potato' },
       { input: '${banana}#potato', expectedInput: 'banana', expectedAutoAriaLabel: true, expectedAriaLabel: '123', expectedPlaceholder: 'potato' },
       { input: '${banana§salad}', expectedInput: 'banana', expectedAutoAriaLabel: false, expectedAriaLabel: 'salad', expectedPlaceholder: null },
       { input: '${banana#potato§salad}', expectedInput: 'banana', expectedAutoAriaLabel: false, expectedAriaLabel: 'salad', expectedPlaceholder: 'potato' },
     ].forEach((data) => {
-      it(`should return expected attributes for ${data.input}`, function() {
+      it(`should parse attributes properly for ${data.input}`, function() {
         // given
-        const inputBlock = new InputBlock({
-          input: data.input,
-          inputIndex: 123,
-        });
+        const input = data.input;
 
         // when
-        inputBlock.addPlaceHolderAndAriaLabelIfExist();
+        const result = new InputBlock({ input, inputIndex: 123 });
 
         // then
-        expect(inputBlock.input).to.equal(data.expectedInput);
-        expect(inputBlock.autoAriaLabel).to.equal(data.expectedAutoAriaLabel);
-        expect(inputBlock.ariaLabel).to.equal(data.expectedAriaLabel);
-        expect(inputBlock.placeholder).to.equal(data.expectedPlaceholder);
+        expect(result.input).to.equal(data.expectedInput);
+        expect(result.type).to.equal('input');
+        expect(result.autoAriaLabel).to.equal(data.expectedAutoAriaLabel);
+        expect(result.ariaLabel).to.equal(data.expectedAriaLabel);
+        expect(result.placeholder).to.equal(data.expectedPlaceholder);
       });
     });
-  });
-});
+  });});

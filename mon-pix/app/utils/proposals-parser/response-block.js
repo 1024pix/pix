@@ -1,20 +1,28 @@
+import splitters from './splitters';
+
+const {
+  ARIA_LABEL,
+  PLACEHOLDER,
+} = splitters;
+
 export default class ResponseBlock {
 
-  constructor({ input, inputIndex }) {
-    this._input = input.replace('${', '').replace('}', '');
+  constructor({ inputIndex }) {
+    this._input = null;
     this._placeholder = null;
     this._text = null;
+    this._options = null;
     this._ariaLabel = inputIndex.toString();
     this._autoAriaLabel = true;
     this._type = undefined;
   }
 
   get hasPlaceHolder() {
-    return this._input.includes('#');
+    return this._input.includes(PLACEHOLDER);
   }
 
   get hasAriaLabel() {
-    return this._input.includes('§');
+    return this._input.includes(ARIA_LABEL);
   }
 
   get input() {

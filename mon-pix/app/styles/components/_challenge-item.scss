@@ -70,6 +70,11 @@
     &--number {
       width: 100px;
     }
+
+    &--selector {
+      display: inline-block;
+      min-width: 180px;
+    }
   }
 
   &__proposal-label {
