@@ -19,11 +19,14 @@
                       {{t 'pages.challenge.statement.tooltip.focused'}}
                   </div>
                 {{/if}}
-              <PixButton data-test="challenge-statement-tag-information__button"
-                         @size="small"
-                         @triggerAction={{this.hideTooltip}}>
-                {{t 'pages.challenge.statement.tooltip.close'}}
-              </PixButton>
+              {{#if this.shouldDisplayButton}}
+                <PixButton data-test="challenge-statement-tag-information__button"
+                           class="challenge-statement-tag-information__button"
+                           @size="small"
+                           @triggerAction={{this.hideTooltip}}>
+                  {{t 'pages.challenge.statement.tooltip.close'}}
+                </PixButton>
+              {{/if}}
             </div>
           {{/if}}
         </div>

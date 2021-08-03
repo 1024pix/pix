@@ -91,6 +91,10 @@ export default class ChallengeStatement extends Component {
     this.shouldDisplayTooltip = false;
   }
 
+  get shouldDisplayButton() {
+    return this.isFocusedChallenge && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
+  }
+
   _notifyChallengeTooltipIsClosed() {
     this.args.onTooltipClose();
   }
