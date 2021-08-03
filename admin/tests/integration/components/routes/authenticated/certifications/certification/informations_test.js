@@ -49,6 +49,30 @@ module('Integration | Component | routes/authenticated/certifications/certificat
       assert.contains('99217');
       assert.contains(' - ');
     });
+
+    test('should disable candidate information edition when candidate was registered before CPF', async function(assert) {
+      // given
+      this.server.create('feature-toggle', {
+        id: 0,
+        isNewCpfDataEnabled: true,
+      });
+      const certification = this.server.create('certification', {
+        status: 'started',
+        firstName: 'Noritaka',
+        lastName: 'Sawamura',
+        birthdate: '1991-01-01',
+        sex: '',
+        birthplace: 'Tokyo',
+        competencesWithMark: [],
+      });
+
+      // when
+      await visit(`/certifications/${certification.id}`);
+
+      // then
+      assert.contains('Voir avec PO/Dev pour modifier les infos candidat.');
+      assert.dom('button[aria-label="Modifier les informations du candidat"]').isDisabled();
+    });
   });
 
   module('When certification is not cancelled', () => {

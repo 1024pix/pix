@@ -74,6 +74,10 @@ export default class CertificationInformationsController extends Controller {
     return this.featureToggles.featureToggles.isNewCpfDataEnabled;
   }
 
+  get isModifyButtonDisabled() {
+    return this.editingCandidateResults || this.certification.wasRegisteredBeforeCPF;
+  }
+
   @action
   onCandidateResultsEdit() {
     this.editingCandidateResults = true;

@@ -108,6 +108,10 @@ export default class Certification extends Model {
     return partnerCertificationStatusToDisplayName[this.pixPlusDroitExpertCertificationStatus];
   }
 
+  get wasRegisteredBeforeCPF() {
+    return !this.sex;
+  }
+
   cancel = memberAction({
     type: 'post',
     urlType: 'cancel',

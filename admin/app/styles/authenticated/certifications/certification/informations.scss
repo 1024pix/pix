@@ -63,5 +63,12 @@
       display: flex;
       margin-top: 8px;
     }
+
+    &__warning-cpf-message {
+      font-style: italic;
+      color: $pix-red;
+      margin-top: 8px;
+      margin-left: 5px;
+    }
   }
 }
