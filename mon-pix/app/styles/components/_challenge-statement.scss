@@ -9,21 +9,23 @@
 
   &__tag {
     position: relative;
-    width: 32px;
-    height: 32px;
-    margin-top: -21px;
+    width: 45px;
+    height: 40px;
+    margin-top: -20px;
     margin-right: -20px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 
     @include device-is('tablet') {
-      width: 60px;
-      height: 60px;
+      margin-top: -22px;
+      width: 85px;
+      height: 80px;
     }
 
     &--focused {
       background-image: url('/images/tag-focused-challenge.svg');
+      border-top-right-radius: 10px;
     }
 
     &--regular {
@@ -67,11 +69,16 @@
 
   &__text {
     font-family: $font-roboto;
-    font-size: 1rem;
+    font-size: 0.875rem;
     line-height: 1.375rem;
     display: block;
     font-weight: $font-normal;
     letter-spacing: 0;
+    margin-bottom: 16px;
+
+    @include device-is('tablet') {
+      font-size: 1rem;
+    }
 
     p {
       font-weight: $font-bold;
@@ -83,29 +90,32 @@
   position: absolute;
   background-color: $white;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
+  border-radius: 15px;
   z-index: 300;
-  width: 590px;
-  padding: 20px 36px;
-  right: 20px;
-  top: 60px;
+  min-width: 220px;
+  width: 40vw;
+  max-width: 300px;
+  padding: 24px;
+  right: 50px;
+  top: -10px;
 
   @include device-is('tablet') {
-    max-width: 590px;
+    right: 80px;
+    top: -60px;
   }
 
   &::before {
-    content: '';
+    content: " ";
     position: absolute;
-    width: 0;
-    height: 0;
-    top: -17px;
-    right: 0;
-    border-bottom: 20px solid white;
-    border-left: 30px solid transparent;
+    top: 20px;
+    left: 100%;
+    margin-top: -5px;
+    border-width: 15px;
+    border-style: solid;
+    border-color: transparent transparent transparent white;
 
     @include device-is('tablet') {
-      right: 0;
+      top: 80px;
     }
   }
 
