@@ -27,10 +27,13 @@ async function getCertificationAttestationsPdfBuffer({
   imageUtils = sharp,
   dirname = __dirname,
   fontkit = pdfLibFontkit,
+  creationDate = new Date(),
 } = {}) {
 
   const viewModels = certificates.map(AttestationViewModel.from);
   const generatedPdfDoc = await _initializeNewPDFDocument(pdfWriter, fontkit);
+  generatedPdfDoc.setCreationDate(creationDate);
+  generatedPdfDoc.setModificationDate(creationDate);
   const embeddedFonts = await _embedFonts(generatedPdfDoc, fileSystem, dirname);
   const embeddedImages = await _embedImages(generatedPdfDoc, viewModels, imageUtils);
 
@@ -43,7 +46,7 @@ async function getCertificationAttestationsPdfBuffer({
   const fileName = `attestation-pix-${moment(certificates[0].deliveredAt).format('YYYYMMDD')}.pdf`;
 
   return {
-    buffer: buffer,
+    buffer,
     fileName,
     generatedPdfDoc,
   };
