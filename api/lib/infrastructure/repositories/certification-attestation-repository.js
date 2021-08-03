@@ -34,16 +34,32 @@ module.exports = {
     });
   },
 
-  async findByDivisionForScoIsManagingStudentsOrganization({ _organizationId, _division } = {}) {
+  async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, _division }) {
     const certificationCourseDTOs = await _selectCertificationAttestations()
-      .orderBy('certification-courses.id');
-    return _.map(certificationCourseDTOs, (certificationCourseDTO) => {
-      return new CertificationAttestation({
-        ...certificationCourseDTO,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
-      });
-    });
+      .select({ schoolingRegistrationId: 'schooling-registrations.id' })
+      .innerJoin('certification-candidates', function() {
+        this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' })
+          .andOn({ 'certification-candidates.userId': 'certification-courses.userId' });
+      })
+      .innerJoin('schooling-registrations', 'schooling-registrations.id', 'certification-candidates.schoolingRegistrationId')
+      .innerJoin('organizations', 'organizations.id', 'schooling-registrations.organizationId')
+      .where('schooling-registrations.organizationId', '=', organizationId)
+      .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
+      .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
+      .modify(_checkOrganizationIsScoIsManagingStudents)
+      .orderBy('certification-courses.createdAt', 'DESC');
+
+    const mostRecentCertificationsPerSchoolingRegistration = _filterMostRecentCertificationCoursePerSchoolingRegistration(certificationCourseDTOs);
+    return _(mostRecentCertificationsPerSchoolingRegistration)
+      .orderBy(['lastName', 'firstName'], ['asc', 'asc'])
+      .map((certificationCourseDTO) => {
+        return new CertificationAttestation({
+          ...certificationCourseDTO,
+          cleaCertificationImagePath: null,
+          pixPlusDroitCertificationImagePath: null,
+        });
+      })
+      .value();
   },
 };
 
@@ -83,6 +99,22 @@ function _filterMostRecentValidatedAssessmentResult(qb) {
         .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
     )
     .where('assessment-results.status', AssessmentResult.status.VALIDATED);
+}
+
+function _checkOrganizationIsScoIsManagingStudents(qb) {
+  return qb
+    .where('organizations.type', 'SCO')
+    .where('organizations.isManagingStudents', true);
+}
+
+function _filterMostRecentCertificationCoursePerSchoolingRegistration(DTOs) {
+  const groupedBySchoolingRegistration = _.groupBy(DTOs, 'schoolingRegistrationId');
+
+  const mostRecent = [];
+  for (const certificationsForOneSchoolingRegistration of Object.values(groupedBySchoolingRegistration)) {
+    mostRecent.push(certificationsForOneSchoolingRegistration[0]);
+  }
+  return mostRecent;
 }
 
 async function _getCleaCertificationImagePath(certificationCourseId) {
