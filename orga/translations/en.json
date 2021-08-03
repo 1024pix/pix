@@ -55,6 +55,11 @@
     }
   },
   "charts": {
+    "participants-average-results": {
+      "information": "Find here the average results of your campaign. This includes all the participants who have completed their customised test and sent their results.",
+      "title": "Average result",
+      "result": "{result, number, ::percent}"
+    },
     "participants-by-stage": {
       "loader": "Loading and sorting the participants grouped by success rates",
       "participants": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}}",

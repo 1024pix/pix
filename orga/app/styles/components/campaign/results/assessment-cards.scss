@@ -1,0 +1,9 @@
+.assessment-cards {
+  display: flex;
+  margin-top: 16px;
+  margin-bottom: 32px;
+
+  &__average-result-card {
+    margin-right: 32px;
+  }
+}
