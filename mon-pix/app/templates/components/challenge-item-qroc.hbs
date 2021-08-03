@@ -1,4 +1,4 @@
-<article class="rounded-panel rounded-panel--no-margin-bottom challenge-item"
+<article class="rounded-panel rounded-panel--no-margin-bottom challenge-item{{if this.hasFocusedOutOfChallenge "--overlay"}}"
          data-challenge-id="{{@challenge.id}}"
          {{will-destroy this.removeEmbedAutoEventListener}}
          {{on 'mouseenter' this.hideOutOfFocusBorder}}
@@ -11,7 +11,9 @@
 
   {{#if this.displayChallenge}}
     <div class="challenge-item__container {{if this.hasFocusedOutOfChallenge "challenge-item__container--focused"}}">
-      <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
+      <ChallengeStatement @challenge={{@challenge}}
+                          @assessment={{@assessment}}
+                          @onTooltipClose={{this.enableFocusedChallenge}}/>
 
       <form {{on "submit" this.validateAnswer}}>
         {{#if this.showProposal}}
@@ -40,7 +42,7 @@
                               autocomplete="nope"
                               value="{{this.userAnswer}}"
                               data-uid="qroc-proposal-uid"
-                              disabled={{@answer}}>
+                              disabled={{this.isAnswerFieldDisabled}}>
                     </textarea>
                   {{else if (eq @challenge.format 'phrase')}}
                     <input class="challenge-response__proposal challenge-response__proposal--sentence"
@@ -52,7 +54,7 @@
                            autocomplete="nope"
                            value="{{this.userAnswer}}"
                            data-uid="qroc-proposal-uid"
-                           disabled={{@answer}}>
+                           disabled={{this.isAnswerFieldDisabled}}>
                   {{else if (eq @challenge.format 'nombre')}}
                     <input class="challenge-response__proposal challenge-response__proposal--number"
                            type="number"
@@ -63,7 +65,7 @@
                            autocomplete="nope"
                            value="{{this.userAnswer}}"
                            data-uid="qroc-proposal-uid"
-                           disabled={{@answer}}>
+                           disabled={{this.isAnswerFieldDisabled}}>
                   {{else}}
                     <input class="challenge-response__proposal"
                            size="{{get-qroc-input-size @challenge.format}}"
@@ -75,7 +77,7 @@
                            autocomplete="nope"
                            value="{{this.userAnswer}}"
                            data-uid="qroc-proposal-uid"
-                           disabled={{@answer}}>
+                           disabled={{this.isAnswerFieldDisabled}}>
                   {{/if}}
                 {{/if}}
 
@@ -132,6 +134,7 @@
           <ChallengeActions @challenge={{@challenge}}
                             @answer={{@answer}}
                             @resumeAssessment={{this.resumeAssessment}}
+                            @isDisabled={{this.isAnswerFieldDisabled}}
                             @validateAnswer={{this.validateAnswer}}
                             @skipChallenge={{this.skipChallenge}}
                             @isValidateButtonEnabled={{this.isValidateButtonEnabled}}

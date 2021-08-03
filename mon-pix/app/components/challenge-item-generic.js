@@ -13,13 +13,14 @@ export default class ChallengeItemGeneric extends Component {
   @tracked errorMessage = null;
   @tracked hasFocusedOutOfWindow = false;
   @tracked hasFocusedOutOfChallenge = false;
+  @tracked isTooltipClosed = false;
 
   get displayTimer() {
     return this.isTimedChallengeWithoutAnswer && this.hasUserConfirmedWarning;
   }
 
   get displayChallenge() {
-    if (!this._isTimedChallenge && !this.isFocusedChallenge) {
+    if (!this._isTimedChallenge) {
       return true;
     }
 
@@ -27,26 +28,7 @@ export default class ChallengeItemGeneric extends Component {
       if (this.hasUserConfirmedWarning || this.args.answer) return true;
     }
 
-    if (this.isFocusedChallenge) {
-      if (!this.args.answer) {
-        this._setOnBlurEventToWindow();
-      }
-
-      return true;
-    }
-
     return false;
-  }
-
-  _setOnBlurEventToWindow() {
-    window.onblur = () => {
-      this.hasFocusedOutOfWindow = true;
-      this._clearOnBlurMethod();
-    };
-  }
-
-  _clearOnBlurMethod() {
-    window.onblur = null;
   }
 
   get _isTimedChallenge() {
@@ -55,6 +37,13 @@ export default class ChallengeItemGeneric extends Component {
 
   get isFocusedChallenge() {
     return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.args.challenge.focused;
+  }
+
+  get isAnswerFieldDisabled() {
+    if (this.isFocusedChallenge) {
+      return this.args.answer || !this.isTooltipClosed;
+    }
+    return this.args.answer;
   }
 
   get isTimedChallengeWithoutAnswer() {
@@ -75,7 +64,7 @@ export default class ChallengeItemGeneric extends Component {
 
   @action
   hideOutOfFocusBorder() {
-    if (this.isFocusedChallenge) {
+    if (this.isFocusedChallenge && this.isTooltipClosed) {
       this.args.focusedIn();
       this.hasFocusedOutOfChallenge = false;
     }
@@ -83,7 +72,7 @@ export default class ChallengeItemGeneric extends Component {
 
   @action
   showOutOfFocusBorder() {
-    if (this.isFocusedChallenge) {
+    if (this.isFocusedChallenge && this.isTooltipClosed) {
       this.args.focusedOut();
       this.hasFocusedOutOfChallenge = true;
     }
@@ -140,5 +129,23 @@ export default class ChallengeItemGeneric extends Component {
   @action
   setUserConfirmation() {
     this.hasUserConfirmedWarning = true;
+  }
+
+  @action
+  enableFocusedChallenge() {
+    this.isTooltipClosed = true;
+    this._setOnBlurEventToWindow();
+    this.args.onTooltipClose();
+  }
+
+  _setOnBlurEventToWindow() {
+    window.onblur = () => {
+      this.hasFocusedOutOfWindow = true;
+      this._clearOnBlurMethod();
+    };
+  }
+
+  _clearOnBlurMethod() {
+    window.onblur = null;
   }
 }

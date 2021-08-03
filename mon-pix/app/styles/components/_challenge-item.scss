@@ -1,5 +1,4 @@
 .challenge-item {
-  z-index: 1;
 
   &__container {
 
@@ -7,6 +6,10 @@
       border: 3px dashed $grey-70;
       border-radius: 10px;
     }
+  }
+
+  &--overlay {
+    z-index: 1;
   }
 }
 

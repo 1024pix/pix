@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { click, find, findAll, render, triggerEvent } from '@ember/test-helpers';
+import { click, find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -68,37 +68,6 @@ describe('Integration | Component | ChallengeStatement', function() {
 
       // then
       expect(find('.challenge-statement-instruction__tag')).to.exist;
-    });
-
-    it('should render a tooltip when hovering the tag', async function() {
-      addAssessmentToContext(this, { id: '267845' });
-      addChallengeToContext(this, {
-        instruction: 'La consigne de mon test',
-        id: 'rec_challenge',
-      });
-
-      // when
-      await renderChallengeStatement();
-      await triggerEvent('.challenge-statement-instruction__tag', 'mouseenter');
-
-      // then
-      expect(find('.challenge-statement__tag-information')).to.exist;
-    });
-
-    it('should not render a tooltip when leaving the tag', async function() {
-      addAssessmentToContext(this, { id: '267845' });
-      addChallengeToContext(this, {
-        instruction: 'La consigne de mon test',
-        id: 'rec_challenge',
-      });
-
-      // when
-      await renderChallengeStatement();
-      await triggerEvent('.challenge-statement-instruction__tag', 'mouseenter');
-      await triggerEvent('.challenge-statement-instruction__tag', 'mouseleave');
-
-      // then
-      expect(find('.challenge-statement__tag-information')).to.not.exist;
     });
 
     it('should not render challenge instruction if it does not exist', async function() {
