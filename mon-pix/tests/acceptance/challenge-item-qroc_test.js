@@ -541,7 +541,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
           // when
           await visit(`/assessments/${assessment.id}/challenges/0`);
-          await click('[data-test="challenge-statement-tag-information__button"]');
+          await click('.challenge-statement-tag-information__button');
         });
 
         it('should hide an overlay and tooltip', async () => {
