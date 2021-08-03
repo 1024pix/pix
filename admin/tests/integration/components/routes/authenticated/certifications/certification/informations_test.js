@@ -32,6 +32,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
         birthplace: 'Tokyo',
         birthCountry: 'Japon',
         birthInseeCode: '99217',
+        userId: 456,
         birthPostalCode: null,
         competencesWithMark: [],
       });
@@ -63,6 +64,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
         birthdate: '1991-01-01',
         sex: '',
         birthplace: 'Tokyo',
+        userId: 888,
         competencesWithMark: [],
       });
 
@@ -81,6 +83,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
       // given
       const certification = this.server.create('certification', {
         status: 'started',
+        userId: 456,
         competencesWithMark: [],
       });
 
@@ -100,10 +103,11 @@ module('Integration | Component | routes/authenticated/certifications/certificat
       // given
       const certification = this.server.create('certification', {
         status: 'cancelled',
+        userId: 456,
         competencesWithMark: [],
       });
 
-      const cancellationButtonSelector = '.buttons-row .pix-button';
+      const cancellationButtonSelector = 'button[data-test-id="Annuler la certification"]';
 
       // when
       await visit(`/certifications/${certification.id}`);
@@ -120,6 +124,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
         // given
         const certificationIssueReports = [];
         const certification = this.server.create('certification', {
+          userId: 456,
           certificationIssueReports,
           competencesWithMark: [
             {
@@ -163,6 +168,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
             isImpactful: true,
           });
           const certification = this.server.create('certification', {
+            userId: 456,
             competencesWithMark: [
               {
                 'id': 104637,
@@ -206,6 +212,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
               resolvedAt: Date.now(),
             });
             const certification = this.server.create('certification', {
+              userId: 456,
               competencesWithMark: [],
               certificationIssueReports: [resolvedCertificationIssueReport],
             });
@@ -230,6 +237,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
               resolvedAt: null,
             });
             const certification = this.server.create('certification', {
+              userId: 456,
               competencesWithMark: [],
               certificationIssueReports: [unresolvedCertificationIssueReport],
             });
@@ -255,6 +263,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
             isImpactful: false,
           });
           const certification = this.server.create('certification', {
+            userId: 456,
             competencesWithMark: [
               {
                 'id': 104637,
@@ -298,6 +307,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
           isImpactful: true,
         });
         const certification = this.server.create('certification', {
+          userId: 456,
           competencesWithMark: [
             {
               'id': 104637,
@@ -346,6 +356,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
           birthplace: 'Tokyo',
           birthCountry: 'Japon',
           birthInseeCode: '99217',
+          userId: 456,
           birthPostalCode: null,
           competencesWithMark: [],
         });

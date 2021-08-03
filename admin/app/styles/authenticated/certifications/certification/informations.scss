@@ -2,11 +2,14 @@
   padding: 20px;
 
   .buttons-row {
-  display: flex;
-  justify-content: flex-end;
-      .cancel-btn {
-        margin-bottom: 20px;
-      }
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    a:hover {
+      color: $white;
+      text-decoration: none;
+    }
   }
 
   .card {
