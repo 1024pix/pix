@@ -74,17 +74,17 @@ async function _checkCanAccessToCampaign(campaign, userId, domainTransaction) {
 
   }
 
-  if (campaign.isRestricted && await _hasNoSchoolingRegistration(userId, campaign, domainTransaction)) {
+  if (campaign.isRestricted && await _hasNoActiveSchoolingRegistration(userId, campaign, domainTransaction)) {
     throw new ForbiddenAccess('Vous n\'êtes pas autorisé à rejoindre la campagne');
   }
 }
 
-async function _hasNoSchoolingRegistration(userId, campaign, domainTransaction) {
+async function _hasNoActiveSchoolingRegistration(userId, campaign, domainTransaction) {
   const knexConn = domainTransaction.knexTransaction || knex;
   const registrations = await knexConn
     .select('schooling-registrations.id')
     .from('schooling-registrations')
-    .where({ userId, organizationId: campaign.organizationId });
+    .where({ userId, organizationId: campaign.organizationId, isDisabled: false });
 
   return registrations.length === 0;
 }

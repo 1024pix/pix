@@ -4,6 +4,14 @@ export default function index(config) {
   config.get('/schooling-registration-user-associations', (schema, request) => {
     const campaignCode = request.queryParams.campaignCode;
     const schooolingRegistration = schema.schoolingRegistrationUserAssociations.findBy({ campaignCode });
+    if (campaignCode === 'FORBIDDEN') {
+      return new Response(412, {}, {
+        errors: [{
+          status: '412',
+          title: 'Precondition failed',
+        }],
+      });
+    }
     return schooolingRegistration ? schooolingRegistration : { data: null };
   });
 

@@ -51,14 +51,19 @@ module.exports = {
     return h.response(null).code(204);
   },
 
-  findAssociation(request) {
+  async findAssociation(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     // eslint-disable-next-line no-restricted-syntax
     const requestedUserId = parseInt(request.query.userId);
     const campaignCode = request.query.campaignCode;
 
-    return usecases.findAssociationBetweenUserAndSchoolingRegistration({ authenticatedUserId, requestedUserId, campaignCode })
-      .then(schoolingRegistrationSerializer.serialize);
+    const schoolingRegistration = await usecases.findAssociationBetweenUserAndSchoolingRegistration({
+      authenticatedUserId,
+      requestedUserId,
+      campaignCode,
+    });
+
+    return schoolingRegistrationSerializer.serialize(schoolingRegistration);
   },
 
   async generateUsername(request, h) {

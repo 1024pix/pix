@@ -765,6 +765,12 @@ class UserNotAuthorizedToRemoveAuthenticationMethod extends DomainError {
   }
 }
 
+class SchoolingRegistrationDisabledError extends DomainError {
+  constructor(message = 'L\'inscription de l\'élève est désactivée dans l\'organisation.') {
+    super(message);
+  }
+}
+
 class SchoolingRegistrationNotFound extends NotFoundError {
   constructor(message = 'Aucune inscription d‘élève n‘a été trouvée.') {
     super(message);
@@ -970,6 +976,7 @@ module.exports = {
   SameNationalApprenticeIdInOrganizationError,
   SameNationalStudentIdInOrganizationError,
   SchoolingRegistrationAlreadyLinkedToUserError,
+  SchoolingRegistrationDisabledError,
   SchoolingRegistrationNotFound,
   SchoolingRegistrationsCouldNotBeSavedError,
   SendingEmailToResultRecipientError,
