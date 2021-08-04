@@ -60,6 +60,10 @@
       "title": "Résultat moyen",
       "result": "{result, number, ::percent}"
     },
+    "participants-average-stages": {
+      "information": "Retrouvez ici le palier moyen de votre campagne. Ce nombre comprend l'ensemble des participants ayant fini leur parcours et envoyé leur résultat.",
+      "title": "Palier moyen"
+    },
     "participants-count": {
       "information": "Retrouvez ici le nombre de participants total de votre campagne. Ce nombre comprend l'ensemble des participants ayant saisi le code et commencé leur parcours ou leur envoi de profil.",
       "loader": "Chargement du total de participants",
