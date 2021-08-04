@@ -4,6 +4,13 @@
     height: 18px;
   }
 
+  &--wide {
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
   &__container {
     display: inline-flex;
 
