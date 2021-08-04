@@ -23,6 +23,7 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
         sex: 'F',
         birthCountry: 'CUBA',
         birthINSEECode: '99407',
+        userId: 574,
         certificationIssueReports: [],
       });
       const assessmentResult = new AssessmentResult({
@@ -66,6 +67,7 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
         birthCountry: 'CUBA',
         birthINSEECode: '99407',
         birthPostalCode: null,
+        userId: 574,
         certificationIssueReports: [],
         status: assessmentResult.status,
         assessmentId: assessmentResult.assessmentId,
