@@ -37,6 +37,11 @@ describe('Integration | Repository | Campaign-Management', () => {
         organizationName: organization.name,
         targetProfileId: targetProfile.id,
         targetProfileName: targetProfile.name,
+        title: campaign.title,
+        customLandingPageText: campaign.customLandingPageText,
+        customResultPageText: null,
+        customResultPageButtonText: null,
+        customResultPageButtonUrl: null,
       });
     });
 
@@ -69,6 +74,11 @@ describe('Integration | Repository | Campaign-Management', () => {
         organizationName: organization.name,
         targetProfileId: null,
         targetProfileName: null,
+        title: campaign.title,
+        customLandingPageText: campaign.customLandingPageText,
+        customResultPageText: null,
+        customResultPageButtonText: null,
+        customResultPageButtonUrl: null,
       });
     });
   });

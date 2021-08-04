@@ -20,6 +20,11 @@ module.exports = {
         organizationName: 'organizations.name',
         targetProfileId: 'campaigns.targetProfileId',
         targetProfileName: 'target-profiles.name',
+        title: 'campaigns.title',
+        customLandingPageText: 'campaigns.customLandingPageText',
+        customResultPageText: 'campaigns.customResultPageText',
+        customResultPageButtonText: 'campaigns.customResultPageButtonText',
+        customResultPageButtonUrl: 'campaigns.customResultPageButtonUrl',
       })
       .join('users', 'users.id', 'campaigns.creatorId')
       .join('organizations', 'organizations.id', 'campaigns.organizationId')
