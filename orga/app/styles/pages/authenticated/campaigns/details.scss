@@ -105,3 +105,28 @@
     height: inherit;
   }
 }
+
+@include device-is('mobile') {
+  .campaign-details{
+    &__header {
+      flex-direction: column;
+      align-items: initial;
+    }
+  }
+
+  .campaign-details-header {
+    &__headline {
+      margin-bottom: 16px;
+    }
+  
+    &__report {
+      margin-left: 32px;
+    }
+  }
+
+  .campaign-details-controls {
+    &__navbar-tabs {
+      flex-direction: column;
+    }
+  }
+}
