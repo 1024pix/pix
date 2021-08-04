@@ -4,24 +4,4 @@
   {{t 'common.actions.back'}}
 </PixReturnTo>
 
-<article class="import-students-page">
-
-  <header class="import-students-page__header">
-    <img src="{{this.rootURL}}/images/import-participant.svg" alt="" role="none">
-    <h1 class="page-title import-students-page-header__title">{{t 'pages.students-sup-import.title'}}</h1>
-    <p class="import-students-page-header__details">{{t 'pages.students-sup-import.supported-formats'}}</p>
-  </header>
-
-  {{#if @isLoading}}
-    <Ui::PixLoader />
-  {{else}}
-    <section class="import-students-page__section">
-      <h2 class="import-students-page-section__title">{{t 'pages.students-sup-import.actions.add.title'}}</h2>
-      <p class="import-students-page-section__details">{{t 'pages.students-sup-import.actions.add.details'}}</p>
-      <FileUpload class="import-students-page-section__action" @name="file-upload" @for="students-file-upload" @accept=".csv" @multiple={{false}} @onfileadd={{@onImportStudents}}>
-        <span class="button button--thin" role="button" tabindex="0">{{t 'pages.students-sup-import.actions.add.label'}}</span>
-      </FileUpload>
-    </section>
-  {{/if}}
-
-</article>
+<Student::Sup::Import @onImportStudents={{this.importStudents}} @isLoading={{this.isLoading}}/>
