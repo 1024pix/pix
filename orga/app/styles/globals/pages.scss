@@ -9,3 +9,13 @@
 .navigation {
   margin: 24px 0;
 }
+
+@include device-is('mobile') {
+  .page {
+    padding: 0;
+  }
+
+  .hide-on-mobile {
+    display: none;
+  }
+}

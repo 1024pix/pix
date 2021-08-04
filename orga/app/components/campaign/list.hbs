@@ -7,20 +7,20 @@
             <th class="table__column table__column--wide">
               {{t 'pages.campaigns-list.table.column.campaign'}}
             </th>
-            <th class="table__column">
+            <th class="table__column hide-on-mobile">
               {{t 'pages.campaigns-list.table.column.created-by'}}
             </th>
-            <th class="table__column table__column--small">
+            <th class="table__column table__column--small hide-on-mobile">
               {{t 'pages.campaigns-list.table.column.created-on'}}
             </th>
-            <th class="table__column table__column--small">
+            <th class="table__column table__column--small hide-on-mobile">
               {{t 'pages.campaigns-list.table.column.participants'}}
             </th>
-            <th class="table__column table__column--small">
+            <th class="table__column table__column--small hide-on-mobile">
               {{t 'pages.campaigns-list.table.column.results'}}
             </th>
           </tr>
-          <tr>
+          <tr class="hide-on-mobile">
             <Table::HeaderFilterInput
               @field="name"
               @value={{@nameFilter}}
@@ -50,10 +50,10 @@
                 {{campaign.name}}
               </LinkTo>
             </td>
-            <td class="table__column--truncated">{{campaign.creatorFullName}}</td>
-            <td>{{moment-format campaign.createdAt 'DD/MM/YYYY' allow-empty=true}}</td>
-            <td>{{campaign.participationsCount}}</td>
-            <td>{{campaign.sharedParticipationsCount}}</td>
+            <td class="table__column--truncated hide-on-mobile">{{campaign.creatorFullName}}</td>
+            <td class="hide-on-mobile">{{moment-format campaign.createdAt 'DD/MM/YYYY' allow-empty=true}}</td>
+            <td class="hide-on-mobile">{{campaign.participationsCount}}</td>
+            <td class="hide-on-mobile">{{campaign.sharedParticipationsCount}}</td>
           </tr>
         {{/each}}
         </tbody>
