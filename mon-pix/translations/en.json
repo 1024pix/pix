@@ -977,7 +977,7 @@
             "username": "Votre identifiant",
             "latest-organization-name": "Votre dernier établissement"
           },
-          "certify-account": "En confirmant, j’atteste sur l’honneur que le compte associé à ces données m’appartient et j’accepte que Pix supprime le lien vers tous les établissements auxquels je suis rattaché.",
+          "certify-account": "J’atteste sur l’honneur que le compte associé à ces données m’appartient.",
           "buttons": {
             "cancel":"Annuler",
             "confirm": "Je confirme"
