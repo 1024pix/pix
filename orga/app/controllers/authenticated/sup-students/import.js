@@ -42,32 +42,32 @@ export default class ImportController extends Controller {
   _sendNotifications(response) {
     const warningsArray = get(response, 'body.data.attributes.warnings', []);
     if (isEmpty(warningsArray)) {
-      this.notifications.sendSuccess(this.intl.t('pages.students-sup.import.global-success'));
+      this.notifications.sendSuccess(this.intl.t('pages.students-sup-import.global-success'));
     }
 
     const warnings = groupBy(warningsArray, 'field');
     const warningMessages = [];
     if (warnings.diploma) {
       const diplomas = uniq(warnings.diploma.map((warning) => warning.value)).join(', ');
-      warningMessages.push(this.intl.t('pages.students-sup.import.warnings.diploma', { diplomas }));
+      warningMessages.push(this.intl.t('pages.students-sup-import.warnings.diploma', { diplomas }));
     }
     if (warnings['study-scheme']) {
       const studySchemes = uniq(warnings['study-scheme'].map((warning) => warning.value)).join(', ');
-      warningMessages.push(this.intl.t('pages.students-sup.import.warnings.study-scheme', { studySchemes }));
+      warningMessages.push(this.intl.t('pages.students-sup-import.warnings.study-scheme', { studySchemes }));
     }
     return this.notifications.sendWarning(this.intl.t(
-      'pages.students-sup.import.global-success-with-warnings',
+      'pages.students-sup-import.global-success-with-warnings',
       { warnings: warningMessages.join(''), htmlSafe: true },
     ));
   }
 
   _sendErrorNotifications(errorResponse) {
-    const globalErrorMessage = this.intl.t('pages.students-sup.import.global-error', { htmlSafe: true });
+    const globalErrorMessage = this.intl.t('pages.students-sup-import.global-error', { htmlSafe: true });
     if (errorResponse.body.errors) {
       errorResponse.body.errors.forEach((error) => {
         if (error.status === '412' || error.status === '413') {
           const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
-          return this.notifications.sendError(this.intl.t('pages.students-sup.import.error-wrapper', { message, htmlSafe: true }));
+          return this.notifications.sendError(this.intl.t('pages.students-sup-import.error-wrapper', { message, htmlSafe: true }));
         }
         return this.notifications.sendError(globalErrorMessage, { onClick: () => window.open(this.intl.t('common.help-form'), '_blank') });
       });
