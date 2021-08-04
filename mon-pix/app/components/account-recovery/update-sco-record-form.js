@@ -22,12 +22,9 @@ class PasswordValidation {
 }
 
 export default class UpdateScoRecordFormComponent extends Component {
-  @service store;
   @service intl;
-  @service router;
 
   @tracked passwordValidation = new PasswordValidation();
-
   @tracked password = '';
 
   get isFormValid() {
@@ -57,16 +54,7 @@ export default class UpdateScoRecordFormComponent extends Component {
     event.preventDefault();
     this.passwordValidation.status = STATUS_MAP['successStatus'];
     this.passwordValidation.message = null;
-    const newPassword = this.store.createRecord('account-recovery-demand', {
-      temporaryKey: this.args.temporaryKey,
-      password: this.password,
-    });
-    try {
-      await newPassword.update();
-      this.router.transitionTo('login');
-    } catch (err) {
-      console.log(err);
-    }
+    this.args.updateRecord(this.password);
   }
 
 }

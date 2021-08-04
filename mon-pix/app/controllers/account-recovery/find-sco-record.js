@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 class StudentInformationForAccountRecovery {
@@ -14,8 +15,16 @@ class StudentInformationForAccountRecovery {
 
 export default class FindScoRecordController extends Controller {
 
+  @service intl;
+
+  @tracked accountRecoveryError = {
+    message: '',
+    title: '',
+    showReturnToHomeButton: false,
+  };
+
   @tracked showStudentInformationForm = true;
-  @tracked showConflictError = false;
+  @tracked showErrors = false;
   @tracked showConfirmationStep = false;
   @tracked showBackupEmailConfirmationForm = false;
   @tracked showAccountNotFoundError = false;
@@ -75,13 +84,7 @@ export default class FindScoRecordController extends Controller {
       this.showConfirmationEmailSent = true;
       this.templateImg = 'boite';
     } catch (err) {
-      const status = err.errors?.[0]?.status;
-
-      if (status === '400') {
-        this.showAlreadyRegisteredEmailError = true;
-      } else {
-        console.log(err);
-      }
+      this._handleError(err);
     }
   }
 
@@ -102,10 +105,30 @@ export default class FindScoRecordController extends Controller {
   _handleError(err) {
     const status = err.errors?.[0]?.status;
 
-    if (status === '409') {
+    const errorDetails = {
+      403: {
+        message: this.intl.t('pages.account-recovery.errors.key-used'),
+        title: this.intl.t('pages.account-recovery.errors.title'),
+        showReturnToHomeButton: true,
+      },
+      409: {
+        message: this.intl.t('pages.account-recovery.find-sco-record.conflict.warning'),
+        title: this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName: this.studentInformationForAccountRecovery.firstName }),
+        showReturnToHomeButton: false,
+      },
+    };
+
+    const hasConflictOrTemporaryKeyError = status === '403' || status === '409';
+    const isEmailAlreadyRegistered = this.showBackupEmailConfirmationForm && status === '400';
+    if (hasConflictOrTemporaryKeyError) {
       this.showStudentInformationForm = false;
       this.showAccountNotFoundError = false;
-      this.showConflictError = true;
+      this.showBackupEmailConfirmationForm = false;
+      this.showAlreadyRegisteredEmailError = false;
+      this.showErrors = true;
+      this.accountRecoveryError = errorDetails[status];
+    } else if (isEmailAlreadyRegistered) {
+      this.showAlreadyRegisteredEmailError = true;
     } else {
       this.showAccountNotFoundError = true;
     }

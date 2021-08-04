@@ -2,11 +2,14 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import setupIntl from 'mon-pix/tests/helpers/setup-intl';
+
 import sinon from 'sinon';
 
 describe('Unit | Route | account-recovery | update sco record', function() {
 
   setupTest();
+  setupIntl();
 
   describe('Route behavior', function() {
 
@@ -32,7 +35,7 @@ describe('Unit | Route | account-recovery | update sco record', function() {
       expect(route).to.be.ok;
     });
 
-    it('should ask account recovery validity', function() {
+    it('should get valid account recovery', function() {
       // given
       queryRecordStub.resolves({});
       const route = this.owner.lookup('route:account-recovery/update-sco-record');
@@ -78,5 +81,81 @@ describe('Unit | Route | account-recovery | update sco record', function() {
       });
     });
 
+    describe('when account recovery demand is invalid ', function() {
+
+      ['400', '404'].forEach((statusCode) => {
+        it(`should return error message when account recovery fails with ${statusCode}`, function() {
+          // given
+          queryRecordStub.rejects({ errors: [ { status: statusCode }] });
+
+          const route = this.owner.lookup('route:account-recovery/update-sco-record');
+          route.set('store', storeStub);
+
+          // when
+          const promise = route.model(params);
+
+          // then
+          return promise.then((result) => {
+            expect(result.errorMessage).to.equal(this.intl.t('pages.account-recovery.errors.key-invalid'));
+            expect(result.showReturnToHomeButton).to.be.true;
+          });
+        });
+      });
+
+      it('should return error message when account recovery fails with 401', function() {
+        // given
+        queryRecordStub.rejects({ errors: [ { status: 401 }] });
+
+        const route = this.owner.lookup('route:account-recovery/update-sco-record');
+        route.set('store', storeStub);
+
+        // when
+        const promise = route.model(params);
+
+        // then
+        return promise.then((result) => {
+          expect(result.errorMessage).to.equal(this.intl.t('pages.account-recovery.errors.key-expired'));
+          expect(result.showRenewLink).to.be.true;
+        });
+      });
+
+      it('should return error message when account recovery fails with 403', function() {
+        // given
+        queryRecordStub.rejects({ errors: [ { status: 403 }] });
+
+        const route = this.owner.lookup('route:account-recovery/update-sco-record');
+        route.set('store', storeStub);
+
+        // when
+        const promise = route.model(params);
+
+        // then
+        return promise.then((result) => {
+          expect(result.errorMessage).to.equal(this.intl.t('pages.account-recovery.errors.key-used'));
+          expect(result.showReturnToHomeButton).to.be.true;
+        });
+      });
+
+      ['500', '502', '504'].forEach((statusCode) => {
+        it(`should return error message when account recovery fails with ${statusCode}`, function() {
+          // given
+          queryRecordStub.rejects({ errors: [ { status: statusCode }] });
+
+          const route = this.owner.lookup('route:account-recovery/update-sco-record');
+          route.set('store', storeStub);
+
+          // when
+          const promise = route.model(params);
+
+          // then
+          return promise.then((result) => {
+            expect(result.errorMessage).to.equal(this.intl.t('api-error-messages.internal-server-error'));
+            expect(result.showReturnToHomeButton).to.be.true;
+          });
+        });
+      });
+
+    });
   });
+
 });
