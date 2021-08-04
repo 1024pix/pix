@@ -1,16 +1,18 @@
 {{page-title (t 'pages.campaign-results.title')}}
 {{#if @model.campaign.hasSharedParticipations}}
+  <Campaign::Results::AssessmentCards
+    @hasStages={{@model.campaign.hasStages}}
+    @stages={{@model.campaign.stages}}
+    @sharedParticipationsCount={{@model.campaign.sharedParticipationsCount}}
+    @averageResult={{@model.campaign.campaignCollectiveResult.averageResult}}
+  />
+
   {{#if @model.campaign.hasStages}}
     <Charts::ParticipantsByStage
       @campaignId={{@model.campaign.id}}
       @onSelectStage={{this.filterByStage}}
       class="participant-row__result"
     />
-  {{else}}
-    <Campaign::Results::AssessmentCards
-    @sharedParticipationsCount={{@model.campaign.sharedParticipationsCount}}
-    @averageResult={{@model.campaign.campaignCollectiveResult.averageResult}}
-  />
   {{/if}}
 
   <Campaign::Results::AssessmentList
@@ -24,7 +26,5 @@
     @onResetFilter={{this.resetFiltering}}
   />
 {{else}}
-  <Campaign::EmptyState
-    @campaignCode={{@model.campaign.code}}
-  />
+  <Campaign::EmptyState @campaignCode={{@model.campaign.code}} />
 {{/if}}
