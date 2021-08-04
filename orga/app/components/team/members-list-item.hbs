@@ -5,7 +5,7 @@
   {{#unless this.isEditionMode }}
     <td>{{this.displayRole}}</td>
     {{#if (not-eq @membership.user.id this.currentUser.prescriber.id) }}
-      <td class="zone-edit-role">
+      <td class="zone-edit-role hide-on-mobile">
         <Dropdown::IconTrigger
           @icon="ellipsis-v"
           @dropdownButtonClass="zone-edit-role__dropdown-button"
@@ -21,7 +21,7 @@
         </Dropdown::IconTrigger>
       </td>
     {{else}}
-      <td></td>
+      <td class="hide-on-mobile"></td>
     {{/if}}
   {{/unless}}
 
