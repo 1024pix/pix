@@ -1,11 +1,10 @@
 const _ = require('lodash');
-
-let id = 1;
+const { v4: uuidv4 } = require('uuid');
 
 class AlgoResult {
 
   constructor() {
-    this._id = id++;
+    this._id = uuidv4();
     this._challenges = [];
     this._estimatedLevels = [];
     this._answerStatuses = [];
