@@ -40,7 +40,7 @@ module('Integration | Component | Student::Sup::HeaderActions', function(hooks) 
       await render(hbs`<Student::Sup::HeaderActions/>`);
 
       // then
-      assert.contains('Importer (.csv)');
+      assert.contains('Importer');
     });
   });
 

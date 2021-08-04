@@ -620,7 +620,7 @@
       "actions": {
         "download-template": "Télécharger le modèle",
         "edit-student-number": "Éditer le numéro étudiant",
-        "import-file": "Importer (.csv)",
+        "import-file": "Importer",
         "show-actions": "Afficher les actions"
       },
       "edit-student-number-modal": {
