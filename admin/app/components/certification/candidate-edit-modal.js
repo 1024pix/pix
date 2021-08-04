@@ -146,9 +146,6 @@ export default class CandidateEditModal extends Component {
   }
 
   _initForm() {
-    this.selectBirthGeoCodeOption(this.args.candidate.birthInseeCode ? INSEE_CODE_OPTION : POSTAL_CODE_OPTION);
-    this.selectedCountryInseeCode = this.args.candidate.birthCountry === 'FRANCE' ? FRANCE_INSEE_CODE : this.args.candidate.birthInseeCode;
-
     this.firstName = this.args.candidate.firstName;
     this.lastName = this.args.candidate.lastName;
     this.birthdate = this.args.candidate.birthdate;
@@ -158,6 +155,9 @@ export default class CandidateEditModal extends Component {
     this.birthInseeCode = this.args.candidate.birthInseeCode;
     this.birthPostalCode = this.args.candidate.birthPostalCode;
     this.birthCountry = this.args.candidate.birthCountry;
+
+    this.selectBirthGeoCodeOption(this.args.candidate.birthInseeCode ? INSEE_CODE_OPTION : POSTAL_CODE_OPTION);
+    this.selectedCountryInseeCode = this.args.candidate.birthCountry === 'FRANCE' ? FRANCE_INSEE_CODE : this.args.candidate.birthInseeCode;
   }
 
   _isFranceSelected() {
