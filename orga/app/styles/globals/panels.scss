@@ -146,3 +146,21 @@
       color: $blue;
   }
 }
+
+@include device-is('mobile') {
+  .navbar{
+    width: 100%;
+    height: auto;
+    padding: 0;
+
+    &-item {
+      width: 100%;
+      height: 48px;
+    }
+
+    &-item.active {
+      border-bottom-width: 0px;
+      background-color: lighten($blue, 32%);
+    }
+  }
+}
