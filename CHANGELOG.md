@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.81.0 (04/08/2021)
+
+- [#3269](https://github.com/1024pix/pix/pull/3269) [FEATURE] Améliorer l'affichage des erreurs lors de la récupération de compte suite à la sortie SCO (PIX-2851)
+- [#3273](https://github.com/1024pix/pix/pull/3273) [FEATURE] Ajouter un lien permettant d'accéder au détail d'un utilisateur depuis la page de détail d'une certification dans Pix Admin (PIX-2920).
+- [#3151](https://github.com/1024pix/pix/pull/3151) [FEATURE] Choix de réponse avec un menu déroulant dans une épreuve (PIX-2262).
+- [#3266](https://github.com/1024pix/pix/pull/3266) [FEATURE] Permettre l'édition de données CPF dans la modale d'édition des informations Candidat dans PixAdmin (PIX-2840)
+- [#3256](https://github.com/1024pix/pix/pull/3256) [FEATURE] Ajout d'une tooltip à l'arrivée d'une épreuve focus (PIX-2870).
+- [#3262](https://github.com/1024pix/pix/pull/3262) [BUGFIX] Sur la page de fin de campagne, afficher uniquement les badges gagnés durant celle-ci (PIX-2705)
+- [#3245](https://github.com/1024pix/pix/pull/3245) [DOC] Expliciter la configuration BDD.
+- [#3222](https://github.com/1024pix/pix/pull/3222)  [FEATURE] Ajout des 2 cartes sur les résultats dans l'onglet résultats sur Pix Orga (PIX-2825).
+- [#3272](https://github.com/1024pix/pix/pull/3272) [CLEAN] Refacto du proposal as blocks.
+
 ## v3.80.0 (02/08/2021)
 
 - [#3257](https://github.com/1024pix/pix/pull/3257) [FEATURE][A11Y] Permettre la navigation au clavier dans la liste des sessions (PIX-2691)
