@@ -15,6 +15,7 @@
   "author": "GIP Pix",
   "license": "ISC",
   "dependencies": {
+    "@fast-csv/format": "^4.3.5",
     "chai": "^4.3.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.27.0",
