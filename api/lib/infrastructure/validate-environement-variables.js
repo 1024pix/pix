@@ -27,6 +27,7 @@ const schema = Joi.object({
   IS_SCO_ACCOUNT_RECOVERY_ENABLED: Joi.string().optional().valid('true', 'false'),
   FT_IS_NEW_CPF_DATA_ENABLED: Joi.string().optional().valid('true', 'false'),
   SCO_ACCOUNT_RECOVERY_TOKEN_LIFETIME_MINUTES: Joi.number().optional(),
+  CACHE_RELOAD_TIME: Joi.string().optional(),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function() {
