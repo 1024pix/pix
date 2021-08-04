@@ -78,3 +78,15 @@
     }
   }
 }
+
+@include device-is('mobile') {
+  .logged-user-summary {
+    &__name {
+      overflow: hidden;
+    }
+  
+    &__organization {
+      overflow: hidden;
+    }
+  }
+}

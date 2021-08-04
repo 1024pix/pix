@@ -13,16 +13,6 @@
   }
 }
 
-@include device-is('mobile') {
-  .app {
-    flex-direction: column;
-  
-    &__sidebar {
-      width: 100%;
-    }
-  }
-}
-
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -83,5 +73,23 @@
 
   &__organization-credit-info {
     padding: 0 30px;
+  }
+}
+
+
+@include device-is('mobile') {
+  .app {
+    flex-direction: column;
+  
+    &__sidebar {
+      width: 100%;
+    }
+  }
+
+  .topbar {
+    &__user-logged-menu {
+      padding: 0 16px;
+      border-left-width: 0px;
+    }
   }
 }
