@@ -19,8 +19,8 @@
             {{/if}}
             <th class="table__column--center">{{t 'pages.profiles-list.table.column.sending-date.label'}}</th>
             <th class="table__column--center">{{t 'pages.profiles-list.table.column.pix-score.label'}}</th>
-            <th class="table__column--center">{{t 'pages.profiles-list.table.column.certifiable'}}</th>
-            <th class="table__column--center">{{t 'pages.profiles-list.table.column.competences-certifiables'}}</th>
+            <th class="table__column--center hide-on-mobile">{{t 'pages.profiles-list.table.column.certifiable'}}</th>
+            <th class="table__column--center hide-on-mobile">{{t 'pages.profiles-list.table.column.competences-certifiables'}}</th>
           </tr>
         </thead>
 
@@ -53,12 +53,12 @@
                   </PixTag>
                 {{/if}}
               </td>
-              <td class="table__column--center">
+              <td class="table__column--center hide-on-mobile">
                 {{#if profile.certifiable }}
                   <PixTag @color="green-light">{{t 'pages.profiles-list.table.column.certifiable'}}</PixTag>
                 {{/if}}
               </td>
-              <td class="table__column--center">
+              <td class="table__column--center hide-on-mobile">
                 {{profile.certifiableCompetencesCount}}
               </td>
             </tr>
