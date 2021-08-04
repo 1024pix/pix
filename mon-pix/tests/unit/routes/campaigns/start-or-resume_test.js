@@ -25,6 +25,7 @@ describe('Unit | Route | Start-or-resume', function() {
       const transition = { to: { queryParams: { } } };
       route.modelFor = sinon.stub().returns(campaign);
       route.session = { isAuthenticated: true };
+      route.store = { queryRecord: sinon.stub() };
       route.currentUser = { user: { mustValidateTermsOfService: false } };
       route.replaceWith = sinon.stub();
 

@@ -25,10 +25,9 @@ describe('Unit | Route | campaigns/restricted/join', function() {
         user: { id: 'id' },
       }));
       route.replaceWith = sinon.stub();
-      const transition = { to: { queryParams: {} } };
 
       // when
-      await route.afterModel(campaign, transition);
+      await route.afterModel(campaign);
 
       // then
       sinon.assert.calledWith(route.replaceWith, 'campaigns.start-or-resume', campaign.code, { queryParams: { associationDone: true } });

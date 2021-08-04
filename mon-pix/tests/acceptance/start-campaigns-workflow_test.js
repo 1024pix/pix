@@ -857,6 +857,32 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
       });
 
+      context('When the campaign is restricted and schooling-registration is disabled', function() {
+        beforeEach(function() {
+          campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true });
+        });
+
+        it('should show an error message when user starts the campaign', async function() {
+          // when
+          await visit(`/campagnes/${campaign.code}`);
+
+          // then
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}`);
+          expect(find('.title').textContent).to.contains('Oups, la page demandée n’est pas accessible.');
+        });
+
+        it('should resume the campaign when user already has a participation', async function() {
+          // given
+          server.create('campaign-participation', { campaignId: campaign.id, userId: prescritUser.id });
+
+          // when
+          await visit(`/campagnes/${campaign.code}`);
+
+          // then
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+        });
+      });
+
       context('When campaign does not exist', function() {
         beforeEach(async function() {
           await visit('/campagnes/codefaux');
