@@ -394,6 +394,51 @@ describe('Unit | Service | Certification CPF service', () => {
             expect(certificationCpfCityRepository.findByPostalCode).to.have.been.calledWith({ postalCode: birthPostalCode });
           });
 
+          context('when there is multiple cities for the same postal code', () => {
+
+            it('should return birth information with the normalized provided city name', async () => {
+              // given
+              const birthCountry = 'FRANCE';
+              const birthCity = 'Losse-en-Gelaisse';
+              const birthPostalCode = '12345';
+              const birthINSEECode = null;
+
+              const certificationCPFCountry = domainBuilder.buildCertificationCpfCountry.FRANCE();
+              certificationCpfCountryRepository.getByMatcher.withArgs({ matcher: 'ACEFNR' }).resolves(certificationCPFCountry);
+              certificationCpfCityRepository.findByPostalCode.resolves([
+                domainBuilder.buildCertificationCpfCity({
+                  birthPostalCode,
+                  name: 'NOUILLORC',
+                  isActualName: true,
+                }),
+                domainBuilder.buildCertificationCpfCity({
+                  birthPostalCode,
+                  name: 'LOSSE EN GELAISSE',
+                  isActualName: true,
+                }),
+              ]);
+
+              // when
+              const result = await getBirthInformation({
+                birthCountry,
+                birthCity,
+                birthPostalCode,
+                birthINSEECode,
+                certificationCpfCountryRepository,
+                certificationCpfCityRepository,
+              });
+
+              // then
+              expect(result).to.deep.equal(CpfBirthInformationValidation.success({
+                birthCountry: 'FRANCE',
+                birthINSEECode: null,
+                birthPostalCode: '12345',
+                birthCity: 'LOSSE EN GELAISSE',
+              }));
+              expect(certificationCpfCityRepository.findByPostalCode).to.have.been.calledWith({ postalCode: birthPostalCode });
+            });
+          });
+
           it('should return a validation failure when postal code is not valid', async () => {
             // given
             const birthCountry = 'FRANCE';

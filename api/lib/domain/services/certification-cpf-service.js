@@ -86,10 +86,10 @@ async function getBirthInformationByPostalCode(birthCity, birthPostalCode, count
     return CpfBirthInformationValidation.failure(`Le code postal "${birthPostalCode}" n'est pas valide.`);
   }
 
-  const sanitizedCity = normalizeAndSortChars(birthCity);
-  const doesCityMatchPostalCode = cities.some((city) => normalizeAndSortChars(city.name) === sanitizedCity);
+  const normalizedAndSortedCity = normalizeAndSortChars(birthCity);
+  const matchedCity = cities.find((city) => normalizeAndSortChars(city.name) === normalizedAndSortedCity);
 
-  if (!doesCityMatchPostalCode) {
+  if (!matchedCity) {
     return CpfBirthInformationValidation.failure(`Le code postal "${birthPostalCode}" ne correspond pas à la ville "${birthCity}"`);
   }
 
@@ -97,7 +97,7 @@ async function getBirthInformationByPostalCode(birthCity, birthPostalCode, count
     birthCountry: country.commonName,
     birthINSEECode: null,
     birthPostalCode,
-    birthCity: _getActualCity(cities),
+    birthCity: matchedCity.name,
   });
 }
 
