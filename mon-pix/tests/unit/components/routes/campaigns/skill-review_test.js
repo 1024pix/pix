@@ -450,6 +450,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
 
     it('should redirect to sign up page on click when user is anonymous', async function() {
       // given
+      const event = { preventDefault: () => {} };
       const session = this.owner.lookup('service:session');
       class currentUser extends Service { user = { isAnonymous: true }}
       this.owner.register('service:currentUser', currentUser);
@@ -457,7 +458,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       session.invalidate = sinon.stub();
 
       // when
-      await component.actions.redirectToSignupIfUserIsAnonymous.call(component);
+      await component.actions.redirectToSignupIfUserIsAnonymous.call(component, event);
 
       // then
       sinon.assert.called(session.invalidate);
@@ -466,14 +467,28 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
 
     it('should redirect to home page when user is not anonymous', async function() {
       // given
+      const event = { preventDefault: () => {} };
       class currentUser extends Service { user = { isAnonymous: false }}
       this.owner.register('service:currentUser', currentUser);
 
       // when
-      await component.actions.redirectToSignupIfUserIsAnonymous.call(component);
+      await component.actions.redirectToSignupIfUserIsAnonymous.call(component, event);
 
       // then
       sinon.assert.calledWith(component.router.transitionTo, 'index');
+    });
+
+    it('prevents default behaviour', async function() {
+      // given
+      const event = { preventDefault: sinon.stub() };
+      class currentUser extends Service { user = { isAnonymous: false }}
+      this.owner.register('service:currentUser', currentUser);
+
+      // when
+      await component.actions.redirectToSignupIfUserIsAnonymous.call(component, event);
+
+      // then
+      sinon.assert.called(event.preventDefault);
     });
   });
 });
