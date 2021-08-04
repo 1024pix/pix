@@ -31,6 +31,7 @@ module.exports = {
         'birthCountry',
         'birthINSEECode',
         'birthPostalCode',
+        'userId',
         'certificationIssueReports',
         'assessmentId',
         'commentForCandidate',

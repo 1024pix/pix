@@ -14,11 +14,11 @@ module.exports = function buildGeneralCertificationInformation({
   lastName = 'De La Vega',
   birthdate = '1990-05-06',
   birthplace = 'Mexico',
-
   birthCountry = 'CUBA',
   birthPostalCode = null,
   birthINSEECode = '99407',
   sex = 'M',
+  userId = 123,
 
   certificationIssueReports = buildCertificationIssueReport.notImpactful(),
 } = {}) {
@@ -35,11 +35,11 @@ module.exports = function buildGeneralCertificationInformation({
     lastName,
     birthdate,
     birthplace,
-
     birthCountry,
     birthPostalCode,
     birthINSEECode,
     sex,
+    userId,
 
     certificationIssueReports,
   });

@@ -2,11 +2,21 @@
 <div class="certification-informations">
   <div class="buttons-row">
     <PixButton
-      class="form-action cancel-btn"
+      class="form-action"
+      @isLink="true"
+      @route="authenticated.users.get"
+      @size="small"
+      @model={{this.certification.userId}}
+    >
+      Voir les détails de l'utilisateur
+    </PixButton>
+    <PixButton
+      class="form-action"
       @backgroundColor="red"
       @isDisabled={{this.isCertificationCancelled}}
-      @border="squircle-small"
-      @triggerAction={{this.onCancelCourseButtonClick}}>
+      @size="small"
+      @triggerAction={{this.onCancelCourseButtonClick}}
+      data-test-id="Annuler la certification">
       Annuler la certification
       </PixButton>
   </div>

@@ -13,6 +13,7 @@ describe('Integration | Repository | General certification information', functio
       it('should retrieve general certification information', async () => {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
+        const userId = databaseBuilder.factory.buildUser().id;
 
         const certificationCourseDTO = {
           sessionId,
@@ -29,6 +30,7 @@ describe('Integration | Repository | General certification information', functio
           sex: 'M',
           birthINSEECode: '99407',
           birthPostalCode: null,
+          userId,
         };
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse(certificationCourseDTO).id;
 
@@ -65,6 +67,7 @@ describe('Integration | Repository | General certification information', functio
           birthINSEECode: certificationCourseDTO.birthINSEECode,
           birthPostalCode: certificationCourseDTO.birthPostalCode,
           birthCountry: certificationCourseDTO.birthCountry,
+          userId: certificationCourseDTO.userId,
           certificationIssueReports: [
             { ...firstCertificationReport,
               isImpactful: true,
