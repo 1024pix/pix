@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
@@ -32,6 +33,35 @@ module.exports = {
       pixPlusDroitCertificationImagePath,
     });
   },
+
+  async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division }) {
+    const certificationCourseDTOs = await _selectCertificationAttestations()
+      .select({ schoolingRegistrationId: 'schooling-registrations.id' })
+      .innerJoin('certification-candidates', function() {
+        this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' })
+          .andOn({ 'certification-candidates.userId': 'certification-courses.userId' });
+      })
+      .innerJoin('schooling-registrations', 'schooling-registrations.id', 'certification-candidates.schoolingRegistrationId')
+      .innerJoin('organizations', 'organizations.id', 'schooling-registrations.organizationId')
+      .where('schooling-registrations.organizationId', '=', organizationId)
+      .whereRaw('LOWER("schooling-registrations"."division") = ?', division.toLowerCase())
+      .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
+      .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
+      .modify(_checkOrganizationIsScoIsManagingStudents)
+      .orderBy('certification-courses.createdAt', 'DESC');
+
+    const mostRecentCertificationsPerSchoolingRegistration = _filterMostRecentCertificationCoursePerSchoolingRegistration(certificationCourseDTOs);
+    return _(mostRecentCertificationsPerSchoolingRegistration)
+      .orderBy(['lastName', 'firstName'], ['asc', 'asc'])
+      .map((certificationCourseDTO) => {
+        return new CertificationAttestation({
+          ...certificationCourseDTO,
+          cleaCertificationImagePath: null,
+          pixPlusDroitCertificationImagePath: null,
+        });
+      })
+      .value();
+  },
 };
 
 function _selectCertificationAttestations() {
@@ -54,16 +84,38 @@ function _selectCertificationAttestations() {
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-    .leftJoin({ 'newerAssessmentResults': 'assessment-results' }, function() {
-      this.on('newerAssessmentResults.assessmentId', 'assessments.id')
-        .andOn('assessment-results.createdAt', '<', knex.ref('newerAssessmentResults.createdAt'))
-        .andOn('newerAssessmentResults.status', '=', knex.raw('?', [AssessmentResult.status.VALIDATED]));
-    })
     .join('sessions', 'sessions.id', 'certification-courses.sessionId')
-    .whereNull('newerAssessmentResults.id')
-    .where('assessment-results.status', AssessmentResult.status.VALIDATED)
+    .modify(_filterMostRecentValidatedAssessmentResult)
     .where('certification-courses.isPublished', true)
     .where('certification-courses.isCancelled', false);
+}
+
+function _filterMostRecentValidatedAssessmentResult(qb) {
+  return qb
+    .whereNotExists(
+      knex.select(1)
+        .from({ 'last-assessment-results': 'assessment-results' })
+        .where('last-assessment-results.status', AssessmentResult.status.VALIDATED)
+        .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
+        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
+    )
+    .where('assessment-results.status', AssessmentResult.status.VALIDATED);
+}
+
+function _checkOrganizationIsScoIsManagingStudents(qb) {
+  return qb
+    .where('organizations.type', 'SCO')
+    .where('organizations.isManagingStudents', true);
+}
+
+function _filterMostRecentCertificationCoursePerSchoolingRegistration(DTOs) {
+  const groupedBySchoolingRegistration = _.groupBy(DTOs, 'schoolingRegistrationId');
+
+  const mostRecent = [];
+  for (const certificationsForOneSchoolingRegistration of Object.values(groupedBySchoolingRegistration)) {
+    mostRecent.push(certificationsForOneSchoolingRegistration[0]);
+  }
+  return mostRecent;
 }
 
 async function _getCleaCertificationImagePath(certificationCourseId) {
