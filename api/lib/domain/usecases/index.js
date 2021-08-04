@@ -120,6 +120,10 @@ const dependencies = {
   userService: require('../../domain/services/user-service'),
   userTutorialRepository: require('../../infrastructure/repositories/user-tutorial-repository'),
   verifyCertificateCodeService: require('../../domain/services/verify-certificate-code-service'),
+
+  campaignToJoinRepositoryTrx: require('../../infrastructure/repositories/campaign-to-join-repository-trx'),
+  campaignParticipationRepositoryTrx: require('../../infrastructure/repositories/campaign-participation-repository-trx'),
+  assessmentRepositoryTrx: require('../../infrastructure/repositories/assessment-repository-trx'),
 };
 
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection');
@@ -321,4 +325,6 @@ module.exports = injectDependencies({
   updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
   updateUserEmail: require('./update-user-email'),
   updateUserPassword: require('./update-user-password'),
+
+  startCampaignParticipationTrx: require('./start-campaign-participation-trx'),
 }, dependencies);
