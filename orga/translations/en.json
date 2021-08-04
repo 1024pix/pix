@@ -60,6 +60,10 @@
       "title": "Average result",
       "result": "{result, number, ::percent}"
     },
+    "participants-average-stages": {
+      "information": "Find here the average rating of your campaign. This includes all the participants who have completed their customised test and sent their results.",
+      "title": "Average rating"
+    },
     "participants-count": {
       "information": "Find here the total number of participations in your campaign. This includes all the participants who have entered the code and started their customised test or submitted their profile.",
       "loader": "Loading total participants",
