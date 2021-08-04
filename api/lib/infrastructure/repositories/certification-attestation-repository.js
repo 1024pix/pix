@@ -34,7 +34,7 @@ module.exports = {
     });
   },
 
-  async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, _division }) {
+  async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division }) {
     const certificationCourseDTOs = await _selectCertificationAttestations()
       .select({ schoolingRegistrationId: 'schooling-registrations.id' })
       .innerJoin('certification-candidates', function() {
@@ -44,6 +44,7 @@ module.exports = {
       .innerJoin('schooling-registrations', 'schooling-registrations.id', 'certification-candidates.schoolingRegistrationId')
       .innerJoin('organizations', 'organizations.id', 'schooling-registrations.organizationId')
       .where('schooling-registrations.organizationId', '=', organizationId)
+      .whereRaw('LOWER("schooling-registrations"."division") = ?', division.toLowerCase())
       .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
       .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
       .modify(_checkOrganizationIsScoIsManagingStudents)

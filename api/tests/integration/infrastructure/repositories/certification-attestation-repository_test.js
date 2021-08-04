@@ -362,10 +362,10 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 456 });
+      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 456, division: '3emeB' });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123 });
+      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
 
       // then
       expect(certificationAttestations).to.be.empty;
@@ -393,10 +393,41 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123 });
+      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123, division: '3emeB' });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123 });
+      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
+
+      // then
+      expect(certificationAttestations).to.be.empty;
+    });
+
+    it('should return an empty array when the certification does not belong to a schooling registration in the right division', async () => {
+      databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
+      await databaseBuilder.commit();
+      const certificationAttestationData = {
+        id: 123,
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId: 456,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
+        sessionId: 789,
+      };
+      await _buildValidCertificationAttestation(certificationAttestationData);
+      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123, division: '5emeG' });
+
+      // when
+      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
 
       // then
       expect(certificationAttestations).to.be.empty;
@@ -425,10 +456,10 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildRejected(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123 });
+      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123, division: '3emeB' });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123 });
+      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
 
       // then
       expect(certificationAttestations).to.be.empty;
@@ -457,10 +488,10 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildCancelled(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123 });
+      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123, division: '3emeB' });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123 });
+      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
 
       // then
       expect(certificationAttestations).to.be.empty;
@@ -489,10 +520,10 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123 });
+      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123, division: '3emeB' });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123 });
+      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
 
       // then
       expect(certificationAttestations).to.be.empty;
@@ -559,12 +590,12 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       await _buildValidCertificationAttestation(certificationAttestationDataA);
       await _buildValidCertificationAttestation(certificationAttestationDataB);
       await _buildValidCertificationAttestation(certificationAttestationDataC);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData: certificationAttestationDataA, organizationId: 123 });
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData: certificationAttestationDataB, organizationId: 123 });
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData: certificationAttestationDataC, organizationId: 123 });
+      await _linkCertificationAttestationToOrganization({ certificationAttestationData: certificationAttestationDataA, organizationId: 123, division: '3emeB' });
+      await _linkCertificationAttestationToOrganization({ certificationAttestationData: certificationAttestationDataB, organizationId: 123, division: '3emeB' });
+      await _linkCertificationAttestationToOrganization({ certificationAttestationData: certificationAttestationDataC, organizationId: 123, division: '3emeB' });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123 });
+      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
 
       // then
       const expectedCertificationAttestationA = domainBuilder.buildCertificationAttestation(certificationAttestationDataA);
@@ -602,10 +633,10 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123 });
+      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123, division: '3emeB' });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123 });
+      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
 
       // then
       const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(certificationAttestationData);
@@ -617,7 +648,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
     it('should take into account the latest certification of a schooling registration', async () => {
       // given
       databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
-      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: 123 }).id;
+      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: 123, division: '3emeb' }).id;
       await databaseBuilder.commit();
       const certificationAttestationDataOldest = {
         id: 123,
@@ -661,7 +692,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       await _linkCertificationAttestationToOrganization({ certificationAttestationData: certificationAttestationDataNewest, organizationId: 123, schoolingRegistrationId });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123 });
+      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
 
       // then
       const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(certificationAttestationDataNewest);
@@ -865,10 +896,11 @@ async function _buildPixPlusDroitMaitreResult({ certificationCourseId, acquired 
   await databaseBuilder.commit();
 }
 
-async function _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId, schoolingRegistrationId = null }) {
+async function _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId, division, schoolingRegistrationId = null }) {
   const srId = schoolingRegistrationId || databaseBuilder.factory.buildSchoolingRegistration({
     organizationId,
     userId: certificationAttestationData.userId,
+    division,
   }).id;
   databaseBuilder.factory.buildCertificationCandidate({
     userId: certificationAttestationData.userId,
