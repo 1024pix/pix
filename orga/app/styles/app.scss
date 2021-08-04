@@ -88,3 +88,9 @@ body > .ember-view {
 input:invalid {
   box-shadow: none;
 }
+
+@include device-is('mobile') {
+  .hide-on-mobile {
+    display: none;
+  }
+}
