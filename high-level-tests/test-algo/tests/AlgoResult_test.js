@@ -1,5 +1,4 @@
-const { expect } = require('chai');
-const { beforeEach, describe, it } = require('mocha');
+const { expect } = require('./test-helpers');
 const AlgoResult = require('../AlgoResult');
 const AnswerStatus = require('../../../api/lib/domain/models/AnswerStatus');
 

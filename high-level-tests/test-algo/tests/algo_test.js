@@ -1,6 +1,4 @@
-const sinon = require('sinon');
-const { expect } = require('chai');
-const { describe, beforeEach, afterEach, it } = require('mocha');
+const { expect, sinon } = require('./test-helpers');
 const { answerTheChallenge, _getReferentiel } = require('../algo');
 const DataFetcher = require('../../../api/lib/domain/services/smart-random/data-fetcher');
 const KnowledgeElement = require('../../../api/lib/domain/models/KnowledgeElement');
