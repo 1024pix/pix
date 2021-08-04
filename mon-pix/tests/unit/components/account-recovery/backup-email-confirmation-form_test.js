@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | account-recovery/backup-email-confirmation-form', function() {
+describe('Unit | Component | account-recovery | backup-email-confirmation-form', function() {
 
   setupTest();
 

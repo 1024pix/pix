@@ -44,7 +44,7 @@ describe('Unit | Controller | account-recovery | find-sco-record', function() {
 
           // then
           expect(controller.showStudentInformationForm).to.be.false;
-          expect(controller.showConflictError).to.be.true;
+          expect(controller.showErrors).to.be.true;
         });
       });
 

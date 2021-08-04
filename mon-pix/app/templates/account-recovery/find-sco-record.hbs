@@ -15,8 +15,12 @@
           @showAccountNotFoundError={{this.showAccountNotFoundError}} />
       {{/if}}
 
-      {{#if this.showConflictError}}
-        <AccountRecovery::ConflictError @firstName={{this.studentInformationForAccountRecovery.firstName}} />
+      {{#if this.showErrors}}
+        <AccountRecovery::RecoveryErrors
+          @title={{this.accountRecoveryError.title}}
+          @message={{this.accountRecoveryError.message}}
+          @showReturnToHomeButton={{this.accountRecoveryError.showReturnToHomeButton}}
+        />
       {{/if}}
 
       {{#if this.showConfirmationStep}}
