@@ -621,7 +621,7 @@
       "actions": {
         "download-template": "Download the template",
         "edit-student-number": "Edit the student number",
-        "import-file": "Import (.csv)",
+        "import-file": "Import",
         "show-actions": "Show actions"
       },
       "edit-student-number-modal": {
