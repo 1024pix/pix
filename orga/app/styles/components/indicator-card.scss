@@ -8,7 +8,7 @@
   width: 100%;
   background-color: $white;
   border-radius: 8px;
-  box-shadow: 0 2px 5px 0 rgba($black, 0.05);
+  box-shadow: $shadow-base;
   height: 112px;
   padding: 0;
 
@@ -32,9 +32,6 @@
     flex-direction: column;
     justify-content: center;
     color: $grey-60;
-    font-family: $open-sans;
-    font-weight: 600;
-    font-size: 2rem;
     margin: 16px 32px;
   }
 
@@ -44,6 +41,14 @@
     font-family: $roboto;
     font-weight: 500;
     font-size: 0.875rem;
+    margin-bottom: 8px;
+  }
+
+  &__value {
+    font-family: $open-sans;
+    font-weight: 600;
+    font-size: 2rem;
+    line-height: 2rem;
   }
 
   &__tooltip {

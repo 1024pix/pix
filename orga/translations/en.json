@@ -54,12 +54,29 @@
       "message": "Start of school year: the '<strong>'admin'</strong>' must {linkTo} to start using Pix Orga. Learn more on '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'middle schools {faIcon}'</a>' and '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'high schools {faIcon}'</a>'"
     }
   },
-  "charts": {
+  "cards": {
     "participants-average-results": {
       "information": "Find here the average results of your campaign. This includes all the participants who have completed their customised test and sent their results.",
       "title": "Average result",
       "result": "{result, number, ::percent}"
     },
+    "participants-average-stages": {
+      "information": "Find here the average rating of your campaign. This includes all the participants who have completed their customised test and sent their results.",
+      "title": "Average rating"
+    },
+    "participants-count": {
+      "information": "Find here the total number of participations in your campaign. This includes all the participants who have entered the code and started their customised test or submitted their profile.",
+      "loader": "Loading total participants",
+      "title": "Total participants"
+    },
+    "submitted-count": {
+      "information": "Find here the results submitted by your participants. This includes all the participants who have finished and clicked on the button \"Submit my results\" or \"Submit my profile\".",
+      "loader": "Loading submitted results or profiles",
+      "title": "Submitted results",
+      "title-profiles": "Submitted profiles"
+    }
+  },
+  "charts": {
     "participants-by-stage": {
       "loader": "Loading and sorting the participants grouped by success rates",
       "participants": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}}",
@@ -109,17 +126,6 @@
       },
       "loader": "Loading participant's activity",
       "title": "Participant's activity"
-    },
-    "participants-count": {
-      "information": "Find here the total number of participations in your campaign. This includes all the participants who have entered the code and started their customised test or submitted their profile.",
-      "loader": "Loading total participants",
-      "title": "Total participants"
-    },
-    "submitted-count": {
-      "information": "Find here the results submitted by your participants. This includes all the participants who have finished and clicked on the button \"Submit my results\" or \"Submit my profile\".",
-      "loader": "Loading submitted results or profiles",
-      "title": "Submitted results",
-      "title-profiles": "Submitted profiles"
     }
   },
   "common": {

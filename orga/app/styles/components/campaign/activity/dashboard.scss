@@ -7,17 +7,17 @@
   }
 
   &__row:first-child {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
 
   &__total-participants-card {
-    margin-right: 32px;
+    margin-right: 24px;
   }
 
   &__participations-by-day {
     box-sizing: border-box;
-    width: calc(75% - 32px);
-    margin-right: 32px;
+    width: calc(75% - 24px);
+    margin-right: 24px;
   }
 
   &__participations-by-status {
