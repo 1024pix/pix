@@ -94,7 +94,7 @@ module.exports = {
       division,
     });
 
-    const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({ certificates: [attestations] });
+    const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({ certificates: attestations });
 
     const fileName = `attestations-pix-${division}-${moment(attestations[0].deliveredAt).format('YYYYMMDD')}.pdf`;
     return h.response(buffer)
