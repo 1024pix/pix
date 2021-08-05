@@ -1,13 +1,15 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { render, triggerEvent } from '@ember/test-helpers';
+import { find, render, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../../helpers/contains';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { fillInByLabel } from '../../../helpers/fill-in-by-label';
+import { clickByLabel } from '../../../helpers/click-by-label';
 import findByLabel from '../../../helpers/find-by-label';
 
-describe('Integration | Component | account-recovery/update-sco-record', function() {
+describe('Integration | Component | account-recovery | update-sco-record', function() {
+
   setupIntlRenderingTest();
 
   it('should display a reset password form', async function() {
@@ -29,22 +31,55 @@ describe('Integration | Component | account-recovery/update-sco-record', functio
     expect(submitButton).to.exist;
     expect(submitButton.disabled).to.be.true;
     expect(contains('philippe.example.net'));
+
+    expect(find('input[type="checkbox"]')).to.exist;
+    expect(contains(this.intl.t('pages.sign-up.fields.cgu.accept'))).to.exist;
+    expect(contains(this.intl.t('pages.sign-up.fields.cgu.cgu'))).to.exist;
+    expect(contains(this.intl.t('pages.sign-up.fields.cgu.and'))).to.exist;
+    expect(contains(this.intl.t('pages.sign-up.fields.cgu.data-protection-policy'))).to.exist;
   });
 
-  it('should enable submission on reset password form', async function() {
-    // given
-    await render(hbs `<AccountRecovery::UpdateScoRecordForm />`);
+  context('Form submission', function() {
 
-    // when
-    await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), 'pix123A*');
+    it('should disable submission if password is not valid', async function() {
+      // given
+      await render(hbs `<AccountRecovery::UpdateScoRecordForm />`);
 
-    // then
-    const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
-    expect(submitButton).to.exist;
-    expect(submitButton.disabled).to.be.false;
+      // when
+      await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), 'pass');
+
+      // then
+      const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      expect(submitButton.disabled).to.be.true;
+    });
+
+    it('should disable submission if password is valid and cgu and data protection policy are not accepted', async function() {
+      // given
+      await render(hbs `<AccountRecovery::UpdateScoRecordForm />`);
+
+      // when
+      await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), 'pix123A*');
+
+      // then
+      const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      expect(submitButton.disabled).to.be.true;
+    });
+
+    it('should enable submission if password is valid and cgu and data protection policy are accepted', async function() {
+      // given
+      await render(hbs `<AccountRecovery::UpdateScoRecordForm />`);
+
+      // when
+      await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), 'pix123A*');
+      await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+
+      // then
+      const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      expect(submitButton.disabled).to.be.false;
+    });
   });
 
-  context('password field', function() {
+  context('Error messages', function() {
 
     context('when the user enters a valid password', function() {
 
