@@ -3,7 +3,7 @@ import { visit } from '@ember/test-helpers';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
+import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -20,12 +20,7 @@ module('Acceptance | Campaign Profiles', function(hooks) {
   hooks.beforeEach(async () => {
     user = createUserWithMembershipAndTermsOfServiceAccepted();
     createPrescriberByUser(user);
-    await authenticateSession({
-      user_id: user.id,
-      access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-      expires_in: 3600,
-      token_type: 'Bearer token type',
-    });
+    await authenticateSession(user.id);
     server.create('campaign', { id: 1, type: 'PROFILES_COLLECTION', participationsCount: 1 });
     server.createList('campaign-participation', rowCount, { campaignId: 1 });
     server.createList('campaign-profiles-collection-participation-summary', rowCount);
