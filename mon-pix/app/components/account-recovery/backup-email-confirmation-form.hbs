@@ -48,7 +48,10 @@
         class="confirmation-step__actions--cancel">
           {{t 'pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.cancel'}}
       </PixButton>
-      <PixButton @type="submit">
+      <PixButton
+        @type="submit"
+        @isDisabled={{not this.isSubmitButtonEnabled}}
+      >
         {{t 'pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'}}
       </PixButton>
     </div>
