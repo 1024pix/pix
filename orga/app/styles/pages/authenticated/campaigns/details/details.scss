@@ -64,3 +64,14 @@
     }
   }
 }
+
+@include device-is('mobile') {
+  .campaign-details-content {
+    width: initial;
+  }
+
+  .campaign-details-row {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
