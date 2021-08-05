@@ -525,37 +525,6 @@ describe('Integration | Repository | JurySession', function() {
           });
         });
       });
-
-      context('when there is a filter on the assigned certification officer', () => {
-        let certificationOfficerToMatchId;
-        let expectedSession;
-
-        beforeEach(() => {
-          certificationOfficerToMatchId = databaseBuilder.factory.buildUser().id;
-          const anotherCertificationOfficerId = databaseBuilder.factory.buildUser().id;
-
-          expectedSession = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: certificationOfficerToMatchId });
-          databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: anotherCertificationOfficerId });
-          databaseBuilder.factory.buildSession();
-
-          return databaseBuilder.commit();
-        });
-
-        it('should only return the session assigned to the given certification officer ', async () => {
-          // given
-          const filters = { assignedCertificationOfficerId: certificationOfficerToMatchId };
-          const page = { number: 1, size: 10 };
-          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
-
-          // when
-          const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
-
-          // then
-          expect(pagination).to.deep.equal(expectedPagination);
-          expect(jurySessions[0].id).to.equal(expectedSession.id);
-          expect(jurySessions).to.have.length(1);
-        });
-      });
     });
   });
 

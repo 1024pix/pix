@@ -868,12 +868,10 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(sessionValidator, 'validateAndNormalizeFilters');
       sinon.stub(jurySessionRepository, 'findPaginatedFiltered');
       sinon.stub(jurySessionSerializer, 'serializeForPaginatedList');
-      sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
     });
 
     it('should return the serialized jurySessions', async () => {
       // given
-      const currentUserId = 5;
       const request = { query: {} };
       const filter = { filter1: ' filter1ToTrim', filter2: 'filter2' };
       const normalizedFilters = 'normalizedFilters';
@@ -881,12 +879,11 @@ describe('Unit | Controller | sessionController', () => {
       const jurySessionsForPaginatedList = Symbol('jurySessionsForPaginatedList');
       const serializedJurySessionsForPaginatedList = Symbol('serializedJurySessionsForPaginatedList');
       queryParamsUtils.extractParameters.withArgs(request.query).returns({ filter, page });
-      sessionValidator.validateAndNormalizeFilters.withArgs(filter, currentUserId)
+      sessionValidator.validateAndNormalizeFilters.withArgs(filter)
         .returns(normalizedFilters);
       jurySessionRepository.findPaginatedFiltered.withArgs({ filters: normalizedFilters, page })
         .resolves(jurySessionsForPaginatedList);
       jurySessionSerializer.serializeForPaginatedList.withArgs(jurySessionsForPaginatedList).returns(serializedJurySessionsForPaginatedList);
-      requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(currentUserId);
 
       // when
       const result = await sessionController.findPaginatedFilteredJurySessions(request, hFake);

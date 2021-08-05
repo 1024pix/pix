@@ -95,7 +95,7 @@ function _toDomain(jurySessionFromDB) {
 }
 
 function _setupFilters(query, filters) {
-  const { id, certificationCenterName, status, resultsSentToPrescriberAt, assignedCertificationOfficerId, certificationCenterType } = filters;
+  const { id, certificationCenterName, status, resultsSentToPrescriberAt, certificationCenterType } = filters;
 
   if (id) {
     query.where('sessions.id', id);
@@ -107,10 +107,6 @@ function _setupFilters(query, filters) {
 
   if (certificationCenterType) {
     query.where('certification-centers.type', certificationCenterType);
-  }
-
-  if (assignedCertificationOfficerId) {
-    query.where({ assignedCertificationOfficerId });
   }
 
   if (resultsSentToPrescriberAt === true) {
