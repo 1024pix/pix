@@ -31,7 +31,6 @@
     align-items: center;
     padding-right: 10px;
     padding-left: 10px;
-    min-width: 345px;
 
     & > *  {
       padding-right: 15px;
@@ -120,7 +119,7 @@
     }
   
     &__report {
-      margin-left: 32px;
+      margin-left: 0;
     }
   }
 
