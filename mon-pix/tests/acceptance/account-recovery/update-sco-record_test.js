@@ -106,10 +106,9 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
         expect(contains(this.intl.t('pages.account-recovery.errors.key-expired'))).to.exist;
         expect(contains(this.intl.t('pages.account-recovery.errors.key-expired-renew-demand-link'))).to.exist;
       });
-
     });
 
-    context('and user chooses a new password', function() {
+    context('and user chooses a new password and accepts cgu and data protection policy', function() {
 
       it('should redirect to login page after successful password change', async function() {
         // given
@@ -117,14 +116,16 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
         const newPassword = 'Pix1234*';
         server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
-        //when
         await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
-        // then
         await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
         await triggerEvent('#password', 'focusout');
+        await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+
+        //when
         await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
+        // then
         expect(currentURL()).to.equal('/connexion');
       });
 
@@ -141,10 +142,12 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
         });
         server.patch('/account-recovery', () => errorsApi);
 
-        //when
         await visit(`/recuperer-mon-compte/${temporaryKey}`);
         await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
         await triggerEvent('#password', 'focusout');
+        await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+
+        //when
         await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
         // then
@@ -166,10 +169,12 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
         });
         server.patch('/account-recovery', () => errorsApi);
 
-        //when
         await visit(`/recuperer-mon-compte/${temporaryKey}`);
         await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
         await triggerEvent('#password', 'focusout');
+        await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+
+        //when
         await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
         // then
@@ -191,10 +196,12 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
         });
         server.patch('/account-recovery', () => errorsApi);
 
-        //when
         await visit(`/recuperer-mon-compte/${temporaryKey}`);
         await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
         await triggerEvent('#password', 'focusout');
+        await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+
+        //when
         await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
         // then
@@ -216,10 +223,12 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
         });
         server.patch('/account-recovery', () => errorsApi);
 
-        //when
         await visit(`/recuperer-mon-compte/${temporaryKey}`);
         await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
         await triggerEvent('#password', 'focusout');
+        await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+
+        //when
         await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
         // then
@@ -227,9 +236,6 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
         expect(contains(this.intl.t('api-error-messages.internal-server-error'))).to.exist;
         expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
       });
-
     });
-
   });
-
 });

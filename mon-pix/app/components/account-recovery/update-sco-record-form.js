@@ -22,13 +22,26 @@ class PasswordValidation {
 }
 
 export default class UpdateScoRecordFormComponent extends Component {
+
   @service intl;
+  @service url;
 
   @tracked passwordValidation = new PasswordValidation();
   @tracked password = '';
+  @tracked cguAndProctectionPoliciesAccepted = false;
+
+  get cguUrl() {
+    return this.url.cguUrl;
+  }
+
+  get dataProtectionPolicyUrl() {
+    return this.url.dataProtectionPolicyUrl;
+  }
 
   get isFormValid() {
-    return !isEmpty(this.password) && this.passwordValidation.status !== 'error';
+    return !isEmpty(this.password)
+      && this.passwordValidation.status !== 'error'
+      && this.cguAndProctectionPoliciesAccepted;
   }
 
   @action validatePassword() {
