@@ -1,7 +1,7 @@
 <div class="list-students-page__header">
   <h1 class="page__title page-title">{{t "pages.students-sco.title"}}</h1>
   {{#if this.currentUser.isAdminInOrganization}}
-    <div class="list-students-page__import-students-button">
+    <div class="list-students-page__import-students-button hide-on-mobile">
       {{#if this.displayLearnMoreAndLinkTemplate }}
         <PixTooltip
           @text={{t "pages.students-sco.agri-tooltip" htmlSafe=true}}
