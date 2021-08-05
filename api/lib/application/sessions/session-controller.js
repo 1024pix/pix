@@ -23,10 +23,9 @@ const logger = require('../../infrastructure/logger');
 module.exports = {
 
   async findPaginatedFilteredJurySessions(request) {
-    const currentUserId = requestResponseUtils.extractUserIdFromRequest(request);
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
     const normalizedFilters
-      = sessionValidator.validateAndNormalizeFilters(filter, currentUserId);
+      = sessionValidator.validateAndNormalizeFilters(filter);
     const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({
       filters: normalizedFilters,
       page,
