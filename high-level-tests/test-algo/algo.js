@@ -196,11 +196,12 @@ async function proceedAlgo(challenges, targetSkills, assessment, locale, knowled
   }
 
   console.log(algoResult.log());
+  return algoResult;
 }
 
 async function launchTest(argv) {
 
-  const { competenceId, targetProfileId, locale, userResult, usersKEFile } = argv;
+  const { competenceId, targetProfileId, locale, userResult, usersKEFile, enabledCsvOutput } = argv;
 
   const allAnswers = [];
   const knowledgeElements = [];
@@ -235,7 +236,14 @@ async function launchTest(argv) {
     return proceedAlgo(challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers, userResult, userKE);
   });
 
-  await Promise.all(proceedUsers);
+  const algoResults = await Promise.all(proceedUsers);
+
+  if (enabledCsvOutput) {
+    const writeResults = algoResults.map((algoResult) => {
+      return algoResult.writeCsvFile();
+    });
+    await Promise.all(writeResults);
+  }
 
   process.exit(0);
 }
