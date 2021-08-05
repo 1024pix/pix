@@ -36,7 +36,6 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
           certificationCenterType: undefined,
           status: undefined,
           resultsSentToPrescriberAt: undefined,
-          assignedToSelfOnly: undefined,
         };
 
         // then
@@ -56,7 +55,6 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
           certificationCenterType: undefined,
           status: undefined,
           resultsSentToPrescriberAt: undefined,
-          assignedToSelfOnly: undefined,
         };
 
         // when
@@ -79,7 +77,6 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
           certificationCenterType: undefined,
           status: undefined,
           resultsSentToPrescriberAt: undefined,
-          assignedToSelfOnly: undefined,
         };
 
         // when
@@ -102,7 +99,6 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
           certificationCenterType: 'SCO',
           status: undefined,
           resultsSentToPrescriberAt: undefined,
-          assignedToSelfOnly: undefined,
         };
 
         // when
@@ -125,7 +121,6 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
           certificationCenterType: undefined,
           status: 'someStatus',
           resultsSentToPrescriberAt: undefined,
-          assignedToSelfOnly: undefined,
         };
 
         // when
@@ -148,30 +143,6 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
           certificationCenterType: undefined,
           status: undefined,
           resultsSentToPrescriberAt: true,
-          assignedToSelfOnly: undefined,
-        };
-
-        // when
-        await route.model(params);
-
-        // then
-        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
-        assert.ok(true);
-      });
-    });
-
-    module('when queryParams assignedToSelfOnly is truthy', function() {
-
-      test('it should call store.query with a filter with assignedToSelfOnly', async function(assert) {
-        // given
-        params.assignedToSelfOnly = true;
-        expectedQueryArgs.filter = {
-          id: undefined,
-          certificationCenterName: undefined,
-          certificationCenterType: undefined,
-          status: undefined,
-          resultsSentToPrescriberAt: undefined,
-          assignedToSelfOnly: true,
         };
 
         // when
