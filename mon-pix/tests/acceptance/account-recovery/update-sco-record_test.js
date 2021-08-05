@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import visit from '../../helpers/visit';
-import { currentURL, triggerEvent } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import setupIntl from '../../helpers/setup-intl';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
@@ -119,10 +119,9 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
         await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
         await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-        await triggerEvent('#password', 'focusout');
         await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
 
-        //when
+        // when
         await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
         // then
@@ -144,10 +143,9 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
 
         await visit(`/recuperer-mon-compte/${temporaryKey}`);
         await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-        await triggerEvent('#password', 'focusout');
         await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
 
-        //when
+        // when
         await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
         // then
@@ -171,10 +169,9 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
 
         await visit(`/recuperer-mon-compte/${temporaryKey}`);
         await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-        await triggerEvent('#password', 'focusout');
         await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
 
-        //when
+        // when
         await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
         // then
@@ -198,10 +195,9 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
 
         await visit(`/recuperer-mon-compte/${temporaryKey}`);
         await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-        await triggerEvent('#password', 'focusout');
         await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
 
-        //when
+        // when
         await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
         // then
@@ -225,10 +221,9 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
 
         await visit(`/recuperer-mon-compte/${temporaryKey}`);
         await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-        await triggerEvent('#password', 'focusout');
         await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
 
-        //when
+        // when
         await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
         // then
