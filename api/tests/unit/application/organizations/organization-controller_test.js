@@ -17,6 +17,8 @@ const targetProfileSerializer = require('../../../../lib/infrastructure/serializ
 const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
+
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
 describe('Unit | Application | Organizations | organization-controller', () => {
@@ -804,6 +806,46 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(response.source).to.equal('csv-string');
       expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
       expect(response.headers['Content-Disposition']).to.equal('attachment; filename=20210101_resultats_3èmeA.csv');
+    });
+  });
+
+  describe('#getMultiplePDFAttestations', () => {
+
+    const certifications = [
+      domainBuilder.buildPrivateCertificateWithCompetenceTree(),
+      domainBuilder.buildPrivateCertificateWithCompetenceTree(),
+    ];
+    const organizationId = domainBuilder.buildOrganization().id;
+    const division = '3b';
+    const attestationsPDF = 'binary string';
+    const fileName = 'attestations-pix-3b-20181003.pdf';
+    const userId = 1;
+
+    const request = {
+      auth: { credentials: { userId } },
+      params: { id: organizationId },
+      query: { division },
+    };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getMultipleCertificationAttestationsByDivision');
+    });
+
+    it('should return binary attestations', async () => {
+      // given
+      sinon.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer').resolves({ buffer: attestationsPDF, fileName });
+      usecases.getMultipleCertificationAttestationsByDivision.resolves(certifications);
+
+      // when
+      const response = await organizationController.getMultiplePDFAttestations(request, hFake);
+
+      // then
+      expect(usecases.getMultipleCertificationAttestationsByDivision).to.have.been.calledWith({
+        division,
+        organizationId,
+      });
+      expect(response.source).to.deep.equal(attestationsPDF);
+      expect(response.headers['Content-Disposition']).to.contains('attachment; filename=attestations-pix-3b-20181003.pdf');
     });
   });
 });
