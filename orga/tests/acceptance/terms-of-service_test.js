@@ -1,11 +1,9 @@
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
+import authenticateSession from '../helpers/authenticate-session';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
-import {
-  authenticateSession,
-  currentSession,
-} from 'ember-simple-auth/test-support';
+import { currentSession } from 'ember-simple-auth/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 import { createPrescriberWithPixOrgaTermsOfService } from '../helpers/test-init';
@@ -31,12 +29,7 @@ module('Acceptance | terms-of-service', function(hooks) {
     hooks.beforeEach(async () => {
       prescriber = createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServiceAccepted: false });
 
-      await authenticateSession({
-        user_id: prescriber.id,
-        access_token: 'aaa.' + btoa(`{"user_id":${prescriber.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-        expires_in: 3600,
-        token_type: 'Bearer token type',
-      });
+      await authenticateSession(prescriber.id);
     });
 
     test('it should redirect to campaign list after saving terms of service acceptation', async function(assert) {
@@ -67,12 +60,7 @@ module('Acceptance | terms-of-service', function(hooks) {
     hooks.beforeEach(async () => {
       prescriber = createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServiceAccepted: true });
 
-      await authenticateSession({
-        user_id: prescriber.id,
-        access_token: 'aaa.' + btoa(`{"user_id":${prescriber.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-        expires_in: 3600,
-        token_type: 'Bearer token type',
-      });
+      await authenticateSession(prescriber.id);
     });
 
     test('it should redirect to campaign list', async function(assert) {

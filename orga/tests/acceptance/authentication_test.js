@@ -2,11 +2,9 @@ import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import authenticateSession from '../helpers/authenticate-session';
 import { setupApplicationTest } from 'ember-qunit';
-import {
-  authenticateSession,
-  currentSession,
-} from 'ember-simple-auth/test-support';
+import { currentSession } from 'ember-simple-auth/test-support';
 import {
   createUserMembershipWithRole,
   createUserWithMembership,
@@ -41,12 +39,7 @@ module('Acceptance | authentication', function(hooks) {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
 
-      await authenticateSession({
-        user_id: user.id,
-        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-        expires_in: 3600,
-        token_type: 'Bearer token type',
-      });
+      await authenticateSession(user.id);
     });
 
     test('it should redirect prescriber to campaign list page', async function(assert) {
@@ -149,12 +142,7 @@ module('Acceptance | authentication', function(hooks) {
       hooks.beforeEach(async () => {
         const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates' }, 'ADMIN');
 
-        await authenticateSession({
-          user_id: user.id,
-          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-          expires_in: 3600,
-          token_type: 'Bearer token type',
-        });
+        await authenticateSession(user.id);
       });
 
       test('should not show organization credit info', async function(assert) {
@@ -172,12 +160,7 @@ module('Acceptance | authentication', function(hooks) {
         const user = createUserWithMembershipAndTermsOfServiceAccepted();
         createPrescriberByUser(user);
 
-        await authenticateSession({
-          user_id: user.id,
-          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-          expires_in: 3600,
-          token_type: 'Bearer token type',
-        });
+        await authenticateSession(user.id);
       });
 
       test('it should let prescriber access requested page', async function(assert) {
@@ -212,12 +195,7 @@ module('Acceptance | authentication', function(hooks) {
         const user = createUserMembershipWithRole('ADMIN');
         createPrescriberByUser(user);
 
-        await authenticateSession({
-          user_id: user.id,
-          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-          expires_in: 3600,
-          token_type: 'Bearer token type',
-        });
+        await authenticateSession(user.id);
       });
 
       test('should display team menu', async function(assert) {
@@ -249,12 +227,7 @@ module('Acceptance | authentication', function(hooks) {
         hooks.beforeEach(async () => {
           const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates', credit: 10000 }, 'ADMIN');
 
-          await authenticateSession({
-            user_id: user.id,
-            access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-            expires_in: 3600,
-            token_type: 'Bearer token type',
-          });
+          await authenticateSession(user.id);
         });
 
         test('should show organization credit info', async function(assert) {
@@ -272,12 +245,7 @@ module('Acceptance | authentication', function(hooks) {
           const user = createUserManagingStudents('ADMIN');
           createPrescriberByUser(user);
 
-          await authenticateSession({
-            user_id: user.id,
-            access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-            expires_in: 3600,
-            token_type: 'Bearer token type',
-          });
+          await authenticateSession(user.id);
         });
 
         test('should display team and students menu', async function(assert) {
@@ -335,12 +303,7 @@ module('Acceptance | authentication', function(hooks) {
         const user = createUserMembershipWithRole('MEMBER');
         createPrescriberByUser(user);
 
-        await authenticateSession({
-          user_id: user.id,
-          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-          expires_in: 3600,
-          token_type: 'Bearer token type',
-        });
+        await authenticateSession(user.id);
       });
 
       test('should not display team menu', async function(assert) {
@@ -358,12 +321,7 @@ module('Acceptance | authentication', function(hooks) {
         hooks.beforeEach(async () => {
           const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates', credit: 10000 }, 'MEMBER');
 
-          await authenticateSession({
-            user_id: user.id,
-            access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-            expires_in: 3600,
-            token_type: 'Bearer token type',
-          });
+          await authenticateSession(user.id);
         });
 
         test('should not show credit info', async function(assert) {
@@ -381,12 +339,7 @@ module('Acceptance | authentication', function(hooks) {
           const user = createUserManagingStudents('MEMBER');
           createPrescriberByUser(user);
 
-          await authenticateSession({
-            user_id: user.id,
-            access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-            expires_in: 3600,
-            token_type: 'Bearer token type',
-          });
+          await authenticateSession(user.id);
         });
 
         test('should display students menu', async function(assert) {
@@ -406,12 +359,7 @@ module('Acceptance | authentication', function(hooks) {
       // given
       const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates' }, 'ADMIN');
 
-      await authenticateSession({
-        user_id: user.id,
-        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-        expires_in: 3600,
-        token_type: 'Bearer token type',
-      });
+      await authenticateSession(user.id);
 
       // when
       await visit('/certifications');

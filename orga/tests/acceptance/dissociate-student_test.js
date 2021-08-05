@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
+import authenticateSession from '../helpers/authenticate-session';
 
 import {
   createPrescriberByUser, createUserManagingStudents,
@@ -14,12 +14,7 @@ async function createAuthenticatedSession() {
   const user = createUserManagingStudents('ADMIN');
   createPrescriberByUser(user);
 
-  await authenticateSession({
-    user_id: user.id,
-    access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-    expires_in: 3600,
-    token_type: 'Bearer token type',
-  });
+  await authenticateSession(user.id);
 
   return user;
 }

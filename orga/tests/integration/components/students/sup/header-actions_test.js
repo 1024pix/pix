@@ -2,19 +2,14 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import Service from '@ember/service';
-import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | Student::Sup::HeaderActions', function(hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
-    this.set('noop', sinon.stub());
-  });
-
   test('it should show title', async function(assert) {
     // when
-    await render(hbs`<Student::Sup::HeaderActions @onImportStudents={{noop}}/>`);
+    await render(hbs`<Student::Sup::HeaderActions/>`);
 
     // then
     assert.contains('Étudiants');
@@ -34,7 +29,7 @@ module('Integration | Component | Student::Sup::HeaderActions', function(hooks) 
 
     test('it should display download template button', async function(assert) {
       // when
-      await render(hbs`<Student::Sup::HeaderActions @onImportStudents={{noop}}/>`);
+      await render(hbs`<Student::Sup::HeaderActions/>`);
 
       // then
       assert.contains('Télécharger le modèle');
@@ -42,10 +37,10 @@ module('Integration | Component | Student::Sup::HeaderActions', function(hooks) 
 
     test('it displays the import button', async function(assert) {
       // when
-      await render(hbs`<Student::Sup::HeaderActions @onImportStudents={{noop}}/>`);
+      await render(hbs`<Student::Sup::HeaderActions/>`);
 
       // then
-      assert.contains('Importer (.csv)');
+      assert.contains('Importer');
     });
   });
 
@@ -59,7 +54,7 @@ module('Integration | Component | Student::Sup::HeaderActions', function(hooks) 
 
     test('it should not display download template button', async function(assert) {
       // when
-      await render(hbs`<Student::Sup::HeaderActions @onImportStudents={{noop}}/>`);
+      await render(hbs`<Student::Sup::HeaderActions/>`);
 
       // then
       assert.notContains('Télécharger le modèle');
@@ -67,7 +62,7 @@ module('Integration | Component | Student::Sup::HeaderActions', function(hooks) 
 
     test('it should not display import button', async function(assert) {
       // when
-      await render(hbs`<Student::Sup::HeaderActions @onImportStudents={{noop}}/>`);
+      await render(hbs`<Student::Sup::HeaderActions/>`);
 
       // then
       assert.notContains('Importer (.csv)');

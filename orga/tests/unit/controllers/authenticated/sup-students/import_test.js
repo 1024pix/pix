@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import ENV from 'pix-orga/config/environment';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
+module('Unit | Controller | authenticated/sup-students/import', function(hooks) {
   setupTest(hooks);
   const currentUser = { organization: { id: 1 }, prescriber: { lang: 'fr' } };
   const session = { data: { authenticated: { access_token: 12345 } } };
@@ -11,8 +11,9 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
 
   hooks.beforeEach(function() {
     this.owner.lookup('service:intl').setLocale('fr');
-    controller = this.owner.lookup('controller:authenticated/sup-students/list');
+    controller = this.owner.lookup('controller:authenticated/sup-students/import');
     controller.send = sinon.stub();
+    controller.transitionToRoute = sinon.stub();
     controller.currentUser = currentUser;
   });
 

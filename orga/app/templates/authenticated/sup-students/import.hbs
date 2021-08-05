@@ -1,0 +1,7 @@
+{{page-title (t 'pages.students-sup-import.title')}}
+
+<PixReturnTo @route="authenticated.sup-students.list">
+  {{t 'common.actions.back'}}
+</PixReturnTo>
+
+<Student::Sup::Import @onImportStudents={{this.importStudents}} @isLoading={{this.isLoading}}/>

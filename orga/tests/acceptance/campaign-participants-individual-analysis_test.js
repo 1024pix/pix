@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
+import authenticateSession from '../helpers/authenticate-session';
 import {
   createUserWithMembershipAndTermsOfServiceAccepted,
   createPrescriberByUser,
@@ -22,12 +22,7 @@ module('Acceptance | Campaign Participants Individual Analysis', function(hooks)
 
     server.create('campaign', { id: 1 });
 
-    await authenticateSession({
-      user_id: user.id,
-      access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-      expires_in: 3600,
-      token_type: 'Bearer token type',
-    });
+    await authenticateSession(user.id);
   });
 
   test('it should display individual analysis', async function(assert) {

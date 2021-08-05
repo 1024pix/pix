@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
+import authenticateSession from '../helpers/authenticate-session';
 import {
   createUserWithMembershipAndTermsOfServiceAccepted,
   createPrescriberByUser,
@@ -25,12 +25,7 @@ module('Acceptance | Campaign Activity', function(hooks) {
     server.create('campaign-assessment-participation', { id: 1, campaignId, campaignAssessmentParticipationResult, lastName: 'Bacri' });
     server.create('campaign-participant-activity', { id: 1, lastName: 'Bacri' });
 
-    await authenticateSession({
-      user_id: user.id,
-      access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-      expires_in: 3600,
-      token_type: 'Bearer token type',
-    });
+    await authenticateSession(user.id);
   });
 
   module('When prescriber arrives on activity page', function() {
