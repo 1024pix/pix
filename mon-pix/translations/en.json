@@ -930,14 +930,14 @@
           "link-url": "https://support.pix.org/fr/support/tickets/new"
         },
         "student-information": {
-          "title": "Collégiens, lycéens, vous quittez le système scolaire et vous souhaitez récupérer votre accès à Pix",
+          "title": "Vous avez quitté le système scolaire et vous souhaitez récupérer votre accès à Pix",
           "subtitle": {
             "link": "réinitialisez votre mot de passe ici.",
             "text": "Si vous possédez un compte avec une adresse e-mail valide, "
           },
           "mandatory-all-fields": "Tous les champs sont obligatoires.",
           "form": {
-            "tooltip": "<strong>Où trouver mon INE ?</strong> <p>Cet identifiant se trouve souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.</p>",
+            "tooltip": "<strong>Où trouver mon INE ?</strong> <p>Cet identifiant se trouve le plus souvent sur le bulletin scolaire, sinon votre ancien établissement peut vous le fournir.</p>",
             "ine-ina": "INE (Identifiant National Élève)",
             "last-name": "Nom",
             "first-name": "Prénom",
@@ -969,7 +969,7 @@
         },
         "confirmation-step": {
           "good-news" : "Bonne nouvelle { firstName } !",
-          "found-account": "Nous avons retrouvé votre compte :",
+          "found-account": "Nous avons trouvé votre compte :",
           "contact-support": "Si vous constatez une erreur ou si ces données ne sont pas les vôtres, ",
           "fields" : {
             "last-name": "Votre nom",
