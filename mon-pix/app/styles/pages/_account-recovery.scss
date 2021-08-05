@@ -86,6 +86,20 @@
         a {
           color: $communication-dark;
         }
+
+        &.checkbox-with-label {
+          display: flex;
+          align-items: center;
+
+          input[type='checkbox'] {
+            margin-right: 16px;
+            cursor: pointer;
+          }
+
+          label {
+            cursor: pointer;
+          }
+        }
       }
     }
 

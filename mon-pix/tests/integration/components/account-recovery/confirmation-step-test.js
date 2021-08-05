@@ -6,6 +6,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../../helpers/contains';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { clickByLabel } from '../../../helpers/click-by-label';
+import findByLabel from '../../../helpers/find-by-label';
 import sinon from 'sinon';
 
 describe('Integration | Component | confirmation-step', function() {
@@ -84,6 +85,31 @@ describe('Integration | Component | confirmation-step', function() {
     sinon.assert.calledOnce(cancelAccountRecovery);
   });
 
+  it('should not be possible to continue the account recovery process when have not checked to certify', async function() {
+    // given
+    const studentInformationForAccountRecovery = EmberObject.create({
+      firstName: 'Philippe',
+      lastName: 'Auguste',
+      username: 'Philippe.auguste2312',
+      email: 'philippe.auguste@example.net',
+      latestOrganizationName: 'Collège George-Besse, Loches',
+    });
+    this.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
+    const continueAccountRecoveryBackupEmailConfirmation = sinon.stub();
+    this.set('continueAccountRecoveryBackupEmailConfirmation', continueAccountRecoveryBackupEmailConfirmation);
+
+    // when
+    await render(hbs`<AccountRecovery::ConfirmationStep
+      @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
+      @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
+    />`);
+
+    // then
+    const confirmButton = findByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+    expect(confirmButton).to.exist;
+    expect(confirmButton.disabled).to.be.true;
+  });
+
   it('should be possible to continue the account recovery process', async function() {
     // given
     const studentInformationForAccountRecovery = EmberObject.create({
@@ -102,6 +128,7 @@ describe('Integration | Component | confirmation-step', function() {
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
     />`);
+    await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
     await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
     // then

@@ -36,8 +36,11 @@
     </li>
   </ul>
 
-  <p class="account-recovery__content--information-text--details">
-    {{t 'pages.account-recovery.find-sco-record.confirmation-step.certify-account' }}
+  <p class="account-recovery__content--information-text--details checkbox-with-label">
+    <Input @type="checkbox" id="pix-certify" @checked={{this.checked}} />
+    <label for="pix-certify">
+      {{t 'pages.account-recovery.find-sco-record.confirmation-step.certify-account' }}
+    </label>
   </p>
 
   <div class="account-recovery__content--actions">
@@ -50,8 +53,10 @@
     </PixButton>
     <PixButton
       @isBorderVisible={{true}}
+      @isDisabled={{not this.isFormValid}}
       @triggerAction={{@continueAccountRecoveryBackupEmailConfirmation}}
-      @backgroundColor="red">
+      @backgroundColor="red"
+    >
       {{t 'pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm' }}
     </PixButton>
   </div>
