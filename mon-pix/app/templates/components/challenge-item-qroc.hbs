@@ -31,8 +31,24 @@
                   </label>
                 {{/if}}
 
+
                 {{#if block.input}}
-                  {{#if (eq @challenge.format 'paragraphe')}}
+                  {{#if (eq block.type 'select')}}
+                      <div class="challenge-response__proposal challenge-response__proposal--selector">
+                        <PixSelect
+                          data-test="challenge-response-proposal-selector"
+                          name={{block.randomName}}
+                          id="{{block.input}}"
+                          aria-label={{block.ariaLabel}}
+                          @emptyOptionLabel={{block.placeholder}}
+                          @selectedOption={{this.userAnswer}}
+                          @emptyOptionNotSelectable={{true}}
+                          @options={{block.options}}
+                          data-uid="qroc-proposal-uid"
+                          @onChange={{this.answerChanged}}
+                          />
+                      </div>
+                  {{else if (eq @challenge.format 'paragraphe')}}
                     <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
                               rows="5"
                               id="qroc_input"
