@@ -21,9 +21,9 @@ module.exports = function buildCampaign({
   organizationId,
   creatorId,
   targetProfileId,
-  customResultPageText,
-  customResultPageButtonText,
-  customResultPageButtonUrl,
+  customResultPageText = null,
+  customResultPageButtonText = null,
+  customResultPageButtonUrl = null,
   multipleSendings = false,
 } = {}) {
 
