@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.82.0 (05/08/2021)
+
+- [#3284](https://github.com/1024pix/pix/pull/3284) [FEATURE] Ajout de la carte du palier moyen d'une campagne d'évaluation (PIX-2890)
+- [#3278](https://github.com/1024pix/pix/pull/3278) [FEATURE] Ajouter une page d'import des étudiants pour les organisations SUP (Pix-2874).
+- [#3277](https://github.com/1024pix/pix/pull/3277) [FEATURE] Empêcher un élève de se réconcilier si sa schooling registration a été désactivée (PIX-2863)
+- [#3281](https://github.com/1024pix/pix/pull/3281) [FEATURE] Ne plus proposer la première ligne du select sur les épreuves à menu déroulant (PIX-2925).
+- [#3254](https://github.com/1024pix/pix/pull/3254) [FEATURE] Un utilisateur désactivé ne peut rejoindre une campagne (PIX-2862)
+- [#3289](https://github.com/1024pix/pix/pull/3289) [BUGFIX] Changer certaines phrases du parcours de la sortie SCO (PIX-2821).
+- [#3287](https://github.com/1024pix/pix/pull/3287) [BUGFIX] Changer le message d'assistance sur la page d'erreur de la sortie SCO (PIX-2935).
+- [#3270](https://github.com/1024pix/pix/pull/3270) [BUGFIX] Le lien "Continuez votre expérience sur Pix" à la fin d'une campagne ne redirige plus vers la page d'accueil  (PIX-2915).
+- [#3279](https://github.com/1024pix/pix/pull/3279) [BUGFIX] Enregistrer la ville fournie lors de l'inscription d'un candidat avec un code postal de lieu de naissance (PIX-2933).
+- [#3252](https://github.com/1024pix/pix/pull/3252) [TECH] Améliorer le service de génération des attestations de certification PDF pour qu'il puisse prendre en entrée plusieurs attestations (PIX-2893)
+- [#3275](https://github.com/1024pix/pix/pull/3275) [TECH] Ajout d'une méthode pour récupérer toutes les informations nécessaires à la création d'attestations de certification pour une classe SCO (PIX-2904)
+
 ## v3.81.0 (04/08/2021)
 
 - [#3269](https://github.com/1024pix/pix/pull/3269) [FEATURE] Améliorer l'affichage des erreurs lors de la récupération de compte suite à la sortie SCO (PIX-2851)
