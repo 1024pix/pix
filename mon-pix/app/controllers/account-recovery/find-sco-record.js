@@ -34,6 +34,8 @@ export default class FindScoRecordController extends Controller {
 
   @tracked studentInformationForAccountRecovery = new StudentInformationForAccountRecovery();
 
+  @tracked isLoading = false;
+
   @action
   async submitStudentInformation(studentInformation) {
     this.studentInformationForAccountRecovery.birthdate = studentInformation.birthdate;
@@ -78,6 +80,7 @@ export default class FindScoRecordController extends Controller {
       email: newEmail,
     });
     try {
+      this.isLoading = true;
       await accountRecoveryDemand.send();
       this.showAlreadyRegisteredEmailError = false;
       this.showBackupEmailConfirmationForm = false;
@@ -85,6 +88,8 @@ export default class FindScoRecordController extends Controller {
       this.templateImg = 'boite';
     } catch (err) {
       this._handleError(err);
+    } finally {
+      this.isLoading = false;
     }
   }
 
