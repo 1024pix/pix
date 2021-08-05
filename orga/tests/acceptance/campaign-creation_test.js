@@ -3,7 +3,7 @@ import { currentURL, visit } from '@ember/test-helpers';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
+import authenticateSession from '../helpers/authenticate-session';
 import {
   createUserWithMembershipAndTermsOfServiceAccepted,
   createUserThatCanCollectProfiles,
@@ -37,7 +37,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
 
-      await authenticateUser(user.id);
+      await authenticateSession(user.id);
       await visit('/campagnes/creation');
     });
 
@@ -95,7 +95,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       const user = createUserThatCanCollectProfiles();
       createPrescriberByUser(user);
 
-      await authenticateUser(user.id);
+      await authenticateSession(user.id);
       await visit('/campagnes/creation');
     });
 
@@ -150,12 +150,3 @@ module('Acceptance | Campaign Creation', function(hooks) {
     });
   });
 });
-
-function authenticateUser(userId) {
-  return authenticateSession({
-    user_id: userId,
-    access_token: 'aaa.' + btoa(`{"user_id":${userId},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-    expires_in: 3600,
-    token_type: 'Bearer token type',
-  });
-}

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from 'ember-simple-auth/test-support';
+import authenticateSession from '../helpers/authenticate-session';
 import {
   createUserWithMembershipAndTermsOfServiceAccepted,
   createUserWithMultipleMemberships,
@@ -22,12 +22,7 @@ module('Acceptance | Switch Organization', function(hooks) {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
 
-      await authenticateSession({
-        user_id: user.id,
-        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-        expires_in: 3600,
-        token_type: 'Bearer token type',
-      });
+      await authenticateSession(user.id);
     });
 
     test('should display the main organization name and externalId in summary', async function(assert) {
@@ -56,12 +51,7 @@ module('Acceptance | Switch Organization', function(hooks) {
       const user = createUserWithMultipleMemberships();
       createPrescriberByUser(user);
 
-      await authenticateSession({
-        user_id: user.id,
-        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-        expires_in: 3600,
-        token_type: 'Bearer token type',
-      });
+      await authenticateSession(user.id);
 
       await visit('/');
     });
