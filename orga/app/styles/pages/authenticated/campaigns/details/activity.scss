@@ -1,14 +1,13 @@
 .activity__dashboard {
-  margin-top: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .activity__participants-list {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 @media (max-width: 768px) {
   .activity__dashboard {
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 }

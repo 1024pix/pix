@@ -8,9 +8,8 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function(
   setupIntlRenderingTest(hooks);
   setupIntl(hooks);
 
-  module('Average result card', function() {
-
-    test('It should display average result title and score for an ASSESSMENT campaign', async function(assert) {
+  module('When the campaign has no stages', function() {
+    test('It should display average result card', async function(assert) {
       // given
       this.averageResult = 0.9;
 
@@ -18,23 +17,33 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function(
       await render(hbs`<Campaign::Results::AssessmentCards @averageResult={{averageResult}} />`);
 
       //then
-      assert.contains(t('charts.participants-average-results.title'));
-      assert.contains('9');
+      assert.contains(t('cards.participants-average-results.title'));
     });
   });
 
-  module('Shared results card', function() {
-    test('It should display submitted results title and score for an ASSESSMENT campaign', async function(assert) {
+  module('When the campaign has stages', function() {
+    test('It should display average stage card', async function(assert) {
       // given
-      this.sharedParticipationsCount = 10;
+      this.hasStages = true;
+      this.stages = [{ threshold: 20 }, { threshold: 70 }];
+      this.averageResult = 0.5;
 
-      // when
-      await render(hbs`<Campaign::Results::AssessmentCards @sharedParticipationsCount={{sharedParticipationsCount}} />`);
+      //when
+      await render(hbs`<Campaign::Results::AssessmentCards @averageResult={{averageResult}} @hasStages={{hasStages}} @stages={{stages}} />`);
 
       //then
-      assert.contains(t('charts.submitted-count.title'));
-      assert.contains('10');
+      assert.contains(t('cards.participants-average-stages.title'));
     });
   });
 
+  test('It should display shared participation card', async function(assert) {
+    // given
+    this.sharedParticipationsCount = 10;
+
+    // when
+    await render(hbs`<Campaign::Results::AssessmentCards @sharedParticipationsCount={{sharedParticipationsCount}} />`);
+
+    //then
+    assert.contains(t('cards.submitted-count.title'));
+  });
 });

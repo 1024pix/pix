@@ -1,23 +1,19 @@
 <div class="assessment-cards" >
-  <Ui::IndicatorCard
-    @title={{t 'charts.participants-average-results.title'}}
-    @icon="crown"
-    @color="blue"
-    @info={{t 'charts.participants-average-results.information'}}
-    @loading={{false}}
-    class="assessment-cards__average-result-card"
-  >
-    {{t 'charts.participants-average-results.result' result=@averageResult}}
+  {{#if @hasStages}}
+    <Campaign::Cards::StageAverage
+      @value={{@averageResult}}
+      @stages={{@stages}}
+      class="assessment-cards__average-card"
+    />
+  {{else}}
+    <Campaign::Cards::ResultAverage
+      @value={{@averageResult}}
+      class="assessment-cards__average-card"
+    />
+  {{/if}}
 
-  </Ui::IndicatorCard>
-
-  <Ui::IndicatorCard
-    @title={{t 'charts.submitted-count.title'}}
-    @icon="share"
-    @color="green"
-    @info={{t 'charts.submitted-count.information'}}
-    @loading={{false}}
-    >
-    {{@sharedParticipationsCount}}
-  </Ui::IndicatorCard>
+  <Campaign::Cards::SharedCount
+    @value={{@sharedParticipationsCount}}
+    @isTypeAssessment={{true}}
+  />
 </div>
