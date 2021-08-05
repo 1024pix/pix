@@ -16,7 +16,7 @@ export default class ChallengeController extends Controller {
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOut = false;
-  @tracked isTooltipOverlayDisplayed = true;
+  @tracked isTooltipOverlayDisplayed = !(this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip)
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -42,8 +42,10 @@ export default class ChallengeController extends Controller {
 
   @action
   async removeTooltipOverlay() {
-    this.isTooltipOverlayDisplayed = false;
-    await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'focused' } });
+    if (this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+      this.isTooltipOverlayDisplayed = false;
+      await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'focused' } });
+    }
   }
 
   @action
