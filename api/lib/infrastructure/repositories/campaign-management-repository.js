@@ -15,6 +15,7 @@ module.exports = {
         type: 'campaigns.type',
         creatorLastName: 'users.lastName',
         creatorFirstName: 'users.firstName',
+        creatorId: 'users.id',
         organizationId: 'campaigns.organizationId',
         organizationName: 'organizations.name',
         targetProfileId: 'campaigns.targetProfileId',
@@ -39,6 +40,7 @@ module.exports = {
         type: 'campaigns.type',
         creatorLastName: 'users.lastName',
         creatorFirstName: 'users.firstName',
+        creatorId: 'users.id',
       })
       .join('users', 'users.id', 'campaigns.creatorId')
       .where('organizationId', organizationId)
