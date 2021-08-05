@@ -8,6 +8,7 @@ class CampaignManagement {
     type,
     creatorLastName,
     creatorFirstName,
+    creatorId,
   } = {}) {
     this.id = id;
     this.code = code;
@@ -17,6 +18,7 @@ class CampaignManagement {
     this.archivedAt = archivedAt;
     this.creatorLastName = creatorLastName;
     this.creatorFirstName = creatorFirstName;
+    this.creatorId = creatorId;
   }
 }
 

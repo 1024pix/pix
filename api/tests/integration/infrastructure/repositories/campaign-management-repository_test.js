@@ -32,6 +32,7 @@ describe('Integration | Repository | Campaign-Management', () => {
         archivedAt: campaign.archivedAt,
         creatorFirstName: user.firstName,
         creatorLastName: user.lastName,
+        creatorId: user.id,
         organizationId: organization.id,
         organizationName: organization.name,
         targetProfileId: targetProfile.id,
@@ -63,6 +64,7 @@ describe('Integration | Repository | Campaign-Management', () => {
         archivedAt: campaign.archivedAt,
         creatorFirstName: user.firstName,
         creatorLastName: user.lastName,
+        creatorId: user.id,
         organizationId: organization.id,
         organizationName: organization.name,
         targetProfileId: null,
@@ -183,6 +185,7 @@ describe('Integration | Repository | Campaign-Management', () => {
           type: campaign.type,
           creatorLastName: creator.lastName,
           creatorFirstName: creator.firstName,
+          creatorId: creator.id,
         });
       });
 
