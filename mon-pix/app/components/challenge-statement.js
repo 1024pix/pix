@@ -15,7 +15,6 @@ export default class ChallengeStatement extends Component {
 
   @tracked selectedAttachmentUrl;
   @tracked displayAlternativeInstruction = false;
-
   @tracked shouldDisplayTooltip = false;
 
   constructor() {
@@ -73,6 +72,9 @@ export default class ChallengeStatement extends Component {
       this.shouldDisplayTooltip = true;
     }
     else if (this.isFocusedChallenge && this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+      this._notifyChallengeTooltipIsClosed();
+    }
+    else if (this.isFocusedChallenge) {
       this._notifyChallengeTooltipIsClosed();
     }
   }
