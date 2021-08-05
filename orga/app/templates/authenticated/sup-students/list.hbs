@@ -1,8 +1,6 @@
 {{page-title (t 'pages.students-sup.title')}}
 <div class="list-students-page">
-  <Student::Sup::HeaderActions
-    @onImportStudents={{this.importStudents}}
-  />
+  <Student::Sup::HeaderActions/>
 
   <Student::Sup::List
     @students={{@model}}
@@ -11,10 +9,4 @@
     @studentNumberFilter={{this.studentNumber}}
     @onFilter={{this.triggerFiltering}}
   />
-
-  {{#if this.isLoading}}
-    <ModalDialog @translucentOverlay={{true}} @containerClass="modal__translucent">
-      <Ui::PixLoader />
-    </ModalDialog>
-  {{/if}}
 </div>

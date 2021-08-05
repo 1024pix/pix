@@ -28,6 +28,7 @@ Router.map(function() {
     });
     this.route('sup-students', { path: 'etudiants' }, function() {
       this.route('list', { path: '/' });
+      this.route('import');
     });
     this.route('team', { path: '/equipe' }, function() {
       this.route('list', { path: '/' }, function() {
