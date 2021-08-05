@@ -3,6 +3,7 @@ const events = require('../../domain/events');
 const privateCertificateSerializer = require('../../infrastructure/serializers/jsonapi/private-certificate-serializer');
 const shareableCertificateSerializer = require('../../infrastructure/serializers/jsonapi/shareable-certificate-serializer');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
+const moment = require('moment');
 
 module.exports = {
   async findUserCertifications(request) {
@@ -38,8 +39,9 @@ module.exports = {
       certificationId,
     });
 
-    const { buffer, fileName } = await certificationAttestationPdf.getCertificationAttestationPdfBuffer({ certificate: attestation });
+    const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({ certificates: [attestation] });
 
+    const fileName = `attestation-pix-${moment(attestation.deliveredAt).format('YYYYMMDD')}.pdf`;
     return h.response(buffer)
       .header('Content-Disposition', `attachment; filename=${fileName}`)
       .header('Content-Type', 'application/pdf');

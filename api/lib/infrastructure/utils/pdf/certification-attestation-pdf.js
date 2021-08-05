@@ -1,7 +1,10 @@
 const { PDFDocument, rgb } = require('pdf-lib');
-const fs = require('fs');
+const { readFile } = require('fs/promises');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
+const moment = require('moment');
 const sharp = require('sharp');
+const _ = require('lodash');
+
 const AttestationViewModel = require('./AttestationViewModel');
 
 const fonts = {
@@ -11,73 +14,88 @@ const fonts = {
   robotoMonoRegular: 'RobotoMono-Regular.ttf',
 };
 
-const images = {
-  clea: 'clea',
-  pixPlusDroit: 'pixPlusDroit',
+const templates = {
+  withoutComplementaryCertifications: 'withoutComplementaryCertifications',
+  withComplementaryCertifications: 'withComplementaryCertifications',
 };
 
-async function getCertificationAttestationPdfBuffer({
-  certificate,
-  fileSystem = fs.promises,
-  pdfWriter = PDFDocument,
-  bufferFromBytes = Buffer.from,
-  imageUtils = sharp,
+async function getCertificationAttestationsPdfBuffer({
+  certificates,
   dirname = __dirname,
   fontkit = pdfLibFontkit,
+  creationDate = new Date(),
 } = {}) {
 
-  const viewModel = AttestationViewModel.from(certificate);
-  const generatedPdfDoc = await _initializeNewPDFDocument(pdfWriter, fontkit);
-  const embeddedFonts = await _embedFonts(generatedPdfDoc, fileSystem, dirname);
-  const embeddedImages = await _embedImages(generatedPdfDoc, viewModel, imageUtils);
+  const viewModels = certificates.map(AttestationViewModel.from);
+  const generatedPdfDoc = await _initializeNewPDFDocument(fontkit);
+  generatedPdfDoc.setCreationDate(creationDate);
+  generatedPdfDoc.setModificationDate(creationDate);
+  const embeddedFonts = await _embedFonts(generatedPdfDoc, dirname);
+  const embeddedImages = await _embedImages(generatedPdfDoc, viewModels);
 
-  const templatePdfDoc = await _getTemplatePDFDocument(viewModel, dirname, fileSystem, pdfWriter);
+  const templatePdfPages = await _embedTemplatePagesIntoDocument(viewModels, dirname, generatedPdfDoc);
 
-  await _render({ templateDocument: templatePdfDoc, pdfDocument: generatedPdfDoc, viewModel, rgb, embeddedFonts, embeddedImages });
+  await _render({ templatePdfPages, pdfDocument: generatedPdfDoc, viewModels, rgb, embeddedFonts, embeddedImages });
 
-  const buffer = await _finalizeDocument(generatedPdfDoc, bufferFromBytes);
+  const buffer = await _finalizeDocument(generatedPdfDoc);
+
+  const fileName = `attestation-pix-${moment(certificates[0].deliveredAt).format('YYYYMMDD')}.pdf`;
 
   return {
-    buffer: buffer,
-    fileName: viewModel.filename,
+    buffer,
+    fileName,
   };
 }
 
-async function _initializeNewPDFDocument(pdfWriter, fontkit) {
-  const pdfDocument = await pdfWriter.create();
+async function _initializeNewPDFDocument(fontkit) {
+  const pdfDocument = await PDFDocument.create();
   pdfDocument.registerFontkit(fontkit);
   return pdfDocument;
 }
 
-async function _embedFonts(pdfDocument, fileSystem, dirname) {
+async function _embedFonts(pdfDocument, dirname) {
   const embeddedFonts = {};
   for (const fontKey in fonts) {
-    const embeddedFont = await _embedFontInPDFDocument(pdfDocument, fonts[fontKey], fileSystem, dirname);
+    const embeddedFont = await _embedFontInPDFDocument(pdfDocument, fonts[fontKey], dirname);
     embeddedFonts[fontKey] = embeddedFont;
   }
   return embeddedFonts;
 }
 
-async function _embedFontInPDFDocument(pdfDoc, fontFileName, fileSystem, dirname) {
-  const fontFile = await fileSystem.readFile(`${dirname}/files/${fontFileName}`);
-  return pdfDoc.embedFont(fontFile);
+async function _embedFontInPDFDocument(pdfDoc, fontFileName, dirname) {
+  const fontFile = await readFile(`${dirname}/files/${fontFileName}`);
+  return pdfDoc.embedFont(fontFile, { subset: true, customName: fontFileName });
 }
 
-async function _embedImages(pdfDocument, viewModel, imageUtils) {
+async function _embedImages(pdfDocument, viewModels) {
   const embeddedImages = {};
-  if (viewModel.shouldDisplayCleaCertification()) {
-    const image = await _embedCleaCertificationImage(pdfDocument, viewModel, imageUtils);
-    embeddedImages[images.clea] = image;
+  const viewModelsWithCleaCertification =
+    _.filter(viewModels, (viewModel) => viewModel.shouldDisplayCleaCertification());
+
+  if (viewModelsWithCleaCertification.length > 0) {
+    const cleaCertificationImagePath = viewModelsWithCleaCertification[0].cleaCertificationImagePath;
+    const image = await _embedCleaCertificationImage(pdfDocument, cleaCertificationImagePath);
+    embeddedImages[cleaCertificationImagePath] = image;
   }
-  if (viewModel.shouldDisplayPixPlusDroitCertification()) {
-    const image = await _embedPixPlusDroitCertificationImage(pdfDocument, viewModel, imageUtils);
-    embeddedImages[images.pixPlusDroit] = image;
+
+  const viewModelsWithPixPlusDroitCertification =
+    _.filter(viewModels, (viewModel) => viewModel.shouldDisplayPixPlusDroitCertification());
+
+  if (viewModelsWithPixPlusDroitCertification.length > 0) {
+    const singleImagePaths = _(viewModelsWithPixPlusDroitCertification)
+      .map('pixPlusDroitCertificationImagePath')
+      .uniq()
+      .value();
+    for (const path of singleImagePaths) {
+      const image = await _embedPixPlusDroitCertificationImage(pdfDocument, path);
+      embeddedImages[path] = image;
+    }
   }
   return embeddedImages;
 }
 
-async function _embedCleaCertificationImage(pdfDocument, viewModel, imageUtils) {
-  const pngBuffer = await imageUtils(viewModel.cleaCertificationImagePath)
+async function _embedCleaCertificationImage(pdfDocument, cleaCertificationImagePath) {
+  const pngBuffer = await sharp(cleaCertificationImagePath)
     .resize(80, 100, {
       fit: 'inside',
     })
@@ -87,8 +105,8 @@ async function _embedCleaCertificationImage(pdfDocument, viewModel, imageUtils) 
   return pngImage;
 }
 
-async function _embedPixPlusDroitCertificationImage(pdfDocument, certificate, imageUtils) {
-  const pngBuffer = await imageUtils(certificate.pixPlusDroitCertificationImagePath)
+async function _embedPixPlusDroitCertificationImage(pdfDocument, pixPlusDroitCertificationImagePath) {
+  const pngBuffer = await sharp(pixPlusDroitCertificationImagePath)
     .resize(100, 120, {
       fit: 'inside',
     })
@@ -98,56 +116,98 @@ async function _embedPixPlusDroitCertificationImage(pdfDocument, certificate, im
   return pngImage;
 }
 
-async function _getTemplatePDFDocument(viewModel, dirname, fileSystem, pdfWriter) {
-  const templateFileName = viewModel.shouldDisplayComplementaryCertifications()
-    ? 'attestation-template-with-complementary-certifications.pdf'
-    : 'attestation-template.pdf';
+async function _embedTemplatePagesIntoDocument(viewModels, dirname, pdfDocument) {
+  const templatePages = {};
+
+  if (_atLeastOneWithComplementaryCertifications(viewModels)) {
+    const embededPage = await _embedFirstPageFromTemplateByFilename('attestation-template-with-complementary-certifications.pdf', pdfDocument, dirname);
+    templatePages[templates.withComplementaryCertifications] = embededPage;
+  }
+
+  if (_atLeastOneWithoutComplementaryCertifications(viewModels)) {
+    const embededPage = await _embedFirstPageFromTemplateByFilename('attestation-template.pdf', pdfDocument, dirname);
+    templatePages[templates.withoutComplementaryCertifications] = embededPage;
+  }
+  return templatePages;
+}
+
+async function _embedFirstPageFromTemplateByFilename(templatePdfDocumentFileName, destinationDocument, dirname) {
+  const templateBuffer = await _loadTemplateByFilename(templatePdfDocumentFileName, dirname);
+  const [ templatePage ] = await destinationDocument.embedPdf(templateBuffer);
+  return templatePage;
+}
+
+function _atLeastOneWithComplementaryCertifications(viewModels) {
+  return _.some(viewModels, (viewModel) => viewModel.shouldDisplayComplementaryCertifications());
+}
+
+function _atLeastOneWithoutComplementaryCertifications(viewModels) {
+  return _.some(viewModels, (viewModel) => !viewModel.shouldDisplayComplementaryCertifications());
+}
+
+async function _loadTemplateByFilename(templateFileName, dirname) {
   const path = `${dirname}/files/${templateFileName}`;
-  const basePdfBytes = await fileSystem.readFile(path);
-  return await pdfWriter.load(basePdfBytes);
+  return readFile(path);
 }
 
-async function _render({ templateDocument, pdfDocument, viewModel, rgb, embeddedFonts, embeddedImages }) {
+async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embeddedFonts, embeddedImages }) {
 
-  const page = await _copyPageFromTemplateIntoDocument(pdfDocument, templateDocument);
+  for (const viewModel of viewModels) {
+    const newPage = pdfDocument.addPage();
 
-  _renderScore(viewModel, page, embeddedFonts);
-  _renderHeaderCandidateInformations(viewModel, page, rgb, embeddedFonts);
-  _renderCompetencesDetails(viewModel, page, rgb, embeddedFonts);
-  _renderFooter(viewModel, page, rgb, embeddedFonts);
-  _renderMaxScore(viewModel, page, rgb, embeddedFonts);
-  _renderMaxLevel(viewModel, page, rgb, embeddedFonts);
-  _renderVerificationCode(viewModel, page, rgb, embeddedFonts);
-  _renderCleaCertification(viewModel, page, embeddedImages);
-  _renderPixPlusCertificationCertification(viewModel, page, embeddedImages);
+    const templatePage = await _getTemplatePage(viewModel, templatePdfPages);
+    newPage.drawPage(templatePage);
 
-  pdfDocument.addPage(page);
+    // Note: calls to setFont() are mutualized outside of the _render* methods
+    // to save space. Calling setFont() n times with the same fonts creates
+    // unnecessary links and big documents.
+    //
+    // For the same reason, don't use the `font` option of `drawText()`.
+    // Size gains for 140 certifs: 5 MB -> 700 kB
+    newPage.setFont(embeddedFonts.openSansBold);
+    _renderScore(viewModel, newPage, embeddedFonts.openSansBold);
+    _renderHeaderCandidateInformations(viewModel, newPage, rgb);
+    _renderFooter(viewModel, newPage, rgb);
+
+    newPage.setFont(embeddedFonts.robotoMedium);
+    _renderCompetencesDetails(viewModel, newPage, rgb);
+
+    newPage.setFont(embeddedFonts.openSansSemiBold);
+    _renderMaxScore(viewModel, newPage, rgb, embeddedFonts.openSansSemiBold);
+    _renderMaxLevel(viewModel, newPage, rgb);
+
+    newPage.setFont(embeddedFonts.robotoMonoRegular);
+    _renderVerificationCode(viewModel, newPage, rgb);
+
+    _renderCleaCertification(viewModel, newPage, embeddedImages);
+    _renderPixPlusCertificationCertification(viewModel, newPage, embeddedImages);
+  }
 }
 
-async function _copyPageFromTemplateIntoDocument(pdfDocument, templatePdfDocument) {
-  const pages = await pdfDocument.copyPages(templatePdfDocument, [0]);
-  return pages[0];
+async function _getTemplatePage(viewModel, templatePdfPages) {
+  if (viewModel.shouldDisplayComplementaryCertifications()) {
+    return templatePdfPages.withComplementaryCertifications;
+  } else {
+    return templatePdfPages.withoutComplementaryCertifications;
+  }
 }
 
-function _renderScore(viewModel, page, embeddedFonts) {
+function _renderScore(viewModel, page, font) {
   const pixScore = viewModel.pixScore;
   const scoreFontSize = 24;
-  const scoreFont = embeddedFonts.openSansBold;
-  const scoreWidth = scoreFont.widthOfTextAtSize(pixScore, scoreFontSize);
+  const scoreWidth = font.widthOfTextAtSize(pixScore, scoreFontSize);
 
   page.drawText(
     pixScore,
     {
       x: 105 - scoreWidth / 2,
       y: 675,
-      font: scoreFont,
       size: scoreFontSize,
     },
   );
 }
 
-function _renderMaxScore(viewModel, page, rgb, embeddedFonts) {
-  const font = embeddedFonts.openSansSemiBold;
+function _renderMaxScore(viewModel, page, rgb, font) {
   const maxScoreFontSize = 9;
 
   const maxReachableScore = viewModel.maxReachableScore;
@@ -157,31 +217,28 @@ function _renderMaxScore(viewModel, page, rgb, embeddedFonts) {
     maxReachableScore,
     {
       x: 105 - maxScoreWidth / 2, y: 659,
-      font: font,
       size: maxScoreFontSize,
       color: rgb(0 / 255, 45 / 255, 80 / 255),
     },
   );
 }
 
-function _renderMaxLevel(viewModel, page, rgb, embeddedFonts) {
+function _renderMaxLevel(viewModel, page, rgb) {
   page.drawText(
     viewModel.maxLevel,
     {
       x: 159, y: 608,
-      font: embeddedFonts.openSansSemiBold,
       size: 7,
       color: rgb(80 / 255, 95 / 255, 121 / 255),
     },
   );
 }
 
-function _renderFooter(viewModel, page, rgb, embeddedFonts) {
+function _renderFooter(viewModel, page, rgb) {
   page.drawText(
     viewModel.maxReachableLevelIndication,
     {
       x: 55, y: 46,
-      font: embeddedFonts.openSansBold,
       size: 7,
       color: rgb(42 / 255, 64 / 255, 99 / 255),
     },
@@ -192,7 +249,6 @@ function _renderFooter(viewModel, page, rgb, embeddedFonts) {
       viewModel.absoluteMaxLevelIndication,
       {
         x: 55, y: 35,
-        font: embeddedFonts.openSansBold,
         size: 7,
         color: rgb(42 / 255, 64 / 255, 99 / 255),
       },
@@ -200,7 +256,7 @@ function _renderFooter(viewModel, page, rgb, embeddedFonts) {
   }
 }
 
-function _renderHeaderCandidateInformations(viewModel, page, rgb, embeddedFonts) {
+function _renderHeaderCandidateInformations(viewModel, page, rgb) {
   [
     [230, 712, viewModel.fullName],
     [269, 695.5, viewModel.birth],
@@ -212,7 +268,6 @@ function _renderHeaderCandidateInformations(viewModel, page, rgb, embeddedFonts)
       {
         x,
         y,
-        font: embeddedFonts.openSansBold,
         size: 9,
         color: rgb(26 / 255, 64 / 255, 109 / 255),
       },
@@ -220,13 +275,12 @@ function _renderHeaderCandidateInformations(viewModel, page, rgb, embeddedFonts)
   });
 }
 
-function _renderVerificationCode(viewModel, page, rgb, embeddedFonts) {
+function _renderVerificationCode(viewModel, page, rgb) {
   page.drawText(
     viewModel.verificationCode,
     {
       x: 410,
       y: 560,
-      font: embeddedFonts.robotoMonoRegular,
       size: 11,
       color: rgb(1, 1, 1),
     },
@@ -241,7 +295,7 @@ function _renderPixPlusCertificationCertification(viewModel, page, embeddedImage
   }
 
   if (viewModel.shouldDisplayPixPlusDroitCertification()) {
-    const pngImage = embeddedImages[images.pixPlusDroit];
+    const pngImage = embeddedImages[viewModel.pixPlusDroitCertificationImagePath];
     page.drawImage(
       pngImage,
       {
@@ -254,7 +308,7 @@ function _renderPixPlusCertificationCertification(viewModel, page, embeddedImage
 
 function _renderCleaCertification(viewModel, page, embeddedImages) {
   if (viewModel.shouldDisplayCleaCertification()) {
-    const pngImage = embeddedImages[images.clea];
+    const pngImage = embeddedImages[viewModel.cleaCertificationImagePath];
     page.drawImage(
       pngImage,
       {
@@ -265,7 +319,7 @@ function _renderCleaCertification(viewModel, page, embeddedImages) {
   }
 }
 
-function _renderCompetencesDetails(viewModel, page, rgb, embeddedFonts) {
+function _renderCompetencesDetails(viewModel, page, rgb) {
   const competencesLevelCoordinates = [
     556, 532, 508,
     452, 428, 404, 380,
@@ -281,7 +335,6 @@ function _renderCompetencesDetails(viewModel, page, rgb, embeddedFonts) {
         competenceDetailViewModel.level,
         {
           x: 291, y: y + 5,
-          font: embeddedFonts.robotoMedium,
           size: 9,
           color: rgb(37 / 255, 56 / 255, 88 / 255),
         },
@@ -296,16 +349,15 @@ function _renderCompetencesDetails(viewModel, page, rgb, embeddedFonts) {
         opacity: 0.5,
       });
     }
-
   });
 }
 
-async function _finalizeDocument(pdfDocument, bufferFromBytes) {
+async function _finalizeDocument(pdfDocument) {
   const pdfBytes = await pdfDocument.save();
-  const buffer = bufferFromBytes(pdfBytes);
+  const buffer = Buffer.from(pdfBytes);
   return buffer;
 }
 
 module.exports = {
-  getCertificationAttestationPdfBuffer,
+  getCertificationAttestationsPdfBuffer,
 };
