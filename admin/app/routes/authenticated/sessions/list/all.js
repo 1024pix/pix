@@ -12,7 +12,6 @@ export default class AuthenticatedSessionsAllRoute extends Route {
     certificationCenterType: { refreshModel: true },
     status: { refreshModel: true },
     resultsSentToPrescriberAt: { refreshModel: true },
-    assignedToSelfOnly: { refreshModel: true },
   };
 
   async model(params) {
@@ -25,7 +24,6 @@ export default class AuthenticatedSessionsAllRoute extends Route {
           certificationCenterType: params.certificationCenterType || undefined,
           status: params.status || undefined,
           resultsSentToPrescriberAt: params.resultsSentToPrescriberAt || undefined,
-          assignedToSelfOnly: params.assignedToSelfOnly,
         },
         page: {
           number: params.pageNumber,
@@ -48,7 +46,6 @@ export default class AuthenticatedSessionsAllRoute extends Route {
       controller.certificationCenterType = null;
       controller.status = FINALIZED;
       controller.resultsSentToPrescriberAt = null;
-      controller.assignedToSelfOnly = false;
     }
   }
 }
