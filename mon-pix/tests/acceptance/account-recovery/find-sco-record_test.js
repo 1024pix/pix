@@ -184,6 +184,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
           await fillStudentInformationFormAndSubmit(this);
 
           // when
+          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
           await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
           // then
@@ -201,6 +202,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
 
           await visit('/recuperer-mon-compte');
           await fillStudentInformationFormAndSubmit(this);
+          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
           await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
           // when
@@ -222,6 +224,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
           await visit('/recuperer-mon-compte');
           await fillStudentInformationFormAndSubmit(this);
 
+          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
           await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
           // when
@@ -251,6 +254,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
           await visit('/recuperer-mon-compte');
           await fillStudentInformationFormAndSubmit(this);
 
+          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
           await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
           // when
