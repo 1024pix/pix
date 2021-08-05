@@ -202,6 +202,32 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/organizations/{id}/certification-attestations',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
+            assign: 'belongsToOrganizationManagingStudents',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          query: Joi.object({
+            division: Joi.string().required(),
+          }),
+        },
+        handler: organizationController.getMultiplePDFAttestations,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les certificats par classe liées à l\'organisation sous forme de fichier PDF.',
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/organizations/{id}/target-profiles',
       config: {
         validate: {

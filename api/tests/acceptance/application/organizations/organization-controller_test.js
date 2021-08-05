@@ -11,6 +11,8 @@ const createServer = require('../../../../server');
 const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const Assessment = require('../../../../lib/domain/models/Assessment');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
 describe('Acceptance | Application | organization-controller', () => {
 
@@ -18,23 +20,6 @@ describe('Acceptance | Application | organization-controller', () => {
 
   beforeEach(async () => {
     server = await createServer();
-  });
-
-  before(() => {
-    const learningContent = [{
-      id: 'recArea0',
-      competences: [{
-        id: 'recNv8qhaY887jQb2',
-        index: '1.3',
-        name: 'Traiter des données',
-      }, {
-        id: 'recofJCxg0NqTqTdP',
-        index: '4.2',
-        name: 'Protéger les données personnelles et la vie privée',
-      }],
-    }];
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
-    mockLearningContent(learningContentObjects);
   });
 
   beforeEach(async () => {
@@ -1442,6 +1427,81 @@ describe('Acceptance | Application | organization-controller', () => {
         method: 'GET',
         url: `/api/organizations/${organization.id}/certification-results?division=aDivision`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('GET /api/organizations/{id}/certification-attestations', () => {
+
+    beforeEach(() => {
+      const learningContent = [{
+        id: 'recArea0',
+        code: '1',
+        competences: [{
+          id: 'recNv8qhaY887jQb2',
+          index: '1.3',
+          name: 'Traiter des données',
+        }],
+      }];
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
+    });
+
+    it('should return HTTP status 200', async () => {
+      // given
+
+      const adminIsManagingStudent = databaseBuilder.factory.buildUser.withRawPassword();
+
+      const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
+      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: adminIsManagingStudent.id, organizationRole: Membership.roles.ADMIN });
+
+      const student = databaseBuilder.factory.buildUser.withRawPassword();
+      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: 'aDivision',
+        userId: student.id,
+      });
+
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({ schoolingRegistrationId: schoolingRegistration.id, userId: student.id });
+
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+        userId: candidate.userId,
+        sessionId: candidate.sessionId,
+        isPublished: true,
+        isCancelled: false,
+      });
+
+      const badge = databaseBuilder.factory.buildBadge({ key: 'a badge' });
+
+      const assessment = databaseBuilder.factory.buildAssessment({
+        userId: candidate.userId,
+        certificationCourseId: certificationCourse.id,
+        type: Assessment.types.CERTIFICATION,
+        state: 'completed',
+      });
+
+      const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id, status: AssessmentResult.status.VALIDATED });
+      databaseBuilder.factory.buildCompetenceMark({
+        level: 3,
+        score: 23,
+        area_code: '1',
+        competence_code: '1.3',
+        assessmentResultId: assessmentResult.id,
+        acquiredPartnerCertifications: [badge.key],
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/organizations/${organization.id}/certification-attestations?division=aDivision`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(adminIsManagingStudent.id) },
       };
 
       // when
