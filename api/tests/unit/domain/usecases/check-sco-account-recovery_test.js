@@ -12,7 +12,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
   let accountRecoveryDemandRepository;
   let userRepository;
   let organizationRepository;
-  let checkScoAccountRecoveryService;
+  let scoAccountRecoveryService;
   const userReconciliationService = {};
 
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
     organizationRepository = {
       get: sinon.stub(),
     };
-    checkScoAccountRecoveryService = {
+    scoAccountRecoveryService = {
       retrieveSchoolingRegistration: sinon.stub(),
     };
   });
@@ -46,7 +46,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
 
         const expectedOrganization = domainBuilder.buildOrganization({ id: 7, name: 'Lycée Poudlard' });
 
-        checkScoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
+        scoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
           accountRecoveryDemandRepository,
           studentInformation,
           schoolingRegistrationRepository,
@@ -67,7 +67,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
           schoolingRegistrationRepository,
           studentInformation,
           organizationRepository,
-          checkScoAccountRecoveryService,
+          scoAccountRecoveryService,
           userReconciliationService,
         });
 
