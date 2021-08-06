@@ -131,17 +131,20 @@ function _formatResult(scoring, validations, deactivations) {
 
 module.exports = {
 
-  match(yamlAnswer, yamlSolution, yamlScoring, deactivations) {
+  match({ answerValue, solution }) {
+    const yamlSolution = solution.value;
+    const yamlScoring = solution.scoring;
+    const deactivations = solution.deactivations;
 
     // Input checking
-    if (!_.isString(yamlAnswer)
-        || _.isEmpty(yamlAnswer)
+    if (!_.isString(answerValue)
+        || _.isEmpty(answerValue)
         || !_.includes(yamlSolution, '\n')) {
       return AnswerStatus.KO;
     }
 
     // Pre-Treatments
-    const preTreatedAnswers = applyPreTreatments(yamlAnswer);
+    const preTreatedAnswers = applyPreTreatments(answerValue);
 
     // Convert Yaml to JS objects
     let answers, solutions, scoring;
