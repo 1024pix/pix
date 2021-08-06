@@ -26,7 +26,7 @@ const schema = Joi.object({
   AUTH_SECRET: Joi.string().required(),
   IS_SCO_ACCOUNT_RECOVERY_ENABLED: Joi.string().optional().valid('true', 'false'),
   FT_IS_NEW_CPF_DATA_ENABLED: Joi.string().optional().valid('true', 'false'),
-  SCO_ACCOUNT_RECOVERY_TOKEN_LIFETIME_MINUTES: Joi.number().optional(),
+  SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES: Joi.number().integer().min(1).optional(),
   CACHE_RELOAD_TIME: Joi.string().optional(),
 }).options({ allowUnknown: true });
 
