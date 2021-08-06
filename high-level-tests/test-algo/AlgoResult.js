@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { v4: uuidv4 } = require('uuid');
+const CsvFile = require('./utils/CsvFile');
 
 class AlgoResult {
 
@@ -104,6 +105,13 @@ class AlgoResult {
         answerStatus: this._answerStatuses[index].status,
       };
     });
+  }
+
+  async writeCsvFile() {
+    const results = this._getResults();
+    const headers = Object.keys(results[0]);
+    const csvFile = new CsvFile(headers);
+    await csvFile.append(results);
   }
 }
 

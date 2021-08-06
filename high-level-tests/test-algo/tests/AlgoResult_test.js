@@ -213,4 +213,55 @@ describe('AlgoResult', () => {
       expect(results[1].skillName).to.equal('skill2');
     });
   });
+
+  describe('#writeCsvFile', () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it('should get results and write it in file', () => {
+      // given
+      const algoResult = new AlgoResult();
+      const challenge1 = { id: 'rec1', skills: [{ name: 'skill1' }] };
+      const challenge2 = { id: 'rec2', skills: [{ name: 'skill2' }] };
+      algoResult.addChallenge(challenge1);
+      algoResult.addChallenge(challenge2);
+      algoResult.addChallengeLevel(2);
+      algoResult.addChallengeLevel(4);
+      algoResult.addEstimatedLevels(2);
+      algoResult.addEstimatedLevels(4);
+      algoResult.addAnswerStatus({ status: 'ko' });
+      algoResult.addAnswerStatus({ status: 'ok' });
+      const csvFileCreateStub = sinon.stub(CsvFile.prototype, '_createAndAddHeadersIfNotExisting');
+      const csvFileAppendStub = sinon.stub(CsvFile.prototype, 'append');
+      algoResult._id = 'fixed-id';
+
+      // when
+      algoResult.writeCsvFile();
+
+      // then
+      const expectedResults = [
+        {
+          id: 'fixed-id',
+          nChallenge: 1,
+          challengeId: 'rec1',
+          challengeLevel: 2,
+          skillName: 'skill1',
+          estimatedLevel: 2,
+          answerStatus: 'ko',
+        },
+        {
+          id: 'fixed-id',
+          nChallenge: 2,
+          challengeId: 'rec2',
+          challengeLevel: 4,
+          skillName: 'skill2',
+          estimatedLevel: 4,
+          answerStatus: 'ok',
+        },
+      ];
+      expect(csvFileCreateStub).to.have.been.called;
+      expect(csvFileAppendStub).to.have.been.calledWith(expectedResults);
+    });
+  });
 });
