@@ -58,4 +58,10 @@ export default function index(config) {
     user.update({ hasSeenNewDashboardInfo: true });
     return user;
   });
+
+  config.patch('/users/:id/has-seen-challenge-tooltip/:challengeType', (schema, request) => {
+    const user = schema.users.find(request.params.id);
+    user.update({ tooltipChallengeType: request.params.challengeType });
+    return user;
+  });
 }

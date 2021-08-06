@@ -1394,6 +1394,27 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
+  describe('#updateHasSeenChallengeTooltip', () => {
+
+    let userId;
+
+    beforeEach(() => {
+      userId = databaseBuilder.factory
+        .buildUser({ hasSeenFocusedChallengeTooltip: false })
+        .id;
+      return databaseBuilder.commit();
+    });
+
+    it('should return the model with hasSeenFocusedChallengeTooltip flag updated to true', async () => {
+      // when
+      const challengeType = 'focused';
+      const actualUser = await userRepository.updateHasSeenChallengeTooltip({ userId, challengeType });
+
+      // then
+      expect(actualUser.hasSeenFocusedChallengeTooltip).to.be.true;
+    });
+  });
+
   describe('#findAnotherUserByEmail', () => {
 
     it('should return a list of a single user if email already used', async () => {

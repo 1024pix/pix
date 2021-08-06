@@ -11,6 +11,7 @@ export default class User extends Model {
   @attr('boolean') mustValidateTermsOfService;
   @attr('boolean') hasSeenAssessmentInstructions;
   @attr('boolean') hasSeenNewDashboardInfo;
+  @attr('boolean') hasSeenFocusedChallengeTooltip;
   @attr('string') lang;
   @attr('boolean') isAnonymous;
 

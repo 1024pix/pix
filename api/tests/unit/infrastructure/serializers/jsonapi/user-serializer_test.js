@@ -49,6 +49,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'pix-certif-terms-of-service-accepted': userModelObject.pixCertifTermsOfServiceAccepted,
               'has-seen-assessment-instructions': userModelObject.hasSeenAssessmentInstructions,
               'has-seen-new-dashboard-info': userModelObject.hasSeenNewDashboardInfo,
+              'has-seen-focused-challenge-tooltip': userModelObject.hasSeenFocusedChallengeTooltip,
             },
             relationships: {
               memberships: {
