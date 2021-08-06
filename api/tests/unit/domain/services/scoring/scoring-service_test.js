@@ -82,4 +82,16 @@ describe('Unit | Service | Scoring Service', () => {
     });
 
   });
+
+  describe('#calculatePixScore', () => {
+    it('returns the Pix score and limit the score', function() {
+      const knowledgeElements = [
+        domainBuilder.buildKnowledgeElement({ competenceId: 'competence1', skillId: 'skill1.1', earnedPix: 8 }),
+        domainBuilder.buildKnowledgeElement({ competenceId: 'competence1', skillId: 'skill1.2', earnedPix: 35 }),
+        domainBuilder.buildKnowledgeElement({ competenceId: 'competence2', skillId: 'skill2.1', earnedPix: 1 }),
+      ];
+
+      expect(scoringService.calculatePixScore(knowledgeElements)).to.be.equal(41);
+    });
+  });
 });
