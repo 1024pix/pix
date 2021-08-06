@@ -1,26 +1,14 @@
-const bluebird = require('bluebird');
+const { NoCertificationAttestationForDivisionError } = require('../../errors');
 
 module.exports = async function getMultipleCertificationAttestationsByDivision({
   organizationId,
   division,
   certificationAttestationRepository,
-  assessmentResultRepository,
-  competenceTreeRepository,
-  resultCompetenceTreeService,
 }) {
   const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division });
 
-  await bluebird.mapSeries(certificationAttestations,
-    async (certificationAttestation) => {
-
-      const resultCompetenceTree = await resultCompetenceTreeService.computeForCertification({
-        certificationId: certificationAttestation.id,
-        assessmentResultRepository,
-        competenceTreeRepository,
-      });
-
-      certificationAttestation.setResultCompetenceTree(resultCompetenceTree);
-    });
-
+  if (certificationAttestations.length === 0) {
+    throw new NoCertificationAttestationForDivisionError(division);
+  }
   return certificationAttestations;
 };

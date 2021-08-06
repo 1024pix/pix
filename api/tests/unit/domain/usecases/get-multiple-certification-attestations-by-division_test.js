@@ -1,5 +1,6 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const getMultipleCertificationAttestationsByDivision = require('../../../../lib/domain/usecases/certificate/get-multiple-certification-attestations-by-division');
+const { NoCertificationAttestationForDivisionError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-multiple-certification-attestations-by-division', async () => {
 
@@ -9,13 +10,9 @@ describe('Unit | UseCase | get-multiple-certification-attestations-by-division',
   const resultCompetenceTreeService = {
     computeForCertification: () => undefined,
   };
-  const assessmentResultRepository = 'assessmentResultRepository';
-  const competenceTreeRepository = 'assessmentResultRepository';
+
   const dependencies = {
     certificationAttestationRepository,
-    resultCompetenceTreeService,
-    assessmentResultRepository,
-    competenceTreeRepository,
   };
 
   beforeEach(() => {
@@ -25,30 +22,24 @@ describe('Unit | UseCase | get-multiple-certification-attestations-by-division',
 
   it('should return multiple certification attestations enhanced with result competence tree', async () => {
     // given
+    const resultCompetenceTree1 = domainBuilder.buildResultCompetenceTree({ id: 'firstResultTreeId' });
+    const resultCompetenceTree2 = domainBuilder.buildResultCompetenceTree({ id: 'secondResultTreeId' });
+
     const certificationAttestation1 = domainBuilder.buildCertificationAttestation({
       id: 123,
       userId: 123,
       certificationCenter: 'Lycée Tardis',
+      resultCompetenceTree: resultCompetenceTree1,
     });
 
     const certificationAttestation2 = domainBuilder.buildCertificationAttestation({
       id: 456,
       userId: 456,
       certificationCenter: 'Lycée Tardis',
+      resultCompetenceTree: resultCompetenceTree2,
     });
 
-    const resultCompetenceTree1 = domainBuilder.buildResultCompetenceTree({ id: 'firstResultTreeId' });
-    const resultCompetenceTree2 = domainBuilder.buildResultCompetenceTree({ id: 'secondResultTreeId' });
-
     certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization.withArgs({ organizationId: 1234, division: '3b' }).resolves([certificationAttestation1, certificationAttestation2]);
-
-    resultCompetenceTreeService.computeForCertification
-      .onCall(0)
-      .resolves(resultCompetenceTree1);
-
-    resultCompetenceTreeService.computeForCertification
-      .onCall(1)
-      .resolves(resultCompetenceTree2);
 
     // when
     const actualCertificationAttestations = await getMultipleCertificationAttestationsByDivision({ organizationId: 1234, division: '3b', ...dependencies });
@@ -70,5 +61,18 @@ describe('Unit | UseCase | get-multiple-certification-attestations-by-division',
     ];
 
     expect(actualCertificationAttestations).to.deep.equal(expectedCertificationAttestations);
+  });
+
+  describe('when there is no attestation', () => {
+    it('should throw a NoCertificationAttestationForDivisionError', async () => {
+      // given
+      certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization.withArgs({ organizationId: 1234, division: '3b' }).resolves([]);
+
+      // when
+      const error = await catchErr(getMultipleCertificationAttestationsByDivision)({ organizationId: 1234, division: '3b', ...dependencies });
+
+      // then
+      expect(error).to.be.an.instanceOf(NoCertificationAttestationForDivisionError);
+    });
   });
 });

@@ -54,6 +54,13 @@ class AuthenticationMethodNotFoundError extends DomainError {
   }
 }
 
+class NoCertificationAttestationForDivisionError extends DomainError {
+  constructor(division) {
+    const message = `Aucune attestation de certification pour la classe ${division}.`;
+    super(message);
+  }
+}
+
 class OrganizationAlreadyExistError extends DomainError {
   constructor(message = 'L\'organisation existe déjà.') {
     super(message);
@@ -914,6 +921,7 @@ module.exports = {
   AuthenticationMethodNotFoundError,
   CampaignCodeError,
   CertificateVerificationCodeGenerationTooManyTrials,
+  NoCertificationAttestationForDivisionError,
   CertificationCandidateForbiddenDeletionError,
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
