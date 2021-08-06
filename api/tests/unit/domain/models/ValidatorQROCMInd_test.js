@@ -34,7 +34,7 @@ describe('Unit | Domain | Models | ValidatorQROCMInd', function() {
     it('should call solutionServiceQROCMInd', function() {
       // then
       expect(solutionServiceQrocmInd.match).to.have.been.calledWith(
-        uncorrectedAnswer.value, solution.value, solution.enabledTreatments);
+        { answerValue: uncorrectedAnswer.value, solution: solution });
     });
     it('should return a validation object with the returned status', function() {
       const expectedValidation = domainBuilder.buildValidation({

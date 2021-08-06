@@ -7,17 +7,25 @@ const { YamlParsingError } = require('../../domain/errors');
 
 const AnswerStatus = require('../models/AnswerStatus');
 
-function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
+function _applyTreatmentsToSolutions(solutions, enabledTreatments, qrocBlocksTypes = {}) {
   return _.forEach(solutions, (solution, solutionKey) => {
     solution.forEach((variant, variantIndex) => {
-      solutions[solutionKey][variantIndex] = applyTreatments(variant, enabledTreatments);
+      if (qrocBlocksTypes[solutionKey] === 'select') {
+        solutions[solutionKey][variantIndex] = applyTreatments(variant, []);
+      } else {
+        solutions[solutionKey][variantIndex] = applyTreatments(variant, enabledTreatments);
+      }
     });
   });
 }
 
-function _applyTreatmentsToAnswers(answers, enabledTreatments) {
+function _applyTreatmentsToAnswers(answers, enabledTreatments, qrocBlocksTypes = {}) {
   return _.forEach(answers, (answer, answerKey) => {
-    answers[answerKey] = applyTreatments(answer, enabledTreatments);
+    if (qrocBlocksTypes[answerKey] === 'select') {
+      answers[answerKey] = applyTreatments(answer, []);
+    } else {
+      answers[answerKey] = applyTreatments(answer, enabledTreatments);
+    }
   });
 }
 
@@ -31,7 +39,7 @@ function _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solut
   return ratio <= 0.25;
 }
 
-function _compareAnswersAndSolutions(answers, solutions, enabledTreatments) {
+function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qrocBlocksTypes = {}) {
   const results = {};
   _.map(answers, (answer, answerKey) => {
     const solutionVariants = solutions[answerKey];
@@ -39,7 +47,7 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments) {
       logger.warn(`[ERREUR CLE ANSWER] La clé ${answerKey} n'existe pas. Première clé de l'épreuve : ${Object.keys(solutions)[0]}`);
       throw new YamlParsingError();
     }
-    if (enabledTreatments.includes('t3')) {
+    if (enabledTreatments.includes('t3') && qrocBlocksTypes[answerKey] != 'select') {
       results[answerKey] = _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
     } else if (solutionVariants) {
       results[answerKey] = solutionVariants.includes(answer);
@@ -68,6 +76,8 @@ module.exports = {
   match({ answerValue, solution }) {
     const yamlSolution = solution.value;
     const enabledTreatments = solution.enabledTreatments;
+    const qrocBlocksTypes = solution.qrocBlocksTypes || {};
+
     // Input checking
     if (!_.isString(answerValue)
       || _.isEmpty(yamlSolution)
@@ -90,11 +100,11 @@ module.exports = {
     }
 
     // Treatments
-    const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments);
-    const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments);
+    const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments, qrocBlocksTypes);
+    const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments, qrocBlocksTypes);
 
     // Comparison
-    const resultDetails = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions, enabledTreatments);
+    const resultDetails = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions, enabledTreatments, qrocBlocksTypes);
 
     // Restitution
     return {
