@@ -1,14 +1,11 @@
 const Bookshelf = require('../bookshelf');
 const bookshelfUtils = require('../utils/knex-utils');
-
 const DomainTransaction = require('../DomainTransaction');
 const {
   AlreadyExistingEntityError,
   AuthenticationMethodNotFoundError,
 } = require('../../domain/errors');
-
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-
 const BookshelfAuthenticationMethod = require('../orm-models/AuthenticationMethod');
 
 function _toDomainEntity(bookshelfAuthenticationMethod) {
