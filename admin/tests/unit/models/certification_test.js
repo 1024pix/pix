@@ -259,4 +259,27 @@ module('Unit | Model | certification', function(hooks) {
       assert.false(certification.wasRegisteredBeforeCPF);
     });
   });
+
+  module('#get completionDate', function() {
+
+    test('it should return null if completedAt is null', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('certification', { completedAt: null });
+      });
+
+      // then
+      assert.equal(juryCertificationSummary.completionDate, null);
+    });
+
+    test('it should a formatted date when completedAt is defined', function(assert) {
+      // given
+      const juryCertificationSummary = run(() => {
+        return store.createRecord('certification', { completedAt: '2021-06-30 15:10:45' });
+      });
+
+      // then
+      assert.equal(juryCertificationSummary.completionDate, '30/06/2021, 15:10:45');
+    });
+  });
 });
