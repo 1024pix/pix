@@ -141,7 +141,6 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
     });
 
     context('when two students used same account', function() {
-
       it('should redirect to account recovery conflict page', async function() {
         // given
         server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
@@ -170,10 +169,9 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
       });
     });
 
-    context('when confirm student information', () => {
+    context('when confirming student information', () => {
 
       context('click on "Confirm" button', () => {
-
         it('should hide recover account confirmation step and show recover account backup email confirmation', async function() {
           // given
           server.create('user', { id: 1, firstName, lastName, username });
@@ -266,10 +264,40 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
           expect(contains(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
           expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
         });
+
+        it('should redirect to error page when there\'s an internal error', async function() {
+          // given
+          const newEmail = 'john.doe@example.net';
+
+          server.create('user', { id: 1, firstName, lastName, username });
+          server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
+          server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+          const errorsApi = new Response(500, {}, {
+            errors: [{
+              status: '500',
+            }],
+          });
+          server.post('/account-recovery', () => errorsApi);
+
+          await visit('/recuperer-mon-compte');
+          await fillStudentInformationFormAndSubmit(this);
+
+          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
+          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+
+          // when
+          await fillInByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'), newEmail);
+          await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'));
+
+          // then
+          expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
+          expect(contains(this.intl.t('api-error-messages.internal-server-error'))).to.exist;
+          expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+        });
       });
 
       context('click on "Cancel" button', () => {
-
         it('should return to student information form', async function() {
           // given
 

@@ -108,8 +108,25 @@ export default class FindScoRecordController extends Controller {
   }
 
   _handleError(err) {
-    const status = err.errors?.[0]?.status;
+    const { status: stringStatus, code } = err.errors?.[0] || {};
+    const status = parseInt(stringStatus);
+    const isApiUnreachable = isNaN(status);
+    const hasInternalErrorOrConflictOrAlreadyLeftSco = status === 403 || status === 409 || status >= 500 || isApiUnreachable;
+    const isEmailAlreadyRegistered = this.showBackupEmailConfirmationForm && status === 400 && code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS';
 
+    if (!hasInternalErrorOrConflictOrAlreadyLeftSco || isEmailAlreadyRegistered) {
+      this._showErrorOnComponent(isEmailAlreadyRegistered);
+    } else {
+      this._showErrorPage(status, code);
+    }
+  }
+
+  _showErrorOnComponent(isEmailAlreadyRegistered) {
+    this.showAlreadyRegisteredEmailError = isEmailAlreadyRegistered;
+    this.showAccountNotFoundError = !isEmailAlreadyRegistered;
+  }
+
+  _showErrorPage(status, code) {
     const errorDetails = {
       403: {
         message: this.intl.t('pages.account-recovery.errors.key-used'),
@@ -123,19 +140,17 @@ export default class FindScoRecordController extends Controller {
       },
     };
 
-    const hasConflictOrTemporaryKeyError = status === '403' || status === '409';
-    const isEmailAlreadyRegistered = this.showBackupEmailConfirmationForm && status === '400';
-    if (hasConflictOrTemporaryKeyError) {
-      this.showStudentInformationForm = false;
-      this.showAccountNotFoundError = false;
-      this.showBackupEmailConfirmationForm = false;
-      this.showAlreadyRegisteredEmailError = false;
-      this.showErrors = true;
-      this.accountRecoveryError = errorDetails[status];
-    } else if (isEmailAlreadyRegistered) {
-      this.showAlreadyRegisteredEmailError = true;
-    } else {
-      this.showAccountNotFoundError = true;
-    }
+    const internalError = {
+      message: this.intl.t('api-error-messages.internal-server-error'),
+      title: this.intl.t('pages.account-recovery.errors.title'),
+      showReturnToHomeButton: true,
+    };
+
+    this.showStudentInformationForm = false;
+    this.showAccountNotFoundError = false;
+    this.showBackupEmailConfirmationForm = false;
+    this.showAlreadyRegisteredEmailError = false;
+    this.showErrors = true;
+    this.accountRecoveryError = errorDetails[status] || errorDetails [code] || internalError;
   }
 }
