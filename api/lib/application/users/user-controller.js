@@ -143,6 +143,14 @@ module.exports = {
     return userSerializer.serialize(updatedUser);
   },
 
+  async rememberUserHasSeenChallengeTooltip(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const challengeType = request.params.challengeType;
+
+    const updatedUser = await usecases.rememberUserHasSeenChallengeTooltip({ userId: authenticatedUserId, challengeType });
+    return userSerializer.serialize(updatedUser);
+  },
+
   getMemberships(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 

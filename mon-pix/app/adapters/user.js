@@ -56,6 +56,12 @@ export default class User extends ApplicationAdapter {
       return url + '/has-seen-new-dashboard-info';
     }
 
+    if (adapterOptions && adapterOptions.tooltipChallengeType) {
+      const tooltipChallengeType = adapterOptions.tooltipChallengeType;
+      delete adapterOptions.tooltipChallengeType;
+      return url + '/has-seen-challenge-tooltip/' + tooltipChallengeType;
+    }
+
     if (adapterOptions && adapterOptions.updatePassword) {
       delete adapterOptions.updatePassword;
       const temporaryKey = adapterOptions.temporaryKey;

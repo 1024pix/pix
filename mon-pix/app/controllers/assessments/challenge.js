@@ -6,6 +6,7 @@ import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 import { action } from '@ember/object';
 const defaultPageTitle = 'pages.challenge.title';
 const timedOutPageTitle = 'pages.challenge.timed-out-title';
+import ENV from 'mon-pix/config/environment';
 
 export default class ChallengeController extends Controller {
   queryParams = ['newLevel', 'competenceLeveled', 'challengeId'];
@@ -15,7 +16,7 @@ export default class ChallengeController extends Controller {
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOut = false;
-  @tracked isTooltipOverlayIsDisplayed = true;
+  @tracked isTooltipOverlayDisplayed = !(this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip)
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -33,12 +34,18 @@ export default class ChallengeController extends Controller {
   }
 
   get isFocusedChallengeAndTooltipIsDisplayed() {
-    return this.model.challenge.focused && this.isTooltipOverlayIsDisplayed;
+    if (ENV.APP.FT_FOCUS_CHALLENGE_ENABLED) {
+      return this.model.challenge.focused && this.isTooltipOverlayDisplayed && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
+    }
+    return false;
   }
 
   @action
-  removeTooltipOverlay() {
-    this.isTooltipOverlayIsDisplayed = false;
+  async removeTooltipOverlay() {
+    if (this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+      this.isTooltipOverlayDisplayed = false;
+      await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'focused' } });
+    }
   }
 
   @action

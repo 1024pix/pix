@@ -280,6 +280,14 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
+  async updateHasSeenChallengeTooltip({ userId, challengeType }) {
+    const user = await BookshelfUser.where({ id: userId }).fetch({ require: false });
+    if (challengeType === 'focused') {
+      await user.save({ 'hasSeenFocusedChallengeTooltip': true }, { patch: true, method: 'update' });
+    }
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
+  },
+
   async acceptPixLastTermsOfService(id) {
     const user = await BookshelfUser.where({ id }).fetch({ require: false });
     await user.save({
