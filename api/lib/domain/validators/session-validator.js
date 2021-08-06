@@ -49,7 +49,6 @@ const sessionFiltersValidationSchema = Joi.object({
   status: Joi.string().trim()
     .valid(statuses.CREATED, statuses.FINALIZED, statuses.IN_PROCESS, statuses.PROCESSED).optional(),
   resultsSentToPrescriberAt: Joi.boolean().optional(),
-  assignedToSelfOnly: Joi.boolean().optional(),
   certificationCenterName: Joi.string().trim().optional(),
   certificationCenterType: Joi.string().trim()
     .valid(types.SUP, types.SCO, types.PRO).optional(),
@@ -64,18 +63,12 @@ module.exports = {
     }
   },
 
-  validateAndNormalizeFilters(filters, assignedCertificationOfficerId) {
+  validateAndNormalizeFilters(filters) {
     const { value, error } = sessionFiltersValidationSchema.validate(filters, { abortEarly: true });
 
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
-
-    if (value.assignedToSelfOnly) {
-      value.assignedCertificationOfficerId = assignedCertificationOfficerId;
-    }
-
-    delete value.assignedToSelfOnly;
 
     return value;
   },

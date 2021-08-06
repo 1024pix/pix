@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
+import { visit, currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -24,7 +24,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
 
     hooks.beforeEach(async () => {
       // given
-      const { id: userId } = server.create('user');
+      const { id: userId } = server.create('user', { firstName: 'John', lastName: 'Doe', fullName: 'John Doe' });
       await createAuthenticateSession({ userId });
     });
 
@@ -65,6 +65,43 @@ module('Acceptance | authenticated/sessions/list/with required action', function
       // then
       _assertSession1InformationsAreDisplayed(assert);
       _assertSession2InformationsAreDisplayed(assert);
+    });
+
+    module('When clicking on the display only my sessions button', function() {
+
+      test('it should filter the sessions', async function(assert) {
+        // given
+        const sessionDate = '2021-01-01';
+        const sessionTime = '17:00:00';
+        const finalizedAt = new Date('2021-02-01T03:00:00Z');
+        server.create('with-required-action-session', {
+          id: '1',
+          certificationCenterName: 'Centre SCO des Anne-Étoiles',
+          finalizedAt,
+          sessionDate,
+          sessionTime,
+          assignedCertificationOfficerName: 'John Doe',
+        });
+        server.create('with-required-action-session', {
+          id: '2',
+          certificationCenterName: 'Centre SCO des Anne-Étoiles',
+          finalizedAt,
+          sessionDate,
+          sessionTime,
+          assignedCertificationOfficerName: 'Officer2',
+        });
+        await visit('/sessions/list/with-required-action');
+
+        // when
+        await click('.x-toggle-btn');
+
+        // then
+        assert.dom('table tbody tr').exists({ count: 1 });
+        assert.contains('Centre SCO des Anne-Étoiles');
+        assert.contains('1');
+        assert.contains('01/01/2021 à 17:00:00');
+        assert.contains('John Doe');
+      });
     });
   });
 });

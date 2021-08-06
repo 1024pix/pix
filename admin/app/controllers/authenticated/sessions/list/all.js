@@ -20,7 +20,6 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   @tracked certificationCenterType = null;
   @tracked status = null;
   @tracked resultsSentToPrescriberAt = null;
-  @tracked assignedToSelfOnly = false;
 
   pendingFilters = {};
 
@@ -35,7 +34,6 @@ export default class AuthenticatedSessionsListAllController extends Controller {
       case 'status':
       case 'certificationCenterType':
       case 'resultsSentToPrescriberAt':
-      case 'assignedToSelfOnly':
         debounceDuration = 0;
         value = param;
         break;
