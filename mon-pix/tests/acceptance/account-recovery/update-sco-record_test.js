@@ -44,6 +44,28 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
         expect(contains(this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName: 'George' }))).to.exist;
       });
 
+      it('should display an error message when account with email already exists', async function() {
+        // given
+        const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+        const errorsApi = new Response(400, {}, {
+          errors: [{
+            status: '400',
+            code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS',
+          }],
+        });
+        server.get(`/account-recovery/${temporaryKey}`, () => errorsApi);
+
+        //when
+        await visit(`/recuperer-mon-compte/${temporaryKey}`);
+
+        // then
+        expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
+        expect(contains(this.intl.t('pages.account-recovery.errors.account-exists'))).to.exist;
+        expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      });
+
       it('should display an error message when user has already left SCO', async function() {
         // given
         const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
@@ -126,6 +148,33 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
 
         // then
         expect(currentURL()).to.equal('/connexion');
+      });
+
+      it('should display an error message when account with email already exists', async function() {
+        // given
+        const newPassword = 'Pix1234*';
+        const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
+        server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
+
+        const errorsApi = new Response(400, {}, {
+          errors: [{
+            status: '400',
+            code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS',
+          }],
+        });
+        server.patch('/account-recovery', () => errorsApi);
+
+        await visit(`/recuperer-mon-compte/${temporaryKey}`);
+        await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+        await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+
+        // when
+        await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+
+        // then
+        expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
+        expect(contains(this.intl.t('pages.account-recovery.errors.account-exists'))).to.exist;
+        expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
       });
 
       it('should display an error message when user has already left SCO', async function() {
