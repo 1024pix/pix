@@ -42,14 +42,14 @@
       </label>
       <Input
         @type="checkbox"
-        @checked={{this.cguAndProctectionPoliciesAccepted}}
+        @checked={{this.cguAndProtectionPoliciesAccepted}}
         id="pix-cgu"
       />
     </div>
 
     <PixButton
         @type="submit"
-        @isDisabled={{not this.isFormValid}}
+        @isDisabled={{not this.isSubmitButtonEnabled}}
         class="account-recovery__content--actions update-sco-record-form__submit"
     >
       {{t 'pages.account-recovery.update-sco-record.form.login-button'}}

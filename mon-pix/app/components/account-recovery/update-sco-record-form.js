@@ -26,9 +26,9 @@ export default class UpdateScoRecordFormComponent extends Component {
   @service intl;
   @service url;
 
-  @tracked passwordValidation = new PasswordValidation();
+  @tracked cguAndProtectionPoliciesAccepted = false;
   @tracked password = '';
-  @tracked cguAndProctectionPoliciesAccepted = false;
+  @tracked passwordValidation = new PasswordValidation();
 
   get cguUrl() {
     return this.url.cguUrl;
@@ -38,10 +38,11 @@ export default class UpdateScoRecordFormComponent extends Component {
     return this.url.dataProtectionPolicyUrl;
   }
 
-  get isFormValid() {
-    return !isEmpty(this.password)
-      && this.passwordValidation.status !== 'error'
-      && this.cguAndProctectionPoliciesAccepted;
+  get isSubmitButtonEnabled() {
+    return isPasswordValid(this.password)
+      && !this._hasAPIRejectedCall()
+      && this.cguAndProtectionPoliciesAccepted
+      && !this.args.isLoading;
   }
 
   @action validatePassword() {
@@ -68,6 +69,10 @@ export default class UpdateScoRecordFormComponent extends Component {
     this.passwordValidation.status = STATUS_MAP['successStatus'];
     this.passwordValidation.message = null;
     this.args.updateRecord(this.password);
+  }
+
+  _hasAPIRejectedCall() {
+    return this.passwordValidation.status === STATUS_MAP['errorStatus'];
   }
 
 }
