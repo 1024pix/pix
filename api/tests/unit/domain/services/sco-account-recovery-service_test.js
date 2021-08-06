@@ -4,14 +4,14 @@ const {
   domainBuilder,
   catchErr,
 } = require('../../../test-helper');
-const { retrieveSchoolingRegistration } = require('../../../../lib/domain/services/check-sco-account-recovery-service');
+const { retrieveSchoolingRegistration } = require('../../../../lib/domain/services/sco-account-recovery-service');
 const {
   MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
   UserNotFoundError,
   UserHasAlreadyLeftSCO,
 } = require('../../../../lib/domain/errors');
 
-describe('Unit | Service | check-sco-account-recovery-service', () => {
+describe('Unit | Service | sco-account-recovery-service', () => {
 
   describe('#retrieveSchoolingRegistration', () => {
 

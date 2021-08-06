@@ -8,13 +8,13 @@ module.exports = async function sendEmailForAccountRecovery({
   userRepository,
   accountRecoveryDemandRepository,
   mailService,
-  checkScoAccountRecoveryService,
+  scoAccountRecoveryService,
   userReconciliationService,
 }) {
   const { email: newEmail } = studentInformation;
   const encodedTemporaryKey = temporaryKey || crypto.randomBytes(32).toString('hex');
 
-  const { firstName, id, userId, email: oldEmail } = await checkScoAccountRecoveryService.retrieveSchoolingRegistration({
+  const { firstName, id, userId, email: oldEmail } = await scoAccountRecoveryService.retrieveSchoolingRegistration({
     studentInformation,
     accountRecoveryDemandRepository,
     schoolingRegistrationRepository,
