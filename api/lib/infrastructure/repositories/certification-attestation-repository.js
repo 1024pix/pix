@@ -6,6 +6,9 @@ const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../lib/domain/mo
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
+const competenceTreeRepository = require('./competence-tree-repository');
+const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
+const CompetenceMark = require('../../domain/models/CompetenceMark');
 
 const macaronCleaPath = `${__dirname}/../utils/pdf/files/macaron_clea.png`;
 const macaronPixPlusDroitMaitrePath = `${__dirname}/../utils/pdf/files/macaron_maitre.png`;
@@ -19,19 +22,19 @@ module.exports = {
   async get(id) {
     const certificationCourseDTO = await _selectCertificationAttestations()
       .where('certification-courses.id', '=', id)
+      .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
       .first();
 
     if (!certificationCourseDTO) {
       throw new NotFoundError(`There is no certification course with id "${id}"`);
     }
 
+    const competenceTree = await competenceTreeRepository.get();
+
     const cleaCertificationImagePath = await _getCleaCertificationImagePath(certificationCourseDTO.id);
     const pixPlusDroitCertificationImagePath = await _getPixPlusDroitCertificationImagePath(certificationCourseDTO.id);
-    return new CertificationAttestation({
-      ...certificationCourseDTO,
-      cleaCertificationImagePath,
-      pixPlusDroitCertificationImagePath,
-    });
+
+    return _toDomain(certificationCourseDTO, competenceTree, cleaCertificationImagePath, pixPlusDroitCertificationImagePath);
   },
 
   async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division }) {
@@ -48,17 +51,16 @@ module.exports = {
       .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
       .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
       .modify(_checkOrganizationIsScoIsManagingStudents)
+      .groupBy('schooling-registrations.id', 'certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
       .orderBy('certification-courses.createdAt', 'DESC');
+
+    const competenceTree = await competenceTreeRepository.get();
 
     const mostRecentCertificationsPerSchoolingRegistration = _filterMostRecentCertificationCoursePerSchoolingRegistration(certificationCourseDTOs);
     return _(mostRecentCertificationsPerSchoolingRegistration)
       .orderBy(['lastName', 'firstName'], ['asc', 'asc'])
       .map((certificationCourseDTO) => {
-        return new CertificationAttestation({
-          ...certificationCourseDTO,
-          cleaCertificationImagePath: null,
-          pixPlusDroitCertificationImagePath: null,
-        });
+        return _toDomain(certificationCourseDTO, competenceTree, null, null);
       })
       .value();
   },
@@ -80,10 +82,13 @@ function _selectCertificationAttestations() {
       certificationCenter: 'sessions.certificationCenter',
       maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
       pixScore: 'assessment-results.pixScore',
+      assessmentResultId: 'assessment-results.id',
     })
+    .select(knex.raw('\'[\' || (string_agg(\'{ "score":\' || "competence-marks".score::VARCHAR || \', "level":\' || "competence-marks".level::VARCHAR || \', "competenceId":"\' || "competence-marks"."competence_code" || \'"}\', \',\')) || \']\' as "competenceResultsJson"'))
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
+    .join('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
     .join('sessions', 'sessions.id', 'certification-courses.sessionId')
     .modify(_filterMostRecentValidatedAssessmentResult)
     .where('certification-courses.isPublished', true)
@@ -141,4 +146,29 @@ async function _getPixPlusDroitCertificationImagePath(certificationCourseId) {
   if (!result) return null;
   if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return macaronPixPlusDroitMaitrePath;
   if (result.partnerKey === pixPlusDroitExpertBadgeKey) return macaronPixPlusDroitExpertPath;
+}
+
+function _toDomain(certificationCourseDTO, competenceTree, cleaCertificationImagePath, pixPlusDroitCertificationImagePath) {
+
+  const competenceResults = JSON .parse(certificationCourseDTO.competenceResultsJson);
+
+  const competenceMarks = competenceResults.map((competenceMark) => new CompetenceMark({
+    score: competenceMark.score,
+    level: competenceMark.level,
+    competence_code: competenceMark.competenceId,
+  }));
+
+  const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
+    competenceTree,
+    competenceMarks,
+    certificationId: certificationCourseDTO.id,
+    assessmentResultId: certificationCourseDTO.assessmentResultId,
+  });
+
+  return new CertificationAttestation({
+    ...certificationCourseDTO,
+    resultCompetenceTree,
+    cleaCertificationImagePath,
+    pixPlusDroitCertificationImagePath,
+  });
 }
