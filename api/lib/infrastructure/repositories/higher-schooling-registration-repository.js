@@ -43,6 +43,8 @@ module.exports = {
     const registrationsToInsert = higherSchoolingRegistrations.map((registration) => ({
       ..._.pick(registration, ATTRIBUTES_TO_SAVE),
       status: registration.studyScheme,
+      isDisabled: false,
+      updatedAt: knex.raw('CURRENT_TIMESTAMP'),
     }));
 
     try {

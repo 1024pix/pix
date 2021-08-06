@@ -255,7 +255,11 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
             birthdate: '1990-07-01',
           });
 
-          databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, studentNumber: '4' });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            organizationId: organization.id,
+            studentNumber: '4',
+            updatedAt: new Date('2000-01-01'),
+          });
           await databaseBuilder.commit();
 
           await higherSchoolingRegistrationRepository.upsertStudents([{ ...higherSchoolingRegistration, lastName: 'Ishii updated' }]);
@@ -267,6 +271,30 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
           expect(results.length).to.equal(1);
           expect(results[0].lastName).to.equal('Ishii updated');
+          expect(results[0].updatedAt).to.not.deep.equal(new Date('2000-01-01'));
+        });
+      });
+
+      context('when there is a disabled schooling registrations for the given organizationId and student number', () => {
+        it('enables the schooling-registrations', async () => {
+          const organization = databaseBuilder.factory.buildOrganization();
+          databaseBuilder.factory.buildSchoolingRegistration({
+            organizationId: organization.id,
+            studentNumber: '4',
+            isDisabled: true,
+          });
+          await databaseBuilder.commit();
+
+          const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration({ organization, studentNumber: '4' });
+          await higherSchoolingRegistrationRepository.upsertStudents([higherSchoolingRegistration]);
+
+          const result = await knex('schooling-registrations')
+            .select('isDisabled')
+            .where({ organizationId: organization.id })
+            .where({ studentNumber: '4' })
+            .first();
+
+          expect(result.isDisabled).to.be.false;
         });
       });
 
