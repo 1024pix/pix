@@ -504,6 +504,7 @@ describe('Unit | Service | sco-account-recovery-service', () => {
       // then
       expect(error).to.be.instanceOf(AlreadyRegisteredEmailError);
       expect(error.message).to.be.equal('Cette adresse e-mail est déjà utilisée.');
+      expect(error.code).to.be.equal('ACCOUNT_WITH_EMAIL_ALREADY_EXISTS');
     });
 
     it('should throw error UserHasAlreadyLeftSCO when user already left SCO', async () => {
