@@ -240,7 +240,7 @@ async function launchTest(argv) {
 
   if (enabledCsvOutput) {
     const writeResults = algoResults.map((algoResult) => {
-      return algoResult.writeCsvFile();
+      return algoResult.writeCsvFile(targetProfileId ?? competenceId);
     });
     await Promise.all(writeResults);
   }

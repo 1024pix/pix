@@ -91,7 +91,7 @@ class AlgoResult {
     this._biggestDescendingGap = Math.abs(this._biggestDescendingGap);
   }
 
-  _getResults() {
+  _getResults(testSet) {
     const challengeIds = this._challengeIds;
     const skillNames = this._skillNames;
     return challengeIds.map((challengeId, index) => {
@@ -103,12 +103,13 @@ class AlgoResult {
         skillName: skillNames[index],
         estimatedLevel: this._estimatedLevels[index],
         answerStatus: this._answerStatuses[index].status,
+        testSet,
       };
     });
   }
 
-  async writeCsvFile() {
-    const results = this._getResults();
+  async writeCsvFile(testSet) {
+    const results = this._getResults(testSet);
     const headers = Object.keys(results[0]);
     const csvFile = new CsvFile(headers);
     await csvFile.append(results);
