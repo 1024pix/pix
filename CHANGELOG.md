@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v3.83.0 (06/08/2021)
+
+- [#3293](https://github.com/1024pix/pix/pull/3293) [FEATURE] Déplacer le filtre "Afficher uniquement mes sessions" de l'onglet "Toutes les sessions" vers l'onglet "Sessions à traiter" dans Pix Admin (PIX-2360).
+- [#3267](https://github.com/1024pix/pix/pull/3267) [FEATURE] Ne plus afficher l'infobulle si l'utilisateur l'a déjà vue (PIX-2878).
+- [#3280](https://github.com/1024pix/pix/pull/3280) [FEATURE] Demander à l'utilisateur de valider les CGU pour récupérer compte SCO (PIX-2916).
+- [#3285](https://github.com/1024pix/pix/pull/3285) [FEATURE] Demander a l'utilisateur d'attester sur l'honneur d'appartenance du compte (PIX-2787).
+- [#3292](https://github.com/1024pix/pix/pull/3292) [BUGFIX] Désactiver le bouton "C'est parti" après avoir cliqué dessus durant la récupération compte SCO (PIX-2917).
+- [#3286](https://github.com/1024pix/pix/pull/3286) [BUGFIX] Réinitialiser le champ ville lorsque l'on veut modifier un candidat dans Pix Admin dont l'inscription a été effectué par code Insee (PIX-2937).
+
 ## v3.82.0 (05/08/2021)
 
 - [#3284](https://github.com/1024pix/pix/pull/3284) [FEATURE] Ajout de la carte du palier moyen d'une campagne d'évaluation (PIX-2890)
