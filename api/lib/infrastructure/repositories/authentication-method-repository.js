@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
 const bookshelfUtils = require('../utils/knex-utils');
 const DomainTransaction = require('../DomainTransaction');
@@ -21,6 +22,13 @@ function _toDomainEntity(bookshelfAuthenticationMethod) {
   });
 }
 
+function _toDomain(authenticationMethodDTO) {
+  return new AuthenticationMethod({
+    ...authenticationMethodDTO,
+    authenticationComplement: _toAuthenticationComplement(authenticationMethodDTO.identityProvider, authenticationMethodDTO.authenticationComplement),
+  });
+}
+
 function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationComplement) {
   if (identityProvider === AuthenticationMethod.identityProviders.PIX) {
     return new AuthenticationMethod.PixAuthenticationComplement(bookshelfAuthenticationComplement);
@@ -33,6 +41,8 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
   return undefined;
 }
 
+const COLUMNS = Object.freeze(['id', 'identityProvider', 'authenticationComplement', 'externalIdentifier', 'userId', 'createdAt', 'updatedAt']);
+
 module.exports = {
 
   async create({
@@ -40,9 +50,10 @@ module.exports = {
     domainTransaction = DomainTransaction.emptyTransaction(),
   }) {
     try {
-      const bookshelfAuthenticationMethod = await new BookshelfAuthenticationMethod(authenticationMethod)
-        .save(null, { transacting: domainTransaction.knexTransaction });
-      return _toDomainEntity(bookshelfAuthenticationMethod);
+      const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
+      const authenticationMethodForDB = _.pick(authenticationMethod, ['identityProvider', 'authenticationComplement', 'externalIdentifier', 'userId']);
+      const [authenticationMethodDTO] = await knexConn('authentication-methods').insert(authenticationMethodForDB).returning(COLUMNS);
+      return _toDomain(authenticationMethodDTO);
     } catch (err) {
       if (bookshelfUtils.isUniqConstraintViolated(err)) {
         throw new AlreadyExistingEntityError(`An authentication method already exists for the user ID ${authenticationMethod.userId} and the externalIdentifier ${authenticationMethod.externalIdentifier}.`);
