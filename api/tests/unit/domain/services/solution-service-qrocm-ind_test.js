@@ -220,7 +220,8 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     successfulCases.forEach(function(testCase) {
       it(testCase.case + ', should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
 
@@ -286,7 +287,8 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     failingCases.forEach(function(testCase) {
       it(testCase.case + ', should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
 
@@ -296,10 +298,11 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
 
     it('when yaml is not valid, should throw an error', async function() {
       const answer = 'lecteur: [ a';
-      const solution = 'lecteur:\n- G\n- Perso G\n\ndossier1:\n- Eureka\n\ndossier2:\n- Concept\n\nnom:\n- Logo\n\next:\n- gif';
+      const solutionValue = 'lecteur:\n- G\n- Perso G\n\ndossier1:\n- Eureka\n\ndossier2:\n- Concept\n\nnom:\n- Logo\n\next:\n- gif';
       const enabledTreatments = ['t1', 't2', 't3'];
+      const solution = { value: solutionValue, enabledTreatments };
 
-      const error = await catchErr(service.match)(answer, solution, enabledTreatments);
+      const error = await catchErr(service.match)({ answerValue: answer, solution });
 
       expect(error).to.be.an.instanceOf(YamlParsingError);
       expect(error.message).to.equal('Une erreur s\'est produite lors de l\'interprétation des réponses.');
@@ -402,8 +405,8 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
-        const actual = service.match(testCase.answer, testCase.solution, testCase.enabledTreatments);
-        expect(actual).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -507,7 +510,8 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -611,7 +615,8 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -715,7 +720,8 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -819,7 +825,8 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -923,7 +930,8 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -1027,7 +1035,8 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -1131,7 +1140,8 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });

@@ -65,17 +65,18 @@ module.exports = {
   _compareAnswersAndSolutions,
   _formatResult,
 
-  match(yamlAnswer, yamlSolution, enabledTreatments) {
-
+  match({ answerValue, solution }) {
+    const yamlSolution = solution.value;
+    const enabledTreatments = solution.enabledTreatments;
     // Input checking
-    if (!_.isString(yamlAnswer)
+    if (!_.isString(answerValue)
       || _.isEmpty(yamlSolution)
       || !_.includes(yamlSolution, '\n')) {
       return { result: AnswerStatus.KO };
     }
 
     // Pre-treatments
-    const preTreatedAnswers = applyPreTreatments(yamlAnswer);
+    const preTreatedAnswers = applyPreTreatments(answerValue);
     const preTreatedSolutions = applyPreTreatments(yamlSolution);
 
     // Convert YAML to JSObject
