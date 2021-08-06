@@ -14,7 +14,7 @@ class ValidatorQROCMInd extends Validator {
   }
 
   assess({ answer }) {
-    const resultObject = solutionServiceQROCMInd.match(answer.value, this.solution.value, this.solution.enabledTreatments);
+    const resultObject = solutionServiceQROCMInd.match({ answerValue: answer.value, solution: this.solution });
 
     return new Validation({
       result: resultObject.result,
