@@ -45,7 +45,28 @@ describe('Integration | Repository | AuthenticationMethod', function() {
         // then
         expect(savedAuthenticationMethod).to.be.instanceOf(AuthenticationMethod);
         authenticationMethod.authenticationComplement = undefined;
-        expect(_.omit(savedAuthenticationMethod, ['id'])).to.deep.equal(_.omit(authenticationMethod, ['id']));
+        const ignoredColumns = ['id', 'createdAt', 'updatedAt'];
+        expect(_.omit(savedAuthenticationMethod, ignoredColumns)).to.deep.equal(_.omit(authenticationMethod, ignoredColumns));
+      });
+
+      it('should save an AuthenticationMethod in database', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        await databaseBuilder.commit();
+
+        const authenticationMethod = domainBuilder.buildAuthenticationMethod({
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          externalIdentifier: 'externalIdentifier',
+          userId,
+        });
+        delete authenticationMethod.id;
+
+        // when
+        const savedAuthenticationMethod = await authenticationMethodRepository.create({ authenticationMethod });
+
+        // then
+        const [ authenticationMethodId ] = await knex('authentication-methods').pluck('id').where({ externalIdentifier: 'externalIdentifier' });
+        expect(authenticationMethodId).to.equal(savedAuthenticationMethod.id);
       });
     });
 
