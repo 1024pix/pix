@@ -3,7 +3,6 @@ const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/err
 const { knex } = require('../bookshelf');
 const BookshelfSchoolingRegistration = require('../orm-models/SchoolingRegistration');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const DomainTransaction = require('../DomainTransaction');
 
 const ATTRIBUTES_TO_SAVE = [
   'firstName',
@@ -23,21 +22,6 @@ const ATTRIBUTES_TO_SAVE = [
 ];
 
 module.exports = {
-
-  async save(higherSchoolingRegistration, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const attributes = {
-      ..._.pick(higherSchoolingRegistration, ATTRIBUTES_TO_SAVE),
-      status: higherSchoolingRegistration.studyScheme,
-    };
-
-    try {
-      await BookshelfSchoolingRegistration
-        .where({ id: higherSchoolingRegistration.id })
-        .save(attributes, { method: 'update', transacting: domainTransaction.knexTransaction });
-    } catch (error) {
-      throw new SchoolingRegistrationsCouldNotBeSavedError();
-    }
-  },
 
   async upsertStudents(higherSchoolingRegistrations) {
     const registrationsToInsert = higherSchoolingRegistrations.map((registration) => ({
