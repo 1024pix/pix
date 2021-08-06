@@ -1,4 +1,5 @@
 const {
+  AccountRecoveryDemandExpired,
   MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
   UserNotFoundError,
   UserHasAlreadyLeftSCO,
@@ -39,6 +40,39 @@ async function retrieveSchoolingRegistration({
   return { id, userId, firstName, lastName, username, organizationId, email };
 }
 
+async function retrieveAndValidateAccountRecoveryDemand({
+  temporaryKey,
+  userRepository,
+  accountRecoveryDemandRepository,
+}) {
+  const { id, userId, newEmail, schoolingRegistrationId, createdAt } = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
+  await userRepository.isEmailAvailable(newEmail);
+
+  const accountRecoveryDemands = await accountRecoveryDemandRepository.findByUserId(userId);
+
+  if (accountRecoveryDemands.some((accountRecoveryDemand) => accountRecoveryDemand.used)) {
+    throw new UserHasAlreadyLeftSCO();
+  }
+
+  if (_demandHasExpired(createdAt)) {
+    throw new AccountRecoveryDemandExpired();
+  }
+
+  return { id, userId, newEmail, schoolingRegistrationId };
+}
+
+function _demandHasExpired(demandCreationDate) {
+  const minutesInADay = 60 * 24;
+  const lifetimeInMinutes = parseInt(process.env.SCO_ACCOUNT_RECOVERY_TOKEN_LIFETIME_MINUTES) || minutesInADay;
+  const millisecondsInAMinute = 60 * 1000;
+  const lifetimeInMilliseconds = lifetimeInMinutes * millisecondsInAMinute;
+
+  const expirationDate = new Date(demandCreationDate.getTime() + lifetimeInMilliseconds);
+  const now = new Date();
+
+  return expirationDate < now;
+}
+
 async function _getUserIdByMatchingStudentInformationWithSchoolingRegistration({
   studentInformation,
   latestSchoolingRegistration,
@@ -66,5 +100,6 @@ async function _checkIfThereAreMultipleUserForTheSameAccount({ userId, schooling
 
 module.exports = {
   retrieveSchoolingRegistration,
+  retrieveAndValidateAccountRecoveryDemand,
 };
 
