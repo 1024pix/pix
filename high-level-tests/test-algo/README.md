@@ -43,3 +43,8 @@ docker compose up -d
 **2.** Rendez-vous sur l'url [localhost:8888](http://localhost:8888). 
 
 **3.** Choisissez le fichier `data_visualization.ipynb`
+
+## Conseil de versionnement des fichiers `.ipynb`
+
+Pour faciliter la lecture du diff, il est nécessaire de faire sur Jupyter Notebook  
+Cell > All Output > Clear avant de commiter.  
