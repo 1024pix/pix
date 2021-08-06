@@ -31,6 +31,11 @@ async function index() {
       type: 'string',
       description: 'Localisation du fichier .json',
     })
+    .option('enabledCsvOutput', {
+      type: 'boolean',
+      description: 'Permet de sortir les résultats dans un fichier csv',
+      default: false,
+    })
     .check((argv) => {
       return Boolean(argv.competenceId || argv.targetProfileId);
     })
