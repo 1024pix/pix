@@ -36,17 +36,16 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
   const usersNotShared = [users[4], users[5], users[6], users[7], users[8]];
   const usersCompletedShared = [users[0], users[9], users[10], users[11], users[12]];
 
-  const participateToCampaignOfAssessment = (campaignId, user, isShared, validatedSkillsCount = null, isImproved = false) => {
+  const participateToCampaignOfAssessment = (campaignId, user, isShared, isImproved = false) => {
     const createdAt = user.createdAt;
     const sharedAt = isShared ? moment(createdAt).add(1, 'days').toDate() : null;
     const participantExternalId = user.firstName.toLowerCase() + user.lastName.toLowerCase();
-    return databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: user.id, participantExternalId, createdAt, isShared, sharedAt, validatedSkillsCount, isImproved });
+    return databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: user.id, participantExternalId, createdAt, isShared, sharedAt, isImproved });
   };
 
   const participateComplexAssessmentCampaign = (campaignId, user, state, isShared, isImproved = false) => {
     const { id: userId } = user;
-    const validatedSkillsCount = isShared ? 3 : null;
-    const { id: campaignParticipationId } = participateToCampaignOfAssessment(campaignId, user, isShared, validatedSkillsCount, isImproved);
+    const { id: campaignParticipationId } = participateToCampaignOfAssessment(campaignId, user, isShared, isImproved);
 
     if (['Stéphan', 'Antoine'].includes(user.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_BASICS_BADGE_ID, campaignParticipationId });
     if (['Jaune', 'Antoine'].includes(user.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_TOOLS_BADGE_ID, campaignParticipationId });
@@ -54,7 +53,7 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
     buildAssessmentAndAnswer(userId, campaignParticipationId, state);
 
     if (isImproved) {
-      const { id: newCampaignParticipationId } = participateToCampaignOfAssessment(campaignId, user, isShared, validatedSkillsCount + 1);
+      const { id: newCampaignParticipationId } = participateToCampaignOfAssessment(campaignId, user, isShared);
       buildAssessmentAndAnswer(userId, newCampaignParticipationId, state, true);
     }
   };

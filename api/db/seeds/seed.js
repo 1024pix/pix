@@ -32,6 +32,7 @@ const {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
 } = require('../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns');
+const computeParticipationsResults = require('../../scripts/prod/compute-participation-results');
 
 const poleEmploisSendingsBuilder = require('./data/pole-emploi-sendings-builder');
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
@@ -85,6 +86,7 @@ exports.seed = async (knex) => {
   await alterSequenceIfPG(knex);
   const campaignParticipationData = await getEligibleCampaignParticipations(50000);
   await generateKnowledgeElementSnapshots(campaignParticipationData, 1);
+  await computeParticipationsResults(10, false);
 };
 
 /**
