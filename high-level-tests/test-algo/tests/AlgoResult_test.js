@@ -167,9 +167,10 @@ describe('AlgoResult', () => {
       algoResult.addEstimatedLevels(4);
       algoResult.addAnswerStatus({ status: 'ko' });
       algoResult.addAnswerStatus({ status: 'ok' });
+      const testSet = 'test-set';
 
       // when
-      results = algoResult._getResults();
+      results = algoResult._getResults(testSet);
     });
 
     it('should return an array with same size as asked challenge', () => {
@@ -212,6 +213,12 @@ describe('AlgoResult', () => {
       expect(results[0].skillName).to.equal('skill1');
       expect(results[1].skillName).to.equal('skill2');
     });
+
+    it('should return result with testSet', () => {
+      // expect
+      expect(results[0].testSet).to.equal('test-set');
+      expect(results[1].testSet).to.equal('test-set');
+    });
   });
 
   describe('#writeCsvFile', () => {
@@ -235,9 +242,10 @@ describe('AlgoResult', () => {
       const csvFileCreateStub = sinon.stub(CsvFile.prototype, '_createAndAddHeadersIfNotExisting');
       const csvFileAppendStub = sinon.stub(CsvFile.prototype, 'append');
       algoResult._id = 'fixed-id';
+      const testSet = 'test-set';
 
       // when
-      algoResult.writeCsvFile();
+      algoResult.writeCsvFile(testSet);
 
       // then
       const expectedResults = [
@@ -249,6 +257,7 @@ describe('AlgoResult', () => {
           skillName: 'skill1',
           estimatedLevel: 2,
           answerStatus: 'ko',
+          testSet,
         },
         {
           id: 'fixed-id',
@@ -258,6 +267,7 @@ describe('AlgoResult', () => {
           skillName: 'skill2',
           estimatedLevel: 4,
           answerStatus: 'ok',
+          testSet,
         },
       ];
       expect(csvFileCreateStub).to.have.been.called;
