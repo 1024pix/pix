@@ -63,6 +63,7 @@ describe('Acceptance | Controller | answer-controller-save', function() {
             skillIds: ['recSkill1'],
             status: 'validé',
             solution: correctAnswer,
+            proposals: '${a}',
             locales: ['fr-fr'],
             type: 'QROC',
           }],
@@ -276,6 +277,7 @@ describe('Acceptance | Controller | answer-controller-save', function() {
             status: 'validé',
             solution: correctAnswer,
             locales: ['fr-fr'],
+            proposals: '${a}',
             type: 'QROC',
           }],
         };
