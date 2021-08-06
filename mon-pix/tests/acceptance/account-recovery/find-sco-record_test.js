@@ -288,9 +288,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function() {
           expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.exist;
         });
       });
-
     });
-
   });
 
 });

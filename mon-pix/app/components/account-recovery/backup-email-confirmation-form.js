@@ -27,9 +27,14 @@ export default class BackupEmailConfirmationFormComponent extends Component {
 
   @service intl;
 
+  @tracked email = '';
   @tracked emailValidation = new EmailValidation();
 
-  email = '';
+  get isSubmitButtonEnabled() {
+    return isEmailValid(this.email)
+      && !this._hasAPIRejectedCall()
+      && !this.args.isLoading;
+  }
 
   @action validateEmail() {
     this.args.resetErrors();
@@ -57,6 +62,10 @@ export default class BackupEmailConfirmationFormComponent extends Component {
     this.emailValidation.status = STATUS_MAP['successStatus'];
     this.emailValidation.message = null;
     this.args.sendEmail(this.email);
+  }
+
+  _hasAPIRejectedCall() {
+    return this.emailValidation.status === STATUS_MAP['errorStatus'];
   }
 
 }
