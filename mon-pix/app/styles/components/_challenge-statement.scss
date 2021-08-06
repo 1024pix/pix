@@ -8,6 +8,8 @@
 .challenge-statement-instruction {
 
   &__tag {
+    border: none;
+    background-color: transparent;
     position: relative;
     width: 45px;
     height: 40px;
@@ -72,6 +74,7 @@
     font-size: 0.875rem;
     line-height: 1.375rem;
     display: block;
+    text-align: left;
     font-weight: $font-normal;
     letter-spacing: 0;
 

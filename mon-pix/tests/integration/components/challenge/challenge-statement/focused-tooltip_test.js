@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { find, render, triggerEvent } from '@ember/test-helpers';
+import { click, find, render, triggerEvent, triggerKeyEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -45,6 +45,30 @@ describe('Integration | Component | FocusedTooltip', function() {
       expect(find(tooltip)).to.exist;
       expect(find(confirmationButton)).to.exist;
     });
+
+    it('should remove the tooltip when confirmation button has been clicked', async function() {
+      // given
+      class currentUser extends Service {
+        user = {
+          hasSeenFocusedChallengeTooltip: false,
+        }
+      }
+      this.owner.unregister('service:currentUser');
+      this.owner.register('service:currentUser', currentUser);
+
+      addChallengeToContext(this, {
+        instruction: 'La consigne de mon test',
+        id: 'rec_challenge',
+        focused: true,
+      });
+      await renderFocusedTooltip(this);
+
+      // when
+      await click('.challenge-statement-tag-information__button');
+
+      // then
+      expect(find(tooltip)).to.not.exist;
+    });
   });
 
   describe('when user has seen the tooltip', function() {
@@ -75,7 +99,99 @@ describe('Integration | Component | FocusedTooltip', function() {
     });
 
     describe('when the user hovers the challenge icon', function() {
-      it('should display the tooltip without a confirmation button when the mouse enters the icon', async function() {
+      describe('when using a mouse', function() {
+        it('should display the tooltip without a confirmation button when entering the icon', async function() {
+          // given
+          class currentUser extends Service {
+            user = {
+              hasSeenFocusedChallengeTooltip: true,
+            }
+          }
+
+          this.owner.unregister('service:currentUser');
+          this.owner.register('service:currentUser', currentUser);
+
+          addChallengeToContext(this, {
+            instruction: 'La consigne de mon test',
+            id: 'rec_challenge',
+            focused: true,
+          });
+
+          // when
+          await renderFocusedTooltip(this);
+          await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseenter');
+
+          // then
+          expect(find(tooltip)).to.exist;
+          expect(find(confirmationButton)).to.not.exist;
+        });
+
+        it('should the hide tooltip when mouse leaves the icon', async function() {
+          // given
+          class currentUser extends Service {
+            user = {
+              hasSeenFocusedChallengeTooltip: true,
+            }
+          }
+
+          this.owner.unregister('service:currentUser');
+          this.owner.register('service:currentUser', currentUser);
+
+          addChallengeToContext(this, {
+            instruction: 'La consigne de mon test',
+            id: 'rec_challenge',
+            focused: true,
+          });
+
+          // when
+          await renderFocusedTooltip(this);
+          await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseenter');
+          await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseleave');
+
+          // then
+          expect(find(tooltip)).to.not.exist;
+        });
+      });
+
+      describe('when using a keyboard', function() {
+
+        beforeEach(async function() {
+          class currentUser extends Service {
+            user = {
+              hasSeenFocusedChallengeTooltip: true,
+            }
+          }
+
+          this.owner.unregister('service:currentUser');
+          this.owner.register('service:currentUser', currentUser);
+
+          addChallengeToContext(this, {
+            instruction: 'La consigne de mon test',
+            id: 'rec_challenge',
+            focused: true,
+          });
+
+          await renderFocusedTooltip(this);
+        });
+
+        it('should hide the tooltip button when escaping', async function() {
+          // given
+          await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseenter');
+          expect(find(tooltip)).to.exist;
+
+          // when
+          const escapeKeyCode = 27;
+          await triggerKeyEvent('.challenge-statement-instruction__tag--focused', 'keyup', escapeKeyCode);
+
+          // then
+          expect(find(tooltip)).to.not.exist;
+        });
+
+      });
+    });
+
+    describe('when the user clicks on the challenge icon', function() {
+      it('should display the tooltip without a confirmation button when entering the icon', async function() {
         // given
         class currentUser extends Service {
           user = {
@@ -94,37 +210,11 @@ describe('Integration | Component | FocusedTooltip', function() {
 
         // when
         await renderFocusedTooltip(this);
-        await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseenter');
+        await click('.challenge-statement-instruction__tag--focused');
 
         // then
         expect(find(tooltip)).to.exist;
         expect(find(confirmationButton)).to.not.exist;
-      });
-
-      it('should the hide tooltip when mouse leaves the icon', async function() {
-        // given
-        class currentUser extends Service {
-          user = {
-            hasSeenFocusedChallengeTooltip: true,
-          }
-        }
-
-        this.owner.unregister('service:currentUser');
-        this.owner.register('service:currentUser', currentUser);
-
-        addChallengeToContext(this, {
-          instruction: 'La consigne de mon test',
-          id: 'rec_challenge',
-          focused: true,
-        });
-
-        // when
-        await renderFocusedTooltip(this);
-        await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseenter');
-        await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseleave');
-
-        // then
-        expect(find(tooltip)).to.not.exist;
       });
     });
   });
