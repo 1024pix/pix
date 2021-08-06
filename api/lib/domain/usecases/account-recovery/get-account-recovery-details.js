@@ -1,22 +1,21 @@
-const { UserHasAlreadyLeftSCO } = require('../../errors');
-
 module.exports = async function getAccountRecoveryDetails({
   temporaryKey,
   accountRecoveryDemandRepository,
   schoolingRegistrationRepository,
+  userRepository,
+  scoAccountRecoveryService,
 }) {
-  const accountRecoveryDemand = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
-  const schoolingRegistration = await schoolingRegistrationRepository.get(accountRecoveryDemand.schoolingRegistrationId);
+  const { id, newEmail, schoolingRegistrationId } = await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
+    temporaryKey,
+    accountRecoveryDemandRepository,
+    userRepository,
+  });
 
-  const accountRecoveryDemands = await accountRecoveryDemandRepository.findByUserId(schoolingRegistration.userId);
-
-  if (accountRecoveryDemands.some((accountRecoveryDemand) => accountRecoveryDemand.used)) {
-    throw new UserHasAlreadyLeftSCO();
-  }
+  const { firstName } = await schoolingRegistrationRepository.get(schoolingRegistrationId);
 
   return {
-    id: accountRecoveryDemand.id,
-    email: accountRecoveryDemand.newEmail,
-    firstName: schoolingRegistration.firstName,
+    id,
+    email: newEmail,
+    firstName,
   };
 };
