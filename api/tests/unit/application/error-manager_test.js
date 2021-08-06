@@ -178,7 +178,7 @@ describe('Unit | Application | ErrorManager', () => {
       await handle(params.request, params.h, params.error);
 
       // then
-      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
     it('should instantiate BadRequestError when AlreadyRegisteredUsernameError', async () => {

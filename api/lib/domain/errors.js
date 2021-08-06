@@ -103,8 +103,8 @@ class AlreadyRegisteredEmailAndUsernameError extends DomainError {
 }
 
 class AlreadyRegisteredEmailError extends DomainError {
-  constructor(message = 'Cette adresse e-mail est déjà utilisée.') {
-    super(message);
+  constructor(message = 'Cette adresse e-mail est déjà utilisée.', code = 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS') {
+    super(message, code);
   }
 }
 
