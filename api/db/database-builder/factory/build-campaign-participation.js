@@ -12,6 +12,8 @@ module.exports = function buildCampaignParticipation({
   userId,
   participantExternalId = 'participantExternalId',
   validatedSkillsCount,
+  masteryPercentage,
+  pixScore,
   isImproved = false,
 } = {}) {
 
@@ -28,6 +30,8 @@ module.exports = function buildCampaignParticipation({
     sharedAt,
     participantExternalId,
     validatedSkillsCount,
+    masteryPercentage,
+    pixScore,
     isImproved,
   };
   return databaseBuffer.pushInsertable({
