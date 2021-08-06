@@ -80,6 +80,12 @@ export default Factory.extend({
     format: 'paragraphe',
   }),
 
+  QROCWithSelect: trait({
+    type: 'QROC',
+    instruction: 'Un QROC est une question',
+    proposals: 'Select: ${banana#tomatoPlaceholder§saladAriaLabel options=["mango","potato"]}',
+  }),
+
   QROCM: trait({
     type: 'QROCM',
     instruction: 'Un QROCM est une question avec plusieurs champs texte libres pour répondre',
