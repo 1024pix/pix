@@ -31,7 +31,7 @@ export default class JuryCertificationSummary extends Model {
 
   @computed('completedAt')
   get completionDate() {
-    return (new Date(this.completedAt)).toLocaleString('fr-FR');
+    return this.completedAt ? (new Date(this.completedAt)).toLocaleString('fr-FR') : null;
   }
 
   get complementaryCertificationsLabel() {
