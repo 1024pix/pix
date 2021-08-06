@@ -65,6 +65,19 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
       expect(submitButton.disabled).to.be.true;
     });
 
+    it('should disable submission on form when is loading', async function() {
+      // given
+      await render(hbs `<AccountRecovery::UpdateScoRecordForm @isLoading={{true}} />`);
+
+      // when
+      await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), 'pix123A*');
+      await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+
+      // then
+      const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      expect(submitButton.disabled).to.be.true;
+    });
+
     it('should enable submission if password is valid and cgu and data protection policy are accepted', async function() {
       // given
       await render(hbs `<AccountRecovery::UpdateScoRecordForm />`);
@@ -95,7 +108,6 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
         // then
         expect(contains(this.intl.t('pages.account-recovery.update-sco-record.form.errors.invalid-password'))).to.not.exist;
       });
-
     });
 
     context('when the user enters an invalid password', function() {

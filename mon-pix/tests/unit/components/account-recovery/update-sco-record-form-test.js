@@ -7,16 +7,16 @@ describe('Unit | Component | account-recovery | update-sco-record-form', functio
 
   setupTest();
 
-  context('#isFormValid', function() {
+  context('#isSubmitButtonEnabled', function() {
 
     it('should return false if password is not valid and cgu are not accepted', function() {
       // given
       const component = createGlimmerComponent('component:account-recovery/update-sco-record-form');
       component.password = 'Pass';
-      component.cguAndProctectionPoliciesAccepted = false;
+      component.cguAndProtectionPoliciesAccepted = false;
 
       // when
-      const result = component.isFormValid;
+      const result = component.isSubmitButtonEnabled;
 
       // then
       expect(result).to.be.false;
@@ -26,10 +26,10 @@ describe('Unit | Component | account-recovery | update-sco-record-form', functio
       // given
       const component = createGlimmerComponent('component:account-recovery/update-sco-record-form');
       component.password = 'Password123';
-      component.cguAndProctectionPoliciesAccepted = false;
+      component.cguAndProtectionPoliciesAccepted = false;
 
       // when
-      const result = component.isFormValid;
+      const result = component.isSubmitButtonEnabled;
 
       // then
       expect(result).to.be.false;
@@ -39,10 +39,10 @@ describe('Unit | Component | account-recovery | update-sco-record-form', functio
       // given
       const component = createGlimmerComponent('component:account-recovery/update-sco-record-form');
       component.password = 'Password123';
-      component.cguAndProctectionPoliciesAccepted = true;
+      component.cguAndProtectionPoliciesAccepted = true;
 
       // when
-      const result = component.isFormValid;
+      const result = component.isSubmitButtonEnabled;
 
       // then
       expect(result).to.be.true;
