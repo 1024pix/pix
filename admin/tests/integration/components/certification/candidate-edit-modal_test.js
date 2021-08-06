@@ -82,7 +82,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
       assert.equal(this.candidate.birthInseeCode, '99101');
       assert.dom('#birth-insee-code').doesNotExist();
       assert.equal(this.candidate.birthplace, 'Copenhague');
-      assert.dom('#birth-city').hasValue('Copenhague');
+      assert.dom('#birth-city').hasValue('');
       assert.equal(this.candidate.birthCountry, 'DANEMARK');
       assert.dom('#birth-country > option[selected]').hasText('DANEMARK');
     });
@@ -186,6 +186,49 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
     assert.dom('#birth-postal-code').hasValue('35400');
     assert.dom('#birth-city').hasValue('Saint-Malo');
     assert.dom('#birth-country > option[selected]').hasText('FRANCE');
+  });
+
+  module('on component creation', function() {
+
+    test('it should select the insee code option if the candidate insee code is defined', async function(assert) {
+      // given
+      this.candidate = EmberObject.create({
+        firstName: 'Quentin',
+        lastName: 'Lebouc',
+        birthdate: '2000-12-15',
+        sex: 'M',
+        birthInseeCode: '35400',
+        birthplace: 'Saint-Malo',
+        birthCountry: 'FRANCE',
+      });
+      this.countries = [];
+
+      // when
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{countries}} />`);
+
+      // then
+      assert.dom('#insee-code-choice').isChecked();
+    });
+
+    test('it should select the postal code option if the candidate postal code is defined', async function(assert) {
+      // given
+      this.candidate = EmberObject.create({
+        firstName: 'Quentin',
+        lastName: 'Lebouc',
+        birthdate: '2000-12-15',
+        sex: 'M',
+        birthPostalCode: '35400',
+        birthplace: 'Saint-Malo',
+        birthCountry: 'FRANCE',
+      });
+      this.countries = [];
+
+      // when
+      await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{countries}} />`);
+
+      // then
+      assert.dom('#postal-code-choice').isChecked();
+    });
   });
 
   module('when a foreign country is selected', () => {
