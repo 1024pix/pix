@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const {
   catchErr,
   databaseBuilder,
@@ -5,14 +6,11 @@ const {
   expect,
   knex,
 } = require('../../../test-helper');
-
 const {
   AlreadyExistingEntityError,
   AuthenticationMethodNotFoundError,
 } = require('../../../../lib/domain/errors');
-
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
@@ -27,7 +25,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       return knex('authentication-methods').delete();
     });
 
-    context('When creating a AuthenticationMethod containing an external identifier', function() {
+    context('when creating a AuthenticationMethod containing an external identifier', function() {
 
       it('should return an AuthenticationMethod', async function() {
         // given
@@ -46,52 +44,90 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
         // then
         expect(savedAuthenticationMethod).to.be.instanceOf(AuthenticationMethod);
+        authenticationMethod.authenticationComplement = undefined;
+        expect(_.omit(savedAuthenticationMethod, ['id'])).to.deep.equal(_.omit(authenticationMethod, ['id']));
       });
     });
 
-    context('When an AuthenticationMethod already exist for an identity provider and an external identifier', function() {
+    context('when an AuthenticationMethod already exists for an identity provider and an external identifier', function() {
 
       it('should throw an AlreadyExistingEntityError', async function() {
         // given
-        const identityProvider = AuthenticationMethod.identityProviders.GAR;
-        const externalIdentifier = 'alreadyExistingExternalIdentifier';
-        const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildAuthenticationMethod({
-          identityProvider,
-          externalIdentifier,
-          userId: databaseBuilder.factory.buildUser().id,
+        const userIdA = databaseBuilder.factory.buildUser().id;
+        const userIdB = databaseBuilder.factory.buildUser().id;
+        const authenticationMethodA = domainBuilder.buildAuthenticationMethod({
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          externalIdentifier: 'alreadyExistingExternalIdentifier',
+          userId: userIdA,
         });
+        delete authenticationMethodA.id;
+        databaseBuilder.factory.buildAuthenticationMethod(authenticationMethodA);
         await databaseBuilder.commit();
-
-        const authenticationMethod = domainBuilder.buildAuthenticationMethod({ identityProvider, externalIdentifier, userId });
-        delete authenticationMethod.id;
+        const authenticationMethodB = domainBuilder.buildAuthenticationMethod({
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          externalIdentifier: 'alreadyExistingExternalIdentifier',
+          userId: userIdB,
+        });
+        delete authenticationMethodB.id;
 
         // when
-        const error = await catchErr(authenticationMethodRepository.create)({ authenticationMethod });
+        const error = await catchErr(authenticationMethodRepository.create)({ authenticationMethod: authenticationMethodB });
 
         // then
         expect(error).to.be.instanceOf(AlreadyExistingEntityError);
       });
     });
 
-    context('When an AuthenticationMethod already exist for an identity provider and a userId', function() {
+    context('when an AuthenticationMethod already exists for an identity provider and a userId', function() {
 
       it('should throw an AlreadyExistingEntityError', async function() {
         // given
-        const identityProvider = AuthenticationMethod.identityProviders.GAR;
         const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildAuthenticationMethod({ identityProvider, externalIdentifier: 'externalIdentifier1', userId });
+        const authenticationMethodA = domainBuilder.buildAuthenticationMethod({
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          externalIdentifier: 'someIdentifierA',
+          userId,
+        });
+        delete authenticationMethodA.id;
+        databaseBuilder.factory.buildAuthenticationMethod(authenticationMethodA);
         await databaseBuilder.commit();
-
-        const authenticationMethod = domainBuilder.buildAuthenticationMethod({ identityProvider, externalIdentifier: 'externalIdentifier2', userId });
-        delete authenticationMethod.id;
+        const authenticationMethodB = domainBuilder.buildAuthenticationMethod({
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          externalIdentifier: 'someIdentifierB',
+          userId,
+        });
+        delete authenticationMethodB.id;
 
         // when
-        const error = await catchErr(authenticationMethodRepository.create)({ authenticationMethod });
+        const error = await catchErr(authenticationMethodRepository.create)({ authenticationMethod: authenticationMethodB });
 
         // then
         expect(error).to.be.instanceOf(AlreadyExistingEntityError);
       });
+    });
+
+    it('should be DomainTransaction compliant', async function() {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod({
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+        externalIdentifier: 'externalIdentifier',
+        userId,
+      });
+      delete authenticationMethod.id;
+
+      // when
+      await catchErr(async () => {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+          throw new Error('Error occurs in transaction');
+        });
+      })();
+
+      // then
+      const results = await knex('authentication-methods').where({ externalIdentifier: 'externalIdentifier' });
+      expect(results).to.be.empty;
     });
   });
 
