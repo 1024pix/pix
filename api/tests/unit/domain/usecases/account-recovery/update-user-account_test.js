@@ -1,14 +1,9 @@
 const sinon = require('sinon');
 const {
-  catchErr,
   expect,
   domainBuilder,
 } = require('../../../../test-helper');
 const updateUserAccount = require('../../../../../lib/domain/usecases/account-recovery/update-user-account');
-const {
-  NotFoundError,
-  UserHasAlreadyLeftSCO,
-} = require('../../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 
@@ -16,7 +11,7 @@ const User = require('../../../../../lib/domain/models/User');
 
 describe('Unit | Usecases | update-user-account', () => {
 
-  let userRepository, authenticationMethodRepository, encryptionService, accountRecoveryDemandRepository;
+  let userRepository, authenticationMethodRepository, encryptionService, accountRecoveryDemandRepository, scoAccountRecoveryService;
   const domainTransaction = Symbol();
 
   beforeEach(() => {
@@ -28,6 +23,9 @@ describe('Unit | Usecases | update-user-account', () => {
       findByUserId: sinon.stub(),
       create: sinon.stub(),
       updateChangedPassword: sinon.stub(),
+    };
+    scoAccountRecoveryService = {
+      retrieveAndValidateAccountRecoveryDemand: sinon.stub(),
     };
     encryptionService = {
       hashPassword: sinon.stub(),
@@ -41,79 +39,28 @@ describe('Unit | Usecases | update-user-account', () => {
 
   });
 
-  it('should throw NotFoundError if temporary key does not exist', async () => {
-    // given
-    const invalidTemporaryKey = 'temporarykey';
-    domainBuilder.buildAccountRecoveryDemand({ temporaryKey: invalidTemporaryKey });
-    accountRecoveryDemandRepository.findByTemporaryKey.rejects(new NotFoundError('No account recovery demand found'));
-
-    // when
-    const error = await catchErr(updateUserAccount)({
-      temporaryKey: invalidTemporaryKey,
-      accountRecoveryDemandRepository,
-    });
-
-    // then
-    expect(accountRecoveryDemandRepository.findByTemporaryKey).to.be.calledWith(invalidTemporaryKey);
-    expect(error).to.be.an.instanceOf(NotFoundError);
-  });
-
-  context('when user had already left SCO', () => {
-
-    it('should throw an error', async () => {
-      // given
-      const user = domainBuilder.buildUser();
-      const accountRecoveryDemandUsed = domainBuilder.buildAccountRecoveryDemand({
-        userId: user.id,
-        used: true,
-      });
-      const accountRecoveryDemandNotUsed = domainBuilder.buildAccountRecoveryDemand({
-        userId: user.id,
-      });
-
-      accountRecoveryDemandRepository.findByTemporaryKey.resolves(accountRecoveryDemandNotUsed);
-      accountRecoveryDemandRepository.findByUserId.withArgs(accountRecoveryDemandNotUsed.userId).resolves([accountRecoveryDemandNotUsed, accountRecoveryDemandUsed]);
-
-      // when
-      const error = await catchErr(updateUserAccount)({
-        userId: user.id,
-        userRepository,
-        accountRecoveryDemandRepository,
-      });
-
-      // then
-      expect(error).to.be.an.instanceOf(UserHasAlreadyLeftSCO);
-      expect(error.message).to.be.equal('User has already left SCO.');
-
-    });
-  });
-
   context('when user has only GAR authentication method', () => {
-
     it('should add PIX authentication method', async () => {
       // given
-      const temporaryKey = 'temporarykey';
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
 
       const user = domainBuilder.buildUser({ id: 1234, email: null });
-      const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({ userId: user.id });
       const authenticationMethodFromGAR = domainBuilder.buildAuthenticationMethod({
         userId: user.id,
         identityProvider: AuthenticationMethod.identityProviders.GAR,
       });
 
-      accountRecoveryDemandRepository.findByUserId.withArgs(accountRecoveryDemand.userId).resolves([accountRecoveryDemand]);
+      scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
       encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
       authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
-      accountRecoveryDemandRepository.findByTemporaryKey.withArgs(temporaryKey).resolves(accountRecoveryDemand);
 
       // when
       await updateUserAccount({
         password,
-        temporaryKey,
         userRepository,
         authenticationMethodRepository,
+        scoAccountRecoveryService,
         encryptionService,
         accountRecoveryDemandRepository,
         domainTransaction,
@@ -133,14 +80,11 @@ describe('Unit | Usecases | update-user-account', () => {
       domainTransaction,
       );
     });
-
   });
 
   context('when user has either Pix authentication method or both GAR and Pix Authentication method', () => {
-
     it('should change password', async () => {
       // given
-      const temporaryKey = 'temporarykey';
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
 
@@ -149,23 +93,21 @@ describe('Unit | Usecases | update-user-account', () => {
         email: null,
         username: 'manuella.philippe0702',
       });
-      const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({ userId: user.id });
       const authenticationMethodFromGAR = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
         userId: user.id,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       });
 
-      accountRecoveryDemandRepository.findByUserId.withArgs(accountRecoveryDemand.userId).resolves([accountRecoveryDemand]);
+      scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
       encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
       authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
-      accountRecoveryDemandRepository.findByTemporaryKey.withArgs(temporaryKey).resolves(accountRecoveryDemand);
 
       // when
       await updateUserAccount({
         password,
-        temporaryKey,
         userRepository,
         authenticationMethodRepository,
+        scoAccountRecoveryService,
         encryptionService,
         accountRecoveryDemandRepository,
         domainTransaction,
@@ -178,7 +120,6 @@ describe('Unit | Usecases | update-user-account', () => {
       },
       domainTransaction);
     });
-
   });
 
   it('should accept terms of service, update email and set date for confirmed email', async () => {
@@ -186,6 +127,7 @@ describe('Unit | Usecases | update-user-account', () => {
     const temporaryKey = 'temporarykey';
     const password = 'pix123';
     const hashedPassword = 'hashedpassword';
+    const newEmail = 'newemail@example.net';
     const emailConfirmedAt = new Date();
 
     const user = domainBuilder.buildUser({
@@ -193,27 +135,27 @@ describe('Unit | Usecases | update-user-account', () => {
       email: null,
       username: 'manuella.philippe0702',
     });
-    const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
-      userId: user.id });
     const authenticationMethodFromGAR = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
       userId: user.id,
       identityProvider: AuthenticationMethod.identityProviders.PIX,
     });
 
-    accountRecoveryDemandRepository.findByUserId.withArgs(accountRecoveryDemand.userId).resolves([accountRecoveryDemand]);
-
+    scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.withArgs({
+      temporaryKey,
+      accountRecoveryDemandRepository,
+      userRepository,
+    }).resolves({ userId: user.id, newEmail });
     encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
     authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
     const userUpdate = new User({
       ...user,
       cgu: true,
-      email: accountRecoveryDemand.newEmail,
+      email: newEmail,
       emailConfirmedAt,
     });
-    const userAttributes = { cgu: true, email: accountRecoveryDemand.newEmail, emailConfirmedAt };
+    const userAttributes = { cgu: true, email: newEmail, emailConfirmedAt };
 
     userRepository.updateWithEmailConfirmed.withArgs({ id: user.id, userAttributes, domainTransaction }).resolves(userUpdate);
-    accountRecoveryDemandRepository.findByTemporaryKey.withArgs(temporaryKey).resolves(accountRecoveryDemand);
 
     // when
     await updateUserAccount({
@@ -221,6 +163,7 @@ describe('Unit | Usecases | update-user-account', () => {
       temporaryKey,
       userRepository,
       authenticationMethodRepository,
+      scoAccountRecoveryService,
       encryptionService,
       accountRecoveryDemandRepository,
       domainTransaction,
