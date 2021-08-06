@@ -76,3 +76,10 @@ api/scripts/extractions
 
 # Visual regression snapshots
 high-level-tests/e2e/cypress/snapshots/actual/**
+
+# Jupyter Notebook
+**/.cache
+**/.config
+**/.ipython
+**/.ipynb_checkpoints
+**/.local
