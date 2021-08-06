@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class UpdateScoRecordController extends Controller {
+
   @service store;
   @service intl;
   @service router;
@@ -12,6 +13,8 @@ export default class UpdateScoRecordController extends Controller {
   @tracked showReturnToHomeButton = this.model.showReturnToHomeButton;
   @tracked showRenewLink = this.model.showRenewLink;
 
+  @tracked isLoading = false;
+
   @action
   async updateRecord(password) {
     const updateDemand = this.store.createRecord('account-recovery-demand', {
@@ -19,10 +22,13 @@ export default class UpdateScoRecordController extends Controller {
       password,
     });
     try {
+      this.isLoading = true;
       await updateDemand.update();
       this.router.transitionTo('login');
     } catch (err) {
       this._handleError(err);
+    } finally {
+      this.isLoading = false;
     }
   }
 
@@ -57,6 +63,5 @@ export default class UpdateScoRecordController extends Controller {
     this.errorMessage = errorMessage;
     this.showRenewLink = showRenewLink;
     this.showReturnToHomeButton = showReturnToHomeButton;
-
   }
 }
