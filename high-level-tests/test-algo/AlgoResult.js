@@ -1,11 +1,11 @@
 const _ = require('lodash');
-
-let id = 1;
+const { v4: uuidv4 } = require('uuid');
+const CsvFile = require('./utils/CsvFile');
 
 class AlgoResult {
 
   constructor() {
-    this._id = id++;
+    this._id = uuidv4();
     this._challenges = [];
     this._estimatedLevels = [];
     this._answerStatuses = [];
@@ -38,16 +38,19 @@ class AlgoResult {
       .map((skill) => skill.name)
       .value();
     const uniqSkillNames = new Set(skillsName);
-    return [...uniqSkillNames].join(', ');
+    return [...uniqSkillNames];
+  }
+
+  get _challengeIds() {
+    return this._challenges.map((challenge) => challenge.id);
   }
 
   log() {
-    const challengeIds = this._challenges.map((challenge) => challenge.id);
     this._computeGaps();
     const log = `
         Result ${this._id} :
-        ----- total challenges asked: ${challengeIds.length}
-        ----- challenge ids asked: ${challengeIds}
+        ----- total challenges asked: ${this._challengeIds.length}
+        ----- challenge ids asked: ${this._challengeIds}
         ----- skill names: ${this._skillNames}
         ----- estimated levels evolution: ${this._estimatedLevels}
         ----- total answer KO: ${this._answerKOCount}
@@ -86,6 +89,30 @@ class AlgoResult {
       }
     }
     this._biggestDescendingGap = Math.abs(this._biggestDescendingGap);
+  }
+
+  _getResults(testSet) {
+    const challengeIds = this._challengeIds;
+    const skillNames = this._skillNames;
+    return challengeIds.map((challengeId, index) => {
+      return {
+        id: this._id,
+        nChallenge: index + 1,
+        challengeId: challengeIds[index],
+        challengeLevel: this._challengeLevels[index],
+        skillName: skillNames[index],
+        estimatedLevel: this._estimatedLevels[index],
+        answerStatus: this._answerStatuses[index].status,
+        testSet,
+      };
+    });
+  }
+
+  async writeCsvFile(testSet) {
+    const results = this._getResults(testSet);
+    const headers = Object.keys(results[0]);
+    const csvFile = new CsvFile(headers);
+    await csvFile.append(results);
   }
 }
 
