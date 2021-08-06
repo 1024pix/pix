@@ -21,11 +21,12 @@ export default class UpdateScoRecordRoute extends Route {
       return { email, firstName, temporaryKey };
     } catch (error) {
       const status = get(error, 'errors[0].status', '');
-      return this._findErrorMessage(status);
+      const code = get(error, 'errors[0].code', '');
+      return this._findErrorMessage(status, code);
     }
   }
 
-  _findErrorMessage(statusCode) {
+  _findErrorMessage(statusCode, code) {
     const invalidKey = {
       errorMessage: this.intl.t('pages.account-recovery.errors.key-invalid'),
       showReturnToHomeButton: true,
@@ -38,6 +39,10 @@ export default class UpdateScoRecordRoute extends Route {
 
     const httpStatusCodeMessages = {
       400: invalidKey,
+      ACCOUNT_WITH_EMAIL_ALREADY_EXISTS: {
+        errorMessage: this.intl.t('pages.account-recovery.errors.account-exists'),
+        showReturnToHomeButton: true,
+      },
       401: {
         errorMessage: this.intl.t('pages.account-recovery.errors.key-expired'),
         showRenewLink: true,
@@ -49,6 +54,6 @@ export default class UpdateScoRecordRoute extends Route {
       404: invalidKey,
     };
 
-    return httpStatusCodeMessages[statusCode] || internalError;
+    return httpStatusCodeMessages[code] || httpStatusCodeMessages[statusCode] || internalError;
   }
 }
