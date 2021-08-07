@@ -415,20 +415,41 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
     beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+    });
+
+    it('should update password in database and set shouldChangePassword to true', async function() {
+      // given
       databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        id: 123,
         userId,
         hashedPassword,
         shouldChangePassword: false,
       });
       await databaseBuilder.commit();
+
+      // when
+      await authenticationMethodRepository.updatePasswordThatShouldBeChanged({
+        userId,
+        hashedPassword: newHashedPassword,
+      });
+
+      // then
+      const [ authenticationComplement ] = await knex('authentication-methods').pluck('authenticationComplement').where({ id: 123 });
+      expect(authenticationComplement.password).to.equal(newHashedPassword);
+      expect(authenticationComplement.shouldChangePassword).to.be.true;
     });
 
-    it('should update password and set shouldChangePassword to true', async function() {
+    it('should return an updated AuthenticationMethod', async function() {
       // given
-      const expectedAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
-        password: newHashedPassword,
-        shouldChangePassword: true,
+      const originalAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+        id: 123,
+        userId,
+        hashedPassword,
+        shouldChangePassword: false,
       });
+      databaseBuilder.factory.buildAuthenticationMethod(originalAuthenticationMethod);
+      await databaseBuilder.commit();
 
       // when
       const updatedAuthenticationMethod = await authenticationMethodRepository.updatePasswordThatShouldBeChanged({
@@ -437,9 +458,14 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       });
 
       // then
-      expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
-      expect(updatedAuthenticationMethod.authenticationComplement).to.be.an.instanceOf(AuthenticationMethod.PixAuthenticationComplement);
-      expect(updatedAuthenticationMethod.authenticationComplement).to.deep.equal(expectedAuthenticationComplement);
+      const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+        id: 123,
+        userId,
+        hashedPassword: newHashedPassword,
+        shouldChangePassword: true,
+      });
+      expect(updatedAuthenticationMethod).to.be.instanceOf(AuthenticationMethod);
+      expect(_.omit(updatedAuthenticationMethod, ['updatedAt'])).to.deep.equal(_.omit(expectedAuthenticationMethod, ['updatedAt']));
     });
 
     it('should throw AuthenticationMethodNotFoundError when user id not found', async function() {
@@ -454,6 +480,34 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
       // then
       expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
+    });
+
+    it('should be DomainTransaction compliant', async function() {
+      // given
+      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        id: 123,
+        userId,
+        hashedPassword,
+        shouldChangePassword: false,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await catchErr(async () => {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await authenticationMethodRepository.updatePasswordThatShouldBeChanged({
+            userId,
+            hashedPassword: newHashedPassword,
+            domainTransaction,
+          });
+          throw new Error('Error occurs in transaction');
+        });
+      })();
+
+      // then
+      const [ authenticationComplement ] = await knex('authentication-methods').pluck('authenticationComplement').where({ id: 123 });
+      expect(authenticationComplement.password).to.equal(hashedPassword);
+      expect(authenticationComplement.shouldChangePassword).to.be.false;
     });
   });
 
