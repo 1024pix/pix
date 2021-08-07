@@ -207,17 +207,15 @@ module.exports = {
   },
 
   async updateExternalIdentifierByUserIdAndIdentityProvider({ externalIdentifier, userId, identityProvider }) {
-    try {
-      const bookshelfAuthenticationMethod = await BookshelfAuthenticationMethod
-        .where({ userId, identityProvider })
-        .save({ externalIdentifier }, { method: 'update', patch: true, require: true });
-      return _toDomainEntity(bookshelfAuthenticationMethod);
-    } catch (err) {
-      if (err instanceof BookshelfAuthenticationMethod.NoRowsUpdatedError) {
-        throw new AuthenticationMethodNotFoundError(`No rows updated for authentication method of type ${identityProvider} for user ${userId}.`);
-      }
-      throw err;
+    const [authenticationMethodDTO] = await Bookshelf.knex('authentication-methods')
+      .where({ userId, identityProvider })
+      .update({ externalIdentifier })
+      .returning(COLUMNS);
+
+    if (!authenticationMethodDTO) {
+      throw new AuthenticationMethodNotFoundError(`No rows updated for authentication method of type ${identityProvider} for user ${userId}.`);
     }
+    return _toDomain(authenticationMethodDTO);
   },
 
   async updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId }) {
