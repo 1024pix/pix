@@ -517,20 +517,14 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
     beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod({
-        userId,
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
-      });
       await databaseBuilder.commit();
     });
 
-    it('should create password and set shouldChangePassword to true', async function() {
-      // given
-      const expectedAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
-        password: newHashedPassword,
-        shouldChangePassword: true,
-      });
+    afterEach(function() {
+      return knex('authentication-methods').delete();
+    });
 
+    it('should create and return a Pix authentication method with given password in database and set shouldChangePassword to true', async function() {
       // when
       const createdAuthenticationMethod = await authenticationMethodRepository.createPasswordThatShouldBeChanged({
         userId,
@@ -538,13 +532,21 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       });
 
       // then
-      expect(createdAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
-      expect(createdAuthenticationMethod.authenticationComplement).to.be.an.instanceOf(AuthenticationMethod.PixAuthenticationComplement);
-      expect(createdAuthenticationMethod.authenticationComplement).to.deep.equal(expectedAuthenticationComplement);
+      const expectedAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+        userId,
+        identityProvider: AuthenticationMethod.identityProviders.PIX,
+      });
+      expect(createdAuthenticationMethod).to.be.instanceOf(AuthenticationMethod);
+      expect(createdAuthenticationMethod).to.deep.equal(expectedAuthenticationMethod);
     });
 
-    it('should create PIX authenticationMethod and do not replace existing authenticationMethod', async function() {
+    it('should not replace an existing authenticationMethod with a different identity provider', async function() {
       // given
+      databaseBuilder.factory.buildAuthenticationMethod({
+        userId,
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+      });
+      await databaseBuilder.commit();
       await authenticationMethodRepository.createPasswordThatShouldBeChanged({
         userId,
         hashedPassword: newHashedPassword,
@@ -565,6 +567,40 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       expect(foundAuthenticationMethodGAR).to.exist;
     });
 
+    it('should throw an AlreadyExistingEntityError when authentication method with PIX identity provider already exists for user', async function() {
+      // given
+      await authenticationMethodRepository.createPasswordThatShouldBeChanged({
+        userId,
+        hashedPassword: newHashedPassword,
+      });
+
+      // when
+      const error = await catchErr(authenticationMethodRepository.createPasswordThatShouldBeChanged)({
+        userId,
+        hashedPassword: newHashedPassword,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(AlreadyExistingEntityError);
+    });
+
+    it('should be DomainTransaction compliant', async function() {
+      // when
+      await catchErr(async () => {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await authenticationMethodRepository.createPasswordThatShouldBeChanged({
+            userId,
+            hashedPassword: newHashedPassword,
+            domainTransaction,
+          });
+          throw new Error('Error occurs in transaction');
+        });
+      })();
+
+      // then
+      const nonExistingAuthenticationMethod = await knex('authentication-methods').where({ userId }).first();
+      expect(nonExistingAuthenticationMethod).to.not.exist;
+    });
   });
 
   describe('#updateExpiredPassword', function() {
