@@ -91,11 +91,13 @@ module.exports = {
   },
 
   async findOneByUserIdAndIdentityProvider({ userId, identityProvider }) {
-    const authenticationMethod = await BookshelfAuthenticationMethod
+    const authenticationMethodDTO = await Bookshelf.knex
+      .select(COLUMNS)
+      .from('authentication-methods')
       .where({ userId, identityProvider })
-      .fetch({ require: false });
+      .first();
 
-    return authenticationMethod ? _toDomainEntity(authenticationMethod) : null;
+    return authenticationMethodDTO ? _toDomain(authenticationMethodDTO) : null;
   },
 
   async findOneByExternalIdentifierAndIdentityProvider({ externalIdentifier, identityProvider }) {
