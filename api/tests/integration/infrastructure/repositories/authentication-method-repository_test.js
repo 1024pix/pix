@@ -309,7 +309,10 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       // given
       const identityProvider = AuthenticationMethod.identityProviders.GAR;
       const externalIdentifier = 'samlId';
-      const authenticationMethodInDB = databaseBuilder.factory.buildAuthenticationMethod({ externalIdentifier, identityProvider });
+      const userId = databaseBuilder.factory.buildUser().id;
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod({ id: 123, externalIdentifier, identityProvider, userId });
+      authenticationMethod.authenticationComplement = undefined;
+      databaseBuilder.factory.buildAuthenticationMethod(authenticationMethod);
       databaseBuilder.factory.buildAuthenticationMethod({ externalIdentifier: 'another_sub', identityProvider });
       await databaseBuilder.commit();
 
@@ -318,7 +321,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
       // then
       expect(authenticationMethodsByTypeAndValue).to.be.instanceof(AuthenticationMethod);
-      expect(authenticationMethodsByTypeAndValue).to.deep.equal(authenticationMethodInDB);
+      expect(authenticationMethodsByTypeAndValue).to.deep.equal(authenticationMethod);
     });
 
     it('should return null if there is no AuthenticationMethods for the given external identifier and identity provider', async function() {
