@@ -161,12 +161,33 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       await databaseBuilder.commit();
     });
 
-    it('should update the password', async function() {
+    it('should update the password in database', async function() {
       // given
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      const authenticationMethodId = databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        userId,
+        hashedPassword,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      await authenticationMethodRepository.updateChangedPassword({
+        userId,
+        hashedPassword: newHashedPassword,
+      });
+
+      // then
+      const [ authenticationComplement ] = await knex('authentication-methods').pluck('authenticationComplement').where({ id: authenticationMethodId });
+      expect(authenticationComplement.password).to.equal(newHashedPassword);
+    });
+
+    it('should return the updated AuthenticationMethod', async () => {
+      // given
+      const originalAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+        id: 123,
         userId,
         hashedPassword,
       });
+      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword(originalAuthenticationMethod);
       await databaseBuilder.commit();
 
       // when
@@ -176,12 +197,16 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       });
 
       // then
+      const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+        id: 123,
+        userId,
+        hashedPassword: newHashedPassword,
+      });
       expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
-      expect(updatedAuthenticationMethod.authenticationComplement).to.be.an.instanceOf(AuthenticationMethod.PixAuthenticationComplement);
-      expect(updatedAuthenticationMethod.authenticationComplement.password).to.equal(newHashedPassword);
+      expect(_.omit(updatedAuthenticationMethod, ['updatedAt'])).to.deep.equal(_.omit(expectedAuthenticationMethod, ['updatedAt']));
     });
 
-    it('should update the password and disable changing password', async function() {
+    it('should disable changing password', async function() {
       // given
       databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
         userId,
@@ -197,7 +222,6 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       });
 
       // then
-      expect(updatedAuthenticationMethod.authenticationComplement.password).to.equal(newHashedPassword);
       expect(updatedAuthenticationMethod.authenticationComplement.shouldChangePassword).to.be.false;
     });
 
@@ -215,7 +239,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
     });
 
-    it('should rollback update change password when error occurs in transaction', async function() {
+    it('should be DomainTransaction compliant', async function() {
       // given
       const authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
         userId,
@@ -226,17 +250,15 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       // when
       await catchErr(async () => {
         await DomainTransaction.execute(async (domainTransaction) => {
-          await authenticationMethodRepository.updateChangedPassword({ userId, hashedPassword }, domainTransaction);
+          await authenticationMethodRepository.updateChangedPassword({ userId, hashedPassword: 'coucou' }, domainTransaction);
           throw new Error('Error occurs in transaction');
         });
-      });
+      })();
 
       // then
-      const authenticationMethodFound = await knex('authentication-methods');
-      expect(authenticationMethodFound[0].authenticationComplement.password).to.be.equal(authenticationMethod.authenticationComplement.password);
-
+      const [ authenticationComplement ] = await knex('authentication-methods').pluck('authenticationComplement').where({ id: authenticationMethod.id });
+      expect(authenticationComplement.password).to.be.equal(hashedPassword);
     });
-
   });
 
   describe('#findOneByUserIdAndIdentityProvider', function() {
