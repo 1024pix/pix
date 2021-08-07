@@ -25,6 +25,7 @@ function _toDomainEntity(bookshelfAuthenticationMethod) {
 function _toDomain(authenticationMethodDTO) {
   return new AuthenticationMethod({
     ...authenticationMethodDTO,
+    externalIdentifier: (authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.GAR || authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI) ? authenticationMethodDTO.externalIdentifier : undefined,
     authenticationComplement: _toAuthenticationComplement(authenticationMethodDTO.identityProvider, authenticationMethodDTO.authenticationComplement),
   });
 }
@@ -127,32 +128,25 @@ module.exports = {
     return BookshelfAuthenticationMethod.where({ userId, identityProvider }).destroy({ require: true });
   },
 
-  updateChangedPassword({ userId, hashedPassword }, domainTransaction = DomainTransaction.emptyTransaction()) {
+  async updateChangedPassword({ userId, hashedPassword }, domainTransaction = DomainTransaction.emptyTransaction()) {
     const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
       password: hashedPassword,
       shouldChangePassword: false,
     });
 
-    return BookshelfAuthenticationMethod
+    const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
+    const [authenticationMethodDTO] = await knexConn('authentication-methods')
       .where({
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
-      .save(
-        { authenticationComplement },
-        {
-          transacting: domainTransaction.knexTransaction,
-          patch: true,
-          method: 'update',
-        },
-      )
-      .then(_toDomainEntity)
-      .catch((err) => {
-        if (err instanceof BookshelfAuthenticationMethod.NoRowsUpdatedError) {
-          throw new AuthenticationMethodNotFoundError(`Authentication method PIX for User ID ${userId} not found.`);
-        }
-        throw err;
-      });
+      .update({ authenticationComplement })
+      .returning(COLUMNS);
+
+    if (!authenticationMethodDTO) {
+      throw new AuthenticationMethodNotFoundError(`Authentication method PIX for User ID ${userId} not found.`);
+    }
+    return _toDomain(authenticationMethodDTO);
   },
 
   updatePasswordThatShouldBeChanged({
