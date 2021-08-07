@@ -14,6 +14,8 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
+// TODO updatedAt
+
 describe('Integration | Repository | AuthenticationMethod', function() {
 
   const hashedPassword = 'ABCDEF1234';
@@ -49,7 +51,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
         expect(_.omit(savedAuthenticationMethod, ignoredColumns)).to.deep.equal(_.omit(authenticationMethod, ignoredColumns));
       });
 
-      it('should save an AuthenticationMethod in database', async () => {
+      it('should save an AuthenticationMethod in database', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
@@ -180,7 +182,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       expect(authenticationComplement.password).to.equal(newHashedPassword);
     });
 
-    it('should return the updated AuthenticationMethod', async () => {
+    it('should return the updated AuthenticationMethod', async function() {
       // given
       const originalAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
         id: 123,
@@ -341,29 +343,52 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
     context('When authentication method exists', function() {
 
-      let authenticationMethod;
-
-      beforeEach(function() {
-        const userId = databaseBuilder.factory.buildUser().id;
-        authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
-          externalIdentifier: 'to_be_updated',
-          userId,
-        });
-        return databaseBuilder.commit();
-      });
-
       it('should update external identifier by userId and identity provider', async function() {
         // given
-        const userId = authenticationMethod.userId;
-        const identityProvider = authenticationMethod.identityProvider;
-        const externalIdentifier = 'new_saml_id';
+        const userId = databaseBuilder.factory.buildUser().id;
+        const authenticationMethod = domainBuilder.buildAuthenticationMethod({
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          externalIdentifier: 'old_value',
+          userId,
+        });
+        authenticationMethod.authenticationComplement = undefined;
+        databaseBuilder.factory.buildAuthenticationMethod(authenticationMethod);
+        await databaseBuilder.commit();
 
         // when
-        const updatedAuthenticationMethod = await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({ externalIdentifier, userId, identityProvider });
+        await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({
+          userId,
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          externalIdentifier: 'new_value',
+        });
 
         // then
-        expect(updatedAuthenticationMethod.externalIdentifier).to.equal(externalIdentifier);
+        const [ externalIdentifier ] = await knex('authentication-methods').pluck('externalIdentifier').where({ id: authenticationMethod.id });
+        expect(externalIdentifier).to.equal('new_value');
+      });
+
+      it('should return the updated AuthenticationMethod', async function() {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const authenticationMethod = domainBuilder.buildAuthenticationMethod({
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          externalIdentifier: 'old_value',
+          userId,
+        });
+        authenticationMethod.authenticationComplement = undefined;
+        databaseBuilder.factory.buildAuthenticationMethod(authenticationMethod);
+        await databaseBuilder.commit();
+
+        // when
+        const updatedAuthenticationMethod = await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({
+          userId,
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          externalIdentifier: 'new_value',
+        });
+
+        // then
+        authenticationMethod.externalIdentifier = 'new_value';
+        expect(_.omit(updatedAuthenticationMethod, ['updatedAt'])).to.deep.equal(_.omit(authenticationMethod, ['updatedAt']));
       });
     });
 
