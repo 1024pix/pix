@@ -72,21 +72,19 @@ module.exports = {
         password: hashedPassword,
         shouldChangePassword: true,
       });
-
       const authenticationMethod = new AuthenticationMethod({
         authenticationComplement,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
         userId,
       });
-
-      const bookshelfAuthenticationMethod = await new BookshelfAuthenticationMethod(authenticationMethod)
-        .save(null, { transacting: domainTransaction.knexTransaction });
-      return _toDomainEntity(bookshelfAuthenticationMethod);
+      const authenticationMethodForDB = _.pick(authenticationMethod, ['identityProvider', 'authenticationComplement', 'externalIdentifier', 'userId']);
+      const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
+      const [authenticationMethodDTO] = await knexConn('authentication-methods').insert(authenticationMethodForDB).returning(COLUMNS);
+      return _toDomain(authenticationMethodDTO);
     } catch (err) {
       if (bookshelfUtils.isUniqConstraintViolated(err)) {
         throw new AlreadyExistingEntityError(`Authentication method PIX already exists for the user ID ${userId}.`);
       }
-      throw err;
     }
   },
 
