@@ -270,7 +270,9 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
         userId,
       });
-      const garAuthenticationMethodInDB = databaseBuilder.factory.buildAuthenticationMethod({ identityProvider, userId });
+      const garAuthenticationMethod = domainBuilder.buildAuthenticationMethod({ id: 123, identityProvider, userId });
+      garAuthenticationMethod.authenticationComplement = undefined;
+      databaseBuilder.factory.buildAuthenticationMethod(garAuthenticationMethod);
       await databaseBuilder.commit();
 
       // when
@@ -278,17 +280,23 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
       // then
       expect(authenticationMethodsByUserIdAndIdentityProvider).to.be.instanceof(AuthenticationMethod);
-      expect(authenticationMethodsByUserIdAndIdentityProvider).to.deep.equal(garAuthenticationMethodInDB);
+      expect(authenticationMethodsByUserIdAndIdentityProvider).to.deep.equal(garAuthenticationMethod);
     });
 
     it('should return null if there is no AuthenticationMethod for the given user and identity provider', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAuthenticationMethod({
+        identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+        userId,
+      });
       await databaseBuilder.commit();
-      const identityProvider = AuthenticationMethod.identityProviders.GAR;
 
       // when
-      const authenticationMethodsByUserIdAndIdentityProvider = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider });
+      const authenticationMethodsByUserIdAndIdentityProvider = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+        userId,
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+      });
 
       // then
       expect(authenticationMethodsByUserIdAndIdentityProvider).to.be.null;
