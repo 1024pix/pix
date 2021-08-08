@@ -5,13 +5,13 @@ import { tracked } from '@glimmer/tracking';
 
 export default class UpdateScoRecordController extends Controller {
 
-  @service store;
   @service intl;
-  @service router;
+  @service session;
+  @service store;
 
   @tracked errorMessage = this.model.errorMessage;
-  @tracked showReturnToHomeButton = this.model.showReturnToHomeButton;
   @tracked showRenewLink = this.model.showRenewLink;
+  @tracked showBackToHomeButton = this.model.showBackToHomeButton;
 
   @tracked isLoading = false;
 
@@ -24,7 +24,16 @@ export default class UpdateScoRecordController extends Controller {
     try {
       this.isLoading = true;
       await updateDemand.update();
-      this.router.transitionTo('login');
+
+      if (this.session.isAuthenticated) {
+        await this.session.invalidate();
+      }
+
+      await this.session.authenticate('authenticator:oauth2', {
+        login: this.model.email,
+        password,
+        scope: 'mon-pix',
+      });
     } catch (err) {
       this._handleError(err);
     } finally {
@@ -38,35 +47,35 @@ export default class UpdateScoRecordController extends Controller {
     const internalError = {
       errorMessage: this.intl.t('api-error-messages.internal-server-error'),
       showRenewLink: false,
-      showReturnToHomeButton: true,
+      showBackToHomeButton: true,
     };
 
     const errorDetails = {
       ACCOUNT_WITH_EMAIL_ALREADY_EXISTS: {
         errorMessage: this.intl.t('pages.account-recovery.errors.account-exists'),
         showRenewLink: false,
-        showReturnToHomeButton: true,
+        showBackToHomeButton: true,
       },
       401: {
         errorMessage: this.intl.t('pages.account-recovery.errors.key-expired'),
         showRenewLink: true,
-        showReturnToHomeButton: false,
+        showBackToHomeButton: false,
       },
       403: {
         errorMessage: this.intl.t('pages.account-recovery.errors.key-used'),
         showRenewLink: false,
-        showReturnToHomeButton: true,
+        showBackToHomeButton: true,
       },
       404: {
         errorMessage: this.intl.t('pages.account-recovery.errors.key-invalid'),
         showRenewLink: false,
-        showReturnToHomeButton: true,
+        showBackToHomeButton: true,
       },
     };
 
-    const { errorMessage, showRenewLink, showReturnToHomeButton } = errorDetails[status] || errorDetails[code] || internalError;
+    const { errorMessage, showRenewLink, showBackToHomeButton } = errorDetails[status] || errorDetails[code] || internalError;
     this.errorMessage = errorMessage;
     this.showRenewLink = showRenewLink;
-    this.showReturnToHomeButton = showReturnToHomeButton;
+    this.showBackToHomeButton = showBackToHomeButton;
   }
 }

@@ -1,14 +1,16 @@
 import { describe } from 'mocha';
 import { expect } from 'chai';
+
 import { setupApplicationTest } from 'ember-mocha';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import visit from '../../helpers/visit';
 import { currentURL } from '@ember/test-helpers';
+import { Response } from 'ember-cli-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+
+import visit from '../../helpers/visit';
 import setupIntl from '../../helpers/setup-intl';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
 import { contains } from '../../helpers/contains';
-import { Response } from 'ember-cli-mirage';
 
 describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
 
@@ -132,22 +134,26 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function() {
 
     context('and user chooses a new password and accepts cgu and data protection policy', function() {
 
-      it('should redirect to login page after successful password change', async function() {
+      it('should redirect to homepage after successful password change', async function() {
         // given
         const temporaryKey = '6fe76ea1bb34a1d17e7b2253ee0f7f4b2bc66ddde37d50ee661cbbf3c00cfdc9';
-        const newPassword = 'Pix1234*';
+
+        const email = 'George@example.net';
+        const password = 'Password123';
+        server.create('user', { id: 2, email, password });
+
         server.create('feature-toggle', { id: 0, isScoAccountRecoveryEnabled: true });
 
         await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
-        await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+        await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), password);
         await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
 
         // when
         await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
         // then
-        expect(currentURL()).to.equal('/connexion');
+        expect(currentURL()).to.equal('/accueil');
       });
 
       it('should display an error message when account with email already exists', async function() {
