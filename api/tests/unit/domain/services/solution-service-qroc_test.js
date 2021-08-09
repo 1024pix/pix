@@ -303,4 +303,24 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     });
   });
 
+  describe('match with the type select for the QROC', function() {
+
+    const successfulCases = [
+      { case: 'Same answer and solution', answer: 'Answer', solution: 'Answer', output: ANSWER_OK },
+      { case: 'Same answer and solution, but answer is lowercased, solution is uppercased', answer: 'answer', solution: 'ANSWER', output: ANSWER_KO },
+      { case: 'answer with spaces, solution hasnt', answer: 'a b c d e', solution: 'abcde', output: ANSWER_KO },
+      { case: 'answer with unbreakable spaces, solution hasnt', answer: 'a b c d e', solution: 'abcde', output: ANSWER_KO },
+      { case: 'answer without punctuation, but solution has', answer: ',.!p-u-n-c-t', solution: 'punct', output: ANSWER_KO },
+      { case: '(multiple solutions) answer is amongst solution', answer: 'variant 1', solution: 'variant 1\nvariant 2\nvariant 3\n', output: ANSWER_OK },
+      { case: '(multiple solutions) answer is 0.2 away from the closest solution', answer: 'quack', solution: 'quacks\nazertysqdf\nblablabla\n', output: ANSWER_KO },
+    ];
+
+    successfulCases.forEach(function(data) {
+      it(data.case + ', should return "ok" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
+        const solution = { value: data.solution, deactivations: data.deactivations, qrocBlocksTypes: { 'rep': 'select' } };
+        expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
+      });
+    });
+  });
+
 });
