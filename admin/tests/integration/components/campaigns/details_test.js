@@ -23,6 +23,10 @@ module('Integration | Component | Campaigns | details', function(hooks) {
       organizationName: 'My organization',
       targetProfileId: 3,
       targetProfileName: 'My target profile',
+      customLandingPageText: 'welcome',
+      customResultPageText: 'tadaaa',
+      customResultPageButtonText: 'Click here',
+      customResultPageButtonUrl: 'www.pix.fr',
       createdAt: new Date('2020-02-01'),
       archivedAt: new Date('2020-03-01'),
     };
@@ -37,6 +41,10 @@ module('Integration | Component | Campaigns | details', function(hooks) {
     assert.contains('My target profile');
     assert.contains('My organization');
     assert.contains('Archivée le 01/03/2020');
+    assert.contains('welcome');
+    assert.contains('tadaaa');
+    assert.contains('Click here');
+    assert.contains('www.pix.fr');
   });
 
   test('should display profile collection tag', async function(assert) {
