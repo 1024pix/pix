@@ -610,6 +610,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
     beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser({ shouldChangePassword: true }).id;
       databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        id: 123,
         userId,
         hashedPassword,
         shouldChangePassword: true,
@@ -617,10 +618,25 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       await databaseBuilder.commit();
     });
 
-    it('should update password and set shouldChangePassword to false', async function() {
+    it('should update the password in database and set shouldChangePassword to false', async function() {
+      // when
+      await authenticationMethodRepository.updateExpiredPassword({
+        userId,
+        hashedPassword: newHashedPassword,
+      });
+
+      // then
+      const [ authenticationComplement ] = await knex('authentication-methods').pluck('authenticationComplement').where({ id: 123 });
+      expect(authenticationComplement.password).to.equal(newHashedPassword);
+      expect(authenticationComplement.shouldChangePassword).to.be.false;
+    });
+
+    it('should return the updated AuthenticationMethod', async function() {
       // given
-      const expectedAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
-        password: newHashedPassword,
+      const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+        id: 123,
+        userId,
+        hashedPassword: newHashedPassword,
         shouldChangePassword: false,
       });
 
@@ -632,8 +648,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
       // then
       expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
-      expect(updatedAuthenticationMethod.authenticationComplement).to.be.an.instanceOf(AuthenticationMethod.PixAuthenticationComplement);
-      expect(updatedAuthenticationMethod.authenticationComplement).to.deep.equal(expectedAuthenticationComplement);
+      expect(_.omit(updatedAuthenticationMethod, ['updatedAt'])).to.deep.equal(_.omit(expectedAuthenticationMethod, ['updatedAt']));
     });
 
     it('should throw AuthenticationMethodNotFoundError when user id is not found', async function() {
