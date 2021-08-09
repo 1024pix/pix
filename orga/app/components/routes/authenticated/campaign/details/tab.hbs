@@ -42,28 +42,23 @@
       </p>
     </div>
   </div>
-  <div class="campaign-details-row">
-    {{#unless @campaign.isArchived}}
-      <div class="campaign-details-row">
-        <div class="campaign-details-content campaign-details-content--button campaign-details--button">
-          <LinkTo
-            @route="authenticated.campaigns.update"
-            @model={{@campaign.id}}
-            class="button button--grey button--regular button--link campaign-details-content__update-button"
-          >
-            {{t 'pages.campaign-details.actions.edit'}}
-          </LinkTo>
-        </div>
-        <div class="campaign-details-content campaign-details-content--button campaign-details--button campaign-details-content--left">
-          <button
-            type="button"
-            {{on 'click' (fn this.archiveCampaign @campaign.id)}}
-            class="button button--grey button--regular button--link"
-          >
-            {{t 'pages.campaign-details.actions.archive'}}
-          </button>
-        </div>
-      </div>
-    {{/unless}}
-  </div>
+
+  {{#unless @campaign.isArchived}}
+    <div class="campaign-details-buttons">
+      <LinkTo
+        @route="authenticated.campaigns.update"
+        @model={{@campaign.id}}
+        class="button button--grey button--regular button--link"
+      >
+        {{t 'pages.campaign-details.actions.edit'}}
+      </LinkTo>
+      <button
+        type="button"
+        {{on 'click' (fn this.archiveCampaign @campaign.id)}}
+        class="button button--grey button--regular button--link"
+      >
+        {{t 'pages.campaign-details.actions.archive'}}
+      </button>
+    </div>
+  {{/unless}}
 </div>

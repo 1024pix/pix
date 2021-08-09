@@ -6,9 +6,9 @@
         <Table::Header>{{t "pages.students-sup.table.column.last-name"}}</Table::Header>
         <Table::Header>{{t "pages.students-sup.table.column.first-name"}}</Table::Header>
         <Table::Header>{{t "pages.students-sup.table.column.date-of-birth"}}</Table::Header>
-        <Table::Header />
+        <Table::Header class="hide-on-mobile" />
       </tr>
-      <tr>
+      <tr class="hide-on-mobile">
         <Table::HeaderFilterInput
           @field="studentNumber"
           @value={{@studentNumberFilter}}
@@ -43,7 +43,7 @@
           <td>{{student.lastName}}</td>
           <td>{{student.firstName}}</td>
           <td>{{moment-format student.birthdate 'DD/MM/YYYY'}}</td>
-          <td class="list-students-page__actions">
+          <td class="list-students-page__actions hide-on-mobile">
             {{#if this.currentUser.isAdminInOrganization}}
               <Dropdown::IconTrigger
                 @icon="ellipsis-v"

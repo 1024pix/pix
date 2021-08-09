@@ -66,3 +66,18 @@ $margin-right: 32px;
     margin-left: 10px;
   }
 }
+
+@include device-is('mobile') {
+  .list-team-page {
+    &__header {
+      flex-direction: column;
+    }
+  }
+
+  .list-team-page-header {
+    &__add-member-button {
+      margin-top: initial;
+      margin-left: initial;
+    }
+  }
+}

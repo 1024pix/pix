@@ -45,6 +45,7 @@
   right: 0;
   top: 49px;
   width: 400px;
+  max-width: 100%;
 
   &-item {
     color: $grey-60;
@@ -74,6 +75,18 @@
 
     &__organization-externalId {
       flex: 0;
+    }
+  }
+}
+
+@include device-is('mobile') {
+  .logged-user-summary {
+    &__name {
+      overflow: hidden;
+    }
+  
+    &__organization {
+      overflow: hidden;
     }
   }
 }

@@ -16,21 +16,13 @@
 .campaign-details-content {
   display: flex;
   flex-direction: column;
-  padding: 22px 20px 22px 38px;
+  padding: 24px;
   width: 100%;
-
-  &--button {
-    padding-right: 38px;
-  }
 
   &--single {
     &:first-child {
       width: 55%;
     }
-  }
-
-  &--left {
-    margin-right: auto;
   }
 
   &:not(:first-child) {
@@ -62,5 +54,26 @@
     .pix-tooltip__content {
       margin-bottom: 6px;
     }
+  }
+}
+
+.campaign-details-buttons {
+  display: flex;
+  padding: 24px;
+  width: 100%;
+
+  > *:first-child {
+    margin-right: 32px;
+  }
+}
+
+@include device-is('mobile') {
+  .campaign-details-content {
+    width: initial;
+  }
+
+  .campaign-details-row {
+    flex-direction: column;
+    justify-content: flex-start;
   }
 }
