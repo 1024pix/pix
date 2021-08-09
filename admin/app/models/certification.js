@@ -62,7 +62,7 @@ export default class Certification extends Model {
 
   @computed('completedAt')
   get completionDate() {
-    return (new Date(this.completedAt)).toLocaleString('fr-FR');
+    return this.completedAt ? (new Date(this.completedAt)).toLocaleString('fr-FR') : null;
   }
 
   @computed('status')
