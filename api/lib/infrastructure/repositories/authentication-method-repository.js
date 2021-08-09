@@ -209,17 +209,15 @@ module.exports = {
   },
 
   async updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId }) {
-    try {
-      const bookshelfAuthenticationMethod = await BookshelfAuthenticationMethod
-        .where({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
-        .save({ authenticationComplement }, { method: 'update', patch: true, require: true });
-      return _toDomainEntity(bookshelfAuthenticationMethod);
-    } catch (err) {
-      if (err instanceof BookshelfAuthenticationMethod.NoRowsUpdatedError) {
-        throw new AuthenticationMethodNotFoundError(`No rows updated for authentication method of type ${AuthenticationMethod.identityProviders.POLE_EMPLOI} for user ${userId}.`);
-      }
-      throw err;
+    const [authenticationMethodDTO] = await Bookshelf.knex('authentication-methods')
+      .where({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+      .update({ authenticationComplement })
+      .returning(COLUMNS);
+
+    if (!authenticationMethodDTO) {
+      throw new AuthenticationMethodNotFoundError(`No rows updated for authentication method of type ${AuthenticationMethod.identityProviders.POLE_EMPLOI} for user ${userId}.`);
     }
+    return _toDomain(authenticationMethodDTO);
   },
 
   updateOnlyShouldChangePassword({ userId, shouldChangePassword }) {
