@@ -5,8 +5,8 @@ import get from 'lodash/get';
 export default class UpdateScoRecordRoute extends Route {
 
   @service intl;
-  @service store;
   @service featureToggles;
+  @service store;
 
   beforeModel() {
     if (!this.featureToggles.featureToggles.isScoAccountRecoveryEnabled) {
@@ -29,19 +29,19 @@ export default class UpdateScoRecordRoute extends Route {
   _findErrorMessage(statusCode, code) {
     const invalidKey = {
       errorMessage: this.intl.t('pages.account-recovery.errors.key-invalid'),
-      showReturnToHomeButton: true,
+      showBackToHomeButton: true,
     };
 
     const internalError = {
       errorMessage: this.intl.t('api-error-messages.internal-server-error'),
-      showReturnToHomeButton: true,
+      showBackToHomeButton: true,
     };
 
     const httpStatusCodeMessages = {
       400: invalidKey,
       ACCOUNT_WITH_EMAIL_ALREADY_EXISTS: {
         errorMessage: this.intl.t('pages.account-recovery.errors.account-exists'),
-        showReturnToHomeButton: true,
+        showBackToHomeButton: true,
       },
       401: {
         errorMessage: this.intl.t('pages.account-recovery.errors.key-expired'),
@@ -49,7 +49,7 @@ export default class UpdateScoRecordRoute extends Route {
       },
       403: {
         errorMessage: this.intl.t('pages.account-recovery.errors.key-used'),
-        showReturnToHomeButton: true,
+        showBackToHomeButton: true,
       },
       404: invalidKey,
     };
