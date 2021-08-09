@@ -37,7 +37,7 @@ module('Acceptance | Sup Student Import', function(hooks) {
         const file = new Blob(['foo'], { type: 'valid-file' });
 
         // when
-        const input = find('#students-file-upload');
+        const input = find('#students-file-upload-add');
         await triggerEvent(input, 'change', { files: [file] });
 
         // then
@@ -54,7 +54,7 @@ module('Acceptance | Sup Student Import', function(hooks) {
         const file = new Blob(['foo'], { type: 'valid-file-with-warnings' });
 
         // when
-        const input = find('#students-file-upload');
+        const input = find('#students-file-upload-add');
         await triggerEvent(input, 'change', { files: [file] });
 
         // then
@@ -71,7 +71,7 @@ module('Acceptance | Sup Student Import', function(hooks) {
         const file = new Blob(['foo'], { type: 'invalid-file' });
 
         // when
-        const input = find('#students-file-upload');
+        const input = find('#students-file-upload-add');
         await triggerEvent(input, 'change', { files: [file] });
 
         // then

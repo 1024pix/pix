@@ -668,12 +668,18 @@
       }
     },
     "students-sup-import": {
+      "description": "Quel type d'import souhaitez-vous réaliser ?",
       "title": "Importer des étudiants",
       "actions": {
         "add": {
-          "title": "Ajouter/modifier",
+          "title": "Ajouter / modifier",
           "details": "Permet d’ajouter une liste d'étudiants à celle déjà importée et/ou modifier les informations des étudiants déjà importés.",
           "label": "Ajouter des étudiants"
+        },
+        "replace": {
+          "title": "Remplacer",
+          "details": "Permet d’importer une nouvelle liste d'étudiants à la place de l’existante.",
+          "label": "Importer une nouvelle liste"
         }
       },
       "error-wrapper": "<div>Aucun étudiant n’a été importé.<br/><strong>{message}</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>",
