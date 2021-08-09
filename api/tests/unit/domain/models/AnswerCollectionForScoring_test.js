@@ -4,6 +4,40 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
 describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
 
+  context('#numberOfAnswers', () => {
+
+    it('returns 0 when there is no answers', () => {
+      // given
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [],
+        challenges: [],
+      });
+
+      // when
+      const numberOfAnswers = answerCollection.numberOfAnswers();
+
+      // then
+      expect(numberOfAnswers).to.equal(0);
+    });
+
+    it('returns the total number of answers', () => {
+      // given
+      const answer1 = domainBuilder.buildAnswer();
+      const answer2 = domainBuilder.buildAnswer();
+      const answer3 = domainBuilder.buildAnswer();
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [answer1, answer2, answer3],
+        challenges: [],
+      });
+
+      // when
+      const numberOfAnswers = answerCollection.numberOfAnswers();
+
+      // then
+      expect(numberOfAnswers).to.equal(3);
+    });
+  });
+
   context('#numberOfNonNeutralizedChallenges', () => {
 
     it('equals 0 when no challenges asked', () => {

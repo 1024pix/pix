@@ -16,6 +16,10 @@ module.exports = class AnswerCollectionForScoring {
     return new AnswerCollectionForScoring(answersForScoring, challengesForScoring);
   }
 
+  numberOfAnswers() {
+    return this.answers.length;
+  }
+
   numberOfCorrectAnswers() {
     let nbOfCorrectAnswers = 0;
     this.answers.forEach((answer) => {
