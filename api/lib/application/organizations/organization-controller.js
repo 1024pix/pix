@@ -16,6 +16,7 @@ const queryParamsUtils = require('../../infrastructure/utils/query-params-utils'
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 const moment = require('moment');
 const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
+const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
 
 module.exports = {
 
@@ -82,6 +83,23 @@ module.exports = {
 
     const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({ organizationId, filter: options.filter, page: options.page });
     return membershipSerializer.serialize(memberships, pagination);
+  },
+
+  async downloadCertificationAttestationsForDivision(request, h) {
+    const organizationId = request.params.id;
+    const { division } = request.query;
+
+    const attestations = await usecases.findCertificationAttestationsForDivision({
+      organizationId,
+      division,
+    });
+
+    const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({ certificates: attestations });
+
+    const fileName = `attestations-pix-${division}-${moment(attestations[0].deliveredAt).format('YYYYMMDD')}.pdf`;
+    return h.response(buffer)
+      .header('Content-Disposition', `attachment; filename=${fileName}`)
+      .header('Content-Type', 'application/pdf');
   },
 
   async downloadCertificationResults(request, h) {
