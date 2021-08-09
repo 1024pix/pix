@@ -18,6 +18,8 @@ module.exports = {
   match({ answer, challengeFormat, solution }) {
     const solutionValue = solution.value;
     const deactivations = solution.deactivations;
+    const qrocBlocksTypes = solution.qrocBlocksTypes || {};
+    const applyTreatments = qrocBlocksTypes[Object.keys(qrocBlocksTypes)[0]] === 'select' ? false : true;
 
     const isIncorrectAnswerFormat = !isString(answer);
     const isIncorrectSolutionFormat = !isString(solutionValue) || isEmpty(solutionValue);
@@ -35,7 +37,7 @@ module.exports = {
       return _getAnswerStatusFromNumberMatching(answer, solutions);
     }
 
-    return _getAnswerStatusFromStringMatching(answer, solutions, deactivations);
+    return _getAnswerStatusFromStringMatching(answer, solutions, deactivations, applyTreatments);
   },
 };
 
@@ -50,17 +52,19 @@ function _getAnswerStatusFromNumberMatching(answer, solutions) {
   return AnswerStatus.KO;
 }
 
-function _getAnswerStatusFromStringMatching(answer, solutions, deactivations) {
+function _getAnswerStatusFromStringMatching(answer, solutions, deactivations, applyTreatments) {
   const treatedAnswer = applyPreTreatments(answer);
-  const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations);
-  const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions);
+  const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations, applyTreatments);
+  const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions, applyTreatments);
   return _getAnswerStatusAccordingToLevenshteinDistance(validations, deactivations);
 }
 
-function _applyTreatmentsToSolutions(solutions, deactivations) {
+function _applyTreatmentsToSolutions(solutions, deactivations, applyTreatments) {
   return map(solutions, (solution) => {
 
-    if (deactivationsService.isDefault(deactivations)) {
+    if (applyTreatments === false) {
+      return solution;
+    } else if (deactivationsService.isDefault(deactivations)) {
       const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(solution);
       return removeSpecialCharacters(normalizedWithoutAccentsSolution);
     }
