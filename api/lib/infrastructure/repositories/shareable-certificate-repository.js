@@ -75,7 +75,8 @@ async function _getCleaCertificationResult(certificationCourseId) {
   const result = await knex
     .select('acquired')
     .from('partner-certifications')
-    .where({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey })
+    .where({ certificationCourseId })
+    .whereIn('partnerKey', [ CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2 ])
     .first();
 
   if (!result) {

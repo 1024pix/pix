@@ -127,7 +127,8 @@ async function _getCleaCertificationImagePath(certificationCourseId) {
   const result = await knex
     .select('partnerKey')
     .from('partner-certifications')
-    .where({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey, acquired: true })
+    .where({ certificationCourseId, acquired: true })
+    .whereIn('partnerKey', [ CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2 ])
     .first();
 
   if (!result) return null;

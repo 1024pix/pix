@@ -5,7 +5,8 @@ const cleaStatuses = {
   REJECTED: 'rejected',
   NOT_TAKEN: 'not_taken',
 };
-const badgeKey = keys.PIX_EMPLOI_CLEA;
+const badgeKeyV1 = keys.PIX_EMPLOI_CLEA;
+const badgeKeyV2 = keys.PIX_EMPLOI_CLEA_V2;
 
 class CleaCertificationResult {
 
@@ -37,5 +38,6 @@ class CleaCertificationResult {
 }
 
 CleaCertificationResult.cleaStatuses = cleaStatuses;
-CleaCertificationResult.badgeKey = badgeKey;
+CleaCertificationResult.badgeKeyV1 = badgeKeyV1;
+CleaCertificationResult.badgeKeyV2 = badgeKeyV2;
 module.exports = CleaCertificationResult;
