@@ -8,7 +8,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
   let userRepository;
   let schoolingRegistrationRepository;
   let accountRecoveryDemandRepository;
-  let checkScoAccountRecoveryService;
+  let scoAccountRecoveryService;
   let mailService;
   const userReconciliationService = {};
 
@@ -23,7 +23,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
     accountRecoveryDemandRepository = {
       save: sinon.stub(),
     };
-    checkScoAccountRecoveryService = {
+    scoAccountRecoveryService = {
       retrieveSchoolingRegistration: sinon.stub(),
     };
     mailService = {
@@ -42,7 +42,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         email: newEmail,
       };
 
-      checkScoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
+      scoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
         accountRecoveryDemandRepository,
         studentInformation,
         schoolingRegistrationRepository,
@@ -60,7 +60,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         userRepository,
         accountRecoveryDemandRepository,
         mailService,
-        checkScoAccountRecoveryService,
+        scoAccountRecoveryService,
         userReconciliationService,
       });
 
@@ -86,7 +86,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         email: newEmail,
       };
 
-      checkScoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
+      scoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
         accountRecoveryDemandRepository,
         studentInformation,
         schoolingRegistrationRepository,
@@ -106,7 +106,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         userRepository,
         accountRecoveryDemandRepository,
         mailService,
-        checkScoAccountRecoveryService,
+        scoAccountRecoveryService,
         userReconciliationService,
       });
 
@@ -134,7 +134,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         email: newEmail,
       };
 
-      checkScoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
+      scoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
         accountRecoveryDemandRepository,
         studentInformation,
         schoolingRegistrationRepository,
@@ -154,7 +154,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
         userRepository,
         accountRecoveryDemandRepository,
         mailService,
-        checkScoAccountRecoveryService,
+        scoAccountRecoveryService,
         userReconciliationService,
       });
 

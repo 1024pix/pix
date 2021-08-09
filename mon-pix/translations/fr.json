@@ -1031,6 +1031,7 @@
       },
       "errors": {
         "title": "Oups, une erreur est survenue !",
+        "account-exists": "Un compte existe déjà avec cette adresse e-mail.",
         "key-used": "Ce compte a déjà été récupéré.",
         "key-invalid": "Le lien de récupération n’existe pas.",
         "key-expired": "Le lien de récupération est expiré, ",

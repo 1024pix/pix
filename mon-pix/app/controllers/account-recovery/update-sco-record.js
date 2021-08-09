@@ -33,7 +33,7 @@ export default class UpdateScoRecordController extends Controller {
   }
 
   _handleError(err) {
-    const status = err.errors?.[0]?.status;
+    const { status, code } = err.errors?.[0] || {};
 
     const internalError = {
       errorMessage: this.intl.t('api-error-messages.internal-server-error'),
@@ -42,6 +42,11 @@ export default class UpdateScoRecordController extends Controller {
     };
 
     const errorDetails = {
+      ACCOUNT_WITH_EMAIL_ALREADY_EXISTS: {
+        errorMessage: this.intl.t('pages.account-recovery.errors.account-exists'),
+        showRenewLink: false,
+        showReturnToHomeButton: true,
+      },
       401: {
         errorMessage: this.intl.t('pages.account-recovery.errors.key-expired'),
         showRenewLink: true,
@@ -59,7 +64,7 @@ export default class UpdateScoRecordController extends Controller {
       },
     };
 
-    const { errorMessage, showRenewLink, showReturnToHomeButton } = errorDetails[status] || internalError;
+    const { errorMessage, showRenewLink, showReturnToHomeButton } = errorDetails[status] || errorDetails[code] || internalError;
     this.errorMessage = errorMessage;
     this.showRenewLink = showRenewLink;
     this.showReturnToHomeButton = showReturnToHomeButton;

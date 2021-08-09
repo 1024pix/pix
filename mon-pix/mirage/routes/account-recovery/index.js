@@ -11,7 +11,7 @@ export default function index(config) {
       return new Response(204);
     } else {
       return new Response(400, {}, {
-        errors: [{ status: '400' }],
+        errors: [{ status: '400', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }],
       });
     }
   });

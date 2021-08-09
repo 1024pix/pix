@@ -1,5 +1,4 @@
 const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
-const { UserHasAlreadyLeftSCO } = require('../../../domain/errors');
 
 module.exports = async function updateUserAccount({
   password,
@@ -7,17 +6,16 @@ module.exports = async function updateUserAccount({
   userRepository,
   authenticationMethodRepository,
   accountRecoveryDemandRepository,
+  scoAccountRecoveryService,
   encryptionService,
   domainTransaction,
 }) {
 
-  const { userId, newEmail } = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
-
-  const accountRecoveryDemands = await accountRecoveryDemandRepository.findByUserId(userId);
-
-  if (accountRecoveryDemands.some((accountRecoveryDemand) => accountRecoveryDemand.used)) {
-    throw new UserHasAlreadyLeftSCO();
-  }
+  const { userId, newEmail } = await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
+    temporaryKey,
+    accountRecoveryDemandRepository,
+    userRepository,
+  });
 
   const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId });
   const isAuthenticatedFromGarOnly = (
