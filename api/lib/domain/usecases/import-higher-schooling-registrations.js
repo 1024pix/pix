@@ -4,7 +4,7 @@ module.exports = async function importHigherSchoolingRegistration({
 }) {
   const { registrations, warnings } = higherSchoolingRegistrationParser.parse();
 
-  await higherSchoolingRegistrationRepository.upsertStudents(registrations);
+  await higherSchoolingRegistrationRepository.addStudents(registrations);
 
   return warnings;
 };
