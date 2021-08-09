@@ -15,16 +15,18 @@ const CHALLENGE_NUMBER_FORMAT = 'nombre';
 
 module.exports = {
 
-  match({ answer, challengeFormat, solution, deactivations }) {
+  match({ answer, challengeFormat, solution }) {
+    const solutionValue = solution.value;
+    const deactivations = solution.deactivations;
 
     const isIncorrectAnswerFormat = !isString(answer);
-    const isIncorrectSolutionFormat = !isString(solution) || isEmpty(solution);
+    const isIncorrectSolutionFormat = !isString(solutionValue) || isEmpty(solutionValue);
 
     if (isIncorrectAnswerFormat || isIncorrectSolutionFormat) {
       return AnswerStatus.KO;
     }
 
-    const solutions = splitIntoWordsAndRemoveBackspaces(solution);
+    const solutions = splitIntoWordsAndRemoveBackspaces(solutionValue);
     const areAllNumericSolutions = every(solutions, (solution) => {
       return isNumeric(solution);
     });
