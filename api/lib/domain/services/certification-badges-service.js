@@ -5,7 +5,7 @@ const badgeRepository = require('../../infrastructure/repositories/badge-reposit
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
 const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 const badgeCriteriaService = require('../../domain/services/badge-criteria-service');
-const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF, PIX_EMPLOI_CLEA } = require('../../domain/models/Badge').keys;
+const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF, PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2 } = require('../../domain/models/Badge').keys;
 
 module.exports = {
 
@@ -29,13 +29,21 @@ module.exports = {
   },
 
   async hasStillValidCleaBadgeAcquisition({ userId }) {
-    const hasAcquiredCleaBadge = await badgeAcquisitionRepository.hasAcquiredBadge({
+    let cleaBadgeKey = PIX_EMPLOI_CLEA;
+    const hasAcquiredCleaBadgeV1 = await badgeAcquisitionRepository.hasAcquiredBadge({
       badgeKey: PIX_EMPLOI_CLEA,
       userId,
     });
-    if (!hasAcquiredCleaBadge) return false;
+    if (!hasAcquiredCleaBadgeV1) {
+      cleaBadgeKey = PIX_EMPLOI_CLEA_V2;
+      const hasAcquiredCleaBadgeV2 = await badgeAcquisitionRepository.hasAcquiredBadge({
+        badgeKey: PIX_EMPLOI_CLEA_V2,
+        userId,
+      });
+      if (!hasAcquiredCleaBadgeV2) return false;
+    }
 
-    const badge = await badgeRepository.getByKey(PIX_EMPLOI_CLEA);
+    const badge = await badgeRepository.getByKey(cleaBadgeKey);
     const targetProfile = await targetProfileRepository.get(badge.targetProfileId);
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
 
