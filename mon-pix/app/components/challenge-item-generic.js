@@ -10,7 +10,6 @@ export default class ChallengeItemGeneric extends Component {
   @service currentUser;
   @tracked isValidateButtonEnabled = true;
   @tracked isSkipButtonEnabled = true;
-  @tracked hasUserConfirmedWarning = false;
   @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
   @tracked hasFocusedOutOfWindow = false;
@@ -18,19 +17,7 @@ export default class ChallengeItemGeneric extends Component {
   @tracked isTooltipClosed = false;
 
   get displayTimer() {
-    return this.isTimedChallengeWithoutAnswer && this.hasUserConfirmedWarning;
-  }
-
-  get displayChallenge() {
-    if (!this._isTimedChallenge) {
-      return true;
-    }
-
-    if (this._isTimedChallenge) {
-      if (this.hasUserConfirmedWarning || this.args.answer) return true;
-    }
-
-    return false;
+    return this.isTimedChallengeWithoutAnswer;
   }
 
   get _isTimedChallenge() {
@@ -126,11 +113,6 @@ export default class ChallengeItemGeneric extends Component {
           this.args.finishChallenge();
         });
     }
-  }
-
-  @action
-  setUserConfirmation() {
-    this.hasUserConfirmedWarning = true;
   }
 
   @action

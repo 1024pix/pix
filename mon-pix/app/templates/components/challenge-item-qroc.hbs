@@ -3,162 +3,155 @@
          {{will-destroy this.removeEmbedAutoEventListener}}
          {{on 'mouseenter' this.hideOutOfFocusBorder}}
          {{on 'mouseleave' this.showOutOfFocusBorder}}>
-  {{#if this.isTimedChallengeWithoutAnswer}}
-    {{#unless this.hasUserConfirmedWarning}}
-      <TimedChallengeInstructions @hasUserConfirmedWarning={{this.setUserConfirmation}} @time={{@challenge.timer}} />
-    {{/unless}}
-  {{/if}}
 
-  {{#if this.displayChallenge}}
-    <div class="challenge-item__container {{if this.hasFocusedOutOfChallenge "challenge-item__container--focused"}}">
-      <ChallengeStatement @challenge={{@challenge}}
-                          @assessment={{@assessment}}
-                          @onTooltipClose={{this.enableFocusedChallenge}}/>
+  <div class="challenge-item__container {{if this.hasFocusedOutOfChallenge "challenge-item__container--focused"}}">
+    <ChallengeStatement @challenge={{@challenge}}
+                        @assessment={{@assessment}}
+                        @onTooltipClose={{this.enableFocusedChallenge}}/>
 
-      <form {{on "submit" this.validateAnswer}}>
-        {{#if this.showProposal}}
-          <div class="rounded-panel__row challenge-response
-            {{if @answer 'challenge-response--locked'}}
-            {{if this.hasChallengeTimedOut 'challenge-response--locked'}}">
-            <h2 class="sr-only">{{t 'pages.challenge.parts.answer-input'}}</h2>
-            <div class="challenge-proposals qroc-proposal">
-              {{#each this._blocks as |block|}}
-                {{#if block.text}}
-                  <label for="qroc_input">
-                    <MarkdownToHtml class="qroc_input-label"
-                                    @extensions="remove-paragraph-tags"
-                                    @markdown={{block.text}} />
-                  </label>
-                {{/if}}
+  <form {{on "submit" this.validateAnswer}}>
+    {{#if this.showProposal}}
+      <div class="rounded-panel__row challenge-response
+        {{if @answer 'challenge-response--locked'}}
+        {{if this.hasChallengeTimedOut 'challenge-response--locked'}}">
+        <h2 class="sr-only">{{t 'pages.challenge.parts.answer-input'}}</h2>
+        <div class="challenge-proposals qroc-proposal">
+          {{#each this._blocks as |block|}}
+            {{#if block.text}}
+              <label for="qroc_input">
+                <MarkdownToHtml class="qroc_input-label"
+                                @extensions="remove-paragraph-tags"
+                                @markdown={{block.text}} />
+              </label>
+            {{/if}}
 
 
-                {{#if block.input}}
-                  {{#if (eq block.type 'select')}}
-                      <div class="challenge-response__proposal challenge-response__proposal--selector">
-                        <PixSelect
-                          data-test="challenge-response-proposal-selector"
+            {{#if block.input}}
+              {{#if (eq block.type 'select')}}
+                  <div class="challenge-response__proposal challenge-response__proposal--selector">
+                    <PixSelect
+                      data-test="challenge-response-proposal-selector"
+                      name={{block.randomName}}
+                      id="{{block.input}}"
+                      aria-label={{block.ariaLabel}}
+                      @emptyOptionLabel={{block.placeholder}}
+                      @selectedOption={{this.userAnswer}}
+                      @emptyOptionNotSelectable={{true}}
+                      disabled={{@answer}}
+                      @options={{block.options}}
+                      data-uid="qroc-proposal-uid"
+                      @onChange={{this.answerChanged}}
+                      />
+                  </div>
+              {{else if (eq @challenge.format 'paragraphe')}}
+                <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
+                          rows="5"
+                          id="qroc_input"
+                  {{on 'keyup' this.answerChanged}}
                           name={{block.randomName}}
-                          id="{{block.input}}"
-                          aria-label={{block.ariaLabel}}
-                          @emptyOptionLabel={{block.placeholder}}
-                          @selectedOption={{this.userAnswer}}
-                          @emptyOptionNotSelectable={{true}}
-                          disabled={{@answer}}
-                          @options={{block.options}}
+                          placeholder={{block.placeholder}}
+                          autocomplete="nope"
+                          value="{{this.userAnswer}}"
                           data-uid="qroc-proposal-uid"
-                          @onChange={{this.answerChanged}}
-                          />
-                      </div>
-                  {{else if (eq @challenge.format 'paragraphe')}}
-                    <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
-                              rows="5"
-                              id="qroc_input"
-                      {{on 'keyup' this.answerChanged}}
-                              name={{block.randomName}}
-                              placeholder={{block.placeholder}}
-                              autocomplete="nope"
-                              value="{{this.userAnswer}}"
-                              data-uid="qroc-proposal-uid"
-                              disabled={{this.isAnswerFieldDisabled}}>
-                    </textarea>
-                  {{else if (eq @challenge.format 'phrase')}}
-                    <input class="challenge-response__proposal challenge-response__proposal--sentence"
-                           type="text"
-                           id="qroc_input"
-                      {{on 'keyup' this.answerChanged}}
-                           name={{block.randomName}}
-                           placeholder={{block.placeholder}}
-                           autocomplete="nope"
-                           value="{{this.userAnswer}}"
-                           data-uid="qroc-proposal-uid"
-                           disabled={{this.isAnswerFieldDisabled}}>
-                  {{else if (eq @challenge.format 'nombre')}}
-                    <input class="challenge-response__proposal challenge-response__proposal--number"
-                           type="number"
-                           id="qroc_input"
-                      {{on 'keyup' this.answerChanged}}
-                           name={{block.randomName}}
-                           placeholder={{block.placeholder}}
-                           autocomplete="nope"
-                           value="{{this.userAnswer}}"
-                           data-uid="qroc-proposal-uid"
-                           disabled={{this.isAnswerFieldDisabled}}>
-                  {{else}}
-                    <input class="challenge-response__proposal"
-                           size="{{get-qroc-input-size @challenge.format}}"
-                           type="text"
-                           id="qroc_input"
-                      {{on 'keyup' this.answerChanged}}
-                           name={{block.randomName}}
-                           placeholder={{block.placeholder}}
-                           autocomplete="nope"
-                           value="{{this.userAnswer}}"
-                           data-uid="qroc-proposal-uid"
-                           disabled={{this.isAnswerFieldDisabled}}>
-                  {{/if}}
-                {{/if}}
-
-                {{#if block.breakline}}
-                  <br>
-                {{/if}}
-
-              {{/each}}
-            </div>
-
-            {{#if @answer}}
-              <div class="challenge-response__locked-overlay">
-                <FaIcon @icon='lock' class='challenge-response-locked__icon' />
-              </div>
-            {{/if}}
-            {{#if this.hasChallengeTimedOut}}
-              <div class="challenge-response__locked-overlay">
-                <FaIcon @icon='hourglass-end' class='challenge-response-locked__icon' />
-              </div>
+                          disabled={{this.isAnswerFieldDisabled}}>
+                </textarea>
+              {{else if (eq @challenge.format 'phrase')}}
+                <input class="challenge-response__proposal challenge-response__proposal--sentence"
+                       type="text"
+                       id="qroc_input"
+                  {{on 'keyup' this.answerChanged}}
+                       name={{block.randomName}}
+                       placeholder={{block.placeholder}}
+                       autocomplete="nope"
+                       value="{{this.userAnswer}}"
+                       data-uid="qroc-proposal-uid"
+                       disabled={{this.isAnswerFieldDisabled}}>
+              {{else if (eq @challenge.format 'nombre')}}
+                <input class="challenge-response__proposal challenge-response__proposal--number"
+                       type="number"
+                       id="qroc_input"
+                  {{on 'keyup' this.answerChanged}}
+                       name={{block.randomName}}
+                       placeholder={{block.placeholder}}
+                       autocomplete="nope"
+                       value="{{this.userAnswer}}"
+                       data-uid="qroc-proposal-uid"
+                       disabled={{this.isAnswerFieldDisabled}}>
+              {{else}}
+                <input class="challenge-response__proposal"
+                       size="{{get-qroc-input-size @challenge.format}}"
+                       type="text"
+                       id="qroc_input"
+                  {{on 'keyup' this.answerChanged}}
+                       name={{block.randomName}}
+                       placeholder={{block.placeholder}}
+                       autocomplete="nope"
+                       value="{{this.userAnswer}}"
+                       data-uid="qroc-proposal-uid"
+                       disabled={{this.isAnswerFieldDisabled}}>
+              {{/if}}
             {{/if}}
 
-            {{#if this.displayTimer}}
-              <div class="timeout-gauge-wrapper">
-                <TimeoutGauge @allottedTime={{@challenge.timer}}
-                              @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}}/>
-              </div>
+            {{#if block.breakline}}
+              <br>
             {{/if}}
+
+          {{/each}}
+        </div>
+
+        {{#if @answer}}
+          <div class="challenge-response__locked-overlay">
+            <FaIcon @icon='lock' class='challenge-response-locked__icon' />
+          </div>
+        {{/if}}
+        {{#if this.hasChallengeTimedOut}}
+          <div class="challenge-response__locked-overlay">
+            <FaIcon @icon='hourglass-end' class='challenge-response-locked__icon' />
           </div>
         {{/if}}
 
-        {{#if this.errorMessage}}
-          <div class="alert alert--danger" role="alert">
-            {{this.errorMessage}}
+        {{#if this.displayTimer}}
+          <div class="timeout-gauge-wrapper">
+            <TimeoutGauge @allottedTime={{@challenge.timer}}
+                          @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}}/>
           </div>
         {{/if}}
+      </div>
+    {{/if}}
 
-        {{#if this.hasFocusedOutOfChallenge}}
-          {{#unless this.hasFocusedOutOfWindow}}
-            <div class="alert alert--info" role="alert">
-              <FaIcon @icon="info-circle" class="challenge-alert__icon"/>
-              {{t 'pages.challenge.is-focused-challenge'}}
-            </div>
-          {{/unless}}
-        {{/if}}
+    {{#if this.errorMessage}}
+      <div class="alert alert--danger" role="alert">
+        {{this.errorMessage}}
+      </div>
+    {{/if}}
 
-        {{#if this.hasFocusedOutOfWindow}}
-          <div class="alert alert--warning" role="alert">
-            <FaIcon @icon="exclamation-triangle" class="challenge-alert__icon"/>
-            {{t 'pages.challenge.has-focused-out'}}
-          </div>
-        {{/if}}
+    {{#if this.hasFocusedOutOfChallenge}}
+      {{#unless this.hasFocusedOutOfWindow}}
+        <div class="alert alert--info" role="alert">
+          <FaIcon @icon="info-circle" class="challenge-alert__icon"/>
+          {{t 'pages.challenge.is-focused-challenge'}}
+        </div>
+      {{/unless}}
+    {{/if}}
 
-        {{#if @assessment}}
-          <ChallengeActions @challenge={{@challenge}}
-                            @answer={{@answer}}
-                            @resumeAssessment={{this.resumeAssessment}}
-                            @isDisabled={{this.isAnswerFieldDisabled}}
-                            @validateAnswer={{this.validateAnswer}}
-                            @skipChallenge={{this.skipChallenge}}
-                            @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
-                            @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-                            @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>
-        {{/if}}
-      </form>
-    </div>
-  {{/if}}
+    {{#if this.hasFocusedOutOfWindow}}
+      <div class="alert alert--warning" role="alert">
+        <FaIcon @icon="exclamation-triangle" class="challenge-alert__icon"/>
+        {{t 'pages.challenge.has-focused-out'}}
+      </div>
+    {{/if}}
+
+      {{#if @assessment}}
+        <ChallengeActions @challenge={{@challenge}}
+                          @answer={{@answer}}
+                          @resumeAssessment={{this.resumeAssessment}}
+                          @isDisabled={{this.isAnswerFieldDisabled}}
+                          @validateAnswer={{this.validateAnswer}}
+                          @skipChallenge={{this.skipChallenge}}
+                          @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+                          @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+                          @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>
+      {{/if}}
+    </form>
+  </div>
 </article>
