@@ -31,6 +31,16 @@ describe('Unit | Domain | Services | solution-service-utils', function() {
     it('Should return t3 ratio applied to t1 and t2', function() {
       expect(service.treatmentT1T2T3('éeE1', ['eee12', 'blabla']).t1t2t3Ratio).to.equal(0.25);
     });
+
+    context('when we do not want apply treatments', function() {
+      it('should return the same answer without treatment', function() {
+        const userAnswer = 'ée E1';
+        const answerTreated = service.treatmentT1T2T3(userAnswer, ['eee12', 'éeE1'], false);
+        expect(answerTreated.t1).to.equal(userAnswer);
+        expect(answerTreated.t1t2).to.equal(userAnswer);
+        expect(answerTreated.t3Ratio).to.equal(1);
+      });
+    });
   });
 
 });
