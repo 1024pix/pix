@@ -1,0 +1,45 @@
+<div class="campaign-header-title">
+  <Ui::PreviousPageButton
+    @route="authenticated.campaigns"
+    @backButtonAriaLabel={{t 'common.actions.back'}}
+    aria-label={{t 'pages.campaign.name'}}
+    class="campaign-header-title__headline"
+  >
+    {{@campaign.name}}
+  </Ui::PreviousPageButton>
+
+  <div class="campaign-header-title__infos">
+    <div class="campaign-header-title__info-item hide-on-mobile">
+      <h4 class="label-text">
+        {{t 'pages.campaign.created-on'}}
+      </h4>
+      <span class="content-text">
+        {{moment-format @campaign.createdAt 'DD/MM/YYYY' allow-empty=true}}
+      </span>
+    </div>
+
+    <div class="campaign-header-title__info-item">
+      <h4 class="label-text">
+        {{t 'pages.campaign.created-by'}}
+      </h4>
+      <span class="content-text">
+        {{@campaign.creatorFullName}}
+      </span>
+    </div>
+
+    <div class="campaign-header-title__info-item">
+      <h4 class="label-text">
+        {{t 'pages.campaign.code'}}
+      </h4>
+      <span class="content-text campaign-header-title__campaign-code">
+        {{@campaign.code}}
+        <Campaign::CopyPasteButton
+          @clipBoardtext={{@campaign.code}}
+          @successMessage={{t 'pages.campaign.copy.code.success'}}
+          @defaultMessage={{t 'pages.campaign.copy.code.default'}}
+          class="hide-on-mobile"
+        />
+      </span>
+    </div>
+  </div>
+</div>
