@@ -15,7 +15,7 @@ module.exports = {
     domainTransaction = DomainTransaction.emptyTransaction(),
     skillRepository,
   }) {
-    const hasAcquiredBadge = await _hasAcquiredBadge(userId, domainTransaction);
+    const hasAcquiredBadge = await _hasAcquiredBadge(userId, certificationCourseId, domainTransaction);
     const cleaSkills = await _getCleaSkills(skillRepository);
     const maxReachablePixByCompetenceForClea = _getMaxReachablePixByCompetenceForClea(cleaSkills);
     const cleaCompetenceMarks = await _getCleaCompetenceMarks({
@@ -65,10 +65,14 @@ function _adaptModelToDB({ certificationCourseId, partnerKey, acquired }) {
   return { certificationCourseId, partnerKey, acquired };
 }
 
-async function _hasAcquiredBadge(userId, domainTransaction) {
+async function _hasAcquiredBadge(userId, certificationCourseId, domainTransaction) {
   const badgeAcquisitionQuery = knex('badge-acquisitions')
     .innerJoin('badges', 'badges.id', 'badgeId')
-    .where({ userId, key: Badge.keys.PIX_EMPLOI_CLEA })
+    .innerJoin('certification-courses', 'certification-courses.userId', 'badge-acquisitions.userId')
+    .where('badge-acquisitions.userId', userId)
+    .where('badges.key', Badge.keys.PIX_EMPLOI_CLEA)
+    .where('certification-courses.id', certificationCourseId)
+    .where('badge-acquisitions.createdAt', '<', knex.ref('certification-courses.createdAt'))
     .first();
   if (domainTransaction.knexTransaction) {
     badgeAcquisitionQuery.transacting(domainTransaction.knexTransaction);
