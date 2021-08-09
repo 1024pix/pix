@@ -1,13 +1,8 @@
 const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const accountRecoveryDemandRepository = require('../../../../lib/infrastructure/repositories/account-recovery-demand-repository');
-const {
-  NotFoundError,
-  AccountRecoveryDemandExpired,
-} = require('../../../../lib/domain/errors');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const AccountRecoveryDemand = require('../../../../lib/domain/models/AccountRecoveryDemand');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-
-const MILLISECONDS_IN_A_MINUTE = 60 * 1000;
 
 describe('Integration | Infrastructure | Repository | account-recovery-demand-repository', () => {
 
@@ -84,61 +79,6 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
           // then
           expect(demand).to.deep.equal(expectedAccountRecoveryDemand);
-        });
-      });
-
-      context('when demand has expired', () => {
-
-        it('should throw when default delay is reached ', async () => {
-          // given
-          const email = 'someMail@example.net';
-          const temporaryKey = 'someTemporaryKey';
-
-          process.env.SCO_ACCOUNT_RECOVERY_TOKEN_LIFETIME_MINUTES = undefined;
-
-          const expirationDelayInDays = 1;
-          const yesterday = new Date();
-          yesterday.setDate(yesterday.getDate() - expirationDelayInDays);
-          const createdYesterday = new Date(yesterday.getTime());
-
-          databaseBuilder.factory.buildAccountRecoveryDemand({
-            email,
-            temporaryKey,
-            used: false,
-            createdAt: createdYesterday,
-          }).id;
-          databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
-          await databaseBuilder.commit();
-
-          // when
-          const error = await catchErr(accountRecoveryDemandRepository.findByTemporaryKey)(temporaryKey);
-
-          // then
-          expect(error).to.be.instanceOf(AccountRecoveryDemandExpired);
-        });
-
-        it('should throw when custom delay is reached', async () => {
-          // given
-          const email = 'someMail@example.net';
-          const temporaryKey = 'someTemporaryKey';
-          const createdTenMinutesAgo = new Date(new Date().getTime() - 10 * MILLISECONDS_IN_A_MINUTE);
-
-          databaseBuilder.factory.buildAccountRecoveryDemand({
-            email,
-            temporaryKey,
-            used: false,
-            createdAt: createdTenMinutesAgo,
-          }).id;
-          databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
-          await databaseBuilder.commit();
-
-          process.env.SCO_ACCOUNT_RECOVERY_TOKEN_LIFETIME_MINUTES = 2;
-
-          // when
-          const error = await catchErr(accountRecoveryDemandRepository.findByTemporaryKey)(temporaryKey);
-
-          // then
-          expect(error).to.be.instanceOf(AccountRecoveryDemandExpired);
         });
 
       });

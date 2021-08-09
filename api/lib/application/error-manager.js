@@ -274,7 +274,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.AlreadyRegisteredEmailError) {
-    return new HttpErrors.BadRequestError(error.message);
+    return new HttpErrors.BadRequestError(error.message, error.code);
   }
   if (error instanceof DomainErrors.AlreadyRegisteredUsernameError) {
     return new HttpErrors.BadRequestError(error.message);

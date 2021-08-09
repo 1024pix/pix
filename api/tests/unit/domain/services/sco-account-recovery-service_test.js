@@ -4,14 +4,16 @@ const {
   domainBuilder,
   catchErr,
 } = require('../../../test-helper');
-const { retrieveSchoolingRegistration } = require('../../../../lib/domain/services/check-sco-account-recovery-service');
+const { retrieveSchoolingRegistration, retrieveAndValidateAccountRecoveryDemand } = require('../../../../lib/domain/services/sco-account-recovery-service');
 const {
+  AccountRecoveryDemandExpired,
+  AlreadyRegisteredEmailError,
   MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
   UserNotFoundError,
   UserHasAlreadyLeftSCO,
 } = require('../../../../lib/domain/errors');
 
-describe('Unit | Service | check-sco-account-recovery-service', () => {
+describe('Unit | Service | sco-account-recovery-service', () => {
 
   describe('#retrieveSchoolingRegistration', () => {
 
@@ -445,6 +447,99 @@ describe('Unit | Service | check-sco-account-recovery-service', () => {
         expect(error.message).to.be.equal('User has already left SCO.');
 
       });
+    });
+
+  });
+
+  describe('#retrieveAndValidateAccountRecoveryDemand', () => {
+
+    let userRepository;
+    let accountRecoveryDemandRepository;
+
+    beforeEach(() => {
+      userRepository = {
+        isEmailAvailable: sinon.stub(),
+      };
+      accountRecoveryDemandRepository = {
+        findByUserId: sinon.stub(),
+        findByTemporaryKey: sinon.stub(),
+      };
+    });
+
+    it('should return account recovery detail', async () => {
+      // given
+      const createdAt = new Date();
+      const newEmail = 'philippe@example.net';
+      const userId = '1234';
+      const schoolingRegistrationId = '12';
+      const accountRecoveryId = '34';
+      const expectedResult = {
+        id: accountRecoveryId,
+        userId,
+        newEmail,
+        schoolingRegistrationId,
+      };
+
+      accountRecoveryDemandRepository.findByTemporaryKey.resolves({ ...expectedResult, createdAt });
+      userRepository.isEmailAvailable.withArgs(newEmail).resolves();
+      accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
+
+      // when
+      const result = await retrieveAndValidateAccountRecoveryDemand({ userRepository, accountRecoveryDemandRepository });
+
+      // then
+      expect(result).to.be.deep.equal(expectedResult);
+    });
+
+    it('should throw error AlreadyRegisteredEmailError when it is not available', async () => {
+      // given
+      const newEmail = 'philippe@example.net';
+
+      accountRecoveryDemandRepository.findByTemporaryKey.resolves({ newEmail });
+      userRepository.isEmailAvailable.withArgs(newEmail).rejects(new AlreadyRegisteredEmailError());
+
+      // when
+      const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({ userRepository, accountRecoveryDemandRepository });
+
+      // then
+      expect(error).to.be.instanceOf(AlreadyRegisteredEmailError);
+      expect(error.message).to.be.equal('Cette adresse e-mail est déjà utilisée.');
+      expect(error.code).to.be.equal('ACCOUNT_WITH_EMAIL_ALREADY_EXISTS');
+    });
+
+    it('should throw error UserHasAlreadyLeftSCO when user already left SCO', async () => {
+      // given
+      const userId = '1234';
+
+      accountRecoveryDemandRepository.findByTemporaryKey.resolves({ userId });
+      userRepository.isEmailAvailable.resolves();
+      accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: true }]);
+
+      // when
+      const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({ userRepository, accountRecoveryDemandRepository });
+
+      // then
+      expect(error).to.be.instanceOf(UserHasAlreadyLeftSCO);
+      expect(error.message).to.be.equal('User has already left SCO.');
+    });
+
+    it('should throw error AccountRecoveryDemandExpired when demand has expired', async () => {
+      // given
+      const userId = '1234';
+      const createdAt = new Date();
+      const createdTenDaysAgo = 10;
+      createdAt.setDate(createdAt.getDate() - createdTenDaysAgo);
+
+      accountRecoveryDemandRepository.findByTemporaryKey.resolves({ userId, createdAt });
+      userRepository.isEmailAvailable.resolves();
+      accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
+
+      // when
+      const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({ userRepository, accountRecoveryDemandRepository });
+
+      // then
+      expect(error).to.be.instanceOf(AccountRecoveryDemandExpired);
+      expect(error.message).to.be.equal('This account recovery demand has expired.');
     });
 
   });
