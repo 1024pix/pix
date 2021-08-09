@@ -65,6 +65,17 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
     validateEntity(schema, this);
   }
 
+  static buildNotEligible({ certificationCourseId }) {
+    return new CleaCertificationScoring({
+      certificationCourseId,
+      hasAcquiredBadge: false,
+      isBadgeAcquisitionStillValid: false,
+      cleaCompetenceMarks: [],
+      maxReachablePixByCompetenceForClea: {},
+      reproducibilityRate: 0,
+    });
+  }
+
   isEligible() {
     return this.hasAcquiredBadge && this.isBadgeAcquisitionStillValid;
   }
