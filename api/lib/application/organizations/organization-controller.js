@@ -89,7 +89,7 @@ module.exports = {
     const organizationId = request.params.id;
     const { division } = request.query;
 
-    const attestations = await usecases.getMultipleCertificationAttestationsByDivision({
+    const attestations = await usecases.findCertificationAttestationsForDivision({
       organizationId,
       division,
     });

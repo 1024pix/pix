@@ -1,6 +1,6 @@
 const { NoCertificationAttestationForDivisionError } = require('../../errors');
 
-module.exports = async function getMultipleCertificationAttestationsByDivision({
+module.exports = async function findCertificationAttestationsForDivision({
   organizationId,
   division,
   certificationAttestationRepository,

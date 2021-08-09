@@ -828,19 +828,19 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getMultipleCertificationAttestationsByDivision');
+      sinon.stub(usecases, 'findCertificationAttestationsForDivision');
     });
 
     it('should return binary attestations', async () => {
       // given
       sinon.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer').resolves({ buffer: attestationsPDF, fileName });
-      usecases.getMultipleCertificationAttestationsByDivision.resolves(certifications);
+      usecases.findCertificationAttestationsForDivision.resolves(certifications);
 
       // when
       const response = await organizationController.downloadCertificationAttestationsForDivision(request, hFake);
 
       // then
-      expect(usecases.getMultipleCertificationAttestationsByDivision).to.have.been.calledWith({
+      expect(usecases.findCertificationAttestationsForDivision).to.have.been.calledWith({
         division,
         organizationId,
       });

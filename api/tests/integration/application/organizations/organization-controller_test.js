@@ -24,7 +24,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(usecases, 'attachTargetProfilesToOrganization');
-    sandbox.stub(usecases, 'getMultipleCertificationAttestationsByDivision');
+    sandbox.stub(usecases, 'findCertificationAttestationsForDivision');
 
     sandbox.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer');
 
@@ -301,7 +301,7 @@ describe('Integration | Application | Organizations | organization-controller', 
         ];
         const buffer = 'buffer';
         securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents.returns(true);
-        usecases.getMultipleCertificationAttestationsByDivision.resolves(certifications);
+        usecases.findCertificationAttestationsForDivision.resolves(certifications);
         certificationAttestationPdf.getCertificationAttestationsPdfBuffer.resolves(buffer);
 
         // when
