@@ -2,12 +2,12 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/campaigns/campaign/profiles', function(hooks) {
+module('Unit | Controller | authenticated/campaigns/campaign/profile-results', function(hooks) {
   setupTest(hooks);
   let controller;
 
   hooks.beforeEach(function() {
-    controller = this.owner.lookup('controller:authenticated/campaigns/campaign/profiles');
+    controller = this.owner.lookup('controller:authenticated/campaigns/campaign/profile-results');
   });
 
   module('triggerFiltering', function() {

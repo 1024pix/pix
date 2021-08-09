@@ -1,9 +1,0 @@
-{{page-title (t 'pages.profiles-list.title')}}
-<Routes::Authenticated::Campaign::Profile::List
-  @campaign={{@model.campaign}}
-  @profiles={{@model.profiles}}
-  @goToProfilePage={{this.goToProfilePage}}
-  @selectedDivisions={{this.divisions}}
-  @onFilter={{this.triggerFiltering}}
-  @onReset={{this.resetFiltering}}
-/>
