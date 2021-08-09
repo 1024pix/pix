@@ -358,6 +358,35 @@ exports.register = async (server) => {
     },
     {
       method: 'POST',
+      path: '/api/organizations/{id}/schooling-registrations/replace-csv',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
+          assign: 'isAdminInOrganizationManagingStudents',
+        }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        payload: {
+          maxBytes: 1048576 * 10, // 10MB
+          parse: 'gunzip',
+          failAction: (request, h) => {
+            return sendJsonApiError(new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, { maxSize: '10' }), h);
+          },
+        },
+        handler: organizationController.replaceHigherSchoolingRegistrations,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
+          '- Elle désactive les inscriptions existantes et importe de nouvelles inscriptions d\'étudiants, en masse, depuis un fichier au format csv\n' +
+          '- Elle ne retourne aucune valeur de retour',
+        ],
+        tags: ['api', 'schooling-registrations'],
+      },
+    },
+    {
+      method: 'POST',
       path: '/api/organizations/{id}/invitations',
       config: {
         pre: [{
