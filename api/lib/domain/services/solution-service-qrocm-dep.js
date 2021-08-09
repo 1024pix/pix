@@ -30,6 +30,9 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
       else if (deactivationsService.hasOnlyT1T3(deactivations)) {
         return t2(pretreatedSolution);
       }
+      else if (deactivationsService.hasOnlyT2T3(deactivations)) {
+        return t1(pretreatedSolution);
+      }
       else if (deactivationsService.hasT1T2T3(deactivations)) {
         return pretreatedSolution;
       }
@@ -41,7 +44,7 @@ function _applyTreatmentsToAnswers(answers) {
   return _.mapValues(answers, _.toString);
 }
 
-function _compareAnswersAndSolutions(answers, solutions) {
+function _compareAnswersAndSolutions(answers, solutions, qrocBlocksTypes) {
 
   const validations = {};
 
@@ -49,7 +52,7 @@ function _compareAnswersAndSolutions(answers, solutions) {
 
     const indexation = answer + '_' + index;
     const solutionKeys = Object.keys(solutions);
-
+    const applyTreatments = qrocBlocksTypes[index] === 'select' ? false : true;
     _.each(solutionKeys, (solutionKey) => {
 
       const solutionVariants = solutions[solutionKey];
@@ -58,7 +61,7 @@ function _compareAnswersAndSolutions(answers, solutions) {
         validations[indexation] = [];
       }
 
-      validations[indexation].push(utils.treatmentT1T2T3(answer, solutionVariants));
+      validations[indexation].push(utils.treatmentT1T2T3(answer, solutionVariants, applyTreatments));
 
     });
   });
@@ -135,6 +138,7 @@ module.exports = {
     const yamlSolution = solution.value;
     const yamlScoring = solution.scoring;
     const deactivations = solution.deactivations;
+    const qrocBlocksTypes = solution.qrocBlocksTypes || {};
 
     // Input checking
     if (!_.isString(answerValue)
@@ -161,7 +165,7 @@ module.exports = {
     const treatedAnswers = _applyTreatmentsToAnswers(answers);
 
     // Comparisons
-    const fullValidations = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions);
+    const fullValidations = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions, qrocBlocksTypes);
 
     return _formatResult(scoring, fullValidations, deactivations);
   },
