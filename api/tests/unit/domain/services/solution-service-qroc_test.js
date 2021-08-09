@@ -32,8 +32,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case: '(multiple solutions) answer is not the first possible solution', answer: '23', solution: '21\n22\n23\n', expectedAnswerStatus: ANSWER_OK },
     ].forEach((data) => {
       it(`should return ${data.expectedAnswerStatus} when answer is ${data.answer} and solution is ${data.solution}`, function() {
-        const result = service.match({ answer: data.answer, challengeFormat, solution: data.solution });
-        expect(result).to.deep.equal(data.expectedAnswerStatus);
+        const solution = { value: data.solution, deactivations: data.deactivations };
+        expect(service.match({ answer: data.answer, solution, challengeFormat })).to.deep.equal(data.expectedAnswerStatus);
       });
     });
   });
@@ -60,8 +60,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     successfulCases.forEach(function(data) {
       it(data.case + ', should return "ok" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        const result = service.match({ answer: data.answer, solution: data.solution });
-        expect(result).to.deep.equal(ANSWER_OK);
+        const solution = { value: data.solution, deactivations: data.deactivations };
+        expect(service.match({ answer: data.answer, solution })).to.deep.equal(ANSWER_OK);
       });
     });
 
@@ -80,7 +80,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     failingCases.forEach(function(data) {
       it(data.case + ', should return "ko" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match({ answer: data.answer, solution: data.solution })).to.deep.equal(ANSWER_KO);
+        const solution = { value: data.solution, deactivations: data.deactivations };
+        expect(service.match({ answer: data.answer, solution })).to.deep.equal(ANSWER_KO);
       });
     });
 
@@ -107,7 +108,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
+        const solution = { value: data.solution, deactivations: data.deactivations };
+        expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
       });
     });
   });
@@ -133,7 +135,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
+        const solution = { value: data.solution, deactivations: data.deactivations };
+        expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
       });
     });
   });
@@ -159,7 +162,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
+        const solution = { value: data.solution, deactivations: data.deactivations };
+        expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
       });
     });
   });
@@ -185,7 +189,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
+        const solution = { value: data.solution, deactivations: data.deactivations };
+        expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
       });
     });
   });
@@ -211,7 +216,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
+        const solution = { value: data.solution, deactivations: data.deactivations };
+        expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
       });
     });
   });
@@ -237,7 +243,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
+        const solution = { value: data.solution, deactivations: data.deactivations };
+        expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
       });
     });
   });
@@ -263,7 +270,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
+        const solution = { value: data.solution, deactivations: data.deactivations };
+        expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
       });
     });
   });
@@ -289,7 +297,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
+        const solution = { value: data.solution, deactivations: data.deactivations };
+        expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
       });
     });
   });
