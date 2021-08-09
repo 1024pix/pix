@@ -76,6 +76,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(0);
     });
   });
+
   context('#numberOfCorrectAnswers', () => {
 
     it('equals 0 when no answers', () => {
@@ -188,6 +189,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallengesAnswered).to.equal(1);
     });
   });
+
   context('#numberOfChallengesForCompetence', () => {
     it('equals 0 when no challenges asked for given competence', () => {
       // given
@@ -315,6 +317,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(2);
     });
   });
+
   context('#numberOfCorrectAnswersForCompetence', () => {
 
     it('equals 0 when no answers for given competence', () => {
@@ -495,6 +498,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallengesAnswered).to.equal(1);
     });
   });
+
   context('#numberOfNeutralizedChallengesForCompetence', () => {
 
     it('equals 0 when there are no answers for given competence', () => {
