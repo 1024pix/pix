@@ -218,7 +218,7 @@ exports.register = async (server) => {
             division: Joi.string().required(),
           }),
         },
-        handler: organizationController.getMultiplePDFAttestations,
+        handler: organizationController.downloadCertificationAttestationsForDivision,
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',

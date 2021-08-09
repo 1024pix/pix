@@ -809,7 +809,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#getMultiplePDFAttestations', () => {
+  describe('#downloadCertificationAttestationsForDivision', () => {
 
     const certifications = [
       domainBuilder.buildPrivateCertificateWithCompetenceTree(),
@@ -837,7 +837,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       usecases.getMultipleCertificationAttestationsByDivision.resolves(certifications);
 
       // when
-      const response = await organizationController.getMultiplePDFAttestations(request, hFake);
+      const response = await organizationController.downloadCertificationAttestationsForDivision(request, hFake);
 
       // then
       expect(usecases.getMultipleCertificationAttestationsByDivision).to.have.been.calledWith({
