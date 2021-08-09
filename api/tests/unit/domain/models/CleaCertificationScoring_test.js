@@ -55,6 +55,17 @@ describe('Unit | Domain | Models | CleaCertificationScoring', () => {
     });
   });
 
+  context('#static buildNotEligible', () => {
+
+    it('should build a not eligible CleaCertificationScoring', async () => {
+      // when
+      const notEligibleCleaCertificationScoring = CleaCertificationScoring.buildNotEligible({ certificationCourseId: 123 });
+
+      // then
+      expect(notEligibleCleaCertificationScoring.isEligible()).to.be.false;
+    });
+  });
+
   context('#isEligible', () => {
 
     it('when user has badge it is eligible', async () => {
