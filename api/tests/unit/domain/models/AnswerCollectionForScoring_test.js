@@ -77,6 +77,79 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
     });
   });
 
+  context('#numberOfNeutralizedChallenges', () => {
+
+    it('equals 0 when no challenges asked', () => {
+      // given
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [],
+        challenges: [],
+      });
+
+      // when
+      const numberOfChallenges = answerCollection.numberOfNeutralizedChallenges();
+
+      // then
+      expect(numberOfChallenges).to.equal(0);
+    });
+
+    it('counts the number of neutralized challenges', () => {
+      // given
+      const challenge1 = _buildDecoratedCertificationChallenge({ isNeutralized: false, challengeId: 'chal1', type: 'QCM' });
+      const challenge2 = _buildDecoratedCertificationChallenge({ isNeutralized: true, challengeId: 'chal2', type: 'QCM' });
+      const challenge3 = _buildDecoratedCertificationChallenge({ isNeutralized: true, challengeId: 'chal3', type: 'QCM' });
+      const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId });
+      const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.challengeId });
+      const answer3 = domainBuilder.buildAnswer({ challengeId: challenge3.challengeId });
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [answer1, answer2, answer3],
+        challenges: [challenge1, challenge2, challenge3],
+      });
+
+      // when
+      const numberOfChallenges = answerCollection.numberOfNeutralizedChallenges();
+
+      // then
+      expect(numberOfChallenges).to.equal(2);
+    });
+
+    it('counts QROCMDeps as single challenges', () => {
+      // given
+      const challenge1 = _buildDecoratedCertificationChallenge({ isNeutralized: true, challengeId: 'chal1', type: 'QCM' });
+      const qROCMDepChallenge2 = _buildDecoratedCertificationChallenge({ isNeutralized: true, challengeId: 'chal2', type: 'QROCM-dep' });
+      const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId });
+      const qROCMDepAnswer2 = domainBuilder.buildAnswer({ challengeId: qROCMDepChallenge2.challengeId });
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [answer1, qROCMDepAnswer2 ],
+        challenges: [challenge1, qROCMDepChallenge2 ],
+      });
+
+      // when
+      const numberOfChallenges = answerCollection.numberOfNeutralizedChallenges();
+
+      // then
+      expect(numberOfChallenges).to.equal(2);
+    });
+
+    it('counts only answered challenges and ignore unanswered ones', () => {
+      // given
+      const challenge1 = _buildDecoratedCertificationChallenge({ isNeutralized: true, challengeId: 'chal1', type: 'QCM' });
+      const challenge2 = _buildDecoratedCertificationChallenge({ isNeutralized: true, challengeId: 'chal2', type: 'QCM' });
+      const challenge3 = _buildDecoratedCertificationChallenge({ isNeutralized: true, challengeId: 'chal3', type: 'QCM' });
+      const noAnswers = [];
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: noAnswers,
+        challenges: [challenge1, challenge2, challenge3],
+      });
+
+      // when
+      const numberOfChallenges = answerCollection.numberOfNeutralizedChallenges();
+
+      // then
+      expect(numberOfChallenges).to.equal(0);
+    });
+  });
+
   context('#numberOfCorrectAnswers', () => {
 
     it('equals 0 when no answers', () => {

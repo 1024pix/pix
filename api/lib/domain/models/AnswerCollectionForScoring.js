@@ -38,6 +38,10 @@ module.exports = class AnswerCollectionForScoring {
     return numberOfNonNeutralizedChallenges;
   }
 
+  numberOfNeutralizedChallenges() {
+    return this.answers.reduce((count, answer) => count + (answer.isNeutralized() ? 1 : 0), 0);
+  }
+
   numberOfChallengesForCompetence(competenceId) {
     const challengesForCompetence = this.challenges.filter((challenge) => challenge.competenceId() === competenceId);
     const numberOfChallenges = _(challengesForCompetence).map((challenge) => {
