@@ -3,19 +3,21 @@
   <header class="import-students-page__header">
     <img src="{{this.rootURL}}/images/import-participant.svg" alt="" role="none">
     <h1 class="page-title import-students-page-header__title">{{t 'pages.students-sup-import.title'}}</h1>
-    <p class="import-students-page-header__details">{{t 'pages.students-sup-import.supported-formats'}}</p>
+    <p class="import-students-page-header__details">
+      {{t 'pages.students-sup-import.description'}}
+    </p>
+    <p class="import-students-page-header__details import-students-page-header__details--small">
+      {{t 'pages.students-sup-import.supported-formats'}}
+    </p>
   </header>
 
   {{#if @isLoading}}
     <Ui::PixLoader />
   {{else}}
-    <section class="import-students-page__section">
-      <h2 class="import-students-page-section__title">{{t 'pages.students-sup-import.actions.add.title'}}</h2>
-      <p class="import-students-page-section__details">{{t 'pages.students-sup-import.actions.add.details'}}</p>
-      <FileUpload class="import-students-page-section__action" @name="file-upload" @for="students-file-upload" @accept=".csv" @multiple={{false}} @onfileadd={{@onImportStudents}}>
-        <span class="button button--thin" role="button" tabindex="0">{{t 'pages.students-sup-import.actions.add.label'}}</span>
-      </FileUpload>
-    </section>
+    <div class="import-type-list">
+      <Student::Sup::ImportCards::Add @onAddStudents={{@onImportStudents}} />
+      <Student::Sup::ImportCards::Replace @onReplaceStudents={{@onReplaceStudents}} />
+    </div>
   {{/if}}
 
 </article>
