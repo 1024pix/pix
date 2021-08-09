@@ -675,6 +675,8 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       beforeEach(function() {
         const userId = databaseBuilder.factory.buildUser().id;
         poleEmploiAuthenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+          id: 123,
+          externalIdentifier: 'identifier',
           accessToken: 'to_be_updated',
           refreshToken: 'to_be_updated',
           expiredDate: Date.now(),
@@ -683,26 +685,55 @@ describe('Integration | Repository | AuthenticationMethod', function() {
         return databaseBuilder.commit();
       });
 
-      it('should update authentication complement by userId and identity provider', async function() {
+      it('should update the pole emploi authentication complement in database', async function() {
         // given
         const userId = poleEmploiAuthenticationMethod.userId;
+        const expiredDate = Date.now();
         const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
           accessToken: 'new_access_token',
           refreshToken: 'new_refresh_token',
-          expiredDate: Date.now(),
+          expiredDate,
+        });
+
+        // when
+        await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId });
+
+        // then
+        const [ updatedAuthenticationComplement ] = await knex('authentication-methods').pluck('authenticationComplement').where({ id: 123 });
+        expect(updatedAuthenticationComplement.accessToken).to.equal('new_access_token');
+        expect(updatedAuthenticationComplement.refreshToken).to.equal('new_refresh_token');
+        expect(updatedAuthenticationComplement.expiredDate).to.deep.equal(expiredDate);
+      });
+
+      it('should return the updated AuthenticationMethod', async function() {
+        // given
+        const userId = poleEmploiAuthenticationMethod.userId;
+        const expiredDate = Date.now();
+        const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+          accessToken: 'new_access_token',
+          refreshToken: 'new_refresh_token',
+          expiredDate,
         });
 
         // when
         const updatedAuthenticationMethod = await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId });
 
         // then
-        expect(updatedAuthenticationMethod.authenticationComplement).to.deep.equal(authenticationComplement);
+        const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+          id: 123,
+          externalIdentifier: 'identifier',
+          accessToken: 'new_access_token',
+          refreshToken: 'new_refresh_token',
+          expiredDate,
+          userId,
+        });
+        expect(_.omit(updatedAuthenticationMethod, ['updatedAt'])).to.deep.equal(_.omit(expectedAuthenticationMethod, ['updatedAt']));
       });
     });
 
     context('When authentication method does not exist', function() {
 
-      it('should throw a not found error', async function() {
+      it('should throw a AuthenticationMethodNotFoundError', async function() {
         // given
         const userId = 12345;
         const authenticationComplement = {};
