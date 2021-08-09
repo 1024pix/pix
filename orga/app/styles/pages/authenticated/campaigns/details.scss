@@ -71,16 +71,18 @@
   font-weight: 600;
   background: $blue-zodiac;
   display: flex;
-  padding: 13px 13px 13px 32px;
+  padding: 8px 8px 8px 24px;
+  margin-bottom: 24px;
   border-radius: 6px;
   color: $white;
   flex-flow: row nowrap;
   align-items: center;
 
   &__icon {
-    margin-right: 30px;
+    margin-right: 24px;
     font-size: 1.6rem;
   }
+
   &__unarchive-button {
     background: $blue-zodiac;
     border: 2px solid $white;
