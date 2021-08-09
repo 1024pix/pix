@@ -1,8 +1,8 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getMultipleCertificationAttestationsByDivision = require('../../../../lib/domain/usecases/certificate/get-multiple-certification-attestations-by-division');
+const findCertificationAttestationsForDivision = require('../../../../lib/domain/usecases/certificate/find-certification-attestations-for-division');
 const { NoCertificationAttestationForDivisionError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-multiple-certification-attestations-by-division', async () => {
+describe('Unit | UseCase | find-certification-attestations-for-division', async () => {
 
   const certificationAttestationRepository = {
     findByDivisionForScoIsManagingStudentsOrganization: () => undefined,
@@ -42,7 +42,7 @@ describe('Unit | UseCase | get-multiple-certification-attestations-by-division',
     certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization.withArgs({ organizationId: 1234, division: '3b' }).resolves([certificationAttestation1, certificationAttestation2]);
 
     // when
-    const actualCertificationAttestations = await getMultipleCertificationAttestationsByDivision({ organizationId: 1234, division: '3b', ...dependencies });
+    const actualCertificationAttestations = await findCertificationAttestationsForDivision({ organizationId: 1234, division: '3b', ...dependencies });
 
     // then
     const expectedCertificationAttestations = [
@@ -69,7 +69,7 @@ describe('Unit | UseCase | get-multiple-certification-attestations-by-division',
       certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization.withArgs({ organizationId: 1234, division: '3b' }).resolves([]);
 
       // when
-      const error = await catchErr(getMultipleCertificationAttestationsByDivision)({ organizationId: 1234, division: '3b', ...dependencies });
+      const error = await catchErr(findCertificationAttestationsForDivision)({ organizationId: 1234, division: '3b', ...dependencies });
 
       // then
       expect(error).to.be.an.instanceOf(NoCertificationAttestationForDivisionError);
