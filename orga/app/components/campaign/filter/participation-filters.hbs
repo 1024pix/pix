@@ -1,7 +1,7 @@
 {{#if this.displayFilters }}
   <PixFilterBanner
     @title={{t 'pages.campaign-results.filters.title'}}
-    class="participant-filter-banner"
+    class="participant-filter-banner hide-on-mobile"
     aria-label={{t 'pages.campaign-results.filters.aria-label'}}
     @details={{t 'pages.campaign-results.filters.participations-count' count=@rowCount}}
     @clearFiltersLabel={{t 'pages.campaign-results.filters.actions.clear'}}

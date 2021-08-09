@@ -16,7 +16,6 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  height: 100%;
   background: $pix-orga-old-gradient;
 
   &--padding-left {
@@ -38,6 +37,7 @@
 
 .logo {
   padding-top: 20px;
+  padding-bottom: 30px;
 
   &__image {
     height: 60px;
@@ -73,5 +73,23 @@
 
   &__organization-credit-info {
     padding: 0 30px;
+  }
+}
+
+
+@include device-is('mobile') {
+  .app {
+    flex-direction: column;
+  
+    &__sidebar {
+      width: 100%;
+    }
+  }
+
+  .topbar {
+    &__user-logged-menu {
+      padding: 0 16px;
+      border-left-width: 0px;
+    }
   }
 }

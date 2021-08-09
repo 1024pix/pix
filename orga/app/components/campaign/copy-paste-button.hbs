@@ -1,16 +1,18 @@
 {{#if (is-clipboard-supported)}}
-    <PixTooltip
-        @text={{this.tooltipText}}
-        @position='top'
-        @isInline={{true}}
-        class="campaign-details-content__tooltip">
-        <CopyButton
-            aria-label={{t @defaultMessage}}
-            @clipboardText={{@clipBoardtext}}
-            @success={{this.onClipboardSuccess}}
-            {{on 'mouseLeave' this.onClipboardOut}}
-            @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey campaign-details-content__clipboard-button">
-            <FaIcon @icon='copy' @prefix='far'/>
-        </CopyButton>
-    </PixTooltip>
+  <PixTooltip
+    @text={{this.tooltipText}}
+    @position='top'
+    @isInline={{true}}
+    class="campaign-details-content__tooltip hide-on-mobile">
+    <CopyButton
+      aria-label={{t @defaultMessage}}
+      @clipboardText={{@clipBoardtext}}
+      @success={{this.onClipboardSuccess}}
+      {{on 'mouseLeave' this.onClipboardOut}}
+      class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey campaign-details-content__clipboard-button"
+      ...attributes
+    >
+      <FaIcon @icon='copy' @prefix='far'/>
+    </CopyButton>
+  </PixTooltip>
 {{/if}}
