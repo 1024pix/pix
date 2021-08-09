@@ -7,21 +7,13 @@ describe('Unit | UseCase | get-certification-attestation', async () => {
   const certificationAttestationRepository = {
     get: () => undefined,
   };
-  const resultCompetenceTreeService = {
-    computeForCertification: () => undefined,
-  };
-  const assessmentResultRepository = 'assessmentResultRepository';
-  const competenceTreeRepository = 'assessmentResultRepository';
+
   const dependencies = {
     certificationAttestationRepository,
-    resultCompetenceTreeService,
-    assessmentResultRepository,
-    competenceTreeRepository,
   };
 
   beforeEach(() => {
     certificationAttestationRepository.get = sinon.stub();
-    resultCompetenceTreeService.computeForCertification = sinon.stub();
   });
 
   context('when the user is not owner of the certification attestation', async () => {
@@ -33,7 +25,6 @@ describe('Unit | UseCase | get-certification-attestation', async () => {
         userId: 456,
       });
       certificationAttestationRepository.get.withArgs(123).resolves(certificationAttestation);
-      resultCompetenceTreeService.computeForCertification.throws(new Error('I should not be called'));
 
       // when
       const error = await catchErr(get)({ certificationId: 123, userId: 789, ...dependencies });
@@ -47,19 +38,13 @@ describe('Unit | UseCase | get-certification-attestation', async () => {
 
     it('should return the certification attestation enhanced with result competence tree', async () => {
       // given
+      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({ id: 'myResultTreeId' });
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
         id: 123,
         userId: 456,
+        resultCompetenceTree,
       });
-      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({ id: 'myResultTreeId' });
       certificationAttestationRepository.get.withArgs(123).resolves(certificationAttestation);
-      resultCompetenceTreeService.computeForCertification
-        .withArgs({
-          certificationId: 123,
-          assessmentResultRepository,
-          competenceTreeRepository,
-        })
-        .resolves(resultCompetenceTree);
 
       // when
       const actualCertificationAttestation = await get({ certificationId: 123, userId: 456, ...dependencies });

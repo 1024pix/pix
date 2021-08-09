@@ -3,8 +3,10 @@ const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const usecases = require('../../../../lib/domain/usecases');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
+const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
 
 const moduleUnderTest = require('../../../../lib/application/organizations');
+const { NoCertificationAttestationForDivisionError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Application | Organizations | organization-controller', () => {
 
@@ -22,12 +24,16 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(usecases, 'attachTargetProfilesToOrganization');
+    sandbox.stub(usecases, 'findCertificationAttestationsForDivision');
+
+    sandbox.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer');
 
     sandbox.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
+    sandbox.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationOrHasRolePixMaster');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
@@ -278,6 +284,79 @@ describe('Integration | Application | Organizations | organization-controller', 
           // then
           expect(response.statusCode).to.equal(404);
           expect(response.payload).to.have.string('L\'id d\'un des profils cible n\'est pas valide');
+        });
+      });
+    });
+  });
+
+  describe('#downloadCertificationAttestationsForDivision', () => {
+
+    context('Success cases', () => {
+
+      it('should return an HTTP response with status code 200', async () => {
+        // given
+        const certifications = [
+          domainBuilder.buildPrivateCertificateWithCompetenceTree(),
+          domainBuilder.buildPrivateCertificateWithCompetenceTree(),
+        ];
+        const buffer = 'buffer';
+        securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents.returns(true);
+        usecases.findCertificationAttestationsForDivision.resolves(certifications);
+        certificationAttestationPdf.getCertificationAttestationsPdfBuffer.resolves(buffer);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/organizations/1234/certification-attestations?division=3b');
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+    context('Error cases', () => {
+
+      context('when user is not allowed to access resource', () => {
+
+        beforeEach(() => {
+          securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents.callsFake((request, h) => {
+            return Promise.resolve(h.response().code(403).takeover());
+          });
+        });
+
+        it('should resolve a 403 HTTP response', async () => {
+          // when
+          const response = await httpTestServer.request('GET', '/api/organizations/1234/certification-attestations?division=3b');
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+
+      context('when no division is provided as query', () => {
+
+        it('should resolve a 400 HTTP response', async () => {
+          // when
+          const response = await httpTestServer.request('GET', '/api/organizations/1234/certification-attestations');
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+      });
+
+      context('when no attestation are found', () => {
+
+        it('should resolve a 400 HTTP response', async () => {
+          // given
+          const division = '3b';
+          securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents.returns(true);
+          usecases.findCertificationAttestationsForDivision.rejects(new NoCertificationAttestationForDivisionError(division));
+
+          // when
+          const response = await httpTestServer.request('GET', '/api/organizations/1234/certification-attestations?division=3b');
+
+          // then
+          const parsedPayload = JSON.parse(response.payload);
+          expect(response.statusCode).to.equal(400);
+          expect(parsedPayload.errors[0].detail).to.equal(`Aucune attestation de certification pour la classe ${division}.`);
         });
       });
     });
