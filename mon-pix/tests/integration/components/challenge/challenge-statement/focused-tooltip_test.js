@@ -119,7 +119,7 @@ describe('Integration | Component | FocusedTooltip', function() {
 
           // when
           await renderFocusedTooltip(this);
-          await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseenter');
+          await triggerEvent('.challenge-statement-tag__icon-button', 'mouseenter');
 
           // then
           expect(find(tooltip)).to.exist;
@@ -145,8 +145,8 @@ describe('Integration | Component | FocusedTooltip', function() {
 
           // when
           await renderFocusedTooltip(this);
-          await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseenter');
-          await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseleave');
+          await triggerEvent('.challenge-statement-tag__icon-button', 'mouseenter');
+          await triggerEvent('.challenge-statement-tag__icon-button', 'mouseleave');
 
           // then
           expect(find(tooltip)).to.not.exist;
@@ -176,12 +176,12 @@ describe('Integration | Component | FocusedTooltip', function() {
 
         it('should hide the tooltip button when escaping', async function() {
           // given
-          await triggerEvent('.challenge-statement-instruction__tag--focused', 'mouseenter');
+          await triggerEvent('.challenge-statement-tag__icon-button', 'mouseenter');
           expect(find(tooltip)).to.exist;
 
           // when
           const escapeKeyCode = 27;
-          await triggerKeyEvent('.challenge-statement-instruction__tag--focused', 'keyup', escapeKeyCode);
+          await triggerKeyEvent('.challenge-statement-tag__icon-button', 'keyup', escapeKeyCode);
 
           // then
           expect(find(tooltip)).to.not.exist;
@@ -210,7 +210,7 @@ describe('Integration | Component | FocusedTooltip', function() {
 
         // when
         await renderFocusedTooltip(this);
-        await click('.challenge-statement-instruction__tag--focused');
+        await click('.challenge-statement-tag__icon-button');
 
         // then
         expect(find(tooltip)).to.exist;
