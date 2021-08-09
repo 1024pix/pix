@@ -500,7 +500,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.assessment-challenge__focused-overlay')).to.exist;
-        expect(find('#challenge-statement-tag--tooltip')).to.exist;
+        expect(find('.challenge-statement__tag-information')).to.exist;
       });
 
       it('should disable input and buttons', async () => {
