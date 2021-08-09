@@ -79,6 +79,7 @@
     "yargs": "^17.2.1"
   },
   "devDependencies": {
+    "@kristiandupont/recase": "^1.1.1",
     "@ls-lint/ls-lint": "^1.10.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
@@ -98,6 +99,8 @@
     "nodemon": "^2.0.14",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.4.1",
+    "pg-connection-string": "^2.5.0",
+    "schemalint": "^0.5.5",
     "sinon": "^11.1.2",
     "sinon-chai": "^3.7.0",
     "stream-to-promise": "^3.0.0"
@@ -126,7 +129,7 @@
     "scalingo-postbuild": "echo 'nothing to do'",
     "start": "node bin/www",
     "start:watch": "nodemon bin/www",
-    "test": "NODE_ENV=test npm run db:prepare && npm run test:api",
+    "test": "NODE_ENV=test npm run db:prepare && npm run test:database && npm run test:api",
     "test:api": "status=0; npm run test:api:unit || status=1 ; for dir in $(find tests/* -maxdepth 0 -type d -not -path tests/unit) ; do npm run test:api:path -- $dir || status=1 ; done ; exit $status",
     "test:api:path": "NODE_ENV=test mocha --exit --recursive --reporter=${MOCHA_REPORTER:-dot}",
     "test:api:unit": "TEST_DATABASE_URL=postgres://SHOULD_NOT_REACH_DB_IN_UNIT_TESTS REDIS_URL=redis://SHOULD_NOT_REACH_REDIS_IN_UNIT_TESTS npm run test:api:path -- tests/unit",
@@ -136,6 +139,7 @@
     "test:api:watch": "NODE_ENV=test mocha --recursive tests --watch --reporter dot",
     "test:api:bail": "npm run test:api:unit -- --bail && npm run test:api:integration -- --bail && npm run test:api:acceptance -- --bail",
     "test:ci": "npm run test",
+    "test:database": "schemalint --config tests/acceptance/database/.schemalintrc.js",
     "test:lint": "npm test && npm run lint"
   },
   "nodemonConfig": {

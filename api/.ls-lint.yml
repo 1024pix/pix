@@ -29,3 +29,4 @@ ignore:
   - db/migrations
   - db/seeds
   - scripts
+  - ./tests/acceptance/database/.schemalintrc.js

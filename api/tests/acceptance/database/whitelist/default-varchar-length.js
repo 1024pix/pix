@@ -1,0 +1,47 @@
+const uncheckedUsages = [
+  { identifierPattern: 'public\\.account-recovery-demands.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.answers.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.assessments.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.authentication-methods.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.badge-criteria.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.badges.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.campaign-participations.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.campaigns.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.certification-candidates.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.certification-centers.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.certification-challenges.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.certification-courses.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.certification-cpf-cities.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.certification-cpf-countries.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.certification-issue-reports.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.competence-evaluations.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.competence-marks.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.complementary-certifications.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.feedbacks.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.finalized-sessions.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.knex_migrations.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.knowledge-elements.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.memberships.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.organization-invitations.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.organizations.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.partner-certifications.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.pix_roles.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.pole-emploi-sendings.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.reset-password-demands.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.schooling-registrations.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.sessions.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.skill-sets.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.stages.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.tags.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.target-profiles.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.target-profiles_skills.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.tutorial-evaluations.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.user_tutorials.*', rule: 'default-varchar-length' },
+  { identifierPattern: 'public\\.users.*', rule: 'default-varchar-length' },
+];
+
+const legitimateUsages = [];
+
+const defaultVarcharLength = [...uncheckedUsages, ...legitimateUsages];
+
+module.exports = defaultVarcharLength;
