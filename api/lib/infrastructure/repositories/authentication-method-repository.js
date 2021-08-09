@@ -176,25 +176,24 @@ module.exports = {
     return _toDomain(authenticationMethodDTO);
   },
 
-  updateExpiredPassword({ userId, hashedPassword }) {
+  async updateExpiredPassword({ userId, hashedPassword }) {
     const authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
       password: hashedPassword,
       shouldChangePassword: false,
     });
 
-    return BookshelfAuthenticationMethod
+    const [authenticationMethodDTO] = await Bookshelf.knex('authentication-methods')
       .where({
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
-      .save({ authenticationComplement }, { patch: true, method: 'update' })
-      .then(_toDomainEntity)
-      .catch((err) => {
-        if (err instanceof BookshelfAuthenticationMethod.NoRowsUpdatedError) {
-          throw new AuthenticationMethodNotFoundError(`Authentication method PIX for User ID ${userId} not found.`);
-        }
-        throw err;
-      });
+      .update({ authenticationComplement })
+      .returning(COLUMNS);
+
+    if (!authenticationMethodDTO) {
+      throw new AuthenticationMethodNotFoundError(`Authentication method PIX for User ID ${userId} not found.`);
+    }
+    return _toDomain(authenticationMethodDTO);
   },
 
   async updateExternalIdentifierByUserIdAndIdentityProvider({ externalIdentifier, userId, identityProvider }) {
