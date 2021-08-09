@@ -33,15 +33,24 @@ describe('Unit | UseCase | create-organization', () => {
       expect(organizationCreationValidator.validate).to.have.been.calledWithExactly({ name, type });
     });
 
-    it('should create a new Organization Entity into data repository', async () => {
+    it('should create a new Organization Entity with Pix Master userId', async () => {
       // given
-      const expectedOrganization = new Organization({ name, type, externalId, provinceCode });
+      const pixMasterUserId = 10;
+      const createdBy = pixMasterUserId;
+      const expectedOrganization = new Organization({ createdBy, name, type, externalId, provinceCode });
 
       // when
-      await createOrganization({ name, type, externalId, provinceCode, organizationRepository });
+      await createOrganization({
+        createdBy,
+        externalId,
+        name,
+        provinceCode,
+        type,
+        organizationRepository,
+      });
 
       // then
-      expect(organizationRepository.create).to.have.been.calledWithMatch(expectedOrganization);
+      expect(organizationRepository.create).to.have.been.calledWith(expectedOrganization);
     });
   });
 
