@@ -89,4 +89,93 @@ describe('Unit | Controller | Assessments | Challenge', function() {
     });
   });
 
+  describe('#displayChallenge', function() {
+
+    context('when challenge is not focused and has no timer', function() {
+      [
+        { answer: undefined, hasUserConfirmedWarning: false, expectedResult: true },
+        { answer: 'banana', hasUserConfirmedWarning: false, expectedResult: true },
+      ].forEach((data) => {
+        const _hasUserConfirmedWarning = data.hasUserConfirmedWarning ? 'user has confirmed warning' : 'user has not confirmed warning';
+        const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
+
+        it(`should be ${data.expectedResult} when ${_hasUserConfirmedWarning}, ${_hasAnswer}`, function() {
+          // given
+          const challenge = {
+            id: 'rec_123',
+            timer: undefined,
+            focused: false,
+          };
+
+          const answer = data.answer;
+
+          controller.model = { challenge, answer };
+          controller.hasUserConfirmedWarning = data.hasUserConfirmedWarning;
+
+          // when
+          const result = controller.displayChallenge;
+
+          // then
+          expect(result).to.equal(data.expectedResult);
+        });
+      });
+    });
+
+    context('when challenge has timer', function() {
+      [
+        { answer: undefined, hasUserConfirmedWarning: true, expectedResult: true },
+        { answer: 'banana', hasUserConfirmedWarning: false, expectedResult: true },
+        { answer: undefined, hasUserConfirmedWarning: false, expectedResult: false },
+      ].forEach((data) => {
+
+        const _hasUserConfirmedWarning = data.hasUserConfirmedWarning ? 'user has confirmed warning' : 'user has not confirmed warning';
+        const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
+
+        it(`should be ${data.expectedResult} when ${_hasUserConfirmedWarning}, ${_hasAnswer}`, function() {
+          // given
+          const challenge = {
+            id: 'rec_123',
+            timer: 55,
+          };
+
+          const answer = data.answer;
+
+          controller.model = { challenge, answer };
+          controller.hasUserConfirmedWarning = data.hasUserConfirmedWarning;
+
+          // when
+          const result = controller.displayChallenge;
+
+          // then
+          expect(result).to.equal(data.expectedResult);
+        });
+      });
+    });
+
+    context('when challenge is focused', function() {
+      [
+        { answer: undefined, expectedResult: true },
+        { answer: 'banana', expectedResult: true },
+      ].forEach((data) => {
+
+        it(`should be ${data.expectedResult} when answer = ${data.answer}`, function() {
+          // given
+          const challenge = {
+            id: 'rec_123',
+            focused: true,
+          };
+
+          const answer = data.answer;
+
+          controller.model = { challenge, answer };
+
+          // when
+          const result = controller.displayChallenge;
+
+          // then
+          expect(result).to.equal(data.expectedResult);
+        });
+      });
+    });
+  });
 });

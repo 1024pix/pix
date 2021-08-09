@@ -7,6 +7,7 @@ import { action } from '@ember/object';
 const defaultPageTitle = 'pages.challenge.title';
 const timedOutPageTitle = 'pages.challenge.timed-out-title';
 import ENV from 'mon-pix/config/environment';
+import isInteger from 'lodash/isInteger';
 
 export default class ChallengeController extends Controller {
   queryParams = ['newLevel', 'competenceLeveled', 'challengeId'];
@@ -17,6 +18,7 @@ export default class ChallengeController extends Controller {
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOut = false;
   @tracked isTooltipOverlayDisplayed = !(this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip)
+  @tracked hasUserConfirmedWarning = false;
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -70,5 +72,34 @@ export default class ChallengeController extends Controller {
 
   get displayHomeLink() {
     return this.currentUser.user && !this.currentUser.user.isAnonymous;
+  }
+
+  get displayChallenge() {
+    if (!this._isTimedChallenge) {
+      return true;
+    }
+
+    if (this._isTimedChallenge) {
+      if (this.hasUserConfirmedWarning || this.model.answer) return true;
+    }
+
+    return false;
+  }
+
+  get _isTimedChallenge() {
+    return isInteger(this.model.challenge.timer);
+  }
+
+  @action
+  setUserConfirmation() {
+    this.hasUserConfirmedWarning = true;
+  }
+
+  get isTimedChallengeWithoutAnswer() {
+    return this._isTimedChallenge && !this.model.answer;
+  }
+
+  get displayTimedChallengeInstructions() {
+    return this.isTimedChallengeWithoutAnswer && !this.hasUserConfirmedWarning;
   }
 }
