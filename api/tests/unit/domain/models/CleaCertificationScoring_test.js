@@ -12,7 +12,7 @@ describe('Unit | Domain | Models | CleaCertificationScoring', () => {
     beforeEach(() => {
       validArguments = {
         certificationCourseId: 123,
-        partnerKey: 'partnerKey',
+        cleaBadgeKey: 'partnerKey',
         hasAcquiredBadge: true,
         reproducibilityRate: 80,
         cleaCompetenceMarks: [1],
@@ -322,5 +322,6 @@ function _buildCleaCertificationScoring({
     reproducibilityRate,
     cleaCompetenceMarks,
     maxReachablePixByCompetenceForClea,
+    cleaBadgeKey: 'pix_clea_badge_key',
   });
 }

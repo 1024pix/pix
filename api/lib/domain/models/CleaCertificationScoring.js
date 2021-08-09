@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const Badge = require('../models/Badge');
 const PartnerCertificationScoring = require('./PartnerCertificationScoring');
 const { NotEligibleCandidateError } = require('../errors');
 const Joi = require('joi');
@@ -43,10 +42,11 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
     cleaCompetenceMarks,
     isBadgeAcquisitionStillValid = true,
     maxReachablePixByCompetenceForClea,
+    cleaBadgeKey,
   } = {}) {
     super({
       certificationCourseId,
-      partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
+      partnerKey: cleaBadgeKey,
     });
 
     this.hasAcquiredBadge = hasAcquiredBadge;
@@ -73,6 +73,7 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
       cleaCompetenceMarks: [],
       maxReachablePixByCompetenceForClea: {},
       reproducibilityRate: 0,
+      cleaBadgeKey: 'no_badge',
     });
   }
 
