@@ -85,7 +85,7 @@ module.exports = {
     return membershipSerializer.serialize(memberships, pagination);
   },
 
-  async getMultiplePDFAttestations(request, h) {
+  async downloadCertificationAttestationsForDivision(request, h) {
     const organizationId = request.params.id;
     const { division } = request.query;
 

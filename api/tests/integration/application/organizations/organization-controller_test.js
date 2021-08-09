@@ -289,7 +289,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
   });
 
-  describe('#getMultiplePDFAttestations', () => {
+  describe('#downloadCertificationAttestationsForDivision', () => {
 
     context('Success cases', () => {
 
