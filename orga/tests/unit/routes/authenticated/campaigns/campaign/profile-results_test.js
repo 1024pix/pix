@@ -2,13 +2,13 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/campaigns/campaign/profiles', function(hooks) {
+module('Unit | Route | authenticated/campaigns/campaign/profile-results', function(hooks) {
   setupTest(hooks);
 
   let route;
 
   hooks.beforeEach(function() {
-    route = this.owner.lookup('route:authenticated/campaigns/campaign/profiles');
+    route = this.owner.lookup('route:authenticated/campaigns/campaign/profile-results');
   });
 
   module('fetchProfileSummaries', function(hooks) {
@@ -75,9 +75,9 @@ module('Unit | Route | authenticated/campaigns/campaign/profiles', function(hook
       route.store = store;
     });
 
-    module('when the transition comes from "authenticated.campaigns.campaign.profiles"', function() {
+    module('when the transition comes from "authenticated.campaigns.campaign.profile-results"', function() {
       test('if returns false', function(assert) {
-        const transition = { from: { name: 'authenticated.campaigns.campaign.profiles' } };
+        const transition = { from: { name: 'authenticated.campaigns.campaign.profile-results' } };
         assert.false(route.loading(transition));
       });
     });
