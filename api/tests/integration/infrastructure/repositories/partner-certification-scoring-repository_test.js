@@ -69,7 +69,7 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
 
   describe('#buildCleaCertificationScoring', () => {
 
-    context('when the user does not have the cleA badge', () => {
+    context('when the user does not have no cleA badge', () => {
 
       it('should build a CleaCertificationScoring that throws a NotEligibleCandidateError', async () => {
         // given
@@ -93,7 +93,7 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
       });
     });
 
-    context('when the user has the cleA badge', () => {
+    context('when the user has a cleA badge', () => {
 
       context('when the badge was obtained after the certification test was taken', () => {
 
@@ -253,6 +253,72 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
               area_code: '3',
               competence_code: '3.1',
               competenceId: 'recCompetence3',
+              level: 0,
+              score: 11,
+            });
+            databaseBuilder.factory.buildCompetenceMark(cleaCompetenceMark1);
+            databaseBuilder.factory.buildCompetenceMark(cleaCompetenceMark2);
+            databaseBuilder.factory.buildCompetenceMark(otherCompetenceMark);
+            await databaseBuilder.commit();
+
+            // when
+            const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+              certificationCourseId,
+              userId,
+              reproducibilityRate: 60,
+              skillRepository,
+            });
+
+            // then
+            expect(cleaCertificationScoring.cleaCompetenceMarks).to.deep.equal([cleaCompetenceMark1, cleaCompetenceMark2]);
+          });
+        });
+
+        context('when user has more than one clea badges obtained before certification test was taken', () => {
+
+          it('should compute the cleA scoring based on the most recently obtained cleA badge', async () => {
+            // given
+            const anotherBadgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V2 }).id;
+            databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: anotherBadgeId, createdAt: new Date('2015-01-01') });
+            const oldCleaSkill1Comp1 = domainBuilder.buildSkill({ id: 'recSkill1_1', competenceId: 'recCompetence1' });
+            const oldCleaSkill1Comp2 = domainBuilder.buildSkill({ id: 'recSkill2_1', competenceId: 'recCompetence2' });
+            const newCleaSkillACompB = domainBuilder.buildSkill({ id: 'recSkillA_B', competenceId: 'recCompetenceA' });
+            const newCleaSkillCCompD = domainBuilder.buildSkill({ id: 'recSkillC_D', competenceId: 'recCompetenceD' });
+            const learningContent = { skills: [
+              { ...oldCleaSkill1Comp1, status: 'actif' },
+              { ...oldCleaSkill1Comp2, status: 'actif' },
+              { ...newCleaSkillACompB, status: 'actif' },
+              { ...newCleaSkillCCompD, status: 'actif' },
+            ] };
+            await mockLearningContent(learningContent);
+            databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId, skillIds: ['recSkill1_1', 'recSkill2_1'], name: 'old_clea' });
+            databaseBuilder.factory.buildBadgePartnerCompetence({ badgeId: anotherBadgeId, skillIds: ['recSkillA_B', 'recSkillC_D'], name: 'new_clea' });
+            const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId, userId }).id;
+            const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
+            const cleaCompetenceMark1 = domainBuilder.buildCompetenceMark({
+              id: 123,
+              assessmentResultId,
+              area_code: '1',
+              competence_code: '1.1',
+              competenceId: 'recCompetenceA',
+              level: 0,
+              score: 13,
+            });
+            const cleaCompetenceMark2 = domainBuilder.buildCompetenceMark({
+              id: 456,
+              assessmentResultId,
+              area_code: '2',
+              competence_code: '2.1',
+              competenceId: 'recCompetenceD',
+              level: 0,
+              score: 8,
+            });
+            const otherCompetenceMark = domainBuilder.buildCompetenceMark({
+              id: 789,
+              assessmentResultId,
+              area_code: '3',
+              competence_code: '3.1',
+              competenceId: 'recCompetence2',
               level: 0,
               score: 11,
             });
