@@ -216,40 +216,82 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
 
     context('when a summary has a Clea certification', () => {
 
-      it('should have the status acquired when clea certification is acquired', async () => {
-        // given
-        const dbf = databaseBuilder.factory;
-        const sessionId = dbf.buildSession().id;
-        const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-        dbf.buildBadge({ key: CleaCertificationResult.badgeKey });
-        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey, acquired: true });
-        await databaseBuilder.commit();
+      context('badge V1', () => {
 
-        // when
-        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+        it('should have the status acquired when clea certification is acquired', async () => {
+          // given
+          const dbf = databaseBuilder.factory;
+          const sessionId = dbf.buildSession().id;
+          const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
+          dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV1 });
+          dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKeyV1, acquired: true });
+          await databaseBuilder.commit();
 
-        // then
-        const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
-        expect(juryCertificationSummaries).to.have.lengthOf(1);
-        expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
+          // when
+          const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+
+          // then
+          const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
+          expect(juryCertificationSummaries).to.have.lengthOf(1);
+          expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
+        });
+
+        it('should have the status rejected when clea certification is rejected', async () => {
+          // given
+          const dbf = databaseBuilder.factory;
+          const sessionId = dbf.buildSession().id;
+          const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
+          dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV1 });
+          dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKeyV1, acquired: false });
+          await databaseBuilder.commit();
+
+          // when
+          const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+
+          // then
+          const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
+          expect(juryCertificationSummaries).to.have.lengthOf(1);
+          expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
+        });
       });
 
-      it('should have the status rejected when clea certification is rejected', async () => {
-        // given
-        const dbf = databaseBuilder.factory;
-        const sessionId = dbf.buildSession().id;
-        const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-        dbf.buildBadge({ key: CleaCertificationResult.badgeKey });
-        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey, acquired: false });
-        await databaseBuilder.commit();
+      context('badge V2', () => {
 
-        // when
-        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+        it('should have the status acquired when clea certification is acquired', async () => {
+          // given
+          const dbf = databaseBuilder.factory;
+          const sessionId = dbf.buildSession().id;
+          const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
+          dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV2 });
+          dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKeyV2, acquired: true });
+          await databaseBuilder.commit();
 
-        // then
-        const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
-        expect(juryCertificationSummaries).to.have.lengthOf(1);
-        expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
+          // when
+          const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+
+          // then
+          const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
+          expect(juryCertificationSummaries).to.have.lengthOf(1);
+          expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
+        });
+
+        it('should have the status rejected when clea certification is rejected', async () => {
+          // given
+          const dbf = databaseBuilder.factory;
+          const sessionId = dbf.buildSession().id;
+          const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
+          dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV2 });
+          dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKeyV2, acquired: false });
+          await databaseBuilder.commit();
+
+          // when
+          const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
+
+          // then
+          const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
+          expect(juryCertificationSummaries).to.have.lengthOf(1);
+          expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
+        });
       });
     });
 
@@ -395,8 +437,8 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-        dbf.buildBadge({ key: CleaCertificationResult.badgeKey });
-        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKey, acquired: true });
+        dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV1 });
+        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKeyV1, acquired: true });
         dbf.buildBadge({ key: PixPlusDroitMaitreCertificationResult.badgeKey });
         dbf.buildPartnerCertification({ certificationCourseId, partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey, acquired: false });
         dbf.buildBadge({ key: PixPlusDroitExpertCertificationResult.badgeKey });
