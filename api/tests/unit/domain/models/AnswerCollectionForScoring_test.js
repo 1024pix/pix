@@ -38,6 +38,40 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
     });
   });
 
+  context('#numberOfChallenges', () => {
+
+    it('returns 0 when there is no challenges', () => {
+      // given
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [],
+        challenges: [],
+      });
+
+      // when
+      const numberOfChallenges = answerCollection.numberOfChallenges();
+
+      // then
+      expect(numberOfChallenges).to.equal(0);
+    });
+
+    it('returns the total number of challenges', () => {
+      // given
+      const challenge1 = domainBuilder.buildCertificationChallenge();
+      const challenge2 = domainBuilder.buildCertificationChallenge();
+      const challenge3 = domainBuilder.buildCertificationChallenge();
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [],
+        challenges: [challenge1, challenge2, challenge3],
+      });
+
+      // when
+      const numberOfChallenges = answerCollection.numberOfChallenges();
+
+      // then
+      expect(numberOfChallenges).to.equal(3);
+    });
+  });
+
   context('#numberOfNonNeutralizedChallenges', () => {
 
     it('equals 0 when no challenges asked', () => {
