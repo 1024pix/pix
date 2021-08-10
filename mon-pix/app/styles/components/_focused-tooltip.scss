@@ -27,37 +27,6 @@
       background-image: url('/images/tag-regular-challenge.svg');
     }
   }
-
-  &__text {
-    width: 100%;
-
-    p {
-      overflow-wrap: break-word;
-    }
-
-    strong {
-      font-weight: $font-heavy;
-    }
-
-    a {
-      text-decoration: underline;
-      color: $blue;
-
-      @include device-is('tablet') {
-        display: inline-block;
-      }
-
-      &:active,
-      &:focus,
-      &:hover {
-        color: $blue-hover;
-      }
-    }
-
-    a::after {
-      @include external-link;
-    }
-  }
 }
 
 .challenge-statement-tag-information {
@@ -73,10 +42,6 @@
 
     @include device-is('tablet') {
       font-size: 1rem;
-    }
-
-    p {
-      font-weight: $font-bold;
     }
   }
 
