@@ -13,7 +13,7 @@ describe('Unit | Serializer | organization-serializer', () => {
         domainBuilder.buildTag({ id: 7, name: 'AEFE' }),
         domainBuilder.buildTag({ id: 44, name: 'PUBLIC' }),
       ];
-      const organization = domainBuilder.buildOrganization({ email: 'sco.generic.account@example.net', tags });
+      const organization = domainBuilder.buildOrganization({ email: 'sco.generic.account@example.net', tags, createdBy: 10 });
       const meta = { some: 'meta' };
 
       // when
@@ -34,6 +34,7 @@ describe('Unit | Serializer | organization-serializer', () => {
             'credit': organization.credit,
             'can-collect-profiles': organization.canCollectProfiles,
             'email': organization.email,
+            'created-by': organization.createdBy,
           },
           relationships: {
             memberships: {
@@ -115,6 +116,7 @@ describe('Unit | Serializer | organization-serializer', () => {
         provinceCode: '64',
         isManagingStudents: true,
         canCollectProfiles: true,
+        createdBy: 10,
       };
       const jsonApiOrganization = {
         data: {
@@ -130,6 +132,7 @@ describe('Unit | Serializer | organization-serializer', () => {
             'province-code': organizationAttributes.provinceCode,
             'is-managing-students': organizationAttributes.isManagingStudents,
             'can-collect-profiles': organizationAttributes.canCollectProfiles,
+            'created-by': organizationAttributes.createdBy,
           },
         },
       };
@@ -149,6 +152,7 @@ describe('Unit | Serializer | organization-serializer', () => {
         provinceCode: organizationAttributes.provinceCode,
         isManagingStudents: organizationAttributes.isManagingStudents,
         canCollectProfiles: organizationAttributes.canCollectProfiles,
+        createdBy: organizationAttributes.createdBy,
       });
       expect(organization).to.be.instanceOf(Organization);
       expect(organization).to.deep.equal(expectedOrganization);

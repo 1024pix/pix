@@ -6,7 +6,7 @@ module.exports = {
 
   serialize(organizations, meta) {
     return new Serializer('organizations', {
-      attributes: ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'isManagingStudents', 'credit', 'canCollectProfiles', 'email', 'memberships', 'students', 'targetProfiles', 'tags'],
+      attributes: ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'isManagingStudents', 'credit', 'canCollectProfiles', 'email', 'memberships', 'students', 'targetProfiles', 'tags', 'createdBy'],
       memberships: {
         ref: 'id',
         ignoreRelationshipData: true,
@@ -65,6 +65,7 @@ module.exports = {
       provinceCode: attributes['province-code'],
       isManagingStudents: attributes['is-managing-students'],
       canCollectProfiles: attributes['can-collect-profiles'],
+      createdBy: attributes['created-by'],
       tags,
     });
 
