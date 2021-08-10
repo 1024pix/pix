@@ -1,5 +1,11 @@
-const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const { fn: momentProto } = require('moment');
+const {
+  domainBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  hFake,
+  sinon,
+} = require('../../../test-helper');
 
 const Organization = require('../../../../lib/domain/models/Organization');
 
@@ -54,54 +60,103 @@ describe('Unit | Application | Organizations | organization-controller', () => {
   describe('#create', () => {
 
     beforeEach(() => {
-
       sinon.stub(usecases, 'createOrganization');
       sinon.stub(organizationSerializer, 'serialize');
-
-      request = {
-        payload: {
-          data: {
-            attributes: {
-              name: 'Acme',
-              type: 'PRO',
-            },
-          },
-        },
-      };
     });
 
     context('successful case', () => {
 
-      let savedOrganization;
-      let serializedOrganization;
-
-      beforeEach(() => {
-        savedOrganization = domainBuilder.buildOrganization();
-        serializedOrganization = { foo: 'bar' };
-
-        usecases.createOrganization.resolves(savedOrganization);
-        organizationSerializer.serialize.withArgs(savedOrganization).returns(serializedOrganization);
-      });
-
       it('should create an organization', async () => {
+        // given
+        usecases.createOrganization.resolves();
+
+        const pixMasterUserId = 10;
+        const organizationToCreate = domainBuilder.buildOrganization();
+
+        const request = {
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(pixMasterUserId),
+          },
+          payload: {
+            data: {
+              attributes: {
+                email: organizationToCreate.email,
+                name: organizationToCreate.name,
+                type: organizationToCreate.type,
+                'external-id': organizationToCreate.externalId,
+                'logo-url': organizationToCreate.logoUrl,
+                'province-code': organizationToCreate.provinceCode,
+              },
+            },
+          },
+        };
+
         // when
         await organizationController.create(request, hFake);
 
         // then
-        expect(usecases.createOrganization).to.have.been.calledOnce;
-        expect(usecases.createOrganization).to.have.been.calledWithMatch({ name: 'Acme', type: 'PRO' });
+        expect(usecases.createOrganization).to.have.been.calledWith({
+          createdBy: pixMasterUserId,
+          email: organizationToCreate.email,
+          name: organizationToCreate.name,
+          type: organizationToCreate.type,
+          externalId: organizationToCreate.externalId,
+          logoUrl: organizationToCreate.logoUrl,
+          provinceCode: organizationToCreate.provinceCode,
+        });
       });
 
       it('should serialized organization into JSON:API', async () => {
+        // given
+        const organizationToCreate = domainBuilder.buildOrganization();
+
+        const request = {
+          payload: {
+            data: {
+              attributes: {
+                email: organizationToCreate.email,
+                name: organizationToCreate.name,
+                type: organizationToCreate.type,
+                'external-id': organizationToCreate.externalId,
+                'logo-url': organizationToCreate.logoUrl,
+                'province-code': organizationToCreate.provinceCode,
+              },
+            },
+          },
+        };
+
+        usecases.createOrganization.resolves(organizationToCreate);
+
         // when
         await organizationController.create(request, hFake);
 
         // then
-        expect(organizationSerializer.serialize).to.have.been.calledOnce;
-        expect(organizationSerializer.serialize).to.have.been.calledWith(savedOrganization);
+        expect(organizationSerializer.serialize).to.have.been.calledWith(organizationToCreate);
       });
 
       it('should return the serialized organization', async () => {
+        // given
+        const organizationToCreate = domainBuilder.buildOrganization();
+
+        const request = {
+          payload: {
+            data: {
+              attributes: {
+                email: organizationToCreate.email,
+                name: organizationToCreate.name,
+                type: organizationToCreate.type,
+                'external-id': organizationToCreate.externalId,
+                'logo-url': organizationToCreate.logoUrl,
+                'province-code': organizationToCreate.provinceCode,
+              },
+            },
+          },
+        };
+        const serializedOrganization = { foo: 'bar' };
+
+        usecases.createOrganization.resolves(organizationToCreate);
+        organizationSerializer.serialize.withArgs(organizationToCreate).returns(serializedOrganization);
+
         // when
         const response = await organizationController.create(request, hFake);
 
