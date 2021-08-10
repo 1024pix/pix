@@ -431,7 +431,8 @@
       "download-attestations-button": "Télécharger les attestations",
       "errors": {
         "invalid-division": "La classe {selectedDivision} n'existe pas.",
-        "no-results": "Aucun résultat de certification pour la classe {selectedDivision}."
+        "no-results": "Aucun résultat de certification pour la classe {selectedDivision}.",
+        "no-certificates": "Aucune attestation de certification pour la classe {selectedDivision}."
       },
       "select-label": "Classe"
     },
