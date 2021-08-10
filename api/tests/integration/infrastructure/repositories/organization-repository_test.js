@@ -38,7 +38,10 @@ describe('Integration | Repository | Organization', function() {
 
     it('should save model properties', async () => {
       // given
-      const organization = domainBuilder.buildOrganization({ id: null });
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      const organization = domainBuilder.buildOrganization({ id: null, createdBy: userId });
 
       // when
       const organizationSaved = await organizationRepository.create(organization);
@@ -50,10 +53,10 @@ describe('Integration | Repository | Organization', function() {
       expect(organizationSaved.logoUrl).to.equal(organization.logoUrl);
       expect(organizationSaved.externalId).to.equal(organization.externalId);
       expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
+      expect(organizationSaved.createdBy).to.equal(organization.createdBy);
     });
 
     it('should insert default value for canCollectProfiles (false), credit (0) when not defined', async () => {
-
       // given
       const organization = new Organization({
         name: 'organization',
@@ -68,9 +71,7 @@ describe('Integration | Repository | Organization', function() {
       expect(organizationSaved.canCollectProfiles).to.equal(Organization.defaultValues['canCollectProfiles']);
       expect(organizationSaved.credit).to.equal(Organization.defaultValues['credit']);
       expect(organizationSaved.email).to.be.null;
-
     });
-
   });
 
   describe('#update', () => {
@@ -146,24 +147,24 @@ describe('Integration | Repository | Organization', function() {
 
     describe('success management', function() {
 
-      let insertedOrganization;
-      const organizationAttributes = {
-        type: 'SCO',
-        name: 'Organization of the dark side',
-        logoUrl: 'some logo url',
-        credit: 154,
-        externalId: '100',
-        provinceCode: '75',
-        isManagingStudents: 'true',
-        canCollectProfiles: 'true',
-        email: 'sco.generic.account@example.net',
-      };
+      it('should return a organization by provided id', async () => {
+        // given
+        const pixMasterUserId = databaseBuilder.factory.buildUser().id;
 
-      let expectedAttributes;
+        const insertedOrganization = databaseBuilder.factory.buildOrganization({
+          type: 'SCO',
+          name: 'Organization of the dark side',
+          logoUrl: 'some logo url',
+          credit: 154,
+          externalId: '100',
+          provinceCode: '75',
+          isManagingStudents: 'true',
+          canCollectProfiles: 'true',
+          email: 'sco.generic.account@example.net',
+          createdBy: pixMasterUserId,
+        });
 
-      beforeEach(async () => {
-        insertedOrganization = databaseBuilder.factory.buildOrganization(organizationAttributes);
-        expectedAttributes = {
+        const expectedAttributes = {
           id: insertedOrganization.id,
           type: 'SCO',
           name: 'Organization of the dark side',
@@ -178,11 +179,11 @@ describe('Integration | Repository | Organization', function() {
           targetProfileShares: [],
           organizationInvitations: [],
           tags: [],
+          createdBy: insertedOrganization.createdBy,
         };
-        await databaseBuilder.commit();
-      });
 
-      it('should return a organization by provided id', async () => {
+        await databaseBuilder.commit();
+
         // when
         const foundOrganization = await organizationRepository.get(insertedOrganization.id);
 
@@ -190,19 +191,16 @@ describe('Integration | Repository | Organization', function() {
         expect(foundOrganization).to.deep.equal(expectedAttributes);
       });
 
-      it('should return a rejection when organization id is not found', function() {
+      it('should return a rejection when organization id is not found', async function() {
         // given
         const nonExistentId = 10083;
 
         // when
-        const promise = organizationRepository.get(nonExistentId);
+        const error = await catchErr(organizationRepository.get)(nonExistentId);
 
         // then
-        return promise.then(() => {
-          expect.fail('Treatment did not throw an error as expected', 'Expected a "NotFoundError" to have been throwed');
-        }).catch((err) => {
-          expect(err.message).to.equal('Not found organization for ID 10083');
-        });
+        expect(error).to.be.an.instanceof(NotFoundError);
+        expect(error.message).to.equal('Not found organization for ID 10083');
       });
     });
 
