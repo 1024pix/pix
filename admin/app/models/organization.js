@@ -15,6 +15,7 @@ export default class Organization extends Model {
   @attr() canCollectProfiles;
   @attr() credit;
   @attr() email;
+  @attr() createdBy;
 
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
