@@ -15,7 +15,7 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', () 
       // given
       const externalId = '1234567A';
       const organization = databaseBuilder.factory.buildOrganization({ externalId });
-      const expectedOrganization = _.omit(organization, ['createdAt', 'updatedAt', 'email', 'tags']);
+      const expectedOrganization = _.omit(organization, ['createdAt', 'updatedAt', 'email', 'tags', 'createdBy']);
 
       await databaseBuilder.commit();
 
@@ -23,7 +23,7 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', () 
       const result = await getOrganizationByExternalId(externalId);
 
       // then
-      expect(_.omit(result, ['email', 'memberships', 'organizationInvitations', 'students', 'targetProfileShares', 'tags']))
+      expect(_.omit(result, ['email', 'memberships', 'organizationInvitations', 'students', 'targetProfileShares', 'tags', 'createdBy']))
         .to.deep.equal(expectedOrganization);
     });
   });
