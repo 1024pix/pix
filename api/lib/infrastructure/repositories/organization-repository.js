@@ -10,7 +10,6 @@ const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
 
 function _toDomain(bookshelfOrganization) {
-
   const rawOrganization = bookshelfOrganization.toJSON();
 
   const organization = new Organization({
@@ -24,10 +23,10 @@ function _toDomain(bookshelfOrganization) {
     credit: rawOrganization.credit,
     canCollectProfiles: Boolean(rawOrganization.canCollectProfiles),
     email: rawOrganization.email,
+    createdBy: rawOrganization.createdBy,
   });
 
   organization.targetProfileShares = rawOrganization.targetProfileShares || [];
-
   organization.tags = rawOrganization.tags || [];
 
   return organization;
@@ -52,8 +51,9 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
 module.exports = {
 
   create(organization) {
-
-    const organizationRawData = _.pick(organization, ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'email', 'isManagingStudents', 'canCollectProfiles']);
+    const organizationRawData = _.pick(organization,
+      ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'email', 'isManagingStudents', 'canCollectProfiles', 'createdBy'],
+    );
 
     return new BookshelfOrganization()
       .save(organizationRawData)
