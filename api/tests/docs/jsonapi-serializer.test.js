@@ -8,6 +8,8 @@ const sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
 
+// TODO: Fix this the next time the file is edited.
+// eslint-disable-next-line mocha/no-top-level-hooks
 afterEach(function() {
   sinon.restore();
 });
