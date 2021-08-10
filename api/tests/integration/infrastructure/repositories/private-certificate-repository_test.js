@@ -1,12 +1,23 @@
-const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, catchErr, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const privateCertificateRepository = require('../../../../lib/infrastructure/repositories/private-certificate-repository');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
 const { badgeKey: cleaBadgeKey } = require('../../../../lib/domain/models/CleaCertificationResult');
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const _ = require('lodash');
 
 describe('Integration | Infrastructure | Repository | Private Certificate', () => {
+
+  const minimalLearningContent = [{
+    id: 'recArea0',
+    code: '1',
+    competences: [{
+      id: 'recNv8qhaY887jQb2',
+      index: '1.3',
+      name: 'Traiter des données',
+    }],
+  }];
 
   describe('#get', () => {
 
@@ -21,6 +32,9 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
 
     it('should return a PrivateCertificate', async () => {
       // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
+
       const userId = databaseBuilder.factory.buildUser().id;
       const privateCertificateData = {
         firstName: 'Sarah Michelle',
@@ -38,33 +52,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       };
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const sessionId = databaseBuilder.factory.buildSession({
-        publishedAt: privateCertificateData.deliveredAt,
-        certificationCenter: privateCertificateData.certificationCenter,
-        certificationCenterId,
-      }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
-        firstName: privateCertificateData.firstName,
-        lastName: privateCertificateData.lastName,
-        birthdate: privateCertificateData.birthdate,
-        birthplace: privateCertificateData.birthplace,
-        isPublished: privateCertificateData.isPublished,
-        isCancelled: false,
-        createdAt: privateCertificateData.date,
-        verificationCode: privateCertificateData.verificationCode,
-        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-        sessionId,
-        userId,
-      }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
-      databaseBuilder.factory.buildAssessmentResult({
-        assessmentId,
-        pixScore: privateCertificateData.pixScore,
-        status: 'validated',
-        commentForCandidate: privateCertificateData.commentForCandidate,
-      });
-      await databaseBuilder.commit();
+
+      const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
 
       // when
       const privateCertificate = await privateCertificateRepository.get(certificateId);
@@ -75,11 +64,12 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         ...privateCertificateData,
       });
       expect(privateCertificate).to.be.instanceOf(PrivateCertificate);
-      expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
     });
 
-    it('should build from the latest assessment result if any', async () => {
+    it('should return a PrivateCertificate with resultCompetenceTree', async () => {
       // given
+
       const userId = databaseBuilder.factory.buildUser().id;
       const privateCertificateData = {
         firstName: 'Sarah Michelle',
@@ -97,41 +87,95 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       };
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const sessionId = databaseBuilder.factory.buildSession({
-        publishedAt: privateCertificateData.deliveredAt,
-        certificationCenter: privateCertificateData.certificationCenter,
-        certificationCenterId,
-      }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
-        firstName: privateCertificateData.firstName,
-        lastName: privateCertificateData.lastName,
-        birthdate: privateCertificateData.birthdate,
-        birthplace: privateCertificateData.birthplace,
-        isPublished: privateCertificateData.isPublished,
-        isCancelled: false,
-        createdAt: privateCertificateData.date,
-        verificationCode: privateCertificateData.verificationCode,
-        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-        sessionId,
-        userId,
-      }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
-      databaseBuilder.factory.buildAssessmentResult({
-        createdAt: new Date('2021-03-01'),
-        assessmentId,
-        pixScore: privateCertificateData.pixScore,
-        status: 'rejected',
-        commentForCandidate: privateCertificateData.commentForCandidate,
+
+      const { certificateId, assessmentResultId } = await _buildValidPrivateCertificate(privateCertificateData, false);
+
+      const competenceMarks1 = domainBuilder.buildCompetenceMark({
+        id: 1234,
+        level: 4,
+        score: 32,
+        area_code: '1',
+        competence_code: '1.1',
+        competenceId: 'recComp1',
+        assessmentResultId,
       });
-      databaseBuilder.factory.buildAssessmentResult({
-        createdAt: new Date('2021-01-01'),
-        assessmentId,
-        pixScore: privateCertificateData.pixScore,
-        status: 'validated',
-        commentForCandidate: privateCertificateData.commentForCandidate,
+      databaseBuilder.factory.buildCompetenceMark(competenceMarks1);
+
+      const competenceMarks2 = domainBuilder.buildCompetenceMark({
+        id: 4567,
+        level: 5,
+        score: 40,
+        area_code: '1',
+        competence_code: '1.2',
+        competenceId: 'recComp2',
+        assessmentResultId,
       });
+      databaseBuilder.factory.buildCompetenceMark(competenceMarks2);
+
       await databaseBuilder.commit();
+
+      const competence1 = domainBuilder.buildCompetence({
+        id: 'recComp1',
+        index: '1.1',
+        name: 'Traiter des données',
+      });
+      const competence2 = domainBuilder.buildCompetence({
+        id: 'recComp2',
+        index: '1.2',
+        name: 'Traiter des choux',
+      });
+      const area1 = domainBuilder.buildArea({
+        id: 'recArea1',
+        code: '1',
+        competences: [competence1, competence2],
+        title: 'titre test',
+      });
+
+      const learningContentObjects = learningContentBuilder.buildLearningContent([{ ...area1, titleFr: area1.title }]);
+      mockLearningContent(learningContentObjects);
+
+      // when
+      const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+      // then
+      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
+        id: `${certificateId}-${assessmentResultId}`,
+        competenceMarks: [competenceMarks1, competenceMarks2],
+        competenceTree: domainBuilder.buildCompetenceTree({ areas: [area1] }),
+      });
+      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
+        id: certificateId,
+        resultCompetenceTree,
+        ...privateCertificateData,
+      });
+      expect(privateCertificate).to.be.instanceOf(PrivateCertificate);
+      expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+    });
+
+    it('should build from the latest assessment result if any', async () => {
+      // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
+
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'ABCDE-F',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+        commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+      };
+
+      const { certificateId } = await _buildValidPrivateCertificateWithSeveralResults(privateCertificateData);
 
       // when
       const privateCertificate = await privateCertificateRepository.get(certificateId);
@@ -141,11 +185,14 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
     });
 
     it('should build even if there is not assessment result', async () => {
       // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
+
       const userId = databaseBuilder.factory.buildUser().id;
       const privateCertificateData = {
         firstName: 'Sarah Michelle',
@@ -193,11 +240,13 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
     });
 
     it('should get the clea certification result if taken', async () => {
       // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
       const userId = databaseBuilder.factory.buildUser().id;
       const privateCertificateData = {
         firstName: 'Sarah Michelle',
@@ -215,26 +264,9 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         commentForCandidate: null,
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
       };
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const sessionId = databaseBuilder.factory.buildSession({
-        publishedAt: privateCertificateData.deliveredAt,
-        certificationCenter: privateCertificateData.certificationCenter,
-        certificationCenterId,
-      }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
-        firstName: privateCertificateData.firstName,
-        lastName: privateCertificateData.lastName,
-        birthdate: privateCertificateData.birthdate,
-        birthplace: privateCertificateData.birthplace,
-        isPublished: privateCertificateData.isPublished,
-        isCancelled: false,
-        createdAt: privateCertificateData.date,
-        verificationCode: privateCertificateData.verificationCode,
-        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-        sessionId,
-        userId,
-      }).id;
-      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+
+      const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
+
       databaseBuilder.factory.buildBadge({ key: cleaBadgeKey });
       databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: cleaBadgeKey, acquired: true });
       await databaseBuilder.commit();
@@ -243,17 +275,100 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       const privateCertificate = await privateCertificateRepository.get(certificateId);
 
       // then
-      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
     });
 
     context('acquired certifiable badges', () => {
 
-      it('should get the certified badge images of pixPlusDroitMaitre and/or pixPlusDroitExpert when those certifications were acquired', async () => {
+      it('should get the certified badge image of pixPlusDroitExpert when this certification was acquired', async () => {
         // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDF-G',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: [
+            'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+          ],
+        };
+
+        const { certificateId } = await _buildValidPrivateCertificateWithPixPlusDroitExpertBadge(privateCertificateData);
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
+      });
+
+      it('should get the certified badge image of pixPlusDroitMaitre when this certifications was acquired', async () => {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDF-G',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: null,
+          commentForCandidate: null,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          certifiedBadgeImages: [
+            'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+          ],
+        };
+
+        const { certificateId } = await _buildValidPrivateCertificateWithPixPlusDroitMaitreBadge(privateCertificateData);
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+          id: certificateId,
+          ...privateCertificateData,
+        });
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
+      });
+
+      it('should get the certified badge images of pixPlusDroitMaitre and pixPlusDroitExpert when those certifications were acquired', async () => {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
         const userId = databaseBuilder.factory.buildUser().id;
         const privateCertificateData = {
           firstName: 'Sarah Michelle',
@@ -275,33 +390,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
             'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
           ],
         };
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-        const sessionId = databaseBuilder.factory.buildSession({
-          publishedAt: privateCertificateData.deliveredAt,
-          certificationCenter: privateCertificateData.certificationCenter,
-          certificationCenterId,
-        }).id;
-        const certificateId = databaseBuilder.factory.buildCertificationCourse({
-          firstName: privateCertificateData.firstName,
-          lastName: privateCertificateData.lastName,
-          birthdate: privateCertificateData.birthdate,
-          birthplace: privateCertificateData.birthplace,
-          isPublished: privateCertificateData.isPublished,
-          isCancelled: false,
-          createdAt: privateCertificateData.date,
-          verificationCode: privateCertificateData.verificationCode,
-          maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-          sessionId,
-          userId,
-        }).id;
-        databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-        databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-        databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
-        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
-        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
-        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: 'should_be_ignored', acquired: true });
-        await databaseBuilder.commit();
+
+        const { certificateId } = await _buildValidPrivateCertificateWithBothPixPlusDroitBadges(privateCertificateData);
 
         // when
         const privateCertificate = await privateCertificateRepository.get(certificateId);
@@ -311,11 +401,15 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           id: certificateId,
           ...privateCertificateData,
         });
-        expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
       });
 
       it('should only take into account acquired ones', async () => {
         // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
         const userId = databaseBuilder.factory.buildUser().id;
         const privateCertificateData = {
           firstName: 'Sarah Michelle',
@@ -370,7 +464,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
           id: certificateId,
           ...privateCertificateData,
         });
-        expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+
+        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
       });
     });
   });
@@ -772,3 +867,201 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
     });
   });
 });
+
+async function _buildValidPrivateCertificate(privateCertificateData, buildCompetenceMark = true) {
+  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+  const sessionId = databaseBuilder.factory.buildSession({
+    publishedAt: privateCertificateData.deliveredAt,
+    certificationCenter: privateCertificateData.certificationCenter,
+    certificationCenterId,
+  }).id;
+  const certificateId = databaseBuilder.factory.buildCertificationCourse({
+    firstName: privateCertificateData.firstName,
+    lastName: privateCertificateData.lastName,
+    birthdate: privateCertificateData.birthdate,
+    birthplace: privateCertificateData.birthplace,
+    isPublished: privateCertificateData.isPublished,
+    isCancelled: false,
+    createdAt: privateCertificateData.date,
+    verificationCode: privateCertificateData.verificationCode,
+    maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+    sessionId,
+    userId: privateCertificateData.userId,
+  }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
+    assessmentId,
+    pixScore: privateCertificateData.pixScore,
+    status: 'validated',
+    commentForCandidate: privateCertificateData.commentForCandidate,
+    createdAt: new Date('2021-01-01'),
+  }).id;
+
+  if (buildCompetenceMark) {
+    databaseBuilder.factory.buildCompetenceMark({
+      assessmentResultId,
+    });
+  }
+
+  await databaseBuilder.commit();
+
+  return { certificateId, assessmentResultId, assessmentId };
+}
+async function _buildValidPrivateCertificateWithPixPlusDroitMaitreBadge(privateCertificateData) {
+  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+  const sessionId = databaseBuilder.factory.buildSession({
+    publishedAt: privateCertificateData.deliveredAt,
+    certificationCenter: privateCertificateData.certificationCenter,
+    certificationCenterId,
+  }).id;
+  const certificateId = databaseBuilder.factory.buildCertificationCourse({
+    firstName: privateCertificateData.firstName,
+    lastName: privateCertificateData.lastName,
+    birthdate: privateCertificateData.birthdate,
+    birthplace: privateCertificateData.birthplace,
+    isPublished: privateCertificateData.isPublished,
+    isCancelled: false,
+    createdAt: privateCertificateData.date,
+    verificationCode: privateCertificateData.verificationCode,
+    maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+    sessionId,
+    userId: privateCertificateData.userId,
+  }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+  databaseBuilder.factory.buildAssessmentResult({
+    assessmentId,
+    pixScore: privateCertificateData.pixScore,
+    status: 'started',
+    commentForCandidate: privateCertificateData.commentForCandidate,
+    createdAt: new Date('2021-01-01'),
+  });
+  databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
+  databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
+  databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
+  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: false });
+  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
+  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: 'should_be_ignored', acquired: true });
+  await databaseBuilder.commit();
+  return { certificateId };
+}
+async function _buildValidPrivateCertificateWithPixPlusDroitExpertBadge(privateCertificateData) {
+  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+  const sessionId = databaseBuilder.factory.buildSession({
+    publishedAt: privateCertificateData.deliveredAt,
+    certificationCenter: privateCertificateData.certificationCenter,
+    certificationCenterId,
+  }).id;
+  const certificateId = databaseBuilder.factory.buildCertificationCourse({
+    firstName: privateCertificateData.firstName,
+    lastName: privateCertificateData.lastName,
+    birthdate: privateCertificateData.birthdate,
+    birthplace: privateCertificateData.birthplace,
+    isPublished: privateCertificateData.isPublished,
+    isCancelled: false,
+    createdAt: privateCertificateData.date,
+    verificationCode: privateCertificateData.verificationCode,
+    maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+    sessionId,
+    userId: privateCertificateData.userId,
+  }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+  databaseBuilder.factory.buildAssessmentResult({
+    assessmentId,
+    pixScore: privateCertificateData.pixScore,
+    status: 'started',
+    commentForCandidate: privateCertificateData.commentForCandidate,
+    createdAt: new Date('2021-01-01'),
+  });
+  databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
+  databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
+  databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
+  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
+  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: false });
+  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: 'should_be_ignored', acquired: true });
+  await databaseBuilder.commit();
+  return { certificateId };
+}
+
+async function _buildValidPrivateCertificateWithBothPixPlusDroitBadges(privateCertificateData) {
+  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+  const sessionId = databaseBuilder.factory.buildSession({
+    publishedAt: privateCertificateData.deliveredAt,
+    certificationCenter: privateCertificateData.certificationCenter,
+    certificationCenterId,
+  }).id;
+  const certificateId = databaseBuilder.factory.buildCertificationCourse({
+    firstName: privateCertificateData.firstName,
+    lastName: privateCertificateData.lastName,
+    birthdate: privateCertificateData.birthdate,
+    birthplace: privateCertificateData.birthplace,
+    isPublished: privateCertificateData.isPublished,
+    isCancelled: false,
+    createdAt: privateCertificateData.date,
+    verificationCode: privateCertificateData.verificationCode,
+    maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+    sessionId,
+    userId: privateCertificateData.userId,
+  }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+  databaseBuilder.factory.buildAssessmentResult({
+    assessmentId,
+    pixScore: privateCertificateData.pixScore,
+    status: 'started',
+    commentForCandidate: privateCertificateData.commentForCandidate,
+    createdAt: new Date('2021-01-01'),
+  });
+  databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
+  databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
+  databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
+  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
+  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
+  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: 'should_be_ignored', acquired: true });
+  await databaseBuilder.commit();
+  return { certificateId };
+}
+
+async function _buildValidPrivateCertificateWithSeveralResults(privateCertificateData) {
+  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+  const sessionId = databaseBuilder.factory.buildSession({
+    publishedAt: privateCertificateData.deliveredAt,
+    certificationCenter: privateCertificateData.certificationCenter,
+    certificationCenterId,
+  }).id;
+  const certificateId = databaseBuilder.factory.buildCertificationCourse({
+    firstName: privateCertificateData.firstName,
+    lastName: privateCertificateData.lastName,
+    birthdate: privateCertificateData.birthdate,
+    birthplace: privateCertificateData.birthplace,
+    isPublished: privateCertificateData.isPublished,
+    isCancelled: false,
+    createdAt: privateCertificateData.date,
+    verificationCode: privateCertificateData.verificationCode,
+    maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+    sessionId,
+    userId: privateCertificateData.userId,
+  }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+  const assessmentResult1Id = databaseBuilder.factory.buildAssessmentResult({
+    assessmentId,
+    pixScore: privateCertificateData.pixScore,
+    status: 'validated',
+    commentForCandidate: privateCertificateData.commentForCandidate,
+    createdAt: new Date('2021-01-01'),
+  }).id;
+
+  databaseBuilder.factory.buildAssessmentResult({
+    assessmentId,
+    pixScore: privateCertificateData.pixScore,
+    status: 'rejected',
+    commentForCandidate: privateCertificateData.commentForCandidate,
+    createdAt: new Date('2021-03-01'),
+  });
+
+  databaseBuilder.factory.buildCompetenceMark({
+    assessmentResultId: assessmentResult1Id,
+  });
+
+  await databaseBuilder.commit();
+
+  return { certificateId };
+}

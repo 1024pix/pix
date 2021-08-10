@@ -5,10 +5,7 @@ module.exports = async function getPrivateCertificate({
   userId,
   certificationRepository,
   privateCertificateRepository,
-  assessmentResultRepository,
-  competenceTreeRepository,
   verifyCertificateCodeService,
-  resultCompetenceTreeService,
 }) {
   const hasCode = await certificationRepository.hasVerificationCode(certificationId);
   if (!hasCode) {
@@ -20,13 +17,6 @@ module.exports = async function getPrivateCertificate({
   if (privateCertificate.userId !== userId) {
     throw new NotFoundError();
   }
-
-  const resultCompetenceTree = await resultCompetenceTreeService.computeForCertification({
-    certificationId,
-    assessmentResultRepository,
-    competenceTreeRepository,
-  });
-  privateCertificate.setResultCompetenceTree(resultCompetenceTree);
 
   return privateCertificate;
 };
