@@ -1,6 +1,7 @@
 extends:
   - '../.eslintrc.yaml'
   - 'plugin:i18n-json/recommended'
+  - 'plugin:mocha/recommended'
 parserOptions:
   ecmaVersion: 2020
 
