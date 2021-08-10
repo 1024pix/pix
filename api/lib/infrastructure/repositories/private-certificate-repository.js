@@ -26,25 +26,26 @@ module.exports = {
 
     const competenceTree = await competenceTreeRepository.get();
 
-    return _toDomain(
+    return _toDomain({
       certificationCourseDTO,
       competenceTree,
       cleaCertificationResult,
       certifiedBadgeImages,
-    );
+    });
   },
 
   async findByUserId({ userId }) {
-    const results = await _selectPrivateCertificates()
+    const certificationCourseDTOs = await _selectPrivateCertificates()
       .where('certification-courses.userId', '=', userId)
+      .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
       .orderBy('certification-courses.createdAt', 'DESC');
 
     const privateCertificates = [];
-    for (const result of results) {
-      const cleaCertificationResult = await _getCleaCertificationResult(result.id);
-      const certifiedBadgeImages = await _getCertifiedBadgeImages(result.id);
-      const privateCertificate = PrivateCertificate.buildFrom({
-        ...result,
+    for (const certificationCourseDTO of certificationCourseDTOs) {
+      const cleaCertificationResult = await _getCleaCertificationResult(certificationCourseDTO.id);
+      const certifiedBadgeImages = await _getCertifiedBadgeImages(certificationCourseDTO.id);
+      const privateCertificate = _toDomain({
+        certificationCourseDTO,
         cleaCertificationResult,
         certifiedBadgeImages,
       });
@@ -123,26 +124,35 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
   }));
 }
 
-function _toDomain(certificationCourseDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages) {
+function _toDomain({ certificationCourseDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages }) {
 
-  const competenceResults = JSON .parse(certificationCourseDTO.competenceResultsJson);
+  if (competenceTree) {
 
-  const competenceMarks = _.map(competenceResults, (competenceMark) => new CompetenceMark({
-    score: competenceMark.score,
-    level: competenceMark.level,
-    competence_code: competenceMark.competenceId,
-  }));
+    const competenceResults = JSON .parse(certificationCourseDTO.competenceResultsJson);
 
-  const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
-    competenceTree,
-    competenceMarks,
-    certificationId: certificationCourseDTO.id,
-    assessmentResultId: certificationCourseDTO.assessmentResultId,
-  });
+    const competenceMarks = _.map(competenceResults, (competenceMark) => new CompetenceMark({
+      score: competenceMark.score,
+      level: competenceMark.level,
+      competence_code: competenceMark.competenceId,
+    }));
+
+    const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
+      competenceTree,
+      competenceMarks,
+      certificationId: certificationCourseDTO.id,
+      assessmentResultId: certificationCourseDTO.assessmentResultId,
+    });
+
+    return PrivateCertificate.buildFrom({
+      ...certificationCourseDTO,
+      resultCompetenceTree,
+      cleaCertificationResult,
+      certifiedBadgeImages,
+    });
+  }
 
   return PrivateCertificate.buildFrom({
     ...certificationCourseDTO,
-    resultCompetenceTree,
     cleaCertificationResult,
     certifiedBadgeImages,
   });
