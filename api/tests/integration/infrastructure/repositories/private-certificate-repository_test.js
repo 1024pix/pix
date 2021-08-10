@@ -474,6 +474,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
 
     it('should return a collection of PrivateCertificate', async () => {
       // given
+
       const userId = databaseBuilder.factory.buildUser().id;
       const privateCertificateData = {
         firstName: 'Sarah Michelle',
@@ -491,34 +492,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       };
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const sessionId = databaseBuilder.factory.buildSession({
-        publishedAt: privateCertificateData.deliveredAt,
-        certificationCenter: privateCertificateData.certificationCenter,
-        certificationCenterId,
-      }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
-        firstName: privateCertificateData.firstName,
-        lastName: privateCertificateData.lastName,
-        birthdate: privateCertificateData.birthdate,
-        birthplace: privateCertificateData.birthplace,
-        isPublished: privateCertificateData.isPublished,
-        isCancelled: false,
-        createdAt: privateCertificateData.date,
-        verificationCode: privateCertificateData.verificationCode,
-        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-        sessionId,
-        userId,
-      }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
-      databaseBuilder.factory.buildAssessmentResult({
-        assessmentId,
-        pixScore: privateCertificateData.pixScore,
-        status: 'validated',
-        commentForCandidate: privateCertificateData.commentForCandidate,
-      });
-      await databaseBuilder.commit();
 
+      const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
       // when
       const privateCertificates = await privateCertificateRepository.findByUserId({ userId });
 
@@ -534,6 +509,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
 
     it('should return all the certificates of the user if he has many ordered by creation date DESC', async () => {
       // given
+
       const userId = databaseBuilder.factory.buildUser().id;
       const anotherUserId = databaseBuilder.factory.buildUser().id;
       const sessionId1 = databaseBuilder.factory.buildSession().id;
@@ -587,41 +563,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       };
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const sessionId = databaseBuilder.factory.buildSession({
-        publishedAt: privateCertificateData.deliveredAt,
-        certificationCenter: privateCertificateData.certificationCenter,
-        certificationCenterId,
-      }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
-        firstName: privateCertificateData.firstName,
-        lastName: privateCertificateData.lastName,
-        birthdate: privateCertificateData.birthdate,
-        birthplace: privateCertificateData.birthplace,
-        isPublished: privateCertificateData.isPublished,
-        isCancelled: false,
-        createdAt: privateCertificateData.date,
-        verificationCode: privateCertificateData.verificationCode,
-        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
-        sessionId,
-        userId,
-      }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
-      databaseBuilder.factory.buildAssessmentResult({
-        createdAt: new Date('2021-03-01'),
-        assessmentId,
-        pixScore: privateCertificateData.pixScore,
-        status: 'rejected',
-        commentForCandidate: privateCertificateData.commentForCandidate,
-      });
-      databaseBuilder.factory.buildAssessmentResult({
-        createdAt: new Date('2021-01-01'),
-        assessmentId,
-        pixScore: privateCertificateData.pixScore,
-        status: 'validated',
-        commentForCandidate: privateCertificateData.commentForCandidate,
-      });
-      await databaseBuilder.commit();
+
+      const { certificateId } = await _buildValidPrivateCertificateWithSeveralResults(privateCertificateData);
 
       // when
       const privateCertificates = await privateCertificateRepository.findByUserId({ userId });
@@ -636,6 +579,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
 
     it('should build even if there is not assessment result', async () => {
       // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
       const userId = databaseBuilder.factory.buildUser().id;
       const privateCertificateData = {
         firstName: 'Sarah Michelle',
@@ -683,7 +628,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
+      expect(_.omit(privateCertificates[0], ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
     });
 
     it('should get the clea certification result if taken', async () => {
