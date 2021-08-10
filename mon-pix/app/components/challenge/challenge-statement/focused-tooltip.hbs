@@ -1,19 +1,19 @@
 <div class="challenge-statement-instruction__tag challenge-statement-instruction__tag{{if this.isFocusedChallenge "--focused" "--regular"}}">
   <button type="button"
           tabindex="0"
-          aria-describedby="challenge-statement-tag-icon-button"
+          aria-describedby="challenge-statement__tag-information"
           class="challenge-statement-tag__icon-button"
-          {{on 'mouseenter' this.showTooltipOnMouseEnter}}
-          {{on 'mouseleave' this.hideTooltipOnMouseLeave}}
-          {{on 'click' this.showTooltipOnMouseEnter}}/>
+          {{on 'mouseenter' (fn this.toggleTooltip true)}}
+          {{on 'mouseleave' (fn this.toggleTooltip false)}}
+          {{on 'click' (fn this.toggleTooltip true)}}/>
 
   {{#if this.shouldDisplayTooltip}}
     <div role="tooltip"
-         id="challenge-statement-tag-icon-button"
+         id="challenge-statement__tag-information"
          class="challenge-statement__tag-information"
          tabindex="0"
-      {{on-key 'Escape' this.hideTooltip event='keyup'}}
-      {{on 'focusout' this.hideTooltipOnMouseLeave}}>
+      {{on-key 'Escape' (fn this.toggleTooltip false) event='keyup'}}
+      {{on 'focusout' (fn this.toggleTooltip false)}}>
       {{#if this.isFocusedChallenge}}
         <p class="challenge-statement-tag-information__text">
           {{t 'pages.challenge.statement.tooltip.focused'}}
@@ -22,7 +22,7 @@
       {{#if this.shouldDisplayButton}}
         <PixButton class="challenge-statement-tag-information__button"
                    @size="small"
-                   @triggerAction={{this.hideTooltip}}>
+                   @triggerAction={{this.confirmInformationIsRead}}>
           {{t 'pages.challenge.statement.tooltip.close'}}
         </PixButton>
       {{/if}}
