@@ -1,12 +1,12 @@
-import Service from '@ember/service';
-import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
+import { expect } from 'chai';
+import sinon from 'sinon';
+
+import Service from '@ember/service';
 import { setupTest } from 'ember-mocha';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
-import sinon from 'sinon';
-
-describe('Unit | Route | account-recovery | update-sco-record', function() {
+describe('Unit | Route | account-recovery | update sco record', function() {
 
   setupTest();
   setupIntl();
@@ -97,7 +97,7 @@ describe('Unit | Route | account-recovery | update-sco-record', function() {
           // then
           return promise.then((result) => {
             expect(result.errorMessage).to.equal(this.intl.t('pages.account-recovery.errors.key-invalid'));
-            expect(result.showReturnToHomeButton).to.be.true;
+            expect(result.showBackToHomeButton).to.be.true;
           });
         });
       });
@@ -132,7 +132,7 @@ describe('Unit | Route | account-recovery | update-sco-record', function() {
         // then
         return promise.then((result) => {
           expect(result.errorMessage).to.equal(this.intl.t('pages.account-recovery.errors.account-exists'));
-          expect(result.showReturnToHomeButton).to.be.true;
+          expect(result.showBackToHomeButton).to.be.true;
         });
       });
 
@@ -149,7 +149,7 @@ describe('Unit | Route | account-recovery | update-sco-record', function() {
         // then
         return promise.then((result) => {
           expect(result.errorMessage).to.equal(this.intl.t('pages.account-recovery.errors.key-used'));
-          expect(result.showReturnToHomeButton).to.be.true;
+          expect(result.showBackToHomeButton).to.be.true;
         });
       });
 
@@ -167,12 +167,10 @@ describe('Unit | Route | account-recovery | update-sco-record', function() {
           // then
           return promise.then((result) => {
             expect(result.errorMessage).to.equal(this.intl.t('api-error-messages.internal-server-error'));
-            expect(result.showReturnToHomeButton).to.be.true;
+            expect(result.showBackToHomeButton).to.be.true;
           });
         });
       });
-
     });
   });
-
 });

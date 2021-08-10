@@ -20,7 +20,7 @@ export default class FindScoRecordController extends Controller {
   @tracked accountRecoveryError = {
     message: '',
     title: '',
-    showReturnToHomeButton: false,
+    showBackToHomeButton: false,
   };
 
   @tracked showStudentInformationForm = true;
@@ -131,19 +131,19 @@ export default class FindScoRecordController extends Controller {
       403: {
         message: this.intl.t('pages.account-recovery.errors.key-used'),
         title: this.intl.t('pages.account-recovery.errors.title'),
-        showReturnToHomeButton: true,
+        showBackToHomeButton: true,
       },
       409: {
         message: this.intl.t('pages.account-recovery.find-sco-record.conflict.warning'),
         title: this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName: this.studentInformationForAccountRecovery.firstName }),
-        showReturnToHomeButton: false,
+        showBackToHomeButton: false,
       },
     };
 
     const internalError = {
       message: this.intl.t('api-error-messages.internal-server-error'),
       title: this.intl.t('pages.account-recovery.errors.title'),
-      showReturnToHomeButton: true,
+      showBackToHomeButton: true,
     };
 
     this.showStudentInformationForm = false;

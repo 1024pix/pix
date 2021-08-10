@@ -6,6 +6,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../../helpers/contains';
 
 describe('Integration | Component | recovery-errors', function() {
+
   setupIntlRenderingTest();
 
   it('should render an account recovery error', async function() {
@@ -39,10 +40,10 @@ describe('Integration | Component | recovery-errors', function() {
 
   it('should display back to home link when asked for', async function() {
     // given;
-    this.set('showReturnToHomeButton', true);
+    this.set('showBackToHomeButton', true);
 
     // when
-    await render(hbs`<AccountRecovery::RecoveryErrors @showReturnToHomeButton={{this.showReturnToHomeButton}} />`);
+    await render(hbs`<AccountRecovery::RecoveryErrors @showBackToHomeButton={{this.showBackToHomeButton}} />`);
 
     // then
     expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
