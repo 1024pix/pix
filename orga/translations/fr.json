@@ -423,7 +423,7 @@
     },
     "certifications": {
       "title": "Résultats de certification",
-      "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.<br> Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.",
+      "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification (.csv) ou télécharger les attestations (.pdf).<br> Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.",
       "documentation-link": "https://cloud.pix.fr/s/cRaeKT4ErrXs4X8",
       "documentation-link-label": "Interprétation des résultats.",
       "documentation-link-notice": "Vous trouverez en suivant ce lien quelques éléments pour interpréter les résultats : ",
