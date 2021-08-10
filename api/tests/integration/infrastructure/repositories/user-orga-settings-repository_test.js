@@ -14,7 +14,7 @@ describe('Integration | Repository | UserOrgaSettings', function() {
     'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted'];
 
   const ORGANIZATION_OMITTED_PROPERTIES = ['memberships', 'organizationInvitations', 'students', 'targetProfileShares', 'email', 'tags',
-    'createdAt', 'updatedAt'];
+    'createdAt', 'updatedAt', 'createdBy'];
 
   let user;
   let organization;
