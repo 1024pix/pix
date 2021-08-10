@@ -26,8 +26,24 @@ function buildOrganization({
   createdAt = new Date('2018-01-12T01:02:03Z'),
   targetProfileShares = [],
   tags = [],
+  createdBy,
 } = {}) {
-  return new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, email, canCollectProfiles, createdAt, targetProfileShares, tags });
+  return new Organization({
+    id,
+    name,
+    type,
+    logoUrl,
+    externalId,
+    provinceCode,
+    isManagingStudents,
+    credit,
+    email,
+    canCollectProfiles,
+    createdAt,
+    targetProfileShares,
+    tags,
+    createdBy,
+  });
 }
 
 buildOrganization.withSchoolingRegistrations = function({
@@ -42,9 +58,22 @@ buildOrganization.withSchoolingRegistrations = function({
   canCollectProfiles = false,
   createdAt = new Date('2018-01-12T01:02:03Z'),
   students = [],
-} = {},
-) {
-  const organization = new Organization({ id, name, type, logoUrl, externalId, provinceCode, isManagingStudents, credit, canCollectProfiles, createdAt, students });
+  createdBy,
+} = {}) {
+  const organization = new Organization({
+    id,
+    name,
+    type,
+    logoUrl,
+    externalId,
+    provinceCode,
+    isManagingStudents,
+    credit,
+    canCollectProfiles,
+    createdAt,
+    students,
+    createdBy,
+  });
 
   organization.students = [
     _buildSchoolingRegistration({ id: 1, lastName: 'Doe', firstName: 'John', organization }),
