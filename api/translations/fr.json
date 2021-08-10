@@ -142,6 +142,9 @@
   "entity-validation-errors": {
     "ACCEPT_CGU": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
     "ALREADY_REGISTERED_EMAIL": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
+    "CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED": "Une URL pour le bouton est saisie : un texte est également requis.",
+    "CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED": "Un texte pour le bouton est saisi : une URL est également requise.",
+    "CUSTOM_RESULT_PAGE_BUTTON_URL_MUST_BE_A_URL": "L'URL du bouton doit être une URL complète et valide.",
     "EMPTY_EMAIL": "Votre adresse e-mail n’est pas renseignée.",
     "EMPTY_FIRST_NAME": "Votre prénom n’est pas renseigné.",
     "EMPTY_INPUT": "Aucun champ n'est renseigné.",
