@@ -14,19 +14,11 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
   const verifyCertificateCodeService = {
     generateCertificateVerificationCode: undefined,
   };
-  const resultCompetenceTreeService = {
-    computeForCertification: undefined,
-  };
-  const assessmentResultRepository = 'assessmentResultRepository';
-  const competenceTreeRepository = 'competenceTreeRepository';
 
   const dependencies = {
     certificationRepository,
     privateCertificateRepository,
-    assessmentResultRepository,
-    competenceTreeRepository,
     verifyCertificateCodeService,
-    resultCompetenceTreeService,
   };
 
   beforeEach(() => {
@@ -34,7 +26,6 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
     verifyCertificateCodeService.generateCertificateVerificationCode = sinon.stub();
     certificationRepository.hasVerificationCode = sinon.stub();
     certificationRepository.saveVerificationCode = sinon.stub();
-    resultCompetenceTreeService.computeForCertification = sinon.stub();
   });
 
   context('when the user is not owner of the certification', async () => {
@@ -69,7 +60,6 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
         privateCertificateRepository.get.withArgs(123).resolves(privateCertificate);
         verifyCertificateCodeService.generateCertificateVerificationCode.resolves('P-SOMECODE');
         certificationRepository.saveVerificationCode.resolves();
-        resultCompetenceTreeService.computeForCertification.resolves();
 
         // when
         await getPrivateCertificate({ certificationId: 123, userId: 456, ...dependencies });
@@ -92,7 +82,6 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
         privateCertificateRepository.get.withArgs(123).resolves(privateCertificate);
         verifyCertificateCodeService.generateCertificateVerificationCode.rejects(new Error('I should not run.'));
         certificationRepository.saveVerificationCode.resolves(new Error('I should not run.'));
-        resultCompetenceTreeService.computeForCertification.resolves();
 
         // when
         await getPrivateCertificate({ certificationId: 123, userId: 456, ...dependencies });
@@ -105,23 +94,17 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
 
     it('should get the private certificate enhanced with the result competence tree', async () => {
       // given
+      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
       const privateCertificate = domainBuilder.buildPrivateCertificate({
         id: 123,
         userId: 456,
+        resultCompetenceTree,
       });
-      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
       certificationRepository.hasVerificationCode.withArgs(123).resolves(true);
       privateCertificateRepository.get.withArgs(123).resolves(privateCertificate);
       verifyCertificateCodeService.generateCertificateVerificationCode.rejects(new Error('I should not run.'));
       certificationRepository.saveVerificationCode.resolves(new Error('I should not run.'));
       privateCertificateRepository.get.withArgs(123).resolves(privateCertificate);
-      resultCompetenceTreeService.computeForCertification
-        .withArgs({
-          certificationId: 123,
-          assessmentResultRepository,
-          competenceTreeRepository,
-        })
-        .resolves(resultCompetenceTree);
 
       // when
       const actualPrivateCertificate = await getPrivateCertificate({ certificationId: 123, userId: 456, ...dependencies });

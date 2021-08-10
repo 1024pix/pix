@@ -5,12 +5,16 @@ const CleaCertificationResult = require('../../../lib/domain/models/CleaCertific
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
+const competenceTreeRepository = require('./competence-tree-repository');
+const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
+const CompetenceMark = require('../../domain/models/CompetenceMark');
 
 module.exports = {
 
   async get(id) {
     const certificationCourseDTO = await _selectPrivateCertificates()
       .where('certification-courses.id', '=', id)
+      .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
       .first();
 
     if (!certificationCourseDTO) {
@@ -20,11 +24,14 @@ module.exports = {
     const cleaCertificationResult = await _getCleaCertificationResult(id);
     const certifiedBadgeImages = await _getCertifiedBadgeImages(id);
 
-    return PrivateCertificate.buildFrom({
-      ...certificationCourseDTO,
+    const competenceTree = await competenceTreeRepository.get();
+
+    return _toDomain(
+      certificationCourseDTO,
+      competenceTree,
       cleaCertificationResult,
       certifiedBadgeImages,
-    });
+    );
   },
 
   async findByUserId({ userId }) {
@@ -66,16 +73,25 @@ function _selectPrivateCertificates() {
       pixScore: 'assessment-results.pixScore',
       commentForCandidate: 'assessment-results.commentForCandidate',
       assessmentResultStatus: 'assessment-results.status',
+      assessmentResultId: 'assessment-results.id',
     })
+    .select(knex.raw('\'[\' || (string_agg(\'{ "score":\' || "competence-marks".score::VARCHAR || \', "level":\' || "competence-marks".level::VARCHAR || \', "competenceId":"\' || "competence-marks"."competence_code" || \'"}\', \',\')) || \']\' as "competenceResultsJson"'))
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-    .leftJoin({ 'newerAssessmentResults': 'assessment-results' }, function() {
-      this.on('newerAssessmentResults.assessmentId', 'assessments.id')
-        .andOn('assessment-results.createdAt', '<', knex.ref('newerAssessmentResults.createdAt'));
-    })
-    .join('sessions', 'sessions.id', 'certification-courses.sessionId')
-    .whereNull('newerAssessmentResults.id');
+    .modify(_filterMostRecentAssessmentResult)
+    .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
+    .join('sessions', 'sessions.id', 'certification-courses.sessionId');
+}
+
+function _filterMostRecentAssessmentResult(qb) {
+  return qb
+    .whereNotExists(
+      knex.select(1)
+        .from({ 'last-assessment-results': 'assessment-results' })
+        .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
+        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
+    );
 }
 
 async function _getCleaCertificationResult(certificationCourseId) {
@@ -105,4 +121,29 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     if (result.partnerKey === pixPlusDroitExpertBadgeKey) return 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg';
     return null;
   }));
+}
+
+function _toDomain(certificationCourseDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages) {
+
+  const competenceResults = JSON .parse(certificationCourseDTO.competenceResultsJson);
+
+  const competenceMarks = _.map(competenceResults, (competenceMark) => new CompetenceMark({
+    score: competenceMark.score,
+    level: competenceMark.level,
+    competence_code: competenceMark.competenceId,
+  }));
+
+  const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
+    competenceTree,
+    competenceMarks,
+    certificationId: certificationCourseDTO.id,
+    assessmentResultId: certificationCourseDTO.assessmentResultId,
+  });
+
+  return PrivateCertificate.buildFrom({
+    ...certificationCourseDTO,
+    resultCompetenceTree,
+    cleaCertificationResult,
+    certifiedBadgeImages,
+  });
 }
