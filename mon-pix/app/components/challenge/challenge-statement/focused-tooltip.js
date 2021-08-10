@@ -29,7 +29,7 @@ export default class FocusedTooltip extends Component {
   }
 
   @action
-  hideTooltip() {
+  confirmInformationIsRead() {
     this.shouldDisplayTooltip = false;
     this._notifyChallengeTooltipIsClosed();
   }
@@ -39,22 +39,12 @@ export default class FocusedTooltip extends Component {
   }
 
   @action
-  showTooltipOnMouseEnter() {
+  toggleTooltip(value) {
     if (this.isFocusedChallenge && this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip) {
-      this.shouldDisplayTooltip = true;
+      this.shouldDisplayTooltip = value;
     }
     if (this.isFocusedChallenge && !this.currentUser.user) {
-      this.shouldDisplayTooltip = true;
-    }
-  }
-
-  @action
-  hideTooltipOnMouseLeave() {
-    if (this.isFocusedChallenge && this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip) {
-      this.shouldDisplayTooltip = false;
-    }
-    if (this.isFocusedChallenge && !this.currentUser.user) {
-      this.shouldDisplayTooltip = false;
+      this.shouldDisplayTooltip = value;
     }
   }
 
