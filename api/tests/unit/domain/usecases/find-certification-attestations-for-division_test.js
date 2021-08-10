@@ -7,9 +7,6 @@ describe('Unit | UseCase | find-certification-attestations-for-division', async 
   const certificationAttestationRepository = {
     findByDivisionForScoIsManagingStudentsOrganization: () => undefined,
   };
-  const resultCompetenceTreeService = {
-    computeForCertification: () => undefined,
-  };
 
   const dependencies = {
     certificationAttestationRepository,
@@ -17,7 +14,6 @@ describe('Unit | UseCase | find-certification-attestations-for-division', async 
 
   beforeEach(() => {
     certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization = sinon.stub();
-    resultCompetenceTreeService.computeForCertification = sinon.stub();
   });
 
   it('should return multiple certification attestations enhanced with result competence tree', async () => {
