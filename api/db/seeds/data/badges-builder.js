@@ -6,14 +6,17 @@ const PRO_BASICS_BADGE_ID = 114;
 const PRO_TOOLS_BADGE_ID = 115;
 const PIX_DROIT_MAITRE_BADGE_ID = 116;
 const PIX_DROIT_EXPERT_BADGE_ID = 117;
+const PIX_EMPLOI_CLEA_BADGE_ID_V2 = 118;
 
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 const Badge = require('../../../lib/domain/models/Badge');
 const {
-  skillIdsForBadgePartnerCompetences,
+  skillIdsForBadgePartnerCompetencesV1,
+  skillIdsForBadgePartnerCompetencesV2,
   TARGET_PROFILE_STAGES_BADGES_ID,
   TARGET_PROFILE_ONE_COMPETENCE_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+  TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
   TARGET_PROFILE_PIX_DROIT_ID,
 } = require('./target-profiles-builder');
 
@@ -25,6 +28,7 @@ function badgesBuilder({ databaseBuilder }) {
   _createProfessionalBasicsBadge(databaseBuilder);
   _createProfessionalToolsBadge(databaseBuilder);
   _createPixDroitBadge(databaseBuilder);
+  _createPixEmploiCleaBadgeV2(databaseBuilder);
 }
 
 function _createPixEmploiCleaBadge(databaseBuilder) {
@@ -39,7 +43,23 @@ function _createPixEmploiCleaBadge(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
   });
 
-  const badgePartnerCompetencesIds = _associateBadgePartnerCompetences(databaseBuilder, skillIdsForBadgePartnerCompetences, badge);
+  const badgePartnerCompetencesIds = _associateBadgePartnerCompetences(databaseBuilder, skillIdsForBadgePartnerCompetencesV1, badge);
+  _associateBadgeCriteria(databaseBuilder, badge, badgePartnerCompetencesIds);
+}
+
+function _createPixEmploiCleaBadgeV2(databaseBuilder) {
+  const badge = databaseBuilder.factory.buildBadge({
+    id: PIX_EMPLOI_CLEA_BADGE_ID_V2,
+    altMessage: 'PIX_EMPLOI_CLEA_V2',
+    title: 'Prêt pour le CléA numérique',
+    imageUrl: 'https://images.pix.fr/badges/Pix-emploi.svg',
+    key: Badge.keys.PIX_EMPLOI_CLEA_V2,
+    message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
+      'Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
+    targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
+  });
+
+  const badgePartnerCompetencesIds = _associateBadgePartnerCompetences(databaseBuilder, skillIdsForBadgePartnerCompetencesV2, badge);
   _associateBadgeCriteria(databaseBuilder, badge, badgePartnerCompetencesIds);
 }
 
@@ -366,6 +386,7 @@ function _associatePixDroitExpertBadgeCriteria(databaseBuilder, badge, badgePart
 module.exports = {
   badgesBuilder,
   PIX_EMPLOI_CLEA_BADGE_ID,
+  PIX_EMPLOI_CLEA_BADGE_ID_V2,
   BASICS_BADGE_ID,
   TOOLS_BADGE_ID,
   MANIP_BADGE_ID,
