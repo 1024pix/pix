@@ -23,6 +23,8 @@ const learningContentBuilder = require('./tooling/learning-content-builder');
 const tokenService = require('../lib/domain/services/token-service');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
+// TODO: Fix this the next time the file is edited.
+// eslint-disable-next-line mocha/no-top-level-hooks
 afterEach(function() {
   sinon.restore();
   cache.flushAll();
@@ -30,6 +32,8 @@ afterEach(function() {
   return databaseBuilder.clean();
 });
 
+// TODO: Fix this the next time the file is edited.
+// eslint-disable-next-line mocha/no-top-level-hooks
 after(function() {
   return disconnect();
 });
