@@ -75,6 +75,12 @@ export default class AuthenticatedCertificationsController extends Controller {
           this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
           { autoClear: false },
         );
+      }
+      if (_isErrorNoResults(error)) {
+        this.notifications.info(
+          this.intl.t('pages.certifications.errors.no-certificates', { selectedDivision: this.selectedDivision }),
+          { autoClear: false },
+        );
       } else {
         this.notifications.error(error.message, { autoClear: false });
       }
@@ -102,4 +108,8 @@ function _isDivisionInvalid(selectedDivision, divisions) {
 
 function _isErrorNotFound(error) {
   return error[0] && error[0].status == 404;
+}
+
+function _isErrorNoResults(error) {
+  return error[0] && error[0].status == 400;
 }
