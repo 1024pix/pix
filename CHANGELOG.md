@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.84.0 (10/08/2021)
+
+- [#3290](https://github.com/1024pix/pix/pull/3290) [FEATURE] Créer la route de récupération des attestations par classe (PIX-2940)
+- [#3297](https://github.com/1024pix/pix/pull/3297) [FEATURE] Afficher qu'un compte existe deja lorsque l'adresse e-mail est deja utilise (PIX-2914).
+- [#3294](https://github.com/1024pix/pix/pull/3294) [FEATURE] Réactiver les schooling registration disabled à l'import SUP (PIX-2856)
+- [#3291](https://github.com/1024pix/pix/pull/3291) [FEATURE] Ajout des options de sélections sur les épreuves QROC (PIX-2924).
+- [#3288](https://github.com/1024pix/pix/pull/3288) [FEATURE] Permettre de sortir dans un fichier csv les résultats d'algolix (PIX-2070). 
+- [#3246](https://github.com/1024pix/pix/pull/3246) [FEATURE] Générer les codes de verification à la création de certification et ajout d'un script en production pour rétro-générer des codes de vérification (PIX-2918)
+- [#3302](https://github.com/1024pix/pix/pull/3302) [BUGFIX] Connecter l'utilisateur à la fin du processus de récupération compte SCO (PIX-2954).
+- [#3298](https://github.com/1024pix/pix/pull/3298) [BUGFIX] Corriger l'affichage de la date d'achèvement d'une certification dans Pix Admin (PIX-147).
+- [#3295](https://github.com/1024pix/pix/pull/3295) [BUGFIX] Désactiver le bouton "Je me connecte" après avoir cliqué dessus durant la récupération compte SCO (PIX-2950).
+- [#3283](https://github.com/1024pix/pix/pull/3283) [TECH] Rendre Pix Orga un minimum responsive (PIX-2943)
+- [#3255](https://github.com/1024pix/pix/pull/3255) [DOC] Expliciter la création des instances de la BDD locale.
+- [#3276](https://github.com/1024pix/pix/pull/3276) [DOC] Expliciter la configuration du cache. 
+
 ## v3.83.0 (06/08/2021)
 
 - [#3293](https://github.com/1024pix/pix/pull/3293) [FEATURE] Déplacer le filtre "Afficher uniquement mes sessions" de l'onglet "Toutes les sessions" vers l'onglet "Sessions à traiter" dans Pix Admin (PIX-2360).
