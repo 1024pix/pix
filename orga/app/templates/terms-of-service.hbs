@@ -1,17 +1,17 @@
 {{page-title (t 'pages.terms-of-service.title')}}
+
 <div class="terms-of-service-page">
   <div class="terms-of-service-form">
 
   {{#if this.isEnglishLocale}}
-  <TermsOfServiceEn/>
-    {{else}}
-    <TermsOfServiceFr/>
+    <TermsOfService::PageEn/>
+  {{else}}
+    <TermsOfService::PageFr/>
   {{/if}}
 
     <div class="terms-of-service-form__actions">
       <LinkTo @route="logout" @id="terms-of-service-cancel-button" class="button button--no-color button--big button--link">{{t "common.actions.cancel"}}</LinkTo>
       <button type="submit" class="button button--extra-big terms-of-service-form__submit" {{on 'click' this.submit}}>{{t "pages.terms-of-service.accept"}}</button>
     </div>
-
   </div>
 </div>
