@@ -1,21 +1,21 @@
-<div class="panel campaign-details-container">
-  <div class="campaign-details-row">
+<div class="panel campaign-settings">
+  <div class="campaign-settings-row">
     {{#if @campaign.isTypeAssessment}}
-      <div class="campaign-details-content">
-        <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign-settings.target-profile'}}</h4>
-        <p class="content-text campaign-details-content__text">{{@campaign.targetProfileName}}</p>
+      <div class="campaign-settings-content">
+        <h4 class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.target-profile'}}</h4>
+        <p class="content-text campaign-settings-content__text">{{@campaign.targetProfileName}}</p>
       </div>
     {{/if}}
     {{#if @campaign.idPixLabel}}
-      <div class="campaign-details-content">
-        <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign-settings.external-user-id-label'}}</h4>
-        <p class="content-text campaign-details-content__text">{{@campaign.idPixLabel}}</p>
+      <div class="campaign-settings-content">
+        <h4 class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.external-user-id-label'}}</h4>
+        <p class="content-text campaign-settings-content__text">{{@campaign.idPixLabel}}</p>
       </div>
     {{/if}}
-    <div class="campaign-details-content">
-      <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign-settings.direct-link'}}</h4>
-      <div class="campaign-details-content__clipboard">
-        <p class="content-text campaign-details-content__text">{{this.campaignsRootUrl}}</p>
+    <div class="campaign-settings-content">
+      <h4 class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.direct-link'}}</h4>
+      <div class="campaign-settings-content__clipboard">
+        <p class="content-text campaign-settings-content__text">{{this.campaignsRootUrl}}</p>
         <Campaign::CopyPasteButton
           @clipBoardtext={{this.campaignsRootUrl}}
           @successMessage={{t 'pages.campaign.copy.link.success'}}
@@ -26,25 +26,25 @@
   </div>
 
   {{#if @campaign.isTypeAssessment}}
-    <div class="campaign-details-row">
-      <div class="campaign-details-content campaign-details-content--single">
-        <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign-settings.personalised-test-title'}}</h4>
-        <p class="content-text campaign-details-content__text">{{@campaign.title}}</p>
+    <div class="campaign-settings-row">
+      <div class="campaign-settings-content campaign-settings-content--single">
+        <h4 class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.personalised-test-title'}}</h4>
+        <p class="content-text campaign-settings-content__text">{{@campaign.title}}</p>
       </div>
     </div>
   {{/if}}
 
-  <div class="campaign-details-row">
-    <div class="campaign-details-content campaign-details-content--single">
-      <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign-settings.landing-page-text'}}</h4>
-      <p class="content-text campaign-details-content__text">
+  <div class="campaign-settings-row">
+    <div class="campaign-settings-content campaign-settings-content--single">
+      <h4 class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.landing-page-text'}}</h4>
+      <p class="content-text campaign-settings-content__text">
         <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
       </p>
     </div>
   </div>
 
   {{#unless @campaign.isArchived}}
-    <div class="campaign-details-buttons">
+    <div class="campaign-settings-buttons">
       <LinkTo
         @route="authenticated.campaigns.update"
         @model={{@campaign.id}}

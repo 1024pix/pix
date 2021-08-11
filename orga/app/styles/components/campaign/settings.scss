@@ -1,9 +1,9 @@
-.campaign-details-container {
+.campaign-settings {
   display: flex;
   flex-direction: column;
 }
 
-.campaign-details-row {
+.campaign-settings-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -13,7 +13,7 @@
   }
 }
 
-.campaign-details-content {
+.campaign-settings-content {
   display: flex;
   flex-direction: column;
   padding: 24px;
@@ -47,7 +47,7 @@
   }
 }
 
-.campaign-details-buttons {
+.campaign-settings-buttons {
   display: flex;
   padding: 24px;
   width: 100%;
@@ -58,11 +58,11 @@
 }
 
 @include device-is('mobile') {
-  .campaign-details-content {
+  .campaign-settings {
     width: initial;
   }
 
-  .campaign-details-row {
+  .campaign-settings-row {
     flex-direction: column;
     justify-content: flex-start;
   }
