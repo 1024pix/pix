@@ -441,7 +441,12 @@
       "illustration": {
         "placeholder": "Image loading"
       },
-      "is-focused-challenge": "",
+      "is-focused-challenge": {
+        "info-alert": {
+          "title": "Answer this question without searching the internet or using your own tools.",
+          "subtitle": "If you switch pages or tabs during a certification test, you answer will not be validated."
+        }
+      },
       "has-focused-out": "",
       "parts": {
         "answer-input": "Your answer",
