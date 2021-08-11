@@ -12,10 +12,10 @@
     </div>
   </td>
   <td>
-    <RecommendationIndicator @value={{@tubeRecommendation.averageScore}} />
+    <Campaign::Analysis::RecommendationIndicator @value={{@tubeRecommendation.averageScore}} />
   </td>
   <td>
-    <TutorialCounter @tutorials={{@tubeRecommendation.tutorials}} />
+    <Campaign::Analysis::TutorialCounter @tutorials={{@tubeRecommendation.tutorials}} />
   </td>
   <td class="table__column--right">
     {{#if (gt @tubeRecommendation.tutorials.length 0)}}
