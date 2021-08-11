@@ -1,18 +1,7 @@
 // https://jsonapi.org/
 // https://github.com/SeyZ/jsonapi-serializer
 
-const chai = require('chai');
-const { expect } = require('chai');
-const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
-
-chai.use(sinonChai);
-
-// TODO: Fix this the next time the file is edited.
-// eslint-disable-next-line mocha/no-top-level-hooks
-afterEach(function() {
-  sinon.restore();
-});
+const { expect } = require('../test-helper');
 
 const Serializer = require('jsonapi-serializer').Serializer;
 const resourceType = 'users';
