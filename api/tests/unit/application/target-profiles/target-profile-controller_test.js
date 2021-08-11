@@ -47,6 +47,43 @@ describe('Unit | Controller | target-profile-controller', () => {
     });
   });
 
+  describe('#attachOrganizations', () => {
+    let request;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'attachOrganizationsToTargetProfile');
+
+      request = {
+        params: {
+          id: 123,
+        },
+        payload: {
+          'organization-ids': 1,
+        },
+      };
+    });
+
+    context('successful case', () => {
+
+      it('should succeed', async () => {
+        // when
+        const response = await targetProfileController.attachOrganizations(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+
+      it('should call usecase', async () => {
+        // when
+        await targetProfileController.attachOrganizations(request, hFake);
+
+        // then
+        expect(usecases.attachOrganizationsToTargetProfile).to.have.been.calledOnce;
+        expect(usecases.attachOrganizationsToTargetProfile).to.have.been.calledWithMatch({ targetProfileId: 123, organizationIds: 1 });
+      });
+    });
+  });
+
   describe('#outdateTargetProfile', () => {
 
     let request;
