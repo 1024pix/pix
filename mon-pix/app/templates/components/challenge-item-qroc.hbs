@@ -125,15 +125,6 @@
       </div>
     {{/if}}
 
-    {{#if this.hasFocusedOutOfChallenge}}
-      {{#unless this.hasFocusedOutOfWindow}}
-        <div class="alert alert--info" role="alert">
-          <FaIcon @icon="info-circle" class="challenge-alert__icon"/>
-          {{t 'pages.challenge.is-focused-challenge'}}
-        </div>
-      {{/unless}}
-    {{/if}}
-
     {{#if this.hasFocusedOutOfWindow}}
       <div class="alert alert--warning" role="alert">
         <FaIcon @icon="exclamation-triangle" class="challenge-alert__icon"/>
@@ -155,3 +146,19 @@
     </form>
   </div>
 </article>
+
+{{#if this.hasFocusedOutOfChallenge}}
+  {{#unless this.hasFocusedOutOfWindow}}
+    <div class="challenge-item__info-alert"
+         role="alert"
+         aria-live="assertive">
+      <div class="challenge-item-info-alert__icon" />
+      <p class="challenge-item-info-alert__title">
+        {{t 'pages.challenge.is-focused-challenge.info-alert.title'}}
+      </p>
+      <p class="challenge-item-info-alert__subtitle">
+        {{t 'pages.challenge.is-focused-challenge.info-alert.subtitle'}}
+      </p>
+    </div>
+  {{/unless}}
+{{/if}}
