@@ -42,6 +42,8 @@ module.exports = {
     return h.response({}).code(204);
   },
 
+  attachOrganizationsFromExistingTargetProfile() {},
+
   async updateTargetProfileName(request, h) {
     const id = request.params.id;
     const { name } = request.payload.data.attributes;

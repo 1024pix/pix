@@ -295,6 +295,76 @@ describe('Integration | Application | Target Profiles | Routes', () => {
     });
   });
 
+  describe('POST /api/admin/target-profiles/:id/copy-organizations', () => {
+
+    it('should resolve', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(targetProfileController, 'attachOrganizationsFromExistingTargetProfile').callsFake((request, h) => h.response('ok').code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'POST';
+      const url = '/api/admin/target-profiles/3/copy-organizations';
+      const payload = { 'target-profile-id': 1 };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+    it('should reject request with HTTP code 400 when id is a string', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'POST';
+      const url = '/api/admin/target-profiles/azerty/copy-organizations';
+      const payload = { 'target-profile-id': 1 };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should reject request with HTTP code 400 when target profile id is a string', async () => {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'POST';
+      const url = '/api/admin/target-profiles/3/copy-organizations';
+      const payload = { 'target-profile-id': 'azerty' };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should reject request with HTTP code 403 when the user is not authorized', async () => {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'POST';
+      const url = '/api/admin/target-profiles/3/copy-organizations';
+      const payload = { 'target-profile-id': 1 };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
   describe('GET /api/target-profiles/:id/organizations', () => {
 
     it('should resolve when there is no filter nor pagination', async () => {
