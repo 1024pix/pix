@@ -1,2 +1,11 @@
 {{page-title @model.name}}
-<Routes::Authenticated::Campaign::Report @campaign={{@model}} />
+
+<div class="campaign-page">
+  <Campaign::Header::Title @campaign={{@model}} />
+
+  <Campaign::Header::Tabs @campaign={{@model}} />
+
+  <Campaign::Header::ArchivedBanner @campaign={{@model}} />
+
+  {{outlet}}
+</div>
