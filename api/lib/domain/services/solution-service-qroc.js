@@ -3,9 +3,7 @@ const deactivationsService = require('../../../lib/domain/services/deactivations
 const { isNumeric, splitIntoWordsAndRemoveBackspaces, cleanStringAndParseFloat } = require('../../../lib/infrastructure/utils/string-utils');
 const { every, includes, isEmpty, isString, map } = require('lodash');
 const {
-  normalizeAndRemoveAccents,
-  removeSpecialCharacters,
-  applyPreTreatments,
+  applyTreatmentsUnlessIfDesactivated, applyPreTreatments,
 } = require('./validation-treatments');
 
 const AnswerStatus = require('../models/AnswerStatus');
@@ -65,19 +63,7 @@ function _applyTreatmentsToSolutions(solutions, deactivations, applyTreatments) 
     if (applyTreatments === false) {
       return solution;
     }
-    if (deactivationsService.isDefault(deactivations) || deactivationsService.hasOnlyT3(deactivations)) {
-      const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(solution);
-      return removeSpecialCharacters(normalizedWithoutAccentsSolution);
-    }
-    else if (deactivationsService.hasOnlyT1(deactivations) || deactivationsService.hasOnlyT1T3(deactivations)) {
-      return removeSpecialCharacters(solution);
-    }
-    else if (deactivationsService.hasOnlyT2(deactivations) || deactivationsService.hasOnlyT2T3(deactivations)) {
-      return normalizeAndRemoveAccents(solution);
-    }
-    else if (deactivationsService.hasOnlyT1T2(deactivations) || deactivationsService.hasT1T2T3(deactivations)) {
-      return solution;
-    }
+    return applyTreatmentsUnlessIfDesactivated(solution, deactivations);
   });
 }
 
