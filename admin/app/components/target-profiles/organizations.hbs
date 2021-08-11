@@ -1,15 +1,32 @@
-<section class="page-section mb_10">
-  <header class="page-section__header">
-    <h2 class="page-section__title">Rattacher une ou plusieurs organisation(s)</h2>
-  </header>
+<section class="page-section mb_10 target-profile-organizations">
   <div class="organization__forms-section">
-    <form aria-label="Rattacher une ou plusieurs organisation(s)" class="organization__sub-form form" {{on "submit" @attachOrganizations}}>
-      <Input aria-label="ID de ou des organisation(s)" @value={{@organizationsToAttach}}
-        class="organization-sub-form__input form-field__text form-control" @placeholder="1, 2" />
-      <button type="button" {{on "click" @attachOrganizations}}
-        class="organization-sub-form__validate-button btn btn-outline-default">
-        Valider
-      </button>
+    <form class="organization__form" aria-label="Rattacher une ou plusieurs organisation(s)" {{on "submit" @attachOrganizations}}>
+      <label for="attach-organizations">Rattacher une ou plusieurs organisation(s)</label>
+      <div class="organization__sub-form">
+        <Input
+          id="attach-organizations"
+          aria-label="ID de ou des organisation(s)"
+          @value={{@organizationsToAttach}}
+          class="form-field__text form-control"
+          placeholder="1, 2" />
+        <PixButton @type="submit" @size="small">
+          Valider
+        </PixButton>
+      </div>
+    </form>
+
+    <form class="organization__form" {{on 'submit' @attachOrganizationsFromExistingTargetProfile}}>
+      <label for="attach-organizations-from-existing-target-profile">Rattacher les organisations d'un profil cible existant</label>
+      <div class="organization__sub-form">
+        <Input
+          id="attach-organizations-from-existing-target-profile"
+          @value={{@existingTargetProfile}}
+          class="form-field__text form-control"
+          placeholder="1135" />
+        <PixButton @type="submit" @size="small">
+          Valider
+        </PixButton>
+      </div>
     </form>
   </div>
 </section>

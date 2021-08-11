@@ -184,4 +184,43 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
       });
     });
   });
+
+  module('#attachOrganizationsFromExistingTargetProfile', function(hooks) {
+    let event;
+
+    hooks.beforeEach(function() {
+      event = { preventDefault() {} };
+    });
+
+    module('when attaching organization works correctly', () => {
+      test('it shows a success notifications', async function(assert) {
+        controller.notifications = Service.create({ success: sinon.stub() });
+        controller.model = { targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().resolves() } };
+        controller.existingTargetProfile = 1;
+        controller.send = sinon.stub();
+
+        await controller.attachOrganizationsFromExistingTargetProfile(event);
+
+        assert.ok(controller.model.targetProfile.attachOrganizationsFromExistingTargetProfile.calledWith({ 'target-profile-id': 1 }));
+        assert.equal(controller.existingTargetProfile, null);
+        assert.ok(controller.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.'));
+        assert.ok(controller.send.calledWith('refreshModel'));
+      });
+    });
+
+    module('when there is an error', () => {
+      test('it shows a notification', async function(assert) {
+        const errors = {};
+        controller.notifications = Service.create({ error: sinon.stub() });
+        controller.model = { targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().rejects(errors) } };
+        controller.existingTargetProfile = 1;
+
+        await controller.attachOrganizationsFromExistingTargetProfile(event);
+
+        assert.equal(controller.existingTargetProfile, 1);
+        assert.ok(controller.notifications.error.calledWith('Une erreur est survenue.'));
+      });
+    });
+  });
+
 });
