@@ -19,6 +19,7 @@ export default class TargetProfileOrganizationsController extends Controller {
   @tracked type = null;
   @tracked externalId = null;
   @tracked organizationsToAttach = [];
+  @tracked existingTargetProfile = null;
 
   @service notifications;
 
@@ -50,6 +51,20 @@ export default class TargetProfileOrganizationsController extends Controller {
       return this.notifications.success('Organisation(s) rattaché(es) avec succès.');
     } catch (responseError) {
       this._handleResponseError(responseError);
+    }
+  }
+
+  @action
+  async attachOrganizationsFromExistingTargetProfile(e) {
+    e.preventDefault();
+    const targetProfile = this.model.targetProfile;
+    try {
+      await targetProfile.attachOrganizationsFromExistingTargetProfile({ 'target-profile-id': this.existingTargetProfile });
+      this.existingTargetProfile = null;
+      this.send('refreshModel');
+      return this.notifications.success('Organisation(s) rattaché(es) avec succès.');
+    } catch (responseError) {
+      return this.notifications.error('Une erreur est survenue.');
     }
   }
 
