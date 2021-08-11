@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 
-module('Integration | Component | information-banner', function(hooks) {
+module('Integration | Component | Banner::Information', function(hooks) {
   setupIntlRenderingTest(hooks);
 
   module('Import Banner', () => {
@@ -20,7 +20,7 @@ module('Integration | Component | information-banner', function(hooks) {
           this.owner.register('service:current-user', CurrentUserStub);
 
           // when
-          await render(hbs`<InformationBanner/>`);
+          await render(hbs`<Banner::Information />`);
 
           // then
           assert.dom('a[href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]').exists();
@@ -39,7 +39,7 @@ module('Integration | Component | information-banner', function(hooks) {
           this.owner.register('service:current-user', CurrentUserStub);
 
           // when
-          await render(hbs`<InformationBanner/>`);
+          await render(hbs`<Banner::Information />`);
 
           // then
           assert.dom('.pix-banner').doesNotIncludeText('Rentrée 2020 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga. Plus d’info collège et lycée (GT et Pro)');
@@ -58,7 +58,7 @@ module('Integration | Component | information-banner', function(hooks) {
         this.owner.register('service:current-user', CurrentUserStub);
 
         // when
-        await render(hbs`<InformationBanner/>`);
+        await render(hbs`<Banner::Information />`);
 
         // then
         assert.dom('.pix-banner').doesNotExist();
@@ -78,7 +78,7 @@ module('Integration | Component | information-banner', function(hooks) {
         this.owner.register('service:current-user', CurrentUserStub);
 
         // when
-        await render(hbs`<InformationBanner/>`);
+        await render(hbs`<Banner::Information />`);
 
         // then
         assert.dom('a[href="https://view.genial.ly/6077017b8b37870d98620200"]').exists();
@@ -96,7 +96,7 @@ module('Integration | Component | information-banner', function(hooks) {
         this.owner.register('service:current-user', CurrentUserStub);
 
         // when
-        await render(hbs`<InformationBanner/>`);
+        await render(hbs`<Banner::Information />`);
 
         // then
         assert.dom('.pix-banner').doesNotExist();
