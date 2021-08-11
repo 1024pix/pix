@@ -45,16 +45,6 @@
     display: flex;
     flex-direction: row;
   }
-
-  &__clipboard-button {
-    margin: -10px 6px 0 6px;
-  }
-
-  &__tooltip {
-    .pix-tooltip__content {
-      margin-bottom: 6px;
-    }
-  }
 }
 
 .campaign-details-buttons {
