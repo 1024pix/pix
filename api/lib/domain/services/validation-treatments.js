@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const deactivationsService = require('./deactivations-service');
 
 function normalizeAndRemoveAccents(string) {
   // Remove uppercase/spaces/accents/diacritics, see http://stackoverflow.com/a/37511463/827989
@@ -27,9 +28,28 @@ function applyTreatments(string, enabledTreatments) {
   return result;
 }
 
+function applyTreatmentsUnlessIfDesactivated(string, deactivations) {
+
+  if (deactivationsService.isDefault(deactivations) || deactivationsService.hasOnlyT3(deactivations)) {
+    return removeSpecialCharacters(normalizeAndRemoveAccents(string));
+  }
+  else if (deactivationsService.hasOnlyT1(deactivations) || deactivationsService.hasOnlyT1T3(deactivations)) {
+    return removeSpecialCharacters(string);
+  }
+  else if (deactivationsService.hasOnlyT2(deactivations) || deactivationsService.hasOnlyT2T3(deactivations)) {
+    return normalizeAndRemoveAccents(string);
+  }
+  else if (deactivationsService.hasOnlyT1T2(deactivations) || deactivationsService.hasT1T2T3(deactivations)) {
+    return string;
+  } else {
+    return string;
+  }
+}
+
 module.exports = {
   normalizeAndRemoveAccents,
   removeSpecialCharacters,
   applyPreTreatments,
   applyTreatments,
+  applyTreatmentsUnlessIfDesactivated,
 };

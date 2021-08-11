@@ -2,7 +2,7 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
-const { normalizeAndRemoveAccents, removeSpecialCharacters, applyPreTreatments } = require('./validation-treatments');
+const { applyPreTreatments, applyTreatmentsUnlessIfDesactivated } = require('./validation-treatments');
 const { YamlParsingError } = require('../../domain/errors');
 
 const AnswerStatus = require('../models/AnswerStatus');
@@ -12,18 +12,7 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
     return _.map(validSolutions, (validSolution) => {
       const pretreatedSolution = validSolution.toString();
 
-      if (deactivationsService.isDefault(deactivations) || deactivationsService.hasOnlyT3(deactivations)) {
-        return removeSpecialCharacters(normalizeAndRemoveAccents(pretreatedSolution));
-      }
-      else if (deactivationsService.hasOnlyT1(deactivations) || deactivationsService.hasOnlyT1T3(deactivations)) {
-        return removeSpecialCharacters(pretreatedSolution);
-      }
-      else if (deactivationsService.hasOnlyT2(deactivations) || deactivationsService.hasOnlyT2T3(deactivations)) {
-        return normalizeAndRemoveAccents(pretreatedSolution);
-      }
-      else if (deactivationsService.hasOnlyT1T2(deactivations) || deactivationsService.hasT1T2T3(deactivations)) {
-        return pretreatedSolution;
-      }
+      return applyTreatmentsUnlessIfDesactivated(pretreatedSolution, deactivations);
     });
   });
 }
