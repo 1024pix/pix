@@ -16,6 +16,10 @@ module.exports = {
         'organizationName',
         'targetProfileId',
         'targetProfileName',
+        'customLandingPageText',
+        'customResultPageText',
+        'customResultPageButtonText',
+        'customResultPageButtonUrl',
       ],
       meta,
     }).serialize(campaignManagement);

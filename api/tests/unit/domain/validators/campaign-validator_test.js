@@ -19,6 +19,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
     creatorId: 4,
     organizationId: 12,
     idPixLabel: 'Mail Pro',
+    customResultPageButtonText: null,
+    customResultPageButtonUrl: null,
   };
 
   const campaignOfTypeAssessment = {
@@ -29,6 +31,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
     organizationId: 12,
     idPixLabel: 'Mail Pro',
     targetProfileId: 44,
+    customResultPageButtonText: null,
+    customResultPageButtonUrl: null,
   };
 
   describe('#validate', () => {
@@ -66,6 +70,22 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             })).to.not.throw;
           });
 
+          it('should resolve when customResultPageText is null', () => {
+            // when/then
+            expect(campaignValidator.validate({
+              ...campaign,
+              customResultPageText: MISSING_VALUE,
+            })).to.not.throw;
+          });
+
+          it('should resolve when customResultPageButtonText and customResultPageButtonUrl are null', () => {
+            // when/then
+            expect(campaignValidator.validate({
+              ...campaign,
+              customResultPageButtonText: MISSING_VALUE,
+              customResultPageButtonUrl: MISSING_VALUE,
+            })).to.not.throw;
+          });
         });
 
         context('when campaign data validation fails', () => {
@@ -227,7 +247,6 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
                 _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
               }
             });
-
           });
 
           context('on type attribute', () => {
@@ -361,7 +380,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
       context('when type is ASSESSMENT', () => {
         it('should reject with error when targetProfileId is missing', () => {
-        // given
+          // given
           const expectedError = {
             attribute: 'targetProfileId',
             message: 'TARGET_PROFILE_IS_REQUIRED',
@@ -382,7 +401,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
         });
 
         it('should reject with error when targetProfileId is undefined', () => {
-        // given
+          // given
           const expectedError = {
             attribute: 'targetProfileId',
             message: 'TARGET_PROFILE_IS_REQUIRED',
@@ -435,6 +454,220 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
         // when/then
         expect(campaignValidator.validate(campaign)).to.not.throw;
+      });
+    });
+
+    context('when a customResultPageText is provided', () => {
+      it('should reject with error when campaign type is PROFILES_COLLECTION', () => {
+        // given
+        const expectedError = {
+          attribute: 'customResultPageText',
+          message: 'CUSTOM_RESULT_PAGE_TEXT_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
+        };
+
+        try {
+          // when
+          campaignValidator.validate({
+            ...campaignOfTypeProfilesCollection,
+            customResultPageText: 'some text',
+          });
+          expect.fail('should have thrown an error');
+
+        } catch (entityValidationErrors) {
+          // then
+          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+        }
+      });
+
+      it('should resolve when campaign type is ASSESSMENT', () => {
+        // given
+        const campaign = {
+          ...campaignOfTypeAssessment,
+          customResultPageText: 'some text',
+        };
+
+        // when/then
+        expect(campaignValidator.validate(campaign)).to.not.throw;
+      });
+    });
+
+    context('when a customResultPageButtonText is provided', () => {
+      it('should reject with error when campaign type is PROFILES_COLLECTION', () => {
+        // given
+        const expectedError = {
+          attribute: 'customResultPageButtonText',
+          message: 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
+        };
+
+        try {
+          // when
+          campaignValidator.validate({
+            ...campaignOfTypeProfilesCollection,
+            customResultPageButtonText: 'some text',
+          });
+          expect.fail('should have thrown an error');
+
+        } catch (entityValidationErrors) {
+          // then
+          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+        }
+      });
+
+      it('should resolve when campaign type is ASSESSMENT', () => {
+        // given
+        const campaign = {
+          ...campaignOfTypeAssessment,
+          customResultPageButtonText: 'some text',
+          customResultPageButtonUrl: 'http://www.url.com',
+        };
+
+        // when/then
+        expect(campaignValidator.validate(campaign)).to.not.throw;
+      });
+
+      it('should reject with error when customResultPageButtonText is not filled but customResultPageButtonUrl is', () => {
+        // given
+        const expectedError = {
+          attribute: 'customResultPageButtonText',
+          message: 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED',
+        };
+
+        try {
+          // when
+          campaignValidator.validate({
+            ...campaignOfTypeAssessment,
+            customResultPageButtonUrl: 'https://www.url.com',
+            customResultPageButtonText: EMPTY_VALUE,
+          });
+          expect.fail('should have thrown an error');
+
+        } catch (entityValidationErrors) {
+          // then
+          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+        }
+      });
+
+      it('should reject with error when customResultPageButtonText is null but customResultPageButtonUrl is filled', () => {
+        // given
+        const expectedError = {
+          attribute: 'customResultPageButtonText',
+          message: 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED',
+        };
+
+        try {
+          // when
+          campaignValidator.validate({
+            ...campaignOfTypeAssessment,
+            customResultPageButtonUrl: 'https://www.url.com',
+            customResultPageButtonText: MISSING_VALUE,
+          });
+          expect.fail('should have thrown an error');
+
+        } catch (entityValidationErrors) {
+          // then
+          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+        }
+      });
+    });
+
+    context('when a customResultPageButtonUrl is provided', () => {
+      it('should reject with error when campaign type is PROFILES_COLLECTION', () => {
+        // given
+        const expectedError = {
+          attribute: 'customResultPageButtonUrl',
+          message: 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
+        };
+
+        try {
+          // when
+          campaignValidator.validate({
+            ...campaignOfTypeProfilesCollection,
+            customResultPageButtonUrl: 'https://www.url.com',
+          });
+          expect.fail('should have thrown an error');
+
+        } catch (entityValidationErrors) {
+          // then
+          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+        }
+      });
+
+      it('should resolve when campaign type is ASSESSMENT', () => {
+        // given
+        const campaign = {
+          ...campaignOfTypeAssessment,
+          customResultPageButtonText: 'some text',
+          customResultPageButtonUrl: 'https://www.url.com',
+        };
+
+        // when/then
+        expect(campaignValidator.validate(campaign)).to.not.throw;
+      });
+
+      it('should reject with error when it is not a url', () => {
+        // given
+        const expectedError = {
+          attribute: 'customResultPageButtonUrl',
+          message: 'CUSTOM_RESULT_PAGE_BUTTON_URL_MUST_BE_A_URL',
+        };
+
+        try {
+          // when
+          campaignValidator.validate({
+            ...campaignOfTypeAssessment,
+            customResultPageButtonText: 'some text',
+            customResultPageButtonUrl: 'some text',
+          });
+          expect.fail('should have thrown an error');
+
+        } catch (entityValidationErrors) {
+          // then
+          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+        }
+      });
+
+      it('should reject with error when customResultPageButtonUrl is not filled but customResultPageButtonText is', () => {
+        // given
+        const expectedError = {
+          attribute: 'customResultPageButtonUrl',
+          message: 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
+        };
+
+        try {
+          // when
+          campaignValidator.validate({
+            ...campaignOfTypeAssessment,
+            customResultPageButtonUrl: EMPTY_VALUE,
+            customResultPageButtonText: 'some text',
+          });
+          expect.fail('should have thrown an error');
+
+        } catch (entityValidationErrors) {
+          // then
+          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+        }
+      });
+
+      it('should reject with error when customResultPageButtonUrl is null but customResultPageButtonText is filled', () => {
+        // given
+        const expectedError = {
+          attribute: 'customResultPageButtonUrl',
+          message: 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
+        };
+
+        try {
+          // when
+          campaignValidator.validate({
+            ...campaignOfTypeAssessment,
+            customResultPageButtonUrl: MISSING_VALUE,
+            customResultPageButtonText: 'some text',
+          });
+          expect.fail('should have thrown an error');
+
+        } catch (entityValidationErrors) {
+          // then
+          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+        }
       });
     });
 
