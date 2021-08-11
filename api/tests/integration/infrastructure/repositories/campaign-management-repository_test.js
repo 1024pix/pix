@@ -2,6 +2,7 @@ const { expect, databaseBuilder } = require('../../../test-helper');
 const campaignManagementRepository = require('../../../../lib/infrastructure/repositories/campaign-management-repository');
 const _ = require('lodash');
 const Campaign = require('../../../../lib/domain/models/Campaign');
+const { knex } = require('../../../../lib/infrastructure/bookshelf');
 
 describe('Integration | Repository | Campaign-Management', () => {
 
@@ -31,10 +32,16 @@ describe('Integration | Repository | Campaign-Management', () => {
         archivedAt: campaign.archivedAt,
         creatorFirstName: user.firstName,
         creatorLastName: user.lastName,
+        creatorId: user.id,
         organizationId: organization.id,
         organizationName: organization.name,
         targetProfileId: targetProfile.id,
         targetProfileName: targetProfile.name,
+        title: campaign.title,
+        customLandingPageText: campaign.customLandingPageText,
+        customResultPageText: null,
+        customResultPageButtonText: null,
+        customResultPageButtonUrl: null,
       });
     });
 
@@ -62,12 +69,72 @@ describe('Integration | Repository | Campaign-Management', () => {
         archivedAt: campaign.archivedAt,
         creatorFirstName: user.firstName,
         creatorLastName: user.lastName,
+        creatorId: user.id,
         organizationId: organization.id,
         organizationName: organization.name,
         targetProfileId: null,
         targetProfileName: null,
+        title: campaign.title,
+        customLandingPageText: campaign.customLandingPageText,
+        customResultPageText: null,
+        customResultPageButtonText: null,
+        customResultPageButtonUrl: null,
       });
     });
+  });
+
+  describe('#update', () => {
+    it('should update the campaign', async () => {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Bad campaign',
+        title: null,
+        customLandingPageText: null,
+        customResultPageText: null,
+        customResultPageButtonText: null,
+        customResultPageButtonUrl: null,
+      });
+      await databaseBuilder.commit();
+
+      const campaignAttributes = {
+        name: 'Amazing campaign',
+        title: 'Good title',
+        customLandingPageText: 'End page',
+        customResultPageText: 'Congrats you finished !',
+        customResultPageButtonText: 'Continue here',
+        customResultPageButtonUrl: 'www.next-step.net',
+      };
+      const expectedCampaign = databaseBuilder.factory.buildCampaign({ ...campaign, ...campaignAttributes });
+      // when
+      await campaignManagementRepository.update({ campaignId: campaign.id, campaignAttributes });
+      const updatedCampaign = await knex('campaigns').where({ id: campaign.id }).first();
+
+      // then
+      expect(updatedCampaign).to.deep.equal(expectedCampaign);
+    });
+
+    it('should only update editable attributes', async () => {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({
+        code: 'SOMECODE',
+        name: 'some name',
+      });
+      await databaseBuilder.commit();
+
+      const campaignAttributes = {
+        code: 'NEWCODE',
+        name: 'new name',
+      };
+      const expectedCampaign = databaseBuilder.factory.buildCampaign({ ...campaign, name: 'new name' });
+
+      // when
+      await campaignManagementRepository.update({ campaignId: campaign.id, campaignAttributes });
+      const updatedCampaign = await knex('campaigns').where({ id: campaign.id }).first();
+
+      // then
+      expect(updatedCampaign).to.deep.equal(expectedCampaign);
+    });
+
   });
 
   describe('#findPaginatedCampaignManagements', () => {
@@ -128,6 +195,7 @@ describe('Integration | Repository | Campaign-Management', () => {
           type: campaign.type,
           creatorLastName: creator.lastName,
           creatorFirstName: creator.firstName,
+          creatorId: creator.id,
         });
       });
 

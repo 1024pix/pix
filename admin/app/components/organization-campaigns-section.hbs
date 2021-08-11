@@ -22,7 +22,7 @@
           {{#each @campaigns as |campaign|}}
             <tr aria-label="campagne">
               <td class="table__column--medium">
-                <LinkTo @route="authenticated.campaigns.get" @model={{campaign.id}}>
+                <LinkTo @route="authenticated.campaigns.campaign" @model={{campaign.id}}>
                   {{campaign.id}}
                 </LinkTo>
               </td>

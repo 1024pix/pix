@@ -130,6 +130,9 @@
   "entity-validation-errors": {
     "ACCEPT_CGU": "Please agree to the terms and conditions of use.",
     "ALREADY_REGISTERED_EMAIL": "This email address is already registered, please log in.",
+    "CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED": "Une URL pour le bouton est saisie : un texte est également requis.",
+    "CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED": "Un texte pour le bouton est saisi : une URL est également requise.",
+    "CUSTOM_RESULT_PAGE_BUTTON_URL_MUST_BE_A_URL": "L'URL du bouton doit être une URL complète et valide.",
     "EMPTY_EMAIL": "Please enter an email address.",
     "EMPTY_FIRST_NAME": "Please enter a first name.",
     "EMPTY_INPUT": "Please fill out the fields.",

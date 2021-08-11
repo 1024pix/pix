@@ -67,6 +67,40 @@ exports.register = async function(server) {
       },
     },
     {
+      method: 'PATCH',
+      path: '/api/admin/campaigns/{id}',
+      config: {
+        pre: [{ method: securityPreHandlers.checkUserHasRolePixMaster }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignId,
+          }),
+          payload: Joi.object({
+            data: {
+              type: 'campaigns',
+              attributes: {
+                name: Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                title: Joi.string().required().allow(null),
+                'custom-landing-page-text': Joi.string().required().allow(null),
+                'custom-result-page-text': Joi.string().required().allow(null),
+                'custom-result-page-button-text': Joi.string().required().allow(null),
+                'custom-result-page-button-url': Joi.string().required().allow(null),
+              },
+            },
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        handler: campaignManagementController.updateCampaignDetailsManagement,
+        tags: ['api', 'campaign', 'admin'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de modifier certaines informations d\'une campagne.',
+        ],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/campaigns/{id}/csv-assessment-results',
       config: {

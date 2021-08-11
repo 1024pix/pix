@@ -20,6 +20,11 @@ describe('Unit | Serializer | JSONAPI | campaign-details-management-serializer',
         organizationName: 'Orga',
         targetProfileId: 123,
         targetProfileName: 'TP',
+        customLandingPageText: 'Welcome',
+        customResultPageText: 'Finish',
+        customResultPageButtonText: 'Click',
+        customResultPageButtonUrl: 'www.pix.fr',
+
       };
 
       // when
@@ -42,6 +47,10 @@ describe('Unit | Serializer | JSONAPI | campaign-details-management-serializer',
             'organization-name': campaignManagement.organizationName,
             'target-profile-id': campaignManagement.targetProfileId,
             'target-profile-name': campaignManagement.targetProfileName,
+            'custom-landing-page-text': campaignManagement.customLandingPageText,
+            'custom-result-page-text': campaignManagement.customResultPageText,
+            'custom-result-page-button-text': campaignManagement.customResultPageButtonText,
+            'custom-result-page-button-url': campaignManagement.customResultPageButtonUrl,
           },
         },
       });
