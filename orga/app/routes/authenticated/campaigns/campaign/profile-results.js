@@ -17,7 +17,7 @@ export default class ProfilesRoute extends Route {
 
   @action
   loading(transition) {
-    if (transition.from && transition.from.name === 'authenticated.campaigns.campaign.profiles') {
+    if (transition.from && transition.from.name === 'authenticated.campaigns.campaign.profile-results') {
       return false;
     }
   }

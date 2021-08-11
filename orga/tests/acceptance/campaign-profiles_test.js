@@ -21,7 +21,7 @@ module('Acceptance | Campaign Profiles', function(hooks) {
     user = createUserWithMembershipAndTermsOfServiceAccepted();
     createPrescriberByUser(user);
     await authenticateSession(user.id);
-    server.create('campaign', { id: 1, type: 'PROFILES_COLLECTION', participationsCount: 1 });
+    server.create('campaign', { id: 1, type: 'PROFILES_COLLECTION', sharedParticipationsCount: 1 });
     server.createList('campaign-participation', rowCount, { campaignId: 1 });
     server.createList('campaign-profiles-collection-participation-summary', rowCount);
   });
