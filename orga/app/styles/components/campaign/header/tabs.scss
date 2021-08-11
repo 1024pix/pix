@@ -1,0 +1,24 @@
+.campaign-header-tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+
+  &__navbar {
+    display: flex;
+  }
+
+  &__export-button {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+  }
+}
+
+@include device-is('mobile') {
+  .campaign-header-tabs {
+    &__navbar {
+      flex-direction: column;
+      width: 100%;
+    }
+  }
+}
