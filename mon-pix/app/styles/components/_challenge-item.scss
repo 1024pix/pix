@@ -1,6 +1,7 @@
 .challenge-item {
 
   &__container {
+    border: 3px solid transparent;
 
     &--focused {
       border: 3px dashed $grey-70;
