@@ -64,30 +64,18 @@ function _applyTreatmentsToSolutions(solutions, deactivations, applyTreatments) 
 
     if (applyTreatments === false) {
       return solution;
-    } else if (deactivationsService.isDefault(deactivations)) {
+    }
+    if (deactivationsService.isDefault(deactivations) || deactivationsService.hasOnlyT3(deactivations)) {
       const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(solution);
       return removeSpecialCharacters(normalizedWithoutAccentsSolution);
     }
-    else if (deactivationsService.hasOnlyT1(deactivations)) {
+    else if (deactivationsService.hasOnlyT1(deactivations) || deactivationsService.hasOnlyT1T3(deactivations)) {
       return removeSpecialCharacters(solution);
     }
-    else if (deactivationsService.hasOnlyT2(deactivations)) {
+    else if (deactivationsService.hasOnlyT2(deactivations) || deactivationsService.hasOnlyT2T3(deactivations)) {
       return normalizeAndRemoveAccents(solution);
     }
-    else if (deactivationsService.hasOnlyT3(deactivations)) {
-      const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(solution);
-      return removeSpecialCharacters(normalizedWithoutAccentsSolution);
-    }
-    else if (deactivationsService.hasOnlyT1T2(deactivations)) {
-      return solution;
-    }
-    else if (deactivationsService.hasOnlyT1T3(deactivations)) {
-      return removeSpecialCharacters(solution);
-    }
-    else if (deactivationsService.hasOnlyT2T3(deactivations)) {
-      return normalizeAndRemoveAccents(solution);
-    }
-    else if (deactivationsService.hasT1T2T3(deactivations)) {
+    else if (deactivationsService.hasOnlyT1T2(deactivations) || deactivationsService.hasT1T2T3(deactivations)) {
       return solution;
     }
   });
