@@ -1,5 +1,5 @@
 const { expect } = require('../../../test-helper');
-const { normalizeAndRemoveAccents, removeSpecialCharacters, applyPreTreatments, applyTreatments, applyTreatmentsUnlessIfDesactivated } = require('../../../../lib/domain/services/validation-treatments');
+const { normalizeAndRemoveAccents, removeSpecialCharacters, applyPreTreatments, applyTreatments } = require('../../../../lib/domain/services/validation-treatments');
 
 describe('Unit | Service | Validation Treatments', function() {
 
@@ -53,10 +53,6 @@ describe('Unit | Service | Validation Treatments', function() {
 
   });
 
-  /**
-   * #applyPreTreatments(string)
-   */
-
   describe('#applyPreTreatments', function() {
 
     it('should return a copy of the given string with unbreakable spaces replaced by normal spaces', function() {
@@ -72,11 +68,7 @@ describe('Unit | Service | Validation Treatments', function() {
     });
   });
 
-  /**
-   * #applyTreatments(string, enabledTreatments)
-   */
-
-  describe('#applyTreatments', function() {
+  describe('#applyTreatments with enabled Treatments', function() {
 
     const input = ' Shi Foo-Bar ';
 
@@ -101,31 +93,31 @@ describe('Unit | Service | Validation Treatments', function() {
     });
   });
 
-  describe('#applyTreatmentsUnlessIfDesactivated', () => {
+  describe('#applyTreatments with deactivations', () => {
 
     const input = ' Shi Foo-Bar ';
 
-    it('should return the given string without applying any treatment when the enabled treatments array is not defined', () => {
-      expect(applyTreatmentsUnlessIfDesactivated(input, {})).to.equal('shifoobar');
+    it('should return the given string without applying any treatment when the enabled treatments array is not defined', function() {
+      expect(applyTreatments(input, [], {})).to.equal('shifoobar');
     });
 
-    it('should return the given string without applying any treatment when all treatment are deactivated', () => {
-      expect(applyTreatmentsUnlessIfDesactivated(input, { t1: true, t2: true, t3: true })).to.equal(input);
+    it('should return the given string without applying any treatment when all treatment are deactivated', function() {
+      expect(applyTreatments(input, [], { t1: true, t2: true, t3: true })).to.equal(input);
     });
 
-    it('should return the given string without applying any treatment when only t3 is not deactivated', () => {
-      expect(applyTreatmentsUnlessIfDesactivated(input, { t1: true, t2: true, t3: false })).to.equal(input);
+    it('should return the given string without applying any treatment when only t3 is not deactivated', function() {
+      expect(applyTreatments(input, [], { t1: true, t2: true, t3: false })).to.equal(input);
     });
 
-    it('should return a string with "t1" applied if it is set as not deactivate', () => {
-      expect(applyTreatmentsUnlessIfDesactivated(input, { t1: false, t2: true, t3: true })).to.equal('shifoo-bar');
+    it('should return a string with "t1" applied if it is set as not deactivate', function() {
+      expect(applyTreatments(input, [], { t1: false, t2: true, t3: true })).to.equal('shifoo-bar');
     });
 
-    it('should return a string with "t2" applied if it is set as not deactivate', () => {
-      expect(applyTreatmentsUnlessIfDesactivated(input, { t1: true, t2: false, t3: true })).to.equal(' Shi FooBar ');
+    it('should return a string with "t2" applied if it is set as not deactivate', function() {
+      expect(applyTreatments(input, [], { t1: true, t2: false, t3: true })).to.equal(' Shi FooBar ');
     });
-    it('should return a string with "t2" and "t1" applied if they set as not deactivate', () => {
-      expect(applyTreatmentsUnlessIfDesactivated(input, { t1: false, t2: false, t3: true })).to.equal('shifoobar');
+    it('should return a string with "t2" and "t1" applied if they set as not deactivate', function() {
+      expect(applyTreatments(input, [], { t1: false, t2: false, t3: true })).to.equal('shifoobar');
     });
 
   });

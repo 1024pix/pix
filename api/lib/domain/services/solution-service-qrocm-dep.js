@@ -2,7 +2,7 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
-const { applyPreTreatments, applyTreatmentsUnlessIfDesactivated } = require('./validation-treatments');
+const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
 const { YamlParsingError } = require('../../domain/errors');
 
 const AnswerStatus = require('../models/AnswerStatus');
@@ -12,7 +12,7 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
     return _.map(validSolutions, (validSolution) => {
       const pretreatedSolution = validSolution.toString();
 
-      return applyTreatmentsUnlessIfDesactivated(pretreatedSolution, deactivations);
+      return applyTreatments(pretreatedSolution, [], deactivations);
     });
   });
 }
