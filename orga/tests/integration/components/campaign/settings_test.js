@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 
-module('Integration | Component | Campaign::Details', function(hooks) {
+module('Integration | Component | Campaign::Settings', function(hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
@@ -27,7 +27,7 @@ module('Integration | Component | Campaign::Details', function(hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Details @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
 
         // then
         assert.contains('profil cible de la campagne 1');
@@ -41,7 +41,7 @@ module('Integration | Component | Campaign::Details', function(hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Details @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
 
         // then
         assert.notContains('Profil cible');
@@ -58,7 +58,7 @@ module('Integration | Component | Campaign::Details', function(hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Details @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
 
         // then
         assert.contains('idPixLabel');
@@ -73,7 +73,7 @@ module('Integration | Component | Campaign::Details', function(hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Details @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
 
         // then
         assert.notContains('Libellé de l\'identifiant');
@@ -87,7 +87,7 @@ module('Integration | Component | Campaign::Details', function(hooks) {
       this.campaign = store.createRecord('campaign', { code: '1234' });
 
       // when
-      await render(hbs`<Campaign::Details @campaign={{campaign}}/>`);
+      await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
 
       // then
       assert.contains('root-url/1234');
@@ -104,7 +104,7 @@ module('Integration | Component | Campaign::Details', function(hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Details @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
 
         // then
         assert.contains('Mon titre de Campagne');
@@ -119,7 +119,7 @@ module('Integration | Component | Campaign::Details', function(hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Details @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
 
         // then
         assert.notContains('Titre du parcours');
@@ -133,7 +133,7 @@ module('Integration | Component | Campaign::Details', function(hooks) {
       this.campaign = store.createRecord('campaign', { isArchived: false });
 
       // when
-      await render(hbs`<Campaign::Details @campaign={{campaign}}/>`);
+      await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
 
       // then
       assert.contains('Archiver');
@@ -147,7 +147,7 @@ module('Integration | Component | Campaign::Details', function(hooks) {
         this.campaign = store.createRecord('campaign', { isArchived: false });
 
         // when
-        await render(hbs`<Campaign::Details @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
 
         // then
         assert.contains('Modifier');
@@ -160,7 +160,7 @@ module('Integration | Component | Campaign::Details', function(hooks) {
         this.campaign = store.createRecord('campaign', { isArchived: true });
 
         // when
-        await render(hbs`<Campaign::Details @campaign={{campaign}}/>`);
+        await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
 
         // then
         assert.notContains('Modifier');
