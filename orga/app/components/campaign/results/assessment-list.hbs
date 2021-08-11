@@ -43,7 +43,7 @@
             {{/if}}
             <td>
               {{#if @campaign.hasStages}}
-                <StageStars
+                <Campaign::StageStars
                   @result={{participation.masteryPercentage}}
                   @stages={{@campaign.stages}}
                   @withTooltip={{true}}

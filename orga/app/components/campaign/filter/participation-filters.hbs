@@ -30,7 +30,7 @@
         @selected={{@selectedStages}}
         @options={{this.stageOptions}} as |stage|
       >
-        <StageStars @result={{stage.threshold}} @stages={{@campaign.stages}} />
+        <Campaign::StageStars @result={{stage.threshold}} @stages={{@campaign.stages}} />
       </PixMultiSelect>
     {{/if}}
     {{#if this.displayBadgesFilter }}
