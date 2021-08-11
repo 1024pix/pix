@@ -57,7 +57,7 @@
             </td>
             {{#if @campaign.hasBadges}}
               <td class="participant-list__badges">
-                <Badges @badges={{participation.badges}} />
+                <Campaign::Badges @badges={{participation.badges}} />
               </td>
             {{/if}}
           </tr>
