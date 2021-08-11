@@ -3,7 +3,7 @@ const deactivationsService = require('../../../lib/domain/services/deactivations
 const { isNumeric, splitIntoWordsAndRemoveBackspaces, cleanStringAndParseFloat } = require('../../../lib/infrastructure/utils/string-utils');
 const { every, includes, isEmpty, isString, map } = require('lodash');
 const {
-  applyTreatmentsUnlessIfDesactivated, applyPreTreatments,
+  applyTreatments, applyPreTreatments,
 } = require('./validation-treatments');
 
 const AnswerStatus = require('../models/AnswerStatus');
@@ -17,7 +17,7 @@ module.exports = {
     const solutionValue = solution.value;
     const deactivations = solution.deactivations;
     const qrocBlocksTypes = solution.qrocBlocksTypes || {};
-    const applyTreatments = qrocBlocksTypes[Object.keys(qrocBlocksTypes)[0]] === 'select' ? false : true;
+    const shouldApplyTreatments = qrocBlocksTypes[Object.keys(qrocBlocksTypes)[0]] === 'select' ? false : true;
 
     const isIncorrectAnswerFormat = !isString(answer);
     const isIncorrectSolutionFormat = !isString(solutionValue) || isEmpty(solutionValue);
@@ -35,7 +35,7 @@ module.exports = {
       return _getAnswerStatusFromNumberMatching(answer, solutions);
     }
 
-    return _getAnswerStatusFromStringMatching(answer, solutions, deactivations, applyTreatments);
+    return _getAnswerStatusFromStringMatching(answer, solutions, deactivations, shouldApplyTreatments);
   },
 };
 
@@ -50,20 +50,20 @@ function _getAnswerStatusFromNumberMatching(answer, solutions) {
   return AnswerStatus.KO;
 }
 
-function _getAnswerStatusFromStringMatching(answer, solutions, deactivations, applyTreatments) {
+function _getAnswerStatusFromStringMatching(answer, solutions, deactivations, shouldApplyTreatments) {
   const treatedAnswer = applyPreTreatments(answer);
-  const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations, applyTreatments);
-  const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions, applyTreatments);
+  const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations, shouldApplyTreatments);
+  const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions, shouldApplyTreatments);
   return _getAnswerStatusAccordingToLevenshteinDistance(validations, deactivations);
 }
 
-function _applyTreatmentsToSolutions(solutions, deactivations, applyTreatments) {
+function _applyTreatmentsToSolutions(solutions, deactivations, shouldApplyTreatments) {
   return map(solutions, (solution) => {
 
-    if (applyTreatments === false) {
+    if (shouldApplyTreatments === false) {
       return solution;
     }
-    return applyTreatmentsUnlessIfDesactivated(solution, deactivations);
+    return applyTreatments(solution, [], deactivations);
   });
 }
 

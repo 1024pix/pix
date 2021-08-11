@@ -52,7 +52,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     failedCases.forEach((testCase) => {
       it(`should return "ko" when ${testCase.when}`, function() {
-        const solution = { value: testCase.solution };
+        const solution = { value: testCase.solution, deactivations: {} };
         expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_KO);
       });
     });
@@ -113,7 +113,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     maximalScoreCases.forEach(function(testCase) {
       it(`Should return "ok" when ${testCase.when}`, function() {
-        const solution = { value: testCase.solution };
+        const solution = { value: testCase.solution, deactivations: {} };
         expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_OK);
       });
     });
@@ -123,11 +123,11 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
   describe('if solution type is QROCM-dep with scoring', function() {
 
     it('should return "ko" for badly formatted solution', function() {
-      expect(service.match({ answerValue: 'num1: Google\nnum2: Yahoo', solution: { value: 'solution like a QCU', scoring: '1: @acquix' } })).to.deep.equal(ANSWER_KO);
+      expect(service.match({ answerValue: 'num1: Google\nnum2: Yahoo', solution: { value: 'solution like a QCU', scoring: '1: @acquix', deactivations: {} } })).to.deep.equal(ANSWER_KO);
     });
 
     it('should return "ko" when answer is incorrect', function() {
-      expect(service.match({ answerValue: 'num1: Foo\nnum2: Bar', solution: { value: twoPossibleSolutions, scoring: '1: acquix' } })).to.deep.equal(ANSWER_KO);
+      expect(service.match({ answerValue: 'num1: Foo\nnum2: Bar', solution: { value: twoPossibleSolutions, scoring: '1: acquix', deactivations: {} } })).to.deep.equal(ANSWER_KO);
     });
 
     const maximalScoreCases = [
@@ -154,7 +154,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     maximalScoreCases.forEach(function(testCase) {
       it(`should return "ok" when ${testCase.when}`, function() {
-        const solution = { value: testCase.solution, scoring: testCase.scoring };
+        const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: {} };
         expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_OK);
       });
     });

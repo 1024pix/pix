@@ -60,7 +60,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     successfulCases.forEach(function(data) {
       it(data.case + ', should return "ok" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        const solution = { value: data.solution, deactivations: data.deactivations };
+        const solution = { value: data.solution, deactivations: {} };
         expect(service.match({ answer: data.answer, solution })).to.deep.equal(ANSWER_OK);
       });
     });
