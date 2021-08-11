@@ -184,10 +184,11 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
     it('should persist the account recovery demand', async () => {
       // given
-      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const user = databaseBuilder.factory.buildUser();
+      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId: user.id }).id;
       await databaseBuilder.commit();
 
-      const userId = 123;
+      const userId = user.id;
       const newEmail = 'dupont@example.net';
       const oldEmail = 'eleve-dupont@example.net';
       const used = false;
