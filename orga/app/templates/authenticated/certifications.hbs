@@ -21,7 +21,7 @@
       {{t 'pages.certifications.download-button'}}
     </button>
     {{#if this.isCertificationAttestationDownloadEnabled}}
-      <button class="button" type="submit" id="download_attestations">
+      <button class="button" type="button" id="download_attestations" {{on "click" (fn this.downloadAttestation)}}>
         {{t 'pages.certifications.download-attestations-button'}}
       </button>
     {{/if}}

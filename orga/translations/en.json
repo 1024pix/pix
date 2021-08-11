@@ -423,7 +423,7 @@
     },
     "certifications": {
       "title": "Certification results",
-      "description": "Please select the class for which you would like to export the certification results in a csv file.",
+      "description": "Please select the class for which you would like to export the certification results (.csv) or download certificates (.pdf).",
       "documentation-link": "https://cloud.pix.fr/s/cRaeKT4ErrXs4X8",
       "documentation-link-label": "Interpreting the results.",
       "documentation-link-notice": "Follow this link to find indications on how to interpret the results: ",
@@ -432,7 +432,8 @@
 
       "errors": {
         "invalid-division": "The class {selectedDivision} does not exist.",
-        "no-results": "No certification results for the class {selectedDivision}."
+        "no-results": "No certification results for the class {selectedDivision}.",
+        "no-certificates": "No certificates for the class {selectedDivision}."
       },
       "select-label": "Class"
     },

@@ -50,6 +50,43 @@ export default class AuthenticatedCertificationsController extends Controller {
     }
   }
 
+  @action
+  async downloadAttestation() {
+
+    try {
+      if (_isDivisionInvalid(this.selectedDivision, this.model.options)) {
+        throw new Error(this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: this.selectedDivision }));
+      }
+
+      const organizationId = this.currentUser.organization.id;
+      const url = `/api/organizations/${organizationId}/certification-attestations?division=${this.selectedDivision}`;
+      const fileName = 'attestations_pix.pdf';
+
+      let token = '';
+
+      if (this.session.isAuthenticated) {
+        token = this.session.data.authenticated.access_token;
+      }
+
+      await this.fileSaver.save({ url, fileName, token });
+    } catch (error) {
+      if (_isErrorNotFound(error)) {
+        this.notifications.info(
+          this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
+          { autoClear: false },
+        );
+      }
+      if (_isErrorNoResults(error)) {
+        this.notifications.info(
+          this.intl.t('pages.certifications.errors.no-certificates', { selectedDivision: this.selectedDivision }),
+          { autoClear: false },
+        );
+      } else {
+        this.notifications.error(error.message, { autoClear: false });
+      }
+    }
+  }
+
   get firstTwoDivisions() {
     if (this.model.options.length < 2) {
       return '';
@@ -71,4 +108,8 @@ function _isDivisionInvalid(selectedDivision, divisions) {
 
 function _isErrorNotFound(error) {
   return error[0] && error[0].status == 404;
+}
+
+function _isErrorNoResults(error) {
+  return error[0] && error[0].status == 400;
 }
