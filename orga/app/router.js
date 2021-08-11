@@ -49,7 +49,7 @@ Router.map(function() {
       this.route('campaign', { path: '/:campaign_id' }, function() {
         this.route('activity', { path: '/' });
         this.route('assessment-results', { path: '/resultats-evaluation' });
-        this.route('profiles', { path: '/profils' });
+        this.route('profile-results', { path: '/profils' });
         this.route('analysis', { path: '/analyse' });
         this.route('details');
       });

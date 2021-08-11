@@ -1,0 +1,14 @@
+{{page-title (t 'pages.profiles-list.title')}}
+
+{{#if @model.campaign.hasSharedParticipations}}
+  <Campaign::Results::ProfileList
+    @campaign={{@model.campaign}}
+    @profiles={{@model.profiles}}
+    @selectedDivisions={{this.divisions}}
+    @onClickParticipant={{this.goToProfilePage}}
+    @onFilter={{this.triggerFiltering}}
+    @onReset={{this.resetFiltering}}
+  />
+{{else}}
+  <Campaign::EmptyState @campaignCode={{@model.campaign.code}} />
+{{/if}}
