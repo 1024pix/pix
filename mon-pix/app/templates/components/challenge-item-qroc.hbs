@@ -125,22 +125,16 @@
       </div>
     {{/if}}
 
-    {{#if this.hasFocusedOutOfWindow}}
-      <div class="alert alert--warning" role="alert">
-        <FaIcon @icon="exclamation-triangle" class="challenge-alert__icon"/>
-        {{t 'pages.challenge.has-focused-out'}}
-      </div>
-    {{/if}}
-
-      {{#if @assessment}}
-        <ChallengeActions @challenge={{@challenge}}
-                          @answer={{@answer}}
-                          @resumeAssessment={{this.resumeAssessment}}
-                          @isDisabled={{this.isAnswerFieldDisabled}}
-                          @validateAnswer={{this.validateAnswer}}
-                          @skipChallenge={{this.skipChallenge}}
-                          @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
-                          @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+    {{#if @assessment}}
+          <ChallengeActions @challenge={{@challenge}}
+                            @answer={{@answer}}
+                            @resumeAssessment={{this.resumeAssessment}}
+                            @isDisabled={{this.isAnswerFieldDisabled}}
+                            @validateAnswer={{this.validateAnswer}}
+                            @skipChallenge={{this.skipChallenge}}
+                            @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+                            @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+                            @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
                           @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>
       {{/if}}
     </form>

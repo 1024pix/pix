@@ -25,6 +25,13 @@
     </button>
 
   {{else}}
+    {{#if @hasFocusedOutOfWindow}}
+      <div class="challenge-actions__focused-out-of-window" role="alert" aria-live="assertive">
+        <FaIcon @icon="info-circle" class="challenge-actions-focused-out__icon"/>
+        {{t 'pages.challenge.has-focused-out'}}
+      </div>
+    {{/if}}
+
     {{#if @isValidateButtonEnabled}}
       <button class="button challenge-actions__action challenge-actions__action-validate"
               {{on 'click' @validateAnswer}}
@@ -38,6 +45,7 @@
         <div class="challenge-actions__action-validate__loader-bar"></div>
       </div>
     {{/if}}
+
     {{#if @isSkipButtonEnabled}}
       <button class="button challenge-actions__action challenge-actions__action-skip"
               {{on 'click' @skipChallenge}}

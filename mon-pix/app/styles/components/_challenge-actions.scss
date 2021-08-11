@@ -154,6 +154,19 @@
     margin-right: 20px;
   }
 
+  &__focused-out-of-window {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+    max-width: 600px;
+    color: $grey-90;
+    font-family: $font-roboto;
+    font-size: 0.875rem;
+    font-weight: $font-normal;
+    letter-spacing: 0.009rem;
+    line-height: 1.375rem;
+  }
+
   &__timed-out {
     font-family: $font-roboto;
     font-size: 1rem;
@@ -198,5 +211,15 @@
       color: white;
       text-decoration: none;
     }
+  }
+}
+
+.challenge-actions-focused-out {
+
+  &__icon {
+    font-size: 1rem;
+    margin-left: 0;
+    margin-right: 20px;
+    color: $grey-45;
   }
 }
