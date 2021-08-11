@@ -12,11 +12,12 @@ const buildKnowledgeElement = function({
   userId = 159,
   competenceId = 'recCOMP456',
 } = {}) {
+  const correctEarnedPix = status === KnowledgeElement.StatusType.VALIDATED ? earnedPix : 0;
   return new KnowledgeElement({
     id,
     source,
     status,
-    earnedPix,
+    earnedPix: correctEarnedPix,
     createdAt,
     answerId,
     assessmentId,
@@ -52,7 +53,6 @@ buildKnowledgeElement.directlyValidated = function({
 
 buildKnowledgeElement.directlyInvalidated = function({
   id = 123,
-  earnedPix = 4,
   createdAt,
   answerId = 456,
   assessmentId = 789,
@@ -64,7 +64,7 @@ buildKnowledgeElement.directlyInvalidated = function({
     id,
     source: KnowledgeElement.SourceType.DIRECT,
     status: KnowledgeElement.StatusType.INVALIDATED,
-    earnedPix,
+    earnedPix: 0,
     createdAt,
     answerId,
     assessmentId,
