@@ -66,20 +66,20 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', (
         };
 
         const csvExcpectedLine = `"${organization.name}";` +
-        `${campaign.id};` +
-        `"${campaign.name}";` +
-        `"${campaignParticipationResultData.participantLastName}";` +
-        `"${campaignParticipationResultData.participantFirstName}";` +
-        '"Oui";' +
-        '2019-03-01;' +
-        '13;' +
-        '"Non";' +
-        '0;' +
-        '1;' +
-        '9;' +
-        '0;' +
-        '4' +
-        '\n';
+          `${campaign.id};` +
+          `"${campaign.name}";` +
+          `"${campaignParticipationResultData.participantLastName}";` +
+          `"${campaignParticipationResultData.participantFirstName}";` +
+          '"Oui";' +
+          '2019-03-01;' +
+          '13;' +
+          '"Non";' +
+          '0;' +
+          '1;' +
+          '9;' +
+          '0;' +
+          '4' +
+          '\n';
 
         //when
         const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
@@ -109,20 +109,20 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', (
         };
 
         const csvExcpectedLine = `"${organization.name}";` +
-        `${campaign.id};` +
-        `"${campaign.name}";` +
-        `"${campaignParticipationResultData.participantLastName}";` +
-        `"${campaignParticipationResultData.participantFirstName}";` +
-        '"Oui";' +
-        '2019-03-01;' +
-        '13;' +
-        '"Oui";' +
-        '5;' +
-        '1;' +
-        '9;' +
-        '0;' +
-        '4' +
-        '\n';
+          `${campaign.id};` +
+          `"${campaign.name}";` +
+          `"${campaignParticipationResultData.participantLastName}";` +
+          `"${campaignParticipationResultData.participantFirstName}";` +
+          '"Oui";' +
+          '2019-03-01;' +
+          '13;' +
+          '"Oui";' +
+          '5;' +
+          '1;' +
+          '9;' +
+          '0;' +
+          '4' +
+          '\n';
 
         //when
         const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
@@ -205,21 +205,21 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', (
         };
 
         const csvExcpectedLine = `"${organization.name}";` +
-       `${campaign.id};` +
-       `"${campaign.name}";` +
-       `"${campaignParticipationResultData.participantLastName}";` +
-       `"${campaignParticipationResultData.participantFirstName}";` +
-       `"${campaignParticipationResultData.participantExternalId}";` +
-       '"Non";' +
-       '"NA";' +
-       '"NA";' +
-       '"NA";' +
-       '"NA";' +
-       '"NA";' +
-       '"NA";' +
-       '"NA";' +
-       '"NA"' +
-       '\n';
+          `${campaign.id};` +
+          `"${campaign.name}";` +
+          `"${campaignParticipationResultData.participantLastName}";` +
+          `"${campaignParticipationResultData.participantFirstName}";` +
+          `"${campaignParticipationResultData.participantExternalId}";` +
+          '"Non";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA"' +
+          '\n';
 
         //when
         const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
@@ -258,20 +258,20 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', (
         };
 
         const csvExcpectedLine = `"${organization.name}";` +
-        `${campaign.id};` +
-        `"${campaign.name}";` +
-        `"${campaignParticipationResultData.participantLastName}";` +
-        `"${campaignParticipationResultData.participantFirstName}";` +
-        '"Oui";' +
-        '2019-03-01;' +
-        '13;' +
-        '"Non";' +
-        '0;' +
-        '1;' +
-        '9;' +
-        '0;' +
-        '4' +
-        '\n';
+          `${campaign.id};` +
+          `"${campaign.name}";` +
+          `"${campaignParticipationResultData.participantLastName}";` +
+          `"${campaignParticipationResultData.participantFirstName}";` +
+          '"Oui";' +
+          '2019-03-01;' +
+          '13;' +
+          '"Non";' +
+          '0;' +
+          '1;' +
+          '9;' +
+          '0;' +
+          '4' +
+          '\n';
 
         //when
         const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
@@ -310,21 +310,21 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', (
           };
 
           const csvExcpectedLine = `"${organization.name}";` +
-        `${campaign.id};` +
-        `"${campaign.name}";` +
-        `"${campaignParticipationResultData.participantLastName}";` +
-        `"${campaignParticipationResultData.participantFirstName}";` +
-        '"";' +
-        '"Oui";' +
-        '2019-03-01;' +
-        '13;' +
-        '"Non";' +
-        '0;' +
-        '1;' +
-        '9;' +
-        '0;' +
-        '4' +
-        '\n';
+            `${campaign.id};` +
+            `"${campaign.name}";` +
+            `"${campaignParticipationResultData.participantLastName}";` +
+            `"${campaignParticipationResultData.participantFirstName}";` +
+            '"";' +
+            '"Oui";' +
+            '2019-03-01;' +
+            '13;' +
+            '"Non";' +
+            '0;' +
+            '1;' +
+            '9;' +
+            '0;' +
+            '4' +
+            '\n';
 
           //when
           const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
@@ -357,21 +357,21 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', (
           };
 
           const csvExcpectedLine = `"${organization.name}";` +
-        `${campaign.id};` +
-        `"${campaign.name}";` +
-        `"${campaignParticipationResultData.participantLastName}";` +
-        `"${campaignParticipationResultData.participantFirstName}";` +
-        `"${campaignParticipationResultData.division}";` +
-        '"Oui";' +
-        '2019-03-01;' +
-        '13;' +
-        '"Non";' +
-        '0;' +
-        '1;' +
-        '9;' +
-        '0;' +
-        '4' +
-        '\n';
+            `${campaign.id};` +
+            `"${campaign.name}";` +
+            `"${campaignParticipationResultData.participantLastName}";` +
+            `"${campaignParticipationResultData.participantFirstName}";` +
+            `"${campaignParticipationResultData.division}";` +
+            '"Oui";' +
+            '2019-03-01;' +
+            '13;' +
+            '"Non";' +
+            '0;' +
+            '1;' +
+            '9;' +
+            '0;' +
+            '4' +
+            '\n';
 
           //when
           const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
@@ -386,54 +386,56 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', (
       beforeEach(() => {
         organization.isSco = true;
         organization.isManagingStudents = false;
+      });
 
-        context('when the participant has a division', () => {
-          it('should return the line without division information', async () => {
-            //given
-            sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
-            sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
+      context('when the participant has a division', () => {
 
-            campaign.id = 123;
-            campaign.name = 'test';
-            organization.name = 'Umbrella';
+        it('should return the line without division information', async () => {
+          //given
+          sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
+          sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
 
-            const campaignParticipationResultData = {
-              id: 1,
-              isShared: false,
-              isCompleted: true,
-              createdAt: new Date('2019-02-25T10:00:00Z'),
-              sharedAt: new Date('2019-03-01T23:04:05Z'),
-              participantExternalId: '-Mon mail pro',
-              userId: 123,
-              participantFirstName: 'Juan',
-              participantLastName: 'Carlitos',
-              division: '3eme',
-            };
+          campaign.id = 123;
+          campaign.name = 'test';
+          organization.name = 'Umbrella';
 
-            const csvExcpectedLine = `"${organization.name}";` +
-          `${campaign.id};` +
-          `"${campaign.name}";` +
-          `"${campaignParticipationResultData.participantLastName}";` +
-          `"${campaignParticipationResultData.participantFirstName}";` +
-          '"Non";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA"' +
-          '\n';
+          const campaignParticipationResultData = {
+            id: 1,
+            isShared: false,
+            isCompleted: true,
+            createdAt: new Date('2019-02-25T10:00:00Z'),
+            sharedAt: new Date('2019-03-01T23:04:05Z'),
+            participantExternalId: '-Mon mail pro',
+            userId: 123,
+            participantFirstName: 'Juan',
+            participantLastName: 'Carlitos',
+            division: '3eme',
+          };
 
-            //when
-            const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+          const csvExcpectedLine = `"${organization.name}";` +
+            `${campaign.id};` +
+            `"${campaign.name}";` +
+            `"${campaignParticipationResultData.participantLastName}";` +
+            `"${campaignParticipationResultData.participantFirstName}";` +
+            '"Non";' +
+            '"NA";' +
+            '"NA";' +
+            '"NA";' +
+            '"NA";' +
+            '"NA";' +
+            '"NA";' +
+            '"NA";' +
+            '"NA"' +
+            '\n';
 
-            //then
-            expect(line.toCsvLine()).to.equal(csvExcpectedLine);
-          });
+          //when
+          const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+
+          //then
+          expect(line.toCsvLine()).to.equal(csvExcpectedLine);
         });
       });
+
     });
 
     context('When organization is SUP and managing students', () => {
@@ -465,21 +467,21 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', (
           };
 
           const csvExcpectedLine = `"${organization.name}";` +
-        `${campaign.id};` +
-        `"${campaign.name}";` +
-        `"${campaignParticipationResultData.participantLastName}";` +
-        `"${campaignParticipationResultData.participantFirstName}";` +
-        '"";' +
-        '"Oui";' +
-        '2019-03-01;' +
-        '13;' +
-        '"Non";' +
-        '0;' +
-        '1;' +
-        '9;' +
-        '0;' +
-        '4' +
-        '\n';
+            `${campaign.id};` +
+            `"${campaign.name}";` +
+            `"${campaignParticipationResultData.participantLastName}";` +
+            `"${campaignParticipationResultData.participantFirstName}";` +
+            '"";' +
+            '"Oui";' +
+            '2019-03-01;' +
+            '13;' +
+            '"Non";' +
+            '0;' +
+            '1;' +
+            '9;' +
+            '0;' +
+            '4' +
+            '\n';
 
           //when
           const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
@@ -512,21 +514,21 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', (
           };
 
           const csvExcpectedLine = `"${organization.name}";` +
-        `${campaign.id};` +
-        `"${campaign.name}";` +
-        `"${campaignParticipationResultData.participantLastName}";` +
-        `"${campaignParticipationResultData.participantFirstName}";` +
-        `"${campaignParticipationResultData.studentNumber}";` +
-        '"Oui";' +
-        '2019-03-01;' +
-        '13;' +
-        '"Non";' +
-        '0;' +
-        '1;' +
-        '9;' +
-        '0;' +
-        '4' +
-        '\n';
+            `${campaign.id};` +
+            `"${campaign.name}";` +
+            `"${campaignParticipationResultData.participantLastName}";` +
+            `"${campaignParticipationResultData.participantFirstName}";` +
+            `"${campaignParticipationResultData.studentNumber}";` +
+            '"Oui";' +
+            '2019-03-01;' +
+            '13;' +
+            '"Non";' +
+            '0;' +
+            '1;' +
+            '9;' +
+            '0;' +
+            '4' +
+            '\n';
 
           //when
           const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
@@ -541,55 +543,56 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', (
       beforeEach(() => {
         organization.isSup = true;
         organization.isManagingStudents = false;
+      });
 
-        context('when the participant has a student number', () => {
-          it('should return the line without student number information', async () => {
-            //given
-            sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
-            sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
+      context('when the participant has a student number', () => {
+        it('should return the line without student number information', async () => {
+          //given
+          sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
+          sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
 
-            campaign.id = 123;
-            campaign.name = 'test';
-            organization.name = 'Umbrella';
+          campaign.id = 123;
+          campaign.name = 'test';
+          organization.name = 'Umbrella';
 
-            const campaignParticipationResultData = {
-              id: 1,
-              isShared: false,
-              isCompleted: true,
-              createdAt: new Date('2019-02-25T10:00:00Z'),
-              sharedAt: new Date('2019-03-01T23:04:05Z'),
-              participantExternalId: '-Mon mail pro',
-              userId: 123,
-              participantFirstName: 'Juan',
-              participantLastName: 'Carlitos',
-              studentNumber: 'goodBoï',
-            };
+          const campaignParticipationResultData = {
+            id: 1,
+            isShared: false,
+            isCompleted: true,
+            createdAt: new Date('2019-02-25T10:00:00Z'),
+            sharedAt: new Date('2019-03-01T23:04:05Z'),
+            participantExternalId: '-Mon mail pro',
+            userId: 123,
+            participantFirstName: 'Juan',
+            participantLastName: 'Carlitos',
+            studentNumber: 'goodBoï',
+          };
 
-            const csvExcpectedLine = `"${organization.name}";` +
-          `${campaign.id};` +
-          `"${campaign.name}";` +
-          `"${campaignParticipationResultData.participantLastName}";` +
-          `"${campaignParticipationResultData.participantFirstName}";` +
-          '"Non";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA"' +
-          '\n';
+          const csvExcpectedLine = `"${organization.name}";` +
+            `${campaign.id};` +
+            `"${campaign.name}";` +
+            `"${campaignParticipationResultData.participantLastName}";` +
+            `"${campaignParticipationResultData.participantFirstName}";` +
+            '"Non";' +
+            '"NA";' +
+            '"NA";' +
+            '"NA";' +
+            '"NA";' +
+            '"NA";' +
+            '"NA";' +
+            '"NA";' +
+            '"NA"' +
+            '\n';
 
-            //when
-            const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+          //when
+          const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
 
-            //then
-            expect(line.toCsvLine()).to.equal(csvExcpectedLine);
-          });
+          //then
+          expect(line.toCsvLine()).to.equal(csvExcpectedLine);
         });
       });
     });
   });
+
 });
 
