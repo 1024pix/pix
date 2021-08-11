@@ -68,6 +68,7 @@ export default class ChallengeController extends Controller {
   @action
   finishChallenge() {
     this.challengeTitle = defaultPageTitle;
+    this.hasUserConfirmedWarning = false;
   }
 
   get displayHomeLink() {
