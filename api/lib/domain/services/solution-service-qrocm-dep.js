@@ -23,7 +23,7 @@ function _applyTreatmentsToAnswers(answers) {
   return _.mapValues(answers, _.toString);
 }
 
-function _compareAnswersAndSolutions(answers, solutions, qrocBlocksTypes) {
+function _compareAnswersAndSolutions(answers, solutions) {
 
   const validations = {};
 
@@ -31,7 +31,6 @@ function _compareAnswersAndSolutions(answers, solutions, qrocBlocksTypes) {
 
     const indexation = answer + '_' + index;
     const solutionKeys = Object.keys(solutions);
-    const applyTreatments = qrocBlocksTypes[index] === 'select' ? false : true;
     _.each(solutionKeys, (solutionKey) => {
 
       const solutionVariants = solutions[solutionKey];
@@ -40,7 +39,7 @@ function _compareAnswersAndSolutions(answers, solutions, qrocBlocksTypes) {
         validations[indexation] = [];
       }
 
-      validations[indexation].push(utils.treatmentT1T2T3(answer, solutionVariants, applyTreatments));
+      validations[indexation].push(utils.treatmentT1T2T3(answer, solutionVariants));
 
     });
   });
@@ -117,7 +116,6 @@ module.exports = {
     const yamlSolution = solution.value;
     const yamlScoring = solution.scoring;
     const deactivations = solution.deactivations;
-    const qrocBlocksTypes = solution.qrocBlocksTypes || {};
 
     // Input checking
     if (!_.isString(answerValue)
@@ -144,7 +142,7 @@ module.exports = {
     const treatedAnswers = _applyTreatmentsToAnswers(answers);
 
     // Comparisons
-    const fullValidations = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions, qrocBlocksTypes);
+    const fullValidations = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions);
 
     return _formatResult(scoring, fullValidations, deactivations);
   },
