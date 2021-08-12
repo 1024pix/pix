@@ -109,6 +109,7 @@ function _buildFileHeaders(certificationResults) {
     [ _headers.PIX_SCORE ],
     _competenceIndexes,
     [
+      _headers.JURY_COMMENT_FOR_ORGANIZATION,
       _headers.SESSION_ID,
       _headers.CERTIFICATION_CENTER,
       _headers.CERTIFICATION_DATE,
@@ -129,6 +130,7 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
     [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]: _formatPixPlusDroitMaitreCertificationResult(certificationResult.pixPlusDroitMaitreCertificationResult),
     [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]: _formatPixPlusDroitExpertCertificationResult(certificationResult.pixPlusDroitExpertCertificationResult),
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
+    [_headers.JURY_COMMENT_FOR_ORGANIZATION]: certificationResult.commentForOrganization,
     [_headers.SESSION_ID]: session.id,
     [_headers.CERTIFICATION_CENTER]: session.certificationCenter,
     [_headers.CERTIFICATION_DATE]: _formatDate(certificationResult.createdAt),
@@ -241,6 +243,7 @@ const _headers = {
   SESSION_ID: 'Session',
   CERTIFICATION_CENTER: 'Centre de certification',
   CERTIFICATION_DATE: 'Date de passage de la certification',
+  JURY_COMMENT_FOR_ORGANIZATION: 'Commentaire jury pour l’organisation',
 };
 
 module.exports = {
