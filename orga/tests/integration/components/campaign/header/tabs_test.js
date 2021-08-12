@@ -29,7 +29,7 @@ module('Integration | Component | Campaign::Header::Tabs', function(hooks) {
     });
 
     test('it should display campaign settings item', async function(assert) {
-      assert.dom('nav a[href="/campagnes/12/details"]').hasText('Paramètres');
+      assert.dom('nav a[href="/campagnes/12/parametres"]').hasText('Paramètres');
     });
 
     test('it should display activity item', async function(assert) {
