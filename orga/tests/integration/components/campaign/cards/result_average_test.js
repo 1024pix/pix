@@ -14,6 +14,6 @@ module('Integration | Component | Campaign::Cards::ResultAverage', function(hook
     await render(hbs`<Campaign::Cards::ResultAverage @value={{averageResult}} />`);
 
     assert.contains(t('cards.participants-average-results.title'));
-    assert.contains('9');
+    assert.contains(t('cards.participants-average-results.result', { result: this.averageResult }));
   });
 });
