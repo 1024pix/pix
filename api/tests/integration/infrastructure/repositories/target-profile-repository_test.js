@@ -525,7 +525,7 @@ describe('Integration | Repository | Target-profile', () => {
         const error = await catchErr(targetProfileRepository.attachOrganizations)(targetProfile);
 
         expect(error).to.be.an.instanceOf(AlreadyExistingEntityError);
-        expect(error.message).to.have.string(`Le profil cible est déjà associé à l’organisation ${organization.id}.`);
+        expect(error.message).to.have.string(`Le profil cible 12 est déjà rattaché à l’organisation ${organization.id}.`);
       });
     });
   });
