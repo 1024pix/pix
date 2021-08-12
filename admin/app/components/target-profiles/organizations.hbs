@@ -1,15 +1,16 @@
 <section class="page-section mb_10 target-profile-organizations">
   <div class="organization__forms-section">
-    <form class="organization__form" aria-label="Rattacher une ou plusieurs organisation(s)" {{on "submit" @attachOrganizations}}>
+    <form class="organization__form" {{on "submit" @attachOrganizations}}>
       <label for="attach-organizations">Rattacher une ou plusieurs organisation(s)</label>
       <div class="organization__sub-form">
         <Input
           id="attach-organizations"
-          aria-label="ID de ou des organisation(s)"
           @value={{@organizationsToAttach}}
           class="form-field__text form-control"
-          placeholder="1, 2" />
-        <PixButton @type="submit" @size="small">
+          placeholder="1, 2"
+          @aria-describedby="attach-organizations-info"/>
+        <p id="attach-organizations-info" hidden>Ids des organisations, séparés par une virgule</p>
+        <PixButton @type="submit" @size="small" aria-label="Valider le rattachement">
           Valider
         </PixButton>
       </div>
@@ -22,8 +23,10 @@
           id="attach-organizations-from-existing-target-profile"
           @value={{@existingTargetProfile}}
           class="form-field__text form-control"
-          placeholder="1135" />
-        <PixButton @type="submit" @size="small">
+          placeholder="1135"
+          @aria-describedby="attach-organizations-from-existing-target-profile-info"/>
+        <p id="attach-organizations-from-existing-target-profile-info" hidden>Id du profil cible existant</p>
+        <PixButton @type="submit" @size="small" aria-label="Valider le rattachement à partir de ce profil cible">
           Valider
         </PixButton>
       </div>
