@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
@@ -11,7 +11,7 @@ class CurrentUserStub extends Service {
   };
 }
 
-module('Integration | Component | organization-credit-info', function(hooks) {
+module('Integration | Component | Layout::OrganizationCreditInfo', function(hooks) {
   setupIntlRenderingTest(hooks);
   let currentUserStub;
 
@@ -22,7 +22,7 @@ module('Integration | Component | organization-credit-info', function(hooks) {
 
   test('should display organization credit info', async function(assert) {
     // when
-    await render(hbs`<OrganizationCreditInfo />`);
+    await render(hbs`<Layout::OrganizationCreditInfo />`);
     const displayedCreditInfo = document.querySelector('.organization-credit-info').textContent;
 
     // then
@@ -31,7 +31,7 @@ module('Integration | Component | organization-credit-info', function(hooks) {
 
   test('should display credit number label', async function(assert) {
     // when
-    await render(hbs`<OrganizationCreditInfo />`);
+    await render(hbs`<Layout::OrganizationCreditInfo />`);
     const displayedCredit = document.querySelector('.organization-credit-info__label').textContent;
     const expectedCredit = '10 000 crédits';
 
@@ -42,7 +42,7 @@ module('Integration | Component | organization-credit-info', function(hooks) {
 
   test('should display tooltip info', async function(assert) {
     // when
-    await render(hbs`<OrganizationCreditInfo />`);
+    await render(hbs`<Layout::OrganizationCreditInfo />`);
     const displayedContentTooltip = document.querySelector('.pix-tooltip__content').textContent;
 
     // then
@@ -54,7 +54,7 @@ module('Integration | Component | organization-credit-info', function(hooks) {
     currentUserStub.organization.credit = 500;
 
     // when
-    await render(hbs`<OrganizationCreditInfo />`);
+    await render(hbs`<Layout::OrganizationCreditInfo />`);
     const displayedCredit = document.querySelector('.organization-credit-info__label').textContent;
     const expectedCredit = currentUserStub.organization.credit.toLocaleString() + ' crédits';
 
@@ -68,7 +68,7 @@ module('Integration | Component | organization-credit-info', function(hooks) {
     currentUserStub.organization.credit = 1;
 
     // when
-    await render(hbs`<OrganizationCreditInfo />`);
+    await render(hbs`<Layout::OrganizationCreditInfo />`);
     const displayedCredit = document.querySelector('.organization-credit-info__label').textContent;
     const expectedCredit = currentUserStub.organization.credit.toLocaleString() + ' crédit';
 
@@ -82,7 +82,7 @@ module('Integration | Component | organization-credit-info', function(hooks) {
     currentUserStub.organization.credit = 0;
 
     // when
-    await render(hbs`<OrganizationCreditInfo />`);
+    await render(hbs`<Layout::OrganizationCreditInfo />`);
 
     // then
     assert.notContains('crédit');
@@ -93,7 +93,7 @@ module('Integration | Component | organization-credit-info', function(hooks) {
     currentUserStub.isAdminInOrganization = false;
 
     // when
-    await render(hbs`<OrganizationCreditInfo />`);
+    await render(hbs`<Layout::OrganizationCreditInfo />`);
 
     // then
     assert.notContains('crédit');

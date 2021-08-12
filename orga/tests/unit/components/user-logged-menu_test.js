@@ -9,7 +9,7 @@ module('Unit | Component | user-logged-menu', (hooks) => {
   let component;
 
   hooks.beforeEach(function() {
-    component = createGlimmerComponent('component:user-logged-menu');
+    component = createGlimmerComponent('component:layout/user-logged-menu');
   });
 
   module('action#toggleUserMenu', () => {
