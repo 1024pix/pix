@@ -185,22 +185,6 @@ class MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError extends 
   }
 }
 
-class SameNationalApprenticeIdInOrganizationError extends DomainError {
-  constructor(errorDetail) {
-    let message = 'INA is already in use for this organization.';
-    let nationalApprenticeId;
-    const regex = /([a-zA-Z0-9]+)\)/;
-    if (errorDetail) {
-      const regexMatches = errorDetail.match(regex);
-      nationalApprenticeId = regexMatches[1];
-      message = `The INA ${nationalApprenticeId} is already in use for this organization.`;
-    }
-
-    super(message);
-    this.nationalApprenticeId = errorDetail ? nationalApprenticeId : null;
-  }
-}
-
 class UserNotAuthorizedToUpdateCampaignError extends DomainError {
   constructor(message = 'Cet utilisateur n\'est pas autorisé à modifier cette campagne.') {
     super(message);
@@ -981,7 +965,6 @@ module.exports = {
   OrganizationWithoutEmailError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
-  SameNationalApprenticeIdInOrganizationError,
   SameNationalStudentIdInOrganizationError,
   SchoolingRegistrationAlreadyLinkedToUserError,
   SchoolingRegistrationDisabledError,
