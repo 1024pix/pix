@@ -24,12 +24,43 @@ cp sample.env .env
 
 Si besoin, éditer le fichier `.env` pour l'adapter à vos besoins.
 
-**4.** Utilisation.
+## Utilisation du CLI
 
+### Usage
 Récupérer le prochain challenge sélectionné par l'algorithme
 
 ```bash
 npm start -- --competenceId #competenceId# [--locale fr]
+```
+
+### Options disponibles 
+- `targetProfileId`: Choix du `targetProfileId`
+- `competenceId`: Choix de la compétence
+- `userResult`: Choix de la réponse de l’utilisateur avec les options `['ok', 'ko', 'random', 'firstOKthenKO', 'firstKOthenOK']`
+- `usersKEFile`: Possibilité d’utiliser les KE des users via les KE en json
+
+### Format fichier.json
+```json
+[
+  [ 
+    {"source":"inferred","status":"validated","skillId":"recA","competenceId":"rec1"},
+    {"source":"direct","status":"validated","skillId":"recB","competenceId":"rec1"},
+    {"source":"inferred","status":"validated","skillId":"recC","competenceId":"rec1"}
+  ],
+  [
+    {"source":"inferred","status":"validated","skillId":"recA","competenceId":"rec1"},
+    {"source":"direct","status":"validated","skillId":"recB","competenceId":"rec1"},
+    {"source":"inferred","status":"validated","skillId":"recC","competenceId":"rec1"}
+  ]
+]
+```
+
+### Exemples concrets d'usage
+```bash
+npm start -- --userKEFile=./usertest.json --competenceId=recABC
+```
+```bash
+npm start -- --userResult=ok --targetProfileId=1
 ```
 
 # Utiliser la data visualisation
