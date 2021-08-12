@@ -31,8 +31,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case: '(multiple solutions) when answer is correct but there are multiple solutions', answer: '123,00', solution: '123.0\n123', expectedAnswerStatus: ANSWER_OK },
       { case: '(multiple solutions) answer is not the first possible solution', answer: '23', solution: '21\n22\n23\n', expectedAnswerStatus: ANSWER_OK },
     ].forEach((data) => {
-      it(`should return ${data.expectedAnswerStatus} when answer is ${data.answer} and solution is ${data.solution}`, function() {
-        const solution = { value: data.solution, deactivations: data.deactivations };
+      it(`should return ${data.expectedAnswerStatus.status} when answer is ${data.answer} and solution is ${data.solution}`, function() {
+        const solution = { value: data.solution, deactivations: {} };
         expect(service.match({ answer: data.answer, solution, challengeFormat })).to.deep.equal(data.expectedAnswerStatus);
       });
     });
@@ -80,7 +80,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     failingCases.forEach(function(data) {
       it(data.case + ', should return "ko" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        const solution = { value: data.solution, deactivations: data.deactivations };
+        const solution = { value: data.solution, deactivations: {} };
         expect(service.match({ answer: data.answer, solution })).to.deep.equal(ANSWER_KO);
       });
     });

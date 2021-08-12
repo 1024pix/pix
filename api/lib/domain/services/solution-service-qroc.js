@@ -63,7 +63,10 @@ function _applyTreatmentsToSolutions(solutions, deactivations, shouldApplyTreatm
     if (shouldApplyTreatments === false) {
       return solution;
     }
-    return applyTreatments(solution, [], deactivations);
+
+    const allTreatments = ['t1', 't2', 't3'];
+    const enabledTreatments = allTreatments.filter((treatment) => !deactivations[treatment]);
+    return applyTreatments(solution, enabledTreatments);
   });
 }
 

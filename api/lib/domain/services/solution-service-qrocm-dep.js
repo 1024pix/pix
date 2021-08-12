@@ -11,8 +11,10 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
   return _.mapValues(solutions, (validSolutions) => {
     return _.map(validSolutions, (validSolution) => {
       const pretreatedSolution = validSolution.toString();
+      const allTreatments = ['t1', 't2', 't3'];
+      const enabledTreatments = allTreatments.filter((treatment) => !deactivations[treatment]);
 
-      return applyTreatments(pretreatedSolution, [], deactivations);
+      return applyTreatments(pretreatedSolution, enabledTreatments);
     });
   });
 }

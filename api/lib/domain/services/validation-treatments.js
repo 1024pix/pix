@@ -13,12 +13,8 @@ function applyPreTreatments(string) {
   return string.replace(/\u00A0/g, ' ');
 }
 
-function applyTreatments(string, enabledTreatments, deactivations) {
+function applyTreatments(string, enabledTreatments) {
   let result = string.toString();
-  const allTreatments = ['t1', 't2', 't3'];
-  if (deactivations) {
-    enabledTreatments = allTreatments.filter((treatment) => !deactivations[treatment]);
-  }
   if (_.isEmpty(enabledTreatments)) {
     return result;
   }
