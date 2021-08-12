@@ -1,4 +1,4 @@
-.challenge-statement-instruction {
+.tooltip {
 
   &__tag {
     border: none;
@@ -29,28 +29,7 @@
   }
 }
 
-.challenge-statement-tag-information {
-
-  &__text {
-    font-family: $font-roboto;
-    font-size: 0.875rem;
-    line-height: 1.375rem;
-    display: block;
-    text-align: left;
-    font-weight: $font-normal;
-    letter-spacing: 0;
-
-    @include device-is('tablet') {
-      font-size: 1rem;
-    }
-  }
-
-  &__button {
-    margin-top: 16px;
-  }
-}
-
-.challenge-statement-tag {
+.tooltip-tag {
 
   &__icon-button {
     width: 100%;
@@ -58,11 +37,8 @@
     background-color: transparent;
     border: none;
   }
-}
 
-.challenge-statement {
-
-  &__tag-information {
+  &__information {
     position: absolute;
     background-color: $white;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
@@ -102,5 +78,26 @@
         margin-bottom: 0;
       }
     }
+  }
+}
+
+.tooltip-tag-information {
+
+  &__text {
+    font-family: $font-roboto;
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    display: block;
+    text-align: left;
+    font-weight: $font-normal;
+    letter-spacing: 0;
+
+    @include device-is('tablet') {
+      font-size: 1rem;
+    }
+  }
+
+  &__button {
+    margin-top: 16px;
   }
 }

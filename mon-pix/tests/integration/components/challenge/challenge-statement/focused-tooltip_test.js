@@ -5,12 +5,12 @@ import { click, find, render, triggerEvent, triggerKeyEvent } from '@ember/test-
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | FocusedTooltip', function() {
+describe('Integration | Component | Tooltip', function() {
 
   setupIntlRenderingTest();
 
-  const tooltip = '.challenge-statement__tag-information';
-  const confirmationButton = '.challenge-statement-tag-information__button';
+  const tooltip = '.tooltip-tag__information';
+  const confirmationButton = '.tooltip-tag-information__button';
 
   describe('when user has not seen the tooltip yet', function() {
     beforeEach(async function() {
@@ -30,7 +30,7 @@ describe('Integration | Component | FocusedTooltip', function() {
       });
       this.set('onTooltipClose', () => {});
 
-      await render(hbs`<Challenge::ChallengeStatement::FocusedTooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
+      await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
     });
 
     it('should render the tooltip with a confirmation button', async function() {
@@ -41,7 +41,7 @@ describe('Integration | Component | FocusedTooltip', function() {
 
     it('should remove the tooltip when confirmation button has been clicked', async function() {
       // when
-      await click('.challenge-statement-tag-information__button');
+      await click('.tooltip-tag-information__button');
 
       // then
       expect(find(tooltip)).to.not.exist;
@@ -67,7 +67,7 @@ describe('Integration | Component | FocusedTooltip', function() {
       });
       this.set('onTooltipClose', () => {});
 
-      await render(hbs`<Challenge::ChallengeStatement::FocusedTooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
+      await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
     });
 
     describe('when the challenge starts', function() {
@@ -81,7 +81,7 @@ describe('Integration | Component | FocusedTooltip', function() {
       describe('when using a mouse', function() {
         it('should display the tooltip without a confirmation button when entering the icon', async function() {
           // when
-          await triggerEvent('.challenge-statement-tag__icon-button', 'mouseenter');
+          await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
 
           // then
           expect(find(tooltip)).to.exist;
@@ -90,8 +90,8 @@ describe('Integration | Component | FocusedTooltip', function() {
 
         it('should the hide tooltip when mouse leaves the icon', async function() {
           // when
-          await triggerEvent('.challenge-statement-tag__icon-button', 'mouseenter');
-          await triggerEvent('.challenge-statement-tag__icon-button', 'mouseleave');
+          await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
+          await triggerEvent('.tooltip-tag__icon-button', 'mouseleave');
 
           // then
           expect(find(tooltip)).to.not.exist;
@@ -101,12 +101,12 @@ describe('Integration | Component | FocusedTooltip', function() {
       describe('when using a keyboard', function() {
         it('should hide the tooltip button when escaping', async function() {
           // given
-          await triggerEvent('.challenge-statement-tag__icon-button', 'mouseenter');
+          await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
           expect(find(tooltip)).to.exist;
 
           // when
           const escapeKeyCode = 27;
-          await triggerKeyEvent('.challenge-statement-tag__icon-button', 'keyup', escapeKeyCode);
+          await triggerKeyEvent('.tooltip-tag__icon-button', 'keyup', escapeKeyCode);
 
           // then
           expect(find(tooltip)).to.not.exist;
@@ -117,7 +117,7 @@ describe('Integration | Component | FocusedTooltip', function() {
     describe('when the user clicks on the challenge icon', function() {
       it('should display the tooltip without a confirmation button when entering the icon', async function() {
         // when
-        await click('.challenge-statement-tag__icon-button');
+        await click('.tooltip-tag__icon-button');
 
         // then
         expect(find(tooltip)).to.exist;

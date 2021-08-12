@@ -79,7 +79,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-statement-instruction__tag')).to.exist;
+      expect(find('.tooltip__tag')).to.exist;
     });
 
     it('should not render challenge instruction if it does not exist', async function() {
@@ -140,8 +140,8 @@ describe('Integration | Component | ChallengeStatement', function() {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-statement-instruction__tag--focused')).to.exist;
-      expect(find('.challenge-statement-instruction__tag--regular')).to.not.exist;
+      expect(find('.tooltip__tag--focused')).to.exist;
+      expect(find('.tooltip__tag--regular')).to.not.exist;
     });
 
     it('should not display focused challenges specific style', async function() {
@@ -158,8 +158,8 @@ describe('Integration | Component | ChallengeStatement', function() {
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.challenge-statement-instruction__tag--focused')).to.not.exist;
-      expect(find('.challenge-statement-instruction__tag--regular')).to.exist;
+      expect(find('.tooltip__tag--focused')).to.not.exist;
+      expect(find('.tooltip__tag--regular')).to.exist;
     });
   });
 
