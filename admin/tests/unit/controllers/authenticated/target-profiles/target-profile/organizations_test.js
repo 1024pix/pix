@@ -99,7 +99,6 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
         test('it displays a notification for each 404 error found', async function(assert) {
           const errors = {
             errors: [
-              { status: '401', detail: 'I am not displayed' },
               { status: '404', detail: 'I am displayed 1' },
               { status: '404', detail: 'I am displayed 2' },
             ],
@@ -118,7 +117,6 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
         test('it displays a notification for each 412 error found', async function(assert) {
           const errors = {
             errors: [
-              { status: '401', detail: 'I am not displayed' },
               { status: '412', detail: 'I am displayed too 1' },
               { status: '412', detail: 'I am displayed too 2' },
             ],
@@ -134,12 +132,11 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
           assert.ok(controller.notifications.error.calledWith('I am displayed too 2'));
         });
 
-        test('it displays a notification for each 400 error found', async function(assert) {
+        test('it display default notification for all other error found', async function(assert) {
           const errors = {
             errors: [
-              { status: '401', detail: 'I am not displayed' },
               { status: '400', detail: 'message' },
-              { status: '400', detail: 'another message' },
+              { status: '401', detail: 'I am displayed' },
             ],
           };
           controller.notifications = Service.create({ error: sinon.stub() });
@@ -150,22 +147,6 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
 
           assert.equal(controller.organizationsToAttach, '1,1,2,3,3');
           assert.equal(controller.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
-        });
-
-        test('it displays nothing if there is no 404 or 400 errors found', async function(assert) {
-          const errors = {
-            errors: [
-              { status: '401', detail: 'I am not displayed' },
-            ],
-          };
-          controller.notifications = Service.create({ error: sinon.stub() });
-          controller.model = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
-          controller.organizationsToAttach = '1,1,2,3,3';
-
-          await controller.attachOrganizations(event);
-
-          assert.equal(controller.organizationsToAttach, '1,1,2,3,3');
-          assert.notOk(controller.notifications.error.called);
         });
       });
 
@@ -209,16 +190,69 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
     });
 
     module('when there is an error', () => {
-      test('it shows a notification', async function(assert) {
-        const errors = {};
-        controller.notifications = Service.create({ error: sinon.stub() });
-        controller.model = { targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().rejects(errors) } };
-        controller.existingTargetProfile = 1;
+      module('when the error is correctly formed', () => {
+        test('it shows notification for each 404 error found', async function(assert) {
+          const errors = {
+            errors: [
+              { status: '404', detail: 'I am displayed 1' },
+              { status: '404', detail: 'I am displayed 2' },
+            ],
+          };
+          controller.notifications = Service.create({ error: sinon.stub() });
+          controller.model = { targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().rejects(errors) } };
+          controller.existingTargetProfile = 1;
 
-        await controller.attachOrganizationsFromExistingTargetProfile(event);
+          await controller.attachOrganizationsFromExistingTargetProfile(event);
 
-        assert.equal(controller.existingTargetProfile, 1);
-        assert.ok(controller.notifications.error.calledWith('Une erreur est survenue.'));
+          assert.ok(controller.notifications.error.calledWith('I am displayed 1'));
+          assert.ok(controller.notifications.error.calledWith('I am displayed 2'));
+        });
+
+        test('it shows notification for each 412 error found', async function(assert) {
+          const errors = {
+            errors: [
+              { status: '412', detail: 'I am displayed too 1' },
+              { status: '412', detail: 'I am displayed too 2' },
+            ],
+          };
+          controller.notifications = Service.create({ error: sinon.stub() });
+          controller.model = { targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().rejects(errors) } };
+          controller.existingTargetProfile = 1;
+
+          await controller.attachOrganizationsFromExistingTargetProfile(event);
+
+          assert.ok(controller.notifications.error.calledWith('I am displayed too 1'));
+          assert.ok(controller.notifications.error.calledWith('I am displayed too 2'));
+        });
+
+        test('it shows default notification for all other error found', async function(assert) {
+          const errors = {
+            errors: [
+              { status: '400', detail: 'message' },
+              { status: '401', detail: 'another' },
+            ],
+          };
+          controller.notifications = Service.create({ error: sinon.stub() });
+          controller.model = { targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().rejects(errors) } };
+          controller.existingTargetProfile = 1;
+
+          await controller.attachOrganizationsFromExistingTargetProfile(event);
+
+          assert.equal(controller.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
+        });
+      });
+
+      module('when the error is not correctly formed', () => {
+        test('it shows default notification', async function(assert) {
+          const errors = {};
+          controller.notifications = Service.create({ error: sinon.stub() });
+          controller.model = { targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().rejects(errors) } };
+          controller.existingTargetProfile = 1;
+
+          await controller.attachOrganizationsFromExistingTargetProfile(event);
+
+          assert.ok(controller.notifications.error.calledWith('Une erreur est survenue.'));
+        });
       });
     });
   });

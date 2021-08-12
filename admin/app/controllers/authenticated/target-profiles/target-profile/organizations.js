@@ -64,7 +64,7 @@ export default class TargetProfileOrganizationsController extends Controller {
       this.send('refreshModel');
       return this.notifications.success('Organisation(s) rattaché(es) avec succès.');
     } catch (responseError) {
-      return this.notifications.error('Une erreur est survenue.');
+      this._handleResponseError(responseError);
     }
   }
 
@@ -74,11 +74,9 @@ export default class TargetProfileOrganizationsController extends Controller {
     }
     errors.forEach((error) => {
       if (['404', '412'].includes(error.status)) {
-        this.notifications.error(error.detail);
+        return this.notifications.error(error.detail);
       }
-      if (error.status === '400') {
-        this.notifications.error('Une erreur est survenue.');
-      }
+      return this.notifications.error('Une erreur est survenue.');
     });
   }
 
