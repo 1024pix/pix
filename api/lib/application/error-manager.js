@@ -90,6 +90,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.SchoolingRegistrationDisabledError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
+  if (error instanceof DomainErrors.NoOrganizationToAttach) {
+    return new HttpErrors.PreconditionFailedError(error.message);
+  }
   if (error instanceof DomainErrors.ChallengeAlreadyAnsweredError) {
     return new HttpErrors.ConflictError('This challenge has already been answered.');
   }
