@@ -447,7 +447,7 @@
           "subtitle": "En certification, si vous changez de page, votre réponse ne sera pas validée."
         }
       },
-      "has-focused-out": "Nous avons détecté un changement de page/d'onglet. En certification, votre réponse ne serait pas validée.",
+      "has-focused-out-of-window": "Nous avons détecté un changement de page/d'onglet. En certification, votre réponse ne serait pas validée.",
       "parts": {
         "answer-input": "Votre réponse",
         "feedback": "Signaler un problème",
