@@ -109,6 +109,7 @@
 }
 
 .navbar {
+  display: flex;
   height: 60px;
   border: none;
   padding: 0 10px;
@@ -150,9 +151,9 @@
 
 @include device-is('mobile') {
   .navbar{
-    width: 100%;
     height: auto;
     padding: 0;
+    width: 100%;
 
     &-item {
       width: 100%;

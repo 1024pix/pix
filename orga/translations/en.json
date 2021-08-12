@@ -276,8 +276,8 @@
       },
       "yes": "Yes"
     },
-    "campaign-details": {
-      "title": "Details",
+    "campaign-settings": {
+      "title": "Settings",
       "actions": {
         "archive": "Archive",
         "edit": "Edit"

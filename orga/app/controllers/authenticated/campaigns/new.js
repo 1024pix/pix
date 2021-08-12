@@ -14,7 +14,7 @@ export default class NewController extends Controller {
     this.notifications.clearAll();
     return this.model.campaign.save()
       .then((campaign) => {
-        this.transitionToRoute('authenticated.campaigns.campaign.details', campaign.id);
+        this.transitionToRoute('authenticated.campaigns.campaign.settings', campaign.id);
       })
       .catch((errorResponse) => {
         errorResponse.errors.forEach((error) => {

@@ -1,13 +1,12 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/analysis/tube-recommendation-row', function(hooks) {
+module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', function(hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
-  let tubeRecommendation;
   let tutorial1;
   let tutorial2;
 
@@ -27,7 +26,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
       link: 'http://link.to.tuto.2',
     });
 
-    tubeRecommendation = store.createRecord('campaign-tube-recommendation', {
+    this.tubeRecommendation = store.createRecord('campaign-tube-recommendation', {
       id: '1_recTubeA',
       tubeId: 'recTubeA',
       competenceId: 'recCompA',
@@ -36,8 +35,6 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
       tubeDescription: 'Tube Desc A',
       areaColor: 'jaffa',
     });
-
-    this.set('tubeRecommendation', tubeRecommendation);
   });
 
   test('it should display tube details', async function(assert) {
@@ -54,7 +51,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
 
   test('it should expand and display one tutorial in the list', async function(assert) {
     // given
-    tubeRecommendation.tutorials = [tutorial1];
+    this.tubeRecommendation.tutorials = [tutorial1];
 
     await render(hbs`<Campaign::Analysis::TubeRecommendationRow
       @tubeRecommendation={{tubeRecommendation}}
@@ -76,7 +73,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
 
   test('it should expand and display 2 tutorials in the list', async function(assert) {
     // given
-    tubeRecommendation.tutorials = [tutorial1, tutorial2];
+    this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
     await render(hbs`<Campaign::Analysis::TubeRecommendationRow
       @tubeRecommendation={{tubeRecommendation}}
@@ -91,7 +88,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
 
   test('it should collapse and hide tube tutorials list', async function(assert) {
     // given
-    tubeRecommendation.tutorials = [tutorial1, tutorial2];
+    this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
     await render(hbs`<Campaign::Analysis::TubeRecommendationRow
       @tubeRecommendation={{tubeRecommendation}}
@@ -109,7 +106,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
   module('Testing the number of tutorials', () => {
     test('it should display "1 tuto" when there is only one tutorial', async function(assert) {
       // given
-      tubeRecommendation.tutorials = [tutorial1];
+      this.tubeRecommendation.tutorials = [tutorial1];
 
       //when
       await render(hbs`<Campaign::Analysis::TubeRecommendationRow
@@ -122,7 +119,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
 
     test('it should display "2 tutos" when there are two tutorials', async function(assert) {
       // given
-      tubeRecommendation.tutorials = [tutorial1, tutorial2];
+      this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
       //when
       await render(hbs`<Campaign::Analysis::TubeRecommendationRow
@@ -132,6 +129,5 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
       // then
       assert.dom('[aria-label="Sujet"]').containsText('2 tutos');
     });
-
   });
 });

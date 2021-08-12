@@ -51,7 +51,7 @@ Router.map(function() {
         this.route('assessment-results', { path: '/resultats-evaluation' });
         this.route('profile-results', { path: '/profils' });
         this.route('analysis', { path: '/analyse' });
-        this.route('details');
+        this.route('settings', { path: '/parametres' });
       });
     });
     this.route('certifications');

@@ -276,8 +276,8 @@
       },
       "yes": "Oui"
     },
-    "campaign-details": {
-      "title": "Détails",
+    "campaign-settings": {
+      "title": "Paramètres",
       "actions": {
         "archive": "Archiver",
         "edit": "Modifier"
