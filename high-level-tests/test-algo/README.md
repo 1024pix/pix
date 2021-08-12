@@ -34,7 +34,7 @@ npm start -- --competenceId #competenceId# [--locale fr]
 ```
 
 ### Options disponibles 
-- `targetProfile`: Choix du `targetProfile`
+- `targetProfileId`: Choix du `targetProfileId`
 - `competenceId`: Choix de la compétence
 - `userResult`: Choix de la réponse de l’utilisateur avec les options `['ok', 'ko', 'random', 'firstOKthenKO', 'firstKOthenOK']`
 - `usersKEFile`: Possibilité d’utiliser les KE des users via les KE en json
@@ -43,21 +43,24 @@ npm start -- --competenceId #competenceId# [--locale fr]
 ```json
 [
   [ 
-    {"source":"inferred","status":"validated","skillId":"rechRPFlSryfY3UnG","competenceId":"recsvLz0W2ShyfD63"},
-    {"source":"direct","status":"validated","skillId":"reclX9KELFBQeVKoC","competenceId":"recsvLz0W2ShyfD63"},
-    {"source":"inferred","status":"validated","skillId":"recPgkHUdzk0HPGt1","competenceId":"recsvLz0W2ShyfD63"}
+    {"source":"inferred","status":"validated","skillId":"recA","competenceId":"rec1"},
+    {"source":"direct","status":"validated","skillId":"recB","competenceId":"rec1"},
+    {"source":"inferred","status":"validated","skillId":"recC","competenceId":"rec1"}
   ],
   [
-    {"source":"inferred","status":"validated","skillId":"rechRPFlSryfY3UnG","competenceId":"recsvLz0W2ShyfD63"},
-    {"source":"direct","status":"validated","skillId":"reclX9KELFBQeVKoC","competenceId":"recsvLz0W2ShyfD63"},
-    {"source":"inferred","status":"validated","skillId":"recPgkHUdzk0HPGt1","competenceId":"recsvLz0W2ShyfD63"}
+    {"source":"inferred","status":"validated","skillId":"recA","competenceId":"rec1"},
+    {"source":"direct","status":"validated","skillId":"recB","competenceId":"rec1"},
+    {"source":"inferred","status":"validated","skillId":"recC","competenceId":"rec1"}
   ]
 ]
 ```
 
-### Exemple concret
+### Exemples concrets d'usage
 ```bash
-npm start -- --userKEFile=./usertest.json --competenceId=recsvLz0W2ShyfD63
+npm start -- --userKEFile=./usertest.json --competenceId=recABC
+```
+```bash
+npm start -- --userResult=ok --targetProfileId=1
 ```
 
 # Utiliser la data visualisation
