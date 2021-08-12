@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import moment from 'moment';
-import { TOOLTIP_CONFIG, LEGEND_CONFIG } from './chart';
+import { TOOLTIP_CONFIG, LEGEND_CONFIG } from '../../ui/chart';
 import locales from 'date-fns/locale';
 
 export default class ParticipantsByDay extends Component {
