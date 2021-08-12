@@ -24,12 +24,40 @@ cp sample.env .env
 
 Si besoin, éditer le fichier `.env` pour l'adapter à vos besoins.
 
-**4.** Utilisation.
+## Utilisation du CLI
 
+### Usage
 Récupérer le prochain challenge sélectionné par l'algorithme
 
 ```bash
 npm start -- --competenceId #competenceId# [--locale fr]
+```
+
+### Options disponibles 
+- `targetProfile`: Choix du `targetProfile`
+- `competenceId`: Choix de la compétence
+- `userResult`: Choix de la réponse de l’utilisateur avec les options `['ok', 'ko', 'random', 'firstOKthenKO', 'firstKOthenOK']`
+- `usersKEFile`: Possibilité d’utiliser les KE des users via les KE en json
+
+### Format fichier.json
+```json
+[
+  [ 
+    {"source":"inferred","status":"validated","skillId":"rechRPFlSryfY3UnG","competenceId":"recsvLz0W2ShyfD63"},
+    {"source":"direct","status":"validated","skillId":"reclX9KELFBQeVKoC","competenceId":"recsvLz0W2ShyfD63"},
+    {"source":"inferred","status":"validated","skillId":"recPgkHUdzk0HPGt1","competenceId":"recsvLz0W2ShyfD63"}
+  ],
+  [
+    {"source":"inferred","status":"validated","skillId":"rechRPFlSryfY3UnG","competenceId":"recsvLz0W2ShyfD63"},
+    {"source":"direct","status":"validated","skillId":"reclX9KELFBQeVKoC","competenceId":"recsvLz0W2ShyfD63"},
+    {"source":"inferred","status":"validated","skillId":"recPgkHUdzk0HPGt1","competenceId":"recsvLz0W2ShyfD63"}
+  ]
+]
+```
+
+### Exemple concret
+```bash
+npm start -- --userKEFile=./usertest.json --competenceId=recsvLz0W2ShyfD63
 ```
 
 # Utiliser la data visualisation
