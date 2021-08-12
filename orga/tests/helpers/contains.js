@@ -1,7 +1,7 @@
 import { getRootElement } from '@ember/test-helpers';
 
 function _isChildrenContainsText(element, text) {
-  if (element.textContent.includes(text)) {
+  if (element.textContent.trim() === text) {
     return true;
   } else if (element.children.length > 0) {
     for (let i = 0; i < element.children.length; i++) {

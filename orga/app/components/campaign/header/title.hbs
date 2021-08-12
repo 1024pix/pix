@@ -32,7 +32,7 @@
         {{t 'pages.campaign.code'}}
       </h4>
       <span class="content-text campaign-header-title__campaign-code">
-        {{@campaign.code}}
+        <span>{{@campaign.code}}</span>
         <Campaign::CopyPasteButton
           @clipBoardtext={{@campaign.code}}
           @successMessage={{t 'pages.campaign.copy.code.success'}}
