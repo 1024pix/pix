@@ -94,6 +94,30 @@ describe('Acceptance | Timed challenge', () => {
 
     });
   });
+  context('when user seen two timed challenge', function() {
+
+    beforeEach(async () => {
+      // given
+      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+      timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
+      server.create('challenge', 'forCompetenceEvaluation', 'timed');
+
+      // when
+      await visit(`/assessments/${assessment.id}/challenges/0`);
+      await click('.timed-challenge-instructions button');
+      await click('.challenge-actions__action-skip');
+
+    });
+
+    it('should hide the challenge statement of the second challenge', async () => {
+      expect(find('.challenge-statement')).to.not.exist;
+    });
+
+    it('should ensure the challenge does not automatically start of the second challenge', async () => {
+      expect(find('.timeout-gauge')).to.not.exist;
+    });
+
+  });
 
   context('Not Timed Challenge', () => {
 
