@@ -3,17 +3,17 @@
           tabindex="0"
           aria-describedby="challenge-statement__tag-information"
           class="challenge-statement-tag__icon-button"
-          {{on 'mouseenter' (fn this.toggleTooltip true)}}
-          {{on 'mouseleave' (fn this.toggleTooltip false)}}
-          {{on 'click' (fn this.toggleTooltip true)}}/>
+          {{on 'mouseenter' (fn this.displayTooltip true)}}
+          {{on 'mouseleave' (fn this.displayTooltip false)}}
+          {{on 'click' (fn this.displayTooltip true)}}/>
 
   {{#if this.shouldDisplayTooltip}}
     <div role="tooltip"
          id="challenge-statement__tag-information"
          class="challenge-statement__tag-information"
          tabindex="0"
-      {{on-key 'Escape' (fn this.toggleTooltip false) event='keyup'}}
-      {{on 'focusout' (fn this.toggleTooltip false)}}>
+      {{on-key 'Escape' (fn this.displayTooltip false) event='keyup'}}
+      {{on 'focusout' (fn this.displayTooltip false)}}>
       {{#if this.isFocusedChallenge}}
         <p class="challenge-statement-tag-information__text">
           {{t 'pages.challenge.statement.tooltip.focused'}}

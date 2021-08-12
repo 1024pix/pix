@@ -9,7 +9,9 @@ export default class FocusedTooltip extends Component {
 
   constructor() {
     super(...arguments);
-    this._showTooltip();
+    if (this.isFocusedChallenge) {
+      this._showTooltip();
+    }
   }
 
   get isFocusedChallenge() {
@@ -17,15 +19,24 @@ export default class FocusedTooltip extends Component {
   }
 
   _showTooltip() {
-    if (this.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+    if (this._hasCurrentUserNotSeenFocusedChallengeTooltip()) {
       this.shouldDisplayTooltip = true;
-    }
-    else if (this.isFocusedChallenge && this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+    } else {
+      this.shouldDisplayTooltip = false;
       this._notifyChallengeTooltipIsClosed();
     }
-    else if (this.isFocusedChallenge) {
-      this._notifyChallengeTooltipIsClosed();
-    }
+  }
+
+  _hasCurrentUserSeenFocusedChallengeTooltip() {
+    return this._isUserConnected() && this.currentUser.user.hasSeenFocusedChallengeTooltip;
+  }
+
+  _hasCurrentUserNotSeenFocusedChallengeTooltip() {
+    return this._isUserConnected() && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
+  }
+
+  _isUserConnected() {
+    return this.currentUser.user;
   }
 
   @action
@@ -39,16 +50,15 @@ export default class FocusedTooltip extends Component {
   }
 
   @action
-  toggleTooltip(value) {
-    if (this.isFocusedChallenge && this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip) {
-      this.shouldDisplayTooltip = value;
-    }
-    if (this.isFocusedChallenge && !this.currentUser.user) {
-      this.shouldDisplayTooltip = value;
+  displayTooltip(value) {
+    if (this.isFocusedChallenge) {
+      if (this._hasCurrentUserSeenFocusedChallengeTooltip() || !this._isUserConnected()) {
+        this.shouldDisplayTooltip = value;
+      }
     }
   }
 
   get shouldDisplayButton() {
-    return this.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
+    return this._hasCurrentUserNotSeenFocusedChallengeTooltip();
   }
 }
