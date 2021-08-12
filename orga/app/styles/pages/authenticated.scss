@@ -3,44 +3,8 @@
   height: 100%;
   overflow: hidden;
 
-  &__sidebar {
-    width: 280px;
-    min-width: 100px;
-  }
-
   &__main-content {
     width: 100%;
-  }
-}
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  background: $pix-orga-old-gradient;
-
-  &--padding-left {
-    padding-left: 25px;
-  }
-
-  &--item-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 8px;
-    width: 8%;
-
-    > img {
-      width: 100%; //useful for IE
-    }
-  }
-}
-
-.logo {
-  padding-top: 20px;
-  padding-bottom: 30px;
-
-  &__image {
-    height: 60px;
   }
 }
 
@@ -80,10 +44,6 @@
 @include device-is('mobile') {
   .app {
     flex-direction: column;
-  
-    &__sidebar {
-      width: 100%;
-    }
   }
 
   .topbar {

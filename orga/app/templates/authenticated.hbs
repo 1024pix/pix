@@ -1,13 +1,6 @@
 <div class="app">
 
-  <aside class="app__sidebar sidebar">
-    <header class="sidebar__logo logo sidebar--padding-left hide-on-mobile">
-      <LinkTo @route="authenticated.campaigns">
-        <img class="logo__image" src="{{this.rootUrl}}/pix-orga.svg" alt="" role="none">
-      </LinkTo>
-    </header>
-    <SidebarMenu/>
-  </aside>
+  <Layout::Sidebar />
 
   <div class="app__main-content main-content">
 

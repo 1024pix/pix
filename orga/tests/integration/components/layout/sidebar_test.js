@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 
-module('Integration | Component | sidebar-menu', function(hooks) {
+module('Integration | Component | Layout::Sidebar', function(hooks) {
   setupRenderingTest(hooks);
 
   module('when the user is authenticated on orga.pix.fr', function(hooks) {
@@ -25,7 +25,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // when
-      await render(hbs`<SidebarMenu />`);
+      await render(hbs`<Layout::Sidebar />`);
 
       // then
       assert.dom('a[href="https://cloud.pix.fr/s/cwZN2GAbqSPGnw4"]').exists();
@@ -39,7 +39,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // when
-      await render(hbs`<SidebarMenu />`);
+      await render(hbs`<Layout::Sidebar />`);
 
       // then
       assert.dom('a[href="https://view.genial.ly/6048a0d3757f980dc010d6d4"]').exists();
@@ -53,7 +53,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // when
-      await render(hbs`<SidebarMenu />`);
+      await render(hbs`<Layout::Sidebar />`);
 
       // then
       assert.dom('a[href="https://view.genial.ly/5f3e7a5ba8ffb90d11ac034f"]').exists();
@@ -68,7 +68,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // when
-      await render(hbs`<SidebarMenu />`);
+      await render(hbs`<Layout::Sidebar />`);
 
       // then
       assert.dom('a[href="https://view.genial.ly/5f85a0b87812e90d12b7b593"]').exists();
@@ -82,7 +82,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // when
-      await render(hbs`<SidebarMenu />`);
+      await render(hbs`<Layout::Sidebar />`);
 
       // then
       assert.dom('a[href="https://view.genial.ly/5ffb6eed1ac90d0d0daf65d8"]').exists();
@@ -96,7 +96,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // when
-      await render(hbs`<SidebarMenu />`);
+      await render(hbs`<Layout::Sidebar />`);
       // then
       assert.dom('a[href="https://view.genial.ly/5ffb6eed1ac90d0d0daf65d8"]').exists();
     });
@@ -108,7 +108,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // when
-      await render(hbs`<SidebarMenu />`);
+      await render(hbs`<Layout::Sidebar />`);
       // then
       assert.dom('a[href="https://cloud.pix.fr/s/DTTo7Lp7p6Ktceo"]').exists();
     });
@@ -121,7 +121,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // when
-      await render(hbs`<SidebarMenu />`);
+      await render(hbs`<Layout::Sidebar />`);
 
       // then
       assert.dom('.sidebar-menu__documentation-item').doesNotExist();
@@ -145,7 +145,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
 
     test('it should display documentation', async function(assert) {
       // when
-      await render(hbs`<SidebarMenu />`);
+      await render(hbs`<Layout::Sidebar />`);
 
       // then
       assert.dom('a[href="https://cloud.pix.fr/s/HxpfpBnY47nYBkz"]').exists();
@@ -165,7 +165,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
     intl.setLocale(['fr', 'fr']);
 
     // when
-    await render(hbs`<SidebarMenu />`);
+    await render(hbs`<Layout::Sidebar />`);
 
     // then
     assert.contains('Certifications');
@@ -184,7 +184,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
     intl.setLocale(['fr', 'fr']);
 
     // when
-    await render(hbs`<SidebarMenu />`);
+    await render(hbs`<Layout::Sidebar />`);
 
     // then
     assert.notContains('Certification');
