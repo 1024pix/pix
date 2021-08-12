@@ -22,12 +22,13 @@ module.exports = function buildKnowledgeElement({
   assessmentId = _.isUndefined(assessmentId) ? buildAssessment({ userId }).id : assessmentId;
   answerId = _.isUndefined(answerId) ? buildAnswer({ assessmentId }).id : answerId;
 
+  const correctEarnedPix = status === KnowledgeElement.StatusType.VALIDATED ? earnedPix : 0;
   const values = {
     id,
     source,
     status,
     createdAt,
-    earnedPix,
+    earnedPix: correctEarnedPix,
     skillId,
     assessmentId,
     answerId,

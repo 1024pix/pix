@@ -150,16 +150,21 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       await databaseBuilder.commit();
 
-      campaignParticipationToUpdate.isShared = true;
-      campaignParticipationToUpdate.sharedAt = new Date('2021-01-01');
-      campaignParticipationToUpdate.validatedSkillsCount = 10;
-
-      await campaignParticipationRepository.update(campaignParticipationToUpdate);
+      await campaignParticipationRepository.update({
+        ...campaignParticipationToUpdate,
+        isShared: true,
+        sharedAt: new Date('2021-01-01'),
+        validatedSkillsCount: 10,
+        pixScore: 10,
+        masteryPercentage: 0.9,
+      });
       const campaignParticipation = await knex('campaign-participations').where({ id: campaignParticipationId }).first();
 
       expect(campaignParticipation.isShared).to.equals(true);
       expect(campaignParticipation.sharedAt).to.deep.equals(new Date('2021-01-01'));
       expect(campaignParticipation.validatedSkillsCount).to.equals(10);
+      expect(campaignParticipation.pixScore).to.equals(10);
+      expect(campaignParticipation.masteryPercentage).to.equals('0.90');
     });
   });
 

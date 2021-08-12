@@ -21,6 +21,8 @@ const ATTRIBUTES_TO_SAVE = [
   'campaignId',
   'userId',
   'validatedSkillsCount',
+  'pixScore',
+  'masteryPercentage',
 ];
 
 function _toDomain(bookshelfCampaignParticipation) {
