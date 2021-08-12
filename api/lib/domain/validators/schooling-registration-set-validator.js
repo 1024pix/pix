@@ -4,8 +4,7 @@ const { EntityValidationError } = require('../errors');
 const validationConfiguration = { allowUnknown: true };
 
 const validationSchema = Joi.array().unique((a, b) => {
-  return a.nationalStudentId === b.nationalStudentId &&
-  a.nationalApprenticeId === b.nationalApprenticeId;
+  return a.nationalStudentId === b.nationalStudentId;
 });
 
 module.exports = {
