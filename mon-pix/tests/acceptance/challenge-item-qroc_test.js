@@ -500,7 +500,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         expect(find('.assessment-challenge__focused-overlay')).to.exist;
-        expect(find('.challenge-statement__tag-information')).to.exist;
+        expect(find('.tooltip-tag__information')).to.exist;
       });
 
       it('should disable input and buttons', async () => {
@@ -541,7 +541,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
           // when
           await visit(`/assessments/${assessment.id}/challenges/0`);
-          await click('.challenge-statement-tag-information__button');
+          await click('.tooltip-tag-information__button');
         });
 
         it('should hide an overlay and tooltip', async () => {
