@@ -62,4 +62,16 @@ module('Integration | Component | target-profiles organizations', function(hooks
     sinon.assert.called(attachOrganizations);
     assert.equal(this.organizationsToAttach, '1, 2');
   });
+
+  test('it should display a field to attach organizations from an existing target profile', async function(assert) {
+    // given
+    this.organizations = [];
+    this.existingTargetProfile = null;
+
+    // when
+    await render(hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @existingTargetProfile={{this.existingTargetProfile}} @attachOrganizations={{this.attachOrganizations}} @attachOrganizationsFromExistingTargetProfile={{this.attachOrganizationsFromExistingTargetProfile}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}}/>`);
+    await fillInByLabel('Rattacher les organisations d\'un profil cible existant', 1);
+
+    assert.equal(this.existingTargetProfile, 1);
+  });
 });
