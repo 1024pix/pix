@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
 import Object from '@ember/object';
 import Service from '@ember/service';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-module('Integration | Component | user-logged-menu', function(hooks) {
+module('Integration | Component | Layout::UserLoggedMenu', function(hooks) {
   setupIntlRenderingTest(hooks);
 
   let prescriber, organization, organization2, organization3;
@@ -34,7 +34,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
   test('should display user\'s firstName and lastName', async function(assert) {
     // when
-    await render(hbs`<UserLoggedMenu/>`);
+    await render(hbs`<Layout::UserLoggedMenu />`);
 
     // then
     assert.contains(`${prescriber.firstName} ${prescriber.lastName}`);
@@ -42,7 +42,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
   test('should display the user current organization name and externalId', async function(assert) {
     // when
-    await render(hbs`<UserLoggedMenu/>`);
+    await render(hbs`<Layout::UserLoggedMenu />`);
 
     // then
     assert.contains(`${organization.name} (${organization.externalId})`);
@@ -50,7 +50,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
   test('should display the chevron-down icon when menu is close', async function(assert) {
     // when
-    await render(hbs`<UserLoggedMenu/>`);
+    await render(hbs`<Layout::UserLoggedMenu />`);
 
     // then
     assert.dom('.fa-chevron-down').exists();
@@ -59,7 +59,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
   test('should display the chevron-up icon when menu is open', async function(assert) {
     // when
-    await render(hbs`<UserLoggedMenu/>`);
+    await render(hbs`<Layout::UserLoggedMenu />`);
     await clickByLabel('Résumé utilisateur');
 
     // then
@@ -69,7 +69,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
   test('should display the disconnect link when menu is open', async function(assert) {
     // when
-    await render(hbs`<UserLoggedMenu/>`);
+    await render(hbs`<Layout::UserLoggedMenu />`);
     await clickByLabel('Résumé utilisateur');
 
     // then
@@ -78,7 +78,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
   test('should display the organizations name and externalId when menu is open', async function(assert) {
     // when
-    await render(hbs`<UserLoggedMenu />`);
+    await render(hbs`<Layout::UserLoggedMenu  />`);
     await clickByLabel('Résumé utilisateur');
 
     // then

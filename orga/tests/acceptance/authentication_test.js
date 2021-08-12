@@ -90,6 +90,7 @@ module('Acceptance | authentication', function(hooks) {
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
 
       assert.dom('.sidebar').doesNotExist();
+      assert.dom('.topbar').doesNotExist();
     });
   });
 
@@ -131,7 +132,7 @@ module('Acceptance | authentication', function(hooks) {
       // then
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
 
-      assert.dom('.logged-user-summary__name').hasText('Harry Cover');
+      assert.contains('Harry Cover');
     });
   });
 

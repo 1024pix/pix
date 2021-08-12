@@ -1,22 +1,15 @@
 <div class="app">
-
   <Layout::Sidebar />
 
-  <div class="app__main-content main-content">
-
-    <div class="main-content__topbar topbar">
-      <div class="topbar__organization-credit-info hide-on-mobile"><OrganizationCreditInfo /></div>
-      <div class="topbar__user-logged-menu"><UserLoggedMenu /></div>
-    </div>
+  <div class="main-content">
+    <Layout::Topbar />
 
     <Banner::Information />
 
     <div class="main-content__body page">
       {{outlet}}
     </div>
-
   </div>
 
   <NotificationContainer @position="bottom-right" />
-
 </div>

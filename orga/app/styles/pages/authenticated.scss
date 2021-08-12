@@ -2,54 +2,23 @@
   display: flex;
   height: 100%;
   overflow: hidden;
-
-  &__main-content {
-    width: 100%;
-  }
 }
 
 .main-content {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
   background-color: $grey-10;
   overflow: auto;
-
-  &__topbar {
-    background-color: $white;
-    min-height: 60px;
-  }
 
   &__body {
     height: 100%;
   }
 }
 
-.topbar {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-
-  &__user-logged-menu {
-    padding: 0 30px;
-    border-left: 1px solid $grey-20;
-  }
-
-  &__organization-credit-info {
-    padding: 0 30px;
-  }
-}
-
-
 @include device-is('mobile') {
   .app {
     flex-direction: column;
-  }
-
-  .topbar {
-    &__user-logged-menu {
-      padding: 0 16px;
-      border-left-width: 0px;
-    }
   }
 }
