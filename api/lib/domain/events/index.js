@@ -25,6 +25,7 @@ const dependencies = {
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
   targetProfileWithLearningContentRepository: require('../../infrastructure/repositories/target-profile-with-learning-content-repository'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
+  participantResultsSharedRepository: require('../../infrastructure/repositories/participant-results-shared-repository'),
   poleEmploiNotifier: require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier'),
   juryCertificationSummaryRepository: require('../../infrastructure/repositories/jury-certification-summary-repository'),
   finalizedSessionRepository: require('../../infrastructure/repositories/finalized-session-repository'),
@@ -49,7 +50,7 @@ const handlersToBeInjected = {
   handlePoleEmploiParticipationFinished: require('./handle-pole-emploi-participation-finished'),
   handlePoleEmploiParticipationShared: require('./handle-pole-emploi-participation-shared'),
   handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
-  computeValidatedSkillsCount: require('./compute-validated-skills-count'),
+  computeCampaignParticipationResults: require('./compute-campaign-participation-results'),
   handleSessionFinalized: require('./handle-session-finalized'),
 };
 

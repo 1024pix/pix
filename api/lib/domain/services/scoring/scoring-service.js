@@ -46,8 +46,17 @@ function _getPixScoreAheadOfNextLevel(earnedPix) {
   return earnedPix % PIX_COUNT_BY_LEVEL;
 }
 
+function calculatePixScore(knowledgeElements) {
+  return _(knowledgeElements)
+    .groupBy('competenceId')
+    .values()
+    .map((knowledgeElementsByCompetence) => calculateScoringInformationForCompetence({ knowledgeElements: knowledgeElementsByCompetence }))
+    .sumBy('pixScoreForCompetence');
+}
+
 module.exports = {
   calculateScoringInformationForCompetence,
   getBlockedLevel,
   getBlockedPixScore,
+  calculatePixScore,
 };
