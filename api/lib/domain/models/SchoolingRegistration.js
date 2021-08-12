@@ -20,7 +20,6 @@ class SchoolingRegistration {
     MEFCode,
     status,
     nationalStudentId,
-    nationalApprenticeId,
     division,
     isDisabled,
     updatedAt,
@@ -42,7 +41,6 @@ class SchoolingRegistration {
     this.MEFCode = MEFCode;
     this.status = status;
     this.nationalStudentId = nationalStudentId;
-    this.nationalApprenticeId = nationalApprenticeId;
     this.division = division;
     this.isDisabled = isDisabled;
     this.updatedAt = updatedAt;
