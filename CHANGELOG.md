@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.85.0 (12/08/2021)
+
+- [#3299](https://github.com/1024pix/pix/pull/3299) [FEATURE] Calcul des résultats d'une participation au partage (PIX-2895)
+- [#3282](https://github.com/1024pix/pix/pull/3282) [FEATURE] Permettre de modifier une campagne depuis Pix Admin (PIX-2885)
+- [#3303](https://github.com/1024pix/pix/pull/3303) [FEATURE] Brancher le bouton de téléchargement des attestations de certification sur Pix Orga (PIX-2941)
+- [#3321](https://github.com/1024pix/pix/pull/3321) [BUGFIX] Correction de tests flaky et bugs sur la navbar Pix Orga
+- [#3314](https://github.com/1024pix/pix/pull/3314) [TECH] Modifier le composant de détail d'une campagne dans Pix Orga (PIX-2984)
+- [#3296](https://github.com/1024pix/pix/pull/3296) [TECH] Permettre de pouvoir visualiser les résultats d'Algolix (PIX-2072). 
+- [#3309](https://github.com/1024pix/pix/pull/3309) [TECH] Prévenir les traces incomplètes de récupération de compte SCO (PIX-2973).
+- [#3307](https://github.com/1024pix/pix/pull/3307) [TECH] Modifier les composants de la liste des campagnes de profils dans Pix Orga (PIX-2969)
+- [#3306](https://github.com/1024pix/pix/pull/3306) [TECH] Modifier les composants du header de la page de campagne dans Pix Orga (PIX-2965)
+
 ## v3.84.0 (10/08/2021)
 
 - [#3290](https://github.com/1024pix/pix/pull/3290) [FEATURE] Créer la route de récupération des attestations par classe (PIX-2940)
