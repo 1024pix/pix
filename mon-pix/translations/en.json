@@ -447,7 +447,7 @@
           "subtitle": "If you switch pages or tabs during a certification test, you answer will not be validated."
         }
       },
-      "has-focused-out": "",
+      "has-focused-out-of-window": "We have detected a page/tab switch. During a certification test, your answer would not be validated.",
       "parts": {
         "answer-input": "Your answer",
         "feedback": "Report a problem",
