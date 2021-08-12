@@ -1,8 +1,8 @@
-<Charts::Card @title={{t 'charts.participants-by-status.title'}} ...attributes>
+<Ui::ChartCard @title={{t 'charts.participants-by-status.title'}} ...attributes>
   {{#if @loading}}
-    <Charts::ParticipantsByStatusLoader />
+    <Campaign::Charts::ParticipantsByStatusLoader />
   {{else}}
-    <Charts::Chart
+    <Ui::Chart
       @type="doughnut"
       @options={{this.options}}
       @data={{this.data}}
@@ -27,4 +27,4 @@
       {{/each}}
     </ul>
   {{/if}}
-</Charts::Card>
+</Ui::ChartCard>

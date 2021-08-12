@@ -12,12 +12,12 @@
     />
   </div>
   <div class="activity-dashboard__row">
-    <Charts::ParticipantsByDay
+    <Campaign::Charts::ParticipantsByDay
       @campaignId={{@campaign.id}}
       @isTypeAssessment={{@campaign.isTypeAssessment}}
       class="activity-dashboard__participations-by-day"
     />
-    <Charts::ParticipantsByStatus
+    <Campaign::Charts::ParticipantsByStatus
       @loading={{this.participantsByStatusLoading}}
       @participantCountByStatus={{this.participantCountByStatus}}
       @isTypeAssessment={{@campaign.isTypeAssessment}}
