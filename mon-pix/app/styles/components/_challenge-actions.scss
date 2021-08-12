@@ -11,25 +11,37 @@
 }
 
 .challenge-actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
   background-color: $grey-10;
   margin: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
 
   &__action {
     cursor: pointer;
     text-align: center;
+    margin-left: 7.5px;
+    margin-right: 7.5px;
+    max-width: 150px;
+    min-width: 100px;
+    height: 46px;
+    border-radius: 23px;
+
+    @include device-is('tablet') {
+      width: 150px;
+    }
   }
 
   &__action-skip {
-    margin-right: 15px;
-    width: 150px;
-    height: 46px;
-
     @include button-background-transition();
 
-    border-radius: 23px;
     background-color: transparent;
     border: 1px solid $grey-50;
     display: flex;
@@ -80,9 +92,6 @@
 
   &__action-validate {
     order: 1;
-    width: 150px;
-    height: 46px;
-    border-radius: 23px;
     background-color: $green;
     color: $white;
     display: flex;
@@ -134,53 +143,8 @@
     }
   }
 
-  @keyframes spin {
-
-    0% {
-      transform: rotate(0deg);
-    }
-
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  &__already-answered {
-    font-family: $font-roboto;
-    font-size: 1rem;
-    font-weight: $font-semi-bold;
-    color: $grey-70;
-    letter-spacing: 0.031rem;
-    margin-right: 20px;
-  }
-
-  &__focused-out-of-window {
-    display: flex;
-    align-items: center;
-    margin-right: auto;
-    max-width: 600px;
-    color: $grey-90;
-    font-family: $font-roboto;
-    font-size: 0.875rem;
-    font-weight: $font-normal;
-    letter-spacing: 0.009rem;
-    line-height: 1.375rem;
-  }
-
-  &__timed-out {
-    font-family: $font-roboto;
-    font-size: 1rem;
-    font-weight: 600;
-    color: $grey-70;
-    letter-spacing: 0.031rem;
-    margin-right: 20px;
-  }
-
   &__action-continue {
     order: 1;
-    width: 150px;
-    height: 46px;
-    border-radius: 23px;
     background-color: $blue;
     font-family: $font-roboto;
     color: $white;
@@ -211,6 +175,58 @@
       color: white;
       text-decoration: none;
     }
+  }
+
+  @keyframes spin {
+
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  &__already-answered {
+    font-family: $font-roboto;
+    font-size: 1rem;
+    font-weight: $font-semi-bold;
+    color: $grey-70;
+    letter-spacing: 0.031rem;
+    margin-right: 20px;
+  }
+
+  &__focused-out-of-window {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    color: $grey-90;
+    font-family: $font-roboto;
+    font-size: 0.875rem;
+    font-weight: $font-normal;
+    letter-spacing: 0.009rem;
+    line-height: 1.375rem;
+    margin-right: 0;
+    margin-bottom: 24px;
+
+    @include device-is('tablet') {
+      margin-bottom: 0;
+      margin-right: auto;
+    }
+  }
+
+  &__timed-out {
+    font-family: $font-roboto;
+    font-size: 1rem;
+    font-weight: 600;
+    color: $grey-70;
+    letter-spacing: 0.031rem;
+    margin-right: 20px;
+  }
+
+  &__group {
+    display: flex;
   }
 }
 
