@@ -171,6 +171,21 @@ module.exports = {
       throw new ObjectValidationError;
     }
   },
+
+  async findOrganizationIds(targetProfileId) {
+    const targetProfile = await knex('target-profiles')
+      .select('id')
+      .where({ id: targetProfileId })
+      .first();
+    if (!targetProfile) {
+      throw new NotFoundError(`No target profile for ID ${targetProfileId}`);
+    }
+
+    const targetProfileShares = await knex('target-profile-shares')
+      .select('organizationId')
+      .where({ 'target-profile-shares.targetProfileId': targetProfileId });
+    return targetProfileShares.map((targetProfileShare) => targetProfileShare.organizationId);
+  },
 };
 
 async function _getWithLearningContentSkills(targetProfile) {
