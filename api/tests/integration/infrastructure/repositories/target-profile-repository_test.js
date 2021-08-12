@@ -629,4 +629,58 @@ describe('Integration | Repository | Target-profile', () => {
     });
   });
 
+  describe('#findOrganizationIds', () => {
+    let targetProfileId;
+    const expectedOrganizationIds = [];
+
+    beforeEach(() => {
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      _.times(2, () => {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        expectedOrganizationIds.push(organizationId);
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId, targetProfileId });
+      });
+      return databaseBuilder.commit();
+    });
+
+    context('when there are organizations linked to the target profile', () => {
+
+      it('should return an Array of Organization ids', async () => {
+        const organizationIds = await targetProfileRepository.findOrganizationIds(targetProfileId);
+
+        expect(organizationIds).to.be.an('array');
+        expect(organizationIds).to.deep.equal(expectedOrganizationIds);
+      });
+
+      it('should not include an organization that is not attach to target profile', async () => {
+        databaseBuilder.factory.buildOrganization();
+        await databaseBuilder.commit();
+
+        const organizationIds = await targetProfileRepository.findOrganizationIds(targetProfileId);
+
+        expect(organizationIds).to.have.lengthOf(2);
+      });
+    });
+
+    context('when no organization is linked to the target profile', () => {
+
+      it('should return an empty array', async () => {
+        const otherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        await databaseBuilder.commit();
+
+        const organizationIds = await targetProfileRepository.findOrganizationIds(otherTargetProfileId);
+
+        expect(organizationIds).to.deep.equal([]);
+      });
+    });
+
+    context('when target profile does not exist', () => {
+
+      it('should throw', async () => {
+        const error = await catchErr(targetProfileRepository.findOrganizationIds)(999);
+
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+  });
 });
