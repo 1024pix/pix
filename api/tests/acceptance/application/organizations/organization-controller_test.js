@@ -71,6 +71,26 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(createdOrganization.name).to.equal('The name of the organization');
         expect(createdOrganization.type).to.equal('PRO');
       });
+
+      it('should save the Pix Master userId creating the Organization', async () => {
+        // given
+        const PIX_MASTER_ROLE_ID = 1;
+        const pixMasterUserId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildUserPixRole({
+          userId: pixMasterUserId,
+          pixRoleId: PIX_MASTER_ROLE_ID,
+        });
+        await databaseBuilder.commit();
+
+        options.headers.authorization = generateValidRequestAuthorizationHeader(pixMasterUserId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        const createdOrganization = response.result.data.attributes;
+        expect(createdOrganization['created-by']).to.equal(pixMasterUserId);
+      });
     });
 
     describe('when creating with a wrong payload (ex: organization type is wrong)', () => {
@@ -101,7 +121,6 @@ describe('Acceptance | Application | organization-controller', () => {
             });
           });
       });
-
     });
 
     describe('Resource access management', () => {
@@ -585,11 +604,13 @@ describe('Acceptance | Application | organization-controller', () => {
 
     let organization;
     let options;
+    let pixMasterUserId;
 
     context('Expected output', () => {
 
       beforeEach(async () => {
-        const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+        pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+
         organization = databaseBuilder.factory.buildOrganization({
           type: 'SCO',
           name: 'Organization catalina',
@@ -599,6 +620,7 @@ describe('Acceptance | Application | organization-controller', () => {
           isManagingStudents: true,
           credit: 666,
           email: 'sco.generic.account@example.net',
+          createdBy: pixMasterUserId,
         });
 
         await databaseBuilder.commit();
@@ -606,9 +628,8 @@ describe('Acceptance | Application | organization-controller', () => {
         options = {
           method: 'GET',
           url: `/api/organizations/${organization.id}`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(pixMasterUserId) },
         };
-
       });
 
       it('should return the matching organization as JSON API', async () => {
@@ -629,6 +650,7 @@ describe('Acceptance | Application | organization-controller', () => {
               'can-collect-profiles': organization.canCollectProfiles,
               'credit': organization.credit,
               'email': organization.email,
+              'created-by': pixMasterUserId,
             },
             'id': organization.id.toString(),
             'relationships': {

@@ -28,6 +28,7 @@ class Organization {
     students = [],
     organizationInvitations = [],
     tags = [],
+    createdBy,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -43,6 +44,7 @@ class Organization {
     this.students = students;
     this.organizationInvitations = organizationInvitations;
     this.tags = tags;
+    this.createdBy = createdBy;
   }
 
   get isSup() {

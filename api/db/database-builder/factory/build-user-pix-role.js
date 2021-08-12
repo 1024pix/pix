@@ -1,5 +1,4 @@
 const buildPixRole = require('./build-pix-role');
-const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
@@ -9,7 +8,6 @@ const buildUserPixRole = function buildUserPixRole({
   pixRoleId,
 } = {}) {
 
-  userId = _.isUndefined(userId) ? buildUser().id : userId;
   pixRoleId = _.isUndefined(pixRoleId) ? buildPixRole().id : pixRoleId;
 
   return databaseBuffer.pushInsertable({

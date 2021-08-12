@@ -13,7 +13,7 @@ const userWithSchoolingRegistrationSerializer = require('../../infrastructure/se
 const higherSchoolingRegistrationWarningSerializer = require('../../infrastructure/serializers/jsonapi/higher-schooling-registration-warnings-serializer');
 const HigherSchoolingRegistrationParser = require('../../infrastructure/serializers/csv/higher-schooling-registration-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const { extractLocaleFromRequest, extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
 const moment = require('moment');
 const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
@@ -37,7 +37,9 @@ module.exports = {
       'logo-url': logoUrl,
     } = request.payload.data.attributes;
 
-    return usecases.createOrganization({ name, type, externalId, provinceCode, logoUrl, email })
+    const pixMasterUserId = extractUserIdFromRequest(request);
+
+    return usecases.createOrganization({ createdBy: pixMasterUserId, name, type, externalId, provinceCode, logoUrl, email })
       .then(organizationSerializer.serialize);
   },
 
