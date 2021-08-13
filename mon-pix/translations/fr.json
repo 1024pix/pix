@@ -479,6 +479,7 @@
           "help": "Besoin d'aide pour '<a href=\"https://support.pix.fr/fr/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\">'ouvrir, modifier ou retrouver ce fichier'</a>' ?"
         },
         "tooltip": {
+          "aria-label": "Afficher l'indication sur l'épreuve.",
           "close": "J'ai compris",
           "focused": "Restez sur cette page ! Vous ne devez pas faire une recherche sur internet ni utiliser vos propres outils pour répondre à cette question.",
           "regular": "<p>Question libre :</p>Vous pouvez vous aider d'internet et d'applications externes."
