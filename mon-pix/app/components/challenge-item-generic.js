@@ -28,6 +28,10 @@ export default class ChallengeItemGeneric extends Component {
     return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.args.challenge.focused;
   }
 
+  get hasFocusedOutOfChallengeButNotWindow() {
+    return this.hasFocusedOutOfChallenge && !this.hasFocusedOutOfWindow;
+  }
+
   get isAnswerFieldDisabled() {
     if (this.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
       return this.args.answer || !this.isTooltipClosed;
