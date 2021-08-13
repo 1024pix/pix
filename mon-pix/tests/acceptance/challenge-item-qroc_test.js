@@ -528,7 +528,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await triggerEvent(challengeItem, 'mouseleave');
 
         // then
-        expect(find('.alert--info')).to.not.exist;
+        expect(find('.challenge-item__info-alert')).to.not.exist;
         expect(find('.challenge-item__container--focused')).to.not.exist;
         expect(find('.assessment-challenge__focused-out-overlay')).to.not.exist;
       });
@@ -571,25 +571,25 @@ describe('Acceptance | Displaying a QROC challenge', () => {
           await triggerEvent(challengeItem, 'mouseleave');
 
           // then
-          expect(find('.alert--info')).to.exist;
+          expect(find('.challenge-item__info-alert')).to.exist;
           expect(find('.challenge-item__container--focused')).to.exist;
           expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
         });
 
         it('should display only the warning alert when it has been triggered', async function() {
-          // when
+          // given
           const challengeItem = find('.challenge-item');
           await triggerEvent(challengeItem, 'mouseleave');
 
-          // then
-          expect(find('.alert--info')).to.exist;
+          expect(find('.challenge-item__info-alert')).to.exist;
           expect(find('.challenge-item__container--focused')).to.exist;
           expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
 
           // when
           await triggerEvent(window, 'blur');
 
-          expect(find('.alert--info')).to.not.exist;
+          // then
+          expect(find('.challenge-item__info-alert')).to.not.exist;
           expect(find('.alert--warning')).to.exist;
           expect(find('.challenge-item__container--focused')).to.exist;
           expect(find('.assessment-challenge__focused-out-overlay')).to.exist;

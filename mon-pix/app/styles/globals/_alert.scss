@@ -27,12 +27,6 @@
     background-color: $warning;
     color: $grey-70;
   }
-
-  &--info {
-    border: 1px solid $blue-10;
-    background-color: $blue-10;
-    color: $grey-70;
-  }
 }
 
 .challenge-response + .alert {
