@@ -19,23 +19,34 @@ export default class ImportController extends Controller {
 
   @action
   async importStudents(file) {
+    const url = `${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/import-csv`;
+    await this._uploadFile(url, file);
+  }
+
+  @action
+  async replaceStudents(file) {
+    const url = `${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/replace-csv`;
+    await this._uploadFile(url, file);
+  }
+
+  async _uploadFile(url, file) {
     this.isLoading = true;
     this.notifications.clearAll();
     const { access_token } = this.session.data.authenticated;
 
     try {
-      const response = await file.uploadBinary(`${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/import-csv`, {
+      const response = await file.uploadBinary(url, {
         headers: {
           Authorization: `Bearer ${access_token}`,
           'Accept-Language': this.currentUser.prescriber.lang,
         },
       });
-      this.isLoading = false;
       this._sendNotifications(response);
       this.transitionToRoute('authenticated.sup-students.list');
     } catch (errorResponse) {
+      this._sendErrorNotifications(errorResponse);
+    } finally {
       this.isLoading = false;
-      return this._sendErrorNotifications(errorResponse);
     }
   }
 

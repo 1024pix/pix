@@ -23,24 +23,6 @@ const ATTRIBUTES_TO_SAVE = [
 
 module.exports = {
 
-  async upsertStudents(higherSchoolingRegistrations) {
-    const registrationsToInsert = higherSchoolingRegistrations.map((registration) => ({
-      ..._.pick(registration, ATTRIBUTES_TO_SAVE),
-      status: registration.studyScheme,
-      isDisabled: false,
-      updatedAt: knex.raw('CURRENT_TIMESTAMP'),
-    }));
-
-    try {
-      await knex('schooling-registrations')
-        .insert(registrationsToInsert)
-        .onConflict(['organizationId', 'studentNumber'])
-        .merge();
-    } catch (error) {
-      throw new SchoolingRegistrationsCouldNotBeSavedError();
-    }
-  },
-
   async updateStudentNumber(studentId, studentNumber) {
     await BookshelfSchoolingRegistration
       .where('id', studentId)
@@ -71,4 +53,39 @@ module.exports = {
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
   },
+
+  async addStudents(higherSchoolingRegistrations) {
+    await _upsertStudents(knex, higherSchoolingRegistrations);
+  },
+
+  async replaceStudents(organizationId, higherSchoolingRegistrations) {
+    await knex.transaction(async (transaction) => {
+      await _disableAllRegistrations(transaction, organizationId);
+      await _upsertStudents(transaction, higherSchoolingRegistrations);
+    });
+  },
 };
+
+async function _disableAllRegistrations(queryBuilder, organizationId) {
+  await queryBuilder('schooling-registrations')
+    .update({ isDisabled: true, updatedAt: knex.raw('CURRENT_TIMESTAMP') })
+    .where({ organizationId, isDisabled: false });
+}
+
+async function _upsertStudents(queryBuilder, higherSchoolingRegistrations) {
+  const registrationsToInsert = higherSchoolingRegistrations.map((registration) => ({
+    ..._.pick(registration, ATTRIBUTES_TO_SAVE),
+    status: registration.studyScheme,
+    isDisabled: false,
+    updatedAt: knex.raw('CURRENT_TIMESTAMP'),
+  }));
+
+  try {
+    await queryBuilder('schooling-registrations')
+      .insert(registrationsToInsert)
+      .onConflict(['organizationId', 'studentNumber'])
+      .merge();
+  } catch (error) {
+    throw new SchoolingRegistrationsCouldNotBeSavedError();
+  }
+}

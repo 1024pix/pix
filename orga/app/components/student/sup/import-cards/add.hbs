@@ -1,0 +1,7 @@
+<section class="import-students-page__section">
+  <h2 class="import-students-page-section__title">{{t 'pages.students-sup-import.actions.add.title'}}</h2>
+  <p class="import-students-page-section__details">{{t 'pages.students-sup-import.actions.add.details'}}</p>
+  <FileUpload class="import-students-page-section__action" @name="file-upload-add" @for="students-file-upload-add" @accept=".csv" @multiple={{false}} @onfileadd={{@onAddStudents}}>
+    <span class="button button--thin" role="button" tabindex="0">{{t 'pages.students-sup-import.actions.add.label'}}</span>
+  </FileUpload>
+</section>
