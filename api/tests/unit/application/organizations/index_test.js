@@ -363,6 +363,53 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
+  describe('POST /api/organizations/{id}/schooling-registrations/replace-csv', () => {
+
+    context('when the user is an admin for the organization and the organization is SUP and manages student', () => {
+      afterEach(() => {
+        sinon.restore();
+      });
+
+      it('responds 200', async () => {
+        sinon.stub(organizationController, 'replaceHigherSchoolingRegistrations');
+        sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
+        organizationController.replaceHigherSchoolingRegistrations.resolves('ok');
+        securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.resolves(true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'POST';
+        const url = '/api/organizations/1/schooling-registrations/replace-csv';
+
+        const response = await httpTestServer.request(method, url);
+
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    context('when the user is not admin for the organization', () => {
+      afterEach(() => {
+        sinon.restore();
+      });
+
+      it('responds 403', async () => {
+        sinon.stub(organizationController, 'replaceHigherSchoolingRegistrations');
+        sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
+        organizationController.replaceHigherSchoolingRegistrations.resolves('ok');
+        securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake((request, h) => h.response().code(403).takeover());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'POST';
+        const url = '/api/organizations/1/schooling-registrations/replace-csv';
+
+        const response = await httpTestServer.request(method, url);
+
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
+
   describe('GET /api/organizations/{id}/schooling-registrations/csv-template', () => {
 
     it('should call the organization controller to csv template', async () => {

@@ -14,11 +14,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     max-width: 350px;
+    height: 230px;
     border-radius: 8px;
     box-shadow: 0 2px 5px 0 rgba($black, 0.05);
     background-color: $white;
     padding: 16px;
+    margin: 16px 16px 0 16px;
   }
 }
 
@@ -33,6 +36,10 @@
     font-size: 1rem;
     font-weight: 300;
     margin: 8px;
+
+    &--small {
+      font-size: 0.875rem;
+    }
   }
 }
 
@@ -58,4 +65,10 @@
   &__action {
     margin: 8px;
   }
+}
+
+.import-type-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }

@@ -167,6 +167,15 @@ module.exports = {
     return h.response(response).code(200);
   },
 
+  async replaceHigherSchoolingRegistrations(request, h) {
+    const organizationId = request.params.id;
+    const buffer = request.payload;
+    const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(buffer, organizationId, request.i18n);
+    const warnings = await usecases.replaceHigherSchoolingRegistrations({ organizationId, higherSchoolingRegistrationParser });
+    const response = higherSchoolingRegistrationWarningSerializer.serialize({ id: organizationId, warnings });
+    return h.response(response).code(200);
+  },
+
   async sendInvitations(request, h) {
     const organizationId = request.params.id;
     const emails = request.payload.data.attributes.email.split(',');

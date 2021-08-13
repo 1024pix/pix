@@ -288,6 +288,7 @@ module.exports = injectDependencies({
   rememberUserHasSeenChallengeTooltip: require('./remember-user-has-seen-challenge-tooltip'),
   rememberUserHasSeenNewDashboardInfo: require('./remember-user-has-seen-new-dashboard-info'),
   removeAuthenticationMethod: require('./remove-authentication-method'),
+  replaceHigherSchoolingRegistrations: require('./replace-higher-schooling-registrations'),
   resetScorecard: require('./reset-scorecard'),
   retrieveLastOrCreateCertificationCourse: require('./retrieve-last-or-create-certification-course'),
   saveCertificationCenter: require('./save-certification-center'),
