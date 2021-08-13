@@ -866,28 +866,29 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
   describe('#downloadCertificationAttestationsForDivision', () => {
 
-    const certifications = [
-      domainBuilder.buildPrivateCertificateWithCompetenceTree(),
-      domainBuilder.buildPrivateCertificateWithCompetenceTree(),
-    ];
-    const organizationId = domainBuilder.buildOrganization().id;
-    const division = '3b';
-    const attestationsPDF = 'binary string';
-    const fileName = 'attestations-pix-3b-20181003.pdf';
-    const userId = 1;
-
-    const request = {
-      auth: { credentials: { userId } },
-      params: { id: organizationId },
-      query: { division },
-    };
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'findCertificationAttestationsForDivision');
-    });
-
     it('should return binary attestations', async () => {
       // given
+      const certifications = [
+        domainBuilder.buildPrivateCertificateWithCompetenceTree(),
+        domainBuilder.buildPrivateCertificateWithCompetenceTree(),
+      ];
+      const organizationId = domainBuilder.buildOrganization().id;
+      const division = '3b';
+      const attestationsPDF = 'binary string';
+
+      sinon.stub(momentProto, 'format');
+      momentProto.format.withArgs('YYYYMMDD').returns('20210101');
+
+      const fileName = '20210101_attestations_3b.pdf';
+      const userId = 1;
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: organizationId },
+        query: { division },
+      };
+
+      sinon.stub(usecases, 'findCertificationAttestationsForDivision');
       sinon.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer').resolves({ buffer: attestationsPDF, fileName });
       usecases.findCertificationAttestationsForDivision.resolves(certifications);
 
@@ -900,7 +901,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         organizationId,
       });
       expect(response.source).to.deep.equal(attestationsPDF);
-      expect(response.headers['Content-Disposition']).to.contains('attachment; filename=attestations-pix-3b-20181003.pdf');
+      expect(response.headers['Content-Disposition']).to.contains('attachment; filename=20210101_attestations_3b.pdf');
     });
   });
 });
