@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.86.0 (13/08/2021)
+
+- [#3319](https://github.com/1024pix/pix/pull/3319) [FEATURE] Retravailler le visuel du message quand on sort d'une épreuve focus (PIX-2875).
+- [#3320](https://github.com/1024pix/pix/pull/3320) [FEATURE] Retravailler le visuel de message de sortie de panneau d'épreuve focus (PIX-2871).
+- [#3308](https://github.com/1024pix/pix/pull/3308) [FEATURE] Permettre de remplacer tous les étudiants inscrits pour une organisation SUP (PIX-2948).
+- [#3274](https://github.com/1024pix/pix/pull/3274) [FEATURE] Affichage de l'infobulle des épreuves focus au survol (PIX-2909).
+- [#3312](https://github.com/1024pix/pix/pull/3312) [FEATURE] Enregistrer l'identifiant du Pix Master lors de la création d'une organisation dans Pix Admin (PIX-2725).
+- [#3322](https://github.com/1024pix/pix/pull/3322) [TECH] Faire un quick start et mettre à jour la doc de test-algo.
+- [#3317](https://github.com/1024pix/pix/pull/3317) [TECH] Supression du resultCompetenceTree service partie 2 (PIX-2972)
+- [#3313](https://github.com/1024pix/pix/pull/3313) [TECH] Supression du resultCompetenceTree service partie 1 (PIX-2971)
+- [#3318](https://github.com/1024pix/pix/pull/3318) [TECH] Prévenir les traces incomplètes sur l'utilisateur de récupération de compte SCO  (PIX-2986).
+- [#3305](https://github.com/1024pix/pix/pull/3305) [TECH] Sortir TimedChallengeInstructions de tous les types de challenges.
+
 ## v3.85.0 (12/08/2021)
 
 - [#3299](https://github.com/1024pix/pix/pull/3299) [FEATURE] Calcul des résultats d'une participation au partage (PIX-2895)
