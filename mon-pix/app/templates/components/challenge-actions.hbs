@@ -25,32 +25,42 @@
     </button>
 
   {{else}}
-    {{#if @isValidateButtonEnabled}}
-      <button class="button challenge-actions__action challenge-actions__action-validate"
-              {{on 'click' @validateAnswer}}
-              type="submit"
-              disabled={{@isDisabled}}>
+    {{#if @hasFocusedOutOfWindow}}
+      <div class="challenge-actions__focused-out-of-window" role="alert" aria-live="assertive">
+        <FaIcon @icon="info-circle" class="challenge-actions-focused-out__icon"/>
+        {{t 'pages.challenge.has-focused-out-of-window'}}
+      </div>
+    {{/if}}
+
+    <div class="challenge-actions__group">
+      {{#if @isValidateButtonEnabled}}
+        <button class="button challenge-actions__action challenge-actions__action-validate"
+          {{on 'click' @validateAnswer}}
+                type="submit"
+                disabled={{@isDisabled}}>
         <span class="challenge-actions__action-validate-text">{{t "pages.challenge.actions.validate"}}
           <span class="sr-only">{{t "pages.challenge.actions.go-to-next"}}</span></span>
-      </button>
-    {{else}}
-      <div class="challenge-actions__action challenge-actions__action-validate__loader">
-        <div class="challenge-actions__action-validate__loader-bar"></div>
-      </div>
-    {{/if}}
-    {{#if @isSkipButtonEnabled}}
-      <button class="button challenge-actions__action challenge-actions__action-skip"
-              {{on 'click' @skipChallenge}}
-              type="button"
-              disabled={{@isDisabled}}>
+        </button>
+      {{else}}
+        <div class="challenge-actions__action challenge-actions__action-validate__loader">
+          <div class="challenge-actions__action-validate__loader-bar"></div>
+        </div>
+      {{/if}}
+
+      {{#if @isSkipButtonEnabled}}
+        <button class="button challenge-actions__action challenge-actions__action-skip"
+          {{on 'click' @skipChallenge}}
+                type="button"
+                disabled={{@isDisabled}}>
         <span class="challenge-actions__action-skip-text">{{t "pages.challenge.actions.skip"}}
           <span class="sr-only">{{t "pages.challenge.actions.go-to-next"}}</span></span>
-      </button>
-    {{else}}
-      <div class="challenge-actions__action challenge-actions__action-skip__loader">
-        <div class="challenge-actions__action-skip__loader-bar"></div>
-      </div>
-    {{/if}}
+        </button>
+      {{else}}
+        <div class="challenge-actions__action challenge-actions__action-skip__loader">
+          <div class="challenge-actions__action-skip__loader-bar"></div>
+        </div>
+      {{/if}}
+    </div>
   {{/if}}
 </div>
 

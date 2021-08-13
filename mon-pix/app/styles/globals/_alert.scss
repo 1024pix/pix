@@ -21,12 +21,6 @@
     border: 1px solid $dark-error;
     background-color: $dark-error;
   }
-
-  &--warning {
-    border: 1px solid $warning;
-    background-color: $warning;
-    color: $grey-70;
-  }
 }
 
 .challenge-response + .alert {
