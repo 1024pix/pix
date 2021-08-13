@@ -3,7 +3,6 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import isInteger from 'lodash/isInteger';
-import ENV from 'mon-pix/config/environment';
 
 export default class ChallengeItemGeneric extends Component {
 
@@ -12,9 +11,6 @@ export default class ChallengeItemGeneric extends Component {
   @tracked isSkipButtonEnabled = true;
   @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
-  @tracked hasFocusedOutOfWindow = false;
-  @tracked hasFocusedOutOfChallenge = false;
-  @tracked isTooltipClosed = false;
 
   get displayTimer() {
     return this.isTimedChallengeWithoutAnswer;
@@ -24,17 +20,9 @@ export default class ChallengeItemGeneric extends Component {
     return isInteger(this.args.challenge.timer);
   }
 
-  get isFocusedChallenge() {
-    return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.args.challenge.focused;
-  }
-
-  get hasFocusedOutOfChallengeButNotWindow() {
-    return this.hasFocusedOutOfChallenge && !this.hasFocusedOutOfWindow;
-  }
-
   get isAnswerFieldDisabled() {
-    if (this.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
-      return this.args.answer || !this.isTooltipClosed;
+    if (this.args.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+      return this.args.answer || !this.args.isTooltipClosed;
     }
     return this.args.answer;
   }
@@ -52,22 +40,6 @@ export default class ChallengeItemGeneric extends Component {
       }
     } else {
       return null;
-    }
-  }
-
-  @action
-  hideOutOfFocusBorder() {
-    if (this.isFocusedChallenge && this.isTooltipClosed) {
-      this.args.focusedIn();
-      this.hasFocusedOutOfChallenge = false;
-    }
-  }
-
-  @action
-  showOutOfFocusBorder() {
-    if (this.isFocusedChallenge && this.isTooltipClosed) {
-      this.args.focusedOut();
-      this.hasFocusedOutOfChallenge = true;
     }
   }
 
@@ -117,23 +89,5 @@ export default class ChallengeItemGeneric extends Component {
           this.args.finishChallenge();
         });
     }
-  }
-
-  @action
-  enableFocusedChallenge() {
-    this.isTooltipClosed = true;
-    this._setOnBlurEventToWindow();
-    this.args.onTooltipClose();
-  }
-
-  _setOnBlurEventToWindow() {
-    window.onblur = () => {
-      this.hasFocusedOutOfWindow = true;
-      this._clearOnBlurMethod();
-    };
-  }
-
-  _clearOnBlurMethod() {
-    window.onblur = null;
   }
 }
