@@ -9,6 +9,7 @@ const {
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
+  AuthenticationKeyForPoleEmploiTokenExpired,
   EntityValidationError,
   InvalidExternalAPIResponseError,
   MissingOrInvalidCredentialsError,
@@ -24,6 +25,7 @@ const { handle } = require('../../../lib/application/error-manager');
 describe('Unit | Application | ErrorManager', () => {
 
   describe('#handle', () => {
+
     it('should translate EntityValidationError', async () => {
       // given
       const request = {
@@ -124,7 +126,6 @@ describe('Unit | Application | ErrorManager', () => {
   describe('#_mapToHttpError', () => {
 
     it('should instantiate UnauthorizedError when MissingOrInvalidCredentialsError', async () => {
-
       // given
       const error = new MissingOrInvalidCredentialsError();
       sinon.stub(HttpErrors, 'UnauthorizedError');
@@ -246,6 +247,19 @@ describe('Unit | Application | ErrorManager', () => {
       expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(error.message);
     });
 
+    it('should instantiate UnauthorizedError when AuthenticationKeyForPoleEmploiTokenExpired', async () => {
+      // given
+      const error = new AuthenticationKeyForPoleEmploiTokenExpired();
+      sinon.stub(HttpErrors, 'UnauthorizedError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(error.message);
+    });
+
     it('should instantiate UnauthorizedError when UserHasAlreadyLeftSCO', async () => {
       // given
       const error = new UserHasAlreadyLeftSCO();
@@ -258,7 +272,6 @@ describe('Unit | Application | ErrorManager', () => {
       // then
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message);
     });
-
   });
 
 });
