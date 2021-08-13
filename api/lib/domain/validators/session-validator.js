@@ -50,6 +50,7 @@ const sessionFiltersValidationSchema = Joi.object({
     .valid(statuses.CREATED, statuses.FINALIZED, statuses.IN_PROCESS, statuses.PROCESSED).optional(),
   resultsSentToPrescriberAt: Joi.boolean().optional(),
   certificationCenterName: Joi.string().trim().optional(),
+  certificationCenterExternalId: Joi.string().trim().optional(),
   certificationCenterType: Joi.string().trim()
     .valid(types.SUP, types.SCO, types.PRO).optional(),
 });
