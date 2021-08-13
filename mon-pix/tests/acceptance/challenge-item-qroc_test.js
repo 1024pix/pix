@@ -562,7 +562,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
           await triggerEvent(window, 'blur');
 
           // then
-          expect(find('.alert--warning')).to.exist;
+          expect(find('.challenge-actions__focused-out-of-window')).to.exist;
         });
 
         it('should display an info alert with dashed border and overlay', async function() {
@@ -590,7 +590,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
           // then
           expect(find('.challenge-item__info-alert')).to.not.exist;
-          expect(find('.alert--warning')).to.exist;
+          expect(find('.challenge-actions__focused-out-of-window')).to.exist;
           expect(find('.challenge-item__container--focused')).to.exist;
           expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
         });
@@ -660,7 +660,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         // when
         await triggerEvent(window, 'blur');
         // then
-        expect(find('.alert--warning')).to.not.exist;
+        expect(find('.challenge-actions__focused-out-of-window')).to.not.exist;
       });
     });
   });
