@@ -12,10 +12,11 @@ describe('Acceptance | Controller | session-controller-get-jury-session', () => 
 
   describe('GET /api/admin/sessions/{id}', () => {
     let expectedJurySession;
+    let certificationCenter;
 
     beforeEach(() => {
       const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({ firstName: 'Pix', lastName: 'Doe' }).id;
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ type: 'SCO' });
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter({ type: 'SCO', externalId: 'EXT_ID' });
       expectedJurySession = databaseBuilder.factory.buildSession({
         assignedCertificationOfficerId,
         certificationCenterId: certificationCenter.id,
@@ -45,6 +46,7 @@ describe('Acceptance | Controller | session-controller-get-jury-session', () => 
         expect(parseInt(response.result.data.id)).to.equal(expectedJurySession.id);
         expect(response.result.data.attributes['certification-center-name']).to.equal(expectedJurySession.certificationCenter);
         expect(response.result.data.attributes['certification-center-type']).to.equal('SCO');
+        expect(response.result.data.attributes['certification-center-external-id']).to.equal(certificationCenter.externalId);
         expect(response.result.data.attributes['address']).to.equal(expectedJurySession.address);
         expect(response.result.data.attributes['room']).to.equal(expectedJurySession.room);
         expect(response.result.data.attributes['examiner']).to.equal(expectedJurySession.examiner);
