@@ -5,25 +5,7 @@
       <MarkdownToHtmlUnsafe @class="challenge-statement-instruction__text" @markdown={{this.challengeInstruction}} />
 
       {{#if this.isFocusedChallengeToggleEnabled}}
-        <div class="challenge-statement-instruction__tag challenge-statement-instruction__tag{{if this.isFocusedChallenge "--focused" "--regular"}}">
-          {{#if this.shouldDisplayTooltip}}
-            <div role="tooltip"
-                 id="challenge-statement-tag--tooltip"
-                 class="challenge-statement__tag-information"
-                 {{on-key 'Escape' this.hideTooltip event='keyup'}}>
-                {{#if this.isFocusedChallenge}}
-                  <div class="challenge-statement-tag-information__text">
-                      {{t 'pages.challenge.statement.tooltip.focused'}}
-                  </div>
-                {{/if}}
-              <PixButton data-test="challenge-statement-tag-information__button"
-                         @size="small"
-                         @triggerAction={{this.hideTooltip}}>
-                {{t 'pages.challenge.statement.tooltip.close'}}
-              </PixButton>
-            </div>
-          {{/if}}
-        </div>
+        <Challenge::Statement::Tooltip @challenge={{@challenge}} @onTooltipClose={{@onTooltipClose}}/>
       {{/if}}
     </div>
   {{/if}}
