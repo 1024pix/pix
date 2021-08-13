@@ -20,8 +20,8 @@ describe('Integration | Repository | JurySession', function() {
           firstName: 'Pix',
           lastName: 'Doe',
         });
-        certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-        sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: assignedCertificationOfficer.id, certificationCenterId: certificationCenterId }).id;
+        certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ externalId: 'EXT_ID' }).id;
+        sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: assignedCertificationOfficer.id, certificationCenterId }).id;
 
         return databaseBuilder.commit();
       });
@@ -37,6 +37,7 @@ describe('Integration | Repository | JurySession', function() {
           certificationCenterName: 'Centre de certif Pix',
           certificationCenterType: 'SUP',
           certificationCenterId: certificationCenterId,
+          certificationCenterExternalId: 'EXT_ID',
           address: '3 rue des églantines',
           room: 'B315',
           examiner: 'Ginette',
@@ -334,6 +335,61 @@ describe('Integration | Repository | JurySession', function() {
           expect(jurySessions[0].id).to.equal(expectedSCOSession.id);
           expect(jurySessions[1].id).to.equal(expectedSUPSession.id);
           expect(jurySessions[2].id).to.equal(expectedPROSession.id);
+          expect(jurySessions).to.have.length(3);
+        });
+      });
+
+      context('when there is a filter on the certificationCenterExternalId', () => {
+        let expectedSession;
+
+        beforeEach(() => {
+          const firstCertificationCenter = databaseBuilder.factory.buildCertificationCenter({ externalId: 'EXTIDTEST' });
+          expectedSession = databaseBuilder.factory.buildSession({
+            certificationCenter: firstCertificationCenter.name,
+            certificationCenterId: firstCertificationCenter.id,
+          });
+
+          const secondCertificationCenter = databaseBuilder.factory.buildCertificationCenter({ externalId: 'wrongExtId' });
+          databaseBuilder.factory.buildSession({
+            certificationCenter: secondCertificationCenter.name,
+            certificationCenterId: secondCertificationCenter.id,
+          });
+
+          const thirdCertificationCenter = databaseBuilder.factory.buildCertificationCenter({ externalId: 'wrongExtId' });
+          databaseBuilder.factory.buildSession({
+            certificationCenter: thirdCertificationCenter.name,
+            certificationCenterId: thirdCertificationCenter.id,
+          });
+
+          return databaseBuilder.commit();
+        });
+
+        it('should find sessions by their certification center externalId', async () => {
+          // given
+          const filters = { certificationCenterExternalId: 'EXTIDTEST' };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+          // when
+          const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+
+          // then
+          expect(pagination).to.deep.equal(expectedPagination);
+          expect(jurySessions[0].id).to.equal(expectedSession.id);
+          expect(jurySessions).to.have.length(1);
+        });
+
+        it('should return all sessions if certification center external id filter is null', async () => {
+          // given
+          const filters = { certificationCenterExternalId: null };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+
+          // when
+          const { jurySessions, pagination } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
+
+          // then
+          expect(pagination).to.deep.equal(expectedPagination);
           expect(jurySessions).to.have.length(3);
         });
       });

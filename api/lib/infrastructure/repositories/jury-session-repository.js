@@ -13,7 +13,7 @@ module.exports = {
 
   async get(id) {
     const results = await Bookshelf.knex
-      .select('sessions.*', 'certification-centers.type', 'users.firstName', 'users.lastName')
+      .select('sessions.*', 'certification-centers.type', 'certification-centers.externalId', 'users.firstName', 'users.lastName')
       .from('sessions')
       .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
       .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
@@ -35,7 +35,7 @@ module.exports = {
     query.orderByRaw('?? ASC NULLS FIRST', 'publishedAt')
       .orderByRaw('?? ASC', 'finalizedAt')
       .orderBy('id')
-      .select('sessions.*', 'certification-centers.type', 'users.firstName', 'users.lastName')
+      .select('sessions.*', 'certification-centers.type', 'certification-centers.externalId', 'users.firstName', 'users.lastName')
       .select(Bookshelf.knex.raw('COUNT(*) OVER() AS ??', ['rowCount']))
       .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
       .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
@@ -81,6 +81,7 @@ function _toDomain(jurySessionFromDB) {
     ...jurySessionFromDB,
     certificationCenterName: jurySessionFromDB.certificationCenter,
     certificationCenterType: jurySessionFromDB.type,
+    certificationCenterExternalId: jurySessionFromDB.externalId,
   });
 
   if (jurySessionFromDB.assignedCertificationOfficerId) {
@@ -95,7 +96,7 @@ function _toDomain(jurySessionFromDB) {
 }
 
 function _setupFilters(query, filters) {
-  const { id, certificationCenterName, status, resultsSentToPrescriberAt, certificationCenterType } = filters;
+  const { id, certificationCenterName, status, resultsSentToPrescriberAt, certificationCenterExternalId, certificationCenterType } = filters;
 
   if (id) {
     query.where('sessions.id', id);
@@ -107,6 +108,12 @@ function _setupFilters(query, filters) {
 
   if (certificationCenterType) {
     query.where('certification-centers.type', certificationCenterType);
+  }
+
+  if (certificationCenterExternalId) {
+    query.whereRaw(
+      'LOWER(??) LIKE ?', ['certification-centers.externalId', '%' + certificationCenterExternalId.toLowerCase() + '%'],
+    );
   }
 
   if (resultsSentToPrescriberAt === true) {

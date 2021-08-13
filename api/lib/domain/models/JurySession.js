@@ -6,6 +6,7 @@ class JurySession {
     certificationCenterName,
     certificationCenterType,
     certificationCenterId,
+    certificationCenterExternalId,
     address,
     room,
     examiner,
@@ -23,6 +24,7 @@ class JurySession {
     this.certificationCenterName = certificationCenterName;
     this.certificationCenterType = certificationCenterType;
     this.certificationCenterId = certificationCenterId;
+    this.certificationCenterExternalId = certificationCenterExternalId;
     this.address = address;
     this.room = room;
     this.examiner = examiner;
