@@ -30,7 +30,11 @@
 
     <div class="terms-of-service-form__actions">
       <LinkTo @route="logout" class="button button--white">{{t 'common.actions.back'}}</LinkTo>
+      {{#if this.showErrorTermsOfServiceExpiredAuthenticatedKey }}
+        <div class="terms-of-service-form-conditions__validation-error">{{t 'pages.terms-of-service-pe.form.expired-authentication-key'}}</div>
+      {{else}}
       <button type="submit" class="button terms-of-service-form-actions__submit" {{on 'click' this.submit}}>{{t 'pages.terms-of-service-pe.form.button'}}</button>
+      {{/if}}
     </div>
 
   </div>
