@@ -34,6 +34,7 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
           id: undefined,
           certificationCenterName: undefined,
           certificationCenterType: undefined,
+          certificationCenterExternalId: undefined,
           status: undefined,
           resultsSentToPrescriberAt: undefined,
         };
@@ -53,6 +54,7 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
           id: 'someId',
           certificationCenterName: undefined,
           certificationCenterType: undefined,
+          certificationCenterExternalId: undefined,
           status: undefined,
           resultsSentToPrescriberAt: undefined,
         };
@@ -75,6 +77,7 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
           id: undefined,
           certificationCenterName: 'someName',
           certificationCenterType: undefined,
+          certificationCenterExternalId: undefined,
           status: undefined,
           resultsSentToPrescriberAt: undefined,
         };
@@ -97,6 +100,30 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
           id: undefined,
           certificationCenterName: undefined,
           certificationCenterType: 'SCO',
+          certificationCenterExternalId: undefined,
+          status: undefined,
+          resultsSentToPrescriberAt: undefined,
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+        assert.ok(true);
+      });
+    });
+
+    module('when queryParams certificationCenterExternalId is truthy', function() {
+
+      test('it should call store.query with a filter with trimmed certificationCenterExternalId', async function(assert) {
+        // given
+        params.certificationCenterExternalId = 'EXTID';
+        expectedQueryArgs.filter = {
+          id: undefined,
+          certificationCenterName: undefined,
+          certificationCenterType: undefined,
+          certificationCenterExternalId: 'EXTID',
           status: undefined,
           resultsSentToPrescriberAt: undefined,
         };
@@ -119,6 +146,7 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
           id: undefined,
           certificationCenterName: undefined,
           certificationCenterType: undefined,
+          certificationCenterExternalId: undefined,
           status: 'someStatus',
           resultsSentToPrescriberAt: undefined,
         };
@@ -141,6 +169,7 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
           id: undefined,
           certificationCenterName: undefined,
           certificationCenterType: undefined,
+          certificationCenterExternalId: undefined,
           status: undefined,
           resultsSentToPrescriberAt: true,
         };

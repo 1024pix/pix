@@ -4,6 +4,7 @@
       <tr>
         <th>ID</th>
         <th>Centre de certification</th>
+        <th>Identifiant externe</th>
         <th>Catégorie</th>
         <th>Date de session</th>
         <th>Statut</th>
@@ -25,6 +26,13 @@
                  type="text"
                  value={{@certificationCenterName}}
                  oninput={{perform @triggerFiltering 'certificationCenterName'}}
+                 class="table-admin-input" />
+        </th>
+        <th>
+          <input id="certificationCenterExternalId"
+                 type="text"
+                 value={{@certificationCenterExternalId}}
+                 oninput={{perform @triggerFiltering 'certificationCenterExternalId'}}
                  class="table-admin-input" />
         </th>
         <th>
@@ -61,6 +69,7 @@
         <tr>
           <td><LinkTo @route="authenticated.sessions.session" @model={{session.id}}> {{session.id}} </LinkTo></td>
           <td>{{session.certificationCenterName}}</td>
+          <td>{{session.certificationCenterExternalId}}</td>
             {{#if session.certificationCenterType}}
               <td class="session-list__item--align-center">{{session.certificationCenterType}}</td>
             {{else}}
