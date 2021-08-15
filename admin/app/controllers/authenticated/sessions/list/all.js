@@ -10,13 +10,14 @@ const DEFAULT_PAGE_NUMBER = 1;
 
 export default class AuthenticatedSessionsListAllController extends Controller {
 
-  queryParams = ['pageNumber', 'pageSize', 'id', 'certificationCenterName', 'status', 'resultsSentToPrescriberAt'];
+  queryParams = ['pageNumber', 'pageSize', 'id', 'certificationCenterName', 'certificationCenterExternalId', 'status', 'resultsSentToPrescriberAt'];
   DEBOUNCE_MS = config.pagination.debounce;
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 10;
   @tracked id = null;
   @tracked certificationCenterName = null;
+  @tracked certificationCenterExternalId = null;
   @tracked certificationCenterType = null;
   @tracked status = null;
   @tracked resultsSentToPrescriberAt = null;
@@ -29,6 +30,7 @@ export default class AuthenticatedSessionsListAllController extends Controller {
     switch (fieldName) {
       case 'id':
       case 'certificationCenterName':
+      case 'certificationCenterExternalId':
         value = param.target.value; // param is an InputEvent
         break;
       case 'status':
