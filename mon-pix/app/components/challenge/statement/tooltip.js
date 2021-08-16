@@ -18,6 +18,10 @@ export default class Tooltip extends Component {
     return this.args.challenge.focused;
   }
 
+  get isChallengeWithTooltip() {
+    return this.isFocusedChallenge;
+  }
+
   _showTooltip() {
     if (this._hasCurrentUserNotSeenFocusedChallengeTooltip()) {
       this.shouldDisplayTooltip = true;
