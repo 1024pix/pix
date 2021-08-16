@@ -20,7 +20,6 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       },
       { id: 2, certificationCenterName: 'Centre B', certificationCenterExternalId: 'EXTIDB', certificationCenterType: null, date, time: '14:00:00',
         displayStatus, finalizedAt, publishedAt, resultsSentToPrescriberAt,
-        assignedCertificationOfficer: { fullName: 'Harry Patter ' },
       },
     ];
     const displayedDate = date.toLocaleString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' });
@@ -49,9 +48,6 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     assert.dom('table tbody tr:nth-child(1) td:nth-child(3)').hasText(sessions[0].certificationCenterExternalId);
     assert.dom('table tbody tr:nth-child(1) td:nth-child(4)').hasText(sessions[0].certificationCenterType);
     assert.dom('table tbody tr:nth-child(2) td:nth-child(4)').hasText('-');
-    // Colonne : Qui ?
-    assert.dom('table tbody tr:nth-child(1) td:nth-child(10)').hasText('-');
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(10)').hasText(sessions[1].assignedCertificationOfficer.fullName);
   });
 
   module('Input field for id filtering', function() {
