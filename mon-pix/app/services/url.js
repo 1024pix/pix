@@ -80,8 +80,8 @@ export default class Url extends Service {
     const currentLanguage = this.intl.t('current-lang');
 
     if (currentLanguage === 'en') {
-      return 'https://support.pix.fr/en/support/home';
+      return 'https://support.pix.org/en/support/home';
     }
-    return 'https://support.pix.fr/fr/support/home';
+    return 'https://support.pix.org/fr/support/home';
   }
 }
