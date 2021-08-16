@@ -1,11 +1,11 @@
 <section class="page-section mb_10 target-profile-organizations">
   <div class="organization__forms-section">
-    <form class="organization__form" {{on "submit" @attachOrganizations}}>
+    <form class="organization__form" {{on "submit" this.attachOrganizations}}>
       <label for="attach-organizations">Rattacher une ou plusieurs organisation(s)</label>
       <div class="organization__sub-form">
         <Input
           id="attach-organizations"
-          @value={{@organizationsToAttach}}
+          @value={{this.organizationsToAttach}}
           class="form-field__text form-control"
           placeholder="1, 2"
           @aria-describedby="attach-organizations-info"/>
@@ -16,12 +16,12 @@
       </div>
     </form>
 
-    <form class="organization__form" {{on 'submit' @attachOrganizationsFromExistingTargetProfile}}>
+    <form class="organization__form" {{on 'submit' this.attachOrganizationsFromExistingTargetProfile}}>
       <label for="attach-organizations-from-existing-target-profile">Rattacher les organisations d'un profil cible existant</label>
       <div class="organization__sub-form">
         <Input
           id="attach-organizations-from-existing-target-profile"
-          @value={{@existingTargetProfile}}
+          @value={{this.existingTargetProfile}}
           class="form-field__text form-control"
           placeholder="1135"
           @aria-describedby="attach-organizations-from-existing-target-profile-info"/>
