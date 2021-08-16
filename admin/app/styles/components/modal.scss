@@ -63,7 +63,13 @@
 .ember-modal-overlay {
   display:flex;
   justify-content: center;
-  align-items: center;
+  overflow: scroll;
+
+  & > div {
+    height: max-content;
+    position: static;
+    margin: 10vh 0;
+  }
 }
 
 .ember-modal-overlay.translucent {
