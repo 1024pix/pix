@@ -175,41 +175,6 @@ describe('Unit | Domain | Models | Organization', () => {
     });
   });
 
-  describe('get#isCFA', () => {
-    context('when organization is not SCO', () => {
-      it('should return false when the organization has the "CFA" tag', () => {
-        // given
-        const tag = domainBuilder.buildTag({ name: Tag.CFA });
-        const organization = domainBuilder.buildOrganization({ type: 'SUP', tags: [tag] });
-
-        // when / then
-        expect(organization.isCFA).is.false;
-      });
-    });
-
-    context('when organization is SCO', () => {
-      it('should return true when organization is of type SCO and has the "CFA" tag', () => {
-        // given
-        const tag1 = domainBuilder.buildTag({ name: Tag.CFA });
-        const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
-        const organization = domainBuilder.buildOrganization({ type: 'SCO', tags: [tag1, tag2] });
-
-        // when / then
-        expect(organization.isCFA).is.true;
-      });
-
-      it('should return false when when organization is of type SCO and has not the "CFA" tag', () => {
-        // given
-        const tag1 = domainBuilder.buildTag({ name: 'To infinity…and beyond!' });
-        const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
-        const organization = domainBuilder.buildOrganization({ type: 'SCO', tags: [tag1, tag2] });
-
-        // when / then
-        expect(organization.isCFA).is.false;
-      });
-    });
-  });
-
   describe('get#isAEFE', () => {
     context('when organization is not SCO', () => {
       it('should return false when the organization has the "AEFE" tag', () => {
