@@ -36,6 +36,7 @@ module.exports = {
       .query((qb) => {
         qb.where('organizationId', organizationId);
         qb.where('birthdate', birthdate);
+        qb.where('isDisabled', false);
         qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
       })
       .fetch({ require: false });
