@@ -2,6 +2,7 @@ const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, 
 const createServer = require('../../../../server');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Acceptance | Controller | sessions-controller', () => {
 
@@ -147,16 +148,19 @@ describe('Acceptance | Controller | sessions-controller', () => {
         const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
         mockLearningContent(learningContentObjects);
 
+        const certificationCenterMemberUserId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId: certificationCenterMemberUserId, certificationCenterId });
+
         const userId = databaseBuilder.factory.buildUser().id;
-        const session = databaseBuilder.factory.buildSession();
-        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id }).id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId: session.certificationCenterId });
+        const session = databaseBuilder.factory.buildSession({ certificationCenterId });
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id, userId }).id;
         const report = databaseBuilder.factory.buildCertificationReport({
           certificationCourseId,
           sessionId: session.id,
         });
 
-        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId, userId, type: Assessment.types.COMPETENCE_EVALUATION }).id;
         databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId,
           category: CertificationIssueReportCategories.IN_CHALLENGE,
@@ -165,11 +169,15 @@ describe('Acceptance | Controller | sessions-controller', () => {
           questionNumber: 1,
         });
 
-        const certificationChallengeKo = databaseBuilder.factory.buildCertificationChallenge({ courseId: certificationCourseId, isNeutralized: false });
-        const certificationChallengeOk = databaseBuilder.factory.buildCertificationChallenge({ courseId: certificationCourseId, isNeutralized: false });
+        const certificationChallengeKo = databaseBuilder.factory.buildCertificationChallenge({ competenceId: 'recCompetence0', courseId: certificationCourseId, challengeId: 'recCHAL1', isNeutralized: false });
+        const certificationChallengeOk = databaseBuilder.factory.buildCertificationChallenge({ competenceId: 'recCompetence0', courseId: certificationCourseId, challengeId: 'recCHAL2', isNeutralized: false });
+        const certificationChallenge3 = databaseBuilder.factory.buildCertificationChallenge({ competenceId: 'recCompetence0', courseId: certificationCourseId, challengeId: 'recCHAL3', isNeutralized: false });
 
         databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallengeKo.challengeId, result: AnswerStatus.KO.status });
         databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallengeOk.challengeId, result: AnswerStatus.OK.status });
+        databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallenge3.challengeId, result: AnswerStatus.OK.status });
+
+        databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'recCompetence0', userId, createdAt: '2019-01-01', earnedPix: 8 });
 
         await databaseBuilder.commit();
 
@@ -194,7 +202,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
             },
           },
           headers: {
-            authorization: generateValidRequestAuthorizationHeader(userId),
+            authorization: generateValidRequestAuthorizationHeader(certificationCenterMemberUserId),
           },
           url: `/api/sessions/${session.id}/finalization`,
         };
@@ -253,16 +261,19 @@ describe('Acceptance | Controller | sessions-controller', () => {
         const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
         mockLearningContent(learningContentObjects);
 
+        const certificationCenterMemberUserId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId: certificationCenterMemberUserId, certificationCenterId });
+
         const userId = databaseBuilder.factory.buildUser().id;
-        const session = databaseBuilder.factory.buildSession();
-        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id, completedAt: new Date() }).id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId: session.certificationCenterId });
+        const session = databaseBuilder.factory.buildSession({ certificationCenterId });
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id, completedAt: new Date(), userId }).id;
         const report = databaseBuilder.factory.buildCertificationReport({
           certificationCourseId,
           sessionId: session.id,
         });
 
-        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
+        const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId, userId }).id;
         databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId,
           category: CertificationIssueReportCategories.IN_CHALLENGE,
@@ -273,8 +284,14 @@ describe('Acceptance | Controller | sessions-controller', () => {
 
         databaseBuilder.factory.buildAssessmentResult({ assessmentId });
 
-        const certificationChallenge = databaseBuilder.factory.buildCertificationChallenge({ courseId: certificationCourseId, isNeutralized: false });
-        databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallenge.challengeId, result: AnswerStatus.KO.status });
+        const certificationChallenge1 = databaseBuilder.factory.buildCertificationChallenge({ competenceId: 'recCompetence0', courseId: certificationCourseId, challengeId: 'RecCHAL1', isNeutralized: false });
+        const certificationChallenge2 = databaseBuilder.factory.buildCertificationChallenge({ competenceId: 'recCompetence0', courseId: certificationCourseId, challengeId: 'RecCHAL2', isNeutralized: false });
+        const certificationChallenge3 = databaseBuilder.factory.buildCertificationChallenge({ competenceId: 'recCompetence0', courseId: certificationCourseId, challengeId: 'RecCHAL3', isNeutralized: false });
+        databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallenge1.challengeId, result: AnswerStatus.KO.status });
+        databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallenge2.challengeId, result: AnswerStatus.OK.status });
+        databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallenge3.challengeId, result: AnswerStatus.OK.status });
+
+        databaseBuilder.factory.buildKnowledgeElement({ competenceId: 'recCompetence0', userId, createdAt: '2019-01-01', earnedPix: 8 });
 
         await databaseBuilder.commit();
 
@@ -299,7 +316,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
             },
           },
           headers: {
-            authorization: generateValidRequestAuthorizationHeader(userId),
+            authorization: generateValidRequestAuthorizationHeader(certificationCenterMemberUserId),
           },
           url: `/api/sessions/${session.id}/finalization`,
         };
@@ -357,11 +374,13 @@ describe('Acceptance | Controller | sessions-controller', () => {
         const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
         mockLearningContent(learningContentObjects);
 
-        const userId = databaseBuilder.factory.buildUser().id;
-        const session = databaseBuilder.factory.buildSession();
-        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id, userId, createdAt: new Date() }).id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId: session.certificationCenterId });
+        const certificationCenterMemberUserId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId: certificationCenterMemberUserId, certificationCenterId });
 
+        const userId = databaseBuilder.factory.buildUser().id;
+        const session = databaseBuilder.factory.buildSession({ certificationCenterId });
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id, userId, createdAt: new Date() }).id;
         const report = databaseBuilder.factory.buildCertificationReport({
           certificationCourseId,
           sessionId: session.id,
@@ -383,11 +402,14 @@ describe('Acceptance | Controller | sessions-controller', () => {
 
         databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: assessmentResultKo.id, competenceId: 'recCompetence0' });
 
-        const certificationChallengeKo = databaseBuilder.factory.buildCertificationChallenge({ courseId: certificationCourseId, isNeutralized: false, challengeId: 'recChallenge0_0_0', competenceId: 'recCompetence0' });
+        const certificationChallengeKo = databaseBuilder.factory.buildCertificationChallenge({ competenceId: 'recCompetence0', courseId: certificationCourseId, challengeId: 'RecCHAL1', isNeutralized: false });
+        const certificationChallenge2 = databaseBuilder.factory.buildCertificationChallenge({ competenceId: 'recCompetence0', courseId: certificationCourseId, challengeId: 'RecCHAL2', isNeutralized: false });
+        const certificationChallenge3 = databaseBuilder.factory.buildCertificationChallenge({ competenceId: 'recCompetence0', courseId: certificationCourseId, challengeId: 'RecCHAL3', isNeutralized: false });
+        databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallengeKo.challengeId, result: AnswerStatus.KO.status });
+        databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallenge2.challengeId, result: AnswerStatus.OK.status });
+        databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallenge3.challengeId, result: AnswerStatus.OK.status });
 
-        const answerId = databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallengeKo.challengeId, result: AnswerStatus.KO.status }).id;
-
-        databaseBuilder.factory.buildKnowledgeElement({ assessmentId, answerId, skillId: 'recSkill0_0', competenceId: 'recCompetence0', userId, earnedPix: 16 });
+        databaseBuilder.factory.buildKnowledgeElement({ assessmentId, skillId: 'recSkill0_0', competenceId: 'recCompetence0', userId, earnedPix: 8 });
 
         await databaseBuilder.commit();
 
@@ -412,7 +434,7 @@ describe('Acceptance | Controller | sessions-controller', () => {
             },
           },
           headers: {
-            authorization: generateValidRequestAuthorizationHeader(userId),
+            authorization: generateValidRequestAuthorizationHeader(certificationCenterMemberUserId),
           },
           url: `/api/sessions/${session.id}/finalization`,
         };

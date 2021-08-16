@@ -8,6 +8,7 @@ const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 const CompetenceMark = require('../models/CompetenceMark');
 const CertificationAssessmentScore = require('../models/CertificationAssessmentScore');
 const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
+const CertificationGlobalScoring = require('../models/CertificationGlobalScoring');
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(
@@ -74,6 +75,11 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
   }
 
   const answerCollection = AnswerCollectionForScoring.from({ answers, challenges: certificationChallenges });
+
+  const globalScoring = CertificationGlobalScoring.from({ answerCollectionForScoring: answerCollection, testedCompetences });
+  if (!continueOnError && globalScoring.hasFailed()) {
+    return new CertificationAssessmentScore({ competencesWithMark: [], percentageCorrectAnswers: 0 });
+  }
 
   const reproducibilityRate = ReproducibilityRate.from({
     numberOfNonNeutralizedChallenges: answerCollection.numberOfNonNeutralizedChallenges(),

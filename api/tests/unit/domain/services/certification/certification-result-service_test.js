@@ -286,6 +286,85 @@ describe('Unit | Service | Certification Result Service', function() {
       });
     });
 
+    context('When global scoring fails', () => {
+
+      context('When continueOnError is false', () => {
+
+        it('should return an empty certification assessment score', async () => {
+          // given
+          const certificationAnswersByDate = _.map([
+            { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
+            { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
+            { challengeId: 'challenge_C_for_competence_1', result: 'ok' },
+            { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
+          ], domainBuilder.buildAnswer);
+
+          const certificationChallenges = _.map([
+            { isNeutralized: true, challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1', type: 'QCM' },
+            { isNeutralized: true, challengeId: 'challenge_C_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeC_1', type: 'QCM' },
+            { isNeutralized: false, challengeId: 'challenge_B_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeB_1', type: 'QCM' },
+            { isNeutralized: false, challengeId: 'challenge_D_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeD_2', type: 'QCM' },
+          ], domainBuilder.buildCertificationChallengeWithType);
+
+          const certificationAssessment = {
+            certificationAnswersByDate,
+            certificationChallenges,
+          };
+
+          sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
+            userId: certificationAssessment.userId,
+            limitDate: certificationAssessment.createdAt,
+            isV2Certification: certificationAssessment.isV2Certification,
+          }).resolves({ userCompetences });
+
+          // when
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError: false });
+
+          // then
+          const expectedCertificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({ competencesWithMark: [], percentageCorrectAnswers: 0 });
+          expect(certificationAssessmentScore).to.deep.equal(expectedCertificationAssessmentScore);
+        });
+      });
+
+      context('When continueOnError is true', () => {
+
+        it('should not return an empty certification assessment score', async () => {
+          // given
+          const certificationAnswersByDate = _.map([
+            { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
+            { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
+            { challengeId: 'challenge_C_for_competence_1', result: 'ok' },
+            { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
+          ], domainBuilder.buildAnswer);
+
+          const certificationChallenges = _.map([
+            { isNeutralized: true, challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1', type: 'QCM' },
+            { isNeutralized: true, challengeId: 'challenge_C_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeC_1', type: 'QCM' },
+            { isNeutralized: false, challengeId: 'challenge_B_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeB_1', type: 'QCM' },
+            { isNeutralized: false, challengeId: 'challenge_D_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeD_2', type: 'QCM' },
+          ], domainBuilder.buildCertificationChallengeWithType);
+
+          const certificationAssessment = {
+            certificationAnswersByDate,
+            certificationChallenges,
+          };
+
+          sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
+            userId: certificationAssessment.userId,
+            limitDate: certificationAssessment.createdAt,
+            isV2Certification: certificationAssessment.isV2Certification,
+          }).resolves({ userCompetences });
+
+          // when
+          const result = certificationResultService.computeResult({ certificationAssessment, continueOnError: true });
+
+          // then
+          const notExpectedCertificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({ competencesWithMark: [], percentageCorrectAnswers: 0 });
+          expect(result).to.not.deep.equal(notExpectedCertificationAssessmentScore);
+        });
+      });
+    });
+
     context('Compute certification result for jury (continue on error)', () => {
       const continueOnError = true;
 
@@ -828,22 +907,25 @@ describe('Unit | Service | Certification Result Service', function() {
       });
 
       context('when there are challenges for non-certifiable competences', () => {
-        let challenges;
 
         beforeEach(() => {
-          challenges = _.map([
-            { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1' },
+          const challengesForNonCertifiableCompetences = _.map([
             { challengeId: 'challenge_M_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeM_5' },
             { challengeId: 'challenge_N_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeN_6' },
           ], domainBuilder.buildCertificationChallengeWithType);
-          certificationAssessment.certificationChallenges = challenges;
+          certificationAssessment.certificationChallenges = [
+            ...challenges,
+            ...challengesForNonCertifiableCompetences,
+          ];
 
-          certificationAssessment.certificationAnswersByDate = _.map([
-            { challengeId: 'challenge_A_for_competence_1', result: 'ko' },
-
+          const answersForNonCertifiableCompetences = _.map([
             { challengeId: 'challenge_M_for_competence_5', result: 'ok' },
             { challengeId: 'challenge_N_for_competence_6', result: 'ok' },
           ], domainBuilder.buildAnswer);
+          certificationAssessment.certificationAnswersByDate = [
+            ...wrongAnswersForAllChallenges(),
+            ...answersForNonCertifiableCompetences,
+          ];
         });
 
         it('should not include the extra challenges when computing reproducibility', async () => {
