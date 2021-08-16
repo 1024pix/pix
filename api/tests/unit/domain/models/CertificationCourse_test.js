@@ -2,7 +2,8 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | CertificationCourse', function() {
-  describe('#cancel #isCancelled', function() {
+
+  describe('#cancel', function() {
 
     it('should cancel a certification course', function() {
       // given
@@ -26,10 +27,46 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
 
         // when
         certificationCourse.cancel();
+        const firstTimeDTO = certificationCourse.toDTO();
         certificationCourse.cancel();
+        const secondTimeDTO = certificationCourse.toDTO();
 
         // then
-        expect(certificationCourse.toDTO().isCancelled).to.be.true;
+        expect(firstTimeDTO).to.deep.equal(secondTimeDTO);
+      });
+    });
+  });
+
+  describe('#uncancel', function() {
+
+    it('should uncancel a certification course', function() {
+      // given
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        isCancelled: true,
+      });
+
+      // when
+      certificationCourse.uncancel();
+
+      // then
+      expect(certificationCourse.toDTO().isCancelled).to.be.false;
+    });
+
+    describe('when certification course is already uncancelled', function() {
+      it('should not change isCancelled value', function() {
+        // given
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          isCancelled: true,
+        });
+
+        // when
+        certificationCourse.uncancel();
+        const firstTimeDTO = certificationCourse.toDTO();
+        certificationCourse.uncancel();
+        const secondTimeDTO = certificationCourse.toDTO();
+
+        // then
+        expect(firstTimeDTO).to.deep.equal(secondTimeDTO);
       });
     });
   });
