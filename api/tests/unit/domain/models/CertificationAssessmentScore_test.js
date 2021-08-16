@@ -123,4 +123,41 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', () => {
       expect(percentageCorrectAnswers).to.equal(55);
     });
   });
+
+  describe('#get hasNoCompetenceMarks', () => {
+
+    context('when CertificationAssessmentScore has no competence marks', () => {
+
+      it('should return true', () => {
+        // given
+        const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+          competenceMarks: [],
+        });
+
+        // when
+        const result = certificationAssessmentScore.hasNoCompetenceMarks();
+
+        // then
+        expect(result).to.be.true;
+      });
+
+    });
+
+    context('when CertificationAssessmentScore has competence marks', () => {
+
+      it('should return the false', () => {
+        // given
+        const competenceMark = domainBuilder.buildCompetenceMark();
+        const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+          competenceMarks: [competenceMark],
+        });
+
+        // when
+        const result = certificationAssessmentScore.hasNoCompetenceMarks();
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
 });

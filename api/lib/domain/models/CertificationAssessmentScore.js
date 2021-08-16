@@ -11,7 +11,7 @@ class CertificationAssessmentScore {
   }
 
   get nbPix() {
-    if (_.isEmpty(this.competenceMarks)) {
+    if (this.hasNoCompetenceMarks()) {
       return 0;
     }
     return _.sumBy(this.competenceMarks, 'score');
@@ -30,6 +30,10 @@ class CertificationAssessmentScore {
 
   getPercentageCorrectAnswers() {
     return this.percentageCorrectAnswers;
+  }
+
+  hasNoCompetenceMarks() {
+    return _.isEmpty(this.competenceMarks);
   }
 }
 
