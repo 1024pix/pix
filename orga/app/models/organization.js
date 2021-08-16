@@ -8,7 +8,6 @@ export default class Organization extends Model {
   @attr('boolean') isManagingStudents;
   @attr('boolean') canCollectProfiles;
   @attr('boolean') isAgriculture;
-  @attr('boolean') isCFA;
   @attr('boolean') isAEFE;
   @attr('boolean') isMLF;
   @attr('boolean') isMediationNumerique;
