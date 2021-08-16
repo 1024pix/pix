@@ -61,7 +61,10 @@ module.exports = {
   },
 
   async batchCreateProOrganizations(organizations, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const organizationsRawData = organizations.map((organization) => _.pick(organization, ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'email', 'isManagingStudents', 'canCollectProfiles', 'credit']));
+    const organizationsRawData = organizations.map((organization) => _.pick(
+      organization,
+      ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'email', 'isManagingStudents', 'canCollectProfiles', 'credit', 'createdBy'],
+    ));
     return Bookshelf.knex.batchInsert('organizations', organizationsRawData).transacting(domainTransaction.knexTransaction).returning(['id', 'externalId', 'email', 'name']);
   },
 
