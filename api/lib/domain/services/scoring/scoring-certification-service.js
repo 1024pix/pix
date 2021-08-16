@@ -1,24 +1,12 @@
 const CertificationAssessmentScore = require('../../models/CertificationAssessmentScore');
-const CompetenceMark = require('../../models/CompetenceMark');
 const certificationResultService = require('../../services/certification-result-service');
-const scoringService = require('../../services/scoring/scoring-service');
 
 async function calculateCertificationAssessmentScore({ certificationAssessment, continueOnError }) {
 
   const { competencesWithMark, percentageCorrectAnswers } = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
-  const competenceMarks = competencesWithMark.map((certifiedCompetence) => {
-    return new CompetenceMark({
-      level: scoringService.getBlockedLevel(certifiedCompetence.obtainedLevel),
-      score: scoringService.getBlockedPixScore(certifiedCompetence.obtainedScore),
-      area_code: certifiedCompetence.area_code,
-      competence_code: certifiedCompetence.index,
-      competenceId: certifiedCompetence.id,
-    });
-  });
-
   return new CertificationAssessmentScore({
-    competenceMarks,
+    competenceMarks: competencesWithMark,
     percentageCorrectAnswers,
   });
 }

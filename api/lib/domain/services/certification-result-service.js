@@ -5,6 +5,7 @@ const placementProfileService = require('./placement-profile-service');
 const { CertifiedLevel } = require('../models/CertifiedLevel');
 const { CertifiedScore } = require('../models/CertifiedScore');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
+const CompetenceMark = require('../models/CompetenceMark');
 const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
@@ -23,7 +24,7 @@ function _getSumScoreFromCertifiedCompetences(listCompetences) {
   return _(listCompetences).map('obtainedScore').sum();
 }
 
-function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, reproducibilityRate, certificationChallenges, continueOnError, answerCollection) {
+function _getCompetenceMarksWithCertifiedLevelAndScore(answers, listCompetences, reproducibilityRate, certificationChallenges, continueOnError, answerCollection) {
   return listCompetences.map((competence) => {
     const challengesForCompetence = _.filter(certificationChallenges, { competenceId: competence.id });
     const answersForCompetence = _selectAnswersMatchingCertificationChallenges(answers, challengesForCompetence);
@@ -43,31 +44,25 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
       reproducibilityRate,
     });
     const certifiedScore = CertifiedScore.from({ certifiedLevel, estimatedScore: competence.pixScore });
-    return {
-      name: competence.name,
-      index: competence.index,
+    return new CompetenceMark({
+      level: scoringService.getBlockedLevel(certifiedLevel.value),
+      score: scoringService.getBlockedPixScore(certifiedScore.value),
       area_code: competence.area.code,
-      id: competence.id,
-      positionedLevel: scoringService.getBlockedLevel(competence.estimatedLevel),
-      positionedScore: competence.pixScore,
-      obtainedLevel: scoringService.getBlockedLevel(certifiedLevel.value),
-      obtainedScore: certifiedScore.value,
-    };
+      competence_code: competence.index,
+      competenceId: competence.id,
+    });
   });
 }
 
-function _getCompetenceWithFailedLevel(listCompetences) {
+function _getCompetenceMarksWithFailedLevel(listCompetences) {
   return listCompetences.map((competence) => {
-    return {
-      name: competence.name,
-      index: competence.index,
+    return new CompetenceMark({
+      level: scoringService.getBlockedLevel(CertifiedLevel.invalidate().value),
+      score: scoringService.getBlockedPixScore(0),
       area_code: competence.area.code,
-      id: competence.id,
-      positionedLevel: competence.estimatedLevel,
-      positionedScore: competence.pixScore,
-      obtainedLevel: CertifiedLevel.invalidate().value,
-      obtainedScore: 0,
-    };
+      competence_code: competence.index,
+      competenceId: competence.id,
+    });
   });
 }
 
@@ -86,12 +81,12 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
 
   if (!reproducibilityRate.isEnoughToBeCertified()) {
     return {
-      competencesWithMark: _getCompetenceWithFailedLevel(testedCompetences),
+      competencesWithMark: _getCompetenceMarksWithFailedLevel(testedCompetences),
       percentageCorrectAnswers: reproducibilityRate.value,
     };
   }
 
-  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answers, testedCompetences, reproducibilityRate.value, certificationChallenges, continueOnError, answerCollection);
+  const competencesWithMark = _getCompetenceMarksWithCertifiedLevelAndScore(answers, testedCompetences, reproducibilityRate.value, certificationChallenges, continueOnError, answerCollection);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
   if (!continueOnError) {
