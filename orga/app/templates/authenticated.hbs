@@ -1,29 +1,15 @@
 <div class="app">
+  <Layout::Sidebar />
 
-  <aside class="app__sidebar sidebar">
-    <header class="sidebar__logo logo sidebar--padding-left hide-on-mobile">
-      <LinkTo @route="authenticated.campaigns">
-        <img class="logo__image" src="{{this.rootUrl}}/pix-orga.svg" alt="" role="none">
-      </LinkTo>
-    </header>
-    <SidebarMenu/>
-  </aside>
+  <div class="main-content">
+    <Layout::Topbar />
 
-  <div class="app__main-content main-content">
-
-    <div class="main-content__topbar topbar">
-      <div class="topbar__organization-credit-info hide-on-mobile"><OrganizationCreditInfo /></div>
-      <div class="topbar__user-logged-menu"><UserLoggedMenu /></div>
-    </div>
-
-    <InformationBanner/>
+    <Banner::Information />
 
     <div class="main-content__body page">
       {{outlet}}
     </div>
-
   </div>
 
   <NotificationContainer @position="bottom-right" />
-
 </div>

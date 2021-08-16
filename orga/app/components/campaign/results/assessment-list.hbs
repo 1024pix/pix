@@ -43,7 +43,7 @@
             {{/if}}
             <td>
               {{#if @campaign.hasStages}}
-                <StageStars
+                <Campaign::StageStars
                   @result={{participation.masteryPercentage}}
                   @stages={{@campaign.stages}}
                   @withTooltip={{true}}
@@ -57,7 +57,7 @@
             </td>
             {{#if @campaign.hasBadges}}
               <td class="participant-list__badges">
-                <Badges @badges={{participation.badges}} />
+                <Campaign::Badges @badges={{participation.badges}} />
               </td>
             {{/if}}
           </tr>

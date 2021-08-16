@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ENV from 'pix-orga/config/environment';
 
-module('Integration | Component | communication-banner', function(hooks) {
+module('Integration | Component | Banner::Communication', function(hooks) {
   setupIntlRenderingTest(hooks);
 
   const originalBannerContent = ENV.APP.BANNER_CONTENT;
@@ -21,7 +21,7 @@ module('Integration | Component | communication-banner', function(hooks) {
     ENV.APP.BANNER_TYPE = '';
 
     // when
-    await render(hbs`<CommunicationBanner />`);
+    await render(hbs`<Banner::Communication />`);
 
     // then
     assert.dom('.pix-banner').doesNotExist();
@@ -33,10 +33,10 @@ module('Integration | Component | communication-banner', function(hooks) {
     ENV.APP.BANNER_TYPE = 'information';
 
     // when
-    await render(hbs`<CommunicationBanner />`);
+    await render(hbs`<Banner::Communication />`);
 
     // then
     assert.dom('.pix-banner--information').exists();
-    assert.dom('.pix-banner--information').containsText('information banner text ...');
+    assert.contains('information banner text ...');
   });
 });

@@ -89,8 +89,8 @@ module('Acceptance | authentication', function(hooks) {
       // then
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
 
-      assert.dom('.app__sidebar').doesNotExist();
-      assert.dom('.main-content__topbar').doesNotExist();
+      assert.dom('.sidebar').doesNotExist();
+      assert.dom('.topbar').doesNotExist();
     });
   });
 
@@ -132,7 +132,7 @@ module('Acceptance | authentication', function(hooks) {
       // then
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
 
-      assert.dom('.logged-user-summary__name').hasText('Harry Cover');
+      assert.contains('Harry Cover');
     });
   });
 
@@ -202,11 +202,11 @@ module('Acceptance | authentication', function(hooks) {
         // when
         await visit('/');
         // then
-        assert.dom('.sidebar-menu a').exists({ count: 3 });
-        assert.dom('.sidebar-menu').containsText('Campagnes');
-        assert.dom('.sidebar-menu').containsText('Équipe');
-        assert.dom('.sidebar-menu').containsText('Documentation');
-        assert.dom('.sidebar-menu a:first-child').hasClass('active');
+        assert.dom('.sidebar-nav a').exists({ count: 3 });
+        assert.dom('.sidebar-nav').containsText('Campagnes');
+        assert.dom('.sidebar-nav').containsText('Équipe');
+        assert.dom('.sidebar-nav').containsText('Documentation');
+        assert.dom('.sidebar-nav a:first-child').hasClass('active');
       });
 
       test('should redirect to team page', async function(assert) {
@@ -217,10 +217,10 @@ module('Acceptance | authentication', function(hooks) {
         await clickByLabel('Équipe');
 
         // then
-        assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
-        assert.dom('.sidebar-menu').containsText('Équipe');
-        assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
-        assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
+        assert.dom('.sidebar-nav a:first-child').hasText('Campagnes');
+        assert.dom('.sidebar-nav').containsText('Équipe');
+        assert.dom('.sidebar-nav a:nth-child(2)').hasClass('active');
+        assert.dom('.sidebar-nav a:first-child').hasNoClass('active');
       });
 
       module('When the organization has credits and prescriber is ADMIN', function(hooks) {
@@ -253,12 +253,12 @@ module('Acceptance | authentication', function(hooks) {
           await visit('/');
 
           // then
-          assert.dom('.sidebar-menu a').exists({ count: 5 });
-          assert.dom('.sidebar-menu').containsText('Campagnes');
-          assert.dom('.sidebar-menu').containsText('Certifications');
-          assert.dom('.sidebar-menu').containsText('Équipe');
-          assert.dom('.sidebar-menu').containsText('Élèves');
-          assert.dom('.sidebar-menu a:first-child ').hasClass('active');
+          assert.dom('.sidebar-nav a').exists({ count: 5 });
+          assert.dom('.sidebar-nav').containsText('Campagnes');
+          assert.dom('.sidebar-nav').containsText('Certifications');
+          assert.dom('.sidebar-nav').containsText('Équipe');
+          assert.dom('.sidebar-nav').containsText('Élèves');
+          assert.dom('.sidebar-nav a:first-child ').hasClass('active');
         });
 
         test('should redirect to students page', async function(assert) {
@@ -268,12 +268,12 @@ module('Acceptance | authentication', function(hooks) {
           await clickByLabel('Élèves');
 
           // then
-          assert.dom('.sidebar-menu').containsText('Campagnes');
-          assert.dom('.sidebar-menu').containsText('Certifications');
-          assert.dom('.sidebar-menu').containsText('Équipe');
-          assert.dom('.sidebar-menu').containsText('Élèves');
-          assert.dom('.sidebar-menu a:nth-child(3)').hasClass('active');
-          assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
+          assert.dom('.sidebar-nav').containsText('Campagnes');
+          assert.dom('.sidebar-nav').containsText('Certifications');
+          assert.dom('.sidebar-nav').containsText('Équipe');
+          assert.dom('.sidebar-nav').containsText('Élèves');
+          assert.dom('.sidebar-nav a:nth-child(3)').hasClass('active');
+          assert.dom('.sidebar-nav a:first-child').hasNoClass('active');
         });
 
         test('should redirect to certifications page', async function(assert) {
@@ -282,9 +282,9 @@ module('Acceptance | authentication', function(hooks) {
           await clickByLabel('Certifications');
 
           // then
-          assert.dom('.sidebar-menu').containsText('Certifications');
-          assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
-          assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
+          assert.dom('.sidebar-nav').containsText('Certifications');
+          assert.dom('.sidebar-nav a:nth-child(2)').hasClass('active');
+          assert.dom('.sidebar-nav a:first-child').hasNoClass('active');
         });
 
         test('should have resources link', async function(assert) {
@@ -311,10 +311,10 @@ module('Acceptance | authentication', function(hooks) {
         await visit('/');
 
         // then
-        assert.dom('.sidebar-menu a').exists({ count: 2 });
-        assert.dom('.sidebar-menu').containsText('Campagnes');
-        assert.dom('.sidebar-menu').containsText('Documentation');
-        assert.dom('.sidebar-menu a:first-child ').hasClass('active');
+        assert.dom('.sidebar-nav a').exists({ count: 2 });
+        assert.dom('.sidebar-nav').containsText('Campagnes');
+        assert.dom('.sidebar-nav').containsText('Documentation');
+        assert.dom('.sidebar-nav a:first-child ').hasClass('active');
       });
 
       module('When the organization has credits and prescriber is MEMBER', function(hooks) {
@@ -347,10 +347,10 @@ module('Acceptance | authentication', function(hooks) {
           await visit('/');
 
           // then
-          assert.dom('.sidebar-menu a').exists({ count: 3 });
-          assert.dom('.sidebar-menu').containsText('Campagnes');
-          assert.dom('.sidebar-menu').containsText('Élèves');
-          assert.dom('.sidebar-menu a:first-child ').hasClass('active');
+          assert.dom('.sidebar-nav a').exists({ count: 3 });
+          assert.dom('.sidebar-nav').containsText('Campagnes');
+          assert.dom('.sidebar-nav').containsText('Élèves');
+          assert.dom('.sidebar-nav a:first-child ').hasClass('active');
         });
       });
     });
