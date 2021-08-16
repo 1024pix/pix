@@ -4,7 +4,7 @@ const moment = require('moment');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
 const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
-const computeValidatedSkillsCount = require('../prod/compute-validated-skills-count-for-assessment-campaign-participation');
+const computeParticipationResults = require('../prod/compute-participation-results');
 const {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
@@ -452,11 +452,11 @@ async function _do({ organizationId, targetProfileId, participantCount, profileT
     await _createParticipants({ count: participantCount, targetProfile, organizationId, campaignId, trx });
   }
   await trx.commit();
-  console.log('calcul des validatedSkillsCount ...');
-  await computeValidatedSkillsCount(10);
   console.log('génération des snapshots KE ...');
   const campaignParticipationData = await getEligibleCampaignParticipations(participantCount);
   await generateKnowledgeElementSnapshots(campaignParticipationData, 3);
+  console.log('pré-calcul des résultats ...');
+  await computeParticipationResults();
   console.log(`Campagne: ${campaignId}\nOrganisation: ${organizationId}\nNombre de participants: ${participantCount}\nProfil Cible: ${targetProfile.id}`);
 }
 
