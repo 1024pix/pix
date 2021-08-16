@@ -2,7 +2,7 @@ const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../.
 const Answer = require('../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../../../lib/domain/errors');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
 describe('Integration | Repository | answerRepository', () => {
@@ -539,6 +539,39 @@ describe('Integration | Repository | answerRepository', () => {
         const answerInDB = await knex('answers');
         const knowledgeElementsInDB = await knex('knowledge-elements');
         expect(answerInDB).to.have.length(0);
+        expect(knowledgeElementsInDB).to.have.length(0);
+      });
+    });
+
+    context('when there is already an answer for one challenge in one assessment', () => {
+
+      it('should not have saved anything', async () => {
+        // given
+        const assessmentId = 123;
+        const answerToSave = domainBuilder.buildAnswer({
+          id: null,
+          assessmentId,
+          challengeId: 'challengeId',
+        });
+        const knowledgeElement = domainBuilder.buildKnowledgeElement({
+          id: null,
+          createdAt: null,
+          assessmentId,
+          userId: 456,
+        });
+        databaseBuilder.factory.buildAssessment({ id: assessmentId });
+        const alreadyCreatedAnswerId = databaseBuilder.factory.buildAnswer({ challengeId: 'challengeId', assessmentId }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(answerRepository.saveWithKnowledgeElements)(answerToSave, [knowledgeElement]);
+
+        // then
+        expect(error).to.be.instanceOf(ChallengeAlreadyAnsweredError);
+        const answerInDB = await knex('answers');
+        const knowledgeElementsInDB = await knex('knowledge-elements');
+        expect(answerInDB).to.have.length(1);
+        expect(answerInDB[0].id).to.be.equal(alreadyCreatedAnswerId);
         expect(knowledgeElementsInDB).to.have.length(0);
       });
     });
