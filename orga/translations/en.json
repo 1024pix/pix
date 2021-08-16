@@ -538,7 +538,6 @@
     "students-sco": {
       "title": "Students",
       "actions": {
-        "download-template": "Download the template",
         "import-file": {
           "file-type-separator": " or ",
           "label": "Import ({types})"
@@ -546,7 +545,6 @@
         "manage-account": "Manage the account",
         "show-actions": "Show actions"
       },
-      "agri-tooltip": "Some information about import:<ul><li>For your students: use the FREGATA export towards Pix and click on the import button.</li><li>For your trainees: Pix imports all trainees at the end of November into your Pix Orga space. From December on, you will be able to add trainees from time to time. To do so, consult the Pix Orga documentation and use the template provided.</li></ul>",
       "connection-types": {
         "email": "Email address",
         "empty": "–",
@@ -559,7 +557,6 @@
         "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">the help form</a>.</div>",
         "global-success": "The list has been successfully imported."
       },
-      "know-more": "Know more",
       "manage-authentication-method-modal": {
         "title": "Managing the student's Pix account",
         "authentication-methods": "Log in methods",
