@@ -11,6 +11,33 @@ describe('Integration | Component | Tooltip', function() {
 
   const tooltip = '.tooltip-tag__information';
   const confirmationButton = '.tooltip-tag-information__button';
+  describe('when challenge is not focused', function() {
+    beforeEach(async function() {
+      // given
+      class currentUser extends Service {
+        user = {
+          hasSeenFocusedChallengeTooltip: true,
+        }
+      }
+
+      this.owner.unregister('service:currentUser');
+      this.owner.register('service:currentUser', currentUser);
+
+      this.set('challenge', {
+        instruction: 'La consigne de mon test',
+        id: 'rec_challenge',
+        focused: false,
+      });
+      this.set('onTooltipClose', () => {});
+
+      await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
+    });
+
+    it('should not render the tooltip', async function() {
+      // then
+      expect(find(tooltip)).to.not.exist;
+    });
+  });
 
   describe('when user has not seen the tooltip yet', function() {
     beforeEach(async function() {
