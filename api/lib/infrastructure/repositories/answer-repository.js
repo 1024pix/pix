@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const jsYaml = require('js-yaml');
 const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
+const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors');
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
 
@@ -108,6 +108,10 @@ module.exports = {
   async saveWithKnowledgeElements(answer, knowledgeElements) {
     const answerForDB = _adaptAnswerToDb(answer);
     return knex.transaction(async (trx) => {
+      const alreadySavedAnswer = await trx('answers').select('id').where({ challengeId: answer.challengeId, assessmentId: answer.assessmentId });
+      if (alreadySavedAnswer.length !== 0) {
+        throw new ChallengeAlreadyAnsweredError();
+      }
       const [savedAnswerDTO] = await trx('answers').insert(answerForDB).returning(COLUMNS);
       const savedAnswer = _toDomain(savedAnswerDTO);
       if (!_.isEmpty(knowledgeElements)) {
