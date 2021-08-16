@@ -39,7 +39,6 @@ module('Integration | Component | Student::Sco::HeaderActions', function(hooks) 
           class CurrentUserStub extends Service {
             isAdminInOrganization = true;
             isAgriculture = true;
-            isCFA = true;
             organization = {};
             prescriber = {
               lang: 'fr',
