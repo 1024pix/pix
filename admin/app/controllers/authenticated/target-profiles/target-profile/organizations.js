@@ -1,6 +1,4 @@
-import uniq from 'lodash/uniq';
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Controller from '@ember/controller';
 import debounce from 'lodash/debounce';
@@ -18,10 +16,6 @@ export default class TargetProfileOrganizationsController extends Controller {
   @tracked name = null;
   @tracked type = null;
   @tracked externalId = null;
-  @tracked organizationsToAttach = [];
-  @tracked existingTargetProfile = null;
-
-  @service notifications;
 
   updateFilters(filters) {
     Object.keys(filters).forEach((filterKey) => this[filterKey] = filters[filterKey]);
@@ -38,50 +32,5 @@ export default class TargetProfileOrganizationsController extends Controller {
   @action
   goToOrganizationPage(organizationId) {
     this.transitionToRoute('authenticated.organizations.get', organizationId);
-  }
-
-  @action
-  async attachOrganizations(e) {
-    e.preventDefault();
-    const targetProfile = this.model.targetProfile;
-    try {
-      await targetProfile.attachOrganizations({ 'organization-ids': this._getUniqueOrganizations() });
-      this.organizationsToAttach = null;
-      this.send('refreshModel');
-      return this.notifications.success('Organisation(s) rattaché(es) avec succès.');
-    } catch (responseError) {
-      this._handleResponseError(responseError);
-    }
-  }
-
-  @action
-  async attachOrganizationsFromExistingTargetProfile(e) {
-    e.preventDefault();
-    const targetProfile = this.model.targetProfile;
-    try {
-      await targetProfile.attachOrganizationsFromExistingTargetProfile({ 'target-profile-id': this.existingTargetProfile });
-      this.existingTargetProfile = null;
-      this.send('refreshModel');
-      return this.notifications.success('Organisation(s) rattaché(es) avec succès.');
-    } catch (responseError) {
-      this._handleResponseError(responseError);
-    }
-  }
-
-  _handleResponseError({ errors }) {
-    if (!errors) {
-      return this.notifications.error('Une erreur est survenue.');
-    }
-    errors.forEach((error) => {
-      if (['404', '412'].includes(error.status)) {
-        return this.notifications.error(error.detail);
-      }
-      return this.notifications.error('Une erreur est survenue.');
-    });
-  }
-
-  _getUniqueOrganizations() {
-    const targetProfileIds = this.organizationsToAttach.split(',').map((targetProfileId) => parseInt(targetProfileId.trim()));
-    return uniq(targetProfileIds);
   }
 }
