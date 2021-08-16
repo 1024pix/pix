@@ -71,7 +71,7 @@ export default class Url extends Service {
     const currentLanguage = this.intl.t('current-lang');
 
     if (currentLanguage === 'en') {
-      return `https://pix.${this.currentDomain.getExtension()}/en-gb/faq-pix`;
+      return `https://pix.${this.currentDomain.getExtension()}/help`;
     }
     return `https://pix.${this.currentDomain.getExtension()}/aide`;
   }
