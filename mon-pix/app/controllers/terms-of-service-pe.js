@@ -13,6 +13,7 @@ export default class TermsOfServicePeController extends Controller {
   @tracked authenticationKey = null;
   @tracked isTermsOfServiceValidated = false;
   @tracked showErrorTermsOfServiceNotSelected = false;
+  @tracked showErrorTermsOfServiceExpiredAuthenticatedKey = false;
 
   get homeUrl() {
     return this.url.homeUrl;
@@ -22,9 +23,12 @@ export default class TermsOfServicePeController extends Controller {
   async submit() {
     if (this.isTermsOfServiceValidated) {
       this.showErrorTermsOfServiceNotSelected = false;
-
-      await this.session.authenticate('authenticator:oidc', { authenticationKey: this.authenticationKey });
-
+      try {
+        await this.session.authenticate('authenticator:oidc', { authenticationKey: this.authenticationKey });
+      }
+      catch (error) {
+        this.showErrorTermsOfServiceExpiredAuthenticatedKey = true;
+      }
     } else {
       this.showErrorTermsOfServiceNotSelected = true;
     }

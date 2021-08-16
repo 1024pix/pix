@@ -12,7 +12,7 @@ describe('Unit | Controller | terms-of-service-pe', function() {
     beforeEach(function() {
       controller = this.owner.lookup('controller:terms-of-service-pe');
       controller.session = {
-        authenticate: sinon.stub().resolves(),
+        authenticate: sinon.stub(),
       };
     });
 
@@ -37,5 +37,19 @@ describe('Unit | Controller | terms-of-service-pe', function() {
       // then
       expect(controller.showErrorTermsOfServiceNotSelected).to.be.true;
     });
+
+    it('it should show an error expired authentication key', async function() {
+      // given
+      controller.session.authenticate.rejects();
+      controller.isTermsOfServiceValidated = true ;
+      controller.showErrorTermsOfServiceExpiredAuthenticatedKey = false;
+
+      // when
+      await controller.send('submit');
+
+      // then
+      expect(controller.showErrorTermsOfServiceExpiredAuthenticatedKey).to.be.true;
+    });
+
   });
 });
