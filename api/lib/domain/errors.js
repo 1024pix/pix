@@ -887,6 +887,12 @@ class CpfBirthInformationValidationError extends DomainError {
   }
 }
 
+class NoOrganizationToAttach extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -961,6 +967,7 @@ module.exports = {
   NoCampaignParticipationForUserAndCampaign,
   NoCertificationResultForDivision,
   NoStagesForCampaign,
+  NoOrganizationToAttach,
   NotEligibleCandidateError,
   NotFoundError,
   NotImplementedError,

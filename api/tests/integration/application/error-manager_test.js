@@ -143,6 +143,13 @@ describe('Integration | API | Controller Error', () => {
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
+
+    it('responds Precondition Failed when a NoOrganizationToAttach occurs', async () => {
+      routeHandler.throws(new DomainErrors.NoOrganizationToAttach());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+    });
   });
 
   context('404 Not Found', () => {

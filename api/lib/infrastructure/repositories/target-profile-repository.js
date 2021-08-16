@@ -130,18 +130,7 @@ module.exports = {
         targetProfileId: targetProfile.id,
       };
     });
-    try {
-      await knex.batchInsert('target-profile-shares', rows);
-    } catch (error) {
-      if (foreignKeyConstraintViolated(error)) {
-        const organizationId = error.detail.match(/=\((\d+)\)/)[1];
-        throw new NotFoundError(`L'organization  avec l'id ${organizationId} n'existe pas`);
-      }
-      if (isUniqConstraintViolated(error)) {
-        const organizationId = error.detail.match(/=\((\d+),/)[1];
-        throw new AlreadyExistingEntityError(`Le profil cible est déjà associé à l’organisation ${organizationId}.`);
-      }
-    }
+    await _createTargetProfileShares(rows, targetProfile.id);
   },
 
   async isAttachedToOrganizations(targetProfile) {
@@ -171,6 +160,28 @@ module.exports = {
       throw new ObjectValidationError;
     }
   },
+
+  async findOrganizationIds(targetProfileId) {
+    const targetProfile = await knex('target-profiles')
+      .select('id')
+      .where({ id: targetProfileId })
+      .first();
+    if (!targetProfile) {
+      throw new NotFoundError(`No target profile for ID ${targetProfileId}`);
+    }
+
+    const targetProfileShares = await knex('target-profile-shares')
+      .select('organizationId')
+      .where({ 'target-profile-shares.targetProfileId': targetProfileId });
+    return targetProfileShares.map((targetProfileShare) => targetProfileShare.organizationId);
+  },
+
+  async attachOrganizationIds({ targetProfileId, organizationIds }) {
+    const rows = organizationIds.map((organizationId) => {
+      return { organizationId, targetProfileId };
+    });
+    return _createTargetProfileShares(rows, targetProfileId);
+  },
 };
 
 async function _getWithLearningContentSkills(targetProfile) {
@@ -193,5 +204,20 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   }
   if (id) {
     qb.where({ id });
+  }
+}
+
+async function _createTargetProfileShares(targetProfileShares, targetProfileId) {
+  try {
+    await knex.batchInsert('target-profile-shares', targetProfileShares);
+  } catch (error) {
+    if (foreignKeyConstraintViolated(error)) {
+      const organizationId = error.detail.match(/=\((\d+)\)/)[1];
+      throw new NotFoundError(`L'organization  avec l'id ${organizationId} n'existe pas`);
+    }
+    if (isUniqConstraintViolated(error)) {
+      const organizationId = error.detail.match(/=\((\d+),/)[1];
+      throw new AlreadyExistingEntityError(`Le profil cible ${targetProfileId} est déjà rattaché à l’organisation ${organizationId}.`);
+    }
   }
 }

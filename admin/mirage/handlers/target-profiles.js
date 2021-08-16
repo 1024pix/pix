@@ -19,6 +19,13 @@ function attachTargetProfileToOrganizations(schema, request) {
   return new Response(204);
 }
 
+function attachOrganizationsFromExistingTargetProfile(schema, request) {
+  const params = JSON.parse(request.requestBody);
+  const existingTargetProfileId = params['target-profile-id'];
+  schema.organizations.create({ name: `Organization for target profile ${existingTargetProfileId}` });
+  return new Response(204);
+}
+
 async function getOrganizationTargetProfiles(schema, request) {
   const ownerOrganizationId = request.params.id;
   return schema.targetProfiles.where({ ownerOrganizationId });
@@ -83,6 +90,7 @@ function outdate(schema, request) {
 }
 
 export {
+  attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
   attachTargetProfileToOrganizations,
   getOrganizationTargetProfiles,
