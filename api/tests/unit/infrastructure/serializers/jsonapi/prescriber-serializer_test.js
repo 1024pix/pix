@@ -320,48 +320,6 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       });
     });
 
-    context('when isCFA is true', () => {
-      it('should serialize prescriber with isCFA', () => {
-        // given
-        const user = domainBuilder.buildUser({
-          pixOrgaTermsOfServiceAccepted: true,
-          memberships: [],
-          certificationCenterMemberships: [],
-        });
-
-        const tags = [domainBuilder.buildTag({ name: 'CFA' })];
-        const organization = domainBuilder.buildOrganization({ tags });
-
-        const membership = domainBuilder.buildMembership({
-          organization,
-          organizationRole: Membership.roles.MEMBER,
-          user,
-        });
-
-        const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
-          currentOrganization: organization,
-        });
-        userOrgaSettings.user = null;
-
-        const prescriber = domainBuilder.buildPrescriber({
-          firstName: user.firstName,
-          lastName: user.lastName,
-          areNewYearSchoolingRegistrationsImported: false,
-          pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
-          memberships: [membership],
-          userOrgaSettings,
-        });
-
-        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-cfa', field: 'isCFA' });
-
-        // when
-        const result = serializer.serialize(prescriber);
-
-        // then
-        expect(result).to.be.deep.equal(expectedPrescriberSerialized);
-      });
-    });
-
     context('when isAEFE is true', () => {
       it('should serialize prescriber with isAEFE', () => {
         // given
