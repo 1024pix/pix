@@ -44,4 +44,13 @@ module('Acceptance | authenticated/targets-profile/target-profile/organizations'
 
     assert.dom('[aria-label="Organisation"]').includesText('42');
   });
+
+  test('should be able to attach an organization with given target profile', async function(assert) {
+    await visit(`/target-profiles/${targetProfile.id}/organizations`);
+
+    await fillInByLabel('Rattacher les organisations d\'un profil cible existant', '43');
+    await clickByLabel('Valider le rattachement à partir de ce profil cible');
+
+    assert.dom('[aria-label="Organisation"]').includesText('Organization for target profile 43');
+  });
 });

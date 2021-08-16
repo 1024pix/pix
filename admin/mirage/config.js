@@ -1,6 +1,7 @@
 import {
-  attachTargetProfileToOrganizations,
+  attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
+  attachTargetProfileToOrganizations,
   findPaginatedTargetProfileOrganizations,
   findTargetProfileBadges,
   findTargetProfileStages,
@@ -108,6 +109,7 @@ export default function() {
   this.get('/admin/target-profiles/:id');
   this.get('/admin/target-profiles/:id/organizations', findPaginatedTargetProfileOrganizations);
   this.post('/admin/target-profiles/:id/attach-organizations', attachTargetProfileToOrganizations);
+  this.post('/admin/target-profiles/:id/copy-organizations', attachOrganizationsFromExistingTargetProfile);
   this.get('/admin/target-profiles/:id/badges', findTargetProfileBadges);
   this.get('/admin/target-profiles/:id/stages', findTargetProfileStages);
   this.patch('/admin/target-profiles/:id', updateTargetProfileName);
