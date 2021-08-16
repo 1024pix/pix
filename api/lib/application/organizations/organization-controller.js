@@ -98,7 +98,9 @@ module.exports = {
 
     const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({ certificates: attestations });
 
-    const fileName = `attestations-pix-${division}-${moment(attestations[0].deliveredAt).format('YYYYMMDD')}.pdf`;
+    const now = moment();
+    const fileName = `${now.format('YYYYMMDD')}_attestations_${division}.pdf`;
+
     return h.response(buffer)
       .header('Content-Disposition', `attachment; filename=${fileName}`)
       .header('Content-Type', 'application/pdf');
