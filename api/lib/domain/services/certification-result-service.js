@@ -6,6 +6,7 @@ const { CertifiedLevel } = require('../models/CertifiedLevel');
 const { CertifiedScore } = require('../models/CertifiedScore');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 const CompetenceMark = require('../models/CompetenceMark');
+const CertificationAssessmentScore = require('../models/CertificationAssessmentScore');
 const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
@@ -80,20 +81,20 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
   });
 
   if (!reproducibilityRate.isEnoughToBeCertified()) {
-    return {
-      competencesWithMark: _getCompetenceMarksWithFailedLevel(testedCompetences),
+    return new CertificationAssessmentScore({
+      competenceMarks: _getCompetenceMarksWithFailedLevel(testedCompetences),
       percentageCorrectAnswers: reproducibilityRate.value,
-    };
+    });
   }
 
-  const competencesWithMark = _getCompetenceMarksWithCertifiedLevelAndScore(answers, testedCompetences, reproducibilityRate.value, certificationChallenges, continueOnError, answerCollection);
-  const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
+  const competenceMarks = _getCompetenceMarksWithCertifiedLevelAndScore(answers, testedCompetences, reproducibilityRate.value, certificationChallenges, continueOnError, answerCollection);
+  const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competenceMarks);
 
   if (!continueOnError) {
     CertificationContract.assertThatScoreIsCoherentWithReproducibilityRate(scoreAfterRating, reproducibilityRate.value);
   }
 
-  return { competencesWithMark, percentageCorrectAnswers: reproducibilityRate.value };
+  return new CertificationAssessmentScore({ competenceMarks, percentageCorrectAnswers: reproducibilityRate.value });
 }
 
 async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {

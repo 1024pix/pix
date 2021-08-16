@@ -324,13 +324,13 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should return list of competences with all certifiedLevel at -1', async () => {
           // when
-          const result = await certificationResultService.computeResult({
+          const certificationAssessmentScore = await certificationResultService.computeResult({
             certificationAssessment: startedCertificationAssessment,
             continueOnError,
           });
 
           // then
-          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
       });
 
@@ -338,10 +338,10 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should return list of competences with all certifiedLevel at -1', async () => {
           // when
-          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
-          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
       });
 
@@ -377,10 +377,10 @@ describe('Unit | Service | Certification Result Service', function() {
           ];
 
           // when
-          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
-          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
 
         it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', async () => {
@@ -407,10 +407,10 @@ describe('Unit | Service | Certification Result Service', function() {
             })];
 
           // when
-          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
-          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
       });
 
@@ -443,10 +443,10 @@ describe('Unit | Service | Certification Result Service', function() {
           ];
 
           // when
-          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
-          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
 
         it('should return the percentage of correct answers', async () => {
@@ -496,11 +496,11 @@ describe('Unit | Service | Certification Result Service', function() {
               }).resolves({ userCompetences });
 
               // When
-              const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+              const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
               // Then
-              expect(result.competencesWithMark[0].level).to.deep.equal(positionedLevel - 1);
-              expect(result.competencesWithMark[0].score).to.deep.equal(positionedScore - 8);
+              expect(certificationAssessmentScore.competenceMarks[0].level).to.deep.equal(positionedLevel - 1);
+              expect(certificationAssessmentScore.competenceMarks[0].score).to.deep.equal(positionedScore - 8);
             });
           });
         });
@@ -527,10 +527,10 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should return list of competences with all certifiedLevel at -1', async () => {
           // when
-          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
-          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
       });
 
@@ -566,10 +566,10 @@ describe('Unit | Service | Certification Result Service', function() {
           ];
 
           // when
-          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
-          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
 
         it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', async () => {
@@ -595,10 +595,10 @@ describe('Unit | Service | Certification Result Service', function() {
           ];
 
           // when
-          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
-          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
       });
 
@@ -631,10 +631,10 @@ describe('Unit | Service | Certification Result Service', function() {
           ];
 
           // when
-          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
-          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
       });
 
@@ -701,10 +701,10 @@ describe('Unit | Service | Certification Result Service', function() {
           ];
 
           // when
-          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
-          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
       });
 
@@ -786,10 +786,10 @@ describe('Unit | Service | Certification Result Service', function() {
           ];
 
           // when
-          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
-          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
 
         it('should compute the result of QROCM-dep as only one OK because result is partially right', async () => {
@@ -820,10 +820,10 @@ describe('Unit | Service | Certification Result Service', function() {
           ];
 
           // when
-          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
-          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+          expect(certificationAssessmentScore.competenceMarks).to.deep.equal(expectedCertifiedCompetences);
         });
       });
 
@@ -848,10 +848,10 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should not include the extra challenges when computing reproducibility', async () => {
           // when
-          const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
+          const certificationAssessmentScore = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
           // then
-          expect(result.percentageCorrectAnswers).to.equal(0);
+          expect(certificationAssessmentScore.percentageCorrectAnswers).to.equal(0);
         });
       });
     });
