@@ -2,11 +2,11 @@ const js2xmlparser = require('js2xmlparser');
 const faker = require('faker');
 const fs = require('fs');
 
-const run = function() {
-  const DEFAULT_USER_COUNT = 5;
-  const userCount = process.argv[2] || DEFAULT_USER_COUNT;
+const DEFAULT_USER_COUNT = 5;
+const DEFAULT_ORGANIZATION_UAJ = '1237457A';
 
-  const DEFAULT_ORGANIZATION_UAJ = '1237457A';
+const run = function() {
+  const userCount = process.argv[2] || DEFAULT_USER_COUNT;
   const organizationUAJ = process.argv[3] || DEFAULT_ORGANIZATION_UAJ;
 
   console.log(`Generating SIECLE file on organization ${organizationUAJ} for ${userCount} users`);
