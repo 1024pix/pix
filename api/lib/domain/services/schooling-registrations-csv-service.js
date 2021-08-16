@@ -7,7 +7,6 @@ module.exports = {
 
 async function extractSchoolingRegistrationsInformation(path, organization, i18n) {
   const buffer = await fs.readFile(path);
-  const organizationId = organization.id;
-  const parser = SchoolingRegistrationParser.buildParser(buffer, organizationId, i18n, organization.isAgriculture);
+  const parser = SchoolingRegistrationParser.buildParser(buffer, organization.id, i18n);
   return parser.parse().registrations;
 }

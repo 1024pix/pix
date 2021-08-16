@@ -33,10 +33,6 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
   const schoolingRegistrationsChunks = chunk(schoolingRegistrationData, SCHOOLING_REGISTRATION_CHUNK_SIZE);
 
   return bluebird.mapSeries(schoolingRegistrationsChunks, (chunk) => {
-    if (organization.isAgriculture) {
-      return schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations(chunk, organizationId);
-    } else {
-      return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(chunk, organizationId);
-    }
+    return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(chunk, organizationId);
   });
 };

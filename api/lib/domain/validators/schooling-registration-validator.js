@@ -5,7 +5,6 @@ const SchoolingRegistration = require('../models/SchoolingRegistration');
 const { STUDENT, APPRENTICE } = SchoolingRegistration.STATUS;
 const validationConfiguration = { allowUnknown: true };
 const MAX_LENGTH = 255;
-const INA_PATTERN = /^[0-9]{10}[a-zA-Z]{1}$/;
 const CITY_CODE_LENGTH = 5;
 const PROVINCE_CODE_MIN_LENGTH = 2;
 const PROVINCE_CODE_MAX_LENGTH = 3;
@@ -18,11 +17,7 @@ const INSEE_REGEX = {
 };
 
 const validationSchema = Joi.object({
-  nationalIdentifier: Joi.alternatives().conditional('status', {
-    is: APPRENTICE,
-    then: Joi.string().pattern(INA_PATTERN, { name: 'INA' }).required(),
-    otherwise: Joi.string().max(MAX_LENGTH).required(),
-  }),
+  nationalIdentifier: Joi.string().max(MAX_LENGTH).required(),
   firstName: Joi.string().max(MAX_LENGTH).required(),
   middleName: Joi.string().max(MAX_LENGTH).optional(),
   thirdName: Joi.string().max(MAX_LENGTH).optional(),
