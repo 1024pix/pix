@@ -134,6 +134,7 @@ module.exports = injectDependencies({
   addTutorialToUser: require('./add-tutorial-to-user'),
   anonymizeUser: require('./anonymize-user'),
   attachTargetProfilesToOrganization: require('./attach-target-profiles-to-organization'),
+  attachOrganizationsFromExistingTargetProfile: require('./attach-organizations-from-existing-target-profile'),
   attachOrganizationsToTargetProfile: require('./attach-organizations-to-target-profile'),
   archiveCampaign: require('./archive-campaign'),
   outdateTargetProfile: require('./outdate-target-profile'),

@@ -21,12 +21,11 @@ export default class TargetProfile extends Model {
   attachOrganizations = memberAction({
     path: 'attach-organizations',
     type: 'post',
-    before(attributes) {
-      return { ...attributes };
-    },
-    after() {
-      this.reload();
-    },
+  });
+
+  attachOrganizationsFromExistingTargetProfile = memberAction({
+    path: 'copy-organizations',
+    type: 'post',
   });
 
   outdate = memberAction({

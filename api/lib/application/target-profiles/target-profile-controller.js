@@ -42,6 +42,13 @@ module.exports = {
     return h.response({}).code(204);
   },
 
+  async attachOrganizationsFromExistingTargetProfile(request, h) {
+    const existingTargetProfileId = request.payload['target-profile-id'];
+    const targetProfileId = request.params.id;
+    await usecases.attachOrganizationsFromExistingTargetProfile({ targetProfileId, existingTargetProfileId });
+    return h.response({}).code(204);
+  },
+
   async updateTargetProfileName(request, h) {
     const id = request.params.id;
     const { name } = request.payload.data.attributes;
