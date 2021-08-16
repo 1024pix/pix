@@ -5,10 +5,10 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const correctAnswerThenUpdateAssessment = require('../../../../lib/domain/usecases/correct-answer-then-update-assessment');
 
-const { ChallengeAlreadyAnsweredError, ChallengeNotAskedError, NotFoundError, ForbiddenAccess } = require('../../../../lib/domain/errors');
+const { ChallengeNotAskedError, NotFoundError, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const dateUtils = require('../../../../lib/infrastructure/utils/date-utils');
 
-describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', () => {
+describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', () => {
   const userId = 1;
   let assessment;
   let challenge;
@@ -63,33 +63,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     dateUtils.getNowDate.returns(nowDate);
   });
 
-  context('when an answer for that challenge and that assessment already exists', () => {
-
-    beforeEach(() => {
-      // given
-      assessment.type = Assessment.types.CERTIFICATION;
-      assessmentRepository.get.resolves(assessment);
-      answerRepository.findByChallengeAndAssessment.withArgs({ assessmentId: assessment.id, challengeId: challenge.id }).resolves(true);
-    });
-
-    it('should fail because Challenge Already Answered', async () => {
-      // when
-      const error = await catchErr(correctAnswerThenUpdateAssessment)({
-        answer,
-        userId,
-        answerRepository,
-        assessmentRepository,
-        challengeRepository,
-        targetProfileRepository,
-        knowledgeElementRepository,
-        scorecardService,
-      });
-
-      // then
-      return expect(error).to.be.an.instanceOf(ChallengeAlreadyAnsweredError);
-    });
-  });
-
   context('when an answer for that challenge is not for an asked challenge', () => {
 
     beforeEach(() => {
@@ -123,7 +96,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     let savedAnswer;
 
     beforeEach(() => {
-      answerRepository.findByChallengeAndAssessment.withArgs({ assessmentId: assessment.id, challengeId: challenge.id }).resolves(false);
       completedAnswer = domainBuilder.buildAnswer(answer);
       completedAnswer.id = undefined;
       completedAnswer.result = AnswerStatus.OK;
@@ -573,29 +545,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         assessmentRepository.get.resolves(assessment);
         challengeRepository.get.resolves(challenge);
         answerRepository.saveWithKnowledgeElements.resolves(savedAnswer);
-      });
-
-      it('should call the answer repository to check if challenge has already been answered', async () => {
-        // when
-        await correctAnswerThenUpdateAssessment({
-          answer,
-          userId,
-          answerRepository,
-          assessmentRepository,
-          challengeRepository,
-          competenceEvaluationRepository,
-          skillRepository,
-          targetProfileRepository,
-          knowledgeElementRepository,
-          scorecardService,
-        });
-
-        // then
-        const expectedArguments = {
-          assessmentId: answer.assessmentId,
-          challengeId: answer.challengeId,
-        };
-        expect(answerRepository.findByChallengeAndAssessment).to.have.been.calledWith(expectedArguments);
       });
 
       it('should call the answer repository to save the answer', async () => {
