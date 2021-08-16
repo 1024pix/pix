@@ -34,6 +34,38 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
     });
   });
 
+  describe('#uncancel #isCancelled', () => {
+
+    it('should uncancel a certification course', () => {
+      // given
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        isCancelled: true,
+      });
+
+      // when
+      certificationCourse.uncancel();
+
+      // then
+      expect(certificationCourse.toDTO().isCancelled).to.be.false;
+    });
+
+    describe('when certification course is already uncancelled', () => {
+      it('should not change isCancelled value', () => {
+        // given
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          isCancelled: true,
+        });
+
+        // when
+        certificationCourse.uncancel();
+        certificationCourse.uncancel();
+
+        // then
+        expect(certificationCourse.toDTO().isCancelled).to.be.false;
+      });
+    });
+  });
+
   describe('#correctBirthdate', () => {
     ['2000-13-01', null, undefined, '', 'invalid']
       .forEach((invalidDate) => {
